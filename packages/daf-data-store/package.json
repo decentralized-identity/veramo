@@ -1,14 +1,14 @@
 {
   "name": "daf-data-store",
   "description": "DID Agent Framework Data Store",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^0.0.4",
+    "daf-core": "^0.0.5",
     "debug": "^4.1.1"
   },
   "devDependencies": {
