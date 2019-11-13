@@ -1,14 +1,14 @@
 {
   "name": "daf-debug",
   "description": "DID Agent Framework Debug helpers",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^0.0.7",
+    "daf-core": "^0.0.8",
     "debug": "^4.1.1"
   },
   "devDependencies": {
