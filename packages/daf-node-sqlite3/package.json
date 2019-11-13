@@ -20,7 +20,8 @@
   "files": [
     "build/**/*",
     "src/**/*",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "repository": "git@github.com:uport-project/daf.git",
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
