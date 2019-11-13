@@ -5,10 +5,12 @@
     "outDir": "build",
     "baseUrl": ".",
     "paths": {
-      "daf-data-store": ["../daf-data-store"]
+      "daf-data-store": ["../daf-data-store"],
+      "daf-core": ["../daf-core"]
     }
   },
   "references": [
-    {"path": "../daf-data-store"}
+    {"path": "../daf-data-store"},
+    {"path": "../daf-core"}
   ]
 }
