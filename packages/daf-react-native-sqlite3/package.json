@@ -1,14 +1,14 @@
 {
   "name": "daf-react-native-sqlite3",
   "description": "DAF react-native sqlite3 driver",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-data-store": "^0.0.14",
+    "daf-data-store": "^0.0.15",
     "debug": "^4.1.1",
     "react-native-sqlite-storage": "^4.1.0"
   },
