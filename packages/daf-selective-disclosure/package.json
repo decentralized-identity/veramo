@@ -1,15 +1,15 @@
 {
   "name": "daf-selective-disclosure",
   "description": "DAF selective disclosure",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^0.0.12",
-    "daf-did-jwt": "^0.0.12",
+    "daf-core": "^0.0.13",
+    "daf-did-jwt": "^0.0.13",
     "debug": "^4.1.1",
     "did-jwt": "^3.0.0"
   },

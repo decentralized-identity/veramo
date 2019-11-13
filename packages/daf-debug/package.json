@@ -1,14 +1,14 @@
 {
   "name": "daf-debug",
   "description": "DAF Debug helpers",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^0.0.12",
+    "daf-core": "^0.0.13",
     "debug": "^4.1.1"
   },
   "devDependencies": {
