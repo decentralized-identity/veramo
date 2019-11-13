@@ -1,0 +1,25 @@
+{
+  "name": "daf-data-store",
+  "description": "DID Agent Data Store",
+  "version": "0.0.3",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "daf-core": "0.0.3"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "typescript": "^3.7.2"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*"
+  ],
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
+  "license": "Apache-2.0",
+  "keywords": []
+}
