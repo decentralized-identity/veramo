@@ -1,14 +1,14 @@
 {
   "name": "daf-random",
   "description": "DAF Random message service",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^0.0.13",
+    "daf-core": "^0.0.14",
     "debug": "^4.1.1",
     "faker": "^4.1.0"
   },
