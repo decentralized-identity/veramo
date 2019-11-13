@@ -1,14 +1,14 @@
 {
   "name": "daf-node-sqlite3",
   "description": "DID Agent Framework Nodejs sqlite3 driver",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-data-store": "^0.0.5",
+    "daf-data-store": "^0.0.6",
     "debug": "^4.1.1"
   },
   "devDependencies": {
