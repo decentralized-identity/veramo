@@ -10,10 +10,10 @@
 /packages/*/build/
 /packages/*/coverage/
 /packages/*/node_modules/
-package-lock.json
 
 
 npm-debug.log
 npm-debug.log*
+lerna-debug.log
 
 *.tsbuildinfo
