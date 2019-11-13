@@ -1,5 +1,5 @@
 {
-  "name": "daf-db-node-sqlite3",
+  "name": "daf-node-sqlite3",
   "description": "DID Agent Framework Nodejs sqlite3 driver",
   "version": "0.0.5",
   "main": "build/index.js",
@@ -25,5 +25,6 @@
   "repository": "git@github.com:uport-project/daf.git",
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "gitHead": "ec317e0f10cffe731648a8c2d8f58def3d3c85ff"
 }
