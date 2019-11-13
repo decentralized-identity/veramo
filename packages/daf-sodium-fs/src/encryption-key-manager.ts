@@ -20,19 +20,21 @@ export class SodiumFsEncryptionKeyManager implements EncryptionKeyManager {
 
   private readFromFile(): void {
     try {
-      const raw = fs.readFileSync(this.fileName)
-      const parsed = JSON.parse(raw)
-
-      Object.keys(parsed).forEach(did => {
-        const i = parsed[did]
-        this.didKeyPairMap[did] = {
-          keyType: i.keyType,
-          privateKeyHex: i.privateKeyHex,
-          publicKeyHex: i.publicKeyHex,
-          privateKey: Uint8Array.from(Buffer.from(i.privateKeyHex, 'hex')),
-          publicKey: Uint8Array.from(Buffer.from(i.publicKeyHex, 'hex')),
-        }
-      })
+      if (fs.existsSync(this.fileName)) {
+        const raw = fs.readFileSync(this.fileName)
+        const parsed = JSON.parse(raw)
+        
+        Object.keys(parsed).forEach(did => {
+          const i = parsed[did]
+          this.didKeyPairMap[did] = {
+            keyType: i.keyType,
+            privateKeyHex: i.privateKeyHex,
+            publicKeyHex: i.publicKeyHex,
+            privateKey: Uint8Array.from(Buffer.from(i.privateKeyHex, 'hex')),
+            publicKey: Uint8Array.from(Buffer.from(i.publicKeyHex, 'hex')),
+          }
+        })
+      }
     } catch (e) {
       debug(e)
     }
