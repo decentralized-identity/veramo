@@ -1,0 +1,32 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "baseUrl": ".",
+    "paths": {
+      "daf-core": ["../daf-core"],
+      "daf-data-store": ["../daf-data-store"],
+      "daf-debug": ["../daf-debug"],
+      "daf-did-comm": ["../daf-did-comm"],
+      "daf-did-jwt": ["../daf-did-jwt"],
+      "daf-node-sqlite3": ["../daf-node-sqlite3"],
+      "daf-selective-disclosure": ["../daf-selective-disclosure"],
+      "daf-sodium-fs": ["../daf-sodium-fs"],
+      "daf-trust-graph": ["../daf-trust-graph"],
+      "daf-w3c": ["../daf-w3c"],
+    }
+  },
+  "references": [
+    {"path": "../daf-core"},
+    {"path": "../daf-data-store"},
+    {"path": "../daf-debug"},
+    {"path": "../daf-did-comm"},
+    {"path": "../daf-did-jwt"},
+    {"path": "../daf-node-sqlite3"},
+    {"path": "../daf-selective-disclosure"},
+    {"path": "../daf-sodium-fs"},
+    {"path": "../daf-trust-graph"},
+    {"path": "../daf-w3c"},
+  ]
+}
