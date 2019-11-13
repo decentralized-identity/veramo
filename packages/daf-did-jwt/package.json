@@ -1,6 +1,6 @@
 {
   "name": "daf-did-jwt",
-  "description": "DID Agent Framework did-jwt message validator",
+  "description": "DAF did-jwt message validator",
   "version": "0.0.9",
   "main": "build/index.js",
   "types": "build/index.d.ts",

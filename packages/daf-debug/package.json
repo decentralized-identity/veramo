@@ -1,6 +1,6 @@
 {
   "name": "daf-debug",
-  "description": "DID Agent Framework Debug helpers",
+  "description": "DAF Debug helpers",
   "version": "0.0.9",
   "main": "build/index.js",
   "types": "build/index.d.ts",

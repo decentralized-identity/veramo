@@ -1,1 +1,1 @@
-# DID Agent Framework did-jwt message validator
+# DAF did-jwt message validator

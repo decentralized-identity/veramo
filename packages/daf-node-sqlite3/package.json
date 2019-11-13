@@ -1,6 +1,6 @@
 {
   "name": "daf-node-sqlite3",
-  "description": "DID Agent Framework Nodejs sqlite3 driver",
+  "description": "DAF Nodejs sqlite3 driver",
   "version": "0.0.9",
   "main": "build/index.js",
   "types": "build/index.d.ts",
