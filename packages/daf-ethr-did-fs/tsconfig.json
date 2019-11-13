@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": false,
+    "allowJs": true,
+    "rootDir": "src",
+    "outDir": "build",
+    "baseUrl": ".",
+    "paths": {
+      "daf-core": ["../daf-core"]
+    }
+  },
+  "references": [
+    {"path": "../daf-core"}
+  ]
+}
