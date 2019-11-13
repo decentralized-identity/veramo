@@ -1,6 +1,6 @@
 {
   "name": "daf-core",
-  "description": "DID Agent Core",
+  "description": "DID Agent Framework Core",
   "version": "0.0.4",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -20,7 +20,8 @@
   },
   "files": [
     "build/**/*",
-    "src/**/*"
+    "src/**/*",
+    "README.md"
   ],
   "repository": "git@github.com:uport-project/daf.git",
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
