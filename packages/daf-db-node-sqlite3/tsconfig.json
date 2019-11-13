@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "baseUrl": ".",
+    "paths": {
+      "daf-data-store": ["../daf-data-store"]
+    }
+  },
+  "references": [
+    {"path": "../daf-data-store"}
+  ]
+}
