@@ -6,15 +6,6 @@
 npm -g i daf-cli
 ```
 
-## Configuration
- ENV | Default | Description 
----|---|---
- `DAF_IDENTITY_STORE` | `~/.daf/identity-store.json` | Identity keyPair storage
- `DAF_DATA_STORE` | `~/.daf/data-store.sqlite3` | Sqlite3 database containing messages, credentials, presentations, etc.
- `DAF_ENCRYPTION_STORE` | `~/.daf/encryption-store.json` | Encryption keyPair storage. Used for DIDComm
- `DAF_INFURA_ID` | `5ffc47f65c4042ce847ef66a3fa70d4c` | Used for calls to the Ethereum blockchain
- `DAF_UNIVERSAL_RESOLVER_URL` | `undefined` | Example `https://uniresolver.io/1.0/identifiers/`. If not provided - will use internal resolver 
-
 ## Usage
 
 ```
@@ -59,3 +50,15 @@ Universal resolver
 ```
 DAF_UNIVERSAL_RESOLVER_URL=https://uniresolver.io/1.0/identifiers/ daf resolve did:github:gjgd
 ```
+
+## Configuration
+ ENV | Default | Description 
+---|---|---
+ `DEBUG` | `undefined` | Use `*` to see all debug info. [More options](https://github.com/visionmedia/debug#environment-variables)
+ `DAF_IDENTITY_STORE` | `~/.daf/identity-store.json` | Identity keyPair storage
+ `DAF_DATA_STORE` | `~/.daf/data-store.sqlite3` | Sqlite3 database containing messages, credentials, presentations, etc.
+ `DAF_ENCRYPTION_STORE` | `~/.daf/encryption-store.json` | Encryption keyPair storage. Used for DIDComm
+ `DAF_INFURA_ID` | `5ffc47f65c4042ce847ef66a3fa70d4c` | Used for calls to the Ethereum blockchain
+ `DAF_UNIVERSAL_RESOLVER_URL` | `undefined` | Example `https://uniresolver.io/1.0/identifiers/`. If not provided - will use internal resolver 
+ `DAF_TG_URI` | `https://edge.uport.me/graphql` | Trust Graph Endpoint URL
+ `DAF_TG_WSURI` | `undefined` | Trust Graph Endpoint WebSocket URL
