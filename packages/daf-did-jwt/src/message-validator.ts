@@ -1,5 +1,4 @@
-import { Core, AbstractMessageValidator, Types } from 'daf-core'
-import { Resolver } from 'did-resolver'
+import { Core, AbstractMessageValidator, Types, Resolver } from 'daf-core'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
 const debug = Debug('did-jwt-validator')

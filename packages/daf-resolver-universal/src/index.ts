@@ -1,0 +1,1 @@
+export { DafUniversalResolver } from './resolver'

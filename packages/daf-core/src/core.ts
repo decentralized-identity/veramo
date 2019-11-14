@@ -1,5 +1,5 @@
 import PubSub from 'pubsub-js'
-import { Resolver } from 'did-resolver'
+import { DIDDocument } from 'did-resolver'
 import { IdentityManager, IdentityController } from './identity-manager'
 import {
   ServiceManager,
@@ -23,6 +23,10 @@ const debug = Debug('core')
 export const EventTypes = {
   validatedMessage: 'validatedMessage',
   error: 'error',
+}
+
+export interface Resolver {
+  resolve(did: string): Promise<DIDDocument | null>
 }
 
 interface Config {

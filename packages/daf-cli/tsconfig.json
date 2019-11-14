@@ -11,6 +11,8 @@
       "daf-did-comm": ["../daf-did-comm"],
       "daf-did-jwt": ["../daf-did-jwt"],
       "daf-node-sqlite3": ["../daf-node-sqlite3"],
+      "daf-resolver": ["../daf-resolver"],
+      "daf-resolver-universal": ["../daf-resolver-universal"],
       "daf-selective-disclosure": ["../daf-selective-disclosure"],
       "daf-sodium-fs": ["../daf-sodium-fs"],
       "daf-trust-graph": ["../daf-trust-graph"],
@@ -24,9 +26,16 @@
     {"path": "../daf-did-comm"},
     {"path": "../daf-did-jwt"},
     {"path": "../daf-node-sqlite3"},
+    {"path": "../daf-resolver"},
+    {"path": "../daf-resolver-universal"},
     {"path": "../daf-selective-disclosure"},
     {"path": "../daf-sodium-fs"},
     {"path": "../daf-trust-graph"},
     {"path": "../daf-w3c"},
+  ],
+  "exclude": [
+    "**/__tests__/**/*",
+    "**/build/**/*",
+    "**/bin/**/*"
   ]
 }

@@ -1,6 +1,5 @@
 import { DidJwtPayloadValidator } from 'daf-did-jwt'
-import { Types } from 'daf-core'
-import { Resolver } from 'did-resolver'
+import { Types, Resolver } from 'daf-core'
 
 import Debug from 'debug'
 const debug = Debug('sdr-validator')

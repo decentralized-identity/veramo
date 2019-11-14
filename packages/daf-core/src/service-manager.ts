@@ -1,4 +1,5 @@
-import { Resolver, DIDDocument } from 'did-resolver'
+import { DIDDocument } from 'did-resolver'
+import { Resolver } from './core'
 import { Issuer } from './identity-manager'
 import { RawMessage } from './types'
 

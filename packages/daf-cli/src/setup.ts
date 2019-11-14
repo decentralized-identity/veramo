@@ -1,7 +1,5 @@
-import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
-import { resolver as naclDidResolver } from 'nacl-did'
-import { getResolver as webDidResolver} from 'web-did-resolver'
+import { DafResolver } from 'daf-resolver'
+import { DafUniversalResolver } from 'daf-resolver-universal'
 
 import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
@@ -23,9 +21,9 @@ const debug = Debug('main')
 
 const defaultPath = process.env.HOME + '/.daf'
 
-const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity.json'
-const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/database.sqlite3'
-const encryptionStoreFilename = process.env.DAF_ENCRYPTION_STORE ?? defaultPath + '/encryption.json'
+const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store.json'
+const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store.sqlite3'
+const encryptionStoreFilename = process.env.DAF_ENCRYPTION_STORE ?? defaultPath + '/encryption-store.json'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env.DAF_ENCRYPTION_STORE) {
@@ -36,13 +34,15 @@ if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env
 }
 
 // DID Document Resolver
-const didResolver = new Resolver({
-  ...ethrDidResolver({
-    rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-  }),
-  ...webDidResolver(),
-  nacl: naclDidResolver
+let didResolver: Daf.Resolver = new DafResolver({
+  infuraProjectId
 })
+
+if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
+  didResolver = new DafUniversalResolver({
+    url: process.env.DAF_UNIVERSAL_RESOLVER_URL
+  })
+}
 
 const identityControllers = [new EthrDidFsController(identityStoreFilename)]
 

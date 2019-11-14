@@ -1,6 +1,5 @@
 import { DidJwtPayloadValidator } from 'daf-did-jwt'
-import { Types } from 'daf-core'
-import { Resolver } from 'did-resolver'
+import { Types, Resolver } from 'daf-core'
 import {
   verifyCredential,
   validateVerifiableCredentialAttributes,
@@ -27,7 +26,7 @@ export class PayloadValidator implements DidJwtPayloadValidator {
 
       const vc = await Promise.all(
         verifiedJwt.payload.vp.verifiableCredential.map((vcJwt: string) =>
-          verifyCredential(vcJwt, didResolver),
+          verifyCredential(vcJwt, didResolver ),
         ),
       )
 

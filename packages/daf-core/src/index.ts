@@ -1,4 +1,4 @@
-export { Core, EventTypes } from './core'
+export { Core, EventTypes, Resolver } from './core'
 export { AbstractActionHandler } from './action-handler'
 export { EncryptionKeyManager, KeyPair } from './encryption-manager'
 export { IdentityController, IdentityManager, Issuer } from './identity-manager'
