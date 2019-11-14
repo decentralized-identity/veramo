@@ -32,3 +32,5 @@ npm start
 ```
 
 Open https://CHANGETHIS.ngrok.io/graphql
+
+Copy & paste and run [sample queries](examples/expressjs/README.md#usage)
