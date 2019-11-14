@@ -10,7 +10,7 @@ program
   .option('-l, --list', 'List managed identities')
   .option('-t, --types', 'List available identity controller types')
   .option('-c, --create <type>', 'Create identity using <type> identity controller')
-  .option('-d, --delete <did>', 'Create identity using <type> identity controller')
+  .option('-d, --delete <did>', 'Delete identity')
   .action(async (cmd) => {
     if (cmd.types) {
       const list = await core.identityManager.listTypes()
@@ -62,4 +62,3 @@ program
 
 
   })
-  

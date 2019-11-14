@@ -41,7 +41,7 @@ Options:
   -l, --list           List managed identities
   -t, --types          List available identity controller types
   -c, --create <type>  Create identity using <type> identity controller
-  -d, --delete <did>   Create identity using <type> identity controller
+  -d, --delete <did>   Delete identity
   -h, --help           output usage information
 ```
 
