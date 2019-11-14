@@ -31,8 +31,8 @@ Manage identities
 Options:
   -l, --list           List managed identities
   -t, --types          List available identity controller types
-  -c, --create <type>  Create identity using <type> identity controller
-  -d, --delete <did>   Delete identity
+  -c, --create         Create identity
+  -d, --delete         Delete identity
   -h, --help           output usage information
 ```
 ### W3C Credentials
@@ -63,12 +63,12 @@ daf listen
 
 Send:
 ```
-DAF_TG_URI=https://mouro.eu.ngrok.io/graphql daf credential -c -s
+DAF_TG_URI=https://custom-tge.eu.ngrok.io/graphql daf credential -c -s
 ```
 
 Receive:
 ```
-DEBUG=* DAF_TG_URI=https://mouro.eu.ngrok.io/graphql DAF_TG_WSURI=wss://mouro.eu.ngrok.io/graphql daf listen
+DEBUG=* DAF_TG_URI=https://custom-tge.eu.ngrok.io/graphql DAF_TG_WSURI=wss://custom-tge.eu.ngrok.io/graphql daf listen
 ```
 
 ### DID Document resolver

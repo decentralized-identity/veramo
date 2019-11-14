@@ -9,8 +9,8 @@ program
   .description('Manage identities')
   .option('-l, --list', 'List managed identities')
   .option('-t, --types', 'List available identity controller types')
-  .option('-c, --create <type>', 'Create identity using <type> identity controller')
-  .option('-d, --delete <did>', 'Delete identity')
+  .option('-c, --create', 'Create identity')
+  .option('-d, --delete', 'Delete identity')
   .action(async (cmd) => {
     if (cmd.types) {
       const list = await core.identityManager.listTypes()
@@ -36,7 +36,17 @@ program
 
     if (cmd.create) {
       try {
-        const did = await core.identityManager.create(cmd.create)
+        const types = await core.identityManager.listTypes()
+
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'type',
+            choices: types,
+            message: 'Select identity controller'
+          },
+        ])
+        const did = await core.identityManager.create(answers.type)
         printTable([{ type: cmd.create, did }])
 
       } catch (e) {
@@ -46,8 +56,18 @@ program
 
     if (cmd.delete) {
       try {
+        const myDids = await core.identityManager.listDids()
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'did',
+            choices: myDids,
+            message: 'Delete DID'
+          },
+        ])
+
         const issuers = await core.identityManager.listIssuers()
-        const issuer = issuers.find(item => item.did === cmd.delete)
+        const issuer = issuers.find(item => item.did === answers.did)
         if (issuer) {
           const result = await core.identityManager.delete(issuer.type, issuer.did)
           console.log('Success:', result)
