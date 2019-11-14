@@ -1,6 +1,3 @@
-import Debug from 'debug'
-Debug.enable('*')
-
 import program from 'commander'
 import './identity-manager'
 import './did-resolver'
