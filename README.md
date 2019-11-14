@@ -20,6 +20,18 @@ Create and send Verifiable Credential
 daf credential --create --send
 ```
 
+Receive new messages
+
+```
+daf listen
+```
+
+More
+
+```
+daf --help
+```
+
 ### Advanced
 
 Access your data over GraphQL
