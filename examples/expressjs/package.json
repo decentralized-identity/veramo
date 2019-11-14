@@ -1,0 +1,39 @@
+{
+  "name": "daf-example-expressjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/web-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.9.9",
+    "daf-core": "0.0.22",
+    "daf-data-store": "0.0.22",
+    "daf-debug": "0.0.22",
+    "daf-did-comm": "0.0.22",
+    "daf-did-jwt": "0.0.22",
+    "daf-ethr-did-fs": "0.0.22",
+    "daf-node-sqlite3": "0.0.22",
+    "daf-resolver": "0.0.22",
+    "daf-resolver-universal": "0.0.22",
+    "daf-selective-disclosure": "0.0.22",
+    "daf-sodium-fs": "0.0.22",
+    "daf-trust-graph": "0.0.22",
+    "daf-w3c": "0.0.22",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "lodash.merge": "^4.6.2",
+    "ngrok": "^3.2.5",
+    "ts-node": "^8.5.0",
+    "typescript": "^3.7.2"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/lodash.merge": "^4.6.6"
+  }
+}
