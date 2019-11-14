@@ -14,7 +14,7 @@ import { SodiumFsEncryptionKeyManager } from 'daf-sodium-fs'
 
 import { NodeSqlite3 } from 'daf-node-sqlite3'
 import { DataStore } from 'daf-data-store'
-
+import ws from 'ws'
 
 import Debug from 'debug'
 const debug = Debug('main')
@@ -76,6 +76,7 @@ const serviceControllersWithConfig = [
     config: {
       uri: process.env.DAF_TG_URI,
       wsUri: process.env.DAF_TG_WSURI,
+      webSocketImpl: ws,
     },
   },
 ]

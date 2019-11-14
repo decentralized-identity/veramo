@@ -35,7 +35,41 @@ Options:
   -d, --delete <did>   Delete identity
   -h, --help           output usage information
 ```
+### W3C Credentials
 
+```
+Usage: daf credential [options]
+
+Manage W3C Verifiable Credentials
+
+Options:
+  -c, --create          Create new credential
+  -s, --send            Send
+  -q, --qrcode          Show qrcode
+  -r, --receiver <did>  Credential subject
+  -h, --help            output usage information
+```
+
+### Services
+
+Listen for new messages
+
+```
+daf listen
+```
+
+#### Using custom TGE
+
+
+Send:
+```
+DAF_TG_URI=https://mouro.eu.ngrok.io/graphql daf credential -c -s
+```
+
+Receive:
+```
+DEBUG=* DAF_TG_URI=https://mouro.eu.ngrok.io/graphql DAF_TG_WSURI=wss://mouro.eu.ngrok.io/graphql daf listen
+```
 
 ### DID Document resolver
 
