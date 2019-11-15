@@ -4,14 +4,10 @@
     "strict": true,
     "sourceMap": true,
     "target": "es5",
+    "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "downlevelIteration": true,
-    "allowJs": true,
     "composite": true
-  },
-  "exclude": [
-    "**/__tests__/**/*",
-    "**/build/**/*"
-  ]
+  }
 }
