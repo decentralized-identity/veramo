@@ -28,7 +28,13 @@ yarn test:watch
 
 ## DAF cli tool
 
-Install [daf-cli](packages/daf-cli)
+Use the local development version
+
+```
+yarn daf <command> <options>
+```
+
+Use the released version [daf-cli](packages/daf-cli)
 
 ```
 npm -g i daf-cli
