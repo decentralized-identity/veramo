@@ -5,7 +5,8 @@
     "publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
     "test": "jest --config=jest.json",
-    "test:watch": "jest --config=jest.json --watch"
+    "test:watch": "jest --config=jest.json --watch",
+    "daf": "node ./packages/daf-cli/bin/daf"
   },
   "workspaces": [
     "packages/*"
