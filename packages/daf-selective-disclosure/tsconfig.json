@@ -1,16 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.settings.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "build",
-    "baseUrl": ".",
-    "paths": {
-      "daf-core": ["../daf-core"],
-      "daf-did-jwt": ["../daf-did-jwt"]
-    }
+    "outDir": "build"
   },
-  "references": [
-    {"path": "../daf-core"},
-    {"path": "../daf-did-jwt"}
-  ]
+  "references": [{ "path": "../daf-core" }, { "path": "../daf-did-jwt" }]
 }

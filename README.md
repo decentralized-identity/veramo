@@ -1,6 +1,32 @@
 # DID Agent Framework
 
-## Quick start
+## Getting started
+
+DAF monorepo uses yarn workspaces & lerna
+
+Install root package dependencies
+
+```
+yarn install
+```
+
+Install all packages dependencies
+
+```
+yarn bootstrap
+```
+
+Run the tests
+
+```
+yarn test
+```
+
+```
+yarn test:watch
+```
+
+## DAF cli tool
 
 Install [daf-cli](packages/daf-cli)
 

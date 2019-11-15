@@ -1,0 +1,22 @@
+{
+  "files": [],
+  "references": [
+    { "path": "daf-cli" },
+    { "path": "daf-core" },
+    { "path": "daf-data-store" },
+    { "path": "daf-debug" },
+    { "path": "daf-did-comm" },
+    { "path": "daf-did-jwt" },
+    { "path": "daf-ethr-did-fs" },
+    { "path": "daf-ethr-did-react-native" },
+    { "path": "daf-node-sqlite3" },
+    { "path": "daf-node-sqlite3" },
+    { "path": "daf-random" },
+    { "path": "daf-resolver" },
+    { "path": "daf-resolver-universal" },
+    { "path": "daf-selective-disclosure" },
+    { "path": "daf-sodium-fs" },
+    { "path": "daf-trust-graph" },
+    { "path": "daf-w3c" }
+  ]
+}
