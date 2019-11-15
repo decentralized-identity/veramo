@@ -5,6 +5,9 @@
     "publish": "lerna publish",
     "bootstrap": "lerna bootstrap"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "lerna": "^3.18.4",
     "typescript": "^3.7.2"

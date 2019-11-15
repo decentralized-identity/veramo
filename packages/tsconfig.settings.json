@@ -9,5 +9,6 @@
     "esModuleInterop": true,
     "downlevelIteration": true,
     "composite": true
-  }
+  },
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }
