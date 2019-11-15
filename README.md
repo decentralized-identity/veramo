@@ -36,32 +36,28 @@ yarn daf <command> <options>
 
 Use the released version [daf-cli](packages/daf-cli)
 
-```
-npm -g i daf-cli
-```
-
 Create identity
 
 ```
-daf identity-manager --create
+npx daf identity-manager --create
 ```
 
 Create and send Verifiable Credential
 
 ```
-daf credential --create --send
+npx daf credential --create --send
 ```
 
 Receive new messages
 
 ```
-daf listen
+npx daf listen
 ```
 
 More
 
 ```
-daf --help
+npx daf --help
 ```
 
 ### Advanced
