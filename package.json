@@ -1,9 +1,9 @@
 {
-  "name": "root",
   "private": true,
   "scripts": {
     "build": "lerna run build",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
     "lerna": "^3.18.4",

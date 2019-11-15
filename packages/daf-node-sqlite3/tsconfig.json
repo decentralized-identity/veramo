@@ -1,16 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.settings.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "build",
-    "baseUrl": ".",
-    "paths": {
-      "daf-data-store": ["../daf-data-store"],
-      "daf-core": ["../daf-core"]
-    }
+    "outDir": "build"
   },
-  "references": [
-    {"path": "../daf-data-store"},
-    {"path": "../daf-core"}
-  ]
+  "references": [{ "path": "../daf-data-store" }, { "path": "../daf-core" }]
 }
