@@ -3,13 +3,18 @@
   "scripts": {
     "build": "lerna run build",
     "publish": "lerna publish",
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "test": "jest --config=jest.json"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "jest": "^24.9.0",
     "lerna": "^3.18.4",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
   }
 }
