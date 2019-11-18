@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Usage · DAF</title>
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content="Docusaurus" />
+    <meta
+      name="description"
+      content="Check the [documentation](https://docusaurus.io) for how to use Docusaurus."
+    />
+    <meta name="docsearch:language" content="en" />
+    <meta property="og:title" content="Usage · DAF" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://uport-project.github.io/daf/" />
+    <meta
+      property="og:description"
+      content="Check the [documentation](https://docusaurus.io) for how to use Docusaurus."
+    />
+    <meta property="og:image" content="https://uport-project.github.io/daf/img/undraw_online.svg" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://uport-project.github.io/daf/img/undraw_tweetstorm.svg" />
+    <link rel="shortcut icon" href="/daf/undefined" />
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"
+    />
+    <script type="text/javascript" src="https://buttons.github.io/buttons.js"></script>
+    <script src="/daf/js/scrollSpy.js"></script>
+    <link rel="stylesheet" href="/daf/css/main.css" />
+    <script src="/daf/js/codetabs.js"></script>
+  </head>
+  <body class="sideNavVisible separateOnPageNav">
+    <div class="fixedHeaderContainer">
+      <div class="headerWrapper wrapper">
+        <header>
+          <a href="/daf/"><h2 class="headerTitle">DAF</h2></a>
+          <div class="navigationWrapper navigationSlider">
+            <nav class="slidingNav">
+              <ul class="nav-site nav-site-internal">
+                <li class="siteNavGroupActive"><a href="/daf/docs/installation" target="_self">Docs</a></li>
+                <li class="siteNavGroupActive siteNavItemActive">
+                  <a href="/daf/docs/usage" target="_self">Guides</a>
+                </li>
+                <li class="siteNavGroupActive"><a href="/daf/docs/help" target="_self">Help</a></li>
+                <li class=""><a href="https://github.com/uport-project/daf" target="_self">GitHub</a></li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+      </div>
+    </div>
+    <div class="navPusher">
+      <div class="docMainWrapper wrapper">
+        <div class="docsNavContainer" id="docsNav">
+          <nav class="toc">
+            <div class="toggleNav">
+              <section class="navWrapper wrapper">
+                <div class="navBreadcrumb wrapper">
+                  <div class="navToggle" id="navToggler">
+                    <div class="hamburger-menu">
+                      <div class="line1"></div>
+                      <div class="line2"></div>
+                      <div class="line3"></div>
+                    </div>
+                  </div>
+                  <h2><i>›</i><span>Guides</span></h2>
+                  <div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div>
+                </div>
+                <div class="navGroups">
+                  <div class="navGroup">
+                    <h3 class="navGroupCategoryTitle">Getting Started</h3>
+                    <ul class="">
+                      <li class="navListItem">
+                        <a class="navItem" href="/daf/docs/installation">Installation</a>
+                      </li>
+                      <li class="navListItem">
+                        <a class="navItem" href="/daf/docs/contributing">Contributing</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="navGroup">
+                    <h3 class="navGroupCategoryTitle">Guides</h3>
+                    <ul class="">
+                      <li class="navListItem navListItemActive">
+                        <a class="navItem" href="/daf/docs/usage">Usage</a>
+                      </li>
+                      <li class="navListItem"><a class="navItem" href="/daf/docs/cli-tool">CLI</a></li>
+                      <li class="navListItem"><a class="navItem" href="/daf/docs/plugins">Plugins</a></li>
+                    </ul>
+                  </div>
+                  <div class="navGroup">
+                    <h3 class="navGroupCategoryTitle">Help</h3>
+                    <ul class="">
+                      <li class="navListItem"><a class="navItem" href="/daf/docs/help">Help</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <script>
+              var coll = document.getElementsByClassName('collapsible')
+              var checkActiveCategory = true
+              for (var i = 0; i < coll.length; i++) {
+                var links = coll[i].nextElementSibling.getElementsByTagName('*')
+                if (checkActiveCategory) {
+                  for (var j = 0; j < links.length; j++) {
+                    if (links[j].classList.contains('navListItemActive')) {
+                      coll[i].nextElementSibling.classList.toggle('hide')
+                      coll[i].childNodes[1].classList.toggle('rotate')
+                      checkActiveCategory = false
+                      break
+                    }
+                  }
+                }
+
+                coll[i].addEventListener('click', function() {
+                  var arrow = this.childNodes[1]
+                  arrow.classList.toggle('rotate')
+                  var content = this.nextElementSibling
+                  content.classList.toggle('hide')
+                })
+              }
+
+              document.addEventListener('DOMContentLoaded', function() {
+                createToggler('#navToggler', '#docsNav', 'docsSliderActive')
+                createToggler('#tocToggler', 'body', 'tocActive')
+
+                var headings = document.querySelector('.toc-headings')
+                headings &&
+                  headings.addEventListener(
+                    'click',
+                    function(event) {
+                      var el = event.target
+                      while (el !== headings) {
+                        if (el.tagName === 'A') {
+                          document.body.classList.remove('tocActive')
+                          break
+                        } else {
+                          el = el.parentNode
+                        }
+                      }
+                    },
+                    false,
+                  )
+
+                function createToggler(togglerSelector, targetSelector, className) {
+                  var toggler = document.querySelector(togglerSelector)
+                  var target = document.querySelector(targetSelector)
+
+                  if (!toggler) {
+                    return
+                  }
+
+                  toggler.onclick = function(event) {
+                    event.preventDefault()
+
+                    target.classList.toggle(className)
+                  }
+                }
+              })
+            </script>
+          </nav>
+        </div>
+        <div class="container mainContainer">
+          <div class="wrapper">
+            <div class="post">
+              <header class="postHeader"><h1 class="postHeaderTitle">Usage</h1></header>
+              <article>
+                <div>
+                  <span
+                    ><p>
+                      Check the <a href="https://docusaurus.io">documentation</a> for how to use Docusaurus.
+                    </p>
+                  </span>
+                </div>
+              </article>
+            </div>
+            <div class="docs-prevnext">
+              <a class="docs-prev button" href="/daf/docs/contributing"
+                ><span class="arrow-prev">← </span><span>Contributing</span></a
+              ><a class="docs-next button" href="/daf/docs/cli-tool"
+                ><span>CLI</span><span class="arrow-next"> →</span></a
+              >
+            </div>
+          </div>
+        </div>
+        <nav class="onPageNav"></nav>
+      </div>
+      <footer class="nav-footer" id="footer">
+        <section class="sitemap">
+          <a href="/daf/" class="nav-home"></a>
+          <div>
+            <h5>Docs</h5>
+            <a href="/daf/docs/en/doc1.html">Getting Started (or other categories)</a
+            ><a href="/daf/docs/en/doc2.html">Guides (or other categories)</a
+            ><a href="/daf/docs/en/doc3.html">API Reference (or other categories)</a>
+          </div>
+          <div>
+            <h5>Community</h5>
+            <a href="/daf/en/users.html">User Showcase</a
+            ><a href="https://stackoverflow.com/questions/tagged/" target="_blank" rel="noreferrer noopener"
+              >Stack Overflow</a
+            ><a href="https://discordapp.com/">Project Chat</a
+            ><a href="https://twitter.com/" target="_blank" rel="noreferrer noopener">Twitter</a>
+          </div>
+          <div>
+            <h5>More</h5>
+            <a href="/daf/blog">Blog</a><a href="https://github.com/">GitHub</a
+            ><a
+              class="github-button"
+              data-icon="octicon-star"
+              data-count-href="/facebook/docusaurus/stargazers"
+              data-show-count="true"
+              data-count-aria-label="# stargazers on GitHub"
+              aria-label="Star this project on GitHub"
+              >Star</a
+            >
+          </div>
+        </section>
+        <a
+          href="https://opensource.facebook.com/"
+          target="_blank"
+          rel="noreferrer noopener"
+          class="fbOpenSource"
+          ><img src="/daf/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"
+        /></a>
+        <section class="copyright">Copyright © 2019 Your Name or Your Company Name</section>
+      </footer>
+    </div>
+  </body>
+</html>
