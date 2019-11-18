@@ -1,4 +1,5 @@
 {
+  "name": "daf",
   "private": true,
   "scripts": {
     "build": "lerna run build",
