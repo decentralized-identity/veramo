@@ -22,6 +22,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@semantic-release/git": "^7.0.18",
     "@smartive/semantic-release-lerna": "^1.0.0",
     "@types/jest": "^24.0.23",
     "husky": "^3.0.9",
@@ -42,13 +43,25 @@
   },
   "release": {
     "prepare": false,
-    "generateNotes": [
+    "ci": true,
+    "plugins": [
+      "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      "@smartive/semantic-release-lerna"
-    ],
-    "publish": [
-      "@semantic-release/github",
-      "@smartive/semantic-release-lerna"
+      "@smartive/semantic-release-lerna",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "docs/changelog.md"
+        }
+      ],
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "message": "chore(release): New version ${nextRelease.version} \n\n${nextRelease.notes} [skip ci]"
+        }
+      ],
+      "@semantic-release/github"
     ],
     "branches": [
       "master",
