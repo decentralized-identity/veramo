@@ -1,25 +1,70 @@
 version: 2
+aliases:
+  - &restore-cache
+    keys:
+      - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      - v1-dependencies-{{ .Branch }}
+
+  - &save-node-cache
+    key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+    paths:
+      - node_modules
+
+  - &install-node-dependencies
+    name: Install node dependencies
+    command: yarn install --frozen-lockfile
+
+  - &bootstrap-packages
+    name: Bootstrap packages
+    command: yarn bootstrap
+
+  - &build-packages
+    name: Build packages
+    command: yarn build
+
+defaults: &defaults
+  working_directory: ~/daf
+
 jobs:
-  build:
+  test-packages:
+    <<: *defaults
     docker:
       - image: node:10
-    working_directory: ~/repo
-
     steps:
       - checkout
-      - run: yarn --version
+      - restore_cache: *restore-cache
+      - run: *install-node-dependencies
+      - run: *bootstrap-packages
+      - run: *build-packages
+      - save_cache: *save-node-cache
+      - run: yarn test --maxWorkers 2
 
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "yarn.lock" }}
-            - v1-dependencies-
+  publish-packages-npm:
+    <<: *defaults
+    docker:
+      - image: node:10
+    steps:
+      - checkout
+      - restore_cache: *restore-cache
+      - run: *install-node-dependencies
+      - run: *bootstrap-packages
+      - run: *build-packages
+      - run:
+          name: Release packages to npm
+          command: yarn semantic-release
 
-      - run: yarn install --frozen-lockfile
-      - run: yarn bootstrap
-      - run: yarn build
-      - run: yarn test
+workflows:
+  version: 2
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
+  verify-test-build:
+    jobs:
+      - test-packages
+      - publish-packages-npm:
+          filters:
+            branches:
+              only:
+                - master
+                - alpha
+                - beta
+          requires:
+            - test-packages
