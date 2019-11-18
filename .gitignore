@@ -6,6 +6,7 @@
 /examples/*/node_modules/
 
 /node_modules
+website/node_modules
 
 /packages/*/build/
 /packages/*/coverage/
