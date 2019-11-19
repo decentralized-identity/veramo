@@ -5,6 +5,9 @@
     "previous": "Previous",
     "tagline": "DID Agent Framework",
     "docs": {
+      "changelog": {
+        "title": "changelog"
+      },
       "cli-tool": {
         "title": "CLI",
         "sidebar_label": "CLI"
