@@ -50,6 +50,11 @@ jobs:
       - run: *bootstrap-packages
       - run: *build-packages
       - run:
+          name: Set git user
+          command:
+            - git config --global user.email $GITHUB_EMAIL
+            - git config --global user.name $GITHUB_USER
+      - run:
           name: Release packages to npm
           command: npx lerna publish --yes
 
