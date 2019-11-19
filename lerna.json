@@ -1,6 +1,18 @@
 {
-  "packages": ["packages/*"],
   "version": "0.0.23",
+  "packages": ["packages/*"],
   "npmClient": "yarn",
+  "changelog": {
+    "repo": "uport-project/daf",
+    "cacheDir": ".changelog"
+  },
+  "command": {
+    "publish": {
+      "allowBranch": "master",
+      "conventionalCommits": true,
+      "gitRemote": "origin",
+      "message": "chore(release): %s"
+    }
+  },
   "useWorkspaces": true
 }
