@@ -51,7 +51,7 @@ jobs:
       - run: *build-packages
       - run:
           name: Release packages to npm
-          command: yarn semantic-release
+          command: npx lerna publish --yes
 
 workflows:
   version: 2
@@ -64,7 +64,5 @@ workflows:
             branches:
               only:
                 - master
-                - alpha
-                - beta
           requires:
             - test-packages
