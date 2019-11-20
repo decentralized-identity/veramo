@@ -1,7 +1,5 @@
 ---
-id: help
-title: Help
-sidebar_label: Help
+title: 'Help'
+description: 'This is the meta description for this page'
+slug: 'help'
 ---
-
-Check the [documentation](https://docusaurus.io) for how to use Docusaurus.

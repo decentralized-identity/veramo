@@ -1,5 +1,5 @@
 ---
-title: 'Usage'
+title: 'CLI'
 description: 'This is the meta description for this page'
-slug: 'usage'
+slug: 'cli'
 ---
