@@ -1,7 +1,5 @@
 ---
-id: plugins
-title: Plugins
-sidebar_label: Plugins
+title: 'Plugins'
+description: 'This is the meta description for this page'
+slug: 'plugins'
 ---
-
-Check the [documentation](https://docusaurus.io) for how to use Docusaurus.

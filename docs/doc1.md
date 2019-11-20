@@ -1,7 +1,7 @@
 ---
-id: doc1
-title: Latin-ish
-sidebar_label: Example Page
+title: 'Doc 1'
+description: 'This is the meta description for this page'
+slug: 'doc-1'
 ---
 
 Check the [documentation](https://docusaurus.io) for how to use Docusaurus.
