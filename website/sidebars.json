@@ -1,7 +1,0 @@
-{
-  "docs": {
-    "Getting Started": ["installation", "contributing"],
-    "Guides": ["usage", "cli-tool", "plugins"],
-    "Help": ["help", "changelog"]
-  }
-}
