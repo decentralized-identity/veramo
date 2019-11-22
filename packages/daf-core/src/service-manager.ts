@@ -1,13 +1,13 @@
 import { DIDDocument } from 'did-resolver'
 import { Resolver } from './core'
 import { Issuer } from './identity-manager'
-import { RawMessage } from './types'
+import { RawMessage, ValidatedMessage } from './types'
 
 export interface ServiceControllerOptions {
   config: any
   issuer: Issuer
   didDoc: DIDDocument
-  onRawMessage: (rawMessage: RawMessage) => void
+  onRawMessage: (rawMessage: RawMessage) => Promise<ValidatedMessage | null>
 }
 
 export interface ServiceInstanceId {
@@ -34,12 +34,12 @@ export type ServiceControllerWithConfig = {
 interface Options {
   didResolver: Resolver
   serviceControllersWithConfig: ServiceControllerWithConfig[]
-  onRawMessage: (rawMessage: RawMessage) => void
+  onRawMessage: (rawMessage: RawMessage) => Promise<ValidatedMessage | null>
 }
 
 export class ServiceManager {
   private serviceControllersWithConfig: ServiceControllerWithConfig[]
-  private onRawMessage: (rawMessage: RawMessage) => void
+  private onRawMessage: (rawMessage: RawMessage) => Promise<ValidatedMessage | null>
   private serviceControllers: ServiceController[]
   private didResolver: Resolver
 
@@ -54,8 +54,7 @@ export class ServiceManager {
     for (const issuer of issuers) {
       const didDoc = await this.didResolver.resolve(issuer.did)
       if (didDoc !== null) {
-        for (const { controller, config } of this
-          .serviceControllersWithConfig) {
+        for (const { controller, config } of this.serviceControllersWithConfig) {
           this.serviceControllers.push(
             new controller({
               config,
@@ -79,9 +78,7 @@ export class ServiceManager {
     for (const serviceController of this.serviceControllers) {
       const instanceId = serviceController.instanceId()
       const lastMessage = lastMessageTimestamps.find(
-        item =>
-          item.did === instanceId.did &&
-          item.sourceType === instanceId.sourceType,
+        item => item.did === instanceId.did && item.sourceType === instanceId.sourceType,
       )
       let since = lastMessage ? lastMessage.timestamp : 0
       await serviceController.sync(since)

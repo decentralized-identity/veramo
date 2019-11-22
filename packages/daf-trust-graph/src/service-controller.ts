@@ -8,11 +8,7 @@ import { getMainDefinition } from 'apollo-utilities'
 import { split } from 'apollo-link'
 import { createJWT } from 'did-jwt'
 
-import {
-  ServiceController,
-  ServiceControllerOptions,
-  ServiceInstanceId,
-} from 'daf-core'
+import { ServiceController, ServiceControllerOptions, ServiceInstanceId } from 'daf-core'
 import * as queries from './queries'
 
 import { defaultTrustGraphUri, defaultTrustGraphWsUri } from './config'
@@ -39,21 +35,11 @@ export class TrustGraphServiceController implements ServiceController {
     this.options = options
     const { didDoc } = options
 
-    const service =
-      didDoc &&
-      didDoc.service &&
-      didDoc.service.find(item => item.type === 'TrustGraph')
-    const serviceWs =
-      didDoc &&
-      didDoc.service &&
-      didDoc.service.find(item => item.type === 'TrustGraphWs')
+    const service = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraph')
+    const serviceWs = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraphWs')
 
-    const serviceEndpoint = service
-      ? service.serviceEndpoint
-      : defaultTrustGraphUri
-    const serviceEndpointWs = serviceWs
-      ? serviceWs.serviceEndpoint
-      : defaultTrustGraphWsUri
+    const serviceEndpoint = service ? service.serviceEndpoint : defaultTrustGraphUri
+    const serviceEndpointWs = serviceWs ? serviceWs.serviceEndpoint : defaultTrustGraphWsUri
 
     const uri = options.config.uri || serviceEndpoint
     const wsUri = options.config.wsUri || serviceEndpointWs
@@ -103,10 +89,7 @@ export class TrustGraphServiceController implements ServiceController {
         // split based on operation type
         ({ query }) => {
           const definition = getMainDefinition(query)
-          return (
-            definition.kind === 'OperationDefinition' &&
-            definition.operation === 'subscription'
-          )
+          return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
         },
         wsLink,
         httpLink,
@@ -133,7 +116,7 @@ export class TrustGraphServiceController implements ServiceController {
     })
 
     for (const edge of data.findEdges) {
-      this.options.onRawMessage({
+      await this.options.onRawMessage({
         raw: edge.jwt,
         meta: [
           {
