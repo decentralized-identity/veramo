@@ -12,7 +12,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .option('-r, --receiver <did>', 'Credential subject')
-  .action(async (cmd) => {
+  .action(async cmd => {
     if (cmd.create) {
       const myDids = await core.identityManager.listDids()
       if (myDids.length === 0) {
@@ -24,31 +24,31 @@ program
           type: 'list',
           name: 'iss',
           choices: myDids,
-          message: 'Issuer DID'
+          message: 'Issuer DID',
         },
         {
           type: 'input',
           name: 'sub',
           message: 'Subject DID',
-          default: cmd.receiver
+          default: cmd.receiver,
         },
         {
           type: 'input',
           name: 'claimType',
           message: 'Claim Type',
-          default: 'name'
+          default: 'name',
         },
         {
           type: 'input',
           name: 'claimValue',
           message: 'Claim Value',
-          default: 'Alice'
+          default: 'Alice',
         },
       ])
 
       const credentialSubject: any = {}
       const type: string = answers.claimType
-      credentialSubject[ type ] = answers.claimValue
+      credentialSubject[type] = answers.claimValue
 
       const signAction: W3c.ActionSignW3cVc = {
         type: W3c.ActionTypes.signVc,
@@ -58,27 +58,26 @@ program
           vc: {
             '@context': ['https://www.w3.org/2018/credentials/v1'],
             type: ['VerifiableCredential'],
-            credentialSubject
+            credentialSubject,
           },
-        }
+        },
       }
 
       const jwt = await core.handleAction(signAction)
 
+      await dataStore.initialize()
       if (!cmd.send) {
-        await dataStore.initialize()
-        await core.onRawMessage({raw: jwt})
+        await core.onRawMessage({ raw: jwt })
       } else {
-
         const sendAction: DIDComm.ActionSendJWT = {
           type: DIDComm.ActionTypes.sendJwt,
           data: {
             from: answers.iss,
             to: answers.sub,
-            jwt
-          }
+            jwt,
+          },
         }
-        try {  
+        try {
           const result = await core.handleAction(sendAction)
           console.log('Sent:', result)
         } catch (e) {
@@ -89,8 +88,5 @@ program
       if (cmd.qrcode) {
         qrcode.generate(jwt)
       }
-
     }
-
   })
-  
