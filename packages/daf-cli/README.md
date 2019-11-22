@@ -1,6 +1,6 @@
 # DAF command line interface
 
-## Install
+## Install CLI
 
 ```
 npm -g i daf-cli
