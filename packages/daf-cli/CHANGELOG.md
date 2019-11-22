@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/uport-project/daf/compare/v0.0.26...v0.1.0) (2019-11-22)
+
+
+### Features
+
+* Added data-explorer to daf-cli ([eebe040](https://github.com/uport-project/daf/commit/eebe040ca4e8017e2e59072047c0f479811b2004))
+
+
+
+
+
 ## [0.0.26](https://github.com/uport-project/daf/compare/v0.0.25...v0.0.26) (2019-11-22)
 
 
