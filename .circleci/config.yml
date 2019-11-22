@@ -50,15 +50,14 @@ jobs:
       - run: *bootstrap-packages
       - run: *build-packages
       - run:
-          name: Set git user
+          name: Authenticate with NPM
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/daf/.npmrc
+      - run:
+          name: Authenticate Github
           command: |
             git remote set-url origin https://uport-project:$GITHUB_TOKEN@github.com/uport-project/daf.git
             git config --global user.email $GITHUB_EMAIL
             git config --global user.name $GITHUB_USER
-            npm set unsafe-perm true -g
-            npm set //registry.npmjs.org/:_authToken $NPM_TOKEN -g
-            npm set username $NPM_USERNAME -g
-            npm set email $NPM_EMAIL -g
       - run:
           name: Release packages to npm
           command: npx lerna publish --yes
