@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/uport-project/daf/compare/v0.1.0...v0.2.0) (2019-11-23)
+
+
+### Features
+
+* Bump minor version (npm conflicts) ([34cefc2](https://github.com/uport-project/daf/commit/34cefc2370c6b207d4b7d490571c0df0653b1d8f))
+
+
+
+
+
 # [0.1.0](https://github.com/uport-project/daf/compare/v0.0.26...v0.1.0) (2019-11-22)
 
 
