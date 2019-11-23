@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 
 program
   .command('server')
-  .description('A local graphQL server to interact with your data')
+  .description('GraphQL server to explore data store and daf tooling')
   .option('-p, --port', 'Set port to listen on, default to 8099')
   .option('-tg, --tguri', 'Set trust graph server URI')
   .option('-ws, --tgws', 'Set trust graph websocket URI')
