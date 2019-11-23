@@ -14,8 +14,6 @@ program
   .command('server')
   .description('GraphQL server to explore data store and daf tooling')
   .option('-p, --port', 'Set port to listen on, default to 8099')
-  .option('-tg, --tguri', 'Set trust graph server URI')
-  .option('-ws, --tgws', 'Set trust graph websocket URI')
   .action(async cmd => {
     let hostname: string
 
