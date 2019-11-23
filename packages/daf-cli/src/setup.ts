@@ -35,28 +35,23 @@ if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env
 
 // DID Document Resolver
 let didResolver: Daf.Resolver = new DafResolver({
-  infuraProjectId
+  infuraProjectId,
 })
 
 if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
   didResolver = new DafUniversalResolver({
-    url: process.env.DAF_UNIVERSAL_RESOLVER_URL
+    url: process.env.DAF_UNIVERSAL_RESOLVER_URL,
   })
 }
 
 const identityControllers = [new EthrDidFsController(identityStoreFilename)]
 
 const messageValidator = new DBG.MessageValidator()
-messageValidator
-  .setNext(new DIDComm.MessageValidator())
-  .setNext(
-    new DidJwt.MessageValidator({
-      payloadValidators: [
-        new W3c.PayloadValidator(),
-        new SD.PayloadValidator(),
-      ],
-    }),
-  )
+messageValidator.setNext(new DIDComm.MessageValidator()).setNext(
+  new DidJwt.MessageValidator({
+    payloadValidators: [new W3c.PayloadValidator(), new SD.PayloadValidator()],
+  }),
+)
 
 const actionHandler = new DBG.ActionHandler()
 actionHandler
@@ -89,16 +84,13 @@ export const core = new Daf.Core({
   didResolver,
   messageValidator,
   actionHandler,
-  encryptionKeyManager
+  encryptionKeyManager,
 })
 
 const db = new NodeSqlite3(dataStoreFilename)
 export const dataStore = new DataStore(db)
 
-core.on(
-  Daf.EventTypes.validatedMessage,
-  async (eventType: string, message: Daf.Types.ValidatedMessage) => {
-    debug('New message %O', message)
-    await dataStore.saveMessage(message)
-  },
-)
+core.on(Daf.EventTypes.validatedMessage, async (eventType: string, message: Daf.Types.ValidatedMessage) => {
+  debug('New message %O', message)
+  await dataStore.saveMessage(message)
+})

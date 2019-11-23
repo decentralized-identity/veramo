@@ -7,9 +7,8 @@
     "bootstrap": "lerna bootstrap",
     "test": "jest --config=jest.json",
     "test:watch": "jest --config=jest.json --watch",
-    "debug": "DEBUG=*",
     "tg-uri": "DAF_TG_URI=http://0.0.0.0:3000/graphql",
-    "daf": "yarn debug && yarn tg-uri && node ./packages/daf-cli/bin/daf"
+    "daf": "node ./packages/daf-cli/bin/daf"
   },
   "workspaces": [
     "packages/*"

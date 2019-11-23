@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@types/ws": "^6.0.3",
+    "apollo-server-express": "^2.9.12",
     "commander": "^4.0.1",
     "console-table-printer": "^1.1.15",
     "daf-core": "^0.2.0",
@@ -30,13 +31,18 @@
     "daf-w3c": "^0.2.0",
     "date-fns": "^2.8.1",
     "debug": "^4.1.1",
+    "express": "^4.17.1",
     "inquirer": "^7.0.0",
+    "lodash.merge": "^4.6.2",
+    "ngrok": "^3.2.5",
     "qrcode-terminal": "^0.12.0",
+    "ts-node": "^8.5.2",
     "ws": "^7.2.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
     "@types/inquirer": "^6.5.0",
+    "@types/lodash.merge": "^4.6.6",
     "typescript": "^3.7.2"
   },
   "files": [
