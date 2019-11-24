@@ -14,7 +14,6 @@ export const listen = async () => {
 
   core.on(EventTypes.validatedMessage, async (type, msg: Types.ValidatedMessage) => {
     console.log('New message type:', msg.type)
-    await dataStore.saveMessage(msg)
   })
 
   await core.startServices()
