@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/uport-project/daf/compare/v0.2.0...v0.3.0) (2019-11-24)
+
+
+### Bug Fixes
+
+* Removing duplicate saveMessage ([ab2c6a0](https://github.com/uport-project/daf/commit/ab2c6a091e79af4f2d62e3a566bf8fc0059261a6))
+
+
+### Features
+
+* Graphql server in CLI ([70890bd](https://github.com/uport-project/daf/commit/70890bd6ecf687fee8534312a2888a91552e3a5e))
+
+
+
+
+
 # [0.2.0](https://github.com/uport-project/daf/compare/v0.1.0...v0.2.0) (2019-11-23)
 
 
