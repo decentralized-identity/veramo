@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server'
 import program from 'commander'
 import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
-import * as DIDComm from 'daf-did-comm'
+import * as TG from 'daf-trust-graph'
 import { Gql as DataGql } from 'daf-data-store'
 import merge from 'lodash.merge'
 import { core, dataStore } from './setup'
@@ -19,14 +19,14 @@ program
         Daf.Gql.Core.typeDefs,
         Daf.Gql.IdentityManager.typeDefs,
         DataGql.typeDefs,
-        DIDComm.Gql.typeDefs,
+        TG.Gql.typeDefs,
         W3c.Gql.typeDefs,
       ],
       resolvers: merge(
         Daf.Gql.Core.resolvers,
         Daf.Gql.IdentityManager.resolvers,
         DataGql.resolvers,
-        DIDComm.Gql.resolvers,
+        TG.Gql.resolvers,
         W3c.Gql.resolvers,
       ),
       context: () => ({ dataStore, core }),
