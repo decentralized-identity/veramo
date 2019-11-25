@@ -1,14 +1,14 @@
 {
   "name": "daf-ethr-did-fs",
   "description": "DAF ehtr-did fs identity controller",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^0.3.0",
+    "daf-core": "^0.4.0",
     "debug": "^4.1.1",
     "ethr-did": "^1.1.0"
   },

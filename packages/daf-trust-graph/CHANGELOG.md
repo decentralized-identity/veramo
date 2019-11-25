@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/uport-project/daf/compare/v0.3.0...v0.4.0) (2019-11-25)
+
+
+### Features
+
+* Added actionSignVc mutation ([4ef9a15](https://github.com/uport-project/daf/commit/4ef9a15374364b91026f4a0f37ed85dd60c3cb50))
+
+
+
+
+
 # [0.3.0](https://github.com/uport-project/daf/compare/v0.2.0...v0.3.0) (2019-11-24)
 
 **Note:** Version bump only for package daf-trust-graph
