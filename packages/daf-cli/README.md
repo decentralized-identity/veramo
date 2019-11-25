@@ -47,6 +47,7 @@ Commands:
   credential [options]        Manage W3C Verifiable Credentials
   listen                      Receive new messages and listen for new ones
   data-explorer [options]     Explore data store
+  graphql [options]           Start GraphQL server
 ```
 
 #### Using custom TGE
