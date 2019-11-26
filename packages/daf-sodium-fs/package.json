@@ -1,14 +1,14 @@
 {
   "name": "daf-sodium-fs",
   "description": "DAF sodium fs encryption key manager",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^0.4.0",
+    "daf-core": "^0.5.0",
     "debug": "^4.1.1",
     "libsodium-wrappers": "^0.7.6"
   },
