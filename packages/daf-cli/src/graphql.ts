@@ -12,6 +12,7 @@ program
   .description('GraphQL server')
   .option('-p, --port <port>', 'Port')
   .option('-l, --listen', 'Listen for new messages')
+  .option('-i, --interval <seconds>', 'Poll for new messages with interval of <seconds>')
   .action(async cmd => {
     const server = new ApolloServer({
       typeDefs: [
@@ -36,6 +37,6 @@ program
     console.log(`🚀  Server ready at ${info.url}`)
 
     if (cmd.listen) {
-      await listen()
+      await listen(cmd.interval)
     }
   })
