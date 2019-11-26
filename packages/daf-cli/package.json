@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc -b --watch"
   },
   "dependencies": {
     "apollo-server": "^2.9.12",
