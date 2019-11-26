@@ -30,8 +30,6 @@ export class TrustGraphServiceController implements ServiceController {
   }
 
   constructor(options: ServiceControllerOptions) {
-    debug('Initializing for', options.issuer.did)
-
     this.options = options
     const { didDoc } = options
 
@@ -47,27 +45,9 @@ export class TrustGraphServiceController implements ServiceController {
     this.uri = uri
     this.wsUri = wsUri
 
-    const getAuthToken = async () => {
-      debug('Signing auth token for', this.options.issuer.did)
-
-      return createJWT(
-        {
-          exp: Math.floor(Date.now() / 1000) + 100, // what is a reasonable value here?
-        },
-        {
-          signer: this.options.issuer.signer,
-          alg: 'ES256K-R',
-          issuer: this.options.issuer.did,
-        },
-      )
-    }
-
-    const authLink = setContext(async (_, { headers }) => {
-      const token = await getAuthToken()
-      return {
-        headers: { ...headers, authorization: `Bearer ${token}` },
-      }
-    })
+    debug('Initializing for', options.issuer.did)
+    debug('URI', uri)
+    debug('WSURI', wsUri)
 
     const httpLink = new HttpLink({ uri })
     var link = null
@@ -78,7 +58,7 @@ export class TrustGraphServiceController implements ServiceController {
         options: {
           reconnect: true,
           connectionParams: async () => {
-            const token = await getAuthToken()
+            const token = await this.getAuthToken()
             return { authorization: `Bearer ${token}` }
           },
         },
@@ -100,18 +80,40 @@ export class TrustGraphServiceController implements ServiceController {
 
     this.client = new ApolloClient({
       cache: new InMemoryCache(),
-      link: authLink.concat(link),
+      link: link,
     })
+  }
+
+  private async getAuthToken() {
+    debug('Signing auth token for', this.options.issuer.did)
+
+    return createJWT(
+      {
+        exp: Math.floor(Date.now() / 1000) + 5000, // what is a reasonable value here?
+      },
+      {
+        signer: this.options.issuer.signer,
+        alg: 'ES256K-R',
+        issuer: this.options.issuer.did,
+      },
+    )
   }
 
   async sync(since: number) {
     debug('Syncing data for %s since %d', this.options.issuer.did, since)
+    const token = await this.getAuthToken()
 
     const { data } = await this.client.query({
+      fetchPolicy: 'no-cache',
       query: queries.findEdges,
       variables: {
         toDID: [this.options.issuer.did],
         since,
+      },
+      context: {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       },
     })
 
