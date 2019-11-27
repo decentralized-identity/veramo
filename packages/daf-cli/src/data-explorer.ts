@@ -21,8 +21,8 @@ program
       for (const did of dids) {
         const shortId = await dataStore.shortId(did.did)
         identities.push({
-          did: did.did,
-          shortId,
+          value: did.did,
+          name: `${did.did} - ${shortId}`,
         })
       }
 
@@ -30,10 +30,7 @@ program
         {
           type: 'list',
           name: 'sub',
-          choices: identities.map(identity => ({
-            value: identity.did,
-            name: `${identity.did} - ${identity.shortId}`,
-          })),
+          choices: identities,
           message: 'Identity',
         },
         {
