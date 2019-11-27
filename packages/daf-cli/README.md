@@ -22,8 +22,8 @@ npm -g i daf-cli
 - [x] Verifiable Credentials
   - [x] Create Verifiable Credential
   - [x] Send Verifiable Credential (DIDComm / TrustGraph)
-  - [ ] Create Verifiable Presentation
-  - [ ] Send Verifiable Presentation (DIDComm / TrustGraph)
+  - [x] Create Verifiable Presentation
+  - [x] Send Verifiable Presentation (DIDComm / TrustGraph)
 - [x] Data Store Explorer
   - [x] List known identities
   - [x] List messages
