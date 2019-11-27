@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/uport-project/daf/compare/v0.5.2...v0.6.0) (2019-11-27)
+
+
+### Features
+
+* Create and send VP from CLI ([c7e1360](https://github.com/uport-project/daf/commit/c7e1360ad5fb8c788635ad33d084c67feec0f7e6))
+
+
+
+
+
 ## [0.5.2](https://github.com/uport-project/daf/compare/v0.5.1...v0.5.2) (2019-11-26)
 
 **Note:** Version bump only for package daf-cli
