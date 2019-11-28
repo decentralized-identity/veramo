@@ -11,6 +11,7 @@ export interface Issuer {
   type: string
   did: string
   signer: Signer
+  ethereumAddress?: string
 }
 
 export interface IdentityController {
@@ -68,9 +69,7 @@ export class IdentityManager {
   }
 
   listTypes(): string[] {
-    return this.identityControllers.map(
-      identityController => identityController.type,
-    )
+    return this.identityControllers.map(identityController => identityController.type)
   }
 
   create(type: string): Promise<string> {

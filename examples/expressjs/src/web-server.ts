@@ -6,19 +6,15 @@ const bodyParser = require('body-parser')
 import { core, dataStore, apolloServer } from './setup'
 import { webDidDocFromEthrDid } from './web-did-doc'
 
-
 import Debug from 'debug'
 Debug.enable('*')
 const debug = Debug('main')
 
-core.on(
-  Daf.EventTypes.validatedMessage,
-  async (eventType: string, message: Daf.Types.ValidatedMessage) => {
-    debug('New message %s', message.hash)
-    debug('Meta %O', message.meta)
-    await dataStore.saveMessage(message)
-  },
-)
+core.on(Daf.EventTypes.validatedMessage, async (eventType: string, message: Daf.Types.ValidatedMessage) => {
+  debug('New message %s', message.hash)
+  debug('Meta %O', message.meta)
+  await dataStore.saveMessage(message)
+})
 
 let hostname: string
 
@@ -37,9 +33,7 @@ async function main() {
   // Get of create new encryption keyPair
   let keyPair: Daf.KeyPair
   if (core.encryptionKeyManager) {
-    const existingKeyPair = await core.encryptionKeyManager.getKeyPairForDid(
-      issuer.did,
-    )
+    const existingKeyPair = await core.encryptionKeyManager.getKeyPairForDid(issuer.did)
 
     if (!existingKeyPair) {
       keyPair = await core.encryptionKeyManager.createKeyPairForDid(issuer.did)
@@ -54,16 +48,11 @@ async function main() {
 
   app.get('/', async (req, res) => {
     const messages = await dataStore.findMessages({})
-    res.send(
-      'Messages:<br/>' +
-        messages.map(
-          (message: any) => `${message.type} - ${message.hash}<br/>`,
-        ),
-    )
+    res.send('Messages:<br/>' + messages.map((message: any) => `${message.type} - ${message.hash}<br/>`))
   })
 
   app.get('/.well-known/did.json', (req, res) =>
-    res.send(webDidDocFromEthrDid(issuer.did, hostname, keyPair)),
+    res.send(webDidDocFromEthrDid(issuer.ethereumAddress ? issuer.ethereumAddress : '', hostname, keyPair)),
   )
 
   app.post('/didcomm', async (req, res) => {
@@ -88,7 +77,7 @@ async function main() {
     debug(`Listening on port ${port}!`)
     const url = await ngrok.connect({
       addr: port,
-      // subdomain: 'custom',
+      // subdomain: 'someservice',
       // region: 'eu',
     })
     debug(`URL: ${url}`)
@@ -97,9 +86,8 @@ async function main() {
     hostname = url.slice(8)
     debug(`did:web:${hostname}`)
 
-
     await core.startServices()
-
+    await core.syncServices(await dataStore.latestMessageTimestamps())
   })
 }
 
