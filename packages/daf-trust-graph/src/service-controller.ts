@@ -6,6 +6,7 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { split } from 'apollo-link'
 import { createJWT } from 'did-jwt'
+import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { ServiceController, ServiceControllerOptions, ServiceInstanceId } from 'daf-core'
 import * as queries from './queries'
@@ -52,17 +53,23 @@ export class TrustGraphServiceController implements ServiceController {
     var link = null
 
     if (wsUri) {
-      const wsLink = new WebSocketLink({
-        uri: wsUri,
-        options: {
+      debug('Using SubscriptionClient')
+
+      const wsClient = new SubscriptionClient(
+        wsUri,
+        {
+          lazy: true,
           reconnect: true,
           connectionParams: async () => {
             const token = await this.getAuthToken()
             return { authorization: `Bearer ${token}` }
           },
         },
-        webSocketImpl: this.options.config.webSocketImpl,
-      })
+        this.options.config.webSocketImpl,
+        [],
+      )
+
+      const wsLink = new WebSocketLink(wsClient)
 
       link = split(
         // split based on operation type
