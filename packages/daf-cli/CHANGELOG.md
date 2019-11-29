@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/uport-project/daf/compare/v0.6.1...v0.7.0) (2019-11-29)
+
+
+### Features
+
+* Selective Disclosure Request ([9afe0c5](https://github.com/uport-project/daf/commit/9afe0c5a2fae7e3f778fe99ff4f88f44f61d3b94))
+
+
+
+
+
 ## [0.6.1](https://github.com/uport-project/daf/compare/v0.6.0...v0.6.1) (2019-11-28)
 
 **Note:** Version bump only for package daf-cli

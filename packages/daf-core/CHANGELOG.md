@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/uport-project/daf/compare/v0.6.1...v0.7.0) (2019-11-29)
+
+
+### Bug Fixes
+
+* Express example ([1c33310](https://github.com/uport-project/daf/commit/1c333108accc7feaaaba5a7864db12efac626881))
+
+
+### Features
+
+* Selective Disclosure Request ([9afe0c5](https://github.com/uport-project/daf/commit/9afe0c5a2fae7e3f778fe99ff4f88f44f61d3b94))
+
+
+
+
+
 # [0.6.0](https://github.com/uport-project/daf/compare/v0.5.2...v0.6.0) (2019-11-27)
 
 **Note:** Version bump only for package daf-core
