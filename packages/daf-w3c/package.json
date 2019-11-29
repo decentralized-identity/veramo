@@ -1,7 +1,7 @@
 {
   "name": "daf-w3c",
   "description": "DAF W3C verifiable credentials & presentations",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

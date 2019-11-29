@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.2](https://github.com/uport-project/daf/compare/v0.7.1...v0.7.2) (2019-11-29)
+
+
+### Bug Fixes
+
+*  Adding sub in sdr gql ([45bb8bf](https://github.com/uport-project/daf/commit/45bb8bfe0d8ea270e08a0578a8d995d4e04b21c2))
+
+
+
+
+
 ## [0.7.1](https://github.com/uport-project/daf/compare/v0.7.0...v0.7.1) (2019-11-29)
 
 
