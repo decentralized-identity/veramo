@@ -12,6 +12,7 @@ interface VCInput extends VC {
 
 interface VerifiableCredentialInput extends VerifiableCredentialPayload {
   vc: VCInput
+  tag: string
 }
 
 interface VPInput extends VP {
@@ -20,6 +21,7 @@ interface VPInput extends VP {
 
 interface VerifiablePresentationInput extends PresentationPayload {
   vp: VPInput
+  tag: string
 }
 
 const actionSignVc = async (
@@ -37,6 +39,7 @@ const actionSignVc = async (
     nbf: data.nbf,
     jti: data.jti,
     aud: data.aud,
+    tag: data.tag,
     vc: {
       type: data.vc.type,
       '@context': data.vc.context,
@@ -64,6 +67,7 @@ const actionSignVp = async (
     nbf: data.nbf,
     jti: data.jti,
     aud: data.aud,
+    tag: data.tag,
     vp: {
       type: data.vp.type,
       '@context': data.vp.context,
@@ -99,6 +103,7 @@ export const typeDefs = `
     aud: String
     exp: Int
     jti: String
+    tag: String
     vc: VC!
   }
 
@@ -113,6 +118,7 @@ export const typeDefs = `
     aud: String
     exp: Int
     jti: String
+    tag: String
     vp: VP!
   }
 
