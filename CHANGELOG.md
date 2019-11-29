@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/uport-project/daf/compare/v0.7.0...v0.7.1) (2019-11-29)
+
+
+### Bug Fixes
+
+* Adding tag to vc/vp ([3c876a9](https://github.com/uport-project/daf/commit/3c876a9993c4bb48af2c289a095d4a6144a34f12))
+
+
+
+
+
 # [0.7.0](https://github.com/uport-project/daf/compare/v0.6.1...v0.7.0) (2019-11-29)
 
 
