@@ -14,7 +14,8 @@ interface Iss {
 }
 
 export interface SDRInput {
-  state?: string
+  tag?: string
+  sub?: string
   claims: CredentialRequestInput[]
 }
 

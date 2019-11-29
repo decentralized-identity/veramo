@@ -72,6 +72,7 @@ export const typeDefs = `
 
   input SDRInput {
     tag: String
+    sub: String
     claims: [CredentialRequestInput]!
   }
 
