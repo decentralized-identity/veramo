@@ -4,12 +4,31 @@
     "strict": true,
     "sourceMap": true,
     "target": "es5",
+    "rootDir": "./src",
     "outDir": "./build",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "downlevelIteration": true,
-    "allowJs": true,
+    "downlevelIteration": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "references": [
+    { "path": "../../packages/daf-cli" },
+    { "path": "../../packages/daf-core" },
+    { "path": "../../packages/daf-data-store" },
+    { "path": "../../packages/daf-debug" },
+    { "path": "../../packages/daf-did-comm" },
+    { "path": "../../packages/daf-did-jwt" },
+    { "path": "../../packages/daf-ethr-did-fs" },
+    { "path": "../../packages/daf-ethr-did-react-native" },
+    { "path": "../../packages/daf-node-sqlite3" },
+    { "path": "../../packages/daf-node-sqlite3" },
+    { "path": "../../packages/daf-random" },
+    { "path": "../../packages/daf-resolver" },
+    { "path": "../../packages/daf-resolver-universal" },
+    { "path": "../../packages/daf-selective-disclosure" },
+    { "path": "../../packages/daf-sodium-fs" },
+    { "path": "../../packages/daf-trust-graph" },
+    { "path": "../../packages/daf-w3c" }
+  ]
 }

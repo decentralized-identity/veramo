@@ -4,6 +4,7 @@
 *.swp
 *~
 /examples/*/node_modules/
+/examples/*/build/
 
 /node_modules
 website/node_modules

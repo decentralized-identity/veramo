@@ -93,7 +93,7 @@ export class TrustGraphServiceController implements ServiceController {
   private async getAuthToken() {
     debug('Signing auth token for', this.options.issuer.did)
 
-    return createJWT(
+    const token = await createJWT(
       {
         exp: Math.floor(Date.now() / 1000) + 5000, // what is a reasonable value here?
       },
@@ -103,6 +103,8 @@ export class TrustGraphServiceController implements ServiceController {
         issuer: this.options.issuer.did,
       },
     )
+    debug(token)
+    return token
   }
 
   async sync(since: number) {

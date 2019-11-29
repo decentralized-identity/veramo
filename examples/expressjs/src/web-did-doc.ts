@@ -1,10 +1,6 @@
 import { KeyPair } from 'daf-core'
 
-export const webDidDocFromEthrDid = (
-  ethrDid: string,
-  hostname: string,
-  keyPair: KeyPair,
-) => ({
+export const webDidDocFromEthrDid = (ethereumAddress: string, hostname: string, keyPair: KeyPair) => ({
   '@context': 'https://w3id.org/did/v1',
   id: `did:web:${hostname}`,
   publicKey: [
@@ -12,7 +8,7 @@ export const webDidDocFromEthrDid = (
       id: `did:web:${hostname}#owner`,
       type: 'Secp256k1VerificationKey2018',
       owner: `did:web:${hostname}`,
-      ethereumAddress: ethrDid.slice(9),
+      ethereumAddress,
     },
     {
       id: `did:web:${hostname}#enc`,
@@ -28,11 +24,11 @@ export const webDidDocFromEthrDid = (
     },
   ],
   service: [
-    {
-      id: `did:web:${hostname}#messages`,
-      type: 'MessagingService',
-      serviceEndpoint: `https://${hostname}/didcomm`,
-    },
+    // {
+    //   id: `did:web:${hostname}#messages`,
+    //   type: 'MessagingService',
+    //   serviceEndpoint: `https://${hostname}/didcomm`,
+    // },
     // {
     //   id: `did:web:${hostname}#trustgraph`,
     //   type: 'TrustGraph',

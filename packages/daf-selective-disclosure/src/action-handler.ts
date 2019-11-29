@@ -8,10 +8,28 @@ export const ActionTypes = {
   signSdr: 'action.sign.sdr',
 }
 
+interface Iss {
+  did: string
+  url: string
+}
+
+export interface SDRInput {
+  state?: string
+  claims: CredentialRequestInput[]
+}
+
+export interface CredentialRequestInput {
+  reason?: string
+  essential?: boolean
+  claimType: string
+  iss?: Iss[]
+}
+
 export interface ActionSignSdr extends Types.Action {
   did: string
   data: {
     sub?: string
+    tag?: string
     claims: any
   }
 }

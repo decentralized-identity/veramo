@@ -41,6 +41,7 @@ export class EthrDidFsController implements IdentityController {
       did: identity.did,
       signer: ethrDid.signer,
       type: this.type,
+      ethereumAddress: ethrDid.address,
     }
     return issuer
   }
@@ -83,9 +84,7 @@ export class EthrDidFsController implements IdentityController {
       return false
     }
 
-    const filteredIdentities = identities.filter(
-      identity => identity.did != did,
-    )
+    const filteredIdentities = identities.filter(identity => identity.did != did)
 
     this.writeToFile({ identities: filteredIdentities })
 
