@@ -3,6 +3,7 @@ import program from 'commander'
 import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as TG from 'daf-trust-graph'
+import * as SRD from 'daf-selective-disclosure'
 import { Gql as DataGql } from 'daf-data-store'
 import merge from 'lodash.merge'
 import { core, dataStore } from './setup'
@@ -22,6 +23,7 @@ program
         DataGql.typeDefs,
         TG.Gql.typeDefs,
         W3c.Gql.typeDefs,
+        SRD.Gql.typeDefs,
       ],
       resolvers: merge(
         Daf.Gql.Core.resolvers,
@@ -29,6 +31,7 @@ program
         DataGql.resolvers,
         TG.Gql.resolvers,
         W3c.Gql.resolvers,
+        SRD.Gql.resolvers,
       ),
       context: () => ({ dataStore, core }),
       introspection: true,

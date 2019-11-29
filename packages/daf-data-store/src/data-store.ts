@@ -42,6 +42,7 @@ export class DataStore {
       sub: { did: row.sub },
       jwt: row.jwt,
       nbf: row.nbf,
+      iat: row.iat,
     }))
   }
 
@@ -62,6 +63,7 @@ export class DataStore {
       sub: { did: row.sub },
       jwt: row.jwt,
       nbf: row.nbf,
+      iat: row.iat,
       exp: row.exp,
     }))
   }
@@ -87,17 +89,53 @@ export class DataStore {
     }))
   }
 
-  async findMessages({
+  async findCredentialsByFields({
     iss,
     sub,
-    tag,
-    limit,
+    claim_type,
   }: {
-    iss?: string
-    sub?: string
-    tag?: string
-    limit?: number
+    iss?: string[]
+    sub?: string[]
+    claim_type: string
   }) {
+    let where = {}
+
+    if (iss) where = sql.and(where, sql.in('iss', iss))
+    if (sub) where = sql.and(where, sql.in('sub', sub))
+    if (claim_type) where = sql.and(where, { claim_type })
+
+    const query = sql
+      .select('rowid', '*')
+      .from('verifiable_credentials_fields')
+      .where(where)
+      .toParams()
+
+    const rows = await this.db.rows(query.text, query.values)
+
+    const hashes = rows.map((row: any) => row.parent_hash)
+
+    const query2 = sql
+      .select('rowid', '*')
+      .from('verifiable_credentials')
+      .where(sql.in('hash', hashes))
+      .toParams()
+
+    const rows2 = await this.db.rows(query2.text, query2.values)
+
+    return rows2.map((row: any) => ({
+      rowId: `${row.rowid}`,
+      hash: row.hash,
+      parentHash: row.parent_hash,
+      iss: { did: row.iss },
+      sub: { did: row.sub },
+      jwt: row.jwt,
+      nbf: row.nbf,
+      iat: row.iat,
+      exp: row.exp,
+    }))
+  }
+
+  async findMessages({ iss, sub, tag, limit }: { iss?: string; sub?: string; tag?: string; limit?: number }) {
     let where = {}
 
     if (iss && sub) {
@@ -107,6 +145,7 @@ export class DataStore {
       if (sub) where = sql.and(where, { sub })
     }
     if (tag) where = sql.and(where, { tag })
+    where = sql.or(where, { sub: null })
 
     let query = sql
       .select('rowid', '*')
@@ -127,6 +166,7 @@ export class DataStore {
       iss: { did: row.iss },
       sub: { did: row.sub },
       type: row.type,
+      tag: row.tag,
       data: row.data,
       jwt: row.jwt,
       nbf: row.nbf,
@@ -149,6 +189,7 @@ export class DataStore {
       iss: { did: row.iss },
       sub: { did: row.sub },
       type: row.type,
+      tag: row.tag,
       jwt: row.jwt,
       data: row.data,
       nbf: row.nbf,
@@ -158,22 +199,13 @@ export class DataStore {
   }
 
   async allIdentities() {
-    const vcSubjects = await this.db.rows(
-      'select distinct sub as did from verifiable_credentials',
-      null,
-    )
-    const vcIssuers = await this.db.rows(
-      'select distinct iss as did from verifiable_credentials',
-      null,
-    )
+    const vcSubjects = await this.db.rows('select distinct sub as did from verifiable_credentials', null)
+    const vcIssuers = await this.db.rows('select distinct iss as did from verifiable_credentials', null)
     const messageSubjects = await this.db.rows(
       'select distinct sub as did from messages where sub is not null',
       null,
     )
-    const messageIssuers = await this.db.rows(
-      'select distinct iss as did from messages',
-      null,
-    )
+    const messageIssuers = await this.db.rows('select distinct iss as did from messages', null)
     const uniqueDids = [
       ...new Set([
         ...messageSubjects.map((item: any) => item.did),
@@ -204,12 +236,7 @@ export class DataStore {
     let query = sql
       .select('count(*) as count')
       .from('messages')
-      .where(
-        sql.or(
-          sql.and({ iss: did1 }, { sub: did2 }),
-          sql.and({ iss: did2 }, { sub: did1 }),
-        ),
-      )
+      .where(sql.or(sql.and({ iss: did1 }, { sub: did2 }), sql.and({ iss: did2 }, { sub: did1 })))
       .toParams()
     const rows = await this.db.rows(query.text, query.values)
 
@@ -246,6 +273,7 @@ export class DataStore {
         sub: message.subject,
         nbf: message.time,
         type: message.type,
+        tag: message.tag,
         jwt: message.raw,
         meta: message.meta && JSON.stringify(message.meta),
         source_type,
@@ -288,8 +316,7 @@ export class DataStore {
     for (const type in claim) {
       if (claim.hasOwnProperty(type)) {
         const value = claim[type]
-        const isObj =
-          typeof value === 'function' || (typeof value === 'object' && !!value)
+        const isObj = typeof value === 'function' || (typeof value === 'object' && !!value)
 
         const fieldsQuery = sql
           .insert('verifiable_credentials_fields', {

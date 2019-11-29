@@ -14,6 +14,7 @@ export interface PreValidatedMessage {
   issuer: string
   subject?: string
   time?: string
+  tag?: string
   raw: string
   verified?: any
   custom?: any

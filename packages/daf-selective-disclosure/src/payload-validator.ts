@@ -9,10 +9,7 @@ export const MessageTypes = {
 }
 
 export class PayloadValidator implements DidJwtPayloadValidator {
-  async validate(
-    verifiedJwt: any,
-    didResolver: Resolver,
-  ): Promise<Types.PreValidatedMessage> {
+  async validate(verifiedJwt: any, didResolver: Resolver): Promise<Types.PreValidatedMessage> {
     const p = verifiedJwt.payload
     if (p.type == MessageTypes.sdr && p.claims) {
       debug('JWT type is', MessageTypes.sdr)
@@ -23,6 +20,7 @@ export class PayloadValidator implements DidJwtPayloadValidator {
         issuer: verifiedJwt.payload.iss,
         subject: verifiedJwt.payload.sub,
         time: verifiedJwt.payload.iat,
+        tag: verifiedJwt.payload.tag,
         verified: verifiedJwt,
       }
     } else {
