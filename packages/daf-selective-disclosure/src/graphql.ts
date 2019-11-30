@@ -26,23 +26,25 @@ const actionSignSDR = async (
 }
 
 const sdr = async (message: any, { sub }: { sub: string }, { dataStore }: Context) => {
-  const { payload } = (await decodeJWT(message.jwt)) as any
+  const { payload }: { payload: SDRInput } = (await decodeJWT(message.jwt)) as any
   const result: any = []
-  const subject = sub || message.sub.did
-  for (const credentialRequest of payload.claims) {
-    const credentials = await dataStore.findCredentialsByFields({
-      iss: credentialRequest.iss && credentialRequest.iss.map((iss: any) => iss.did),
-      sub: [subject],
-      claim_type: credentialRequest.claimType,
-    })
+  const subject = sub || message.sub?.did
+  if (payload.claims) {
+    for (const credentialRequest of payload.claims) {
+      const iss: any =
+        credentialRequest.iss !== undefined ? credentialRequest.iss.map((iss: any) => iss.did) : []
+      const credentials = await dataStore.findCredentialsByFields({
+        iss,
+        sub: subject ? [subject] : [],
+        claim_type: credentialRequest.claimType,
+      })
 
-    result.push({
-      ...credentialRequest,
-      vc: credentials.map((credential: any) => ({
-        ...credential,
-        __typename: 'VerifiableClaim',
-      })),
-    })
+      result.push({
+        ...credentialRequest,
+        iss: credentialRequest.iss?.map(item => ({ url: item.url, did: { did: item.did } })),
+        vc: credentials.map((credential: any) => ({ ...credential, __typename: 'VerifiableClaim' })),
+      })
+    }
   }
 
   return result
@@ -77,7 +79,7 @@ export const typeDefs = `
   }
 
   type Issuer {
-    did: String
+    did: Identity
     url: String
   }
 
