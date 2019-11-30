@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.3](https://github.com/uport-project/daf/compare/v0.7.2...v0.7.3) (2019-11-30)
+
+
+### Bug Fixes
+
+* Debug info in daf-node-sqlite3 ([b0b5b70](https://github.com/uport-project/daf/commit/b0b5b704bc8ceda994c9ca4b1e369b28192c1af1))
+* Message sub can be null ([6599296](https://github.com/uport-project/daf/commit/6599296b2560fddbd63aaa4b45bb920e3fcd0b41))
+* Selective disclosure gql resolver ([f4ec808](https://github.com/uport-project/daf/commit/f4ec808cc73fa6096556e0535482611b46c45656))
+
+
+
+
+
 ## [0.7.2](https://github.com/uport-project/daf/compare/v0.7.1...v0.7.2) (2019-11-29)
 
 

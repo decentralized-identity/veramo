@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.3](https://github.com/uport-project/daf/compare/v0.7.2...v0.7.3) (2019-11-30)
+
+
+### Bug Fixes
+
+* Debug info in daf-node-sqlite3 ([b0b5b70](https://github.com/uport-project/daf/commit/b0b5b704bc8ceda994c9ca4b1e369b28192c1af1))
+
+
+
+
+
 # [0.7.0](https://github.com/uport-project/daf/compare/v0.6.1...v0.7.0) (2019-11-29)
 
 **Note:** Version bump only for package daf-node-sqlite3
