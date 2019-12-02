@@ -15,10 +15,7 @@ export const MessageTypes = {
 }
 
 export class PayloadValidator implements DidJwtPayloadValidator {
-  async validate(
-    verifiedJwt: any,
-    didResolver: Resolver,
-  ): Promise<Types.PreValidatedMessage> {
+  async validate(verifiedJwt: any, didResolver: Resolver): Promise<Types.PreValidatedMessage> {
     try {
       validatePresentationAttributes(verifiedJwt.payload)
 
@@ -26,7 +23,7 @@ export class PayloadValidator implements DidJwtPayloadValidator {
 
       const vc = await Promise.all(
         verifiedJwt.payload.vp.verifiableCredential.map((vcJwt: string) =>
-          verifyCredential(vcJwt, didResolver ),
+          verifyCredential(vcJwt, didResolver),
         ),
       )
 
@@ -34,7 +31,7 @@ export class PayloadValidator implements DidJwtPayloadValidator {
         type: MessageTypes.vp,
         raw: verifiedJwt.jwt,
         issuer: verifiedJwt.payload.iss,
-        subject: verifiedJwt.payload.sub,
+        subject: verifiedJwt.payload.aud,
         time: verifiedJwt.payload.nbf || verifiedJwt.payload.iat,
         verified: verifiedJwt,
         custom: {

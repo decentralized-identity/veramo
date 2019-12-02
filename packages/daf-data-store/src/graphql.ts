@@ -6,16 +6,13 @@ interface Context {
 
 export const resolvers = {
   Message: {
-    vc: async (message: any, {}, { dataStore }: Context) =>
-      dataStore.credentialsForMessageHash(message.hash),
+    vc: async (message: any, {}, { dataStore }: Context) => dataStore.credentialsForMessageHash(message.hash),
   },
   VerifiableClaim: {
-    fields: async (vc: any, {}, { dataStore }: Context) =>
-      dataStore.credentialsFieldsForClaimHash(vc.hash),
+    fields: async (vc: any, {}, { dataStore }: Context) => dataStore.credentialsFieldsForClaimHash(vc.hash),
   },
   Identity: {
-    shortId: async (identity: any, {}, { dataStore }: Context) =>
-      dataStore.shortId(identity.did),
+    shortId: async (identity: any, {}, { dataStore }: Context) => dataStore.shortId(identity.did),
     firstName: async (identity: any, {}, { dataStore }: Context) =>
       dataStore.popularClaimForDid(identity.did, 'firstName'),
     lastName: async (identity: any, {}, { dataStore }: Context) =>
@@ -38,40 +35,21 @@ export const resolvers = {
       dataStore.popularClaimForDid(identity.did, 'url'),
     description: async (identity: any, {}, { dataStore }: Context) =>
       dataStore.popularClaimForDid(identity.did, 'description'),
-    interactionCount: async (
-      identity: any,
-      { did }: { did: string },
-      { dataStore }: Context,
-    ) => dataStore.interactionCount(identity.did, did),
-    credentialsIssued: async (
-      identity: any,
-      args: any,
-      { dataStore }: Context,
-    ) => {
+    interactionCount: async (identity: any, { did }: { did: string }, { dataStore }: Context) =>
+      dataStore.interactionCount(identity.did, did),
+    credentialsIssued: async (identity: any, args: any, { dataStore }: Context) => {
       return dataStore.findCredentials({ iss: identity.did })
     },
-    credentialsReceived: async (
-      identity: any,
-      args: any,
-      { dataStore }: Context,
-    ) => {
+    credentialsReceived: async (identity: any, args: any, { dataStore }: Context) => {
       return dataStore.findCredentials({ sub: identity.did })
     },
-    credentialsAll: async (
-      identity: any,
-      args: any,
-      { dataStore }: Context,
-    ) => {
+    credentialsAll: async (identity: any, args: any, { dataStore }: Context) => {
       return dataStore.findCredentials({ iss: identity.did, sub: identity.did })
     },
     messagesSent: async (identity: any, args: any, { dataStore }: Context) => {
       return dataStore.findMessages({ iss: identity.did })
     },
-    messagesReceived: async (
-      identity: any,
-      args: any,
-      { dataStore }: Context,
-    ) => {
+    messagesReceived: async (identity: any, args: any, { dataStore }: Context) => {
       return dataStore.findMessages({ sub: identity.did })
     },
     messagesAll: async (identity: any, args: any, { dataStore }: Context) => {
@@ -79,50 +57,28 @@ export const resolvers = {
     },
   },
   Query: {
-    identity: async (
-      _: any,
-      { did }: { did: string },
-      { dataStore }: Context,
-    ) => dataStore.findIdentityByDid(did),
-    identities: async (
-      _: any,
-      { dids }: { dids: string[] },
-      { dataStore }: Context,
-    ) => {
+    identity: async (_: any, { did }: { did: string }, { dataStore }: Context) =>
+      dataStore.findIdentityByDid(did),
+    identities: async (_: any, { dids }: { dids: string[] }, { dataStore }: Context) => {
       return dids ? dids.map(did => ({ did })) : dataStore.allIdentities()
     },
     messages: async (
       _: any,
-      {
-        iss,
-        sub,
-        tag,
-        limit,
-      }: { iss: string; sub: string; tag: string; limit: number },
+      { iss, sub, tag, limit }: { iss: string; sub: string; tag: string; limit: number },
       { dataStore }: Context,
     ) => {
       return dataStore.findMessages({ iss, sub, tag, limit })
     },
-    message: async (
-      _: any,
-      { hash }: { hash: string },
-      { dataStore }: Context,
-    ) => dataStore.findMessage(hash),
-    credentials: async (
-      _: any,
-      { iss, sub }: { iss: string; sub: string },
-      { dataStore }: Context,
-    ) => {
+    message: async (_: any, { hash }: { hash: string }, { dataStore }: Context) =>
+      dataStore.findMessage(hash),
+    credentials: async (_: any, { iss, sub }: { iss: string; sub: string }, { dataStore }: Context) => {
       const res = await dataStore.findCredentials({ iss, sub })
       return res
     },
   },
   Mutation: {
-    deleteMessage: async (
-      _: any,
-      { hash }: { hash: string },
-      { dataStore }: Context,
-    ) => dataStore.deleteMessage(hash),
+    deleteMessage: async (_: any, { hash }: { hash: string }, { dataStore }: Context) =>
+      dataStore.deleteMessage(hash),
   },
 }
 
@@ -158,7 +114,6 @@ export const typeDefs = `
   extend type Message {
     iss: Identity!
     sub: Identity
-    aud: Identity
     jwt: String!
     data: String!
     iat: Int
