@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.5](https://github.com/uport-project/daf/compare/v0.7.4...v0.7.5) (2019-12-02)
+
+
+### Bug Fixes
+
+* W3C VP subject is aud ([991e64b](https://github.com/uport-project/daf/commit/991e64b3189405ddf2c3a43acc15c2ffe652380a))
+
+
+
+
+
 ## [0.7.2](https://github.com/uport-project/daf/compare/v0.7.1...v0.7.2) (2019-11-29)
 
 **Note:** Version bump only for package daf-w3c

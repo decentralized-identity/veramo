@@ -1,14 +1,14 @@
 {
   "name": "daf-node-sqlite3",
   "description": "DAF Nodejs sqlite3 driver",
-  "version": "0.7.3",
+  "version": "0.7.5",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-data-store": "^0.7.3",
+    "daf-data-store": "^0.7.5",
     "debug": "^4.1.1",
     "sqlite3": "^4.1.0"
   },
