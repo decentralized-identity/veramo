@@ -32,7 +32,7 @@ const sdr = async (message: any, { sub }: { sub: string }, { dataStore }: Contex
   if (payload.claims) {
     for (const credentialRequest of payload.claims) {
       const iss: any =
-        credentialRequest.iss !== undefined ? credentialRequest.iss.map((iss: any) => iss.did) : []
+        credentialRequest.iss !== undefined ? credentialRequest.iss.map((iss: any) => iss.did) : null
       const credentials = await dataStore.findCredentialsByFields({
         iss,
         sub: subject ? [subject] : [],
