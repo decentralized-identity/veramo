@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.4](https://github.com/uport-project/daf/compare/v0.7.3...v0.7.4) (2019-12-02)
+
+
+### Bug Fixes
+
+* Adding tag in VP ([c154015](https://github.com/uport-project/daf/commit/c154015de13a420a685f2115817bef2774a3cb9d))
+* Running local cli ([8609019](https://github.com/uport-project/daf/commit/8609019ddc94f3d5fb1d973228740a6ec4e460cc))
+* SDR findCredentialsByFields iss ([6838d04](https://github.com/uport-project/daf/commit/6838d04b4c97cf7c11c17f4b8cdfdcebb274161a))
+* TGE subscribtion query ([17863a2](https://github.com/uport-project/daf/commit/17863a201edd7f561dab7b1831c8ba45a13abe02))
+
+
+
+
+
 ## [0.7.3](https://github.com/uport-project/daf/compare/v0.7.2...v0.7.3) (2019-11-30)
 
 

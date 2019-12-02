@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -24,9 +24,9 @@
     "daf-node-sqlite3": "^0.7.3",
     "daf-resolver": "^0.7.0",
     "daf-resolver-universal": "^0.7.0",
-    "daf-selective-disclosure": "^0.7.3",
+    "daf-selective-disclosure": "^0.7.4",
     "daf-sodium-fs": "^0.7.0",
-    "daf-trust-graph": "^0.7.0",
+    "daf-trust-graph": "^0.7.4",
     "daf-w3c": "^0.7.2",
     "date-fns": "^2.8.1",
     "debug": "^4.1.1",

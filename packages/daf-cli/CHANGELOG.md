@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.4](https://github.com/uport-project/daf/compare/v0.7.3...v0.7.4) (2019-12-02)
+
+
+### Bug Fixes
+
+* Adding tag in VP ([c154015](https://github.com/uport-project/daf/commit/c154015de13a420a685f2115817bef2774a3cb9d))
+
+
+
+
+
 ## [0.7.3](https://github.com/uport-project/daf/compare/v0.7.2...v0.7.3) (2019-11-30)
 
 **Note:** Version bump only for package daf-cli
