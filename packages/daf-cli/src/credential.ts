@@ -128,6 +128,11 @@ program
         message: 'Audience DID',
         choices: identities,
       },
+      {
+        type: 'input',
+        name: 'tag',
+        message: 'Tag',
+      },
     ])
 
     if (!answers.aud) {
@@ -139,6 +144,8 @@ program
         },
       ])
       aud = audAnswer.aud
+    } else {
+      aud = answers.aud
     }
 
     const credentials = await dataStore.findCredentials({ sub: answers.iss })
@@ -187,6 +194,7 @@ program
         did: answers.iss,
         data: {
           aud: aud,
+          tag: answers.tag,
           vp: {
             '@context': ['https://www.w3.org/2018/credentials/v1'],
             type: ['VerifiableCredential'],
