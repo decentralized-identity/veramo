@@ -53,8 +53,6 @@ export class TrustGraphServiceController implements ServiceController {
     var link = null
 
     if (wsUri) {
-      debug('Using SubscriptionClient')
-
       const wsClient = new SubscriptionClient(
         wsUri,
         {
@@ -148,7 +146,7 @@ export class TrustGraphServiceController implements ServiceController {
       this.client
         .subscribe({
           query: queries.edgeAdded,
-          variables: { toDID: options.issuer.did },
+          variables: { toDID: [options.issuer.did] },
         })
         .subscribe({
           async next(result) {
