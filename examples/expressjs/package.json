@@ -12,11 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express-handlebars": "^3.1.0",
-    "@types/express-session": "^1.15.16",
-    "@types/express-socket.io-session": "^1.3.2",
-    "@types/socket.io": "^2.1.4",
-    "apollo-server-express": "^2.9.9",
     "daf-core": "../../packages/daf-core",
     "daf-data-store": "../../packages/daf-data-store",
     "daf-debug": "../../packages/daf-debug",
@@ -44,6 +39,10 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "@types/lodash.merge": "^4.6.6"
+    "@types/express-handlebars": "^3.1.0",
+    "@types/express-session": "^1.15.16",
+    "@types/express-socket.io-session": "^1.3.2",
+    "@types/lodash.merge": "^4.6.6",
+    "@types/socket.io": "^2.1.4"
   }
 }
