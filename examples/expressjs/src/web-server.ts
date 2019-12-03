@@ -1,20 +1,21 @@
 import * as ngrok from 'ngrok'
 import express from 'express'
 import * as Daf from 'daf-core'
+import * as SD from 'daf-selective-disclosure'
+import * as W3C from 'daf-w3c'
+import session from 'express-session'
+import socketio from 'socket.io'
+import http from 'http'
+import exphbs from 'express-handlebars'
+
+import sharedsession from 'express-socket.io-session'
 
 const bodyParser = require('body-parser')
 import { core, dataStore, apolloServer } from './setup'
 import { webDidDocFromEthrDid } from './web-did-doc'
 
 import Debug from 'debug'
-Debug.enable('*')
 const debug = Debug('main')
-
-core.on(Daf.EventTypes.validatedMessage, async (eventType: string, message: Daf.Types.ValidatedMessage) => {
-  debug('New message %s', message.hash)
-  debug('Meta %O', message.meta)
-  await dataStore.saveMessage(message)
-})
 
 let hostname: string
 
@@ -45,14 +46,83 @@ async function main() {
 
   const app = express()
   app.use(bodyParser.text())
+  const sess = session({
+    secret: 'keyboard cat',
+    cookie: { maxAge: 60000 },
+    saveUninitialized: true,
+    resave: true,
+  })
+  app.use(sess)
 
-  app.get('/', async (req, res) => {
+  app.engine('handlebars', exphbs())
+  app.set('view engine', 'handlebars')
+
+  app.get('/', async function(req, res) {
+    if (!req.session) {
+      return
+    }
+    let viewcount = 1
+    if (req.session.viewcount) {
+      req.session.viewcount++
+    } else {
+      req.session.viewcount = 1
+    }
+    viewcount = req.session.viewcount
+
+    console.log('APP SID', req.session.id)
+
+    const did = req.session.did
+    console.log({ did })
+    let jwt
+    if (!did) {
+      const signAction: SD.ActionSignSdr = {
+        type: SD.ActionTypes.signSdr,
+        did: issuer.did,
+        data: {
+          tag: req.sessionID,
+          claims: [
+            {
+              reason: 'We need this information',
+              essential: true,
+              claimType: 'name',
+            },
+          ],
+        },
+      }
+
+      jwt = await core.handleAction(signAction)
+    }
+
+    const template = did ? 'home' : 'login'
+
+    res.render(template, { viewcount, did, jwt })
+  })
+
+  app.get('/messages', async (req, res) => {
+    if (req.session) {
+      if (req.session.views) {
+        req.session.views++
+      } else {
+        req.session.views = 1
+      }
+    }
     const messages = await dataStore.findMessages({})
-    res.send('Messages:<br/>' + messages.map((message: any) => `${message.type} - ${message.hash}<br/>`))
+    res.send(
+      'Views' +
+        req.session?.views +
+        '<br/>Messages:<br/>' +
+        messages.map((message: any) => `${message.type} - ${message.hash}<br/>`),
+    )
   })
 
   app.get('/.well-known/did.json', (req, res) =>
     res.send(webDidDocFromEthrDid(issuer.ethereumAddress ? issuer.ethereumAddress : '', hostname, keyPair)),
+  )
+
+  app.get('/logout', (req, res) =>
+    req.session?.destroy(function(err) {
+      res.redirect('/')
+    }),
   )
 
   app.post('/didcomm', async (req, res) => {
@@ -71,14 +141,43 @@ async function main() {
   apolloServer.applyMiddleware({ app })
 
   await dataStore.initialize()
+  const server = http.createServer(app)
+  const io = socketio(server)
+
+  io.use(
+    sharedsession(sess, {
+      autoSave: true,
+    }),
+  )
+
+  io.on('connection', function(socket) {
+    if (socket.handshake?.session) {
+      socket.join(socket.handshake.session.id)
+    }
+    socket.on('disconnect', function() {
+      console.log('user disconnected')
+    })
+  })
+
+  core.on(Daf.EventTypes.validatedMessage, async (eventType: string, message: Daf.Types.ValidatedMessage) => {
+    debug('New message %s', message.hash)
+    debug('Meta %O', message.meta)
+    console.log(message)
+    await dataStore.saveMessage(message)
+    if (message.type === W3C.MessageTypes.vp && message.tag) {
+      // TODO check for required vcs
+      console.log('AAAAAAA')
+      await io.in(message.tag).emit('loggedin', { did: message.issuer })
+    }
+  })
 
   const port = 8099
-  app.listen(port, async () => {
+  server.listen(port, async () => {
     debug(`Listening on port ${port}!`)
     const url = await ngrok.connect({
       addr: port,
-      // subdomain: 'someservice',
-      // region: 'eu',
+      subdomain: 'someservice',
+      region: 'eu',
     })
     debug(`URL: ${url}`)
     debug(`DID Doc: ${url}/.well-known/did.json`)
@@ -87,7 +186,9 @@ async function main() {
     debug(`did:web:${hostname}`)
 
     await core.startServices()
-    await core.syncServices(await dataStore.latestMessageTimestamps())
+    setInterval(async () => {
+      await core.syncServices(await dataStore.latestMessageTimestamps())
+    }, 5000)
   })
 }
 
