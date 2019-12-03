@@ -11,7 +11,7 @@ import exphbs from 'express-handlebars'
 import sharedsession from 'express-socket.io-session'
 
 const bodyParser = require('body-parser')
-import { core, dataStore, apolloServer } from './setup'
+import { core, dataStore } from './setup'
 import { webDidDocFromEthrDid } from './web-did-doc'
 
 import Debug from 'debug'
@@ -137,8 +137,6 @@ async function main() {
     })
     res.send('OK')
   })
-
-  apolloServer.applyMiddleware({ app })
 
   await dataStore.initialize()
   const server = http.createServer(app)

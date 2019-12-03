@@ -13,7 +13,7 @@ import * as DIDComm from 'daf-did-comm'
 import { SodiumFsEncryptionKeyManager } from 'daf-sodium-fs'
 
 import { NodeSqlite3 } from 'daf-node-sqlite3'
-import { DataStore, Gql as DataGql } from 'daf-data-store'
+import { DataStore } from 'daf-data-store'
 import ws from 'ws'
 
 import Debug from 'debug'
@@ -89,27 +89,3 @@ export const core = new Daf.Core({
 
 const db = new NodeSqlite3(dataStoreFilename)
 export const dataStore = new DataStore(db)
-
-const { ApolloServer } = require('apollo-server-express')
-import merge from 'lodash.merge'
-
-export const apolloServer = new ApolloServer({
-  typeDefs: [
-    Daf.Gql.baseTypeDefs,
-    Daf.Gql.Core.typeDefs,
-    Daf.Gql.IdentityManager.typeDefs,
-    DataGql.typeDefs,
-    DIDComm.Gql.typeDefs,
-    W3c.Gql.typeDefs,
-  ],
-  resolvers: merge(
-    Daf.Gql.Core.resolvers,
-    Daf.Gql.IdentityManager.resolvers,
-    DataGql.resolvers,
-    DIDComm.Gql.resolvers,
-    W3c.Gql.resolvers,
-  ),
-  context: () => ({ dataStore, core }),
-  introspection: true,
-  graphqlPath: '/graphql',
-})
