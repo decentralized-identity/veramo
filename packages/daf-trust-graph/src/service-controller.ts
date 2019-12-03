@@ -64,7 +64,6 @@ export class TrustGraphServiceController implements ServiceController {
           },
         },
         this.options.config.webSocketImpl,
-        [],
       )
 
       const wsLink = new WebSocketLink(wsClient)
