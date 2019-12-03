@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.7](https://github.com/uport-project/daf/compare/v0.7.6...v0.7.7) (2019-12-03)
+
+**Note:** Version bump only for package daf-cli
+
+
+
+
+
 ## [0.7.6](https://github.com/uport-project/daf/compare/v0.7.5...v0.7.6) (2019-12-03)
 
 
