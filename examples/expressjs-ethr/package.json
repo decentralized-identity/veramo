@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "tsc -b --watch",
+    "build": "tsc",
     "start": "node build/web-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

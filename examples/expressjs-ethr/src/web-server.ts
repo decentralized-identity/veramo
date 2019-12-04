@@ -61,6 +61,7 @@ async function main() {
     const did = req.session.did
     console.log({ did })
     let jwt
+    let name
     if (!did) {
       const signAction: SD.ActionSignSdr = {
         type: SD.ActionTypes.signSdr,
@@ -78,11 +79,13 @@ async function main() {
       }
 
       jwt = await core.handleAction(signAction)
+    } else {
+      name = await dataStore.shortId(did)
     }
 
     const template = did ? 'home' : 'login'
 
-    res.render(template, { viewcount, did, jwt })
+    res.render(template, { viewcount, did, name, jwt })
   })
 
   app.get('/logout', (req, res) =>
@@ -141,10 +144,11 @@ async function main() {
     console.log(`Server running at http://localhost:${port}/`)
 
     await core.startServices()
-    await core.syncServices(await dataStore.latestMessageTimestamps())
-    // setInterval(async () => {
-    //   await core.syncServices(await dataStore.latestMessageTimestamps())
-    // }, 5000)
+    // await core.syncServices(await dataStore.latestMessageTimestamps())
+    console.log('Polling while WS is unavailable')
+    setInterval(async () => {
+      await core.syncServices(await dataStore.latestMessageTimestamps())
+    }, 5000)
   })
 }
 
