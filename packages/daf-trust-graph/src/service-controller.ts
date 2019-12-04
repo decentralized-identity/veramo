@@ -56,7 +56,7 @@ export class TrustGraphServiceController implements ServiceController {
       const wsClient = new SubscriptionClient(
         wsUri,
         {
-          lazy: true,
+          lazy: false,
           reconnect: true,
           connectionParams: async () => {
             const token = await this.getAuthToken()
