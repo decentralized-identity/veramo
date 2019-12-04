@@ -32,6 +32,7 @@ export class PayloadValidator implements DidJwtPayloadValidator {
         raw: verifiedJwt.jwt,
         issuer: verifiedJwt.payload.iss,
         subject: verifiedJwt.payload.aud,
+        tag: verifiedJwt.payload.tag,
         time: verifiedJwt.payload.nbf || verifiedJwt.payload.iat,
         verified: verifiedJwt,
         custom: {
@@ -48,6 +49,7 @@ export class PayloadValidator implements DidJwtPayloadValidator {
         raw: verifiedJwt.jwt,
         issuer: verifiedJwt.payload.iss,
         subject: verifiedJwt.payload.sub,
+        tag: verifiedJwt.payload.tag,
         time: verifiedJwt.payload.nbf || verifiedJwt.payload.iat,
         verified: verifiedJwt,
         custom: {

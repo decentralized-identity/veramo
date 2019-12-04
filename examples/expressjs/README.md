@@ -3,33 +3,30 @@
 ## Install
 
 ```
-npm i
+yarn
 ```
 
 ## Start
 
 ```
-npm start
+yarn start
 ```
 
 ## Usage
-
-By default it using the same data as `daf-cli`.
 
 Open `https://{CHANGE_THIS}.ngrok.io/graphql` and play around.
 
 Here are some sample queries:
 
 ```graphql
-
-query MyDids{
+query MyDids {
   managedIdentities {
     did
   }
 }
 
-mutation CreateNewDid{
-	createIdentity(type: "ethr-did-fs") {
+mutation CreateNewDid {
+  createIdentity(type: "ethr-did-fs") {
     did
   }
 }
@@ -46,7 +43,7 @@ query AllDataStoreMessages {
     }
     type
     vc {
-      fields{
+      fields {
         type
       }
     }
@@ -59,5 +56,4 @@ query AllDataStoreIdentities {
     shortId
   }
 }
-
 ```

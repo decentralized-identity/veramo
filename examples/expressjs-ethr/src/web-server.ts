@@ -1,9 +1,8 @@
-import * as ngrok from 'ngrok'
 import express from 'express'
 import * as Daf from 'daf-core'
 import * as SD from 'daf-selective-disclosure'
 import * as W3C from 'daf-w3c'
-import session from 'express-session'
+import session, { MemoryStore } from 'express-session'
 import socketio from 'socket.io'
 import http from 'http'
 import exphbs from 'express-handlebars'
@@ -12,14 +11,28 @@ import sharedsession from 'express-socket.io-session'
 
 const bodyParser = require('body-parser')
 import { core, dataStore } from './setup'
-import { webDidDocFromEthrDid } from './web-did-doc'
 
 import Debug from 'debug'
 const debug = Debug('main')
 
-let hostname: string
+const app = express()
+app.use(bodyParser.text())
+const sessionStore = new MemoryStore()
+const sess = session({
+  secret: 'keyboard cat',
+  cookie: { maxAge: 10 * 60000 },
+  saveUninitialized: true,
+  resave: true,
+  store: sessionStore,
+})
+app.use(sess)
+
+app.engine('handlebars', exphbs())
+app.set('view engine', 'handlebars')
 
 async function main() {
+  await dataStore.initialize()
+
   // Get of create new issuer
   let issuer: Daf.Issuer
   const issuers = await core.identityManager.listIssuers()
@@ -30,32 +43,6 @@ async function main() {
     const did = await core.identityManager.create(types[0])
     issuer = await core.identityManager.issuer(did)
   }
-
-  // Get of create new encryption keyPair
-  let keyPair: Daf.KeyPair
-  if (core.encryptionKeyManager) {
-    const existingKeyPair = await core.encryptionKeyManager.getKeyPairForDid(issuer.did)
-
-    if (!existingKeyPair) {
-      keyPair = await core.encryptionKeyManager.createKeyPairForDid(issuer.did)
-    } else {
-      keyPair = existingKeyPair
-    }
-    debug('Public Encryption key %o', keyPair.publicKeyHex)
-  }
-
-  const app = express()
-  app.use(bodyParser.text())
-  const sess = session({
-    secret: 'keyboard cat',
-    cookie: { maxAge: 60000 },
-    saveUninitialized: true,
-    resave: true,
-  })
-  app.use(sess)
-
-  app.engine('handlebars', exphbs())
-  app.set('view engine', 'handlebars')
 
   app.get('/', async function(req, res) {
     if (!req.session) {
@@ -74,6 +61,7 @@ async function main() {
     const did = req.session.did
     console.log({ did })
     let jwt
+    let name
     if (!did) {
       const signAction: SD.ActionSignSdr = {
         type: SD.ActionTypes.signSdr,
@@ -91,33 +79,14 @@ async function main() {
       }
 
       jwt = await core.handleAction(signAction)
+    } else {
+      name = await dataStore.shortId(did)
     }
 
     const template = did ? 'home' : 'login'
 
-    res.render(template, { viewcount, did, jwt })
+    res.render(template, { viewcount, did, name, jwt })
   })
-
-  app.get('/messages', async (req, res) => {
-    if (req.session) {
-      if (req.session.views) {
-        req.session.views++
-      } else {
-        req.session.views = 1
-      }
-    }
-    const messages = await dataStore.findMessages({})
-    res.send(
-      'Views' +
-        req.session?.views +
-        '<br/>Messages:<br/>' +
-        messages.map((message: any) => `${message.type} - ${message.hash}<br/>`),
-    )
-  })
-
-  app.get('/.well-known/did.json', (req, res) =>
-    res.send(webDidDocFromEthrDid(issuer.ethereumAddress ? issuer.ethereumAddress : '', hostname, keyPair)),
-  )
 
   app.get('/logout', (req, res) =>
     req.session?.destroy(function(err) {
@@ -125,20 +94,6 @@ async function main() {
     }),
   )
 
-  app.post('/didcomm', async (req, res) => {
-    core.onRawMessage({
-      raw: req.body,
-      meta: [
-        {
-          sourceType: 'httpsPost',
-          sourceId: hostname + '/didcomm',
-        },
-      ],
-    })
-    res.send('OK')
-  })
-
-  await dataStore.initialize()
   const server = http.createServer(app)
   const io = socketio(server)
 
@@ -164,26 +119,33 @@ async function main() {
     await dataStore.saveMessage(message)
     if (message.type === W3C.MessageTypes.vp && message.tag) {
       // TODO check for required vcs
-      console.log('AAAAAAA')
-      await io.in(message.tag).emit('loggedin', { did: message.issuer })
+
+      const sessionId = message.tag
+      await io.in(sessionId).emit('loggedin', { did: message.issuer })
+      sessionStore.get(sessionId, (error, session) => {
+        if (error) {
+          console.log(error)
+          return
+        }
+        if (session) {
+          console.log('Got session', session)
+          console.log('View count', session.viewcount)
+          session.did = message.issuer
+          sessionStore.set(sessionId, session)
+        } else {
+          console.log('No session: ' + message.tag)
+        }
+      })
     }
   })
 
   const port = 8099
   server.listen(port, async () => {
-    debug(`Listening on port ${port}!`)
-    const url = await ngrok.connect({
-      addr: port,
-      subdomain: 'someservice',
-      region: 'eu',
-    })
-    debug(`URL: ${url}`)
-    debug(`DID Doc: ${url}/.well-known/did.json`)
-    debug(`GraphQL: ${url}/graphql`)
-    hostname = url.slice(8)
-    debug(`did:web:${hostname}`)
+    console.log(`Server running at http://localhost:${port}/`)
 
     await core.startServices()
+    // await core.syncServices(await dataStore.latestMessageTimestamps())
+    console.log('Polling while WS is unavailable')
     setInterval(async () => {
       await core.syncServices(await dataStore.latestMessageTimestamps())
     }, 5000)

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Example App</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+        socket.on('connect', function () {
+          console.log('connected')
+
+        socket.on('loggedin', function (msg) {
+          console.log('Success')
+          document.getElementById('login').style.display = 'none'
+          document.getElementById('success').innerHTML = JSON.stringify(msg)
+
+
+        })
+      })
+    </script>
+</head>
+<body>
+    View count: {{viewcount}}
+ 
+    {{{body}}}
+ 
+</body>
+</html>
