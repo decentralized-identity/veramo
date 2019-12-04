@@ -1,9 +1,8 @@
-import * as ngrok from 'ngrok'
 import express from 'express'
 import * as Daf from 'daf-core'
 import * as SD from 'daf-selective-disclosure'
 import * as W3C from 'daf-w3c'
-import session from 'express-session'
+import session, { MemoryStore } from 'express-session'
 import socketio from 'socket.io'
 import http from 'http'
 import exphbs from 'express-handlebars'
@@ -18,11 +17,13 @@ const debug = Debug('main')
 
 const app = express()
 app.use(bodyParser.text())
+const sessionStore = new MemoryStore()
 const sess = session({
   secret: 'keyboard cat',
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: 10 * 60000 },
   saveUninitialized: true,
   resave: true,
+  store: sessionStore,
 })
 app.use(sess)
 
@@ -115,20 +116,29 @@ async function main() {
     await dataStore.saveMessage(message)
     if (message.type === W3C.MessageTypes.vp && message.tag) {
       // TODO check for required vcs
-      console.log('AAAAAAA')
-      await io.in(message.tag).emit('loggedin', { did: message.issuer })
+
+      const sessionId = message.tag
+      await io.in(sessionId).emit('loggedin', { did: message.issuer })
+      sessionStore.get(sessionId, (error, session) => {
+        if (error) {
+          console.log(error)
+          return
+        }
+        if (session) {
+          console.log('Got session', session)
+          console.log('View count', session.viewcount)
+          session.did = message.issuer
+          sessionStore.set(sessionId, session)
+        } else {
+          console.log('No session: ' + message.tag)
+        }
+      })
     }
   })
 
   const port = 8099
   server.listen(port, async () => {
-    debug(`Listening on port ${port}!`)
-    const url = await ngrok.connect({
-      addr: port,
-      subdomain: 'someservice',
-      region: 'eu',
-    })
-    debug(`URL: ${url}`)
+    console.log(`Server running at http://localhost:${port}/`)
 
     await core.startServices()
     await core.syncServices(await dataStore.latestMessageTimestamps())
