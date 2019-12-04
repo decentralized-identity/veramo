@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.8](https://github.com/uport-project/daf/compare/v0.7.7...v0.7.8) (2019-12-04)
+
+
+### Bug Fixes
+
+* TG subscription connection params ([b7b79d8](https://github.com/uport-project/daf/commit/b7b79d8de874b6010c0017b66b2e775c76c9d514))
+
+
+
+
+
 ## [0.7.7](https://github.com/uport-project/daf/compare/v0.7.6...v0.7.7) (2019-12-03)
 
 
