@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/uport-project/daf/compare/v0.7.8...v0.8.0) (2019-12-04)
+
+
+### Features
+
+* Simple login flow ([8d6042a](https://github.com/uport-project/daf/commit/8d6042aea5f9d35c119c0033d701682f21dfd09a))
+
+
+
+
+
 ## [0.7.5](https://github.com/uport-project/daf/compare/v0.7.4...v0.7.5) (2019-12-02)
 
 

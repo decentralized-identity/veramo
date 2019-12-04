@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/uport-project/daf/compare/v0.7.8...v0.8.0) (2019-12-04)
+
+
+### Bug Fixes
+
+* Removing deps ([8db9286](https://github.com/uport-project/daf/commit/8db9286b94ac7060035ab75552e2646820326b70))
+* Removing gql from web-demo ([c3676f0](https://github.com/uport-project/daf/commit/c3676f0e3913f292b077a4bfaed6d0c70fb5a742))
+
+
+### Features
+
+* Simple login flow ([8d6042a](https://github.com/uport-project/daf/commit/8d6042aea5f9d35c119c0033d701682f21dfd09a))
+
+
+
+
+
 ## [0.7.8](https://github.com/uport-project/daf/compare/v0.7.7...v0.7.8) (2019-12-04)
 
 
