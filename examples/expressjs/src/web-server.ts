@@ -157,7 +157,7 @@ async function main() {
     })
   })
 
-  core.on(Daf.EventTypes.validatedMessage, async (eventType: string, message: Daf.Types.ValidatedMessage) => {
+  core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Types.ValidatedMessage) => {
     debug('New message %s', message.hash)
     debug('Meta %O', message.meta)
     console.log(message)

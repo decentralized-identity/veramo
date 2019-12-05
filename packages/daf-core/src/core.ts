@@ -1,19 +1,10 @@
-import PubSub from 'pubsub-js'
+import { EventEmitter } from 'events'
 import { DIDDocument } from 'did-resolver'
 import { IdentityManager, IdentityController } from './identity-manager'
-import {
-  ServiceManager,
-  ServiceControllerWithConfig,
-  LastMessageTimestamp,
-} from './service-manager'
+import { ServiceManager, ServiceControllerWithConfig, LastMessageTimestamp } from './service-manager'
 import { MessageValidator } from './message-validator'
 import { ActionHandler } from './action-handler'
-import {
-  ValidatedMessage,
-  PreValidatedMessage,
-  RawMessage,
-  Action,
-} from './types'
+import { ValidatedMessage, PreValidatedMessage, RawMessage, Action } from './types'
 import { EncryptionKeyManager } from './encryption-manager'
 import blake from 'blakejs'
 
@@ -38,7 +29,7 @@ interface Config {
   encryptionKeyManager?: EncryptionKeyManager
 }
 
-export class Core {
+export class Core extends EventEmitter {
   public identityManager: IdentityManager
   public encryptionKeyManager?: EncryptionKeyManager
   public didResolver: Resolver
@@ -47,6 +38,8 @@ export class Core {
   private actionHandler?: ActionHandler
 
   constructor(config: Config) {
+    super()
+
     this.identityManager = new IdentityManager({
       identityControllers: config.identityControllers,
     })
@@ -76,28 +69,20 @@ export class Core {
     await this.serviceManager.syncServices(lastMessageTimestamps)
   }
 
-  public async onRawMessage(
-    rawMessage: RawMessage,
-  ): Promise<ValidatedMessage | null> {
+  public async onRawMessage(rawMessage: RawMessage): Promise<ValidatedMessage | null> {
     debug('Raw message %O', rawMessage)
     try {
-      const preValidatedMessage = await this.messageValidator.validate(
-        rawMessage,
-        this,
-      )
-      if (
-        preValidatedMessage !== null &&
-        this.isValidatedMessage(preValidatedMessage)
-      ) {
+      const preValidatedMessage = await this.messageValidator.validate(rawMessage, this)
+      if (preValidatedMessage !== null && this.isValidatedMessage(preValidatedMessage)) {
         const validatedMessage = {
           ...preValidatedMessage,
           hash: blake.blake2bHex(preValidatedMessage.raw),
         }
-        this.onValidatedMessage(validatedMessage)
+        this.emit(EventTypes.validatedMessage, validatedMessage)
         return validatedMessage
       }
     } catch (error) {
-      this.onMessageValidationError(error, rawMessage)
+      this.emit(EventTypes.error, error, rawMessage)
     }
     return null
   }
@@ -119,18 +104,6 @@ export class Core {
       return false
     }
     return true
-  }
-
-  private onMessageValidationError(error: string, rawMessage: RawMessage) {
-    PubSub.publish(EventTypes.error, { error, rawMessage })
-  }
-
-  private onValidatedMessage(message: ValidatedMessage) {
-    PubSub.publish(EventTypes.validatedMessage + '.' + message.type, message)
-  }
-
-  public on(type: string, callback: (type: string, data: any) => void) {
-    return PubSub.subscribe(type, callback)
   }
 
   public async handleAction(action: Action): Promise<any> {

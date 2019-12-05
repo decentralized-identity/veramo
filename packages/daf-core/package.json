@@ -10,11 +10,10 @@
   "dependencies": {
     "blakejs": "^1.1.0",
     "debug": "^4.1.1",
-    "pubsub-js": "^1.7.0"
+    "events": "^3.0.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "@types/pubsub-js": "^1.5.18",
     "did-resolver": "^1.1.0",
     "typescript": "^3.7.2"
   },
