@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/uport-project/daf/compare/v0.8.0...v0.9.0) (2019-12-05)
+
+
+### Features
+
+* Using EventEmitter instead of pubsub-js ([5d50acf](https://github.com/uport-project/daf/commit/5d50acf0c9fbdb9ea45f0e90a55b64a1a1e5dfde))
+
+
+
+
+
 # [0.8.0](https://github.com/uport-project/daf/compare/v0.7.8...v0.8.0) (2019-12-04)
 
 
