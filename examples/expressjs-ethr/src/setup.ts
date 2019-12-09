@@ -42,11 +42,11 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
 const identityControllers = [new EthrDidFsController(identityStoreFilename)]
 
 const messageValidator = new DBG.MessageValidator()
-messageValidator.setNext(new DIDComm.MessageValidator()).setNext(
-  new DidJwt.MessageValidator({
-    payloadValidators: [new W3c.PayloadValidator(), new SD.PayloadValidator()],
-  }),
-)
+messageValidator
+  .setNext(new DIDComm.MessageValidator())
+  .setNext(new DidJwt.MessageValidator())
+  .setNext(new W3c.MessageValidator())
+  .setNext(new SD.MessageValidator())
 
 const actionHandler = new DBG.ActionHandler()
 actionHandler

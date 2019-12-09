@@ -112,16 +112,16 @@ async function main() {
     })
   })
 
-  core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Types.ValidatedMessage, b: any) => {
-    debug('New message %s', message.hash)
+  core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message, b: any) => {
+    debug('New message %s', message.id)
     debug('Meta %O', message.meta)
     console.log(message)
     await dataStore.saveMessage(message)
-    if (message.type === W3C.MessageTypes.vp && message.tag) {
+    if (message.type === W3C.MessageTypes.vp && message.threadId) {
       // TODO check for required vcs
 
-      const sessionId = message.tag
-      await io.in(sessionId).emit('loggedin', { did: message.issuer })
+      const sessionId = message.threadId
+      await io.in(sessionId).emit('loggedin', { did: message.from })
       sessionStore.get(sessionId, (error, session) => {
         if (error) {
           console.log(error)
@@ -130,10 +130,10 @@ async function main() {
         if (session) {
           console.log('Got session', session)
           console.log('View count', session.viewcount)
-          session.did = message.issuer
+          session.did = message.from
           sessionStore.set(sessionId, session)
         } else {
-          console.log('No session: ' + message.tag)
+          console.log('No session: ' + message.threadId)
         }
       })
     }

@@ -1,4 +1,4 @@
-import { Types } from 'daf-core'
+import { Message } from 'daf-core'
 import { DbDriver } from './types'
 import { runMigrations } from './migrations'
 import sql from 'sql-bricks-sqlite'
@@ -263,33 +263,32 @@ export class DataStore {
     return shortId
   }
 
-  async saveMessage(message: Types.ValidatedMessage) {
-    const source_type = message.meta && message.meta[0].sourceType
-    const source_id = message.meta && message.meta[0].sourceId
+  async saveMessage(message: Message) {
     const query = sql
       .insert('messages', {
-        hash: message.hash,
-        iss: message.issuer,
-        sub: message.subject,
-        nbf: message.time,
+        hash: message.id,
+        iss: message.from,
+        sub: message.to,
+        nbf: message.timestamp,
         type: message.type,
-        tag: message.tag,
+        tag: message.threadId,
         jwt: message.raw,
+        data: message.data && JSON.stringify(message.data),
         meta: message.meta && JSON.stringify(message.meta),
-        source_type,
-        source_id,
+        source_type: message.meta.type,
+        source_id: message.meta.id,
       })
       .toParams()
 
     await this.db.run(query.text, query.values)
 
     if (message.type == 'w3c.vp' || message.type == 'w3c.vc') {
-      for (const vc of message.custom.vc) {
-        await this.saveVerifiableCredential(vc, message.hash)
+      for (const vc of message.vc) {
+        await this.saveVerifiableCredential(vc, message.id)
       }
     }
 
-    return { hash: message.hash, iss: { did: message.issuer } }
+    return { hash: message.id, iss: { did: message.from } }
   }
 
   async saveVerifiableCredential(vc: any, messageHash: string) {

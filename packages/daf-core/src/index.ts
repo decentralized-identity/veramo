@@ -3,6 +3,7 @@ export { AbstractActionHandler } from './action-handler'
 export { EncryptionKeyManager, KeyPair } from './encryption-manager'
 export { IdentityController, IdentityManager, Issuer } from './identity-manager'
 export { AbstractMessageValidator } from './message-validator'
+export { Message } from './message'
 export {
   ServiceController,
   ServiceControllerOptions,

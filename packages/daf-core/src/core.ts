@@ -4,9 +4,9 @@ import { IdentityManager, IdentityController } from './identity-manager'
 import { ServiceManager, ServiceControllerWithConfig, LastMessageTimestamp } from './service-manager'
 import { MessageValidator } from './message-validator'
 import { ActionHandler } from './action-handler'
-import { ValidatedMessage, PreValidatedMessage, RawMessage, Action } from './types'
+import { Action } from './types'
 import { EncryptionKeyManager } from './encryption-manager'
-import blake from 'blakejs'
+import { Message } from './message'
 
 import Debug from 'debug'
 const debug = Debug('core')
@@ -50,7 +50,7 @@ export class Core extends EventEmitter {
 
     this.serviceManager = new ServiceManager({
       serviceControllersWithConfig: config.serviceControllersWithConfig,
-      onRawMessage: this.onRawMessage.bind(this),
+      validateMessage: this.validateMessage.bind(this),
       didResolver: this.didResolver,
     })
 
@@ -69,41 +69,19 @@ export class Core extends EventEmitter {
     await this.serviceManager.syncServices(lastMessageTimestamps)
   }
 
-  public async onRawMessage(rawMessage: RawMessage): Promise<ValidatedMessage | null> {
-    debug('Raw message %O', rawMessage)
+  public async validateMessage(message: Message): Promise<Message> {
+    debug('Raw message %O', message)
     try {
-      const preValidatedMessage = await this.messageValidator.validate(rawMessage, this)
-      if (preValidatedMessage !== null && this.isValidatedMessage(preValidatedMessage)) {
-        const validatedMessage = {
-          ...preValidatedMessage,
-          hash: blake.blake2bHex(preValidatedMessage.raw),
-        }
+      const validatedMessage = await this.messageValidator.validate(message, this)
+      if (validatedMessage.isValid()) {
         this.emit(EventTypes.validatedMessage, validatedMessage)
         return validatedMessage
       }
     } catch (error) {
-      this.emit(EventTypes.error, error, rawMessage)
+      this.emit(EventTypes.error, error, message)
+      return Promise.reject(error)
     }
-    return null
-  }
-
-  private isValidatedMessage(message: PreValidatedMessage): boolean {
-    if (message === null) {
-      return false
-    }
-    if (!message.type || message.type == '') {
-      debug('Missing `type` in %o', message)
-      return false
-    }
-    if (!message.issuer || message.issuer == '') {
-      debug('Missing `issuer` in %o', message)
-      return false
-    }
-    if (!message.raw || message.raw == '') {
-      debug('Missing `raw` in %o', message)
-      return false
-    }
-    return true
+    return Promise.reject('Unsupported message type')
   }
 
   public async handleAction(action: Action): Promise<any> {

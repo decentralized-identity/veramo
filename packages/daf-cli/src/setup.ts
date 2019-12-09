@@ -47,11 +47,11 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
 const identityControllers = [new EthrDidFsController(identityStoreFilename)]
 
 const messageValidator = new DBG.MessageValidator()
-messageValidator.setNext(new DIDComm.MessageValidator()).setNext(
-  new DidJwt.MessageValidator({
-    payloadValidators: [new W3c.PayloadValidator(), new SD.PayloadValidator()],
-  }),
-)
+messageValidator
+  .setNext(new DIDComm.MessageValidator())
+  .setNext(new DidJwt.MessageValidator())
+  .setNext(new W3c.MessageValidator())
+  .setNext(new SD.MessageValidator())
 
 const actionHandler = new DBG.ActionHandler()
 actionHandler
@@ -90,7 +90,7 @@ export const core = new Daf.Core({
 const db = new NodeSqlite3(dataStoreFilename)
 export const dataStore = new DataStore(db)
 
-core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Types.ValidatedMessage) => {
+core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
   debug('New message %O', message)
   await dataStore.saveMessage(message)
 })

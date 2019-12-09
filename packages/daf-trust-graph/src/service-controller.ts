@@ -10,6 +10,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { ServiceController, ServiceControllerOptions, ServiceInstanceId } from 'daf-core'
 import * as queries from './queries'
+import * as Daf from 'daf-core'
 
 import { defaultTrustGraphUri, defaultTrustGraphWsUri } from './config'
 import Debug from 'debug'
@@ -123,21 +124,21 @@ export class TrustGraphServiceController implements ServiceController {
     })
 
     for (const edge of data.findEdges) {
-      await this.options.onRawMessage({
-        raw: edge.jwt,
-        meta: [
-          {
-            sourceType: this.instanceId().sourceType,
-            sourceId: this.uri,
+      await this.options.validateMessage(
+        new Daf.Message({
+          raw: edge.jwt,
+          meta: {
+            type: this.instanceId().sourceType,
+            id: this.uri,
           },
-        ],
-      })
+        }),
+      )
     }
   }
 
   async init() {
-    const { options, wsUri } = this
-    const sourceType = this.instanceId().sourceType
+    const { options, wsUri, uri } = this
+    const type = this.instanceId().sourceType
 
     if (wsUri) {
       debug('Subscribing to edgeAdded for', options.issuer.did)
@@ -149,15 +150,12 @@ export class TrustGraphServiceController implements ServiceController {
         })
         .subscribe({
           async next(result) {
-            options.onRawMessage({
-              raw: result.data.edgeAdded.jwt,
-              meta: [
-                {
-                  sourceType,
-                  sourceId: wsUri,
-                },
-              ],
-            })
+            options.validateMessage(
+              new Daf.Message({
+                raw: result.data.edgeAdded.jwt,
+                meta: { type, id: uri },
+              }),
+            )
           },
           error(err) {
             debug('Error', err)

@@ -1,4 +1,4 @@
-import { Core, AbstractActionHandler, Types } from 'daf-core'
+import { Core, AbstractActionHandler, Types, Message } from 'daf-core'
 import { defaultTrustGraphUri, defaultTrustGraphWsUri } from './config'
 
 import Debug from 'debug'
@@ -35,13 +35,8 @@ export class ActionHandler extends AbstractActionHandler {
       debug('Resolving didDoc')
       const didDoc = await core.didResolver.resolve(data.to)
 
-      const service =
-        didDoc &&
-        didDoc.service &&
-        didDoc.service.find(item => item.type == 'TrustGraph')
-      const serviceEndpoint = service
-        ? service.serviceEndpoint
-        : defaultTrustGraphUri
+      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'TrustGraph')
+      const serviceEndpoint = service ? service.serviceEndpoint : defaultTrustGraphUri
       const uri = (this.options && this.options.uri) || serviceEndpoint
 
       try {
@@ -50,8 +45,7 @@ export class ActionHandler extends AbstractActionHandler {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            query:
-              'mutation addEdge($edgeJWT: String!) { addEdge(edgeJWT: $edgeJWT) { hash }}',
+            query: 'mutation addEdge($edgeJWT: String!) { addEdge(edgeJWT: $edgeJWT) { hash }}',
             variables: { edgeJWT: data.jwt },
           }),
         })
@@ -59,7 +53,7 @@ export class ActionHandler extends AbstractActionHandler {
         debug('Status', res.status, res.statusText)
 
         if (res.status == 200) {
-          await core.onRawMessage({ raw: data.jwt })
+          await core.validateMessage(new Message({ raw: data.jwt, meta: { type: 'trustGraph', id: uri } }))
         }
 
         return res.status == 200

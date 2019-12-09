@@ -1,4 +1,4 @@
-import { Core, AbstractActionHandler, Types } from 'daf-core'
+import { Core, AbstractActionHandler, Types, Message } from 'daf-core'
 import { DIDComm } from 'DIDComm-js'
 import uuid from 'uuid'
 import Debug from 'debug'
@@ -32,29 +32,18 @@ export class ActionHandler extends AbstractActionHandler {
       debug('Resolving didDoc')
       const didDoc = await core.didResolver.resolve(data.to)
 
-      const service =
-        didDoc &&
-        didDoc.service &&
-        didDoc.service.find(item => item.type == 'MessagingService')
+      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'MessagingService')
       const publicKey =
         didDoc &&
         didDoc.publicKey &&
-        didDoc.publicKey.find(
-          item => item.type == 'Curve25519EncryptionPublicKey',
-        )
+        didDoc.publicKey.find(item => item.type == 'Curve25519EncryptionPublicKey')
 
       if (service) {
         try {
           let body = data.jwt
-          if (
-            publicKey &&
-            publicKey.publicKeyHex &&
-            core.encryptionKeyManager
-          ) {
+          if (publicKey && publicKey.publicKeyHex && core.encryptionKeyManager) {
             await this.didcomm.ready
-            const senderKeyPair = await core.encryptionKeyManager.getKeyPairForDid(
-              data.from,
-            )
+            const senderKeyPair = await core.encryptionKeyManager.getKeyPairForDid(data.from)
             if (senderKeyPair) {
               const dm = JSON.stringify({
                 '@type': 'JWT',
@@ -78,7 +67,7 @@ export class ActionHandler extends AbstractActionHandler {
           debug('Status', res.status, res.statusText)
 
           if (res.status == 200) {
-            await core.onRawMessage({ raw: data.jwt })
+            await core.validateMessage(new Message({ raw: data.jwt, meta: { type: 'DIDComm-sent' } }))
           }
 
           return res.status == 200

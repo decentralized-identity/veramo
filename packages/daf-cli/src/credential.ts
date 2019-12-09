@@ -1,3 +1,4 @@
+import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as DIDComm from 'daf-did-comm'
 import { core, dataStore } from './setup'
@@ -63,7 +64,7 @@ program
 
     await dataStore.initialize()
     if (!cmd.send) {
-      await core.onRawMessage({ raw: jwt })
+      await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
     } else {
       const sendAction: DIDComm.ActionSendJWT = {
         type: DIDComm.ActionTypes.sendJwt,
@@ -207,7 +208,7 @@ program
 
       await dataStore.initialize()
       if (!cmd.send) {
-        await core.onRawMessage({ raw: jwt })
+        await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
       } else {
         const sendAction: DIDComm.ActionSendJWT = {
           type: DIDComm.ActionTypes.sendJwt,

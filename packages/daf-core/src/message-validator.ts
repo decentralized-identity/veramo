@@ -1,12 +1,9 @@
-import { RawMessage, ValidatedMessage, PreValidatedMessage } from './types'
+import { Message } from './message'
 import { Core } from './core'
 
 export interface MessageValidator {
   setNext(messageValidator: MessageValidator): MessageValidator
-  validate: (
-    rawMessage: RawMessage,
-    core: Core,
-  ) => Promise<PreValidatedMessage | null>
+  validate: (message: Message, core: Core) => Promise<Message>
 }
 
 export abstract class AbstractMessageValidator implements MessageValidator {
@@ -17,13 +14,10 @@ export abstract class AbstractMessageValidator implements MessageValidator {
     return messageValidator
   }
 
-  public async validate(
-    rawMessage: RawMessage,
-    core: Core,
-  ): Promise<PreValidatedMessage | null> {
+  public async validate(message: Message, core: Core): Promise<Message> {
     if (this.nextMessageValidator) {
-      return this.nextMessageValidator.validate(rawMessage, core)
+      return this.nextMessageValidator.validate(message, core)
     }
-    return null
+    return Promise.reject('Unsupported message type')
   }
 }

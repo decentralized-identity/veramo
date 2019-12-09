@@ -1,13 +1,13 @@
 import { DIDDocument } from 'did-resolver'
 import { Resolver } from './core'
 import { Issuer } from './identity-manager'
-import { RawMessage, ValidatedMessage } from './types'
+import { Message } from './message'
 
 export interface ServiceControllerOptions {
   config: any
   issuer: Issuer
   didDoc: DIDDocument
-  onRawMessage: (rawMessage: RawMessage) => Promise<ValidatedMessage | null>
+  validateMessage: (message: Message) => Promise<Message>
 }
 
 export interface ServiceInstanceId {
@@ -34,18 +34,18 @@ export type ServiceControllerWithConfig = {
 interface Options {
   didResolver: Resolver
   serviceControllersWithConfig: ServiceControllerWithConfig[]
-  onRawMessage: (rawMessage: RawMessage) => Promise<ValidatedMessage | null>
+  validateMessage: (message: Message) => Promise<Message>
 }
 
 export class ServiceManager {
   private serviceControllersWithConfig: ServiceControllerWithConfig[]
-  private onRawMessage: (rawMessage: RawMessage) => Promise<ValidatedMessage | null>
+  private validateMessage: (message: Message) => Promise<Message>
   private serviceControllers: ServiceController[]
   private didResolver: Resolver
 
   constructor(options: Options) {
     this.serviceControllersWithConfig = options.serviceControllersWithConfig
-    this.onRawMessage = options.onRawMessage
+    this.validateMessage = options.validateMessage
     this.serviceControllers = []
     this.didResolver = options.didResolver
   }
@@ -60,7 +60,7 @@ export class ServiceManager {
               config,
               issuer,
               didDoc,
-              onRawMessage: this.onRawMessage,
+              validateMessage: this.validateMessage,
             }),
           )
         }

@@ -1,4 +1,4 @@
-import { EventTypes, Types } from 'daf-core'
+import { EventTypes, Message } from 'daf-core'
 import { core, dataStore } from './setup'
 import program from 'commander'
 import { setInterval } from 'timers'
@@ -14,7 +14,7 @@ program
 export const listen = async (pollSeconds?: number) => {
   await dataStore.initialize()
 
-  core.on(EventTypes.validatedMessage, async (msg: Types.ValidatedMessage) => {
+  core.on(EventTypes.validatedMessage, async (msg: Message) => {
     console.log('New message type:', msg.type)
   })
 
