@@ -201,15 +201,18 @@ export class DataStore {
   async allIdentities() {
     const vcSubjects = await this.db.rows('select distinct sub as did from verifiable_credentials', null)
     const vcIssuers = await this.db.rows('select distinct iss as did from verifiable_credentials', null)
-    const messageSubjects = await this.db.rows(
-      'select distinct sub as did from messages where sub is not null',
+    const messageReceivers = await this.db.rows(
+      'select distinct receiver as did from messages where receiver is not null',
       null,
     )
-    const messageIssuers = await this.db.rows('select distinct iss as did from messages', null)
+    const messageSenders = await this.db.rows(
+      'select distinct sender as did from messages where sender is not null',
+      null,
+    )
     const uniqueDids = [
       ...new Set([
-        ...messageSubjects.map((item: any) => item.did),
-        ...messageIssuers.map((item: any) => item.did),
+        ...messageReceivers.map((item: any) => item.did),
+        ...messageSenders.map((item: any) => item.did),
         ...vcIssuers.map((item: any) => item.did),
         ...vcSubjects.map((item: any) => item.did),
       ]),
@@ -244,8 +247,8 @@ export class DataStore {
   }
 
   async latestMessageTimestamps() {
-    let query =
-      'SELECT * from (select sub as did, nbf as timestamp, source_type as sourceType FROM messages ORDER BY nbf desc) GROUP BY did, sourceType'
+    let query = `SELECT * FROM ( SELECT m.id, m."timestamp", m.sender AS did, md. "type" AS sourceType, md.id AS sourceId FROM messages AS m
+      LEFT JOIN messages_meta_data AS md ON m.id = md.message_id) GROUP BY did, sourceType`
 
     return await this.db.rows(query, [])
   }
@@ -264,42 +267,121 @@ export class DataStore {
   }
 
   async saveMessage(message: Message) {
-    const query = sql
-      .insert('messages', {
-        hash: message.id,
-        iss: message.from,
-        sub: message.to,
-        nbf: message.timestamp,
-        type: message.type,
-        tag: message.threadId,
-        jwt: message.raw,
-        data: message.data && JSON.stringify(message.data),
-        meta: message.meta && JSON.stringify(message.meta),
-        source_type: message.meta.type,
-        source_id: message.meta.id,
-      })
+    const messageId = message.id
+
+    // Check if the message is already saved
+    const searchQuery = sql
+      .select('id')
+      .from('messages')
+      .where({ id: messageId })
       .toParams()
+    const searchResult = await this.db.rows(searchQuery.text, searchQuery.values)
+    if (searchResult.length > 0) {
+      this.updateMetaData(message)
+    } else {
+      const query = sql
+        .insert('messages', {
+          id: messageId,
+          sender: message.from,
+          receiver: message.to,
+          timestamp: message.timestamp,
+          type: message.type,
+          thread_id: message.threadId,
+          raw: message.raw,
+          data: message.data && JSON.stringify(message.data),
+        })
+        .toParams()
 
-    await this.db.run(query.text, query.values)
+      await this.db.run(query.text, query.values)
 
-    if (message.type == 'w3c.vp' || message.type == 'w3c.vc') {
-      for (const vc of message.vc) {
-        await this.saveVerifiableCredential(vc, message.id)
-      }
+      await this.saveMetaData(message)
+      await this.saveVerifiableCredentials(message)
     }
 
     return { hash: message.id, iss: { did: message.from } }
   }
 
-  async saveVerifiableCredential(vc: any, messageHash: string) {
+  private async updateMetaData(message: Message) {
+    const { id, allMeta } = message
+    for (const metaData of allMeta) {
+      const query = sql
+        .select('type, id, data')
+        .from('messages_meta_data')
+        .where({
+          message_id: id,
+          type: metaData.type,
+          id: metaData.id,
+        })
+        .toParams()
+      const rows = await this.db.rows(query.text, query.values)
+      if (rows.length === 0) {
+        const insertQuery = sql
+          .insert('messages_meta_data', {
+            message_id: id,
+            type: metaData.type,
+            id: metaData.id,
+            data: metaData.data && JSON.stringify(metaData.data),
+          })
+          .toParams()
+        await this.db.run(insertQuery.text, insertQuery.values)
+      }
+    }
+  }
+
+  private async saveMetaData(message: Message) {
+    const messageId = message.id
+
+    for (const metaData of message.allMeta) {
+      const query = sql
+        .insert('messages_meta_data', {
+          message_id: messageId,
+          type: metaData.type,
+          id: metaData.id,
+          data: metaData.data && JSON.stringify(metaData.data),
+        })
+        .toParams()
+      await this.db.run(query.text, query.values)
+    }
+  }
+
+  async saveVerifiableCredentials(message: Message) {
+    const messageId = message.id
+
+    if (message.type == 'w3c.vp' || message.type == 'w3c.vc') {
+      for (const vc of message.vc) {
+        await this.saveVerifiableCredential(vc, messageId)
+      }
+    }
+  }
+
+  async saveVerifiableCredential(vc: any, messageId: string) {
     const verifiableCredential = vc.payload as any
 
     const vcHash = blake.blake2bHex(vc.jwt)
 
+    const metaData = sql
+      .insert('verifiable_credentials_meta_data', {
+        message_id: messageId,
+        hash: vcHash,
+      })
+      .toParams()
+
+    await this.db.run(metaData.text, metaData.values)
+
+    // Check if
+    const searchQuery = sql
+      .select('hash')
+      .from('verifiable_credentials')
+      .where({ hash: vcHash })
+      .toParams()
+    const searchResult = await this.db.rows(searchQuery.text, searchQuery.values)
+    if (searchResult.length > 0) {
+      return vcHash
+    }
+
     const query = sql
       .insert('verifiable_credentials', {
         hash: vcHash,
-        parent_hash: messageHash,
         iss: verifiableCredential.iss,
         sub: verifiableCredential.sub,
         nbf: verifiableCredential.nbf,

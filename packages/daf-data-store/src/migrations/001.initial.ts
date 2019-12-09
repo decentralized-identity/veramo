@@ -4,28 +4,31 @@ export const initial: Migration = {
   run: async (db: DbDriver) => {
     await db.run(
       `CREATE TABLE IF NOT EXISTS messages (
-      hash TEXT,
-      parent_hash TEXT,
-      iss TEXT,
-      sub TEXT,
+      id TEXT PRIMARY KEY,
+      thread_id TEXT,
+      sender TEXT,
+      receiver TEXT,
       type TEXT,
-      tag TEXT,
       data TEXT,
-      iat NUMERIC,
-      nbf NUMERIC,
-      jwt TEXT,
-      meta TEXT,
-      source_type TEXT,
-      source_id TEXT,
-      internal NUMERIC NOT NULL default 1
-    );`,
+      raw TEXT,
+      timestamp NUMERIC
+      );`,
+      [],
+    )
+
+    await db.run(
+      `CREATE TABLE IF NOT EXISTS messages_meta_data (
+      message_id TEXT,
+      data TEXT,
+      type TEXT,
+      id TEXT
+      );`,
       [],
     )
 
     await db.run(
       `CREATE TABLE IF NOT EXISTS verifiable_credentials (
       hash TEXT,
-      parent_hash TEXT,
       iss TEXT,
       aud TEXT,
       sub TEXT,
@@ -34,6 +37,14 @@ export const initial: Migration = {
       jwt TEXT,
       internal NUMERIC NOT NULL default 1
     );`,
+      [],
+    )
+
+    await db.run(
+      `CREATE TABLE IF NOT EXISTS verifiable_credentials_meta_data (
+      message_id TEXT,
+      hash TEXT
+      );`,
       [],
     )
 
@@ -47,20 +58,6 @@ export const initial: Migration = {
       claim_value TEXT,
       is_obj NUMERIC NOT NULL default 0
     );`,
-      [],
-    )
-
-    await db.run(
-      `CREATE TRIGGER IF NOT EXISTS delete_messages BEFORE DELETE ON "messages" BEGIN
-      DELETE FROM verifiable_credentials where parent_hash = old.hash;
-    END;`,
-      [],
-    )
-
-    await db.run(
-      `CREATE TRIGGER IF NOT EXISTS delete_verifiable_credentials BEFORE DELETE ON "verifiable_credentials" BEGIN
-      DELETE FROM verifiable_credentials_fields where parent_hash = old.hash;
-    END;`,
       [],
     )
   },
