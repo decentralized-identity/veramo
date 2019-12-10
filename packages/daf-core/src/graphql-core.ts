@@ -1,17 +1,24 @@
 import { Core } from './core'
+import { Message } from './message'
 
 interface Context {
   core: Core
 }
 
-const newMessage = async (_: any, args: { raw: string, sourceType: string, sourceId?: string }, ctx: Context) => {
-  return await ctx.core.onRawMessage({ 
-    raw: args.raw,
-    meta: [{
-      sourceType: args.sourceType,
-      sourceId: args.sourceId
-    }]
-  })
+const newMessage = async (
+  _: any,
+  args: { raw: string; sourceType: string; sourceId?: string },
+  ctx: Context,
+) => {
+  return await ctx.core.validateMessage(
+    new Message({
+      raw: args.raw,
+      meta: {
+        type: args.sourceType,
+        id: args.sourceId,
+      },
+    }),
+  )
 }
 
 export const resolvers = {

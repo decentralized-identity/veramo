@@ -1,1 +1,1 @@
-export { MessageValidator, DidJwtPayloadValidator } from './message-validator'
+export { MessageValidator } from './message-validator'

@@ -25,6 +25,7 @@
     "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
     "daf-sodium-fs": "../../packages/daf-sodium-fs",
     "daf-trust-graph": "../../packages/daf-trust-graph",
+    "daf-url": "../../packages/daf-url",
     "daf-w3c": "../../packages/daf-w3c",
     "debug": "^4.1.1",
     "express": "^4.17.1",

@@ -10,7 +10,7 @@ import * as SD from 'daf-selective-disclosure'
 import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as DIDComm from 'daf-did-comm'
-import { SodiumFsEncryptionKeyManager } from 'daf-sodium-fs'
+import * as URL from 'daf-url'
 
 import { NodeSqlite3 } from 'daf-node-sqlite3'
 import { DataStore } from 'daf-data-store'
@@ -22,8 +22,7 @@ const debug = Debug('main')
 const defaultPath = process.env.HOME + '/.daf'
 
 const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store.json'
-const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store.sqlite3'
-const encryptionStoreFilename = process.env.DAF_ENCRYPTION_STORE ?? defaultPath + '/encryption-store.json'
+const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store-cli.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env.DAF_ENCRYPTION_STORE) {
@@ -47,11 +46,12 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
 const identityControllers = [new EthrDidFsController(identityStoreFilename)]
 
 const messageValidator = new DBG.MessageValidator()
-messageValidator.setNext(new DIDComm.MessageValidator()).setNext(
-  new DidJwt.MessageValidator({
-    payloadValidators: [new W3c.PayloadValidator(), new SD.PayloadValidator()],
-  }),
-)
+messageValidator
+  .setNext(new URL.MessageValidator())
+  .setNext(new DIDComm.MessageValidator())
+  .setNext(new DidJwt.MessageValidator())
+  .setNext(new W3c.MessageValidator())
+  .setNext(new SD.MessageValidator())
 
 const actionHandler = new DBG.ActionHandler()
 actionHandler
@@ -65,7 +65,6 @@ actionHandler
   .setNext(new SD.ActionHandler())
 
 const serviceControllersWithConfig = [
-  // { controller: Rnd.RandomMessageService, config: {}},
   {
     controller: TG.TrustGraphServiceController,
     config: {
@@ -76,21 +75,18 @@ const serviceControllersWithConfig = [
   },
 ]
 
-const encryptionKeyManager = new SodiumFsEncryptionKeyManager(encryptionStoreFilename)
-
 export const core = new Daf.Core({
   identityControllers,
   serviceControllersWithConfig,
   didResolver,
   messageValidator,
   actionHandler,
-  encryptionKeyManager,
 })
 
 const db = new NodeSqlite3(dataStoreFilename)
 export const dataStore = new DataStore(db)
 
-core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Types.ValidatedMessage) => {
+core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
   debug('New message %O', message)
   await dataStore.saveMessage(message)
 })

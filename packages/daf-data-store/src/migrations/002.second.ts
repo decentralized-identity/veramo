@@ -2,37 +2,29 @@ import { DbDriver, Migration } from '../types'
 
 export const second: Migration = {
   run: async (db: DbDriver) => {
+    await db.run(`CREATE INDEX IF NOT EXISTS "messages_id" ON "messages" ("id");`, [])
+    await db.run(`CREATE INDEX IF NOT EXISTS "messages_thread_id" ON "messages" ("thread_id");`, [])
+    await db.run(`CREATE INDEX IF NOT EXISTS "messages_receiver" ON "messages" ("receiver");`, [])
+    await db.run(`CREATE INDEX IF NOT EXISTS "messages_sender" ON "messages" ("sender");`, [])
     await db.run(
-      `CREATE INDEX IF NOT EXISTS "messages_hash" ON "messages" ("hash");`,
+      `CREATE INDEX IF NOT EXISTS "messages_meta_data_message_id" ON "messages_meta_data" ("message_id");`,
       [],
     )
+
+    await db.run(`CREATE INDEX IF NOT EXISTS "messages_meta_data_type" ON "messages_meta_data" ("type");`, [])
+
+    await db.run(`CREATE INDEX IF NOT EXISTS "messages_meta_data_id" ON "messages_meta_data" ("id");`, [])
+
     await db.run(
-      `CREATE INDEX IF NOT EXISTS "messages_parent_hash" ON "messages" ("parent_hash");`,
-      [],
-    )
-    await db.run(
-      `CREATE INDEX IF NOT EXISTS "messages_sub" ON "messages" ("sub");`,
-      [],
-    )
-    await db.run(
-      `CREATE INDEX IF NOT EXISTS "messages_iss" ON "messages" ("iss");`,
+      `CREATE INDEX IF NOT EXISTS "verifiable_credentials_meta_data_message_id" ON "verifiable_credentials_meta_data" ("message_id");`,
       [],
     )
 
     await db.run(
-      `CREATE INDEX IF NOT EXISTS "messages_source_type" ON "messages" ("source_type");`,
+      `CREATE INDEX IF NOT EXISTS "verifiable_credentials_meta_data_hash" ON "verifiable_credentials_meta_data" ("hash");`,
       [],
     )
 
-    await db.run(
-      `CREATE INDEX IF NOT EXISTS "messages_source_id" ON "messages" ("source_id");`,
-      [],
-    )
-
-    await db.run(
-      `CREATE INDEX IF NOT EXISTS "verifiable_credentials_parent_hash" ON "verifiable_credentials" ("parent_hash");`,
-      [],
-    )
     await db.run(
       `CREATE INDEX IF NOT EXISTS "verifiable_credentials_iss" ON "verifiable_credentials" ("iss");`,
       [],

@@ -1,6 +1,6 @@
 {
-  "name": "daf-random",
-  "description": "DAF Random message service",
+  "name": "daf-url",
+  "description": "DAF URL message validator",
   "version": "0.9.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -10,11 +10,11 @@
   "dependencies": {
     "daf-core": "^0.9.0",
     "debug": "^4.1.1",
-    "faker": "^4.1.0"
+    "url-parse": "^1.4.7"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "@types/faker": "^4.1.7",
+    "@types/url-parse": "^1.4.3",
     "typescript": "^3.7.2"
   },
   "files": [
