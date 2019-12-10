@@ -15,8 +15,8 @@ export class MessageValidator extends AbstractMessageValidator {
       debug('JWT type is', MessageTypes.sdr)
 
       message.type = MessageTypes.sdr
-      message.from = message.data.iss
-      message.to = message.data.sub
+      message.sender = message.data.iss
+      message.receiver = message.data.sub
       message.threadId = message.data.tag
       message.timestamp = message.data.nbf || message.data.iat
       return message

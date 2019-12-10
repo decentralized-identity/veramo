@@ -7,8 +7,8 @@ it('empty message should not be valid', () => {
   const msg = new Message({ raw: '', meta: { type: '' } })
   expect(msg.type).toEqual(null)
   expect(msg.threadId).toEqual(null)
-  expect(msg.from).toEqual(null)
-  expect(msg.to).toEqual(null)
+  expect(msg.sender).toEqual(null)
+  expect(msg.receiver).toEqual(null)
   expect(msg.isValid()).toEqual(false)
 })
 
@@ -23,11 +23,11 @@ it('valid message should be valid', () => {
   msg.threadId = '456'
   expect(msg.threadId).toEqual('456')
 
-  msg.from = 'did:example:abc'
-  expect(msg.from).toEqual('did:example:abc')
+  msg.sender = 'did:example:abc'
+  expect(msg.sender).toEqual('did:example:abc')
 
-  msg.to = 'did:example:xyz'
-  expect(msg.to).toEqual('did:example:xyz')
+  msg.receiver = 'did:example:xyz'
+  expect(msg.receiver).toEqual('did:example:xyz')
 
   expect(msg.isValid()).toEqual(true)
 })

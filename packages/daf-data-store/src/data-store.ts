@@ -293,8 +293,8 @@ export class DataStore {
       const query = sql
         .insert('messages', {
           id: messageId,
-          sender: message.from,
-          receiver: message.to,
+          sender: message.sender,
+          receiver: message.receiver,
           timestamp: message.timestamp,
           type: message.type,
           thread_id: message.threadId,
@@ -309,7 +309,7 @@ export class DataStore {
       await this.saveVerifiableCredentials(message)
     }
 
-    return { hash: message.id, iss: { did: message.from } }
+    return { hash: message.id, iss: { did: message.sender } }
   }
 
   private async updateMetaData(message: Message) {

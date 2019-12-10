@@ -18,8 +18,8 @@ export class Message {
   private _id: string | null = null
   public type: string | null = null
   public threadId: string | null = null
-  public from: string | null = null
-  public to: string | null = null
+  public sender: string | null = null
+  public receiver: string | null = null
   public timestamp: number | null = null
   public vc?: any
 
@@ -71,15 +71,8 @@ export class Message {
   }
 
   isValid() {
-    if (this.from === null) {
-      return false
-    }
     if (this.type === null || this.type === '') {
       debug('Missing `type` in %o', this)
-      return false
-    }
-    if (this.from === null || this.from === '') {
-      debug('Missing `from` in %o', this)
       return false
     }
     if (!this.raw || this.raw === null || this.raw === '') {

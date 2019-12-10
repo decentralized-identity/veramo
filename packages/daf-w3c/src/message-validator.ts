@@ -31,8 +31,8 @@ export class MessageValidator extends AbstractMessageValidator {
         )
 
         message.type = MessageTypes.vp
-        message.from = message.data.iss
-        message.to = message.data.aud
+        message.sender = message.data.iss
+        message.receiver = message.data.aud
         message.threadId = message.data.tag
         message.timestamp = message.data.nbf || message.data.iat
         message.vc = vc
@@ -45,8 +45,8 @@ export class MessageValidator extends AbstractMessageValidator {
         debug('JWT is', MessageTypes.vc)
 
         message.type = MessageTypes.vc
-        message.from = message.data.iss
-        message.to = message.data.sub
+        message.sender = message.data.iss
+        message.receiver = message.data.sub
         message.threadId = message.data.tag
         message.timestamp = message.data.nbf || message.data.iat
         message.vc = [{ payload: message.data, jwt: message.raw }]
