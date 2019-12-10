@@ -1,5 +1,5 @@
 import { blake2bHex } from 'blakejs'
-import Debug from 'Debug'
+import Debug from 'debug'
 const debug = Debug('daf:message')
 
 export interface MetaData {
