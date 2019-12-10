@@ -23,22 +23,22 @@ const core = new Daf.core({
 // After scanning QR Code:
 // qrcodeData = 'https://example.com/ssi?c_i=eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1NzU2MzIyNDQsInR5cGUiOiJzZHIiLCJ0YWciOiJzZXNzLTEyMyIsImNsYWltcyI6W3siZXNzZW50aWFsIjp0cnVlLCJjbGFpbVR5cGUiOiJuYW1lIiwicmVhc29uIjoiV2UgbmVlZCB0aGlzIHRvIGNvbXBseSB3aXRoIGxvY2FsIGxhdyJ9XSwiaXNzIjoiZGlkOmV0aHI6MHg2YjFkMGRiMzY3NjUwZjIxYmFlNDg1MDM0N2M3YTA0N2YwNGRlNDM2In0.lhv_sGFQX0258CJF50J9cRdF7mmzo9Jx137oWTu0VF3A1CkEI88dDYA5Usj0HKH_2tHKA5b-S1_Akb-mDz9v9QE'
 
-const msg = new Daf.Message({ raw: qrcodeData, meta: { sourceType: 'QRCode' })
+const msg = new Daf.Message({ raw: qrcodeData, meta: { type: 'QRCode' })
 
 const message = await core.validateMessage(msg)
 
 if (message.isValid()) {
   message.id() // hash...
-  message.from() // did:ethr:0x6b1d0db367650f21bae4850347c7a047f04de436
-  message.to() // null
+  message.sender() // did:ethr:0x6b1d0db367650f21bae4850347c7a047f04de436
+  message.receiver() // null
   message.type() // sdr
-  message.data() // { iss: 'did:ethr:0x6b1d0db367650f21bae4850347c7a047f04de436', tag: 'sess-123, claims: [{claimType: 'name', ...}] ...
+  message.data() // "{ iss: 'did:ethr:0x6b1d0db367650f21bae4850347c7a047f04de436', tag: 'sess-123, claims: [{claimType: 'name', ...}] ..."
   message.meta()
   /*
   [
-    { sourceType: 'QRCode' },
-    { sourceType: 'URL', sourceId: 'https://example.com/ssi' },
-    { sourceType: 'JWT', sourceId: 'ES256K-R' },
+    { type: 'QRCode' },
+    { type: 'URL', id: 'https://example.com/ssi' },
+    { type: 'JWT', id: 'ES256K-R' },
   ]
   */
 }
@@ -60,7 +60,7 @@ Outputs debug info. And passes through the same message object to the next valid
 
 msg.transform({
   raw: jwt,
-  meta: { sourceType: 'URL', sourceId: 'https://example.com/ssi' },
+  meta: { type: 'URL', id: 'https://example.com/ssi' },
 })
 ```
 
@@ -92,7 +92,7 @@ validated.payload = {
 msg.transform({
   raw: jwt,
   data: validated.payload,
-  meta: { sourceType: validated.header.typ, sourceId: validated.header.alg },
+  meta: { type: validated.header.typ, id: validated.header.alg },
 })
 ```
 
@@ -109,15 +109,10 @@ msg.transform({
 - Sets required fields and returns validate message
 
 ```ts
-const { raw, data, meta } = msg.getLast()
-
-msg.hash(raw)
-msg.setThreadId(null)
-msg.setFrom(raw.iss)
-msg.setTo(null)
-msg.setType(data.type)
-msg.setTimestamp(data.nbf)
-msg.setData(data)
-
+msg.type = 'sdr'
+msg.sender = msg.data.iss
+msg.receiver = msg.data.sub
+msg.threadId = msg.data.tag
+msg.timestamp = msg.data.nbf || msg.data.iat
 return msg
 ```
