@@ -37,7 +37,6 @@ export class DataStore {
     return rows.map((row: any) => ({
       rowId: `${row.rowid}`,
       hash: row.hash,
-      parentHash: row.parent_hash,
       iss: { did: row.iss },
       sub: { did: row.sub },
       jwt: row.jwt,
@@ -46,11 +45,12 @@ export class DataStore {
     }))
   }
 
-  async credentialsForMessageHash(hash: string) {
+  async credentialsForMessageId(id: string) {
     const query = sql
-      .select('rowid', '*')
-      .from('verifiable_credentials')
-      .where({ parent_hash: hash })
+      .select('md.rowid', 'vc.*')
+      .from('verifiable_credentials_meta_data as md')
+      .leftJoin('verifiable_credentials as vc', { 'md.hash': 'vc.hash' })
+      .where({ 'md.message_id': id })
       .toParams()
 
     const rows = await this.db.rows(query.text, query.values)
@@ -58,7 +58,6 @@ export class DataStore {
     return rows.map((row: any) => ({
       rowId: `${row.rowid}`,
       hash: row.hash,
-      parentHash: row.parent_hash,
       iss: { did: row.iss },
       sub: { did: row.sub },
       jwt: row.jwt,
@@ -125,7 +124,6 @@ export class DataStore {
     return rows2.map((row: any) => ({
       rowId: `${row.rowid}`,
       hash: row.hash,
-      parentHash: row.parent_hash,
       iss: { did: row.iss },
       sub: { did: row.sub },
       jwt: row.jwt,
@@ -135,23 +133,35 @@ export class DataStore {
     }))
   }
 
-  async findMessages({ iss, sub, tag, limit }: { iss?: string; sub?: string; tag?: string; limit?: number }) {
+  async findMessages({
+    sender,
+    receiver,
+    threadId,
+    limit,
+  }: {
+    sender?: string
+    receiver?: string
+    threadId?: string
+    limit?: number
+  }) {
     let where = {}
 
-    if (iss && sub) {
-      where = sql.or(where, { iss, sub })
+    if (sender && receiver) {
+      where = sql.or(where, { sender, receiver })
     } else {
-      if (iss) where = sql.and(where, { iss })
-      if (sub) where = sql.and(where, { sub })
+      if (sender) where = sql.and(where, { sender })
+      if (receiver) where = sql.and(where, { receiver })
     }
-    if (tag) where = sql.and(where, { tag })
-    where = sql.or(where, { sub: null })
+    if (sender || receiver) {
+      where = sql.or(where, { receiver: null })
+    }
+    if (threadId) where = sql.and(where, { thread_id: threadId })
 
     let query = sql
       .select('rowid', '*')
       .from('messages')
       .where(where)
-      .orderBy('nbf desc')
+      .orderBy('timestamp desc')
 
     if (limit) {
       query = query.limit(limit)
@@ -162,37 +172,36 @@ export class DataStore {
     const rows = await this.db.rows(query.text, query.values)
     return rows.map((row: any) => ({
       rowId: `${row.rowid}`,
-      hash: row.hash,
-      iss: { did: row.iss },
-      sub: row.sub ? { did: row.sub } : null,
+      id: row.id,
+      sender: row.sender ? { did: row.sender } : null,
+      receiver: row.receiver ? { did: row.receiver } : null,
       type: row.type,
-      tag: row.tag,
+      threadId: row.thread_id,
       data: row.data,
-      jwt: row.jwt,
-      nbf: row.nbf,
-      iat: row.iat,
+      raw: row.raw,
+      timestamp: row.timestamp,
     }))
   }
 
-  async findMessage(hash: string) {
+  async findMessage(id: string) {
     const query = sql
       .select('rowid', '*')
       .from('messages')
-      .where({ hash })
+      .where({ id })
       .toParams()
 
     const rows = await this.db.rows(query.text, query.values)
 
     const mapped = rows.map((row: any) => ({
       rowId: `${row.rowid}`,
-      hash: row.hash,
-      iss: { did: row.iss },
-      sub: row.sub ? { did: row.sub } : null,
+      id: row.id,
+      sender: row.sender ? { did: row.sender } : null,
+      receiver: row.receiver ? { did: row.receiver } : null,
       type: row.type,
-      tag: row.tag,
-      jwt: row.jwt,
+      threadId: row.thread_id,
       data: row.data,
-      nbf: row.nbf,
+      raw: row.raw,
+      timestamp: row.timestamp,
     }))
 
     return mapped[0]
@@ -239,7 +248,9 @@ export class DataStore {
     let query = sql
       .select('count(*) as count')
       .from('messages')
-      .where(sql.or(sql.and({ iss: did1 }, { sub: did2 }), sql.and({ iss: did2 }, { sub: did1 })))
+      .where(
+        sql.or(sql.and({ sender: did1 }, { receiver: did2 }), sql.and({ sender: did2 }, { receiver: did1 })),
+      )
       .toParams()
     const rows = await this.db.rows(query.text, query.values)
 
@@ -417,6 +428,46 @@ export class DataStore {
     }
 
     return vcHash
+  }
+
+  async findMessagesByVC(hash: string) {
+    let query = sql
+      .select('md.rowid', 'm.*')
+      .from('verifiable_credentials_meta_data as md')
+      .leftJoin('messages as m', { 'md.message_id': 'm.id' })
+      .where({ 'md.hash': hash })
+
+    query = query.toParams()
+
+    const rows = await this.db.rows(query.text, query.values)
+    return rows.map((row: any) => ({
+      rowId: `${row.rowid}`,
+      id: row.id,
+      sender: row.sender ? { did: row.sender } : null,
+      receiver: row.receiver ? { did: row.receiver } : null,
+      type: row.type,
+      threadId: row.thread_id,
+      data: row.data,
+      raw: row.raw,
+      timestamp: row.timestamp,
+    }))
+  }
+
+  async messageMetaData(id: string) {
+    let query = sql
+      .select('rowid', '*')
+      .from('messages_meta_data')
+      .where({ message_id: id })
+
+    query = query.toParams()
+
+    const rows = await this.db.rows(query.text, query.values)
+    return rows.map((row: any) => ({
+      rowId: `${row.rowid}`,
+      type: row.type,
+      id: row.id,
+      data: row.data,
+    }))
   }
 
   deleteMessage(hash: string) {

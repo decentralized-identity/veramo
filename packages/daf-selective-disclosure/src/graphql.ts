@@ -26,9 +26,9 @@ const actionSignSDR = async (
 }
 
 const sdr = async (message: any, { sub }: { sub: string }, { dataStore }: Context) => {
-  const { payload }: { payload: SDRInput } = (await decodeJWT(message.jwt)) as any
+  const { payload }: { payload: SDRInput } = (await decodeJWT(message.raw)) as any
   const result: any = []
-  const subject = sub || message.sub?.did
+  const subject = sub || message.receiver?.did
   if (payload.claims) {
     for (const credentialRequest of payload.claims) {
       const iss: any =

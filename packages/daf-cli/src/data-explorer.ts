@@ -29,7 +29,7 @@ program
       const answers = await inquirer.prompt([
         {
           type: 'list',
-          name: 'sub',
+          name: 'did',
           choices: identities,
           message: 'Identity',
         },
@@ -43,15 +43,19 @@ program
 
       switch (answers.type) {
         case 'Sent Messages':
-          showMessageList(await dataStore.findMessages({ iss: answers.sub }))
+          showMessageList(await dataStore.findMessages({ sender: answers.did }))
           break
         case 'Received Messages':
-          showMessageList(await dataStore.findMessages({ sub: answers.sub }))
+          showMessageList(await dataStore.findMessages({ receiver: answers.did }))
           break
         case 'Credentials':
-          showCredentials(answers.sub)
+          showCredentials(answers.did)
           break
       }
+    }
+
+    if (cmd.messages) {
+      showMessageList(await dataStore.findMessages({}))
     }
   })
 
@@ -64,23 +68,25 @@ const showMessageList = async (messages: any) => {
   const answers = await inquirer.prompt([
     {
       type: 'list',
-      name: 'hash',
+      name: 'id',
       choices: messages.map((item: any) => ({
-        name: `${formatDistanceToNow(item.nbf * 1000)} ${item.type}`,
-        value: item.hash,
+        name: `${formatDistanceToNow(item.timestamp * 1000)} ${item.type} from: ${item.sender?.did} to: ${
+          item.receiver?.did
+        }`,
+        value: item.id,
       })),
       message: 'Message',
     },
   ])
-  showMessage(answers.hash)
+  showMessage(answers.id)
 }
 
-const showMessage = async (hash: string) => {
-  const message = await dataStore.findMessage(hash)
+const showMessage = async (id: string) => {
+  const message = await dataStore.findMessage(id)
   console.log(message)
 
   const table = []
-  const credentials = await dataStore.credentialsForMessageHash(hash)
+  const credentials = await dataStore.credentialsForMessageId(id)
   if (credentials.length > 0) {
     for (const credential of credentials) {
       const fields = await dataStore.credentialsFieldsForClaimHash(credential.hash)

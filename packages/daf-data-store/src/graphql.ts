@@ -6,10 +6,17 @@ interface Context {
 
 export const resolvers = {
   Message: {
-    vc: async (message: any, {}, { dataStore }: Context) => dataStore.credentialsForMessageHash(message.hash),
+    vc: async (message: any, {}, { dataStore }: Context) => dataStore.credentialsForMessageId(message.id),
+    metaData: async (message: any, {}, { dataStore }: Context) => dataStore.messageMetaData(message.id),
+    thread: async (message: any, {}, { dataStore }: Context) => {
+      const messages = await dataStore.findMessages({ threadId: message.threadId })
+      console.log('AAAA', messages)
+      return messages.filter((item: any) => item.id !== message.id)
+    },
   },
   VerifiableClaim: {
     fields: async (vc: any, {}, { dataStore }: Context) => dataStore.credentialsFieldsForClaimHash(vc.hash),
+    inMessages: async (vc: any, {}, { dataStore }: Context) => dataStore.findMessagesByVC(vc.hash),
   },
   Identity: {
     shortId: async (identity: any, {}, { dataStore }: Context) => dataStore.shortId(identity.did),
@@ -47,13 +54,13 @@ export const resolvers = {
       return dataStore.findCredentials({ iss: identity.did, sub: identity.did })
     },
     messagesSent: async (identity: any, args: any, { dataStore }: Context) => {
-      return dataStore.findMessages({ iss: identity.did })
+      return dataStore.findMessages({ sender: identity.did })
     },
     messagesReceived: async (identity: any, args: any, { dataStore }: Context) => {
-      return dataStore.findMessages({ sub: identity.did })
+      return dataStore.findMessages({ receiver: identity.did })
     },
     messagesAll: async (identity: any, args: any, { dataStore }: Context) => {
-      return dataStore.findMessages({ iss: identity.did, sub: identity.did })
+      return dataStore.findMessages({ sender: identity.did, receiver: identity.did })
     },
   },
   Query: {
@@ -64,21 +71,25 @@ export const resolvers = {
     },
     messages: async (
       _: any,
-      { iss, sub, tag, limit }: { iss: string; sub: string; tag: string; limit: number },
+      {
+        sender,
+        receiver,
+        threadId,
+        limit,
+      }: { sender: string; receiver: string; threadId: string; limit: number },
       { dataStore }: Context,
     ) => {
-      return dataStore.findMessages({ iss, sub, tag, limit })
+      return dataStore.findMessages({ sender, receiver, threadId, limit })
     },
-    message: async (_: any, { hash }: { hash: string }, { dataStore }: Context) =>
-      dataStore.findMessage(hash),
+    message: async (_: any, { id }: { id: string }, { dataStore }: Context) => dataStore.findMessage(id),
     credentials: async (_: any, { iss, sub }: { iss: string; sub: string }, { dataStore }: Context) => {
       const res = await dataStore.findCredentials({ iss, sub })
       return res
     },
   },
   Mutation: {
-    deleteMessage: async (_: any, { hash }: { hash: string }, { dataStore }: Context) =>
-      dataStore.deleteMessage(hash),
+    deleteMessage: async (_: any, { id }: { id: string }, { dataStore }: Context) =>
+      dataStore.deleteMessage(id),
   },
 }
 
@@ -86,8 +97,8 @@ export const typeDefs = `
   extend type Query {
     identity(did: ID!): Identity
     identities(dids: [ID!]): [Identity]
-    messages(iss: ID, sub: ID, tag: String, limit: Int): [Message]
-    message(hash: ID!): Message!
+    messages(sender: ID, reveiver: ID, threadId: String, limit: Int): [Message]
+    message(id: ID!): Message!
     credentials(iss: ID, sub: ID): [VerifiableClaim]
   }
 
@@ -112,20 +123,11 @@ export const typeDefs = `
   }
   
   extend type Message {
-    iss: Identity!
-    sub: Identity
-    jwt: String!
-    data: String!
-    iat: Int
-    nbf: Int
-    vis: String
-    tag: String
     vc: [VerifiableClaim]
   }
 
   type VerifiableClaim {
     hash: ID!
-    parentHash: ID!
     rowId: String!
     iss: Identity!
     sub: Identity!
@@ -135,6 +137,7 @@ export const typeDefs = `
     iat: Int
     exp: Int
     fields: [VerifiableClaimField]
+    inMessages: [Message]
   }
 
   type VerifiableClaimField {
