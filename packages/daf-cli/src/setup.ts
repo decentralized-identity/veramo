@@ -10,6 +10,7 @@ import * as SD from 'daf-selective-disclosure'
 import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as DIDComm from 'daf-did-comm'
+import * as URL from 'daf-url'
 
 import { NodeSqlite3 } from 'daf-node-sqlite3'
 import { DataStore } from 'daf-data-store'
@@ -46,6 +47,7 @@ const identityControllers = [new EthrDidFsController(identityStoreFilename)]
 
 const messageValidator = new DBG.MessageValidator()
 messageValidator
+  .setNext(new URL.MessageValidator())
   .setNext(new DIDComm.MessageValidator())
   .setNext(new DidJwt.MessageValidator())
   .setNext(new W3c.MessageValidator())

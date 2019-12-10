@@ -1,5 +1,5 @@
 import * as Daf from 'daf-core'
-import { core } from './setup'
+import { core, dataStore } from './setup'
 import program from 'commander'
 
 program
@@ -7,6 +7,7 @@ program
   .description('Handle raw message (JWT)')
   .action(async raw => {
     try {
+      await dataStore.initialize()
       const result = await core.validateMessage(
         new Daf.Message({
           raw,
