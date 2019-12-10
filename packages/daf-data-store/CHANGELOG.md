@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.1](https://github.com/uport-project/daf/compare/v0.10.0...v0.10.1) (2019-12-10)
+
+
+### Bug Fixes
+
+* Ordering in latestMessageTimestamps ([fca9995](https://github.com/uport-project/daf/commit/fca9995f1fd9c1fa09ba024f8d0eeb417d97b9ee))
+
+
+
+
+
 # [0.10.0](https://github.com/uport-project/daf/compare/v0.9.0...v0.10.0) (2019-12-10)
 
 

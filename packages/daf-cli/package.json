@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -16,12 +16,12 @@
     "commander": "^4.0.1",
     "console-table-printer": "^1.1.15",
     "daf-core": "^0.10.0",
-    "daf-data-store": "^0.10.0",
+    "daf-data-store": "^0.10.1",
     "daf-debug": "^0.10.0",
     "daf-did-comm": "^0.10.0",
     "daf-did-jwt": "^0.10.0",
     "daf-ethr-did-fs": "^0.10.0",
-    "daf-node-sqlite3": "^0.10.0",
+    "daf-node-sqlite3": "^0.10.1",
     "daf-resolver": "^0.10.0",
     "daf-resolver-universal": "^0.10.0",
     "daf-selective-disclosure": "^0.10.0",
