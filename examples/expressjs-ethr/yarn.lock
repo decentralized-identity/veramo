@@ -586,65 +586,65 @@ cross-fetch@^3.0.4:
     node-fetch "2.6.0"
     whatwg-fetch "3.0.0"
 
-daf-core@../../packages/daf-core, daf-core@^0.9.0:
-  version "0.9.0"
+daf-core@../../packages/daf-core, daf-core@^0.10.0:
+  version "0.10.0"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
 
-daf-data-store@../../packages/daf-data-store, daf-data-store@^0.9.0:
-  version "0.9.0"
+daf-data-store@../../packages/daf-data-store, daf-data-store@^0.10.0:
+  version "0.10.0"
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^0.9.0"
+    daf-core "^0.10.0"
     debug "^4.1.1"
     sql-bricks-sqlite "^0.1.0"
 
 daf-debug@../../packages/daf-debug:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
-    daf-core "^0.9.0"
+    daf-core "^0.10.0"
     debug "^4.1.1"
 
 daf-did-comm@../../packages/daf-did-comm:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
     DIDComm-js "git://github.com/uport-project/DIDComm-js.git#fix/build-issues"
-    daf-core "^0.9.0"
+    daf-core "^0.10.0"
     debug "^4.1.1"
     uuid "^3.3.3"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^0.9.0:
-  version "0.9.0"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^0.10.0:
+  version "0.10.0"
   dependencies:
-    daf-core "^0.9.0"
+    daf-core "^0.10.0"
     debug "^4.1.1"
     did-jwt "^3.0.0"
     did-resolver "^1.1.0"
 
 daf-ethr-did-fs@../../packages/daf-ethr-did-fs:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
-    daf-core "^0.9.0"
+    daf-core "^0.10.0"
     debug "^4.1.1"
     ethr-did "^1.1.0"
 
 daf-node-sqlite3@../../packages/daf-node-sqlite3:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
-    daf-data-store "^0.9.0"
+    daf-data-store "^0.10.0"
     debug "^4.1.1"
     sqlite3 "^4.1.0"
 
 daf-resolver-universal@../../packages/daf-resolver-universal:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
     cross-fetch "^3.0.4"
     debug "^4.1.1"
 
 daf-resolver@../../packages/daf-resolver:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
     debug "^4.1.1"
     did-resolver "^1.1.0"
@@ -653,22 +653,22 @@ daf-resolver@../../packages/daf-resolver:
     web-did-resolver "^1.2.0"
 
 daf-selective-disclosure@../../packages/daf-selective-disclosure:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
-    daf-core "^0.9.0"
-    daf-did-jwt "^0.9.0"
+    daf-core "^0.10.0"
+    daf-did-jwt "^0.10.0"
     debug "^4.1.1"
     did-jwt "^3.0.0"
 
 daf-sodium-fs@../../packages/daf-sodium-fs:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
-    daf-core "^0.9.0"
+    daf-core "^0.10.0"
     debug "^4.1.1"
     libsodium-wrappers "^0.7.6"
 
 daf-trust-graph@../../packages/daf-trust-graph:
-  version "0.9.0"
+  version "0.10.0"
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"
@@ -677,18 +677,25 @@ daf-trust-graph@../../packages/daf-trust-graph:
     apollo-link-ws "^1.0.19"
     apollo-utilities "^1.3.2"
     cross-fetch "^3.0.4"
-    daf-core "^0.9.0"
+    daf-core "^0.10.0"
     debug "^4.1.1"
     did-jwt "^3.0.0"
     graphql "^14.0.0"
     graphql-tag "^2.10.1"
     subscriptions-transport-ws "^0.9.0"
 
-daf-w3c@../../packages/daf-w3c:
-  version "0.9.0"
+daf-url@../../packages/daf-url:
+  version "0.10.0"
   dependencies:
-    daf-core "^0.9.0"
-    daf-did-jwt "^0.9.0"
+    daf-core "^0.10.0"
+    debug "^4.1.1"
+    url-parse "^1.4.7"
+
+daf-w3c@../../packages/daf-w3c:
+  version "0.10.0"
+  dependencies:
+    daf-core "^0.10.0"
+    daf-did-jwt "^0.10.0"
     debug "^4.1.1"
     did-jwt-vc "^0.1.2"
     did-resolver "^1.1.0"
@@ -1950,6 +1957,11 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
+querystringify@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.1.tgz#60e5a5fd64a7f8bfa4d2ab2ed6fdf4c85bad154e"
+  integrity sha512-w7fLxIRCRT7U8Qu53jQnJyPkYZIaR4n5151KMfcJlO/A9397Wxb1amJvROTK6TOnp7PfoAmg/qXiNHI+08jRfA==
+
 random-bytes@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/random-bytes/-/random-bytes-1.0.0.tgz#4f68a1dc0ae58bd3fb95848c30324db75d64360b"
@@ -2028,6 +2040,11 @@ request@^2.87.0:
     tough-cookie "~2.4.3"
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
+
+requires-port@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+  integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
 reselect@^3.0.1:
   version "3.0.1"
@@ -2427,6 +2444,14 @@ uri-js@^4.2.2:
   integrity sha512-KY9Frmirql91X2Qgjry0Wd4Y+YTdrdZheS8TFwvkbLWf/G5KNJDCh6pKL5OZctEW4+0Baa5idK2ZQuELRwPznQ==
   dependencies:
     punycode "^2.1.0"
+
+url-parse@^1.4.7:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.7.tgz#a8a83535e8c00a316e403a5db4ac1b9b853ae278"
+  integrity sha512-d3uaVyzDB9tQoSXFvuSUNFibTd9zxd2bkVrDRvF5TmvWWQwqE4lgYJ5m+x1DbecWkw+LK4RNl2CU1hHuOKPVlg==
+  dependencies:
+    querystringify "^2.1.1"
+    requires-port "^1.0.0"
 
 util-deprecate@~1.0.1:
   version "1.0.2"

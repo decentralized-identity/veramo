@@ -30,6 +30,24 @@ app.use(sess)
 app.engine('handlebars', exphbs())
 app.set('view engine', 'handlebars')
 
+const server = http.createServer(app)
+const io = socketio(server)
+
+io.use(
+  sharedsession(sess, {
+    autoSave: true,
+  }),
+)
+
+io.on('connection', function(socket) {
+  if (socket.handshake?.session) {
+    socket.join(socket.handshake.session.id)
+  }
+  socket.on('disconnect', function() {
+    console.log('user disconnected')
+  })
+})
+
 async function main() {
   await dataStore.initialize()
 
@@ -79,6 +97,7 @@ async function main() {
       }
 
       jwt = await core.handleAction(signAction)
+      jwt = encodeURI('http://localhost:8099/ssi?c_i=') + jwt
     } else {
       name = await dataStore.shortId(did)
     }
@@ -94,25 +113,7 @@ async function main() {
     }),
   )
 
-  const server = http.createServer(app)
-  const io = socketio(server)
-
-  io.use(
-    sharedsession(sess, {
-      autoSave: true,
-    }),
-  )
-
-  io.on('connection', function(socket) {
-    if (socket.handshake?.session) {
-      socket.join(socket.handshake.session.id)
-    }
-    socket.on('disconnect', function() {
-      console.log('user disconnected')
-    })
-  })
-
-  core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message, b: any) => {
+  core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
     debug('New message %s', message.id)
     debug('Meta %O', message.meta)
     console.log(message)
@@ -121,7 +122,7 @@ async function main() {
       // TODO check for required vcs
 
       const sessionId = message.threadId
-      await io.in(sessionId).emit('loggedin', { did: message.from })
+      await io.in(sessionId).emit('loggedin', { did: message.sender })
       sessionStore.get(sessionId, (error, session) => {
         if (error) {
           console.log(error)
@@ -130,7 +131,7 @@ async function main() {
         if (session) {
           console.log('Got session', session)
           console.log('View count', session.viewcount)
-          session.did = message.from
+          session.did = message.sender
           sessionStore.set(sessionId, session)
         } else {
           console.log('No session: ' + message.threadId)
