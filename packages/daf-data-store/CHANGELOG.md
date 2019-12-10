@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/uport-project/daf/compare/v0.9.0...v0.10.0) (2019-12-10)
+
+
+### Bug Fixes
+
+* Renaming to sender and receiver ([bf33a2d](https://github.com/uport-project/daf/commit/bf33a2de268cf07b06faa04283ec066573c37ffc))
+
+
+### Features
+
+* Data deduplication ([c5c10b1](https://github.com/uport-project/daf/commit/c5c10b17eebd1d6f82a43f0d5cc46da9b9270c3e))
+* Message object with validation ([8bf6a9d](https://github.com/uport-project/daf/commit/8bf6a9d47e73d6e2be9003854718b67f59c636dd))
+* Saving message and VC meta data ([1928125](https://github.com/uport-project/daf/commit/1928125e3c3ff17e86e838a9c84ddfadb2631a48))
+
+
+
+
+
 # [0.9.0](https://github.com/uport-project/daf/compare/v0.8.0...v0.9.0) (2019-12-05)
 
 **Note:** Version bump only for package daf-data-store

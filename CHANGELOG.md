@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/uport-project/daf/compare/v0.9.0...v0.10.0) (2019-12-10)
+
+
+### Bug Fixes
+
+* Removing encryption key manager ([65ba8a2](https://github.com/uport-project/daf/commit/65ba8a212bedd64215cb96c0bf8a6c2245bd5cb0))
+* Renaming to sender and receiver ([bf33a2d](https://github.com/uport-project/daf/commit/bf33a2de268cf07b06faa04283ec066573c37ffc))
+* Typo ([0a47c70](https://github.com/uport-project/daf/commit/0a47c70fac8c9624c73343c8067d11fab3cd2c9d))
+
+
+### Features
+
+* Data deduplication ([c5c10b1](https://github.com/uport-project/daf/commit/c5c10b17eebd1d6f82a43f0d5cc46da9b9270c3e))
+* Message object with validation ([8bf6a9d](https://github.com/uport-project/daf/commit/8bf6a9d47e73d6e2be9003854718b67f59c636dd))
+* Saving message and VC meta data ([1928125](https://github.com/uport-project/daf/commit/1928125e3c3ff17e86e838a9c84ddfadb2631a48))
+* URL message validator ([7e516e4](https://github.com/uport-project/daf/commit/7e516e4065251ba7eaa2ab9c32fbfbda7e318bb1))
+
+
+
+
+
 # [0.9.0](https://github.com/uport-project/daf/compare/v0.8.0...v0.9.0) (2019-12-05)
 
 
