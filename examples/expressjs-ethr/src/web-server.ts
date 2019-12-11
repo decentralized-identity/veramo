@@ -145,11 +145,7 @@ async function main() {
     console.log(`Server running at http://localhost:${port}/`)
 
     await core.startServices()
-    // await core.syncServices(await dataStore.latestMessageTimestamps())
-    console.log('Polling while WS is unavailable')
-    setInterval(async () => {
-      await core.syncServices(await dataStore.latestMessageTimestamps())
-    }, 5000)
+    await core.syncServices(await dataStore.latestMessageTimestamps())
   })
 }
 
