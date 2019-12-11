@@ -1,16 +1,13 @@
 import { EventEmitter } from 'events'
 import { Resolver } from '../core'
-import {
-  AbstractServiceController,
-  ServiceControllerDerived,
-  ServiceEventTypes,
-} from './abstract-service-controller'
+import { AbstractServiceController, ServiceControllerDerived } from './abstract-service-controller'
 import { Issuer } from '../identity/identity-manager'
 import { Message } from '../message/message'
+import Debug from 'debug'
+const debug = Debug('daf:service-manager')
 
-interface Options {
-  controllers: ServiceControllerDerived[]
-  didResolver: Resolver
+export enum ServiceEventTypes {
+  NewMessages = 'NewMessages',
 }
 
 export interface LastMessageTimestampForInstance {
@@ -18,6 +15,11 @@ export interface LastMessageTimestampForInstance {
   did: string
   type: string
   id: string
+}
+
+interface Options {
+  controllers: ServiceControllerDerived[]
+  didResolver: Resolver
 }
 
 export class ServiceManager extends EventEmitter {
@@ -36,6 +38,7 @@ export class ServiceManager extends EventEmitter {
     for (const issuer of issuers) {
       for (const controller of this.controllers) {
         const instance = new controller(issuer, this.didResolver)
+        await instance.ready
         instance.on(ServiceEventTypes.NewMessages, this.onNewMessages)
         this.controllerInstances.push(instance)
       }
@@ -43,6 +46,7 @@ export class ServiceManager extends EventEmitter {
   }
 
   private onNewMessages(messages: Message[]) {
+    debug('onNewMessage kakakaka %O', messages)
     this.emit(ServiceEventTypes.NewMessages, messages)
   }
 

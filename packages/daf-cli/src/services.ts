@@ -18,12 +18,12 @@ export const listen = async (pollSeconds?: number) => {
     console.log('New message type:', msg.type)
   })
 
-  await core.startServices()
-  await core.syncServices(await dataStore.latestMessageTimestamps())
+  await core.setupServices()
+  await core.getMessagesSince(await dataStore.latestMessageTimestamps())
 
   if (pollSeconds) {
     setInterval(async () => {
-      await core.syncServices(await dataStore.latestMessageTimestamps())
+      await core.getMessagesSince(await dataStore.latestMessageTimestamps())
     }, pollSeconds * 1000)
   }
 }

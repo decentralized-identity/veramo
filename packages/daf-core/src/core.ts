@@ -1,7 +1,8 @@
 import { EventEmitter } from 'events'
 import { DIDDocument } from 'did-resolver'
 import { IdentityManager, IdentityController } from './identity/identity-manager'
-import { ServiceManager, ServiceControllerWithConfig, LastMessageTimestamp } from './service-manager'
+import { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
+import { ServiceControllerDerived } from './service/abstract-service-controller'
 import { MessageValidator } from './message/message-validator'
 import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
@@ -9,7 +10,7 @@ import { EncryptionKeyManager } from './encryption-manager'
 import { Message } from './message/message'
 
 import Debug from 'debug'
-const debug = Debug('core')
+const debug = Debug('daf:core')
 
 export const EventTypes = {
   validatedMessage: 'validatedMessage',
@@ -23,7 +24,7 @@ export interface Resolver {
 interface Config {
   didResolver: Resolver
   identityControllers: IdentityController[]
-  serviceControllersWithConfig: ServiceControllerWithConfig[]
+  serviceControllers: ServiceControllerDerived[]
   messageValidator: MessageValidator
   actionHandler?: ActionHandler
   encryptionKeyManager?: EncryptionKeyManager
@@ -49,8 +50,7 @@ export class Core extends EventEmitter {
     this.didResolver = config.didResolver
 
     this.serviceManager = new ServiceManager({
-      serviceControllersWithConfig: config.serviceControllersWithConfig,
-      validateMessage: this.validateMessage.bind(this),
+      controllers: config.serviceControllers,
       didResolver: this.didResolver,
     })
 
@@ -59,14 +59,33 @@ export class Core extends EventEmitter {
     this.actionHandler = config.actionHandler
   }
 
-  async startServices() {
+  async setupServices() {
     const issuers = await this.identityManager.listIssuers()
-    await this.serviceManager.configureServices(issuers)
-    await this.serviceManager.initServices()
+    await this.serviceManager.setupServices(issuers)
   }
 
-  async syncServices(lastMessageTimestamps: LastMessageTimestamp[]) {
-    await this.serviceManager.syncServices(lastMessageTimestamps)
+  async listen() {
+    debug('Listening...')
+    this.serviceManager.on(ServiceEventTypes.NewMessages, this.validateMessages)
+    this.serviceManager.listen()
+  }
+
+  async getMessagesSince(ts: LastMessageTimestampForInstance[]): Promise<Message[]> {
+    const rawMessages = await this.serviceManager.getMessagesSince(ts)
+    return this.validateMessages(rawMessages)
+  }
+
+  public async validateMessages(messages: Message[]): Promise<Message[]> {
+    debug('validateMessages %O', messages)
+    const result: Message[] = []
+    for (const message of messages) {
+      try {
+        const validMessage = await this.validateMessage(message)
+        result.push(validMessage)
+      } catch (e) {}
+    }
+
+    return result
   }
 
   public async validateMessage(message: Message): Promise<Message> {

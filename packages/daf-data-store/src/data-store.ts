@@ -258,8 +258,8 @@ export class DataStore {
   }
 
   async latestMessageTimestamps() {
-    let query = `SELECT * FROM ( SELECT m.id, m."timestamp", m.receiver AS did, md. "type" AS sourceType, md.id AS sourceId FROM messages AS m
-      LEFT JOIN messages_meta_data AS md ON m.id = md.message_id order by m.timestamp desc) GROUP BY did, sourceType`
+    let query = `SELECT * FROM ( SELECT m."timestamp", m.receiver AS did, md. "type" , md.id FROM messages AS m
+      LEFT JOIN messages_meta_data AS md ON m.id = md.message_id order by m.timestamp desc) GROUP BY did, "type", id`
 
     return await this.db.rows(query, [])
   }

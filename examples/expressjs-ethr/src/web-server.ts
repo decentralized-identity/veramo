@@ -144,8 +144,9 @@ async function main() {
   server.listen(port, async () => {
     console.log(`Server running at http://localhost:${port}/`)
 
-    await core.startServices()
-    await core.syncServices(await dataStore.latestMessageTimestamps())
+    await core.setupServices()
+    await core.listen()
+    await core.getMessagesSince(await dataStore.latestMessageTimestamps())
   })
 }
 
