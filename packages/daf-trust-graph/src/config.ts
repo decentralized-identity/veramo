@@ -1,2 +1,2 @@
-export const defaultTrustGraphUri = 'https://edge.uport.me/graphql'
-export const defaultTrustGraphWsUri = null
+export const defaultTrustGraphUri = 'https://trustgraph.uport.me/graphql'
+export const defaultTrustGraphWsUri = 'wss://trustgraph.uport.me/graphql'
