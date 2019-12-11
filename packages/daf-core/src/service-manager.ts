@@ -1,7 +1,7 @@
 import { DIDDocument } from 'did-resolver'
 import { Resolver } from './core'
-import { Issuer } from './identity-manager'
-import { Message } from './message'
+import { Issuer } from './identity/identity-manager'
+import { Message } from './message/message'
 
 export interface ServiceControllerOptions {
   config: any

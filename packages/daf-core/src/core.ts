@@ -1,12 +1,12 @@
 import { EventEmitter } from 'events'
 import { DIDDocument } from 'did-resolver'
-import { IdentityManager, IdentityController } from './identity-manager'
+import { IdentityManager, IdentityController } from './identity/identity-manager'
 import { ServiceManager, ServiceControllerWithConfig, LastMessageTimestamp } from './service-manager'
-import { MessageValidator } from './message-validator'
-import { ActionHandler } from './action-handler'
+import { MessageValidator } from './message/message-validator'
+import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
 import { EncryptionKeyManager } from './encryption-manager'
-import { Message } from './message'
+import { Message } from './message/message'
 
 import Debug from 'debug'
 const debug = Debug('core')
