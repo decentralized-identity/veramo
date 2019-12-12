@@ -17,7 +17,7 @@ import { DataStore } from 'daf-data-store'
 import ws from 'ws'
 
 import Debug from 'debug'
-const debug = Debug('main')
+const debug = Debug('daf:cli')
 
 const defaultPath = process.env.HOME + '/.daf'
 
@@ -43,7 +43,12 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
   })
 }
 
+if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG_URI
+if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
+TG.ServiceController.webSocketImpl = ws
+
 const identityControllers = [new EthrDidFsController(identityStoreFilename)]
+const serviceControllers = [TG.ServiceController]
 
 const messageValidator = new DBG.MessageValidator()
 messageValidator
@@ -56,28 +61,13 @@ messageValidator
 const actionHandler = new DBG.ActionHandler()
 actionHandler
   .setNext(new DIDComm.ActionHandler())
-  .setNext(
-    new TG.ActionHandler({
-      uri: process.env.DAF_TG_URI,
-    }),
-  )
+  .setNext(new TG.ActionHandler())
   .setNext(new W3c.ActionHandler())
   .setNext(new SD.ActionHandler())
 
-const serviceControllersWithConfig = [
-  {
-    controller: TG.TrustGraphServiceController,
-    config: {
-      uri: process.env.DAF_TG_URI,
-      wsUri: process.env.DAF_TG_WSURI,
-      webSocketImpl: ws,
-    },
-  },
-]
-
 export const core = new Daf.Core({
   identityControllers,
-  serviceControllersWithConfig,
+  serviceControllers,
   didResolver,
   messageValidator,
   actionHandler,

@@ -1,12 +1,9 @@
 import { Core, AbstractActionHandler, Types } from 'daf-core'
 import { createVerifiableCredential, createPresentation } from 'did-jwt-vc'
-import {
-  PresentationPayload,
-  VerifiableCredentialPayload,
-} from 'did-jwt-vc/src/types'
+import { PresentationPayload, VerifiableCredentialPayload } from 'did-jwt-vc/src/types'
 
 import Debug from 'debug'
-const debug = Debug('w3c-action-handler')
+const debug = Debug('daf:w3c:action-handler')
 
 export const ActionTypes = {
   signVc: 'action.sign.w3c.vc',

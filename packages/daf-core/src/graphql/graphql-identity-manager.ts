@@ -1,5 +1,5 @@
-import { Core } from './core'
-import { Issuer } from './identity-manager'
+import { Core } from '../core'
+import { Issuer } from '../identity/identity-manager'
 
 export interface Context {
   core: Core

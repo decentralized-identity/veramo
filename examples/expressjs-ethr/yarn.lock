@@ -593,8 +593,8 @@ daf-core@../../packages/daf-core, daf-core@^0.10.0:
     debug "^4.1.1"
     events "^3.0.0"
 
-daf-data-store@../../packages/daf-data-store, daf-data-store@^0.10.0:
-  version "0.10.0"
+daf-data-store@../../packages/daf-data-store, daf-data-store@^0.10.1:
+  version "0.10.1"
   dependencies:
     blakejs "^1.1.0"
     daf-core "^0.10.0"
@@ -631,9 +631,9 @@ daf-ethr-did-fs@../../packages/daf-ethr-did-fs:
     ethr-did "^1.1.0"
 
 daf-node-sqlite3@../../packages/daf-node-sqlite3:
-  version "0.10.0"
+  version "0.10.1"
   dependencies:
-    daf-data-store "^0.10.0"
+    daf-data-store "^0.10.1"
     debug "^4.1.1"
     sqlite3 "^4.1.0"
 
@@ -668,7 +668,7 @@ daf-sodium-fs@../../packages/daf-sodium-fs:
     libsodium-wrappers "^0.7.6"
 
 daf-trust-graph@../../packages/daf-trust-graph:
-  version "0.10.0"
+  version "0.10.2"
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"

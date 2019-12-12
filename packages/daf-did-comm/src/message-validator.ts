@@ -1,7 +1,7 @@
 import { Core, AbstractMessageValidator, Message } from 'daf-core'
 import { DIDComm } from 'DIDComm-js'
 import Debug from 'debug'
-const debug = Debug('did-comm-message-validator')
+const debug = Debug('daf:did-comm:message-validator')
 
 export class MessageValidator extends AbstractMessageValidator {
   private didcomm: DIDComm

@@ -1,5 +1,5 @@
-import { Core } from './core'
-import { Message } from './message'
+import { Core } from '../core'
+import { Message } from '../message/message'
 
 interface Context {
   core: Core

@@ -2,7 +2,7 @@ import { Core, AbstractActionHandler, Types } from 'daf-core'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
-const debug = Debug('sdr-action-handler')
+const debug = Debug('daf:selective-disclosure:action-handler')
 
 export const ActionTypes = {
   signSdr: 'action.sign.sdr',

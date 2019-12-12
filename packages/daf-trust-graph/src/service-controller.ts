@@ -8,54 +8,57 @@ import { split } from 'apollo-link'
 import { createJWT } from 'did-jwt'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
-import { ServiceController, ServiceControllerOptions, ServiceInstanceId } from 'daf-core'
+import { AbstractServiceController, ServiceEventTypes, Issuer, Resolver } from 'daf-core'
 import * as queries from './queries'
 import * as Daf from 'daf-core'
 
-import { defaultTrustGraphUri, defaultTrustGraphWsUri } from './config'
 import Debug from 'debug'
-const debug = Debug('trust-graph-message-service')
+const debug = Debug('daf:trust-graph:service-controller')
 
-export class TrustGraphServiceController implements ServiceController {
-  private options: ServiceControllerOptions
-  private client: ApolloClient<any>
+export class ServiceController extends AbstractServiceController {
+  static defaultUri = 'https://trustgraph.uport.me/graphql'
+  static defaultWsUri = 'wss://trustgraph.uport.me/graphql'
+  static webSocketImpl?: any
 
-  private uri: string
+  public ready: Promise<boolean>
+
+  private client?: ApolloClient<any>
+
+  private uri: string = ''
   private wsUri?: string
 
-  public instanceId(): ServiceInstanceId {
+  public instanceId() {
     return {
-      did: this.options.issuer.did,
-      sourceType: 'trustGraph',
+      did: this.issuer.did,
+      type: 'trustGraph',
+      id: this.uri,
     }
   }
 
-  constructor(options: ServiceControllerOptions) {
-    this.options = options
-    const { didDoc } = options
+  constructor(issuer: Issuer, didResolver: Resolver) {
+    super(issuer, didResolver)
+    this.ready = this.initialize()
+  }
+
+  async initialize(): Promise<boolean> {
+    const didDoc = await this.didResolver.resolve(this.issuer.did)
 
     const service = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraph')
     const serviceWs = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraphWs')
 
-    const serviceEndpoint = service ? service.serviceEndpoint : defaultTrustGraphUri
-    const serviceEndpointWs = serviceWs ? serviceWs.serviceEndpoint : defaultTrustGraphWsUri
+    this.uri = service ? service.serviceEndpoint : ServiceController.defaultUri
+    this.wsUri = serviceWs ? serviceWs.serviceEndpoint : ServiceController.defaultWsUri
 
-    const uri = options.config.uri || serviceEndpoint
-    const wsUri = options.config.wsUri || serviceEndpointWs
+    debug('Initializing for', this.issuer.did)
+    debug('URI', this.uri)
+    debug('WSURI', this.wsUri)
 
-    this.uri = uri
-    this.wsUri = wsUri
-
-    debug('Initializing for', options.issuer.did)
-    debug('URI', uri)
-    debug('WSURI', wsUri)
-
-    const httpLink = new HttpLink({ uri })
+    const httpLink = new HttpLink({ uri: this.uri })
     var link = null
 
-    if (wsUri) {
+    if (this.wsUri) {
       const wsClient = new SubscriptionClient(
-        wsUri,
+        this.wsUri,
         {
           lazy: false,
           reconnect: true,
@@ -64,7 +67,7 @@ export class TrustGraphServiceController implements ServiceController {
             return { authorization: `Bearer ${token}` }
           },
         },
-        this.options.config.webSocketImpl,
+        ServiceController.webSocketImpl,
       )
 
       const wsLink = new WebSocketLink(wsClient)
@@ -86,34 +89,39 @@ export class TrustGraphServiceController implements ServiceController {
       cache: new InMemoryCache(),
       link: link,
     })
+
+    return true
   }
 
   private async getAuthToken() {
-    debug('Signing auth token for', this.options.issuer.did)
+    debug('Signing auth token for', this.issuer.did)
 
     const token = await createJWT(
       {
         exp: Math.floor(Date.now() / 1000) + 5000, // what is a reasonable value here?
       },
       {
-        signer: this.options.issuer.signer,
+        signer: this.issuer.signer,
         alg: 'ES256K-R',
-        issuer: this.options.issuer.did,
+        issuer: this.issuer.did,
       },
     )
     debug(token)
     return token
   }
 
-  async sync(since: number) {
-    debug('Syncing data for %s since %d', this.options.issuer.did, since)
+  async getMessagesSince(since: number) {
+    debug('Syncing data for %s since %d', this.issuer.did, since)
+    if (!this.client) {
+      throw Error('Client not configured')
+    }
     const token = await this.getAuthToken()
 
     const { data } = await this.client.query({
       fetchPolicy: 'no-cache',
       query: queries.findEdges,
       variables: {
-        toDID: [this.options.issuer.did],
+        toDID: [this.issuer.did],
         since,
       },
       context: {
@@ -123,39 +131,47 @@ export class TrustGraphServiceController implements ServiceController {
       },
     })
 
+    const messages: Daf.Message[] = []
+
     for (const edge of data.findEdges) {
-      await this.options.validateMessage(
+      messages.push(
         new Daf.Message({
           raw: edge.jwt,
           meta: {
-            type: this.instanceId().sourceType,
+            type: this.instanceId().type,
             id: this.uri,
           },
         }),
       )
     }
+    return messages
   }
 
-  async init() {
-    const { options, wsUri, uri } = this
-    const type = this.instanceId().sourceType
+  async listen() {
+    if (!this.client) {
+      throw Error('Client not configured')
+    }
+
+    const { wsUri, uri } = this
+    const { type } = this.instanceId()
+    const emit = this.emit.bind(this)
 
     if (wsUri) {
-      debug('Subscribing to edgeAdded for', options.issuer.did)
+      debug('Subscribing to edgeAdded for', this.issuer.did)
 
       this.client
         .subscribe({
           query: queries.edgeAdded,
-          variables: { toDID: [options.issuer.did] },
+          variables: { toDID: [this.issuer.did] },
         })
         .subscribe({
           async next(result) {
-            options.validateMessage(
+            emit(ServiceEventTypes.NewMessages, [
               new Daf.Message({
                 raw: result.data.edgeAdded.jwt,
                 meta: { type, id: uri },
               }),
-            )
+            ])
           },
           error(err) {
             debug('Error', err)

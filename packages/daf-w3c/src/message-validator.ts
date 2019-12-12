@@ -7,7 +7,7 @@ import {
 } from 'did-jwt-vc'
 
 import Debug from 'debug'
-const debug = Debug('w3c-validator')
+const debug = Debug('daf:w3c:message-validator')
 
 export const MessageTypes = {
   vc: 'w3c.vc',

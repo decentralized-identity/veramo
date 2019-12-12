@@ -3,7 +3,7 @@ import { DIDComm } from 'DIDComm-js'
 import uuid from 'uuid'
 import Debug from 'debug'
 
-const debug = Debug('did-comm-action-handler')
+const debug = Debug('daf:did-comm:action-handler')
 
 export const ActionTypes = {
   sendJwt: 'action.sendJwt',

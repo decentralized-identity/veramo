@@ -21,6 +21,9 @@ const defaultPath = __dirname + '/.daf'
 const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store.json'
 const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
+if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG_URI
+if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
+TG.ServiceController.webSocketImpl = ws
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env.DAF_ENCRYPTION_STORE) {
   const fs = require('fs')
@@ -41,6 +44,7 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
 }
 
 const identityControllers = [new EthrDidFsController(identityStoreFilename)]
+const serviceControllers = [TG.ServiceController]
 
 const messageValidator = new DBG.MessageValidator()
 messageValidator
@@ -53,29 +57,13 @@ messageValidator
 const actionHandler = new DBG.ActionHandler()
 actionHandler
   .setNext(new DIDComm.ActionHandler())
-  .setNext(
-    new TG.ActionHandler({
-      uri: process.env.DAF_TG_URI,
-    }),
-  )
+  .setNext(new TG.ActionHandler())
   .setNext(new W3c.ActionHandler())
   .setNext(new SD.ActionHandler())
 
-const serviceControllersWithConfig = [
-  // { controller: Rnd.RandomMessageService, config: {}},
-  {
-    controller: TG.TrustGraphServiceController,
-    config: {
-      uri: process.env.DAF_TG_URI,
-      wsUri: process.env.DAF_TG_WSURI,
-      webSocketImpl: ws,
-    },
-  },
-]
-
 export const core = new Daf.Core({
   identityControllers,
-  serviceControllersWithConfig,
+  serviceControllers,
   didResolver,
   messageValidator,
   actionHandler,

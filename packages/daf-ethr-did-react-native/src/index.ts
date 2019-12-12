@@ -2,7 +2,7 @@ import { IdentityController, Issuer } from 'daf-core'
 import { RNUportHDSigner, getSignerForHDPath } from 'react-native-uport-signer'
 
 import Debug from 'debug'
-const debug = Debug('ethr-did-controller')
+const debug = Debug('daf:ethr-did-react-native:identity-controller')
 
 // ANDROID OPTIONS
 //

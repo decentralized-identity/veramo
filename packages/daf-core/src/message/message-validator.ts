@@ -1,5 +1,5 @@
 import { Message } from './message'
-import { Core } from './core'
+import { Core } from '../core'
 
 export interface MessageValidator {
   setNext(messageValidator: MessageValidator): MessageValidator

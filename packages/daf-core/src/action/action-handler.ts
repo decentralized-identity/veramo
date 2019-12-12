@@ -1,5 +1,5 @@
-import { Action } from './types'
-import { Core } from './core'
+import { Action } from '../types'
+import { Core } from '../core'
 
 export interface ActionHandler {
   setNext(actionHandler: ActionHandler): ActionHandler

@@ -1,7 +1,7 @@
 import { Core, AbstractMessageValidator, Message, Resolver } from 'daf-core'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
-const debug = Debug('did-jwt-validator')
+const debug = Debug('daf:did-jwt:message-validator')
 
 export class MessageValidator extends AbstractMessageValidator {
   async validate(message: Message, core: Core): Promise<Message> {
