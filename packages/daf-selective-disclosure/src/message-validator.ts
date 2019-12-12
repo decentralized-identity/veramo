@@ -1,7 +1,7 @@
 import { Core, AbstractMessageValidator, Message } from 'daf-core'
 
 import Debug from 'debug'
-const debug = Debug('daf:sdr-validator')
+const debug = Debug('daf:daf:selective-disclosure:message-validator')
 
 export const MessageTypes = {
   sdr: 'sdr',

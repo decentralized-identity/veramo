@@ -2,7 +2,7 @@ import { IdentityController, Issuer } from 'daf-core'
 const EthrDID = require('ethr-did')
 const fs = require('fs')
 import Debug from 'debug'
-const debug = Debug('fs-ethr-did-controller')
+const debug = Debug('daf:ethr-did-fs:identity-controller')
 
 interface Identity {
   address: string

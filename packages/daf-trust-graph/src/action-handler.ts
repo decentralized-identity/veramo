@@ -2,7 +2,7 @@ import { Core, AbstractActionHandler, Types, Message } from 'daf-core'
 import { ServiceController } from './service-controller'
 
 import Debug from 'debug'
-const debug = Debug('trust-graph-action-handler')
+const debug = Debug('daf:trust-graph:action-handler')
 
 export const ActionTypes = {
   sendJwt: 'action.sendJwt',

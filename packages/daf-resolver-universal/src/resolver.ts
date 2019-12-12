@@ -1,7 +1,7 @@
 import 'cross-fetch/polyfill'
 import Debug from 'debug'
 
-const debug = Debug('resolver-universal')
+const debug = Debug('daf:resolver-universal')
 
 interface Options {
   url: string

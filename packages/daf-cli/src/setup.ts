@@ -17,7 +17,7 @@ import { DataStore } from 'daf-data-store'
 import ws from 'ws'
 
 import Debug from 'debug'
-const debug = Debug('main')
+const debug = Debug('daf:cli')
 
 const defaultPath = process.env.HOME + '/.daf'
 

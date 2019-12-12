@@ -3,7 +3,7 @@ import sodium from 'libsodium-wrappers'
 const fs = require('fs')
 
 import Debug from 'debug'
-const debug = Debug('sodium-fs-encryption-key-manager')
+const debug = Debug('daf:sodium-fs-encryption-key-manager')
 
 interface DidKeyPairMap {
   [did: string]: KeyPair
@@ -23,7 +23,7 @@ export class SodiumFsEncryptionKeyManager implements EncryptionKeyManager {
       if (fs.existsSync(this.fileName)) {
         const raw = fs.readFileSync(this.fileName)
         const parsed = JSON.parse(raw)
-        
+
         Object.keys(parsed).forEach(did => {
           const i = parsed[did]
           this.didKeyPairMap[did] = {

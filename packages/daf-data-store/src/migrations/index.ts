@@ -3,7 +3,7 @@ import { second } from './002.second'
 import { DbDriver } from '../types'
 import Debug from 'debug'
 
-const debug = Debug('db-migrations')
+const debug = Debug('daf:data-store:db-migrations')
 
 const availableMigrations = [initial, second]
 
@@ -16,23 +16,12 @@ export const insertLastMigrationId = (db: DbDriver, id: number) => {
 export const runMigrations = async (db: DbDriver) => {
   debug('Running migrations...')
 
-  await db.run(
-    'CREATE TABLE IF NOT EXISTS migrations (migrationId TEXT, timestamp TEXT)',
-    [],
-  )
-  const rows = await db.rows(
-    'SELECT * FROM migrations ORDER BY migrationId DESC LIMIT 1',
-    [],
-  )
+  await db.run('CREATE TABLE IF NOT EXISTS migrations (migrationId TEXT, timestamp TEXT)', [])
+  const rows = await db.rows('SELECT * FROM migrations ORDER BY migrationId DESC LIMIT 1', [])
 
   let lastMigrationId = -1
   if (rows[0] && rows[0].migrationId) {
-    debug(
-      'Latest migrationId:' +
-        rows[0].migrationId +
-        ' finished at:' +
-        rows[0].timestamp,
-    )
+    debug('Latest migrationId:' + rows[0].migrationId + ' finished at:' + rows[0].timestamp)
     lastMigrationId = parseInt(rows[0].migrationId, 10)
   }
 
