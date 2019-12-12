@@ -10,7 +10,6 @@ export const resolvers = {
     metaData: async (message: any, {}, { dataStore }: Context) => dataStore.messageMetaData(message.id),
     thread: async (message: any, {}, { dataStore }: Context) => {
       const messages = await dataStore.findMessages({ threadId: message.threadId })
-      console.log('AAAA', messages)
       return messages.filter((item: any) => item.id !== message.id)
     },
   },

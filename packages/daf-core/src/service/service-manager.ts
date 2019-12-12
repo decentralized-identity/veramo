@@ -39,14 +39,13 @@ export class ServiceManager extends EventEmitter {
       for (const controller of this.controllers) {
         const instance = new controller(issuer, this.didResolver)
         await instance.ready
-        instance.on(ServiceEventTypes.NewMessages, this.onNewMessages)
+        instance.on(ServiceEventTypes.NewMessages, this.onNewMessages.bind(this))
         this.controllerInstances.push(instance)
       }
     }
   }
 
   private onNewMessages(messages: Message[]) {
-    debug('onNewMessage kakakaka %O', messages)
     this.emit(ServiceEventTypes.NewMessages, messages)
   }
 

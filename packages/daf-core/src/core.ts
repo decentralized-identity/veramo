@@ -65,8 +65,8 @@ export class Core extends EventEmitter {
   }
 
   async listen() {
-    debug('Listening...')
-    this.serviceManager.on(ServiceEventTypes.NewMessages, this.validateMessages)
+    debug('Listening for new messages')
+    this.serviceManager.on(ServiceEventTypes.NewMessages, this.validateMessages.bind(this))
     this.serviceManager.listen()
   }
 
@@ -76,7 +76,6 @@ export class Core extends EventEmitter {
   }
 
   public async validateMessages(messages: Message[]): Promise<Message[]> {
-    debug('validateMessages %O', messages)
     const result: Message[] = []
     for (const message of messages) {
       try {

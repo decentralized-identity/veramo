@@ -19,6 +19,7 @@ export const listen = async (pollSeconds?: number) => {
   })
 
   await core.setupServices()
+  await core.listen()
   await core.getMessagesSince(await dataStore.latestMessageTimestamps())
 
   if (pollSeconds) {
