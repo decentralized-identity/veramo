@@ -586,65 +586,65 @@ cross-fetch@^3.0.4:
     node-fetch "2.6.0"
     whatwg-fetch "3.0.0"
 
-daf-core@../../packages/daf-core, daf-core@^0.10.0:
-  version "0.10.0"
+daf-core@../../packages/daf-core, daf-core@^0.10.3:
+  version "0.10.3"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
 
-daf-data-store@../../packages/daf-data-store, daf-data-store@^0.10.1:
-  version "0.10.1"
+daf-data-store@../../packages/daf-data-store, daf-data-store@^0.10.3:
+  version "0.10.3"
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^0.10.0"
+    daf-core "^0.10.3"
     debug "^4.1.1"
     sql-bricks-sqlite "^0.1.0"
 
 daf-debug@../../packages/daf-debug:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
-    daf-core "^0.10.0"
+    daf-core "^0.10.3"
     debug "^4.1.1"
 
 daf-did-comm@../../packages/daf-did-comm:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
     DIDComm-js "git://github.com/uport-project/DIDComm-js.git#fix/build-issues"
-    daf-core "^0.10.0"
+    daf-core "^0.10.3"
     debug "^4.1.1"
     uuid "^3.3.3"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^0.10.0:
-  version "0.10.0"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^0.10.3:
+  version "0.10.3"
   dependencies:
-    daf-core "^0.10.0"
+    daf-core "^0.10.3"
     debug "^4.1.1"
     did-jwt "^3.0.0"
     did-resolver "^1.1.0"
 
 daf-ethr-did-fs@../../packages/daf-ethr-did-fs:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
-    daf-core "^0.10.0"
+    daf-core "^0.10.3"
     debug "^4.1.1"
     ethr-did "^1.1.0"
 
 daf-node-sqlite3@../../packages/daf-node-sqlite3:
-  version "0.10.1"
+  version "0.10.3"
   dependencies:
-    daf-data-store "^0.10.1"
+    daf-data-store "^0.10.3"
     debug "^4.1.1"
     sqlite3 "^4.1.0"
 
 daf-resolver-universal@../../packages/daf-resolver-universal:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
     cross-fetch "^3.0.4"
     debug "^4.1.1"
 
 daf-resolver@../../packages/daf-resolver:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
     debug "^4.1.1"
     did-resolver "^1.1.0"
@@ -653,22 +653,22 @@ daf-resolver@../../packages/daf-resolver:
     web-did-resolver "^1.2.0"
 
 daf-selective-disclosure@../../packages/daf-selective-disclosure:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
-    daf-core "^0.10.0"
-    daf-did-jwt "^0.10.0"
+    daf-core "^0.10.3"
+    daf-did-jwt "^0.10.3"
     debug "^4.1.1"
     did-jwt "^3.0.0"
 
 daf-sodium-fs@../../packages/daf-sodium-fs:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
-    daf-core "^0.10.0"
+    daf-core "^0.10.3"
     debug "^4.1.1"
     libsodium-wrappers "^0.7.6"
 
 daf-trust-graph@../../packages/daf-trust-graph:
-  version "0.10.2"
+  version "0.10.3"
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"
@@ -677,7 +677,7 @@ daf-trust-graph@../../packages/daf-trust-graph:
     apollo-link-ws "^1.0.19"
     apollo-utilities "^1.3.2"
     cross-fetch "^3.0.4"
-    daf-core "^0.10.0"
+    daf-core "^0.10.3"
     debug "^4.1.1"
     did-jwt "^3.0.0"
     graphql "^14.0.0"
@@ -685,17 +685,17 @@ daf-trust-graph@../../packages/daf-trust-graph:
     subscriptions-transport-ws "^0.9.0"
 
 daf-url@../../packages/daf-url:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
-    daf-core "^0.10.0"
+    daf-core "^0.10.3"
     debug "^4.1.1"
     url-parse "^1.4.7"
 
 daf-w3c@../../packages/daf-w3c:
-  version "0.10.0"
+  version "0.10.3"
   dependencies:
-    daf-core "^0.10.0"
-    daf-did-jwt "^0.10.0"
+    daf-core "^0.10.3"
+    daf-did-jwt "^0.10.3"
     debug "^4.1.1"
     did-jwt-vc "^0.1.2"
     did-resolver "^1.1.0"
