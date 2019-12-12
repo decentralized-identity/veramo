@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.3](https://github.com/uport-project/daf/compare/v0.10.2...v0.10.3) (2019-12-12)
+
+
+### Bug Fixes
+
+* Unifying debug messages ([efb4f3b](https://github.com/uport-project/daf/commit/efb4f3bf9f6d3f0d412eb80da7bb4ae92ce8ca72))
+
+
+
+
+
 # [0.10.0](https://github.com/uport-project/daf/compare/v0.9.0...v0.10.0) (2019-12-10)
 
 

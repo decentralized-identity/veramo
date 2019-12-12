@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.3](https://github.com/uport-project/daf/compare/v0.10.2...v0.10.3) (2019-12-12)
+
+
+### Bug Fixes
+
+* EventEmmiter ([dc52b55](https://github.com/uport-project/daf/commit/dc52b55aad6c612266ce136636f6aa65e524b59b))
+* ServiceManager and AbstractServiceController ([284badc](https://github.com/uport-project/daf/commit/284badc52b420c637d0c7bc6823b71f1ea5c449d))
+* Unifying debug messages ([efb4f3b](https://github.com/uport-project/daf/commit/efb4f3bf9f6d3f0d412eb80da7bb4ae92ce8ca72))
+
+
+
+
+
 ## [0.10.2](https://github.com/uport-project/daf/compare/v0.10.1...v0.10.2) (2019-12-11)
 
 
