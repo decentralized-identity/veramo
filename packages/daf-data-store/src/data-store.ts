@@ -3,6 +3,9 @@ import { DbDriver } from './types'
 import { runMigrations } from './migrations'
 import sql from 'sql-bricks-sqlite'
 import blake from 'blakejs'
+import Debug from 'debug'
+
+const debug = Debug('daf:data-store')
 
 export class DataStore {
   private db: DbDriver
@@ -290,23 +293,26 @@ export class DataStore {
     if (searchResult.length > 0) {
       this.updateMetaData(message)
     } else {
-      const query = sql
-        .insert('messages', {
-          id: messageId,
-          sender: message.sender,
-          receiver: message.receiver,
-          timestamp: message.timestamp,
-          type: message.type,
-          thread_id: message.threadId,
-          raw: message.raw,
-          data: message.data && JSON.stringify(message.data),
-        })
-        .toParams()
+      try {
+        const query = sql
+          .insert('messages', {
+            id: messageId,
+            sender: message.sender,
+            receiver: message.receiver,
+            timestamp: message.timestamp,
+            type: message.type,
+            thread_id: message.threadId,
+            raw: message.raw,
+            data: message.data && JSON.stringify(message.data),
+          })
+          .toParams()
 
-      await this.db.run(query.text, query.values)
-
-      await this.saveMetaData(message)
-      await this.saveVerifiableCredentials(message)
+        await this.db.run(query.text, query.values)
+        await this.saveMetaData(message)
+        await this.saveVerifiableCredentials(message)
+      } catch (e) {
+        debug(e.message)
+      }
     }
 
     return { hash: message.id, iss: { did: message.sender } }
