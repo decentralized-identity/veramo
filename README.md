@@ -1,5 +1,9 @@
 # DID Agent Framework
 
+## Architecture
+
+![architecture](docs/assets/architecture.png)
+
 ## Getting started
 
 DAF monorepo uses yarn workspaces & lerna
@@ -54,23 +58,14 @@ Receive new messages
 npx daf listen
 ```
 
+Start GraphQL server
+
+```
+npx daf graphql --port 8899
+```
+
 More
 
 ```
 npx daf --help
 ```
-
-### Advanced
-
-Access your data over GraphQL
-
-```
-git clone git@github.com:uport-project/daf.git
-cd daf/examples/expressjs
-npm i
-npm start
-```
-
-Open https://CHANGETHIS.ngrok.io/graphql
-
-Copy & paste and run [sample queries](examples/expressjs/README.md#usage)
