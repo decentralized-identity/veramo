@@ -15,5 +15,6 @@
     "daf-w3c": "^0.10.3",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
-  }
+  },
+  "license": "Apache-2.0"
 }

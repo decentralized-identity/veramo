@@ -10,7 +10,8 @@
     "daf": "./packages/daf-cli/bin/daf.js"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "husky": {
     "hooks": {
