@@ -29,7 +29,7 @@ npm -g i daf-cli
   - [x] List messages
   - [x] List credentials
 - [ ] Selective Disclosure Request
-  - [ ] Create and send SDR
+  - [x] Create and send SDR
   - [ ] Display received SDR
   - [ ] Create and send VP as a selective disclosure response
 
@@ -44,10 +44,13 @@ Options:
 Commands:
   identity-manager [options]  Manage identities
   resolve <did>               Resolve DID Document
-  credential [options]        Manage W3C Verifiable Credentials
-  listen                      Receive new messages and listen for new ones
+  credential [options]        Create W3C Verifiable Credential
+  presentation [options]      Create W3C Verifiable Presentation
+  listen [options]            Receive new messages and listen for new ones
   data-explorer [options]     Explore data store
-  graphql [options]           Start GraphQL server
+  graphql [options]           GraphQL server
+  sdr [options]               Create Selective Disclosure Request
+  msg <raw>                   Handle raw message (JWT)
 ```
 
 #### Using custom TGE
