@@ -30,6 +30,7 @@ jobs:
     <<: *defaults
     docker:
       - image: node:10
+    resource_class: medium+
     steps:
       - checkout
       - restore_cache: *restore-cache
@@ -43,6 +44,7 @@ jobs:
     <<: *defaults
     docker:
       - image: node:10
+    resource_class: medium+
     steps:
       - checkout
       - restore_cache: *restore-cache
