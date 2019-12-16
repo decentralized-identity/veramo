@@ -18,6 +18,11 @@ const managedIdentities = async (_: any, args: any, ctx: Context) => {
   }))
 }
 
+const isManaged = async (identity: any, args: any, ctx: Context) => {
+  const list = await ctx.core.identityManager.listDids()
+  return list.indexOf(identity.did) > -1
+}
+
 const createIdentity = async (
   _: any,
   args: {
@@ -74,6 +79,9 @@ const managedIdentitySecret = async (
 // Actions
 
 export const resolvers = {
+  Identity: {
+    isManaged,
+  },
   Query: {
     managedIdentityTypes,
     managedIdentities,
@@ -101,6 +109,7 @@ export const typeDefs = `
 
   extend type Identity {
     type: String
+    isManaged: Boolean!
   }
   
 `
