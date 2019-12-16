@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/uport-project/daf/compare/v0.10.3...v1.1.0) (2019-12-16)
+
+**Note:** Version bump only for package daf-react-native-sqlite3
+
+
+
+
+
 ## [0.10.3](https://github.com/uport-project/daf/compare/v0.10.2...v0.10.3) (2019-12-12)
 
 

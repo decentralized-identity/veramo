@@ -1,14 +1,14 @@
 {
   "name": "daf-ethr-did-local-storage",
   "description": "DAF ehtr-did localStorage identity controller",
-  "version": "0.10.3",
+  "version": "1.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^0.10.3",
+    "daf-core": "^1.1.0",
     "debug": "^4.1.1",
     "ethr-did": "^1.1.0"
   },

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/uport-project/daf/compare/v0.10.3...v1.1.0) (2019-12-16)
+
+
+### Bug Fixes
+
+* Catching edge case ([3c1a935](https://github.com/uport-project/daf/commit/3c1a9357b36c51f6ee586726008e7e5c00a177d4))
+
+
+
+
+
 ## [0.10.3](https://github.com/uport-project/daf/compare/v0.10.2...v0.10.3) (2019-12-12)
 
 
