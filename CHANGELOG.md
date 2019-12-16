@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/uport-project/daf/compare/v1.1.0...v1.1.1) (2019-12-16)
+
+
+### Bug Fixes
+
+* Identity.isManaged ([38ad11e](https://github.com/uport-project/daf/commit/38ad11ec9abf74143acda726725820c0d6e29e14))
+
+
+
+
+
 # [1.1.0](https://github.com/uport-project/daf/compare/v0.10.3...v1.1.0) (2019-12-16)
 
 

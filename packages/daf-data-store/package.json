@@ -1,7 +1,7 @@
 {
   "name": "daf-data-store",
   "description": "DID Agent Framework Data Store",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^1.1.0",
+    "daf-core": "^1.1.1",
     "debug": "^4.1.1",
     "sql-bricks-sqlite": "^0.1.0"
   },
