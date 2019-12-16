@@ -1,14 +1,14 @@
 {
   "name": "daf-ethr-did-react-native",
   "description": "DAF ethr-did react-native identity controller",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^1.1.0",
+    "daf-core": "^1.1.1",
     "debug": "^4.1.1",
     "react-native-uport-signer": "^1.6.1"
   },
