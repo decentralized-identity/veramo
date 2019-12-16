@@ -1,19 +1,19 @@
 {
   "name": "send-vc",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.2.0",
   "main": "index.ts",
   "scripts": {
     "start": "ts-node index.ts"
   },
   "dependencies": {
-    "daf-core": "^1.1.1",
-    "daf-debug": "^1.1.1",
-    "daf-did-jwt": "^1.1.1",
-    "daf-ethr-did-fs": "^1.1.1",
+    "daf-core": "^1.2.0",
+    "daf-debug": "^1.2.0",
+    "daf-did-jwt": "^1.2.0",
+    "daf-ethr-did-fs": "^1.2.0",
     "daf-resolver-universal": "^1.1.0",
-    "daf-trust-graph": "^1.1.1",
-    "daf-w3c": "^1.1.1",
+    "daf-trust-graph": "^1.2.0",
+    "daf-w3c": "^1.2.0",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },

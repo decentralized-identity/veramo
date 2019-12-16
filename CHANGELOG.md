@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/uport-project/daf/compare/v1.1.1...v1.2.0) (2019-12-16)
+
+
+### Features
+
+* Update readme ([39a3261](https://github.com/uport-project/daf/commit/39a3261525d319831cf00ae73eb798a9691ceb5a))
+
+
+
+
+
 ## [1.1.1](https://github.com/uport-project/daf/compare/v1.1.0...v1.1.1) (2019-12-16)
 
 

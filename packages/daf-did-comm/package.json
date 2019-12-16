@@ -1,7 +1,7 @@
 {
   "name": "daf-did-comm",
   "description": "DAF DIDComm",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "DIDComm-js": "git://github.com/uport-project/DIDComm-js.git#fix/build-issues",
-    "daf-core": "^1.1.1",
+    "daf-core": "^1.2.0",
     "debug": "^4.1.1",
     "uuid": "^3.3.3"
   },

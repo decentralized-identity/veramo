@@ -1,7 +1,7 @@
 {
   "name": "daf-core",
   "description": "DID Agent Framework Core",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
