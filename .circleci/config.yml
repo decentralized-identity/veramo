@@ -12,7 +12,7 @@ aliases:
 
   - &install-node-dependencies
     name: Install node dependencies
-    command: yarn install --frozen-lockfile --network-concurrency=1
+    command: yarn install --frozen-lockfile
 
   - &bootstrap-packages
     name: Bootstrap packages
