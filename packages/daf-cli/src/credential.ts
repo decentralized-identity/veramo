@@ -124,15 +124,15 @@ program
         message: 'Issuer DID',
       },
       {
+        type: 'input',
+        name: 'tag',
+        message: 'Tag',
+      },
+      {
         type: 'list',
         name: 'aud',
         message: 'Audience DID',
         choices: identities,
-      },
-      {
-        type: 'input',
-        name: 'tag',
-        message: 'Tag',
       },
     ])
 
@@ -214,7 +214,7 @@ program
           type: DIDComm.ActionTypes.sendJwt,
           data: {
             from: answers.iss,
-            to: answers.aud,
+            to: aud,
             jwt,
           },
         }
