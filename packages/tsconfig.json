@@ -9,6 +9,7 @@
     { "path": "daf-did-jwt" },
     { "path": "daf-ethr-did-fs" },
     { "path": "daf-ethr-did-local-storage" },
+    { "path": "daf-ethr-did-metamask" },
     { "path": "daf-ethr-did-react-native" },
     { "path": "daf-node-sqlite3" },
     { "path": "daf-node-sqlite3" },

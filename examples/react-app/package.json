@@ -14,6 +14,7 @@
     "daf-debug": "^1.2.0",
     "daf-did-jwt": "^1.2.0",
     "daf-ethr-did-local-storage": "../daf/packages/daf-ethr-did-local-storage",
+    "daf-ethr-did-metamask": "../daf/packages/daf-ethr-did-metamask",
     "daf-resolver-universal": "^1.1.0",
     "daf-trust-graph": "^1.2.0",
     "daf-w3c": "^1.2.0",
@@ -21,6 +22,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
+    "rimble-ui": "^0.11.1",
+    "styled-components": "^4.4.1",
     "typescript": "~3.7.2"
   },
   "scripts": {
