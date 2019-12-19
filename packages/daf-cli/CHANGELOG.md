@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/uport-project/daf/compare/v1.3.0...v1.3.1) (2019-12-17)
+
+
+### Bug Fixes
+
+* Cli VP ([3db8186](https://github.com/uport-project/daf/commit/3db8186a1d6bbaa9726a8de3499055f872d41380))
+
+
+
+
+
 # [1.2.0](https://github.com/uport-project/daf/compare/v1.1.1...v1.2.0) (2019-12-16)
 
 
