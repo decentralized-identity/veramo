@@ -3,7 +3,7 @@ import { DIDDocument } from 'did-resolver'
 import { IdentityManager, IdentityController } from './identity/identity-manager'
 import { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 import { ServiceControllerDerived } from './service/abstract-service-controller'
-import { MessageValidator } from './message/message-validator'
+import { MessageValidator, unsupportedMessageTypeError } from './message/abstract-message-validator'
 import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
 import { EncryptionKeyManager } from './encryption-manager'
@@ -99,7 +99,7 @@ export class Core extends EventEmitter {
       this.emit(EventTypes.error, error, message)
       return Promise.reject(error)
     }
-    return Promise.reject('Unsupported message type')
+    return Promise.reject(unsupportedMessageTypeError)
   }
 
   public async handleAction(action: Action): Promise<any> {

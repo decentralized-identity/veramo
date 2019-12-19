@@ -6,6 +6,8 @@ export interface MessageValidator {
   validate: (message: Message, core: Core) => Promise<Message>
 }
 
+export const unsupportedMessageTypeError = 'Unsupported message type'
+
 export abstract class AbstractMessageValidator implements MessageValidator {
   public nextMessageValidator?: MessageValidator
 
@@ -18,6 +20,6 @@ export abstract class AbstractMessageValidator implements MessageValidator {
     if (this.nextMessageValidator) {
       return this.nextMessageValidator.validate(message, core)
     }
-    return Promise.reject('Unsupported message type')
+    return Promise.reject(unsupportedMessageTypeError)
   }
 }
