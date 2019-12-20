@@ -9,6 +9,9 @@ export const resolvers = {
     vc: async (message: any, {}, { dataStore }: Context) => dataStore.credentialsForMessageId(message.id),
     metaData: async (message: any, {}, { dataStore }: Context) => dataStore.messageMetaData(message.id),
     thread: async (message: any, {}, { dataStore }: Context) => {
+      if (!message.threadId) {
+        return []
+      }
       const messages = await dataStore.findMessages({ threadId: message.threadId })
       return messages.filter((item: any) => item.id !== message.id)
     },
