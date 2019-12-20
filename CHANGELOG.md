@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/uport-project/daf/compare/v1.3.1...v1.3.2) (2019-12-20)
+
+
+### Bug Fixes
+
+* ValidateMessage can throw an error ([d00dcdd](https://github.com/uport-project/daf/commit/d00dcddaf69eae26445f7b2ac1fe79b0027e297c)), closes [#10](https://github.com/uport-project/daf/issues/10)
+
+
+
+
+
 ## [1.3.1](https://github.com/uport-project/daf/compare/v1.3.0...v1.3.1) (2019-12-17)
 
 
