@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/uport-project/daf/compare/v1.3.2...v1.3.3) (2019-12-20)
+
+
+### Bug Fixes
+
+* Return empty array for empty threads ([fdb1e54](https://github.com/uport-project/daf/commit/fdb1e54fbd43657dd42180926cc160da7245db31))
+
+
+
+
+
 ## [1.3.2](https://github.com/uport-project/daf/compare/v1.3.1...v1.3.2) (2019-12-20)
 
 **Note:** Version bump only for package daf-data-store
