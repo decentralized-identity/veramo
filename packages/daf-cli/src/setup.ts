@@ -25,7 +25,7 @@ const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/
 const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store-cli.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
-if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env.DAF_ENCRYPTION_STORE) {
+if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE) {
   const fs = require('fs')
   if (!fs.existsSync(defaultPath)) {
     fs.mkdirSync(defaultPath)
