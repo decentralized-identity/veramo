@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://github.com/uport-project/daf/compare/v1.3.4...v1.3.5) (2020-01-08)
+
+**Note:** Version bump only for package react-app
+
+
+
+
+
 ## [1.3.4](https://github.com/uport-project/daf/compare/v1.3.3...v1.3.4) (2020-01-03)
 
 **Note:** Version bump only for package react-app
