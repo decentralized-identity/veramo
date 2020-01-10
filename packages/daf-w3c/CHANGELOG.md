@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.7](https://github.com/uport-project/daf/compare/v1.3.6...v1.3.7) (2020-01-10)
+
+
+### Bug Fixes
+
+* Remove duplicate JWTs from VP Fixes [#48](https://github.com/uport-project/daf/issues/48) ([f24ffea](https://github.com/uport-project/daf/commit/f24ffea078908a394181bb92b93331287c01381d))
+
+
+
+
+
 ## [1.3.5](https://github.com/uport-project/daf/compare/v1.3.4...v1.3.5) (2020-01-08)
 
 **Note:** Version bump only for package daf-w3c
