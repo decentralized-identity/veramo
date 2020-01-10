@@ -19,7 +19,7 @@ actionHandler.setNext(new TG.ActionHandler()).setNext(new W3c.ActionHandler())
 const identityControllers: Daf.IdentityController[] = [new EthrDidLocalStorageController()]
 
 if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
-  EthrDidMetamaskController.snapId = 'http://localhost:8081/package.json'
+  EthrDidMetamaskController.snapId = 'http://localhost:8082/package.json'
   identityControllers.push(new EthrDidMetamaskController())
 }
 
