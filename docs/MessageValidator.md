@@ -1,48 +1,55 @@
 # Message validator
 
-The main responsibility of Message Validator is to take any raw message as an input and output a standard `ValidatedMessage` object, or `null` if message type is unsupported.
+The main responsibility of Message Validator chain is to take any raw message as an input and return a standard `Daf.Message` object, or `null` if message type is unsupported.
 
 ## Data flow explanation
 
 In this example we will take a look how this chain of validators works:
 
+![validator-chain](assets/msg-validator-chain.png)
+
 ```ts
+import * as Daf from 'daf-core'
+import * as DidJwt from 'daf-did-jwt'
+import * as W3c from 'daf-w3c'
+import * as SD from 'daf-selective-disclosure'
+import * as DBG from 'daf-debug'
+import * as URL from 'daf-url'
+import { DafUniversalResolver } from 'daf-resolver-universal'
+import Debug from 'debug'
+
+Debug.enable('*')
+
 const messageValidator = new DBG.MessageValidator()
 messageValidator
   .setNext(new URL.MessageValidator())
   .setNext(new DidJwt.MessageValidator())
   .setNext(new W3c.MessageValidator())
-  .setNext(new Sd.MessageValidator())
+  .setNext(new SD.MessageValidator())
 
-const core = new Daf.core({
-  // ...,
+const core = new Daf.Core({
   messageValidator,
-  // ...
+  identityControllers: [],
+  serviceControllers: [],
+  didResolver: new DafUniversalResolver({ url: 'https://uniresolver.io/1.0/identifiers/' }),
 })
 
 // After scanning QR Code:
-// qrcodeData = 'https://example.com/ssi?c_i=eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1NzU2MzIyNDQsInR5cGUiOiJzZHIiLCJ0YWciOiJzZXNzLTEyMyIsImNsYWltcyI6W3siZXNzZW50aWFsIjp0cnVlLCJjbGFpbVR5cGUiOiJuYW1lIiwicmVhc29uIjoiV2UgbmVlZCB0aGlzIHRvIGNvbXBseSB3aXRoIGxvY2FsIGxhdyJ9XSwiaXNzIjoiZGlkOmV0aHI6MHg2YjFkMGRiMzY3NjUwZjIxYmFlNDg1MDM0N2M3YTA0N2YwNGRlNDM2In0.lhv_sGFQX0258CJF50J9cRdF7mmzo9Jx137oWTu0VF3A1CkEI88dDYA5Usj0HKH_2tHKA5b-S1_Akb-mDz9v9QE'
+const qrcodeData =
+  'https://example.com/ssi?c_i=eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1NzU2MzIyNDQsInR5cGUiOiJzZHIiLCJ0YWciOiJzZXNzLTEyMyIsImNsYWltcyI6W3siZXNzZW50aWFsIjp0cnVlLCJjbGFpbVR5cGUiOiJuYW1lIiwicmVhc29uIjoiV2UgbmVlZCB0aGlzIHRvIGNvbXBseSB3aXRoIGxvY2FsIGxhdyJ9XSwiaXNzIjoiZGlkOmV0aHI6MHg2YjFkMGRiMzY3NjUwZjIxYmFlNDg1MDM0N2M3YTA0N2YwNGRlNDM2In0.lhv_sGFQX0258CJF50J9cRdF7mmzo9Jx137oWTu0VF3A1CkEI88dDYA5Usj0HKH_2tHKA5b-S1_Akb-mDz9v9QE'
 
-const msg = new Daf.Message({ raw: qrcodeData, meta: { type: 'QRCode' })
+const msg = new Daf.Message({ raw: qrcodeData, meta: { type: 'QRCode' } })
 
-const message = await core.validateMessage(msg)
-
-if (message.isValid()) {
-  message.id() // hash...
-  message.sender() // did:ethr:0x6b1d0db367650f21bae4850347c7a047f04de436
-  message.receiver() // null
-  message.type() // sdr
-  message.data() // "{ iss: 'did:ethr:0x6b1d0db367650f21bae4850347c7a047f04de436', tag: 'sess-123, claims: [{claimType: 'name', ...}] ..."
-  message.meta()
-  /*
-  [
-    { type: 'QRCode' },
-    { type: 'URL', id: 'https://example.com/ssi' },
-    { type: 'JWT', id: 'ES256K-R' },
-  ]
-  */
-}
-
+core.validateMessage(msg).then(message => {
+  console.log(message.id) // 4a2e23d287ad2eb6d24b0ac1618998426449201dbfc476eee01702e1d11ff8d0cdba29a3d4a9f815ef6658f6264e9db3b868be359acdb945ea70b369f8743dbb
+  console.log(message.timestamp) // 1575632244
+  console.log(message.threadId) // sess-123
+  console.log(message.sender) // did:ethr:0x6b1d0db367650f21bae4850347c7a047f04de436
+  console.log(message.receiver) // undefined
+  console.log(message.type) // sdr
+  console.log(message.data) // "{ iss: 'did:ethr:0x6b1d0db367650f21bae4850347c7a047f04de436', tag: 'sess-123, claims: [{claimType: 'name', ...}] ..."
+  console.log(message.allMeta) // [ { type: 'QRCode' }, { type: 'URL', id: 'https://example.com/ssi' }, { type: 'JWT', id: 'ES256K-R' }]
+})
 ```
 
 ### DBG.MessageValidator
