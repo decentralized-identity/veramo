@@ -27,6 +27,8 @@ export class ActionHandler extends AbstractActionHandler {
       try {
         const issuer = await core.identityManager.issuer(did)
         debug('Signing VP with', did)
+        // Removing duplicate JWT
+        data.vp.verifiableCredential = Array.from(new Set(data.vp.verifiableCredential))
         const jwt = await createPresentation(data, issuer)
         return jwt
       } catch (error) {
