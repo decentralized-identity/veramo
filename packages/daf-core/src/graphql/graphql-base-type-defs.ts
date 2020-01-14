@@ -22,7 +22,6 @@ export const baseTypeDefs = `
   }
 
   type MessageMetaData {
-    rowId: String!
     type: String!
     id: String
     data: String

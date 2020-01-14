@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/uport-project/daf/compare/v1.3.7...v1.4.0) (2020-01-14)
+
+
+### Features
+
+* GQL query to get latest service messages ([8061fbe](https://github.com/uport-project/daf/commit/8061fbed8fc3626b165b8c03dee79901682f60a2))
+
+
+
+
+
 ## [1.3.3](https://github.com/uport-project/daf/compare/v1.3.2...v1.3.3) (2019-12-20)
 
 **Note:** Version bump only for package daf-core

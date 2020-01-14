@@ -36,6 +36,7 @@ program
       context: () => ({ dataStore, core }),
       introspection: true,
     })
+    await core.setupServices()
     const info = await server.listen({ port: cmd.port })
     console.log(`🚀  Server ready at ${info.url}`)
 
