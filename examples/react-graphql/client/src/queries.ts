@@ -32,6 +32,7 @@ export const actionSendJwtMutation = gql`
 export const serviceMessagesSince = gql`
   query m($ts: [LastMessageTimestampForInstance]!) {
     serviceMessagesSince(ts: $ts) {
+      id
       type
       timestamp
       data

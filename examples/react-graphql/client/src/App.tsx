@@ -35,7 +35,10 @@ const App: React.FC = () => {
     refetchQueries: [{ query: queries.managedIdentitiesQuery }],
   })
   const { data: managedIdentitiesData } = useQuery(queries.managedIdentitiesQuery)
-  const { data: serviceMessagesData } = useQuery(queries.serviceMessagesSince, { variables: { ts: [] } })
+  const {
+    loading: serviceMessagesLoading,
+    data: serviceMessagesData,
+  } = useQuery(queries.serviceMessagesSince, { variables: { ts: [] } })
   const [signVc] = useMutation(queries.actionSignVcMutation)
   const [sendJwt] = useMutation(queries.actionSendJwtMutation)
 
@@ -173,6 +176,7 @@ const App: React.FC = () => {
       <Box p={3}>
         <Card width={'auto'} mx={'auto'}>
           <Heading>Messages</Heading>
+          {serviceMessagesLoading ? <Loader size="20px" /> : <div style={{ height: '20px' }} />}
           <Table>
             <thead>
               <tr>
