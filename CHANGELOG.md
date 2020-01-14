@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/uport-project/daf/compare/v1.4.0...v1.4.1) (2020-01-14)
+
+
+### Bug Fixes
+
+* Adding id to serviceMessagesSince ([45bb45b](https://github.com/uport-project/daf/commit/45bb45b8b59034e6f793d486e06efc998c53584e))
+
+
+
+
+
 # [1.4.0](https://github.com/uport-project/daf/compare/v1.3.7...v1.4.0) (2020-01-14)
 
 

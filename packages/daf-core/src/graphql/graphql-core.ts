@@ -31,6 +31,7 @@ const serviceMessagesSince = async (
   const res = await ctx.core.getMessagesSince(args.ts)
   return res.map(msg => ({
     ...msg,
+    id: msg.id,
     data: JSON.stringify(msg.data),
     raw: msg.raw,
     metaData: msg.allMeta,
