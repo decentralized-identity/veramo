@@ -1,14 +1,14 @@
 {
   "name": "daf-url",
   "description": "DAF URL message validator",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^1.3.3",
+    "daf-core": "^1.4.0",
     "debug": "^4.1.1",
     "url-parse": "^1.4.7"
   },
