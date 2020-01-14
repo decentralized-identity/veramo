@@ -15,6 +15,7 @@ const {
   Input,
   Loader,
   ToastMessage,
+  Table,
 } = require('rimble-ui')
 
 declare global {
@@ -34,6 +35,7 @@ const App: React.FC = () => {
     refetchQueries: [{ query: queries.managedIdentitiesQuery }],
   })
   const { data: managedIdentitiesData } = useQuery(queries.managedIdentitiesQuery)
+  const { data: serviceMessagesData } = useQuery(queries.serviceMessagesSince, { variables: { ts: [] } })
   const [signVc] = useMutation(queries.actionSignVcMutation)
   const [sendJwt] = useMutation(queries.actionSendJwtMutation)
 
@@ -168,6 +170,33 @@ const App: React.FC = () => {
           </Card>
         </Box>
       </Flex>
+      <Box p={3}>
+        <Card width={'auto'} mx={'auto'}>
+          <Heading>Messages</Heading>
+          <Table>
+            <thead>
+              <tr>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Time</th>
+                <th>Type</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              {serviceMessagesData?.serviceMessagesSince.map((msg: any) => (
+                <tr key={msg.id}>
+                  <td>{msg.sender}</td>
+                  <td>{msg.receiver}</td>
+                  <td>{msg.timestamp}</td>
+                  <td>{msg.type}</td>
+                  <td>{msg.data}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Card>
+      </Box>
     </BaseStyles>
   )
 }

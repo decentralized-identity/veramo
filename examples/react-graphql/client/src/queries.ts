@@ -28,3 +28,20 @@ export const actionSendJwtMutation = gql`
     actionSendJwt(from: $from, to: $to, jwt: $jwt)
   }
 `
+
+export const serviceMessagesSince = gql`
+  query m($ts: [LastMessageTimestampForInstance]!) {
+    serviceMessagesSince(ts: $ts) {
+      type
+      timestamp
+      data
+      raw
+      sender
+      receiver
+      metaData {
+        type
+        id
+      }
+    }
+  }
+`

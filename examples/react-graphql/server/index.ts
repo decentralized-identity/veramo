@@ -10,6 +10,9 @@ import { EthrDidFsController } from 'daf-ethr-did-fs'
 import { DafResolver } from 'daf-resolver'
 import { ApolloServer } from 'apollo-server'
 import merge from 'lodash.merge'
+import ws from 'ws'
+
+TG.ServiceController.webSocketImpl = ws
 
 let didResolver = new DafResolver({ infuraProjectId: '5ffc47f65c4042ce847ef66a3fa70d4c' })
 
@@ -58,6 +61,8 @@ const server = new ApolloServer({
   introspection: true,
 })
 
-server.listen().then(info => {
-  console.log(`🚀  Server ready at ${info.url}`)
+core.setupServices().then(() => {
+  server.listen().then(info => {
+    console.log(`🚀  Server ready at ${info.url}`)
+  })
 })
