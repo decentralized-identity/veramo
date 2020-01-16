@@ -1,11 +1,12 @@
 import * as Daf from 'daf-core'
-import * as DataStore from 'daf-data-store'
+import * as DS from 'daf-data-store'
 import * as DidJwt from 'daf-did-jwt'
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
 import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as URL from 'daf-url'
+import { NodeSqlite3 } from 'daf-node-sqlite3'
 import { EthrDidFsController } from 'daf-ethr-did-fs'
 import { DafResolver } from 'daf-resolver'
 import { ApolloServer } from 'apollo-server'
@@ -40,10 +41,12 @@ export const core = new Daf.Core({
   actionHandler,
 })
 
+const dataStore = new DS.DataStore(new NodeSqlite3('./data-store.sqlite3'))
+
 const server = new ApolloServer({
   typeDefs: [
     Daf.Gql.baseTypeDefs,
-    DataStore.Gql.typeDefs,
+    DS.Gql.typeDefs,
     Daf.Gql.Core.typeDefs,
     Daf.Gql.IdentityManager.typeDefs,
     TG.Gql.typeDefs,
@@ -53,16 +56,25 @@ const server = new ApolloServer({
   resolvers: merge(
     Daf.Gql.Core.resolvers,
     Daf.Gql.IdentityManager.resolvers,
+    DS.Gql.resolvers,
     TG.Gql.resolvers,
     W3c.Gql.resolvers,
     SD.Gql.resolvers,
   ),
-  context: () => ({ core }),
+  context: () => ({ core, dataStore }),
   introspection: true,
 })
 
-core.setupServices().then(() => {
-  server.listen().then(info => {
-    console.log(`🚀  Server ready at ${info.url}`)
-  })
+core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
+  await dataStore.saveMessage(message)
 })
+
+const main = async () => {
+  await dataStore.initialize()
+  await core.setupServices()
+  await core.listen()
+  const info = await server.listen()
+  console.log(`🚀  Server ready at ${info.url}`)
+}
+
+main().catch(console.log)
