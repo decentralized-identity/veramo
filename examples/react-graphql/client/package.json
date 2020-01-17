@@ -11,6 +11,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/styled-components": "^4.4.2",
     "apollo-boost": "^0.4.7",
     "graphql": "^14.5.8",
     "react": "^16.12.0",
@@ -18,6 +19,7 @@
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
     "rimble-ui": "^0.11.1",
+    "styled-components": "^5.0.0",
     "typescript": "~3.7.2"
   },
   "scripts": {
