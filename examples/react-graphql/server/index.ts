@@ -61,7 +61,16 @@ const server = new ApolloServer({
     W3c.Gql.resolvers,
     SD.Gql.resolvers,
   ),
-  context: () => ({ core, dataStore }),
+  context: ({ req }) => {
+    // Authorization is out of scope for this example,
+    // but this is where you could add your auth logic
+    const token = req.headers.authorization || ''
+    if (token !== 'Bearer hardcoded-example-token') {
+      throw Error('Auth error')
+    }
+
+    return { core, dataStore }
+  },
   introspection: true,
 })
 

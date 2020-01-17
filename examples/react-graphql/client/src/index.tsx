@@ -5,7 +5,20 @@ import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import * as serviceWorker from './serviceWorker'
 
-const client = new ApolloClient({ uri: 'http://localhost:4000/' })
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/',
+
+  // Authorization is out of scope for this example,
+  // but this is where you could add your auth logic
+  request: operation => {
+    const token = 'hardcoded-example-token'
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    })
+  },
+})
 
 ReactDOM.render(
   <ApolloProvider client={client}>
