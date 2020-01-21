@@ -20,6 +20,12 @@ Install all packages dependencies
 yarn bootstrap
 ```
 
+Build
+
+```
+yarn build
+```
+
 Run the tests
 
 ```
