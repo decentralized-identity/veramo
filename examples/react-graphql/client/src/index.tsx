@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Dashboard from './views/Dashboard/Dashboard'
+import Layout from './layout/Layout'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import * as serviceWorker from './serviceWorker'
@@ -39,7 +39,7 @@ ReactDOM.render(
       })}
     >
       <BaseStyles id="base_styles_container">
-        <Dashboard />
+        <Layout />
       </BaseStyles>
     </ThemeProvider>
   </ApolloProvider>,
