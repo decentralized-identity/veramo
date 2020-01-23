@@ -19,6 +19,12 @@ export const createIdentity = gql`
   }
 `
 
+export const deleteIdentity = gql`
+  mutation deleteIdentity($type: String, $did: String) {
+    deleteIdentity(type: $type, did: $did)
+  }
+`
+
 export const actionSignVc = gql`
   mutation actionSignVc($did: String!, $data: VerifiableCredentialInput!) {
     actionSignVc(did: $did, data: $data)
