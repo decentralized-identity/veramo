@@ -4,7 +4,7 @@ import Layout from './layout/Layout'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import * as serviceWorker from './serviceWorker'
-import { BaseStyles, theme } from 'rimble-ui'
+import { BaseStyles, theme, ToastMessage } from 'rimble-ui'
 import { ThemeProvider } from 'styled-components'
 import { AppProvider } from './context/AppProvider'
 
@@ -41,6 +41,7 @@ ReactDOM.render(
         })}
       >
         <BaseStyles id="base_styles_container">
+          <ToastMessage.Provider ref={(node: any) => (window.toastProvider = node)} />
           <Layout />
         </BaseStyles>
       </ThemeProvider>

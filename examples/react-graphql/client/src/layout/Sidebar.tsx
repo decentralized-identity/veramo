@@ -1,7 +1,15 @@
-import React from 'react'
-import { Box } from 'rimble-ui'
+import React, { useContext } from 'react'
+import { Box, Avatar } from 'rimble-ui'
+import { AppContext } from '../context/AppProvider'
+import md5 from 'md5'
 
 const Component = () => {
+  const [appState] = useContext(AppContext)
+
+  const gravatarType = 'identicon'
+  const GRAVATAR_URI = 'https://www.gravatar.com/avatar/'
+  const uri = GRAVATAR_URI + md5(appState.defaultDid) + '?s=100' + '&d=' + gravatarType
+
   return (
     <Box
       p={3}
@@ -11,7 +19,7 @@ const Component = () => {
       display={'flex'}
       flexDirection={'column'}
     >
-      <Box borderRadius={25} width={50} height={50} bg="#FFFFFF" p={3}></Box>
+      <Avatar size="45px" src={uri} />
       <Box borderRadius={5} width={45} height={45} bg="#FFFFFF" p={3}></Box>
     </Box>
   )

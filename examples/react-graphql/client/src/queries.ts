@@ -6,6 +6,7 @@ export const managedIdentities = gql`
     managedIdentities {
       did
       type
+      shortId
     }
   }
 `

@@ -1,10 +1,16 @@
 import React, { useState, useContext } from 'react'
-import { Box, Heading, Button, Field, Text, Form, Flex, Card, Input, Loader } from 'rimble-ui'
+import { Box, Button, Field, Text, Form, Flex, Input, Loader, ToastMessage } from 'rimble-ui'
 import Page from '../../layout/Page'
 import Panel from '../../components/Panel/Panel'
 import { AppContext } from '../../context/AppProvider'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import * as queries from '../../queries'
+
+declare global {
+  interface Window {
+    toastProvider: any
+  }
+}
 
 const Component = () => {
   const [appState] = useContext(AppContext)
@@ -12,7 +18,6 @@ const Component = () => {
   const [receiver, setReceiver] = useState('did:web:uport.me')
   const [claimType, setClaimType] = useState('name')
   const [claimValue, setClaimValue] = useState('Alice')
-
   const [signVc] = useMutation(queries.actionSignVc)
   const [sendJwt] = useMutation(queries.actionSendJwt, {
     refetchQueries: [
@@ -56,9 +61,9 @@ const Component = () => {
 
       console.log(dataSend)
 
-      // window.toastProvider.addMessage('Credential sent!', { variant: 'success' })
+      window.toastProvider.addMessage('Credential sent!', { variant: 'success' })
     } catch (e) {
-      // window.toastProvider.addMessage(e.message, { variant: 'failure' })
+      window.toastProvider.addMessage(e.message, { variant: 'failure' })
     }
 
     setIsSending(false)

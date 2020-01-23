@@ -21,7 +21,7 @@ const Component = () => {
         bg="#222222"
       >
         <Heading as={'h4'}>Identity</Heading>
-        <Icon name={'Close'} onClick={() => history.push('/identities')} />
+        <Icon name={'Close'} onClick={() => history.push('/identities')} style={{ cursor: 'pointer' }} />
       </Box>
       <Box p={3} pb={64} className={'scroll-container'}>
         <Box borderRadius={1} bg="#222222" mb={32}>

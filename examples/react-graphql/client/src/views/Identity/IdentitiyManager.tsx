@@ -57,22 +57,26 @@ const Component = () => {
           </thead>
           <tbody>
             {managedIdentitiesData?.managedIdentities?.map(
-              (identity: { did: string; type: string; shortId: string; name: string }) => (
-                <tr
-                  key={identity.did}
-                  className={`interactive_table_row ${
-                    highlightedIdentity === identity.did ? 'highlighted' : ''
-                  }`}
-                  onClick={() => showIdentityDetail(identity.did)}
-                >
-                  <td>{identity.did}</td>
-                  <td>{identity.type}</td>
-                  <td>{identity.shortId}</td>
-                  <td className={'icon_cell'}>
-                    {defaultDid === identity.did && <Icon name={'Check'} color={'green'} />}
-                  </td>
-                </tr>
-              ),
+              (identity: { did: string; type: string; shortId: string; name: string }) => {
+                console.log(identity)
+
+                return (
+                  <tr
+                    key={identity.did}
+                    className={`interactive_table_row ${
+                      highlightedIdentity === identity.did ? 'highlighted' : ''
+                    }`}
+                    onClick={() => showIdentityDetail(identity.did)}
+                  >
+                    <td>{identity.did}</td>
+                    <td>{identity.type}</td>
+                    <td>{identity.shortId}</td>
+                    <td className={'icon_cell'}>
+                      {defaultDid === identity.did && <Icon name={'Check'} color={'green'} />}
+                    </td>
+                  </tr>
+                )
+              },
             )}
           </tbody>
         </Table>

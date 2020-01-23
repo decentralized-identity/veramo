@@ -1,5 +1,19 @@
-import React, { useContext } from 'react'
-import { Flex, Box, Text, Heading, Button, Icon, Table, Field, Input, Card, Loader } from 'rimble-ui'
+import React, { useContext, useState } from 'react'
+import {
+  Flex,
+  Box,
+  Text,
+  Heading,
+  Button,
+  Icon,
+  Table,
+  Field,
+  Input,
+  Card,
+  Loader,
+  QR,
+  Modal,
+} from 'rimble-ui'
 import Panel from '../../components/Panel/Panel'
 import Page from '../../layout/Page'
 import * as queries from '../../queries'
@@ -10,6 +24,8 @@ interface Activity {}
 
 const Activity: React.FC<Activity> = () => {
   const [appState] = useContext(AppContext)
+  const [isQROpen, setIsQROpen] = useState(false)
+  const [qrValue, setQrValue] = useState('')
 
   const { loading: messagesLoading, data: messagesData } = useQuery(queries.allMessages, {
     variables: { activeDid: appState.defaultDid },
@@ -19,6 +35,20 @@ const Activity: React.FC<Activity> = () => {
 
   return (
     <Page title={'Activity'}>
+      <Modal isOpen={isQROpen}>
+        <Button.Text
+          icononly
+          icon={'Close'}
+          color={'moon-gray'}
+          position={'absolute'}
+          top={0}
+          right={0}
+          mt={3}
+          mr={3}
+          onClick={() => setIsQROpen(false)}
+        />
+        <QR value={qrValue} size={500} />
+      </Modal>
       <Panel heading={'Messages'} headerBorder={0}>
         <Table border={0} color={'#FFFFFF'} borderColor={'#4B4B4B'}>
           <thead>
@@ -49,11 +79,12 @@ const Activity: React.FC<Activity> = () => {
                 </td>
                 <td>
                   <Icon
-                    name="Search"
-                    size="30"
+                    style={{ cursor: 'pointer' }}
+                    name={'Visibility'}
+                    size={'30'}
                     onClick={() => {
-                      // setQrValue(msg.raw)
-                      // setIsQROpen(true)
+                      setQrValue(msg.raw)
+                      setIsQROpen(true)
                     }}
                   />
                 </td>
