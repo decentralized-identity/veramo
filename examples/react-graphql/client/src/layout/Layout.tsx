@@ -18,8 +18,6 @@ import NavigationLeft from './NavigationLeft'
 interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = () => {
-  const [sidePanelOpen, toggleSidePanel] = useState(true)
-
   return (
     <Router>
       <Flex flexDirection={'row'} flex={1}>

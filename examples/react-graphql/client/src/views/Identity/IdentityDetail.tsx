@@ -1,10 +1,13 @@
-import React from 'react'
-import { Box, Heading, Field, Input, Icon, Flash } from 'rimble-ui'
+import React, { useContext } from 'react'
+import { Box, Heading, Field, Input, Icon, Flash, Button } from 'rimble-ui'
 import { useParams, useHistory } from 'react-router-dom'
+import { AppContext } from '../../context/AppProvider'
 
 const Component = () => {
   let { id } = useParams()
   let history = useHistory()
+  const [appState, setDefaultDid] = useContext(AppContext)
+  const { defaultDid } = appState
 
   return (
     <Box width={450} bg="#1C1C1C" borderLeft={1} borderColor={'#4B4B4B'}>
@@ -21,149 +24,20 @@ const Component = () => {
         <Icon name={'Close'} onClick={() => history.push('/identities')} />
       </Box>
       <Box p={3} pb={64} className={'scroll-container'}>
-        <Flash my={3} variant="info">
-          {id}
-        </Flash>
-
         <Box borderRadius={1} bg="#222222" mb={32}>
           <Box p={3} borderBottom={1} borderColor={'#4B4B4B'}>
-            <Heading as={'h5'}>DID</Heading>
+            <Heading as={'h5'}>DID Details</Heading>
           </Box>
-          <Box p={3}>
-            <Field label="did" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
-            <Field label="type" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'ethr-did-fs'}
-              />
-            </Field>
-            <Field label="name" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'Jack'}
-              />
-            </Field>
-            <Field label="firstName" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
-            <Field label="firstName" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
-            <Field label="firstName" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
-            <Field label="firstName" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
-            <Field label="firstName" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
-            <Field label="firstName" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
-            <Field label="firstName" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
-            <Field label="firstName" display={'flex'}>
-              <Input
-                spellCheck={false}
-                width={'100%'}
-                border={0}
-                backgroundColor={'#313131'}
-                boxShadow={0}
-                type="text"
-                required={true}
-                value={'did:ethr:0x49a8246758f8d28e348318183d9498496074ca71'}
-              />
-            </Field>
+          <Box p={3} bg="#222222" mb={10}>
+            <Heading as={'h5'} pb={2}>
+              did
+            </Heading>
+            {id}
           </Box>
         </Box>
+        <Button mt={3} mb={3} mr={3} onClick={() => setDefaultDid(id)} disabled={defaultDid === id}>
+          Set as default
+        </Button>
       </Box>
     </Box>
   )
