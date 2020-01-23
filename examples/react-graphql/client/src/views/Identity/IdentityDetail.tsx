@@ -20,6 +20,8 @@ const Component = () => {
         type: 'ethr-did-fs',
         did: did,
       },
+    }).then(() => {
+      window.toastProvider.addMessage('Identity deleted', { variant: 'success' })
     })
     history.push('/identities')
   }
