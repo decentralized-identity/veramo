@@ -11,7 +11,7 @@ const Component = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
   const [highlightedIdentity, highlightIdentity] = useState()
-  const [appState] = useContext(AppContext)
+  const [appState, setDefaultDid] = useContext(AppContext)
   const { defaultDid } = appState
   const { data: managedIdentitiesData } = useQuery(queries.managedIdentities)
   const [createIdentity] = useMutation(queries.createIdentity, {
@@ -26,9 +26,11 @@ const Component = () => {
 
   console.log(appState)
 
-  // useEffect(() => {
-  //   highlightIdentity(null)
-  // }, [])
+  useEffect(() => {
+    if (!defaultDid && managedIdentitiesData?.managedIdentities?.length > 0) {
+      setDefaultDid(managedIdentitiesData.managedIdentities[0].did)
+    }
+  }, [managedIdentitiesData])
 
   return (
     <Page title={'Identity Manger'}>
@@ -58,8 +60,6 @@ const Component = () => {
           <tbody>
             {managedIdentitiesData?.managedIdentities?.map(
               (identity: { did: string; type: string; shortId: string; name: string }) => {
-                console.log(identity)
-
                 return (
                   <tr
                     key={identity.did}

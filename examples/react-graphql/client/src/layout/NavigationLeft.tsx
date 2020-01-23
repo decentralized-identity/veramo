@@ -5,9 +5,9 @@ import { NavLink } from 'react-router-dom'
 const Component = () => {
   return (
     <Box p={3} width={220} bg="#28292B" borderRight={1} borderColor={'#4B4B4B'}>
-      <Box mb={32}>
+      <Box mb={32} pt={2}>
         <Heading as={'h3'}>Daf Dashboard</Heading>
-        <Text>Description</Text>
+        {/* <Text>DID management and credential portal</Text> */}
       </Box>
       <ul className={'left-nav-list'}>
         <li className={'left-nav-item'}>
