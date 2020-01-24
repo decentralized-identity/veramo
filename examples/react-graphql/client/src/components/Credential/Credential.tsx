@@ -59,7 +59,7 @@ const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub
         )}
         {detailMode && jwt && (
           <Box mt={50} alignItems={'center'} justifyContent={'center'} display={'flex'}>
-            <QR size={200} value={jwt} />
+            <QR size={300} value={jwt} />
           </Box>
         )}
       </Box>
