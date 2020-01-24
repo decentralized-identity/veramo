@@ -1658,6 +1658,13 @@
     "@types/react-native" "*"
     csstype "^2.2.0"
 
+"@types/sugar@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@types/sugar/-/sugar-2.0.2.tgz#49c8b07af4e6c86b014aa776bb437d16044d2972"
+  integrity sha1-SciwevTmyGsBSqd2u0N9FgRNKXI=
+  dependencies:
+    sugar "*"
+
 "@types/testing-library__dom@*", "@types/testing-library__dom@^6.0.0":
   version "6.11.1"
   resolved "https://registry.yarnpkg.com/@types/testing-library__dom/-/testing-library__dom-6.11.1.tgz#6058a6ac391db679f7c60dbb27b81f0620de2dd9"
@@ -10374,6 +10381,25 @@ stylehacks@^4.0.0:
     browserslist "^4.0.0"
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
+
+sugar-core@^2.0.0:
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/sugar-core/-/sugar-core-2.0.6.tgz#785e0cd64aa7302ea54d47bc1213efe52c006270"
+  integrity sha512-YmLFysR3Si6RImqL1+aB6JH81EXxvXn5iXhPf2PsjfoUYEwCxFDYCQY+zC3WqviuGWzxFaSkkJvkUE05Y03L5Q==
+
+sugar-inflections@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/sugar-inflections/-/sugar-inflections-2.0.6.tgz#84df8769cde1d70b625f4c3d856a4648a8fe4c24"
+  integrity sha512-C9guJmDgW5ZKyO/Y3mt3rAlZ+oZLGpaqM0SReW3a0s0/h/brflPLDU5qdztcssIkU/fof8tcwLdPtv6vCZB8fA==
+  dependencies:
+    sugar-core "^2.0.0"
+
+sugar@*, sugar@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/sugar/-/sugar-2.0.6.tgz#aa08e389add27109fb35718598313e0503a4fc39"
+  integrity sha512-s0P2/pjJtAD9VA44+2Gqm3NdC4v+08melA6YubOxzshu628krTbn95/M2GWMrI9rYspZMpYBIrChR46fjQ7xsQ==
+  dependencies:
+    sugar-core "^2.0.0"
 
 supports-color@^2.0.0:
   version "2.0.0"

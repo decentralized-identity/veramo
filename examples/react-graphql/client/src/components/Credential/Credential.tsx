@@ -1,8 +1,9 @@
 import React from 'react'
 import { Box, Heading, Text, Icon, Avatar, QR } from 'rimble-ui'
 import * as Types from '../../types'
-
 import './Credential.css'
+
+const S = require('sugar/string')
 
 interface Props {
   iss: Types.Identity
@@ -38,7 +39,9 @@ const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub
           return (
             <Box mb={1} key={i}>
               <Box>
-                <Text>{field.type}</Text>
+                <Text caps fontSize={1}>
+                  {S.String.titleize(field.type)}
+                </Text>
               </Box>
               <Box justifyContent={'flex-start'}>
                 {fieldValueImage ? (
@@ -46,7 +49,7 @@ const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub
                     <Avatar source={{ uri: field.value }} type={'rounded'} gravatarType={'retro'} size={25} />
                   </Box>
                 ) : (
-                  <Text>{field.isObj ? 'Type not supported yet' : field.value}</Text>
+                  <Text fontSize={3}>{field.isObj ? 'Type not supported yet' : field.value}</Text>
                 )}
               </Box>
             </Box>
