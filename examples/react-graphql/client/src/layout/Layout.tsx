@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-
-import { Flex, Box, Text, Heading, Button, Icon, Table, Field, Input } from 'rimble-ui'
+import React from 'react'
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
+import { Flex, Box } from 'rimble-ui'
 
 import Activity from '../views/Activity/Activity'
 import Explore from '../views/Explore/Explore'
@@ -13,8 +11,9 @@ import Connections from '../views/Connections/Connections'
 import Issue from '../views/Issue/Issue'
 
 import Sidebar from './Sidebar'
+import SidePanel from './SidePanel'
 import NavigationLeft from './NavigationLeft'
-import Credential from '../components/Credential/Credential'
+import CredentialDetail from '../components/Credential/CredentialDetail'
 
 interface DashboardProps {}
 
@@ -51,11 +50,15 @@ const Dashboard: React.FC<DashboardProps> = () => {
         </Box>
 
         <Switch>
-          <Route path="*/user/:id">
-            <IdentityDetail />
+          <Route path="/identities/user/:id">
+            <SidePanel title={'Identity'} closeUrl={'/identities'}>
+              <IdentityDetail />
+            </SidePanel>
           </Route>
-          <Route path="/credential/:id">
-            <Credential />
+          <Route path="/activity/credential/:id">
+            <SidePanel title={'Credential'} closeUrl={'/activity'}>
+              <CredentialDetail />
+            </SidePanel>
           </Route>
         </Switch>
       </Flex>

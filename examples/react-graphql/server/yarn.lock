@@ -809,10 +809,10 @@ daf-core@^1.4.0, daf-core@^1.4.1:
     debug "^4.1.1"
     events "^3.0.0"
 
-daf-data-store@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/daf-data-store/-/daf-data-store-1.4.1.tgz#5c97a6198786bf2014cada307b961f244162b50b"
-  integrity sha512-/jYuBXRLSPr0hLTMfRiSiKoatut0TBsY4Y3ACMiVWbAPOYk9lBeUfDD8iWbu1yef+are+kCxt0MRnDxUu2OptA==
+daf-data-store@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/daf-data-store/-/daf-data-store-1.5.0.tgz#dbd37a9d9be024eab76cc3a5531cfca654dbbf66"
+  integrity sha512-CngWn+G4Qd9HIsJAPOOMlNBlkDUbOmmL9+jF2iOHb33JIOiJ9MhSsAgNvofJq0G17EgxHLZ0dD6z4qP/GgZf/g==
   dependencies:
     blakejs "^1.1.0"
     daf-core "^1.4.1"
@@ -846,12 +846,12 @@ daf-ethr-did-fs@^1.4.0:
     debug "^4.1.1"
     ethr-did "^1.1.0"
 
-daf-node-sqlite3@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/daf-node-sqlite3/-/daf-node-sqlite3-1.4.1.tgz#a2a823b3d54117842985aa250ebaca1193c4170a"
-  integrity sha512-axijTXIJxjkBF6kPJv2w2+2211zEK8VXzcTsK936DEqQnUo8H0eA9K91uMwfBL8U15idcQSGKqfxcy+HG8RbMw==
+daf-node-sqlite3@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/daf-node-sqlite3/-/daf-node-sqlite3-1.5.0.tgz#19b712fa8aa68ce2aa4de2cac254541e9a9192e4"
+  integrity sha512-g7AdC+pvrofLJueAK+JUUdhxbQtmozbDwa+gp4Xnn3nUyn1Rxh84XW84ssbvLexICjzIgrW8c37k1oYpeP8Njw==
   dependencies:
-    daf-data-store "^1.4.1"
+    daf-data-store "^1.5.0"
     debug "^4.1.1"
     sqlite3 "^4.1.0"
 
