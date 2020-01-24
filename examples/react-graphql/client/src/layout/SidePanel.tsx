@@ -1,14 +1,22 @@
 import React from 'react'
 import { Box, Heading, Icon } from 'rimble-ui'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/react-hooks'
 
 interface Props {
   title: string
   closeUrl: string
+  query?: any
+  renderQuery?: (props: any) => React.ReactNode
 }
 
-const Component: React.FC<Props> = ({ title, closeUrl, children }) => {
+const Component: React.FC<Props> = ({ title, closeUrl, query, children, renderQuery }) => {
   let history = useHistory()
+  const { id } = useParams()
+
+  const { loading: queryLoading, data: queryData } = useQuery(query, {
+    variables: { id },
+  })
 
   return (
     <Box width={450} bg="#1C1C1C" borderLeft={1} borderColor={'#4B4B4B'}>
@@ -24,9 +32,18 @@ const Component: React.FC<Props> = ({ title, closeUrl, children }) => {
         <Heading as={'h4'}>{title}</Heading>
         <Icon name={'Close'} onClick={() => history.push(closeUrl)} style={{ cursor: 'pointer' }} />
       </Box>
-      <Box p={3} pb={64} className={'scroll-container'}>
-        {children}
-      </Box>
+
+      {renderQuery && queryData && (
+        <Box p={3} pb={64} className={'scroll-container'}>
+          {renderQuery(queryData?.credential)}
+        </Box>
+      )}
+
+      {children && (
+        <Box p={3} pb={64} className={'scroll-container'}>
+          {children}
+        </Box>
+      )}
     </Box>
   )
 }

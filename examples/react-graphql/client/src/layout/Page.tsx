@@ -15,7 +15,7 @@ const Component = (props: any) => {
       >
         <Heading as={'h4'}>{props.title}</Heading>
       </Box>
-      <Box p={3} flex={1} pb={64} className={'scroll-container'}>
+      <Box flex={1} pb={64} className={'scroll-container'}>
         {props.children}
       </Box>
     </>

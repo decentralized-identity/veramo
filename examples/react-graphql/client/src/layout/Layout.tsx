@@ -13,9 +13,16 @@ import Issue from '../views/Issue/Issue'
 import Sidebar from './Sidebar'
 import SidePanel from './SidePanel'
 import NavigationLeft from './NavigationLeft'
-import CredentialDetail from '../components/Credential/CredentialDetail'
+import Credential from '../components/Credential/Credential'
+
+import * as queries from '../queries'
 
 interface DashboardProps {}
+
+const renderCredentialQuery = (props: any) => {
+  console.log(props)
+  return <Credential detailMode {...props} />
+}
 
 const Dashboard: React.FC<DashboardProps> = () => {
   return (
@@ -56,9 +63,12 @@ const Dashboard: React.FC<DashboardProps> = () => {
             </SidePanel>
           </Route>
           <Route path="/activity/credential/:id">
-            <SidePanel title={'Credential'} closeUrl={'/activity'}>
-              <CredentialDetail />
-            </SidePanel>
+            <SidePanel
+              title={'Credential'}
+              closeUrl={'/activity'}
+              query={queries.credential}
+              renderQuery={renderCredentialQuery}
+            ></SidePanel>
           </Route>
         </Switch>
       </Flex>

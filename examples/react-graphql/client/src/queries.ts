@@ -1,5 +1,30 @@
 import { gql } from 'apollo-boost'
 
+export const credential = gql`
+  query credential($id: ID!) {
+    credential(id: $id) {
+      hash
+      rowId
+      iss {
+        did
+        shortId
+      }
+      sub {
+        did
+        shortId
+      }
+      jwt
+      nbf
+      iat
+      fields {
+        isObj
+        type
+        value
+      }
+    }
+  }
+`
+
 export const managedIdentities = gql`
   query managedIdentities {
     managedIdentityTypes
@@ -60,6 +85,16 @@ export const allMessages = gql`
         vc {
           rowId
           hash
+          iss {
+            did
+            shortId
+            profileImage
+          }
+          sub {
+            did
+            shortId
+            profileImage
+          }
           fields {
             type
             value
