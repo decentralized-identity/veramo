@@ -25,6 +25,16 @@ export const credential = gql`
   }
 `
 
+export const identity = gql`
+  query identity($did: ID!) {
+    identity(did: $did) {
+      did
+      type
+      shortId
+    }
+  }
+`
+
 export const managedIdentities = gql`
   query managedIdentities {
     managedIdentityTypes

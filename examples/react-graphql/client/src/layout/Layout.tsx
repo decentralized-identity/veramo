@@ -20,8 +20,7 @@ import * as queries from '../queries'
 interface DashboardProps {}
 
 const renderCredentialQuery = (props: any) => {
-  console.log(props)
-  return <Credential detailMode {...props} />
+  return <Credential detailMode {...props?.credential} />
 }
 
 const Dashboard: React.FC<DashboardProps> = () => {
@@ -55,6 +54,13 @@ const Dashboard: React.FC<DashboardProps> = () => {
             </Route>
           </Switch>
         </Box>
+
+        {/* 
+          The SidePanel component is a query wrapper that can query for any detail item based on the :id param. 
+          If renderQuery prop is not passed in then it will ignore and just show the children.
+          The use case is if you need to have reusable components and not have embbeded GQL queries inside. 
+          ie all components in the components directory should be reusable
+        */}
 
         <Switch>
           <Route path="/identities/user/:id">

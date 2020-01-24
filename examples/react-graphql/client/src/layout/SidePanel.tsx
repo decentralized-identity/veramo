@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Heading, Icon } from 'rimble-ui'
 import { useHistory, useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useLazyQuery } from '@apollo/react-hooks'
 
 interface Props {
   title: string
@@ -14,9 +14,15 @@ const Component: React.FC<Props> = ({ title, closeUrl, query, children, renderQu
   let history = useHistory()
   const { id } = useParams()
 
-  const { loading: queryLoading, data: queryData } = useQuery(query, {
+  const [getQuery, { loading, data }] = useLazyQuery(query, {
     variables: { id },
   })
+
+  useEffect(() => {
+    if (renderQuery) {
+      getQuery()
+    }
+  }, [id])
 
   return (
     <Box width={450} bg="#1C1C1C" borderLeft={1} borderColor={'#4B4B4B'}>
@@ -33,9 +39,9 @@ const Component: React.FC<Props> = ({ title, closeUrl, query, children, renderQu
         <Icon name={'Close'} onClick={() => history.push(closeUrl)} style={{ cursor: 'pointer' }} />
       </Box>
 
-      {renderQuery && queryData && (
+      {renderQuery && data && (
         <Box p={3} pb={64} className={'scroll-container'}>
-          {renderQuery(queryData?.credential)}
+          {renderQuery(data)}
         </Box>
       )}
 

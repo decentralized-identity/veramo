@@ -5,7 +5,9 @@ import { AppContext } from '../../context/AppProvider'
 import { useMutation } from '@apollo/react-hooks'
 import * as queries from '../../queries'
 
-const Component = () => {
+interface IdentityDetail {}
+
+const Component: React.FC<IdentityDetail> = () => {
   let { id } = useParams()
   let history = useHistory()
   const [appState, setDefaultDid] = useContext(AppContext)
