@@ -75,7 +75,7 @@ const Component = () => {
   }
 
   return (
-    <Page title={'Issue Credential'}>
+    <Page title={'Issue Credential'} padding={3}>
       <Panel heading={'Credential form'}>
         <Box p={3}>
           <Form onSubmit={handleSubmit}>

@@ -33,7 +33,7 @@ const Component = () => {
   }, [managedIdentitiesData])
 
   return (
-    <Page title={'Identity Manger'}>
+    <Page title={'Identity Manger'} padding={3}>
       <Panel
         heading={'Managed DIDs'}
         headerBorder={0}
