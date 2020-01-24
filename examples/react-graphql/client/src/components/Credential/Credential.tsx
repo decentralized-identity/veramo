@@ -39,9 +39,7 @@ const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub
           return (
             <Box mb={1} key={i}>
               <Box>
-                <Text caps fontSize={1}>
-                  {S.String.titleize(field.type)}
-                </Text>
+                <Text fontSize={1}>{S.String.titleize(field.type)}</Text>
               </Box>
               <Box justifyContent={'flex-start'}>
                 {fieldValueImage ? (

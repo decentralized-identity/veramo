@@ -1,7 +1,12 @@
 import React from 'react'
 import { Box, Heading } from 'rimble-ui'
 
-const Component = (props: any) => {
+interface Props {
+  padding?: number
+  title: string
+}
+
+const Component: React.FC<Props> = ({ padding, children, title }) => {
   return (
     <>
       <Box
@@ -13,10 +18,10 @@ const Component = (props: any) => {
         display={'flex'}
         justifyContent={'space-between'}
       >
-        <Heading as={'h4'}>{props.title}</Heading>
+        <Heading as={'h4'}>{title}</Heading>
       </Box>
-      <Box flex={1} pb={64} className={'scroll-container'}>
-        {props.children}
+      <Box p={padding} flex={1} pb={64} className={'scroll-container'}>
+        {children}
       </Box>
     </>
   )

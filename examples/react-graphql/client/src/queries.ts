@@ -65,6 +65,12 @@ export const actionSignVc = gql`
     actionSignVc(did: $did, data: $data)
   }
 `
+
+export const actionSignSDR = gql`
+  mutation signSDR($did: String!, $data: SDRInput!) {
+    actionSignSDR(did: $did, data: $data)
+  }
+`
 export const actionSendJwt = gql`
   mutation actionSendJwt($from: String!, $to: String!, $jwt: String!) {
     actionSendJwt(from: $from, to: $to, jwt: $jwt)
