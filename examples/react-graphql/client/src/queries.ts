@@ -59,6 +59,7 @@ export const allMessages = gql`
         }
         vc {
           rowId
+          hash
           fields {
             type
             value

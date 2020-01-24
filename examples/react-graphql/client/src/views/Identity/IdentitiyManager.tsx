@@ -21,7 +21,7 @@ const Component = () => {
   const showIdentityDetail = (did: string) => {
     highlightIdentity(did)
 
-    history.push(`${url}/${did}`)
+    history.push(`${url}/user/${did}`)
   }
 
   console.log(appState)

@@ -13,12 +13,14 @@ import {
   Loader,
   QR,
   Modal,
+  Avatar,
 } from 'rimble-ui'
-import Panel from '../../components/Panel/Panel'
+import MessageItem from '../../components/MessageItem/MessageItem'
 import Page from '../../layout/Page'
 import * as queries from '../../queries'
 import { AppContext } from '../../context/AppProvider'
 import { useQuery } from '@apollo/react-hooks'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 
 interface Activity {}
 
@@ -26,6 +28,8 @@ const Activity: React.FC<Activity> = () => {
   const [appState] = useContext(AppContext)
   const [isQROpen, setIsQROpen] = useState(false)
   const [qrValue, setQrValue] = useState('')
+  const history = useHistory()
+  const { url } = useRouteMatch()
 
   const { loading: messagesLoading, data: messagesData } = useQuery(queries.allMessages, {
     variables: { activeDid: appState.defaultDid },
@@ -49,8 +53,44 @@ const Activity: React.FC<Activity> = () => {
         />
         <QR value={qrValue} size={500} />
       </Modal>
-      <Panel heading={'Messages'} headerBorder={0}>
-        <Table border={0} color={'#FFFFFF'} borderColor={'#4B4B4B'}>
+
+      <MessageItem
+        credentialAction={() =>
+          history.push(
+            `${url}/credential/4b61787d8ee3f136b2079b8d766e85a4c9fc65ff2fe70cb78b9871d1e09e45efb86c8a6f6828c9e639f9350bf0affec9d6caff98703c9497ea7138974d4033fc`,
+          )
+        }
+      />
+      <MessageItem
+        credentialAction={() =>
+          history.push(
+            `${url}/credential/4b61787d8ee3f136b2079b8d766e85a4c9fc65ff2fe70cb78b9871d1e09e45efb86c8a6f6828c9e639f9350bf0affec9d6caff98703c9497ea7138974d4033fc`,
+          )
+        }
+      />
+      <MessageItem
+        credentialAction={() =>
+          history.push(
+            `${url}/credential/4b61787d8ee3f136b2079b8d766e85a4c9fc65ff2fe70cb78b9871d1e09e45efb86c8a6f6828c9e639f9350bf0affec9d6caff98703c9497ea7138974d4033fc`,
+          )
+        }
+      />
+      <MessageItem
+        credentialAction={() =>
+          history.push(
+            `${url}/credential/4b61787d8ee3f136b2079b8d766e85a4c9fc65ff2fe70cb78b9871d1e09e45efb86c8a6f6828c9e639f9350bf0affec9d6caff98703c9497ea7138974d4033fc`,
+          )
+        }
+      />
+      <MessageItem
+        credentialAction={() =>
+          history.push(
+            `${url}/credential/4b61787d8ee3f136b2079b8d766e85a4c9fc65ff2fe70cb78b9871d1e09e45efb86c8a6f6828c9e639f9350bf0affec9d6caff98703c9497ea7138974d4033fc`,
+          )
+        }
+      />
+
+      {/* <Table border={0} color={'#FFFFFF'} borderColor={'#4B4B4B'}>
           <thead>
             <tr>
               <th>Sender</th>
@@ -91,8 +131,7 @@ const Activity: React.FC<Activity> = () => {
               </tr>
             ))}
           </tbody>
-        </Table>
-      </Panel>
+        </Table> */}
     </Page>
   )
 }

@@ -11,9 +11,7 @@ const Component = () => {
       </Box>
       <ul className={'left-nav-list'}>
         <li className={'left-nav-item'}>
-          <NavLink exact to="/">
-            Activity
-          </NavLink>
+          <NavLink to="/activity">Activity</NavLink>
         </li>
         <li className={'left-nav-item'}>
           <NavLink to="/explore">Explore</NavLink>
