@@ -88,6 +88,8 @@ export const resolvers = {
       const res = await dataStore.findCredentials({ iss, sub })
       return res
     },
+    credential: async (_: any, { id }: { id: string }, { dataStore }: Context) =>
+      dataStore.findCredential(id),
   },
   Mutation: {
     deleteMessage: async (_: any, { id }: { id: string }, { dataStore }: Context) =>
@@ -102,6 +104,7 @@ export const typeDefs = `
     messages(sender: ID, reveiver: ID, threadId: String, limit: Int): [Message]
     message(id: ID!): Message!
     credentials(iss: ID, sub: ID): [VerifiableClaim]
+    credential(id:ID!): VerifiableClaim!
   }
 
   extend type Mutation {
