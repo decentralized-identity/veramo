@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/uport-project/daf/compare/v1.4.1...v1.5.0) (2020-01-24)
+
+
+### Features
+
+* Adding list of messages ([72dca61](https://github.com/uport-project/daf/commit/72dca619b99ea2afcc216df07ef789043998702e))
+* Loading indicator ([a463e40](https://github.com/uport-project/daf/commit/a463e40cc597c8bcbe5e4dbf95cfc19abbb66667))
+* Query for single credential by id(hash) ([1283ce5](https://github.com/uport-project/daf/commit/1283ce528695d179b4b1cad7075c3b34e647fdb0))
+* Sample auth ([ef30a6e](https://github.com/uport-project/daf/commit/ef30a6e766ddb7048e5a94f99070fb875e8f4da1))
+* Server / Client example ([f757b7e](https://github.com/uport-project/daf/commit/f757b7eaeeecdaa26aaa65c3dcdbdf9b37f1d5fd))
+* Using data store ([c2b76fd](https://github.com/uport-project/daf/commit/c2b76fd3c3db61ba1916e280fd05381c977d6be6))
+
+
+
+
+
 ## [1.4.1](https://github.com/uport-project/daf/compare/v1.4.0...v1.4.1) (2020-01-14)
 
 

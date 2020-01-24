@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/uport-project/daf/compare/v1.4.1...v1.5.0) (2020-01-24)
+
+
+### Features
+
+* Query for single credential by id(hash) ([1283ce5](https://github.com/uport-project/daf/commit/1283ce528695d179b4b1cad7075c3b34e647fdb0))
+
+
+
+
+
 ## [1.4.1](https://github.com/uport-project/daf/compare/v1.4.0...v1.4.1) (2020-01-14)
 
 **Note:** Version bump only for package daf-data-store

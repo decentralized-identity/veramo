@@ -1,7 +1,7 @@
 {
   "name": "daf-example-expressjs-ethr",
   "private": true,
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -15,12 +15,12 @@
   "license": "Apache-2.0",
   "dependencies": {
     "daf-core": "^1.4.1",
-    "daf-data-store": "^1.4.1",
+    "daf-data-store": "^1.5.0",
     "daf-debug": "^1.4.1",
     "daf-did-comm": "^1.4.1",
     "daf-did-jwt": "^1.4.1",
     "daf-ethr-did-fs": "^1.4.1",
-    "daf-node-sqlite3": "^1.4.1",
+    "daf-node-sqlite3": "^1.5.0",
     "daf-resolver": "^1.1.0",
     "daf-resolver-universal": "^1.1.0",
     "daf-selective-disclosure": "^1.4.1",
