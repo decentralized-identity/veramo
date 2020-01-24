@@ -18,6 +18,28 @@ export class DataStore {
     return runMigrations(this.db)
   }
 
+  async findCredential(id: string) {
+    const query = sql
+      .select('rowid', '*')
+      .from('verifiable_credentials')
+      .where({ hash: id })
+      .toParams()
+
+    const rows = await this.db.rows(query.text, query.values)
+
+    const mapped = rows.map((row: any) => ({
+      rowId: `${row.rowid}`,
+      hash: row.hash,
+      iss: { did: row.iss },
+      sub: { did: row.sub },
+      jwt: row.jwt,
+      nbf: row.nbf,
+      iat: row.iat,
+    }))
+
+    return mapped[0]
+  }
+
   async findCredentials({ iss, sub }: { iss?: string; sub?: string }) {
     let where = {}
 
