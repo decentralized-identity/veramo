@@ -74,22 +74,30 @@ const Dashboard: React.FC<DashboardProps> = () => {
               <IdentityDetail />
             </SidePanel>
           </Route>
-          <Route path="/activity/credential/:id">
-            <SidePanel
-              title={'Credential'}
-              closeUrl={'/activity'}
-              query={queries.credential}
-              renderQuery={renderCredentialQuery}
-            ></SidePanel>
-          </Route>
-          <Route path="/activity/sdr/:id">
-            <SidePanel
-              title={'Selective Disclosure'}
-              closeUrl={'/activity'}
-              query={queries.queryMessage}
-              renderQuery={renderSDRQuery}
-            ></SidePanel>
-          </Route>
+          <Route
+            exact
+            path="/activity/credential/:id"
+            component={() => (
+              <SidePanel
+                title={'Credential'}
+                closeUrl={'/activity'}
+                query={queries.credential}
+                renderQuery={renderCredentialQuery}
+              ></SidePanel>
+            )}
+          ></Route>
+          <Route
+            exact
+            path="/activity/sdr/:id"
+            component={() => (
+              <SidePanel
+                title={'Selective Disclosure'}
+                closeUrl={'/activity'}
+                query={queries.queryMessage}
+                renderQuery={renderSDRQuery}
+              ></SidePanel>
+            )}
+          ></Route>
         </Switch>
       </Flex>
     </Router>

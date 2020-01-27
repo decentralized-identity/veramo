@@ -90,6 +90,11 @@ export const queryMessage = gql`
         shortId
         profileImage
       }
+      receiver {
+        did
+        shortId
+        profileImage
+      }
     }
   }
 `
