@@ -3,7 +3,7 @@ import { Flex } from 'rimble-ui'
 import MessageItem from '../../components/MessageItem/MessageItem'
 import Page from '../../layout/Page'
 import Credential from '../../components/Credential/Credential'
-import * as queries from '../../queries'
+import * as queries from '../../gql/queries'
 import { AppContext } from '../../context/AppProvider'
 import { useQuery } from '@apollo/react-hooks'
 import { useHistory, useRouteMatch } from 'react-router-dom'
@@ -21,15 +21,15 @@ const Activity: React.FC<Activity> = () => {
     variables: { activeDid: appState.defaultDid },
   })
 
-  console.log(messagesData)
-
   return (
     <Page title={'Activity'}>
       {messagesData?.identity?.messagesAll?.map((msg: any) => (
         <MessageItem
+          type={msg.type}
           key={msg.id}
           sender={msg.sender}
           receiver={msg.receiver}
+          showRequest={() => history.push(`${url}/sdr/${msg.id}`)}
           attachments={msg.vc}
           renderAttachments={(attachment: any) => (
             <Credential

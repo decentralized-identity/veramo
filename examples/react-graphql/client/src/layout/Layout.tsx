@@ -13,14 +13,20 @@ import Issue from '../views/Issue/Issue'
 import Sidebar from './Sidebar'
 import SidePanel from './SidePanel'
 import NavigationLeft from './NavigationLeft'
-import Credential from '../components/Credential/Credential'
 
-import * as queries from '../queries'
+import Credential from '../components/Credential/Credential'
+import RequestDetail from '../components/Request/Request'
+
+import * as queries from '../gql/queries'
 
 interface DashboardProps {}
 
 const renderCredentialQuery = (props: any) => {
   return <Credential detailMode {...props?.credential} />
+}
+
+const renderSDRQuery = (props: any) => {
+  return <RequestDetail {...props?.message} />
 }
 
 const Dashboard: React.FC<DashboardProps> = () => {
@@ -74,6 +80,14 @@ const Dashboard: React.FC<DashboardProps> = () => {
               closeUrl={'/activity'}
               query={queries.credential}
               renderQuery={renderCredentialQuery}
+            ></SidePanel>
+          </Route>
+          <Route path="/activity/sdr/:id">
+            <SidePanel
+              title={'Selective Disclosure'}
+              closeUrl={'/activity'}
+              query={queries.queryMessage}
+              renderQuery={renderSDRQuery}
             ></SidePanel>
           </Route>
         </Switch>

@@ -27,7 +27,7 @@ const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub
           <Text fontWeight={'bold'}>{iss.shortId}</Text>
           <Box flexDirection={'row'} display={'flex'}>
             <Icon name={'PlayArrow'} />
-            <Text>{sub.shortId}</Text>
+            <Text>{sub?.shortId}</Text>
           </Box>
         </Box>
       </Box>

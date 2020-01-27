@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { Box, Heading, Icon } from 'rimble-ui'
 import { useHistory, useParams } from 'react-router-dom'
 import { useQuery, useLazyQuery } from '@apollo/react-hooks'
+import { AppContext } from '../context/AppProvider'
 
 interface Props {
   title: string
@@ -11,11 +12,12 @@ interface Props {
 }
 
 const Component: React.FC<Props> = ({ title, closeUrl, query, children, renderQuery }) => {
-  let history = useHistory()
+  const [appState] = useContext(AppContext)
+  const history = useHistory()
   const { id } = useParams()
 
   const [getQuery, { loading, data }] = useLazyQuery(query, {
-    variables: { id },
+    variables: { id, defaultDid: appState.defaultDid },
   })
 
   useEffect(() => {
