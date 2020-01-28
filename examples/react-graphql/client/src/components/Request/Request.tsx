@@ -138,6 +138,10 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
     updateSelected(defaultSelected)
   }, [])
 
+  const isSelected = (jwt: string, claimtype: string): Boolean => {
+    return selected[claimtype] && selected[claimtype].jwt === jwt
+  }
+
   return (
     <Box borderRadius={5} overflow={'hidden'} border={1} borderColor={'#333333'} bg={'#222222'}>
       <Box
@@ -160,7 +164,9 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
         return (
           <Box p={3} borderBottom={1} borderColor={'#333333'} key={requestItem.claimType}>
             <Box>
-              <b>{S.String.titleize(requestItem.claimType)}</b>
+              <b>
+                {S.String.titleize(requestItem.claimType)} {requestItem.essential && '*'}
+              </b>
             </Box>
             <Box>
               <Text>{requestItem.reason}</Text>
@@ -169,6 +175,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
               {requestItem.vc.map((credential: any) => {
                 return (
                   <Credential
+                    selected={isSelected(credential.jwt, requestItem.claimType)}
                     key={credential.hash}
                     {...credential}
                     onClick={() => onSelectItem(credential.hash, credential.jwt, requestItem.claimType)}

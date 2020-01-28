@@ -12,15 +12,18 @@ interface Props {
   fields: Types.Field[]
   detailMode?: Boolean
   jwt?: string
+  selected?: boolean
 }
 
-const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub }) => {
+const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub, selected }) => {
   const detail = detailMode
     ? {}
     : { maxWidth: 350, style: { cursor: 'pointer' }, className: 'credential_hover' }
 
+  const highlighted = selected ? { borderColor: '#555555' } : { borderColor: '#333333' }
+
   return (
-    <Box {...detail} border={1} borderRadius={5} borderColor={'#555555'} p={3} mb={8} onClick={onClick}>
+    <Box {...detail} {...highlighted} border={1} borderRadius={5} p={3} mb={8} onClick={onClick}>
       <Box flexDirection={'row'} display={'flex'} alignItems={'center'}>
         <Avatar size={'40'} src={''} />
         <Box ml={2}>
