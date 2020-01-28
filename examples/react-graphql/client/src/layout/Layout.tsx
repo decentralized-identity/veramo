@@ -25,8 +25,8 @@ const renderCredentialQuery = (props: any) => {
   return <Credential detailMode {...props?.credential} />
 }
 
-const renderSDRQuery = (props: any) => {
-  return <RequestDetail {...props?.message} />
+const renderSDRQuery = (props: any, close: () => void) => {
+  return <RequestDetail {...props?.message} close={close} />
 }
 
 const Dashboard: React.FC<DashboardProps> = () => {

@@ -8,7 +8,7 @@ interface Props {
   title: string
   closeUrl: string
   query?: any
-  renderQuery?: (props: any) => React.ReactNode
+  renderQuery?: (props: any, close: () => void) => React.ReactNode
 }
 
 const Component: React.FC<Props> = ({ title, closeUrl, query, children, renderQuery }) => {
@@ -19,6 +19,10 @@ const Component: React.FC<Props> = ({ title, closeUrl, query, children, renderQu
   const [getQuery, { loading, data }] = useLazyQuery(query, {
     variables: { id, defaultDid: appState.defaultDid },
   })
+
+  const close = () => {
+    history.push(closeUrl)
+  }
 
   useEffect(() => {
     if (renderQuery) {
@@ -38,12 +42,12 @@ const Component: React.FC<Props> = ({ title, closeUrl, query, children, renderQu
         bg="#222222"
       >
         <Heading as={'h4'}>{title}</Heading>
-        <Icon name={'Close'} onClick={() => history.push(closeUrl)} style={{ cursor: 'pointer' }} />
+        <Icon name={'Close'} onClick={close} style={{ cursor: 'pointer' }} />
       </Box>
 
       {renderQuery && data && (
         <Box p={3} pb={64} className={'scroll-container'}>
-          {renderQuery(data)}
+          {renderQuery(data, close)}
         </Box>
       )}
 

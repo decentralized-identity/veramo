@@ -14,6 +14,7 @@ interface Props {
   receiver: Types.Identity
   threadId: string
   sdr: any
+  close: () => void
 }
 
 interface ValidationState {
@@ -23,7 +24,7 @@ interface ValidationState {
   }
 }
 
-const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId }) => {
+const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) => {
   console.log(sdr, sender, receiver)
   const [sending, updateSending] = useState<boolean>(false)
   const [selected, updateSelected] = useState<ValidationState>({})
@@ -52,6 +53,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId }) => {
       if (response.actionSendJwt) {
         updateSending(false)
         window.toastProvider.addMessage('Response sent!', { variant: 'success' })
+        close()
       }
     },
     onError: response => {
@@ -189,7 +191,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId }) => {
           <>
             <Button onClick={() => accept()}>Share</Button>
 
-            <Button.Outline>Later</Button.Outline>
+            <Button.Outline onClick={close}>Later</Button.Outline>
           </>
         )}
       </Box>
