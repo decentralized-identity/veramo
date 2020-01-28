@@ -1,122 +1,80 @@
-export interface EcdsaSignature {
-  r: string
-  s: string
-  recoveryParam?: number
-}
-
-export type Signer = (data: string) => Promise<EcdsaSignature | string>
-
-export interface Issuer {
-  // did-jwt-vc
-  type: string
-  did: string
-  signer: Signer
-  ethereumAddress?: string
-}
-
-export interface IdentityController {
-  type: string
-  create: () => Promise<string>
-  delete: (did: string) => Promise<boolean>
-  listDids: () => Promise<string[]>
-  listIssuers: () => Promise<Issuer[]>
-  issuer: (did: string) => Promise<Issuer>
-  export?: (did: string) => Promise<string>
-  import?: (secret: string) => Promise<Issuer>
-}
+import { AbstractIdentity } from './abstract-identity'
+import { AbstractIdentityProvider } from './abstract-identity-provider'
 
 interface Options {
-  identityControllers: IdentityController[]
+  identityProviders: AbstractIdentityProvider[]
 }
 
 export class IdentityManager {
-  private identityControllers: IdentityController[]
+  private identityProviders: AbstractIdentityProvider[]
 
   constructor(options: Options) {
-    this.identityControllers = options.identityControllers
+    this.identityProviders = options.identityProviders
   }
 
-  async listDids(): Promise<string[]> {
-    let allDids: string[] = []
+  async getIdentityProviderTypes(): Promise<{ type: string; description: string }[]> {
+    return this.identityProviders.map(provider => ({
+      type: provider.type,
+      description: provider.description,
+    }))
+  }
 
-    for (const identityController of this.identityControllers) {
-      const dids = await identityController.listDids()
-      allDids = allDids.concat(dids)
+  async createIdentity(identityProviderType: string): Promise<AbstractIdentity> {
+    for (const identityProvider of this.identityProviders) {
+      if (identityProvider.type === identityProviderType) {
+        return identityProvider.createIdentity()
+      }
     }
 
-    return allDids
+    return Promise.reject('IdentityProvider not found for type: ' + identityProviderType)
   }
 
-  async listIssuers(): Promise<Issuer[]> {
-    let allIssuers: Issuer[] = []
-
-    for (const identityController of this.identityControllers) {
-      const issuers = await identityController.listIssuers()
-      allIssuers = allIssuers.concat(issuers)
+  async importIdentity(identityProviderType: string, secret: string): Promise<AbstractIdentity> {
+    for (const identityProvider of this.identityProviders) {
+      if (identityProvider.type === identityProviderType) {
+        return identityProvider.importIdentity(secret)
+      }
     }
 
-    return allIssuers
+    return Promise.reject('IdentityProvider not found for type: ' + identityProviderType)
   }
 
-  async issuer(did: string): Promise<Issuer> {
-    const issuers = await this.listIssuers()
-    const issuer = issuers.find(item => item.did === did)
-    if (issuer) {
-      return issuer
+  async getIdentities(): Promise<AbstractIdentity[]> {
+    let allIdentities: AbstractIdentity[] = []
+    for (const identityProvider of this.identityProviders) {
+      const identities = await identityProvider.getIdentities()
+      allIdentities = allIdentities.concat(identities)
+    }
+    return allIdentities
+  }
+
+  async getIdentity(did: string): Promise<AbstractIdentity> {
+    const identities = await this.getIdentities()
+    const identity = identities.find(item => item.did === did)
+    if (identity) {
+      return identity
     } else {
-      return Promise.reject('No issuer for did: ' + did)
+      return Promise.reject('No identity: ' + did)
     }
   }
 
-  listTypes(): string[] {
-    return this.identityControllers.map(identityController => identityController.type)
-  }
-
-  create(type: string): Promise<string> {
-    for (const identityController of this.identityControllers) {
-      if (identityController.type === type) {
-        return identityController.create()
+  async exportIdentity(did: string): Promise<string> {
+    const identity = await this.getIdentity(did)
+    for (const identityProvider of this.identityProviders) {
+      if (identityProvider.type === identity.identityProviderType) {
+        return identityProvider.exportIdentity(identity.did)
       }
     }
-
-    return Promise.reject('IdentityController not found for type: ' + type)
+    return Promise.reject()
   }
 
-  delete(type: string, did: string): Promise<boolean> {
-    for (const identityController of this.identityControllers) {
-      if (identityController.type === type) {
-        return identityController.delete(did)
+  async deleteIdentity(did: string): Promise<boolean> {
+    const identity = await this.getIdentity(did)
+    for (const identityProvider of this.identityProviders) {
+      if (identityProvider.type === identity.identityProviderType) {
+        return identityProvider.deleteIdentity(identity.did)
       }
     }
-
-    return Promise.reject('IdentityController not found for type: ' + type)
-  }
-
-  import(type: string, secret: string): Promise<Issuer> {
-    for (const identityController of this.identityControllers) {
-      if (identityController.type === type) {
-        if (identityController.import) {
-          return identityController.import(secret)
-        } else {
-          return Promise.reject(type + ' does not support import')
-        }
-      }
-    }
-
-    return Promise.reject('IdentityController not found for type: ' + type)
-  }
-
-  export(type: string, did: string): Promise<string> {
-    for (const identityController of this.identityControllers) {
-      if (identityController.type === type) {
-        if (identityController.export) {
-          return identityController.export(did)
-        } else {
-          return Promise.reject(type + ' does not support export')
-        }
-      }
-    }
-
-    return Promise.reject('IdentityController not found for type: ' + type)
+    return Promise.reject()
   }
 }
