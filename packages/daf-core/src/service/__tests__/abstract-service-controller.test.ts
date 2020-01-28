@@ -1,6 +1,6 @@
 import { AbstractServiceController } from '../abstract-service-controller'
 import { ServiceEventTypes } from '../service-manager'
-import { Issuer } from '../../identity/identity-manager'
+import { AbstractIdentity } from '../../identity/abstract-identity'
 import { Resolver } from '../../core'
 import { Message } from '../../message/message'
 
@@ -14,8 +14,8 @@ export class MockServiceController extends AbstractServiceController {
 
   public ready: Promise<boolean>
 
-  constructor(issuer: Issuer, didResolver: Resolver) {
-    super(issuer, didResolver)
+  constructor(identity: AbstractIdentity, didResolver: Resolver) {
+    super(identity, didResolver)
     this.endPointUrl = 'https://from-did-doc'
     this.ready = new Promise((resolve, reject) => {
       // do some async stuff
@@ -25,7 +25,7 @@ export class MockServiceController extends AbstractServiceController {
 
   instanceId() {
     return {
-      did: this.issuer.did,
+      did: this.identity.did,
       type: this.type,
       id: this.endPointUrl,
     }
@@ -41,10 +41,17 @@ export class MockServiceController extends AbstractServiceController {
   }
 }
 
-const mockIssuer: Issuer = {
+const mockIdentity: AbstractIdentity = {
   did: 'did:test:123',
-  signer: async (data: string) => data,
-  type: 'mock',
+  sign: async (data: string) => data,
+  identityProviderType: 'mock',
+  didDoc: async (): Promise<any> => '',
+  encrypt: async (): Promise<any> => '',
+  decrypt: async (): Promise<any> => '',
+  addPublicKey: async (): Promise<any> => '',
+  removePublicKey: async (): Promise<any> => '',
+  addService: async (): Promise<any> => '',
+  removeService: async (): Promise<any> => '',
 }
 
 const mockResolver: Resolver = {
@@ -58,27 +65,27 @@ it('should be possible to set configuration as a static property', async () => {
 })
 
 it('resolves ready promise after finishing async logic in constructor', async () => {
-  const controller = new MockServiceController(mockIssuer, mockResolver)
+  const controller = new MockServiceController(mockIdentity, mockResolver)
   const ready = await controller.ready
   expect(ready).toEqual(true)
 })
 
 it('returns and emits an event with the same message array ', async () => {
-  const controller = new MockServiceController(mockIssuer, mockResolver)
+  const controller = new MockServiceController(mockIdentity, mockResolver)
   spyOn(controller, 'emit')
   const messages = await controller.getMessagesSince(0)
   expect(controller.emit).toHaveBeenCalledWith(ServiceEventTypes.NewMessages, messages)
 })
 
 it('emits events on listen', async () => {
-  const controller = new MockServiceController(mockIssuer, mockResolver)
+  const controller = new MockServiceController(mockIdentity, mockResolver)
   spyOn(controller, 'emit')
   await controller.listen()
   expect(controller.emit).toHaveBeenCalledWith(ServiceEventTypes.NewMessages, [msg1])
 })
 
 it('instanceId is generated from state', async () => {
-  const controller = new MockServiceController(mockIssuer, mockResolver)
+  const controller = new MockServiceController(mockIdentity, mockResolver)
   const instanceId = controller.instanceId()
   expect(instanceId).toEqual({ did: 'did:test:123', type: controller.type, id: 'https://from-did-doc' })
 })
