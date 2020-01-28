@@ -1,0 +1,9 @@
+{
+  "identities": [
+    {
+      "did": "did:elem:EiAFn_AYpGhiVYS3dAkM7JZA3-NmTRuoFDlvNsfeK-5v5g",
+      "primaryPrivateKey": "21a9042076fb3979c8e481e0f5b015ced613897437925d50f8093018f7ca063b",
+      "recoveryPrivateKey": "1ca0a21687614a6454cb0ea9cfc04a3cfd0b8a755ffa8d3683efa34f26b614d1"
+    }
+  ]
+}

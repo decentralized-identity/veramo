@@ -3,6 +3,7 @@ const element = require('@transmute/element-lib')
 const DidJwt = require('did-jwt')
 const SimpleSigner = DidJwt.SimpleSigner
 const fs = require('fs')
+const request = require('request-promise')
 import Debug from 'debug'
 const debug = Debug('daf:element-fs:identity-controller')
 
@@ -63,16 +64,20 @@ export class ElementFsController implements IdentityController {
     const primaryKey = mks.getKeyForPurpose('primary', 0)
     const recoveryKey = mks.getKeyForPurpose('recovery', 0)
     const didDocumentModel = element.op.getDidDocumentModel(primaryKey.publicKey, recoveryKey.publicKey)
-    console.log('didDocumentModel:')
-    console.log(didDocumentModel)
-
     const createPayload = await element.op.getCreatePayload(didDocumentModel, primaryKey)
-    console.log('createPayload:')
-    console.log(createPayload)
 
     const didUniqueSuffix = element.func.getDidUniqueSuffix(createPayload)
-    console.log(didUniqueSuffix)
     const did = 'did:elem:' + didUniqueSuffix
+
+    const options = {
+      method: 'POST',
+      json: true,
+      uri: 'https://element-did.com/api/v1/sidetree/requests',
+      body: createPayload,
+    }
+
+    const response = await request(options)
+    debug('Element server response', response)
 
     this.writeToFile({
       identities: [
