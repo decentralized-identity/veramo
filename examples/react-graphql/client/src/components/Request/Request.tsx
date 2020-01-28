@@ -1,18 +1,142 @@
-import React from 'react'
-import { Box, Heading, Avatar, Text } from 'rimble-ui'
+import React, { useState, useContext, useEffect } from 'react'
+import { Box, Heading, Avatar, Text, Radio, Button, Loader } from 'rimble-ui'
 import * as Types from '../../types'
+import Credential from '../Credential/Credential'
+import { AppContext } from '../../context/AppProvider'
+import { useMutation } from 'react-apollo'
+import * as mutations from '../../gql/mutations'
+import * as queries from '../../gql/queries'
+
+const S = require('sugar/string')
 
 interface Props {
   sender: Types.Identity
   receiver: Types.Identity
+  threadId: string
   sdr: any
 }
 
-const Component: React.FC<Props> = ({ sdr, sender, receiver }) => {
+interface ValidationState {
+  [index: string]: {
+    required: boolean
+    jwt: string | null
+  }
+}
+
+const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId }) => {
   console.log(sdr, sender, receiver)
+  const [sending, updateSending] = useState<boolean>(false)
+  const [selected, updateSelected] = useState<ValidationState>({})
+  const [formValid, setValid] = useState(true)
+  const [appState] = useContext(AppContext)
+
+  const checkValidity = () => {
+    let valid = true
+    Object.keys(selected).map(key => {
+      if (selected[key].required && !selected[key].jwt) {
+        valid = false
+      }
+    })
+
+    setValid(valid)
+  }
+
+  const [actionSendJwt] = useMutation(mutations.actionSendJwt, {
+    refetchQueries: [
+      {
+        query: queries.allMessages,
+        variables: { activeDid: appState.defaultDid },
+      },
+    ],
+    onCompleted: response => {
+      if (response.actionSendJwt) {
+        updateSending(false)
+        window.toastProvider.addMessage('Response sent!', { variant: 'success' })
+      }
+    },
+    onError: response => {
+      window.toastProvider.addMessage('There was a problem sending your response', { variant: 'error' })
+    },
+  })
+  const [actionSignVp] = useMutation(mutations.actionSignVp, {
+    onCompleted: response => {
+      if (response.actionSignVp) {
+        updateSending(true)
+
+        actionSendJwt({
+          variables: {
+            to: sender.did,
+            from: appState.defaultDid,
+            jwt: response.actionSignVp,
+          },
+        })
+      }
+    },
+  })
+
+  const accept = () => {
+    if (formValid) {
+      const selectedVp = Object.keys(selected)
+        .map(key => selected[key].jwt)
+        .filter(item => item)
+
+      const payload = {
+        variables: {
+          did: appState.defaultDid,
+          data: {
+            aud: sender.did,
+            tag: threadId,
+            vp: {
+              context: ['https://www.w3.org/2018/credentials/v1'],
+              type: ['VerifiableCredential'],
+              verifiableCredential: selectedVp,
+            },
+          },
+        },
+      }
+
+      actionSignVp(payload)
+    }
+  }
+
+  const onSelectItem = (id: string | null, jwt: string | null, claimType: string) => {
+    const updatedSelection = {
+      ...selected,
+      [claimType]: { ...selected[claimType], jwt },
+    }
+
+    updateSelected(updatedSelection)
+  }
+
+  useEffect(() => {
+    checkValidity()
+  }, [selected])
+
+  useEffect(() => {
+    let defaultSelected: ValidationState = {}
+    sdr.map((sdr: any) => {
+      if (sdr && sdr.essential) {
+        if (sdr.vc.length) {
+          defaultSelected[sdr.claimType] = {
+            required: true,
+            jwt: sdr.vc[0].jwt,
+          }
+        } else {
+          defaultSelected[sdr.claimType] = {
+            required: true,
+            jwt: null,
+          }
+          setValid(false)
+        }
+      }
+    })
+    updateSelected(defaultSelected)
+
+    console.log(defaultSelected)
+  }, [])
 
   return (
-    <Box>
+    <Box borderRadius={5} overflow={'hidden'} border={1} borderColor={'#333333'} bg={'#222222'}>
       <Box
         flexDirection={'column'}
         justifyContent={'center'}
@@ -20,15 +144,54 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver }) => {
         display={'flex'}
         flex={1}
         py={4}
-        bg={'#252731'}
       >
         <Avatar size={'60px'} src={''} />
         <Heading as={'h3'} mt={2}>
           {sender.shortId}
         </Heading>
       </Box>
-      <Box bg={'#000000'} p={3}>
+      <Box bg={'#1b1b1b'} p={3}>
         <Text>Share your data with {sender.shortId}</Text>
+      </Box>
+      {sdr.map((requestItem: any) => {
+        console.log(requestItem)
+        return (
+          <Box
+            p={3}
+            borderBottom={1}
+            borderColor={'#333333'}
+            key={requestItem.claimType}
+            onClick={() => onSelectItem(requestItem.id, requestItem.jwt, requestItem.claimType)}
+          >
+            <Box>
+              <b>{S.String.titleize(requestItem.claimType)}</b>
+            </Box>
+            <Box>
+              <Text>{requestItem.reason}</Text>
+            </Box>
+            <Box pt={3}>
+              {requestItem.vc.map((credential: any) => {
+                return <Credential key={credential.hash} {...credential} />
+              })}
+              {requestItem.vc.length === 0 && (
+                <Text>
+                  Cannot find a credential for <b>{S.String.titleize(requestItem.claimType)}</b>
+                </Text>
+              )}
+            </Box>
+          </Box>
+        )
+      })}
+      <Box p={3} justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
+        {sending ? (
+          <Loader size="40px" />
+        ) : (
+          <>
+            <Button onClick={() => accept()}>Share</Button>
+
+            <Button.Outline>Later</Button.Outline>
+          </>
+        )}
       </Box>
     </Box>
   )

@@ -20,7 +20,7 @@ const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub
     : { maxWidth: 350, style: { cursor: 'pointer' }, className: 'credential_hover' }
 
   return (
-    <Box {...detail} border={1} borderRadius={5} borderColor={'#555555'} p={3} mb={16} onClick={onClick}>
+    <Box {...detail} border={1} borderRadius={5} borderColor={'#555555'} p={3} mb={8} onClick={onClick}>
       <Box flexDirection={'row'} display={'flex'} alignItems={'center'}>
         <Avatar size={'40'} src={''} />
         <Box ml={2}>

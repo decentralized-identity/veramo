@@ -12,6 +12,12 @@ export const actionSignVc = gql`
   }
 `
 
+export const actionSignVp = gql`
+  mutation signVp($did: String!, $data: VerifiablePresentationInput!) {
+    actionSignVp(did: $did, data: $data)
+  }
+`
+
 export const actionSignSDR = gql`
   mutation signSDR($did: String!, $data: SDRInput!) {
     actionSignSDR(did: $did, data: $data)
