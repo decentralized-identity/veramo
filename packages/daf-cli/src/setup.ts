@@ -4,6 +4,7 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
 import { EthrDidFsController } from 'daf-ethr-did-fs'
+import { NaclDidFsController } from 'daf-nacl-did-fs'
 
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
@@ -21,7 +22,8 @@ const debug = Debug('daf:cli')
 
 const defaultPath = process.env.HOME + '/.daf'
 
-const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store.json'
+const ethrIdentityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store-ethr.json'
+const naclIdentityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store-nacl.json'
 const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store-cli.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
@@ -47,7 +49,10 @@ if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG
 if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
 TG.ServiceController.webSocketImpl = ws
 
-const identityControllers = [new EthrDidFsController(identityStoreFilename)]
+const identityControllers = [
+  new EthrDidFsController(ethrIdentityStoreFilename),
+  new NaclDidFsController(naclIdentityStoreFilename),
+]
 const serviceControllers = [TG.ServiceController]
 
 const messageValidator = new DBG.MessageValidator()

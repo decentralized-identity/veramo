@@ -11,6 +11,7 @@
     { "path": "daf-ethr-did-local-storage" },
     { "path": "daf-ethr-did-metamask" },
     { "path": "daf-ethr-did-react-native" },
+    { "path": "daf-nacl-did-fs" },
     { "path": "daf-node-sqlite3" },
     { "path": "daf-node-sqlite3" },
     { "path": "daf-random" },

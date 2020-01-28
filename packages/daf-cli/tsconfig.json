@@ -11,6 +11,7 @@
     { "path": "../daf-did-comm" },
     { "path": "../daf-did-jwt" },
     { "path": "../daf-ethr-did-fs" },
+    { "path": "../daf-nacl-did-fs" },
     { "path": "../daf-node-sqlite3" },
     { "path": "../daf-resolver" },
     { "path": "../daf-resolver-universal" },

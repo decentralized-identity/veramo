@@ -21,6 +21,7 @@
     "daf-did-comm": "^1.4.1",
     "daf-did-jwt": "^1.4.1",
     "daf-ethr-did-fs": "^1.4.1",
+    "daf-nacl-did-fs": "^1.4.1",
     "daf-node-sqlite3": "^1.5.0",
     "daf-resolver": "^1.1.0",
     "daf-resolver-universal": "^1.1.0",
