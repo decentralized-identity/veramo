@@ -1,19 +1,34 @@
 import React from 'react'
 import { Box, Heading, Text, Icon, Avatar, Button } from 'rimble-ui'
 import * as Types from '../../types'
+import { formatDistanceToNow } from 'date-fns'
 
-import './MessageItem.css'
+import './ActivityItem.css'
 
 interface Props {
   /**
-   * The activity that is takaing place
+   * The unique id or message hash
+   */
+  id: string
+
+  /**
+   * The message type
+   */
+  type: 'w3c.vp' | 'w3c.vc' | 'sdr' | string
+
+  /**
+   * The timestamp for when this message was recieved or sent
+   */
+  date: number
+  /**
+   * The activity that is taking place
    */
   activity?: string
 
   /**
-   * The type of message
+   * The viewer's did
    */
-  type: string
+  viewerDid: Types.Identity
 
   /**
    * The issuer of this message item
@@ -36,6 +51,7 @@ const Component: React.FC<Props> = ({
   receiver,
   type,
   showRequest,
+  date,
 }) => {
   return (
     <Box className={'message_item'} p={3}>
@@ -57,6 +73,10 @@ const Component: React.FC<Props> = ({
             </Text>
           )}
         </Box>
+      </Box>
+      <Box ml={2} flexDirection={'row'} display={'flex'} py={2}>
+        <Icon name={'Alarm'} color={'#555555'} mr={2} />
+        <Text color={'#555555'}>{formatDistanceToNow(date) + ' ago'}</Text>
       </Box>
       {type == 'sdr' && (
         <Box p={3}>

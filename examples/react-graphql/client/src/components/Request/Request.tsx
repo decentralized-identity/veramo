@@ -25,7 +25,6 @@ interface ValidationState {
 }
 
 const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) => {
-  console.log(sdr, sender, receiver)
   const [sending, updateSending] = useState<boolean>(false)
   const [selected, updateSelected] = useState<ValidationState>({})
   const [formValid, setValid] = useState(true)
@@ -33,6 +32,10 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
 
   const checkValidity = () => {
     let valid = true
+
+    if (Object.keys(selected).length === 0) {
+      valid = false
+    }
     Object.keys(selected).map(key => {
       if (selected[key].required && !selected[key].jwt) {
         valid = false
@@ -56,7 +59,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
         close()
       }
     },
-    onError: response => {
+    onError: () => {
       window.toastProvider.addMessage('There was a problem sending your response', { variant: 'error' })
     },
   })
@@ -112,8 +115,6 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
 
   useEffect(() => {
     checkValidity()
-
-    console.log(selected)
   }, [selected])
 
   useEffect(() => {
@@ -135,8 +136,6 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
       }
     })
     updateSelected(defaultSelected)
-
-    console.log(defaultSelected)
   }, [])
 
   return (
@@ -158,7 +157,6 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
         <Text>Share your data with {sender.shortId}</Text>
       </Box>
       {sdr.map((requestItem: any) => {
-        console.log(requestItem)
         return (
           <Box p={3} borderBottom={1} borderColor={'#333333'} key={requestItem.claimType}>
             <Box>
@@ -186,12 +184,17 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
           </Box>
         )
       })}
+      <Box p={3}>
+        <Text color={'#ea3939'}>{formValid ? '' : 'There are some missing fields'}</Text>
+      </Box>
       <Box p={3} justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
         {sending ? (
           <Loader size="40px" />
         ) : (
           <>
-            <Button onClick={() => accept()}>Share</Button>
+            <Button onClick={() => accept()} disabled={sending || !formValid}>
+              Share
+            </Button>
 
             <Button.Outline onClick={close}>Later</Button.Outline>
           </>

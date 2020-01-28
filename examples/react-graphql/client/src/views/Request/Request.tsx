@@ -166,7 +166,7 @@ const Component = () => {
                 label="Required"
                 my={2}
                 checked={claimTypeRequired}
-                onClick={() => updateClaimTypeRequired(!claimTypeRequired)}
+                onChange={() => updateClaimTypeRequired(!claimTypeRequired)}
               />
             </Box>
           </Flex>

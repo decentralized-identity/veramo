@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Flex } from 'rimble-ui'
-import MessageItem from '../../components/MessageItem/MessageItem'
+import ActivityItem from '../../components/ActivityItem/ActivityItem'
 import Page from '../../layout/Page'
 import Credential from '../../components/Credential/Credential'
 import * as queries from '../../gql/queries'
@@ -12,19 +12,20 @@ interface Activity {}
 
 const Activity: React.FC<Activity> = () => {
   const [appState] = useContext(AppContext)
-  const [isQROpen, setIsQROpen] = useState(false)
-  const [qrValue, setQrValue] = useState('')
   const history = useHistory()
   const { url } = useRouteMatch()
 
-  const { loading: messagesLoading, data: messagesData } = useQuery(queries.allMessages, {
+  const { data } = useQuery(queries.allMessages, {
     variables: { activeDid: appState.defaultDid },
   })
 
   return (
     <Page title={'Activity'}>
-      {messagesData?.identity?.messagesAll?.map((msg: any) => (
-        <MessageItem
+      {data?.identity?.messagesAll?.map((msg: any) => (
+        <ActivityItem
+          viewerDid={appState.defaultDid}
+          id={msg.id}
+          date={msg.timestamp * 1000}
           type={msg.type}
           key={msg.id}
           sender={msg.sender}
