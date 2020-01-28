@@ -112,6 +112,8 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
 
   useEffect(() => {
     checkValidity()
+
+    console.log(selected)
   }, [selected])
 
   useEffect(() => {
@@ -158,13 +160,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
       {sdr.map((requestItem: any) => {
         console.log(requestItem)
         return (
-          <Box
-            p={3}
-            borderBottom={1}
-            borderColor={'#333333'}
-            key={requestItem.claimType}
-            onClick={() => onSelectItem(requestItem.id, requestItem.jwt, requestItem.claimType)}
-          >
+          <Box p={3} borderBottom={1} borderColor={'#333333'} key={requestItem.claimType}>
             <Box>
               <b>{S.String.titleize(requestItem.claimType)}</b>
             </Box>
@@ -173,7 +169,13 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
             </Box>
             <Box pt={3}>
               {requestItem.vc.map((credential: any) => {
-                return <Credential key={credential.hash} {...credential} />
+                return (
+                  <Credential
+                    key={credential.hash}
+                    {...credential}
+                    onClick={() => onSelectItem(credential.hash, credential.jwt, requestItem.claimType)}
+                  />
+                )
               })}
               {requestItem.vc.length === 0 && (
                 <Text>
