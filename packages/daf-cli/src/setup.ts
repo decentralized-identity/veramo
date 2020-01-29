@@ -3,7 +3,7 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 
 import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
-import { EthrDidFsController } from 'daf-ethr-did-fs'
+import * as EthrDidFs from 'daf-ethr-did-fs'
 
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
@@ -47,7 +47,7 @@ if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG
 if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
 TG.ServiceController.webSocketImpl = ws
 
-const identityControllers = [new EthrDidFsController(identityStoreFilename)]
+const identityProviders = [new EthrDidFs.IdentityProvider(identityStoreFilename)]
 const serviceControllers = [TG.ServiceController]
 
 const messageValidator = new DBG.MessageValidator()
@@ -66,7 +66,7 @@ actionHandler
   .setNext(new SD.ActionHandler())
 
 export const core = new Daf.Core({
-  identityControllers,
+  identityProviders,
   serviceControllers,
   didResolver,
   messageValidator,

@@ -12,8 +12,8 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    const myDids = await core.identityManager.listDids()
-    if (myDids.length === 0) {
+    const identities = await core.identityManager.getIdentities()
+    if (identities.length === 0) {
       console.error('No dids')
       process.exit()
     }
@@ -21,7 +21,7 @@ program
       {
         type: 'list',
         name: 'iss',
-        choices: myDids,
+        choices: identities.map(item => item.did),
         message: 'Issuer DID',
       },
       {

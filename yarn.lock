@@ -2556,6 +2556,13 @@
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
 
+"@types/ethjs-signer@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@types/ethjs-signer/-/ethjs-signer-0.1.0.tgz#0960ba391a254d51dbef83f423dc7efa1cd081c4"
+  integrity sha512-Bom/6SlljFQexWsxYnMLcR18kQxUcqqfXWct7c1ZMNXYzyNNsF5RP60x7cdAhURnlYEmiTGCTO58YEhe063YbA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
@@ -5722,16 +5729,16 @@ d@1, d@^1.0.1:
     type "^1.0.1"
 
 daf-ethr-did-local-storage@../daf/packages/daf-ethr-did-local-storage:
-  version "1.3.3"
+  version "1.4.1"
   dependencies:
-    daf-core "^1.3.3"
+    daf-core "^1.4.1"
     debug "^4.1.1"
     ethr-did "^1.1.0"
 
 daf-ethr-did-metamask@../daf/packages/daf-ethr-did-metamask:
-  version "1.3.3"
+  version "1.4.1"
   dependencies:
-    daf-core "^1.3.3"
+    daf-core "^1.4.1"
     debug "^4.1.1"
 
 damerau-levenshtein@^1.0.4:
@@ -6293,6 +6300,16 @@ electron-to-chromium@^1.3.306, electron-to-chromium@^1.3.322:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.322.tgz#a6f7e1c79025c2b05838e8e344f6e89eb83213a8"
   integrity sha512-Tc8JQEfGQ1MzfSzI/bTlSr7btJv/FFO7Yh6tanqVmIWOuNCu6/D1MilIEgLtmWqIrsv+o4IjpLAhgMBr/ncNAA==
 
+elliptic@6.3.2:
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.3.2.tgz#e4c81e0829cf0a65ab70e998b8232723b5c1bc48"
+  integrity sha1-5MgeCCnPCmWrcOmYuCMnI7XBvEg=
+  dependencies:
+    bn.js "^4.4.0"
+    brorand "^1.0.1"
+    hash.js "^1.0.0"
+    inherits "^2.0.1"
+
 elliptic@^6.0.0, elliptic@^6.4.0:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.2.tgz#05c5678d7173c049d8ca433552224a495d0e3762"
@@ -6772,6 +6789,18 @@ ethjs-filter@0.1.5:
   resolved "https://registry.yarnpkg.com/ethjs-filter/-/ethjs-filter-0.1.5.tgz#0112af6017c24677e32b8fdeb20e6196019b7598"
   integrity sha1-ARKvYBfCRnfjK4/esg5hlgGbdZg=
 
+ethjs-format@0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/ethjs-format/-/ethjs-format-0.1.8.tgz#925ecdd965ea72a2a2daf2a122e5bf80b5ad522a"
+  integrity sha1-kl7N2WXqcqKi2vKhIuW/gLWtUio=
+  dependencies:
+    bn.js "4.11.6"
+    ethjs-schema "0.1.4"
+    ethjs-util "0.1.3"
+    is-hex-prefixed "1.0.0"
+    number-to-bn "1.7.0"
+    strip-hex-prefix "1.0.0"
+
 ethjs-format@0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/ethjs-format/-/ethjs-format-0.2.7.tgz#20c92f31c259a381588d069830d838b489774b86"
@@ -6784,12 +6813,20 @@ ethjs-format@0.2.7:
     number-to-bn "1.7.0"
     strip-hex-prefix "1.0.0"
 
-ethjs-provider-http@^0.1.6:
+ethjs-provider-http@0.1.6, ethjs-provider-http@^0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/ethjs-provider-http/-/ethjs-provider-http-0.1.6.tgz#1ec5d9b4be257ef1d56a500b22a741985e889420"
   integrity sha1-HsXZtL4lfvHValALIqdBmF6IlCA=
   dependencies:
     xhr2 "0.1.3"
+
+ethjs-provider-signer@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ethjs-provider-signer/-/ethjs-provider-signer-0.1.4.tgz#6bd5cb38a8d5b0ddf46ac1e23a60eea1716171ae"
+  integrity sha1-a9XLOKjVsN30asHiOmDuoXFhca4=
+  dependencies:
+    ethjs-provider-http "0.1.6"
+    ethjs-rpc "0.1.2"
 
 ethjs-query@^0.3.5, ethjs-query@^0.3.8:
   version "0.3.8"
@@ -6801,6 +6838,13 @@ ethjs-query@^0.3.5, ethjs-query@^0.3.8:
     ethjs-rpc "0.2.0"
     promise-to-callback "^1.0.0"
 
+ethjs-rpc@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ethjs-rpc/-/ethjs-rpc-0.1.2.tgz#39a3456b51c59aeeafb5ba556589a59f2da88d26"
+  integrity sha1-OaNFa1HFmu6vtbpVZYmlny2ojSY=
+  dependencies:
+    ethjs-format "0.1.8"
+
 ethjs-rpc@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ethjs-rpc/-/ethjs-rpc-0.2.0.tgz#3d0011e32cfff156ed6147818c6fb8f801701b4c"
@@ -6808,10 +6852,26 @@ ethjs-rpc@0.2.0:
   dependencies:
     promise-to-callback "^1.0.0"
 
+ethjs-schema@0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ethjs-schema/-/ethjs-schema-0.1.4.tgz#0323a16333b1ace9a8f1d696a6ee63448fdd455f"
+  integrity sha1-AyOhYzOxrOmo8daWpu5jRI/dRV8=
+
 ethjs-schema@0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/ethjs-schema/-/ethjs-schema-0.2.1.tgz#47e138920421453617069034684642e26bb310f4"
   integrity sha512-DXd8lwNrhT9sjsh/Vd2Z+4pfyGxhc0POVnLBUfwk5udtdoBzADyq+sK39dcb48+ZU+2VgtwHxtGWnLnCfmfW5g==
+
+ethjs-signer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ethjs-signer/-/ethjs-signer-0.1.1.tgz#0af77961e29ee458603aabd3660b8868d3386441"
+  integrity sha1-Cvd5YeKe5FhgOqvTZguIaNM4ZEE=
+  dependencies:
+    elliptic "6.3.2"
+    js-sha3 "0.5.5"
+    number-to-bn "1.1.0"
+    rlp "2.0.0"
+    strip-hex-prefix "1.0.0"
 
 ethjs-util@0.1.3:
   version "0.1.3"
@@ -11388,6 +11448,15 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
+number-to-bn@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/number-to-bn/-/number-to-bn-1.1.0.tgz#51a3387c5bc68035ab4058c626132f767d9d08bf"
+  integrity sha1-UaM4fFvGgDWrQFjGJhMvdn2dCL8=
+  dependencies:
+    bn.js "4.11.6"
+    is-hex-prefixed "1.0.0"
+    strip-hex-prefix "1.0.0"
+
 number-to-bn@1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/number-to-bn/-/number-to-bn-1.7.0.tgz#bb3623592f7e5f9e0030b1977bd41a0c53fe1ea0"
@@ -14001,6 +14070,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+rlp@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rlp/-/rlp-2.0.0.tgz#9db384ff4b89a8f61563d92395d8625b18f3afb0"
+  integrity sha1-nbOE/0uJqPYVY9kjldhiWxjzr7A=
 
 rmdi@^1.0.1:
   version "1.0.1"

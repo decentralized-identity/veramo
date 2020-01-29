@@ -3,7 +3,6 @@ import inquirer from 'inquirer'
 import program from 'commander'
 import { printTable } from 'console-table-printer'
 
-
 program
   .command('identity-manager')
   .description('Manage identities')
@@ -11,23 +10,22 @@ program
   .option('-t, --types', 'List available identity controller types')
   .option('-c, --create', 'Create identity')
   .option('-d, --delete', 'Delete identity')
-  .action(async (cmd) => {
+  .action(async cmd => {
     if (cmd.types) {
-      const list = await core.identityManager.listTypes()
-      
+      const list = await core.identityManager.getIdentityProviderTypes()
+
       if (list.length > 0) {
-        const types = list.map(item => ({ type: item }))
-        printTable(types)
+        printTable(list)
       } else {
         console.log('No controllers')
       }
     }
 
     if (cmd.list) {
-      const list = await core.identityManager.listIssuers()
-      
+      const list = await core.identityManager.getIdentities()
+
       if (list.length > 0) {
-        const dids = list.map(item => ({type: item.type, did: item.did}))
+        const dids = list.map(item => ({ type: item.identityProviderType, did: item.did }))
         printTable(dids)
       } else {
         console.log('No dids')
@@ -36,19 +34,18 @@ program
 
     if (cmd.create) {
       try {
-        const types = await core.identityManager.listTypes()
+        const types = await core.identityManager.getIdentityProviderTypes()
 
         const answers = await inquirer.prompt([
           {
             type: 'list',
             name: 'type',
-            choices: types,
-            message: 'Select identity controller'
+            choices: types.map(item => ({ name: `${item.type} - ${item.description}`, value: item.type })),
+            message: 'Select identity controller',
           },
         ])
-        const did = await core.identityManager.create(answers.type)
-        printTable([{ type: cmd.create, did }])
-
+        const identity = await core.identityManager.createIdentity(answers.type)
+        printTable([{ type: identity.identityProviderType, did: identity.did }])
       } catch (e) {
         console.error(e)
       }
@@ -56,29 +53,20 @@ program
 
     if (cmd.delete) {
       try {
-        const myDids = await core.identityManager.listDids()
+        const identities = await core.identityManager.getIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
             name: 'did',
-            choices: myDids,
-            message: 'Delete DID'
+            choices: identities.map(item => item.did),
+            message: 'Delete DID',
           },
         ])
 
-        const issuers = await core.identityManager.listIssuers()
-        const issuer = issuers.find(item => item.did === answers.did)
-        if (issuer) {
-          const result = await core.identityManager.delete(issuer.type, issuer.did)
-          console.log('Success:', result)
-        } else {
-          console.log('Did not found')
-        }
-
+        const result = await core.identityManager.deleteIdentity(answers.did)
+        console.log('Success:', result)
       } catch (e) {
         console.error(e)
       }
     }
-
-
   })

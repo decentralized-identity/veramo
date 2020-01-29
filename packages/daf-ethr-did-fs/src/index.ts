@@ -1,1 +1,1 @@
-export { EthrDidFsController } from './identity-controller'
+export { IdentityProvider } from './identity-provider'

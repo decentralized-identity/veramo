@@ -21,17 +21,38 @@ export interface ServiceEndpoint {
   description?: string
 }
 
+// Placeholder:
+interface EcdsaSignature {
+  r: string
+  s: string
+  recoveryParam?: number
+}
+// Placeholder:
+type Signer = (data: string) => Promise<EcdsaSignature | string>
+
 export abstract class AbstractIdentity {
   abstract identityProviderType: string
   abstract did: string
-  abstract didDoc: () => Promise<DIDDocument>
-  abstract sign: (data: string, keyId?: string) => Promise<any>
-  abstract encrypt: (to: string, data: string | Uint8Array) => Promise<any>
-  abstract decrypt: (encrypted: any) => Promise<string>
-  abstract addPublicKey: (type: string, proofPurpose?: string[]) => Promise<PublicKey>
-  abstract removePublicKey: (keyId: string) => Promise<boolean>
-  abstract addService: (service: ServiceEndpoint) => Promise<boolean>
-  abstract removeService: (service: ServiceEndpoint) => Promise<boolean>
+  abstract didDoc(): Promise<DIDDocument | null>
+  abstract signer(keyId?: string): Signer
+  abstract encrypt(to: string, data: string | Uint8Array): Promise<any>
+  abstract decrypt(encrypted: any): Promise<string>
+
+  addPublicKey(type: string, proofPurpose?: string[]): Promise<PublicKey> {
+    return Promise.reject('Method addPublicKey not implemented')
+  }
+
+  removePublicKey(keyId: string): Promise<boolean> {
+    return Promise.reject('Method removePublicKey not implemented')
+  }
+
+  addService(service: ServiceEndpoint): Promise<any> {
+    return Promise.reject('Method addService not implemented')
+  }
+
+  removeService(service: ServiceEndpoint): Promise<boolean> {
+    return Promise.reject('Method removeService not implemented')
+  }
 }
 
 type AbstractIdentityClass = typeof AbstractIdentity
