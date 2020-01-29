@@ -31,9 +31,6 @@ const Component: React.FC<IdentityDetail> = () => {
   return (
     <>
       <Box borderRadius={1} bg="#222222" mb={32}>
-        <Box p={3} borderBottom={1} borderColor={'#4B4B4B'}>
-          <Heading as={'h5'}>DID Details</Heading>
-        </Box>
         <Box p={3} bg="#222222" mb={10}>
           <Heading as={'h5'} pb={2}>
             did

@@ -35,6 +35,19 @@ export const identity = gql`
   }
 `
 
+export const allIdentities = gql`
+  query allIdentities {
+    identities {
+      isManaged
+      did
+      shortId
+      firstName
+      lastName
+      profileImage
+    }
+  }
+`
+
 export const managedIdentities = gql`
   query managedIdentities {
     managedIdentityTypes
