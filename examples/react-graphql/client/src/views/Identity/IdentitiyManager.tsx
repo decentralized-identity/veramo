@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Flex, Box, Text, Heading, Button, Icon, Table, Field, Input } from 'rimble-ui'
 import Page from '../../layout/Page'
 import Panel from '../../components/Panel/Panel'
+import Avatar from '../../components/Avatar/Avatar'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 import * as queries from '../../queries'
 import { useQuery, useMutation } from '@apollo/react-hooks'
@@ -51,6 +52,7 @@ const Component = () => {
         <Table border={0} color={'#FFFFFF'} borderColor={'#4B4B4B'}>
           <thead>
             <tr>
+              <th>Avatar</th>
               <th>DID</th>
               <th>Type</th>
               <th>Short ID</th>
@@ -59,7 +61,13 @@ const Component = () => {
           </thead>
           <tbody>
             {managedIdentitiesData?.managedIdentities?.map(
-              (identity: { did: string; type: string; shortId: string; name: string }) => {
+              (identity: {
+                did: string
+                type: string
+                shortId: string
+                name: string
+                profileImage?: string
+              }) => {
                 return (
                   <tr
                     key={identity.did}
@@ -68,6 +76,9 @@ const Component = () => {
                     }`}
                     onClick={() => showIdentityDetail(identity.did)}
                   >
+                    <td>
+                      <Avatar did={identity.did} source={identity.profileImage} type={'circle'} />
+                    </td>
                     <td>{identity.did}</td>
                     <td>{identity.type}</td>
                     <td>{identity.shortId}</td>

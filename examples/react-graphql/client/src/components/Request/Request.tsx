@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Box, Heading, Avatar, Text, Radio, Button, Loader } from 'rimble-ui'
+import { Box, Heading, Text, Radio, Button, Loader } from 'rimble-ui'
+import Avatar from '../../components/Avatar/Avatar'
 import * as Types from '../../types'
 import Credential from '../Credential/Credential'
 import { AppContext } from '../../context/AppProvider'
@@ -141,7 +142,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
   const isSelected = (jwt: string, claimtype: string): Boolean => {
     return selected[claimtype] && selected[claimtype].jwt === jwt
   }
-
+  console.log({ sender })
   return (
     <Box borderRadius={5} overflow={'hidden'} border={1} borderColor={'#333333'} bg={'#222222'}>
       <Box
@@ -152,7 +153,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
         flex={1}
         py={4}
       >
-        <Avatar size={'60px'} src={''} />
+        <Avatar size={60} did={sender.did} source={sender.profileImage} type={'circle'} />
         <Heading as={'h3'} mt={2}>
           {sender.shortId}
         </Heading>

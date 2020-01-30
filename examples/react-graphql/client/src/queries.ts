@@ -42,6 +42,7 @@ export const managedIdentities = gql`
       did
       type
       shortId
+      profileImage
     }
   }
 `

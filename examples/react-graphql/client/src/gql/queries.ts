@@ -8,10 +8,12 @@ export const credential = gql`
       iss {
         did
         shortId
+        profileImage
       }
       sub {
         did
         shortId
+        profileImage
       }
       jwt
       nbf
@@ -31,6 +33,7 @@ export const identity = gql`
       did
       type
       shortId
+      profileImage
     }
   }
 `
@@ -55,6 +58,7 @@ export const managedIdentities = gql`
       did
       type
       shortId
+      profileImage
     }
   }
 `
@@ -71,6 +75,7 @@ export const queryMessage = gql`
           did {
             did
             shortId
+            profileImage
           }
           url
         }
@@ -133,6 +138,7 @@ export const allMessages = gql`
             did {
               did
               shortId
+              profileImage
             }
             url
           }
