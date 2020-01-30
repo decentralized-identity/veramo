@@ -52,7 +52,6 @@ export class IdentityProvider extends AbstractIdentityProvider {
       did: serialized.did,
       privateKey: serialized.privateKey,
       address: serialized.address,
-      network: this.network,
       identityProviderType: this.type,
       rpcUrl: this.rpcUrl,
       resolver: this.resolver,

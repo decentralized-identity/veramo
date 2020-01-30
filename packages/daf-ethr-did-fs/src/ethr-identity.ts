@@ -8,7 +8,6 @@ export class EthrIdentity extends AbstractIdentity {
   public readonly did: string
   public readonly identityProviderType: string
   private readonly address: string
-  private readonly network: string
   private readonly privateKey: string
   private readonly provider: any
   private readonly resolver: Resolver
@@ -17,7 +16,6 @@ export class EthrIdentity extends AbstractIdentity {
     identityProviderType: string
     did: string
     address: string
-    network: string
     privateKey: string
     resolver: Resolver
     rpcUrl: string
@@ -26,7 +24,6 @@ export class EthrIdentity extends AbstractIdentity {
     this.did = options.did
     this.identityProviderType = options.identityProviderType
     this.address = options.address
-    this.network = options.network
     this.privateKey = options.privateKey
     this.resolver = options.resolver
 

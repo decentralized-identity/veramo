@@ -15,7 +15,6 @@ describe('daf-ethr-did-fs-identity', () => {
       did,
       address,
       resolver,
-      network,
       privateKey,
       identityProviderType: 'test',
       rpcUrl,
