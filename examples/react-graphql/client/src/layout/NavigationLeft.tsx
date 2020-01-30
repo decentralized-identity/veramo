@@ -13,9 +13,9 @@ const Component = () => {
         <li className={'left-nav-item'}>
           <NavLink to="/activity">Activity</NavLink>
         </li>
-        <li className={'left-nav-item'}>
+        {/* <li className={'left-nav-item'}>
           <NavLink to="/explore">Explore</NavLink>
-        </li>
+        </li> */}
         <li className={'left-nav-item'}>
           <NavLink to="/issue">Issue Credential</NavLink>
         </li>
@@ -23,7 +23,7 @@ const Component = () => {
           <NavLink to="/request">Request</NavLink>
         </li>
         <li className={'left-nav-item'}>
-          <NavLink to="/identities">Identities</NavLink>
+          <NavLink to="/identities">My Identities</NavLink>
         </li>
         <li className={'left-nav-item'}>
           <NavLink to="/connections">Connections</NavLink>
