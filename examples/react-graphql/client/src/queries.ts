@@ -1,11 +1,48 @@
 import { gql } from 'apollo-boost'
 
+export const credential = gql`
+  query credential($id: ID!) {
+    credential(id: $id) {
+      hash
+      rowId
+      iss {
+        did
+        shortId
+      }
+      sub {
+        did
+        shortId
+      }
+      jwt
+      nbf
+      iat
+      fields {
+        isObj
+        type
+        value
+      }
+    }
+  }
+`
+
+export const identity = gql`
+  query identity($did: ID!) {
+    identity(did: $did) {
+      did
+      type
+      shortId
+    }
+  }
+`
+
 export const managedIdentities = gql`
   query managedIdentities {
     managedIdentityTypes
     managedIdentities {
       did
       type
+      shortId
+      profileImage
     }
   }
 `
@@ -18,9 +55,21 @@ export const createIdentity = gql`
   }
 `
 
+export const deleteIdentity = gql`
+  mutation deleteIdentity($type: String, $did: String) {
+    deleteIdentity(type: $type, did: $did)
+  }
+`
+
 export const actionSignVc = gql`
   mutation actionSignVc($did: String!, $data: VerifiableCredentialInput!) {
     actionSignVc(did: $did, data: $data)
+  }
+`
+
+export const actionSignSDR = gql`
+  mutation signSDR($did: String!, $data: SDRInput!) {
+    actionSignSDR(did: $did, data: $data)
   }
 `
 export const actionSendJwt = gql`
@@ -52,6 +101,17 @@ export const allMessages = gql`
         }
         vc {
           rowId
+          hash
+          iss {
+            did
+            shortId
+            profileImage
+          }
+          sub {
+            did
+            shortId
+            profileImage
+          }
           fields {
             type
             value
