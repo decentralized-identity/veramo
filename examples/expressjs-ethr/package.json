@@ -1,7 +1,7 @@
 {
   "name": "daf-example-expressjs-ethr",
   "private": true,
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "daf-node-sqlite3": "^1.5.0",
     "daf-resolver": "^1.1.0",
     "daf-resolver-universal": "^1.1.0",
-    "daf-selective-disclosure": "^1.4.1",
+    "daf-selective-disclosure": "^1.5.1",
     "daf-sodium-fs": "^1.4.1",
     "daf-trust-graph": "^1.4.1",
     "daf-url": "^1.4.1",

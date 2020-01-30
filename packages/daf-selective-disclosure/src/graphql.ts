@@ -92,7 +92,7 @@ export const typeDefs = `
   }
 
   extend type Message {
-    sdr(sub: String): [CredentialRequest]
+    sdr(sub: ID!): [CredentialRequest]
   }
 
   extend type Mutation {

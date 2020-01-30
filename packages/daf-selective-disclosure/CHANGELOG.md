@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/uport-project/daf/compare/v1.5.0...v1.5.1) (2020-01-30)
+
+
+### Bug Fixes
+
+* **package:** SDR query subject ID type ([5867c2d](https://github.com/uport-project/daf/commit/5867c2d01b1a69d44e4e8f62ed82cb3e0095af5e))
+
+
+
+
+
 ## [1.4.1](https://github.com/uport-project/daf/compare/v1.4.0...v1.4.1) (2020-01-14)
 
 **Note:** Version bump only for package daf-selective-disclosure

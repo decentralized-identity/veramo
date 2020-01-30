@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/uport-project/daf/compare/v1.5.0...v1.5.1) (2020-01-30)
+
+
+### Bug Fixes
+
+* **package:** SDR query subject ID type ([5867c2d](https://github.com/uport-project/daf/commit/5867c2d01b1a69d44e4e8f62ed82cb3e0095af5e))
+* Adding profileImage ([1063057](https://github.com/uport-project/daf/commit/1063057a65078f57a9e9493ef2ef4f76f13d177e))
+* Fix credential select ([6c5f9e9](https://github.com/uport-project/daf/commit/6c5f9e97d4ad7d61ec8dab257ec2a1c5a9166f24))
+* Fix multi query wrapper component ([e2b5056](https://github.com/uport-project/daf/commit/e2b5056027dc3b4ec439b4be5fbb86d794349515))
+* Fix rendering route sidepanels ([7c10ce9](https://github.com/uport-project/daf/commit/7c10ce9921734b042c36a62af0fd646cde605f26))
+* Hiding explore item ([14211c5](https://github.com/uport-project/daf/commit/14211c57a55a49440ae8bcb1a707d7d8db7f9b6b))
+
+
+### Features
+
+* Activity feed ([50bc5d5](https://github.com/uport-project/daf/commit/50bc5d51788e39e18ad64b0470d62852835cfbf2))
+* Create + Send SDR request ([d87127b](https://github.com/uport-project/daf/commit/d87127b97283a9fdcc8f9ac5b244f23b0a187cd8))
+* Delet identity and conditions ([37ca91e](https://github.com/uport-project/daf/commit/37ca91e223f25ef1ca14cea8cc61531643571650))
+* Global state for identity ([06ff655](https://github.com/uport-project/daf/commit/06ff6555fc0ca2f99ea2f3fbf1a1c688242ad819))
+* Initial dashboard layout ([31b69a8](https://github.com/uport-project/daf/commit/31b69a8914cdfcc763df7441187bf4384d89f21c))
+* Issue credential rewired ([1351a56](https://github.com/uport-project/daf/commit/1351a568dadb0010288a6b28f62badb5e114f410))
+* List known identities in connections view ([784c29b](https://github.com/uport-project/daf/commit/784c29b9177c23f51e36b856d23107f011384096))
+* Respond to SDR request ([8aafc6b](https://github.com/uport-project/daf/commit/8aafc6b288ec9cdabf9e64fd70d987d080278f13))
+* Set default did as first ([cc9332c](https://github.com/uport-project/daf/commit/cc9332cc8be09622b37c8f4a775df0965d310cef))
+* Setup routing and layout templates ([19236cd](https://github.com/uport-project/daf/commit/19236cd3cbccf1c58ad340a59ca0e6072092e69e))
+* Show gravatar for did ([f537372](https://github.com/uport-project/daf/commit/f537372db8d3c24a4024922f04a8fa8b24560ede))
+* Show Request in sidepanel ([d930b92](https://github.com/uport-project/daf/commit/d930b92aabc94f1b8e6ecfccc30c28c8b144be90))
+* Validation in SDR response ([fab06d2](https://github.com/uport-project/daf/commit/fab06d209e0430869b725f58ff9b68cdaf6d826f))
+
+
+
+
+
 # [1.5.0](https://github.com/uport-project/daf/compare/v1.4.1...v1.5.0) (2020-01-24)
 
 
