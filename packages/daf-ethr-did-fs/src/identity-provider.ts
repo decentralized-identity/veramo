@@ -1,5 +1,7 @@
 import { AbstractIdentityProvider, AbstractIdentity, Resolver } from 'daf-core'
 import { EthrIdentity } from './ethr-identity'
+import { sign } from 'ethjs-signer'
+const SignerProvider = require('ethjs-provider-signer')
 
 const EthrDID = require('ethr-did')
 const fs = require('fs')
@@ -47,6 +49,15 @@ export class IdentityProvider extends AbstractIdentityProvider {
     return fs.writeFileSync(this.fileName, JSON.stringify(json))
   }
 
+  private async getSerializedIdentity(did: string): Promise<SerializedIdentity> {
+    const { identities } = this.readFromFile()
+    const identity = identities.find(identity => identity.did == did)
+    if (!identity) {
+      return Promise.reject('Did not found: ' + did)
+    }
+    return identity
+  }
+
   private identityFromSerialized(serialized: SerializedIdentity): AbstractIdentity {
     return new EthrIdentity({
       did: serialized.did,
@@ -64,7 +75,6 @@ export class IdentityProvider extends AbstractIdentityProvider {
   }
 
   async createIdentity() {
-    const { identities } = this.readFromFile()
     const keyPair = EthrDID.createKeyPair()
 
     const serialized = {
@@ -73,12 +83,17 @@ export class IdentityProvider extends AbstractIdentityProvider {
       privateKey: keyPair.privateKey,
     }
 
+    this.saveIdentity(serialized)
+    return this.identityFromSerialized(serialized)
+  }
+
+  async saveIdentity(serialized: SerializedIdentity) {
+    const { identities } = this.readFromFile()
     this.writeToFile({
       identities: [...identities, serialized],
     })
 
-    debug('Created', serialized.did)
-    return this.identityFromSerialized(serialized)
+    debug('Saved', serialized.did)
   }
 
   async deleteIdentity(did: string) {
@@ -93,20 +108,30 @@ export class IdentityProvider extends AbstractIdentityProvider {
   }
 
   async getIdentity(did: string) {
-    const { identities } = this.readFromFile()
-    const identity = identities.find(identity => identity.did == did)
-    if (!identity) {
-      return Promise.reject('Did not found: ' + did)
-    }
-    return this.identityFromSerialized(identity)
+    const serialized = await this.getSerializedIdentity(did)
+    return this.identityFromSerialized(serialized)
   }
 
   async exportIdentity(did: string) {
-    const { identities } = this.readFromFile()
-    const identity = identities.find(identity => identity.did == did)
-    if (!identity) {
-      return Promise.reject('Did not found: ' + did)
-    }
-    return identity.privateKey
+    const serialized = await this.getSerializedIdentity(did)
+    return JSON.stringify(serialized)
+  }
+
+  async importIdentity(json: string) {
+    const serialized = JSON.parse(json)
+    this.saveIdentity(serialized)
+    return this.identityFromSerialized(serialized)
+  }
+
+  async addService(
+    did: string,
+    service: { id: string; type: string; serviceEndpoint: string },
+  ): Promise<any> {
+    const serialized = await this.getSerializedIdentity(did)
+    const provider = new SignerProvider(this.rpcUrl, {
+      signTransaction: (rawTx: any, cb: any) => cb(null, sign(rawTx, '0x' + serialized.privateKey)),
+    })
+    const ethrDid = new EthrDID({ address: serialized.address, provider })
+    return ethrDid.setAttribute('did/svc/' + service.type, service.serviceEndpoint, 86400, 100000)
   }
 }

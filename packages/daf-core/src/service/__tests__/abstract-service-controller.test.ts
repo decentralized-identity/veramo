@@ -43,15 +43,11 @@ export class MockServiceController extends AbstractServiceController {
 
 const mockIdentity: AbstractIdentity = {
   did: 'did:test:123',
-  sign: async (data: string) => data,
+  signer: (keyId?: string) => async (data: string) => data,
   identityProviderType: 'mock',
   didDoc: async (): Promise<any> => '',
   encrypt: async (): Promise<any> => '',
   decrypt: async (): Promise<any> => '',
-  addPublicKey: async (): Promise<any> => '',
-  removePublicKey: async (): Promise<any> => '',
-  addService: async (): Promise<any> => '',
-  removeService: async (): Promise<any> => '',
 }
 
 const mockResolver: Resolver = {

@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import { AbstractIdentity } from './abstract-identity'
+import { AbstractIdentity, ServiceEndpoint } from './abstract-identity'
 
 export abstract class AbstractIdentityProvider extends EventEmitter {
   abstract type: string
@@ -15,6 +15,22 @@ export abstract class AbstractIdentityProvider extends EventEmitter {
 
   importIdentity(secret: string): Promise<AbstractIdentity> {
     return Promise.reject('Method importIdentity not implemented')
+  }
+
+  addPublicKey(did: string, type: string, proofPurpose?: string[]): Promise<string> {
+    return Promise.reject('Method addPublicKey not implemented')
+  }
+
+  removePublicKey(did: string, keyId: string): Promise<boolean> {
+    return Promise.reject('Method removePublicKey not implemented')
+  }
+
+  addService(did: string, service: ServiceEndpoint): Promise<any> {
+    return Promise.reject('Method addService not implemented')
+  }
+
+  removeService(did: string, service: ServiceEndpoint): Promise<boolean> {
+    return Promise.reject('Method removeService not implemented')
   }
 }
 

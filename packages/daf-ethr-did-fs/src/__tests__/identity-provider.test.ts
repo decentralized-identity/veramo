@@ -43,4 +43,21 @@ describe('daf-ethr-did-fs', () => {
     const decoded = decodeJWT(jwt)
     expect(decoded.payload.iss).toEqual(identity.did)
   })
+
+  it('imported identity adds serviceEndpoint', async () => {
+    const serialized = {
+      did: 'did:ethr:rinkeby:0xf09b1640417a4270b3631306b42403fa8c45d63d',
+      address: '0xf09b1640417a4270b3631306b42403fa8c45d63d',
+      privateKey: '8a6e19d13d096514aa405c20c518f748693049393cac43a57a70bfea448852f3',
+    }
+    const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
+
+    const result = await identityProvider.addService(identity.did, {
+      id: 'srvc4',
+      type: 'Messaging',
+      serviceEndpoint: 'https://localhos:5000/msg',
+    })
+
+    expect(result).toBeTruthy()
+  })
 })

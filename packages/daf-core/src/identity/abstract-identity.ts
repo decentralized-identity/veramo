@@ -37,22 +37,6 @@ export abstract class AbstractIdentity {
   abstract signer(keyId?: string): Signer
   abstract encrypt(to: string, data: string | Uint8Array): Promise<any>
   abstract decrypt(encrypted: any): Promise<string>
-
-  addPublicKey(type: string, proofPurpose?: string[]): Promise<PublicKey> {
-    return Promise.reject('Method addPublicKey not implemented')
-  }
-
-  removePublicKey(keyId: string): Promise<boolean> {
-    return Promise.reject('Method removePublicKey not implemented')
-  }
-
-  addService(service: ServiceEndpoint): Promise<any> {
-    return Promise.reject('Method addService not implemented')
-  }
-
-  removeService(service: ServiceEndpoint): Promise<boolean> {
-    return Promise.reject('Method removeService not implemented')
-  }
 }
 
 type AbstractIdentityClass = typeof AbstractIdentity

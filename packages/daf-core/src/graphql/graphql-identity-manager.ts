@@ -41,11 +41,12 @@ const createIdentity = async (
 const deleteIdentity = async (
   _: any,
   args: {
+    type: string
     did: string
   },
   ctx: Context,
 ) => {
-  return await ctx.core.identityManager.deleteIdentity(args.did)
+  return await ctx.core.identityManager.deleteIdentity(args.type, args.did)
 }
 
 const importIdentity = async (
@@ -68,11 +69,12 @@ const importIdentity = async (
 const managedIdentitySecret = async (
   _: any,
   args: {
+    type: string
     did: string
   },
   ctx: Context,
 ) => {
-  return await ctx.core.identityManager.exportIdentity(args.did)
+  return await ctx.core.identityManager.exportIdentity(args.type, args.did)
 }
 
 // Actions
@@ -101,12 +103,12 @@ export const typeDefs = `
   extend type Query {
     identityProviders: [IdentityProvider]
     managedIdentities: [Identity]
-    managedIdentitySecret(did: String): String
+    managedIdentitySecret(type: String, did: String): String
   }
 
   extend type Mutation {
     createIdentity(type: String): Identity!
-    deleteIdentity(did: String): Boolean!
+    deleteIdentity(type: String, did: String): Boolean!
     importIdentity(type: String, secret: String): Identity!
   }
 
