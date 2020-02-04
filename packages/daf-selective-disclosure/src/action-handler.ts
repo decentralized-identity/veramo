@@ -49,7 +49,7 @@ export class ActionHandler extends AbstractActionHandler {
             ...data,
           },
           {
-            signer: identity.sign,
+            signer: identity.signer(),
             alg: 'ES256K-R',
             issuer: identity.did,
           },

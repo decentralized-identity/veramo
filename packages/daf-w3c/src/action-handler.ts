@@ -29,7 +29,7 @@ export class ActionHandler extends AbstractActionHandler {
         debug('Signing VP with', did)
         // Removing duplicate JWT
         data.vp.verifiableCredential = Array.from(new Set(data.vp.verifiableCredential))
-        const jwt = await createPresentation(data, { did: identity.did, signer: identity.sign })
+        const jwt = await createPresentation(data, { did: identity.did, signer: identity.signer() })
         return jwt
       } catch (error) {
         debug(error)
@@ -42,7 +42,7 @@ export class ActionHandler extends AbstractActionHandler {
       try {
         const identity = await core.identityManager.getIdentity(did)
         debug('Signing VC with', did)
-        const jwt = await createVerifiableCredential(data, { did: identity.did, signer: identity.sign })
+        const jwt = await createVerifiableCredential(data, { did: identity.did, signer: identity.signer() })
         return jwt
       } catch (error) {
         debug(error)

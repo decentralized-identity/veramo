@@ -47,8 +47,18 @@ describe('daf-ethr-did-fs', () => {
   it('imported identity adds serviceEndpoint', async () => {
     const serialized = {
       did: 'did:ethr:rinkeby:0xf09b1640417a4270b3631306b42403fa8c45d63d',
-      address: '0xf09b1640417a4270b3631306b42403fa8c45d63d',
-      privateKey: '8a6e19d13d096514aa405c20c518f748693049393cac43a57a70bfea448852f3',
+      keySet: {
+        keys: [
+          {
+            crv: 'secp256k1',
+            x: 'z93SgW9Dagt89Sts0NEIN7XMPpHli5Vr1n8nZ97-Ae4',
+            y: 'HracHTExUzEuhZm7auhpDgVJRGYumwhWZHdrNAvzogk',
+            d: '', //@TODO: figure out how to do this without revealing private keys
+            kty: 'EC',
+            kid: 'yAfcGZwuMFCvi_PZmCs7WVihA-ZAnyr0LCoafnORGk4',
+          },
+        ],
+      },
     }
     const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
 

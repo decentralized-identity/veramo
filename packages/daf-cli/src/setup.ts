@@ -21,7 +21,7 @@ const debug = Debug('daf:cli')
 
 const defaultPath = process.env.HOME + '/.daf'
 
-const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store.json'
+const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store-jwk.json'
 const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store-cli.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
@@ -47,7 +47,14 @@ if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG
 if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
 TG.ServiceController.webSocketImpl = ws
 
-const identityProviders = [new EthrDidFs.IdentityProvider(identityStoreFilename)]
+const identityProviders = [
+  new EthrDidFs.IdentityProvider({
+    fileName: identityStoreFilename,
+    network: 'rinkeby',
+    rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+    resolver: didResolver,
+  }),
+]
 const serviceControllers = [TG.ServiceController]
 
 const messageValidator = new DBG.MessageValidator()

@@ -101,7 +101,7 @@ export class ServiceController extends AbstractServiceController {
         exp: Math.floor(Date.now() / 1000) + 5000, // what is a reasonable value here?
       },
       {
-        signer: this.identity.sign,
+        signer: this.identity.signer(),
         alg: 'ES256K-R',
         issuer: this.identity.did,
       },

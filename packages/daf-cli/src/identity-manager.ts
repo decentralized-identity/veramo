@@ -63,7 +63,9 @@ program
           },
         ])
 
-        const result = await core.identityManager.deleteIdentity(answers.did)
+        const identity = await core.identityManager.getIdentity(answers.did)
+
+        const result = await core.identityManager.deleteIdentity(identity.identityProviderType, identity.did)
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
