@@ -1,6 +1,11 @@
 import base64url from 'base64url'
 import { keccak_256 } from 'js-sha3'
+import { sha256 as sha256js, Message } from 'js-sha256'
 import * as jose from 'jose'
+
+export function sha256(payload: Message): Buffer {
+  return Buffer.from(sha256js.arrayBuffer(payload))
+}
 
 function keccak(data: any): Buffer {
   return Buffer.from(keccak_256.arrayBuffer(data))

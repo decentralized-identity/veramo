@@ -2,7 +2,7 @@ import SignerProvider from 'ethjs-provider-signer'
 import { DafResolver } from 'daf-resolver'
 import { IdentityProvider } from '../identity-provider'
 import { EthrIdentity } from '../ethr-identity'
-import { createJWT, decodeJWT } from 'did-jwt'
+import { createJWT, decodeJWT, verifyJWT } from 'did-jwt'
 const fs = require('fs')
 
 describe('daf-ethr-did-fs', () => {
@@ -40,34 +40,34 @@ describe('daf-ethr-did-fs', () => {
       },
     )
 
-    const decoded = decodeJWT(jwt)
+    const decoded = await verifyJWT(jwt, { resolver })
     expect(decoded.payload.iss).toEqual(identity.did)
   })
 
-  it('imported identity adds serviceEndpoint', async () => {
-    const serialized = {
-      did: 'did:ethr:rinkeby:0xf09b1640417a4270b3631306b42403fa8c45d63d',
-      keySet: {
-        keys: [
-          {
-            crv: 'secp256k1',
-            x: 'z93SgW9Dagt89Sts0NEIN7XMPpHli5Vr1n8nZ97-Ae4',
-            y: 'HracHTExUzEuhZm7auhpDgVJRGYumwhWZHdrNAvzogk',
-            d: '', //@TODO: figure out how to do this without revealing private keys
-            kty: 'EC',
-            kid: 'yAfcGZwuMFCvi_PZmCs7WVihA-ZAnyr0LCoafnORGk4',
-          },
-        ],
-      },
-    }
-    const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
+  // it('imported identity adds serviceEndpoint', async () => {
+  //   const serialized = {
+  //     did: 'did:ethr:rinkeby:0xf09b1640417a4270b3631306b42403fa8c45d63d',
+  //     keySet: {
+  //       keys: [
+  //         {
+  //           crv: 'secp256k1',
+  //           x: 'z93SgW9Dagt89Sts0NEIN7XMPpHli5Vr1n8nZ97-Ae4',
+  //           y: 'HracHTExUzEuhZm7auhpDgVJRGYumwhWZHdrNAvzogk',
+  //           d: '', //@TODO: figure out how to do this without revealing private keys
+  //           kty: 'EC',
+  //           kid: 'yAfcGZwuMFCvi_PZmCs7WVihA-ZAnyr0LCoafnORGk4',
+  //         },
+  //       ],
+  //     },
+  //   }
+  //   const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
 
-    const result = await identityProvider.addService(identity.did, {
-      id: 'srvc4',
-      type: 'Messaging',
-      serviceEndpoint: 'https://localhos:5000/msg',
-    })
+  //   const result = await identityProvider.addService(identity.did, {
+  //     id: 'srvc4',
+  //     type: 'Messaging',
+  //     serviceEndpoint: 'https://localhos:5000/msg',
+  //   })
 
-    expect(result).toBeTruthy()
-  })
+  //   expect(result).toBeTruthy()
+  // })
 })

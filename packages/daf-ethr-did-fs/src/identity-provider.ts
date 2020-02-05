@@ -68,13 +68,10 @@ export class IdentityProvider extends AbstractIdentityProvider {
   }
 
   private identityFromSerialized(serialized: SerializedIdentity): AbstractIdentity {
-    const hexKeys = this.getEthKeysFromSerialized(serialized)
     return new EthrIdentity({
       did: serialized.did,
-      privateKey: hexKeys.hexPrivateKey,
-      address: hexKeys.address,
+      keyStore: jose.JWKS.asKeyStore(serialized.keySet),
       identityProviderType: this.type,
-      rpcUrl: this.rpcUrl,
       resolver: this.resolver,
     })
   }
