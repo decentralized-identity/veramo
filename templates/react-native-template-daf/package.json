@@ -1,6 +1,6 @@
 {
   "name": "react-native-template-daf",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Clean and minimalist React Native template for daf.",
   "scripts": {},
   "files": [
@@ -14,10 +14,9 @@
     "template",
     "boilerplate"
   ],
-  "author": "Jason Healy <jason.healy@consensys.net>",
-  "license": "MIT",
-  "bugs": {
-    "url": "http://"
+  "repository": {
+    "url": "https://github.com/uport-project/react-native-template-daf"
   },
-  "homepage": ""
+  "author": "Jason Healy <jason.healy@consensys.net>",
+  "license": "Apache-2.0"
 }

@@ -1,4 +1,4 @@
-# :space_invader: React Native Template TypeScript
+# :space_invader: React Native Template Daf TypeScript
 
 ### `react-native@0.61.0` or higher
 
