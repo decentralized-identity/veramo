@@ -21,7 +21,6 @@ const debug = Debug('daf:cli')
 
 const defaultPath = process.env.HOME + '/.daf'
 
-const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store-jwk.json'
 const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store-cli.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
@@ -49,9 +48,15 @@ TG.ServiceController.webSocketImpl = ws
 
 const identityProviders = [
   new EthrDidFs.IdentityProvider({
-    fileName: identityStoreFilename,
+    fileName: defaultPath + 'rinkeby-identity-store.json',
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+    resolver: didResolver,
+  }),
+  new EthrDidFs.IdentityProvider({
+    fileName: defaultPath + 'kovan-identity-store.json',
+    network: 'kovan',
+    rpcUrl: 'https://kovan.infura.io/v3/' + infuraProjectId,
     resolver: didResolver,
   }),
 ]

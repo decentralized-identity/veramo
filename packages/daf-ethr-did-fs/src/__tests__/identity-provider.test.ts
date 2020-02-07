@@ -9,6 +9,18 @@ describe('daf-ethr-did-fs', () => {
   const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
   const rpcUrl = 'https://rinkeby.infura.io/v3/' + infuraProjectId
   const resolver = new DafResolver({ infuraProjectId })
+  const key = {
+    privateKey: 'da1ed1d75b6e3d28d306af4dcab9b893189cf248e52fe526e264b39b5e587ccf',
+    publicKey: '',
+    address: '0x76d331386cec35862a73aabdbfa5ef97cdac58cf',
+    type: 'Secp256k1',
+  }
+
+  const serialized = {
+    did: 'did:ethr:rinkeby:0x76d331386cec35862a73aabdbfa5ef97cdac58cf',
+    controller: key,
+    keys: [key],
+  }
 
   const fileName = './store.json'
   const network = 'rinkeby'
@@ -45,28 +57,35 @@ describe('daf-ethr-did-fs', () => {
   })
 
   // it('imported identity adds serviceEndpoint', async () => {
-  //   const serialized = {
-  //     did: 'did:ethr:rinkeby:0xf09b1640417a4270b3631306b42403fa8c45d63d',
-  //     keySet: {
-  //       keys: [
-  //         {
-  //           crv: 'secp256k1',
-  //           x: 'z93SgW9Dagt89Sts0NEIN7XMPpHli5Vr1n8nZ97-Ae4',
-  //           y: 'HracHTExUzEuhZm7auhpDgVJRGYumwhWZHdrNAvzogk',
-  //           d: '', //@TODO: figure out how to do this without revealing private keys
-  //           kty: 'EC',
-  //           kid: 'yAfcGZwuMFCvi_PZmCs7WVihA-ZAnyr0LCoafnORGk4',
-  //         },
-  //       ],
-  //     },
-  //   }
+
   //   const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
 
   //   const result = await identityProvider.addService(identity.did, {
-  //     id: 'srvc4',
+  //     id: 'srvc5',
   //     type: 'Messaging',
-  //     serviceEndpoint: 'https://localhos:5000/msg',
+  //     serviceEndpoint: 'https://localhos/msg/6789',
   //   })
+  //   console.log(result)
+
+  //   expect(result).toBeTruthy()
+  // })
+
+  // it('imported identity adds Secp256k1 publicKey', async () => {
+
+  //   const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
+
+  //   const result = await identityProvider.addPublicKey(identity.did, 'Secp256k1')
+  //   console.log(result)
+
+  //   expect(result).toBeTruthy()
+  // })
+
+  // it('imported identity adds Ed25519 publicKey', async () => {
+
+  //   const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
+
+  //   const result = await identityProvider.addPublicKey(identity.did, 'Ed25519')
+  //   console.log(result)
 
   //   expect(result).toBeTruthy()
   // })

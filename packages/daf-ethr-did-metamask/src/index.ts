@@ -1,1 +1,1 @@
-export { EthrDidMetamaskController } from './identity-controller'
+export { IdentityProvider } from './identity-provider'

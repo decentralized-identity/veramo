@@ -10,6 +10,8 @@ program
   .option('-t, --types', 'List available identity controller types')
   .option('-c, --create', 'Create identity')
   .option('-d, --delete', 'Delete identity')
+  .option('-s, --service', 'Add service endpoint')
+  .option('-p, --publicKey', 'Add public key')
   .action(async cmd => {
     if (cmd.types) {
       const list = await core.identityManager.getIdentityProviderTypes()
@@ -66,6 +68,69 @@ program
         const identity = await core.identityManager.getIdentity(answers.did)
 
         const result = await core.identityManager.deleteIdentity(identity.identityProviderType, identity.did)
+        console.log('Success:', result)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    if (cmd.service) {
+      try {
+        const identities = await core.identityManager.getIdentities()
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'did',
+            choices: identities.map(item => item.did),
+            message: 'Select DID',
+          },
+          {
+            type: 'text',
+            name: 'type',
+            message: 'Service type',
+            default: 'Messaging',
+          },
+          {
+            type: 'text',
+            name: 'endpoint',
+            message: 'Endpoint',
+          },
+        ])
+
+        const identity = await core.identityManager.getIdentity(answers.did)
+        const provider = await core.identityManager.getIdentityProvider(identity.identityProviderType)
+        const result = await provider.addService(identity.did, {
+          type: answers.type,
+          serviceEndpoint: answers.endpoint,
+          id: '',
+        })
+        console.log('Success:', result)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    if (cmd.publicKey) {
+      try {
+        const identities = await core.identityManager.getIdentities()
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'did',
+            choices: identities.map(item => item.did),
+            message: 'Select DID',
+          },
+          {
+            type: 'list',
+            name: 'type',
+            choices: ['Ed25519', 'Secp256k1'],
+            message: 'Type',
+          },
+        ])
+
+        const identity = await core.identityManager.getIdentity(answers.did)
+        const provider = await core.identityManager.getIdentityProvider(identity.identityProviderType)
+        const result = await provider.addPublicKey(identity.did, answers.type)
         console.log('Success:', result)
       } catch (e) {
         console.error(e)

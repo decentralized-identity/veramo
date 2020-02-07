@@ -29,15 +29,17 @@ const App: React.FC = () => {
   const [receiver, setReceiver] = useState('did:web:uport.me')
   const [claimType, setClaimType] = useState('name')
   const [claimValue, setClaimValue] = useState('Alice')
-  const [controllerTypes, setControllerTypes] = useState([''])
-  const [identities, setIdentities] = useState([{ type: '', did: '' }])
+  const [identityProviders, setIdentityProviders] = useState([{ type: '', description: '' }])
+  const [identities, setIdentities] = useState([{ identityProviderType: '', did: '' }])
 
   useEffect(() => {
-    setControllerTypes(core.identityManager.listTypes())
+    core.identityManager.getIdentityProviderTypes().then((providers: any) => {
+      setIdentityProviders(providers)
+    })
   }, [])
 
   const updateIdentityList = () => {
-    core.identityManager.listIssuers().then(identities => {
+    core.identityManager.getIdentities().then((identities: any) => {
       setIdentities(identities)
       if (identities.length > 0) setActiveDid(identities[0].did)
     })
@@ -101,18 +103,18 @@ const App: React.FC = () => {
           <Card width={'auto'} mx={'auto'}>
             <Heading>Send Verifiable Credential</Heading>
 
-            {controllerTypes.map(type => (
+            {identityProviders.map(identityProvider => (
               <Button.Outline
                 mt={3}
                 mb={3}
                 mr={3}
-                key={type}
+                key={identityProvider.type}
                 onClick={async () => {
-                  await core.identityManager.create(type)
+                  await core.identityManager.createIdentity(identityProvider.type)
                   updateIdentityList()
                 }}
               >
-                Create {type} DID
+                Create {identityProvider.type} DID
               </Button.Outline>
             ))}
 
@@ -125,7 +127,7 @@ const App: React.FC = () => {
                       name="selecedDid"
                       required
                       onChange={(e: any) => setActiveDid(identity.did)}
-                      label={`${identity.did} (${identity.type})`}
+                      label={`${identity.did} (${identity.identityProviderType})`}
                       value={identity.did}
                       checked={activeDid === identity.did}
                     />

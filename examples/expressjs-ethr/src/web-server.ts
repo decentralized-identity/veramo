@@ -51,15 +51,14 @@ io.on('connection', function(socket) {
 async function main() {
   await dataStore.initialize()
 
-  // Get of create new issuer
-  let issuer: Daf.Issuer
-  const issuers = await core.identityManager.listIssuers()
-  if (issuers.length > 0) {
-    issuer = issuers[0]
+  // Get of create new identity
+  let identity: Daf.AbstractIdentity
+  const identities = await core.identityManager.getIdentities()
+  if (identities.length > 0) {
+    identity = identities[0]
   } else {
-    const types = await core.identityManager.listTypes()
-    const did = await core.identityManager.create(types[0])
-    issuer = await core.identityManager.issuer(did)
+    const identityProviders = await core.identityManager.getIdentityProviderTypes()
+    identity = await core.identityManager.createIdentity(identityProviders[0].type)
   }
 
   app.get('/', async function(req, res) {
@@ -83,7 +82,7 @@ async function main() {
     if (!did) {
       const signAction: SD.ActionSignSdr = {
         type: SD.ActionTypes.signSdr,
-        did: issuer.did,
+        did: identity.did,
         data: {
           tag: req.sessionID,
           claims: [

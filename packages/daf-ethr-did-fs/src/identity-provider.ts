@@ -1,19 +1,42 @@
 import { AbstractIdentityProvider, AbstractIdentity, Resolver } from 'daf-core'
-import * as jose from 'jose'
-import { convertECKeyToEthHexKeys } from './daf-jose'
-
 import { EthrIdentity } from './ethr-identity'
 import { sign } from 'ethjs-signer'
 const SignerProvider = require('ethjs-provider-signer')
-
 const EthrDID = require('ethr-did')
 const fs = require('fs')
 import Debug from 'debug'
 const debug = Debug('daf:ethr-did-fs:identity-provider')
+const EC = require('elliptic').ec
+const secp256k1 = new EC('secp256k1')
+import sodium from 'libsodium-wrappers'
+
+import { keccak_256 } from 'js-sha3'
+import { sha256 as sha256js, Message } from 'js-sha256'
+
+export function sha256(payload: Message): Buffer {
+  return Buffer.from(sha256js.arrayBuffer(payload))
+}
+
+function keccak(data: any): Buffer {
+  return Buffer.from(keccak_256.arrayBuffer(data))
+}
+export function toEthereumAddress(hexPublicKey: string): string {
+  return `0x${keccak(Buffer.from(hexPublicKey.slice(2), 'hex'))
+    .slice(-20)
+    .toString('hex')}`
+}
+
+export interface Key {
+  type: string
+  privateKey: string
+  publicKey: string
+  address?: string
+}
 
 interface SerializedIdentity {
   did: string
-  keySet: jose.JSONWebKeySet
+  controller: Key
+  keys: Key[]
 }
 
 interface FileContents {
@@ -60,17 +83,10 @@ export class IdentityProvider extends AbstractIdentityProvider {
     return identity
   }
 
-  private getEthKeysFromSerialized(serialized: SerializedIdentity) {
-    const keyStore = jose.JWKS.asKeyStore(serialized.keySet)
-    const key = keyStore.get({ kty: 'EC', crv: 'secp256k1' }) as jose.JWK.ECKey
-    if (!key) throw Error('Key not found')
-    return convertECKeyToEthHexKeys(key)
-  }
-
   private identityFromSerialized(serialized: SerializedIdentity): AbstractIdentity {
     return new EthrIdentity({
       did: serialized.did,
-      keyStore: jose.JWKS.asKeyStore(serialized.keySet),
+      keys: serialized.keys,
       identityProviderType: this.type,
       resolver: this.resolver,
     })
@@ -86,12 +102,22 @@ export class IdentityProvider extends AbstractIdentityProvider {
   }
 
   async createIdentity() {
-    const key = jose.JWK.generateSync('EC', 'secp256k1')
-    const hexKeys = convertECKeyToEthHexKeys(key)
+    const kp = secp256k1.genKeyPair()
+    const publicKey = kp.getPublic('hex')
+    const privateKey = kp.getPrivate('hex')
+    const address = toEthereumAddress(publicKey)
+
+    const key = {
+      privateKey,
+      publicKey,
+      address,
+      type: 'Secp256k1',
+    }
 
     const serialized = {
-      did: 'did:ethr:' + this.network + ':' + hexKeys.address,
-      keySet: new jose.JWKS.KeyStore([key]).toJWKS(true),
+      did: 'did:ethr:' + this.network + ':' + address,
+      controller: key,
+      keys: [key],
     }
 
     this.saveIdentity(serialized)
@@ -134,11 +160,67 @@ export class IdentityProvider extends AbstractIdentityProvider {
     service: { id: string; type: string; serviceEndpoint: string },
   ): Promise<any> {
     const serialized = await this.getSerializedIdentity(did)
-    const hexKeys = this.getEthKeysFromSerialized(serialized)
+
     const provider = new SignerProvider(this.rpcUrl, {
-      signTransaction: (rawTx: any, cb: any) => cb(null, sign(rawTx, '0x' + hexKeys.hexPrivateKey)),
+      signTransaction: (rawTx: any, cb: any) =>
+        cb(null, sign(rawTx, '0x' + serialized.controller.privateKey)),
     })
-    const ethrDid = new EthrDID({ address: hexKeys.address, provider })
-    return ethrDid.setAttribute('did/svc/' + service.type, service.serviceEndpoint, 86400, 100000)
+    const ethrDid = new EthrDID({ address: serialized.controller.address, provider })
+
+    const attribute = 'did/svc/' + service.type
+    const value = service.serviceEndpoint
+    const ttl = 86400
+    const gas = 100000
+    debug('ethrDid.setAttribute', { attribute, value, ttl, gas })
+    const txHash = await ethrDid.setAttribute(attribute, value, ttl, gas)
+    debug({ txHash })
+    return txHash
+  }
+
+  async addPublicKey(did: string, type: 'Ed25519' | 'Secp256k1', proofPurpose?: string[]): Promise<any> {
+    const serialized = await this.getSerializedIdentity(did)
+
+    const provider = new SignerProvider(this.rpcUrl, {
+      signTransaction: (rawTx: any, cb: any) =>
+        cb(null, sign(rawTx, '0x' + serialized.controller.privateKey)),
+    })
+    const ethrDid = new EthrDID({ address: serialized.controller.address, provider })
+
+    let usg = ''
+    let publicKey
+    let privateKey
+    let address
+    switch (type) {
+      case 'Ed25519':
+        await sodium.ready
+        const keyPair = sodium.crypto_sign_keypair()
+        privateKey = Buffer.from(keyPair.privateKey).toString('hex')
+        publicKey = Buffer.from(keyPair.publicKey).toString('hex')
+        usg = 'veriKey'
+        break
+      case 'Secp256k1':
+        const kp = secp256k1.genKeyPair()
+        publicKey = kp.getPublic('hex')
+        privateKey = kp.getPrivate('hex')
+        address = toEthereumAddress(publicKey)
+        usg = 'veriKey'
+        break
+    }
+
+    const attribute = 'did/pub/' + type + '/' + usg + '/hex'
+    const value = '0x' + publicKey
+    const ttl = 86400
+    const gas = 100000
+    debug('ethrDid.setAttribute', { attribute, value, ttl, gas })
+    const txHash = await ethrDid.setAttribute(attribute, value, ttl, gas)
+
+    if (txHash) {
+      debug({ txHash })
+      serialized.keys = [...serialized.keys, { privateKey, publicKey, address, type }]
+      this.saveIdentity(serialized)
+      return true
+    }
+
+    return false
   }
 }

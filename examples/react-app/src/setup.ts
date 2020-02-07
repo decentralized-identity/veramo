@@ -16,15 +16,17 @@ messageValidator.setNext(new DidJwt.MessageValidator()).setNext(new W3c.MessageV
 const actionHandler = new DBG.ActionHandler()
 actionHandler.setNext(new TG.ActionHandler()).setNext(new W3c.ActionHandler())
 
-const identityControllers: Daf.IdentityController[] = [new EthrDidLocalStorageController()]
+const identityProviders: Daf.AbstractIdentityProvider[] = [
+  // new EthrDidLocalStorageController()
+]
 
 if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
   EthrDidMetamaskController.snapId = 'http://localhost:8082/package.json'
-  identityControllers.push(new EthrDidMetamaskController())
+  // identityProviders.push(new EthrDidMetamaskController())
 }
 
 export const core = new Daf.Core({
-  identityControllers,
+  identityProviders,
   serviceControllers: [],
   didResolver: new DafUniversalResolver({ url: 'https://uniresolver.io/1.0/identifiers/' }),
   messageValidator,

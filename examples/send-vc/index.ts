@@ -15,30 +15,40 @@ messageValidator.setNext(new DidJwt.MessageValidator()).setNext(new W3c.MessageV
 const actionHandler = new DBG.ActionHandler()
 actionHandler.setNext(new TG.ActionHandler()).setNext(new W3c.ActionHandler())
 
+const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
+
+const didResolver = new DafUniversalResolver({ url: 'https://uniresolver.io/1.0/identifiers/' })
+
 export const core = new Daf.Core({
-  identityControllers: [new Ethr.EthrDidFsController('./identity-store.json')],
+  identityProviders: [
+    new Ethr.IdentityProvider({
+      fileName: './identity-store.json',
+      network: 'rinkeby',
+      rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+      resolver: didResolver,
+    }),
+  ],
   serviceControllers: [],
-  didResolver: new DafUniversalResolver({ url: 'https://uniresolver.io/1.0/identifiers/' }),
+  didResolver,
   messageValidator,
   actionHandler,
 })
 
 async function main() {
   // Get or create new issuer
-  let issuer: Daf.Issuer
-  const issuers = await core.identityManager.listIssuers()
-  if (issuers.length > 0) {
-    issuer = issuers[0]
+  let identity: Daf.AbstractIdentity
+  const identities = await core.identityManager.getIdentities()
+  if (identities.length > 0) {
+    identity = identities[0]
   } else {
-    const types = core.identityManager.listTypes()
-    const did = await core.identityManager.create(types[0])
-    issuer = await core.identityManager.issuer(did)
+    const identityProviders = core.identityManager.getIdentityProviderTypes()
+    identity = await core.identityManager.createIdentity(identityProviders[0].type)
   }
 
   // Sign credential
   const credential = await core.handleAction({
     type: W3c.ActionTypes.signVc,
-    did: issuer.did,
+    did: identity.did,
     data: {
       sub: 'did:web:uport.me',
       vc: {
@@ -55,7 +65,7 @@ async function main() {
   await core.handleAction({
     type: TG.ActionTypes.sendJwt,
     data: {
-      from: issuer.did,
+      from: identity.did,
       to: 'did:web:uport.me',
       jwt: credential,
     },

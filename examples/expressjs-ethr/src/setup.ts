@@ -3,7 +3,7 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 
 import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
-import { EthrDidFsController } from 'daf-ethr-did-fs'
+import { IdentityProvider } from 'daf-ethr-did-fs'
 
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
@@ -43,7 +43,14 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
   })
 }
 
-const identityControllers = [new EthrDidFsController(identityStoreFilename)]
+const identityProviders = [
+  new IdentityProvider({
+    fileName: identityStoreFilename,
+    network: 'rinkeby',
+    rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+    resolver: didResolver,
+  }),
+]
 const serviceControllers = [TG.ServiceController]
 
 const messageValidator = new DBG.MessageValidator()
@@ -62,7 +69,7 @@ actionHandler
   .setNext(new SD.ActionHandler())
 
 export const core = new Daf.Core({
-  identityControllers,
+  identityProviders,
   serviceControllers,
   didResolver,
   messageValidator,
