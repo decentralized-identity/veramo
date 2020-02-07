@@ -1,0 +1,23 @@
+{
+  "name": "react-native-template-daf",
+  "version": "0.0.1",
+  "description": "Clean and minimalist React Native template for daf.",
+  "scripts": {},
+  "files": [
+    "template",
+    "template.config.js"
+  ],
+  "keywords": [
+    "react-native",
+    "typescript",
+    "jest",
+    "template",
+    "boilerplate"
+  ],
+  "author": "Jason Healy <jason.healy@consensys.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "http://"
+  },
+  "homepage": ""
+}

@@ -1,0 +1,58 @@
+{
+  "name": "HelloWorld",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "dependencies": {
+    "daf-core": "^1.4.1",
+    "daf-data-store": "^1.5.0",
+    "daf-debug": "^1.4.1",
+    "daf-did-jwt": "^1.4.1",
+    "daf-ethr-did-react-native": "^1.4.1",
+    "daf-react-native-sqlite3": "^1.5.0",
+    "daf-selective-disclosure": "^1.5.1",
+    "daf-trust-graph": "^1.4.1",
+    "daf-url": "^1.4.1",
+    "daf-w3c": "^1.4.1",
+    "did-jwt": "^3.0.0",
+    "did-jwt-vc": "^0.1.2",
+    "did-resolver": "^1.1.0",
+    "ethr-did-resolver": "^1.0.1",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "web-did-resolver": "^1.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/runtime": "^7.6.2",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "@types/jest": "^24.0.24",
+    "@types/react-native": "^0.60.25",
+    "@types/react-test-renderer": "16.9.1",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.5.1",
+    "jest": "^24.9.0",
+    "metro-react-native-babel-preset": "^0.56.0",
+    "react-test-renderer": "16.9.0",
+    "typescript": "^3.7.3"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
