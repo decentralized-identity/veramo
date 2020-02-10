@@ -12,6 +12,8 @@ program
   .option('-d, --delete', 'Delete identity')
   .option('-s, --service', 'Add service endpoint')
   .option('-p, --publicKey', 'Add public key')
+  .option('--encrypt', 'Encrypt data to a recipient DID')
+  .option('--decrypt', 'Decrypt data')
   .action(async cmd => {
     if (cmd.types) {
       const list = await core.identityManager.getIdentityProviderTypes()
@@ -131,6 +133,61 @@ program
         const identity = await core.identityManager.getIdentity(answers.did)
         const provider = await core.identityManager.getIdentityProvider(identity.identityProviderType)
         const result = await provider.addPublicKey(identity.did, answers.type)
+        console.log('Success:', result)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    if (cmd.encrypt) {
+      try {
+        const identities = await core.identityManager.getIdentities()
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'did',
+            choices: identities.map(item => item.did),
+            message: 'Select DID',
+          },
+          {
+            type: 'text',
+            name: 'to',
+            message: 'Recipient DID',
+          },
+          {
+            type: 'text',
+            name: 'message',
+            message: 'Message',
+          },
+        ])
+
+        const identity = await core.identityManager.getIdentity(answers.did)
+        const result = await identity.encrypt(answers.to, answers.message)
+        console.log('Success:', result)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    if (cmd.decrypt) {
+      try {
+        const identities = await core.identityManager.getIdentities()
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'did',
+            choices: identities.map(item => item.did),
+            message: 'Select DID',
+          },
+          {
+            type: 'text',
+            name: 'message',
+            message: 'Encrypted message',
+          },
+        ])
+
+        const identity = await core.identityManager.getIdentity(answers.did)
+        const result = await identity.decrypt(answers.message)
         console.log('Success:', result)
       } catch (e) {
         console.error(e)

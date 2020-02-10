@@ -8,6 +8,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "DIDComm-js": "github:decentralized-identity/DIDComm-js",
     "base64url": "^3.0.1",
     "daf-core": "^1.4.1",
     "daf-resolver": "^1.1.0",

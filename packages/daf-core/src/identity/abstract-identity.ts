@@ -35,8 +35,8 @@ export abstract class AbstractIdentity {
   abstract did: string
   abstract didDoc(): Promise<DIDDocument | null>
   abstract signer(keyId?: string): Signer
-  abstract encrypt(to: string, data: string | Uint8Array): Promise<any>
-  abstract decrypt(encrypted: any): Promise<string>
+  abstract encrypt(to: string, data: string): Promise<string>
+  abstract decrypt(encrypted: string): Promise<string>
 }
 
 type AbstractIdentityClass = typeof AbstractIdentity
