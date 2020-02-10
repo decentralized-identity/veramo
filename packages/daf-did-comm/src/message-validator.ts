@@ -12,51 +12,50 @@ export class MessageValidator extends AbstractMessageValidator {
   }
 
   async validate(message: Message, core: Core): Promise<Message> {
-    if (core.encryptionKeyManager) {
-      try {
-        const parsed = JSON.parse(message.raw)
-        if (parsed.ciphertext && parsed.protected) {
-          const keyPairs = await core.encryptionKeyManager.listKeyPairs()
-          for (const keyPair of keyPairs) {
-            const unpacked = await this.didcomm.unpackMessage(message.raw, keyPair)
-            if (unpacked.message) {
-              debug('Unpacked for publicKey %s', keyPair.publicKeyHex)
-              debug(unpacked.message)
+    try {
+      const parsed = JSON.parse(message.raw)
+      if (parsed.ciphertext && parsed.protected) {
+        const identities = await core.identityManager.getIdentities()
+        for (const identity of identities) {
+          const decrypted = await identity.decrypt(message.raw)
+          if (decrypted) {
+            debug('Decrypted for %s', identity.did)
+            debug(decrypted)
 
-              try {
-                const json = JSON.parse(unpacked.message)
-                if (json['@type'] === 'JWT') {
-                  message.transform({
-                    raw: json.data,
-                    meta: { type: 'DIDComm' },
-                  })
-                } else {
-                  if (json['@id']) message.id = json['@id']
-                  if (json['@type']) message.type = json['@type']
-                  message.transform({
-                    raw: unpacked.message,
-                    data: json,
-                    meta: { type: 'DIDComm' },
-                  })
-                }
-                return super.validate(message, core)
-              } catch (e) {
-                debug(e)
+            try {
+              const json = JSON.parse(decrypted)
+              if (json['@type'] === 'JWT') {
+                message.transform({
+                  raw: json.data,
+                  meta: { type: 'DIDComm' },
+                })
+              } else {
+                if (json['@id']) message.id = json['@id']
+                if (json['@type']) message.type = json['@type']
+                message.transform({
+                  raw: decrypted,
+                  data: json,
+                  meta: { type: 'DIDComm' },
+                })
               }
-
-              message.transform({
-                raw: unpacked.message,
-                meta: { type: 'DIDComm' },
-              })
-
               return super.validate(message, core)
+            } catch (e) {
+              debug(e.message)
             }
+
+            message.transform({
+              raw: decrypted,
+              meta: { type: 'DIDComm' },
+            })
+
+            return super.validate(message, core)
           }
         }
-      } catch (e) {
-        // not a JSON string
       }
+    } catch (e) {
+      // not a JSON string
     }
+
     return super.validate(message, core)
   }
 }

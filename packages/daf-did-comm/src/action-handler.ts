@@ -31,32 +31,22 @@ export class ActionHandler extends AbstractActionHandler {
 
       debug('Resolving didDoc')
       const didDoc = await core.didResolver.resolve(data.to)
-
-      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'MessagingService')
-      const publicKey =
-        didDoc &&
-        didDoc.publicKey &&
-        didDoc.publicKey.find(item => item.type == 'Curve25519EncryptionPublicKey')
+      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'Messaging')
 
       if (service) {
         try {
           let body = data.jwt
-          if (publicKey && publicKey.publicKeyHex && core.encryptionKeyManager) {
-            await this.didcomm.ready
-            const senderKeyPair = await core.encryptionKeyManager.getKeyPairForDid(data.from)
-            if (senderKeyPair) {
-              const dm = JSON.stringify({
-                '@type': 'JWT',
-                id: uuid.v4(),
-                data: data.jwt,
-              })
 
-              body = await this.didcomm.pack_auth_msg_for_recipients(
-                dm,
-                [Uint8Array.from(Buffer.from(publicKey.publicKeyHex, 'hex'))],
-                senderKeyPair,
-              )
-            }
+          try {
+            const identity = await core.identityManager.getIdentity(data.from)
+            const dm = JSON.stringify({
+              '@type': 'JWT',
+              id: uuid.v4(),
+              data: data.jwt,
+            })
+            body = await identity.encrypt(data.to, dm)
+          } catch (e) {
+            console.log(e)
           }
 
           debug('Sending to %s', service.serviceEndpoint)
