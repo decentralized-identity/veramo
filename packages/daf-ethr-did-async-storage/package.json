@@ -1,0 +1,34 @@
+{
+  "name": "daf-ethr-did-async-storage",
+  "description": "DAF ehtr-did AsyncStorage identity controller",
+  "version": "1.4.1",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "daf-core": "^1.4.1",
+    "debug": "^4.1.1",
+    "ethr-did": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "add": "^2.0.6",
+    "typescript": "^3.7.2",
+    "yarn": "^1.22.0"
+  },
+  "peerDependencies": {
+    "@react-native-community/async-storage": "*"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Jason Healy <jason.healy@consensys.net>",
+  "license": "Apache-2.0",
+  "keywords": []
+}
