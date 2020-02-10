@@ -2,7 +2,6 @@ import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
-import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as URL from 'daf-url'
 

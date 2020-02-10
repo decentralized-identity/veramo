@@ -20,13 +20,12 @@
     "daf-trust-graph": "^1.4.1",
     "daf-url": "^1.4.1",
     "daf-w3c": "^1.4.1",
-    "did-jwt": "^3.0.0",
-    "did-jwt-vc": "^0.1.2",
-    "did-resolver": "^1.1.0",
-    "ethr-did-resolver": "^1.0.1",
+    "ethr-did-resolver": "^2.1.0",
+    "web-did-resolver": "^1.2.0",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "web-did-resolver": "^1.2.0"
+    "react-native-uport-signer": "^1.6.1",
+    "react-native-sqlite-storage": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
