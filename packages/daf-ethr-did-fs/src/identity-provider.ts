@@ -8,7 +8,7 @@ import Debug from 'debug'
 const debug = Debug('daf:ethr-did-fs:identity-provider')
 const EC = require('elliptic').ec
 const secp256k1 = new EC('secp256k1')
-import { DIDComm } from 'DIDComm-js'
+import { DIDComm } from './didcomm'
 const didcomm = new DIDComm()
 
 import { keccak_256 } from 'js-sha3'

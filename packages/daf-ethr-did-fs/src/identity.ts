@@ -1,7 +1,7 @@
 import { AbstractIdentity, Resolver } from 'daf-core'
 import { SimpleSigner } from 'did-jwt'
 import { Key } from './identity-provider'
-import { DIDComm } from 'DIDComm-js'
+import { DIDComm } from './didcomm'
 const didcomm = new DIDComm()
 
 export class Identity extends AbstractIdentity {

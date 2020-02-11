@@ -1,11 +1,11 @@
 Arguments: 
-  /Users/simonas/.nvm/versions/node/v12.13.1/bin/node /Users/simonas/.nvm/versions/node/v12.13.1/bin/yarn add @types/ethjs-provider-signer -D
+  /Users/simonas/.nvm/versions/node/v12.13.1/bin/node /Users/simonas/.yarn/bin/yarn.js add @types/base-58
 
 PATH: 
-  /Users/simonas/.nvm/versions/node/v12.13.1/bin:/Users/simonas/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/simonas/.nvm/versions/node/v12.13.1/bin:/Users/simonas/.cargo/bin:/Users/simonas/Library/Android/sdk/tools:/Users/simonas/Library/Android/sdk/platform-tools:/Users/simonas/Library/Android/sdk/tools:/Users/simonas/Library/Android/sdk/platform-tools
+  /Users/simonas/.yarn/bin:/Users/simonas/.config/yarn/global/node_modules/.bin:/Users/simonas/.nvm/versions/node/v12.13.1/bin:/Users/simonas/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/simonas/.yarn/bin:/Users/simonas/.config/yarn/global/node_modules/.bin:/Users/simonas/.nvm/versions/node/v12.13.1/bin:/Users/simonas/.cargo/bin:/Users/simonas/Library/Android/sdk/tools:/Users/simonas/Library/Android/sdk/platform-tools:/Users/simonas/Library/Android/sdk/tools:/Users/simonas/Library/Android/sdk/platform-tools
 
 Yarn version: 
-  1.19.1
+  1.21.1
 
 Node version: 
   12.13.1
@@ -14,13 +14,13 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fethjs-provider-signer: Not found
-      at Request.params.callback [as _callback] (/Users/simonas/.nvm/versions/node/v12.13.1/lib/node_modules/yarn/lib/cli.js:66926:18)
-      at Request.self.callback (/Users/simonas/.nvm/versions/node/v12.13.1/lib/node_modules/yarn/lib/cli.js:140564:22)
+  Error: https://registry.yarnpkg.com/@types%2fbase-58: Not found
+      at Request.params.callback [as _callback] (/Users/simonas/.yarn/lib/cli.js:66947:18)
+      at Request.self.callback (/Users/simonas/.yarn/lib/cli.js:140665:22)
       at Request.emit (events.js:210:5)
-      at Request.<anonymous> (/Users/simonas/.nvm/versions/node/v12.13.1/lib/node_modules/yarn/lib/cli.js:141536:10)
+      at Request.<anonymous> (/Users/simonas/.yarn/lib/cli.js:141637:10)
       at Request.emit (events.js:210:5)
-      at IncomingMessage.<anonymous> (/Users/simonas/.nvm/versions/node/v12.13.1/lib/node_modules/yarn/lib/cli.js:141458:12)
+      at IncomingMessage.<anonymous> (/Users/simonas/.yarn/lib/cli.js:141559:12)
       at Object.onceWrapper (events.js:299:28)
       at IncomingMessage.emit (events.js:215:7)
       at endReadableNT (_stream_readable.js:1184:12)
@@ -37,17 +37,21 @@ npm manifest:
       "build": "tsc"
     },
     "dependencies": {
+      "DIDComm-js": "github:decentralized-identity/DIDComm-js",
+      "base-58": "^0.0.1",
+      "base64url": "^3.0.1",
       "daf-core": "^1.4.1",
+      "daf-resolver": "^1.1.0",
       "debug": "^4.1.1",
+      "elliptic": "^6.5.2",
       "ethjs-provider-signer": "^0.1.4",
       "ethjs-signer": "^0.1.1",
-      "ethr-did": "^1.1.0"
+      "ethr-did": "^1.1.0",
+      "js-sha3": "^0.8.0"
     },
     "devDependencies": {
       "@types/debug": "^4.1.5",
       "@types/ethjs-signer": "^0.1.0",
-      "ethjs-provider-signer": "^0.1.4",
-      "ethjs-signer": "^0.1.1",
       "typescript": "^3.7.2"
     },
     "files": [
@@ -2779,7 +2783,7 @@ Lockfile:
       "@types/koa-compose" "*"
       "@types/node" "*"
   
-  "@types/libsodium-wrappers@^0.7.5", "@types/libsodium-wrappers@^0.7.7":
+  "@types/libsodium-wrappers@^0.7.5":
     version "0.7.7"
     resolved "https://registry.yarnpkg.com/@types/libsodium-wrappers/-/libsodium-wrappers-0.7.7.tgz#cdb25e85458612ec80f0157c3815fac187d0b6d2"
     integrity sha512-Li91pVKcLvQJK3ZolwCPo85oxf2gKBCApgnesRxYg4OVYchLXcJB2eivX8S87vfQVv6ZRnyCO1lLDosZGJfpRg==
@@ -3194,6 +3198,14 @@ Lockfile:
   "DIDComm-js@git://github.com/uport-project/DIDComm-js.git#fix/build-issues":
     version "0.6.0"
     resolved "git://github.com/uport-project/DIDComm-js.git#8f52f5ef195b47f1f6bb0d9869ecf287f2c7a5ee"
+    dependencies:
+      "@types/libsodium-wrappers" "^0.7.5"
+      base-58 "0.0.1"
+      libsodium-wrappers "^0.7.5"
+  
+  "DIDComm-js@github:decentralized-identity/DIDComm-js":
+    version "0.6.0"
+    resolved "https://codeload.github.com/decentralized-identity/DIDComm-js/tar.gz/c8ca38df0b78c03d4e3c7e4cde13bd0a933e284a"
     dependencies:
       "@types/libsodium-wrappers" "^0.7.5"
       base-58 "0.0.1"
@@ -4133,7 +4145,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
     integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
   
-  base-58@0.0.1:
+  base-58@0.0.1, base-58@^0.0.1:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/base-58/-/base-58-0.0.1.tgz#85d3e70251075661933388f831d1eb8b8f6314e3"
     integrity sha1-hdPnAlEHVmGTM4j4MdHri49jFOM=
@@ -5800,9 +5812,16 @@ Lockfile:
   daf-ethr-did-local-storage@../daf/packages/daf-ethr-did-local-storage:
     version "1.4.1"
     dependencies:
+      "@types/ethjs-signer" "^0.1.0"
+      DIDComm-js "github:decentralized-identity/DIDComm-js"
+      base64url "^3.0.1"
       daf-core "^1.4.1"
       debug "^4.1.1"
+      elliptic "^6.5.2"
+      ethjs-provider-signer "^0.1.4"
+      ethjs-signer "^0.1.1"
       ethr-did "^1.1.0"
+      js-sha3 "^0.8.0"
   
   daf-ethr-did-metamask@../daf/packages/daf-ethr-did-metamask:
     version "1.4.1"
@@ -6379,7 +6398,7 @@ Lockfile:
       hash.js "^1.0.0"
       inherits "^2.0.1"
   
-  elliptic@^6.0.0, elliptic@^6.4.0:
+  elliptic@^6.0.0, elliptic@^6.4.0, elliptic@^6.5.2:
     version "6.5.2"
     resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.2.tgz#05c5678d7173c049d8ca433552224a495d0e3762"
     integrity sha512-f4x70okzZbIQl/NSRLkI/+tteV/9WqL98zx+SQ69KbXxmVrmjwsNUPn/gYJJ0sHvEak24cZgHIPegRePAtA/xw==
@@ -10118,7 +10137,7 @@ Lockfile:
       y18n "^4.0.0"
       yargs "^11.0.0"
   
-  libsodium-wrappers@^0.7.5, libsodium-wrappers@^0.7.6:
+  libsodium-wrappers@^0.7.5:
     version "0.7.6"
     resolved "https://registry.yarnpkg.com/libsodium-wrappers/-/libsodium-wrappers-0.7.6.tgz#baed4c16d4bf9610104875ad8a8e164d259d48fb"
     integrity sha512-OUO2CWW5bHdLr6hkKLHIKI4raEkZrf3QHkhXsJ1yCh6MZ3JDA7jFD3kCATNquuGSG6MjjPHQIQms0y0gBDzjQg==
@@ -15681,6 +15700,17 @@ Lockfile:
       source-map-support "^0.5.6"
       yn "^3.0.0"
   
+  ts-node@^8.6.2:
+    version "8.6.2"
+    resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.6.2.tgz#7419a01391a818fbafa6f826a33c1a13e9464e35"
+    integrity sha512-4mZEbofxGqLL2RImpe3zMJukvEvcO1XP8bj8ozBPySdCUXEcU5cIRwR0aM3R+VoZq7iXc8N86NC0FspGRqP4gg==
+    dependencies:
+      arg "^4.1.0"
+      diff "^4.0.1"
+      make-error "^1.1.1"
+      source-map-support "^0.5.6"
+      yn "3.1.1"
+  
   ts-pnp@1.1.5, ts-pnp@^1.1.2:
     version "1.1.5"
     resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.1.5.tgz#840e0739c89fce5f3abd9037bb091dbff16d9dec"
@@ -15774,6 +15804,11 @@ Lockfile:
     version "3.7.3"
     resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
     integrity sha512-Mcr/Qk7hXqFBXMN7p7Lusj1ktCBydylfQM/FZCk5glCNQJrCUKPkMHdo9R0MTFWsC/4kPFvDS0fDPvukfCkFsw==
+  
+  typescript@^3.7.5:
+    version "3.7.5"
+    resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
+    integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
   
   ua-parser-js@^0.7.18:
     version "0.7.20"
@@ -16857,7 +16892,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
     integrity sha1-AI4G2AlDIMNy28L47XagymyKxBk=
   
-  yn@^3.0.0:
+  yn@3.1.1, yn@^3.0.0:
     version "3.1.1"
     resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
     integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
