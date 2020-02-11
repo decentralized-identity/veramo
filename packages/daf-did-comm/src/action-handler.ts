@@ -44,7 +44,9 @@ export class ActionHandler extends AbstractActionHandler {
               id: uuid.v4(),
               data: data.jwt,
             })
+            debug(dm)
             body = await identity.encrypt(data.to, dm)
+            debug('Encrypted:', body)
           } catch (e) {
             console.log(e)
           }

@@ -17,10 +17,13 @@ export class MessageValidator extends AbstractMessageValidator {
       if (parsed.ciphertext && parsed.protected) {
         const identities = await core.identityManager.getIdentities()
         for (const identity of identities) {
-          const decrypted = await identity.decrypt(message.raw)
+          let decrypted
+          try {
+            decrypted = await identity.decrypt(message.raw)
+          } catch (e) {}
           if (decrypted) {
             debug('Decrypted for %s', identity.did)
-            debug(decrypted)
+            debug('Message:', decrypted)
 
             try {
               const json = JSON.parse(decrypted)
