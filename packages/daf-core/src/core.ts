@@ -7,7 +7,6 @@ import { ServiceControllerDerived } from './service/abstract-service-controller'
 import { MessageValidator, unsupportedMessageTypeError } from './message/abstract-message-validator'
 import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
-import { EncryptionKeyManager } from './encryption-manager'
 import { Message } from './message/message'
 
 import Debug from 'debug'
@@ -28,12 +27,10 @@ interface Config {
   serviceControllers: ServiceControllerDerived[]
   messageValidator: MessageValidator
   actionHandler?: ActionHandler
-  encryptionKeyManager?: EncryptionKeyManager
 }
 
 export class Core extends EventEmitter {
   public identityManager: IdentityManager
-  public encryptionKeyManager?: EncryptionKeyManager
   public didResolver: Resolver
   private serviceManager: ServiceManager
   private messageValidator: MessageValidator
@@ -45,8 +42,6 @@ export class Core extends EventEmitter {
     this.identityManager = new IdentityManager({
       identityProviders: config.identityProviders,
     })
-
-    this.encryptionKeyManager = config.encryptionKeyManager
 
     this.didResolver = config.didResolver
 

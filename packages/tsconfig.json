@@ -17,7 +17,6 @@
     { "path": "daf-resolver" },
     { "path": "daf-resolver-universal" },
     { "path": "daf-selective-disclosure" },
-    { "path": "daf-sodium-fs" },
     { "path": "daf-trust-graph" },
     { "path": "daf-url" },
     { "path": "daf-w3c" }

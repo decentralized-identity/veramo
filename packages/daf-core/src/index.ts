@@ -1,6 +1,5 @@
 export { Core, EventTypes, Resolver } from './core'
 export { AbstractActionHandler } from './action/action-handler'
-export { EncryptionKeyManager, KeyPair } from './encryption-manager'
 export { IdentityManager } from './identity/identity-manager'
 export { AbstractIdentity } from './identity/abstract-identity'
 export { AbstractIdentityProvider, IdentityProviderDerived } from './identity/abstract-identity-provider'

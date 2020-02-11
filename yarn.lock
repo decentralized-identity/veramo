@@ -2710,7 +2710,7 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
-"@types/libsodium-wrappers@^0.7.5", "@types/libsodium-wrappers@^0.7.7":
+"@types/libsodium-wrappers@^0.7.5":
   version "0.7.7"
   resolved "https://registry.yarnpkg.com/@types/libsodium-wrappers/-/libsodium-wrappers-0.7.7.tgz#cdb25e85458612ec80f0157c3815fac187d0b6d2"
   integrity sha512-Li91pVKcLvQJK3ZolwCPo85oxf2gKBCApgnesRxYg4OVYchLXcJB2eivX8S87vfQVv6ZRnyCO1lLDosZGJfpRg==
@@ -5739,9 +5739,16 @@ d@1, d@^1.0.1:
 daf-ethr-did-local-storage@../daf/packages/daf-ethr-did-local-storage:
   version "1.4.1"
   dependencies:
+    "@types/ethjs-signer" "^0.1.0"
+    DIDComm-js "github:decentralized-identity/DIDComm-js"
+    base64url "^3.0.1"
     daf-core "^1.4.1"
     debug "^4.1.1"
+    elliptic "^6.5.2"
+    ethjs-provider-signer "^0.1.4"
+    ethjs-signer "^0.1.1"
     ethr-did "^1.1.0"
+    js-sha3 "^0.8.0"
 
 daf-ethr-did-metamask@../daf/packages/daf-ethr-did-metamask:
   version "1.4.1"
@@ -10057,7 +10064,7 @@ libnpx@^10.2.0:
     y18n "^4.0.0"
     yargs "^11.0.0"
 
-libsodium-wrappers@^0.7.5, libsodium-wrappers@^0.7.6:
+libsodium-wrappers@^0.7.5:
   version "0.7.6"
   resolved "https://registry.yarnpkg.com/libsodium-wrappers/-/libsodium-wrappers-0.7.6.tgz#baed4c16d4bf9610104875ad8a8e164d259d48fb"
   integrity sha512-OUO2CWW5bHdLr6hkKLHIKI4raEkZrf3QHkhXsJ1yCh6MZ3JDA7jFD3kCATNquuGSG6MjjPHQIQms0y0gBDzjQg==
