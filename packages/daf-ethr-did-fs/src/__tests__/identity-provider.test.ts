@@ -1,7 +1,7 @@
 import SignerProvider from 'ethjs-provider-signer'
 import { DafResolver } from 'daf-resolver'
 import { IdentityProvider } from '../identity-provider'
-import { EthrIdentity } from '../ethr-identity'
+import { Identity } from '../identity'
 import { createJWT, decodeJWT, verifyJWT } from 'did-jwt'
 const fs = require('fs')
 
@@ -37,7 +37,7 @@ describe('daf-ethr-did-fs', () => {
 
   it('should create identity', async () => {
     const identity = await identityProvider.createIdentity()
-    expect(identity).toBeInstanceOf(EthrIdentity)
+    expect(identity).toBeInstanceOf(Identity)
   })
 
   it('identity signs jwt', async () => {
