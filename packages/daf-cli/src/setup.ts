@@ -19,9 +19,9 @@ import ws from 'ws'
 import Debug from 'debug'
 const debug = Debug('daf:cli')
 
-const defaultPath = process.env.HOME + '/.daf'
+const defaultPath = process.env.HOME + '/.daf/'
 
-const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store-cli.sqlite3'
+const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + 'data-store-cli.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE) {
