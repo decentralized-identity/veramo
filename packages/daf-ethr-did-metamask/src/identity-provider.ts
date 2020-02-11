@@ -27,8 +27,12 @@ export class MetamaskIdentity extends AbstractIdentity {
   async didDoc() {
     return Promise.reject('not implemented')
   }
-  async encrypt(): Promise<any> {}
-  async decrypt(): Promise<any> {}
+  async encrypt(): Promise<any> {
+    return Promise.reject('not implemented')
+  }
+  async decrypt(): Promise<any> {
+    return Promise.reject('not implemented')
+  }
 }
 
 export class IdentityProvider extends AbstractIdentityProvider {

@@ -4,8 +4,8 @@ import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as DidJwt from 'daf-did-jwt'
 import { DafUniversalResolver } from 'daf-resolver-universal'
-import { EthrDidLocalStorageController } from 'daf-ethr-did-local-storage'
-import { EthrDidMetamaskController } from 'daf-ethr-did-metamask'
+import * as EthrLocal from 'daf-ethr-did-local-storage'
+import * as MM from 'daf-ethr-did-metamask'
 
 import Debug from 'debug'
 Debug.enable('*')
@@ -16,19 +16,27 @@ messageValidator.setNext(new DidJwt.MessageValidator()).setNext(new W3c.MessageV
 const actionHandler = new DBG.ActionHandler()
 actionHandler.setNext(new TG.ActionHandler()).setNext(new W3c.ActionHandler())
 
+const didResolver = new DafUniversalResolver({ url: 'https://uniresolver.io/1.0/identifiers/' })
+
+const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
+
 const identityProviders: Daf.AbstractIdentityProvider[] = [
-  // new EthrDidLocalStorageController()
+  new EthrLocal.IdentityProvider({
+    network: 'rinkeby',
+    rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+    resolver: didResolver,
+  }),
 ]
 
 if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
-  EthrDidMetamaskController.snapId = 'http://localhost:8082/package.json'
-  // identityProviders.push(new EthrDidMetamaskController())
+  MM.IdentityProvider.snapId = 'http://localhost:8082/package.json'
+  identityProviders.push(new MM.IdentityProvider())
 }
 
 export const core = new Daf.Core({
   identityProviders,
   serviceControllers: [],
-  didResolver: new DafUniversalResolver({ url: 'https://uniresolver.io/1.0/identifiers/' }),
+  didResolver,
   messageValidator,
   actionHandler,
 })

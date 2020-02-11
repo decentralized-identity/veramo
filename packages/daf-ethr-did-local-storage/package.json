@@ -8,9 +8,16 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@types/ethjs-signer": "^0.1.0",
+    "DIDComm-js": "github:decentralized-identity/DIDComm-js",
+    "base64url": "^3.0.1",
     "daf-core": "^1.4.1",
     "debug": "^4.1.1",
-    "ethr-did": "^1.1.0"
+    "elliptic": "^6.5.2",
+    "ethjs-provider-signer": "^0.1.4",
+    "ethjs-signer": "^0.1.1",
+    "ethr-did": "^1.1.0",
+    "js-sha3": "^0.8.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",

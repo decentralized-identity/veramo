@@ -4,7 +4,7 @@ import { Key } from './identity-provider'
 import { DIDComm } from 'DIDComm-js'
 const didcomm = new DIDComm()
 
-export class EthrIdentity extends AbstractIdentity {
+export class Identity extends AbstractIdentity {
   public readonly did: string
   public readonly identityProviderType: string
   private readonly keys: Key[]

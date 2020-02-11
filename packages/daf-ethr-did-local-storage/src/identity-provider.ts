@@ -3,9 +3,8 @@ import { Identity } from './identity'
 import { sign } from 'ethjs-signer'
 const SignerProvider = require('ethjs-provider-signer')
 const EthrDID = require('ethr-did')
-const fs = require('fs')
 import Debug from 'debug'
-const debug = Debug('daf:ethr-did-fs:identity-provider')
+const debug = Debug('daf:ethr-did-local-storage:identity-provider')
 const EC = require('elliptic').ec
 const secp256k1 = new EC('secp256k1')
 import { DIDComm } from 'DIDComm-js'
@@ -45,16 +44,14 @@ interface FileContents {
 }
 
 export class IdentityProvider extends AbstractIdentityProvider {
-  public type = 'ethr-did-fs'
-  public description = 'identities saved in JSON file'
-  private fileName: string
+  public type = 'ethr-did-local-storage'
+  public description = 'identities saved in localStorage'
   private network: string
   private rpcUrl: string
   private resolver: Resolver
 
-  constructor(options: { fileName: string; network: string; rpcUrl: string; resolver: Resolver }) {
+  constructor(options: { network: string; rpcUrl: string; resolver: Resolver }) {
     super()
-    this.fileName = options.fileName
     this.network = options.network
     this.rpcUrl = options.rpcUrl
     this.resolver = options.resolver
@@ -64,7 +61,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
 
   private readFromFile(): FileContents {
     try {
-      const raw = fs.readFileSync(this.fileName)
+      const raw = window.localStorage.getItem(this.type) || ''
       return JSON.parse(raw) as FileContents
     } catch (e) {
       return {}
@@ -72,7 +69,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
   }
 
   private writeToFile(json: FileContents) {
-    return fs.writeFileSync(this.fileName, JSON.stringify(json))
+    return window.localStorage.setItem(this.type, JSON.stringify(json))
   }
 
   private async getSerializedIdentity(did: string): Promise<SerializedIdentity> {

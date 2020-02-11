@@ -1,1 +1,1 @@
-export { EthrDidLocalStorageController } from './identity-controller'
+export { IdentityProvider } from './identity-provider'
