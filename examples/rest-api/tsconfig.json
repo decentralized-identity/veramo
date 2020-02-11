@@ -10,23 +10,15 @@
     "esModuleInterop": true,
     "downlevelIteration": true
   },
-  "include": ["./src/**/*"],
+  "include": ["./*.ts"],
   "exclude": ["node_modules"],
   "references": [
-    { "path": "../../packages/daf-cli" },
     { "path": "../../packages/daf-core" },
-    { "path": "../../packages/daf-data-store" },
     { "path": "../../packages/daf-debug" },
     { "path": "../../packages/daf-did-comm" },
     { "path": "../../packages/daf-did-jwt" },
     { "path": "../../packages/daf-ethr-did-fs" },
-    { "path": "../../packages/daf-ethr-did-react-native" },
-    { "path": "../../packages/daf-node-sqlite3" },
     { "path": "../../packages/daf-resolver" },
-    { "path": "../../packages/daf-resolver-universal" },
-    { "path": "../../packages/daf-selective-disclosure" },
-    { "path": "../../packages/daf-trust-graph" },
-    { "path": "../../packages/daf-url" },
     { "path": "../../packages/daf-w3c" }
   ]
 }
