@@ -4,7 +4,7 @@
     "strict": true,
     "sourceMap": true,
     "target": "es5",
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./build",
     "moduleResolution": "node",
     "esModuleInterop": true,
