@@ -25,11 +25,15 @@ app.post('/handle-action', express.json(), async (req, res) => {
   res.json({ result })
 })
 
+// This endpoint would be published in did doc as a serviceEndpoint
 app.post('/handle-message', express.text({ type: '*/*' }), async (req, res) => {
   try {
     const result = await core.validateMessage(
-      new Message({ raw: req.body, meta: { type: 'serviceEndpoint', id: '/handle-message' } }),
+      new Message({ raw: req.body, meta: { type: 'serviceEndpoint', id: 'handle-message' } }),
     )
+
+    // now you can store this message or pass through to some webhook
+
     res.json({ id: result.id })
   } catch (e) {
     res.send(e.message)
