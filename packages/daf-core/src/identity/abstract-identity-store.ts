@@ -2,7 +2,7 @@ import { SerializedKey } from './abstract-key-management-system'
 
 export interface SerializedIdentity {
   did: string
-  controller: SerializedKey
+  controllerKeyId: string
   keys: SerializedKey[]
 }
 

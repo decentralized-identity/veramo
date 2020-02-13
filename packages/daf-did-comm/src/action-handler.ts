@@ -45,7 +45,21 @@ export class ActionHandler extends AbstractActionHandler {
               data: data.jwt,
             })
             debug(dm)
-            body = await identity.encrypt(data.to, dm)
+
+            // TODO: move this to AbstractIdentity
+            const key = await identity.keyByType('Ed25519')
+            const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
+            if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
+
+            body = await key.encrypt(
+              {
+                type: 'Ed25519',
+                publicKeyHex: publicKey?.publicKeyHex,
+                kid: publicKey?.publicKeyHex,
+              },
+              dm,
+            )
+
             debug('Encrypted:', body)
           } catch (e) {
             console.log(e)

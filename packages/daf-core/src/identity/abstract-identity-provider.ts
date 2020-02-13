@@ -1,5 +1,12 @@
 import { EventEmitter } from 'events'
-import { AbstractIdentity, ServiceEndpoint } from './abstract-identity'
+import { AbstractIdentity } from './abstract-identity'
+
+export interface ServiceEndpoint {
+  id: string
+  type: string
+  serviceEndpoint: string
+  description?: string
+}
 
 export abstract class AbstractIdentityProvider extends EventEmitter {
   abstract type: string

@@ -1,15 +1,17 @@
-import { AbstractIdentityProvider, AbstractIdentity, Resolver } from 'daf-core'
+import {
+  AbstractIdentityProvider,
+  AbstractIdentity,
+  Resolver,
+  AbstractIdentityStore,
+  AbstractKeyManagementSystem,
+  SerializedIdentity,
+} from 'daf-core'
 import { Identity } from './identity'
 import { sign } from 'ethjs-signer'
 const SignerProvider = require('ethjs-provider-signer')
 const EthrDID = require('ethr-did')
-const fs = require('fs')
 import Debug from 'debug'
 const debug = Debug('daf:ethr-did-fs:identity-provider')
-const EC = require('elliptic').ec
-const secp256k1 = new EC('secp256k1')
-import { DIDComm } from './didcomm'
-const didcomm = new DIDComm()
 
 import { keccak_256 } from 'js-sha3'
 import { sha256 as sha256js, Message } from 'js-sha256'
@@ -27,34 +29,25 @@ export function toEthereumAddress(hexPublicKey: string): string {
     .toString('hex')}`
 }
 
-export interface Key {
-  type: string
-  privateKey: string
-  publicKey: string
-  address?: string
-}
-
-interface SerializedIdentity {
-  did: string
-  controller: Key
-  keys: Key[]
-}
-
-interface FileContents {
-  [did: string]: SerializedIdentity
-}
-
 export class IdentityProvider extends AbstractIdentityProvider {
   public type = 'ethr-did-fs'
   public description = 'identities saved in JSON file'
-  private fileName: string
   private network: string
   private rpcUrl: string
   private resolver: Resolver
+  private kms: AbstractKeyManagementSystem
+  private store: AbstractIdentityStore
 
-  constructor(options: { fileName: string; network: string; rpcUrl: string; resolver: Resolver }) {
+  constructor(options: {
+    kms: AbstractKeyManagementSystem
+    store: AbstractIdentityStore
+    network: string
+    rpcUrl: string
+    resolver: Resolver
+  }) {
     super()
-    this.fileName = options.fileName
+    this.kms = options.kms
+    this.store = options.store
     this.network = options.network
     this.rpcUrl = options.rpcUrl
     this.resolver = options.resolver
@@ -62,111 +55,65 @@ export class IdentityProvider extends AbstractIdentityProvider {
     this.description = 'did:ethr ' + options.network + ' ' + this.description
   }
 
-  private readFromFile(): FileContents {
-    try {
-      const raw = fs.readFileSync(this.fileName)
-      return JSON.parse(raw) as FileContents
-    } catch (e) {
-      return {}
-    }
-  }
-
-  private writeToFile(json: FileContents) {
-    return fs.writeFileSync(this.fileName, JSON.stringify(json))
-  }
-
-  private async getSerializedIdentity(did: string): Promise<SerializedIdentity> {
-    const identities = this.readFromFile()
-    const identity = identities[did]
-    if (!identity) {
-      return Promise.reject('Did not found: ' + did)
-    }
-    return identity
-  }
-
-  private identityFromSerialized(serialized: SerializedIdentity): AbstractIdentity {
+  private identityFromSerialized(serializedIdentity: SerializedIdentity): AbstractIdentity {
     return new Identity({
-      did: serialized.did,
-      keys: serialized.keys,
+      serializedIdentity,
+      kms: this.kms,
       identityProviderType: this.type,
-      resolver: this.resolver,
     })
   }
 
   async getIdentities() {
-    const identities = this.readFromFile()
+    const dids = await this.store.listDids()
     const result = []
-    for (const did of Object.keys(identities)) {
-      result.push(this.identityFromSerialized(identities[did]))
+    for (const did of dids) {
+      const serializedIdentity = await this.store.get(did)
+      result.push(this.identityFromSerialized(serializedIdentity))
     }
     return result
   }
 
   async createIdentity() {
-    const kp = secp256k1.genKeyPair()
-    const publicKey = kp.getPublic('hex')
-    const privateKey = kp.getPrivate('hex')
-    const address = toEthereumAddress(publicKey)
-
-    const key = {
-      privateKey,
-      publicKey,
-      address,
-      type: 'Secp256k1',
-    }
-
-    const serialized = {
+    const key = await this.kms.createKey('Secp256k1')
+    const address = toEthereumAddress(key.serialized.publicKeyHex)
+    const serializedIdentity: SerializedIdentity = {
       did: 'did:ethr:' + (this.network !== 'mainnet' ? this.network + ':' : '') + address,
-      controller: key,
-      keys: [key],
+      controllerKeyId: key.serialized.kid,
+      keys: [key.serialized],
     }
-
-    this.saveIdentity(serialized)
-    return this.identityFromSerialized(serialized)
-  }
-
-  async saveIdentity(serialized: SerializedIdentity) {
-    const identities = this.readFromFile()
-    identities[serialized.did] = serialized
-    this.writeToFile(identities)
-    debug('Saved', serialized.did)
+    this.store.set(serializedIdentity.did, serializedIdentity)
+    return this.identityFromSerialized(serializedIdentity)
   }
 
   async deleteIdentity(did: string) {
-    const identities = this.readFromFile()
-    delete identities[did]
-    this.writeToFile(identities)
-    debug('Deleted', did)
+    // TODO Error checking
+    const serializedIdentity = await this.store.get(did)
+    for (const key of serializedIdentity.keys) {
+      await this.kms.deleteKey(key.kid)
+    }
+    this.store.delete(serializedIdentity.did)
     return true
   }
 
   async getIdentity(did: string) {
-    const serialized = await this.getSerializedIdentity(did)
-    return this.identityFromSerialized(serialized)
-  }
-
-  async exportIdentity(did: string) {
-    const serialized = await this.getSerializedIdentity(did)
-    return JSON.stringify(serialized)
-  }
-
-  async importIdentity(json: string) {
-    const serialized = JSON.parse(json)
-    this.saveIdentity(serialized)
-    return this.identityFromSerialized(serialized)
+    const serializedIdentity = await this.store.get(did)
+    return this.identityFromSerialized(serializedIdentity)
   }
 
   async addService(
     did: string,
     service: { id: string; type: string; serviceEndpoint: string },
   ): Promise<any> {
-    const serialized = await this.getSerializedIdentity(did)
+    const serializedIdentity = await this.store.get(did)
+    const controllerKey = await this.kms.getKey(serializedIdentity.controllerKeyId)
+    if (!controllerKey.serialized.privateKeyHex) throw Error('Private key not available')
 
     const provider = new SignerProvider(this.rpcUrl, {
       signTransaction: (rawTx: any, cb: any) =>
-        cb(null, sign(rawTx, '0x' + serialized.controller.privateKey)),
+        cb(null, sign(rawTx, '0x' + controllerKey.serialized.privateKeyHex)),
     })
-    const ethrDid = new EthrDID({ address: serialized.controller.address, provider })
+    const address = toEthereumAddress(controllerKey.serialized.publicKeyHex)
+    const ethrDid = new EthrDID({ address, provider })
 
     const attribute = 'did/svc/' + service.type
     const value = service.serviceEndpoint
@@ -179,37 +126,22 @@ export class IdentityProvider extends AbstractIdentityProvider {
   }
 
   async addPublicKey(did: string, type: 'Ed25519' | 'Secp256k1', proofPurpose?: string[]): Promise<any> {
-    const serialized = await this.getSerializedIdentity(did)
+    const serializedIdentity = await this.store.get(did)
+    const controllerKey = await this.kms.getKey(serializedIdentity.controllerKeyId)
+    if (!controllerKey.serialized.privateKeyHex) throw Error('Private key not available')
 
     const provider = new SignerProvider(this.rpcUrl, {
       signTransaction: (rawTx: any, cb: any) =>
-        cb(null, sign(rawTx, '0x' + serialized.controller.privateKey)),
+        cb(null, sign(rawTx, '0x' + controllerKey.serialized.privateKeyHex)),
     })
-    const ethrDid = new EthrDID({ address: serialized.controller.address, provider })
+    const address = toEthereumAddress(controllerKey.serialized.publicKeyHex)
+    const ethrDid = new EthrDID({ address, provider })
 
-    let usg = ''
-    let publicKey
-    let privateKey
-    let address
-    switch (type) {
-      case 'Ed25519':
-        await didcomm.ready
-        const keyPair = await didcomm.generateKeyPair()
-        privateKey = Buffer.from(keyPair.privateKey).toString('hex')
-        publicKey = Buffer.from(keyPair.publicKey).toString('hex')
-        usg = 'veriKey'
-        break
-      case 'Secp256k1':
-        const kp = secp256k1.genKeyPair()
-        publicKey = kp.getPublic('hex')
-        privateKey = kp.getPrivate('hex')
-        address = toEthereumAddress(publicKey)
-        usg = 'veriKey'
-        break
-    }
+    const key = await this.kms.createKey(type)
 
+    const usg = 'veriKey'
     const attribute = 'did/pub/' + type + '/' + usg + '/hex'
-    const value = '0x' + publicKey
+    const value = '0x' + key.serialized.publicKeyHex
     const ttl = 86400
     const gas = 100000
     debug('ethrDid.setAttribute', { attribute, value, ttl, gas })
@@ -217,11 +149,12 @@ export class IdentityProvider extends AbstractIdentityProvider {
 
     if (txHash) {
       debug({ txHash })
-      serialized.keys = [...serialized.keys, { privateKey, publicKey, address, type }]
-      this.saveIdentity(serialized)
+      serializedIdentity.keys.push(key.serialized)
+      this.store.set(serializedIdentity.did, serializedIdentity)
       return true
+    } else {
+      this.kms.deleteKey(key.serialized.kid)
+      return false
     }
-
-    return false
   }
 }

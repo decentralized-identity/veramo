@@ -19,7 +19,8 @@ export class MessageValidator extends AbstractMessageValidator {
         for (const identity of identities) {
           let decrypted
           try {
-            decrypted = await identity.decrypt(message.raw)
+            const key = await identity.keyByType('Ed25519')
+            decrypted = await key.decrypt(message.raw)
           } catch (e) {}
           if (decrypted) {
             debug('Decrypted for %s', identity.did)

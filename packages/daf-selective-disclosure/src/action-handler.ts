@@ -43,13 +43,14 @@ export class ActionHandler extends AbstractActionHandler {
         const identity = await core.identityManager.getIdentity(did)
         debug('Signing SDR with', did)
 
+        const key = await identity.keyByType('Secp256k1')
         const jwt = await createJWT(
           {
             type: 'sdr',
             ...data,
           },
           {
-            signer: identity.signer(),
+            signer: key.signer(),
             alg: 'ES256K-R',
             issuer: identity.did,
           },

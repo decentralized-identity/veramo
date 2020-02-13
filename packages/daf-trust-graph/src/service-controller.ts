@@ -95,13 +95,13 @@ export class ServiceController extends AbstractServiceController {
 
   private async getAuthToken() {
     debug('Signing auth token for', this.identity.did)
-
+    const key = await this.identity.keyByType('Secp256k1')
     const token = await createJWT(
       {
         exp: Math.floor(Date.now() / 1000) + 5000, // what is a reasonable value here?
       },
       {
-        signer: this.identity.signer(),
+        signer: key.signer(),
         alg: 'ES256K-R',
         issuer: this.identity.did,
       },

@@ -162,7 +162,19 @@ program
         ])
 
         const identity = await core.identityManager.getIdentity(answers.did)
-        const result = await identity.encrypt(answers.to, answers.message)
+        const key = await identity.keyByType('Ed25519')
+        const didDoc = await core.didResolver.resolve(answers.to)
+        const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
+        if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
+
+        const result = await key.encrypt(
+          {
+            type: 'Ed25519',
+            publicKeyHex: publicKey?.publicKeyHex,
+            kid: publicKey?.publicKeyHex,
+          },
+          answers.message,
+        )
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
@@ -187,7 +199,8 @@ program
         ])
 
         const identity = await core.identityManager.getIdentity(answers.did)
-        const result = await identity.decrypt(answers.message)
+        const key = await identity.keyByType('Ed25519')
+        const result = await key.decrypt(answers.message)
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
