@@ -3,6 +3,12 @@ export { AbstractActionHandler } from './action/action-handler'
 export { IdentityManager } from './identity/identity-manager'
 export { AbstractIdentity } from './identity/abstract-identity'
 export { AbstractIdentityProvider, IdentityProviderDerived } from './identity/abstract-identity-provider'
+export {
+  AbstractKeyManagementSystem,
+  AbstractKey,
+  KeyType,
+  SerializedKey,
+} from './identity/abstract-key-management-system'
 export { AbstractMessageValidator } from './message/abstract-message-validator'
 export { Message } from './message/message'
 export { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
