@@ -47,11 +47,8 @@ interface FileContents {
 }
 
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
-  private fileName: string
-
-  constructor(options: { fileName: string }) {
+  constructor(private fileName: string) {
     super()
-    this.fileName = options.fileName
   }
 
   private readFromFile(): FileContents {

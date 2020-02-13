@@ -9,6 +9,7 @@ export {
   KeyType,
   SerializedKey,
 } from './identity/abstract-key-management-system'
+export { AbstractIdentityStore, SerializedIdentity } from './identity/abstract-identity-store'
 export { AbstractMessageValidator } from './message/abstract-message-validator'
 export { Message } from './message/message'
 export { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
