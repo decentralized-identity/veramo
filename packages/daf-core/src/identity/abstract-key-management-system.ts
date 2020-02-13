@@ -7,12 +7,20 @@ export interface SerializedKey {
   kid: string
   meta?: string
 }
+// Placeholder:
+interface EcdsaSignature {
+  r: string
+  s: string
+  recoveryParam?: number
+}
+// Placeholder:
+type Signer = (data: string) => Promise<EcdsaSignature | string>
 
 export abstract class AbstractKey {
   abstract serialized: SerializedKey
   abstract encrypt(to: SerializedKey, data: string): Promise<string>
   abstract decrypt(encrypted: string): Promise<string>
-  abstract sign(data: string): Promise<string>
+  abstract signer(): Signer
 }
 
 export abstract class AbstractKeyManagementSystem {
