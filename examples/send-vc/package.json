@@ -1,7 +1,7 @@
 {
   "name": "send-vc",
   "private": true,
-  "version": "1.4.1",
+  "version": "2.0.0",
   "main": "index.ts",
   "scripts": {
     "start": "ts-node index.ts"

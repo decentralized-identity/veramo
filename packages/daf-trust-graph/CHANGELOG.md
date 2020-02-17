@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/daf/compare/v1.5.1...v2.0.0) (2020-02-17)
+
+
+### Features
+
+* Daf-ethr-did-fs using experimental interface ([cecffd8](https://github.com/uport-project/daf/commit/cecffd8de4fe161abe0013ab7b715860a591c365))
+* FS dids backed by jwk ([7a93f7c](https://github.com/uport-project/daf/commit/7a93f7c86b29805a4718f78038c372ef563a850a))
+
+
+
+
+
 ## [1.4.1](https://github.com/uport-project/daf/compare/v1.4.0...v1.4.1) (2020-01-14)
 
 **Note:** Version bump only for package daf-trust-graph

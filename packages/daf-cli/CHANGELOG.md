@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/daf/compare/v1.5.1...v2.0.0) (2020-02-17)
+
+
+### Bug Fixes
+
+* CLI defaultPath ([20b70d9](https://github.com/uport-project/daf/commit/20b70d92d464540a1af938b1a45df3b6d39a733f))
+* Removing daf-sodium-fs and encryptionmanager ([1ea064d](https://github.com/uport-project/daf/commit/1ea064dabf8d7875c060411283d2d80c04d9c801))
+
+
+### Features
+
+* Breaking. New did management interfaces ([c384159](https://github.com/uport-project/daf/commit/c3841591189dc307ba281a72186dbb878d9aa5be))
+* Daf-ethr-did-fs using experimental interface ([cecffd8](https://github.com/uport-project/daf/commit/cecffd8de4fe161abe0013ab7b715860a591c365))
+* FS dids backed by jwk ([7a93f7c](https://github.com/uport-project/daf/commit/7a93f7c86b29805a4718f78038c372ef563a850a))
+* IdentityController, KeyStore ([e86fec4](https://github.com/uport-project/daf/commit/e86fec425aba3c80dc49520f205e9317deea43bc))
+* New DID management interfaces ([9599e2a](https://github.com/uport-project/daf/commit/9599e2a5e75f0d6d0adaa5229e9653c8c3d9fa80))
+* Using DIDComm for encryption ([02fefa9](https://github.com/uport-project/daf/commit/02fefa9930961618d723ed74d244de932e93ce76))
+
+
+### BREAKING CHANGES
+
+* new interfaces for IdentityManager
+ AbstractIdentityController AbstractIdentityProvider
+ AbstractIdentityStore AbstractIdentity
+AbstractKeyManagementSystem AbstractKey AbstractKeyStore
+
+
+
+
+
 ## [1.5.1](https://github.com/uport-project/daf/compare/v1.5.0...v1.5.1) (2020-01-30)
 
 **Note:** Version bump only for package daf-cli

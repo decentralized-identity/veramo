@@ -1,14 +1,14 @@
 {
   "name": "daf-did-jwt",
   "description": "DAF did-jwt message validator",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^1.4.1",
+    "daf-core": "^2.0.0",
     "debug": "^4.1.1",
     "did-jwt": "^4.0.0",
     "did-resolver": "^1.1.0"

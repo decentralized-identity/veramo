@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/daf/compare/v1.5.1...v2.0.0) (2020-02-17)
+
+
+### Bug Fixes
+
+* Removing daf-sodium-fs and encryptionmanager ([1ea064d](https://github.com/uport-project/daf/commit/1ea064dabf8d7875c060411283d2d80c04d9c801))
+
+
+### Features
+
+* Breaking. New did management interfaces ([c384159](https://github.com/uport-project/daf/commit/c3841591189dc307ba281a72186dbb878d9aa5be))
+* New DID management interfaces ([9599e2a](https://github.com/uport-project/daf/commit/9599e2a5e75f0d6d0adaa5229e9653c8c3d9fa80))
+* REST API example ([0102582](https://github.com/uport-project/daf/commit/0102582e48acfa5e3ff2c6230098b26d16d312c3))
+
+
+### BREAKING CHANGES
+
+* new interfaces for IdentityManager
+ AbstractIdentityController AbstractIdentityProvider
+ AbstractIdentityStore AbstractIdentity
+AbstractKeyManagementSystem AbstractKey AbstractKeyStore
+
+
+
+
+
 ## [1.5.1](https://github.com/uport-project/daf/compare/v1.5.0...v1.5.1) (2020-01-30)
 
 **Note:** Version bump only for package daf-example-expressjs-ethr

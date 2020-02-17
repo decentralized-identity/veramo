@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/daf/compare/v1.5.1...v2.0.0) (2020-02-17)
+
+
+### Bug Fixes
+
+* Decrypting ([db07fdb](https://github.com/uport-project/daf/commit/db07fdbfb2c45e5d169b54f1ca5a1825b610f250))
+* Removing DIDComm-js ([94f8975](https://github.com/uport-project/daf/commit/94f8975f50a577a284a1c0076033b0b5fc1ee6d0))
+
+
+### Features
+
+* Daf-ethr-did-fs using experimental interface ([cecffd8](https://github.com/uport-project/daf/commit/cecffd8de4fe161abe0013ab7b715860a591c365))
+* IdentityController, KeyStore ([e86fec4](https://github.com/uport-project/daf/commit/e86fec425aba3c80dc49520f205e9317deea43bc))
+* Sending encrypted DIDComm messages ([2f12513](https://github.com/uport-project/daf/commit/2f125130c46817a3326037984f0d5227cb1c1a54))
+
+
+
+
+
 ## [1.4.1](https://github.com/uport-project/daf/compare/v1.4.0...v1.4.1) (2020-01-14)
 
 **Note:** Version bump only for package daf-did-comm

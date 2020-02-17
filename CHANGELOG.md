@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/daf/compare/v1.5.1...v2.0.0) (2020-02-17)
+
+
+### Bug Fixes
+
+* CLI defaultPath ([20b70d9](https://github.com/uport-project/daf/commit/20b70d92d464540a1af938b1a45df3b6d39a733f))
+* Decrypting ([db07fdb](https://github.com/uport-project/daf/commit/db07fdbfb2c45e5d169b54f1ca5a1825b610f250))
+* Removing daf-sodium-fs and encryptionmanager ([1ea064d](https://github.com/uport-project/daf/commit/1ea064dabf8d7875c060411283d2d80c04d9c801))
+* Removing DIDComm-js ([94f8975](https://github.com/uport-project/daf/commit/94f8975f50a577a284a1c0076033b0b5fc1ee6d0))
+* Using local version of DIDComm lib ([d09a326](https://github.com/uport-project/daf/commit/d09a326793c45c2a58c8a30da6263fc7f3ff7668))
+
+
+### Features
+
+*  REST api handling incoming msg ([372cd25](https://github.com/uport-project/daf/commit/372cd25de7030228bd12ea62eeaff824c7f6526c))
+* All ethr Identity Providers updated ([552c967](https://github.com/uport-project/daf/commit/552c967d0efac27149ea8e1a329163bdf24f8a11))
+* Breaking. New did management interfaces ([c384159](https://github.com/uport-project/daf/commit/c3841591189dc307ba281a72186dbb878d9aa5be))
+* Daf-ethr-did-fs using experimental interface ([cecffd8](https://github.com/uport-project/daf/commit/cecffd8de4fe161abe0013ab7b715860a591c365))
+* FS dids backed by jwk ([7a93f7c](https://github.com/uport-project/daf/commit/7a93f7c86b29805a4718f78038c372ef563a850a))
+* FS IdentityStore ([a2521e0](https://github.com/uport-project/daf/commit/a2521e0e36a9531478910815d17409bc749658c2))
+* FS KMS ([1bcf4c1](https://github.com/uport-project/daf/commit/1bcf4c1ecc29c674c9525946eb5b9bacecd2c550))
+* IdentityController, KeyStore ([e86fec4](https://github.com/uport-project/daf/commit/e86fec425aba3c80dc49520f205e9317deea43bc))
+* Moving DID Doc management to the provider ([b6bd930](https://github.com/uport-project/daf/commit/b6bd9300464923fac6c464d0997216f2cc5faec8))
+* New DID management interfaces ([9599e2a](https://github.com/uport-project/daf/commit/9599e2a5e75f0d6d0adaa5229e9653c8c3d9fa80))
+* New Identity TS and GraphQL interfaces ([3f8ff1c](https://github.com/uport-project/daf/commit/3f8ff1c0c8edd9f1f8a25343a265b78eeecb32e3))
+* New Identity TS and GraphQL interfaces ([a36d691](https://github.com/uport-project/daf/commit/a36d69103cf582d4929a37f8329b03e550a2ea32))
+* Passing keyStore to Identity object ([dafcac2](https://github.com/uport-project/daf/commit/dafcac2873740cd405b65f377b97813db2be7637))
+* REST API example ([0102582](https://github.com/uport-project/daf/commit/0102582e48acfa5e3ff2c6230098b26d16d312c3))
+* Sending encrypted DIDComm messages ([2f12513](https://github.com/uport-project/daf/commit/2f125130c46817a3326037984f0d5227cb1c1a54))
+* Using DIDComm for encryption ([02fefa9](https://github.com/uport-project/daf/commit/02fefa9930961618d723ed74d244de932e93ce76))
+
+
+### BREAKING CHANGES
+
+* new interfaces for IdentityManager
+ AbstractIdentityController AbstractIdentityProvider
+ AbstractIdentityStore AbstractIdentity
+AbstractKeyManagementSystem AbstractKey AbstractKeyStore
+
+
+
+
+
 ## [1.5.1](https://github.com/uport-project/daf/compare/v1.5.0...v1.5.1) (2020-01-30)
 
 

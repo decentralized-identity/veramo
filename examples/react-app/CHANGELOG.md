@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/daf/compare/v1.5.1...v2.0.0) (2020-02-17)
+
+
+### Features
+
+* All ethr Identity Providers updated ([552c967](https://github.com/uport-project/daf/commit/552c967d0efac27149ea8e1a329163bdf24f8a11))
+* Breaking. New did management interfaces ([c384159](https://github.com/uport-project/daf/commit/c3841591189dc307ba281a72186dbb878d9aa5be))
+* New DID management interfaces ([9599e2a](https://github.com/uport-project/daf/commit/9599e2a5e75f0d6d0adaa5229e9653c8c3d9fa80))
+
+
+### BREAKING CHANGES
+
+* new interfaces for IdentityManager
+ AbstractIdentityController AbstractIdentityProvider
+ AbstractIdentityStore AbstractIdentity
+AbstractKeyManagementSystem AbstractKey AbstractKeyStore
+
+
+
+
+
 ## [1.4.1](https://github.com/uport-project/daf/compare/v1.4.0...v1.4.1) (2020-01-14)
 
 **Note:** Version bump only for package react-app

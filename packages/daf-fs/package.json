@@ -1,14 +1,14 @@
 {
   "name": "daf-fs",
   "description": "DAF File system modules",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^1.4.1",
+    "daf-core": "^2.0.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {
