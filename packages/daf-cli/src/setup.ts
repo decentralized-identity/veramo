@@ -48,8 +48,8 @@ TG.ServiceController.webSocketImpl = ws
 
 const identityProviders = [
   new EthrDidFs.IdentityProvider({
-    store: new EthrDidFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
-    kms: new EthrDidFs.KeyManagementSystem(defaultPath + '/rinkeby-kms.json'),
+    identityStore: new EthrDidFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
+    kms: new EthrDidFs.KeyManagementSystem(new EthrDidFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
     resolver: didResolver,

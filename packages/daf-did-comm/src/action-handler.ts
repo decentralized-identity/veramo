@@ -46,7 +46,6 @@ export class ActionHandler extends AbstractActionHandler {
             })
             debug(dm)
 
-            // TODO: move this to AbstractIdentity
             const key = await identity.keyByType('Ed25519')
             const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
             if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')

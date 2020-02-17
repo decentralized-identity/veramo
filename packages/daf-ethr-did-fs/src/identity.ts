@@ -1,21 +1,29 @@
-import { AbstractIdentity, AbstractKeyManagementSystem, SerializedIdentity } from 'daf-core'
+import {
+  AbstractIdentity,
+  AbstractKeyManagementSystem,
+  SerializedIdentity,
+  AbstractIdentityController,
+} from 'daf-core'
 
 export class Identity extends AbstractIdentity {
   public readonly did: string
   private readonly serializedIdentity: SerializedIdentity
   public readonly identityProviderType: string
   private readonly kms: AbstractKeyManagementSystem
+  public readonly identityController: AbstractIdentityController
 
   constructor(options: {
     identityProviderType: string
     serializedIdentity: SerializedIdentity
     kms: AbstractKeyManagementSystem
+    identityController: AbstractIdentityController
   }) {
     super()
     this.did = options.serializedIdentity.did
     this.serializedIdentity = options.serializedIdentity
     this.identityProviderType = options.identityProviderType
     this.kms = options.kms
+    this.identityController = options.identityController
   }
 
   async keyById(kid: string) {

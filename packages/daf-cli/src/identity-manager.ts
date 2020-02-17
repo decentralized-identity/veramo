@@ -100,8 +100,7 @@ program
         ])
 
         const identity = await core.identityManager.getIdentity(answers.did)
-        const provider = await core.identityManager.getIdentityProvider(identity.identityProviderType)
-        const result = await provider.addService(identity.did, {
+        const result = await identity.identityController.addService({
           type: answers.type,
           serviceEndpoint: answers.endpoint,
           id: '',
@@ -131,8 +130,7 @@ program
         ])
 
         const identity = await core.identityManager.getIdentity(answers.did)
-        const provider = await core.identityManager.getIdentityProvider(identity.identityProviderType)
-        const result = await provider.addPublicKey(identity.did, answers.type)
+        const result = await identity.identityController.addPublicKey(answers.type)
         console.log('Success:', result)
       } catch (e) {
         console.error(e)

@@ -15,12 +15,16 @@ interface EcdsaSignature {
 }
 // Placeholder:
 type Signer = (data: string) => Promise<EcdsaSignature | string>
+type EthSigner = (transaction: object) => string
 
 export abstract class AbstractKey {
   abstract serialized: SerializedKey
   abstract encrypt(to: SerializedKey, data: string): Promise<string>
   abstract decrypt(encrypted: string): Promise<string>
   abstract signer(): Signer
+  signEthTransaction(transaction: object, callback: (error: string | null, signature: string) => void) {
+    throw Error('Method signTransaction not implemented')
+  }
 }
 
 export abstract class AbstractKeyManagementSystem {

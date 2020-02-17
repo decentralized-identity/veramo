@@ -1,11 +1,13 @@
-import { AbstractKeyManagementSystem, KeyType, AbstractKey, SerializedKey } from 'daf-core'
-import * as sodium from 'libsodium-wrappers'
+import { AbstractKeyManagementSystem, KeyType, AbstractKey, SerializedKey, AbstractKeyStore } from 'daf-core'
+import sodium from 'libsodium-wrappers'
 import { SimpleSigner } from 'did-jwt'
 const EC = require('elliptic').ec
 const secp256k1 = new EC('secp256k1')
-const fs = require('fs')
 import { DIDComm } from './didcomm'
 const didcomm = new DIDComm()
+import { sign } from 'ethjs-signer'
+import Debug from 'debug'
+const debug = Debug('daf:sodium:kms')
 
 export class Key extends AbstractKey {
   constructor(public serialized: SerializedKey) {
@@ -40,28 +42,16 @@ export class Key extends AbstractKey {
     if (!this.serialized.privateKeyHex) throw Error('No private key')
     return SimpleSigner(this.serialized.privateKeyHex)
   }
-}
 
-interface FileContents {
-  [kid: string]: SerializedKey
+  signEthTransaction(transaction: object, callback: (error: string | null, signature: string) => void) {
+    const signature = sign(transaction, '0x' + this.serialized.privateKeyHex)
+    callback(null, signature)
+  }
 }
 
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
-  constructor(private fileName: string) {
+  constructor(private keyStore: AbstractKeyStore) {
     super()
-  }
-
-  private readFromFile(): FileContents {
-    try {
-      const raw = fs.readFileSync(this.fileName)
-      return JSON.parse(raw) as FileContents
-    } catch (e) {
-      return {}
-    }
-  }
-
-  private writeToFile(json: FileContents) {
-    return fs.writeFileSync(this.fileName, JSON.stringify(json))
   }
 
   async createKey(type: KeyType) {
@@ -87,29 +77,25 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           privateKeyHex: keyPairSecp256k1.getPrivate('hex'),
         }
         break
+      default:
+        throw Error('Key type not supported: ' + type)
     }
 
-    const fileContents = this.readFromFile()
-    fileContents[serializedKey.kid] = serializedKey
-    this.writeToFile(fileContents)
+    this.keyStore.set(serializedKey.kid, serializedKey)
+
+    debug('Created key', type, serializedKey.publicKeyHex)
 
     return new Key(serializedKey)
   }
 
   async getKey(kid: string) {
-    const fileContents = this.readFromFile()
-    const serializedKey = fileContents[kid]
+    const serializedKey = await this.keyStore.get(kid)
     if (!serializedKey) throw Error('Key not found')
     return new Key(serializedKey)
   }
 
   async deleteKey(kid: string) {
-    const fileContents = this.readFromFile()
-    if (fileContents[kid]) {
-      delete fileContents[kid]
-      this.writeToFile(fileContents)
-      return true
-    }
-    return false
+    debug('Deleting', kid)
+    return this.keyStore.delete(kid)
   }
 }

@@ -1,37 +1,36 @@
-import { AbstractIdentityStore, SerializedIdentity } from 'daf-core'
+import { AbstractKeyStore, SerializedKey } from 'daf-core'
 const fs = require('fs')
+import Debug from 'debug'
+const debug = Debug('daf:fs:key-store')
 
 interface FileContents {
-  [did: string]: SerializedIdentity
+  [kid: string]: SerializedKey
 }
 
-export class IdentityStore extends AbstractIdentityStore {
+export class KeyStore extends AbstractKeyStore {
   constructor(private fileName: string) {
     super()
   }
 
-  async get(did: string) {
+  async get(kid: string) {
     const fileContents = this.readFromFile()
-    if (!fileContents[did]) throw Error('Identity not found')
-    return fileContents[did]
+    if (!fileContents[kid]) throw Error('Key not found')
+    return fileContents[kid]
   }
 
-  async delete(did: string) {
+  async delete(kid: string) {
     const fileContents = this.readFromFile()
-    if (!fileContents[did]) throw Error('Identity not found')
-    delete fileContents[did]
+    if (!fileContents[kid]) throw Error('Key not found')
+    delete fileContents[kid]
+    debug('Deleting key', kid)
     return this.writeToFile(fileContents)
   }
 
-  async set(did: string, serializedIdentity: SerializedIdentity) {
+  async set(kid: string, serializedKey: SerializedKey) {
     const fileContents = this.readFromFile()
-    fileContents[did] = serializedIdentity
+    fileContents[kid] = serializedKey
+    debug('Saving key', kid)
     return this.writeToFile(fileContents)
-  }
-
-  async listDids() {
-    const fileContents = this.readFromFile()
-    return Object.keys(fileContents)
   }
 
   private readFromFile(): FileContents {
