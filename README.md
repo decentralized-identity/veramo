@@ -55,7 +55,7 @@ npx daf identity-manager --create
 Create and send Verifiable Credential
 
 ```
-npx daf credential --create --send
+npx daf credential --qrcode --send
 ```
 
 Receive new messages
