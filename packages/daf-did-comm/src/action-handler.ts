@@ -1,5 +1,4 @@
 import { Core, AbstractActionHandler, Types, Message } from 'daf-core'
-import { DIDComm } from 'DIDComm-js'
 import uuid from 'uuid'
 import Debug from 'debug'
 
@@ -18,11 +17,8 @@ export interface ActionSendJWT extends Types.Action {
 }
 
 export class ActionHandler extends AbstractActionHandler {
-  private didcomm: DIDComm
-
   constructor() {
     super()
-    this.didcomm = new DIDComm()
   }
 
   public async handleAction(action: Types.Action, core: Core) {

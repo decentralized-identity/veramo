@@ -8,7 +8,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "DIDComm-js": "git://github.com/uport-project/DIDComm-js.git#fix/build-issues",
     "daf-core": "^1.4.1",
     "debug": "^4.1.1",
     "uuid": "^3.3.3"
