@@ -31,7 +31,7 @@
     "pretty-quick": "^2.0.1",
     "semantic-release": "^16.0.0-beta.31",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.5"
   },
   "repository": {
     "type": "git",

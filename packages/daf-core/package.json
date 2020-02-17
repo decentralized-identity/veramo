@@ -15,7 +15,7 @@
   "devDependencies": {
     "@types/debug": "^4.1.5",
     "did-resolver": "^1.1.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.5"
   },
   "files": [
     "build/**/*",
