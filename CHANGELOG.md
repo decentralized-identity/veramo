@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/uport-project/daf/compare/v2.2.0...v2.2.1) (2020-02-17)
+
+
+### Bug Fixes
+
+* Example deps ([fc01968](https://github.com/uport-project/daf/commit/fc019680a0a00ce0c3d5608f651e245496ce8a69))
+
+
+
+
+
 # [2.2.0](https://github.com/uport-project/daf/compare/v2.1.1...v2.2.0) (2020-02-17)
 
 
