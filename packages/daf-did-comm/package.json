@@ -1,14 +1,14 @@
 {
   "name": "daf-did-comm",
   "description": "DAF DIDComm",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^2.0.0",
+    "daf-core": "^2.1.0",
     "debug": "^4.1.1",
     "uuid": "^3.3.3"
   },
