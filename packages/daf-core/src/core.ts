@@ -1,12 +1,12 @@
 import { EventEmitter } from 'events'
 import { DIDDocument } from 'did-resolver'
-import { IdentityManager, IdentityController } from './identity/identity-manager'
+import { IdentityManager } from './identity/identity-manager'
+import { AbstractIdentityProvider } from './identity/abstract-identity-provider'
 import { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 import { ServiceControllerDerived } from './service/abstract-service-controller'
 import { MessageValidator, unsupportedMessageTypeError } from './message/abstract-message-validator'
 import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
-import { EncryptionKeyManager } from './encryption-manager'
 import { Message } from './message/message'
 
 import Debug from 'debug'
@@ -23,16 +23,14 @@ export interface Resolver {
 
 interface Config {
   didResolver: Resolver
-  identityControllers: IdentityController[]
+  identityProviders: AbstractIdentityProvider[]
   serviceControllers: ServiceControllerDerived[]
   messageValidator: MessageValidator
   actionHandler?: ActionHandler
-  encryptionKeyManager?: EncryptionKeyManager
 }
 
 export class Core extends EventEmitter {
   public identityManager: IdentityManager
-  public encryptionKeyManager?: EncryptionKeyManager
   public didResolver: Resolver
   private serviceManager: ServiceManager
   private messageValidator: MessageValidator
@@ -42,10 +40,8 @@ export class Core extends EventEmitter {
     super()
 
     this.identityManager = new IdentityManager({
-      identityControllers: config.identityControllers,
+      identityProviders: config.identityProviders,
     })
-
-    this.encryptionKeyManager = config.encryptionKeyManager
 
     this.didResolver = config.didResolver
 
@@ -60,8 +56,8 @@ export class Core extends EventEmitter {
   }
 
   async setupServices() {
-    const issuers = await this.identityManager.listIssuers()
-    await this.serviceManager.setupServices(issuers)
+    const identities = await this.identityManager.getIdentities()
+    await this.serviceManager.setupServices(identities)
   }
 
   async listen() {

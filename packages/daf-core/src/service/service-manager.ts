@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
 import { Resolver } from '../core'
 import { AbstractServiceController, ServiceControllerDerived } from './abstract-service-controller'
-import { Issuer } from '../identity/identity-manager'
+import { AbstractIdentity } from '../identity/abstract-identity'
 import { Message } from '../message/message'
 import Debug from 'debug'
 const debug = Debug('daf:service-manager')
@@ -34,10 +34,10 @@ export class ServiceManager extends EventEmitter {
     this.didResolver = options.didResolver
   }
 
-  async setupServices(issuers: Issuer[]) {
-    for (const issuer of issuers) {
+  async setupServices(identities: AbstractIdentity[]) {
+    for (const identity of identities) {
       for (const controller of this.controllers) {
-        const instance = new controller(issuer, this.didResolver)
+        const instance = new controller(identity, this.didResolver)
         await instance.ready
         instance.on(ServiceEventTypes.NewMessages, this.onNewMessages.bind(this))
         this.controllerInstances.push(instance)

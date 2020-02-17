@@ -31,32 +31,37 @@ export class ActionHandler extends AbstractActionHandler {
 
       debug('Resolving didDoc')
       const didDoc = await core.didResolver.resolve(data.to)
-
-      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'MessagingService')
-      const publicKey =
-        didDoc &&
-        didDoc.publicKey &&
-        didDoc.publicKey.find(item => item.type == 'Curve25519EncryptionPublicKey')
+      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'Messaging')
 
       if (service) {
         try {
           let body = data.jwt
-          if (publicKey && publicKey.publicKeyHex && core.encryptionKeyManager) {
-            await this.didcomm.ready
-            const senderKeyPair = await core.encryptionKeyManager.getKeyPairForDid(data.from)
-            if (senderKeyPair) {
-              const dm = JSON.stringify({
-                '@type': 'JWT',
-                id: uuid.v4(),
-                data: data.jwt,
-              })
 
-              body = await this.didcomm.pack_auth_msg_for_recipients(
-                dm,
-                [Uint8Array.from(Buffer.from(publicKey.publicKeyHex, 'hex'))],
-                senderKeyPair,
-              )
-            }
+          try {
+            const identity = await core.identityManager.getIdentity(data.from)
+            const dm = JSON.stringify({
+              '@type': 'JWT',
+              id: uuid.v4(),
+              data: data.jwt,
+            })
+            debug(dm)
+
+            const key = await identity.keyByType('Ed25519')
+            const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
+            if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
+
+            body = await key.encrypt(
+              {
+                type: 'Ed25519',
+                publicKeyHex: publicKey?.publicKeyHex,
+                kid: publicKey?.publicKeyHex,
+              },
+              dm,
+            )
+
+            debug('Encrypted:', body)
+          } catch (e) {
+            console.log(e)
           }
 
           debug('Sending to %s', service.serviceEndpoint)

@@ -629,6 +629,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
+base-58@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/base-58/-/base-58-0.0.1.tgz#85d3e70251075661933388f831d1eb8b8f6314e3"
+  integrity sha1-hdPnAlEHVmGTM4j4MdHri49jFOM=
+
 base64-js@^1.0.2:
   version "1.3.1"
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
@@ -800,60 +805,77 @@ cross-fetch@^3.0.4:
     node-fetch "2.6.0"
     whatwg-fetch "3.0.0"
 
-daf-core@^1.4.0, daf-core@^1.4.1:
+daf-core@../../../packages/daf-core, daf-core@^1.4.1:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/daf-core/-/daf-core-1.4.1.tgz#bc91897d39d510996ebe1699961e2df852d47ab9"
-  integrity sha512-19oAASqlfhpddRqeM9WZe6XRGwRqoAiBNaVHrr3OKN5ZeBwcwFP8eCPI004+peg2QlHYyDGKUSnMXiLtVmPsKg==
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
 
-daf-data-store@^1.5.0:
+daf-data-store@../../../packages/daf-data-store, daf-data-store@^1.5.0:
   version "1.5.0"
-  resolved "https://registry.npmjs.org/daf-data-store/-/daf-data-store-1.5.0.tgz#dbd37a9d9be024eab76cc3a5531cfca654dbbf66"
-  integrity sha512-CngWn+G4Qd9HIsJAPOOMlNBlkDUbOmmL9+jF2iOHb33JIOiJ9MhSsAgNvofJq0G17EgxHLZ0dD6z4qP/GgZf/g==
   dependencies:
     blakejs "^1.1.0"
     daf-core "^1.4.1"
     debug "^4.1.1"
     sql-bricks-sqlite "^0.1.0"
 
-daf-debug@^1.4.0:
+daf-debug@../../../packages/daf-debug:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/daf-debug/-/daf-debug-1.4.1.tgz#16e8677e4d066a71ed2509be3affef23038fb181"
-  integrity sha512-mgUgjj/6txwwMnHO4N5cuV+hrkOv3ysFeQt2qj5eUHMRdHzYoxdDHXPRdJHEzeZ9GDRN1ALRndJDSQpnphpWng==
   dependencies:
     daf-core "^1.4.1"
     debug "^4.1.1"
 
-daf-did-jwt@^1.4.0, daf-did-jwt@^1.4.1:
+daf-did-jwt@../../../packages/daf-did-jwt, daf-did-jwt@^1.4.1:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/daf-did-jwt/-/daf-did-jwt-1.4.1.tgz#6db9311a93b3f768d94848a1204b69da8fa3c2bb"
-  integrity sha512-8qfSXmPYkZklpisXpORFpr7B89DQlY64oM+JOIDnH1K2EoMOcL5+8cdFc3x0IV82Hhd8BQK4fMpt4R+jxzshtA==
   dependencies:
     daf-core "^1.4.1"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     did-resolver "^1.1.0"
 
-daf-ethr-did-fs@^1.4.0:
+daf-ethr-did@../../../packages/daf-ethr-did:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/daf-ethr-did-fs/-/daf-ethr-did-fs-1.4.1.tgz#6c1375b920a7d52c408944284fbc458de5914417"
-  integrity sha512-CR2gCIzUwIa+6Mx+aUuGTpI/IM0rwsmSLENDMi/vzph2fTzforum8ixX5+Wrng6LrmllyIgomvsTmOL6A6nlDA==
+  dependencies:
+    daf-core "^1.4.1"
+    daf-resolver "^1.1.0"
+    debug "^4.1.1"
+    ethjs-provider-signer "^0.1.4"
+    ethr-did "^1.1.0"
+    js-sha3 "^0.8.0"
+
+daf-fs@../../../packages/daf-fs:
+  version "1.4.1"
   dependencies:
     daf-core "^1.4.1"
     debug "^4.1.1"
-    ethr-did "^1.1.0"
 
-daf-node-sqlite3@^1.5.0:
+daf-libsodium@../../../packages/daf-libsodium:
+  version "1.4.1"
+  dependencies:
+    base-58 "^0.0.1"
+    daf-core "^1.4.1"
+    debug "^4.1.1"
+    did-jwt "^4.0.0"
+    elliptic "^6.5.2"
+    ethjs-signer "^0.1.1"
+    libsodium-wrappers "^0.7.6"
+
+daf-node-sqlite3@../../../packages/daf-node-sqlite3:
   version "1.5.0"
-  resolved "https://registry.npmjs.org/daf-node-sqlite3/-/daf-node-sqlite3-1.5.0.tgz#19b712fa8aa68ce2aa4de2cac254541e9a9192e4"
-  integrity sha512-g7AdC+pvrofLJueAK+JUUdhxbQtmozbDwa+gp4Xnn3nUyn1Rxh84XW84ssbvLexICjzIgrW8c37k1oYpeP8Njw==
   dependencies:
     daf-data-store "^1.5.0"
     debug "^4.1.1"
     sqlite3 "^4.1.0"
+
+daf-resolver@../../../packages/daf-resolver:
+  version "1.1.0"
+  dependencies:
+    debug "^4.1.1"
+    did-resolver "^1.1.0"
+    ethr-did-resolver "^1.0.3"
+    nacl-did "^1.0.0"
+    web-did-resolver "^1.2.0"
 
 daf-resolver@^1.1.0:
   version "1.1.0"
@@ -866,10 +888,8 @@ daf-resolver@^1.1.0:
     nacl-did "^1.0.0"
     web-did-resolver "^1.2.0"
 
-daf-trust-graph@^1.4.0:
+daf-trust-graph@../../../packages/daf-trust-graph:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/daf-trust-graph/-/daf-trust-graph-1.4.1.tgz#6f067f71ad51a72da2378d60839edf5dfc6118d7"
-  integrity sha512-BkpC/c1pkwIFLZ0hMVD3imGzX2sifpkbwOqs3BcOr/+1vH+U8bxVtbI0iEqO9NA1m0ILFq1udwEIq61iQTp7iw==
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"
@@ -885,10 +905,8 @@ daf-trust-graph@^1.4.0:
     graphql-tag "^2.10.1"
     subscriptions-transport-ws "^0.9.0"
 
-daf-w3c@^1.4.0:
+daf-w3c@../../../packages/daf-w3c:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/daf-w3c/-/daf-w3c-1.4.1.tgz#91a0cf90ae499f66d696b605ea50bdc0fb61f804"
-  integrity sha512-9O5QAgVsk1oPDxsfGXmfkASULLkHWJWHa2L00BG+eokJtsBcYpzdAvQpZQuNhajCetl99LPzraJUpws61bHfBw==
   dependencies:
     daf-core "^1.4.1"
     daf-did-jwt "^1.4.1"
@@ -1064,7 +1082,17 @@ ee-first@1.1.1:
   resolved "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-elliptic@^6.4.0:
+elliptic@6.3.2:
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.3.2.tgz#e4c81e0829cf0a65ab70e998b8232723b5c1bc48"
+  integrity sha1-5MgeCCnPCmWrcOmYuCMnI7XBvEg=
+  dependencies:
+    bn.js "^4.4.0"
+    brorand "^1.0.1"
+    hash.js "^1.0.0"
+    inherits "^2.0.1"
+
+elliptic@^6.4.0, elliptic@^6.5.2:
   version "6.5.2"
   resolved "https://registry.npmjs.org/elliptic/-/elliptic-6.5.2.tgz#05c5678d7173c049d8ca433552224a495d0e3762"
   integrity sha512-f4x70okzZbIQl/NSRLkI/+tteV/9WqL98zx+SQ69KbXxmVrmjwsNUPn/gYJJ0sHvEak24cZgHIPegRePAtA/xw==
@@ -1151,6 +1179,18 @@ ethjs-filter@0.1.5:
   resolved "https://registry.npmjs.org/ethjs-filter/-/ethjs-filter-0.1.5.tgz#0112af6017c24677e32b8fdeb20e6196019b7598"
   integrity sha1-ARKvYBfCRnfjK4/esg5hlgGbdZg=
 
+ethjs-format@0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/ethjs-format/-/ethjs-format-0.1.8.tgz#925ecdd965ea72a2a2daf2a122e5bf80b5ad522a"
+  integrity sha1-kl7N2WXqcqKi2vKhIuW/gLWtUio=
+  dependencies:
+    bn.js "4.11.6"
+    ethjs-schema "0.1.4"
+    ethjs-util "0.1.3"
+    is-hex-prefixed "1.0.0"
+    number-to-bn "1.7.0"
+    strip-hex-prefix "1.0.0"
+
 ethjs-format@0.2.7:
   version "0.2.7"
   resolved "https://registry.npmjs.org/ethjs-format/-/ethjs-format-0.2.7.tgz#20c92f31c259a381588d069830d838b489774b86"
@@ -1163,12 +1203,20 @@ ethjs-format@0.2.7:
     number-to-bn "1.7.0"
     strip-hex-prefix "1.0.0"
 
-ethjs-provider-http@^0.1.6:
+ethjs-provider-http@0.1.6, ethjs-provider-http@^0.1.6:
   version "0.1.6"
   resolved "https://registry.npmjs.org/ethjs-provider-http/-/ethjs-provider-http-0.1.6.tgz#1ec5d9b4be257ef1d56a500b22a741985e889420"
   integrity sha1-HsXZtL4lfvHValALIqdBmF6IlCA=
   dependencies:
     xhr2 "0.1.3"
+
+ethjs-provider-signer@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ethjs-provider-signer/-/ethjs-provider-signer-0.1.4.tgz#6bd5cb38a8d5b0ddf46ac1e23a60eea1716171ae"
+  integrity sha1-a9XLOKjVsN30asHiOmDuoXFhca4=
+  dependencies:
+    ethjs-provider-http "0.1.6"
+    ethjs-rpc "0.1.2"
 
 ethjs-query@^0.3.5, ethjs-query@^0.3.8:
   version "0.3.8"
@@ -1180,6 +1228,13 @@ ethjs-query@^0.3.5, ethjs-query@^0.3.8:
     ethjs-rpc "0.2.0"
     promise-to-callback "^1.0.0"
 
+ethjs-rpc@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ethjs-rpc/-/ethjs-rpc-0.1.2.tgz#39a3456b51c59aeeafb5ba556589a59f2da88d26"
+  integrity sha1-OaNFa1HFmu6vtbpVZYmlny2ojSY=
+  dependencies:
+    ethjs-format "0.1.8"
+
 ethjs-rpc@0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/ethjs-rpc/-/ethjs-rpc-0.2.0.tgz#3d0011e32cfff156ed6147818c6fb8f801701b4c"
@@ -1187,10 +1242,26 @@ ethjs-rpc@0.2.0:
   dependencies:
     promise-to-callback "^1.0.0"
 
+ethjs-schema@0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ethjs-schema/-/ethjs-schema-0.1.4.tgz#0323a16333b1ace9a8f1d696a6ee63448fdd455f"
+  integrity sha1-AyOhYzOxrOmo8daWpu5jRI/dRV8=
+
 ethjs-schema@0.2.1:
   version "0.2.1"
   resolved "https://registry.npmjs.org/ethjs-schema/-/ethjs-schema-0.2.1.tgz#47e138920421453617069034684642e26bb310f4"
   integrity sha512-DXd8lwNrhT9sjsh/Vd2Z+4pfyGxhc0POVnLBUfwk5udtdoBzADyq+sK39dcb48+ZU+2VgtwHxtGWnLnCfmfW5g==
+
+ethjs-signer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ethjs-signer/-/ethjs-signer-0.1.1.tgz#0af77961e29ee458603aabd3660b8868d3386441"
+  integrity sha1-Cvd5YeKe5FhgOqvTZguIaNM4ZEE=
+  dependencies:
+    elliptic "6.3.2"
+    js-sha3 "0.5.5"
+    number-to-bn "1.1.0"
+    rlp "2.0.0"
+    strip-hex-prefix "1.0.0"
 
 ethjs-util@0.1.3:
   version "0.1.3"
@@ -1715,6 +1786,18 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+libsodium-wrappers@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/libsodium-wrappers/-/libsodium-wrappers-0.7.6.tgz#baed4c16d4bf9610104875ad8a8e164d259d48fb"
+  integrity sha512-OUO2CWW5bHdLr6hkKLHIKI4raEkZrf3QHkhXsJ1yCh6MZ3JDA7jFD3kCATNquuGSG6MjjPHQIQms0y0gBDzjQg==
+  dependencies:
+    libsodium "0.7.6"
+
+libsodium@0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/libsodium/-/libsodium-0.7.6.tgz#018b80c5728054817845fbffa554274441bda277"
+  integrity sha512-hPb/04sEuLcTRdWDtd+xH3RXBihpmbPCsKW/Jtf4PsvdyKh+D6z2D2gvp/5BfoxseP+0FCOg66kE+0oGUE/loQ==
+
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -1938,6 +2021,15 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
+
+number-to-bn@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/number-to-bn/-/number-to-bn-1.1.0.tgz#51a3387c5bc68035ab4058c626132f767d9d08bf"
+  integrity sha1-UaM4fFvGgDWrQFjGJhMvdn2dCL8=
+  dependencies:
+    bn.js "4.11.6"
+    is-hex-prefixed "1.0.0"
+    strip-hex-prefix "1.0.0"
 
 number-to-bn@1.7.0:
   version "1.7.0"
@@ -2228,6 +2320,11 @@ rimraf@^2.6.1:
   integrity sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
   dependencies:
     glob "^7.1.3"
+
+rlp@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rlp/-/rlp-2.0.0.tgz#9db384ff4b89a8f61563d92395d8625b18f3afb0"
+  integrity sha1-nbOE/0uJqPYVY9kjldhiWxjzr7A=
 
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"

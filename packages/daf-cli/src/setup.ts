@@ -3,7 +3,9 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 
 import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
-import { EthrDidFsController } from 'daf-ethr-did-fs'
+import * as EthrDid from 'daf-ethr-did'
+import * as DafFs from 'daf-fs'
+import * as DafLibSodium from 'daf-libsodium'
 
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
@@ -19,10 +21,9 @@ import ws from 'ws'
 import Debug from 'debug'
 const debug = Debug('daf:cli')
 
-const defaultPath = process.env.HOME + '/.daf'
+const defaultPath = process.env.HOME + '/.daf/'
 
-const identityStoreFilename = process.env.DAF_IDENTITY_STORE ?? defaultPath + '/identity-store.json'
-const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store-cli.sqlite3'
+const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + 'data-store-cli.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE) {
@@ -47,7 +48,15 @@ if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG
 if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
 TG.ServiceController.webSocketImpl = ws
 
-const identityControllers = [new EthrDidFsController(identityStoreFilename)]
+const identityProviders = [
+  new EthrDid.IdentityProvider({
+    identityStore: new DafFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
+    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
+    network: 'rinkeby',
+    rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+    resolver: didResolver,
+  }),
+]
 const serviceControllers = [TG.ServiceController]
 
 const messageValidator = new DBG.MessageValidator()
@@ -66,7 +75,7 @@ actionHandler
   .setNext(new SD.ActionHandler())
 
 export const core = new Daf.Core({
-  identityControllers,
+  identityProviders,
   serviceControllers,
   didResolver,
   messageValidator,

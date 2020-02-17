@@ -7,13 +7,15 @@
     "start": "ts-node index.ts"
   },
   "dependencies": {
-    "daf-core": "^1.4.1",
-    "daf-debug": "^1.4.1",
-    "daf-did-jwt": "^1.4.1",
-    "daf-ethr-did-fs": "^1.4.1",
-    "daf-resolver-universal": "^1.1.0",
-    "daf-trust-graph": "^1.4.1",
-    "daf-w3c": "^1.4.1",
+    "daf-core": "../daf/packages/daf-core",
+    "daf-debug": "../daf/packages/daf-debug",
+    "daf-did-jwt": "../daf/packages/daf-did-jwt",
+    "daf-ethr-did": "../daf/packages/daf-ethr-did",
+    "daf-fs": "../daf/packages/daf-fs",
+    "daf-libsodium": "../daf/packages/daf-libsodium",
+    "daf-resolver-universal": "../daf/packages/daf-resolver-universal",
+    "daf-trust-graph": "../daf/packages/daf-trust-graph",
+    "daf-w3c": "../daf/packages/daf-w3c",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },

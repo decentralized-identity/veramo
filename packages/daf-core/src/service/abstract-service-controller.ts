@@ -1,10 +1,10 @@
 import { EventEmitter } from 'events'
-import { Issuer } from '../identity/identity-manager'
+import { AbstractIdentity } from '../identity/abstract-identity'
 import { Resolver } from '../core'
 import { Message } from '../message/message'
 
 export abstract class AbstractServiceController extends EventEmitter {
-  constructor(readonly issuer: Issuer, readonly didResolver: Resolver) {
+  constructor(readonly identity: AbstractIdentity, readonly didResolver: Resolver) {
     super()
   }
   abstract ready: Promise<boolean> // you cannot have an async constructor

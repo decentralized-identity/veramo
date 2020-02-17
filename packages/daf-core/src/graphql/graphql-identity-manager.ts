@@ -1,26 +1,26 @@
 import { Core } from '../core'
-import { Issuer } from '../identity/identity-manager'
+import { AbstractIdentity } from '../identity/abstract-identity'
 
 export interface Context {
   core: Core
 }
 
-const managedIdentityTypes = async (_: any, args: any, ctx: Context) => {
-  return await ctx.core.identityManager.listTypes()
+const identityProviders = async (_: any, args: any, ctx: Context) => {
+  return await ctx.core.identityManager.getIdentityProviderTypes()
 }
 
 const managedIdentities = async (_: any, args: any, ctx: Context) => {
-  const list = await ctx.core.identityManager.listIssuers()
-  return list.map((issuer: Issuer) => ({
-    did: issuer.did,
-    type: issuer.type,
+  const list = await ctx.core.identityManager.getIdentities()
+  return list.map((identity: AbstractIdentity) => ({
+    did: identity.did,
+    type: identity.identityProviderType,
     __typename: 'Identity',
   }))
 }
 
 const isManaged = async (identity: any, args: any, ctx: Context) => {
-  const list = await ctx.core.identityManager.listDids()
-  return list.indexOf(identity.did) > -1
+  const list = await ctx.core.identityManager.getIdentities()
+  return list.map(item => item.did).indexOf(identity.did) > -1
 }
 
 const createIdentity = async (
@@ -30,9 +30,10 @@ const createIdentity = async (
   },
   ctx: Context,
 ) => {
-  const did = await ctx.core.identityManager.create(args.type)
+  const identity = await ctx.core.identityManager.createIdentity(args.type)
   return {
-    did,
+    did: identity.did,
+    type: identity.identityProviderType,
     __typename: 'Identity',
   }
 }
@@ -45,7 +46,7 @@ const deleteIdentity = async (
   },
   ctx: Context,
 ) => {
-  return await ctx.core.identityManager.delete(args.type, args.did)
+  return await ctx.core.identityManager.deleteIdentity(args.type, args.did)
 }
 
 const importIdentity = async (
@@ -56,10 +57,10 @@ const importIdentity = async (
   },
   ctx: Context,
 ) => {
-  const issuer = await ctx.core.identityManager.import(args.type, args.secret)
+  const identity = await ctx.core.identityManager.importIdentity(args.type, args.secret)
   return {
-    did: issuer.did,
-    type: issuer.type,
+    did: identity.did,
+    type: identity.identityProviderType,
     __typename: 'Identity',
   }
 }
@@ -73,7 +74,7 @@ const managedIdentitySecret = async (
   },
   ctx: Context,
 ) => {
-  return await ctx.core.identityManager.export(args.type, args.did)
+  return await ctx.core.identityManager.exportIdentity(args.type, args.did)
 }
 
 // Actions
@@ -83,7 +84,7 @@ export const resolvers = {
     isManaged,
   },
   Query: {
-    managedIdentityTypes,
+    identityProviders,
     managedIdentities,
     managedIdentitySecret,
   },
@@ -95,9 +96,13 @@ export const resolvers = {
 }
 
 export const typeDefs = `
+  type IdentityProvider {
+    type: String!
+    description: String
+  }
   extend type Query {
+    identityProviders: [IdentityProvider]
     managedIdentities: [Identity]
-    managedIdentityTypes: [String]
     managedIdentitySecret(type: String, did: String): String
   }
 

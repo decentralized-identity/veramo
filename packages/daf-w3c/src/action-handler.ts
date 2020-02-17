@@ -25,11 +25,12 @@ export class ActionHandler extends AbstractActionHandler {
     if (action.type === ActionTypes.signVp) {
       const { did, data } = action as ActionSignW3cVp
       try {
-        const issuer = await core.identityManager.issuer(did)
+        const identity = await core.identityManager.getIdentity(did)
+        const key = await identity.keyByType('Secp256k1')
         debug('Signing VP with', did)
         // Removing duplicate JWT
         data.vp.verifiableCredential = Array.from(new Set(data.vp.verifiableCredential))
-        const jwt = await createPresentation(data, issuer)
+        const jwt = await createPresentation(data, { did: identity.did, signer: key.signer() })
         return jwt
       } catch (error) {
         debug(error)
@@ -40,9 +41,10 @@ export class ActionHandler extends AbstractActionHandler {
     if (action.type === ActionTypes.signVc) {
       const { did, data } = action as ActionSignW3cVc
       try {
-        const issuer = await core.identityManager.issuer(did)
+        const identity = await core.identityManager.getIdentity(did)
+        const key = await identity.keyByType('Secp256k1')
         debug('Signing VC with', did)
-        const jwt = await createVerifiableCredential(data, issuer)
+        const jwt = await createVerifiableCredential(data, { did: identity.did, signer: key.signer() })
         return jwt
       } catch (error) {
         debug(error)

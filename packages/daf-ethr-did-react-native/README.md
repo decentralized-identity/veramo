@@ -1,1 +1,0 @@
-# DAF ethr-did react-native identity controller

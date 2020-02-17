@@ -8,7 +8,7 @@ import { split } from 'apollo-link'
 import { createJWT } from 'did-jwt'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
-import { AbstractServiceController, ServiceEventTypes, Issuer, Resolver } from 'daf-core'
+import { AbstractServiceController, ServiceEventTypes, AbstractIdentity, Resolver } from 'daf-core'
 import * as queries from './queries'
 import * as Daf from 'daf-core'
 
@@ -29,19 +29,19 @@ export class ServiceController extends AbstractServiceController {
 
   public instanceId() {
     return {
-      did: this.issuer.did,
+      did: this.identity.did,
       type: 'trustGraph',
       id: this.uri,
     }
   }
 
-  constructor(issuer: Issuer, didResolver: Resolver) {
-    super(issuer, didResolver)
+  constructor(identity: AbstractIdentity, didResolver: Resolver) {
+    super(identity, didResolver)
     this.ready = this.initialize()
   }
 
   async initialize(): Promise<boolean> {
-    const didDoc = await this.didResolver.resolve(this.issuer.did)
+    const didDoc = await this.didResolver.resolve(this.identity.did)
 
     const service = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraph')
     const serviceWs = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraphWs')
@@ -49,7 +49,7 @@ export class ServiceController extends AbstractServiceController {
     this.uri = service ? service.serviceEndpoint : ServiceController.defaultUri
     this.wsUri = serviceWs ? serviceWs.serviceEndpoint : ServiceController.defaultWsUri
 
-    debug('Initializing for', this.issuer.did)
+    debug('Initializing for', this.identity.did)
     debug('URI', this.uri)
     debug('WSURI', this.wsUri)
 
@@ -94,16 +94,16 @@ export class ServiceController extends AbstractServiceController {
   }
 
   private async getAuthToken() {
-    debug('Signing auth token for', this.issuer.did)
-
+    debug('Signing auth token for', this.identity.did)
+    const key = await this.identity.keyByType('Secp256k1')
     const token = await createJWT(
       {
         exp: Math.floor(Date.now() / 1000) + 5000, // what is a reasonable value here?
       },
       {
-        signer: this.issuer.signer,
+        signer: key.signer(),
         alg: 'ES256K-R',
-        issuer: this.issuer.did,
+        issuer: this.identity.did,
       },
     )
     debug(token)
@@ -111,7 +111,7 @@ export class ServiceController extends AbstractServiceController {
   }
 
   async getMessagesSince(since: number) {
-    debug('Syncing data for %s since %d', this.issuer.did, since)
+    debug('Syncing data for %s since %d', this.identity.did, since)
     if (!this.client) {
       throw Error('Client not configured')
     }
@@ -121,7 +121,7 @@ export class ServiceController extends AbstractServiceController {
       fetchPolicy: 'no-cache',
       query: queries.findEdges,
       variables: {
-        toDID: [this.issuer.did],
+        toDID: [this.identity.did],
         since,
       },
       context: {
@@ -157,12 +157,12 @@ export class ServiceController extends AbstractServiceController {
     const emit = this.emit.bind(this)
 
     if (wsUri) {
-      debug('Subscribing to edgeAdded for', this.issuer.did)
+      debug('Subscribing to edgeAdded for', this.identity.did)
 
       this.client
         .subscribe({
           query: queries.edgeAdded,
-          variables: { toDID: [this.issuer.did] },
+          variables: { toDID: [this.identity.did] },
         })
         .subscribe({
           async next(result) {

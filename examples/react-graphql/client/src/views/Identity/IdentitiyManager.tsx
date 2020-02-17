@@ -92,11 +92,19 @@ const Component = () => {
           </tbody>
         </Table>
         <Box pl={4}>
-          {managedIdentitiesData?.managedIdentityTypes?.map((type: string) => (
-            <Button mt={3} mb={3} mr={3} key={type} onClick={() => createIdentity({ variables: { type } })}>
-              Create {type} DID
-            </Button>
-          ))}
+          {managedIdentitiesData?.identityProviders?.map(
+            (provider: { type: string; description: string }) => (
+              <Button
+                mt={3}
+                mb={3}
+                mr={3}
+                key={provider.type}
+                onClick={() => createIdentity({ variables: { type: provider.type } })}
+              >
+                Create {provider.type} DID
+              </Button>
+            ),
+          )}
         </Box>
       </Panel>
     </Page>

@@ -7,17 +7,28 @@ import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as URL from 'daf-url'
 import { NodeSqlite3 } from 'daf-node-sqlite3'
-import { EthrDidFsController } from 'daf-ethr-did-fs'
+import * as DafEthrDid from 'daf-ethr-did'
+import * as DafFs from 'daf-fs'
+import * as DafLibSodium from 'daf-libsodium'
 import { DafResolver } from 'daf-resolver'
 import { ApolloServer } from 'apollo-server'
 import merge from 'lodash.merge'
 import ws from 'ws'
 
 TG.ServiceController.webSocketImpl = ws
+const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
-let didResolver = new DafResolver({ infuraProjectId: '5ffc47f65c4042ce847ef66a3fa70d4c' })
+let didResolver = new DafResolver({ infuraProjectId })
 
-const identityControllers = [new EthrDidFsController('./identity-store.json')]
+const identityProviders = [
+  new DafEthrDid.IdentityProvider({
+    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore('./key-store.json')),
+    identityStore: new DafFs.IdentityStore('./identity-store.json'),
+    network: 'rinkeby',
+    rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+    resolver: didResolver,
+  }),
+]
 const serviceControllers = [TG.ServiceController]
 
 const messageValidator = new DBG.MessageValidator()
@@ -34,7 +45,7 @@ actionHandler
   .setNext(new SD.ActionHandler())
 
 export const core = new Daf.Core({
-  identityControllers,
+  identityProviders,
   serviceControllers,
   didResolver,
   messageValidator,

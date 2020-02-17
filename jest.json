@@ -9,5 +9,6 @@
     "ts-jest": {
       "tsConfig": "./packages/tsconfig.json"
     }
-  }
+  },
+  "testEnvironment": "node"
 }
