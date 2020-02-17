@@ -21,7 +21,7 @@ curl --location --request GET 'http://localhost:8080/providers'
 curl --location --request POST 'http://localhost:8080/create-identity' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-	"type": "rinkeby-ethr-did-fs"
+	"type": "rinkeby-ethr-did"
 }'
 ```
 

@@ -4,8 +4,10 @@ import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as DidJwt from 'daf-did-jwt'
 import { DafUniversalResolver } from 'daf-resolver-universal'
-import * as EthrLocal from 'daf-ethr-did-local-storage'
-import * as MM from 'daf-ethr-did-metamask'
+import * as EthrDid from 'daf-ethr-did'
+import * as DafLocalStorage from 'daf-local-storage'
+import * as DafLibSodium from 'daf-libsodium'
+// import * as MM from 'daf-ethr-did-metamask'
 
 import Debug from 'debug'
 Debug.enable('*')
@@ -21,17 +23,19 @@ const didResolver = new DafUniversalResolver({ url: 'https://uniresolver.io/1.0/
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 const identityProviders: Daf.AbstractIdentityProvider[] = [
-  new EthrLocal.IdentityProvider({
+  new EthrDid.IdentityProvider({
+    kms: new DafLibSodium.KeyManagementSystem(new DafLocalStorage.KeyStore('localKeys')),
+    identityStore: new DafLocalStorage.IdentityStore('localIdentities'),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
     resolver: didResolver,
   }),
 ]
 
-if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
-  MM.IdentityProvider.snapId = 'http://localhost:8082/package.json'
-  identityProviders.push(new MM.IdentityProvider())
-}
+// if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
+//   MM.IdentityProvider.snapId = 'http://localhost:8082/package.json'
+//   identityProviders.push(new MM.IdentityProvider())
+// }
 
 export const core = new Daf.Core({
   identityProviders,

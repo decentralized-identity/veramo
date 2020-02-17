@@ -16,13 +16,23 @@ app.get('/providers', async (req, res) => {
 })
 
 app.post('/create-identity', express.json(), async (req, res) => {
-  const identity = await core.identityManager.createIdentity(req.body.type)
-  res.json({ did: identity.did })
+  try {
+    const identity = await core.identityManager.createIdentity(req.body.type)
+    res.json({ did: identity.did })
+  } catch (e) {
+    res.status(404)
+    res.send(e)
+  }
 })
 
 app.post('/handle-action', express.json(), async (req, res) => {
-  const result = await core.handleAction(req.body)
-  res.json({ result })
+  try {
+    const result = await core.handleAction(req.body)
+    res.json({ result })
+  } catch (e) {
+    res.status(404)
+    res.send(e)
+  }
 })
 
 // This endpoint would be published in did doc as a serviceEndpoint

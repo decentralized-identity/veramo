@@ -5756,26 +5756,117 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
-daf-ethr-did-local-storage@../daf/packages/daf-ethr-did-local-storage:
+daf-core@../daf/packages/daf-core:
   version "1.4.1"
   dependencies:
-    "@types/ethjs-signer" "^0.1.0"
-    base-58 "^0.0.1"
-    base64url "^3.0.1"
+    blakejs "^1.1.0"
+    debug "^4.1.1"
+    events "^3.0.0"
+
+daf-debug@../daf/packages/daf-debug:
+  version "1.4.1"
+  dependencies:
     daf-core "^1.4.1"
     debug "^4.1.1"
-    elliptic "^6.5.2"
+
+daf-did-comm@../daf/packages/daf-did-comm:
+  version "1.4.1"
+  dependencies:
+    DIDComm-js "git://github.com/uport-project/DIDComm-js.git#fix/build-issues"
+    daf-core "^1.4.1"
+    debug "^4.1.1"
+    uuid "^3.3.3"
+
+daf-did-jwt@../daf/packages/daf-did-jwt:
+  version "1.4.1"
+  dependencies:
+    daf-core "^1.4.1"
+    debug "^4.1.1"
+    did-jwt "^4.0.0"
+    did-resolver "^1.1.0"
+
+daf-ethr-did-fs@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/daf-ethr-did-fs/-/daf-ethr-did-fs-1.4.1.tgz#6c1375b920a7d52c408944284fbc458de5914417"
+  integrity sha512-CR2gCIzUwIa+6Mx+aUuGTpI/IM0rwsmSLENDMi/vzph2fTzforum8ixX5+Wrng6LrmllyIgomvsTmOL6A6nlDA==
+  dependencies:
+    daf-core "^1.4.1"
+    debug "^4.1.1"
+    ethr-did "^1.1.0"
+
+daf-ethr-did@../daf/packages/daf-ethr-did:
+  version "1.4.1"
+  dependencies:
+    daf-core "^1.4.1"
+    daf-resolver "^1.1.0"
+    debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
-    ethjs-signer "^0.1.1"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
-    libsodium-wrappers "^0.7.6"
 
-daf-ethr-did-metamask@../daf/packages/daf-ethr-did-metamask:
+daf-fs@../daf/packages/daf-fs:
   version "1.4.1"
   dependencies:
     daf-core "^1.4.1"
     debug "^4.1.1"
+
+daf-libsodium@../daf/packages/daf-libsodium:
+  version "1.4.1"
+  dependencies:
+    base-58 "^0.0.1"
+    daf-core "^1.4.1"
+    debug "^4.1.1"
+    did-jwt "^4.0.0"
+    elliptic "^6.5.2"
+    ethjs-signer "^0.1.1"
+    libsodium-wrappers "^0.7.6"
+
+daf-local-storage@../daf/packages/daf-local-storage:
+  version "1.4.1"
+  dependencies:
+    daf-core "^1.4.1"
+    debug "^4.1.1"
+
+daf-resolver-universal@../daf/packages/daf-resolver-universal:
+  version "1.1.0"
+  dependencies:
+    cross-fetch "^3.0.4"
+    debug "^4.1.1"
+
+daf-resolver@../daf/packages/daf-resolver:
+  version "1.1.0"
+  dependencies:
+    debug "^4.1.1"
+    did-resolver "^1.1.0"
+    ethr-did-resolver "^1.0.3"
+    nacl-did "^1.0.0"
+    web-did-resolver "^1.2.0"
+
+daf-trust-graph@../daf/packages/daf-trust-graph:
+  version "1.4.1"
+  dependencies:
+    apollo-cache-inmemory "^1.6.3"
+    apollo-client "^2.6.4"
+    apollo-link "^1.2.13"
+    apollo-link-http "^1.5.16"
+    apollo-link-ws "^1.0.19"
+    apollo-utilities "^1.3.2"
+    cross-fetch "^3.0.4"
+    daf-core "^1.4.1"
+    debug "^4.1.1"
+    did-jwt "^4.0.0"
+    graphql "^14.0.0"
+    graphql-tag "^2.10.1"
+    subscriptions-transport-ws "^0.9.0"
+
+daf-w3c@../daf/packages/daf-w3c:
+  version "1.4.1"
+  dependencies:
+    daf-core "^1.4.1"
+    daf-did-jwt "^1.4.1"
+    debug "^4.1.1"
+    did-jwt-vc "^0.1.2"
+    did-resolver "^1.1.0"
 
 damerau-levenshtein@^1.0.4:
   version "1.0.5"
@@ -13456,14 +13547,6 @@ react-native-sqlite-storage@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/react-native-sqlite-storage/-/react-native-sqlite-storage-4.1.0.tgz#641780eef06bc90b853d3dcd628c0fe54b656d7b"
   integrity sha512-H8++CILlZQ2f2n+OvVmGyqMaV+UFKTRSTx9/3eIAxBg4d0rjeZogs6hgHlfADvEGNmrEyUBDpnX9+uHnDtwAHQ==
-
-react-native-uport-signer@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/react-native-uport-signer/-/react-native-uport-signer-1.6.1.tgz#452997433355efcb0de0d933cd19c15b08a3f3a8"
-  integrity sha512-OaArtXmUKVix9DeKHb5QJpvbK4p2UvyI9l9aG7U0096CXp46xYz+rpgLv+dC3j9E0Q0s8l+dOMOwagDtC8QLdg==
-  dependencies:
-    buffer "^5.2.1"
-    set-value "^2.0.1"
 
 react-scripts@3.3.0:
   version "3.3.0"

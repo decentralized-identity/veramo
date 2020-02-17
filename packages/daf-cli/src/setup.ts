@@ -3,7 +3,9 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 
 import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
-import * as EthrDidFs from 'daf-ethr-did-fs'
+import * as EthrDid from 'daf-ethr-did'
+import * as DafFs from 'daf-fs'
+import * as DafLibSodium from 'daf-libsodium'
 
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
@@ -47,9 +49,9 @@ if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DA
 TG.ServiceController.webSocketImpl = ws
 
 const identityProviders = [
-  new EthrDidFs.IdentityProvider({
-    identityStore: new EthrDidFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
-    kms: new EthrDidFs.KeyManagementSystem(new EthrDidFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
+  new EthrDid.IdentityProvider({
+    identityStore: new DafFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
+    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
     resolver: didResolver,

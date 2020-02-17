@@ -37,7 +37,10 @@ export const identity = gql`
 
 export const managedIdentities = gql`
   query managedIdentities {
-    managedIdentityTypes
+    identityProviders {
+      type
+      description
+    }
     managedIdentities {
       did
       type

@@ -20,3 +20,4 @@ lerna-debug.log
 
 *.tsbuildinfo
 identity-store.json
+key-store.json

@@ -17,7 +17,9 @@
     { "path": "../../packages/daf-debug" },
     { "path": "../../packages/daf-did-comm" },
     { "path": "../../packages/daf-did-jwt" },
-    { "path": "../../packages/daf-ethr-did-fs" },
+    { "path": "../../packages/daf-ethr-did" },
+    { "path": "../../packages/daf-fs" },
+    { "path": "../../packages/daf-libsodium" },
     { "path": "../../packages/daf-resolver" },
     { "path": "../../packages/daf-w3c" }
   ]

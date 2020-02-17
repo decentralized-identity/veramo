@@ -1,5 +1,7 @@
 import * as Daf from 'daf-core'
-import * as Ethr from 'daf-ethr-did-fs'
+import * as DafEthr from 'daf-ethr-did'
+import * as DafFs from 'daf-fs'
+import * as DafLibSodium from 'daf-libsodium'
 import * as W3c from 'daf-w3c'
 import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
@@ -21,8 +23,9 @@ const didResolver = new DafUniversalResolver({ url: 'https://uniresolver.io/1.0/
 
 export const core = new Daf.Core({
   identityProviders: [
-    new Ethr.IdentityProvider({
-      fileName: './identity-store.json',
+    new DafEthr.IdentityProvider({
+      kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore('./key-store.json')),
+      identityStore: new DafFs.IdentityStore('./identity-store.json'),
       network: 'rinkeby',
       rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
       resolver: didResolver,
@@ -41,7 +44,7 @@ async function main() {
   if (identities.length > 0) {
     identity = identities[0]
   } else {
-    const identityProviders = core.identityManager.getIdentityProviderTypes()
+    const identityProviders = await core.identityManager.getIdentityProviderTypes()
     identity = await core.identityManager.createIdentity(identityProviders[0].type)
   }
 
