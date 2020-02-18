@@ -14,6 +14,7 @@
     { "path": "daf-node-sqlite3" },
     { "path": "daf-random" },
     { "path": "daf-react-native-async-storage" },
+    { "path": "daf-react-native-libsodium" },
     { "path": "daf-resolver" },
     { "path": "daf-resolver-universal" },
     { "path": "daf-selective-disclosure" },
