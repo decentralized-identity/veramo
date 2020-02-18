@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "daf-data-store": "^2.1.0",
-    "debug": "^4.1.1",
-    "react-native-sqlite-storage": "^4.1.0"
+    "debug": "^4.1.1"
+  },
+  "peerDependencies": {
+    "react-native-sqlite-storage": "*"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
