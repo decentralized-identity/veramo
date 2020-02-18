@@ -60,7 +60,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     switch (type) {
       case 'Ed25519':
         await sodium.ready
-        const keyPairEd25519 = sodium.crypto_sign_keypair()
+        const keyPairEd25519 = await sodium.crypto_sign_keypair()
         serializedKey = {
           type,
           kid: Buffer.from(keyPairEd25519.publicKey).toString('hex'),
