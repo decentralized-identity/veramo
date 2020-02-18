@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.5](https://github.com/uport-project/daf/compare/v2.3.4...v2.3.5) (2020-02-18)
+
+
+### Bug Fixes
+
+* Decoding base64 keys ([04bb839](https://github.com/uport-project/daf/commit/04bb8392d7b842992f8d65fb826dfbd9188f0ff9))
+
+
+
+
+
 ## [2.3.4](https://github.com/uport-project/daf/compare/v2.3.3...v2.3.4) (2020-02-18)
 
 
