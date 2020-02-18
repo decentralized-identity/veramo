@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.7](https://github.com/uport-project/daf/compare/v2.3.6...v2.3.7) (2020-02-18)
+
+
+### Bug Fixes
+
+* React native deps ([bda41bc](https://github.com/uport-project/daf/commit/bda41bcadaef91cce61f753d07639323c80d34fb))
+* React native peerDependencies ([a18482b](https://github.com/uport-project/daf/commit/a18482bda54385f67772f60e3ac37a8ee75e096a))
+
+
+
+
+
 ## [2.3.6](https://github.com/uport-project/daf/compare/v2.3.5...v2.3.6) (2020-02-18)
 
 
