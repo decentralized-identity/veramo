@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/uport-project/daf/compare/v2.3.1...v2.3.2) (2020-02-18)
+
+
+### Bug Fixes
+
+* Removing dependency ([af5c76a](https://github.com/uport-project/daf/commit/af5c76a3fe1d583d014fb8f1f7ff5f3f4a3f7dfa))
+
+
+
+
+
 # [2.1.0](https://github.com/uport-project/daf/compare/v2.0.0...v2.1.0) (2020-02-17)
 
 **Note:** Version bump only for package daf-ethr-did
