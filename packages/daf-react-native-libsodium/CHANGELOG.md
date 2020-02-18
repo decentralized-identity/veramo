@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.6](https://github.com/uport-project/daf/compare/v2.3.5...v2.3.6) (2020-02-18)
+
+
+### Bug Fixes
+
+* Mixup with pk and sk ([e9b912f](https://github.com/uport-project/daf/commit/e9b912f8e8172ff621afd4e4d0f1a087aa19ac93))
+
+
+
+
+
 ## [2.3.5](https://github.com/uport-project/daf/compare/v2.3.4...v2.3.5) (2020-02-18)
 
 
