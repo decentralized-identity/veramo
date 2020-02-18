@@ -63,9 +63,9 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const keyPairEd25519 = (await sodium.crypto_sign_keypair()) as any
         serializedKey = {
           type,
-          kid: Buffer.from(keyPairEd25519.sk, 'base64').toString('hex'),
+          kid: Buffer.from(keyPairEd25519.pk, 'base64').toString('hex'),
           publicKeyHex: Buffer.from(keyPairEd25519.pk, 'base64').toString('hex'),
-          privateKeyHex: Buffer.from(keyPairEd25519.pk, 'base64').toString('hex'),
+          privateKeyHex: Buffer.from(keyPairEd25519.sk, 'base64').toString('hex'),
         }
         break
       case 'Secp256k1':
