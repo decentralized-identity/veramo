@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.4](https://github.com/uport-project/daf/compare/v2.3.3...v2.3.4) (2020-02-18)
+
+
+### Bug Fixes
+
+* Await crypto_sign_keypair ([c97ba6b](https://github.com/uport-project/daf/commit/c97ba6be2bed9644e81b58cd164f012abdde4a16))
+
+
+
+
+
 ## [2.3.2](https://github.com/uport-project/daf/compare/v2.3.1...v2.3.2) (2020-02-18)
 
 **Note:** Version bump only for package daf-react-native-libsodium
