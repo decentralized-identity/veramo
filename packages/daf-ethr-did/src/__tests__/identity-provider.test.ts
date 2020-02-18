@@ -1,5 +1,5 @@
 import SignerProvider from 'ethjs-provider-signer'
-import { DafResolver } from 'daf-resolver'
+// import { DafResolver } from 'daf-resolver'
 import { IdentityProvider } from '../identity-provider'
 import { Identity } from '../identity'
 import { createJWT, decodeJWT, verifyJWT } from 'did-jwt'

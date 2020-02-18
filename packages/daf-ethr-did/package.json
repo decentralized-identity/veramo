@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "daf-core": "^2.1.0",
-    "daf-resolver": "^2.0.0",
     "debug": "^4.1.1",
     "ethjs-provider-signer": "^0.1.4",
     "ethr-did": "^1.1.0",
