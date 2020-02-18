@@ -1,5 +1,5 @@
 import { AbstractKeyManagementSystem, KeyType, AbstractKey, SerializedKey, AbstractKeyStore } from 'daf-core'
-import sodium from 'libsodium-wrappers'
+import sodium from 'react-native-sodium'
 import { SimpleSigner } from 'did-jwt'
 const EC = require('elliptic').ec
 const secp256k1 = new EC('secp256k1')
