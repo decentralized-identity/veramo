@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.3](https://github.com/uport-project/daf/compare/v2.3.2...v2.3.3) (2020-02-18)
+
+
+### Bug Fixes
+
+* Await in listDids ([94c759c](https://github.com/uport-project/daf/commit/94c759c10d4a022fb081472058782766792dfecc))
+
+
+
+
+
 ## [2.3.2](https://github.com/uport-project/daf/compare/v2.3.1...v2.3.2) (2020-02-18)
 
 
