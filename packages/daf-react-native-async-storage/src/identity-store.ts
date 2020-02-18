@@ -34,7 +34,7 @@ export class IdentityStore extends AbstractIdentityStore {
   }
 
   async listDids() {
-    const fileContents = this.readFromStorage()
+    const fileContents = await this.readFromStorage()
     return Object.keys(fileContents)
   }
 
