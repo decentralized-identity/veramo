@@ -11,7 +11,7 @@ import { IdentityController } from './identity-controller'
 import { keccak_256 } from 'js-sha3'
 const SignerProvider = require('ethjs-provider-signer')
 import Debug from 'debug'
-const debug = Debug('daf:ethr-did-fs:identity-provider')
+const debug = Debug('daf:ethr-did:identity-provider')
 
 export function toEthereumAddress(hexPublicKey: string): string {
   return `0x${Buffer.from(keccak_256.arrayBuffer(Buffer.from(hexPublicKey.slice(2), 'hex')))
@@ -91,7 +91,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
       controllerKeyId: key.serialized.kid,
       keys: [key.serialized],
     }
-    this.identityStore.set(serializedIdentity.did, serializedIdentity)
+    await this.identityStore.set(serializedIdentity.did, serializedIdentity)
     debug('Created', serializedIdentity.did)
     return this.identityFromSerialized(serializedIdentity)
   }

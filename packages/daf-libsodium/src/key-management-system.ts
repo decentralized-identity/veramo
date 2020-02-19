@@ -81,7 +81,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         throw Error('Key type not supported: ' + type)
     }
 
-    this.keyStore.set(serializedKey.kid, serializedKey)
+    await this.keyStore.set(serializedKey.kid, serializedKey)
 
     debug('Created key', type, serializedKey.publicKeyHex)
 
@@ -96,6 +96,6 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
 
   async deleteKey(kid: string) {
     debug('Deleting', kid)
-    return this.keyStore.delete(kid)
+    return await this.keyStore.delete(kid)
   }
 }
