@@ -7,25 +7,31 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "postinstall": "rn-nodeify --install assert,buffer,process,crypto,stream,vm --hack --yarn"
   },
   "dependencies": {
-    "daf-core": "^1.4.1",
-    "daf-data-store": "^1.5.0",
-    "daf-debug": "^1.4.1",
-    "daf-did-jwt": "^1.4.1",
-    "daf-ethr-did-react-native": "^1.4.1",
-    "daf-react-native-sqlite3": "^1.5.0",
-    "daf-selective-disclosure": "^1.5.1",
-    "daf-trust-graph": "^1.4.1",
-    "daf-url": "^1.4.1",
-    "daf-w3c": "^1.4.1",
+    "@react-native-community/async-storage": "^1.8.0",
+    "assert": "^1.1.1",
+    "buffer": "^4.9.1",
+    "daf-core": "^2.1.0",
+    "daf-debug": "^2.1.0",
+    "daf-ethr-did": "^2.3.8",
+    "daf-react-native-async-storage": "^2.3.7",
+    "daf-react-native-libsodium": "^2.3.8",
+    "did-resolver": "^1.1.0",
     "ethr-did-resolver": "^2.1.0",
-    "web-did-resolver": "^1.2.0",
+    "process": "^0.11.0",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-uport-signer": "^1.6.1",
-    "react-native-sqlite-storage": "^4.1.0"
+    "react-native-crypto": "^2.1.0",
+    "react-native-randombytes": "^3.0.0",
+    "react-native-sodium": "^0.3.6",
+    "readable-stream": "1.0.33",
+    "rn-nodeify": "^10.2.0",
+    "stream-browserify": "^1.0.0",
+    "vm-browserify": "0.0.4",
+    "web-did-resolver": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -53,5 +59,25 @@
       "json",
       "node"
     ]
+  },
+  "react-native": {
+    "crypto": "react-native-crypto",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify",
+    "vm": "vm-browserify"
+  },
+  "browser": {
+    "crypto": "react-native-crypto",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify",
+    "vm": "vm-browserify"
   }
 }

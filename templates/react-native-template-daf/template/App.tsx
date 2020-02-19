@@ -19,33 +19,18 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen'
 
-import * as Daf from 'daf-core'
-import { core, dataStore, db } from './setup'
-
-core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
-  await dataStore.saveMessage(message)
-})
+import { core } from './setup'
 
 declare var global: { HermesInternal: null | {} }
 
 const App = () => {
   const [identities, setDids] = useState()
 
-  const syncDaf = async () => {
-    await db.initialize()
-    await dataStore.initialize()
-    await core.setupServices()
-    await core.listen()
-  }
-
   const getDids = async () => {
-    const dids = await core.identityManager.listDids()
+    const identities = await core.identityManager.getIdentities()
+    const dids = identities.map(identity => identity.did)
     setDids(dids)
   }
-
-  useEffect(() => {
-    syncDaf()
-  }, [])
 
   useEffect(() => {
     getDids()
@@ -65,7 +50,10 @@ const App = () => {
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Daf Stuff</Text>
-              <Button onPress={() => core.identityManager.create('rnEthr')} title={'Create Identity'}>
+              <Button
+                onPress={() => core.identityManager.createIdentity('rinkeby-ethr-did')}
+                title={'Create Identity'}
+              >
                 Create Identity
               </Button>
               {identities?.map((did: string) => (
