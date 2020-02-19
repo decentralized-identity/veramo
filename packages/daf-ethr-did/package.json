@@ -1,7 +1,7 @@
 {
   "name": "daf-ethr-did",
   "description": "DAF ehtr-did modules",
-  "version": "2.3.2",
+  "version": "2.3.8",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

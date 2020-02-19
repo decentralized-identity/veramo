@@ -1,7 +1,7 @@
 {
   "name": "daf-libsodium",
   "description": "DAF libsodium modules",
-  "version": "2.1.0",
+  "version": "2.3.8",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

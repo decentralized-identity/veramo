@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.8](https://github.com/uport-project/daf/compare/v2.3.7...v2.3.8) (2020-02-19)
+
+
+### Bug Fixes
+
+* Await in IdentityProvider and KMS ([a5b36d9](https://github.com/uport-project/daf/commit/a5b36d9b96cc1ee6a2e0c1cb95f4697c39b1586b))
+
+
+
+
+
 ## [2.3.7](https://github.com/uport-project/daf/compare/v2.3.6...v2.3.7) (2020-02-18)
 
 
