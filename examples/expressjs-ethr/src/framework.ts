@@ -9,7 +9,7 @@ import * as DafFs from 'daf-fs'
 
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
-import * as TG from 'daf-trust-graph'
+// import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as DIDComm from 'daf-did-comm'
 import * as URL from 'daf-url'
@@ -18,13 +18,13 @@ import { NodeSqlite3 } from 'daf-node-sqlite3'
 import { DataStore } from 'daf-data-store'
 import ws from 'ws'
 
-const defaultPath = __dirname + '/.daf'
+const defaultPath = __dirname + '/../secrets'
 
 const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
-if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG_URI
-if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
-TG.ServiceController.webSocketImpl = ws
+// if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG_URI
+// if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
+// TG.ServiceController.webSocketImpl = ws
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env.DAF_ENCRYPTION_STORE) {
   const fs = require('fs')
@@ -46,14 +46,16 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
 
 const identityProviders = [
   new EthrDid.IdentityProvider({
-    identityStore: new DafFs.IdentityStore(defaultPath + '/identity-store.json'),
-    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/key-store.json')),
+    identityStore: new DafFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
+    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
     resolver: didResolver,
   }),
 ]
-const serviceControllers = [TG.ServiceController]
+const serviceControllers: any[] = [
+  // TG.ServiceController
+]
 
 const messageValidator = new DBG.MessageValidator()
 messageValidator
@@ -66,7 +68,7 @@ messageValidator
 const actionHandler = new DBG.ActionHandler()
 actionHandler
   .setNext(new DIDComm.ActionHandler())
-  .setNext(new TG.ActionHandler())
+  // .setNext(new TG.ActionHandler())
   .setNext(new W3c.ActionHandler())
   .setNext(new SD.ActionHandler())
 
