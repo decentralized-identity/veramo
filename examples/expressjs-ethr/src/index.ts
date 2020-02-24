@@ -6,9 +6,6 @@ import { app, server, io, sessionStore } from './server'
 import { core, dataStore } from './framework'
 import { getIdentity, setServiceEndpoint } from './identity'
 
-import Debug from 'debug'
-const debug = Debug('main')
-
 if (!process.env.HOST) throw Error('Environment variable HOST not set')
 if (!process.env.PORT) throw Error('Environment variable PORT not set')
 
@@ -214,10 +211,6 @@ async function main() {
   server.listen(process.env.PORT, async () => {
     console.log(`Server running at http://localhost:${process.env.PORT}/`)
     console.log(`Messaging service endpoint ${serviceEndpoint}`)
-
-    // await core.setupServices()
-    // await core.listen()
-    // await core.getMessagesSince(await dataStore.latestMessageTimestamps())
   })
 }
 

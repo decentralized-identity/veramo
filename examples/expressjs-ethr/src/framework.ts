@@ -9,7 +9,6 @@ import * as DafFs from 'daf-fs'
 
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
-// import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as DIDComm from 'daf-did-comm'
 import * as URL from 'daf-url'
@@ -22,9 +21,6 @@ const defaultPath = __dirname + '/../secrets'
 
 const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
-// if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG_URI
-// if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
-// TG.ServiceController.webSocketImpl = ws
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env.DAF_ENCRYPTION_STORE) {
   const fs = require('fs')
@@ -53,9 +49,7 @@ const identityProviders = [
     resolver: didResolver,
   }),
 ]
-const serviceControllers: any[] = [
-  // TG.ServiceController
-]
+const serviceControllers: any[] = []
 
 const messageValidator = new DBG.MessageValidator()
 messageValidator
@@ -68,7 +62,6 @@ messageValidator
 const actionHandler = new DBG.ActionHandler()
 actionHandler
   .setNext(new DIDComm.ActionHandler())
-  // .setNext(new TG.ActionHandler())
   .setNext(new W3c.ActionHandler())
   .setNext(new SD.ActionHandler())
 
