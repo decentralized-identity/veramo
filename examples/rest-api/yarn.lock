@@ -319,49 +319,48 @@ crypto-random-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
 
-daf-core@../../packages/daf-core, daf-core@^2.0.0:
-  version "2.0.0"
+daf-core@../../packages/daf-core, daf-core@^2.1.0:
+  version "2.1.0"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
 
 daf-did-comm@../../packages/daf-did-comm:
-  version "2.0.0"
+  version "2.1.0"
   dependencies:
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
     uuid "^3.3.3"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^2.0.0:
-  version "2.0.0"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^2.1.0:
+  version "2.1.0"
   dependencies:
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     did-resolver "^1.1.0"
 
 daf-ethr-did@../../packages/daf-ethr-did:
-  version "2.0.0"
+  version "2.3.8"
   dependencies:
-    daf-core "^2.0.0"
-    daf-resolver "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
 
 daf-fs@../../packages/daf-fs:
-  version "2.0.0"
+  version "2.1.0"
   dependencies:
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
 
 daf-libsodium@../../packages/daf-libsodium:
-  version "2.0.0"
+  version "2.3.8"
   dependencies:
     base-58 "^0.0.1"
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     elliptic "^6.5.2"
@@ -377,24 +376,13 @@ daf-resolver@../../packages/daf-resolver:
     nacl-did "^1.0.0"
     web-did-resolver "^1.2.0"
 
-daf-resolver@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/daf-resolver/-/daf-resolver-2.0.0.tgz#2c929aa7f2ddda50e191c11d23fe67c4bb550f8d"
-  integrity sha512-24l4kdrg2VOIkOvUbNCUpp2Ur1DkDT+nbAPZpqp3xfpoXRjmfPs4m5nYVQebB8DCcE3VB+yK18GWxtqJ4wvD9w==
-  dependencies:
-    debug "^4.1.1"
-    did-resolver "^1.1.0"
-    ethr-did-resolver "^1.0.3"
-    nacl-did "^1.0.0"
-    web-did-resolver "^1.2.0"
-
 daf-w3c@../../packages/daf-w3c:
-  version "2.0.0"
+  version "2.1.0"
   dependencies:
-    daf-core "^2.0.0"
-    daf-did-jwt "^2.0.0"
+    daf-core "^2.1.0"
+    daf-did-jwt "^2.1.0"
     debug "^4.1.1"
-    did-jwt-vc "^0.1.2"
+    did-jwt-vc "^0.1.3"
     did-resolver "^1.1.0"
 
 debug@2.6.9, debug@^2.2.0:
@@ -433,10 +421,10 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
-did-jwt-vc@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-0.1.2.tgz#bcaea103316b4fa48433100b93295c2f284e9593"
-  integrity sha512-NwTt0g9t1eA/x5LT9zvFmo6EWRJvDKAQGjv+bcXKrr3ri6gq1IwUHsBEHgl9LPMFdfSr1dsK3bUdjwTraBebRw==
+did-jwt-vc@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-0.1.3.tgz#2b7631d961406f1f2c10c5b7bb4a121fd1db5d71"
+  integrity sha512-rYVlFOr93+88sdgXGcfbYb5nCKDjqznwOOArJas5Vyad46is8jqfKhdeSlQcMefzD/JMxiR+E0diPS6MitA4CQ==
   dependencies:
     did-jwt "^3.0.0"
 

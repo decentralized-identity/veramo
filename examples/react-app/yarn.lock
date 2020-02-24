@@ -3497,42 +3497,41 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
-daf-core@../../packages/daf-core, daf-core@^2.0.0:
-  version "2.0.0"
+daf-core@../../packages/daf-core, daf-core@^2.1.0:
+  version "2.1.0"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
 
 daf-debug@../../packages/daf-debug:
-  version "2.0.0"
+  version "2.1.0"
   dependencies:
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^2.0.0:
-  version "2.0.0"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^2.1.0:
+  version "2.1.0"
   dependencies:
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     did-resolver "^1.1.0"
 
 daf-ethr-did@../../packages/daf-ethr-did:
-  version "2.0.0"
+  version "2.3.8"
   dependencies:
-    daf-core "^2.0.0"
-    daf-resolver "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
 
 daf-libsodium@../../packages/daf-libsodium:
-  version "2.0.0"
+  version "2.3.8"
   dependencies:
     base-58 "^0.0.1"
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     elliptic "^6.5.2"
@@ -3540,9 +3539,9 @@ daf-libsodium@../../packages/daf-libsodium:
     libsodium-wrappers "^0.7.6"
 
 daf-local-storage@../../packages/daf-local-storage:
-  version "2.0.0"
+  version "2.1.0"
   dependencies:
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
 
 daf-resolver-universal@../../packages/daf-resolver-universal:
@@ -3551,19 +3550,8 @@ daf-resolver-universal@../../packages/daf-resolver-universal:
     cross-fetch "^3.0.4"
     debug "^4.1.1"
 
-daf-resolver@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/daf-resolver/-/daf-resolver-2.0.0.tgz#2c929aa7f2ddda50e191c11d23fe67c4bb550f8d"
-  integrity sha512-24l4kdrg2VOIkOvUbNCUpp2Ur1DkDT+nbAPZpqp3xfpoXRjmfPs4m5nYVQebB8DCcE3VB+yK18GWxtqJ4wvD9w==
-  dependencies:
-    debug "^4.1.1"
-    did-resolver "^1.1.0"
-    ethr-did-resolver "^1.0.3"
-    nacl-did "^1.0.0"
-    web-did-resolver "^1.2.0"
-
 daf-trust-graph@../../packages/daf-trust-graph:
-  version "2.0.0"
+  version "2.1.0"
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"
@@ -3572,7 +3560,7 @@ daf-trust-graph@../../packages/daf-trust-graph:
     apollo-link-ws "^1.0.19"
     apollo-utilities "^1.3.2"
     cross-fetch "^3.0.4"
-    daf-core "^2.0.0"
+    daf-core "^2.1.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     graphql "^14.0.0"
@@ -3580,12 +3568,12 @@ daf-trust-graph@../../packages/daf-trust-graph:
     subscriptions-transport-ws "^0.9.0"
 
 daf-w3c@../../packages/daf-w3c:
-  version "2.0.0"
+  version "2.1.0"
   dependencies:
-    daf-core "^2.0.0"
-    daf-did-jwt "^2.0.0"
+    daf-core "^2.1.0"
+    daf-did-jwt "^2.1.0"
     debug "^4.1.1"
-    did-jwt-vc "^0.1.2"
+    did-jwt-vc "^0.1.3"
     did-resolver "^1.1.0"
 
 damerau-levenshtein@^1.0.4:
@@ -3768,10 +3756,10 @@ detect-port-alt@1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
-did-jwt-vc@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-0.1.2.tgz#bcaea103316b4fa48433100b93295c2f284e9593"
-  integrity sha512-NwTt0g9t1eA/x5LT9zvFmo6EWRJvDKAQGjv+bcXKrr3ri6gq1IwUHsBEHgl9LPMFdfSr1dsK3bUdjwTraBebRw==
+did-jwt-vc@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-0.1.3.tgz#2b7631d961406f1f2c10c5b7bb4a121fd1db5d71"
+  integrity sha512-rYVlFOr93+88sdgXGcfbYb5nCKDjqznwOOArJas5Vyad46is8jqfKhdeSlQcMefzD/JMxiR+E0diPS6MitA4CQ==
   dependencies:
     did-jwt "^3.0.0"
 
@@ -3824,11 +3812,6 @@ did-resolver@0.0.6, did-resolver@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-0.0.6.tgz#2d4638b8914871c19945fb3243f6f298c1cca9db"
   integrity sha512-PqxzaoomTbJG3IzEouUGgppu3xrsbGKHS75zS3vS/Hfm56XxLpwIe7yFLokgXUbMWmLa0dczFHOibmebO4wRLA==
-
-did-resolver@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-1.0.0.tgz#892bcffe66352b1360c928a23082a731c83ca7c3"
-  integrity sha512-mgJG0oqlkG7jfRzW0yN9qKawp24M4thGFdfIaZI30SAJXhpkkjqbkRxqMZLJNwqXEM0cqFbXaiFDqnd9Q1UUaw==
 
 did-resolver@^1.0.0, did-resolver@^1.1.0:
   version "1.1.0"
@@ -3998,13 +3981,6 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
-
-ed2curve-esm@^0.3.0-alpha-1:
-  version "0.3.0-alpha-1"
-  resolved "https://registry.yarnpkg.com/ed2curve-esm/-/ed2curve-esm-0.3.0-alpha-1.tgz#67a5722ea97976c3310aeaf0990a2b58ee383aef"
-  integrity sha512-Ydrqcf0NwKUBT4gL0Nnxp8/O5NG8iatN+/zbEgs/7eMGjgSVbgfE1YfWld2qYnoNIxOQvSWOFy5uBoaL3jCanw==
-  dependencies:
-    tweetnacl "^1.0.1"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -4540,19 +4516,6 @@ ethr-did-resolver@^0.2.0:
     babel-runtime "^6.26.0"
     buffer "^5.1.0"
     did-resolver "0.0.6"
-    ethjs-abi "^0.2.1"
-    ethjs-contract "^0.1.9"
-    ethjs-provider-http "^0.1.6"
-    ethjs-query "^0.3.5"
-    ethr-did-registry "^0.0.3"
-
-ethr-did-resolver@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-1.0.3.tgz#8a4777c6267afe80a55a16fcee21845ddfd25104"
-  integrity sha512-9XtaB+4Ozc4W0gWHZ4J2HA+c+M7r0xcktmQI6v3GMjFto7b42Mq9zhh24kAxCqmtkqQhmUDJeqqSOIOwHrNbmQ==
-  dependencies:
-    buffer "^5.1.0"
-    did-resolver "1.0.0"
     ethjs-abi "^0.2.1"
     ethjs-contract "^0.1.9"
     ethjs-provider-http "^0.1.6"
@@ -7363,16 +7326,6 @@ mute-stream@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
-
-nacl-did@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/nacl-did/-/nacl-did-1.0.1.tgz#94a253430343038c8fee3ff0ecf394b1d34fe4b2"
-  integrity sha512-eGFtGk8v04QaYYQe0Y+suC0iLarPJh4NC5z/f1+JTQh7nRvA/+5ZT4eh/dtP/JGPtUkh2TdpdeiFtMJ0DEyIKQ==
-  dependencies:
-    did-resolver "^1.0.0"
-    ed2curve-esm "^0.3.0-alpha-1"
-    tweetnacl "^1.0.1"
-    tweetnacl-util "^0.15.0"
 
 nan@^2.12.1:
   version "2.14.0"
@@ -11193,14 +11146,6 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   integrity sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==
   dependencies:
     minimalistic-assert "^1.0.0"
-
-web-did-resolver@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-1.2.0.tgz#bbf5c5531f707afa60fca6b1a1d19721c4a7b750"
-  integrity sha512-nTZHRVhjZpUazmZdkuV9M5UA8BpkRQRxoVw1UTd+hreLR+q/xeQsYs55eWTOr9jmPG1fePTrgXcoFVfkz1YCbQ==
-  dependencies:
-    cross-fetch "^3.0.4"
-    did-resolver "1.0.0"
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

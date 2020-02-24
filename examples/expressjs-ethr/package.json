@@ -7,7 +7,7 @@
   "scripts": {
     "watch": "tsc -b --watch",
     "build": "tsc",
-    "start": "node build/web-server",
+    "start": "node build/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -26,7 +26,6 @@
     "daf-resolver": "../../packages/daf-resolver",
     "daf-resolver-universal": "../../packages/daf-resolver-universal",
     "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
-    "daf-trust-graph": "../../packages/daf-trust-graph",
     "daf-url": "../../packages/daf-url",
     "daf-w3c": "../../packages/daf-w3c",
     "debug": "^4.1.1",
