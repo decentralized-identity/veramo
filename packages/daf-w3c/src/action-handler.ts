@@ -1,6 +1,10 @@
 import { Core, AbstractActionHandler, Types } from 'daf-core'
-import { createVerifiableCredential, createPresentation } from 'did-jwt-vc'
-import { PresentationPayload, VerifiableCredentialPayload } from 'did-jwt-vc/src/types'
+import {
+  createVerifiableCredential,
+  createPresentation,
+  PresentationPayload,
+  VerifiableCredentialPayload,
+} from 'did-jwt-vc'
 
 import Debug from 'debug'
 const debug = Debug('daf:w3c:action-handler')

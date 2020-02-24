@@ -579,7 +579,7 @@ daf-w3c@../../packages/daf-w3c:
     daf-core "^2.1.0"
     daf-did-jwt "^2.1.0"
     debug "^4.1.1"
-    did-jwt-vc "^0.1.2"
+    did-jwt-vc "^0.1.3"
     did-resolver "^1.1.0"
 
 dashdash@^1.12.0:
@@ -659,10 +659,10 @@ detect-libc@^1.0.2:
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   integrity sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
 
-did-jwt-vc@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-0.1.2.tgz#bcaea103316b4fa48433100b93295c2f284e9593"
-  integrity sha512-NwTt0g9t1eA/x5LT9zvFmo6EWRJvDKAQGjv+bcXKrr3ri6gq1IwUHsBEHgl9LPMFdfSr1dsK3bUdjwTraBebRw==
+did-jwt-vc@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-0.1.3.tgz#2b7631d961406f1f2c10c5b7bb4a121fd1db5d71"
+  integrity sha512-rYVlFOr93+88sdgXGcfbYb5nCKDjqznwOOArJas5Vyad46is8jqfKhdeSlQcMefzD/JMxiR+E0diPS6MitA4CQ==
   dependencies:
     did-jwt "^3.0.0"
 
