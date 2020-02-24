@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.9](https://github.com/uport-project/daf/compare/v2.3.8...v2.3.9) (2020-02-24)
+
+
+### Bug Fixes
+
+* VP type is VerifiablePresentation ([d59c2b8](https://github.com/uport-project/daf/commit/d59c2b88b0c44c5efc0f17377967930c5404f769))
+
+
+### Features
+
+* Publishing serviceEndpoint to DID Doc ([a9fb385](https://github.com/uport-project/daf/commit/a9fb385f098fec49bb659ef4e1bacdfde221c6a4))
+
+
+
+
+
 ## [2.3.8](https://github.com/uport-project/daf/compare/v2.3.7...v2.3.8) (2020-02-19)
 
 
