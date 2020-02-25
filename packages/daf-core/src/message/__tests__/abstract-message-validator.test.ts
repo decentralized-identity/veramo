@@ -23,10 +23,17 @@ class MockMessageValidatorWithError extends AbstractMessageValidator {
   }
 }
 
+const core = new Core({
+  identityProviders: [],
+  serviceControllers: [],
+  didResolver: { resolve: jest.fn() },
+  messageValidator: new MockMessageValidator(),
+})
+
 it('should return a promise and resolve it if the massage is of known type', async () => {
   const msg = new Message({ raw: 'mock', meta: { type: 'test' } })
   const validator = new MockMessageValidator()
-  const validated = await validator.validate(msg, null)
+  const validated = await validator.validate(msg, core)
   expect(validated.type).toEqual('mock')
   expect(validated.isValid()).toEqual(true)
 })
@@ -34,14 +41,14 @@ it('should return a promise and resolve it if the massage is of known type', asy
 it('should return a promise and reject it if the massage is of unknown type', async () => {
   const msg = new Message({ raw: 'unknown', meta: { type: 'test2' } })
   const validator = new MockMessageValidator()
-  await expect(validator.validate(msg, null)).rejects.toEqual(unsupportedMessageTypeError)
+  await expect(validator.validate(msg, core)).rejects.toEqual(unsupportedMessageTypeError)
 })
 
 it('can throw an error', async () => {
   const msg = new Message({ raw: 'mock', meta: { type: 'test3' } })
   const validator = new MockMessageValidatorWithError()
   try {
-    const validated = await validator.validate(msg, null)
+    const validated = await validator.validate(msg, core)
   } catch (e) {
     expect(e !== unsupportedMessageTypeError).toEqual(true)
   }

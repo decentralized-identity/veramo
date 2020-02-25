@@ -1,10 +1,18 @@
-import { Message } from 'daf-core'
+import { Message, Core } from 'daf-core'
 import { MessageValidator } from '../message-validator'
 describe('daf-url', () => {
   const validator = new MessageValidator()
+
+  const core = new Core({
+    identityProviders: [],
+    serviceControllers: [],
+    didResolver: { resolve: jest.fn() },
+    messageValidator: validator,
+  })
+
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', meta: { type: 'test' } })
-    expect(validator.validate(message, null)).rejects.toEqual('Unsupported message type')
+    expect(validator.validate(message, core)).rejects.toEqual('Unsupported message type')
   })
 
   it('should transform message after standard URL', async () => {
@@ -16,7 +24,7 @@ describe('daf-url', () => {
         type: 'QRCode',
       },
     })
-    expect(validator.validate(message, null)).rejects.toEqual('Unsupported message type')
+    expect(validator.validate(message, core)).rejects.toEqual('Unsupported message type')
     expect(message.raw).toEqual(JWT)
   })
 })

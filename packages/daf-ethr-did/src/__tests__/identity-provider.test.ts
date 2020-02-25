@@ -1,9 +1,9 @@
-import SignerProvider from 'ethjs-provider-signer'
+// import SignerProvider from 'ethjs-provider-signer'
 // import { DafResolver } from 'daf-resolver'
-import { IdentityProvider } from '../identity-provider'
-import { Identity } from '../identity'
-import { createJWT, decodeJWT, verifyJWT } from 'did-jwt'
-const fs = require('fs')
+// import { IdentityProvider } from '../identity-provider'
+// import { Identity } from '../identity'
+// import { createJWT, decodeJWT, verifyJWT } from 'did-jwt'
+// const fs = require('fs')
 
 describe('dummy', () => {
   const a = 100

@@ -12,7 +12,7 @@ website/node_modules
 /packages/*/build/
 /packages/*/coverage/
 /packages/*/node_modules/
-
+coverage
 
 npm-debug.log
 npm-debug.log*

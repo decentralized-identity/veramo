@@ -1,5 +1,13 @@
 {
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx"],
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "**/src/**/*.ts",
+    "!**/examples/**",
+    "!**/types/**",
+    "!**/build/**",
+    "!**/node_modules/**"
+  ],
   "transform": {
     "\\.jsx?$": "babel-jest",
     "\\.tsx?$": "ts-jest"
@@ -7,7 +15,7 @@
   "testMatch": ["**/__tests__/**/*.test.*"],
   "globals": {
     "ts-jest": {
-      "tsConfig": "./packages/tsconfig.json"
+      "tsConfig": "./packages/tsconfig.settings.json"
     }
   },
   "testEnvironment": "node"
