@@ -1,27 +1,74 @@
 import { Core } from 'daf-core'
 import { ActionTypes, ActionSignW3cVc, ActionSignW3cVp } from './action-handler'
-import { PresentationPayload, VerifiableCredentialPayload, VC, VP } from 'did-jwt-vc/src/types'
 
 interface Context {
   core: Core
 }
-
-interface VCInput extends VC {
-  context: [string]
+export interface CredentialSubject {
+  [x: string]: any
 }
 
-interface VerifiableCredentialInput extends VerifiableCredentialPayload {
+export interface VC {
+  '@context': string[]
+  type: string[]
+  credentialSubject: CredentialSubject
+}
+
+export interface VerifiableCredentialPayload {
+  sub: string
+  vc: VC
+  nbf?: number
+  aud?: string
+  exp?: number
+  jti?: string
+  [x: string]: any
+}
+
+export interface VP {
+  '@context': string[]
+  type: string[]
+  verifiableCredential: string[]
+}
+
+export interface PresentationPayload {
+  vp: VP
+  aud?: string
+  nbf?: number
+  exp?: number
+  jti?: string
+  [x: string]: any
+}
+
+interface VCInput {
+  context: string[]
+  type: string[]
+  credentialSubject: CredentialSubject
+}
+
+interface VerifiableCredentialInput {
   vc: VCInput
-  tag: string
+  tag?: string
+  sub: string
+  nbf?: number
+  aud?: string
+  exp?: number
+  jti?: string
+  [x: string]: any
 }
 
-interface VPInput extends VP {
-  context: [string]
+interface VPInput {
+  context: string[]
+  type: string[]
+  verifiableCredential: string[]
 }
 
-interface VerifiablePresentationInput extends PresentationPayload {
+interface VerifiablePresentationInput {
   vp: VPInput
-  tag: string
+  aud?: string
+  nbf?: number
+  exp?: number
+  jti?: string
+  [x: string]: any
 }
 
 const actionSignVc = async (
@@ -36,16 +83,18 @@ const actionSignVc = async (
   // This is needed because it is not possible to pass '@context' as gql input
   const payload: VerifiableCredentialPayload = {
     sub: data.sub,
-    nbf: data.nbf,
-    jti: data.jti,
-    aud: data.aud,
-    tag: data.tag,
     vc: {
       type: data.vc.type,
       '@context': data.vc.context,
       credentialSubject: data.vc.credentialSubject,
     },
   }
+  if (data.iat) payload['iat'] = data.iat
+  if (data.nbf) payload['nbf'] = data.nbf
+  if (data.aud) payload['aud'] = data.aud
+  if (data.jit) payload['jit'] = data.jit
+  if (data.tag) payload['tag'] = data.tag
+
   return await ctx.core.handleAction({
     type: ActionTypes.signVc,
     did: args.did,
@@ -64,16 +113,18 @@ const actionSignVp = async (
   const { data } = args
   // This is needed because it is not possible to pass '@context' as gql input
   const payload: PresentationPayload = {
-    nbf: data.nbf,
-    jti: data.jti,
     aud: data.aud,
-    tag: data.tag,
     vp: {
       type: data.vp.type,
       '@context': data.vp.context,
       verifiableCredential: data.vp.verifiableCredential,
     },
   }
+  if (data.iat) payload['iat'] = data.iat
+  if (data.nbf) payload['nbf'] = data.nbf
+  if (data.jit) payload['jit'] = data.jit
+  if (data.tag) payload['tag'] = data.tag
+
   return await ctx.core.handleAction({
     type: ActionTypes.signVp,
     did: args.did,
