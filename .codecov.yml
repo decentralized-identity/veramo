@@ -23,6 +23,6 @@ coverage:
     daf-data-store:
       paths:
         - packages/daf-data-store
-    tests:
+    test
       paths:
         - tests/
