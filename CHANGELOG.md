@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.10](https://github.com/uport-project/daf/compare/v2.3.9...v2.3.10) (2020-02-25)
+
+
+### Bug Fixes
+
+* CLI VP type is VerifiablePresentation ([1558555](https://github.com/uport-project/daf/commit/1558555252366aa126fde1fe9ecf161de613d72d))
+
+
+
+
+
 ## [2.3.9](https://github.com/uport-project/daf/compare/v2.3.8...v2.3.9) (2020-02-24)
 
 
