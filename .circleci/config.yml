@@ -38,7 +38,7 @@ jobs:
       - run: *bootstrap-packages
       - run: *build-packages
       - save_cache: *save-node-cache
-      - run: yarn test --maxWorkers 2
+      - run: yarn test
 
   publish-packages-npm:
     <<: *defaults
