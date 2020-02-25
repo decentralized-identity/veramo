@@ -47,8 +47,6 @@ export class ActionHandler extends AbstractActionHandler {
       try {
         const identity = await core.identityManager.getIdentity(did)
         const key = await identity.keyByType('Secp256k1')
-        console.log('HERE')
-        console.log({ createVerifiableCredential })
         debug('Signing VC with', did)
         const jwt = await createVerifiableCredential(data, { did: identity.did, signer: key.signer() })
         return jwt

@@ -1,6 +1,12 @@
-jest.mock('did-jwt-vc')
+const mockCreateVerifiableCredential = jest.fn()
+const mockCreatePresentation = jest.fn()
+
+jest.mock('did-jwt-vc', () => ({
+  createVerifiableCredential: mockCreateVerifiableCredential,
+  createPresentation: mockCreatePresentation,
+}))
+
 import { ActionHandler, ActionTypes, ActionSignW3cVc, ActionSignW3cVp } from '../index'
-import { createVerifiableCredential } from 'did-jwt-vc'
 
 const mockDid = 'did:example:123'
 
@@ -21,8 +27,6 @@ describe('daf-w3c', () => {
   it('handles action.sign.w3c.vc', async () => {
     expect.assertions(1)
 
-    createVerifiableCredential.mockReturnValue(Promise.resolve(new Response('4')))
-
     const actionHandler = new ActionHandler()
 
     const data = {
@@ -36,7 +40,7 @@ describe('daf-w3c', () => {
       },
     }
 
-    const result = actionHandler.handleAction(
+    await actionHandler.handleAction(
       {
         type: ActionTypes.signVc,
         did: mockDid,
@@ -45,6 +49,32 @@ describe('daf-w3c', () => {
       mockCore as any,
     )
 
-    expect(createVerifiableCredential).toBeCalledWith(data, { did: mockDid, signer: mockSigner })
+    expect(mockCreateVerifiableCredential).toBeCalledWith(data, { did: mockDid, signer: mockSigner })
+  })
+
+  it('handles action.sign.w3c.vp', async () => {
+    expect.assertions(1)
+
+    const actionHandler = new ActionHandler()
+
+    const data = {
+      sub: 'did:web:uport.me',
+      vp: {
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiablePresentation'],
+        verifiableCredential: ['JWT'],
+      },
+    }
+
+    await actionHandler.handleAction(
+      {
+        type: ActionTypes.signVp,
+        did: mockDid,
+        data,
+      } as ActionSignW3cVp,
+      mockCore as any,
+    )
+
+    expect(mockCreatePresentation).toBeCalledWith(data, { did: mockDid, signer: mockSigner })
   })
 })
