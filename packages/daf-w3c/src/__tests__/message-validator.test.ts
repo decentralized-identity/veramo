@@ -1,5 +1,5 @@
 import { Message, Core } from 'daf-core'
-import { MessageValidator, MessageTypes } from '../message-validator'
+import { MessageValidator, MessageTypes } from '../index'
 
 describe('daf-w3c', () => {
   const vcJwt =
