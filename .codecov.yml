@@ -1,0 +1,28 @@
+coverage:
+    status:
+      project:
+        default: off
+        daf-cli:
+          flags: daf-cli
+        daf-core:
+          target: 80%
+          flags: daf-core
+        daf-data-store:
+          target: 80%
+          flags: daf-data-store
+  
+  flags:
+    # filter the folder(s) you wish to measure by that flag
+    daf-core:
+      # only include files in the backend folder
+      paths:
+        - packages/daf-core
+    daf-cli:
+      paths:
+        - packages/daf-cli
+    daf-data-store:
+      paths:
+        - packages/daf-data-store
+    tests:
+      paths:
+        - tests/
