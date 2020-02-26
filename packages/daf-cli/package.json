@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "2.3.12",
+  "version": "2.3.13",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -20,7 +20,7 @@
     "daf-debug": "^2.3.10",
     "daf-did-comm": "^2.3.10",
     "daf-did-jwt": "^2.3.10",
-    "daf-ethr-did": "^2.3.10",
+    "daf-ethr-did": "^2.3.13",
     "daf-fs": "^2.3.10",
     "daf-libsodium": "^2.3.10",
     "daf-node-sqlite3": "^2.3.11",
