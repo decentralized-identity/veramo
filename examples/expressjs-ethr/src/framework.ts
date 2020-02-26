@@ -15,7 +15,6 @@ import * as URL from 'daf-url'
 
 import { NodeSqlite3 } from 'daf-node-sqlite3'
 import { DataStore } from 'daf-data-store'
-import ws from 'ws'
 
 const defaultPath = __dirname + '/../secrets'
 
