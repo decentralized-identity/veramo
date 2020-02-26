@@ -28,7 +28,6 @@ const identityProviders: Daf.AbstractIdentityProvider[] = [
     identityStore: new DafLocalStorage.IdentityStore('localIdentities'),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-    resolver: didResolver,
   }),
 ]
 

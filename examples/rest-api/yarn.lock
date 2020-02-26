@@ -319,48 +319,48 @@ crypto-random-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
 
-daf-core@../../packages/daf-core, daf-core@^2.1.0:
-  version "2.1.0"
+daf-core@../../packages/daf-core, daf-core@^2.3.10:
+  version "2.3.10"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
 
 daf-did-comm@../../packages/daf-did-comm:
-  version "2.1.0"
+  version "2.3.10"
   dependencies:
-    daf-core "^2.1.0"
+    daf-core "^2.3.10"
     debug "^4.1.1"
     uuid "^3.3.3"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^2.1.0:
-  version "2.1.0"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^2.3.10:
+  version "2.3.10"
   dependencies:
-    daf-core "^2.1.0"
+    daf-core "^2.3.10"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     did-resolver "^1.1.0"
 
 daf-ethr-did@../../packages/daf-ethr-did:
-  version "2.3.8"
+  version "2.3.10"
   dependencies:
-    daf-core "^2.1.0"
+    daf-core "^2.3.10"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
 
 daf-fs@../../packages/daf-fs:
-  version "2.1.0"
+  version "2.3.10"
   dependencies:
-    daf-core "^2.1.0"
+    daf-core "^2.3.10"
     debug "^4.1.1"
 
 daf-libsodium@../../packages/daf-libsodium:
-  version "2.3.8"
+  version "2.3.10"
   dependencies:
     base-58 "^0.0.1"
-    daf-core "^2.1.0"
+    daf-core "^2.3.10"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     elliptic "^6.5.2"
@@ -377,10 +377,10 @@ daf-resolver@../../packages/daf-resolver:
     web-did-resolver "^1.2.0"
 
 daf-w3c@../../packages/daf-w3c:
-  version "2.1.0"
+  version "2.3.12"
   dependencies:
-    daf-core "^2.1.0"
-    daf-did-jwt "^2.1.0"
+    daf-core "^2.3.10"
+    daf-did-jwt "^2.3.10"
     debug "^4.1.1"
     did-jwt-vc "^0.1.3"
     did-resolver "^1.1.0"
