@@ -14,6 +14,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@types/ws": "^7.2.2",
     "daf-core": "../../packages/daf-core",
     "daf-data-store": "../../packages/daf-data-store",
     "daf-debug": "../../packages/daf-debug",
