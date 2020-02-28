@@ -43,8 +43,13 @@ Legend: 🟢 - Stable, 🟡 - Work in progress, 🔴 - Experimental
 |                                                                             | 🟢 [`service-controller`](packages/daf-trust-graph/src/service-controller.ts)                  | Handles authentication for TrustGraph endpoints. Gets new messages. Listens for new incoming messages                                                                                                                                                             |
 | [`daf-url`](packages/daf-url)                                               | 🟢 [`message-validator`](packages/daf-url/src/message-validator.ts)                            | Searches for standard standard URL (`https://example.com/?c_i=MESSAGE`), transforms message and calls next validator                                                                                                                                              |
 | [`daf-w3c`](packages/daf-w3c)                                               | 🟢 [`action-handler`](packages/daf-w3c/src/action-handler.ts)                                  | Handles `action.sign.w3c.vc` and `action.sign.w3c.vp`. Signs W3C VerifiableCredential or W3C VerifiablePresentation. Returns JWT                                                                                                                                  |
-|                                                                             | 🟢 [`graphql`](packages/daf-w3c/src/graphql.ts)                                                | GraphQL resolver for `actionSignVc` and `actionSignVc`                                                                                                                                                                                                            |
+|                                                                             | 🟢 [`graphql`](packages/daf-w3c/src/graphql.ts)                                                | GraphQL resolver for `actionSignVc` and `actionSignVp`                                                                                                                                                                                                            |
 |                                                                             | 🟢 [`message-validator`](packages/daf-w3c/src/message-validator.ts)                            | Checks is a message is a valid W3C VerifiableCredential or W3C VerifiablePresentation                                                                                                                                                                             |
+
+## Documentation
+
+- [Data flow diagrams](docs/DataFlows.md)
+- [Message Validator chain](docs/MessageValidator.md)
 
 ## Getting started
 
