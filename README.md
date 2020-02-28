@@ -1,5 +1,11 @@
 # DID Agent Framework
 
+## Documentation
+
+- [Data flow diagrams](docs/DataFlows.md)
+- [Message Validator chain](docs/MessageValidator.md)
+- [API Reference](docs/api/index.md)
+
 ## Architecture
 
 ![architecture](docs/assets/architecture.png)
@@ -45,11 +51,6 @@ Legend: 🟢 - Stable, 🟡 - Work in progress, 🔴 - Experimental
 | [`daf-w3c`](packages/daf-w3c)                                               | 🟢 [`action-handler`](packages/daf-w3c/src/action-handler.ts)                                  | Handles `action.sign.w3c.vc` and `action.sign.w3c.vp`. Signs W3C VerifiableCredential or W3C VerifiablePresentation. Returns JWT                                                                                                                                  |
 |                                                                             | 🟢 [`graphql`](packages/daf-w3c/src/graphql.ts)                                                | GraphQL resolver for `actionSignVc` and `actionSignVp`                                                                                                                                                                                                            |
 |                                                                             | 🟢 [`message-validator`](packages/daf-w3c/src/message-validator.ts)                            | Checks is a message is a valid W3C VerifiableCredential or W3C VerifiablePresentation                                                                                                                                                                             |
-
-## Documentation
-
-- [Data flow diagrams](docs/DataFlows.md)
-- [Message Validator chain](docs/MessageValidator.md)
 
 ## Getting started
 
