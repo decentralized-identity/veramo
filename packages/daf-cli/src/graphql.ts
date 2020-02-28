@@ -4,7 +4,7 @@ import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as TG from 'daf-trust-graph'
 import * as SRD from 'daf-selective-disclosure'
-import { Gql as DataGql } from 'daf-data-store'
+import { resolvers, typeDefs } from 'daf-data-store'
 import merge from 'lodash.merge'
 import { core, dataStore } from './setup'
 import { listen } from './services'
@@ -20,7 +20,7 @@ program
         Daf.Gql.baseTypeDefs,
         Daf.Gql.Core.typeDefs,
         Daf.Gql.IdentityManager.typeDefs,
-        DataGql.typeDefs,
+        typeDefs,
         TG.Gql.typeDefs,
         W3c.Gql.typeDefs,
         SRD.Gql.typeDefs,
@@ -28,7 +28,7 @@ program
       resolvers: merge(
         Daf.Gql.Core.resolvers,
         Daf.Gql.IdentityManager.resolvers,
-        DataGql.resolvers,
+        resolvers,
         TG.Gql.resolvers,
         W3c.Gql.resolvers,
         SRD.Gql.resolvers,

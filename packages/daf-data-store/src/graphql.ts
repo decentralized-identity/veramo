@@ -1,6 +1,6 @@
 import { DataStore } from './data-store'
 
-interface Context {
+export interface Context {
   dataStore: DataStore
 }
 

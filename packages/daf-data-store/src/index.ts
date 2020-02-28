@@ -1,4 +1,3 @@
 export { DataStore } from './data-store'
-import * as Gql from './graphql'
-import * as Types from './types'
-export { Types, Gql }
+export { resolvers, typeDefs } from './graphql'
+export { DbDriver, Migration, Identity, VerifiableClaim, VerifiableClaimField } from './types'

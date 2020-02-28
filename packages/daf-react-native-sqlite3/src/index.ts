@@ -1,10 +1,10 @@
 import { openDatabase } from 'react-native-sqlite-storage'
-import { Types } from 'daf-data-store'
+import { DbDriver } from 'daf-data-store'
 import Debug from 'debug'
 
 const debug = Debug('daf:react-native-sqlite3')
 
-class RnSqlite3 implements Types.DbDriver {
+class RnSqlite3 implements DbDriver {
   private db: any
   private filename: string
 

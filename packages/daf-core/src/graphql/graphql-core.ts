@@ -3,7 +3,7 @@ import { LastMessageTimestampForInstance } from '../service/service-manager'
 
 import { Message } from '../message/message'
 
-interface Context {
+export interface Context {
   core: Core
 }
 

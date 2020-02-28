@@ -14,7 +14,7 @@ import Debug from 'debug'
 const debug = Debug('daf:ethr-did:identity-provider')
 
 export function toEthereumAddress(hexPublicKey: string): string {
-  return `0x${Buffer.from(keccak_256.arrayBuffer(Buffer.from(hexPublicKey.slice(2), 'hex')))
+  return `0x${Buffer.from(keccak_256(Buffer.from(hexPublicKey.slice(2), 'hex')))
     .slice(-20)
     .toString('hex')}`
 }

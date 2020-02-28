@@ -1,10 +1,10 @@
 import sqlite3 from 'sqlite3'
-import { Types } from 'daf-data-store'
+import { DbDriver } from 'daf-data-store'
 
 import Debug from 'debug'
 const debug = Debug('daf:node-sqlite3')
 
-export class NodeSqlite3 implements Types.DbDriver {
+export class NodeSqlite3 implements DbDriver {
   private db: any
 
   constructor(filename: string) {
