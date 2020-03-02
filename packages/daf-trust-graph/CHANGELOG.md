@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.14](https://github.com/uport-project/daf/compare/v2.3.13...v2.3.14) (2020-03-02)
+
+
+### Bug Fixes
+
+* TG findEdges fromDID ([dc63238](https://github.com/uport-project/daf/commit/dc63238b34d8d448ded854c7635a55750d02f122))
+
+
+
+
+
 ## [2.3.10](https://github.com/uport-project/daf/compare/v2.3.9...v2.3.10) (2020-02-25)
 
 **Note:** Version bump only for package daf-trust-graph

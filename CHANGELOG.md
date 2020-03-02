@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.14](https://github.com/uport-project/daf/compare/v2.3.13...v2.3.14) (2020-03-02)
+
+
+### Bug Fixes
+
+* TG findEdges fromDID ([dc63238](https://github.com/uport-project/daf/commit/dc63238b34d8d448ded854c7635a55750d02f122))
+
+
+
+
+
+## [2.3.13](https://github.com/uport-project/daf/compare/v2.3.12...v2.3.13) (2020-02-26)
+
+
+### Bug Fixes
+
+* Ethr-did identity provider web3Provider ([a5d6af2](https://github.com/uport-project/daf/commit/a5d6af2032130a7eff1722bc47b758a824906be6))
+* Remove unused ws ([55e0fcb](https://github.com/uport-project/daf/commit/55e0fcb1a68e86c7003909fb03f92ee1b357026c)), closes [#91](https://github.com/uport-project/daf/issues/91)
+
+
+
+
+
 ## [2.3.12](https://github.com/uport-project/daf/compare/v2.3.11...v2.3.12) (2020-02-25)
 
 **Note:** Version bump only for package daf

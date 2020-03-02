@@ -25,7 +25,6 @@ export class IdentityProvider extends AbstractIdentityProvider {
   private network: string
   private web3Provider?: any
   private rpcUrl?: string
-  private resolver: Resolver
   private kms: AbstractKeyManagementSystem
   private identityStore: AbstractIdentityStore
 
@@ -33,15 +32,15 @@ export class IdentityProvider extends AbstractIdentityProvider {
     kms: AbstractKeyManagementSystem
     identityStore: AbstractIdentityStore
     network: string
-    rpcUrl: string
-    resolver: Resolver
+    rpcUrl?: string
+    web3Provider?: object
   }) {
     super()
     this.kms = options.kms
     this.identityStore = options.identityStore
     this.network = options.network
     this.rpcUrl = options.rpcUrl
-    this.resolver = options.resolver
+    this.web3Provider = options.web3Provider
     this.type = options.network + '-' + this.type
     this.description = 'did:ethr ' + options.network + ' ' + this.description
   }

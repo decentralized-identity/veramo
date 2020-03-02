@@ -28,7 +28,6 @@ export const core = new Daf.Core({
       identityStore: new DafFs.IdentityStore('./identity-store.json'),
       network: 'rinkeby',
       rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-      resolver: didResolver,
     }),
   ],
   serviceControllers: [],
