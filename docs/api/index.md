@@ -6,7 +6,23 @@
 
 ## Packages
 
-| Package                               | Description |
-| ------------------------------------- | ----------- |
-| [daf-core](./daf-core.md)             |             |
-| [daf-data-store](./daf-data-store.md) |             |
+| Package                                                               | Description |
+| --------------------------------------------------------------------- | ----------- |
+| [daf-core](./daf-core.md)                                             |             |
+| [daf-data-store](./daf-data-store.md)                                 |             |
+| [daf-debug](./daf-debug.md)                                           |             |
+| [daf-did-jwt](./daf-did-jwt.md)                                       |             |
+| [daf-ethr-did](./daf-ethr-did.md)                                     |             |
+| [daf-fs](./daf-fs.md)                                                 |             |
+| [daf-libsodium](./daf-libsodium.md)                                   |             |
+| [daf-local-storage](./daf-local-storage.md)                           |             |
+| [daf-node-sqlite3](./daf-node-sqlite3.md)                             |             |
+| [daf-react-native-async-storage](./daf-react-native-async-storage.md) |             |
+| [daf-react-native-libsodium](./daf-react-native-libsodium.md)         |             |
+| [daf-react-native-sqlite3](./daf-react-native-sqlite3.md)             |             |
+| [daf-resolver](./daf-resolver.md)                                     |             |
+| [daf-resolver-universal](./daf-resolver-universal.md)                 |             |
+| [daf-selective-disclosure](./daf-selective-disclosure.md)             |             |
+| [daf-trust-graph](./daf-trust-graph.md)                               |             |
+| [daf-url](./daf-url.md)                                               |             |
+| [daf-w3c](./daf-w3c.md)                                               |             |
