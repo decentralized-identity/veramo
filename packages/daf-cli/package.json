@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "2.3.13",
+  "version": "2.3.14",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -27,7 +27,7 @@
     "daf-resolver": "^2.0.0",
     "daf-resolver-universal": "^2.0.0",
     "daf-selective-disclosure": "^2.3.10",
-    "daf-trust-graph": "^2.3.10",
+    "daf-trust-graph": "^2.3.14",
     "daf-url": "^2.3.12",
     "daf-w3c": "^2.3.12",
     "date-fns": "^2.8.1",
