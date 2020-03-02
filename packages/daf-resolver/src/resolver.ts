@@ -16,7 +16,10 @@ export class DafResolver {
   constructor(options: Options) {
     this.didResolver = new Resolver({
       ...ethrDidResolver({
-        rpcUrl: 'https://mainnet.infura.io/v3/' + options.infuraProjectId,
+        networks: [
+          { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/' + options.infuraProjectId },
+          { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/' + options.infuraProjectId },
+        ],
       }),
       ...webDidResolver(),
       nacl: naclDidResolver,

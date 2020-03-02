@@ -16,7 +16,7 @@
     "daf-ethr-did": "../../packages/daf-ethr-did",
     "daf-libsodium": "../../packages/daf-libsodium",
     "daf-local-storage": "../../packages/daf-local-storage",
-    "daf-resolver-universal": "../../packages/daf-resolver-universal",
+    "daf-resolver": "../../packages/daf-resolver",
     "daf-trust-graph": "../../packages/daf-trust-graph",
     "daf-w3c": "../../packages/daf-w3c",
     "ethr-did": "^1.1.0",
