@@ -157,3 +157,7 @@ export const typeDefs = `
   }
 
 `
+export default {
+  resolvers,
+  typeDefs,
+}

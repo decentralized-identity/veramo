@@ -22,7 +22,6 @@
 
 ## Variables
 
-| Variable                                   | Description |
-| ------------------------------------------ | ----------- |
-| [resolvers](./daf-data-store.resolvers.md) |             |
-| [typeDefs](./daf-data-store.typedefs.md)   |             |
+| Variable                       | Description |
+| ------------------------------ | ----------- |
+| [Gql](./daf-data-store.gql.md) |             |
