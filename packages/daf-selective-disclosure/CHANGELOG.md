@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.15](https://github.com/uport-project/daf/compare/v2.3.14...v2.3.15) (2020-03-02)
+
+
+### Bug Fixes
+
+* GQL export ([63b9c23](https://github.com/uport-project/daf/commit/63b9c23e21e297347e8b24e1ed0cfdb6bd8d5524))
+* Typescript types ([72c1899](https://github.com/uport-project/daf/commit/72c18993ddba6a7a75ae8397e6549cdd29dccb31))
+
+
+
+
+
 ## [2.3.10](https://github.com/uport-project/daf/compare/v2.3.9...v2.3.10) (2020-02-25)
 
 **Note:** Version bump only for package daf-selective-disclosure

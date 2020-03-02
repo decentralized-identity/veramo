@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.15](https://github.com/uport-project/daf/compare/v2.3.14...v2.3.15) (2020-03-02)
+
+
+### Bug Fixes
+
+* GQL export ([63b9c23](https://github.com/uport-project/daf/commit/63b9c23e21e297347e8b24e1ed0cfdb6bd8d5524))
+* GQL export ([eacc969](https://github.com/uport-project/daf/commit/eacc9697e87bbf6a91db8d9bd5195aea096a13c4))
+* Resolver config ([2fdba37](https://github.com/uport-project/daf/commit/2fdba37833c5ad7f40a9bdb70e69eab91ce291ca))
+* Typescript types ([72c1899](https://github.com/uport-project/daf/commit/72c18993ddba6a7a75ae8397e6549cdd29dccb31))
+
+
+
+
+
 ## [2.3.14](https://github.com/uport-project/daf/compare/v2.3.13...v2.3.14) (2020-03-02)
 
 

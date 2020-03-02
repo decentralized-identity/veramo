@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.15](https://github.com/uport-project/daf/compare/v2.3.14...v2.3.15) (2020-03-02)
+
+
+### Bug Fixes
+
+* Resolver config ([2fdba37](https://github.com/uport-project/daf/commit/2fdba37833c5ad7f40a9bdb70e69eab91ce291ca))
+* Typescript types ([72c1899](https://github.com/uport-project/daf/commit/72c18993ddba6a7a75ae8397e6549cdd29dccb31))
+
+
+
+
+
 # [2.0.0](https://github.com/uport-project/daf/compare/v1.5.1...v2.0.0) (2020-02-17)
 
 **Note:** Version bump only for package daf-resolver
