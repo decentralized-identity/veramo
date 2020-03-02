@@ -73,3 +73,9 @@ export const edgeAdded = gql`
     }
   }
 `
+export default {
+  addEdge,
+  edgeAdded,
+  findEdges,
+  edgeByHash,
+}

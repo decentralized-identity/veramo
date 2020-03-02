@@ -1,6 +1,6 @@
 import { DataStore } from './data-store'
 
-interface Context {
+export interface Context {
   dataStore: DataStore
 }
 
@@ -157,3 +157,7 @@ export const typeDefs = `
   }
 
 `
+export default {
+  resolvers,
+  typeDefs,
+}

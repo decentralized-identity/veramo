@@ -3519,7 +3519,7 @@ daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^2.3.10:
     did-resolver "^1.1.0"
 
 daf-ethr-did@../../packages/daf-ethr-did:
-  version "2.3.10"
+  version "2.3.13"
   dependencies:
     daf-core "^2.3.10"
     debug "^4.1.1"
@@ -3544,14 +3544,17 @@ daf-local-storage@../../packages/daf-local-storage:
     daf-core "^2.3.10"
     debug "^4.1.1"
 
-daf-resolver-universal@../../packages/daf-resolver-universal:
+daf-resolver@../../packages/daf-resolver:
   version "2.0.0"
   dependencies:
-    cross-fetch "^3.0.4"
     debug "^4.1.1"
+    did-resolver "^1.1.0"
+    ethr-did-resolver "^1.0.3"
+    nacl-did "^1.0.0"
+    web-did-resolver "^1.2.0"
 
 daf-trust-graph@../../packages/daf-trust-graph:
-  version "2.3.10"
+  version "2.3.14"
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"
@@ -3813,6 +3816,11 @@ did-resolver@0.0.6, did-resolver@^0.0.6:
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-0.0.6.tgz#2d4638b8914871c19945fb3243f6f298c1cca9db"
   integrity sha512-PqxzaoomTbJG3IzEouUGgppu3xrsbGKHS75zS3vS/Hfm56XxLpwIe7yFLokgXUbMWmLa0dczFHOibmebO4wRLA==
 
+did-resolver@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-1.0.0.tgz#892bcffe66352b1360c928a23082a731c83ca7c3"
+  integrity sha512-mgJG0oqlkG7jfRzW0yN9qKawp24M4thGFdfIaZI30SAJXhpkkjqbkRxqMZLJNwqXEM0cqFbXaiFDqnd9Q1UUaw==
+
 did-resolver@^1.0.0, did-resolver@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-1.1.0.tgz#27a63b6f2aa8dee3d622cd8b8b47360661e24f1e"
@@ -3981,6 +3989,13 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
+
+ed2curve-esm@^0.3.0-alpha-1:
+  version "0.3.0-alpha-1"
+  resolved "https://registry.yarnpkg.com/ed2curve-esm/-/ed2curve-esm-0.3.0-alpha-1.tgz#67a5722ea97976c3310aeaf0990a2b58ee383aef"
+  integrity sha512-Ydrqcf0NwKUBT4gL0Nnxp8/O5NG8iatN+/zbEgs/7eMGjgSVbgfE1YfWld2qYnoNIxOQvSWOFy5uBoaL3jCanw==
+  dependencies:
+    tweetnacl "^1.0.1"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -4516,6 +4531,19 @@ ethr-did-resolver@^0.2.0:
     babel-runtime "^6.26.0"
     buffer "^5.1.0"
     did-resolver "0.0.6"
+    ethjs-abi "^0.2.1"
+    ethjs-contract "^0.1.9"
+    ethjs-provider-http "^0.1.6"
+    ethjs-query "^0.3.5"
+    ethr-did-registry "^0.0.3"
+
+ethr-did-resolver@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-1.0.3.tgz#8a4777c6267afe80a55a16fcee21845ddfd25104"
+  integrity sha512-9XtaB+4Ozc4W0gWHZ4J2HA+c+M7r0xcktmQI6v3GMjFto7b42Mq9zhh24kAxCqmtkqQhmUDJeqqSOIOwHrNbmQ==
+  dependencies:
+    buffer "^5.1.0"
+    did-resolver "1.0.0"
     ethjs-abi "^0.2.1"
     ethjs-contract "^0.1.9"
     ethjs-provider-http "^0.1.6"
@@ -7326,6 +7354,16 @@ mute-stream@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
+
+nacl-did@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/nacl-did/-/nacl-did-1.0.1.tgz#94a253430343038c8fee3ff0ecf394b1d34fe4b2"
+  integrity sha512-eGFtGk8v04QaYYQe0Y+suC0iLarPJh4NC5z/f1+JTQh7nRvA/+5ZT4eh/dtP/JGPtUkh2TdpdeiFtMJ0DEyIKQ==
+  dependencies:
+    did-resolver "^1.0.0"
+    ed2curve-esm "^0.3.0-alpha-1"
+    tweetnacl "^1.0.1"
+    tweetnacl-util "^0.15.0"
 
 nan@^2.12.1:
   version "2.14.0"
@@ -11146,6 +11184,14 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   integrity sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==
   dependencies:
     minimalistic-assert "^1.0.0"
+
+web-did-resolver@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-1.2.0.tgz#bbf5c5531f707afa60fca6b1a1d19721c4a7b750"
+  integrity sha512-nTZHRVhjZpUazmZdkuV9M5UA8BpkRQRxoVw1UTd+hreLR+q/xeQsYs55eWTOr9jmPG1fePTrgXcoFVfkz1YCbQ==
+  dependencies:
+    cross-fetch "^3.0.4"
+    did-resolver "1.0.0"
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

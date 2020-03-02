@@ -1,4 +1,4 @@
-import { Core, AbstractActionHandler, Types } from 'daf-core'
+import { Core, AbstractActionHandler, Action } from 'daf-core'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
@@ -26,7 +26,7 @@ export interface CredentialRequestInput {
   iss?: Iss[]
 }
 
-export interface ActionSignSdr extends Types.Action {
+export interface ActionSignSdr extends Action {
   did: string
   data: {
     sub?: string
@@ -36,7 +36,7 @@ export interface ActionSignSdr extends Types.Action {
 }
 
 export class ActionHandler extends AbstractActionHandler {
-  public async handleAction(action: Types.Action, core: Core) {
+  public async handleAction(action: Action, core: Core) {
     if (action.type === ActionTypes.signSdr) {
       const { did, data } = action as ActionSignSdr
       try {
