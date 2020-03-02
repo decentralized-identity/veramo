@@ -40,7 +40,7 @@ jobs:
       - save_cache: *save-node-cache
       - run: yarn test
       - store_artifacts:
-        path: coverage
+          path: coverage
 
   publish-packages-npm:
     <<: *defaults
