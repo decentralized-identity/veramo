@@ -35,3 +35,7 @@ export const typeDefs = `
     actionSendJwt(from: String!, to: String!, jwt: String!): Boolean
   }
 `
+export default {
+  resolvers,
+  typeDefs,
+}

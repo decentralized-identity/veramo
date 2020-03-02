@@ -178,3 +178,7 @@ export const typeDefs = `
     actionSignVp(did: String!, data: VerifiablePresentationInput!): String
   }
 `
+export default {
+  resolvers,
+  typeDefs,
+}

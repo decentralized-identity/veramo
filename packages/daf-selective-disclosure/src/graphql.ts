@@ -99,3 +99,7 @@ export const typeDefs = `
     actionSignSDR(did: String!, data: SDRInput!): String
   }
 `
+export default {
+  typeDefs,
+  resolvers,
+}
