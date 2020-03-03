@@ -9,7 +9,7 @@ export class MessageValidator extends AbstractMessageValidator {
       const decoded = decodeJWT(message.raw)
       const audience = decoded.payload.aud
       const verified = await verifyJWT(message.raw, { resolver: core.didResolver, audience })
-      debug('Valid JWT.')
+      debug('Message.raw is a valid JWT')
 
       message.transform({
         raw: message.raw,
