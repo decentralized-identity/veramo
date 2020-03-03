@@ -112,7 +112,7 @@ export const core = new Core({
 
 Let's create `index.ts` file, where we will import configured `Core` and add our business logic
 
-We will use `core.identityManager` to use existing identity, or create a new one
+We will use [identityManager](api/daf-core.identitymanager.md) to use existing identity, or create a new one
 
 ```typescript
 import { AbstractIdentity, EventTypes, Message } from 'daf-core'
@@ -136,7 +136,7 @@ main().catch(console.log)
 
 ## 3. Sign Verifiable Credential
 
-To sign a verifiable credential we need to call `core.handleAction` with `action.sign.w3c.vc`.
+To sign a verifiable credential we need to call [handleAction](api/daf-core.core.handleaction.md) with `action.sign.w3c.vc`.
 
 Let's add this to our `main()` function:
 
@@ -159,7 +159,7 @@ const vcJwt = await core.handleAction({
 
 ## 4. Send Verifiable Credential
 
-To sign a credential or any other message in JWT format we need to call `core.handleAction` with `action.sendJwt`.
+To sign a credential or any other message in JWT format we need to call [handleAction](api/daf-core.core.handleaction.md) with `action.sendJwt`.
 
 Let's add this to our `main()` function:
 
