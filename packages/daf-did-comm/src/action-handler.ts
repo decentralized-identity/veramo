@@ -76,7 +76,7 @@ export class ActionHandler extends AbstractActionHandler {
           return Promise.reject(e)
         }
       } else {
-        debug('No MessagingService service in didDoc')
+        debug('No Messaging service in didDoc')
         return super.handleAction(action, core)
       }
     }

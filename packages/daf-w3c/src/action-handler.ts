@@ -35,6 +35,7 @@ export class ActionHandler extends AbstractActionHandler {
         // Removing duplicate JWT
         data.vp.verifiableCredential = Array.from(new Set(data.vp.verifiableCredential))
         const jwt = await createPresentation(data, { did: identity.did, signer: key.signer() })
+        debug(jwt)
         return jwt
       } catch (error) {
         debug(error)
@@ -49,6 +50,7 @@ export class ActionHandler extends AbstractActionHandler {
         const key = await identity.keyByType('Secp256k1')
         debug('Signing VC with', did)
         const jwt = await createVerifiableCredential(data, { did: identity.did, signer: key.signer() })
+        debug(jwt)
         return jwt
       } catch (error) {
         debug(error)
