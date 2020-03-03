@@ -26,7 +26,7 @@ import { IdentityProvider } from 'daf-ethr-did'
 
 This identity provider requires us to provide [kms](api/daf-core.abstractkeymanagementsystem.md) and [identityStore](api/daf-core.abstractidentitystore.md)
 
-We will be storing serialized key pairs in the file system
+We will be storing [serialized key pairs](api/daf-core.serializedkey.md) in the file system
 
 ```typescript
 import { KeyStore } from 'daf-fs'
@@ -40,7 +40,7 @@ import { KeyManagementSystem } from 'daf-libsodium'
 const kms = new KeyManagementSystem(keyStore)
 ```
 
-Storing serialized identities in the file system
+Storing [serialized identities](api/daf-core.serializedidentity.md) in the file system
 
 ```typescript
 import { IdentityStore } from 'daf-fs'
