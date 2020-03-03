@@ -16,7 +16,7 @@ A working example can be found [here](../examples/send-vc)
 
 ## 1. Configure DAF Core
 
-Let's create `setup.ts` file, where we will import DAF plugins and configure our `Core` instance.
+Let's create [setup.ts](../examples/send-vc/setup.ts) file, where we will import DAF plugins and configure our `Core` instance.
 
 We will be using `did:ethr` identities
 
@@ -110,7 +110,7 @@ export const core = new Core({
 
 ## 2. Create new identity
 
-Let's create `index.ts` file, where we will import configured `Core` and add our business logic
+Let's create [index.ts](../examples/send-vc/index.ts) file, where we will import configured `Core` and add our business logic
 
 We will use [identityManager](api/daf-core.identitymanager.md) to use existing identity, or create a new one
 
@@ -193,3 +193,34 @@ core.on(EventTypes.validatedMessage, async (message: Message) => {
   })
 })
 ```
+
+## Output
+
+After running your script, you should get something like this:
+
+```
+Successfully sent message: {
+  id: 'dba6384464fb6f7a129637b34655a99d88d65d2975d36c9fb29ff10830a137181a97404b3d78337f6dfd199aec1a13367181941e2c93b23705d5a89049be3660',
+  type: 'w3c.vc',
+  sender: 'did:ethr:rinkeby:0xd4d85eb9d77d520ec184131bdbe05b179a124e24',
+  receiver: 'did:web:uport.me',
+  timestamp: 1583237003,
+  data: {
+    iat: 1583237003,
+    sub: 'did:web:uport.me',
+    vc: { '@context': [Array], type: [Array], credentialSubject: [Object] },
+    iss: 'did:ethr:rinkeby:0xd4d85eb9d77d520ec184131bdbe05b179a124e24'
+  },
+  metadata: [
+    { type: 'trustGraph', id: 'https://trustgraph.uport.me/graphql' },
+    { type: 'JWT', id: 'ES256K-R' }
+  ],
+  raw: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODMyMzcwMDMsInN1YiI6ImRpZDp3ZWI6dXBvcnQubWUiLCJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7InlvdSI6IlJvY2sifX0sImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHhkNGQ4NWViOWQ3N2Q1MjBlYzE4NDEzMWJkYmUwNWIxNzlhMTI0ZTI0In0.eTUbZJISYaVxm-UMmM3aFjpAUP9YW7uNC7zqRxjk5cOLMkMFU7zOZNog3WMtxxSmgXi2scyRCAuPEZRGyXfYdAA'
+}
+```
+
+## Debug information
+
+If you export environment var `DEBUG=daf:*`, you will see something like this:
+
+![debug](assets/debug-log.png)
