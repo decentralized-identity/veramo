@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.17](https://github.com/uport-project/daf/compare/v2.3.16...v2.3.17) (2020-03-03)
+
+
+### Bug Fixes
+
+* Ethr-did toEthereumAddress ([7335390](https://github.com/uport-project/daf/commit/733539014eb4104bb8a4f82b42fef92cc7f0c067))
+* VP aud ([bc9f498](https://github.com/uport-project/daf/commit/bc9f4988c66fbeadb7e6ce38aec446fd5d38339d))
+
+
+
+
+
 ## [2.3.16](https://github.com/uport-project/daf/compare/v2.3.15...v2.3.16) (2020-03-03)
 
 **Note:** Version bump only for package daf
