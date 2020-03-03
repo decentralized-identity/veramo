@@ -5,7 +5,7 @@ import { IdentityProvider } from 'daf-ethr-did'
 import { KeyStore } from 'daf-fs'
 const keyStore = new KeyStore('./key-store.json')
 
-// Encryption and signing functionality
+// KeyManagementSystem is responsible for managing encryption and signing keys
 import { KeyManagementSystem } from 'daf-libsodium'
 const kms = new KeyManagementSystem(keyStore)
 

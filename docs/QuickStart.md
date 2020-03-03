@@ -16,9 +16,9 @@ A working example can be found [here](../examples/send-vc)
 
 ## 1. Configure DAF Core
 
-Let's create `setup.ts` file, where we will import all DAF plugins and configure our `Core` instance.
+Let's create `setup.ts` file, where we will import DAF plugins and configure our `Core` instance.
 
-We will be using 'did:ethr' identities
+We will be using `did:ethr` identities
 
 ```typescript
 import { IdentityProvider } from 'daf-ethr-did'
@@ -33,7 +33,7 @@ import { KeyStore } from 'daf-fs'
 const keyStore = new KeyStore('./key-store.json')
 ```
 
-Encryption and signing functionality
+KeyManagementSystem is responsible for managing [encryption and signing keys](api/daf-core.abstractkey.md)
 
 ```typescript
 import { KeyManagementSystem } from 'daf-libsodium'
@@ -141,8 +141,7 @@ To sign a verifiable credential we need to call `core.handleAction` with `action
 Let's add this to our `main()` function:
 
 ```typescript
-// Sign credential
-const credential = await core.handleAction({
+const vcJwt = await core.handleAction({
   type: 'action.sign.w3c.vc',
   did: identity.did,
   data: {
@@ -170,7 +169,7 @@ await core.handleAction({
   data: {
     from: identity.did,
     to: 'did:web:uport.me',
-    jwt: credential,
+    jwt: vcJwt,
   },
 } as ActionSendJWT)
 ```

@@ -14,8 +14,8 @@ async function main() {
     identity = await core.identityManager.createIdentity(identityProviders[0].type)
   }
 
-  // Sign credential
-  const credential = await core.handleAction({
+  // Sign verifiable credential
+  const vcJwt = await core.handleAction({
     type: 'action.sign.w3c.vc',
     did: identity.did,
     data: {
@@ -30,13 +30,13 @@ async function main() {
     },
   } as ActionSignW3cVc)
 
-  // Send credential using DIDComm or TrustGraph
+  // Send verifiable credential using DIDComm or TrustGraph
   await core.handleAction({
     type: 'action.sendJwt',
     data: {
       from: identity.did,
       to: 'did:web:uport.me',
-      jwt: credential,
+      jwt: vcJwt,
     },
   } as ActionSendJWT)
 }
