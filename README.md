@@ -2,6 +2,7 @@
 
 ## Documentation
 
+- [Quick start guide](docs/QuickStart.md)
 - [Data flow diagrams](docs/DataFlows.md)
 - [Message Validator chain](docs/MessageValidator.md)
 - [API Reference](docs/api/index.md)
