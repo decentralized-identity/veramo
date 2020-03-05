@@ -7,7 +7,6 @@ export { AbstractIdentityProvider, IdentityProviderDerived } from './identity/ab
 export {
   AbstractKeyManagementSystem,
   AbstractKey,
-  KeyType,
   SerializedKey,
 } from './identity/abstract-key-management-system'
 export { AbstractIdentityStore, SerializedIdentity } from './identity/abstract-identity-store'
@@ -18,3 +17,5 @@ export { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } fr
 export { AbstractServiceController } from './service/abstract-service-controller'
 export { Action } from './types'
 export { Gql } from './graphql/index'
+export { Key, KeyType } from './entities/key'
+export { Identity } from './entities/identity'
