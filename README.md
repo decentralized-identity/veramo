@@ -1,3 +1,5 @@
+[![uport-project](https://circleci.com/gh/uport-project/daf.svg?style=svg)](https://circleci.com/gh/uport-project/daf/tree/master)
+
 # DID Agent Framework
 
 ## Architecture

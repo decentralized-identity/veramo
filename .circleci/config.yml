@@ -39,7 +39,7 @@ jobs:
       - run: *build-packages
       - save_cache: *save-node-cache
       - run: yarn test
-      - store_artifacts:
+      - store_test_results:
           path: coverage
 
   publish-packages-npm:

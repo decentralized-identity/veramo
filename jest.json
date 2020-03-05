@@ -8,7 +8,8 @@
     "!**/build/**",
     "!**/node_modules/**"
   ],
-  "coverageDirectory":"./coverage",
+  "coverageReporters": ["txt", "json"],
+  "coverageDirectory": "./coverage",
   "transform": {
     "\\.jsx?$": "babel-jest",
     "\\.tsx?$": "ts-jest"
