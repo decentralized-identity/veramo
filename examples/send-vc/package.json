@@ -4,7 +4,8 @@
   "version": "2.0.0",
   "main": "index.ts",
   "scripts": {
-    "start": "DEBUG=daf:* ts-node index.ts"
+    "start": "DEBUG=daf:* ts-node index.ts",
+    "test": "DEBUG=daf:* ts-node test.ts"
   },
   "dependencies": {
     "daf-core": "../../packages/daf-core",
