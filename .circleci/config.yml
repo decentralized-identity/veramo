@@ -40,7 +40,10 @@ jobs:
       - save_cache: *save-node-cache
       - run: yarn test
       - store_test_results:
-          path: coverage
+      - run:
+          path: test_results
+          name: Upload coverage report
+          command: npx codecov
 
   publish-packages-npm:
     <<: *defaults
