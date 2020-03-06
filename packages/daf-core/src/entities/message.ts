@@ -17,6 +17,16 @@ import { Credential } from './credential'
 
 @Entity()
 export class Message extends BaseEntity {
+  constructor(data?: { raw: string; meta?: { type: string; value?: string } }) {
+    super()
+    if (data?.raw) {
+      this.raw = data.raw
+    }
+    if (data?.meta) {
+      this.addMetaData(data.meta)
+    }
+  }
+
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -42,7 +52,7 @@ export class Message extends BaseEntity {
   raw: string
 
   @Column('simple-json', { nullable: true })
-  data?: object
+  data?: any
 
   // https://github.com/decentralized-identity/didcomm-messaging/blob/41f35f992275dd71d459504d14eb8d70b4185533/jwm.md#jwm-profile
 
@@ -101,4 +111,35 @@ export class Message extends BaseEntity {
   )
   @JoinTable()
   credentials: Credential[]
+
+  addMetaData(input: { type: string; value?: string }) {
+    const meta = new MessageMetaData()
+    meta.type = input.type
+    if (input.value) {
+      meta.value = input.value
+    }
+    if (this.metaData) {
+      this.metaData.push(meta)
+    } else {
+      this.metaData = [meta]
+    }
+  }
+
+  getLastMetaData(): MessageMetaData | null {
+    if (this.metaData?.length > 0) {
+      return this.metaData[this.metaData.length - 1]
+    } else {
+      return null
+    }
+  }
+
+  isValid() {
+    if (this.type === null || this.type === '') {
+      return false
+    }
+    if (!this.raw || this.raw === null || this.raw === '') {
+      return false
+    }
+    return true
+  }
 }

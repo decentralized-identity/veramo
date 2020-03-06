@@ -9,8 +9,8 @@ export class MessageMetaData extends BaseEntity {
   @Column()
   type: string
 
-  @Column()
-  value: string
+  @Column({ nullable: true })
+  value?: string
 
   @ManyToOne(
     type => Message,

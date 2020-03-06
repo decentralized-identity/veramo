@@ -319,9 +319,9 @@ export class DataStore {
         const query = sql
           .insert('messages', {
             id: messageId,
-            sender: message.sender,
-            receiver: message.receiver,
-            timestamp: message.timestamp,
+            sender: message.from?.did,
+            receiver: message.to[0].did,
+            timestamp: 123, //message.timestamp,
             type: message.type,
             thread_id: message.threadId,
             raw: message.raw,
@@ -337,60 +337,60 @@ export class DataStore {
       }
     }
 
-    return { hash: message.id, iss: { did: message.sender } }
+    return { hash: message.id, iss: { did: message.from.did } }
   }
 
   private async updateMetaData(message: Message) {
-    const { id, allMeta } = message
-    for (const metaData of allMeta) {
-      const query = sql
-        .select('type, id, data')
-        .from('messages_meta_data')
-        .where({
-          message_id: id,
-          type: metaData.type,
-          id: metaData.id,
-        })
-        .toParams()
-      const rows = await this.db.rows(query.text, query.values)
-      if (rows.length === 0) {
-        const insertQuery = sql
-          .insert('messages_meta_data', {
-            message_id: id,
-            type: metaData.type,
-            id: metaData.id,
-            data: metaData.data && JSON.stringify(metaData.data),
-          })
-          .toParams()
-        await this.db.run(insertQuery.text, insertQuery.values)
-      }
-    }
+    // const { id, allMeta } = message
+    // for (const metaData of allMeta) {
+    //   const query = sql
+    //     .select('type, id, data')
+    //     .from('messages_meta_data')
+    //     .where({
+    //       message_id: id,
+    //       type: metaData.type,
+    //       id: metaData.id,
+    //     })
+    //     .toParams()
+    //   const rows = await this.db.rows(query.text, query.values)
+    //   if (rows.length === 0) {
+    //     const insertQuery = sql
+    //       .insert('messages_meta_data', {
+    //         message_id: id,
+    //         type: metaData.type,
+    //         id: metaData.id,
+    //         data: metaData.data && JSON.stringify(metaData.data),
+    //       })
+    //       .toParams()
+    //     await this.db.run(insertQuery.text, insertQuery.values)
+    //   }
+    // }
   }
 
   private async saveMetaData(message: Message) {
     const messageId = message.id
 
-    for (const metaData of message.allMeta) {
-      const query = sql
-        .insert('messages_meta_data', {
-          message_id: messageId,
-          type: metaData.type,
-          id: metaData.id,
-          data: metaData.data && JSON.stringify(metaData.data),
-        })
-        .toParams()
-      await this.db.run(query.text, query.values)
-    }
+    // for (const metaData of message.allMeta) {
+    //   const query = sql
+    //     .insert('messages_meta_data', {
+    //       message_id: messageId,
+    //       type: metaData.type,
+    //       id: metaData.id,
+    //       data: metaData.data && JSON.stringify(metaData.data),
+    //     })
+    //     .toParams()
+    //   await this.db.run(query.text, query.values)
+    // }
   }
 
   async saveVerifiableCredentials(message: Message) {
     const messageId = message.id
 
-    if (message.type == 'w3c.vp' || message.type == 'w3c.vc') {
-      for (const vc of message.vc) {
-        await this.saveVerifiableCredential(vc, messageId)
-      }
-    }
+    // if (message.type == 'w3c.vp' || message.type == 'w3c.vc') {
+    //   for (const vc of message.vc) {
+    //     await this.saveVerifiableCredential(vc, messageId)
+    //   }
+    // }
   }
 
   async saveVerifiableCredential(vc: any, messageId: string) {

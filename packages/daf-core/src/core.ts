@@ -7,7 +7,7 @@ import { ServiceControllerDerived } from './service/abstract-service-controller'
 import { MessageValidator, unsupportedMessageTypeError } from './message/abstract-message-validator'
 import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
-import { Message } from './message/message'
+import { Message } from './entities/message'
 
 import Debug from 'debug'
 const debug = Debug('daf:core')

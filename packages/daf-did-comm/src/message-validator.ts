@@ -25,28 +25,22 @@ export class MessageValidator extends AbstractMessageValidator {
             try {
               const json = JSON.parse(decrypted)
               if (json['@type'] === 'JWT') {
-                message.transform({
-                  raw: json.data,
-                  meta: { type: 'DIDComm' },
-                })
+                message.raw = json.data
+                message.addMetaData({ type: 'DIDComm' })
               } else {
                 if (json['@id']) message.id = json['@id']
                 if (json['@type']) message.type = json['@type']
-                message.transform({
-                  raw: decrypted,
-                  data: json,
-                  meta: { type: 'DIDComm' },
-                })
+                message.raw = decrypted
+                message.data = json
+                message.addMetaData({ type: 'DIDComm' })
               }
               return super.validate(message, core)
             } catch (e) {
               debug(e.message)
             }
 
-            message.transform({
-              raw: decrypted,
-              meta: { type: 'DIDComm' },
-            })
+            message.raw = decrypted
+            message.addMetaData({ type: 'DIDComm' })
 
             return super.validate(message, core)
           }

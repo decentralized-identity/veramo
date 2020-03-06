@@ -1,4 +1,4 @@
-import { Core, AbstractMessageValidator, Message } from 'daf-core'
+import { Core, AbstractMessageValidator, Message, MessageMetaData } from 'daf-core'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
 const debug = Debug('daf:did-jwt:message-validator')
@@ -10,12 +10,8 @@ export class MessageValidator extends AbstractMessageValidator {
       const audience = decoded.payload.aud
       const verified = await verifyJWT(message.raw, { resolver: core.didResolver, audience })
       debug('Message.raw is a valid JWT')
-
-      message.transform({
-        raw: message.raw,
-        data: verified.payload,
-        meta: { type: decoded.header.typ, id: decoded.header.alg },
-      })
+      message.addMetaData({ type: decoded.header.typ, value: decoded.header.alg })
+      message.data = verified.payload
     } catch (e) {
       debug(e.message)
     }
