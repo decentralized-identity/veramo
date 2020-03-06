@@ -1,14 +1,8 @@
 {
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx"],
   "collectCoverage": true,
-  "collectCoverageFrom": [
-    "**/src/**/*.ts",
-    "!**/examples/**",
-    "!**/types/**",
-    "!**/build/**",
-    "!**/node_modules/**"
-  ],
-  "coverageReporters": ["text", "json"],
+  "collectCoverageFrom": ["**/src/**/*.ts"],
+  "coverageReporters": ["text", "lcov", "json"],
   "coverageDirectory": "./coverage",
   "transform": {
     "\\.jsx?$": "babel-jest",
