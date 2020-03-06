@@ -33,6 +33,7 @@ export class Credential extends BaseEntity {
         const value = this.credentialSubject[type]
         const isObj = typeof value === 'function' || (typeof value === 'object' && !!value)
         const claim = new Claim()
+        claim.hash = blake2bHex(this.raw + type)
         claim.type = type
         claim.value = value
         claim.isObj = isObj
@@ -87,7 +88,7 @@ export class Credential extends BaseEntity {
     type => Claim,
     claim => claim.credential,
     {
-      cascade: true,
+      cascade: ['insert'],
     },
   )
   claims: Claim[]
@@ -100,7 +101,7 @@ export class Credential extends BaseEntity {
 
   @ManyToMany(
     type => Message,
-    message => message.presentations,
+    message => message.credentials,
   )
   messages: Message[]
 }

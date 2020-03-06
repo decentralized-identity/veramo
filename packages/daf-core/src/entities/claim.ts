@@ -4,7 +4,7 @@ import {
   BaseEntity,
   ManyToOne,
   JoinTable,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   OneToMany,
   ManyToMany,
   BeforeInsert,
@@ -14,8 +14,8 @@ import { Credential } from './credential'
 
 @Entity()
 export class Claim extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: string
+  @PrimaryColumn()
+  hash: string
 
   @ManyToOne(
     type => Identity,

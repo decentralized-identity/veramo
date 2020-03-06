@@ -30,7 +30,7 @@ export class MessageValidator extends AbstractMessageValidator {
         const credentials: Credential[] = []
         for (const jwt of data.vp.verifiableCredential) {
           const verified = await verifyCredential(jwt, core.didResolver)
-          credentials.push(this.createCredential(verified.payload, message, jwt))
+          credentials.push(this.createCredential(verified.payload, jwt))
         }
 
         message.type = MessageTypes.vp
@@ -47,7 +47,7 @@ export class MessageValidator extends AbstractMessageValidator {
         }
 
         message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat)
-        message.presentations = [this.createPresentation(data, message, message.raw, credentials)]
+        message.presentations = [this.createPresentation(data, message.raw, credentials)]
         message.credentials = credentials
 
         return message
@@ -70,7 +70,7 @@ export class MessageValidator extends AbstractMessageValidator {
         }
 
         message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat)
-        message.credentials = [this.createCredential(message.data, message, message.raw)]
+        message.credentials = [this.createCredential(message.data, message.raw)]
         return message
       } catch (e) {}
     }
@@ -78,7 +78,7 @@ export class MessageValidator extends AbstractMessageValidator {
     return super.validate(message, core)
   }
 
-  private createCredential(payload: VerifiableCredentialPayload, message: Message, jwt: string): Credential {
+  private createCredential(payload: VerifiableCredentialPayload, jwt: string): Credential {
     const vc = new Credential()
 
     vc.issuer = new Identity()
@@ -104,14 +104,12 @@ export class MessageValidator extends AbstractMessageValidator {
 
     vc.context = payload.vc['@context']
     vc.type = payload.vc.type
-    vc.messages = [message]
 
     return vc
   }
 
   private createPresentation(
     payload: PresentationPayload,
-    message: Message,
     jwt: string,
     credentials: Credential[],
   ): Presentation {
@@ -141,7 +139,6 @@ export class MessageValidator extends AbstractMessageValidator {
     vp.type = payload.vp.type
 
     vp.credentials = credentials
-    vp.messages = [message]
 
     return vp
   }
