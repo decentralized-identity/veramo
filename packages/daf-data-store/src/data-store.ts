@@ -313,7 +313,7 @@ export class DataStore {
       .toParams()
     const searchResult = await this.db.rows(searchQuery.text, searchQuery.values)
     if (searchResult.length > 0) {
-      this.updateMetaData(message)
+      await this.updateMetaData(message)
     } else {
       try {
         const query = sql

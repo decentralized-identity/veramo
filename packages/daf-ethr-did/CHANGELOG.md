@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.17](https://github.com/uport-project/daf/compare/v2.3.16...v2.3.17) (2020-03-03)
+
+
+### Bug Fixes
+
+* Ethr-did toEthereumAddress ([7335390](https://github.com/uport-project/daf/commit/733539014eb4104bb8a4f82b42fef92cc7f0c067))
+
+
+
+
+
+## [2.3.16](https://github.com/uport-project/daf/compare/v2.3.15...v2.3.16) (2020-03-03)
+
+**Note:** Version bump only for package daf-ethr-did
+
+
+
+
+
+## [2.3.15](https://github.com/uport-project/daf/compare/v2.3.14...v2.3.15) (2020-03-02)
+
+
+### Bug Fixes
+
+* Typescript types ([72c1899](https://github.com/uport-project/daf/commit/72c18993ddba6a7a75ae8397e6549cdd29dccb31))
+
+
+
+
+
+## [2.3.13](https://github.com/uport-project/daf/compare/v2.3.12...v2.3.13) (2020-02-26)
+
+
+### Bug Fixes
+
+* Ethr-did identity provider web3Provider ([a5d6af2](https://github.com/uport-project/daf/commit/a5d6af2032130a7eff1722bc47b758a824906be6))
+
+
+
+
+
 ## [2.3.10](https://github.com/uport-project/daf/compare/v2.3.9...v2.3.10) (2020-02-25)
 
 **Note:** Version bump only for package daf-ethr-did

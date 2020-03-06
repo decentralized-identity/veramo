@@ -8,6 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "downlevelIteration": true,
+    "declarationMap": true,
+    "declaration": true,
     "composite": true
   },
   "exclude": ["**/__tests__/**/*", "**/build/**/*"]

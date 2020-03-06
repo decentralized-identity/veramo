@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.16](https://github.com/uport-project/daf/compare/v2.3.15...v2.3.16) (2020-03-03)
+
+**Note:** Version bump only for package daf-data-store
+
+
+
+
+
+## [2.3.15](https://github.com/uport-project/daf/compare/v2.3.14...v2.3.15) (2020-03-02)
+
+
+### Bug Fixes
+
+* GQL export ([eacc969](https://github.com/uport-project/daf/commit/eacc9697e87bbf6a91db8d9bd5195aea096a13c4))
+* Typescript types ([72c1899](https://github.com/uport-project/daf/commit/72c18993ddba6a7a75ae8397e6549cdd29dccb31))
+
+
+
+
+
+## [2.3.11](https://github.com/uport-project/daf/compare/v2.3.10...v2.3.11) (2020-02-25)
+
+
+### Bug Fixes
+
+* Data store await for meta data ([5d96401](https://github.com/uport-project/daf/commit/5d96401530025b76007669e7d28a394378a4fbe9))
+
+
+
+
+
 ## [2.3.10](https://github.com/uport-project/daf/compare/v2.3.9...v2.3.10) (2020-02-25)
 
 **Note:** Version bump only for package daf-data-store

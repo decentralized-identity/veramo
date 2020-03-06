@@ -161,7 +161,7 @@ async function main() {
       type: W3C.ActionTypes.signVp,
       did: identity.did,
       data: {
-        sub: did,
+        aud: did,
         vp: {
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],

@@ -1,5 +1,5 @@
 import { Message, Core } from 'daf-core'
-import { MessageValidator } from '../message-validator'
+import { MessageValidator } from '../index'
 describe('daf-url', () => {
   const validator = new MessageValidator()
 

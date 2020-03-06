@@ -12,8 +12,8 @@ export const addEdge = gql`
 `
 
 export const findEdges = gql`
-  query findEdges($toDID: [String], $since: Int) {
-    findEdges(toDID: $toDID, since: $since) {
+  query findEdges($toDID: [String], $fromDID: [String], $since: Int) {
+    findEdges(toDID: $toDID, fromDID: $fromDID, since: $since) {
       hash
       time
       type
@@ -73,3 +73,9 @@ export const edgeAdded = gql`
     }
   }
 `
+export default {
+  addEdge,
+  edgeAdded,
+  findEdges,
+  edgeByHash,
+}

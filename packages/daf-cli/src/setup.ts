@@ -54,7 +54,6 @@ const identityProviders = [
     kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-    resolver: didResolver,
   }),
 ]
 const serviceControllers = [TG.ServiceController]
