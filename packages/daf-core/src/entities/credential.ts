@@ -20,8 +20,8 @@ export class Credential extends BaseEntity {
   @PrimaryColumn()
   hash: string
 
-  @BeforeInsert()
-  async updateHash() {
+  setRaw(raw: string) {
+    this.raw = raw
     this.hash = blake2bHex(this.raw)
   }
 

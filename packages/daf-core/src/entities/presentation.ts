@@ -18,10 +18,11 @@ export class Presentation extends BaseEntity {
   @PrimaryColumn()
   hash: string
 
-  @BeforeInsert()
-  async updateHash() {
+  setRaw(raw: string) {
+    this.raw = raw
     this.hash = blake2bHex(this.raw)
   }
+
   @ManyToOne(
     type => Identity,
     identity => identity.issuedPresentations,

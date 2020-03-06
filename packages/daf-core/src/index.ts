@@ -21,7 +21,7 @@ export { Identity } from './entities/identity'
 import { Message as OMessage } from './entities/message'
 export { OMessage }
 export { MessageMetaData } from './entities/message-meta-data'
-export { Action } from './entities/action'
+export { Action } from './types'
 export { Claim } from './entities/claim'
 export { Credential } from './entities/credential'
 export { Presentation } from './entities/presentation'

@@ -17,7 +17,7 @@ import { Credential } from './credential'
 
 @Entity()
 export class Message extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @CreateDateColumn()

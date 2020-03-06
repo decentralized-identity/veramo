@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryColumn, BaseEntity, OneToMany, ManyToMany } from 'typeorm'
 import { Key } from './key'
-import { Action } from './action'
 import { Message } from './message'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
@@ -19,12 +18,6 @@ export class Identity extends BaseEntity {
     key => key.identity,
   )
   keys: Key[]
-
-  @OneToMany(
-    type => Action,
-    action => action.identity,
-  )
-  actions: Action[]
 
   @OneToMany(
     type => Message,
