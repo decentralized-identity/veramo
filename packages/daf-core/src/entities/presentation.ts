@@ -1,3 +1,4 @@
+import { blake2bHex } from 'blakejs'
 import {
   Entity,
   Column,
@@ -5,7 +6,7 @@ import {
   ManyToOne,
   JoinTable,
   PrimaryColumn,
-  OneToMany,
+  BeforeInsert,
   ManyToMany,
 } from 'typeorm'
 import { Identity } from './identity'
@@ -17,26 +18,36 @@ export class Presentation extends BaseEntity {
   @PrimaryColumn()
   hash: string
 
+  @BeforeInsert()
+  async updateHash() {
+    this.hash = blake2bHex(this.raw)
+  }
   @ManyToOne(
     type => Identity,
     identity => identity.issuedPresentations,
+    {
+      cascade: ['insert'],
+    },
   )
   issuer: Identity
 
   @ManyToOne(
     type => Identity,
     identity => identity.receivedPresentations,
+    {
+      cascade: ['insert'],
+    },
   )
   audience: Identity
 
-  @Column()
-  issuedAt: number
+  @Column({ nullable: true })
+  issuedAt?: Date
 
-  @Column()
-  notBefore: number
+  @Column({ nullable: true })
+  notBefore?: Date
 
-  @Column()
-  expiresAt: number
+  @Column({ nullable: true })
+  expiresAt?: Date
 
   @Column()
   raw: string
@@ -48,6 +59,9 @@ export class Presentation extends BaseEntity {
   @ManyToMany(
     type => Credential,
     credential => credential.presentations,
+    {
+      cascade: true,
+    },
   )
   @JoinTable()
   credentials: Credential[]

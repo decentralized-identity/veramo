@@ -17,7 +17,4 @@ export class MessageMetaData extends BaseEntity {
     message => message.metaData,
   )
   message: Message
-
-  @Column()
-  timestamp: number
 }

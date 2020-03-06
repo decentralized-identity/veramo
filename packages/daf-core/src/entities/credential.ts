@@ -9,7 +9,6 @@ import {
   OneToMany,
   ManyToMany,
   BeforeInsert,
-  AfterInsert,
 } from 'typeorm'
 import { Identity } from './identity'
 import { Message } from './message'
@@ -48,23 +47,29 @@ export class Credential extends BaseEntity {
   @ManyToOne(
     type => Identity,
     identity => identity.issuedCredentials,
+    {
+      cascade: ['insert'],
+    },
   )
   issuer: Identity
 
   @ManyToOne(
     type => Identity,
     identity => identity.receivedCredentials,
+    {
+      cascade: ['insert'],
+    },
   )
   subject: Identity
 
-  @Column()
-  issuedAt: number
+  @Column({ nullable: true })
+  issuedAt?: Date
 
-  @Column()
-  notBefore: number
+  @Column({ nullable: true })
+  notBefore?: Date
 
-  @Column()
-  expiresAt: number
+  @Column({ nullable: true })
+  expiresAt?: Date
 
   @Column()
   raw: string

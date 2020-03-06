@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, BaseEntity, OneToMany } from 'typeorm'
+import { Entity, Column, PrimaryColumn, BaseEntity, OneToMany, ManyToMany } from 'typeorm'
 import { Key } from './key'
 import { Action } from './action'
 import { Message } from './message'
@@ -11,7 +11,7 @@ export class Identity extends BaseEntity {
   @PrimaryColumn()
   did: string
 
-  @Column()
+  @Column({ nullable: true })
   controllerKeyId: string
 
   @OneToMany(
@@ -28,13 +28,13 @@ export class Identity extends BaseEntity {
 
   @OneToMany(
     type => Message,
-    message => message.sender,
+    message => message.from,
   )
   sentMessages: Message[]
 
-  @OneToMany(
+  @ManyToMany(
     type => Message,
-    message => message.receiver,
+    message => message.to,
   )
   receivedMessages: Message[]
 
