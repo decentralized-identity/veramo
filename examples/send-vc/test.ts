@@ -1,4 +1,14 @@
-import { Identity, Key, OMessage, MessageMetaData, Credential, Presentation, Claim, Action } from 'daf-core'
+import {
+  Identity,
+  Key,
+  OMessage,
+  MessageMetaData,
+  Credential,
+  Presentation,
+  Claim,
+  Action,
+  Message,
+} from 'daf-core'
 import { core } from './setup'
 import { createConnection, Like } from 'typeorm'
 
@@ -36,31 +46,58 @@ const main = async () => {
   // console.log(identity1)
   // console.log(identity2)
 
-  // const vc = new Credential()
-  // vc.issuer = identity1
-  // vc.subject = identity2
-  // vc.issuedAt = 1235456
-  // vc.notBefore = 1232424
-  // vc.expiresAt = 32423423
-  // vc.raw = '4123123123'
-  // vc.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
-  // vc.type = ['VerifiableCredential', 'PublicProfile']
-  // vc.setCredentialSubject({
-  //   name: 'Simonas',
-  //   profilePicture: 'https://simons.com/a.png',
-  //   address: {
-  //     street: 'some',
-  //     house: 1
-  //   }
-  // })
+  const identity3 = new Identity()
+  identity3.did = 'did:web:uport.me'
 
-  // try {
-  //   await vc.save()
-  // } catch(e) {
-  //   console.log(e.message)
-  // }
+  const vc = new Credential()
+  vc.issuer = identity1
+  vc.subject = identity2
+  vc.issuedAt = new Date()
+  vc.raw = 'JWTvc2'
+  vc.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
+  vc.type = ['VerifiableCredential', 'PublicProfile']
+  vc.setCredentialSubject({
+    name: 'Jonas',
+    // profilePicture: 'https://simons.com/a.png',
+    // address: {
+    //   street: 'some',
+    //   house: 1
+    // }
+  })
 
-  // console.log(vc)
+  const vp = new Presentation()
+  vp.issuer = identity1
+  vp.audience = identity3
+  vp.issuedAt = new Date()
+  vp.context = ['https://www.w3.org/2018/credentials/v1323']
+  vp.type = ['VerifiablePresentation', 'KYC']
+  vp.credentials = [vc]
+  vp.raw = 'JWTvp2'
+
+  const m = new OMessage()
+  m.from = identity1
+  m.to = [identity2]
+  m.type = 'w3c.vp'
+  m.raw = 'JWTvp2'
+  m.presentations = [vp]
+  m.credentials = [vc]
+
+  const meta1 = new MessageMetaData()
+  meta1.type = 'TrustGraph'
+  meta1.value = 'https://custom.url/'
+
+  const meta2 = new MessageMetaData()
+  meta2.type = 'JWT'
+  meta2.value = 'RSA123'
+
+  m.metaData = [meta1, meta2]
+
+  try {
+    await m.save()
+    console.log(m)
+  } catch (e) {
+    console.log(e.message)
+  }
 
   // const res = await Claim.find({
   //   relations: ['issuer', 'subject', 'credential'],
@@ -70,13 +107,13 @@ const main = async () => {
   //   }
   // })
 
-  const res = await Credential.find({
-    where: {
-      type: Like('%Public%'),
-    },
-  })
+  // const res = await Credential.find({
+  //   where: {
+  //     type: Like('%Public%'),
+  //   },
+  // })
 
-  console.dir(res, { depth: 10 })
+  // console.dir(res, { depth: 10 })
 }
 
 main().catch(console.log)
