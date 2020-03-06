@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
+    "declarationDir": "build",
     "baseUrl": "."
   },
   "references": [{ "path": "../daf-core" }]

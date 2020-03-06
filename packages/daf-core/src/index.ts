@@ -16,15 +16,5 @@ export { AbstractMessageValidator } from './message/abstract-message-validator'
 export { Message } from './message/message'
 export { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 export { AbstractServiceController } from './service/abstract-service-controller'
-import * as Types from './types'
-import { baseTypeDefs } from './graphql/graphql-base-type-defs'
-import * as GqlCore from './graphql/graphql-core'
-import * as GqlIdentityManager from './graphql/graphql-identity-manager'
-
-const Gql = {
-  baseTypeDefs,
-  Core: GqlCore,
-  IdentityManager: GqlIdentityManager,
-}
-
-export { Types, Gql }
+export { Action } from './types'
+export { Gql } from './graphql/index'

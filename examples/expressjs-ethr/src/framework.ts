@@ -15,7 +15,6 @@ import * as URL from 'daf-url'
 
 import { NodeSqlite3 } from 'daf-node-sqlite3'
 import { DataStore } from 'daf-data-store'
-import ws from 'ws'
 
 const defaultPath = __dirname + '/../secrets'
 
@@ -46,7 +45,6 @@ const identityProviders = [
     kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-    resolver: didResolver,
   }),
 ]
 const serviceControllers: any[] = []

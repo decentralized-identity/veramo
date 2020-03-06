@@ -24,8 +24,8 @@ export interface Resolver {
 interface Config {
   didResolver: Resolver
   identityProviders: AbstractIdentityProvider[]
-  serviceControllers: ServiceControllerDerived[]
-  messageValidator: MessageValidator
+  serviceControllers?: ServiceControllerDerived[]
+  messageValidator?: MessageValidator
   actionHandler?: ActionHandler
 }
 
@@ -33,7 +33,7 @@ export class Core extends EventEmitter {
   public identityManager: IdentityManager
   public didResolver: Resolver
   private serviceManager: ServiceManager
-  private messageValidator: MessageValidator
+  private messageValidator?: MessageValidator
   private actionHandler?: ActionHandler
 
   constructor(config: Config) {
@@ -46,7 +46,7 @@ export class Core extends EventEmitter {
     this.didResolver = config.didResolver
 
     this.serviceManager = new ServiceManager({
-      controllers: config.serviceControllers,
+      controllers: config.serviceControllers || [],
       didResolver: this.didResolver,
     })
 
@@ -84,14 +84,18 @@ export class Core extends EventEmitter {
   }
 
   public async validateMessage(message: Message): Promise<Message> {
-    debug('Raw message %O', message)
+    if (!this.messageValidator) {
+      return Promise.reject('Message validator not provided')
+    }
     try {
       const validatedMessage = await this.messageValidator.validate(message, this)
       if (validatedMessage.isValid()) {
+        debug('Emitting event', EventTypes.validatedMessage)
         this.emit(EventTypes.validatedMessage, validatedMessage)
         return validatedMessage
       }
     } catch (error) {
+      debug('Emitting event', EventTypes.error)
       this.emit(EventTypes.error, error, message)
       return Promise.reject(error)
     }
@@ -99,10 +103,9 @@ export class Core extends EventEmitter {
   }
 
   public async handleAction(action: Action): Promise<any> {
-    if (this.actionHandler) {
-      return this.actionHandler.handleAction(action, this)
-    } else {
-      return Promise.reject('No action handler')
+    if (!this.actionHandler) {
+      return Promise.reject('Action handler not provided')
     }
+    return this.actionHandler.handleAction(action, this)
   }
 }

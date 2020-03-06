@@ -1,3 +1,4 @@
 examples/
 build/**/*
 readme.md
+docs/api/

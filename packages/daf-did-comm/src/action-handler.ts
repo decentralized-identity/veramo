@@ -1,4 +1,4 @@
-import { Core, AbstractActionHandler, Types, Message } from 'daf-core'
+import { Core, AbstractActionHandler, Action, Message } from 'daf-core'
 import uuid from 'uuid'
 import Debug from 'debug'
 
@@ -8,7 +8,7 @@ export const ActionTypes = {
   sendJwt: 'action.sendJwt',
 }
 
-export interface ActionSendJWT extends Types.Action {
+export interface ActionSendJWT extends Action {
   data: {
     from: string
     to: string
@@ -21,7 +21,7 @@ export class ActionHandler extends AbstractActionHandler {
     super()
   }
 
-  public async handleAction(action: Types.Action, core: Core) {
+  public async handleAction(action: Action, core: Core) {
     if (action.type === ActionTypes.sendJwt) {
       const { data } = action as ActionSendJWT
 
@@ -76,7 +76,7 @@ export class ActionHandler extends AbstractActionHandler {
           return Promise.reject(e)
         }
       } else {
-        debug('No MessagingService service in didDoc')
+        debug('No Messaging service in didDoc')
         return super.handleAction(action, core)
       }
     }

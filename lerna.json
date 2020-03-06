@@ -1,8 +1,6 @@
 {
-  "version": "2.3.10",
-  "packages": [
-    "packages/*"
-  ],
+  "version": "2.3.17",
+  "packages": ["packages/*"],
   "npmClient": "yarn",
   "changelog": {
     "repo": "uport-project/daf",
