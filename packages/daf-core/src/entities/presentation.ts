@@ -10,8 +10,6 @@ import {
 } from 'typeorm'
 import { Identity } from './identity'
 import { Message } from './message'
-import { PresentationContext } from './presentation-context'
-import { PresentationType } from './presentation-type'
 import { Credential } from './credential'
 
 @Entity()
@@ -43,13 +41,9 @@ export class Presentation extends BaseEntity {
   @Column()
   raw: string
 
-  @ManyToMany(type => PresentationContext)
-  @JoinTable()
-  context: PresentationContext[]
+  context: string[]
 
-  @ManyToMany(type => PresentationType)
-  @JoinTable()
-  type: PresentationType[]
+  type: string[]
 
   @ManyToMany(
     type => Credential,

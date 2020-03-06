@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToMany,
+  BeforeInsert,
 } from 'typeorm'
 import { Identity } from './identity'
 import { Credential } from './credential'
