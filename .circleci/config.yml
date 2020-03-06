@@ -39,8 +39,6 @@ jobs:
       - run: *build-packages
       - save_cache: *save-node-cache
       - run: yarn test
-      - store_test_results:
-          path: test_results
       - run:
           name: Upload coverage report
           command: npx codecov

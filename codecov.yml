@@ -1,2 +1,24 @@
+coverage:
+  precision: 2
+  round: down
+  range: '70...100'
+  status:
+    project:
+      default: off
+      dafcore:
+        target: 50%
+        flags: dafcore
+      dafdatastore:
+        target: 50%
+        flags: dafdatastore
+
+flags:
+  dafcore:
+    paths:
+      - packages/daf-core/
+  dafdatastore:
+    paths:
+      - packages/daf-/
+
 fixes:
   - 'before/::after/'
