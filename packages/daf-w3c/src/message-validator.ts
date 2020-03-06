@@ -19,9 +19,8 @@ export const MessageTypes = {
 export class MessageValidator extends AbstractMessageValidator {
   async validate(message: Message, core: Core): Promise<Message> {
     const meta = message.getLastMetaData()
-    console.log({ meta })
 
-    if (meta?.type === 'JWT' && meta?.id === 'ES256K-R') {
+    if (meta?.type === 'JWT' && meta?.value === 'ES256K-R') {
       const { data } = message
 
       try {
@@ -63,7 +62,7 @@ export class MessageValidator extends AbstractMessageValidator {
         message.from.did = message.data.iss
 
         const to = new Identity()
-        to.did = message.data.aud
+        to.did = message.data.sub
         message.to = [to]
 
         if (message.data.tag) {
@@ -138,8 +137,8 @@ export class MessageValidator extends AbstractMessageValidator {
       vp.expiresAt = this.timestampToDate(payload.exp)
     }
 
-    vp.context = payload.vc['@context']
-    vp.type = payload.vc.type
+    vp.context = payload.vp['@context']
+    vp.type = payload.vp.type
 
     vp.credentials = credentials
     vp.messages = [message]

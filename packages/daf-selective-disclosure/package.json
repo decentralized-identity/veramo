@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "daf-core": "^2.3.16",
+    "daf-data-store": "^2.3.16",
     "daf-did-jwt": "^2.3.16",
     "debug": "^4.1.1",
     "did-jwt": "^4.0.0"
