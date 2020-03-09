@@ -22,9 +22,9 @@ export const baseTypeDefs = `
   }
 
   type MessageMetaData {
+    id: ID!
     type: String!
-    id: String
-    data: String
+    value: String
   }
   
 `

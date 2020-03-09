@@ -1,7 +1,7 @@
 import * as Daf from 'daf-core'
 import * as DIDComm from 'daf-did-comm'
 import * as SD from 'daf-selective-disclosure'
-import { core, dataStore } from './setup'
+import { core, dataStore, initializeDb } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
@@ -12,6 +12,8 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
+    await initializeDb()
+
     const identities = await core.identityManager.getIdentities()
     if (identities.length === 0) {
       console.error('No dids')
@@ -92,7 +94,6 @@ program
 
     const jwt = await core.handleAction(signAction)
 
-    await dataStore.initialize()
     if (!cmd.send) {
       await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
     } else if (answers.sub !== '') {

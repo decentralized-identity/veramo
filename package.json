@@ -8,7 +8,8 @@
     "docs": "ts-node ./scripts/generate-docs.ts && api-documenter markdown -i ./tmpapi -o ./docs/api && rm -rf ./tmpapi",
     "test": "jest --config=jest.json",
     "test:watch": "jest --config=jest.json --watch",
-    "daf": "./packages/daf-cli/bin/daf.js"
+    "daf": "./packages/daf-cli/bin/daf.js",
+    "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo"
   },
   "workspaces": [
     "packages/*"
@@ -42,5 +43,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "rimraf": "^3.0.2"
   }
 }

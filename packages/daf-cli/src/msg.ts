@@ -1,5 +1,5 @@
 import * as Daf from 'daf-core'
-import { core, dataStore } from './setup'
+import { core, dataStore, initializeDb } from './setup'
 import program from 'commander'
 
 program
@@ -7,14 +7,14 @@ program
   .description('Handle raw message (JWT)')
   .action(async raw => {
     try {
-      await dataStore.initialize()
-      const result = await core.validateMessage(
+      await initializeDb()
+      const message = await core.validateMessage(
         new Daf.Message({
           raw,
           meta: { type: 'cli' },
         }),
       )
-      console.log(result)
+      console.log(message)
     } catch (e) {
       console.error(e)
     }

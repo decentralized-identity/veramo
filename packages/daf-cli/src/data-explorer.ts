@@ -1,4 +1,4 @@
-import { core, dataStore } from './setup'
+import { core, dataStore, initializeDb } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import { formatDistanceToNow } from 'date-fns'
@@ -10,6 +10,8 @@ program
   .option('-i, --identities', 'List known identities')
   .option('-m, --messages', 'List messages')
   .action(async cmd => {
+    await initializeDb()
+
     if (cmd.identities) {
       const dids = await dataStore.allIdentities()
       if (dids.length === 0) {
