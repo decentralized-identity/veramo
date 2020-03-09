@@ -38,7 +38,10 @@ jobs:
       - run: *bootstrap-packages
       - run: *build-packages
       - save_cache: *save-node-cache
-      - run: yarn test --maxWorkers 2
+      - run: yarn test
+      - run:
+          name: Upload coverage report
+          command: npx codecov
 
   publish-packages-npm:
     <<: *defaults
