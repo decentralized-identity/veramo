@@ -12,21 +12,10 @@ import * as SD from 'daf-selective-disclosure'
 import * as DBG from 'daf-debug'
 import * as DIDComm from 'daf-did-comm'
 import * as URL from 'daf-url'
-
-import { NodeSqlite3 } from 'daf-node-sqlite3'
+import { createConnection } from 'typeorm'
 import { DataStore } from 'daf-data-store'
 
-const defaultPath = __dirname + '/../secrets'
-
-const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + '/data-store.sqlite3'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
-
-if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE || process.env.DAF_ENCRYPTION_STORE) {
-  const fs = require('fs')
-  if (!fs.existsSync(defaultPath)) {
-    fs.mkdirSync(defaultPath)
-  }
-}
 
 // DID Document Resolver
 let didResolver: Daf.Resolver = new DafResolver({
@@ -41,8 +30,8 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
 
 const identityProviders = [
   new EthrDid.IdentityProvider({
-    identityStore: new DafFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
-    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
+    identityStore: new Daf.IdentityStore(),
+    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
@@ -71,5 +60,22 @@ export const core = new Daf.Core({
   actionHandler,
 })
 
-const db = new NodeSqlite3(dataStoreFilename)
-export const dataStore = new DataStore(db)
+export const initializeDb = async () => {
+  await createConnection({
+    type: 'sqlite',
+    database: './database.sqlite',
+    synchronize: true,
+    logging: false,
+    entities: [
+      Daf.Key,
+      Daf.Identity,
+      Daf.Message,
+      Daf.MessageMetaData,
+      Daf.Credential,
+      Daf.Presentation,
+      Daf.Claim,
+    ],
+  })
+}
+
+export const dataStore = new DataStore()

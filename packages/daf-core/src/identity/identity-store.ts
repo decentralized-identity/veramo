@@ -1,6 +1,9 @@
-import { AbstractIdentityStore, SerializedIdentity, Identity, Key } from 'daf-core'
+import { AbstractIdentityStore, SerializedIdentity } from '../identity/abstract-identity-store'
+import { Identity } from '../entities/identity'
+import { Key } from '../entities/key'
+
 import Debug from 'debug'
-const debug = Debug('daf:orm:identity-store')
+const debug = Debug('daf:identity-store')
 
 export class IdentityStore extends AbstractIdentityStore {
   async get(did: string) {

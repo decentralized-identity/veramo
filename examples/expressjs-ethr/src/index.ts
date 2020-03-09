@@ -3,14 +3,14 @@ import * as Daf from 'daf-core'
 import * as SD from 'daf-selective-disclosure'
 import * as W3C from 'daf-w3c'
 import { app, server, io, sessionStore } from './server'
-import { core, dataStore } from './framework'
+import { core, dataStore, initializeDb } from './framework'
 import { getIdentity, setServiceEndpoint } from './identity'
 
 if (!process.env.HOST) throw Error('Environment variable HOST not set')
 if (!process.env.PORT) throw Error('Environment variable PORT not set')
 
 async function main() {
-  await dataStore.initialize()
+  await initializeDb()
   const identity = await getIdentity()
 
   const messagingEndpoint = '/handle-message'
@@ -25,7 +25,7 @@ async function main() {
     try {
       // This will trigger Daf.EventTypes.validatedMessage
       const result = await core.validateMessage(
-        new Daf.Message({ raw: req.body, meta: { type: 'serviceEndpoint', id: serviceEndpoint } }),
+        new Daf.Message({ raw: req.body, meta: { type: 'serviceEndpoint', value: serviceEndpoint } }),
       )
       res.json({ id: result.id })
     } catch (e) {
@@ -40,13 +40,13 @@ async function main() {
       // TODO check for required vcs
 
       const sessionId = message.threadId
-      io.in(sessionId).emit('loggedin', { did: message.sender })
+      io.in(sessionId).emit('loggedin', { did: message.from?.did })
 
       sessionStore.get(sessionId, (error, session) => {
         if (error) throw Error(error)
 
         if (session) {
-          session.did = message.sender
+          session.did = message.from?.did
           sessionStore.set(sessionId, session)
         }
       })

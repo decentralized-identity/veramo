@@ -1,9 +1,12 @@
-import { AbstractKeyStore, SerializedKey, Key } from 'daf-core'
+import { SerializedKey } from './abstract-key-management-system'
+import { AbstractKeyStore } from './abstract-key-store'
+
+import { Key } from '../entities/key'
 
 import Debug from 'debug'
-const debug = Debug('daf:orm:key-store')
+const debug = Debug('daf:key-store')
 
-export default class KeyStore extends AbstractKeyStore {
+export class KeyStore extends AbstractKeyStore {
   async get(kid: string) {
     const key = await Key.findOne(kid)
     if (!key) throw Error('Key not found')
