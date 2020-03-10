@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.18](https://github.com/uport-project/daf/compare/v2.3.17...v2.3.18) (2020-03-10)
+
+**Note:** Version bump only for package daf-core
+
+
+
+
+
 ## [2.3.16](https://github.com/uport-project/daf/compare/v2.3.15...v2.3.16) (2020-03-03)
 
 **Note:** Version bump only for package daf-core

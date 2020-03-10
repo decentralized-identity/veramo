@@ -1,7 +1,7 @@
 {
   "name": "daf-resolver",
   "description": "DAF resolver",
-  "version": "2.3.15",
+  "version": "2.3.18",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
