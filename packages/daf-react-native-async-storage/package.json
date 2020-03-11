@@ -1,14 +1,14 @@
 {
   "name": "daf-react-native-async-storage",
   "description": "DAF react native async storage modules",
-  "version": "2.3.18",
+  "version": "2.3.19",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^2.3.18",
+    "daf-core": "^2.3.19",
     "debug": "^4.1.1"
   },
   "peerDependencies": {
