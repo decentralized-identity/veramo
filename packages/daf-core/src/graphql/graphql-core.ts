@@ -12,7 +12,7 @@ const newMessage = async (
   args: { raw: string; sourceType: string; sourceId?: string },
   ctx: Context,
 ) => {
-  return await ctx.core.validateMessage(
+  const message = await ctx.core.validateMessage(
     new Message({
       raw: args.raw,
       meta: {
@@ -21,6 +21,13 @@ const newMessage = async (
       },
     }),
   )
+
+  const res = {
+    ...message,
+    data: JSON.stringify(message.data),
+    id: message.id,
+  }
+  return res
 }
 
 const serviceMessagesSince = async (

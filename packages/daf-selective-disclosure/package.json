@@ -1,16 +1,16 @@
 {
   "name": "daf-selective-disclosure",
   "description": "DAF selective disclosure",
-  "version": "2.3.18",
+  "version": "2.3.19",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^2.3.18",
-    "daf-data-store": "^2.3.18",
-    "daf-did-jwt": "^2.3.18",
+    "daf-core": "^2.3.19",
+    "daf-data-store": "^2.3.19",
+    "daf-did-jwt": "^2.3.19",
     "debug": "^4.1.1",
     "did-jwt": "^4.0.0"
   },
