@@ -1,22 +1,17 @@
-import { AbstractIdentity, EventTypes, Message, Key, Identity } from 'daf-core'
+import { AbstractIdentity, EventTypes, Entities, Message } from 'daf-core'
 import { ActionSendJWT } from 'daf-did-comm'
 import { ActionSignW3cVc } from 'daf-w3c'
 import { core } from './setup'
 import { createConnection } from 'typeorm'
 
 async function main() {
+  // Create database connection
   await createConnection({
-    // "type": "sqlite",
-    // "database": "database.sqlite",
-    type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'simonas',
-    password: '',
-    database: 'simonas',
+    type: 'sqlite',
+    database: 'database.sqlite',
     synchronize: true,
-    logging: true,
-    entities: [Key, Identity],
+    logging: false,
+    entities: Entities,
   })
 
   // Getting existing identity or creating a new one
@@ -28,8 +23,6 @@ async function main() {
     const identityProviders = await core.identityManager.getIdentityProviderTypes()
     identity = await core.identityManager.createIdentity(identityProviders[0].type)
   }
-
-  console.log(identity.did)
 
   // Sign verifiable credential
   const vcJwt = await core.handleAction({
@@ -62,6 +55,7 @@ async function main() {
 // which can arrive from external services, or by sending it using `action.sendJwt`
 core.on(EventTypes.validatedMessage, async (message: Message) => {
   console.log('\n\nSuccessfully sent message:', message)
+  await message.save()
 })
 
 main().catch(console.log)

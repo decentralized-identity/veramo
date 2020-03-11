@@ -2,9 +2,7 @@
 import { IdentityProvider } from 'daf-ethr-did'
 
 // Storing serialized key pairs in the file system
-// import { KeyStore } from 'daf-fs'
-// const keyStore = new KeyStore('./key-store.json')
-import KeyStore from './key-store'
+import { KeyStore } from 'daf-core'
 const keyStore = new KeyStore()
 
 // KeyManagementSystem is responsible for managing encryption and signing keys
@@ -12,10 +10,8 @@ import { KeyManagementSystem } from 'daf-libsodium'
 const kms = new KeyManagementSystem(keyStore)
 
 // Storing serialized identities in the file system
-// import { IdentityStore } from 'daf-fs'
-// const identityStore = new IdentityStore('./identity-store.json')
-import { IdentityStore } from './identity-store'
-const identityStore = new IdentityStore()
+import { IdentityStore } from 'daf-core'
+const identityStore = new IdentityStore('rinkeby-ethr')
 
 // Infura is being used to access Ethereum blockchain. https://infura.io
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
