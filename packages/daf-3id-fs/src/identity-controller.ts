@@ -2,7 +2,6 @@ import { IdentityController, Issuer } from 'daf-core'
 const DidJwt = require('did-jwt')
 const SimpleSigner = DidJwt.SimpleSigner
 const fs = require('fs')
-const request = require('request-promise')
 import Debug from 'debug'
 const debug = Debug('daf:3id-fs:identity-controller')
 const crypto = require('crypto')
