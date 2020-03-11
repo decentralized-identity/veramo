@@ -1,15 +1,17 @@
 import { createConnection, Connection, In } from 'typeorm'
 import { Identity, Key, Message, Credential, Presentation, Claim, MessageMetaData } from '../index'
 import { Entities } from '../index'
+import fs from 'fs'
 
 describe('daf-core', () => {
   let connection: Connection
+  const databaseFile = './test-db.sqlite'
 
   beforeAll(
     async () =>
       (connection = await createConnection({
         type: 'sqlite',
-        database: 'test-db.sqlite',
+        database: databaseFile,
         entities: Entities,
       })),
   )
@@ -21,6 +23,7 @@ describe('daf-core', () => {
 
   afterAll(async () => {
     await connection.close()
+    fs.unlinkSync(databaseFile)
   })
 
   it('Saves identity to DB', async () => {
@@ -80,7 +83,7 @@ describe('daf-core', () => {
     vc.subject = id2
     vc.issuanceDate = new Date()
     vc.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
-    vc.type = ['VerifiableCredential', 'PublicProfile']
+    vc.type = ['VerifiableCredential']
     vc.raw = 'mockJWT'
     vc.credentialSubject = {
       name: 'Alice',
@@ -91,6 +94,15 @@ describe('daf-core', () => {
       },
     }
 
+    const vp = new Presentation()
+    vp.issuer = id1
+    vp.audience = id2
+    vp.issuanceDate = new Date()
+    vp.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
+    vp.type = ['VerifiablePresentation', 'PublicProfile']
+    vp.raw = 'mockJWT'
+    vp.credentials = [vc]
+
     const m = new Message()
     m.from = id1
     m.to = id2
@@ -98,15 +110,24 @@ describe('daf-core', () => {
     m.raw = 'mock'
     m.createdAt = new Date()
     m.credentials = [vc]
+    m.presentations = [vp]
 
     await m.save()
 
     const message = await Message.findOne(m.id, {
-      relations: ['credentials', 'credentials.issuer', 'credentials.subject'],
+      relations: [
+        'credentials',
+        'credentials.issuer',
+        'credentials.subject',
+        'presentations',
+        'presentations.credentials',
+      ],
     })
 
     expect(message.credentials.length).toEqual(1)
     expect(message.credentials[0].claims.length).toEqual(3)
+    expect(message.presentations.length).toEqual(1)
+    expect(message.presentations[0].credentials.length).toEqual(1)
 
     let where = {}
 
