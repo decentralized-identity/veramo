@@ -18,9 +18,16 @@ export class Presentation extends BaseEntity {
   @PrimaryColumn()
   hash: string
 
-  setRaw(raw: string) {
-    this.raw = raw
-    this.hash = blake2bHex(this.raw)
+  private _raw: string
+
+  set raw(raw: string) {
+    this._raw = raw
+    this.hash = blake2bHex(raw)
+  }
+
+  @Column()
+  get raw(): string {
+    return this._raw
   }
 
   @ManyToOne(
@@ -42,19 +49,15 @@ export class Presentation extends BaseEntity {
   audience: Identity
 
   @Column({ nullable: true })
-  issuedAt?: Date
+  issuanceDate?: Date
 
   @Column({ nullable: true })
-  notBefore?: Date
+  expirationDate?: Date
 
-  @Column({ nullable: true })
-  expiresAt?: Date
-
-  @Column()
-  raw: string
-
+  @Column('simple-array')
   context: string[]
 
+  @Column('simple-array')
   type: string[]
 
   @ManyToMany(

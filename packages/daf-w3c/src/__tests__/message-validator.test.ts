@@ -79,7 +79,7 @@ describe('daf-w3c', () => {
     expect(validated.raw).toEqual(vcJwt)
     expect(validated.type).toEqual(MessageTypes.vc)
     expect(validated.from.did).toEqual(vcPayload.iss)
-    expect(validated.to[0].did).toEqual(vcPayload.sub)
+    expect(validated.to.did).toEqual(vcPayload.sub)
     // expect(validated.timestamp).toEqual(vcPayload.iat)
   })
 
@@ -94,7 +94,7 @@ describe('daf-w3c', () => {
     expect(validated.raw).toEqual(vpJwt)
     expect(validated.type).toEqual(MessageTypes.vp)
     expect(validated.from.did).toEqual(vpPayload.iss)
-    expect(validated.to[0].did).toEqual(vpPayload.aud)
+    expect(validated.to.did).toEqual(vpPayload.aud)
     expect(validated.threadId).toEqual(vpPayload.tag)
     // expect(validated.timestamp).toEqual(vpPayload.iat)
   })

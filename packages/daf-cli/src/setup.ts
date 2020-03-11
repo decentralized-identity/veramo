@@ -85,17 +85,9 @@ export const initializeDb = async () => {
   await createConnection({
     type: 'sqlite',
     database: defaultPath + 'database-v2.sqlite',
-    synchronize: false,
+    synchronize: true,
     logging: true,
-    entities: [
-      Daf.Key,
-      Daf.Identity,
-      Daf.Message,
-      Daf.MessageMetaData,
-      Daf.Credential,
-      Daf.Presentation,
-      Daf.Claim,
-    ],
+    entities: [...Daf.Entities],
   })
 }
 export const dataStore = new DataStore()

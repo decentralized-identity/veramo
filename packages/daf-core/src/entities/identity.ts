@@ -25,7 +25,7 @@ export class Identity extends BaseEntity {
   )
   sentMessages: Message[]
 
-  @ManyToMany(
+  @OneToMany(
     type => Message,
     message => message.to,
   )

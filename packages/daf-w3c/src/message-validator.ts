@@ -38,9 +38,8 @@ export class MessageValidator extends AbstractMessageValidator {
         message.from = new Identity()
         message.from.did = message.data.iss
 
-        const to = new Identity()
-        to.did = message.data.aud
-        message.to = [to]
+        message.to = new Identity()
+        message.to.did = message.data.aud
 
         if (message.data.tag) {
           message.threadId = message.data.tag
@@ -58,12 +57,12 @@ export class MessageValidator extends AbstractMessageValidator {
         debug('JWT is', MessageTypes.vc)
 
         message.type = MessageTypes.vc
+
         message.from = new Identity()
         message.from.did = message.data.iss
 
-        const to = new Identity()
-        to.did = message.data.sub
-        message.to = [to]
+        message.to = new Identity()
+        message.to.did = message.data.sub
 
         if (message.data.tag) {
           message.threadId = message.data.tag
@@ -87,19 +86,15 @@ export class MessageValidator extends AbstractMessageValidator {
     vc.subject = new Identity()
     vc.subject.did = payload.sub
 
-    vc.setRaw(jwt)
-    vc.setCredentialSubject(payload.vc.credentialSubject)
+    vc.raw = jwt
+    vc.credentialSubject = payload.vc.credentialSubject
 
-    if (payload.iat) {
-      vc.issuedAt = this.timestampToDate(payload.iat)
-    }
-
-    if (payload.nbf) {
-      vc.notBefore = this.timestampToDate(payload.nbf)
+    if (payload.nbf || payload.iat) {
+      vc.issuanceDate = this.timestampToDate(payload.nbf || payload.iat)
     }
 
     if (payload.exp) {
-      vc.expiresAt = this.timestampToDate(payload.exp)
+      vc.expirationDate = this.timestampToDate(payload.exp)
     }
 
     vc.context = payload.vc['@context']
@@ -121,18 +116,14 @@ export class MessageValidator extends AbstractMessageValidator {
     vp.audience = new Identity()
     vp.audience.did = payload.aud
 
-    vp.setRaw(jwt)
+    vp.raw = jwt
 
-    if (payload.iat) {
-      vp.issuedAt = this.timestampToDate(payload.iat)
-    }
-
-    if (payload.nbf) {
-      vp.notBefore = this.timestampToDate(payload.nbf)
+    if (payload.nbf || payload.iat) {
+      vp.issuanceDate = this.timestampToDate(payload.nbf || payload.iat)
     }
 
     if (payload.exp) {
-      vp.expiresAt = this.timestampToDate(payload.exp)
+      vp.expirationDate = this.timestampToDate(payload.exp)
     }
 
     vp.context = payload.vp['@context']

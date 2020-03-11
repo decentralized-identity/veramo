@@ -6,14 +6,13 @@ import * as SD from 'daf-selective-disclosure'
 import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as URL from 'daf-url'
-import { NodeSqlite3 } from 'daf-node-sqlite3'
 import * as DafEthrDid from 'daf-ethr-did'
-import * as DafFs from 'daf-fs'
 import * as DafLibSodium from 'daf-libsodium'
 import { DafResolver } from 'daf-resolver'
 import { ApolloServer } from 'apollo-server'
 import merge from 'lodash.merge'
 import ws from 'ws'
+import { createConnection } from 'typeorm'
 
 TG.ServiceController.webSocketImpl = ws
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -22,8 +21,8 @@ let didResolver = new DafResolver({ infuraProjectId })
 
 const identityProviders = [
   new DafEthrDid.IdentityProvider({
-    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore('./key-store.json')),
-    identityStore: new DafFs.IdentityStore('./identity-store.json'),
+    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
+    identityStore: new Daf.IdentityStore(),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
@@ -51,7 +50,7 @@ export const core = new Daf.Core({
   actionHandler,
 })
 
-const dataStore = new DS.DataStore(new NodeSqlite3('./data-store.sqlite3'))
+const dataStore = new DS.DataStore()
 
 const server = new ApolloServer({
   typeDefs: [
@@ -85,11 +84,26 @@ const server = new ApolloServer({
 })
 
 core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
-  await dataStore.saveMessage(message)
+  await message.save()
 })
 
 const main = async () => {
-  await dataStore.initialize()
+  await createConnection({
+    type: 'sqlite',
+    database: './database.sqlite',
+    synchronize: true,
+    logging: true,
+    entities: [
+      Daf.Key,
+      Daf.Identity,
+      Daf.Message,
+      Daf.MessageMetaData,
+      Daf.Credential,
+      Daf.Presentation,
+      Daf.Claim,
+    ],
+  })
+
   await core.setupServices()
   await core.listen()
   const info = await server.listen()

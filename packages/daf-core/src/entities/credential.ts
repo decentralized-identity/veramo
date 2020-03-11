@@ -20,13 +20,27 @@ export class Credential extends BaseEntity {
   @PrimaryColumn()
   hash: string
 
-  setRaw(raw: string) {
-    this.raw = raw
-    this.hash = blake2bHex(this.raw)
+  private _raw: string
+
+  set raw(raw: string) {
+    this._raw = raw
+    this.hash = blake2bHex(raw)
   }
 
-  setCredentialSubject(credentialSubject: object) {
-    this.credentialSubject = credentialSubject
+  @Column()
+  get raw(): string {
+    return this._raw
+  }
+
+  private _credentialSubject: object
+
+  @Column('simple-json')
+  get credentialSubject(): object {
+    return this._credentialSubject
+  }
+
+  set credentialSubject(credentialSubject: object) {
+    this._credentialSubject = credentialSubject
     this.claims = []
     for (const type in this.credentialSubject) {
       if (this.credentialSubject.hasOwnProperty(type)) {
@@ -35,11 +49,10 @@ export class Credential extends BaseEntity {
         const claim = new Claim()
         claim.hash = blake2bHex(this.raw + type)
         claim.type = type
-        claim.value = value
+        claim.value = isObj ? JSON.stringify(value) : value
         claim.isObj = isObj
         claim.issuer = this.issuer
         claim.subject = this.subject
-        claim.credential = this
         this.claims.push(claim)
       }
     }
@@ -64,25 +77,16 @@ export class Credential extends BaseEntity {
   subject: Identity
 
   @Column({ nullable: true })
-  issuedAt?: Date
+  issuanceDate?: Date
 
   @Column({ nullable: true })
-  notBefore?: Date
-
-  @Column({ nullable: true })
-  expiresAt?: Date
-
-  @Column()
-  raw: string
+  expirationDate?: Date
 
   @Column('simple-array')
   context: string[]
 
   @Column('simple-array')
   type: string[]
-
-  @Column('simple-json')
-  credentialSubject: object
 
   @OneToMany(
     type => Claim,
@@ -99,9 +103,6 @@ export class Credential extends BaseEntity {
   )
   presentations: Presentation[]
 
-  @ManyToMany(
-    type => Message,
-    message => message.credentials,
-  )
+  @ManyToMany(type => Message)
   messages: Message[]
 }

@@ -15,15 +15,18 @@ export { AbstractMessageValidator } from './message/abstract-message-validator'
 export { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 export { AbstractServiceController } from './service/abstract-service-controller'
 export { Gql } from './graphql/index'
-export { Key, KeyType } from './entities/key'
-export { Identity } from './entities/identity'
-import { Message as OMessage } from './entities/message'
-export { OMessage }
-export { MessageMetaData } from './entities/message-meta-data'
 export { Action } from './types'
-export { Claim } from './entities/claim'
-export { Credential } from './entities/credential'
-export { Presentation } from './entities/presentation'
-export { Message } from './entities/message'
 export { IdentityStore } from './identity/identity-store'
 export { KeyStore } from './identity/key-store'
+
+import { Key, KeyType } from './entities/key'
+import { Identity } from './entities/identity'
+import { MessageMetaData } from './entities/message-meta-data'
+import { Claim } from './entities/claim'
+import { Credential } from './entities/credential'
+import { Presentation } from './entities/presentation'
+import { Message } from './entities/message'
+
+export const Entities = [Key, Identity, Message, MessageMetaData, Claim, Credential, Presentation]
+
+export { KeyType, Key, Identity, Message, MessageMetaData, Claim, Credential, Presentation }

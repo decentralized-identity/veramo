@@ -25,7 +25,7 @@ export class MessageValidator extends AbstractMessageValidator {
 
       const to = new Identity()
       to.did = message.data.sub
-      message.to = [to]
+      message.to = to
       message.threadId = message.data.tag
       message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat)
       return message

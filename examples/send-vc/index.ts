@@ -61,16 +61,7 @@ async function main() {
 // This is triggered when DAF successfully validates a new message
 // which can arrive from external services, or by sending it using `action.sendJwt`
 core.on(EventTypes.validatedMessage, async (message: Message) => {
-  console.log('\n\nSuccessfully sent message:', {
-    id: message.id,
-    type: message.type,
-    sender: message.sender,
-    receiver: message.receiver,
-    timestamp: message.timestamp,
-    data: message.data,
-    metadata: message.allMeta,
-    raw: message.raw,
-  })
+  console.log('\n\nSuccessfully sent message:', message)
 })
 
 main().catch(console.log)

@@ -66,15 +66,7 @@ export const initializeDb = async () => {
     database: './database.sqlite',
     synchronize: true,
     logging: false,
-    entities: [
-      Daf.Key,
-      Daf.Identity,
-      Daf.Message,
-      Daf.MessageMetaData,
-      Daf.Credential,
-      Daf.Presentation,
-      Daf.Claim,
-    ],
+    entities: [...Daf.Entities],
   })
 }
 

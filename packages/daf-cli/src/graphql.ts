@@ -6,7 +6,7 @@ import * as TG from 'daf-trust-graph'
 import * as SRD from 'daf-selective-disclosure'
 import { Gql as DataGql } from 'daf-data-store'
 import merge from 'lodash.merge'
-import { core, dataStore } from './setup'
+import { core, dataStore, initializeDb } from './setup'
 import { listen } from './services'
 program
   .command('graphql')
@@ -36,6 +36,7 @@ program
       context: () => ({ dataStore, core }),
       introspection: true,
     })
+    await initializeDb()
     await core.setupServices()
     const info = await server.listen({ port: cmd.port })
     console.log(`🚀  Server ready at ${info.url}`)

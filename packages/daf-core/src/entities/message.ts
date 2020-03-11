@@ -72,7 +72,7 @@ export class Message extends BaseEntity {
   )
   from?: Identity
 
-  @ManyToMany(
+  @ManyToOne(
     type => Identity,
     identity => identity.receivedMessages,
     {
@@ -80,8 +80,7 @@ export class Message extends BaseEntity {
       cascade: ['insert'],
     },
   )
-  @JoinTable()
-  to?: Identity[]
+  to?: Identity
 
   @OneToMany(
     type => MessageMetaData,
@@ -102,13 +101,9 @@ export class Message extends BaseEntity {
   @JoinTable()
   presentations: Presentation[]
 
-  @ManyToMany(
-    type => Credential,
-    credential => credential.messages,
-    {
-      cascade: true,
-    },
-  )
+  @ManyToMany(type => Credential, {
+    cascade: true,
+  })
   @JoinTable()
   credentials: Credential[]
 

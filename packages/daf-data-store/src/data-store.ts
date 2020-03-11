@@ -94,9 +94,8 @@ export class DataStore {
       iss: { did: credential.issuer.did },
       sub: { did: credential.subject.did },
       jwt: credential.raw,
-      nbf: credential.notBefore?.getTime() / 1000,
-      iat: credential.issuedAt?.getTime() / 1000,
-      exp: credential.expiresAt?.getTime() / 1000,
+      nbf: credential.issuanceDate?.getTime() / 1000,
+      exp: credential.expirationDate?.getTime() / 1000,
     }
   }
 
@@ -111,13 +110,6 @@ export class DataStore {
     threadId?: string
     limit?: number
   }) {
-    if (receiver) {
-      const identity = await Identity.findOne(receiver, {
-        relations: ['receivedMessages', 'receivedMessages.from', 'receivedMessages.to'],
-      })
-      return identity.receivedMessages.map(this.messageToLegacyFormat)
-    }
-
     let where = {}
 
     if (threadId) {
@@ -127,7 +119,13 @@ export class DataStore {
     if (sender) {
       const identity = new Identity()
       identity.did = sender
-      where['sender'] = identity
+      where['from'] = identity
+    }
+
+    if (receiver) {
+      const identity = new Identity()
+      identity.did = receiver
+      where['to'] = identity
     }
 
     const messages = await Message.find({ where, relations: ['from', 'to'] })
@@ -215,10 +213,10 @@ export class DataStore {
       rowId: message.id,
       id: message.id,
       sender: message.from ? { did: message.from.did } : null,
-      receiver: message.to ? { did: message.to[0].did } : null,
+      receiver: message.to ? { did: message.to.did } : null,
       type: message.type,
       threadId: message.threadId,
-      data: message.data,
+      data: JSON.stringify(message.data),
       raw: message.raw,
       timestamp: message.createdAt?.getTime() / 1000,
     }
