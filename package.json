@@ -8,7 +8,8 @@
     "docs": "ts-node ./scripts/generate-docs.ts && api-documenter markdown -i ./tmpapi -o ./docs/api && rm -rf ./tmpapi",
     "test": "jest --config=jest.json",
     "test:watch": "jest --config=jest.json --watch",
-    "daf": "./packages/daf-cli/bin/daf.js"
+    "daf": "./packages/daf-cli/bin/daf.js",
+    "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo"
   },
   "workspaces": [
     "packages/*"
@@ -32,6 +33,7 @@
     "lerna-changelog": "^0.8.3",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
+    "rimraf": "^3.0.2",
     "semantic-release": "^16.0.0-beta.31",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.6.2",
