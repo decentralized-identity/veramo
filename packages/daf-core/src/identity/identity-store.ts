@@ -6,6 +6,10 @@ import Debug from 'debug'
 const debug = Debug('daf:identity-store')
 
 export class IdentityStore extends AbstractIdentityStore {
+  constructor(private provider: string) {
+    super()
+  }
+
   async get(did: string) {
     const identity = await Identity.findOne(did, { relations: ['keys'] })
     if (!identity) throw Error('Identity not found')
@@ -25,6 +29,7 @@ export class IdentityStore extends AbstractIdentityStore {
     identity.did = serializedIdentity.did
     identity.controllerKeyId = serializedIdentity.controllerKeyId
     identity.keys = []
+    identity.provider = this.provider
 
     for (const sKey of serializedIdentity.keys) {
       const key = new Key()
@@ -38,7 +43,7 @@ export class IdentityStore extends AbstractIdentityStore {
   }
 
   async listDids() {
-    const identities = await Identity.find()
+    const identities = await Identity.find({ where: { provider: this.provider } })
     return identities.map(identity => identity.did)
   }
 }

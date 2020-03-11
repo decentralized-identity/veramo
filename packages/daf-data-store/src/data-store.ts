@@ -124,7 +124,11 @@ export class DataStore {
       where.push({ to: receiver })
     }
 
-    const messages = await Message.find({ where, relations: ['from', 'to'] })
+    const messages = await Message.find({
+      where,
+      order: { saveDate: 'DESC' },
+      relations: ['from', 'to'],
+    })
 
     return messages.map(this.messageToLegacyFormat)
   }

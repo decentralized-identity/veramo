@@ -22,7 +22,7 @@ let didResolver = new DafResolver({ infuraProjectId })
 const identityProviders = [
   new DafEthrDid.IdentityProvider({
     kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
-    identityStore: new Daf.IdentityStore(),
+    identityStore: new Daf.IdentityStore('rinkeby-ethr'),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),

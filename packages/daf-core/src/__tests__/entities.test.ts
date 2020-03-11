@@ -1,4 +1,4 @@
-import { createConnection, Connection } from 'typeorm'
+import { createConnection, Connection, In } from 'typeorm'
 import { Identity, Key, Message, Credential, Presentation, Claim, MessageMetaData } from '../index'
 import { Entities } from '../index'
 
@@ -105,9 +105,21 @@ describe('daf-core', () => {
       relations: ['credentials', 'credentials.issuer', 'credentials.subject'],
     })
 
-    console.log(message)
-
     expect(message.credentials.length).toEqual(1)
-    // TODO
+    expect(message.credentials[0].claims.length).toEqual(3)
+
+    let where = {}
+
+    where['issuer'] = In([id1.did])
+    where['subject'] = In([id2.did])
+    where['type'] = 'name'
+
+    const claims = await Claim.find({
+      relations: ['credential', 'credential.issuer', 'credential.subject'],
+      where,
+    })
+
+    expect(claims[0].type).toEqual('name')
+    expect(claims[0].value).toEqual('Alice')
   })
 })

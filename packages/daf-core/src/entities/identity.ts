@@ -11,6 +11,9 @@ export class Identity extends BaseEntity {
   did: string
 
   @Column({ nullable: true })
+  provider: string
+
+  @Column({ nullable: true })
   controllerKeyId: string
 
   @OneToMany(
