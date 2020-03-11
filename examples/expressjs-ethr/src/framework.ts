@@ -5,8 +5,6 @@ import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
-import * as DafFs from 'daf-fs'
-
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
 import * as DBG from 'daf-debug'
@@ -30,7 +28,7 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
 
 const identityProviders = [
   new EthrDid.IdentityProvider({
-    identityStore: new Daf.IdentityStore(),
+    identityStore: new Daf.IdentityStore('rinkeby-ethr'),
     kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
