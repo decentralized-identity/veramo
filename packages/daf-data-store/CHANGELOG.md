@@ -3,295 +3,163 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.18](https://github.com/uport-project/daf/compare/v2.3.17...v2.3.18) (2020-03-10)
+
+**Note:** Version bump only for package daf-data-store
+
 ## [2.3.16](https://github.com/uport-project/daf/compare/v2.3.15...v2.3.16) (2020-03-03)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 ## [2.3.15](https://github.com/uport-project/daf/compare/v2.3.14...v2.3.15) (2020-03-02)
-
 
 ### Bug Fixes
 
-* GQL export ([eacc969](https://github.com/uport-project/daf/commit/eacc9697e87bbf6a91db8d9bd5195aea096a13c4))
-* Typescript types ([72c1899](https://github.com/uport-project/daf/commit/72c18993ddba6a7a75ae8397e6549cdd29dccb31))
-
-
-
-
+- GQL export ([eacc969](https://github.com/uport-project/daf/commit/eacc9697e87bbf6a91db8d9bd5195aea096a13c4))
+- Typescript types ([72c1899](https://github.com/uport-project/daf/commit/72c18993ddba6a7a75ae8397e6549cdd29dccb31))
 
 ## [2.3.11](https://github.com/uport-project/daf/compare/v2.3.10...v2.3.11) (2020-02-25)
 
-
 ### Bug Fixes
 
-* Data store await for meta data ([5d96401](https://github.com/uport-project/daf/commit/5d96401530025b76007669e7d28a394378a4fbe9))
-
-
-
-
+- Data store await for meta data ([5d96401](https://github.com/uport-project/daf/commit/5d96401530025b76007669e7d28a394378a4fbe9))
 
 ## [2.3.10](https://github.com/uport-project/daf/compare/v2.3.9...v2.3.10) (2020-02-25)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [2.1.0](https://github.com/uport-project/daf/compare/v2.0.0...v2.1.0) (2020-02-17)
 
 **Note:** Version bump only for package daf-data-store
-
-
-
-
 
 # [2.0.0](https://github.com/uport-project/daf/compare/v1.5.1...v2.0.0) (2020-02-17)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [1.5.0](https://github.com/uport-project/daf/compare/v1.4.1...v1.5.0) (2020-01-24)
-
 
 ### Features
 
-* Query for single credential by id(hash) ([1283ce5](https://github.com/uport-project/daf/commit/1283ce528695d179b4b1cad7075c3b34e647fdb0))
-
-
-
-
+- Query for single credential by id(hash) ([1283ce5](https://github.com/uport-project/daf/commit/1283ce528695d179b4b1cad7075c3b34e647fdb0))
 
 ## [1.4.1](https://github.com/uport-project/daf/compare/v1.4.0...v1.4.1) (2020-01-14)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [1.4.0](https://github.com/uport-project/daf/compare/v1.3.7...v1.4.0) (2020-01-14)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 ## [1.3.3](https://github.com/uport-project/daf/compare/v1.3.2...v1.3.3) (2019-12-20)
-
 
 ### Bug Fixes
 
-* Return empty array for empty threads ([fdb1e54](https://github.com/uport-project/daf/commit/fdb1e54fbd43657dd42180926cc160da7245db31))
-
-
-
-
+- Return empty array for empty threads ([fdb1e54](https://github.com/uport-project/daf/commit/fdb1e54fbd43657dd42180926cc160da7245db31))
 
 ## [1.3.2](https://github.com/uport-project/daf/compare/v1.3.1...v1.3.2) (2019-12-20)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [1.2.0](https://github.com/uport-project/daf/compare/v1.1.1...v1.2.0) (2019-12-16)
 
 **Note:** Version bump only for package daf-data-store
-
-
-
-
 
 ## [1.1.1](https://github.com/uport-project/daf/compare/v1.1.0...v1.1.1) (2019-12-16)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [1.1.0](https://github.com/uport-project/daf/compare/v0.10.3...v1.1.0) (2019-12-16)
-
 
 ### Bug Fixes
 
-* Catching edge case ([3c1a935](https://github.com/uport-project/daf/commit/3c1a9357b36c51f6ee586726008e7e5c00a177d4))
-
-
-
-
+- Catching edge case ([3c1a935](https://github.com/uport-project/daf/commit/3c1a9357b36c51f6ee586726008e7e5c00a177d4))
 
 ## [0.10.3](https://github.com/uport-project/daf/compare/v0.10.2...v0.10.3) (2019-12-12)
 
-
 ### Bug Fixes
 
-* EventEmmiter ([dc52b55](https://github.com/uport-project/daf/commit/dc52b55aad6c612266ce136636f6aa65e524b59b))
-* Unifying debug messages ([efb4f3b](https://github.com/uport-project/daf/commit/efb4f3bf9f6d3f0d412eb80da7bb4ae92ce8ca72))
-
-
-
-
+- EventEmmiter ([dc52b55](https://github.com/uport-project/daf/commit/dc52b55aad6c612266ce136636f6aa65e524b59b))
+- Unifying debug messages ([efb4f3b](https://github.com/uport-project/daf/commit/efb4f3bf9f6d3f0d412eb80da7bb4ae92ce8ca72))
 
 ## [0.10.1](https://github.com/uport-project/daf/compare/v0.10.0...v0.10.1) (2019-12-10)
 
-
 ### Bug Fixes
 
-* Ordering in latestMessageTimestamps ([fca9995](https://github.com/uport-project/daf/commit/fca9995f1fd9c1fa09ba024f8d0eeb417d97b9ee))
-
-
-
-
+- Ordering in latestMessageTimestamps ([fca9995](https://github.com/uport-project/daf/commit/fca9995f1fd9c1fa09ba024f8d0eeb417d97b9ee))
 
 # [0.10.0](https://github.com/uport-project/daf/compare/v0.9.0...v0.10.0) (2019-12-10)
 
-
 ### Bug Fixes
 
-* Renaming to sender and receiver ([bf33a2d](https://github.com/uport-project/daf/commit/bf33a2de268cf07b06faa04283ec066573c37ffc))
-
+- Renaming to sender and receiver ([bf33a2d](https://github.com/uport-project/daf/commit/bf33a2de268cf07b06faa04283ec066573c37ffc))
 
 ### Features
 
-* Data deduplication ([c5c10b1](https://github.com/uport-project/daf/commit/c5c10b17eebd1d6f82a43f0d5cc46da9b9270c3e))
-* Message object with validation ([8bf6a9d](https://github.com/uport-project/daf/commit/8bf6a9d47e73d6e2be9003854718b67f59c636dd))
-* Saving message and VC meta data ([1928125](https://github.com/uport-project/daf/commit/1928125e3c3ff17e86e838a9c84ddfadb2631a48))
-
-
-
-
+- Data deduplication ([c5c10b1](https://github.com/uport-project/daf/commit/c5c10b17eebd1d6f82a43f0d5cc46da9b9270c3e))
+- Message object with validation ([8bf6a9d](https://github.com/uport-project/daf/commit/8bf6a9d47e73d6e2be9003854718b67f59c636dd))
+- Saving message and VC meta data ([1928125](https://github.com/uport-project/daf/commit/1928125e3c3ff17e86e838a9c84ddfadb2631a48))
 
 # [0.9.0](https://github.com/uport-project/daf/compare/v0.8.0...v0.9.0) (2019-12-05)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [0.8.0](https://github.com/uport-project/daf/compare/v0.7.8...v0.8.0) (2019-12-04)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 ## [0.7.5](https://github.com/uport-project/daf/compare/v0.7.4...v0.7.5) (2019-12-02)
-
 
 ### Bug Fixes
 
-* W3C VP subject is aud ([991e64b](https://github.com/uport-project/daf/commit/991e64b3189405ddf2c3a43acc15c2ffe652380a))
-
-
-
-
+- W3C VP subject is aud ([991e64b](https://github.com/uport-project/daf/commit/991e64b3189405ddf2c3a43acc15c2ffe652380a))
 
 ## [0.7.3](https://github.com/uport-project/daf/compare/v0.7.2...v0.7.3) (2019-11-30)
 
-
 ### Bug Fixes
 
-* Message sub can be null ([6599296](https://github.com/uport-project/daf/commit/6599296b2560fddbd63aaa4b45bb920e3fcd0b41))
-
-
-
-
+- Message sub can be null ([6599296](https://github.com/uport-project/daf/commit/6599296b2560fddbd63aaa4b45bb920e3fcd0b41))
 
 # [0.7.0](https://github.com/uport-project/daf/compare/v0.6.1...v0.7.0) (2019-11-29)
 
-
 ### Features
 
-* Selective Disclosure Request ([9afe0c5](https://github.com/uport-project/daf/commit/9afe0c5a2fae7e3f778fe99ff4f88f44f61d3b94))
-
-
-
-
+- Selective Disclosure Request ([9afe0c5](https://github.com/uport-project/daf/commit/9afe0c5a2fae7e3f778fe99ff4f88f44f61d3b94))
 
 # [0.6.0](https://github.com/uport-project/daf/compare/v0.5.2...v0.6.0) (2019-11-27)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 ## [0.5.1](https://github.com/uport-project/daf/compare/v0.5.0...v0.5.1) (2019-11-26)
 
 **Note:** Version bump only for package daf-data-store
-
-
-
-
 
 # [0.5.0](https://github.com/uport-project/daf/compare/v0.4.0...v0.5.0) (2019-11-26)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [0.4.0](https://github.com/uport-project/daf/compare/v0.3.0...v0.4.0) (2019-11-25)
 
 **Note:** Version bump only for package daf-data-store
-
-
-
-
 
 # [0.3.0](https://github.com/uport-project/daf/compare/v0.2.0...v0.3.0) (2019-11-24)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [0.2.0](https://github.com/uport-project/daf/compare/v0.1.0...v0.2.0) (2019-11-23)
 
 **Note:** Version bump only for package daf-data-store
-
-
-
-
 
 # [0.1.0](https://github.com/uport-project/daf/compare/v0.0.26...v0.1.0) (2019-11-22)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 ## [0.0.26](https://github.com/uport-project/daf/compare/v0.0.25...v0.0.26) (2019-11-22)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 ## [0.0.25](https://github.com/uport-project/daf/compare/v0.0.24...v0.0.25) (2019-11-21)
 
 **Note:** Version bump only for package daf-data-store
-
-
-
-
 
 ## [0.0.24](https://github.com/uport-project/daf/compare/v0.0.23...v0.0.24) (2019-11-19)
 
