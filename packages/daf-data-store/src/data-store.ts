@@ -110,22 +110,18 @@ export class DataStore {
     threadId?: string
     limit?: number
   }) {
-    let where = {}
+    let where = []
 
     if (threadId) {
-      where['threadId'] = threadId
+      where.push({ threadId: threadId })
     }
 
     if (sender) {
-      const identity = new Identity()
-      identity.did = sender
-      where['from'] = identity
+      where.push({ from: sender })
     }
 
     if (receiver) {
-      const identity = new Identity()
-      identity.did = receiver
-      where['to'] = identity
+      where.push({ to: receiver })
     }
 
     const messages = await Message.find({ where, relations: ['from', 'to'] })
