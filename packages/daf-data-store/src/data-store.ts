@@ -161,10 +161,25 @@ export class DataStore {
   }
 
   async latestMessageTimestamps() {
-    let query = `SELECT * FROM ( SELECT m."timestamp", m.receiver AS did, md. "type" , md.id FROM messages AS m
-      LEFT JOIN messages_meta_data AS md ON m.id = md.message_id order by m.timestamp desc) GROUP BY did, "type", id`
+    const innerQb = await Message.createQueryBuilder('message')
+      .leftJoinAndSelect('message.metaData', 'meta')
+      .orderBy('message.createdAt', 'DESC')
 
-    return [] //FIXME
+    const res = await Message.createQueryBuilder()
+      .select('message_toDid as did, meta_type as type, meta_value as value, message_createdAt as createdAt')
+      .from('(' + innerQb.getQuery() + ')', 'inner')
+      .setParameters(innerQb.getParameters())
+      .groupBy('message_toDid')
+      .addGroupBy('meta_type')
+      .addGroupBy('meta_value')
+      .getRawMany()
+
+    return res.map(item => ({
+      did: item.did,
+      type: item.type,
+      id: item.value,
+      timestamp: Math.round(new Date(item.createdAt).getTime() / 1000),
+    }))
   }
 
   async shortId(did: string) {

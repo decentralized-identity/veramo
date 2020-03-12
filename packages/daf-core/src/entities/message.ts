@@ -48,8 +48,8 @@ export class Message extends BaseEntity {
   @Column()
   type: string
 
-  @Column()
-  raw: string
+  @Column({ nullable: true })
+  raw?: string
 
   @Column('simple-json', { nullable: true })
   data?: any
