@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/uport-project/daf/compare/v2.4.0...v2.4.1) (2020-03-13)
+
+**Note:** Version bump only for package daf-cli
+
+
+
+
+
 # [2.4.0](https://github.com/uport-project/daf/compare/v2.3.19...v2.4.0) (2020-03-13)
 
 
