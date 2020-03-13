@@ -6,6 +6,10 @@ import Debug from 'debug'
 const debug = Debug('daf:identity-store')
 
 export class IdentityStore extends AbstractIdentityStore {
+  /**
+   *
+   * @param provider Can be any string. It will be saved next to the Identity
+   */
   constructor(private provider: string) {
     super()
   }
