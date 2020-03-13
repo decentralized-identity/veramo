@@ -93,7 +93,9 @@ const main = async () => {
     database: './database.sqlite',
     synchronize: true,
     logging: true,
-    entities: Daf.Entities,
+    entities: [
+      ...Daf.Entities,
+    ],
   })
 
   await core.setupServices()
