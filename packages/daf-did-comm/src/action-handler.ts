@@ -56,9 +56,7 @@ export class ActionHandler extends AbstractActionHandler {
             )
 
             debug('Encrypted:', body)
-          } catch (e) {
-            console.log(e)
-          }
+          } catch (e) {}
 
           debug('Sending to %s', service.serviceEndpoint)
           const res = await fetch(service.serviceEndpoint, {
