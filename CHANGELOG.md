@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/uport-project/daf/compare/v2.3.19...v2.4.0) (2020-03-13)
+
+
+### Features
+
+* Add JWT output for credential.ts and sdr.ts in cli ([c16dea6](https://github.com/uport-project/daf/commit/c16dea6da130375ecc4e98f116fae54df45d1b9a))
+
+
+
+
+
 ## [2.3.19](https://github.com/uport-project/daf/compare/v2.3.18...v2.3.19) (2020-03-11)
 
 

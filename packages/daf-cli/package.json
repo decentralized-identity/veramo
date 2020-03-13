@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "2.3.19",
+  "version": "2.4.0",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
