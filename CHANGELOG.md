@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
+
+### Bug Fixes
+
+- GQL return raw while validating message ([53573bc](https://github.com/uport-project/daf/commit/53573bc07cbaabc92c34baaa3096acd279aa985f))
+
+### Features
+
+- Add whitelisted issuers in SDR ([f486f07](https://github.com/uport-project/daf/commit/f486f071e3e3ccd55e70d01255275d7b2e770169))
+
+## [2.4.1](https://github.com/uport-project/daf/compare/v2.4.0...v2.4.1) (2020-03-13)
+
+### Bug Fixes
+
+- Remove debug info ([a7753dd](https://github.com/uport-project/daf/commit/a7753ddb1875f5c7d02d1ad4f24b21f4963df338))
+
+# [2.4.0](https://github.com/uport-project/daf/compare/v2.3.19...v2.4.0) (2020-03-13)
+
+### Features
+
+- Add JWT output for credential.ts and sdr.ts in cli ([c16dea6](https://github.com/uport-project/daf/commit/c16dea6da130375ecc4e98f116fae54df45d1b9a))
+
 ## [2.3.19](https://github.com/uport-project/daf/compare/v2.3.18...v2.3.19) (2020-03-11)
 
 ### Bug Fixes

@@ -85,6 +85,8 @@ program
 
     if (cmd.qrcode) {
       qrcode.generate(jwt)
+    } else {
+      console.log(`jwt: ${jwt}`)
     }
   })
 
@@ -230,6 +232,8 @@ program
 
       if (cmd.qrcode) {
         qrcode.generate(jwt)
+      } else {
+        console.log(`jwt: ${jwt}`)
       }
     }
   })
