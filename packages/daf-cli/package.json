@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -18,7 +18,7 @@
     "daf-core": "^2.3.19",
     "daf-data-store": "^2.3.19",
     "daf-debug": "^2.3.19",
-    "daf-did-comm": "^2.3.19",
+    "daf-did-comm": "^2.4.1",
     "daf-did-jwt": "^2.3.19",
     "daf-ethr-did": "^2.3.19",
     "daf-fs": "^2.3.19",
