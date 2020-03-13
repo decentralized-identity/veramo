@@ -4,7 +4,6 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
-import * as DafFs from 'daf-fs'
 import * as DafLibSodium from 'daf-libsodium'
 
 import * as W3c from 'daf-w3c'
@@ -50,8 +49,8 @@ TG.ServiceController.webSocketImpl = ws
 
 const identityProviders = [
   new EthrDid.IdentityProvider({
-    identityStore: new DafFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
-    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
+    identityStore: new Daf.IdentityStore('rinkeby-ethr'),
+    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
@@ -86,7 +85,7 @@ export const initializeDb = async () => {
     type: 'sqlite',
     database: defaultPath + 'database-v2.sqlite',
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [...Daf.Entities],
   })
 }

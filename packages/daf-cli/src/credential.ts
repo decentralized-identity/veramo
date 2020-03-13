@@ -1,7 +1,7 @@
 import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as DIDComm from 'daf-did-comm'
-import { core, dataStore, initializeDb } from './setup'
+import { core, dataStore } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
@@ -12,8 +12,6 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    await initializeDb()
-
     const identities = await core.identityManager.getIdentities()
     if (identities.length === 0) {
       console.error('No dids')
@@ -96,8 +94,6 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    await initializeDb()
-
     const myIdentities = await core.identityManager.getIdentities()
     if (myIdentities.length === 0) {
       console.error('No dids')

@@ -1,5 +1,5 @@
 import { EventTypes, Message } from 'daf-core'
-import { core, dataStore, initializeDb } from './setup'
+import { core, dataStore } from './setup'
 import program from 'commander'
 import { setInterval } from 'timers'
 
@@ -12,8 +12,6 @@ program
   })
 
 export const listen = async (pollSeconds?: number) => {
-  await initializeDb()
-
   core.on(EventTypes.validatedMessage, async (msg: Message) => {
     console.log('New message type:', msg.type)
   })
