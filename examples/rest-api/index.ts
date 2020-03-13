@@ -43,6 +43,7 @@ app.post('/handle-message', express.text({ type: '*/*' }), async (req, res) => {
       new Message({ raw: req.body, meta: { type: 'serviceEndpoint', value: 'handle-message' } }),
     )
 
+    //Entities are decorated with the `save()` method to trigger an upsert in the local database
     await message.save()
     // now you can store this message or pass through to some webhook
 
