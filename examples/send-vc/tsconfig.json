@@ -1,19 +1,20 @@
 {
   "compilerOptions": {
     "preserveConstEnums": true,
-    "strict": true,
     "sourceMap": true,
     "target": "es5",
-    "rootDir": "./src",
-    "outDir": "./build",
+    "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "declarationMap": true,
+    "declaration": true,
+    "composite": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"],
   "references": [
-    { "path": "../../packages/daf-cli" },
     { "path": "../../packages/daf-core" },
     { "path": "../../packages/daf-data-store" },
     { "path": "../../packages/daf-debug" },
@@ -22,6 +23,7 @@
     { "path": "../../packages/daf-ethr-did" },
     { "path": "../../packages/daf-fs" },
     { "path": "../../packages/daf-libsodium" },
+    { "path": "../../packages/daf-node-sqlite3" },
     { "path": "../../packages/daf-resolver" },
     { "path": "../../packages/daf-resolver-universal" },
     { "path": "../../packages/daf-selective-disclosure" },

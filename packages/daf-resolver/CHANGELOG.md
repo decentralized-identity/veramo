@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package daf-resolver
 
-
-
-
-
 ## [2.3.15](https://github.com/uport-project/daf/compare/v2.3.14...v2.3.15) (2020-03-02)
 
 ### Bug Fixes

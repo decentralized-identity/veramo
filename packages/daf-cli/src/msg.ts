@@ -7,14 +7,13 @@ program
   .description('Handle raw message (JWT)')
   .action(async raw => {
     try {
-      await dataStore.initialize()
-      const result = await core.validateMessage(
+      const message = await core.validateMessage(
         new Daf.Message({
           raw,
           meta: { type: 'cli' },
         }),
       )
-      console.log(result)
+      console.log(message)
     } catch (e) {
       console.error(e)
     }

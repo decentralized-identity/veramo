@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
 import { AbstractIdentity } from '../identity/abstract-identity'
 import { Resolver } from '../core'
-import { Message } from '../message/message'
+import { Message } from '../entities/message'
 
 export abstract class AbstractServiceController extends EventEmitter {
   constructor(readonly identity: AbstractIdentity, readonly didResolver: Resolver) {

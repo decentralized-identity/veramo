@@ -7,8 +7,15 @@ import './data-explorer'
 import './graphql'
 import './sdr'
 import './msg'
+import { initializeDb } from './setup'
 
-program.parse(process.argv)
+const main = async () => {
+  await initializeDb()
+  program.parse(process.argv)
+}
+
 if (!process.argv.slice(2).length) {
   program.outputHelp()
+} else {
+  main().catch(e => console.log(e.message))
 }

@@ -1,4 +1,4 @@
-import { Message } from './message'
+import { Message } from '../entities/message'
 import { Core } from '../core'
 
 export interface MessageValidator {

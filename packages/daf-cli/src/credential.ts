@@ -62,7 +62,6 @@ program
 
     const jwt = await core.handleAction(signAction)
 
-    await dataStore.initialize()
     if (!cmd.send) {
       await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
     } else {
@@ -106,7 +105,7 @@ program
     const identities = [
       {
         name: 'Enter manualy',
-        value: false,
+        value: 'manual',
       },
     ]
     for (const did of dids) {
@@ -138,7 +137,7 @@ program
       },
     ])
 
-    if (!answers.aud) {
+    if (answers.aud === 'manual') {
       const audAnswer = await inquirer.prompt([
         {
           type: 'input',
@@ -208,7 +207,6 @@ program
 
       const jwt = await core.handleAction(signAction)
 
-      await dataStore.initialize()
       if (!cmd.send) {
         await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
       } else {

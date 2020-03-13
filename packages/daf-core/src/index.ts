@@ -7,14 +7,25 @@ export { AbstractIdentityProvider, IdentityProviderDerived } from './identity/ab
 export {
   AbstractKeyManagementSystem,
   AbstractKey,
-  KeyType,
   SerializedKey,
 } from './identity/abstract-key-management-system'
 export { AbstractIdentityStore, SerializedIdentity } from './identity/abstract-identity-store'
 export { AbstractKeyStore } from './identity/abstract-key-store'
 export { AbstractMessageValidator } from './message/abstract-message-validator'
-export { Message } from './message/message'
 export { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 export { AbstractServiceController } from './service/abstract-service-controller'
-export { Action } from './types'
 export { Gql } from './graphql/index'
+export { Action } from './types'
+export { IdentityStore } from './identity/identity-store'
+export { KeyStore } from './identity/key-store'
+
+import { Key, KeyType } from './entities/key'
+import { Identity } from './entities/identity'
+import { Claim } from './entities/claim'
+import { Credential } from './entities/credential'
+import { Presentation } from './entities/presentation'
+import { Message } from './entities/message'
+
+export const Entities = [Key, Identity, Message, Claim, Credential, Presentation]
+
+export { KeyType, Key, Identity, Message, Claim, Credential, Presentation }

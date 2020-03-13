@@ -1,6 +1,6 @@
 import { AbstractMessageValidator, unsupportedMessageTypeError } from '../abstract-message-validator'
 import { Core } from '../../core'
-import { Message } from '../message'
+import { Message } from '../../entities/message'
 
 class MockMessageValidator extends AbstractMessageValidator {
   async validate(message: Message, core: Core) {

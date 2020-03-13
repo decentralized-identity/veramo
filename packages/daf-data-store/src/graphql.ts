@@ -7,7 +7,7 @@ export interface Context {
 export const resolvers = {
   Message: {
     vc: async (message: any, {}, { dataStore }: Context) => dataStore.credentialsForMessageId(message.id),
-    metaData: async (message: any, {}, { dataStore }: Context) => dataStore.messageMetaData(message.id),
+    metaData: async (message: any, {}, { dataStore }: Context) => dataStore.metaData(message.id),
     thread: async (message: any, {}, { dataStore }: Context) => {
       if (!message.threadId) {
         return []
@@ -44,8 +44,6 @@ export const resolvers = {
       dataStore.popularClaimForDid(identity.did, 'url'),
     description: async (identity: any, {}, { dataStore }: Context) =>
       dataStore.popularClaimForDid(identity.did, 'description'),
-    interactionCount: async (identity: any, { did }: { did: string }, { dataStore }: Context) =>
-      dataStore.interactionCount(identity.did, did),
     credentialsIssued: async (identity: any, args: any, { dataStore }: Context) => {
       return dataStore.findCredentials({ iss: identity.did })
     },
@@ -118,7 +116,6 @@ export const typeDefs = `
     profileImage: String
     url: String
     description: String
-    interactionCount: Int!
     messagesSent: [Message]
     messagesReceived: [Message]
     messagesAll: [Message]

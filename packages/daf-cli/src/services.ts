@@ -12,8 +12,6 @@ program
   })
 
 export const listen = async (pollSeconds?: number) => {
-  await dataStore.initialize()
-
   core.on(EventTypes.validatedMessage, async (msg: Message) => {
     console.log('New message type:', msg.type)
   })

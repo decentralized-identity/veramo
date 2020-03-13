@@ -8,7 +8,9 @@
     "build": "tsc"
   },
   "dependencies": {
+    "blakejs": "^1.1.0",
     "daf-core": "^2.5.0",
+    "daf-data-store": "^2.5.0",
     "daf-did-jwt": "^2.5.0",
     "debug": "^4.1.1",
     "did-jwt": "^4.0.0"

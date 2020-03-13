@@ -10,13 +10,8 @@ export class MessageValidator extends AbstractMessageValidator {
 
     if (parsed && parsed.query && parsed.query.c_i) {
       debug('Detected standard URL')
-      message.transform({
-        raw: parsed.query.c_i,
-        meta: {
-          type: 'URL',
-          id: parsed.origin + parsed.pathname,
-        },
-      })
+      message.raw = parsed.query.c_i
+      message.addMetaData({ type: 'URL', value: parsed.origin + parsed.pathname })
     }
 
     return super.validate(message, core)

@@ -17,18 +17,17 @@
     "daf-debug": "../../../packages/daf-debug",
     "daf-did-jwt": "../../../packages/daf-did-jwt",
     "daf-ethr-did": "../../../packages/daf-ethr-did",
-    "daf-fs": "../../../packages/daf-fs",
     "daf-libsodium": "../../../packages/daf-libsodium",
-    "daf-node-sqlite3": "../../../packages/daf-node-sqlite3",
     "daf-resolver": "../../../packages/daf-resolver",
     "daf-trust-graph": "../../../packages/daf-trust-graph",
     "daf-w3c": "../../../packages/daf-w3c",
     "graphql": "^14.5.8",
     "lodash.merge": "^4.6.2",
+    "typeorm": "^0.2.24",
     "ws": "^7.2.1"
   },
   "devDependencies": {
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   }
 }

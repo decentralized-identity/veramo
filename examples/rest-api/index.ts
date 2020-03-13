@@ -1,7 +1,8 @@
 import express from 'express'
 const app = express()
 const port = process.env.PORT || 8080
-import { Message } from 'daf-core'
+import { Message, Entities } from 'daf-core'
+import { createConnection } from 'typeorm'
 
 import { core } from './setup'
 
@@ -38,16 +39,26 @@ app.post('/handle-action', express.json(), async (req, res) => {
 // This endpoint would be published in did doc as a serviceEndpoint
 app.post('/handle-message', express.text({ type: '*/*' }), async (req, res) => {
   try {
-    const result = await core.validateMessage(
-      new Message({ raw: req.body, meta: { type: 'serviceEndpoint', id: 'handle-message' } }),
+    const message = await core.validateMessage(
+      new Message({ raw: req.body, meta: { type: 'serviceEndpoint', value: 'handle-message' } }),
     )
 
+    //Entities are decorated with the `save()` method to trigger an upsert in the local database
+    await message.save()
     // now you can store this message or pass through to some webhook
 
-    res.json({ id: result.id })
+    res.json({ id: message.id })
   } catch (e) {
     res.send(e.message)
   }
 })
 
-app.listen(port, () => console.log(`Server running at http://localhost:${port}`))
+createConnection({
+  type: 'sqlite',
+  database: './database.sqlite',
+  synchronize: true,
+  logging: true,
+  entities: Entities,
+}).then(() => {
+  app.listen(port, () => console.log(`Server running at http://localhost:${port}`))
+})

@@ -5,49 +5,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 
-
 ### Features
 
-* Add whitelisted issuers in SDR ([f486f07](https://github.com/uport-project/daf/commit/f486f071e3e3ccd55e70d01255275d7b2e770169))
-
-
-
-
+- Add whitelisted issuers in SDR ([f486f07](https://github.com/uport-project/daf/commit/f486f071e3e3ccd55e70d01255275d7b2e770169))
 
 ## [2.4.1](https://github.com/uport-project/daf/compare/v2.4.0...v2.4.1) (2020-03-13)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [2.4.0](https://github.com/uport-project/daf/compare/v2.3.19...v2.4.0) (2020-03-13)
-
 
 ### Features
 
-* Add JWT output for credential.ts and sdr.ts in cli ([c16dea6](https://github.com/uport-project/daf/commit/c16dea6da130375ecc4e98f116fae54df45d1b9a))
-
-
-
-
+- Add JWT output for credential.ts and sdr.ts in cli ([c16dea6](https://github.com/uport-project/daf/commit/c16dea6da130375ecc4e98f116fae54df45d1b9a))
 
 ## [2.3.19](https://github.com/uport-project/daf/compare/v2.3.18...v2.3.19) (2020-03-11)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [2.3.18](https://github.com/uport-project/daf/compare/v2.3.17...v2.3.18) (2020-03-10)
 
 **Note:** Version bump only for package daf-cli
-
-
-
-
 
 ## [2.3.17](https://github.com/uport-project/daf/compare/v2.3.16...v2.3.17) (2020-03-03)
 

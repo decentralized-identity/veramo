@@ -1,9 +1,19 @@
-import { AbstractIdentity, EventTypes, Message } from 'daf-core'
+import { AbstractIdentity, EventTypes, Entities, Message } from 'daf-core'
 import { ActionSendJWT } from 'daf-did-comm'
 import { ActionSignW3cVc } from 'daf-w3c'
 import { core } from './setup'
+import { createConnection } from 'typeorm'
 
 async function main() {
+  // Create database connection
+  await createConnection({
+    type: 'sqlite',
+    database: 'database.sqlite',
+    synchronize: true,
+    logging: false,
+    entities: Entities,
+  })
+
   // Getting existing identity or creating a new one
   let identity: AbstractIdentity
   const identities = await core.identityManager.getIdentities()
@@ -44,16 +54,8 @@ async function main() {
 // This is triggered when DAF successfully validates a new message
 // which can arrive from external services, or by sending it using `action.sendJwt`
 core.on(EventTypes.validatedMessage, async (message: Message) => {
-  console.log('\n\nSuccessfully sent message:', {
-    id: message.id,
-    type: message.type,
-    sender: message.sender,
-    receiver: message.receiver,
-    timestamp: message.timestamp,
-    data: message.data,
-    metadata: message.allMeta,
-    raw: message.raw,
-  })
+  console.log('\n\nSuccessfully sent message:', message)
+  await message.save()
 })
 
 main().catch(console.log)

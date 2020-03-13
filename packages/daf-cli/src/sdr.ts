@@ -139,7 +139,6 @@ program
 
     const jwt = await core.handleAction(signAction)
 
-    await dataStore.initialize()
     if (!cmd.send) {
       await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
     } else if (answers.sub !== '') {

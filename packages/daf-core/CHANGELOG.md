@@ -5,33 +5,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 
-
 ### Bug Fixes
 
-* GQL return raw while validating message ([53573bc](https://github.com/uport-project/daf/commit/53573bc07cbaabc92c34baaa3096acd279aa985f))
-
-
-
-
+- GQL return raw while validating message ([53573bc](https://github.com/uport-project/daf/commit/53573bc07cbaabc92c34baaa3096acd279aa985f))
 
 ## [2.3.19](https://github.com/uport-project/daf/compare/v2.3.18...v2.3.19) (2020-03-11)
 
-
 ### Bug Fixes
 
-* GQL newMessage data field ([48181b9](https://github.com/uport-project/daf/commit/48181b93a5504e82373894598a81149f3c529a69))
-
-
-
-
+- GQL newMessage data field ([48181b9](https://github.com/uport-project/daf/commit/48181b93a5504e82373894598a81149f3c529a69))
 
 ## [2.3.18](https://github.com/uport-project/daf/compare/v2.3.17...v2.3.18) (2020-03-10)
 
 **Note:** Version bump only for package daf-core
-
-
-
-
 
 ## [2.3.16](https://github.com/uport-project/daf/compare/v2.3.15...v2.3.16) (2020-03-03)
 

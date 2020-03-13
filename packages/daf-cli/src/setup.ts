@@ -4,7 +4,6 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
-import * as DafFs from 'daf-fs'
 import * as DafLibSodium from 'daf-libsodium'
 
 import * as W3c from 'daf-w3c'
@@ -13,8 +12,8 @@ import * as TG from 'daf-trust-graph'
 import * as DBG from 'daf-debug'
 import * as DIDComm from 'daf-did-comm'
 import * as URL from 'daf-url'
+import { createConnection } from 'typeorm'
 
-import { NodeSqlite3 } from 'daf-node-sqlite3'
 import { DataStore } from 'daf-data-store'
 import ws from 'ws'
 
@@ -50,8 +49,8 @@ TG.ServiceController.webSocketImpl = ws
 
 const identityProviders = [
   new EthrDid.IdentityProvider({
-    identityStore: new DafFs.IdentityStore(defaultPath + '/rinkeby-identity-store.json'),
-    kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore(defaultPath + '/rinkeby-kms.json')),
+    identityStore: new Daf.IdentityStore('rinkeby-ethr'),
+    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
@@ -81,10 +80,18 @@ export const core = new Daf.Core({
   actionHandler,
 })
 
-const db = new NodeSqlite3(dataStoreFilename)
-export const dataStore = new DataStore(db)
+export const initializeDb = async () => {
+  await createConnection({
+    type: 'sqlite',
+    database: defaultPath + 'database-v2.sqlite',
+    synchronize: true,
+    logging: false,
+    entities: [...Daf.Entities],
+  })
+}
+export const dataStore = new DataStore()
 
 core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
   debug('New message %O', message)
-  await dataStore.saveMessage(message)
+  await message.save()
 })

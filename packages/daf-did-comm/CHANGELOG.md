@@ -7,36 +7,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package daf-did-comm
 
-
-
-
-
 ## [2.4.1](https://github.com/uport-project/daf/compare/v2.4.0...v2.4.1) (2020-03-13)
-
 
 ### Bug Fixes
 
-* Remove debug info ([a7753dd](https://github.com/uport-project/daf/commit/a7753ddb1875f5c7d02d1ad4f24b21f4963df338))
-
-
-
-
+- Remove debug info ([a7753dd](https://github.com/uport-project/daf/commit/a7753ddb1875f5c7d02d1ad4f24b21f4963df338))
 
 ## [2.3.19](https://github.com/uport-project/daf/compare/v2.3.18...v2.3.19) (2020-03-11)
 
 **Note:** Version bump only for package daf-did-comm
 
-
-
-
-
 ## [2.3.18](https://github.com/uport-project/daf/compare/v2.3.17...v2.3.18) (2020-03-10)
 
 **Note:** Version bump only for package daf-did-comm
-
-
-
-
 
 ## [2.3.16](https://github.com/uport-project/daf/compare/v2.3.15...v2.3.16) (2020-03-03)
 

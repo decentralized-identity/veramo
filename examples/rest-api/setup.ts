@@ -1,6 +1,5 @@
 import * as Daf from 'daf-core'
 import * as DafEthr from 'daf-ethr-did'
-import * as DafFs from 'daf-fs'
 import * as DafLibSodium from 'daf-libsodium'
 import * as W3c from 'daf-w3c'
 import * as DBG from 'daf-debug'
@@ -24,8 +23,8 @@ const didResolver = new DafResolver({ infuraProjectId })
 export const core = new Daf.Core({
   identityProviders: [
     new DafEthr.IdentityProvider({
-      kms: new DafLibSodium.KeyManagementSystem(new DafFs.KeyStore('./key-store.json')),
-      identityStore: new DafFs.IdentityStore('./identity-store.json'),
+      kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
+      identityStore: new Daf.IdentityStore('rinkeby-ethr'),
       network: 'rinkeby',
       rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
     }),
