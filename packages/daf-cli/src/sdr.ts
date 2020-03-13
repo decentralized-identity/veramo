@@ -64,20 +64,67 @@ program
         },
         {
           type: 'list',
-          name: 'addMore',
-          message: 'Add another credential?',
+          name: 'addIssuer',
+          message: 'Add accepted issuer?',
           choices: [
             { name: 'Yes', value: true },
             { name: 'No', value: false },
           ],
         },
       ])
+
+      let addIssuer = answers2.addIssuer
+      const issuers = []
+      while (addIssuer) {
+        const issuerAnswers = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'did',
+            message: 'Issuer DID',
+            default: 'did:web:uport.me',
+          },
+          {
+            type: 'input',
+            name: 'url',
+            message: 'URL',
+            default: 'https://uport.me',
+          },
+          {
+            type: 'list',
+            name: 'addIssuer',
+            message: 'Add another accepted issuer?',
+            choices: [
+              { name: 'Yes', value: true },
+              { name: 'No', value: false },
+            ],
+          },
+        ])
+        issuers.push({
+          did: issuerAnswers.did,
+          url: issuerAnswers.url,
+        })
+        addIssuer = issuerAnswers.addIssuer
+      }
+
+      const answers4 = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'addMore',
+          message: 'Add another claim?',
+          choices: [
+            { name: 'Yes', value: true },
+            { name: 'No', value: false },
+          ],
+        },
+      ])
+
       claims.push({
+        iss: issuers,
         essential: answers2.essential,
         claimType: answers2.claimType,
         reason: answers2.reason,
       } as SD.CredentialRequestInput)
-      addMoreRequests = answers2.addMore
+      addMoreRequests = answers4.addMore
     }
 
     const signAction: SD.ActionSignSdr = {
