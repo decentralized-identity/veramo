@@ -11,9 +11,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 import { Identity } from './identity'
-import { MessageMetaData } from './message-meta-data'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
+
+export interface MetaData {
+  type: string
+  value?: string
+}
 
 @Entity()
 export class Message extends BaseEntity {
@@ -82,14 +86,8 @@ export class Message extends BaseEntity {
   )
   to?: Identity
 
-  @OneToMany(
-    type => MessageMetaData,
-    messageMetaData => messageMetaData.message,
-    {
-      cascade: true,
-    },
-  )
-  metaData: MessageMetaData[]
+  @Column('simple-json', { nullable: true })
+  metaData?: MetaData[]
 
   @ManyToMany(
     type => Presentation,
@@ -107,12 +105,7 @@ export class Message extends BaseEntity {
   @JoinTable()
   credentials: Credential[]
 
-  addMetaData(input: { type: string; value?: string }) {
-    const meta = new MessageMetaData()
-    meta.type = input.type
-    if (input.value) {
-      meta.value = input.value
-    }
+  addMetaData(meta: MetaData) {
     if (this.metaData) {
       this.metaData.push(meta)
     } else {
@@ -120,7 +113,7 @@ export class Message extends BaseEntity {
     }
   }
 
-  getLastMetaData(): MessageMetaData | null {
+  getLastMetaData(): MetaData | null {
     if (this.metaData?.length > 0) {
       return this.metaData[this.metaData.length - 1]
     } else {

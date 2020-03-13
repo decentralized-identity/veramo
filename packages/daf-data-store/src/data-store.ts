@@ -1,4 +1,4 @@
-import { Identity, Message, MessageMetaData, Credential, Presentation, Claim } from 'daf-core'
+import { Identity, Message, Credential, Presentation, Claim } from 'daf-core'
 import { In } from 'typeorm'
 import Debug from 'debug'
 
@@ -124,6 +124,11 @@ export class DataStore {
       where.push({ to: receiver })
     }
 
+    if (sender || receiver) {
+      // SDR can have empty to field
+      where.push({ to: null })
+    }
+
     const messages = await Message.find({
       where,
       order: { saveDate: 'DESC' },
@@ -161,25 +166,8 @@ export class DataStore {
   }
 
   async latestMessageTimestamps() {
-    const innerQb = await Message.createQueryBuilder('message')
-      .leftJoinAndSelect('message.metaData', 'meta')
-      .orderBy('message.createdAt', 'DESC')
-
-    const res = await Message.createQueryBuilder()
-      .select('message_toDid as did, meta_type as type, meta_value as value, message_createdAt as createdAt')
-      .from('(' + innerQb.getQuery() + ')', 'inner')
-      .setParameters(innerQb.getParameters())
-      .groupBy('message_toDid')
-      .addGroupBy('meta_type')
-      .addGroupBy('meta_value')
-      .getRawMany()
-
-    return res.map(item => ({
-      did: item.did,
-      type: item.type,
-      id: item.value,
-      timestamp: Math.round(new Date(item.createdAt).getTime() / 1000),
-    }))
+    // FIXME
+    return []
   }
 
   async shortId(did: string) {
@@ -209,12 +197,9 @@ export class DataStore {
     return credential.messages.map(this.messageToLegacyFormat)
   }
 
-  async messageMetaData(id: string) {
-    const messages = await Message.findOne(id, {
-      relations: ['metaData'],
-    })
-
-    return messages.metaData
+  async metaData(id: string) {
+    const message = await Message.findOne(id)
+    return message.metaData
   }
 
   async deleteMessage(id: string) {

@@ -1,5 +1,5 @@
 import { createConnection, Connection, In } from 'typeorm'
-import { Identity, Key, Message, Credential, Presentation, Claim, MessageMetaData } from '../index'
+import { Identity, Key, Message, Credential, Presentation, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import fs from 'fs'
@@ -154,7 +154,7 @@ describe('daf-core', () => {
 
     await message.save()
 
-    const fromDb = await Message.findOne(customId, { relations: ['metaData'] })
+    const fromDb = await Message.findOne(customId)
 
     expect(fromDb.id).toEqual(customId)
     expect(fromDb.type).toEqual('custom')

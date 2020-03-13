@@ -7,7 +7,7 @@ export interface Context {
 export const resolvers = {
   Message: {
     vc: async (message: any, {}, { dataStore }: Context) => dataStore.credentialsForMessageId(message.id),
-    metaData: async (message: any, {}, { dataStore }: Context) => dataStore.messageMetaData(message.id),
+    metaData: async (message: any, {}, { dataStore }: Context) => dataStore.metaData(message.id),
     thread: async (message: any, {}, { dataStore }: Context) => {
       if (!message.threadId) {
         return []
