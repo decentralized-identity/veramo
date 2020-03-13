@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
+
+
+### Bug Fixes
+
+* Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
+* Examples ([e4581e1](https://github.com/uport-project/daf/commit/e4581e148ee1fdf19efd4f3506a6eb8e2a6789f9))
+* Find Messages ([5234c54](https://github.com/uport-project/daf/commit/5234c541257271010ebf3e70bb620e3fcc02ff14))
+* Latest message timestamps ([048974b](https://github.com/uport-project/daf/commit/048974b7016a1deb990aacf2b84a09a172bd3f6d))
+* Removing MessageMetaData entity ([353449c](https://github.com/uport-project/daf/commit/353449c5a2f9a9c0919b4e38a44012fdf98ec8a9))
+
+
+### Features
+
+* Data-store upgrade ([c4c0810](https://github.com/uport-project/daf/commit/c4c081023fb331bf7cb8c19ca2e5c79e8db6b506))
+* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
+
+
+
+
+
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 
 **Note:** Version bump only for package daf-data-store

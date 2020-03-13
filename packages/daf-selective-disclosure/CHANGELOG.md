@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
+
+
+### Bug Fixes
+
+* Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
+* Deduplicating messages ([eda582b](https://github.com/uport-project/daf/commit/eda582b32923d6cd251fc82023dc18b361122c5e))
+* SDR can have empty to field ([108f22c](https://github.com/uport-project/daf/commit/108f22c96dd96453fd6f811cf32aeffdcc97b2be))
+* Unit tests ([d764531](https://github.com/uport-project/daf/commit/d764531fe022b1cef4abe33c9a434a53cb2fa23f))
+
+
+### Features
+
+* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
+
+
+
+
+
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 
 **Note:** Version bump only for package daf-selective-disclosure

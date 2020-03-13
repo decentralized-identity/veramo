@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
+
+
+### Bug Fixes
+
+* Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
+* Claim hash ([d00b9c6](https://github.com/uport-project/daf/commit/d00b9c6ed1fed1c76cb7ed4939e2f017979360a2))
+* Deduplicating messages ([eda582b](https://github.com/uport-project/daf/commit/eda582b32923d6cd251fc82023dc18b361122c5e))
+* Examples ([e4581e1](https://github.com/uport-project/daf/commit/e4581e148ee1fdf19efd4f3506a6eb8e2a6789f9))
+* Initializing DB before any action ([7b5959e](https://github.com/uport-project/daf/commit/7b5959e9ea8c4e5a93e8aeeb98baf020c0388a9c))
+* Latest message timestamps ([048974b](https://github.com/uport-project/daf/commit/048974b7016a1deb990aacf2b84a09a172bd3f6d))
+* Removing context entities ([1a5c4c9](https://github.com/uport-project/daf/commit/1a5c4c9827fdc98338395311d7b176ebd09332f3))
+* Removing MessageMetaData entity ([353449c](https://github.com/uport-project/daf/commit/353449c5a2f9a9c0919b4e38a44012fdf98ec8a9))
+* VC / VP hash ([d4fa78f](https://github.com/uport-project/daf/commit/d4fa78ff0d03d64db6806fde9fdd6c7201ce1969))
+
+
+### Features
+
+* Data-store upgrade ([c4c0810](https://github.com/uport-project/daf/commit/c4c081023fb331bf7cb8c19ca2e5c79e8db6b506))
+* Entities ([7f1c85f](https://github.com/uport-project/daf/commit/7f1c85f84c64d49435ee1c8049b00559f3863442))
+* IdentityStore and KeyStore in daf-core ([238539c](https://github.com/uport-project/daf/commit/238539c59c328baf4a4f84c0fe86520bfefdd680))
+* IdentityStore docs ([190b505](https://github.com/uport-project/daf/commit/190b5052a800c9893c27fe57b89c50cce9fc9343))
+* TypeORM wip ([27e4ab2](https://github.com/uport-project/daf/commit/27e4ab2676042cea96370ba31d5dd7fc1c8cceb5))
+* Updated entities ([00db341](https://github.com/uport-project/daf/commit/00db341ca10ae08d1afa666b880ffd066b5b6bbc))
+* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
+
+
+### BREAKING CHANGES
+
+* Introducing TypeORM - support for more databases
+Deprecating some packages.
+
+
+
+
+
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 
 ### Bug Fixes
