@@ -1,6 +1,7 @@
 import { createConnection, Connection, In } from 'typeorm'
 import { Identity, Key, Message, Credential, Presentation, Claim, MessageMetaData } from '../index'
 import { Entities } from '../index'
+import { blake2bHex } from 'blakejs'
 import fs from 'fs'
 
 describe('daf-core', () => {
@@ -142,5 +143,20 @@ describe('daf-core', () => {
 
     expect(claims[0].type).toEqual('name')
     expect(claims[0].value).toEqual('Alice')
+  })
+
+  it('Message can have externally set id', async () => {
+    const customId = blake2bHex('hash123')
+
+    const message = new Message()
+    message.type = 'custom'
+    message.id = customId
+
+    await message.save()
+
+    const fromDb = await Message.findOne(customId, { relations: ['metaData'] })
+
+    expect(fromDb.id).toEqual(customId)
+    expect(fromDb.type).toEqual('custom')
   })
 })

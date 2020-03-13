@@ -1,5 +1,6 @@
 import { Message, Core } from 'daf-core'
 import { MessageValidator, MessageTypes } from '../index'
+import { blake2bHex } from 'blakejs'
 
 describe('daf-w3c', () => {
   const vcJwt =
@@ -76,6 +77,7 @@ describe('daf-w3c', () => {
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
     const validated = await validator.validate(message, core)
     expect(validated.isValid()).toEqual(true)
+    expect(validated.id).toEqual(blake2bHex(vcJwt))
     expect(validated.raw).toEqual(vcJwt)
     expect(validated.type).toEqual(MessageTypes.vc)
     expect(validated.from.did).toEqual(vcPayload.iss)
@@ -91,6 +93,7 @@ describe('daf-w3c', () => {
 
     const validated = await validator.validate(message, core)
     expect(validated.isValid()).toEqual(true)
+    expect(validated.id).toEqual(blake2bHex(vpJwt))
     expect(validated.raw).toEqual(vpJwt)
     expect(validated.type).toEqual(MessageTypes.vp)
     expect(validated.from.did).toEqual(vpPayload.iss)

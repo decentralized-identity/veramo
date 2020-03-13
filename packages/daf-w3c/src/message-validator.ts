@@ -1,4 +1,5 @@
 import { Core, AbstractMessageValidator, Message, Identity, Credential, Presentation } from 'daf-core'
+import { blake2bHex } from 'blakejs'
 
 import {
   verifyCredential,
@@ -33,6 +34,7 @@ export class MessageValidator extends AbstractMessageValidator {
           credentials.push(this.createCredential(verified.payload, jwt))
         }
 
+        message.id = blake2bHex(message.raw)
         message.type = MessageTypes.vp
 
         message.from = new Identity()
@@ -56,6 +58,7 @@ export class MessageValidator extends AbstractMessageValidator {
         validateVerifiableCredentialAttributes(message.data)
         debug('JWT is', MessageTypes.vc)
 
+        message.id = blake2bHex(message.raw)
         message.type = MessageTypes.vc
 
         message.from = new Identity()

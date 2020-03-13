@@ -1,4 +1,5 @@
 import { Core, AbstractMessageValidator, Message, Identity } from 'daf-core'
+import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'
 const debug = Debug('daf:daf:selective-disclosure:message-validator')
@@ -19,6 +20,7 @@ export class MessageValidator extends AbstractMessageValidator {
     ) {
       debug('JWT type is', MessageTypes.sdr)
 
+      message.id = blake2bHex(message.raw)
       message.type = MessageTypes.sdr
       message.from = new Identity()
       message.from.did = message.data.iss
