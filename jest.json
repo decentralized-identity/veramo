@@ -20,5 +20,9 @@
       "tsConfig": "./packages/tsconfig.settings.json"
     }
   },
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "automock": false,
+  "setupFiles": [
+    "./setupJest.js"
+  ]
 }

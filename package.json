@@ -29,6 +29,7 @@
     "codecov": "^3.6.5",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
+    "jest-fetch-mock": "^3.0.3",
     "lerna": "^3.20.2",
     "lerna-changelog": "^1.0.1",
     "prettier": "^1.19.1",
