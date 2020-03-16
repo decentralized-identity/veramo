@@ -1730,9 +1730,9 @@ acorn-walk@^6.0.1:
   integrity sha512-7evsyfH1cLOCdAzZAd43Cic04yKydNx0cF+7tiA19p1XnLLPU4dpCQOqpjqwokFe//vS0QqfqqjCS2JkiIs0cA==
 
 acorn@^5.5.3:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-  integrity sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.1, acorn@^6.0.4, acorn@^6.2.1:
   version "6.4.0"
@@ -3556,8 +3556,8 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
-daf-core@../../packages/daf-core, daf-core@^2.3.19:
-  version "2.3.19"
+daf-core@../../packages/daf-core, daf-core@^3.0.0:
+  version "3.0.0"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
@@ -3565,33 +3565,33 @@ daf-core@../../packages/daf-core, daf-core@^2.3.19:
     typeorm "^0.2.24"
 
 daf-debug@../../packages/daf-debug:
-  version "2.3.19"
+  version "3.0.0"
   dependencies:
-    daf-core "^2.3.19"
+    daf-core "^3.0.0"
     debug "^4.1.1"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^2.3.19:
-  version "2.3.19"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^3.0.0:
+  version "3.0.0"
   dependencies:
-    daf-core "^2.3.19"
+    daf-core "^3.0.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     did-resolver "^1.1.0"
 
 daf-ethr-did@../../packages/daf-ethr-did:
-  version "2.3.19"
+  version "3.0.0"
   dependencies:
-    daf-core "^2.3.19"
+    daf-core "^3.0.0"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
 
 daf-libsodium@../../packages/daf-libsodium:
-  version "2.3.19"
+  version "3.0.0"
   dependencies:
     base-58 "^0.0.1"
-    daf-core "^2.3.19"
+    daf-core "^3.0.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     elliptic "^6.5.2"
@@ -3599,13 +3599,13 @@ daf-libsodium@../../packages/daf-libsodium:
     libsodium-wrappers "^0.7.6"
 
 daf-local-storage@../../packages/daf-local-storage:
-  version "2.3.19"
+  version "3.0.0"
   dependencies:
-    daf-core "^2.3.19"
+    daf-core "^3.0.0"
     debug "^4.1.1"
 
 daf-resolver@../../packages/daf-resolver:
-  version "2.3.18"
+  version "3.0.0"
   dependencies:
     debug "^4.1.1"
     did-resolver "^1.1.0"
@@ -3614,7 +3614,7 @@ daf-resolver@../../packages/daf-resolver:
     web-did-resolver "^1.2.0"
 
 daf-trust-graph@../../packages/daf-trust-graph:
-  version "2.3.19"
+  version "3.0.0"
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"
@@ -3623,7 +3623,7 @@ daf-trust-graph@../../packages/daf-trust-graph:
     apollo-link-ws "^1.0.19"
     apollo-utilities "^1.3.2"
     cross-fetch "^3.0.4"
-    daf-core "^2.3.19"
+    daf-core "^3.0.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     graphql "^14.0.0"
@@ -3631,10 +3631,11 @@ daf-trust-graph@../../packages/daf-trust-graph:
     subscriptions-transport-ws "^0.9.0"
 
 daf-w3c@../../packages/daf-w3c:
-  version "2.3.19"
+  version "3.0.0"
   dependencies:
-    daf-core "^2.3.19"
-    daf-did-jwt "^2.3.19"
+    blakejs "^1.1.0"
+    daf-core "^3.0.0"
+    daf-did-jwt "^3.0.0"
     debug "^4.1.1"
     did-jwt-vc "^0.1.3"
     did-resolver "^1.1.0"
