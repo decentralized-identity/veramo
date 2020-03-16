@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-findCredential(id: string): Promise<any>;
+findCredential(id: string): Promise<Credential>;
 ```
 
 ## Parameters
@@ -18,4 +18,4 @@ findCredential(id: string): Promise<any>;
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<Credential>`

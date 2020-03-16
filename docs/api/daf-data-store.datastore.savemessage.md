@@ -8,9 +8,9 @@
 
 ```typescript
 saveMessage(message: Message): Promise<{
-        hash: any;
+        hash: string;
         iss: {
-            did: string | null;
+            did: string;
         };
     }>;
 ```
@@ -23,4 +23,4 @@ saveMessage(message: Message): Promise<{
 
 <b>Returns:</b>
 
-`Promise<{ hash: any; iss: { did: string | null; }; }>`
+`Promise<{ hash: string; iss: { did: string; }; }>`

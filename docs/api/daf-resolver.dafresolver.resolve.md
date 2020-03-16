@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-resolve(did: string): Promise<import("did-resolver").DIDDocument | null>;
+resolve(did: string): Promise<import("did-resolver").DIDDocument>;
 ```
 
 ## Parameters
@@ -18,4 +18,4 @@ resolve(did: string): Promise<import("did-resolver").DIDDocument | null>;
 
 <b>Returns:</b>
 
-`Promise<import("did-resolver").DIDDocument | null>`
+`Promise<import("did-resolver").DIDDocument>`

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-get data(): any;
+data?: any;
 ```

@@ -10,30 +10,158 @@
 _default: {
     resolvers: {
         Message: {
-            vc: (message: any, {}: {}, { dataStore }: Context) => Promise<any>;
-            metaData: (message: any, {}: {}, { dataStore }: Context) => Promise<any>;
-            thread: (message: any, {}: {}, { dataStore }: Context) => Promise<any>;
+            vc: (message: any, {}: {}, { dataStore }: Context) => Promise<{
+                rowId: string;
+                hash: string;
+                iss: {
+                    did: string;
+                };
+                sub: {
+                    did: string;
+                };
+                jwt: string;
+                nbf: number;
+                exp: number;
+            }[]>;
+            metaData: (message: any, {}: {}, { dataStore }: Context) => Promise<import("daf-core/build/entities/message").MetaData[]>;
+            thread: (message: any, {}: {}, { dataStore }: Context) => Promise<{
+                rowId: string;
+                id: string;
+                sender: {
+                    did: string;
+                };
+                receiver: {
+                    did: string;
+                };
+                type: string;
+                threadId: string;
+                data: string;
+                raw: string;
+                timestamp: number;
+            }[]>;
         };
         VerifiableClaim: {
-            fields: (vc: any, {}: {}, { dataStore }: Context) => Promise<any>;
-            inMessages: (vc: any, {}: {}, { dataStore }: Context) => Promise<any>;
+            fields: (vc: any, {}: {}, { dataStore }: Context) => Promise<{
+                rowId: string;
+                hash: string;
+                parentHash: string;
+                iss: {
+                    did: string;
+                };
+                sub: {
+                    did: string;
+                };
+                type: string;
+                value: string;
+                isObj: boolean;
+            }[]>;
+            inMessages: (vc: any, {}: {}, { dataStore }: Context) => Promise<{
+                rowId: string;
+                id: string;
+                sender: {
+                    did: string;
+                };
+                receiver: {
+                    did: string;
+                };
+                type: string;
+                threadId: string;
+                data: string;
+                raw: string;
+                timestamp: number;
+            }[]>;
         };
         Identity: {
-            shortId: (identity: any, {}: {}, { dataStore }: Context) => Promise<any>;
-            firstName: (identity: any, {}: {}, { dataStore }: Context) => Promise<any>;
-            lastName: (identity: any, {}: {}, { dataStore }: Context) => Promise<any>;
+            shortId: (identity: any, {}: {}, { dataStore }: Context) => Promise<string>;
+            firstName: (identity: any, {}: {}, { dataStore }: Context) => Promise<string>;
+            lastName: (identity: any, {}: {}, { dataStore }: Context) => Promise<string>;
             profileImage: (identity: any, {}: {}, { dataStore }: Context) => Promise<string>;
-            url: (identity: any, {}: {}, { dataStore }: Context) => Promise<any>;
-            description: (identity: any, {}: {}, { dataStore }: Context) => Promise<any>;
-            interactionCount: (identity: any, { did }: {
-                did: string;
-            }, { dataStore }: Context) => Promise<any>;
-            credentialsIssued: (identity: any, args: any, { dataStore }: Context) => Promise<any>;
-            credentialsReceived: (identity: any, args: any, { dataStore }: Context) => Promise<any>;
-            credentialsAll: (identity: any, args: any, { dataStore }: Context) => Promise<any>;
-            messagesSent: (identity: any, args: any, { dataStore }: Context) => Promise<any>;
-            messagesReceived: (identity: any, args: any, { dataStore }: Context) => Promise<any>;
-            messagesAll: (identity: any, args: any, { dataStore }: Context) => Promise<any>;
+            url: (identity: any, {}: {}, { dataStore }: Context) => Promise<string>;
+            description: (identity: any, {}: {}, { dataStore }: Context) => Promise<string>;
+            credentialsIssued: (identity: any, args: any, { dataStore }: Context) => Promise<{
+                rowId: string;
+                hash: string;
+                iss: {
+                    did: string;
+                };
+                sub: {
+                    did: string;
+                };
+                jwt: string;
+                nbf: number;
+                exp: number;
+            }[]>;
+            credentialsReceived: (identity: any, args: any, { dataStore }: Context) => Promise<{
+                rowId: string;
+                hash: string;
+                iss: {
+                    did: string;
+                };
+                sub: {
+                    did: string;
+                };
+                jwt: string;
+                nbf: number;
+                exp: number;
+            }[]>;
+            credentialsAll: (identity: any, args: any, { dataStore }: Context) => Promise<{
+                rowId: string;
+                hash: string;
+                iss: {
+                    did: string;
+                };
+                sub: {
+                    did: string;
+                };
+                jwt: string;
+                nbf: number;
+                exp: number;
+            }[]>;
+            messagesSent: (identity: any, args: any, { dataStore }: Context) => Promise<{
+                rowId: string;
+                id: string;
+                sender: {
+                    did: string;
+                };
+                receiver: {
+                    did: string;
+                };
+                type: string;
+                threadId: string;
+                data: string;
+                raw: string;
+                timestamp: number;
+            }[]>;
+            messagesReceived: (identity: any, args: any, { dataStore }: Context) => Promise<{
+                rowId: string;
+                id: string;
+                sender: {
+                    did: string;
+                };
+                receiver: {
+                    did: string;
+                };
+                type: string;
+                threadId: string;
+                data: string;
+                raw: string;
+                timestamp: number;
+            }[]>;
+            messagesAll: (identity: any, args: any, { dataStore }: Context) => Promise<{
+                rowId: string;
+                id: string;
+                sender: {
+                    did: string;
+                };
+                receiver: {
+                    did: string;
+                };
+                type: string;
+                threadId: string;
+                data: string;
+                raw: string;
+                timestamp: number;
+            }[]>;
         };
         Query: {
             identity: (_: any, { did }: {
@@ -46,29 +174,69 @@ _default: {
             }, { dataStore }: Context) => Promise<{
                 did: string;
             }[] | {
-                did: any;
+                did: string;
             }[]>;
             messages: (_: any, { sender, receiver, threadId, limit, }: {
                 sender: string;
                 receiver: string;
                 threadId: string;
                 limit: number;
-            }, { dataStore }: Context) => Promise<any>;
+            }, { dataStore }: Context) => Promise<{
+                rowId: string;
+                id: string;
+                sender: {
+                    did: string;
+                };
+                receiver: {
+                    did: string;
+                };
+                type: string;
+                threadId: string;
+                data: string;
+                raw: string;
+                timestamp: number;
+            }[]>;
             message: (_: any, { id }: {
                 id: string;
-            }, { dataStore }: Context) => Promise<any>;
+            }, { dataStore }: Context) => Promise<{
+                rowId: string;
+                id: string;
+                sender: {
+                    did: string;
+                };
+                receiver: {
+                    did: string;
+                };
+                type: string;
+                threadId: string;
+                data: string;
+                raw: string;
+                timestamp: number;
+            }>;
             credentials: (_: any, { iss, sub }: {
                 iss: string;
                 sub: string;
-            }, { dataStore }: Context) => Promise<any>;
+            }, { dataStore }: Context) => Promise<{
+                rowId: string;
+                hash: string;
+                iss: {
+                    did: string;
+                };
+                sub: {
+                    did: string;
+                };
+                jwt: string;
+                nbf: number;
+                exp: number;
+            }[]>;
             credential: (_: any, { id }: {
                 id: string;
-            }, { dataStore }: Context) => Promise<any>;
+            }, { dataStore }: Context) => Promise<import("daf-core").Credential>;
         };
         Mutation: {
             deleteMessage: (_: any, { id }: {
                 id: string;
-            }, { dataStore }: Context) => Promise<any>;
+            }, { dataStore }: Context) => Promise<import("daf-core").Message>;
         };
     };
     typeDefs: string;

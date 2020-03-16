@@ -18,9 +18,16 @@
 | [AbstractKeyStore](./daf-core.abstractkeystore.md)                       |             |
 | [AbstractMessageValidator](./daf-core.abstractmessagevalidator.md)       |             |
 | [AbstractServiceController](./daf-core.abstractservicecontroller.md)     |             |
+| [Claim](./daf-core.claim.md)                                             |             |
 | [Core](./daf-core.core.md)                                               |             |
+| [Credential](./daf-core.credential.md)                                   |             |
+| [Identity](./daf-core.identity.md)                                       |             |
 | [IdentityManager](./daf-core.identitymanager.md)                         |             |
+| [IdentityStore](./daf-core.identitystore.md)                             |             |
+| [Key](./daf-core.key.md)                                                 |             |
+| [KeyStore](./daf-core.keystore.md)                                       |             |
 | [Message](./daf-core.message.md)                                         |             |
+| [Presentation](./daf-core.presentation.md)                               |             |
 | [ServiceManager](./daf-core.servicemanager.md)                           |             |
 
 ## Enumerations
@@ -44,6 +51,7 @@
 
 | Variable                               | Description |
 | -------------------------------------- | ----------- |
+| [Entities](./daf-core.entities.md)     |             |
 | [EventTypes](./daf-core.eventtypes.md) |             |
 | [Gql](./daf-core.gql.md)               |             |
 

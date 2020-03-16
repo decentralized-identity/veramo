@@ -7,15 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-deleteMessage(hash: string): Promise<any>;
+deleteMessage(id: string): Promise<Message>;
 ```
 
 ## Parameters
 
 | Parameter | Type                | Description |
 | --------- | ------------------- | ----------- |
-| hash      | <code>string</code> |             |
+| id        | <code>string</code> |             |
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<Message>`

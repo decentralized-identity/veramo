@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-popularClaimForDid(did: string, claimType: string): Promise<any>;
+popularClaimForDid(did: string, claimType: string): Promise<string>;
 ```
 
 ## Parameters
@@ -19,4 +19,4 @@ popularClaimForDid(did: string, claimType: string): Promise<any>;
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<string>`

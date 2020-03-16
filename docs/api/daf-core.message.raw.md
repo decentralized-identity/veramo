@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-get raw(): string;
+raw?: string;
 ```

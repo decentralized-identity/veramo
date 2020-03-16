@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-shortId(did: string): Promise<any>;
+shortId(did: string): Promise<string>;
 ```
 
 ## Parameters
@@ -18,4 +18,4 @@ shortId(did: string): Promise<any>;
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<string>`

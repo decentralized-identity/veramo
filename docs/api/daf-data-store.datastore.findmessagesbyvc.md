@@ -7,7 +7,21 @@
 <b>Signature:</b>
 
 ```typescript
-findMessagesByVC(hash: string): Promise<any>;
+findMessagesByVC(hash: string): Promise<{
+        rowId: string;
+        id: string;
+        sender: {
+            did: string;
+        };
+        receiver: {
+            did: string;
+        };
+        type: string;
+        threadId: string;
+        data: string;
+        raw: string;
+        timestamp: number;
+    }[]>;
 ```
 
 ## Parameters
@@ -18,4 +32,4 @@ findMessagesByVC(hash: string): Promise<any>;
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<{ rowId: string; id: string; sender: { did: string; }; receiver: { did: string; }; type: string; threadId: string; data: string; raw: string; timestamp: number; }[]>`

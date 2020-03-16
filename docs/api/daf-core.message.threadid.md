@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-threadId: string | null
+threadId?: string;
 ```

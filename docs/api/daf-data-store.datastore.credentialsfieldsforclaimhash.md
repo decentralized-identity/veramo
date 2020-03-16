@@ -7,7 +7,20 @@
 <b>Signature:</b>
 
 ```typescript
-credentialsFieldsForClaimHash(hash: string): Promise<any>;
+credentialsFieldsForClaimHash(hash: string): Promise<{
+        rowId: string;
+        hash: string;
+        parentHash: string;
+        iss: {
+            did: string;
+        };
+        sub: {
+            did: string;
+        };
+        type: string;
+        value: string;
+        isObj: boolean;
+    }[]>;
 ```
 
 ## Parameters
@@ -18,4 +31,4 @@ credentialsFieldsForClaimHash(hash: string): Promise<any>;
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<{ rowId: string; hash: string; parentHash: string; iss: { did: string; }; sub: { did: string; }; type: string; value: string; isObj: boolean; }[]>`

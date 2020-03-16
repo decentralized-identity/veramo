@@ -10,7 +10,19 @@
 findCredentials({ iss, sub }: {
         iss?: string;
         sub?: string;
-    }): Promise<any>;
+    }): Promise<{
+        rowId: string;
+        hash: string;
+        iss: {
+            did: string;
+        };
+        sub: {
+            did: string;
+        };
+        jwt: string;
+        nbf: number;
+        exp: number;
+    }[]>;
 ```
 
 ## Parameters
@@ -21,4 +33,4 @@ findCredentials({ iss, sub }: {
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<{ rowId: string; hash: string; iss: { did: string; }; sub: { did: string; }; jwt: string; nbf: number; exp: number; }[]>`

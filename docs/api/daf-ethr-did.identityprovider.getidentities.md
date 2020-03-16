@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-getIdentities(): Promise<AbstractIdentity[]>;
+getIdentities(): Promise<any[]>;
 ```
 
 <b>Returns:</b>
 
-`Promise<AbstractIdentity[]>`
+`Promise<any[]>`

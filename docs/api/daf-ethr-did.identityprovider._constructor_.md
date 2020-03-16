@@ -13,13 +13,13 @@ constructor(options: {
         kms: AbstractKeyManagementSystem;
         identityStore: AbstractIdentityStore;
         network: string;
-        rpcUrl: string;
-        resolver: Resolver;
+        rpcUrl?: string;
+        web3Provider?: object;
     });
 ```
 
 ## Parameters
 
-| Parameter | Type                                                                                                                                                                                                                                                      | Description |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| options   | <code>{</code><br/><code> kms: AbstractKeyManagementSystem;</code><br/><code> identityStore: AbstractIdentityStore;</code><br/><code> network: string;</code><br/><code> rpcUrl: string;</code><br/><code> resolver: Resolver;</code><br/><code> }</code> |             |
+| Parameter | Type                                                                                                                                                                                                                                                          | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| options   | <code>{</code><br/><code> kms: AbstractKeyManagementSystem;</code><br/><code> identityStore: AbstractIdentityStore;</code><br/><code> network: string;</code><br/><code> rpcUrl?: string;</code><br/><code> web3Provider?: object;</code><br/><code> }</code> |             |

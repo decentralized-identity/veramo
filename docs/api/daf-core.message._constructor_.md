@@ -9,14 +9,17 @@ Constructs a new instance of the `Message` class
 <b>Signature:</b>
 
 ```typescript
-constructor({ raw, meta }: {
+constructor(data?: {
         raw: string;
-        meta: MetaData;
+        meta?: {
+            type: string;
+            value?: string;
+        };
     });
 ```
 
 ## Parameters
 
-| Parameter     | Type                                                                                                | Description |
-| ------------- | --------------------------------------------------------------------------------------------------- | ----------- |
-| { raw, meta } | <code>{</code><br/><code> raw: string;</code><br/><code> meta: MetaData;</code><br/><code> }</code> |             |
+| Parameter | Type                                                                                                                                                                                | Description |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| data      | <code>{</code><br/><code> raw: string;</code><br/><code> meta?: {</code><br/><code> type: string;</code><br/><code> value?: string;</code><br/><code> };</code><br/><code> }</code> |             |

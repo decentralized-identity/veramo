@@ -11,7 +11,19 @@ findCredentialsByFields({ iss, sub, claim_type, }: {
         iss?: string[];
         sub?: string[];
         claim_type: string;
-    }): Promise<any>;
+    }): Promise<{
+        rowId: string;
+        hash: string;
+        iss: {
+            did: string;
+        };
+        sub: {
+            did: string;
+        };
+        jwt: string;
+        nbf: number;
+        exp: number;
+    }[]>;
 ```
 
 ## Parameters
@@ -22,4 +34,4 @@ findCredentialsByFields({ iss, sub, claim_type, }: {
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<{ rowId: string; hash: string; iss: { did: string; }; sub: { did: string; }; jwt: string; nbf: number; exp: number; }[]>`

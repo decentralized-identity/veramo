@@ -12,7 +12,21 @@ findMessages({ sender, receiver, threadId, limit, }: {
         receiver?: string;
         threadId?: string;
         limit?: number;
-    }): Promise<any>;
+    }): Promise<{
+        rowId: string;
+        id: string;
+        sender: {
+            did: string;
+        };
+        receiver: {
+            did: string;
+        };
+        type: string;
+        threadId: string;
+        data: string;
+        raw: string;
+        timestamp: number;
+    }[]>;
 ```
 
 ## Parameters
@@ -23,4 +37,4 @@ findMessages({ sender, receiver, threadId, limit, }: {
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<{ rowId: string; id: string; sender: { did: string; }; receiver: { did: string; }; type: string; threadId: string; data: string; raw: string; timestamp: number; }[]>`

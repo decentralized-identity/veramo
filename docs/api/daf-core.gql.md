@@ -14,25 +14,32 @@ Gql: {
             Query: {
                 serviceMessagesSince: (_: any, args: {
                     ts: import("..").LastMessageTimestampForInstance[];
-                }, ctx: import("./graphql-core").Context) => Promise<{
-                    id: any;
-                    data: string;
-                    raw: string;
-                    metaData: import("../message/message").MetaData[];
-                    type: string | null;
-                    threadId: string | null;
-                    sender: string | null;
-                    receiver: string | null;
-                    timestamp: number | null;
-                    vc?: any;
-                }[]>;
+                }, ctx: import("./graphql-core").Context) => Promise<any[]>;
             };
             Mutation: {
                 newMessage: (_: any, args: {
                     raw: string;
                     sourceType: string;
-                    sourceId?: string | undefined;
-                }, ctx: import("./graphql-core").Context) => Promise<import("..").Message>;
+                    sourceId?: string;
+                }, ctx: import("./graphql-core").Context) => Promise<{
+                    data: string;
+                    id: string;
+                    raw: string;
+                    __typename: string;
+                    saveDate: Date;
+                    updateDate: Date;
+                    createdAt?: Date;
+                    expiresAt?: Date;
+                    threadId?: string;
+                    type: string;
+                    replyTo?: string[];
+                    replyUrl?: string;
+                    from?: import("..").Identity;
+                    to?: import("..").Identity;
+                    metaData?: import("../entities/message").MetaData[];
+                    presentations: import("..").Presentation[];
+                    credentials: import("..").Credential[];
+                }>;
             };
         };
         typeDefs: string;

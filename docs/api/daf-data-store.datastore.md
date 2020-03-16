@@ -10,12 +10,6 @@
 export declare class DataStore
 ```
 
-## Constructors
-
-| Constructor                                                            | Modifiers | Description                                                   |
-| ---------------------------------------------------------------------- | --------- | ------------------------------------------------------------- |
-| [(constructor)(dbDriver)](./daf-data-store.datastore._constructor_.md) |           | Constructs a new instance of the <code>DataStore</code> class |
-
 ## Methods
 
 | Method                                                                                                      | Modifiers | Description |
@@ -23,7 +17,8 @@ export declare class DataStore
 | [allIdentities()](./daf-data-store.datastore.allidentities.md)                                              |           |             |
 | [credentialsFieldsForClaimHash(hash)](./daf-data-store.datastore.credentialsfieldsforclaimhash.md)          |           |             |
 | [credentialsForMessageId(id)](./daf-data-store.datastore.credentialsformessageid.md)                        |           |             |
-| [deleteMessage(hash)](./daf-data-store.datastore.deletemessage.md)                                          |           |             |
+| [credentialToLegacyFormat(credential)](./daf-data-store.datastore.credentialtolegacyformat.md)              |           |             |
+| [deleteMessage(id)](./daf-data-store.datastore.deletemessage.md)                                            |           |             |
 | [findCredential(id)](./daf-data-store.datastore.findcredential.md)                                          |           |             |
 | [findCredentials({ iss, sub })](./daf-data-store.datastore.findcredentials.md)                              |           |             |
 | [findCredentialsByFields({ iss, sub, claim_type, })](./daf-data-store.datastore.findcredentialsbyfields.md) |           |             |
@@ -31,12 +26,8 @@ export declare class DataStore
 | [findMessage(id)](./daf-data-store.datastore.findmessage.md)                                                |           |             |
 | [findMessages({ sender, receiver, threadId, limit, })](./daf-data-store.datastore.findmessages.md)          |           |             |
 | [findMessagesByVC(hash)](./daf-data-store.datastore.findmessagesbyvc.md)                                    |           |             |
-| [initialize()](./daf-data-store.datastore.initialize.md)                                                    |           |             |
-| [interactionCount(did1, did2)](./daf-data-store.datastore.interactioncount.md)                              |           |             |
 | [latestMessageTimestamps()](./daf-data-store.datastore.latestmessagetimestamps.md)                          |           |             |
-| [messageMetaData(id)](./daf-data-store.datastore.messagemetadata.md)                                        |           |             |
+| [metaData(id)](./daf-data-store.datastore.metadata.md)                                                      |           |             |
 | [popularClaimForDid(did, claimType)](./daf-data-store.datastore.popularclaimfordid.md)                      |           |             |
 | [saveMessage(message)](./daf-data-store.datastore.savemessage.md)                                           |           |             |
-| [saveVerifiableCredential(vc, messageId)](./daf-data-store.datastore.saveverifiablecredential.md)           |           |             |
-| [saveVerifiableCredentials(message)](./daf-data-store.datastore.saveverifiablecredentials.md)               |           |             |
 | [shortId(did)](./daf-data-store.datastore.shortid.md)                                                       |           |             |

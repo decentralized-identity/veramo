@@ -8,10 +8,10 @@
 
 ```typescript
 allIdentities(): Promise<{
-        did: any;
+        did: string;
     }[]>;
 ```
 
 <b>Returns:</b>
 
-`Promise<{ did: any; }[]>`
+`Promise<{ did: string; }[]>`

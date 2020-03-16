@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-latestMessageTimestamps(): Promise<any>;
+latestMessageTimestamps(): Promise<any[]>;
 ```
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<any[]>`

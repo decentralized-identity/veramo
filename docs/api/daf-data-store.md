@@ -10,16 +10,6 @@
 | ------------------------------------------ | ----------- |
 | [DataStore](./daf-data-store.datastore.md) |             |
 
-## Interfaces
-
-| Interface                                                        | Description |
-| ---------------------------------------------------------------- | ----------- |
-| [DbDriver](./daf-data-store.dbdriver.md)                         |             |
-| [Identity](./daf-data-store.identity.md)                         |             |
-| [Migration](./daf-data-store.migration.md)                       |             |
-| [VerifiableClaim](./daf-data-store.verifiableclaim.md)           |             |
-| [VerifiableClaimField](./daf-data-store.verifiableclaimfield.md) |             |
-
 ## Variables
 
 | Variable                       | Description |

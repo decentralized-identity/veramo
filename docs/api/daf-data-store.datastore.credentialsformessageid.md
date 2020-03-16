@@ -7,7 +7,19 @@
 <b>Signature:</b>
 
 ```typescript
-credentialsForMessageId(id: string): Promise<any>;
+credentialsForMessageId(id: string): Promise<{
+        rowId: string;
+        hash: string;
+        iss: {
+            did: string;
+        };
+        sub: {
+            did: string;
+        };
+        jwt: string;
+        nbf: number;
+        exp: number;
+    }[]>;
 ```
 
 ## Parameters
@@ -18,4 +30,4 @@ credentialsForMessageId(id: string): Promise<any>;
 
 <b>Returns:</b>
 
-`Promise<any>`
+`Promise<{ rowId: string; hash: string; iss: { did: string; }; sub: { did: string; }; jwt: string; nbf: number; exp: number; }[]>`
