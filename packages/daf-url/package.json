@@ -1,7 +1,7 @@
 {
   "name": "daf-url",
   "description": "DAF URL message validator",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
