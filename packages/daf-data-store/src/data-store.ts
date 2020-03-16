@@ -33,7 +33,7 @@ export class DataStore {
       relations: ['credentials', 'credentials.issuer', 'credentials.subject'],
     })
 
-    return message.credentials.map(this.credentialToLegacyFormat)
+    return message?.credentials.map(this.credentialToLegacyFormat)
   }
 
   async credentialsFieldsForClaimHash(hash: string) {

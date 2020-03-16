@@ -24,6 +24,8 @@ const newMessage = async (
 
   const res = {
     ...message,
+    sender: message.from,
+    receiver: message.to,
     data: JSON.stringify(message.data),
     id: message.id,
     raw: message.raw,
