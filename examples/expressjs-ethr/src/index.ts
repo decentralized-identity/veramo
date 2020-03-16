@@ -183,7 +183,13 @@ async function main() {
 
     const { views } = req.session
 
-    // Sign verifiable credential
+    const url = encodeURI(process.env.HOST + '/public-profile')
+
+    res.render('about', { views, url })
+  })
+
+  app.get('/public-profile', async(req, res) => {
+    // Sign verifiable presentation
     const jwt = await core.handleAction({
       type: W3C.ActionTypes.signVc,
       did: identity.did,
@@ -201,9 +207,7 @@ async function main() {
       },
     } as W3C.ActionSignW3cVc)
 
-    const url = encodeURI(process.env.HOST + '/?c_i=') + jwt
-
-    res.render('about', { views, url })
+    res.send(jwt)
   })
 
   app.get('/logout', (req, res) => req.session?.destroy(() => res.redirect('/')))
