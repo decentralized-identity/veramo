@@ -12,7 +12,7 @@ export class MessageValidator extends AbstractMessageValidator {
       debug('Detected standard URL')
       message.raw = parsed.query.c_i
       message.addMetaData({ type: 'URL', value: parsed.origin + parsed.pathname })
-    } else if (parsed) {
+    } else if (parsed?.hostname) {
       try {
         const url = message.raw
         debug('Fetching URL', url)
