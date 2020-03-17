@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/uport-project/daf/compare/v3.1.0...v3.1.1) (2020-03-17)
+
+
+### Bug Fixes
+
+* Loading URLs that have a hostname ([2e65531](https://github.com/uport-project/daf/commit/2e655319314ec2aaaef5ef1a9263eb8ee556ece8))
+
+
+
+
+
 # [3.1.0](https://github.com/uport-project/daf/compare/v3.0.2...v3.1.0) (2020-03-16)
 
 
