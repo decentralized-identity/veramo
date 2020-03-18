@@ -48,8 +48,8 @@ export class Presentation extends BaseEntity {
   )
   audience: Identity
 
-  @Column({ nullable: true })
-  issuanceDate?: Date
+  @Column()
+  issuanceDate: Date
 
   @Column({ nullable: true })
   expirationDate?: Date
