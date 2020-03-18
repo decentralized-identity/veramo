@@ -20,23 +20,23 @@ program
         Daf.Gql.baseTypeDefs,
         Daf.Gql.Core.typeDefs,
         Daf.Gql.IdentityManager.typeDefs,
-        DataGql.typeDefs,
-        TG.Gql.typeDefs,
-        W3c.Gql.typeDefs,
-        SRD.Gql.typeDefs,
+        // DataGql.typeDefs,
+        // TG.Gql.typeDefs,
+        // W3c.Gql.typeDefs,
+        // SRD.Gql.typeDefs,
       ],
       resolvers: merge(
         Daf.Gql.Core.resolvers,
         Daf.Gql.IdentityManager.resolvers,
-        DataGql.resolvers,
-        TG.Gql.resolvers,
-        W3c.Gql.resolvers,
-        SRD.Gql.resolvers,
+        // DataGql.resolvers,
+        // TG.Gql.resolvers,
+        // W3c.Gql.resolvers,
+        // SRD.Gql.resolvers,
       ),
       context: () => ({ dataStore, core }),
       introspection: true,
     })
-    await core.setupServices()
+    // await core.setupServices()
     const info = await server.listen({ port: cmd.port })
     console.log(`🚀  Server ready at ${info.url}`)
 

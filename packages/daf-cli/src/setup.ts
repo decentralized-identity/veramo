@@ -93,5 +93,5 @@ export const dataStore = new DataStore()
 
 core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
   debug('New message %O', message)
-  await message.save()
+  // await message.save()
 })

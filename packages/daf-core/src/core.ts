@@ -102,6 +102,25 @@ export class Core extends EventEmitter {
     return Promise.reject(unsupportedMessageTypeError)
   }
 
+  public async saveNewMessage(input: { raw: string, metaDataType?: string, metaDataValue?: string }): Promise<Message> {
+    try {
+      const message = await this.validateMessage(
+        new Message({
+          raw: input.raw, 
+          meta:{ 
+            type: input.metaDataType,
+            value: input.metaDataValue
+          }
+        })
+      )
+      await message.save()
+      return message
+    } catch (error) {
+      this.emit(EventTypes.error, error)
+      return Promise.reject(error)
+    }
+  }
+
   public async handleAction(action: Action): Promise<any> {
     if (!this.actionHandler) {
       return Promise.reject('Action handler not provided')
