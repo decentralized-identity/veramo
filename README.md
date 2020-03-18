@@ -14,6 +14,9 @@
 
 ![architecture](docs/assets/architecture.png)
 
+## ORM Data model
+[![orm](docs/assets/orm-data-model.png)](docs/assets/orm-data-model.png)
+
 ## Packages
 
 Legend: 🟢 - Stable, 🟡 - Work in progress, 🔴 - Experimental
