@@ -30,7 +30,7 @@ export class IdentityController extends AbstractIdentityController {
 
     const attribute = 'did/svc/' + service.type
     const value = service.serviceEndpoint
-    const ttl = 86400
+    const ttl = 60 * 60 * 24 * 30 * 12
     const gas = 100000
     debug('ethrDid.setAttribute', { attribute, value, ttl, gas })
     try {
@@ -52,7 +52,7 @@ export class IdentityController extends AbstractIdentityController {
     const usg = 'veriKey'
     const attribute = 'did/pub/' + type + '/' + usg + '/hex'
     const value = '0x' + key.serialized.publicKeyHex
-    const ttl = 86400
+    const ttl = 60 * 60 * 24 * 30 * 12
     const gas = 100000
     debug('ethrDid.setAttribute', { attribute, value, ttl, gas })
 
