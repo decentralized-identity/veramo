@@ -120,7 +120,7 @@ export class Core extends EventEmitter {
       )
       await message.save()
       debug('Emitting event', EventTypes.savedMessage)
-      this.emit(EventTypes.validatedMessage, message)
+      this.emit(EventTypes.savedMessage, message)
       return message
     } catch (error) {
       this.emit(EventTypes.error, error)

@@ -861,54 +861,34 @@ cross-fetch@^3.0.4:
     node-fetch "2.6.0"
     whatwg-fetch "3.0.0"
 
-daf-core@../../packages/daf-core:
-  version "3.1.3"
+daf-core@../../packages/daf-core, daf-core@^3.4.0:
+  version "3.4.0"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
     typeorm "^0.2.24"
 
-daf-core@^3.1.3, daf-core@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/daf-core/-/daf-core-3.2.0.tgz#00355383b8ddf11d3c0fc13884cca4c165b39780"
-  integrity sha512-s3zjyMhZYDV36CIGfM+lj0ZhPawS1CYT5EObq7z0W68SXABAxw703PzSNNtFGU41vWGPFH+c7cJNJnWiop7/Xg==
+daf-data-store@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/daf-data-store/-/daf-data-store-3.4.0.tgz#97a693ce8bd35b1a81e43890458ea0aae9f942c7"
+  integrity sha512-gYDzSVljlnAfJcxRVWuVbRSzfL2V61vmQLSJ/EV3SxZLSQZGWyUFT7Kk8Nwv5LIhcZuDMEOd81uj1Tw4snuJDg==
   dependencies:
     blakejs "^1.1.0"
-    debug "^4.1.1"
-    events "^3.0.0"
-    typeorm "^0.2.24"
-
-daf-data-store@^3.1.4:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/daf-data-store/-/daf-data-store-3.2.0.tgz#05a746f9d7c12a281912959f9744b21fe2243148"
-  integrity sha512-mqRNhVvPqBvjahOAdKAN8zJDYJI87RHCHKA00bAegQjZyjvL1RmwHh+/Fj9xCxPcbM5CmozRN7jdEonmw0CGQg==
-  dependencies:
-    blakejs "^1.1.0"
-    daf-core "^3.2.0"
+    daf-core "^3.4.0"
     debug "^4.1.1"
     sql-bricks-sqlite "^0.1.0"
 
 daf-debug@../../packages/daf-debug:
-  version "3.1.3"
+  version "3.4.0"
   dependencies:
-    daf-core "^3.1.3"
+    daf-core "^3.4.0"
     debug "^4.1.1"
 
-daf-did-jwt@../../packages/daf-did-jwt:
-  version "3.1.3"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^3.4.0:
+  version "3.4.0"
   dependencies:
-    daf-core "^3.1.3"
-    debug "^4.1.1"
-    did-jwt "^4.0.0"
-    did-resolver "^1.1.0"
-
-daf-did-jwt@^3.1.3:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/daf-did-jwt/-/daf-did-jwt-3.2.0.tgz#0f195bd6f47a37078479c21b5426aa63849a3853"
-  integrity sha512-ZWVZDh3CrlNf1uL0MIK+bsi/+jFk+qe2EImnHbkglHttJk5r7K0sOW9oVDc0mgUH0IQcPFCOI6F0fjaEgnNrdg==
-  dependencies:
-    daf-core "^3.2.0"
+    daf-core "^3.4.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     did-resolver "^1.1.0"
@@ -923,21 +903,21 @@ daf-resolver@../../packages/daf-resolver:
     web-did-resolver "^1.2.0"
 
 daf-selective-disclosure@../../packages/daf-selective-disclosure:
-  version "3.1.4"
+  version "3.4.0"
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^3.1.3"
-    daf-data-store "^3.1.4"
-    daf-did-jwt "^3.1.3"
+    daf-core "^3.4.0"
+    daf-data-store "^3.4.0"
+    daf-did-jwt "^3.4.0"
     debug "^4.1.1"
     did-jwt "^4.0.0"
 
 daf-w3c@../../packages/daf-w3c:
-  version "3.1.3"
+  version "3.4.0"
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^3.1.3"
-    daf-did-jwt "^3.1.3"
+    daf-core "^3.4.0"
+    daf-did-jwt "^3.4.0"
     debug "^4.1.1"
     did-jwt-vc "^0.1.3"
     did-resolver "^1.1.0"

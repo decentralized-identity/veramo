@@ -40,7 +40,8 @@ const server = new ApolloServer({
 })
 
 core.on(Daf.EventTypes.savedMessage, async (message: Daf.Message) => {
-  // Add your business logic
+  // Add your business logic here
+  console.log(message)
 })
 
 const main = async () => {
@@ -48,7 +49,7 @@ const main = async () => {
     type: 'sqlite',
     database: './database.sqlite',
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [...Daf.Entities],
   })
 
