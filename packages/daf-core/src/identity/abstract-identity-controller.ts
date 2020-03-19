@@ -15,6 +15,10 @@ export abstract class AbstractIdentityController {
     return Promise.reject('Method addPublicKey not implemented')
   }
 
+  /**
+   *
+   * @param keyId String
+   */
   removePublicKey(keyId: string): Promise<boolean> {
     return Promise.reject('Method removePublicKey not implemented')
   }
