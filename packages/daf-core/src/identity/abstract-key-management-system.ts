@@ -31,4 +31,7 @@ export abstract class AbstractKeyManagementSystem {
   abstract createKey(type: KeyType): Promise<AbstractKey>
   abstract getKey(kid: string): Promise<AbstractKey>
   abstract deleteKey(kid: string): Promise<boolean>
+  importKey(key: SerializedKey): Promise<AbstractKey> {
+    return Promise.reject('Method importKey not implemented')
+  }
 }
