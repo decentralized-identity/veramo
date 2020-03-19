@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/uport-project/daf/compare/v3.1.4...v3.2.0) (2020-03-19)
+
+
+### Features
+
+* Version bump ([f482187](https://github.com/uport-project/daf/commit/f482187a776f05f1977d3c01caa8acc2e0e6c08f))
+
+
+
+
+
 ## [3.1.4](https://github.com/uport-project/daf/compare/v3.1.3...v3.1.4) (2020-03-19)
 
 
