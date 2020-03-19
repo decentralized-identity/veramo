@@ -18,15 +18,11 @@ messageValidator
   .setNext(new W3c.MessageValidator())
   .setNext(new SD.MessageValidator())
 
-const actionHandler = new DBG.ActionHandler()
-actionHandler.setNext(new W3c.ActionHandler()).setNext(new SD.ActionHandler())
-
 export const core = new Daf.Core({
   identityProviders: [],
   serviceControllers: [],
   didResolver,
   messageValidator,
-  actionHandler,
 })
 
 const server = new ApolloServer({
