@@ -1,7 +1,7 @@
 {
   "name": "daf-trust-graph",
   "description": "DAF Trust Graph",
-  "version": "4.0.0-beta.8+2829540",
+  "version": "4.0.0-beta.11+d374d73",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -15,7 +15,7 @@
     "apollo-link-ws": "^1.0.19",
     "apollo-utilities": "^1.3.2",
     "cross-fetch": "^3.0.4",
-    "daf-core": "^4.0.0-beta.8+2829540",
+    "daf-core": "^4.0.0-beta.11+d374d73",
     "debug": "^4.1.1",
     "did-jwt": "^4.0.0",
     "graphql": "^14.0.0",
@@ -37,5 +37,5 @@
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
   "keywords": [],
-  "gitHead": "2829540c247255251961415d63e87b28fb7a00a5"
+  "gitHead": "d374d739bbf28655ed9cb546d7d785fafad94f4c"
 }
