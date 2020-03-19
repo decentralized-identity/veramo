@@ -14,6 +14,10 @@ export class IdentityStore extends AbstractIdentityStore {
     super()
   }
 
+  /**
+   *
+   * @param did DID address. String
+   */
   async get(did: string) {
     const identity = await Identity.findOne(did, { relations: ['keys'] })
     if (!identity) throw Error('Identity not found')
