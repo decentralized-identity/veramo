@@ -59,6 +59,9 @@ export class IdentityStore extends AbstractIdentityStore {
     return true
   }
 
+  /**
+   * List dids
+   */
   async listDids() {
     const identities = await Identity.find({ where: { provider: this.provider } })
     return identities.map(identity => identity.did)
