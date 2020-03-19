@@ -10,6 +10,8 @@ program
   .option('-t, --types', 'List available identity controller types')
   .option('-c, --create', 'Create identity')
   .option('-d, --delete', 'Delete identity')
+  .option('-e, --export', 'Export identity')
+  .option('-i, --import', 'Import identity')
   .option('-s, --service', 'Add service endpoint')
   .option('-p, --publicKey', 'Add public key')
   .option('--encrypt', 'Encrypt data to a recipient DID')
@@ -45,7 +47,7 @@ program
             type: 'list',
             name: 'type',
             choices: types.map(item => ({ name: `${item.type} - ${item.description}`, value: item.type })),
-            message: 'Select identity controller',
+            message: 'Select identity provider',
           },
         ])
         const identity = await core.identityManager.createIdentity(answers.type)
@@ -200,6 +202,51 @@ program
         const key = await identity.keyByType('Ed25519')
         const result = await key.decrypt(answers.message)
         console.log('Success:', result)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    if (cmd.export) {
+      try {
+        const identities = await core.identityManager.getIdentities()
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'did',
+            choices: identities.map(item => item.did),
+            message: 'Select DID',
+          },
+        ])
+
+        const identity = await core.identityManager.getIdentity(answers.did)
+        const secret = await core.identityManager.exportIdentity(identity.identityProviderType, identity.did)
+        console.log(secret)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    if (cmd.import) {
+      try {
+        const providers = await core.identityManager.getIdentityProviderTypes()
+
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'provider',
+            choices: providers.map(item => item.type),
+            message: 'Select identity provider',
+          },
+          {
+            type: 'text',
+            name: 'secret',
+            message: 'Secret',
+          },
+        ])
+
+        const identity = await core.identityManager.importIdentity(answers.provider, answers.secret)
+        console.log(identity)
       } catch (e) {
         console.error(e)
       }

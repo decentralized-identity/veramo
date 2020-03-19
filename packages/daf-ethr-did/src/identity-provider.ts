@@ -107,4 +107,18 @@ export class IdentityProvider extends AbstractIdentityProvider {
     const serializedIdentity = await this.identityStore.get(did)
     return this.identityFromSerialized(serializedIdentity)
   }
+
+  async exportIdentity(did: string) {
+    const serializedIdentity = await this.identityStore.get(did)
+    return JSON.stringify(serializedIdentity)
+  }
+
+  async importIdentity(secret: string) {
+    const serializedIdentity: SerializedIdentity = JSON.parse(secret)
+    for (const serializedKey of serializedIdentity.keys) {
+      await this.kms.importKey(serializedKey)
+    }
+    await this.identityStore.set(serializedIdentity.did, serializedIdentity)
+    return this.identityFromSerialized(serializedIdentity)
+  }
 }

@@ -98,4 +98,9 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     debug('Deleting', kid)
     return await this.keyStore.delete(kid)
   }
+
+  async importKey(serializedKey: SerializedKey) {
+    await this.keyStore.set(serializedKey.kid, serializedKey)
+    return new Key(serializedKey)
+  }
 }
