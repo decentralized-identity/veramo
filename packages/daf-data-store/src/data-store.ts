@@ -67,11 +67,11 @@ export class DataStore {
     claim_type: string
   }) {
     let where = {}
-
-    if (iss) {
+    
+    if (iss && iss.length > 0) {
       where['issuer'] = In(iss)
     }
-    if (sub) {
+    if (sub && iss.length > 0) {
       where['subject'] = In(sub)
     }
 
