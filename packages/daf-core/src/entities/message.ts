@@ -5,7 +5,6 @@ import {
   ManyToOne,
   ManyToMany,
   PrimaryGeneratedColumn,
-  OneToMany,
   JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
@@ -72,6 +71,7 @@ export class Message extends BaseEntity {
     {
       nullable: true,
       cascade: ['insert'],
+      eager: true
     },
   )
   from?: Identity
@@ -82,6 +82,7 @@ export class Message extends BaseEntity {
     {
       nullable: true,
       cascade: ['insert'],
+      eager: true
     },
   )
   to?: Identity
@@ -99,9 +100,11 @@ export class Message extends BaseEntity {
   @JoinTable()
   presentations: Presentation[]
 
-  @ManyToMany(type => Credential, {
-    cascade: true,
-  })
+  @ManyToMany(
+    type => Credential, 
+    credential => credential.messages,
+    { cascade: true }
+  )
   @JoinTable()
   credentials: Credential[]
 

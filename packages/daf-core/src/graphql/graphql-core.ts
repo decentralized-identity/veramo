@@ -29,7 +29,6 @@ const messages = async (
    }},
 ) => {
   const options = { 
-    relations: ['from', 'to'],
     where: {}
    }
 
@@ -54,7 +53,7 @@ const claims = async (
    }},
 ) => {
   const options = { 
-    relations: ['issuer', 'subject', 'credential'],
+    relations: ['credential'],
     where: {}
    }
 
@@ -69,41 +68,47 @@ const claims = async (
 }
 
 export const resolvers = {
-  Identity: {
-    sentMessages: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['sentMessages', 'sentMessages.from', 'sentMessages.to']})).sentMessages,
-    receivedMessages: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['receivedMessages', 'receivedMessages.from', 'receivedMessages.to']})).receivedMessages,
-    issuedPresentations: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['issuedPresentations', 'issuedPresentations.issuer', 'issuedPresentations.audience']})).issuedPresentations,
-    receivedPresentations: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['receivedPresentations', 'receivedPresentations.issuer', 'receivedPresentations.audience']})).receivedPresentations,
-    issuedCredentials: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['issuedCredentials', 'issuedCredentials.issuer', 'issuedCredentials.subject']})).issuedCredentials,
-    receivedCredentials: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['receivedCredentials', 'receivedCredentials.issuer', 'receivedCredentials.subject']})).receivedCredentials,
-    issuedClaims: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['issuedClaims', 'issuedClaims.issuer', 'issuedClaims.subject']})).issuedClaims,
-    receivedClaims: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['receivedClaims', 'receivedClaims.issuer', 'receivedClaims.subject']})).receivedClaims,
-  },
-
-  Credential: {
-    claims: async (credential: Credential) => Claim.find({ where: { credential: credential.hash}, relations: ['issuer', 'subject', 'credential'] }),
-    messages: async (credential: Credential) => (await Credential.findOne(credential.hash, { relations: ['messages', 'messages.from', 'messages.to']}))?.messages,
-    presentations: async (credential: Credential) => (await Credential.findOne(credential.hash, { relations: ['presentations', 'presentations.issuer', 'presentations.audience']})).presentations,
-  },
-  Presentation: {
-    credentials: async (presentation: Presentation) => (await Presentation.findOne(presentation.hash, { relations: ['credentials', 'credentials.issuer', 'credentials.subject']})).credentials,
-    messages: async (presentation: Presentation) => (await Presentation.findOne(presentation.hash, { relations: ['messages', 'messages.from', 'messages.to']})).messages
-  },
-  Message: {
-    presentations: async (message: Message) => (await Message.findOne(message.id, { relations: ['presentations', 'presentations.issuer', 'presentations.audience']})).presentations,
-    credentials: async (message: Message) => (await Message.findOne(message.id, { relations: ['credentials', 'credentials.issuer', 'credentials.subject']})).credentials,
-  },
-  Query: {
-    messages,
-    message: async (_: any, { id }) => Message.findOne(id, { relations: ['from', 'to'] }),
-    identity: async (_: any, { did }) => Identity.findOne(did),
-    credential: async (_: any, { hash }) => Credential.findOne(hash, { relations: ['issuer', 'subject'] }),
-    identities: async () => Identity.find(),
-    claims,
-  },
   Mutation: {
     saveNewMessage,
   },
+
+  Query: {
+    messages,
+    message:    async (_: any, { id }) => Message.findOne(id),
+    identity:   async (_: any, { did }) => Identity.findOne(did),
+    credential: async (_: any, { hash }) => Credential.findOne(hash),
+    identities: async () => Identity.find(),
+    claims,
+  },
+  
+  Identity: {
+    sentMessages:          async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['sentMessages']})).sentMessages,
+    receivedMessages:      async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['receivedMessages']})).receivedMessages,
+    issuedPresentations:   async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['issuedPresentations']})).issuedPresentations,
+    receivedPresentations: async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['receivedPresentations']})).receivedPresentations,
+    issuedCredentials:     async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['issuedCredentials']})).issuedCredentials,
+    receivedCredentials:   async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['receivedCredentials']})).receivedCredentials,
+    issuedClaims:          async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['issuedClaims']})).issuedClaims,
+    receivedClaims:        async (identity: Identity) => (await Identity.findOne(identity.did, { relations: ['receivedClaims']})).receivedClaims,
+  },
+
+  Credential: {
+    claims:        async (credential: Credential) => Claim.find({ where: { credential: credential.hash}, relations: ['credential'] }),
+    messages:      async (credential: Credential) => (await Credential.findOne(credential.hash, { relations: ['messages']})).messages,
+    presentations: async (credential: Credential) => (await Credential.findOne(credential.hash, { relations: ['presentations']})).presentations,
+  },
+
+  Presentation: {
+    credentials: async (presentation: Presentation) => (await Presentation.findOne(presentation.hash, { relations: ['credentials']})).credentials,
+    messages:    async (presentation: Presentation) => (await Presentation.findOne(presentation.hash, { relations: ['messages']})).messages
+  },
+
+  Message: {
+    presentations: async (message: Message) => (await Message.findOne(message.id, { relations: ['presentations']})).presentations,
+    credentials:   async (message: Message) => (await Message.findOne(message.id, { relations: ['credentials']})).credentials,
+  },
+
+
 }
 
 export const typeDefs = `
