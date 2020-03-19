@@ -5,17 +5,17 @@ export const baseTypeDefs = `
   
   scalar Date
 
-  type Key {
-    kid: ID!
-    type: String!
-    publicKeyHex: String!
-  }
-
   type Identity {
     did: ID!
     provider: String
-    controllerKeyId: String
-    keys: [Key]
+    sentMessages: [Message]
+    receivedMessages: [Message]
+    issuedPresentations: [Presentation]
+    receivedPresentations: [Presentation]
+    issuedCredentials: [Credential]
+    receivedCredentials: [Credential]
+    issuedClaims: [Claim]
+    receivedClaims: [Claim]
   }
   
   type Message {
