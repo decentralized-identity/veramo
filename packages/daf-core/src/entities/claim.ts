@@ -3,11 +3,7 @@ import {
   Column,
   BaseEntity,
   ManyToOne,
-  JoinTable,
   PrimaryColumn,
-  OneToMany,
-  ManyToMany,
-  BeforeInsert,
 } from 'typeorm'
 import { Identity } from './identity'
 import { Credential } from './credential'
@@ -19,13 +15,17 @@ export class Claim extends BaseEntity {
 
   @ManyToOne(
     type => Identity,
-    identity => identity.issuedPresentations,
+    identity => identity.issuedPresentations, {
+      eager: true
+    }
   )
   issuer: Identity
 
   @ManyToOne(
     type => Identity,
-    identity => identity.receivedPresentations,
+    identity => identity.receivedPresentations, {
+      eager: true
+    }
   )
   subject: Identity
 

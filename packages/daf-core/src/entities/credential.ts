@@ -4,11 +4,9 @@ import {
   Column,
   BaseEntity,
   ManyToOne,
-  JoinTable,
   PrimaryColumn,
   OneToMany,
   ManyToMany,
-  BeforeInsert,
 } from 'typeorm'
 import { Identity } from './identity'
 import { Message } from './message'
@@ -63,6 +61,7 @@ export class Credential extends BaseEntity {
     identity => identity.issuedCredentials,
     {
       cascade: ['insert'],
+      eager: true
     },
   )
   issuer: Identity
@@ -72,6 +71,7 @@ export class Credential extends BaseEntity {
     identity => identity.receivedCredentials,
     {
       cascade: ['insert'],
+      eager: true
     },
   )
   subject: Identity
@@ -103,6 +103,9 @@ export class Credential extends BaseEntity {
   )
   presentations: Presentation[]
 
-  @ManyToMany(type => Message)
+  @ManyToMany(
+    type => Message,
+    message => message.credentials
+  )
   messages: Message[]
 }
