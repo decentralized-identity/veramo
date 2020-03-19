@@ -85,7 +85,7 @@ export const initializeDb = async () => {
     type: 'sqlite',
     database: defaultPath + 'database-v2.sqlite',
     synchronize: true,
-    logging: true,
+    logging: process.env.DEBUG_DAF_DB ? true : false,
     entities: [...Daf.Entities],
   })
 }

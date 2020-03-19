@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.4](https://github.com/uport-project/daf/compare/v3.1.3...v3.1.4) (2020-03-19)
+
+
+### Bug Fixes
+
+* Fetching credentials for SDR ([e91668e](https://github.com/uport-project/daf/commit/e91668e664fca7d9826fd45e179cafe1b3cbe975))
+
+
+
+
+
 ## [3.1.3](https://github.com/uport-project/daf/compare/v3.1.2...v3.1.3) (2020-03-18)
 
 **Note:** Version bump only for package daf-cli
