@@ -1,14 +1,14 @@
 {
   "name": "daf-ethr-did",
   "description": "DAF ehtr-did modules",
-  "version": "4.0.0-beta.9+23b320f",
+  "version": "4.0.0-beta.8+2829540",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^4.0.0-beta.9+23b320f",
+    "daf-core": "^4.0.0-beta.8+2829540",
     "debug": "^4.1.1",
     "ethjs-provider-signer": "^0.1.4",
     "ethr-did": "^1.1.0",
@@ -28,5 +28,5 @@
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
   "keywords": [],
-  "gitHead": "23b320f3eb7237e4336ba2a068fe3588f0ce57a3"
+  "gitHead": "2829540c247255251961415d63e87b28fb7a00a5"
 }
