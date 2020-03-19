@@ -36,6 +36,11 @@ export class IdentityStore extends AbstractIdentityStore {
     return true
   }
 
+  /**
+   *
+   * @param did DID address
+   * @param serializedIdentity SerializedIdentity
+   */
   async set(did: string, serializedIdentity: SerializedIdentity) {
     const identity = new Identity()
     identity.did = serializedIdentity.did
