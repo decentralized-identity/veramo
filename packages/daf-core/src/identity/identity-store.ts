@@ -24,6 +24,10 @@ export class IdentityStore extends AbstractIdentityStore {
     return identity
   }
 
+  /**
+   *
+   * @param did DID address. String
+   */
   async delete(did: string) {
     const identity = await Identity.findOne(did)
     if (!identity) throw Error('Identity not found')
