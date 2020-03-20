@@ -23,6 +23,10 @@ export abstract class AbstractIdentityController {
     return Promise.reject('Method removePublicKey not implemented')
   }
 
+  /**
+   *
+   * @param service ServiceEndpoint
+   */
   addService(service: ServiceEndpoint): Promise<any> {
     return Promise.reject('Method addService not implemented')
   }
