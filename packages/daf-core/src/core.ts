@@ -14,6 +14,7 @@ const debug = Debug('daf:core')
 
 export const EventTypes = {
   validatedMessage: 'validatedMessage',
+  savedMessage: 'savedMessage',
   error: 'error',
 }
 
@@ -102,18 +103,25 @@ export class Core extends EventEmitter {
     return Promise.reject(unsupportedMessageTypeError)
   }
 
-  public async saveNewMessage(input: { raw: string, metaDataType?: string, metaDataValue?: string }): Promise<Message> {
+
+  public async saveNewMessage(input: {
+    raw: string
+    metaDataType?: string
+    metaDataValue?: string
+  }): Promise<Message> {
     try {
       const message = await this.validateMessage(
         new Message({
-          raw: input.raw, 
-          meta:{ 
+          raw: input.raw,
+          meta: {
             type: input.metaDataType,
-            value: input.metaDataValue
-          }
-        })
+            value: input.metaDataValue,
+          },
+        }),
       )
       await message.save()
+      debug('Emitting event', EventTypes.savedMessage)
+      this.emit(EventTypes.savedMessage, message)
       return message
     } catch (error) {
       this.emit(EventTypes.error, error)

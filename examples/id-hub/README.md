@@ -1,0 +1,72 @@
+# ID Hub example
+
+```
+yarn
+yarn build
+yarn start
+```
+
+## Queries
+
+Self signed credential (name = Alice):
+
+```
+mutation newMsg {
+  saveNewMessage(raw: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODQ2MTkxMDQsInN1YiI6ImRpZDpldGhyOnJpbmtlYnk6MHgzNGU0YjRmMzUxMjIwMGU4NGVkZGIwNWMyNTMxMWI3ZjU4NGY3ODUzIiwidmMiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCJdLCJjcmVkZW50aWFsU3ViamVjdCI6eyJuYW1lIjoiQWxpY2UifX0sImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgzNGU0YjRmMzUxMjIwMGU4NGVkZGIwNWMyNTMxMWI3ZjU4NGY3ODUzIn0.TxNVe3DaU9yqsA8q0BFdtHUsqPlb2FuwExFWktAVBMY3HNXDfxm3h9Q4aSno5xfyvVDZupg7EovEYCAtQ0BKQwA") {
+    id
+    type
+    data
+  }
+}
+```
+
+Skill = Developer
+
+```
+mutation newMsg {
+  saveNewMessage(raw: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODQ2MTkzNjIsInN1YiI6ImRpZDpldGhyOnJpbmtlYnk6MHgxYzM4NmQ1NTAyNTZiMTdkOTA4ZDY2NDM2MjQ3ZGJlMzUxYzQzZWRjIiwidmMiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCJdLCJjcmVkZW50aWFsU3ViamVjdCI6eyJza2lsbCI6IkRldmVsb3BlciJ9fSwiaXNzIjoiZGlkOmV0aHI6cmlua2VieToweDM0ZTRiNGYzNTEyMjAwZTg0ZWRkYjA1YzI1MzExYjdmNTg0Zjc4NTMifQ.BPQQ7Zysu1v7J5gXDYgjWKm4vN51B6ed5S8vzBxsDX0opAsUr89rt31zdC9p_d4cCM4r3gjLlOPAJCAnlf97RQA") {
+    id
+    type
+    data
+  }
+}
+```
+
+presentation
+
+```
+mutation newMsg {
+  saveNewMessage(raw: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODQ2MTkzOTksImF1ZCI6ImRpZDp3ZWI6dXBvcnQubWUiLCJ0YWciOiIiLCJ2cCI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVQcmVzZW50YXRpb24iXSwidmVyaWZpYWJsZUNyZWRlbnRpYWwiOlsiZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKRlV6STFOa3N0VWlKOS5leUpwWVhRaU9qRTFPRFEyTVRZd05qRXNJbk4xWWlJNkltUnBaRHBsZEdoeU9uSnBibXRsWW5rNk1IZ3hZek00Tm1RMU5UQXlOVFppTVRka09UQTRaRFkyTkRNMk1qUTNaR0psTXpVeFl6UXpaV1JqSWl3aWRtTWlPbnNpUUdOdmJuUmxlSFFpT2xzaWFIUjBjSE02THk5M2QzY3Vkek11YjNKbkx6SXdNVGd2WTNKbFpHVnVkR2xoYkhNdmRqRWlYU3dpZEhsd1pTSTZXeUpXWlhKcFptbGhZbXhsUTNKbFpHVnVkR2xoYkNKZExDSmpjbVZrWlc1MGFXRnNVM1ZpYW1WamRDSTZleUp1WVcxbElqb2lRV3hwWTJVaWZYMHNJbWx6Y3lJNkltUnBaRHBsZEdoeU9uSnBibXRsWW5rNk1IZ3pOR1UwWWpSbU16VXhNakl3TUdVNE5HVmtaR0l3TldNeU5UTXhNV0kzWmpVNE5HWTNPRFV6SW4wLmZYWV9nU1BEbk1YY1gyUm9LMEpzYUs4c0ljSllscnBlb0dKeFRDMXhNdWw2N0lyVURyMWNYRVZyZGJ0V3h2Zmo5aGw0endRd0NDWTFFSXd1UlB4Z01RRSJdfSwiaXNzIjoiZGlkOmV0aHI6cmlua2VieToweDFjMzg2ZDU1MDI1NmIxN2Q5MDhkNjY0MzYyNDdkYmUzNTFjNDNlZGMifQ.HnZyQIqV9d2saNDo6a72jlplWuVGVLJe4ff30MIpr6bcgobW4gHEGnc-AXaPPOSH1ErYz2xor1oxq3TTWhyS7wE") {
+    id
+    type
+    data
+  }
+}
+```
+
+Selective Disclosure Request
+
+```
+mutation newMsg {
+  saveNewMessage(raw: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODQ2MzI5ODEsInR5cGUiOiJzZHIiLCJjbGFpbXMiOlt7ImlzcyI6W10sImVzc2VudGlhbCI6dHJ1ZSwiY2xhaW1UeXBlIjoibmFtZSIsInJlYXNvbiI6IldlIG5lZWQgdGhpcyB0byBjb21wbHkgd2l0aCBsb2NhbCBsYXcifV0sImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgxMTdmZDNkNjBlNDQyMjA2Yzc0ZmI4MGM5Y2YzY2FiN2UxYzkyNjY0In0.7PEmiZMlv8UXXNDcuLzQRsz0CL2U-T5tZCuRJhXuIC80nnjS0l44nMmqFQdRnINrw1Kg688Wv51mdKTvPifPrgE") {
+    id
+    type
+    data
+  }
+}
+```
+
+Claims
+
+```
+query claims {
+  claims {
+    type
+    value
+    credential {
+      issuer {did}
+      subject {did}
+    }
+  }
+}
+```
