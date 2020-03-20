@@ -47,6 +47,15 @@
   "publishConfig": {
     "access": "public"
   },
+  "release": {
+    "branches": [
+      "master",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ]
+  },
   "dependencies": {
     "rimraf": "^3.0.2"
   }

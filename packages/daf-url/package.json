@@ -1,14 +1,14 @@
 {
   "name": "daf-url",
   "description": "DAF URL message validator",
-  "version": "3.4.0",
+  "version": "4.0.0-beta.11+d374d73",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^3.4.0",
+    "daf-core": "^4.0.0-beta.11+d374d73",
     "debug": "^4.1.1",
     "url-parse": "^1.4.7"
   },
@@ -27,5 +27,5 @@
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
   "keywords": [],
-  "gitHead": "ec317e0f10cffe731648a8c2d8f58def3d3c85ff"
+  "gitHead": "d374d739bbf28655ed9cb546d7d785fafad94f4c"
 }

@@ -103,6 +103,7 @@ export class Core extends EventEmitter {
     return Promise.reject(unsupportedMessageTypeError)
   }
 
+
   public async saveNewMessage(input: {
     raw: string
     metaDataType?: string

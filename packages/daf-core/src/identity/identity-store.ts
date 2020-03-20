@@ -36,6 +36,11 @@ export class IdentityStore extends AbstractIdentityStore {
     return true
   }
 
+  /**
+   *
+   * @param did DID address
+   * @param serializedIdentity SerializedIdentity
+   */
   async set(did: string, serializedIdentity: SerializedIdentity) {
     const identity = new Identity()
     identity.did = serializedIdentity.did
@@ -54,6 +59,9 @@ export class IdentityStore extends AbstractIdentityStore {
     return true
   }
 
+  /**
+   * List dids
+   */
   async listDids() {
     const identities = await Identity.find({ where: { provider: this.provider } })
     return identities.map(identity => identity.did)
