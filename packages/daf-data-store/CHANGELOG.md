@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.1](https://github.com/uport-project/daf/compare/v3.4.0...v3.4.1) (2020-03-20)
+
+
+### Bug Fixes
+
+* Bug in findCredentialsByFields ([e9f263a](https://github.com/uport-project/daf/commit/e9f263a45a6b121aef4729bdb45a1be39b753af6))
+
+
+
+
+
 # [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-data-store
