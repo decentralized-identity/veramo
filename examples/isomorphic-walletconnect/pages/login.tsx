@@ -3,7 +3,7 @@ import { Box, Heading, Button, Text, QR, Modal, Card, Flex } from 'rimble-ui'
 import { WalletConnectContext } from '../components/WalletConnectContext'
 
 const Login = props => {
-  const { init, killSession } = useContext(WalletConnectContext)
+  const { init } = useContext(WalletConnectContext)
   const [uri, updateUri] = useState()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -15,12 +15,10 @@ const Login = props => {
   }
 
   const closeModal = e => {
-    e.preventDefault()
     setIsOpen(false)
   }
 
   const openModal = e => {
-    e.preventDefault()
     setIsOpen(true)
   }
 
@@ -39,14 +37,13 @@ const Login = props => {
               position={'absolute'}
               top={0}
               right={0}
-              mt={3}
-              mr={3}
+              mt={0}
+              mr={0}
               onClick={closeModal}
             />
-
             {uri && (
-              <Box p={4} mb={3}>
-                <QR value={uri} size={500} />
+              <Box p={4} alignItems={'center'} justifyContent={'center'}>
+                <QR value={uri} size={430} />
               </Box>
             )}
           </Card>

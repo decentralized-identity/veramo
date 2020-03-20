@@ -79,12 +79,15 @@ function MyApp({ Component, pageProps }) {
 
   const killSession = () => {
     if (walletConnector) {
+      Router.push('/login')
       walletConnector.killSession()
       reset()
-
-      Router.push('/login')
     }
   }
+
+  useEffect(() => {
+    init()
+  }, [])
 
   useEffect(() => {
     if (walletConnector) {
@@ -93,10 +96,11 @@ function MyApp({ Component, pageProps }) {
   }, [walletConnector])
 
   useEffect(() => {
+    console.log(connected)
+
     if (connected) {
       Router.push('/dashboard')
     } else {
-      init()
       Router.push('/login')
     }
   }, [connected])
