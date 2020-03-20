@@ -22,3 +22,6 @@ lerna-debug.log
 identity-store.json
 key-store.json
 *.sqlite
+
+.next
+node_modules
