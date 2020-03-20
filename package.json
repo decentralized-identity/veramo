@@ -9,7 +9,8 @@
     "test": "jest --config=jest.json",
     "test:watch": "jest --config=jest.json --watch",
     "daf": "./packages/daf-cli/bin/daf.js",
-    "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo"
+    "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo",
+    "publish-beta": "npx lerna publish --canary premajor --preid beta --pre-dist-tag beta"
   },
   "workspaces": [
     "packages/*"
