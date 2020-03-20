@@ -1,7 +1,7 @@
 {
   "name": "daf-w3c",
   "description": "DAF W3C verifiable credentials & presentations",
-  "version": "4.0.0-beta.11+d374d73",
+  "version": "4.0.0-beta.15+00f0d2f",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^4.0.0-beta.11+d374d73",
-    "daf-did-jwt": "^4.0.0-beta.11+d374d73",
+    "daf-core": "^4.0.0-beta.15+00f0d2f",
+    "daf-did-jwt": "^4.0.0-beta.15+00f0d2f",
     "debug": "^4.1.1",
     "did-jwt-vc": "^0.1.3",
     "did-resolver": "^1.1.0"
@@ -29,5 +29,5 @@
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
   "keywords": [],
-  "gitHead": "d374d739bbf28655ed9cb546d7d785fafad94f4c"
+  "gitHead": "00f0d2ff3aea786e1f6c5142e41f387c09f8ef3e"
 }
