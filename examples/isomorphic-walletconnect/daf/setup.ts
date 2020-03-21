@@ -49,6 +49,10 @@ export const core = new Daf.Core({
   actionHandler,
 })
 
+core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
+  await message.save()
+})
+
 export const main = async () => {
   await createConnection({
     type: 'sqlite',

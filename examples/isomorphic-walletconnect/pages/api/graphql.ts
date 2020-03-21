@@ -29,10 +29,10 @@ const apolloServer = new ApolloServer({
   context: ({ req }) => {
     // Authorization is out of scope for this example,
     // but this is where you could add your auth logic
-    // const token = req.headers.authorization || ''
-    // if (token !== 'Bearer hardcoded-example-token') {
-    //   throw Error('Auth error')
-    // }
+    const token = req.headers.authorization || ''
+    if (token !== 'Bearer hardcoded-example-token') {
+      throw Error('Auth error')
+    }
 
     return { core, dataStore }
   },
@@ -40,10 +40,6 @@ const apolloServer = new ApolloServer({
 })
 
 const handler = apolloServer.createHandler({ path: '/api/graphql' })
-
-core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
-  await message.save()
-})
 
 export const config = {
   api: {

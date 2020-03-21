@@ -10,6 +10,9 @@ function MyApp({ Component, pageProps }) {
   const [chainId, updateChainId] = useState(null)
   const [connected, updateConnected] = useState(false)
 
+  /**
+   * Reset state back to default
+   */
   const reset = () => {
     updateWalletConnect(null)
     updateConnected(false)
@@ -18,11 +21,17 @@ function MyApp({ Component, pageProps }) {
     updateChainId(null)
   }
 
+  /**
+   * Initialize walletconnect
+   */
   const init = async () => {
     const newWalletConnector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org', // Required
     })
 
+    /**
+     * Walletconnect uses localstorage and window to rehydrate its sesion cache
+     */
     window.walletConnector = newWalletConnector
     updateWalletConnect(newWalletConnector)
 
@@ -33,12 +42,15 @@ function MyApp({ Component, pageProps }) {
     return newWalletConnector.uri
   }
 
+  /**
+   * Subscribe to walletconnect events
+   */
   const subscribeToEvents = () => {
+    console.log('Subscribing to events')
+
     if (!walletConnector) {
       return
     }
-
-    console.log('Subscribing to events')
 
     walletConnector.on('session_update', async (error, payload) => {
       console.log('walletConnector.on("session_update")') // tslint:disable-line
@@ -77,6 +89,9 @@ function MyApp({ Component, pageProps }) {
     }
   }
 
+  /**
+   * Kill walletconnect session
+   */
   const killSession = () => {
     if (walletConnector) {
       Router.push('/login')
@@ -85,16 +100,25 @@ function MyApp({ Component, pageProps }) {
     }
   }
 
+  /**
+   * Check for previous state on refresh
+   */
   useEffect(() => {
     init()
   }, [])
 
+  /**
+   * Subscribe to events on change
+   */
   useEffect(() => {
     if (walletConnector) {
       subscribeToEvents()
     }
   }, [walletConnector])
 
+  /**
+   * Subscribe to connection status
+   */
   useEffect(() => {
     console.log(connected)
 
