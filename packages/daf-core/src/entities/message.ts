@@ -4,8 +4,7 @@ import {
   BaseEntity,
   ManyToOne,
   ManyToMany,
-  PrimaryGeneratedColumn,
-  OneToMany,
+  PrimaryColumn,
   JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
@@ -31,7 +30,7 @@ export class Message extends BaseEntity {
     }
   }
 
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string
 
   @CreateDateColumn()
