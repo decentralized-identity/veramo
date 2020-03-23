@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
+
+
+### Bug Fixes
+
+* Example queries ([5933e50](https://github.com/uport-project/daf/commit/5933e5003964935d0e1d39c273b2fe38a639ce1b))
+* Generating message.id if not set ([5ce04e5](https://github.com/uport-project/daf/commit/5ce04e5f8ebbba4368b84dffc563696d79a8fee2))
+* Generating message.id if not set ([fabf5f6](https://github.com/uport-project/daf/commit/fabf5f64b9f0733a3a533d037203527f26758106))
+* Removing uuid from id ([df12094](https://github.com/uport-project/daf/commit/df1209461b4b197b5f19c9d5bf4a71caf0c57f7d))
+
+
+
+
+
 ## [3.4.1](https://github.com/uport-project/daf/compare/v3.4.0...v3.4.1) (2020-03-20)
 
 
