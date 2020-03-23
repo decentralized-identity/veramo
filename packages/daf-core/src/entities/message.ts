@@ -8,10 +8,12 @@ import {
   JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from 'typeorm'
 import { Identity } from './identity'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface MetaData {
   type: string
@@ -27,6 +29,13 @@ export class Message extends BaseEntity {
     }
     if (data?.meta) {
       this.addMetaData(data.meta)
+    }
+  }
+
+  @BeforeInsert()
+  generateId() {
+    if (!this.id) {
+      this.id = uuidv4()
     }
   }
 
