@@ -196,7 +196,6 @@ export const allMessages = gql`
         metaData {
           type
           value
-          id
         }
       }
     }
