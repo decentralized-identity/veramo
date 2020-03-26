@@ -12,9 +12,9 @@ export declare abstract class AbstractIdentityController
 
 ## Methods
 
-| Method                                                                                    | Modifiers | Description |
-| ----------------------------------------------------------------------------------------- | --------- | ----------- |
-| [addPublicKey(type, proofPurpose)](./daf-core.abstractidentitycontroller.addpublickey.md) |           |             |
-| [addService(service)](./daf-core.abstractidentitycontroller.addservice.md)                |           |             |
-| [removePublicKey(keyId)](./daf-core.abstractidentitycontroller.removepublickey.md)        |           |             |
-| [removeService(service)](./daf-core.abstractidentitycontroller.removeservice.md)          |           |             |
+| Method                                                                                              | Modifiers | Description |
+| --------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| [addPublicKey(type, proofPurpose, ttl, gas)](./daf-core.abstractidentitycontroller.addpublickey.md) |           |             |
+| [addService(service, ttl, gas)](./daf-core.abstractidentitycontroller.addservice.md)                |           |             |
+| [removePublicKey(keyId)](./daf-core.abstractidentitycontroller.removepublickey.md)                  |           |             |
+| [removeService(service)](./daf-core.abstractidentitycontroller.removeservice.md)                    |           |             |

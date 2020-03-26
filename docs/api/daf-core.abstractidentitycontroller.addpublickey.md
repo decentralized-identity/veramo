@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-addPublicKey(type: string, proofPurpose?: string[]): Promise<string>;
+addPublicKey(type: string, proofPurpose?: string[], ttl?: number, gas?: number): Promise<string>;
 ```
 
 ## Parameters
@@ -16,6 +16,8 @@ addPublicKey(type: string, proofPurpose?: string[]): Promise<string>;
 | ------------ | --------------------- | ----------- |
 | type         | <code>string</code>   |             |
 | proofPurpose | <code>string[]</code> |             |
+| ttl          | <code>number</code>   |             |
+| gas          | <code>number</code>   |             |
 
 <b>Returns:</b>
 

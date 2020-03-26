@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-addService(service: ServiceEndpoint): Promise<any>;
+addService(service: ServiceEndpoint, ttl?: number, gas?: number): Promise<any>;
 ```
 
 ## Parameters
@@ -15,6 +15,8 @@ addService(service: ServiceEndpoint): Promise<any>;
 | Parameter | Type                         | Description |
 | --------- | ---------------------------- | ----------- |
 | service   | <code>ServiceEndpoint</code> |             |
+| ttl       | <code>number</code>          |             |
+| gas       | <code>number</code>          |             |
 
 <b>Returns:</b>
 

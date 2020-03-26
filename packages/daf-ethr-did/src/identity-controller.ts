@@ -3,6 +3,9 @@ const EthrDID = require('ethr-did')
 import Debug from 'debug'
 const debug = Debug('daf:ethr-did:identity-controller')
 
+const DEFAULT_TTL = 60 * 60 * 24 * 30 * 12
+const DEFAULT_GAS = 100000
+
 export class IdentityController extends AbstractIdentityController {
   private did: string
   private kms: AbstractKeyManagementSystem
@@ -25,13 +28,12 @@ export class IdentityController extends AbstractIdentityController {
     this.address = options.address
   }
 
-  async addService(service: { id: string; type: string; serviceEndpoint: string }): Promise<any> {
+  async addService(service: { id: string; type: string; serviceEndpoint: string },
+                    ttl: number=DEFAULT_TTL, gas: number=DEFAULT_GAS): Promise<any> {
     const ethrDid = new EthrDID({ address: this.address, provider: this.web3Provider })
 
     const attribute = 'did/svc/' + service.type
     const value = service.serviceEndpoint
-    const ttl = 60 * 60 * 24 * 30 * 12
-    const gas = 100000
     debug('ethrDid.setAttribute', { attribute, value, ttl, gas })
     try {
       const txHash = await ethrDid.setAttribute(attribute, value, ttl, gas)
@@ -43,7 +45,8 @@ export class IdentityController extends AbstractIdentityController {
     }
   }
 
-  async addPublicKey(type: 'Ed25519' | 'Secp256k1', proofPurpose?: string[]): Promise<any> {
+  async addPublicKey(type: 'Ed25519' | 'Secp256k1', proofPurpose?: string[],
+                      ttl: number=DEFAULT_TTL, gas: number=DEFAULT_GAS): Promise<any> {
     const serializedIdentity = await this.identityStore.get(this.did)
     const ethrDid = new EthrDID({ address: this.address, provider: this.web3Provider })
 
@@ -52,8 +55,6 @@ export class IdentityController extends AbstractIdentityController {
     const usg = 'veriKey'
     const attribute = 'did/pub/' + type + '/' + usg + '/hex'
     const value = '0x' + key.serialized.publicKeyHex
-    const ttl = 60 * 60 * 24 * 30 * 12
-    const gas = 100000
     debug('ethrDid.setAttribute', { attribute, value, ttl, gas })
 
     try {

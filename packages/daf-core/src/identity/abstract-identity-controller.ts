@@ -6,7 +6,7 @@ export interface ServiceEndpoint {
 }
 
 export abstract class AbstractIdentityController {
-  addPublicKey(type: string, proofPurpose?: string[]): Promise<string> {
+  addPublicKey(type: string, proofPurpose?: string[], ttl?: number, gas?: number): Promise<string> {
     return Promise.reject('Method addPublicKey not implemented')
   }
 
@@ -14,7 +14,7 @@ export abstract class AbstractIdentityController {
     return Promise.reject('Method removePublicKey not implemented')
   }
 
-  addService(service: ServiceEndpoint): Promise<any> {
+  addService(service: ServiceEndpoint, ttl?: number, gas?: number): Promise<any> {
     return Promise.reject('Method addService not implemented')
   }
 
