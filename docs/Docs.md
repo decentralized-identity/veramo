@@ -6,7 +6,7 @@ DAF can be used by using Typescript API directly, or by using remote GraphQL api
 
 ## Typescript
 
-```typescript=
+```typescript
 // We will be using 'did:ethr' identities
 import { IdentityProvider } from 'daf-ethr-did'
 
@@ -81,7 +81,7 @@ await createConnection({
 
 ## GraphQL Server
 
-```typescript=
+```typescript
 import { ApolloServer } from 'apollo-server'
 import { CoreGql, Message, EventTypes } from 'daf-core'
 import { W3cGql } from 'daf-w3c'
@@ -139,7 +139,7 @@ mutation createIdentity($type: String!) {
 
 ## Sign JWT
 
-```typescript=
+```typescript
 const data = {
   iss: 'did:example:123',
   replyUrl: 'https://example.com/didcomm',
@@ -314,7 +314,7 @@ mutation signCredentialJwt($data: SignCredentialInput!) {
 
 ### Typescript
 
-```typescript=
+```typescript
 import { In } from 'typeorm'
 
 const nameClaims = await Claim.find({
