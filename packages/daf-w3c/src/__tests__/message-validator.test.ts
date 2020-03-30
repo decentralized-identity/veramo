@@ -66,12 +66,12 @@ describe('daf-w3c', () => {
   })
 
   it('should reject unknown message type', async () => {
-    const message = new Message({ raw: 'test', meta: { type: 'test' } })
+    const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
     expect(validator.validate(message, core)).rejects.toEqual('Unsupported message type')
   })
 
   it('should return validated VC message', async () => {
-    const message = new Message({ raw: vcJwt, meta: { type: 'test' } })
+    const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
     // This would be done by 'daf-did-jwt':
     message.data = vcPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
@@ -86,7 +86,7 @@ describe('daf-w3c', () => {
   })
 
   it('should return validated VP message', async () => {
-    const message = new Message({ raw: vpJwt, meta: { type: 'test' } })
+    const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
     // This would be done by 'daf-did-jwt':
     message.data = vpPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })

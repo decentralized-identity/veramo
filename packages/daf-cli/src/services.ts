@@ -12,7 +12,7 @@ program
   })
 
 export const listen = async (pollSeconds?: number) => {
-  core.on(EventTypes.validatedMessage, async (msg: Message) => {
+  core.on(EventTypes.savedMessage, async (msg: Message) => {
     console.log('New message type:', msg.type)
   })
 

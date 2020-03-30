@@ -24,18 +24,14 @@ async function main() {
   app.post(messagingEndpoint, express.text({ type: '*/*' }), async (req, res) => {
     try {
       // This will trigger Daf.EventTypes.validatedMessage
-      const result = await core.validateMessage(
-        new Daf.Message({ raw: req.body, meta: { type: 'serviceEndpoint', value: serviceEndpoint } }),
-      )
+      const result = await core.handleMessage({ raw: req.body })
       res.json({ id: result.id })
     } catch (e) {
       res.send(e.message)
     }
   })
 
-  core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
-    await dataStore.saveMessage(message)
-
+  core.on(Daf.EventTypes.savedMessage, async (message: Daf.Message) => {
     if (message.type === W3C.MessageTypes.vp && message.threadId) {
       // TODO check for required vcs
 
@@ -188,7 +184,7 @@ async function main() {
     res.render('about', { views, url })
   })
 
-  app.get('/public-profile', async(req, res) => {
+  app.get('/public-profile', async (req, res) => {
     // Sign verifiable presentation
     const jwt = await core.handleAction({
       type: W3C.ActionTypes.signVc,

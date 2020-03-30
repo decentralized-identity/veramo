@@ -41,7 +41,7 @@ export class ActionHandler extends AbstractActionHandler {
         debug('Status', res.status, res.statusText)
 
         if (res.status == 200) {
-          await core.validateMessage(new Message({ raw: data.jwt, meta: { type: 'trustGraph', value: uri } }))
+          return core.handleMessage({ raw: data.jwt, metaData: [{ type: 'trustGraph', value: uri }] })
         }
 
         return res.status == 200

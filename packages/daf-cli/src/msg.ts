@@ -7,12 +7,7 @@ program
   .description('Handle raw message (JWT)')
   .action(async raw => {
     try {
-      const message = await core.validateMessage(
-        new Daf.Message({
-          raw,
-          meta: { type: 'cli' },
-        }),
-      )
+      const message = await core.handleMessage({ raw, metaData: [{ type: 'cli' }] })
       console.log(message)
     } catch (e) {
       console.error(e.message)

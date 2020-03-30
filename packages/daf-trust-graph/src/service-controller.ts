@@ -137,10 +137,12 @@ export class ServiceController extends AbstractServiceController {
       messages.push(
         new Message({
           raw: edge.jwt,
-          meta: {
-            type: this.instanceId().type,
-            value: this.uri,
-          },
+          metaData: [
+            {
+              type: this.instanceId().type,
+              value: this.uri,
+            },
+          ],
         }),
       )
     }
@@ -169,7 +171,7 @@ export class ServiceController extends AbstractServiceController {
             emit(ServiceEventTypes.NewMessages, [
               new Message({
                 raw: result.data.edgeAdded.jwt,
-                meta: { type, value: uri },
+                metaData: [{ type, value: uri }],
               }),
             ])
           },

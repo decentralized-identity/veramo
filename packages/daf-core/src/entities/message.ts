@@ -20,13 +20,13 @@ export interface MetaData {
 
 @Entity()
 export class Message extends BaseEntity {
-  constructor(data?: { raw: string; meta?: { type: string; value?: string } }) {
+  constructor(data?: { raw: string; metaData?: MetaData[] }) {
     super()
     if (data?.raw) {
       this.raw = data.raw
     }
-    if (data?.meta) {
-      this.addMetaData(data.meta)
+    if (data?.metaData) {
+      this.metaData = data.metaData
     }
   }
 
@@ -71,7 +71,7 @@ export class Message extends BaseEntity {
     {
       nullable: true,
       cascade: ['insert'],
-      eager: true
+      eager: true,
     },
   )
   from?: Identity
@@ -82,7 +82,7 @@ export class Message extends BaseEntity {
     {
       nullable: true,
       cascade: ['insert'],
-      eager: true
+      eager: true,
     },
   )
   to?: Identity
@@ -101,9 +101,9 @@ export class Message extends BaseEntity {
   presentations: Presentation[]
 
   @ManyToMany(
-    type => Credential, 
+    type => Credential,
     credential => credential.messages,
-    { cascade: true }
+    { cascade: true },
   )
   @JoinTable()
   credentials: Credential[]

@@ -63,7 +63,7 @@ program
     const jwt = await core.handleAction(signAction)
 
     if (!cmd.send) {
-      await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
+      await core.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
     } else {
       const sendAction: DIDComm.ActionSendJWT = {
         type: DIDComm.ActionTypes.sendJwt,
@@ -208,7 +208,7 @@ program
       const jwt = await core.handleAction(signAction)
 
       if (!cmd.send) {
-        await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
+        await core.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
       } else {
         const sendAction: DIDComm.ActionSendJWT = {
           type: DIDComm.ActionTypes.sendJwt,

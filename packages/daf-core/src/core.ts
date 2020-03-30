@@ -7,7 +7,7 @@ import { ServiceControllerDerived } from './service/abstract-service-controller'
 import { MessageValidator, unsupportedMessageTypeError } from './message/abstract-message-validator'
 import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
-import { Message } from './entities/message'
+import { Message, MetaData } from './entities/message'
 
 import Debug from 'debug'
 const debug = Debug('daf:core')
@@ -63,20 +63,23 @@ export class Core extends EventEmitter {
 
   async listen() {
     debug('Listening for new messages')
-    this.serviceManager.on(ServiceEventTypes.NewMessages, this.validateMessages.bind(this))
+    this.serviceManager.on(ServiceEventTypes.NewMessages, this.handleServiceMessages.bind(this))
     this.serviceManager.listen()
   }
 
   async getMessagesSince(ts: LastMessageTimestampForInstance[]): Promise<Message[]> {
     const rawMessages = await this.serviceManager.getMessagesSince(ts)
-    return this.validateMessages(rawMessages)
+    return this.handleServiceMessages(rawMessages)
   }
 
-  public async validateMessages(messages: Message[]): Promise<Message[]> {
+  private async handleServiceMessages(messages: Message[]): Promise<Message[]> {
     const result: Message[] = []
     for (const message of messages) {
       try {
-        const validMessage = await this.validateMessage(message)
+        const validMessage = await this.handleMessage({
+          raw: message.raw,
+          metaData: message.metaData,
+        })
         result.push(validMessage)
       } catch (e) {}
     }
@@ -103,25 +106,22 @@ export class Core extends EventEmitter {
     return Promise.reject(unsupportedMessageTypeError)
   }
 
-
-  public async saveNewMessage(input: {
+  public async handleMessage({
+    raw,
+    metaData,
+    save = true,
+  }: {
     raw: string
-    metaDataType?: string
-    metaDataValue?: string
+    save?: boolean
+    metaData?: MetaData[]
   }): Promise<Message> {
     try {
-      const message = await this.validateMessage(
-        new Message({
-          raw: input.raw,
-          meta: {
-            type: input.metaDataType,
-            value: input.metaDataValue,
-          },
-        }),
-      )
-      await message.save()
-      debug('Emitting event', EventTypes.savedMessage)
-      this.emit(EventTypes.savedMessage, message)
+      const message = await this.validateMessage(new Message({ raw, metaData }))
+      if (save) {
+        await message.save()
+        debug('Emitting event', EventTypes.savedMessage)
+        this.emit(EventTypes.savedMessage, message)
+      }
       return message
     } catch (error) {
       this.emit(EventTypes.error, error)

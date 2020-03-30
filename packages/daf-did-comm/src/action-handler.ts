@@ -66,7 +66,7 @@ export class ActionHandler extends AbstractActionHandler {
           debug('Status', res.status, res.statusText)
 
           if (res.status == 200) {
-            await core.validateMessage(new Message({ raw: data.jwt, meta: { type: 'DIDComm-sent' } }))
+            return core.handleMessage({ raw: data.jwt, metaData: [{ type: 'DIDComm-sent' }] })
           }
 
           return res.status == 200
