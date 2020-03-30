@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  BaseEntity,
-  ManyToOne,
-  PrimaryColumn,
-} from 'typeorm'
+import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn } from 'typeorm'
 import { Identity } from './identity'
 import { Credential } from './credential'
 
@@ -15,17 +9,19 @@ export class Claim extends BaseEntity {
 
   @ManyToOne(
     type => Identity,
-    identity => identity.issuedPresentations, {
-      eager: true
-    }
+    identity => identity.issuedPresentations,
+    {
+      eager: true,
+    },
   )
   issuer: Identity
 
   @ManyToOne(
     type => Identity,
-    identity => identity.receivedPresentations, {
-      eager: true
-    }
+    identity => identity.receivedPresentations,
+    {
+      eager: true,
+    },
   )
   subject: Identity
 
@@ -34,6 +30,18 @@ export class Claim extends BaseEntity {
     credential => credential.claims,
   )
   credential: Credential
+
+  @Column()
+  issuanceDate: Date
+
+  @Column({ nullable: true })
+  expirationDate?: Date
+
+  @Column('simple-array')
+  context: string[]
+
+  @Column('simple-array')
+  credentialType: string[]
 
   @Column()
   type: string

@@ -1,13 +1,5 @@
 import { blake2bHex } from 'blakejs'
-import {
-  Entity,
-  Column,
-  BaseEntity,
-  ManyToOne,
-  PrimaryColumn,
-  OneToMany,
-  ManyToMany,
-} from 'typeorm'
+import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToMany, ManyToMany } from 'typeorm'
 import { Identity } from './identity'
 import { Message } from './message'
 import { Presentation } from './presentation'
@@ -51,6 +43,10 @@ export class Credential extends BaseEntity {
         claim.isObj = isObj
         claim.issuer = this.issuer
         claim.subject = this.subject
+        claim.expirationDate = this.expirationDate
+        claim.issuanceDate = this.issuanceDate
+        claim.credentialType = this.type
+        claim.context = this.context
         this.claims.push(claim)
       }
     }
@@ -61,20 +57,22 @@ export class Credential extends BaseEntity {
     identity => identity.issuedCredentials,
     {
       cascade: ['insert'],
-      eager: true
+      eager: true,
     },
   )
   issuer: Identity
 
+  // Subject can be null https://w3c.github.io/vc-data-model/#credential-uniquely-identifies-a-subject
   @ManyToOne(
     type => Identity,
     identity => identity.receivedCredentials,
     {
       cascade: ['insert'],
-      eager: true
+      eager: true,
+      nullable: true,
     },
   )
-  subject: Identity
+  subject?: Identity
 
   @Column()
   issuanceDate: Date
@@ -105,7 +103,7 @@ export class Credential extends BaseEntity {
 
   @ManyToMany(
     type => Message,
-    message => message.credentials
+    message => message.credentials,
   )
   messages: Message[]
 }
