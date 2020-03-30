@@ -12,8 +12,12 @@ app.get('/identities', async (req, res) => {
 })
 
 app.get('/providers', async (req, res) => {
-  const providers = await core.identityManager.getIdentityProviderTypes()
-  res.json(providers)
+  const providers = await core.identityManager.getIdentityProviders()
+  res.json(
+    providers.map(provider => {
+      provider.type, provider.description
+    }),
+  )
 })
 
 app.post('/create-identity', express.json(), async (req, res) => {

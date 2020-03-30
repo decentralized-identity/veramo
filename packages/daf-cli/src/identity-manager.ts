@@ -18,7 +18,11 @@ program
   .option('--decrypt', 'Decrypt data')
   .action(async cmd => {
     if (cmd.types) {
-      const list = await core.identityManager.getIdentityProviderTypes()
+      const providers = await core.identityManager.getIdentityProviders()
+      const list = providers.map(provider => ({
+        type: provider.type,
+        description: provider.description,
+      }))
 
       if (list.length > 0) {
         printTable(list)
@@ -40,13 +44,16 @@ program
 
     if (cmd.create) {
       try {
-        const types = await core.identityManager.getIdentityProviderTypes()
+        const providers = await core.identityManager.getIdentityProviders()
 
         const answers = await inquirer.prompt([
           {
             type: 'list',
             name: 'type',
-            choices: types.map(item => ({ name: `${item.type} - ${item.description}`, value: item.type })),
+            choices: providers.map(provider => ({
+              name: `${provider.type} - ${provider.description}`,
+              value: provider.type,
+            })),
             message: 'Select identity provider',
           },
         ])
@@ -229,7 +236,7 @@ program
 
     if (cmd.import) {
       try {
-        const providers = await core.identityManager.getIdentityProviderTypes()
+        const providers = await core.identityManager.getIdentityProviders()
 
         const answers = await inquirer.prompt([
           {

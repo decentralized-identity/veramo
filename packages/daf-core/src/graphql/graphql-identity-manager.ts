@@ -6,14 +6,14 @@ export interface Context {
 }
 
 const identityProviders = async (_: any, args: any, ctx: Context) => {
-  return await ctx.core.identityManager.getIdentityProviderTypes()
+  return await ctx.core.identityManager.getIdentityProviders()
 }
 
 const managedIdentities = async (_: any, args: any, ctx: Context) => {
   const list = await ctx.core.identityManager.getIdentities()
   return list.map((identity: AbstractIdentity) => ({
     did: identity.did,
-    type: identity.identityProviderType,
+    provider: identity.identityProviderType,
     __typename: 'Identity',
   }))
 }
@@ -33,7 +33,7 @@ const createIdentity = async (
   const identity = await ctx.core.identityManager.createIdentity(args.type)
   return {
     did: identity.did,
-    type: identity.identityProviderType,
+    provider: identity.identityProviderType,
     __typename: 'Identity',
   }
 }
@@ -60,7 +60,7 @@ const importIdentity = async (
   const identity = await ctx.core.identityManager.importIdentity(args.type, args.secret)
   return {
     did: identity.did,
-    type: identity.identityProviderType,
+    provider: identity.identityProviderType,
     __typename: 'Identity',
   }
 }
@@ -113,7 +113,6 @@ export const typeDefs = `
   }
 
   extend type Identity {
-    type: String
     isManaged: Boolean!
   }
   

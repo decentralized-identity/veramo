@@ -33,7 +33,7 @@ const App: React.FC = () => {
   const [identities, setIdentities] = useState([{ identityProviderType: '', did: '' }])
 
   useEffect(() => {
-    core.identityManager.getIdentityProviderTypes().then((providers: any) => {
+    core.identityManager.getIdentityProviders().then((providers: any) => {
       setIdentityProviders(providers)
     })
   }, [])

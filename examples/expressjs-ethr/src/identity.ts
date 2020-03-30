@@ -8,7 +8,7 @@ export const getIdentity = async () => {
   if (identities.length > 0) {
     identity = identities[0]
   } else {
-    const identityProviders = await core.identityManager.getIdentityProviderTypes()
+    const identityProviders = await core.identityManager.getIdentityProviders()
     identity = await core.identityManager.createIdentity(identityProviders[0].type)
   }
 

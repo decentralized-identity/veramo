@@ -12,11 +12,8 @@ export class IdentityManager {
     this.identityProviders = options.identityProviders
   }
 
-  async getIdentityProviderTypes(): Promise<{ type: string; description: string }[]> {
-    return this.identityProviders.map(provider => ({
-      type: provider.type,
-      description: provider.description,
-    }))
+  async getIdentityProviders(): Promise<AbstractIdentityProvider[]> {
+    return this.identityProviders
   }
 
   async getIdentityProvider(type: string): Promise<AbstractIdentityProvider> {
