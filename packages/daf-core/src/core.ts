@@ -87,7 +87,7 @@ export class Core extends EventEmitter {
     return result
   }
 
-  public async validateMessage(message: Message): Promise<Message> {
+  private async validateMessage(message: Message): Promise<Message> {
     if (!this.messageValidator) {
       return Promise.reject('Message validator not provided')
     }
@@ -111,12 +111,14 @@ export class Core extends EventEmitter {
     metaData,
     save = true,
   }: {
-    raw: string
-    save?: boolean
-    metaData?: MetaData[]
+    raw: string,
+    metaData?: MetaData[],
+    save?: boolean,
   }): Promise<Message> {
+    debug('Handle message %o', { raw, metaData, save, })
     try {
       const message = await this.validateMessage(new Message({ raw, metaData }))
+      debug('Validated message %o', message)
       if (save) {
         await message.save()
         debug('Emitting event', EventTypes.savedMessage)

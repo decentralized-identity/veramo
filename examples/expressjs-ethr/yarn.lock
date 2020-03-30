@@ -629,12 +629,6 @@ daf-data-store@../../packages/daf-data-store, daf-data-store@^4.0.0-beta.15+00f0
     debug "^4.1.1"
     sql-bricks-sqlite "^0.1.0"
 
-daf-debug@../../packages/daf-debug:
-  version "4.0.0-beta.15"
-  dependencies:
-    daf-core "^4.0.0-beta.15+00f0d2f"
-    debug "^4.1.1"
-
 daf-did-comm@../../packages/daf-did-comm:
   version "4.0.0-beta.15"
   dependencies:

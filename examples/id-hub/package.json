@@ -16,7 +16,6 @@
   "dependencies": {
     "apollo-server": "^2.11.0",
     "daf-core": "../../packages/daf-core",
-    "daf-debug": "../../packages/daf-debug",
     "daf-did-jwt": "../../packages/daf-did-jwt",
     "daf-resolver": "../../packages/daf-resolver",
     "daf-selective-disclosure": "../../packages/daf-selective-disclosure",

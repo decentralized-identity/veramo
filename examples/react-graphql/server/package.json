@@ -14,7 +14,6 @@
     "apollo-server": "^2.9.16",
     "daf-core": "../../../packages/daf-core",
     "daf-data-store": "../../../packages/daf-data-store",
-    "daf-debug": "../../../packages/daf-debug",
     "daf-did-jwt": "../../../packages/daf-did-jwt",
     "daf-ethr-did": "../../../packages/daf-ethr-did",
     "daf-libsodium": "../../../packages/daf-libsodium",

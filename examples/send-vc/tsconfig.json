@@ -17,13 +17,11 @@
   "references": [
     { "path": "../../packages/daf-core" },
     { "path": "../../packages/daf-data-store" },
-    { "path": "../../packages/daf-debug" },
     { "path": "../../packages/daf-did-comm" },
     { "path": "../../packages/daf-did-jwt" },
     { "path": "../../packages/daf-ethr-did" },
     { "path": "../../packages/daf-fs" },
     { "path": "../../packages/daf-libsodium" },
-    { "path": "../../packages/daf-node-sqlite3" },
     { "path": "../../packages/daf-resolver" },
     { "path": "../../packages/daf-resolver-universal" },
     { "path": "../../packages/daf-selective-disclosure" },

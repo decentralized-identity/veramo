@@ -1,7 +1,6 @@
 import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as TG from 'daf-trust-graph'
-import * as DBG from 'daf-debug'
 import * as DidJwt from 'daf-did-jwt'
 import { DafResolver } from 'daf-resolver'
 import * as EthrDid from 'daf-ethr-did'
@@ -12,11 +11,11 @@ import * as DafLibSodium from 'daf-libsodium'
 import Debug from 'debug'
 Debug.enable('*')
 
-const messageValidator = new DBG.MessageValidator()
-messageValidator.setNext(new DidJwt.MessageValidator()).setNext(new W3c.MessageValidator())
+const messageValidator = new DidJwt.MessageValidator()
+messageValidator.setNext(new W3c.MessageValidator())
 
-const actionHandler = new DBG.ActionHandler()
-actionHandler.setNext(new TG.ActionHandler()).setNext(new W3c.ActionHandler())
+const actionHandler = new TG.ActionHandler()
+actionHandler.setNext(new W3c.ActionHandler())
 
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 

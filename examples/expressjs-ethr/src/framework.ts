@@ -7,7 +7,6 @@ import * as EthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
-import * as DBG from 'daf-debug'
 import * as DIDComm from 'daf-did-comm'
 import * as URL from 'daf-url'
 import { createConnection } from 'typeorm'
@@ -36,17 +35,15 @@ const identityProviders = [
 ]
 const serviceControllers: any[] = []
 
-const messageValidator = new DBG.MessageValidator()
+const messageValidator = new URL.MessageValidator()
 messageValidator
-  .setNext(new URL.MessageValidator())
   .setNext(new DIDComm.MessageValidator())
   .setNext(new DidJwt.MessageValidator())
   .setNext(new W3c.MessageValidator())
   .setNext(new SD.MessageValidator())
 
-const actionHandler = new DBG.ActionHandler()
+const actionHandler = new DIDComm.ActionHandler()
 actionHandler
-  .setNext(new DIDComm.ActionHandler())
   .setNext(new W3c.ActionHandler())
   .setNext(new SD.ActionHandler())
 

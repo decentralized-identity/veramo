@@ -487,12 +487,6 @@ daf-core@../../packages/daf-core, daf-core@^4.0.0-beta.15+00f0d2f:
     events "^3.0.0"
     typeorm "^0.2.24"
 
-daf-debug@../../packages/daf-debug:
-  version "4.0.0-beta.15"
-  dependencies:
-    daf-core "^4.0.0-beta.15+00f0d2f"
-    debug "^4.1.1"
-
 daf-did-comm@../../packages/daf-did-comm:
   version "4.0.0-beta.15"
   dependencies:

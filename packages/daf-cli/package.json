@@ -17,7 +17,6 @@
     "console-table-printer": "^1.1.15",
     "daf-core": "^4.0.0-beta.15+00f0d2f",
     "daf-data-store": "^4.0.0-beta.15+00f0d2f",
-    "daf-debug": "^4.0.0-beta.15+00f0d2f",
     "daf-did-comm": "^4.0.0-beta.15+00f0d2f",
     "daf-did-jwt": "^4.0.0-beta.15+00f0d2f",
     "daf-ethr-did": "^4.0.0-beta.15+00f0d2f",

@@ -4,7 +4,6 @@ import * as DidJwt from 'daf-did-jwt'
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
 import * as TG from 'daf-trust-graph'
-import * as DBG from 'daf-debug'
 import * as URL from 'daf-url'
 import * as DafEthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
@@ -29,16 +28,14 @@ const identityProviders = [
 ]
 const serviceControllers = [TG.ServiceController]
 
-const messageValidator = new DBG.MessageValidator()
+const messageValidator = new URL.MessageValidator()
 messageValidator
-  .setNext(new URL.MessageValidator())
   .setNext(new DidJwt.MessageValidator())
   .setNext(new W3c.MessageValidator())
   .setNext(new SD.MessageValidator())
 
-const actionHandler = new DBG.ActionHandler()
+const actionHandler = new TG.ActionHandler()
 actionHandler
-  .setNext(new TG.ActionHandler())
   .setNext(new W3c.ActionHandler())
   .setNext(new SD.ActionHandler())
 

@@ -30,20 +30,17 @@ import { DafResolver } from 'daf-resolver'
 const didResolver = new DafResolver({ infuraProjectId })
 
 // Setting up Message Validator Chain
-import { MessageValidator as DebugMessageValidator } from 'daf-debug'
 import { MessageValidator as JwtMessageValidator } from 'daf-did-jwt'
 import { MessageValidator as W3cMessageValidator } from 'daf-w3c'
-const messageValidator = new DebugMessageValidator()
-messageValidator.setNext(new JwtMessageValidator()).setNext(new W3cMessageValidator())
+const messageValidator = new JwtMessageValidator()
+messageValidator.setNext(new W3cMessageValidator())
 
 // Setting up Action Handler Chain
 import { ActionHandler as DIDCommActionHandler } from 'daf-did-comm'
 import { ActionHandler as TrustGraphActionHandler } from 'daf-trust-graph'
 import { ActionHandler as W3cActionHandler } from 'daf-w3c'
-import { ActionHandler as DebugActionHandler } from 'daf-debug'
-const actionHandler = new DebugActionHandler()
+const actionHandler = new W3cActionHandler()
 actionHandler
-  .setNext(new W3cActionHandler())
   .setNext(new DIDCommActionHandler())
   .setNext(new TrustGraphActionHandler())
 
