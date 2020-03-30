@@ -90,7 +90,6 @@ export class MessageValidator extends AbstractMessageValidator {
     vc.subject.did = payload.sub
 
     vc.raw = jwt
-    vc.credentialSubject = payload.vc.credentialSubject
 
     if (payload.nbf || payload.iat) {
       vc.issuanceDate = this.timestampToDate(payload.nbf || payload.iat)
@@ -102,6 +101,8 @@ export class MessageValidator extends AbstractMessageValidator {
 
     vc.context = payload.vc['@context']
     vc.type = payload.vc.type
+
+    vc.credentialSubject = payload.vc.credentialSubject
 
     return vc
   }
