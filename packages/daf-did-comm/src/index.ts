@@ -1,4 +1,4 @@
-export { ActionHandler, ActionSendJWT, ActionTypes } from './action-handler'
-export { MessageValidator } from './message-validator'
-import Gql from './graphql'
-export { Gql }
+export { DIDCommActionHandler, ActionSendJWT, ActionTypes } from './action-handler'
+export { DIDCommMessageHandler } from './message-handler'
+import DIDCommGql from './graphql'
+export { DIDCommGql }

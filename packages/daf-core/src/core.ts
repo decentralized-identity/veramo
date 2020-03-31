@@ -4,7 +4,7 @@ import { IdentityManager } from './identity/identity-manager'
 import { AbstractIdentityProvider } from './identity/abstract-identity-provider'
 import { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 import { ServiceControllerDerived } from './service/abstract-service-controller'
-import { MessageValidator, unsupportedMessageTypeError } from './message/abstract-message-validator'
+import { MessageHandler, unsupportedMessageTypeError } from './message/abstract-message-handler'
 import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
 import { Message, MetaData } from './entities/message'
@@ -26,7 +26,7 @@ interface Config {
   didResolver: Resolver
   identityProviders: AbstractIdentityProvider[]
   serviceControllers?: ServiceControllerDerived[]
-  messageValidator?: MessageValidator
+  messageHandler?: MessageHandler
   actionHandler?: ActionHandler
 }
 
@@ -34,7 +34,7 @@ export class Core extends EventEmitter {
   public identityManager: IdentityManager
   public didResolver: Resolver
   private serviceManager: ServiceManager
-  private messageValidator?: MessageValidator
+  private messageHandler?: MessageHandler
   private actionHandler?: ActionHandler
 
   constructor(config: Config) {
@@ -51,7 +51,7 @@ export class Core extends EventEmitter {
       didResolver: this.didResolver,
     })
 
-    this.messageValidator = config.messageValidator
+    this.messageHandler = config.messageHandler
 
     this.actionHandler = config.actionHandler
   }
@@ -87,48 +87,32 @@ export class Core extends EventEmitter {
     return result
   }
 
-  private async validateMessage(message: Message): Promise<Message> {
-    if (!this.messageValidator) {
-      return Promise.reject('Message validator not provided')
-    }
-    try {
-      const validatedMessage = await this.messageValidator.validate(message, this)
-      if (validatedMessage.isValid()) {
-        debug('Emitting event', EventTypes.validatedMessage)
-        this.emit(EventTypes.validatedMessage, validatedMessage)
-        return validatedMessage
+  public async handleMessage({ raw, metaData, save = true}: 
+    { raw: string, metaData?: MetaData[], save?: boolean}): Promise<Message> {
+    
+      debug('Handle message %o', { raw, metaData, save, })
+      if (!this.messageHandler) {
+        return Promise.reject('Message handler not provided')
       }
-    } catch (error) {
-      debug('Emitting event', EventTypes.error)
-      this.emit(EventTypes.error, error, message)
-      return Promise.reject(error)
-    }
-    return Promise.reject(unsupportedMessageTypeError)
-  }
 
-  public async handleMessage({
-    raw,
-    metaData,
-    save = true,
-  }: {
-    raw: string,
-    metaData?: MetaData[],
-    save?: boolean,
-  }): Promise<Message> {
-    debug('Handle message %o', { raw, metaData, save, })
-    try {
-      const message = await this.validateMessage(new Message({ raw, metaData }))
-      debug('Validated message %o', message)
-      if (save) {
-        await message.save()
-        debug('Emitting event', EventTypes.savedMessage)
-        this.emit(EventTypes.savedMessage, message)
+      try {
+        const message = await this.messageHandler.handle(new Message({ raw, metaData }), this)
+        if (message.isValid()) {
+          debug('Emitting event', EventTypes.validatedMessage)
+          this.emit(EventTypes.validatedMessage, message)
+        }
+
+        debug('Validated message %o', message)
+        if (save) {
+          await message.save()
+          debug('Emitting event', EventTypes.savedMessage)
+          this.emit(EventTypes.savedMessage, message)
+        }
+        return message
+      } catch (error) {
+        this.emit(EventTypes.error, error)
+        return Promise.reject(error)
       }
-      return message
-    } catch (error) {
-      this.emit(EventTypes.error, error)
-      return Promise.reject(error)
-    }
   }
 
   public async handleAction(action: Action): Promise<any> {

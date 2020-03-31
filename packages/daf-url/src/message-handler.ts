@@ -1,11 +1,11 @@
-import { Core, AbstractMessageValidator, Message } from 'daf-core'
+import { Core, AbstractMessageHandler, Message } from 'daf-core'
 import parse = require('url-parse')
 
 import Debug from 'debug'
-const debug = Debug('daf:url:message-validator')
+const debug = Debug('daf:url:message-handler')
 
-export class MessageValidator extends AbstractMessageValidator {
-  async validate(message: Message, core: Core): Promise<Message> {
+export class UrlMessageHandler extends AbstractMessageHandler {
+  async handle(message: Message, core: Core): Promise<Message> {
     const parsed = parse(message.raw, true)
 
     if (parsed && parsed.query && parsed.query.c_i) {
@@ -25,6 +25,6 @@ export class MessageValidator extends AbstractMessageValidator {
       }
     }
 
-    return super.validate(message, core)
+    return super.handle(message, core)
   }
 }

@@ -2,26 +2,23 @@ import { DafResolver } from 'daf-resolver'
 import { DafUniversalResolver } from 'daf-resolver-universal'
 
 import * as Daf from 'daf-core'
-import * as DidJwt from 'daf-did-jwt'
+import { JwtMessageHandler } from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
 
-import * as W3c from 'daf-w3c'
-import * as SD from 'daf-selective-disclosure'
-import * as TG from 'daf-trust-graph'
-import * as DIDComm from 'daf-did-comm'
-import * as URL from 'daf-url'
+import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
+import { SdrActionHandler, SdrMessageHandler } from 'daf-selective-disclosure'
+import { TrustGraphActionHandler, TrustGraphServiceController } from 'daf-trust-graph'
+import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
+import { UrlMessageHandler } from 'daf-url'
 import { createConnection } from 'typeorm'
 
 import { DataStore } from 'daf-data-store'
 import ws from 'ws'
 
-import Debug from 'debug'
-const debug = Debug('daf:cli')
-
 const defaultPath = process.env.HOME + '/.daf/'
 
-const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + 'data-store-cli.sqlite3'
+const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + 'database-v2.sqlite'
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE) {
@@ -42,9 +39,9 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
   })
 }
 
-if (process.env.DAF_TG_URI) TG.ServiceController.defaultUri = process.env.DAF_TG_URI
-if (process.env.DAF_TG_WSURI) TG.ServiceController.defaultWsUri = process.env.DAF_TG_WSURI
-TG.ServiceController.webSocketImpl = ws
+if (process.env.DAF_TG_URI) TrustGraphServiceController.defaultUri = process.env.DAF_TG_URI
+if (process.env.DAF_TG_WSURI) TrustGraphServiceController.defaultWsUri = process.env.DAF_TG_WSURI
+TrustGraphServiceController.webSocketImpl = ws
 
 const identityProviders = [
   new EthrDid.IdentityProvider({
@@ -54,33 +51,33 @@ const identityProviders = [
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
 ]
-const serviceControllers = [TG.ServiceController]
+const serviceControllers = [TrustGraphServiceController]
 
-const messageValidator = new URL.MessageValidator()
-messageValidator
-  .setNext(new DIDComm.MessageValidator())
-  .setNext(new DidJwt.MessageValidator())
-  .setNext(new W3c.MessageValidator())
-  .setNext(new SD.MessageValidator())
+const messageHandler = new UrlMessageHandler()
+messageHandler
+  .setNext(new DIDCommMessageHandler())
+  .setNext(new JwtMessageHandler())
+  .setNext(new W3cMessageHandler())
+  .setNext(new SdrMessageHandler())
 
-const actionHandler = new DIDComm.ActionHandler()
+const actionHandler = new DIDCommActionHandler()
 actionHandler
-  .setNext(new TG.ActionHandler())
-  .setNext(new W3c.ActionHandler())
-  .setNext(new SD.ActionHandler())
+  .setNext(new TrustGraphActionHandler())
+  .setNext(new W3cActionHandler())
+  .setNext(new SdrActionHandler())
 
 export const core = new Daf.Core({
   identityProviders,
   serviceControllers,
   didResolver,
-  messageValidator,
+  messageHandler,
   actionHandler,
 })
 
 export const initializeDb = async () => {
   await createConnection({
     type: 'sqlite',
-    database: defaultPath + 'database-v2.sqlite',
+    database: dataStoreFilename,
     synchronize: true,
     logging: process.env.DEBUG_DAF_DB ? true : false,
     entities: [...Daf.Entities],

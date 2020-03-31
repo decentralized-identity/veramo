@@ -1,7 +1,7 @@
 import * as Daf from 'daf-core'
-import * as W3c from 'daf-w3c'
-import * as TG from 'daf-trust-graph'
-import * as DidJwt from 'daf-did-jwt'
+import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
+import { TrustGraphActionHandler } from 'daf-trust-graph'
+import { JwtMessageHandler } from 'daf-did-jwt'
 import { DafResolver } from 'daf-resolver'
 import * as EthrDid from 'daf-ethr-did'
 import * as DafLocalStorage from 'daf-local-storage'
@@ -11,11 +11,11 @@ import * as DafLibSodium from 'daf-libsodium'
 import Debug from 'debug'
 Debug.enable('*')
 
-const messageValidator = new DidJwt.MessageValidator()
-messageValidator.setNext(new W3c.MessageValidator())
+const messageHandler = new JwtMessageHandler()
+messageHandler.setNext(new W3cMessageHandler())
 
-const actionHandler = new TG.ActionHandler()
-actionHandler.setNext(new W3c.ActionHandler())
+const actionHandler = new TrustGraphActionHandler()
+actionHandler.setNext(new W3cActionHandler())
 
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
@@ -39,6 +39,6 @@ export const core = new Daf.Core({
   identityProviders,
   serviceControllers: [],
   didResolver,
-  messageValidator,
+  messageHandler,
   actionHandler,
 })

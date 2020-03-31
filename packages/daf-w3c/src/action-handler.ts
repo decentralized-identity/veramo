@@ -24,7 +24,7 @@ export interface ActionSignW3cVc extends Action {
   data: VerifiableCredentialPayload
 }
 
-export class ActionHandler extends AbstractActionHandler {
+export class W3cActionHandler extends AbstractActionHandler {
   public async handleAction(action: Action, core: Core) {
     if (action.type === ActionTypes.signVp) {
       const { did, data } = action as ActionSignW3cVp

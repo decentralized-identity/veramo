@@ -10,7 +10,7 @@ async function main() {
     type: 'sqlite',
     database: 'database.sqlite',
     synchronize: true,
-    logging: false,
+    logging: true,
     entities: Entities,
   })
 
@@ -51,11 +51,10 @@ async function main() {
   } as ActionSendJWT)
 }
 
-// This is triggered when DAF successfully validates a new message
+// This is triggered when DAF successfully saves a new message
 // which can arrive from external services, or by sending it using `action.sendJwt`
-core.on(EventTypes.validatedMessage, async (message: Message) => {
+core.on(EventTypes.savedMessage, async (message: Message) => {
   console.log('\n\nSuccessfully sent message:', message)
-  await message.save()
 })
 
 main().catch(console.log)

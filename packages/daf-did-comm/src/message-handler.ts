@@ -1,13 +1,13 @@
-import { Core, AbstractMessageValidator, Message } from 'daf-core'
+import { Core, AbstractMessageHandler, Message } from 'daf-core'
 import Debug from 'debug'
-const debug = Debug('daf:did-comm:message-validator')
+const debug = Debug('daf:did-comm:message-handler')
 
-export class MessageValidator extends AbstractMessageValidator {
+export class DIDCommMessageHandler extends AbstractMessageHandler {
   constructor() {
     super()
   }
 
-  async validate(message: Message, core: Core): Promise<Message> {
+  async handle(message: Message, core: Core): Promise<Message> {
     try {
       const parsed = JSON.parse(message.raw)
       if (parsed.ciphertext && parsed.protected) {
@@ -34,7 +34,7 @@ export class MessageValidator extends AbstractMessageValidator {
                 message.data = json
                 message.addMetaData({ type: 'DIDComm' })
               }
-              return super.validate(message, core)
+              return super.handle(message, core)
             } catch (e) {
               debug(e.message)
             }
@@ -42,7 +42,7 @@ export class MessageValidator extends AbstractMessageValidator {
             message.raw = decrypted
             message.addMetaData({ type: 'DIDComm' })
 
-            return super.validate(message, core)
+            return super.handle(message, core)
           }
         }
       }
@@ -50,6 +50,6 @@ export class MessageValidator extends AbstractMessageValidator {
       // not a JSON string
     }
 
-    return super.validate(message, core)
+    return super.handle(message, core)
   }
 }

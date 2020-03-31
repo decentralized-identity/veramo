@@ -1,19 +1,19 @@
-import { AbstractMessageValidator, unsupportedMessageTypeError } from '../abstract-message-validator'
+import { AbstractMessageHandler, unsupportedMessageTypeError } from '../abstract-message-handler'
 import { Core } from '../../core'
 import { Message } from '../../entities/message'
 
-class MockMessageValidator extends AbstractMessageValidator {
-  async validate(message: Message, core: Core) {
+class MockMessageHandler extends AbstractMessageHandler {
+  async handle(message: Message, core: Core) {
     if (message.raw === 'mock') {
       message.type = 'mock'
       return message
     }
-    return super.validate(message, core)
+    return super.handle(message, core)
   }
 }
 
-class MockMessageValidatorWithError extends AbstractMessageValidator {
-  async validate(message: Message, core: Core) {
+class MockMessageHandlerWithError extends AbstractMessageHandler {
+  async handle(message: Message, core: Core) {
     // This simulates a scenario when validation process encounters an error,
     // such as a network error
 
@@ -27,28 +27,28 @@ const core = new Core({
   identityProviders: [],
   serviceControllers: [],
   didResolver: { resolve: jest.fn() },
-  messageValidator: new MockMessageValidator(),
+  messageHandler: new MockMessageHandler(),
 })
 
 it('should return a promise and resolve it if the massage is of known type', async () => {
   const msg = new Message({ raw: 'mock', metaData: [{ type: 'test' }] })
-  const validator = new MockMessageValidator()
-  const validated = await validator.validate(msg, core)
-  expect(validated.type).toEqual('mock')
-  expect(validated.isValid()).toEqual(true)
+  const Handler = new MockMessageHandler()
+  const handled = await Handler.handle(msg, core)
+  expect(handled.type).toEqual('mock')
+  expect(handled.isValid()).toEqual(true)
 })
 
 it('should return a promise and reject it if the massage is of unknown type', async () => {
   const msg = new Message({ raw: 'unknown', metaData: [{ type: 'test2' }] })
-  const validator = new MockMessageValidator()
-  await expect(validator.validate(msg, core)).rejects.toEqual(unsupportedMessageTypeError)
+  const Handler = new MockMessageHandler()
+  await expect(Handler.handle(msg, core)).rejects.toEqual(unsupportedMessageTypeError)
 })
 
 it('can throw an error', async () => {
   const msg = new Message({ raw: 'mock', metaData: [{ type: 'test3' }] })
-  const validator = new MockMessageValidatorWithError()
+  const Handler = new MockMessageHandlerWithError()
   try {
-    const validated = await validator.validate(msg, core)
+    const handled = await Handler.handle(msg, core)
   } catch (e) {
     expect(e !== unsupportedMessageTypeError).toEqual(true)
   }

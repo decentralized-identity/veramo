@@ -1,5 +1,5 @@
 import { Message, Core } from 'daf-core'
-import { MessageValidator, MessageTypes } from '../index'
+import { W3cMessageHandler, MessageTypes } from '../index'
 import { blake2bHex } from 'blakejs'
 
 describe('daf-w3c', () => {
@@ -36,12 +36,12 @@ describe('daf-w3c', () => {
     iss: 'did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61',
   }
 
-  const validator = new MessageValidator()
+  const handler = new W3cMessageHandler()
 
   const core = new Core({
     identityProviders: [],
     serviceControllers: [],
-    messageValidator: validator,
+    messageHandler: handler,
     didResolver: {
       //"did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61"
       resolve: async (did: string) => ({
@@ -67,38 +67,38 @@ describe('daf-w3c', () => {
 
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(validator.validate(message, core)).rejects.toEqual('Unsupported message type')
+    expect(handler.handle(message, core)).rejects.toEqual('Unsupported message type')
   })
 
-  it('should return validated VC message', async () => {
+  it('should return handled VC message', async () => {
     const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
     // This would be done by 'daf-did-jwt':
     message.data = vcPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
-    const validated = await validator.validate(message, core)
-    expect(validated.isValid()).toEqual(true)
-    expect(validated.id).toEqual(blake2bHex(vcJwt))
-    expect(validated.raw).toEqual(vcJwt)
-    expect(validated.type).toEqual(MessageTypes.vc)
-    expect(validated.from.did).toEqual(vcPayload.iss)
-    expect(validated.to.did).toEqual(vcPayload.sub)
-    // expect(validated.timestamp).toEqual(vcPayload.iat)
+    const handled = await handler.handle(message, core)
+    expect(handled.isValid()).toEqual(true)
+    expect(handled.id).toEqual(blake2bHex(vcJwt))
+    expect(handled.raw).toEqual(vcJwt)
+    expect(handled.type).toEqual(MessageTypes.vc)
+    expect(handled.from.did).toEqual(vcPayload.iss)
+    expect(handled.to.did).toEqual(vcPayload.sub)
+    // expect(handled.timestamp).toEqual(vcPayload.iat)
   })
 
-  it('should return validated VP message', async () => {
+  it('should return handled VP message', async () => {
     const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
     // This would be done by 'daf-did-jwt':
     message.data = vpPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
-    const validated = await validator.validate(message, core)
-    expect(validated.isValid()).toEqual(true)
-    expect(validated.id).toEqual(blake2bHex(vpJwt))
-    expect(validated.raw).toEqual(vpJwt)
-    expect(validated.type).toEqual(MessageTypes.vp)
-    expect(validated.from.did).toEqual(vpPayload.iss)
-    expect(validated.to.did).toEqual(vpPayload.aud)
-    expect(validated.threadId).toEqual(vpPayload.tag)
-    // expect(validated.timestamp).toEqual(vpPayload.iat)
+    const handled = await handler.handle(message, core)
+    expect(handled.isValid()).toEqual(true)
+    expect(handled.id).toEqual(blake2bHex(vpJwt))
+    expect(handled.raw).toEqual(vpJwt)
+    expect(handled.type).toEqual(MessageTypes.vp)
+    expect(handled.from.did).toEqual(vpPayload.iss)
+    expect(handled.to.did).toEqual(vpPayload.aud)
+    expect(handled.threadId).toEqual(vpPayload.tag)
+    // expect(handled.timestamp).toEqual(vpPayload.iat)
   })
 })

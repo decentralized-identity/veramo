@@ -1,14 +1,14 @@
-import { Core, AbstractMessageValidator, Message, Identity } from 'daf-core'
+import { Core, AbstractMessageHandler, Message, Identity } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'
-const debug = Debug('daf:daf:selective-disclosure:message-validator')
+const debug = Debug('daf:daf:selective-disclosure:message-handler')
 
 export const MessageTypes = {
   sdr: 'sdr',
 }
 
-export class MessageValidator extends AbstractMessageValidator {
+export class SdrMessageHandler extends AbstractMessageHandler {
   async validate(message: Message, core: Core): Promise<Message> {
     const meta = message.getLastMetaData()
 
@@ -36,7 +36,7 @@ export class MessageValidator extends AbstractMessageValidator {
       return message
     }
 
-    return super.validate(message, core)
+    return super.handle(message, core)
   }
 
   private timestampToDate(timestamp: number): Date {

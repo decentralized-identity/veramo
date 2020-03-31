@@ -11,7 +11,7 @@ export {
 } from './identity/abstract-key-management-system'
 export { AbstractIdentityStore, SerializedIdentity } from './identity/abstract-identity-store'
 export { AbstractKeyStore } from './identity/abstract-key-store'
-export { AbstractMessageValidator } from './message/abstract-message-validator'
+export { AbstractMessageHandler } from './message/abstract-message-handler'
 export { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 export { AbstractServiceController } from './service/abstract-service-controller'
 export { Gql } from './graphql/index'

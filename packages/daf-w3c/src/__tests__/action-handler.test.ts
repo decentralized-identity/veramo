@@ -6,7 +6,7 @@ jest.mock('did-jwt-vc', () => ({
   createPresentation: mockCreatePresentation,
 }))
 
-import { ActionHandler, ActionTypes, ActionSignW3cVc, ActionSignW3cVp } from '../index'
+import { W3cActionHandler, ActionTypes, ActionSignW3cVc, ActionSignW3cVp } from '../index'
 
 const mockDid = 'did:example:123'
 
@@ -27,7 +27,7 @@ describe('daf-w3c', () => {
   it('handles action.sign.w3c.vc', async () => {
     expect.assertions(1)
 
-    const actionHandler = new ActionHandler()
+    const actionHandler = new W3cActionHandler()
 
     const data = {
       sub: 'did:web:uport.me',
@@ -55,7 +55,7 @@ describe('daf-w3c', () => {
   it('handles action.sign.w3c.vp', async () => {
     expect.assertions(1)
 
-    const actionHandler = new ActionHandler()
+    const actionHandler = new W3cActionHandler()
 
     const data = {
       sub: 'did:web:uport.me',

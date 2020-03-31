@@ -30,15 +30,15 @@ import { DafResolver } from 'daf-resolver'
 const didResolver = new DafResolver({ infuraProjectId })
 
 // Setting up Message Validator Chain
-import { MessageValidator as JwtMessageValidator } from 'daf-did-jwt'
-import { MessageValidator as W3cMessageValidator } from 'daf-w3c'
-const messageValidator = new JwtMessageValidator()
-messageValidator.setNext(new W3cMessageValidator())
+import { JwtMessageHandler } from 'daf-did-jwt'
+import { W3cMessageHandler } from 'daf-w3c'
+const messageHandler = new JwtMessageHandler()
+messageHandler.setNext(new W3cMessageHandler())
 
 // Setting up Action Handler Chain
-import { ActionHandler as DIDCommActionHandler } from 'daf-did-comm'
-import { ActionHandler as TrustGraphActionHandler } from 'daf-trust-graph'
-import { ActionHandler as W3cActionHandler } from 'daf-w3c'
+import { DIDCommActionHandler } from 'daf-did-comm'
+import { TrustGraphActionHandler } from 'daf-trust-graph'
+import { W3cActionHandler } from 'daf-w3c'
 const actionHandler = new W3cActionHandler()
 actionHandler
   .setNext(new DIDCommActionHandler())
@@ -50,5 +50,5 @@ export const core = new Core({
   didResolver,
   identityProviders: [rinkebyIdentityProvider],
   actionHandler,
-  messageValidator,
+  messageHandler,
 })

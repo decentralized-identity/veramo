@@ -1,5 +1,5 @@
 import { Core, AbstractActionHandler, Action, Message } from 'daf-core'
-import { ServiceController } from './service-controller'
+import { TrustGraphServiceController } from './service-controller'
 
 import Debug from 'debug'
 const debug = Debug('daf:trust-graph:action-handler')
@@ -16,7 +16,7 @@ export interface ActionSendJWT extends Action {
   }
 }
 
-export class ActionHandler extends AbstractActionHandler {
+export class TrustGraphActionHandler extends AbstractActionHandler {
   public async handleAction(action: Action, core: Core) {
     if (action.type === ActionTypes.sendJwt) {
       const { data } = action as ActionSendJWT
@@ -25,7 +25,7 @@ export class ActionHandler extends AbstractActionHandler {
       const didDoc = await core.didResolver.resolve(data.to)
 
       const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'TrustGraph')
-      const uri = service ? service.serviceEndpoint : ServiceController.defaultUri
+      const uri = service ? service.serviceEndpoint : TrustGraphServiceController.defaultUri
 
       try {
         debug('Sending to %s', uri)

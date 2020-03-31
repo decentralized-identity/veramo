@@ -16,7 +16,7 @@ export interface ActionSendJWT extends Action {
   }
 }
 
-export class ActionHandler extends AbstractActionHandler {
+export class DIDCommActionHandler extends AbstractActionHandler {
   constructor() {
     super()
   }

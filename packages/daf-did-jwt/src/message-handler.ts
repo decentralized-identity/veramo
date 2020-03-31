@@ -1,10 +1,10 @@
-import { Core, AbstractMessageValidator, Message } from 'daf-core'
+import { Core, AbstractMessageHandler, Message } from 'daf-core'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
-const debug = Debug('daf:did-jwt:message-validator')
+const debug = Debug('daf:did-jwt:message-handler')
 
-export class MessageValidator extends AbstractMessageValidator {
-  async validate(message: Message, core: Core): Promise<Message> {
+export class JwtMessageHandler extends AbstractMessageHandler {
+  async handle(message: Message, core: Core): Promise<Message> {
     try {
       const decoded = decodeJWT(message.raw)
       const audience = decoded.payload.aud
@@ -16,6 +16,6 @@ export class MessageValidator extends AbstractMessageValidator {
       debug(e.message)
     }
 
-    return super.validate(message, core)
+    return super.handle(message, core)
   }
 }

@@ -35,7 +35,7 @@ export interface ActionSignSdr extends Action {
   }
 }
 
-export class ActionHandler extends AbstractActionHandler {
+export class SdrActionHandler extends AbstractActionHandler {
   public async handleAction(action: Action, core: Core) {
     if (action.type === ActionTypes.signSdr) {
       const { did, data } = action as ActionSignSdr

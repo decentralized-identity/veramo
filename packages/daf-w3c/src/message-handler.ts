@@ -1,4 +1,4 @@
-import { Core, AbstractMessageValidator, Message, Identity, Credential, Presentation } from 'daf-core'
+import { Core, AbstractMessageHandler, Message, Identity, Credential, Presentation } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import {
@@ -10,15 +10,15 @@ import {
 } from 'did-jwt-vc'
 
 import Debug from 'debug'
-const debug = Debug('daf:w3c:message-validator')
+const debug = Debug('daf:w3c:message-handler')
 
 export const MessageTypes = {
   vc: 'w3c.vc',
   vp: 'w3c.vp',
 }
 
-export class MessageValidator extends AbstractMessageValidator {
-  async validate(message: Message, core: Core): Promise<Message> {
+export class W3cMessageHandler extends AbstractMessageHandler {
+  async handle(message: Message, core: Core): Promise<Message> {
     const meta = message.getLastMetaData()
 
     if (meta?.type === 'JWT' && meta?.value === 'ES256K-R') {
@@ -77,7 +77,7 @@ export class MessageValidator extends AbstractMessageValidator {
       } catch (e) {}
     }
 
-    return super.validate(message, core)
+    return super.handle(message, core)
   }
 
   private createCredential(payload: VerifiableCredentialPayload, jwt: string): Credential {

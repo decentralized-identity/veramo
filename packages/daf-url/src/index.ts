@@ -1,1 +1,1 @@
-export { MessageValidator } from './message-validator'
+export { UrlMessageHandler } from './message-handler'

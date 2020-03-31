@@ -9,7 +9,7 @@ export class Claim extends BaseEntity {
 
   @ManyToOne(
     type => Identity,
-    identity => identity.issuedPresentations,
+    identity => identity.issuedClaims,
     {
       eager: true,
     },
@@ -18,7 +18,7 @@ export class Claim extends BaseEntity {
 
   @ManyToOne(
     type => Identity,
-    identity => identity.receivedPresentations,
+    identity => identity.receivedClaims,
     {
       eager: true,
     },
