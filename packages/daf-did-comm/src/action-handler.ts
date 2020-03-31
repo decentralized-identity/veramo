@@ -1,4 +1,4 @@
-import { Core, AbstractActionHandler, Action, Message } from 'daf-core'
+import { Agent, AbstractActionHandler, Action, Message } from 'daf-core'
 import uuid from 'uuid'
 import Debug from 'debug'
 
@@ -21,12 +21,12 @@ export class DIDCommActionHandler extends AbstractActionHandler {
     super()
   }
 
-  public async handleAction(action: Action, core: Core) {
+  public async handleAction(action: Action, agent: Agent) {
     if (action.type === ActionTypes.sendJwt) {
       const { data } = action as ActionSendJWT
 
       debug('Resolving didDoc')
-      const didDoc = await core.didResolver.resolve(data.to)
+      const didDoc = await agent.didResolver.resolve(data.to)
       const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'Messaging')
 
       if (service) {
@@ -34,7 +34,7 @@ export class DIDCommActionHandler extends AbstractActionHandler {
           let body = data.jwt
 
           try {
-            const identity = await core.identityManager.getIdentity(data.from)
+            const identity = await agent.identityManager.getIdentity(data.from)
             const dm = JSON.stringify({
               '@type': 'JWT',
               id: uuid.v4(),
@@ -66,7 +66,7 @@ export class DIDCommActionHandler extends AbstractActionHandler {
           debug('Status', res.status, res.statusText)
 
           if (res.status == 200) {
-            return core.handleMessage({ raw: data.jwt, metaData: [{ type: 'DIDComm-sent' }] })
+            return agent.handleMessage({ raw: data.jwt, metaData: [{ type: 'DIDComm-sent' }] })
           }
 
           return res.status == 200
@@ -75,9 +75,9 @@ export class DIDCommActionHandler extends AbstractActionHandler {
         }
       } else {
         debug('No Messaging service in didDoc')
-        return super.handleAction(action, core)
+        return super.handleAction(action, agent)
       }
     }
-    return super.handleAction(action, core)
+    return super.handleAction(action, agent)
   }
 }

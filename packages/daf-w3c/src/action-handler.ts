@@ -1,4 +1,4 @@
-import { Core, AbstractActionHandler, Action } from 'daf-core'
+import { Agent, AbstractActionHandler, Action } from 'daf-core'
 import {
   createVerifiableCredential,
   createPresentation,
@@ -25,11 +25,11 @@ export interface ActionSignW3cVc extends Action {
 }
 
 export class W3cActionHandler extends AbstractActionHandler {
-  public async handleAction(action: Action, core: Core) {
+  public async handleAction(action: Action, agent: Agent) {
     if (action.type === ActionTypes.signVp) {
       const { did, data } = action as ActionSignW3cVp
       try {
-        const identity = await core.identityManager.getIdentity(did)
+        const identity = await agent.identityManager.getIdentity(did)
         const key = await identity.keyByType('Secp256k1')
         debug('Signing VP with', did)
         // Removing duplicate JWT
@@ -46,7 +46,7 @@ export class W3cActionHandler extends AbstractActionHandler {
     if (action.type === ActionTypes.signVc) {
       const { did, data } = action as ActionSignW3cVc
       try {
-        const identity = await core.identityManager.getIdentity(did)
+        const identity = await agent.identityManager.getIdentity(did)
         const key = await identity.keyByType('Secp256k1')
         debug('Signing VC with', did)
         const jwt = await createVerifiableCredential(data, { did: identity.did, signer: key.signer() })
@@ -58,6 +58,6 @@ export class W3cActionHandler extends AbstractActionHandler {
       }
     }
 
-    return super.handleAction(action, core)
+    return super.handleAction(action, agent)
   }
 }

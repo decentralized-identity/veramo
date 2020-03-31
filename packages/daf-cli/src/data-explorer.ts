@@ -1,4 +1,4 @@
-import { core, dataStore } from './setup'
+import { agent, dataStore } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import { formatDistanceToNow } from 'date-fns'

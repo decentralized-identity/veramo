@@ -45,8 +45,8 @@ actionHandler
   .setNext(new TrustGraphActionHandler())
 
 // Initializing the Core by injecting dependencies
-import { Core } from 'daf-core'
-export const core = new Core({
+import { Agent } from 'daf-core'
+export const agent = new Agent({
   didResolver,
   identityProviders: [rinkebyIdentityProvider],
   actionHandler,

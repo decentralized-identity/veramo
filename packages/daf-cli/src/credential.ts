@@ -1,7 +1,7 @@
 import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as DIDComm from 'daf-did-comm'
-import { core, dataStore } from './setup'
+import { agent, dataStore } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
@@ -12,7 +12,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    const identities = await core.identityManager.getIdentities()
+    const identities = await agent.identityManager.getIdentities()
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -60,10 +60,10 @@ program
       },
     }
 
-    const jwt = await core.handleAction(signAction)
+    const jwt = await agent.handleAction(signAction)
 
     if (!cmd.send) {
-      await core.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
+      await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
     } else {
       const sendAction: DIDComm.ActionSendJWT = {
         type: DIDComm.ActionTypes.sendJwt,
@@ -74,7 +74,7 @@ program
         },
       }
       try {
-        const result = await core.handleAction(sendAction)
+        const result = await agent.handleAction(sendAction)
         console.log('Sent:', result)
       } catch (e) {
         console.error(e)
@@ -94,7 +94,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    const myIdentities = await core.identityManager.getIdentities()
+    const myIdentities = await agent.identityManager.getIdentities()
     if (myIdentities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -205,10 +205,10 @@ program
         },
       }
 
-      const jwt = await core.handleAction(signAction)
+      const jwt = await agent.handleAction(signAction)
 
       if (!cmd.send) {
-        await core.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
+        await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
       } else {
         const sendAction: DIDComm.ActionSendJWT = {
           type: DIDComm.ActionTypes.sendJwt,
@@ -219,7 +219,7 @@ program
           },
         }
         try {
-          const result = await core.handleAction(sendAction)
+          const result = await agent.handleAction(sendAction)
           console.log('Sent:', result)
         } catch (e) {
           console.error(e)

@@ -1,5 +1,5 @@
 import { In } from 'typeorm'
-import { Core } from '../core'
+import { Agent } from '../agent'
 import { Message } from '../entities/message'
 import { Presentation } from '../entities/presentation'
 import { Credential } from '../entities/credential'
@@ -7,7 +7,7 @@ import { Claim } from '../entities/claim'
 import { Identity } from '../entities/identity'
 
 export interface Context {
-  core: Core
+  agent: Agent
 }
 
 export interface FindOptions {
@@ -134,7 +134,7 @@ export const resolvers = {
       _: any,
       args: { raw: string; metaData?: [{ type: string; value?: string }] },
       ctx: Context,
-    ) => ctx.core.handleMessage(args),
+    ) => ctx.agent.handleMessage(args),
   },
 
   Query: {

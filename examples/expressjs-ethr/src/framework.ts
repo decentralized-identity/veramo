@@ -47,7 +47,7 @@ actionHandler
   .setNext(new W3cActionHandler())
   .setNext(new SdrActionHandler())
 
-export const core = new Daf.Core({
+export const agent = new Daf.Agent({
   identityProviders,
   serviceControllers,
   didResolver,

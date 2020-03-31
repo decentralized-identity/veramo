@@ -16,7 +16,7 @@ messageHandler
   .setNext(new W3cMessageHandler())
   .setNext(new SdrMessageHandler())
 
-export const core = new Daf.Core({
+export const agent = new Daf.Agent({
   identityProviders: [],
   serviceControllers: [],
   didResolver,
@@ -32,12 +32,12 @@ const server = new ApolloServer({
       throw Error('Auth error')
     }
 
-    return { core }
+    return { agent }
   },
   introspection: true,
 })
 
-core.on(Daf.EventTypes.savedMessage, async (message: Daf.Message) => {
+agent.on(Daf.EventTypes.savedMessage, async (message: Daf.Message) => {
   // Add your business logic here
   console.log(message)
 })

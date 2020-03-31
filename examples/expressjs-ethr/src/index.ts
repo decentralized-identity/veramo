@@ -3,7 +3,7 @@ import * as Daf from 'daf-core'
 import * as SD from 'daf-selective-disclosure'
 import * as W3C from 'daf-w3c'
 import { app, server, io, sessionStore } from './server'
-import { core, dataStore, initializeDb } from './framework'
+import { agent, dataStore, initializeDb } from './framework'
 import { getIdentity, setServiceEndpoint } from './identity'
 
 if (!process.env.HOST) throw Error('Environment variable HOST not set')
@@ -24,14 +24,14 @@ async function main() {
   app.post(messagingEndpoint, express.text({ type: '*/*' }), async (req, res) => {
     try {
       // This will trigger Daf.EventTypes.validatedMessage
-      const result = await core.handleMessage({ raw: req.body })
+      const result = await agent.handleMessage({ raw: req.body })
       res.json({ id: result.id })
     } catch (e) {
       res.send(e.message)
     }
   })
 
-  core.on(Daf.EventTypes.savedMessage, async (message: Daf.Message) => {
+  agent.on(Daf.EventTypes.savedMessage, async (message: Daf.Message) => {
     if (message.type === W3C.MessageTypes.vp && message.threadId) {
       // TODO check for required vcs
 
@@ -93,7 +93,7 @@ async function main() {
     req.session.views = req.session.views ? req.session.views + 1 : 1
 
     // Sign Selective Disclosure Request
-    const jwt = await core.handleAction({
+    const jwt = await agent.handleAction({
       type: SD.ActionTypes.signSdr,
       did: identity.did,
       data: {
@@ -123,7 +123,7 @@ async function main() {
     const name = await dataStore.shortId(did)
 
     // Sign verifiable credential
-    const nameJwt = await core.handleAction({
+    const nameJwt = await agent.handleAction({
       type: W3C.ActionTypes.signVc,
       did: identity.did,
       data: {
@@ -138,7 +138,7 @@ async function main() {
       },
     } as W3C.ActionSignW3cVc)
 
-    const kwcJwt = await core.handleAction({
+    const kwcJwt = await agent.handleAction({
       type: W3C.ActionTypes.signVc,
       did: identity.did,
       data: {
@@ -153,7 +153,7 @@ async function main() {
       },
     } as W3C.ActionSignW3cVc)
 
-    const vpJwt = await core.handleAction({
+    const vpJwt = await agent.handleAction({
       type: W3C.ActionTypes.signVp,
       did: identity.did,
       data: {
@@ -186,7 +186,7 @@ async function main() {
 
   app.get('/public-profile', async (req, res) => {
     // Sign verifiable presentation
-    const jwt = await core.handleAction({
+    const jwt = await agent.handleAction({
       type: W3C.ActionTypes.signVc,
       did: identity.did,
       data: {

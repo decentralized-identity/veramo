@@ -1,15 +1,15 @@
 import * as Daf from 'daf-core'
-import { core } from './framework'
+import { agent } from './framework'
 
 export const getIdentity = async () => {
   // Get of create new identity
   let identity: Daf.AbstractIdentity
-  const identities = await core.identityManager.getIdentities()
+  const identities = await agent.identityManager.getIdentities()
   if (identities.length > 0) {
     identity = identities[0]
   } else {
-    const identityProviders = await core.identityManager.getIdentityProviders()
-    identity = await core.identityManager.createIdentity(identityProviders[0].type)
+    const identityProviders = await agent.identityManager.getIdentityProviders()
+    identity = await agent.identityManager.createIdentity(identityProviders[0].type)
   }
 
   return identity
@@ -17,7 +17,7 @@ export const getIdentity = async () => {
 
 export const setServiceEndpoint = async (identity: Daf.AbstractIdentity, serviceEndpoint: string) => {
   // Check if DID Document contains current serviceEndpoint
-  const didDoc = await core.didResolver.resolve(identity.did)
+  const didDoc = await agent.didResolver.resolve(identity.did)
   const exists = didDoc?.service?.find(item => item.serviceEndpoint === serviceEndpoint)
   if (!exists) {
     try {

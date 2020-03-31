@@ -1,4 +1,4 @@
-import { Core, AbstractMessageHandler, Message, Identity } from 'daf-core'
+import { Agent, AbstractMessageHandler, Message, Identity } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'
@@ -9,7 +9,7 @@ export const MessageTypes = {
 }
 
 export class SdrMessageHandler extends AbstractMessageHandler {
-  async validate(message: Message, core: Core): Promise<Message> {
+  async validate(message: Message, agent: Agent): Promise<Message> {
     const meta = message.getLastMetaData()
 
     if (
@@ -36,7 +36,7 @@ export class SdrMessageHandler extends AbstractMessageHandler {
       return message
     }
 
-    return super.handle(message, core)
+    return super.handle(message, agent)
   }
 
   private timestampToDate(timestamp: number): Date {

@@ -1,4 +1,4 @@
-import { Core, AbstractActionHandler, Action } from 'daf-core'
+import { Agent, AbstractActionHandler, Action } from 'daf-core'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
@@ -36,11 +36,11 @@ export interface ActionSignSdr extends Action {
 }
 
 export class SdrActionHandler extends AbstractActionHandler {
-  public async handleAction(action: Action, core: Core) {
+  public async handleAction(action: Action, agent: Agent) {
     if (action.type === ActionTypes.signSdr) {
       const { did, data } = action as ActionSignSdr
       try {
-        const identity = await core.identityManager.getIdentity(did)
+        const identity = await agent.identityManager.getIdentity(did)
         debug('Signing SDR with', did)
 
         const key = await identity.keyByType('Secp256k1')
@@ -63,6 +63,6 @@ export class SdrActionHandler extends AbstractActionHandler {
       }
     }
 
-    return super.handleAction(action, core)
+    return super.handleAction(action, agent)
   }
 }

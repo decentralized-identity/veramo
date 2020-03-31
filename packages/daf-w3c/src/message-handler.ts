@@ -1,4 +1,4 @@
-import { Core, AbstractMessageHandler, Message, Identity, Credential, Presentation } from 'daf-core'
+import { Agent, AbstractMessageHandler, Message, Identity, Credential, Presentation } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import {
@@ -18,7 +18,7 @@ export const MessageTypes = {
 }
 
 export class W3cMessageHandler extends AbstractMessageHandler {
-  async handle(message: Message, core: Core): Promise<Message> {
+  async handle(message: Message, agent: Agent): Promise<Message> {
     const meta = message.getLastMetaData()
 
     if (meta?.type === 'JWT' && meta?.value === 'ES256K-R') {
@@ -30,7 +30,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         debug('JWT is', MessageTypes.vp)
         const credentials: Credential[] = []
         for (const jwt of data.vp.verifiableCredential) {
-          const verified = await verifyCredential(jwt, core.didResolver)
+          const verified = await verifyCredential(jwt, agent.didResolver)
           credentials.push(this.createCredential(verified.payload, jwt))
         }
 
@@ -77,7 +77,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
       } catch (e) {}
     }
 
-    return super.handle(message, core)
+    return super.handle(message, agent)
   }
 
   private createCredential(payload: VerifiableCredentialPayload, jwt: string): Credential {

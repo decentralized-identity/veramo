@@ -26,9 +26,9 @@ describe('daf-w3c:graphql', () => {
       },
     }
     const mockHandleAction = jest.fn()
-    const core = { handleAction: mockHandleAction }
+    const agent = { handleAction: mockHandleAction }
 
-    await resolvers.Mutation.actionSignVc(null, { data, did: mockDid }, { core: core as any })
+    await resolvers.Mutation.actionSignVc(null, { data, did: mockDid }, { agent: agent as any })
     expect(mockHandleAction).toBeCalledWith({
       type: 'action.sign.w3c.vc',
       did: mockDid,
@@ -56,9 +56,9 @@ describe('daf-w3c:graphql', () => {
     }
 
     const mockHandleAction = jest.fn()
-    const core = { handleAction: mockHandleAction }
+    const agent = { handleAction: mockHandleAction }
 
-    await resolvers.Mutation.actionSignVp(null, { data, did: mockDid }, { core: core as any })
+    await resolvers.Mutation.actionSignVp(null, { data, did: mockDid }, { agent: agent as any })
     expect(mockHandleAction).toBeCalledWith({
       type: 'action.sign.w3c.vp',
       did: mockDid,

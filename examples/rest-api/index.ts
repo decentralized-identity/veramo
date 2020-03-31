@@ -4,15 +4,15 @@ const port = process.env.PORT || 8080
 import { Entities } from 'daf-core'
 import { createConnection } from 'typeorm'
 
-import { core } from './setup'
+import { agent } from './setup'
 
 app.get('/identities', async (req, res) => {
-  const identities = await core.identityManager.getIdentities()
+  const identities = await agent.identityManager.getIdentities()
   res.json(identities.map(identity => identity.did))
 })
 
 app.get('/providers', async (req, res) => {
-  const providers = await core.identityManager.getIdentityProviders()
+  const providers = await agent.identityManager.getIdentityProviders()
   res.json(
     providers.map(provider => {
       provider.type, provider.description
@@ -22,7 +22,7 @@ app.get('/providers', async (req, res) => {
 
 app.post('/create-identity', express.json(), async (req, res) => {
   try {
-    const identity = await core.identityManager.createIdentity(req.body.type)
+    const identity = await agent.identityManager.createIdentity(req.body.type)
     res.json({ did: identity.did })
   } catch (e) {
     res.status(404)
@@ -32,7 +32,7 @@ app.post('/create-identity', express.json(), async (req, res) => {
 
 app.post('/handle-action', express.json(), async (req, res) => {
   try {
-    const result = await core.handleAction(req.body)
+    const result = await agent.handleAction(req.body)
     res.json({ result })
   } catch (e) {
     res.status(404)
@@ -43,7 +43,7 @@ app.post('/handle-action', express.json(), async (req, res) => {
 // This endpoint would be published in did doc as a serviceEndpoint
 app.post('/handle-message', express.text({ type: '*/*' }), async (req, res) => {
   try {
-    const message = await core.handleMessage({ raw: req.body })
+    const message = await agent.handleMessage({ raw: req.body })
 
     // add your business logic here
 

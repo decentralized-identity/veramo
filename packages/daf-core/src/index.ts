@@ -1,4 +1,4 @@
-export { Core, EventTypes, Resolver } from './core'
+export { Agent, EventTypes, Resolver } from './agent'
 export { AbstractActionHandler } from './action/action-handler'
 export { IdentityManager } from './identity/identity-manager'
 export { AbstractIdentity } from './identity/abstract-identity'

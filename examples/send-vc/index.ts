@@ -1,7 +1,7 @@
 import { AbstractIdentity, EventTypes, Entities, Message } from 'daf-core'
 import { ActionSendJWT } from 'daf-did-comm'
 import { ActionSignW3cVc } from 'daf-w3c'
-import { core } from './setup'
+import { agent } from './setup'
 import { createConnection } from 'typeorm'
 
 async function main() {
@@ -16,16 +16,16 @@ async function main() {
 
   // Getting existing identity or creating a new one
   let identity: AbstractIdentity
-  const identities = await core.identityManager.getIdentities()
+  const identities = await agent.identityManager.getIdentities()
   if (identities.length > 0) {
     identity = identities[0]
   } else {
-    const identityProviders = await core.identityManager.getIdentityProviders()
-    identity = await core.identityManager.createIdentity(identityProviders[0].type)
+    const identityProviders = await agent.identityManager.getIdentityProviders()
+    identity = await agent.identityManager.createIdentity(identityProviders[0].type)
   }
 
   // Sign verifiable credential
-  const vcJwt = await core.handleAction({
+  const vcJwt = await agent.handleAction({
     type: 'action.sign.w3c.vc',
     did: identity.did,
     data: {
@@ -41,7 +41,7 @@ async function main() {
   } as ActionSignW3cVc)
 
   // Send verifiable credential using DIDComm or TrustGraph
-  await core.handleAction({
+  await agent.handleAction({
     type: 'action.sendJwt',
     data: {
       from: identity.did,
@@ -53,7 +53,7 @@ async function main() {
 
 // This is triggered when DAF successfully saves a new message
 // which can arrive from external services, or by sending it using `action.sendJwt`
-core.on(EventTypes.savedMessage, async (message: Message) => {
+agent.on(EventTypes.savedMessage, async (message: Message) => {
   console.log('\n\nSuccessfully sent message:', message)
 })
 

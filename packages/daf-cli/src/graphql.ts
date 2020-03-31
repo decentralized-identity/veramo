@@ -5,7 +5,7 @@ import { W3cGql } from 'daf-w3c'
 import { TrustGraphGql } from 'daf-trust-graph'
 import { SdrGql } from 'daf-selective-disclosure'
 import merge from 'lodash.merge'
-import { core, dataStore } from './setup'
+import { agent, dataStore } from './setup'
 import { listen } from './services'
 program
   .command('graphql')
@@ -30,7 +30,7 @@ program
         W3cGql.resolvers,
         SdrGql.resolvers,
       ),
-      context: () => ({ dataStore, core }),
+      context: () => ({ dataStore, agent }),
       introspection: true,
     })
     // await core.setupServices()

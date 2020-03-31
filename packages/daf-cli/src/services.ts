@@ -1,5 +1,5 @@
 import { EventTypes, Message } from 'daf-core'
-import { core, dataStore } from './setup'
+import { agent, dataStore } from './setup'
 import program from 'commander'
 import { setInterval } from 'timers'
 
@@ -12,17 +12,17 @@ program
   })
 
 export const listen = async (pollSeconds?: number) => {
-  core.on(EventTypes.savedMessage, async (msg: Message) => {
+  agent.on(EventTypes.savedMessage, async (msg: Message) => {
     console.log('New message type:', msg.type)
   })
 
-  await core.setupServices()
-  await core.listen()
-  await core.getMessagesSince(await dataStore.latestMessageTimestamps())
+  await agent.setupServices()
+  await agent.listen()
+  await agent.getMessagesSince(await dataStore.latestMessageTimestamps())
 
   if (pollSeconds) {
     setInterval(async () => {
-      await core.getMessagesSince(await dataStore.latestMessageTimestamps())
+      await agent.getMessagesSince(await dataStore.latestMessageTimestamps())
     }, pollSeconds * 1000)
   }
 }

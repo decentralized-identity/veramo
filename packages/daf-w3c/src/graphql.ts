@@ -1,8 +1,8 @@
-import { Core } from 'daf-core'
+import { Agent } from 'daf-core'
 import { ActionTypes, ActionSignW3cVc, ActionSignW3cVp } from './action-handler'
 
 interface Context {
-  core: Core
+  agent: Agent
 }
 export interface CredentialSubject {
   [x: string]: any
@@ -95,7 +95,7 @@ const actionSignVc = async (
   if (data.jit) payload['jit'] = data.jit
   if (data.tag) payload['tag'] = data.tag
 
-  return await ctx.core.handleAction({
+  return await ctx.agent.handleAction({
     type: ActionTypes.signVc,
     did: args.did,
     data: payload,
@@ -125,7 +125,7 @@ const actionSignVp = async (
   if (data.jit) payload['jit'] = data.jit
   if (data.tag) payload['tag'] = data.tag
 
-  return await ctx.core.handleAction({
+  return await ctx.agent.handleAction({
     type: ActionTypes.signVp,
     did: args.did,
     data: payload,

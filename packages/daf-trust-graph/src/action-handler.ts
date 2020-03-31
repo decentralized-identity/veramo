@@ -1,4 +1,4 @@
-import { Core, AbstractActionHandler, Action, Message } from 'daf-core'
+import { Agent, AbstractActionHandler, Action, Message } from 'daf-core'
 import { TrustGraphServiceController } from './service-controller'
 
 import Debug from 'debug'
@@ -17,12 +17,12 @@ export interface ActionSendJWT extends Action {
 }
 
 export class TrustGraphActionHandler extends AbstractActionHandler {
-  public async handleAction(action: Action, core: Core) {
+  public async handleAction(action: Action, agent: Agent) {
     if (action.type === ActionTypes.sendJwt) {
       const { data } = action as ActionSendJWT
 
       debug('Resolving didDoc')
-      const didDoc = await core.didResolver.resolve(data.to)
+      const didDoc = await agent.didResolver.resolve(data.to)
 
       const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'TrustGraph')
       const uri = service ? service.serviceEndpoint : TrustGraphServiceController.defaultUri
@@ -41,7 +41,7 @@ export class TrustGraphActionHandler extends AbstractActionHandler {
         debug('Status', res.status, res.statusText)
 
         if (res.status == 200) {
-          return core.handleMessage({ raw: data.jwt, metaData: [{ type: 'trustGraph', value: uri }] })
+          return agent.handleMessage({ raw: data.jwt, metaData: [{ type: 'trustGraph', value: uri }] })
         }
 
         return res.status == 200
@@ -49,6 +49,6 @@ export class TrustGraphActionHandler extends AbstractActionHandler {
         return Promise.reject(e)
       }
     }
-    return super.handleAction(action, core)
+    return super.handleAction(action, agent)
   }
 }

@@ -1,10 +1,10 @@
 import * as Daf from 'daf-core'
 import * as DS from 'daf-data-store'
-import * as DidJwt from 'daf-did-jwt'
-import * as W3c from 'daf-w3c'
-import * as SD from 'daf-selective-disclosure'
-import * as TG from 'daf-trust-graph'
-import * as URL from 'daf-url'
+import { JwtMessageHandler } from 'daf-did-jwt'
+import { W3cMessageHandler, W3cActionHandler, W3cGql } from 'daf-w3c'
+import { SdrMessageHandler, SdrActionHandler, SdrGql} from 'daf-selective-disclosure'
+import { TrustGraphServiceController, TrustGraphGql, TrustGraphActionHandler} from 'daf-trust-graph'
+import { UrlMessageHandler } from 'daf-url'
 import * as DafEthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
 import { DafResolver } from 'daf-resolver'
@@ -13,7 +13,7 @@ import merge from 'lodash.merge'
 import ws from 'ws'
 import { createConnection } from 'typeorm'
 
-TG.ServiceController.webSocketImpl = ws
+TrustGraphServiceController.webSocketImpl = ws
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 let didResolver = new DafResolver({ infuraProjectId })
@@ -26,24 +26,24 @@ const identityProviders = [
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
 ]
-const serviceControllers = [TG.ServiceController]
+const serviceControllers = [TrustGraphServiceController]
 
-const messageValidator = new URL.MessageValidator()
-messageValidator
-  .setNext(new DidJwt.MessageValidator())
-  .setNext(new W3c.MessageValidator())
-  .setNext(new SD.MessageValidator())
+const messageHandler = new UrlMessageHandler()
+messageHandler
+  .setNext(new JwtMessageHandler())
+  .setNext(new W3cMessageHandler())
+  .setNext(new SdrMessageHandler())
 
-const actionHandler = new TG.ActionHandler()
+const actionHandler = new TrustGraphActionHandler()
 actionHandler
-  .setNext(new W3c.ActionHandler())
-  .setNext(new SD.ActionHandler())
+  .setNext(new W3cActionHandler())
+  .setNext(new SdrActionHandler())
 
-export const core = new Daf.Core({
+export const agent = new Daf.Agent({
   identityProviders,
   serviceControllers,
   didResolver,
-  messageValidator,
+  messageHandler,
   actionHandler,
 })
 
@@ -52,20 +52,18 @@ const dataStore = new DS.DataStore()
 const server = new ApolloServer({
   typeDefs: [
     Daf.Gql.baseTypeDefs,
-    DS.Gql.typeDefs,
     Daf.Gql.Core.typeDefs,
     Daf.Gql.IdentityManager.typeDefs,
-    TG.Gql.typeDefs,
-    W3c.Gql.typeDefs,
-    SD.Gql.typeDefs,
+    TrustGraphGql.typeDefs,
+    W3cGql.typeDefs,
+    SdrGql.typeDefs,
   ],
   resolvers: merge(
     Daf.Gql.Core.resolvers,
     Daf.Gql.IdentityManager.resolvers,
-    DS.Gql.resolvers,
-    TG.Gql.resolvers,
-    W3c.Gql.resolvers,
-    SD.Gql.resolvers,
+    TrustGraphGql.resolvers,
+    W3cGql.resolvers,
+    SdrGql.resolvers,
   ),
   context: ({ req }) => {
     // Authorization is out of scope for this example,
@@ -75,12 +73,12 @@ const server = new ApolloServer({
       throw Error('Auth error')
     }
 
-    return { core, dataStore }
+    return { agent, dataStore }
   },
   introspection: true,
 })
 
-core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
+agent.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
   await message.save()
 })
 
@@ -95,8 +93,8 @@ const main = async () => {
     ],
   })
 
-  await core.setupServices()
-  await core.listen()
+  await agent.setupServices()
+  await agent.listen()
   const info = await server.listen()
   console.log(`🚀  Server ready at ${info.url}`)
 }

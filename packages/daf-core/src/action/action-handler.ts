@@ -1,9 +1,9 @@
 import { Action } from '../types'
-import { Core } from '../core'
+import { Agent } from '../agent'
 
 export interface ActionHandler {
   setNext(actionHandler: ActionHandler): ActionHandler
-  handleAction(action: Action, core: Core): Promise<any>
+  handleAction(action: Action, agent: Agent): Promise<any>
 }
 
 export abstract class AbstractActionHandler implements ActionHandler {
@@ -14,9 +14,9 @@ export abstract class AbstractActionHandler implements ActionHandler {
     return actionHandler
   }
 
-  public async handleAction(action: Action, core: Core): Promise<any> {
+  public async handleAction(action: Action, agent: Agent): Promise<any> {
     if (this.nextActionHandler) {
-      return this.nextActionHandler.handleAction(action, core)
+      return this.nextActionHandler.handleAction(action, agent)
     }
 
     return null

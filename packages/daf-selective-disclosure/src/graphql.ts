@@ -1,10 +1,10 @@
-import { Core } from 'daf-core'
+import { Agent } from 'daf-core'
 import { DataStore } from 'daf-data-store'
 import { ActionTypes, ActionSignSdr, SDRInput } from './action-handler'
 import { decodeJWT } from 'did-jwt'
 
 interface Context {
-  core: Core
+  agent: Agent
   dataStore: DataStore
 }
 
@@ -18,7 +18,7 @@ const actionSignSDR = async (
 ) => {
   const { data } = args
 
-  return await ctx.core.handleAction({
+  return await ctx.agent.handleAction({
     type: ActionTypes.signSdr,
     did: args.did,
     data: data,
@@ -42,7 +42,7 @@ const sdr = async (message: any, { sub }: { sub: string }, { dataStore }: Contex
       result.push({
         ...credentialRequest,
         iss: credentialRequest.iss?.map(item => ({ url: item.url, did: { did: item.did } })),
-        vc: credentials.map((credential: any) => ({ ...credential, __typename: 'VerifiableClaim' })),
+        vc: credentials.map((credential: any) => ({ ...credential, __typename: 'Credential' })),
       })
     }
   }
@@ -88,7 +88,7 @@ export const typeDefs = `
     reason: String
     claimType: String
     essential: Boolean
-    vc: [VerifiableClaim]
+    vc: [Credential]
   }
 
   extend type Message {

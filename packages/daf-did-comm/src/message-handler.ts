@@ -1,4 +1,4 @@
-import { Core, AbstractMessageHandler, Message } from 'daf-core'
+import { Agent, AbstractMessageHandler, Message } from 'daf-core'
 import Debug from 'debug'
 const debug = Debug('daf:did-comm:message-handler')
 
@@ -7,11 +7,11 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
     super()
   }
 
-  async handle(message: Message, core: Core): Promise<Message> {
+  async handle(message: Message, agent: Agent): Promise<Message> {
     try {
       const parsed = JSON.parse(message.raw)
       if (parsed.ciphertext && parsed.protected) {
-        const identities = await core.identityManager.getIdentities()
+        const identities = await agent.identityManager.getIdentities()
         for (const identity of identities) {
           let decrypted
           try {
@@ -34,7 +34,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
                 message.data = json
                 message.addMetaData({ type: 'DIDComm' })
               }
-              return super.handle(message, core)
+              return super.handle(message, agent)
             } catch (e) {
               debug(e.message)
             }
@@ -42,7 +42,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
             message.raw = decrypted
             message.addMetaData({ type: 'DIDComm' })
 
-            return super.handle(message, core)
+            return super.handle(message, agent)
           }
         }
       }
@@ -50,6 +50,6 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
       // not a JSON string
     }
 
-    return super.handle(message, core)
+    return super.handle(message, agent)
   }
 }

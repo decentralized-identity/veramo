@@ -1,4 +1,4 @@
-import { Message, Core } from 'daf-core'
+import { Message, Agent } from 'daf-core'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { blake2bHex } from 'blakejs'
 
@@ -38,7 +38,7 @@ describe('daf-w3c', () => {
 
   const handler = new W3cMessageHandler()
 
-  const core = new Core({
+  const agent = new Agent({
     identityProviders: [],
     serviceControllers: [],
     messageHandler: handler,
@@ -67,7 +67,7 @@ describe('daf-w3c', () => {
 
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(handler.handle(message, core)).rejects.toEqual('Unsupported message type')
+    expect(handler.handle(message, agent)).rejects.toEqual('Unsupported message type')
   })
 
   it('should return handled VC message', async () => {
@@ -75,7 +75,7 @@ describe('daf-w3c', () => {
     // This would be done by 'daf-did-jwt':
     message.data = vcPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
-    const handled = await handler.handle(message, core)
+    const handled = await handler.handle(message, agent)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vcJwt))
     expect(handled.raw).toEqual(vcJwt)
@@ -91,7 +91,7 @@ describe('daf-w3c', () => {
     message.data = vpPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
-    const handled = await handler.handle(message, core)
+    const handled = await handler.handle(message, agent)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpJwt))
     expect(handled.raw).toEqual(vpJwt)

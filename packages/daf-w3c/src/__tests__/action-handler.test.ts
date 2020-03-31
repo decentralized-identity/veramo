@@ -12,7 +12,7 @@ const mockDid = 'did:example:123'
 
 const mockSigner = jest.fn()
 
-const mockCore = {
+const mockAgent = {
   identityManager: {
     getIdentity: async (did: string) => ({
       did: mockDid,
@@ -46,7 +46,7 @@ describe('daf-w3c', () => {
         did: mockDid,
         data,
       } as ActionSignW3cVc,
-      mockCore as any,
+      mockAgent as any,
     )
 
     expect(mockCreateVerifiableCredential).toBeCalledWith(data, { did: mockDid, signer: mockSigner })
@@ -72,7 +72,7 @@ describe('daf-w3c', () => {
         did: mockDid,
         data,
       } as ActionSignW3cVp,
-      mockCore as any,
+      mockAgent as any,
     )
 
     expect(mockCreatePresentation).toBeCalledWith(data, { did: mockDid, signer: mockSigner })

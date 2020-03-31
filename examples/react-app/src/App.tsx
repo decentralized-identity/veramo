@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import * as W3c from 'daf-w3c'
 import * as TG from 'daf-trust-graph'
-import { core } from './setup'
+import { agent } from './setup'
 const {
   BaseStyles,
   Box,
@@ -33,13 +33,13 @@ const App: React.FC = () => {
   const [identities, setIdentities] = useState([{ identityProviderType: '', did: '' }])
 
   useEffect(() => {
-    core.identityManager.getIdentityProviders().then((providers: any) => {
+    agent.identityManager.getIdentityProviders().then((providers: any) => {
       setIdentityProviders(providers)
     })
   }, [])
 
   const updateIdentityList = () => {
-    core.identityManager.getIdentities().then((identities: any) => {
+    agent.identityManager.getIdentities().then((identities: any) => {
       setIdentities(identities)
       if (identities.length > 0) setActiveDid(identities[0].did)
     })
@@ -57,7 +57,7 @@ const App: React.FC = () => {
       const credentialSubject: any = {}
       credentialSubject[claimType] = claimValue
 
-      const credential = await core.handleAction({
+      const credential = await agent.handleAction({
         type: W3c.ActionTypes.signVc,
         did: activeDid,
         data: {
@@ -73,7 +73,7 @@ const App: React.FC = () => {
       console.log(credential)
 
       // Send credential using TrustGraph
-      await core.handleAction({
+      await agent.handleAction({
         type: TG.ActionTypes.sendJwt,
         data: {
           from: activeDid,
@@ -110,7 +110,7 @@ const App: React.FC = () => {
                 mr={3}
                 key={identityProvider.type}
                 onClick={async () => {
-                  await core.identityManager.createIdentity(identityProvider.type)
+                  await agent.identityManager.createIdentity(identityProvider.type)
                   updateIdentityList()
                 }}
               >

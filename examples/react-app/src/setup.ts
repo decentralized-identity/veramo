@@ -35,7 +35,7 @@ const identityProviders: Daf.AbstractIdentityProvider[] = [
 //   identityProviders.push(new MM.IdentityProvider())
 // }
 
-export const core = new Daf.Core({
+export const agent = new Daf.Agent({
   identityProviders,
   serviceControllers: [],
   didResolver,

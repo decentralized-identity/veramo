@@ -1,4 +1,4 @@
-import { Message, Core } from 'daf-core'
+import { Message, Agent } from 'daf-core'
 import { UrlMessageHandler } from '../index'
 import fetchMock from 'jest-fetch-mock'
 fetchMock.enableMocks()
@@ -6,7 +6,7 @@ fetchMock.enableMocks()
 describe('daf-url', () => {
   const messageHandler = new UrlMessageHandler()
 
-  const core = new Core({
+  const agent = new Agent({
     identityProviders: [],
     serviceControllers: [],
     didResolver: { resolve: jest.fn() },
@@ -15,7 +15,7 @@ describe('daf-url', () => {
 
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(messageHandler.handle(message, core)).rejects.toEqual('Unsupported message type')
+    expect(messageHandler.handle(message, agent)).rejects.toEqual('Unsupported message type')
   })
 
   it('should transform message after standard URL', async () => {
@@ -29,7 +29,7 @@ describe('daf-url', () => {
         },
       ],
     })
-    expect(messageHandler.handle(message, core)).rejects.toEqual('Unsupported message type')
+    expect(messageHandler.handle(message, agent)).rejects.toEqual('Unsupported message type')
     expect(message.raw).toEqual(JWT)
   })
 
@@ -38,7 +38,7 @@ describe('daf-url', () => {
     fetchMock.mockResponse('mockbody')
     expect.assertions(2)
     try {
-      await messageHandler.handle(message, core)
+      await messageHandler.handle(message, agent)
     } catch (e) {
       expect(e).toMatch('Unsupported message type')
     }

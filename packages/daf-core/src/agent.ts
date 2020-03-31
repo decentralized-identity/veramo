@@ -10,7 +10,7 @@ import { Action } from './types'
 import { Message, MetaData } from './entities/message'
 
 import Debug from 'debug'
-const debug = Debug('daf:core')
+const debug = Debug('daf:agent')
 
 export const EventTypes = {
   validatedMessage: 'validatedMessage',
@@ -30,7 +30,7 @@ interface Config {
   actionHandler?: ActionHandler
 }
 
-export class Core extends EventEmitter {
+export class Agent extends EventEmitter {
   public identityManager: IdentityManager
   public didResolver: Resolver
   private serviceManager: ServiceManager

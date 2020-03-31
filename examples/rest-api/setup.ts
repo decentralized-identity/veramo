@@ -19,7 +19,7 @@ const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 const didResolver = new DafResolver({ infuraProjectId })
 
-export const core = new Daf.Core({
+export const agent = new Daf.Agent({
   identityProviders: [
     new DafEthr.IdentityProvider({
       kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
