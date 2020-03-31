@@ -9,7 +9,7 @@ export const MessageTypes = {
 }
 
 export class SdrMessageHandler extends AbstractMessageHandler {
-  async validate(message: Message, agent: Agent): Promise<Message> {
+  async handle(message: Message, agent: Agent): Promise<Message> {
     const meta = message.getLastMetaData()
 
     if (
@@ -25,9 +25,9 @@ export class SdrMessageHandler extends AbstractMessageHandler {
       message.from = new Identity()
       message.from.did = message.data.iss
 
-      if (message.data.sub) {
+      if (message.data.subject) {
         const to = new Identity()
-        to.did = message.data.sub
+        to.did = message.data.subject
         message.to = to
       }
 

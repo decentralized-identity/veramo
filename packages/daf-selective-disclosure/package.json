@@ -13,7 +13,8 @@
     "daf-data-store": "^4.0.0-beta.15+00f0d2f",
     "daf-did-jwt": "^4.0.0-beta.15+00f0d2f",
     "debug": "^4.1.1",
-    "did-jwt": "^4.0.0"
+    "did-jwt": "^4.0.0",
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",

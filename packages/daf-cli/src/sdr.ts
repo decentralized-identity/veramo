@@ -119,7 +119,7 @@ program
       ])
 
       claims.push({
-        iss: issuers,
+        issuers: issuers,
         essential: answers2.essential,
         claimType: answers2.claimType,
         reason: answers2.reason,
@@ -129,10 +129,10 @@ program
 
     const signAction: SD.ActionSignSdr = {
       type: SD.ActionTypes.signSdr,
-      did: answers.iss,
       data: {
+        issuer: answers.iss,
+        subject: answers.sub === '' ? undefined : answers.sub,
         tag: answers.tag === '' ? undefined : answers.tag,
-        sub: answers.sub === '' ? undefined : answers.sub,
         claims,
       },
     }

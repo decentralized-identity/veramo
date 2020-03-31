@@ -1,53 +1,22 @@
-import { Agent } from 'daf-core'
+import { Agent, Message, Claim } from 'daf-core'
 import { DataStore } from 'daf-data-store'
-import { ActionTypes, ActionSignSdr, SDRInput } from './action-handler'
-import { decodeJWT } from 'did-jwt'
+import { ActionTypes, ActionSignSdr, SelectiveDisclosureRequest } from './action-handler'
+import { findCredentialsForSdr } from './helper'
 
 interface Context {
   agent: Agent
   dataStore: DataStore
 }
 
-const actionSignSDR = async (
-  _: any,
-  args: {
-    did: string
-    data: SDRInput
-  },
-  ctx: Context,
-) => {
-  const { data } = args
-
-  return await ctx.agent.handleAction({
+const signSdrJwt = async (_: any, args: { data: SelectiveDisclosureRequest }, ctx: Context) => 
+  ctx.agent.handleAction({
     type: ActionTypes.signSdr,
-    did: args.did,
-    data: data,
+    data: args.data,
   } as ActionSignSdr)
-}
 
-const sdr = async (message: any, { sub }: { sub: string }, { dataStore }: Context) => {
-  const { payload }: { payload: SDRInput } = (await decodeJWT(message.raw)) as any
-  const result: any = []
-  const subject = sub || message.receiver?.did
-  if (payload.claims) {
-    for (const credentialRequest of payload.claims) {
-      const iss: any =
-        credentialRequest.iss !== undefined ? credentialRequest.iss.map((iss: any) => iss.did) : null
-      const credentials = await dataStore.findCredentialsByFields({
-        iss,
-        sub: subject ? [subject] : [],
-        claim_type: credentialRequest.claimType,
-      })
 
-      result.push({
-        ...credentialRequest,
-        iss: credentialRequest.iss?.map(item => ({ url: item.url, did: { did: item.did } })),
-        vc: credentials.map((credential: any) => ({ ...credential, __typename: 'Credential' })),
-      })
-    }
-  }
-
-  return result
+const sdr = async (message: Message, { did }: { did: string }) => {
+  return findCredentialsForSdr(message.data, did)
 }
 
 export const resolvers = {
@@ -55,7 +24,7 @@ export const resolvers = {
     sdr,
   },
   Mutation: {
-    actionSignSDR,
+    signSdrJwt,
   },
 }
 
@@ -66,15 +35,20 @@ export const typeDefs = `
   }
 
   input CredentialRequestInput {
-    iss: [IssuerInput]
+    issuers: [IssuerInput]
     reason: String
-    claimType: String
+    credentialType: String
+    credentialContext: String
+    claimType: String!
+    claimValue: String
     essential: Boolean
   }
 
   input SDRInput {
+    issuer: String!
+    subject: String
+    replyUrl: String
     tag: String
-    sub: String
     claims: [CredentialRequestInput]!
   }
 
@@ -84,19 +58,21 @@ export const typeDefs = `
   }
 
   type CredentialRequest {
-    iss: [Issuer]
-    reason: String
-    claimType: String
+    issuers: [Issuer]
+    credentialType: String
+    credentialContext: String
+    claimType: String!
+    claimValue: String
     essential: Boolean
-    vc: [Credential]
+    credentials: [Credential]
   }
 
   extend type Message {
-    sdr(sub: ID!): [CredentialRequest]
+    sdr(did: ID): [CredentialRequest]
   }
 
   extend type Mutation {
-    actionSignSDR(did: String!, data: SDRInput!): String
+    signSdrJwt(data: SDRInput!): String
   }
 `
 export default {
