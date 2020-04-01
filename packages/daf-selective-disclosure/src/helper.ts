@@ -1,4 +1,4 @@
-import { Agent, Message, Claim } from 'daf-core'
+import { Claim } from 'daf-core'
 import { SelectiveDisclosureRequest } from './action-handler'
 import { In, Like } from 'typeorm'
 
@@ -30,10 +30,10 @@ export const findCredentialsForSdr = async (sdr: SelectiveDisclosureRequest, did
       where['subject'] = did || sdr.subject
     }
 
-    const claims = await Claim.find({ where, relations: ['credential']})
+    const claims = await Claim.find({ where, relations: ['credential'] })
     result.push({
       ...credentialRequest,
-      credentials: claims.map(c => c.credential)
+      credentials: claims.map(c => c.credential),
     })
   }
   return result
