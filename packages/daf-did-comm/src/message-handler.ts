@@ -24,12 +24,12 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
 
             try {
               const json = JSON.parse(decrypted)
-              if (json['@type'] === 'JWT') {
-                message.raw = json.data
+              if (json['type'] === 'jwt') {
+                message.raw = json.body
                 message.addMetaData({ type: 'DIDComm' })
               } else {
-                if (json['@id']) message.id = json['@id']
-                if (json['@type']) message.type = json['@type']
+                if (json['id']) message.id = json['id']
+                if (json['type']) message.type = json['type']
                 message.raw = decrypted
                 message.data = json
                 message.addMetaData({ type: 'DIDComm' })
@@ -45,6 +45,17 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
             return super.handle(message, agent)
           }
         }
+      } else if (parsed.type === 'jwt') {
+        message.raw = parsed.body
+        if (parsed['id']) message.id = parsed['id']
+        message.addMetaData({ type: 'DIDComm' })
+        return super.handle(message, agent)
+      } else {
+        message.data = parsed.body
+        if (parsed['id']) message.id = parsed['id']
+        if (parsed['type']) message.type = parsed['type']
+        message.addMetaData({ type: 'DIDComm' })
+        return super.handle(message, agent)
       }
     } catch (e) {
       // not a JSON string

@@ -1,15 +1,16 @@
 import * as Daf from 'daf-core'
 import * as DafEthr from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
-import { W3cActionHandler, W3cMessageHandler} from 'daf-w3c'
+import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
 import { JwtMessageHandler } from 'daf-did-jwt'
-import { DIDCommActionHandler, DIDCommMessageHandler} from 'daf-did-comm'
+import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
 import { DafResolver } from 'daf-resolver'
 
 import Debug from 'debug'
 Debug.enable('*')
 
-const messageHandler = new JwtMessageHandler()
+const messageHandler = new DIDCommMessageHandler()
+messageHandler.setNext(new JwtMessageHandler())
 messageHandler.setNext(new W3cMessageHandler())
 
 const actionHandler = new DIDCommActionHandler()

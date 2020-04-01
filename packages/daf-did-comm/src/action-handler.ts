@@ -5,14 +5,18 @@ import Debug from 'debug'
 const debug = Debug('daf:did-comm:action-handler')
 
 export const ActionTypes = {
-  sendJwt: 'action.sendJwt',
+  sendMessageDIDCommAlpha1: 'send.message.didcomm-alpha-1',
 }
 
-export interface ActionSendJWT extends Action {
+export interface ActionSendDIDComm extends Action {
+  url?: string
+  save?: boolean
   data: {
+    id?: string
     from: string
     to: string
-    jwt: string
+    type: string
+    body: any
   }
 }
 
@@ -22,51 +26,50 @@ export class DIDCommActionHandler extends AbstractActionHandler {
   }
 
   public async handleAction(action: Action, agent: Agent) {
-    if (action.type === ActionTypes.sendJwt) {
-      const { data } = action as ActionSendJWT
+    if (action.type === ActionTypes.sendMessageDIDCommAlpha1) {
+      const { data, url, save = true } = action as ActionSendDIDComm
 
       debug('Resolving didDoc')
       const didDoc = await agent.didResolver.resolve(data.to)
-      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'Messaging')
+      let serviceEndpoint
+      if (url) {
+        serviceEndpoint = url
+      } else {
+        const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'Messaging')
+        serviceEndpoint = service?.serviceEndpoint
+      }
 
-      if (service) {
+      if (serviceEndpoint) {
         try {
-          let body = data.jwt
-
+          data.id = data.id || uuid.v4()
+          let postPayload = JSON.stringify(data)
           try {
             const identity = await agent.identityManager.getIdentity(data.from)
-            const dm = JSON.stringify({
-              '@type': 'JWT',
-              id: uuid.v4(),
-              data: data.jwt,
-            })
-            debug(dm)
-
             const key = await identity.keyByType('Ed25519')
             const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
             if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
 
-            body = await key.encrypt(
+            postPayload = await key.encrypt(
               {
                 type: 'Ed25519',
                 publicKeyHex: publicKey?.publicKeyHex,
                 kid: publicKey?.publicKeyHex,
               },
-              dm,
+              postPayload,
             )
 
-            debug('Encrypted:', body)
+            debug('Encrypted:', postPayload)
           } catch (e) {}
 
-          debug('Sending to %s', service.serviceEndpoint)
-          const res = await fetch(service.serviceEndpoint, {
+          debug('Sending to %s', serviceEndpoint)
+          const res = await fetch(serviceEndpoint, {
             method: 'POST',
-            body,
+            body: postPayload,
           })
           debug('Status', res.status, res.statusText)
 
           if (res.status == 200) {
-            return agent.handleMessage({ raw: data.jwt, metaData: [{ type: 'DIDComm-sent' }] })
+            return agent.handleMessage({ raw: data.body, metaData: [{ type: 'DIDComm-sent' }], save })
           }
 
           return res.status == 200

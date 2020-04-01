@@ -87,38 +87,45 @@ export class Agent extends EventEmitter {
     return result
   }
 
-  public async handleMessage({ raw, metaData, save = true}: 
-    { raw: string, metaData?: MetaData[], save?: boolean}): Promise<Message> {
-    
-      debug('Handle message %o', { raw, metaData, save, })
-      if (!this.messageHandler) {
-        return Promise.reject('Message handler not provided')
+  public async handleMessage({
+    raw,
+    metaData,
+    save = true,
+  }: {
+    raw: string
+    metaData?: MetaData[]
+    save?: boolean
+  }): Promise<Message> {
+    debug('Handle message %o', { raw, metaData, save })
+    if (!this.messageHandler) {
+      return Promise.reject('Message handler not provided')
+    }
+
+    try {
+      const message = await this.messageHandler.handle(new Message({ raw, metaData }), this)
+      if (message.isValid()) {
+        debug('Emitting event', EventTypes.validatedMessage)
+        this.emit(EventTypes.validatedMessage, message)
       }
 
-      try {
-        const message = await this.messageHandler.handle(new Message({ raw, metaData }), this)
-        if (message.isValid()) {
-          debug('Emitting event', EventTypes.validatedMessage)
-          this.emit(EventTypes.validatedMessage, message)
-        }
-
-        debug('Validated message %o', message)
-        if (save) {
-          await message.save()
-          debug('Emitting event', EventTypes.savedMessage)
-          this.emit(EventTypes.savedMessage, message)
-        }
-        return message
-      } catch (error) {
-        this.emit(EventTypes.error, error)
-        return Promise.reject(error)
+      debug('Validated message %o', message)
+      if (save) {
+        await message.save()
+        debug('Emitting event', EventTypes.savedMessage)
+        this.emit(EventTypes.savedMessage, message)
       }
+      return message
+    } catch (error) {
+      this.emit(EventTypes.error, error)
+      return Promise.reject(error)
+    }
   }
 
   public async handleAction(action: Action): Promise<any> {
     if (!this.actionHandler) {
       return Promise.reject('Action handler not provided')
     }
+    debug('Handle action %o', action)
     return this.actionHandler.handleAction(action, this)
   }
 }

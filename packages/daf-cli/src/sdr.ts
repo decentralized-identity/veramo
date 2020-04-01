@@ -142,12 +142,13 @@ program
     if (!cmd.send) {
       await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
     } else if (answers.sub !== '') {
-      const sendAction: DIDComm.ActionSendJWT = {
-        type: DIDComm.ActionTypes.sendJwt,
+      const sendAction: DIDComm.ActionSendDIDComm = {
+        type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
         data: {
           from: answers.iss,
           to: answers.sub,
-          jwt,
+          type: 'jwt',
+          body: jwt,
         },
       }
       try {

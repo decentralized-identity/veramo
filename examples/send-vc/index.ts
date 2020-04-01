@@ -1,5 +1,5 @@
 import { AbstractIdentity, EventTypes, Entities, Message } from 'daf-core'
-import { ActionSendJWT } from 'daf-did-comm'
+import { ActionSendDIDComm, ActionTypes } from 'daf-did-comm'
 import { ActionSignW3cVc } from 'daf-w3c'
 import { agent } from './setup'
 import { createConnection } from 'typeorm'
@@ -40,15 +40,16 @@ async function main() {
     },
   } as ActionSignW3cVc)
 
-  // Send verifiable credential using DIDComm or TrustGraph
+  // Send verifiable credential using DIDComm
   await agent.handleAction({
-    type: 'action.sendJwt',
+    type: ActionTypes.sendMessageDIDCommAlpha1,
     data: {
       from: identity.did,
       to: 'did:web:uport.me',
-      jwt: vcJwt,
+      type: 'jwt',
+      body: vcJwt,
     },
-  } as ActionSendJWT)
+  } as ActionSendDIDComm)
 }
 
 // This is triggered when DAF successfully saves a new message
