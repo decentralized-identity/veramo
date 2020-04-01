@@ -132,7 +132,7 @@ export const resolvers = {
   Mutation: {
     handleMessage: async (
       _: any,
-      args: { raw: string; metaData?: [{ type: string; value?: string }] },
+      args: { raw: string; metaData?: [{ type: string; value?: string }]; save: boolean },
       ctx: Context,
     ) => ctx.agent.handleMessage(args),
   },
@@ -254,7 +254,7 @@ export const typeDefs = `
     value: String
   }
   extend type Mutation {
-    handleMessage(raw: String!, meta: [MetaDataInput]): Message
+    handleMessage(raw: String!, meta: [MetaDataInput], save: Boolean = true): Message
   }
 
 
