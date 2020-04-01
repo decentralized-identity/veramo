@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@rimble/icons": "^1.1.0",
     "@walletconnect/browser": "^1.0.0-beta.47",
     "apollo-server-micro": "^2.11.0",
     "daf-core": "^3.1.3",

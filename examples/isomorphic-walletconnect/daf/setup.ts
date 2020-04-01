@@ -9,10 +9,8 @@ import * as URL from 'daf-url'
 import * as DafEthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
 import { DafResolver } from 'daf-resolver'
-import ws from 'ws'
 import { createConnection } from 'typeorm'
 
-TG.ServiceController.webSocketImpl = ws
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 let didResolver = new DafResolver({ infuraProjectId })
@@ -25,7 +23,7 @@ const identityProviders = [
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
 ]
-const serviceControllers = [TG.ServiceController]
+const serviceControllers = []
 
 const messageValidator = new DBG.MessageValidator()
 messageValidator

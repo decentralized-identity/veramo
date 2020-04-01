@@ -2,6 +2,22 @@ import { useEffect, useState } from 'react'
 import Router from 'next/router'
 import { WalletConnectContext } from '../components/WalletConnectContext'
 import WalletConnect from '@walletconnect/browser'
+import { BaseStyles, theme } from 'rimble-ui'
+import { ThemeProvider } from 'styled-components'
+// import { core } from '../daf/setup'
+
+import '../styles/base.css'
+
+const customTheme = Object.assign({}, theme, {
+  colors: {
+    ...theme.colors, // keeps existing colors
+    text: '#333', // sets color for text
+    background: '#EEE', // sets color for background
+    primary: '#3259D6', // sets primary color
+  },
+  fontSizes: [12, 14, 16, 20, 24, 32, 48, 64], // sets font scale
+  space: [0, 4, 8, 16, 32, 64, 128, 256], // sets spacing scale
+})
 
 function MyApp({ Component, pageProps }) {
   const [walletConnector, updateWalletConnect] = useState(null)
@@ -130,8 +146,14 @@ function MyApp({ Component, pageProps }) {
   }, [connected])
 
   return (
-    <WalletConnectContext.Provider value={{ init, killSession, address }}>
-      <Component {...pageProps} />
+    <WalletConnectContext.Provider
+      value={{ init, killSession, address, walletConnector }}
+    >
+      <ThemeProvider theme={customTheme}>
+        <BaseStyles id={'base_styles_container'}>
+          <Component {...pageProps} />
+        </BaseStyles>
+      </ThemeProvider>
     </WalletConnectContext.Provider>
   )
 }
