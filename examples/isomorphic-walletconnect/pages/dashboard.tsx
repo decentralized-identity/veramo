@@ -30,7 +30,7 @@ const Welcome = props => {
     WalletConnectContext,
   )
 
-  const receiveCredential = async () => {
+  const receiveCredential = async (shouldWait: boolean) => {
     if (!walletConnector) {
       return
     }
@@ -41,14 +41,18 @@ const Welcome = props => {
     const customRequest = {
       id: 1000,
       jsonrpc: '2.0',
-      method: 'issue_credential',
+      method: shouldWait ? 'issue_credential_callback' : 'issue_credential',
       params: [data],
     }
 
-    openModal()
-    setRequestType('CREDENTIAL_ISSUE')
+    if (shouldWait) {
+      openModal()
+      setRequestType('CREDENTIAL_ISSUE')
+    }
+
     const response = await walletConnector.sendCustomRequest(customRequest)
-    if (response === 'CREDENTIAL_ACCEPTED') {
+
+    if (shouldWait && response === 'CREDENTIAL_ACCEPTED') {
       closeModal()
     }
   }
@@ -114,15 +118,23 @@ const Welcome = props => {
         </Box>
         <Box flexDirection={'row'} display={'flex'} mt={3}>
           <ContentBlock
-            title={'Receive Credential'}
+            title={'Receive credential with callback'}
             text={
-              'Gwei based on a fundamental analysis although Zilliqa froze some safe ICO! Since Basic Attention Token detected the stablecoin'
+              'Issue a credential from DafHub to your mobile. This will wait for you to accept the credential'
             }
-            action={receiveCredential}
+            action={() => receiveCredential(true)}
             buttonText={'Receive'}
           />
           <ContentBlock
-            title={'Request Credentials'}
+            title={'Receive credential standard'}
+            text={
+              'Issue a credential from DafHub to your mobile. The credential will just appear on your device without a response from you.'
+            }
+            action={() => receiveCredential(false)}
+            buttonText={'Receive'}
+          />
+          <ContentBlock
+            title={'Request credentials'}
             text={
               'Gwei based on a fundamental analysis although Zilliqa froze some safe ICO! Since Basic Attention Token detected the stablecoin'
             }
@@ -130,7 +142,7 @@ const Welcome = props => {
             buttonText={'Request'}
           />
           <ContentBlock
-            title={'Issue Credential'}
+            title={'Issue credential'}
             text={
               'Gwei based on a fundamental analysis although Zilliqa froze some safe ICO! Since Basic Attention Token detected the stablecoin'
             }
