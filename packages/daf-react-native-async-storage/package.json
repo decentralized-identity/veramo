@@ -1,14 +1,14 @@
 {
   "name": "daf-react-native-async-storage",
   "description": "DAF react native async storage modules",
-  "version": "4.0.0-beta.15+00f0d2f",
+  "version": "4.0.0-beta.32+8aefe92",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^4.0.0-beta.15+00f0d2f",
+    "daf-core": "^4.0.0-beta.32+8aefe92",
     "debug": "^4.1.1"
   },
   "peerDependencies": {
@@ -29,5 +29,5 @@
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
   "keywords": [],
-  "gitHead": "00f0d2ff3aea786e1f6c5142e41f387c09f8ef3e"
+  "gitHead": "8aefe9216f71cc95812b3f60bd40b1187995ff06"
 }
