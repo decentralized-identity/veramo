@@ -44,7 +44,7 @@ const Component = () => {
               icononly
               icon={'Add'}
               size={'small'}
-              onClick={() => createIdentity({ variables: { type: 'ethr-did-fs' } })}
+              onClick={() => createIdentity({ variables: { type: 'rinkeby-ethr-did' } })}
             ></Button>
           </Box>
         }
@@ -54,7 +54,7 @@ const Component = () => {
             <tr>
               <th>Avatar</th>
               <th>DID</th>
-              <th>Type</th>
+              <th>Provider</th>
               <th>Short ID</th>
               <th>Default</th>
             </tr>
@@ -63,7 +63,7 @@ const Component = () => {
             {managedIdentitiesData?.managedIdentities?.map(
               (identity: {
                 did: string
-                type: string
+                provider: string
                 shortId: string
                 name: string
                 profileImage?: string
@@ -80,7 +80,7 @@ const Component = () => {
                       <Avatar did={identity.did} source={identity.profileImage} type={'circle'} />
                     </td>
                     <td>{identity.did}</td>
-                    <td>{identity.type}</td>
+                    <td>{identity.provider}</td>
                     <td>{identity.shortId}</td>
                     <td className={'icon_cell'}>
                       {defaultDid === identity.did && <Icon name={'Check'} color={'green'} />}

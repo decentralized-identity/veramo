@@ -31,7 +31,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         const credentials: Credential[] = []
         for (const jwt of data.vp.verifiableCredential) {
           const verified = await verifyCredential(jwt, agent.didResolver)
-          credentials.push(this.createCredential(verified.payload, jwt))
+          credentials.push(createCredential(verified.payload, jwt))
         }
 
         message.id = blake2bHex(message.raw)
@@ -47,8 +47,8 @@ export class W3cMessageHandler extends AbstractMessageHandler {
           message.threadId = message.data.tag
         }
 
-        message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat)
-        message.presentations = [this.createPresentation(data, message.raw, credentials)]
+        message.createdAt = timestampToDate(message.data.nbf || message.data.iat)
+        message.presentations = [createPresentation(data, message.raw, credentials)]
         message.credentials = credentials
 
         return message
@@ -71,76 +71,78 @@ export class W3cMessageHandler extends AbstractMessageHandler {
           message.threadId = message.data.tag
         }
 
-        message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat)
-        message.credentials = [this.createCredential(message.data, message.raw)]
+        message.createdAt = timestampToDate(message.data.nbf || message.data.iat)
+        message.credentials = [createCredential(message.data, message.raw)]
         return message
       } catch (e) {}
     }
 
     return super.handle(message, agent)
   }
+}
 
-  private createCredential(payload: VerifiableCredentialPayload, jwt: string): Credential {
-    const vc = new Credential()
+export function createCredential(payload: VerifiableCredentialPayload, jwt: string): Credential {
+  const vc = new Credential()
 
-    vc.issuer = new Identity()
-    vc.issuer.did = payload.iss
+  vc.issuer = new Identity()
+  vc.issuer.did = payload.iss
 
+  if (payload.sub) {
     vc.subject = new Identity()
     vc.subject.did = payload.sub
-
-    vc.raw = jwt
-
-    if (payload.nbf || payload.iat) {
-      vc.issuanceDate = this.timestampToDate(payload.nbf || payload.iat)
-    }
-
-    if (payload.exp) {
-      vc.expirationDate = this.timestampToDate(payload.exp)
-    }
-
-    vc.context = payload.vc['@context']
-    vc.type = payload.vc.type
-
-    vc.credentialSubject = payload.vc.credentialSubject
-
-    return vc
   }
 
-  private createPresentation(
-    payload: PresentationPayload,
-    jwt: string,
-    credentials: Credential[],
-  ): Presentation {
-    const vp = new Presentation()
+  vc.raw = jwt
 
-    vp.issuer = new Identity()
-    vp.issuer.did = payload.iss
-
-    vp.audience = new Identity()
-    vp.audience.did = payload.aud
-
-    vp.raw = jwt
-
-    if (payload.nbf || payload.iat) {
-      vp.issuanceDate = this.timestampToDate(payload.nbf || payload.iat)
-    }
-
-    if (payload.exp) {
-      vp.expirationDate = this.timestampToDate(payload.exp)
-    }
-
-    vp.context = payload.vp['@context']
-    vp.type = payload.vp.type
-
-    vp.credentials = credentials
-
-    return vp
+  if (payload.nbf || payload.iat) {
+    vc.issuanceDate = timestampToDate(payload.nbf || payload.iat)
   }
 
-  private timestampToDate(timestamp: number): Date {
-    const date = new Date(0)
-    date.setUTCSeconds(timestamp)
-    return date
+  if (payload.exp) {
+    vc.expirationDate = timestampToDate(payload.exp)
   }
+
+  vc.context = payload.vc['@context']
+  vc.type = payload.vc.type
+
+  vc.credentialSubject = payload.vc.credentialSubject
+
+  return vc
+}
+
+export function createPresentation(
+  payload: PresentationPayload,
+  jwt: string,
+  credentials: Credential[],
+): Presentation {
+  const vp = new Presentation()
+
+  vp.issuer = new Identity()
+  vp.issuer.did = payload.iss
+
+  vp.audience = new Identity()
+  vp.audience.did = payload.aud
+
+  vp.raw = jwt
+
+  if (payload.nbf || payload.iat) {
+    vp.issuanceDate = timestampToDate(payload.nbf || payload.iat)
+  }
+
+  if (payload.exp) {
+    vp.expirationDate = timestampToDate(payload.exp)
+  }
+
+  vp.context = payload.vp['@context']
+  vp.type = payload.vp.type
+
+  vp.credentials = credentials
+
+  return vp
+}
+
+function timestampToDate(timestamp: number): Date {
+  const date = new Date(0)
+  date.setUTCSeconds(timestamp)
+  return date
 }

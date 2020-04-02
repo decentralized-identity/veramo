@@ -21,9 +21,10 @@ export class Claim extends BaseEntity {
     identity => identity.receivedClaims,
     {
       eager: true,
+      nullable: true,
     },
   )
-  subject: Identity
+  subject?: Identity
 
   @ManyToOne(
     type => Credential,

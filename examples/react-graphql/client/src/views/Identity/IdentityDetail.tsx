@@ -19,7 +19,7 @@ const Component: React.FC<IdentityDetail> = () => {
   const deleteId = (did: string | undefined) => {
     deleteIdentity({
       variables: {
-        type: 'ethr-did-fs',
+        type: 'rinkeby-ethr-did',
         did: did,
       },
     }).then(() => {

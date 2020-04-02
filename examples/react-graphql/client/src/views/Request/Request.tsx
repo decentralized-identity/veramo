@@ -23,14 +23,14 @@ const Component = () => {
   const [jwt, setJwt] = useState()
   const [actionSendJwt] = useMutation(queries.actionSendJwt, {
     onCompleted: response => {
-      if (response && response.actionSendJwt) {
+      if (response?.actionSendJwt?.id) {
         setIsSending(false)
         window.toastProvider.addMessage('Request sent!', { variant: 'success' })
       }
     },
   })
 
-  const [actionSignSDR] = useMutation(queries.actionSignSDR, {
+  const [actionSignSDR] = useMutation(queries.signSdrJwt, {
     onCompleted: response => {
       if (response && response.actionSignSDR) {
         setJwt(response.actionSignSDR)
@@ -43,7 +43,7 @@ const Component = () => {
             variables: {
               from: appState.defaultDid,
               to: receiver,
-              jwt: response.actionSignSDR,
+              jwt: response.signSdrJwt,
             },
           })
         }
@@ -72,10 +72,10 @@ const Component = () => {
   const sendRequest = () => {
     actionSignSDR({
       variables: {
-        did: appState.defaultDid,
         data: {
+          issuer: appState.defaultDid,
           tag: 'tag-' + Date.now().toString(),
-          sub: receiver || null,
+          subject: receiver || null,
           claims: claims,
         },
       },

@@ -32,7 +32,7 @@ export const resolvers = {
 
 export const typeDefs = `
   extend type Mutation {
-    actionSendJwt(from: String!, to: String!, jwt: String!): Boolean
+    actionSendJwt(from: String!, to: String!, jwt: String!): Message
   }
 `
 export default {

@@ -29,7 +29,7 @@ export const identity = gql`
   query identity($did: ID!) {
     identity(did: $did) {
       did
-      type
+      provider
       shortId
     }
   }
@@ -43,7 +43,7 @@ export const managedIdentities = gql`
     }
     managedIdentities {
       did
-      type
+      provider
       shortId
       profileImage
     }
@@ -64,20 +64,32 @@ export const deleteIdentity = gql`
   }
 `
 
-export const actionSignVc = gql`
-  mutation actionSignVc($did: String!, $data: VerifiableCredentialInput!) {
-    actionSignVc(did: $did, data: $data)
+export const signCredentialJwt = gql`
+  mutation signCredentialJwt($data: SignCredentialInput!) {
+    signCredentialJwt(data: $data) {
+      raw
+    }
   }
 `
 
-export const actionSignSDR = gql`
-  mutation signSDR($did: String!, $data: SDRInput!) {
-    actionSignSDR(did: $did, data: $data)
+export const signPresentationJwt = gql`
+  mutation signPresentationJwt($data: SignPresentationInput!) {
+    signPresentationJwt(data: $data) {
+      raw
+    }
+  }
+`
+
+export const signSdrJwt = gql`
+  mutation signSdrJwt($data: SDRInput!) {
+    signSdrJwt(data: $data)
   }
 `
 export const actionSendJwt = gql`
   mutation actionSendJwt($from: String!, $to: String!, $jwt: String!) {
-    actionSendJwt(from: $from, to: $to, jwt: $jwt)
+    actionSendJwt(from: $from, to: $to, jwt: $jwt) {
+      id
+    }
   }
 `
 

@@ -95,8 +95,8 @@ async function main() {
     // Sign Selective Disclosure Request
     const jwt = await agent.handleAction({
       type: SD.ActionTypes.signSdr,
-      did: identity.did,
       data: {
+        issuer: identity.did,
         tag: req.sessionID,
         claims: [
           {
@@ -124,45 +124,39 @@ async function main() {
 
     // Sign verifiable credential
     const nameJwt = await agent.handleAction({
-      type: W3C.ActionTypes.signVc,
-      did: identity.did,
+      type: W3C.ActionTypes.signCredentialJwt,
       data: {
-        sub: did,
-        vc: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
-          credentialSubject: {
-            name,
-          },
+        issuer: identity.did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject: {
+          id: did,
+          name,
         },
       },
     } as W3C.ActionSignW3cVc)
 
     const kwcJwt = await agent.handleAction({
-      type: W3C.ActionTypes.signVc,
-      did: identity.did,
+      type: W3C.ActionTypes.signCredentialJwt,
       data: {
-        sub: did,
-        vc: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
-          credentialSubject: {
-            kycId: '123XZY',
-          },
+        issuer: identity.did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject: {
+          id: did,
+          kycId: '123XZY',
         },
       },
     } as W3C.ActionSignW3cVc)
 
     const vpJwt = await agent.handleAction({
-      type: W3C.ActionTypes.signVp,
-      did: identity.did,
+      type: W3C.ActionTypes.signPresentationJwt,
       data: {
-        aud: did,
-        vp: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiablePresentation'],
-          verifiableCredential: [nameJwt, kwcJwt],
-        },
+        issuer: identity.did,
+        audience: did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiablePresentation'],
+        verifiableCredential: [nameJwt, kwcJwt],
       },
     } as W3C.ActionSignW3cVp)
 
@@ -187,18 +181,16 @@ async function main() {
   app.get('/public-profile', async (req, res) => {
     // Sign verifiable presentation
     const jwt = await agent.handleAction({
-      type: W3C.ActionTypes.signVc,
-      did: identity.did,
+      type: W3C.ActionTypes.signCredentialJwt,
       data: {
-        sub: identity.did,
-        vc: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
-          credentialSubject: {
-            name: 'DAF Demo',
-            description: 'Demo application',
-            profileImage: 'https://i.imgur.com/IMn3dIg.png',
-          },
+        issuer: identity.did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject: {
+          id: identity.did,
+          name: 'DAF Demo',
+          description: 'Demo application',
+          profileImage: 'https://i.imgur.com/IMn3dIg.png',
         },
       },
     } as W3C.ActionSignW3cVc)

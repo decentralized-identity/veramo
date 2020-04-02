@@ -44,48 +44,45 @@ program
     ])
 
     const credentialSubject: any = {}
+    credentialSubject.id = answers.sub
     const type: string = answers.claimType
     credentialSubject[type] = answers.claimValue
 
     const signAction: W3c.ActionSignW3cVc = {
-      type: W3c.ActionTypes.signVc,
-      did: answers.iss,
+      type: W3c.ActionTypes.signCredentialJwt,
+      save: true,
       data: {
-        sub: answers.sub,
-        vc: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
-          credentialSubject,
-        },
+        issuer: answers.iss,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject,
       },
     }
 
-    const jwt = await agent.handleAction(signAction)
+    const credential: Daf.Credential = await agent.handleAction(signAction)
 
-    if (!cmd.send) {
-      await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
-    } else {
+    if (cmd.send) {
       const sendAction: DIDComm.ActionSendDIDComm = {
         type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
         data: {
           from: answers.iss,
           to: answers.sub,
           type: 'jwt',
-          body: jwt,
+          body: credential.raw,
         },
       }
       try {
-        const result = await agent.handleAction(sendAction)
-        console.log('Sent:', result)
+        const message: Daf.Message = await agent.handleAction(sendAction)
+        console.log('Sent:', message)
       } catch (e) {
         console.error(e)
       }
     }
 
     if (cmd.qrcode) {
-      qrcode.generate(jwt)
+      qrcode.generate(credential.raw)
     } else {
-      console.log(`jwt: ${jwt}`)
+      console.log(`jwt: ${credential.raw}`)
     }
   })
 
@@ -193,45 +190,42 @@ program
       }
 
       const signAction: W3c.ActionSignW3cVp = {
-        type: W3c.ActionTypes.signVp,
-        did: answers.iss,
+        type: W3c.ActionTypes.signPresentationJwt,
+        save: true,
         data: {
-          aud: aud,
+          issuer: answers.iss,
+          audience: aud,
           tag: answers.tag,
-          vp: {
-            '@context': ['https://www.w3.org/2018/credentials/v1'],
-            type: ['VerifiablePresentation'],
-            verifiableCredential,
-          },
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          type: ['VerifiablePresentation'],
+          verifiableCredential,
         },
       }
 
-      const jwt = await agent.handleAction(signAction)
+      const presentation: Daf.Presentation = await agent.handleAction(signAction)
 
-      if (!cmd.send) {
-        await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
-      } else {
+      if (cmd.send) {
         const sendAction: DIDComm.ActionSendDIDComm = {
           type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
           data: {
             from: answers.iss,
             to: aud,
             type: 'jwt',
-            body: jwt,
+            body: presentation.raw,
           },
         }
         try {
-          const result = await agent.handleAction(sendAction)
-          console.log('Sent:', result)
+          const message: Daf.Message = await agent.handleAction(sendAction)
+          console.log('Sent:', message)
         } catch (e) {
           console.error(e)
         }
       }
 
       if (cmd.qrcode) {
-        qrcode.generate(jwt)
+        qrcode.generate(presentation.raw)
       } else {
-        console.log(`jwt: ${jwt}`)
+        console.log(`jwt: ${presentation.raw}`)
       }
     }
   })

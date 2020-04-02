@@ -2,8 +2,8 @@ import * as Daf from 'daf-core'
 import * as DS from 'daf-data-store'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3cMessageHandler, W3cActionHandler, W3cGql } from 'daf-w3c'
-import { SdrMessageHandler, SdrActionHandler, SdrGql} from 'daf-selective-disclosure'
-import { TrustGraphServiceController, TrustGraphGql, TrustGraphActionHandler} from 'daf-trust-graph'
+import { SdrMessageHandler, SdrActionHandler, SdrGql } from 'daf-selective-disclosure'
+import { TrustGraphServiceController, TrustGraphGql, TrustGraphActionHandler } from 'daf-trust-graph'
 import { UrlMessageHandler } from 'daf-url'
 import * as DafEthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
@@ -35,9 +35,7 @@ messageHandler
   .setNext(new SdrMessageHandler())
 
 const actionHandler = new TrustGraphActionHandler()
-actionHandler
-  .setNext(new W3cActionHandler())
-  .setNext(new SdrActionHandler())
+actionHandler.setNext(new W3cActionHandler()).setNext(new SdrActionHandler())
 
 export const agent = new Daf.Agent({
   identityProviders,
@@ -78,19 +76,13 @@ const server = new ApolloServer({
   introspection: true,
 })
 
-agent.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
-  await message.save()
-})
-
 const main = async () => {
   await createConnection({
     type: 'sqlite',
     database: './database.sqlite',
     synchronize: true,
-    logging: true,
-    entities: [
-      ...Daf.Entities,
-    ],
+    logging: false,
+    entities: [...Daf.Entities],
   })
 
   await agent.setupServices()

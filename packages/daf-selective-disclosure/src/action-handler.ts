@@ -56,7 +56,7 @@ export class SdrActionHandler extends AbstractActionHandler {
             issuer: identity.did,
           },
         )
-
+        debug(jwt)
         return jwt
       } catch (error) {
         debug(error)

@@ -151,6 +151,8 @@ export const resolvers = {
   },
 
   Identity: {
+    shortId: async (identity: Identity) => `${identity.did.slice(0, 15)}...${identity.did.slice(-4)}`,
+    profileImage: async (identity: Identity) => null,
     sentMessages: async (identity: Identity) =>
       (await Identity.findOne(identity.did, { relations: ['sentMessages'] })).sentMessages,
     receivedMessages: async (identity: Identity) =>
@@ -171,7 +173,7 @@ export const resolvers = {
 
   Credential: {
     claims: async (credential: Credential) =>
-      (await Credential.findOne(credential.hash, { relations: ['claims'] })).claims,
+      credential.claims || (await Credential.findOne(credential.hash, { relations: ['claims'] })).claims,
     messages: async (credential: Credential) =>
       (await Credential.findOne(credential.hash, { relations: ['messages'] })).messages,
     presentations: async (credential: Credential) =>
@@ -180,6 +182,7 @@ export const resolvers = {
 
   Presentation: {
     credentials: async (presentation: Presentation) =>
+      presentation.credentials ||
       (await Presentation.findOne(presentation.hash, { relations: ['credentials'] })).credentials,
     messages: async (presentation: Presentation) =>
       (await Presentation.findOne(presentation.hash, { relations: ['messages'] })).messages,
@@ -187,9 +190,10 @@ export const resolvers = {
 
   Message: {
     presentations: async (message: Message) =>
+      message.presentations ||
       (await Message.findOne(message.id, { relations: ['presentations'] })).presentations,
     credentials: async (message: Message) =>
-      (await Message.findOne(message.id, { relations: ['credentials'] })).credentials,
+      message.credentials || (await Message.findOne(message.id, { relations: ['credentials'] })).credentials,
   },
 }
 
@@ -259,6 +263,8 @@ export const typeDefs = `
 
 
   extend type Identity {
+    shortId: String!
+    profileImage: String
     sentMessages: [Message]
     receivedMessages: [Message]
     issuedPresentations: [Presentation]

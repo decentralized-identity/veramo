@@ -1,6 +1,6 @@
-import { AbstractIdentity, EventTypes, Entities, Message } from 'daf-core'
+import { AbstractIdentity, EventTypes, Entities, Message, Credential } from 'daf-core'
 import { ActionSendDIDComm, ActionTypes } from 'daf-did-comm'
-import { ActionSignW3cVc } from 'daf-w3c'
+import { ActionSignW3cVc, ActionTypes as W3cActionTypes } from 'daf-w3c'
 import { agent } from './setup'
 import { createConnection } from 'typeorm'
 
@@ -25,31 +25,30 @@ async function main() {
   }
 
   // Sign verifiable credential
-  const vcJwt = await agent.handleAction({
-    type: 'action.sign.w3c.vc',
-    did: identity.did,
+  const credential: Credential = await agent.handleAction({
+    type: W3cActionTypes.signCredentialJwt,
     data: {
-      sub: 'did:web:uport.me',
-      vc: {
-        '@context': ['https://www.w3.org/2018/credentials/v1'],
-        type: ['VerifiableCredential'],
-        credentialSubject: {
-          you: 'Rock',
-        },
+      issuer: identity.did,
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      type: ['VerifiableCredential'],
+      credentialSubject: {
+        id: 'did:web:uport.me',
+        you: 'Rock',
       },
     },
   } as ActionSignW3cVc)
 
   // Send verifiable credential using DIDComm
-  await agent.handleAction({
+  const message = await agent.handleAction({
     type: ActionTypes.sendMessageDIDCommAlpha1,
     data: {
       from: identity.did,
       to: 'did:web:uport.me',
       type: 'jwt',
-      body: vcJwt,
+      body: credential.raw,
     },
   } as ActionSendDIDComm)
+  console.log({ message })
 }
 
 // This is triggered when DAF successfully saves a new message

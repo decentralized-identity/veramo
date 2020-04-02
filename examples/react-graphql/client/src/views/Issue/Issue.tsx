@@ -18,7 +18,7 @@ const Component = () => {
   const [receiver, setReceiver] = useState('did:web:uport.me')
   const [claimType, setClaimType] = useState('name')
   const [claimValue, setClaimValue] = useState('Alice')
-  const [signVc] = useMutation(queries.actionSignVc)
+  const [signVc] = useMutation(queries.signCredentialJwt)
   const [sendJwt] = useMutation(queries.actionSendJwt, {
     refetchQueries: [
       {
@@ -33,18 +33,16 @@ const Component = () => {
 
     try {
       const credentialSubject: any = {}
+      credentialSubject['id'] = receiver
       credentialSubject[claimType] = claimValue
 
       const { data } = await signVc({
         variables: {
-          did: appState.defaultDid,
           data: {
-            sub: receiver,
-            vc: {
-              context: ['https://www.w3.org/2018/credentials/v1'],
-              type: ['VerifiableCredential'],
-              credentialSubject,
-            },
+            issuer: appState.defaultDid,
+            context: ['https://www.w3.org/2018/credentials/v1'],
+            type: ['VerifiableCredential'],
+            credentialSubject,
           },
         },
       })
@@ -55,7 +53,7 @@ const Component = () => {
         variables: {
           from: appState.defaultDid,
           to: receiver,
-          jwt: data.actionSignVc,
+          jwt: data.signCredentialJwt.raw,
         },
       })
 

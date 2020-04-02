@@ -54,7 +54,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
       },
     ],
     onCompleted: response => {
-      if (response.actionSendJwt) {
+      if (response?.actionSendJwt?.id) {
         updateSending(false)
         window.toastProvider.addMessage('Response sent!', { variant: 'success' })
         close()
@@ -64,16 +64,16 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
       window.toastProvider.addMessage('There was a problem sending your response', { variant: 'error' })
     },
   })
-  const [actionSignVp] = useMutation(mutations.actionSignVp, {
+  const [signPresentationJwt] = useMutation(mutations.signPresentationJwt, {
     onCompleted: response => {
-      if (response.actionSignVp) {
+      if (response.signPresentationJwt) {
         updateSending(true)
 
         actionSendJwt({
           variables: {
             to: sender.did,
             from: appState.defaultDid,
-            jwt: response.actionSignVp,
+            jwt: response.signPresentationJwt.raw,
           },
         })
       }
@@ -82,26 +82,24 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
 
   const accept = () => {
     if (formValid) {
-      const selectedVp = Object.keys(selected)
+      const selectedVc = Object.keys(selected)
         .map(key => selected[key].jwt)
         .filter(item => item)
 
       const payload = {
         variables: {
-          did: appState.defaultDid,
           data: {
-            aud: sender.did,
+            issuer: appState.defaultDid,
+            audience: sender.did,
             tag: threadId,
-            vp: {
-              context: ['https://www.w3.org/2018/credentials/v1'],
-              type: ['VerifiablePresentation'],
-              verifiableCredential: selectedVp,
-            },
+            context: ['https://www.w3.org/2018/credentials/v1'],
+            type: ['VerifiablePresentation'],
+            verifiableCredential: selectedVc,
           },
         },
       }
 
-      actionSignVp(payload)
+      signPresentationJwt(payload)
     }
   }
 
