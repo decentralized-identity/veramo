@@ -1,4 +1,4 @@
-import { Claim } from 'daf-core'
+import { Claim, Presentation } from 'daf-core'
 import { SelectiveDisclosureRequest } from './action-handler'
 import { In, Like } from 'typeorm'
 
@@ -37,4 +37,62 @@ export const findCredentialsForSdr = async (sdr: SelectiveDisclosureRequest, did
     })
   }
   return result
+}
+
+export const validatePresentationAgainstSdr = (
+  presentation: Presentation,
+  sdr: SelectiveDisclosureRequest,
+) => {
+  let valid = true
+  let claims = []
+  for (const credentialRequest of sdr.claims) {
+    let credentials = presentation.credentials.filter(credential => {
+      if (
+        credentialRequest.claimType &&
+        credentialRequest.claimValue &&
+        !credential.claims.find(
+          claim => claim.type === credentialRequest.claimType && claim.value === credentialRequest.claimValue,
+        )
+      ) {
+        return false
+      }
+
+      if (
+        credentialRequest.claimType &&
+        !credentialRequest.claimValue &&
+        !credential.claims.find(claim => claim.type === credentialRequest.claimType)
+      ) {
+        return false
+      }
+
+      if (
+        credentialRequest.issuers &&
+        !credentialRequest.issuers.map(i => i.did).includes(credential.issuer.did)
+      ) {
+        return false
+      }
+      if (
+        credentialRequest.credentialContext &&
+        !credential.context.includes(credentialRequest.credentialContext)
+      ) {
+        return false
+      }
+
+      if (credentialRequest.credentialType && !credential.type.includes(credentialRequest.credentialType)) {
+        return false
+      }
+
+      return true
+    })
+
+    if (credentialRequest.essential === true && credentials.length == 0) {
+      valid = false
+    }
+
+    claims.push({
+      ...credentialRequest,
+      credentials,
+    })
+  }
+  return { valid, claims }
 }

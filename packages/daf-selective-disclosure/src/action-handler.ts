@@ -19,13 +19,14 @@ export interface SelectiveDisclosureRequest {
   replyUrl?: string
   tag?: string
   claims: CredentialRequestInput[]
+  credentials?: string[]
 }
 
 export interface CredentialRequestInput {
   reason?: string
   essential?: boolean
-  credentialType: string
-  credentialContext: string
+  credentialType?: string
+  credentialContext?: string
   claimType: string
   claimValue?: string
   issuers?: Issuer[]

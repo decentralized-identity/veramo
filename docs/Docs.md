@@ -6,7 +6,7 @@ DAF can be used by using Typescript API directly, or by using remote GraphQL api
 
 ## Typescript
 
-```typescript=
+```typescript
 // We will be using 'did:ethr' identities
 import { IdentityProvider } from 'daf-ethr-did'
 
@@ -56,12 +56,11 @@ import { DIDCommActionHandler } from 'daf-did-comm'
 import { W3cActionHandler } from 'daf-w3c'
 import { SdrActionHandler } from 'daf-selective-disclosure'
 const actionHandler = new W3cActionHandler()
-actionHandler
-  .setNext(new SdrActionHandler())
-  .setNext(new DIDCommActionHandler())
+actionHandler.setNext(new SdrActionHandler()).setNext(new DIDCommActionHandler())
 
-// Initializing the Core 
+// Initializing the Core
 import { Agent } from 'daf-core'
+// we need defaultIdentityProvider = 'rinkeby-ethr-did'
 const agent = new Agent({
   didResolver,
   identityProviders: [rinkebyIdentityProvider],
@@ -82,7 +81,8 @@ await createConnection({
 ```
 
 ## GraphQL Server
-```typescript=
+
+```typescript
 import { ApolloServer } from 'apollo-server'
 import { CoreGql, Message, EventTypes } from 'daf-core'
 import { W3cGql } from 'daf-w3c'
@@ -97,12 +97,7 @@ const server = new ApolloServer({
     W3cGql.typeDefs,
     SdrGql.typeDefs,
   ],
-  resolvers: merge(
-    CoreGql.resolvers,
-    CoreGql.IdentityManager.resolvers,
-    W3cGql.resolvers,
-    SdrGql.resolvers,
-  ),
+  resolvers: merge(CoreGql.resolvers, CoreGql.IdentityManager.resolvers, W3cGql.resolvers, SdrGql.resolvers),
   context: () => ({ agent }),
   introspection: true,
 })
@@ -145,62 +140,64 @@ mutation createIdentity($type: String!) {
 
 ## Sign JWT
 
-``` typescript=
+```typescript
 const data = {
-  iss: 'did:example:123',
+  issuer: 'did:example:123',
   replyUrl: 'https://example.com/didcomm',
   tag: 'session-123',
   claims: [
     {
       reason: 'We are required by law to collect this information',
-      type: 'name',
-      essential: true
+      claimType: 'name',
+      essential: true,
     },
     {
       reason: 'You can get %30 discount if you are a member of the club',
-      type: 'status',
-      value: 'member',
-      iss: [
+      credentialContext: 'https://www.w3.org/2018/credentials/v1',
+      credentialType: 'ClubMembership',
+      claimType: 'status',
+      claimValue: 'member',
+      issuers: [
         {
           did: 'did:ethr:567',
-          url: 'https://join-the-club.partner1.com'        
+          url: 'https://join-the-club.partner1.com',
         },
         {
           did: 'did:ethr:659',
-          url: 'https://ecosystem.io'        
-        }
-      ]
-    }
+          url: 'https://ecosystem.io',
+        },
+      ],
+    },
   ],
-  vc: ['JWT-public-profile...']
+  credentials: ['JWT-public-profile...'],
 }
 ```
-
 
 ### Typescript
 
 ```typescript
 const sdrJwt = await core.handleAction({
   type: 'sign.sdr.jwt',
-  data
+  data,
 })
 ```
 
 ### GraphQL
 
-
 ```graphql
-mutation signSdrJwt($data: SDRInput!){
+mutation signSdrJwt($data: SDRInput!) {
   signSdr(data: $data)
 }
 ```
 
 ## Show as QR Code
+
 ```typescript
 const url = encodeURI('https://example.com/ssi?c_i=') + sdrJwt
 ```
-``` html
-<img 
+
+```html
+<img
   src="https://chart.googleapis.com/chart?chs=540x540&cht=qr&chl={{url}}&choe=UTF-8"
   width="540"
   height="540"
@@ -212,7 +209,7 @@ const url = encodeURI('https://example.com/ssi?c_i=') + sdrJwt
 ```typescript
 const data = {
   from: 'did:example:1234',
-  to:   'did:example:3456',
+  to: 'did:example:3456',
   type: 'jwt', // this is a "subprotocol"
   body: sdrJwt,
 }
@@ -224,7 +221,7 @@ const data = {
 const message: Message = await core.handleAction({
   type: 'send.message.didcomm-alpha-1',
   save: true,
-  data
+  data,
 })
 
 console.log(message.id) // 443230-234234-123123
@@ -234,28 +231,29 @@ console.log(message.type) // sdr
 ### GraphQL
 
 ```graphql
-mutation sendMessageDidCommAlpha1($data: SendMessageInput!, $save: Boolean = true){
-  sendMessageDidCommAlpha1(data: $data, save: $save){
+mutation sendMessageDidCommAlpha1($data: SendMessageInput!, $save: Boolean = true) {
+  sendMessageDidCommAlpha1(data: $data, save: $save) {
     id
   }
-}  
+}
 ```
 
 # Handle incoming message
 
 ```typescript
 const raw = 'https://example.com/ssi?c_i=JWT...'
-const meta = [ // this is optional
+const meta = [
+  // this is optional
   { type: 'qrcode' },
-  { type: 'foo', value: 'bar'}
-] 
+  { type: 'foo', value: 'bar' },
+]
 ```
 
 ## Typescript
 
-``` typescript
-const sdrMessage: Message = await core.handleMessage({ 
-  raw, 
+```typescript
+const sdrMessage: Message = await core.handleMessage({
+  raw,
   meta,
   save: true, // default = true
 })
@@ -267,26 +265,24 @@ console.log(message.credentials) // public profile
 
 ```graphql
 mutation handleMessage($raw: String!, $meta: [MetaDataInput]) {
-  handleMessage(raw: $raw, meta: $meta, save: true){
+  handleMessage(raw: $raw, meta: $meta, save: true) {
     id
     type
   }
 }
 ```
 
-
 # Sign and save Verifiable Credential
+
 ```typescript
 const data = {
-  iss: 'did:example:1234',
-  sub: 'did:example:1234',
-  vc: {
-    '@context': ['https://www.w3.org/2018/credentials/v1'],
-    type: ['VerifiableCredential'],
-    credentialSubject: {
-      name: 'Alice',
-    }
-  }
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  type: ['VerifiableCredential'],
+  issuer: 'did:example:1234',
+  credentialSubject: {
+    id: 'did:example:1234',
+    name: 'Alice',
+  },
 }
 ```
 
@@ -296,7 +292,7 @@ const data = {
 const nameVc: Credential = await core.handleAction({
   type: 'sign.w3c.vc.jwt',
   save: true,
-  data
+  data,
 })
 
 console.log(nameVc.raw) // JWT....
@@ -306,11 +302,11 @@ console.log(nameVc.claims) // [Claim({type: 'name', value: 'Alice', ...})]
 ## GraphQL
 
 ```graphql
-mutation signCredentialJwt($data: SignCredentialInput!){
+mutation signCredentialJwt($data: SignCredentialInput!) {
   signCredentialJwt(data: $data, save: true) {
     hash
   }
-}  
+}
 ```
 
 # Find Verifiable Credential
@@ -323,24 +319,23 @@ mutation signCredentialJwt($data: SignCredentialInput!){
 import { In } from 'typeorm'
 
 const nameClaims = await Claim.find({
-  where: { 
+  where: {
     subject: 'did:example:1234',
     type: 'name',
   },
-  relations: ['credential']
+  relations: ['credential'],
 })
 
 const nameVc = nameClaims[0]?.credential
 
-
 const memberClaims = await Claim.find({
-  where: { 
+  where: {
     issuer: In(['did:ethr:567', 'did:ethr:659']),
     subject: 'did:example:1234',
     type: 'status',
     value: 'member',
   },
-  relations: ['credential']
+  relations: ['credential'],
 })
 
 const memberVc = memberClaims[0]?.credential
@@ -353,7 +348,7 @@ const input = {
   issuer: ['did:ethr:567', 'did:ethr:659'],
   subject: 'did:example:1234',
   type: 'member',
-  value: 'status'
+  value: 'status',
 }
 ```
 
@@ -362,7 +357,7 @@ query claims($input: ClaimsInput) {
   claims(input: $input) {
     credential {
       raw
-    }  
+    }
   }
 }
 ```
@@ -372,11 +367,8 @@ query claims($input: ClaimsInput) {
 ### Typescript
 
 ```typescript
-const result = await core.handleAction({
-  type: 'sdr.find.credentials',
-  did: 'did:example:1234',
-  message: sdrMessage,
-})
+import { findCredentialsForSdr } from 'daf-selective-disclosure'
+const result = await findCredentialsForSdr(sdr, 'did:example:1234')
 
 console.log(result)
 ```
@@ -399,11 +391,11 @@ console.log(result)
     iss: [
       {
         did: 'did:ethr:567',
-        url: 'https://join-the-club.partner1.com'        
+        url: 'https://join-the-club.partner1.com'
       },
       {
         did: 'did:ethr:659',
-        url: 'https://ecosystem.io'        
+        url: 'https://ecosystem.io'
       }
     ],
     credentials: [
@@ -431,7 +423,9 @@ query message($messageId: ID!, $activeDid: ID!) {
       value
       essential
       credentials {
-        issuer { did }
+        issuer {
+          did
+        }
         claims {
           type
           value
@@ -447,14 +441,12 @@ query message($messageId: ID!, $activeDid: ID!) {
 
 ```typescript
 const data = {
-  iss: 'did:example:1234',
-  sub: 'did:example:3456',
+  issuer: 'did:example:1234',
+  subject: 'did:example:3456',
   tag: sdrMessage.data.tag,
-  vp: {
-    '@context': ['https://www.w3.org/2018/credentials/v1'],
-    type: ['VerifiablePresentation'],
-    verifiableCredential: [nameVc.raw, memberVc.raw],
-  }
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  type: ['VerifiablePresentation'],
+  verifiableCredential: [nameVc.raw, memberVc.raw],
 }
 ```
 
@@ -464,7 +456,7 @@ const data = {
 const vp: Presentation = await core.handleAction({
   type: 'sign.w3c.vp.jwt',
   save: true,
-  data
+  data,
 })
 
 console.log(vp.raw) // JWT....
@@ -473,11 +465,11 @@ console.log(vp.raw) // JWT....
 ## GraphQL
 
 ```graphql
-mutation signPresentationJwt($data: SignPresentationInput!){
+mutation signPresentationJwt($data: SignPresentationInput!) {
   signPresentationJwt(data: $data, save: true) {
     hash
   }
-}  
+}
 ```
 
 # Reply to Selective Disclosure Request (Send VP)
@@ -486,7 +478,7 @@ mutation signPresentationJwt($data: SignPresentationInput!){
 const url = sdrMessage.replyUrl
 const data = {
   from: 'did:example:1234',
-  to:   'did:example:3456',
+  to: 'did:example:3456',
   type: 'jwt',
   body: vp.raw,
 }
@@ -499,51 +491,132 @@ const message: Message = await core.handleAction({
   type: 'send.message.didcomm-alpha-1',
   save: true,
   url,
-  data
+  data,
 })
-console.log(message.id) // 443230-234234-123123 
+console.log(message.id) // 443230-234234-123123
 console.log(message.type) // w3c.vp
 ```
 
 ## GraphQL
 
 ```graphql
-mutation sendMessageDidCommAlpha1($data: SendMessageInput!, $url: String){
+mutation sendMessageDidCommAlpha1($data: SendMessageInput!, $url: String) {
   sendMessageDidCommAlpha1(data: $data, url: $url, save: true) {
     id
   }
-}  
+}
 ```
 
 # Checking if VP has all requested VCs
 
-``` typescript
-const sdrMessage = await Message.findOne('hash-xzy')
-const vpMessage = await Message.findOne('hash-abc', { 
-  relations: ['presentations', 'presentations.credentials']
-})
-
-const valid: boolean = await core.handleAction({
-  type: 'validate.sdr.vp',
-  sdr: sdrMessage.data,
-  presentations: vpMessage.presentations
-})
+```typescript
+const sdr = {
+  issuer: 'did:example:123',
+  replyUrl: 'https://example.com/didcomm',
+  tag: 'session-123',
+  claims: [
+    {
+      reason: 'We are required by law to collect this information',
+      claimType: 'name',
+      essential: true,
+    },
+    {
+      reason: 'You can get %30 discount if you are a member of the club',
+      credentialContext: 'https://www.w3.org/2018/credentials/v1',
+      credentialType: 'ClubMembership',
+      claimType: 'status',
+      claimValue: 'member',
+      issuers: [
+        {
+          did: 'did:ethr:567',
+          url: 'https://join-the-club.partner1.com',
+        },
+        {
+          did: 'did:ethr:659',
+          url: 'https://ecosystem.io',
+        },
+      ],
+    },
+  ],
+  credentials: ['JWT-public-profile...'],
+}
 ```
 
-This probably needs more features. This is how Martin was doing it:
-https://github.com/uport-project/daf/issues/108
+### Typescript
+
+```typescript
+import { validatePresentationAgainstSdr } from 'daf-selective-disclosure'
+
+//...
+
+const result = await validatePresentationAgainstSdr(presentation, sdr)
+
+console.log(result)
+```
+
+```javascript
+{
+  valid: true,
+  claims: [
+    {
+      reason: 'We are required by law to collect this information',
+      type: 'name',
+      essential: true,
+      credentials: [
+        Credential(...), // name: 'Alice'
+        Credential(...), // name: 'Alisa'
+      ]
+    },
+    {
+      reason: 'You can get %30 discount if you are a member of the club',
+      type: 'status',
+      value: 'member',
+      iss: [
+        {
+          did: 'did:ethr:567',
+          url: 'https://join-the-club.partner1.com'
+        },
+        {
+          did: 'did:ethr:659',
+          url: 'https://ecosystem.io'
+        }
+      ],
+      credentials: [
+        Credential(...), // status: 'member', iss: 'did:ethr:567'
+        Credential(...), // status: 'member', iss: 'did:ethr:659'
+      ]
+    }
+  ]
+}
+```
+
+### GraphQL
+
+```typescript
+const hash = 'presentation-hash-12345'
+```
+
+```graphql
+query presentation($hash: ID!, $sdr: SDRInput!) {
+  presentation(hash: $hash) {
+    validateAgainstSdr(data: $sdr) {
+      valid
+    }
+  }
+}
+```
 
 # Querying data
 
 ## Entities
 
-* Identity
-* Message
-* Presentation
-* Credential
-* Claim
+- Identity
+- Message
+- Presentation
+- Credential
+- Claim
 
-There are too many ways of querying data to fit into this documentation. 
+There are too many ways of querying data to fit into this documentation.
 What follows are couple of examples
 
 https://typeorm.io/#/find-options
@@ -551,23 +624,24 @@ https://typeorm.io/#/find-options
 ## Identity
 
 Fields
-* did
-* provider
-* sentMessages
-* receivedMessages
-* issuedPresentations
-* receivedPresentations
-* issuedCredentials
-* receivedCredentials
-* issuedClaims
-* receivedClaims
+
+- did
+- provider
+- sentMessages
+- receivedMessages
+- issuedPresentations
+- receivedPresentations
+- issuedCredentials
+- receivedCredentials
+- issuedClaims
+- receivedClaims
 
 ### Typescript
 
 ```typescript
 import { Identity } from 'daf-core'
 const identity = await Identity.findOne('did:example:123', {
-  relations: ['receivedClaims']
+  relations: ['receivedClaims'],
 })
 
 console.log(identity.receivedClaims) // [Claim(type: 'name', value: 'Alice'), ...]
@@ -590,22 +664,22 @@ query {
 
 Fields
 
-* id
-* saveDate
-* updateDate
-* createdAt
-* expiresAt
-* threadId
-* type
-* raw
-* data
-* replyTo
-* replyUrl
-* from
-* to
-* metaData
-* presentations
-* credentials
+- id
+- saveDate
+- updateDate
+- createdAt
+- expiresAt
+- threadId
+- type
+- raw
+- data
+- replyTo
+- replyUrl
+- from
+- to
+- metaData
+- presentations
+- credentials
 
 ### Typescript
 
@@ -614,8 +688,8 @@ import { Message } from 'daf-core'
 const messages = await Message.find({
   take: 5,
   where: {
-    type: 'sdr'
-  }
+    type: 'sdr',
+  },
 })
 ```
 
@@ -623,15 +697,14 @@ const messages = await Message.find({
 
 ```graphql
 query {
-  messages(input: {
-    type: "sdr",
-    options: {
-      take: 5
-    }
-  }) {
+  messages(input: { type: "sdr", options: { take: 5 } }) {
     id
-    from { did }
-    to { did }
+    from {
+      did
+    }
+    to {
+      did
+    }
   }
 }
 ```
@@ -640,16 +713,16 @@ query {
 
 Fields
 
-* hash
-* issuer
-* audience
-* issuanceDate
-* expirationDate
-* data
-* context
-* type
-* credentials
-* messages
+- hash
+- issuer
+- audience
+- issuanceDate
+- expirationDate
+- data
+- context
+- type
+- credentials
+- messages
 
 ### Typescript
 
@@ -658,9 +731,9 @@ import { Presentation } from 'daf-core'
 const presentations = await Presentation.find({
   where: {
     issuer: 'did:web:example.com',
-    type: 'VerifiablePresentation,KYC'
+    type: 'VerifiablePresentation,KYC',
   },
-  relations: ['credentials']
+  relations: ['credentials'],
 })
 ```
 
@@ -668,11 +741,10 @@ const presentations = await Presentation.find({
 
 ```graphql
 query {
-  presentations(input: {
-    type: "VerifiablePresentation,KYC",
-    issuer: "did:web:example.com"
-  }) {
-    audience { did }
+  presentations(input: { type: "VerifiablePresentation,KYC", issuer: "did:web:example.com" }) {
+    audience {
+      did
+    }
     issuanceDate
     expirationDate
     credentials {
@@ -690,17 +762,17 @@ query {
 
 Fields
 
-* hash
-* issuer
-* subject
-* issuanceDate
-* expirationDate
-* context
-* type - e.x. 'VerifiableCredential,KYC'
-* data
-* claims
-* presentations
-* messages
+- hash
+- issuer
+- subject
+- issuanceDate
+- expirationDate
+- context
+- type - e.x. 'VerifiableCredential,KYC'
+- data
+- claims
+- presentations
+- messages
 
 ### Typescript
 
@@ -710,9 +782,9 @@ import { LessThan } from 'typeorm'
 const credentials = await Credential.find({
   where: {
     subject: 'did:web:example.com',
-    expirationDate: LessThan(new Date())
+    expirationDate: LessThan(new Date()),
   },
-  relations: ['messages']
+  relations: ['messages'],
 })
 
 // This would also return messages where these credentials were used at
@@ -722,11 +794,10 @@ const credentials = await Credential.find({
 
 ```graphql
 query {
-  credentials(input: {
-    subject: "did:web:example.com",
-    expirationDateLessThan: "2020-12-12T10:00:00Z"
-  }) {
-    issuer { did }
+  credentials(input: { subject: "did:web:example.com", expirationDateLessThan: "2020-12-12T10:00:00Z" }) {
+    issuer {
+      did
+    }
     expirationDate
     raw
     messages {
@@ -741,17 +812,17 @@ query {
 
 Fields
 
-* hash
-* issuer
-* subject
-* credential
-* issuanceDate
-* expirationDate
-* context
-* credentialType - e.x. 'VerifiableCredential,KYC'
-* type
-* value
-* isObj
+- hash
+- issuer
+- subject
+- credential
+- issuanceDate
+- expirationDate
+- context
+- credentialType - e.x. 'VerifiableCredential,KYC'
+- type
+- value
+- isObj
 
 ### Typescript
 
@@ -761,7 +832,7 @@ const claims = await Claim.find({
   where: {
     type: 'address',
   },
-  relations: ['credential']
+  relations: ['credential'],
 })
 
 console.log(claims)
