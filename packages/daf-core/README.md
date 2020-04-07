@@ -1,6 +1,6 @@
 # DID Agent Framework Core
 
-### Core functions -
+### Core functions
 
 - Validates messages
 - Handles actions
