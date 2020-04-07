@@ -1,7 +1,7 @@
 {
   "name": "daf-data-store",
   "description": "DID Agent Framework Data Store",
-  "version": "4.0.0-beta.32+8aefe92",
+  "version": "4.0.0-beta.37+cf659c0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^4.0.0-beta.32+8aefe92",
+    "daf-core": "^4.0.0-beta.37+cf659c0",
     "debug": "^4.1.1",
     "sql-bricks-sqlite": "^0.1.0"
   },
@@ -27,5 +27,5 @@
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
   "keywords": [],
-  "gitHead": "8aefe9216f71cc95812b3f60bd40b1187995ff06"
+  "gitHead": "cf659c09768325031fe66adc0228eb1d976f2932"
 }
