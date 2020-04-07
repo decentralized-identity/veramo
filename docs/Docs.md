@@ -84,20 +84,20 @@ await createConnection({
 
 ```typescript
 import { ApolloServer } from 'apollo-server'
-import { CoreGql, Message, EventTypes } from 'daf-core'
+import { Gql, Message, EventTypes } from 'daf-core'
 import { W3cGql } from 'daf-w3c'
 import { SdrGql } from 'daf-selective-disclosure'
 import merge from 'lodash.merge'
 
 const server = new ApolloServer({
   typeDefs: [
-    CoreGql.baseTypeDefs,
-    CoreGql.typeDefs,
-    CoreGql.IdentityManager.typeDefs,
+    Gql.baseTypeDefs,
+    Gql.Core.typeDefs,
+    Gql.IdentityManager.typeDefs,
     W3cGql.typeDefs,
     SdrGql.typeDefs,
   ],
-  resolvers: merge(CoreGql.resolvers, CoreGql.IdentityManager.resolvers, W3cGql.resolvers, SdrGql.resolvers),
+  resolvers: merge(Gql.Core.resolvers, Gql.IdentityManager.resolvers, W3cGql.resolvers, SdrGql.resolvers),
   context: () => ({ agent }),
   introspection: true,
 })
