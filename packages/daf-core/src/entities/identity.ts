@@ -69,4 +69,28 @@ export class Identity extends BaseEntity {
     claim => claim.subject,
   )
   receivedClaims: Claim[]
+
+  /**
+   * Convenience method
+   *
+   * const name = await identity.getLatestClaimValue({type: 'name'})
+   *
+   * @param where
+   */
+  async getLatestClaimValue(where: { type: string }): Promise<String> {
+    const claim = await Claim.findOne({
+      where: {
+        ...where,
+        subject: this.did,
+      },
+      order: {
+        issuanceDate: 'DESC',
+      },
+    })
+    return claim?.value
+  }
+
+  shortDid() {
+    return `${this.did.slice(0, 15)}...${this.did.slice(-4)}`
+  }
 }

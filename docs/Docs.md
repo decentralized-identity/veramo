@@ -652,6 +652,8 @@ console.log(identity.receivedClaims) // [Claim(type: 'name', value: 'Alice'), ..
 ```graphql
 query {
   identity(did: "did:example:123") {
+    name: latestClaimValue(type: "name")
+    profilePicture: latestClaimValue(type: "profilePicture")
     receivedClaims {
       type
       value

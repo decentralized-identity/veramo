@@ -151,8 +151,9 @@ export const resolvers = {
   },
 
   Identity: {
-    shortId: async (identity: Identity) => `${identity.did.slice(0, 15)}...${identity.did.slice(-4)}`,
-    profileImage: async (identity: Identity) => null,
+    shortDid: async (identity: Identity) => (await Identity.findOne(identity.did)).shortDid(),
+    latestClaimValue: async (identity: Identity, args: { type: string }) =>
+      (await Identity.findOne(identity.did)).getLatestClaimValue({ type: args.type }),
     sentMessages: async (identity: Identity) =>
       (await Identity.findOne(identity.did, { relations: ['sentMessages'] })).sentMessages,
     receivedMessages: async (identity: Identity) =>
@@ -263,8 +264,8 @@ export const typeDefs = `
 
 
   extend type Identity {
-    shortId: String!
-    profileImage: String
+    shortDid: String!
+    latestClaimValue(type: String): String
     sentMessages: [Message]
     receivedMessages: [Message]
     issuedPresentations: [Presentation]
