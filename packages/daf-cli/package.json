@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "4.0.0-beta.39+63dd12d",
+  "version": "4.0.0-beta.41+b77c5c7",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -24,7 +24,7 @@
     "daf-libsodium": "^4.0.0-beta.39+63dd12d",
     "daf-resolver": "^3.0.1",
     "daf-resolver-universal": "^3.0.1",
-    "daf-selective-disclosure": "^4.0.0-beta.39+63dd12d",
+    "daf-selective-disclosure": "^4.0.0-beta.41+b77c5c7",
     "daf-trust-graph": "^4.0.0-beta.39+63dd12d",
     "daf-url": "^4.0.0-beta.39+63dd12d",
     "daf-w3c": "^4.0.0-beta.39+63dd12d",
@@ -57,5 +57,5 @@
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
   "keywords": [],
-  "gitHead": "63dd12da63b2245d32379b435a7a774a56a1f019"
+  "gitHead": "b77c5c740ac96a2bb5fb2ca17348f0ffdedc5d9a"
 }
