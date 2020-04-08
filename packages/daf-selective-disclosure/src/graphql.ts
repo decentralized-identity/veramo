@@ -2,6 +2,7 @@ import { Agent, Message, Presentation } from 'daf-core'
 import { DataStore } from 'daf-data-store'
 import { ActionTypes, ActionSignSdr, SelectiveDisclosureRequest } from './action-handler'
 import { findCredentialsForSdr, validatePresentationAgainstSdr } from './helper'
+import { MessageTypes } from './message-handler'
 
 interface Context {
   agent: Agent
@@ -15,7 +16,10 @@ const signSdrJwt = async (_: any, args: { data: SelectiveDisclosureRequest }, ct
   } as ActionSignSdr)
 
 const sdr = async (message: Message, { did }: { did: string }) => {
-  return findCredentialsForSdr(message.data, did)
+  if (message.type == MessageTypes.sdr) {
+    return findCredentialsForSdr(message.data, did)
+  }
+  return []
 }
 
 const validateAgainstSdr = async (
