@@ -43,10 +43,18 @@ if (process.env.DAF_TG_URI) TrustGraphServiceController.defaultUri = process.env
 if (process.env.DAF_TG_WSURI) TrustGraphServiceController.defaultWsUri = process.env.DAF_TG_WSURI
 TrustGraphServiceController.webSocketImpl = ws
 
+const dbConnection = createConnection({
+  type: 'sqlite',
+  database: dataStoreFilename,
+  synchronize: true,
+  logging: process.env.DEBUG_DAF_DB ? true : false,
+  entities: [...Daf.Entities],
+})
+
 const identityProviders = [
   new EthrDid.IdentityProvider({
-    identityStore: new Daf.IdentityStore('rinkeby-ethr'),
-    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
+    identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
+    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore(dbConnection)),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
@@ -67,6 +75,7 @@ actionHandler
   .setNext(new SdrActionHandler())
 
 export const agent = new Daf.Agent({
+  dbConnection,
   identityProviders,
   serviceControllers,
   didResolver,
@@ -74,13 +83,4 @@ export const agent = new Daf.Agent({
   actionHandler,
 })
 
-export const initializeDb = async () => {
-  await createConnection({
-    type: 'sqlite',
-    database: dataStoreFilename,
-    synchronize: true,
-    logging: process.env.DEBUG_DAF_DB ? true : false,
-    entities: [...Daf.Entities],
-  })
-}
 export const dataStore = new DataStore()

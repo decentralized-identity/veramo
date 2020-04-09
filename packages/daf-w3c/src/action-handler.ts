@@ -1,4 +1,4 @@
-import { Agent, AbstractActionHandler, Action, Credential } from 'daf-core'
+import { Agent, AbstractActionHandler, Action, Credential, Presentation } from 'daf-core'
 import {
   createVerifiableCredential,
   createPresentation as createVerifiablePresentation,
@@ -51,7 +51,7 @@ export class W3cActionHandler extends AbstractActionHandler {
         const decoded = decodeJWT(jwt)
         const presentation = createPresentation(decoded.payload as PresentationPayload, jwt, credentials)
         if (save) {
-          await presentation.save()
+          await (await agent.dbConnection).getRepository(Presentation).save(presentation)
         }
         return presentation
       } catch (error) {
@@ -72,7 +72,7 @@ export class W3cActionHandler extends AbstractActionHandler {
         const decoded = decodeJWT(jwt)
         const credential = createCredential(decoded.payload as VerifiableCredentialPayload, jwt)
         if (save) {
-          await credential.save()
+          await (await agent.dbConnection).getRepository(Credential).save(credential)
         }
         return credential
       } catch (error) {

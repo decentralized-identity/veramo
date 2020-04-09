@@ -4,10 +4,11 @@ import { IdentityManager } from './identity/identity-manager'
 import { AbstractIdentityProvider } from './identity/abstract-identity-provider'
 import { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 import { ServiceControllerDerived } from './service/abstract-service-controller'
-import { MessageHandler, unsupportedMessageTypeError } from './message/abstract-message-handler'
+import { MessageHandler } from './message/abstract-message-handler'
 import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
 import { Message, MetaData } from './entities/message'
+import { Connection } from 'typeorm'
 
 import Debug from 'debug'
 const debug = Debug('daf:agent')
@@ -23,6 +24,7 @@ export interface Resolver {
 }
 
 interface Config {
+  dbConnection?: Promise<Connection>
   didResolver: Resolver
   identityProviders: AbstractIdentityProvider[]
   serviceControllers?: ServiceControllerDerived[]
@@ -31,6 +33,7 @@ interface Config {
 }
 
 export class Agent extends EventEmitter {
+  readonly dbConnection: Promise<Connection>
   public identityManager: IdentityManager
   public didResolver: Resolver
   private serviceManager: ServiceManager
@@ -39,6 +42,7 @@ export class Agent extends EventEmitter {
 
   constructor(config: Config) {
     super()
+    this.dbConnection = config.dbConnection || null
 
     this.identityManager = new IdentityManager({
       identityProviders: config.identityProviders,
@@ -110,7 +114,7 @@ export class Agent extends EventEmitter {
 
       debug('Validated message %o', message)
       if (save) {
-        await message.save()
+        await (await this.dbConnection).getRepository(Message).save(message)
         debug('Emitting event', EventTypes.savedMessage)
         this.emit(EventTypes.savedMessage, message)
       }

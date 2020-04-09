@@ -28,6 +28,7 @@ const messages = async (
       threadId?: string[]
     }
   },
+  ctx: Context,
 ) => {
   const options = {
     where: {},
@@ -40,7 +41,7 @@ const messages = async (
   if (input?.options?.skip) options['skip'] = input.options.skip
   if (input?.options?.take) options['take'] = input.options.take
 
-  return Message.find(options)
+  return (await ctx.agent.dbConnection).getRepository(Message).find(options)
 }
 
 const presentations = async (
@@ -56,6 +57,7 @@ const presentations = async (
       context?: string[]
     }
   },
+  ctx: Context,
 ) => {
   const options = {
     where: {},
@@ -68,7 +70,7 @@ const presentations = async (
   if (input?.options?.skip) options['skip'] = input.options.skip
   if (input?.options?.take) options['take'] = input.options.take
 
-  return Presentation.find(options)
+  return (await ctx.agent.dbConnection).getRepository(Presentation).find(options)
 }
 
 const credentials = async (
@@ -84,6 +86,7 @@ const credentials = async (
       context?: string[]
     }
   },
+  ctx: Context,
 ) => {
   const options = {
     where: {},
@@ -96,7 +99,7 @@ const credentials = async (
   if (input?.options?.skip) options['skip'] = input.options.skip
   if (input?.options?.take) options['take'] = input.options.take
 
-  return Credential.find(options)
+  return (await ctx.agent.dbConnection).getRepository(Credential).find(options)
 }
 
 const claims = async (
@@ -112,6 +115,7 @@ const claims = async (
       value?: string[]
     }
   },
+  ctx: Context,
 ) => {
   const options = {
     relations: ['credential'],
@@ -125,7 +129,7 @@ const claims = async (
   if (input?.options?.skip) options['skip'] = input.options.skip
   if (input?.options?.take) options['take'] = input.options.take
 
-  return Claim.find(options)
+  return (await ctx.agent.dbConnection).getRepository(Claim).find(options)
 }
 
 export const resolvers = {
@@ -138,63 +142,134 @@ export const resolvers = {
   },
 
   Query: {
-    identity: async (_: any, { did }) => Identity.findOne(did),
-    identities: async (_: any, { input }) => Identity.find({ ...input?.options }),
-    message: async (_: any, { id }) => Message.findOne(id),
+    identity: async (_: any, { did }, ctx: Context) =>
+      (await ctx.agent.dbConnection).getRepository(Identity).findOne(did),
+    identities: async (_: any, { input }, ctx: Context) =>
+      (await ctx.agent.dbConnection).getRepository(Identity).find({ ...input?.options }),
+    message: async (_: any, { id }, ctx: Context) =>
+      (await ctx.agent.dbConnection).getRepository(Message).findOne(id),
     messages,
-    presentation: async (_: any, { hash }) => Presentation.findOne(hash),
+    presentation: async (_: any, { hash }, ctx: Context) =>
+      (await ctx.agent.dbConnection).getRepository(Presentation).findOne(hash),
     presentations,
-    credential: async (_: any, { hash }) => Credential.findOne(hash),
+    credential: async (_: any, { hash }, ctx: Context) =>
+      (await ctx.agent.dbConnection).getRepository(Credential).findOne(hash),
     credentials,
-    claim: async (_: any, { hash }) => Claim.findOne(hash, { relations: ['credential'] }),
+    claim: async (_: any, { hash }, ctx: Context) =>
+      (await ctx.agent.dbConnection).getRepository(Claim).findOne(hash, { relations: ['credential'] }),
     claims,
   },
 
   Identity: {
-    shortDid: async (identity: Identity) => (await Identity.findOne(identity.did)).shortDid(),
-    latestClaimValue: async (identity: Identity, args: { type: string }) =>
-      (await Identity.findOne(identity.did)).getLatestClaimValue({ type: args.type }),
-    sentMessages: async (identity: Identity) =>
-      (await Identity.findOne(identity.did, { relations: ['sentMessages'] })).sentMessages,
-    receivedMessages: async (identity: Identity) =>
-      (await Identity.findOne(identity.did, { relations: ['receivedMessages'] })).receivedMessages,
-    issuedPresentations: async (identity: Identity) =>
-      (await Identity.findOne(identity.did, { relations: ['issuedPresentations'] })).issuedPresentations,
-    receivedPresentations: async (identity: Identity) =>
-      (await Identity.findOne(identity.did, { relations: ['receivedPresentations'] })).receivedPresentations,
-    issuedCredentials: async (identity: Identity) =>
-      (await Identity.findOne(identity.did, { relations: ['issuedCredentials'] })).issuedCredentials,
-    receivedCredentials: async (identity: Identity) =>
-      (await Identity.findOne(identity.did, { relations: ['receivedCredentials'] })).receivedCredentials,
-    issuedClaims: async (identity: Identity) =>
-      (await Identity.findOne(identity.did, { relations: ['issuedClaims'] })).issuedClaims,
-    receivedClaims: async (identity: Identity) =>
-      (await Identity.findOne(identity.did, { relations: ['receivedClaims'] })).receivedClaims,
+    shortDid: async (identity: Identity, args, ctx: Context) =>
+      (await (await ctx.agent.dbConnection).getRepository(Identity).findOne(identity.did)).shortDid(),
+    latestClaimValue: async (identity: Identity, args: { type: string }, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection).getRepository(Identity).findOne(identity.did)
+      ).getLatestClaimValue(ctx.agent.dbConnection, { type: args.type }),
+    sentMessages: async (identity: Identity, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Identity)
+          .findOne(identity.did, { relations: ['sentMessages'] })
+      ).sentMessages,
+    receivedMessages: async (identity: Identity, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Identity)
+          .findOne(identity.did, { relations: ['receivedMessages'] })
+      ).receivedMessages,
+    issuedPresentations: async (identity: Identity, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Identity)
+          .findOne(identity.did, { relations: ['issuedPresentations'] })
+      ).issuedPresentations,
+    receivedPresentations: async (identity: Identity, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Identity)
+          .findOne(identity.did, { relations: ['receivedPresentations'] })
+      ).receivedPresentations,
+    issuedCredentials: async (identity: Identity, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Identity)
+          .findOne(identity.did, { relations: ['issuedCredentials'] })
+      ).issuedCredentials,
+    receivedCredentials: async (identity: Identity, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Identity)
+          .findOne(identity.did, { relations: ['receivedCredentials'] })
+      ).receivedCredentials,
+    issuedClaims: async (identity: Identity, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Identity)
+          .findOne(identity.did, { relations: ['issuedClaims'] })
+      ).issuedClaims,
+    receivedClaims: async (identity: Identity, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Identity)
+          .findOne(identity.did, { relations: ['receivedClaims'] })
+      ).receivedClaims,
   },
 
   Credential: {
-    claims: async (credential: Credential) =>
-      credential.claims || (await Credential.findOne(credential.hash, { relations: ['claims'] })).claims,
-    messages: async (credential: Credential) =>
-      (await Credential.findOne(credential.hash, { relations: ['messages'] })).messages,
-    presentations: async (credential: Credential) =>
-      (await Credential.findOne(credential.hash, { relations: ['presentations'] })).presentations,
+    claims: async (credential: Credential, args, ctx: Context) =>
+      credential.claims ||
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Credential)
+          .findOne(credential.hash, { relations: ['claims'] })
+      ).claims,
+    messages: async (credential: Credential, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Credential)
+          .findOne(credential.hash, { relations: ['messages'] })
+      ).messages,
+    presentations: async (credential: Credential, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Credential)
+          .findOne(credential.hash, { relations: ['presentations'] })
+      ).presentations,
   },
 
   Presentation: {
-    credentials: async (presentation: Presentation) =>
+    credentials: async (presentation: Presentation, args, ctx: Context) =>
       presentation.credentials ||
-      (await Presentation.findOne(presentation.hash, { relations: ['credentials'] })).credentials,
-    messages: async (presentation: Presentation) =>
-      (await Presentation.findOne(presentation.hash, { relations: ['messages'] })).messages,
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Presentation)
+          .findOne(presentation.hash, { relations: ['credentials'] })
+      ).credentials,
+    messages: async (presentation: Presentation, args, ctx: Context) =>
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Presentation)
+          .findOne(presentation.hash, { relations: ['messages'] })
+      ).messages,
   },
 
   Message: {
-    presentations: async (message: Message) =>
+    presentations: async (message: Message, args, ctx: Context) =>
       message.presentations ||
-      (await Message.findOne(message.id, { relations: ['presentations'] })).presentations,
-    credentials: async (message: Message) =>
-      message.credentials || (await Message.findOne(message.id, { relations: ['credentials'] })).credentials,
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Message)
+          .findOne(message.id, { relations: ['presentations'] })
+      ).presentations,
+    credentials: async (message: Message, args, ctx: Context) =>
+      message.credentials ||
+      (
+        await (await ctx.agent.dbConnection)
+          .getRepository(Message)
+          .findOne(message.id, { relations: ['credentials'] })
+      ).credentials,
   },
 }
 

@@ -1,8 +1,12 @@
 import { Claim, Presentation } from 'daf-core'
 import { SelectiveDisclosureRequest } from './action-handler'
-import { In, Like } from 'typeorm'
+import { In, Like, Connection } from 'typeorm'
 
-export const findCredentialsForSdr = async (sdr: SelectiveDisclosureRequest, did?: string) => {
+export const findCredentialsForSdr = async (
+  dbConnection: Promise<Connection>,
+  sdr: SelectiveDisclosureRequest,
+  did?: string,
+) => {
   const result = []
   for (const credentialRequest of sdr.claims) {
     const where = {}
@@ -30,7 +34,7 @@ export const findCredentialsForSdr = async (sdr: SelectiveDisclosureRequest, did
       where['subject'] = did || sdr.subject
     }
 
-    const claims = await Claim.find({ where, relations: ['credential'] })
+    const claims = await (await dbConnection).getRepository(Claim).find({ where, relations: ['credential'] })
     result.push({
       ...credentialRequest,
       credentials: claims.map(c => c.credential),

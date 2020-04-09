@@ -1,12 +1,10 @@
 import { Agent, Message, Presentation } from 'daf-core'
-import { DataStore } from 'daf-data-store'
 import { ActionTypes, ActionSignSdr, SelectiveDisclosureRequest } from './action-handler'
 import { findCredentialsForSdr, validatePresentationAgainstSdr } from './helper'
 import { MessageTypes } from './message-handler'
 
 interface Context {
   agent: Agent
-  dataStore: DataStore
 }
 
 const signSdrJwt = async (_: any, args: { data: SelectiveDisclosureRequest }, ctx: Context) =>
@@ -15,9 +13,9 @@ const signSdrJwt = async (_: any, args: { data: SelectiveDisclosureRequest }, ct
     data: args.data,
   } as ActionSignSdr)
 
-const sdr = async (message: Message, { did }: { did: string }) => {
+const sdr = async (message: Message, { did }: { did: string }, ctx: Context) => {
   if (message.type == MessageTypes.sdr) {
-    return findCredentialsForSdr(message.data, did)
+    return findCredentialsForSdr(ctx.agent.dbConnection, message.data, did)
   }
   return []
 }
@@ -25,10 +23,13 @@ const sdr = async (message: Message, { did }: { did: string }) => {
 const validateAgainstSdr = async (
   presentation: Presentation,
   { sdr }: { sdr: SelectiveDisclosureRequest },
+  ctx: Context,
 ) => {
-  const fullPresentation = await Presentation.findOne(presentation.hash, {
-    relations: ['credentials', 'credentials.claims'],
-  })
+  const fullPresentation = await (await ctx.agent.dbConnection)
+    .getRepository(Presentation)
+    .findOne(presentation.hash, {
+      relations: ['credentials', 'credentials.claims'],
+    })
   return validatePresentationAgainstSdr(fullPresentation, sdr)
 }
 

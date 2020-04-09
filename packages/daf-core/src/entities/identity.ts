@@ -4,6 +4,7 @@ import { Message } from './message'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
 import { Claim } from './claim'
+import { Connection } from 'typeorm'
 
 @Entity()
 export class Identity extends BaseEntity {
@@ -77,8 +78,8 @@ export class Identity extends BaseEntity {
    *
    * @param where
    */
-  async getLatestClaimValue(where: { type: string }): Promise<String> {
-    const claim = await Claim.findOne({
+  async getLatestClaimValue(dbConnection: Promise<Connection>, where: { type: string }): Promise<String> {
+    const claim = await (await dbConnection).getRepository(Claim).findOne({
       where: {
         ...where,
         subject: this.did,

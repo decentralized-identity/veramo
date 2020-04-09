@@ -7,12 +7,23 @@ DAF can be used by using Typescript API directly, or by using remote GraphQL api
 ## Typescript
 
 ```typescript
+// Setting up the database connection
+import { Entities } from 'daf-core'
+import { createConnection } from 'typeorm'
+// https://typeorm.io/#/connection-options
+const dbConnection = createConnection({
+  type: 'sqlite',
+  database: 'database.sqlite',
+  synchronize: true,
+  entities: [...Entities],
+})
+
 // We will be using 'did:ethr' identities
 import { IdentityProvider } from 'daf-ethr-did'
 
 // Storing key pairs in the database
 import { KeyStore } from 'daf-core'
-const keyStore = new KeyStore()
+const keyStore = new KeyStore(dbConnection)
 
 // KeyManagementSystem is responsible for managing encryption and signing keys
 import { KeyManagementSystem } from 'daf-libsodium'
@@ -20,7 +31,7 @@ const kms = new KeyManagementSystem(keyStore)
 
 // Storing managed identities in the database
 import { IdentityStore } from 'daf-core'
-const identityStore = new IdentityStore('unique-store-name')
+const identityStore = new IdentityStore('unique-store-name', dbConnection)
 
 // Infura is being used to access Ethereum blockchain. https://infura.io
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -62,21 +73,11 @@ actionHandler.setNext(new SdrActionHandler()).setNext(new DIDCommActionHandler()
 import { Agent } from 'daf-core'
 // we need defaultIdentityProvider = 'rinkeby-ethr-did'
 const agent = new Agent({
+  dbConnection,
   didResolver,
   identityProviders: [rinkebyIdentityProvider],
   actionHandler,
   messageHandler,
-})
-
-// Setting up the database connection
-import { Entities } from 'daf-core'
-import { createConnection } from 'typeorm'
-// https://typeorm.io/#/connection-options
-await createConnection({
-  type: 'sqlite',
-  database: 'database.sqlite',
-  synchronize: true,
-  entities: [...Entities],
 })
 ```
 
@@ -368,7 +369,7 @@ query claims($input: ClaimsInput) {
 
 ```typescript
 import { findCredentialsForSdr } from 'daf-selective-disclosure'
-const result = await findCredentialsForSdr(sdr, 'did:example:1234')
+const result = await findCredentialsForSdr(agent.dbConnection, sdr, 'did:example:1234')
 
 console.log(result)
 ```
