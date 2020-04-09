@@ -3,104 +3,104 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
+# [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
 
+### Bug Fixes
+
+- Eager relations ([da07cb2](https://github.com/uport-project/daf/commit/da07cb21f1bcb6da7a742f28f8a4e3c9dc8ad1ba))
+- Eager relations ([9938384](https://github.com/uport-project/daf/commit/993838438299cf3d5d71b6d59780bcdb0b4d351e))
+- GetIdentityProviders ([d1bdbc2](https://github.com/uport-project/daf/commit/d1bdbc2cac03012b5573eaf2b531c2b707f5e5e5))
+- Id-hub example ([7198e23](https://github.com/uport-project/daf/commit/7198e23b6878654f91c1c0aaa9654743bf853dda))
+- Version bump ([00f0d2f](https://github.com/uport-project/daf/commit/00f0d2ff3aea786e1f6c5142e41f387c09f8ef3e))
+- Version bump ([d374d73](https://github.com/uport-project/daf/commit/d374d739bbf28655ed9cb546d7d785fafad94f4c))
+- Version bump ([2829540](https://github.com/uport-project/daf/commit/2829540c247255251961415d63e87b28fb7a00a5))
+- Version bump ([b474df8](https://github.com/uport-project/daf/commit/b474df8441c242a39de00a04b18805a42c13101a))
+- Version bump ([b28e17f](https://github.com/uport-project/daf/commit/b28e17f19cf2f78c33e5157b7ef498a694c761f2))
 
 ### Features
 
-* Ethr-did export/import ([0f8ab11](https://github.com/uport-project/daf/commit/0f8ab111a5e96d3a687b318605ab2ff607c7bf23)), closes [#105](https://github.com/uport-project/daf/issues/105)
+- ActionSendDIDComm ([49e6841](https://github.com/uport-project/daf/commit/49e68412478b6bada8d524c719cb3ff86987015a))
+- Added credentialType to the Claim ([45a4da2](https://github.com/uport-project/daf/commit/45a4da2a76c4bb7ccb6c2d89cfce4c6e56d2cca0))
+- Added save to GQL handleMessage ([be23418](https://github.com/uport-project/daf/commit/be234186f5b2fc10881a9963bb269c48d960efa2))
+- Agent dbConnection constructor option ([e3dfc2f](https://github.com/uport-project/daf/commit/e3dfc2f9a76fbe15ebb4cd2741d8ff580836408f))
+- Bump version ([cf659c0](https://github.com/uport-project/daf/commit/cf659c09768325031fe66adc0228eb1d976f2932))
+- Bump version ([63dd12d](https://github.com/uport-project/daf/commit/63dd12da63b2245d32379b435a7a774a56a1f019))
+- Example id-hub ([9187906](https://github.com/uport-project/daf/commit/9187906f0e63bbf68bb92eeb54950288fcf3c62e))
+- GQL queries WIP ([698aca4](https://github.com/uport-project/daf/commit/698aca4d006a395a63577b49f7e739b4bdd645b4))
+- GQL queries WIP ([b581061](https://github.com/uport-project/daf/commit/b58106161056e54522e66711f54a879a04e547ff))
+- GraphQL queries for entities ([9faa883](https://github.com/uport-project/daf/commit/9faa883c616892f85e924dd8747a0ad42aeb5bf0))
+- GraphQL queries for entities ([0581795](https://github.com/uport-project/daf/commit/058179501da5475e3826b8d64f160556c0595832))
+- LatestClaimValue method ([8df54b8](https://github.com/uport-project/daf/commit/8df54b8ae0f9b7b308c64e3652d0ccd10130b3cc))
+- More queries ([30ac032](https://github.com/uport-project/daf/commit/30ac032ef0047e812b220caf9046e3269d7c2e39))
+- More queries ([29bf414](https://github.com/uport-project/daf/commit/29bf414d907bc4ae8947e777034e35f9f15c3fa5))
+- Removing daf-debug ([a1ebe1d](https://github.com/uport-project/daf/commit/a1ebe1d63fc6dce1c4270cf300acb452fa034c28))
+- Renamed Core to Agent ([f2c79b6](https://github.com/uport-project/daf/commit/f2c79b69c59929deaa67a55d5b5b0caf8523ff5b))
+- Renaming MessageValidator to MessageHandler ([586b43c](https://github.com/uport-project/daf/commit/586b43c628028d5c6d6550a9e87877385fa8c4fc))
+- SignCredentialJwt returns Credential ([8aefe92](https://github.com/uport-project/daf/commit/8aefe9216f71cc95812b3f60bd40b1187995ff06))
+- Use handleMessage instead of validateMessage ([75fb74a](https://github.com/uport-project/daf/commit/75fb74ad1cab8fc6c8ec6c507850d27ef507e9af))
 
+# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
+### Features
 
-
+- Ethr-did export/import ([0f8ab11](https://github.com/uport-project/daf/commit/0f8ab111a5e96d3a687b318605ab2ff607c7bf23)), closes [#105](https://github.com/uport-project/daf/issues/105)
 
 # [3.3.0](https://github.com/uport-project/daf/compare/v3.2.0...v3.3.0) (2020-03-19)
 
-
 ### Features
 
-* Version bump ([5f8c0fe](https://github.com/uport-project/daf/commit/5f8c0fe551f9512401ff4f68baa171a8aaeec419))
-
-
-
-
+- Version bump ([5f8c0fe](https://github.com/uport-project/daf/commit/5f8c0fe551f9512401ff4f68baa171a8aaeec419))
 
 # [3.2.0](https://github.com/uport-project/daf/compare/v3.1.4...v3.2.0) (2020-03-19)
 
-
 ### Features
 
-* Version bump ([f482187](https://github.com/uport-project/daf/commit/f482187a776f05f1977d3c01caa8acc2e0e6c08f))
-
-
-
-
+- Version bump ([f482187](https://github.com/uport-project/daf/commit/f482187a776f05f1977d3c01caa8acc2e0e6c08f))
 
 ## [3.1.3](https://github.com/uport-project/daf/compare/v3.1.2...v3.1.3) (2020-03-18)
 
-
 ### Bug Fixes
 
-* IssuanceDate  is mandatory ([38edef6](https://github.com/uport-project/daf/commit/38edef62201aad6b2efdc9ce5b6e7597f0aa1652))
-
-
-
-
+- IssuanceDate is mandatory ([38edef6](https://github.com/uport-project/daf/commit/38edef62201aad6b2efdc9ce5b6e7597f0aa1652))
 
 ## [3.0.2](https://github.com/uport-project/daf/compare/v3.0.1...v3.0.2) (2020-03-16)
 
-
 ### Bug Fixes
 
-* Returning newMessage sender & receiver ([72bfb60](https://github.com/uport-project/daf/commit/72bfb60e95e2195b4f17c05b16878bfa4050b427))
-
-
-
-
+- Returning newMessage sender & receiver ([72bfb60](https://github.com/uport-project/daf/commit/72bfb60e95e2195b4f17c05b16878bfa4050b427))
 
 ## [3.0.1](https://github.com/uport-project/daf/compare/v3.0.0...v3.0.1) (2020-03-16)
 
 **Note:** Version bump only for package daf-core
 
-
-
-
-
 # [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
-
 
 ### Bug Fixes
 
-* Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
-* Claim hash ([d00b9c6](https://github.com/uport-project/daf/commit/d00b9c6ed1fed1c76cb7ed4939e2f017979360a2))
-* Deduplicating messages ([eda582b](https://github.com/uport-project/daf/commit/eda582b32923d6cd251fc82023dc18b361122c5e))
-* Examples ([e4581e1](https://github.com/uport-project/daf/commit/e4581e148ee1fdf19efd4f3506a6eb8e2a6789f9))
-* Initializing DB before any action ([7b5959e](https://github.com/uport-project/daf/commit/7b5959e9ea8c4e5a93e8aeeb98baf020c0388a9c))
-* Latest message timestamps ([048974b](https://github.com/uport-project/daf/commit/048974b7016a1deb990aacf2b84a09a172bd3f6d))
-* Removing context entities ([1a5c4c9](https://github.com/uport-project/daf/commit/1a5c4c9827fdc98338395311d7b176ebd09332f3))
-* Removing MessageMetaData entity ([353449c](https://github.com/uport-project/daf/commit/353449c5a2f9a9c0919b4e38a44012fdf98ec8a9))
-* VC / VP hash ([d4fa78f](https://github.com/uport-project/daf/commit/d4fa78ff0d03d64db6806fde9fdd6c7201ce1969))
-
+- Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
+- Claim hash ([d00b9c6](https://github.com/uport-project/daf/commit/d00b9c6ed1fed1c76cb7ed4939e2f017979360a2))
+- Deduplicating messages ([eda582b](https://github.com/uport-project/daf/commit/eda582b32923d6cd251fc82023dc18b361122c5e))
+- Examples ([e4581e1](https://github.com/uport-project/daf/commit/e4581e148ee1fdf19efd4f3506a6eb8e2a6789f9))
+- Initializing DB before any action ([7b5959e](https://github.com/uport-project/daf/commit/7b5959e9ea8c4e5a93e8aeeb98baf020c0388a9c))
+- Latest message timestamps ([048974b](https://github.com/uport-project/daf/commit/048974b7016a1deb990aacf2b84a09a172bd3f6d))
+- Removing context entities ([1a5c4c9](https://github.com/uport-project/daf/commit/1a5c4c9827fdc98338395311d7b176ebd09332f3))
+- Removing MessageMetaData entity ([353449c](https://github.com/uport-project/daf/commit/353449c5a2f9a9c0919b4e38a44012fdf98ec8a9))
+- VC / VP hash ([d4fa78f](https://github.com/uport-project/daf/commit/d4fa78ff0d03d64db6806fde9fdd6c7201ce1969))
 
 ### Features
 
-* Data-store upgrade ([c4c0810](https://github.com/uport-project/daf/commit/c4c081023fb331bf7cb8c19ca2e5c79e8db6b506))
-* Entities ([7f1c85f](https://github.com/uport-project/daf/commit/7f1c85f84c64d49435ee1c8049b00559f3863442))
-* IdentityStore and KeyStore in daf-core ([238539c](https://github.com/uport-project/daf/commit/238539c59c328baf4a4f84c0fe86520bfefdd680))
-* IdentityStore docs ([190b505](https://github.com/uport-project/daf/commit/190b5052a800c9893c27fe57b89c50cce9fc9343))
-* TypeORM wip ([27e4ab2](https://github.com/uport-project/daf/commit/27e4ab2676042cea96370ba31d5dd7fc1c8cceb5))
-* Updated entities ([00db341](https://github.com/uport-project/daf/commit/00db341ca10ae08d1afa666b880ffd066b5b6bbc))
-* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
-
+- Data-store upgrade ([c4c0810](https://github.com/uport-project/daf/commit/c4c081023fb331bf7cb8c19ca2e5c79e8db6b506))
+- Entities ([7f1c85f](https://github.com/uport-project/daf/commit/7f1c85f84c64d49435ee1c8049b00559f3863442))
+- IdentityStore and KeyStore in daf-core ([238539c](https://github.com/uport-project/daf/commit/238539c59c328baf4a4f84c0fe86520bfefdd680))
+- IdentityStore docs ([190b505](https://github.com/uport-project/daf/commit/190b5052a800c9893c27fe57b89c50cce9fc9343))
+- TypeORM wip ([27e4ab2](https://github.com/uport-project/daf/commit/27e4ab2676042cea96370ba31d5dd7fc1c8cceb5))
+- Updated entities ([00db341](https://github.com/uport-project/daf/commit/00db341ca10ae08d1afa666b880ffd066b5b6bbc))
+- Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
 
 ### BREAKING CHANGES
 
-* Introducing TypeORM - support for more databases
-Deprecating some packages.
-
-
-
-
+- Introducing TypeORM - support for more databases
+  Deprecating some packages.
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 

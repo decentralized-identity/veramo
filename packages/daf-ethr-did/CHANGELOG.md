@@ -3,69 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
+# [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
 
+**Note:** Version bump only for package daf-ethr-did
+
+# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
 ### Bug Fixes
 
-* Ethr-did TTL = 1 year ([fa6b6c5](https://github.com/uport-project/daf/commit/fa6b6c59dc2caa189fa5675dcf86139945376af9))
-
+- Ethr-did TTL = 1 year ([fa6b6c5](https://github.com/uport-project/daf/commit/fa6b6c59dc2caa189fa5675dcf86139945376af9))
 
 ### Features
 
-* Ethr-did export/import ([0f8ab11](https://github.com/uport-project/daf/commit/0f8ab111a5e96d3a687b318605ab2ff607c7bf23)), closes [#105](https://github.com/uport-project/daf/issues/105)
-
-
-
-
+- Ethr-did export/import ([0f8ab11](https://github.com/uport-project/daf/commit/0f8ab111a5e96d3a687b318605ab2ff607c7bf23)), closes [#105](https://github.com/uport-project/daf/issues/105)
 
 # [3.3.0](https://github.com/uport-project/daf/compare/v3.2.0...v3.3.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 # [3.2.0](https://github.com/uport-project/daf/compare/v3.1.4...v3.2.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-ethr-did
-
-
-
-
 
 ## [3.1.3](https://github.com/uport-project/daf/compare/v3.1.2...v3.1.3) (2020-03-18)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 ## [3.0.2](https://github.com/uport-project/daf/compare/v3.0.1...v3.0.2) (2020-03-16)
 
 **Note:** Version bump only for package daf-ethr-did
-
-
-
-
 
 ## [3.0.1](https://github.com/uport-project/daf/compare/v3.0.0...v3.0.1) (2020-03-16)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 # [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
 
 **Note:** Version bump only for package daf-ethr-did
-
-
-
-
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 

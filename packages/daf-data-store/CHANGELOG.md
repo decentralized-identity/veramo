@@ -3,88 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
+# [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
 
 **Note:** Version bump only for package daf-data-store
 
+# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
-
-
+**Note:** Version bump only for package daf-data-store
 
 # [3.3.0](https://github.com/uport-project/daf/compare/v3.2.0...v3.3.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [3.2.0](https://github.com/uport-project/daf/compare/v3.1.4...v3.2.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 ## [3.1.4](https://github.com/uport-project/daf/compare/v3.1.3...v3.1.4) (2020-03-19)
-
 
 ### Bug Fixes
 
-* Fetching credentials for SDR ([e91668e](https://github.com/uport-project/daf/commit/e91668e664fca7d9826fd45e179cafe1b3cbe975))
-
-
-
-
+- Fetching credentials for SDR ([e91668e](https://github.com/uport-project/daf/commit/e91668e664fca7d9826fd45e179cafe1b3cbe975))
 
 ## [3.1.3](https://github.com/uport-project/daf/compare/v3.1.2...v3.1.3) (2020-03-18)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 ## [3.0.2](https://github.com/uport-project/daf/compare/v3.0.1...v3.0.2) (2020-03-16)
-
 
 ### Bug Fixes
 
-* Returning newMessage sender & receiver ([72bfb60](https://github.com/uport-project/daf/commit/72bfb60e95e2195b4f17c05b16878bfa4050b427))
-
-
-
-
+- Returning newMessage sender & receiver ([72bfb60](https://github.com/uport-project/daf/commit/72bfb60e95e2195b4f17c05b16878bfa4050b427))
 
 ## [3.0.1](https://github.com/uport-project/daf/compare/v3.0.0...v3.0.1) (2020-03-16)
 
 **Note:** Version bump only for package daf-data-store
 
-
-
-
-
 # [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
-
 
 ### Bug Fixes
 
-* Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
-* Examples ([e4581e1](https://github.com/uport-project/daf/commit/e4581e148ee1fdf19efd4f3506a6eb8e2a6789f9))
-* Find Messages ([5234c54](https://github.com/uport-project/daf/commit/5234c541257271010ebf3e70bb620e3fcc02ff14))
-* Latest message timestamps ([048974b](https://github.com/uport-project/daf/commit/048974b7016a1deb990aacf2b84a09a172bd3f6d))
-* Removing MessageMetaData entity ([353449c](https://github.com/uport-project/daf/commit/353449c5a2f9a9c0919b4e38a44012fdf98ec8a9))
-
+- Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
+- Examples ([e4581e1](https://github.com/uport-project/daf/commit/e4581e148ee1fdf19efd4f3506a6eb8e2a6789f9))
+- Find Messages ([5234c54](https://github.com/uport-project/daf/commit/5234c541257271010ebf3e70bb620e3fcc02ff14))
+- Latest message timestamps ([048974b](https://github.com/uport-project/daf/commit/048974b7016a1deb990aacf2b84a09a172bd3f6d))
+- Removing MessageMetaData entity ([353449c](https://github.com/uport-project/daf/commit/353449c5a2f9a9c0919b4e38a44012fdf98ec8a9))
 
 ### Features
 
-* Data-store upgrade ([c4c0810](https://github.com/uport-project/daf/commit/c4c081023fb331bf7cb8c19ca2e5c79e8db6b506))
-* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
-
-
-
-
+- Data-store upgrade ([c4c0810](https://github.com/uport-project/daf/commit/c4c081023fb331bf7cb8c19ca2e5c79e8db6b506))
+- Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 

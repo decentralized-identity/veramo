@@ -3,65 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
+
+### Features
+
+- Renamed Core to Agent ([f2c79b6](https://github.com/uport-project/daf/commit/f2c79b69c59929deaa67a55d5b5b0caf8523ff5b))
+- Renaming MessageValidator to MessageHandler ([586b43c](https://github.com/uport-project/daf/commit/586b43c628028d5c6d6550a9e87877385fa8c4fc))
+
 # [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-did-jwt
-
-
-
-
 
 # [3.3.0](https://github.com/uport-project/daf/compare/v3.2.0...v3.3.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-did-jwt
 
-
-
-
-
 # [3.2.0](https://github.com/uport-project/daf/compare/v3.1.4...v3.2.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-did-jwt
-
-
-
-
 
 ## [3.1.3](https://github.com/uport-project/daf/compare/v3.1.2...v3.1.3) (2020-03-18)
 
 **Note:** Version bump only for package daf-did-jwt
 
-
-
-
-
 ## [3.0.2](https://github.com/uport-project/daf/compare/v3.0.1...v3.0.2) (2020-03-16)
 
 **Note:** Version bump only for package daf-did-jwt
-
-
-
-
 
 ## [3.0.1](https://github.com/uport-project/daf/compare/v3.0.0...v3.0.1) (2020-03-16)
 
 **Note:** Version bump only for package daf-did-jwt
 
-
-
-
-
 # [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
-
 
 ### Bug Fixes
 
-* Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
-* Removing MessageMetaData entity ([353449c](https://github.com/uport-project/daf/commit/353449c5a2f9a9c0919b4e38a44012fdf98ec8a9))
-
-
-
-
+- Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
+- Removing MessageMetaData entity ([353449c](https://github.com/uport-project/daf/commit/353449c5a2f9a9c0919b4e38a44012fdf98ec8a9))
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 
