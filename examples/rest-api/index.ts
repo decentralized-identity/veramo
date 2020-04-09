@@ -1,8 +1,6 @@
 import express from 'express'
 const app = express()
 const port = process.env.PORT || 8080
-import { Entities } from 'daf-core'
-import { createConnection } from 'typeorm'
 
 import { agent } from './setup'
 
@@ -53,12 +51,4 @@ app.post('/handle-message', express.text({ type: '*/*' }), async (req, res) => {
   }
 })
 
-createConnection({
-  type: 'sqlite',
-  database: './database.sqlite',
-  synchronize: true,
-  logging: true,
-  entities: Entities,
-}).then(() => {
-  app.listen(port, () => console.log(`Server running at http://localhost:${port}`))
-})
+app.listen(port, () => console.log(`Server running at http://localhost:${port}`))

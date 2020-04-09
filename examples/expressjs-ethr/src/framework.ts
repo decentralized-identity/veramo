@@ -6,8 +6,8 @@ import { JwtMessageHandler } from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
 import { W3cMessageHandler, W3cActionHandler } from 'daf-w3c'
-import { SdrMessageHandler, SdrActionHandler} from 'daf-selective-disclosure'
-import { DIDCommMessageHandler, DIDCommActionHandler} from 'daf-did-comm'
+import { SdrMessageHandler, SdrActionHandler } from 'daf-selective-disclosure'
+import { DIDCommMessageHandler, DIDCommActionHandler } from 'daf-did-comm'
 import { UrlMessageHandler } from 'daf-url'
 import { createConnection } from 'typeorm'
 import { DataStore } from 'daf-data-store'
@@ -25,10 +25,18 @@ if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
   })
 }
 
+const dbConnection = createConnection({
+  type: 'sqlite',
+  database: './database.sqlite',
+  synchronize: true,
+  logging: false,
+  entities: [...Daf.Entities],
+})
+
 const identityProviders = [
   new EthrDid.IdentityProvider({
-    identityStore: new Daf.IdentityStore('rinkeby-ethr'),
-    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
+    identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
+    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore(dbConnection)),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
@@ -43,26 +51,13 @@ messageHandler
   .setNext(new SdrMessageHandler())
 
 const actionHandler = new DIDCommActionHandler()
-actionHandler
-  .setNext(new W3cActionHandler())
-  .setNext(new SdrActionHandler())
+actionHandler.setNext(new W3cActionHandler()).setNext(new SdrActionHandler())
 
 export const agent = new Daf.Agent({
+  dbConnection,
   identityProviders,
   serviceControllers,
   didResolver,
   messageHandler,
   actionHandler,
 })
-
-export const initializeDb = async () => {
-  await createConnection({
-    type: 'sqlite',
-    database: './database.sqlite',
-    synchronize: true,
-    logging: false,
-    entities: [...Daf.Entities],
-  })
-}
-
-export const dataStore = new DataStore()

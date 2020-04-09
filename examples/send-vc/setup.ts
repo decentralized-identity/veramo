@@ -1,9 +1,21 @@
+import { Entities } from 'daf-core'
+import { createConnection } from 'typeorm'
+
+// Create database connection
+const dbConnection = createConnection({
+  type: 'sqlite',
+  database: 'database.sqlite',
+  synchronize: true,
+  logging: true,
+  entities: Entities,
+})
+
 // We will be using 'did:ethr' identities
 import { IdentityProvider } from 'daf-ethr-did'
 
 // Storing serialized key pairs in the file system
 import { KeyStore } from 'daf-core'
-const keyStore = new KeyStore()
+const keyStore = new KeyStore(dbConnection)
 
 // KeyManagementSystem is responsible for managing encryption and signing keys
 import { KeyManagementSystem } from 'daf-libsodium'
@@ -11,7 +23,7 @@ const kms = new KeyManagementSystem(keyStore)
 
 // Storing serialized identities in the file system
 import { IdentityStore } from 'daf-core'
-const identityStore = new IdentityStore('rinkeby-ethr')
+const identityStore = new IdentityStore('rinkeby-ethr', dbConnection)
 
 // Infura is being used to access Ethereum blockchain. https://infura.io
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -40,9 +52,7 @@ import { DIDCommActionHandler } from 'daf-did-comm'
 import { TrustGraphActionHandler } from 'daf-trust-graph'
 import { W3cActionHandler } from 'daf-w3c'
 const actionHandler = new W3cActionHandler()
-actionHandler
-  .setNext(new DIDCommActionHandler())
-  .setNext(new TrustGraphActionHandler())
+actionHandler.setNext(new DIDCommActionHandler()).setNext(new TrustGraphActionHandler())
 
 // Initializing the Core by injecting dependencies
 import { Agent } from 'daf-core'

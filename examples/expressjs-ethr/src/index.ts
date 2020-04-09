@@ -3,14 +3,13 @@ import * as Daf from 'daf-core'
 import * as SD from 'daf-selective-disclosure'
 import * as W3C from 'daf-w3c'
 import { app, server, io, sessionStore } from './server'
-import { agent, dataStore, initializeDb } from './framework'
+import { agent } from './framework'
 import { getIdentity, setServiceEndpoint } from './identity'
 
 if (!process.env.HOST) throw Error('Environment variable HOST not set')
 if (!process.env.PORT) throw Error('Environment variable PORT not set')
 
 async function main() {
-  await initializeDb()
   const identity = await getIdentity()
 
   const messagingEndpoint = '/handle-message'
@@ -69,8 +68,7 @@ async function main() {
     req.session.views = req.session.views ? req.session.views + 1 : 1
 
     const { did, views } = req.session
-    const name = await dataStore.shortId(did)
-    res.render('home', { did, views, name })
+    res.render('home', { did, views })
   })
 
   app.get('/history', requireLogin, async (req, res) => {
@@ -80,8 +78,9 @@ async function main() {
     req.session.views = req.session.views ? req.session.views + 1 : 1
 
     const { did, views } = req.session
-    const name = await dataStore.shortId(did)
-    const messages = await dataStore.findMessages({ sender: did })
+    const messages = await (await agent.dbConnection)
+      .getRepository(Daf.Message)
+      .find({ where: { from: did } })
     console.log(messages)
     res.render('history', { did, views, name, messages })
   })
@@ -120,7 +119,6 @@ async function main() {
     req.session.views = req.session.views ? req.session.views + 1 : 1
 
     const { did, views } = req.session
-    const name = await dataStore.shortId(did)
 
     // Sign verifiable credential
     const nameJwt = await agent.handleAction({

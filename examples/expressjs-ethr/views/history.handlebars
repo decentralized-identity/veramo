@@ -3,13 +3,10 @@
 <h2>DID</h2>
 <p>{{did}}</p>
 
-<h2>Name</h2>
-<p>{{name}}</p>
-
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Timestamp</th>
+      <th scope="col">Issuance Date</th>
       <th scope="col">Type</th>
       <th scope="col">Sender</th>
       <th scope="col">Receiver</th>
@@ -18,10 +15,10 @@
   <tbody>
     {{#each messages}}
       <tr>
-        <td>{{timestamp}}</th>
+        <td>{{issuanceDate}}</th>
         <td>{{type}}</th>
-        <td>{{sender.did}}</th>
-        <td>{{receiver.did}}</th>
+        <td>{{from.did}}</th>
+        <td>{{to.did}}</th>
       </tr>
     {{~/each}}
   </tbody>

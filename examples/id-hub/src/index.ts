@@ -12,11 +12,18 @@ const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 let didResolver = new DafResolver({ infuraProjectId })
 
 const messageHandler = new JwtMessageHandler()
-messageHandler
-  .setNext(new W3cMessageHandler())
-  .setNext(new SdrMessageHandler())
+messageHandler.setNext(new W3cMessageHandler()).setNext(new SdrMessageHandler())
+
+const dbConnection = createConnection({
+  type: 'sqlite',
+  database: './database.sqlite',
+  synchronize: true,
+  logging: false,
+  entities: [...Daf.Entities],
+})
 
 export const agent = new Daf.Agent({
+  dbConnection,
   identityProviders: [],
   serviceControllers: [],
   didResolver,
@@ -43,14 +50,6 @@ agent.on(Daf.EventTypes.savedMessage, async (message: Daf.Message) => {
 })
 
 const main = async () => {
-  const c = await createConnection({
-    type: 'sqlite',
-    database: './database.sqlite',
-    synchronize: true,
-    logging: false,
-    entities: [...Daf.Entities],
-  })
-
   const info = await server.listen()
   console.log(`🚀  Server ready at ${info.url}`)
 }

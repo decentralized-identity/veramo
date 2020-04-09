@@ -7,13 +7,13 @@ export const credential = gql`
       rowId
       iss {
         did
-        shortId
-        profileImage
+        shortId: shortDid
+        profileImage: latestClaimValue(type: "profileImage")
       }
       sub {
         did
-        shortId
-        profileImage
+        shortId: shortDid
+        profileImage: latestClaimValue(type: "profileImage")
       }
       jwt
       nbf
@@ -31,9 +31,9 @@ export const identity = gql`
   query identity($did: ID!) {
     identity(did: $did) {
       did
-      type
-      shortId
-      profileImage
+      provider
+      shortId: shortDid
+      profileImage: latestClaimValue(type: "profileImage")
     }
   }
 `
@@ -43,10 +43,10 @@ export const allIdentities = gql`
     identities {
       isManaged
       did
-      shortId
+      shortId: shortDid
       firstName
       lastName
-      profileImage
+      profileImage: latestClaimValue(type: "profileImage")
     }
   }
 `
@@ -60,8 +60,8 @@ export const managedIdentities = gql`
     managedIdentities {
       did
       type
-      shortId
-      profileImage
+      shortId: shortDid
+      profileImage: latestClaimValue(type: "profileImage")
     }
   }
 `
@@ -77,8 +77,8 @@ export const queryMessage = gql`
         iss {
           did {
             did
-            shortId
-            profileImage
+            shortId: shortDid
+            profileImage: latestClaimValue(type: "profileImage")
           }
           url
         }
@@ -90,13 +90,13 @@ export const queryMessage = gql`
           rowId
           iss {
             did
-            shortId
-            profileImage
+            shortId: shortDid
+            profileImage: latestClaimValue(type: "profileImage")
           }
           sub {
             did
-            shortId
-            profileImage
+            shortId: shortDid
+            profileImage: latestClaimValue(type: "profileImage")
           }
           jwt
           fields {
@@ -108,13 +108,13 @@ export const queryMessage = gql`
       }
       sender {
         did
-        shortId
-        profileImage
+        shortId: shortDid
+        profileImage: latestClaimValue(type: "profileImage")
       }
       receiver {
         did
-        shortId
-        profileImage
+        shortId: shortDid
+        profileImage: latestClaimValue(type: "profileImage")
       }
     }
   }
@@ -133,15 +133,15 @@ export const allMessages = gql`
         timestamp
         sender {
           did
-          shortId
-          profileImage
+          shortId: shortDid
+          profileImage: latestClaimValue(type: "profileImage")
         }
         sdr(sub: $activeDid) {
           iss {
             did {
               did
-              shortId
-              profileImage
+              shortId: shortDid
+              profileImage: latestClaimValue(type: "profileImage")
             }
             url
           }
@@ -153,13 +153,13 @@ export const allMessages = gql`
             rowId
             iss {
               did
-              shortId
-              profileImage
+              shortId: shortDid
+              profileImage: latestClaimValue(type: "profileImage")
             }
             sub {
               did
-              shortId
-              profileImage
+              shortId: shortDid
+              profileImage: latestClaimValue(type: "profileImage")
             }
             jwt
             fields {
@@ -171,21 +171,21 @@ export const allMessages = gql`
         }
         receiver {
           did
-          shortId
-          profileImage
+          shortId: shortDid
+          profileImage: latestClaimValue(type: "profileImage")
         }
         vc {
           rowId
           hash
           iss {
             did
-            shortId
-            profileImage
+            shortId: shortDid
+            profileImage: latestClaimValue(type: "profileImage")
           }
           sub {
             did
-            shortId
-            profileImage
+            shortId: shortDid
+            profileImage: latestClaimValue(type: "profileImage")
           }
           fields {
             type

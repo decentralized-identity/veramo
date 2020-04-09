@@ -1,19 +1,9 @@
-import { AbstractIdentity, EventTypes, Entities, Message, Credential } from 'daf-core'
+import { AbstractIdentity, EventTypes, Message, Credential } from 'daf-core'
 import { ActionSendDIDComm, ActionTypes } from 'daf-did-comm'
 import { ActionSignW3cVc, ActionTypes as W3cActionTypes } from 'daf-w3c'
 import { agent } from './setup'
-import { createConnection } from 'typeorm'
 
 async function main() {
-  // Create database connection
-  await createConnection({
-    type: 'sqlite',
-    database: 'database.sqlite',
-    synchronize: true,
-    logging: true,
-    entities: Entities,
-  })
-
   // Getting existing identity or creating a new one
   let identity: AbstractIdentity
   const identities = await agent.identityManager.getIdentities()

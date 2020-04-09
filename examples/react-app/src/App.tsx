@@ -55,7 +55,8 @@ const App: React.FC = () => {
 
     try {
       const credentialSubject: any = {}
-      ;(credentialSubject['id'] = receiver), (credentialSubject[claimType] = claimValue)
+      credentialSubject['id'] = receiver
+      credentialSubject[claimType] = claimValue
 
       const credential = await agent.handleAction({
         type: W3c.ActionTypes.signCredentialJwt,

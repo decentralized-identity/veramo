@@ -18,10 +18,18 @@ const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 let didResolver = new DafResolver({ infuraProjectId })
 
+const dbConnection = createConnection({
+  type: 'sqlite',
+  database: './database.sqlite',
+  synchronize: true,
+  logging: false,
+  entities: [...Daf.Entities],
+})
+
 const identityProviders = [
   new DafEthrDid.IdentityProvider({
-    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
-    identityStore: new Daf.IdentityStore('rinkeby-ethr'),
+    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore(dbConnection)),
+    identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
@@ -38,6 +46,7 @@ const actionHandler = new TrustGraphActionHandler()
 actionHandler.setNext(new W3cActionHandler()).setNext(new SdrActionHandler())
 
 export const agent = new Daf.Agent({
+  dbConnection,
   identityProviders,
   serviceControllers,
   didResolver,
@@ -77,14 +86,6 @@ const server = new ApolloServer({
 })
 
 const main = async () => {
-  await createConnection({
-    type: 'sqlite',
-    database: './database.sqlite',
-    synchronize: true,
-    logging: false,
-    entities: [...Daf.Entities],
-  })
-
   await agent.setupServices()
   await agent.listen()
   const info = await server.listen()

@@ -7,11 +7,11 @@ export const credential = gql`
       rowId
       iss {
         did
-        shortId
+        shortId: shortDid
       }
       sub {
         did
-        shortId
+        shortId: shortDid
       }
       jwt
       nbf
@@ -30,7 +30,7 @@ export const identity = gql`
     identity(did: $did) {
       did
       provider
-      shortId
+      shortId: shortDid
     }
   }
 `
@@ -44,8 +44,8 @@ export const managedIdentities = gql`
     managedIdentities {
       did
       provider
-      shortId
-      profileImage
+      shortId: shortDid
+      profileImage: latestClaimValue(type: "profileImage")
     }
   }
 `
@@ -106,26 +106,26 @@ export const allMessages = gql`
         timestamp
         sender {
           did
-          shortId
-          profileImage
+          shortId: shortDid
+          profileImage: latestClaimValue(type: "profileImage")
         }
         receiver {
           did
-          shortId
-          profileImage
+          shortId: shortDid
+          profileImage: latestClaimValue(type: "profileImage")
         }
         vc {
           rowId
           hash
           iss {
             did
-            shortId
-            profileImage
+            shortId: shortDid
+            profileImage: latestClaimValue(type: "profileImage")
           }
           sub {
             did
-            shortId
-            profileImage
+            shortId: shortDid
+            profileImage: latestClaimValue(type: "profileImage")
           }
           fields {
             type
