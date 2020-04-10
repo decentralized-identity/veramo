@@ -318,8 +318,8 @@ mutation signCredentialJwt($data: SignCredentialInput!) {
 
 ```typescript=
 import { In } from 'typeorm'
-
-const nameClaims = await Claim.find({
+const dbConnection = await agent.dbConnection
+const nameClaims = await dbConnection.getRepository(Claim).find({
   where: {
     subject: 'did:example:1234',
     type: 'name',
@@ -329,7 +329,7 @@ const nameClaims = await Claim.find({
 
 const nameVc = nameClaims[0]?.credential
 
-const memberClaims = await Claim.find({
+const memberClaims = await dbConnection.getRepository(Claim).find({
   where: {
     issuer: In(['did:ethr:567', 'did:ethr:659']),
     subject: 'did:example:1234',
@@ -641,7 +641,8 @@ Fields
 
 ```typescript
 import { Identity } from 'daf-core'
-const identity = await Identity.findOne('did:example:123', {
+const dbConnection = await agent.dbConnection
+const identity = await dbConnection.getRepository(Identity).findOne('did:example:123', {
   relations: ['receivedClaims'],
 })
 
@@ -654,7 +655,7 @@ console.log(identity.receivedClaims) // [Claim(type: 'name', value: 'Alice'), ..
 query {
   identity(did: "did:example:123") {
     name: latestClaimValue(type: "name")
-    profilePicture: latestClaimValue(type: "profilePicture")
+    profileImage: latestClaimValue(type: "profileImage")
     receivedClaims {
       type
       value
@@ -688,7 +689,8 @@ Fields
 
 ```typescript
 import { Message } from 'daf-core'
-const messages = await Message.find({
+const dbConnection = await agent.dbConnection
+const messages = await dbConnection.getRepository(Message).find({
   take: 5,
   where: {
     type: 'sdr',
@@ -731,7 +733,8 @@ Fields
 
 ```typescript
 import { Presentation } from 'daf-core'
-const presentations = await Presentation.find({
+const dbConnection = await agent.dbConnection
+const presentations = await dbConnection.getRepository(Presentation).find({
   where: {
     issuer: 'did:web:example.com',
     type: 'VerifiablePresentation,KYC',
@@ -782,7 +785,8 @@ Fields
 ```typescript
 import { Credential } from 'daf-core'
 import { LessThan } from 'typeorm'
-const credentials = await Credential.find({
+const dbConnection = await agent.dbConnection
+const credentials = await dbConnection.getRepository(Credential).find({
   where: {
     subject: 'did:web:example.com',
     expirationDate: LessThan(new Date()),
@@ -831,7 +835,8 @@ Fields
 
 ```typescript
 import { Claim } from 'daf-core'
-const claims = await Claim.find({
+const dbConnection = await agent.dbConnection
+const claims = await dbConnection.getRepository(Claim).find({
   where: {
     type: 'address',
   },
