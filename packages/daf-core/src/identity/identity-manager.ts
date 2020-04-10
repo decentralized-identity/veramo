@@ -12,18 +12,18 @@ export class IdentityManager {
     this.identityProviders = options.identityProviders
   }
 
-  async getIdentityProviders(): Promise<AbstractIdentityProvider[]> {
+  getIdentityProviders(): AbstractIdentityProvider[] {
     return this.identityProviders
   }
 
-  async getIdentityProvider(type: string): Promise<AbstractIdentityProvider> {
+  getIdentityProvider(type: string): AbstractIdentityProvider {
     for (const identityProvider of this.identityProviders) {
       if (identityProvider.type === type) {
         return identityProvider
       }
     }
 
-    return Promise.reject('IdentityProvider not found for type: ' + type)
+    throw Error('IdentityProvider not found for type: ' + type)
   }
 
   async getIdentities(): Promise<AbstractIdentity[]> {
@@ -45,23 +45,29 @@ export class IdentityManager {
     }
   }
 
-  async createIdentity(identityProviderType: string): Promise<AbstractIdentity> {
-    const identityProvider = await this.getIdentityProvider(identityProviderType)
+  async createIdentity(identityProviderType?: string): Promise<AbstractIdentity> {
+    const identityProvider = identityProviderType
+      ? this.getIdentityProvider(identityProviderType)
+      : this.getDefaultIdentityProvider()
     return identityProvider.createIdentity()
   }
 
   async importIdentity(identityProviderType: string, secret: string): Promise<AbstractIdentity> {
-    const identityProvider = await this.getIdentityProvider(identityProviderType)
+    const identityProvider = this.getIdentityProvider(identityProviderType)
     return identityProvider.importIdentity(secret)
   }
 
   async exportIdentity(identityProviderType: string, did: string): Promise<string> {
-    const identityProvider = await this.getIdentityProvider(identityProviderType)
+    const identityProvider = this.getIdentityProvider(identityProviderType)
     return identityProvider.exportIdentity(did)
   }
 
   async deleteIdentity(identityProviderType: string, did: string): Promise<boolean> {
-    const identityProvider = await this.getIdentityProvider(identityProviderType)
+    const identityProvider = this.getIdentityProvider(identityProviderType)
     return identityProvider.deleteIdentity(did)
+  }
+
+  private getDefaultIdentityProvider(): AbstractIdentityProvider {
+    return this.identityProviders[0]
   }
 }

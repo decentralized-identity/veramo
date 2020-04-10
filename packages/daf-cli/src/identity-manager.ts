@@ -45,19 +45,23 @@ program
     if (cmd.create) {
       try {
         const providers = await agent.identityManager.getIdentityProviders()
+        let type
+        if (providers.length > 1) {
+          const answers = await inquirer.prompt([
+            {
+              type: 'list',
+              name: 'type',
+              choices: providers.map(provider => ({
+                name: `${provider.type} - ${provider.description}`,
+                value: provider.type,
+              })),
+              message: 'Select identity provider',
+            },
+          ])
 
-        const answers = await inquirer.prompt([
-          {
-            type: 'list',
-            name: 'type',
-            choices: providers.map(provider => ({
-              name: `${provider.type} - ${provider.description}`,
-              value: provider.type,
-            })),
-            message: 'Select identity provider',
-          },
-        ])
-        const identity = await agent.identityManager.createIdentity(answers.type)
+          type = answers.type
+        }
+        const identity = await agent.identityManager.createIdentity(type)
         printTable([{ type: identity.identityProviderType, did: identity.did }])
       } catch (e) {
         console.error(e)

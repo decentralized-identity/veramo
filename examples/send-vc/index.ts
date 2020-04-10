@@ -10,8 +10,7 @@ async function main() {
   if (identities.length > 0) {
     identity = identities[0]
   } else {
-    const identityProviders = await agent.identityManager.getIdentityProviders()
-    identity = await agent.identityManager.createIdentity(identityProviders[0].type)
+    identity = await agent.identityManager.createIdentity()
   }
 
   // Sign verifiable credential
