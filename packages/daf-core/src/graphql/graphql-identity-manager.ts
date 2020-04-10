@@ -6,7 +6,7 @@ export interface Context {
 }
 
 const identityProviders = async (_: any, args: any, ctx: Context) => {
-  return await ctx.agent.identityManager.getIdentityProviders()
+  return ctx.agent.identityManager.getIdentityProviders()
 }
 
 const managedIdentities = async (_: any, args: any, ctx: Context) => {

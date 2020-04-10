@@ -117,8 +117,7 @@ console.log(`🚀  Server ready at ${info.url}`)
 ## Typescript
 
 ```typescript
-const providers = await core.identityManager.getIdentityProviders()
-const identity = await core.identityManager.createIdentity(providers[0].type)
+const identity = await agent.identityManager.createIdentity()
 ```
 
 ## GraphQL
