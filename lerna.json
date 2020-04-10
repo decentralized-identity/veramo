@@ -1,7 +1,6 @@
 {
-  "version": "3.4.0",
+  "version": "4.0.0-beta.42",
   "packages": ["packages/*"],
-
   "npmClient": "yarn",
   "changelog": {
     "repo": "uport-project/daf",

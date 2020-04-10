@@ -3,111 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
+# [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
 
+### Bug Fixes
+
+- GetIdentityProviders ([d1bdbc2](https://github.com/uport-project/daf/commit/d1bdbc2cac03012b5573eaf2b531c2b707f5e5e5))
 
 ### Features
 
-* Ethr-did export/import ([0f8ab11](https://github.com/uport-project/daf/commit/0f8ab111a5e96d3a687b318605ab2ff607c7bf23)), closes [#105](https://github.com/uport-project/daf/issues/105)
+- ActionSendDIDComm ([49e6841](https://github.com/uport-project/daf/commit/49e68412478b6bada8d524c719cb3ff86987015a))
+- Agent dbConnection constructor option ([e3dfc2f](https://github.com/uport-project/daf/commit/e3dfc2f9a76fbe15ebb4cd2741d8ff580836408f))
+- GQL queries WIP ([b581061](https://github.com/uport-project/daf/commit/b58106161056e54522e66711f54a879a04e547ff))
+- Removing daf-debug ([a1ebe1d](https://github.com/uport-project/daf/commit/a1ebe1d63fc6dce1c4270cf300acb452fa034c28))
+- Renamed Core to Agent ([f2c79b6](https://github.com/uport-project/daf/commit/f2c79b69c59929deaa67a55d5b5b0caf8523ff5b))
+- Renaming MessageValidator to MessageHandler ([586b43c](https://github.com/uport-project/daf/commit/586b43c628028d5c6d6550a9e87877385fa8c4fc))
+- SDR helper and specs ([c00b5c1](https://github.com/uport-project/daf/commit/c00b5c186bfb6f87bb2a01d881d2f8ff1200e6f8))
+- SignCredentialJwt returns Credential ([8aefe92](https://github.com/uport-project/daf/commit/8aefe9216f71cc95812b3f60bd40b1187995ff06))
+- Use handleMessage instead of validateMessage ([75fb74a](https://github.com/uport-project/daf/commit/75fb74ad1cab8fc6c8ec6c507850d27ef507e9af))
 
+# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
+### Features
 
-
+- Ethr-did export/import ([0f8ab11](https://github.com/uport-project/daf/commit/0f8ab111a5e96d3a687b318605ab2ff607c7bf23)), closes [#105](https://github.com/uport-project/daf/issues/105)
 
 # [3.3.0](https://github.com/uport-project/daf/compare/v3.2.0...v3.3.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [3.2.0](https://github.com/uport-project/daf/compare/v3.1.4...v3.2.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [3.1.4](https://github.com/uport-project/daf/compare/v3.1.3...v3.1.4) (2020-03-19)
-
 
 ### Bug Fixes
 
-* Fetching credentials for SDR ([e91668e](https://github.com/uport-project/daf/commit/e91668e664fca7d9826fd45e179cafe1b3cbe975))
-
-
-
-
+- Fetching credentials for SDR ([e91668e](https://github.com/uport-project/daf/commit/e91668e664fca7d9826fd45e179cafe1b3cbe975))
 
 ## [3.1.3](https://github.com/uport-project/daf/compare/v3.1.2...v3.1.3) (2020-03-18)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [3.1.2](https://github.com/uport-project/daf/compare/v3.1.1...v3.1.2) (2020-03-17)
 
 **Note:** Version bump only for package daf-cli
-
-
-
-
 
 ## [3.1.1](https://github.com/uport-project/daf/compare/v3.1.0...v3.1.1) (2020-03-17)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [3.1.0](https://github.com/uport-project/daf/compare/v3.0.2...v3.1.0) (2020-03-16)
-
 
 ### Features
 
-* Fetching URL to get the message payload ([72596e4](https://github.com/uport-project/daf/commit/72596e4fd71d66a395c109c88ae2419187459269))
-
-
-
-
+- Fetching URL to get the message payload ([72596e4](https://github.com/uport-project/daf/commit/72596e4fd71d66a395c109c88ae2419187459269))
 
 ## [3.0.2](https://github.com/uport-project/daf/compare/v3.0.1...v3.0.2) (2020-03-16)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [3.0.1](https://github.com/uport-project/daf/compare/v3.0.0...v3.0.1) (2020-03-16)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
-
 
 ### Bug Fixes
 
-* Initializing DB before any action ([7b5959e](https://github.com/uport-project/daf/commit/7b5959e9ea8c4e5a93e8aeeb98baf020c0388a9c))
-
+- Initializing DB before any action ([7b5959e](https://github.com/uport-project/daf/commit/7b5959e9ea8c4e5a93e8aeeb98baf020c0388a9c))
 
 ### Features
 
-* Data-store upgrade ([c4c0810](https://github.com/uport-project/daf/commit/c4c081023fb331bf7cb8c19ca2e5c79e8db6b506))
-* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
-
-
-
-
+- Data-store upgrade ([c4c0810](https://github.com/uport-project/daf/commit/c4c081023fb331bf7cb8c19ca2e5c79e8db6b506))
+- Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 

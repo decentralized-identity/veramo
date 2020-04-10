@@ -3,80 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
+
+### Bug Fixes
+
+- SDR only for sdr message type ([b77c5c7](https://github.com/uport-project/daf/commit/b77c5c740ac96a2bb5fb2ca17348f0ffdedc5d9a))
+
+### Features
+
+- Agent dbConnection constructor option ([e3dfc2f](https://github.com/uport-project/daf/commit/e3dfc2f9a76fbe15ebb4cd2741d8ff580836408f))
+- Exporting findCredentialsForSdr ([ef1c973](https://github.com/uport-project/daf/commit/ef1c9735bb718197c92c1f920a978eadf1318ef6))
+- Renamed Core to Agent ([f2c79b6](https://github.com/uport-project/daf/commit/f2c79b69c59929deaa67a55d5b5b0caf8523ff5b))
+- Renaming MessageValidator to MessageHandler ([586b43c](https://github.com/uport-project/daf/commit/586b43c628028d5c6d6550a9e87877385fa8c4fc))
+- SDR helper and specs ([c00b5c1](https://github.com/uport-project/daf/commit/c00b5c186bfb6f87bb2a01d881d2f8ff1200e6f8))
+- SDR validation ([12ff8eb](https://github.com/uport-project/daf/commit/12ff8ebc0bc297fb0e272432e91a107b6edfc6af))
+- SignCredentialJwt returns Credential ([8aefe92](https://github.com/uport-project/daf/commit/8aefe9216f71cc95812b3f60bd40b1187995ff06))
+
 # [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-selective-disclosure
-
-
-
-
 
 # [3.3.0](https://github.com/uport-project/daf/compare/v3.2.0...v3.3.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 # [3.2.0](https://github.com/uport-project/daf/compare/v3.1.4...v3.2.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-selective-disclosure
-
-
-
-
 
 ## [3.1.4](https://github.com/uport-project/daf/compare/v3.1.3...v3.1.4) (2020-03-19)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 ## [3.1.3](https://github.com/uport-project/daf/compare/v3.1.2...v3.1.3) (2020-03-18)
 
 **Note:** Version bump only for package daf-selective-disclosure
-
-
-
-
 
 ## [3.0.2](https://github.com/uport-project/daf/compare/v3.0.1...v3.0.2) (2020-03-16)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 ## [3.0.1](https://github.com/uport-project/daf/compare/v3.0.0...v3.0.1) (2020-03-16)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 # [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
-
 
 ### Bug Fixes
 
-* Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
-* Deduplicating messages ([eda582b](https://github.com/uport-project/daf/commit/eda582b32923d6cd251fc82023dc18b361122c5e))
-* SDR can have empty to field ([108f22c](https://github.com/uport-project/daf/commit/108f22c96dd96453fd6f811cf32aeffdcc97b2be))
-* Unit tests ([d764531](https://github.com/uport-project/daf/commit/d764531fe022b1cef4abe33c9a434a53cb2fa23f))
-
+- Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
+- Deduplicating messages ([eda582b](https://github.com/uport-project/daf/commit/eda582b32923d6cd251fc82023dc18b361122c5e))
+- SDR can have empty to field ([108f22c](https://github.com/uport-project/daf/commit/108f22c96dd96453fd6f811cf32aeffdcc97b2be))
+- Unit tests ([d764531](https://github.com/uport-project/daf/commit/d764531fe022b1cef4abe33c9a434a53cb2fa23f))
 
 ### Features
 
-* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
-
-
-
-
+- Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 
