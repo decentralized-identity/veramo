@@ -1,4 +1,17 @@
-import { In } from 'typeorm'
+import {
+  Not,
+  LessThan,
+  LessThanOrEqual,
+  MoreThan,
+  MoreThanOrEqual,
+  Equal,
+  Like,
+  Between,
+  In,
+  Any,
+  IsNull,
+  FindManyOptions,
+} from 'typeorm'
 import { Agent } from '../agent'
 import { Message } from '../entities/message'
 import { Presentation } from '../entities/presentation'
@@ -10,125 +23,122 @@ export interface Context {
   agent: Agent
 }
 
-export interface FindOptions {
+export interface Order {
+  column: string
+  direction: 'ASC' | 'DESC'
+}
+
+export interface Where {
+  column: string
+  value?: string[]
+  op?:
+    | 'LessThan'
+    | 'LessThanOrEqual'
+    | 'MoreThan'
+    | 'MoreThanOrEqual'
+    | 'Equal'
+    | 'Like'
+    | 'Between'
+    | 'In'
+    | 'Any'
+    | 'IsNull'
+}
+export interface FindInput {
+  where?: Where[]
+  order?: Order[]
   take?: number
   skip?: number
 }
 
-const messages = async (
-  _: any,
-  {
-    input,
-  }: {
-    input?: {
-      options?: FindOptions
-      from?: string[]
-      to?: string[]
-      type?: string[]
-      threadId?: string[]
-    }
-  },
-  ctx: Context,
-) => {
-  const options = {
-    where: {},
-  }
-
-  if (input?.from) options.where['from'] = In(input.from)
-  if (input?.to) options.where['to'] = In(input.to)
-  if (input?.type) options.where['type'] = In(input.type)
-  if (input?.threadId) options.where['threadId'] = In(input.threadId)
-  if (input?.options?.skip) options['skip'] = input.options.skip
-  if (input?.options?.take) options['take'] = input.options.take
-
-  return (await ctx.agent.dbConnection).getRepository(Message).find(options)
+interface TypeOrmOrder {
+  [x: string]: 'ASC' | 'DESC'
 }
 
-const presentations = async (
-  _: any,
-  {
-    input,
-  }: {
-    input?: {
-      options?: FindOptions
-      issuer?: string[]
-      audience?: string[]
-      type?: string[]
-      context?: string[]
-    }
-  },
-  ctx: Context,
-) => {
-  const options = {
+function transformFindInput(input: FindInput): FindManyOptions {
+  const result: FindManyOptions = {
     where: {},
   }
+  if (input?.skip) result['skip'] = input.skip
+  if (input?.take) result['take'] = input.take
+  if (input?.order) {
+    const order: TypeOrmOrder = {}
+    for (const item of input.order) {
+      order[item.column] = item.direction
+    }
+    result['order'] = order
+  }
+  if (input?.where) {
+    const where = {}
+    for (const item of input.where) {
+      switch (item.op) {
+        case 'Any':
+          where[item.column] = Any(item.value)
+          break
+        case 'Between':
+          if (item.value?.length != 2) throw Error('Operation Between requires two values')
+          where[item.column] = Between(item.value[0], item.value[1])
+          break
+        case 'Equal':
+          if (item.value?.length != 1) throw Error('Operation Equal requires one value')
+          where[item.column] = Equal(item.value[0])
+          break
+        case 'IsNull':
+          where[item.column] = IsNull()
+          break
+        case 'LessThan':
+          if (item.value?.length != 1) throw Error('Operation LessThan requires one value')
+          where[item.column] = LessThan(item.value[0])
+          break
+        case 'LessThanOrEqual':
+          if (item.value?.length != 1) throw Error('Operation LessThanOrEqual requires one value')
+          where[item.column] = LessThanOrEqual(item.value[0])
+          break
+        case 'Like':
+          if (item.value?.length != 1) throw Error('Operation Like requires one value')
+          where[item.column] = Like(item.value[0])
+          break
+        case 'MoreThan':
+          if (item.value?.length != 1) throw Error('Operation MoreThan requires one value')
+          where[item.column] = MoreThan(item.value[0])
+          break
+        case 'MoreThanOrEqual':
+          if (item.value?.length != 1) throw Error('Operation MoreThanOrEqual requires one value')
+          where[item.column] = MoreThanOrEqual(item.value[0])
+          break
+        case 'In':
+        default:
+          where[item.column] = In(item.value)
+      }
+    }
+    result['where'] = where
+  }
+  return result
+}
 
-  if (input?.issuer) options.where['issuer'] = In(input.issuer)
-  if (input?.audience) options.where['audience'] = In(input.audience)
-  if (input?.type) options.where['type'] = In(input.type)
-  if (input?.context) options.where['context'] = In(input.context)
-  if (input?.options?.skip) options['skip'] = input.options.skip
-  if (input?.options?.take) options['take'] = input.options.take
+export interface FindArgs {
+  input?: FindInput
+}
 
+const messages = async (_: any, args: FindArgs, ctx: Context) => {
+  return (await ctx.agent.dbConnection).getRepository(Message).find(transformFindInput(args.input))
+}
+const messagesCount = async (_: any, args: FindArgs, ctx: Context) => {
+  return (await ctx.agent.dbConnection).getRepository(Message).count(transformFindInput(args.input))
+}
+
+const presentations = async (_: any, args: FindArgs, ctx: Context) => {
+  const options = transformFindInput(args.input)
   return (await ctx.agent.dbConnection).getRepository(Presentation).find(options)
 }
 
-const credentials = async (
-  _: any,
-  {
-    input,
-  }: {
-    input?: {
-      options?: FindOptions
-      issuer?: string[]
-      subject?: string[]
-      type?: string[]
-      context?: string[]
-    }
-  },
-  ctx: Context,
-) => {
-  const options = {
-    where: {},
-  }
-
-  if (input?.issuer) options.where['issuer'] = In(input.issuer)
-  if (input?.subject) options.where['audience'] = In(input.subject)
-  if (input?.type) options.where['type'] = In(input.type)
-  if (input?.context) options.where['context'] = In(input.context)
-  if (input?.options?.skip) options['skip'] = input.options.skip
-  if (input?.options?.take) options['take'] = input.options.take
-
+const credentials = async (_: any, args: FindArgs, ctx: Context) => {
+  const options = transformFindInput(args.input)
   return (await ctx.agent.dbConnection).getRepository(Credential).find(options)
 }
 
-const claims = async (
-  _: any,
-  {
-    input,
-  }: {
-    input?: {
-      options?: FindOptions
-      issuer?: string[]
-      subject?: string[]
-      type?: string[]
-      value?: string[]
-    }
-  },
-  ctx: Context,
-) => {
-  const options = {
-    relations: ['credential'],
-    where: {},
-  }
-
-  if (input?.issuer) options.where['issuer'] = In(input.issuer)
-  if (input?.subject) options.where['subject'] = In(input.subject)
-  if (input?.type) options.where['type'] = In(input.type)
-  if (input?.value) options.where['value'] = In(input.value)
-  if (input?.options?.skip) options['skip'] = input.options.skip
-  if (input?.options?.take) options['take'] = input.options.take
-
+const claims = async (_: any, args: FindArgs, ctx: Context) => {
+  const options = transformFindInput(args.input)
+  options['relations'] = ['credential']
   return (await ctx.agent.dbConnection).getRepository(Claim).find(options)
 }
 
@@ -149,6 +159,7 @@ export const resolvers = {
     message: async (_: any, { id }, ctx: Context) =>
       (await ctx.agent.dbConnection).getRepository(Message).findOne(id),
     messages,
+    messagesCount,
     presentation: async (_: any, { hash }, ctx: Context) =>
       (await ctx.agent.dbConnection).getRepository(Presentation).findOne(hash),
     presentations,
@@ -167,54 +178,6 @@ export const resolvers = {
       (
         await (await ctx.agent.dbConnection).getRepository(Identity).findOne(identity.did)
       ).getLatestClaimValue(ctx.agent.dbConnection, { type: args.type }),
-    sentMessages: async (identity: Identity, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Identity)
-          .findOne(identity.did, { relations: ['sentMessages'] })
-      ).sentMessages,
-    receivedMessages: async (identity: Identity, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Identity)
-          .findOne(identity.did, { relations: ['receivedMessages'] })
-      ).receivedMessages,
-    issuedPresentations: async (identity: Identity, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Identity)
-          .findOne(identity.did, { relations: ['issuedPresentations'] })
-      ).issuedPresentations,
-    receivedPresentations: async (identity: Identity, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Identity)
-          .findOne(identity.did, { relations: ['receivedPresentations'] })
-      ).receivedPresentations,
-    issuedCredentials: async (identity: Identity, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Identity)
-          .findOne(identity.did, { relations: ['issuedCredentials'] })
-      ).issuedCredentials,
-    receivedCredentials: async (identity: Identity, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Identity)
-          .findOne(identity.did, { relations: ['receivedCredentials'] })
-      ).receivedCredentials,
-    issuedClaims: async (identity: Identity, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Identity)
-          .findOne(identity.did, { relations: ['issuedClaims'] })
-      ).issuedClaims,
-    receivedClaims: async (identity: Identity, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Identity)
-          .findOne(identity.did, { relations: ['receivedClaims'] })
-      ).receivedClaims,
   },
 
   Credential: {
@@ -274,35 +237,84 @@ export const resolvers = {
 }
 
 export const typeDefs = `
+  enum WhereOperation {
+    Not
+    LessThan
+    LessThanOrEqual
+    MoreThan
+    MoreThanOrEqual
+    Equal
+    Like
+    Between
+    In
+    Any
+    IsNull
+  }
+
+  enum OrderDirection {
+    ASC
+    DESC
+  }
+
+  enum MessagesColumns {
+    saveDate
+    updateDate
+    createdAt
+    expiresAt
+    threadId
+    type
+    replyTo
+    replyUrl
+    from
+    to
+  }
+
+  input MessagesWhere {
+    column: MessagesColumns!
+    value: [String]
+    op: WhereOperation
+  }
+
+  input MessagesOrder {
+    column: MessagesColumns!
+    direction: OrderDirection!
+  }
+
+  input MessagesInput {
+    where: [MessagesWhere]
+    order: [MessagesOrder]
+    take: Int
+    skip: Int
+  }
+
+  input OrderOptions {
+    field: String!
+    direction: OrderDirection!
+  }
 
   input FindOptions {
     take: Int
     skip: Int
+    order: [OrderOptions]
   }
 
   input IdentitiesInput {
     options: FindOptions
   }
 
-  input MessagesInput {
-    from: [String]
-    to: [String]
-    type: [String]
-    threadId: [String]
-    options: FindOptions
-  }
+
 
   input PresentationsInput {
-    issuer: [String]
-    audience: [String]
+    issuer: [ID]
+    audience: [ID]
     type: [String]
     context: [String]
     options: FindOptions
   }
 
   input CredentialsInput {
-    issuer: [String]
-    subject: [String]
+    issuer: [ID]
+    subject: [ID]
     type: [String]
     context: [String]
     options: FindOptions
@@ -321,6 +333,7 @@ export const typeDefs = `
     identities(input: IdentitiesInput): [Identity]
     message(id: ID!): Message
     messages(input: MessagesInput): [Message]
+    messagesCount(input: MessagesInput): Int
     presentation(hash: ID!): Presentation
     presentations(input: PresentationsInput): [Presentation]
     credential(hash: ID!): Credential
@@ -341,14 +354,6 @@ export const typeDefs = `
   extend type Identity {
     shortDid: String!
     latestClaimValue(type: String): String
-    sentMessages: [Message]
-    receivedMessages: [Message]
-    issuedPresentations: [Presentation]
-    receivedPresentations: [Presentation]
-    issuedCredentials: [Credential]
-    receivedCredentials: [Credential]
-    issuedClaims: [Claim]
-    receivedClaims: [Claim]
   }
 
   scalar Object
