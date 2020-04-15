@@ -414,7 +414,7 @@ export const typeDefs = `
 
 
   extend type Query {
-    identity(did: ID!): Identity
+    identity(did: String!): Identity
     identities(input: IdentitiesInput): [Identity]
     message(id: ID!): Message
     messages(input: MessagesInput): [Message]
