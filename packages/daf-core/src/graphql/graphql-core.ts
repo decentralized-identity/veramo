@@ -31,6 +31,7 @@ export interface Order {
 export interface Where {
   column: string
   value?: string[]
+  not?: boolean
   op?:
     | 'LessThan'
     | 'LessThanOrEqual'
@@ -108,6 +109,9 @@ function transformFindInput(input: FindInput): FindManyOptions {
         case 'In':
         default:
           where[item.column] = In(item.value)
+      }
+      if (item.not === true) {
+        where[item.column] = Not(where[item.column])
       }
     }
     result['where'] = where
@@ -272,6 +276,7 @@ export const typeDefs = `
   input MessagesWhere {
     column: MessagesColumns!
     value: [String]
+    not: Boolean
     op: WhereOperation
   }
 
@@ -287,46 +292,126 @@ export const typeDefs = `
     skip: Int
   }
 
-  input OrderOptions {
-    field: String!
+
+
+  enum IdentitiesColumns {
+    saveDate
+    updateDate
+    did
+    provider
+  }
+
+  input IdentitiesWhere {
+    column: IdentitiesColumns!
+    value: [String]
+    not: Boolean
+    op: WhereOperation
+  }
+
+  input IdentitiesOrder {
+    column: IdentitiesColumns!
     direction: OrderDirection!
   }
 
-  input FindOptions {
+  input IdentitiesInput {
+    where: [IdentitiesWhere]
+    order: [IdentitiesOrder]
     take: Int
     skip: Int
-    order: [OrderOptions]
-  }
-
-  input IdentitiesInput {
-    options: FindOptions
   }
 
 
+  enum PresentationsColumns {
+    id
+    issuanceDate
+    expirationDate
+    context
+    type
+    issuer
+    audience
+  }
+
+  input PresentationsWhere {
+    column: PresentationsColumns!
+    value: [String]
+    not: Boolean
+    op: WhereOperation
+  }
+
+  input PresentationsOrder {
+    column: PresentationsColumns!
+    direction: OrderDirection!
+  }
 
   input PresentationsInput {
-    issuer: [ID]
-    audience: [ID]
-    type: [String]
-    context: [String]
-    options: FindOptions
+    where: [PresentationsWhere]
+    order: [PresentationsOrder]
+    take: Int
+    skip: Int
+  }
+
+
+  enum CredentialsColumns {
+    id
+    issuanceDate
+    expirationDate
+    context
+    type
+    issuer
+    subject
+  }
+
+  input CredentialsWhere {
+    column: CredentialsColumns!
+    value: [String]
+    not: Boolean
+    op: WhereOperation
+  }
+
+  input CredentialsOrder {
+    column: CredentialsColumns!
+    direction: OrderDirection!
   }
 
   input CredentialsInput {
-    issuer: [ID]
-    subject: [ID]
-    type: [String]
-    context: [String]
-    options: FindOptions
+    where: [CredentialsWhere]
+    order: [CredentialsOrder]
+    take: Int
+    skip: Int
+  }
+
+
+  enum ClaimsColumns {
+    issuanceDate
+    expirationDate
+    context
+    credentialType
+    type
+    value
+    issuer
+    subject
+  }
+
+  input ClaimsWhere {
+    column: ClaimsColumns!
+    value: [String]
+    not: Boolean
+    op: WhereOperation
+  }
+
+  input ClaimsOrder {
+    column: ClaimsColumns!
+    direction: OrderDirection!
   }
 
   input ClaimsInput {
-    issuer: [ID]
-    subject: [ID]
-    type: [String]
-    value: [String]
-    options: FindOptions
+    where: [ClaimsWhere]
+    order: [ClaimsOrder]
+    take: Int
+    skip: Int
   }
+
+
 
   extend type Query {
     identity(did: ID!): Identity
@@ -354,6 +439,8 @@ export const typeDefs = `
   extend type Identity {
     shortDid: String!
     latestClaimValue(type: String): String
+    saveDate: Date!
+    updateDate: Date!
   }
 
   scalar Object
@@ -385,6 +472,7 @@ export const typeDefs = `
 
   type Presentation {
     hash: ID!
+    id: String
     raw: String!
     issuer: Identity!
     audience: Identity!
@@ -398,6 +486,7 @@ export const typeDefs = `
   
   type Credential {
     hash: ID!
+    id: String
     raw: String!
     issuer: Identity!
     subject: Identity
