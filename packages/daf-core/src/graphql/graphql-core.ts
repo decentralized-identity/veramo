@@ -135,15 +135,30 @@ const presentations = async (_: any, args: FindArgs, ctx: Context) => {
   return (await ctx.agent.dbConnection).getRepository(Presentation).find(options)
 }
 
+const presentationsCount = async (_: any, args: FindArgs, ctx: Context) => {
+  const options = transformFindInput(args.input)
+  return (await ctx.agent.dbConnection).getRepository(Presentation).count(options)
+}
+
 const credentials = async (_: any, args: FindArgs, ctx: Context) => {
   const options = transformFindInput(args.input)
   return (await ctx.agent.dbConnection).getRepository(Credential).find(options)
+}
+
+const credentialsCount = async (_: any, args: FindArgs, ctx: Context) => {
+  const options = transformFindInput(args.input)
+  return (await ctx.agent.dbConnection).getRepository(Credential).count(options)
 }
 
 const claims = async (_: any, args: FindArgs, ctx: Context) => {
   const options = transformFindInput(args.input)
   options['relations'] = ['credential']
   return (await ctx.agent.dbConnection).getRepository(Claim).find(options)
+}
+
+const claimsCount = async (_: any, args: FindArgs, ctx: Context) => {
+  const options = transformFindInput(args.input)
+  return (await ctx.agent.dbConnection).getRepository(Claim).count(options)
 }
 
 export const resolvers = {
@@ -167,12 +182,15 @@ export const resolvers = {
     presentation: async (_: any, { hash }, ctx: Context) =>
       (await ctx.agent.dbConnection).getRepository(Presentation).findOne(hash),
     presentations,
+    presentationsCount,
     credential: async (_: any, { hash }, ctx: Context) =>
       (await ctx.agent.dbConnection).getRepository(Credential).findOne(hash),
     credentials,
+    credentialsCount,
     claim: async (_: any, { hash }, ctx: Context) =>
       (await ctx.agent.dbConnection).getRepository(Claim).findOne(hash, { relations: ['credential'] }),
     claims,
+    claimsCount,
   },
 
   Identity: {
@@ -421,10 +439,13 @@ export const typeDefs = `
     messagesCount(input: MessagesInput): Int
     presentation(hash: ID!): Presentation
     presentations(input: PresentationsInput): [Presentation]
+    presentationsCount(input: PresentationsInput): Int
     credential(hash: ID!): Credential
     credentials(input: CredentialsInput): [Credential]
+    credentialsCount(input: CredentialsInput): Int
     claim(hash: ID!): Claim
     claims(input: ClaimsInput): [Claim]
+    claimsCount(input: ClaimsInput): Int
   }
 
   input MetaDataInput {
