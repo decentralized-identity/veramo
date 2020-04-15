@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryColumn, BaseEntity, OneToMany, ManyToMany } from 'typeorm'
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  BaseEntity,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm'
 import { Key } from './key'
 import { Message } from './message'
 import { Presentation } from './presentation'
@@ -13,6 +21,12 @@ export class Identity extends BaseEntity {
 
   @Column({ nullable: true })
   provider: string
+
+  @CreateDateColumn()
+  saveDate: Date
+
+  @UpdateDateColumn()
+  updateDate: Date
 
   @Column({ nullable: true })
   controllerKeyId: string

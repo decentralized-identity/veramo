@@ -94,6 +94,10 @@ export function createCredential(payload: VerifiableCredentialPayload, jwt: stri
 
   vc.raw = jwt
 
+  if (payload.jti) {
+    vc.id = payload.jti
+  }
+
   if (payload.nbf || payload.iat) {
     vc.issuanceDate = timestampToDate(payload.nbf || payload.iat)
   }
@@ -124,6 +128,10 @@ export function createPresentation(
   vp.audience.did = payload.aud
 
   vp.raw = jwt
+
+  if (payload.jti) {
+    vp.id = payload.jti
+  }
 
   if (payload.nbf || payload.iat) {
     vp.issuanceDate = timestampToDate(payload.nbf || payload.iat)

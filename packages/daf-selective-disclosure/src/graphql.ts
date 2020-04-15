@@ -95,7 +95,7 @@ export const typeDefs = `
   }
 
   extend type Message {
-    sdr(did: ID): [CredentialRequest]
+    sdr(did: String): [CredentialRequest]
   }
 
   extend type Mutation {

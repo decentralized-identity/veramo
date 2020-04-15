@@ -4,11 +4,13 @@ import {
   BaseEntity,
   ManyToOne,
   ManyToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from 'typeorm'
+import { blake2bHex } from 'blakejs'
 import { Identity } from './identity'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
@@ -30,7 +32,14 @@ export class Message extends BaseEntity {
     }
   }
 
-  @PrimaryGeneratedColumn('uuid')
+  @BeforeInsert()
+  setId() {
+    if (!this.id) {
+      this.id = blake2bHex(this.raw)
+    }
+  }
+
+  @PrimaryColumn()
   id: string
 
   @CreateDateColumn()

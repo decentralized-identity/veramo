@@ -117,8 +117,7 @@ console.log(`🚀  Server ready at ${info.url}`)
 ## Typescript
 
 ```typescript
-const providers = await core.identityManager.getIdentityProviders()
-const identity = await core.identityManager.createIdentity(providers[0].type)
+const identity = await agent.identityManager.createIdentity()
 ```
 
 ## GraphQL
@@ -346,10 +345,12 @@ const memberVc = memberClaims[0]?.credential
 
 ```typescript
 const input = {
-  issuer: ['did:ethr:567', 'did:ethr:659'],
-  subject: 'did:example:1234',
-  type: 'member',
-  value: 'status',
+  where: [
+    { column: 'issuer', value: ['did:ethr:567', 'did:ethr:659'] },
+    { column: 'subject', value: ['did:example:1234'] },
+    { column: 'type', value: ['member'] },
+    { column: 'value', value: ['status'] },
+  ],
 }
 ```
 
@@ -643,7 +644,7 @@ Fields
 import { Identity } from 'daf-core'
 const dbConnection = await agent.dbConnection
 const identity = await dbConnection.getRepository(Identity).findOne('did:example:123', {
-  relations: ['receivedClaims'],
+  relations: ['issuedClaims'],
 })
 
 console.log(identity.receivedClaims) // [Claim(type: 'name', value: 'Alice'), ...]
@@ -652,14 +653,19 @@ console.log(identity.receivedClaims) // [Claim(type: 'name', value: 'Alice'), ..
 ### GraphQL
 
 ```graphql
-query {
-  identity(did: "did:example:123") {
+query identity($did: String!) {
+  identity(did: $did) {
+    did
+    shortDid
     name: latestClaimValue(type: "name")
-    profileImage: latestClaimValue(type: "profileImage")
-    receivedClaims {
-      type
-      value
+    profilePicture: latestClaimValue(type: "profilePicture")
+  }
+  issuedClaims: claims(input: { where: [{ column: issuer, value: [$did] }] }) {
+    subject {
+      did
     }
+    type
+    value
   }
 }
 ```
@@ -702,7 +708,7 @@ const messages = await dbConnection.getRepository(Message).find({
 
 ```graphql
 query {
-  messages(input: { type: "sdr", options: { take: 5 } }) {
+  messages(input: { where: [{ column: type, value: "sdr" }], take: 5 }) {
     id
     from {
       did
@@ -747,7 +753,14 @@ const presentations = await dbConnection.getRepository(Presentation).find({
 
 ```graphql
 query {
-  presentations(input: { type: "VerifiablePresentation,KYC", issuer: "did:web:example.com" }) {
+  presentations(
+    input: {
+      where: [
+        { column: issuer, value: "did:web:example.com" }
+        { column: type, value: "VerifiablePresentation,KYC" }
+      ]
+    }
+  ) {
     audience {
       did
     }
@@ -801,7 +814,14 @@ const credentials = await dbConnection.getRepository(Credential).find({
 
 ```graphql
 query {
-  credentials(input: { subject: "did:web:example.com", expirationDateLessThan: "2020-12-12T10:00:00Z" }) {
+  credentials(
+    input: {
+      where: [
+        { column: subject, value: "did:web:example.com" }
+        { column: expirationDate, value: "2020-12-12T10:00:00Z", op: LessThan }
+      ]
+    }
+  ) {
     issuer {
       did
     }
@@ -870,7 +890,7 @@ console.log(claims)
 
 ```graphql
 query {
-  claims(input: { type: "address" }) {
+  claims(input: { where: [{ column: type, value: "address" }] }) {
     type
     value
     isObj

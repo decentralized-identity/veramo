@@ -93,6 +93,7 @@ export interface CredentialInput {
   '@context'?: string[]
   context?: string[]
   type: string[]
+  id?: string
   issuer: string
   expirationDate?: string
   credentialSubject: CredentialSubjectInput
@@ -102,6 +103,7 @@ export interface PresentationInput {
   '@context'?: string[]
   context?: string[]
   type: string[]
+  id?: string
   issuer: string
   audience: string
   tag?: string
@@ -115,12 +117,19 @@ const transformCredentialInput = (input: CredentialInput): VerifiableCredentialP
   delete credentialSubject.id
   const result: VerifiableCredentialPayload = {
     sub: input.credentialSubject.id,
-    // exp: input.expirationDate,
     vc: {
       '@context': input['@context'] || input['context'],
       type: input.type,
       credentialSubject,
     },
+  }
+
+  if (input.expirationDate) {
+    result['exp'] = new Date(input.expirationDate).getUTCSeconds()
+  }
+
+  if (input.id) {
+    result['jti'] = input.id
   }
 
   return result
@@ -130,12 +139,23 @@ const transformPresentationInput = (input: PresentationInput): PresentationPaylo
   // TODO validate input
   const result: PresentationPayload = {
     aud: input.audience,
-    // exp: input.expirationDate,
     vp: {
       '@context': input['@context'] || input['context'],
       type: input.type,
       verifiableCredential: input.verifiableCredential,
     },
+  }
+
+  if (input.expirationDate) {
+    result['exp'] = new Date(input.expirationDate).getUTCSeconds()
+  }
+
+  if (input.id) {
+    result['jti'] = input.id
+  }
+
+  if (input.tag) {
+    result['tag'] = input.tag
   }
 
   return result

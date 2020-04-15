@@ -4,7 +4,7 @@ export const baseTypeDefs = `
   type Mutation 
 
   type Identity {
-    did: ID!
+    did: String!
     provider: String
   }
 
