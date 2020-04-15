@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.43](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v4.0.0-beta.43) (2020-04-15)
+
+### Features
+
+- Changed DID type from ID to String ([55ccdd4](https://github.com/uport-project/daf/commit/55ccdd42f104bc93df4621a854719cb4723b3d89))
+
 # [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
 
 ### Bug Fixes

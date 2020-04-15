@@ -1,7 +1,7 @@
 {
   "name": "daf-selective-disclosure",
   "description": "DAF selective disclosure",
-  "version": "4.0.0-beta.42",
+  "version": "4.0.0-beta.43",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^4.0.0-beta.42",
-    "daf-data-store": "^4.0.0-beta.42",
-    "daf-did-jwt": "^4.0.0-beta.42",
+    "daf-core": "^4.0.0-beta.43",
+    "daf-data-store": "^4.0.0-beta.43",
+    "daf-did-jwt": "^4.0.0-beta.43",
     "debug": "^4.1.1",
     "did-jwt": "^4.0.0",
     "typeorm": "^0.2.24"

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.43](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v4.0.0-beta.43) (2020-04-15)
+
+### Features
+
+- Added id and tag fields ([0b62eaa](https://github.com/uport-project/daf/commit/0b62eaa30ceb2f79192a476ff9f6809cbe5b1ccf))
+- Changed DID type from ID to String ([55ccdd4](https://github.com/uport-project/daf/commit/55ccdd42f104bc93df4621a854719cb4723b3d89))
+- Default IdentityProvider ([39f2e39](https://github.com/uport-project/daf/commit/39f2e39685a58d647822aea73a8bb3f7fb76fe25))
+- Default IdentityProvider ([3334f6e](https://github.com/uport-project/daf/commit/3334f6edea1ebd51dde1b416b153294f4b945e4b))
+- Gql Not operator ([dd624c2](https://github.com/uport-project/daf/commit/dd624c29a103b6f2e279d1b853a26a040ba7d6a9))
+- Identity saveDate updateDate ([e845a84](https://github.com/uport-project/daf/commit/e845a841684fa092152bccc91cc1e582bae456c9))
+- WIP ([f491371](https://github.com/uport-project/daf/commit/f4913711ce4f9dc546bbf5ae29689b1d0ee95e14))
+
 # [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
 
 ### Bug Fixes
