@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.44](https://github.com/uport-project/daf/compare/v4.0.0-beta.43...v4.0.0-beta.44) (2020-04-15)
+
+### Features
+
+- GQL count queries ([9e859c1](https://github.com/uport-project/daf/commit/9e859c10c945a26c0a63b69acfbeee62f0bfaac3))
+
 # [4.0.0-beta.43](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v4.0.0-beta.43) (2020-04-15)
 
 ### Features
