@@ -50,6 +50,7 @@ export const typeDefs = `
   scalar CredentialSubject
 
   input SignCredentialInput {
+    id: String
     issuer: String!
     context: [String]!
     type: [String]!
@@ -57,6 +58,8 @@ export const typeDefs = `
   }
   
   input SignPresentationInput {
+    id: String
+    tag: String
     issuer: String!
     audience: String!
     context: [String]!
