@@ -1,5 +1,13 @@
 import { gql } from 'apollo-boost'
 
+export const createIdentity = gql`
+  mutation createIdentity($type: String) {
+    createIdentity(type: $type) {
+      did
+    }
+  }
+`
+
 export const deleteIdentity = gql`
   mutation deleteIdentity($type: String, $did: String) {
     deleteIdentity(type: $type, did: $did)
@@ -27,18 +35,10 @@ export const signSdrJwt = gql`
     signSdrJwt(data: $data)
   }
 `
-export const actionSendJwt = gql`
-  mutation actionSendJwt($from: String!, $to: String!, $jwt: String!) {
-    actionSendJwt(from: $from, to: $to, jwt: $jwt) {
+export const sendMessageDidCommAlpha1 = gql`
+  mutation sendMessageDidCommAlpha1($data: SendMessageDidCommAlpha1Input!, $url: String) {
+    sendMessageDidCommAlpha1(data: $data, url: $url, save: true) {
       id
-    }
-  }
-`
-
-export const createIdentity = gql`
-  mutation createIdentity($type: String) {
-    createIdentity(type: $type) {
-      did
     }
   }
 `

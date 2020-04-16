@@ -6,16 +6,16 @@ import './Credential.css'
 const S = require('sugar/string')
 
 interface Props {
-  iss: Types.Identity
-  sub: Types.Identity
+  issuer: Types.Identity
+  subject: Types.Identity
   onClick?: () => void
-  fields: Types.Field[]
+  claims: Types.Field[]
   detailMode?: Boolean
   jwt?: string
   selected?: boolean
 }
 
-const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub, selected }) => {
+const Component: React.FC<Props> = ({ onClick, detailMode, claims, jwt, issuer, subject, selected }) => {
   const detail = detailMode
     ? {}
     : { maxWidth: 350, style: { cursor: 'pointer' }, className: 'credential_hover' }
@@ -27,15 +27,15 @@ const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub
       <Box flexDirection={'row'} display={'flex'} alignItems={'center'}>
         <Avatar size={'40'} src={''} />
         <Box ml={2}>
-          <Text fontWeight={'bold'}>{iss.shortId}</Text>
+          <Text fontWeight={'bold'}>{issuer.shortId}</Text>
           <Box flexDirection={'row'} display={'flex'}>
             <Icon name={'PlayArrow'} />
-            <Text>{sub?.shortId}</Text>
+            <Text>{subject?.shortId}</Text>
           </Box>
         </Box>
       </Box>
       <Box mt={detailMode ? 30 : 16}>
-        {fields.map((field: any, i: number) => {
+        {claims.map((field: any, i: number) => {
           const fieldValueImage = !field.isObj
             ? field.value.endsWith('.jpg') || field.value.endsWith('.png')
             : false
@@ -56,7 +56,7 @@ const Component: React.FC<Props> = ({ onClick, detailMode, fields, jwt, iss, sub
             </Box>
           )
         })}
-        {!detailMode && fields.length > 2 && (
+        {!detailMode && claims.length > 2 && (
           <Box>
             <Text>...</Text>
           </Box>

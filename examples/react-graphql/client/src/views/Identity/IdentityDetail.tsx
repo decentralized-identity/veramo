@@ -3,7 +3,8 @@ import { Box, Heading, Button, Text } from 'rimble-ui'
 import { useParams, useHistory } from 'react-router-dom'
 import { AppContext } from '../../context/AppProvider'
 import { useMutation } from '@apollo/react-hooks'
-import * as queries from '../../queries'
+import * as queries from '../../gql/queries'
+import * as mutations from '../../gql/mutations'
 
 interface IdentityDetail {}
 
@@ -12,7 +13,7 @@ const Component: React.FC<IdentityDetail> = () => {
   let history = useHistory()
   const [appState, setDefaultDid] = useContext(AppContext)
   const { defaultDid } = appState
-  const [deleteIdentity] = useMutation(queries.deleteIdentity, {
+  const [deleteIdentity] = useMutation(mutations.deleteIdentity, {
     refetchQueries: [{ query: queries.managedIdentities }],
   })
 

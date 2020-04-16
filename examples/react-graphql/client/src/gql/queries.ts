@@ -2,26 +2,24 @@ import { gql } from 'apollo-boost'
 
 export const credential = gql`
   query credential($id: ID!) {
-    credential(id: $id) {
+    credential(hash: $id) {
       hash
-      rowId
-      iss {
-        did
-        shortId: shortDid
-        profileImage: latestClaimValue(type: "profileImage")
-      }
-      sub {
-        did
-        shortId: shortDid
-        profileImage: latestClaimValue(type: "profileImage")
-      }
-      jwt
-      nbf
-      iat
-      fields {
-        isObj
+      issuanceDate
+      expirationDate
+      claims {
         type
         value
+        isObj
+      }
+      issuer {
+        did
+        shortId: shortDid
+        profileImage: latestClaimValue(type: "profileImage")
+      }
+      subject {
+        did
+        shortId: shortDid
+        profileImage: latestClaimValue(type: "profileImage")
       }
     }
   }
@@ -44,8 +42,6 @@ export const allIdentities = gql`
       isManaged
       did
       shortId: shortDid
-      firstName
-      lastName
       profileImage: latestClaimValue(type: "profileImage")
     }
   }
@@ -59,7 +55,7 @@ export const managedIdentities = gql`
     }
     managedIdentities {
       did
-      type
+      provider
       shortId: shortDid
       profileImage: latestClaimValue(type: "profileImage")
     }
@@ -72,46 +68,31 @@ export const queryMessage = gql`
       id
       threadId
       type
-      timestamp
-      sdr(sub: $defaultDid) {
-        iss {
-          did {
-            did
-            shortId: shortDid
-            profileImage: latestClaimValue(type: "profileImage")
-          }
-          url
-        }
-        claimType
+      createdAt
+      sdr(did: $defaultDid) {
         reason
+        claimType
+        claimValue
         essential
-        vc {
-          hash
-          rowId
-          iss {
+        credentials {
+          issuer {
             did
             shortId: shortDid
             profileImage: latestClaimValue(type: "profileImage")
           }
-          sub {
-            did
-            shortId: shortDid
-            profileImage: latestClaimValue(type: "profileImage")
-          }
-          jwt
-          fields {
+          claims {
             type
             value
-            isObj
           }
+          raw
         }
       }
-      sender {
+      from {
         did
         shortId: shortDid
         profileImage: latestClaimValue(type: "profileImage")
       }
-      receiver {
+      to {
         did
         shortId: shortDid
         profileImage: latestClaimValue(type: "profileImage")
@@ -124,80 +105,73 @@ export const allMessages = gql`
   query allMessages($activeDid: String!) {
     identity(did: $activeDid) {
       did
-      messagesAll {
-        id
-        raw
-        data
-        threadId
-        type
-        timestamp
-        sender {
-          did
-          shortId: shortDid
-          profileImage: latestClaimValue(type: "profileImage")
-        }
-        sdr(sub: $activeDid) {
-          iss {
-            did {
-              did
-              shortId: shortDid
-              profileImage: latestClaimValue(type: "profileImage")
-            }
-            url
-          }
-          claimType
-          reason
-          essential
-          vc {
-            hash
-            rowId
-            iss {
-              did
-              shortId: shortDid
-              profileImage: latestClaimValue(type: "profileImage")
-            }
-            sub {
-              did
-              shortId: shortDid
-              profileImage: latestClaimValue(type: "profileImage")
-            }
-            jwt
-            fields {
-              type
-              value
-              isObj
-            }
-          }
-        }
-        receiver {
-          did
-          shortId: shortDid
-          profileImage: latestClaimValue(type: "profileImage")
-        }
-        vc {
-          rowId
-          hash
-          iss {
-            did
-            shortId: shortDid
-            profileImage: latestClaimValue(type: "profileImage")
-          }
-          sub {
-            did
-            shortId: shortDid
-            profileImage: latestClaimValue(type: "profileImage")
-          }
-          fields {
-            type
-            value
-            isObj
-          }
-        }
-        metaData {
+      profileImage: latestClaimValue(type: "profileImage")
+      name: latestClaimValue(type: "name")
+    }
+    receivedMessages: messages(input: { where: [{ column: to, value: [$activeDid] }] }) {
+      id
+      type
+      createdAt
+      credentials {
+        hash
+        claims {
           type
           value
-          id
+          isObj
         }
+        issuer {
+          did
+          shortId: shortDid
+          profileImage: latestClaimValue(type: "profileImage")
+        }
+        subject {
+          did
+          shortId: shortDid
+          profileImage: latestClaimValue(type: "profileImage")
+        }
+      }
+      from {
+        did
+        profileImage: latestClaimValue(type: "profileImage")
+        name: latestClaimValue(type: "name")
+      }
+      to {
+        did
+        profileImage: latestClaimValue(type: "profileImage")
+        name: latestClaimValue(type: "name")
+      }
+    }
+    sentMessages: messages(input: { where: [{ column: from, value: [$activeDid] }] }) {
+      id
+      type
+      createdAt
+      credentials {
+        hash
+        claims {
+          type
+          value
+          isObj
+        }
+        issuer {
+          did
+          shortId: shortDid
+          profileImage: latestClaimValue(type: "profileImage")
+        }
+        subject {
+          did
+          shortId: shortDid
+          profileImage: latestClaimValue(type: "profileImage")
+        }
+      }
+      from {
+        did
+        profileImage: latestClaimValue(type: "profileImage")
+        name: latestClaimValue(type: "name")
+      }
+      to {
+        did
+        profileImage: latestClaimValue(type: "profileImage")
+        name: latestClaimValue(type: "name")
       }
     }
   }

@@ -4,7 +4,8 @@ import Page from '../../layout/Page'
 import Panel from '../../components/Panel/Panel'
 import { AppContext } from '../../context/AppProvider'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import * as queries from '../../queries'
+import * as queries from '../../gql/queries'
+import * as mutations from '../../gql/mutations'
 
 declare global {
   interface Window {
@@ -21,29 +22,32 @@ const Component = () => {
   const [claimReason, updateClaimReason] = useState()
   const [claimTypeRequired, updateClaimTypeRequired] = useState(false)
   const [jwt, setJwt] = useState()
-  const [actionSendJwt] = useMutation(queries.actionSendJwt, {
+  const [sendMessageDidCommAlpha1] = useMutation(mutations.sendMessageDidCommAlpha1, {
     onCompleted: response => {
-      if (response?.actionSendJwt?.id) {
+      if (response?.sendMessageDidCommAlpha1?.id) {
         setIsSending(false)
         window.toastProvider.addMessage('Request sent!', { variant: 'success' })
       }
     },
   })
 
-  const [actionSignSDR] = useMutation(queries.signSdrJwt, {
+  const [actionSignSDR] = useMutation(mutations.signSdrJwt, {
     onCompleted: response => {
-      if (response && response.actionSignSDR) {
-        setJwt(response.actionSignSDR)
+      if (response && response.signSdrJwt) {
+        setJwt(response.signSdrJwt)
         setIsSending(true)
 
         if (receiver) {
           setIsSending(true)
 
-          actionSendJwt({
+          sendMessageDidCommAlpha1({
             variables: {
-              from: appState.defaultDid,
-              to: receiver,
-              jwt: response.signSdrJwt,
+              data: {
+                from: appState.defaultDid,
+                to: receiver,
+                type: 'jwt',
+                body: response.signSdrJwt,
+              },
             },
           })
         }

@@ -19,7 +19,7 @@ interface Props {
   /**
    * The timestamp for when this message was recieved or sent
    */
-  date: number
+  date: string
   /**
    * The activity that is taking place
    */
@@ -33,13 +33,13 @@ interface Props {
   /**
    * The issuer of this message item
    */
-  sender: Types.Identity
+  from: Types.Identity
 
   /**
    * The subject
    */
   showRequest: () => void
-  receiver: Types.Identity
+  to: Types.Identity
   attachments: any
   renderAttachments?: (attachmentItem: any, itemIndex: number) => React.ReactNode
 }
@@ -47,8 +47,8 @@ interface Props {
 const Component: React.FC<Props> = ({
   attachments,
   renderAttachments,
-  sender,
-  receiver,
+  from,
+  to,
   type,
   showRequest,
   date,
@@ -60,23 +60,23 @@ const Component: React.FC<Props> = ({
         <Box ml={2}>
           {type == 'sdr' ? (
             <Text>
-              <b>{sender.shortId}</b> requested information from <b>you</b>
+              <b>{from.shortId}</b> requested information from <b>you</b>
             </Text>
           ) : type == 'w3c.vc' ? (
             <Text>
-              <b>{sender.did === receiver?.did ? 'You' : sender.shortId}</b> issued a credential to
-              <b> {receiver ? receiver.shortId : 'yourself'}</b>
+              <b>{from.did === to?.did ? 'You' : from.shortId}</b> issued a credential to
+              <b> {to ? to.shortId : 'yourself'}</b>
             </Text>
           ) : (
             <Text>
-              <b>You</b> shared credentials with <b>{receiver ? receiver.shortId : 'yourself'}</b>
+              <b>You</b> shared credentials with <b>{to ? to.shortId : 'yourself'}</b>
             </Text>
           )}
         </Box>
       </Box>
       <Box ml={2} flexDirection={'row'} display={'flex'} py={2}>
         <Icon name={'Alarm'} color={'#555555'} mr={2} />
-        <Text color={'#555555'}>{formatDistanceToNow(date) + ' ago'}</Text>
+        <Text color={'#555555'}>{formatDistanceToNow(Date.parse(date)) + ' ago'}</Text>
       </Box>
       {type == 'sdr' && (
         <Box p={3}>

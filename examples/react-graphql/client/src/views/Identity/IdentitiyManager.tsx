@@ -4,7 +4,8 @@ import Page from '../../layout/Page'
 import Panel from '../../components/Panel/Panel'
 import Avatar from '../../components/Avatar/Avatar'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
-import * as queries from '../../queries'
+import * as queries from '../../gql/queries'
+import * as mutations from '../../gql/mutations'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { AppContext } from '../../context/AppProvider'
 
@@ -15,7 +16,7 @@ const Component = () => {
   const [appState, setDefaultDid] = useContext(AppContext)
   const { defaultDid } = appState
   const { data: managedIdentitiesData } = useQuery(queries.managedIdentities)
-  const [createIdentity] = useMutation(queries.createIdentity, {
+  const [createIdentity] = useMutation(mutations.createIdentity, {
     refetchQueries: [{ query: queries.managedIdentities }],
   })
 

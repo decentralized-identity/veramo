@@ -46,7 +46,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
     setValid(valid)
   }
 
-  const [actionSendJwt] = useMutation(mutations.actionSendJwt, {
+  const [sendMessageDidCommAlpha1] = useMutation(mutations.sendMessageDidCommAlpha1, {
     refetchQueries: [
       {
         query: queries.allMessages,
@@ -54,7 +54,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
       },
     ],
     onCompleted: response => {
-      if (response?.actionSendJwt?.id) {
+      if (response?.sendMessageDidCommAlpha1?.id) {
         updateSending(false)
         window.toastProvider.addMessage('Response sent!', { variant: 'success' })
         close()
@@ -69,11 +69,14 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
       if (response.signPresentationJwt) {
         updateSending(true)
 
-        actionSendJwt({
+        sendMessageDidCommAlpha1({
           variables: {
-            to: sender.did,
-            from: appState.defaultDid,
-            jwt: response.signPresentationJwt.raw,
+            data: {
+              to: sender.did,
+              from: appState.defaultDid,
+              type: 'jwt',
+              body: response.signPresentationJwt.raw,
+            },
           },
         })
       }
