@@ -77,6 +77,7 @@ export const typeDefs = `
 
   type CredentialRequest {
     issuers: [Issuer]
+    reason: String
     credentialType: String
     credentialContext: String
     claimType: String!
