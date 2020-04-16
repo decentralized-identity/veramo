@@ -1,5 +1,4 @@
 import * as Daf from 'daf-core'
-import * as DS from 'daf-data-store'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3cMessageHandler, W3cActionHandler, W3cGql } from 'daf-w3c'
 import { SdrMessageHandler, SdrActionHandler, SdrGql } from 'daf-selective-disclosure'
@@ -54,8 +53,6 @@ export const agent = new Daf.Agent({
   actionHandler,
 })
 
-const dataStore = new DS.DataStore()
-
 const server = new ApolloServer({
   typeDefs: [
     Daf.Gql.baseTypeDefs,
@@ -80,7 +77,7 @@ const server = new ApolloServer({
       throw Error('Auth error')
     }
 
-    return { agent, dataStore }
+    return { agent }
   },
   introspection: true,
 })

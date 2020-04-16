@@ -26,7 +26,7 @@ export const credential = gql`
 `
 
 export const identity = gql`
-  query identity($did: ID!) {
+  query identity($did: String!) {
     identity(did: $did) {
       did
       provider
@@ -94,7 +94,7 @@ export const actionSendJwt = gql`
 `
 
 export const allMessages = gql`
-  query allMessages($activeDid: ID!) {
+  query allMessages($activeDid: String!) {
     identity(did: $activeDid) {
       did
       messagesAll {

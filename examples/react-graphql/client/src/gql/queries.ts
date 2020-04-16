@@ -28,7 +28,7 @@ export const credential = gql`
 `
 
 export const identity = gql`
-  query identity($did: ID!) {
+  query identity($did: String!) {
     identity(did: $did) {
       did
       provider
@@ -67,7 +67,7 @@ export const managedIdentities = gql`
 `
 
 export const queryMessage = gql`
-  query message($id: ID!, $defaultDid: ID!) {
+  query message($id: ID!, $defaultDid: String!) {
     message(id: $id) {
       id
       threadId
@@ -121,7 +121,7 @@ export const queryMessage = gql`
 `
 
 export const allMessages = gql`
-  query allMessages($activeDid: ID!) {
+  query allMessages($activeDid: String!) {
     identity(did: $activeDid) {
       did
       messagesAll {

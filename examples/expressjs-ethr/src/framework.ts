@@ -10,7 +10,6 @@ import { SdrMessageHandler, SdrActionHandler } from 'daf-selective-disclosure'
 import { DIDCommMessageHandler, DIDCommActionHandler } from 'daf-did-comm'
 import { UrlMessageHandler } from 'daf-url'
 import { createConnection } from 'typeorm'
-import { DataStore } from 'daf-data-store'
 
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
