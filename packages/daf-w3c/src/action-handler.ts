@@ -125,7 +125,7 @@ const transformCredentialInput = (input: CredentialInput): VerifiableCredentialP
   }
 
   if (input.expirationDate) {
-    result['exp'] = new Date(input.expirationDate).getUTCSeconds()
+    result['exp'] = Date.parse(input.expirationDate) / 1000
   }
 
   if (input.id) {
@@ -147,7 +147,7 @@ const transformPresentationInput = (input: PresentationInput): PresentationPaylo
   }
 
   if (input.expirationDate) {
-    result['exp'] = new Date(input.expirationDate).getUTCSeconds()
+    result['exp'] = Date.parse(input.expirationDate) / 1000
   }
 
   if (input.id) {

@@ -51,6 +51,7 @@ export const typeDefs = `
 
   input SignCredentialInput {
     id: String
+    expirationDate: Date
     issuer: String!
     context: [String]!
     type: [String]!
@@ -59,6 +60,7 @@ export const typeDefs = `
   
   input SignPresentationInput {
     id: String
+    expirationDate: Date
     tag: String
     issuer: String!
     audience: String!
