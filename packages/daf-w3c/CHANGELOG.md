@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.45](https://github.com/uport-project/daf/compare/v4.0.0-beta.44...v4.0.0-beta.45) (2020-04-16)
+
+### Bug Fixes
+
+- Expiration Date ([c7212f9](https://github.com/uport-project/daf/commit/c7212f97cee76dcb83ee748e934abb4b793b4640))
+
 # [4.0.0-beta.44](https://github.com/uport-project/daf/compare/v4.0.0-beta.43...v4.0.0-beta.44) (2020-04-15)
 
 **Note:** Version bump only for package daf-w3c
