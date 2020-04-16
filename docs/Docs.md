@@ -502,7 +502,7 @@ console.log(message.type) // w3c.vp
 ## GraphQL
 
 ```graphql
-mutation sendMessageDidCommAlpha1($data: SendMessageInput!, $url: String) {
+mutation sendMessageDidCommAlpha1($data: SendMessageDidCommAlpha1Input!, $url: String) {
   sendMessageDidCommAlpha1(data: $data, url: $url, save: true) {
     id
   }
