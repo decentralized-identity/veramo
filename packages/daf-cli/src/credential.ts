@@ -1,7 +1,7 @@
 import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as DIDComm from 'daf-did-comm'
-import { agent, dataStore } from './setup'
+import { agent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
@@ -98,7 +98,7 @@ program
       process.exit()
     }
 
-    const dids = await dataStore.allIdentities()
+    const ids = await Daf.Identity.find()
 
     const identities = [
       {
@@ -106,11 +106,11 @@ program
         value: 'manual',
       },
     ]
-    for (const did of dids) {
-      const shortId = await dataStore.shortId(did.did)
+    for (const id of ids) {
+      const name = await id.getLatestClaimValue(agent.dbConnection, { type: 'name'})
       identities.push({
-        value: did.did,
-        name: `${did.did} - ${shortId}`,
+        value: id.did,
+        name: `${id.did} - ${name}`,
       })
     }
 
@@ -148,19 +148,21 @@ program
       aud = answers.aud
     }
 
-    const credentials = await dataStore.findCredentials({ sub: answers.iss })
+    const credentials = await Daf.Credential.find({ 
+      where: { subject: answers.iss}, 
+      relations: ['claims'] 
+    })
     const list: any = []
     if (credentials.length > 0) {
       for (const credential of credentials) {
-        const fields = await dataStore.credentialsFieldsForClaimHash(credential.hash)
-        const issuer = await dataStore.shortId(credential.iss.did)
+        const issuer = credential.issuer.shortDid()
         const claims = []
-        for (const field of fields) {
-          claims.push(field.type + ' = ' + field.value)
+        for (const claim of credential.claims) {
+          claims.push(claim.type + ' = ' + claim.value)
         }
         list.push({
           name: claims.join(', ') + ' | Issuer: ' + issuer,
-          value: credential.jwt,
+          value: credential.raw,
         })
       }
 

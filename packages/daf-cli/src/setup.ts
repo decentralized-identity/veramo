@@ -13,7 +13,6 @@ import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
 import { UrlMessageHandler } from 'daf-url'
 import { createConnection } from 'typeorm'
 
-import { DataStore } from 'daf-data-store'
 import ws from 'ws'
 
 const defaultPath = process.env.HOME + '/.daf/'
@@ -82,5 +81,3 @@ export const agent = new Daf.Agent({
   messageHandler,
   actionHandler,
 })
-
-export const dataStore = new DataStore()

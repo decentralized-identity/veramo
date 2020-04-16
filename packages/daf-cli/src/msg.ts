@@ -1,5 +1,5 @@
 import * as Daf from 'daf-core'
-import { agent, dataStore } from './setup'
+import { agent } from './setup'
 import program from 'commander'
 
 program

@@ -1,5 +1,5 @@
 import { EventTypes, Message } from 'daf-core'
-import { agent, dataStore } from './setup'
+import { agent } from './setup'
 import program from 'commander'
 import { setInterval } from 'timers'
 
@@ -18,11 +18,11 @@ export const listen = async (pollSeconds?: number) => {
 
   await agent.setupServices()
   await agent.listen()
-  await agent.getMessagesSince(await dataStore.latestMessageTimestamps())
+  await agent.getMessagesSince([])
 
   if (pollSeconds) {
     setInterval(async () => {
-      await agent.getMessagesSince(await dataStore.latestMessageTimestamps())
+      await agent.getMessagesSince([])
     }, pollSeconds * 1000)
   }
 }

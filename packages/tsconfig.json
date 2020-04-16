@@ -3,7 +3,6 @@
   "references": [
     { "path": "daf-cli" },
     { "path": "daf-core" },
-    { "path": "daf-data-store" },
     { "path": "daf-did-comm" },
     { "path": "daf-did-jwt" },
     { "path": "daf-ethr-did" },
