@@ -127,6 +127,64 @@ program
       addMoreRequests = answers4.addMore
     }
 
+    const answers5 = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'addCredentials',
+        message: 'Add profile credentials?',
+        choices: [
+          { name: 'Yes', value: true },
+          { name: 'No', value: false },
+        ],
+      },
+    ])
+
+    const credentials = []
+    if (answers5.addCredentials) {
+      const vcs = await Daf.Credential.find({
+        where: { subject: answers.iss },
+        relations: ['claims'],
+      })
+      const list: any = []
+      if (vcs.length > 0) {
+        for (const credential of vcs) {
+          const issuer = credential.issuer.shortDid()
+          const claims = []
+          for (const claim of credential.claims) {
+            claims.push(claim.type + ' = ' + claim.value)
+          }
+          list.push({
+            name: claims.join(', ') + ' | Issuer: ' + issuer,
+            value: credential.raw,
+          })
+        }
+
+        let addMoreCredentials = true
+
+        while (addMoreCredentials) {
+          const answers6 = await inquirer.prompt([
+            {
+              type: 'list',
+              name: 'credential',
+              choices: list,
+              message: 'Select credential',
+            },
+            {
+              type: 'list',
+              name: 'addMore',
+              message: 'Add another credential?',
+              choices: [
+                { name: 'Yes', value: true },
+                { name: 'No', value: false },
+              ],
+            },
+          ])
+          credentials.push(answers6.credential)
+          addMoreCredentials = answers6.addMore
+        }
+      }
+    }
+
     const signAction: SD.ActionSignSdr = {
       type: SD.ActionTypes.signSdr,
       data: {
@@ -134,6 +192,7 @@ program
         subject: answers.sub === '' ? undefined : answers.sub,
         tag: answers.tag === '' ? undefined : answers.tag,
         claims,
+        credentials,
       },
     }
 

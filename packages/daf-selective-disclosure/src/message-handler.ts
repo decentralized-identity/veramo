@@ -33,6 +33,26 @@ export class SdrMessageHandler extends AbstractMessageHandler {
 
       message.threadId = message.data.tag
       message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat)
+
+      if (
+        message.data.credentials &&
+        Array.isArray(message.data.credentials) &&
+        message.data.credentials.length > 0
+      ) {
+        debug('Verifying included credentials')
+        message.credentials = []
+        for (const raw of message.data.credentials) {
+          try {
+            const tmpMessage = await agent.handleMessage({ raw, save: false })
+            if (tmpMessage.credentials) {
+              message.credentials = [...message.credentials, ...tmpMessage.credentials]
+            }
+          } catch (e) {
+            // Unsupported message type, or some other error
+            debug(e)
+          }
+        }
+      }
       return message
     }
 
