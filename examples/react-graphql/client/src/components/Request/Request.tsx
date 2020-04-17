@@ -11,8 +11,8 @@ import * as queries from '../../gql/queries'
 const S = require('sugar/string')
 
 interface Props {
-  sender: Types.Identity
-  receiver: Types.Identity
+  from: Types.Identity
+  to: Types.Identity
   threadId: string
   sdr: any
   close: () => void
@@ -25,7 +25,8 @@ interface ValidationState {
   }
 }
 
-const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) => {
+const Component: React.FC<Props> = ({ sdr, from, to, threadId, close }) => {
+  console.log({ sdr, from, to, threadId, close })
   const [sending, updateSending] = useState<boolean>(false)
   const [selected, updateSelected] = useState<ValidationState>({})
   const [formValid, setValid] = useState(true)
@@ -72,7 +73,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
         sendMessageDidCommAlpha1({
           variables: {
             data: {
-              to: sender.did,
+              to: from.did,
               from: appState.defaultDid,
               type: 'jwt',
               body: response.signPresentationJwt.raw,
@@ -93,7 +94,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
         variables: {
           data: {
             issuer: appState.defaultDid,
-            audience: sender.did,
+            audience: from.did,
             tag: threadId,
             context: ['https://www.w3.org/2018/credentials/v1'],
             type: ['VerifiablePresentation'],
@@ -143,7 +144,7 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
   const isSelected = (jwt: string, claimtype: string): Boolean => {
     return selected[claimtype] && selected[claimtype].jwt === jwt
   }
-  console.log({ sender })
+  console.log({ from })
   return (
     <Box borderRadius={5} overflow={'hidden'} border={1} borderColor={'#333333'} bg={'#222222'}>
       <Box
@@ -154,13 +155,13 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
         flex={1}
         py={4}
       >
-        <Avatar size={60} did={sender.did} source={sender.profileImage} type={'circle'} />
+        <Avatar size={60} did={from.did} source={from.profileImage} type={'circle'} />
         <Heading as={'h3'} mt={2}>
-          {sender.shortId}
+          {from.shortId}
         </Heading>
       </Box>
       <Box bg={'#1b1b1b'} p={3}>
-        <Text>Share your data with {sender.shortId}</Text>
+        <Text>Share your data with {from.shortId}</Text>
       </Box>
       {sdr.map((requestItem: any) => {
         return (
@@ -174,17 +175,17 @@ const Component: React.FC<Props> = ({ sdr, sender, receiver, threadId, close }) 
               <Text>{requestItem.reason}</Text>
             </Box>
             <Box pt={3}>
-              {requestItem.vc.map((credential: any) => {
+              {requestItem.credentials.map((credential: any) => {
                 return (
                   <Credential
-                    selected={isSelected(credential.jwt, requestItem.claimType)}
+                    selected={isSelected(credential.raw, requestItem.claimType)}
                     key={credential.hash}
                     {...credential}
-                    onClick={() => onSelectItem(credential.hash, credential.jwt, requestItem.claimType)}
+                    onClick={() => onSelectItem(credential.hash, credential.raw, requestItem.claimType)}
                   />
                 )
               })}
-              {requestItem.vc.length === 0 && (
+              {requestItem.credentials.length === 0 && (
                 <Text>
                   Cannot find a credential for <b>{S.String.titleize(requestItem.claimType)}</b>
                 </Text>

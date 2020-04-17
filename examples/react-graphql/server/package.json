@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/lodash.merge": "^4.6.6",
     "apollo-server": "^2.9.16",
     "daf-core": "../../../packages/daf-core",
     "daf-did-comm": "../../../packages/daf-did-comm",
@@ -18,12 +19,12 @@
     "daf-ethr-did": "../../../packages/daf-ethr-did",
     "daf-libsodium": "../../../packages/daf-libsodium",
     "daf-resolver": "../../../packages/daf-resolver",
-    "daf-trust-graph": "../../../packages/daf-trust-graph",
+    "daf-selective-disclosure": "../../../packages/daf-selective-disclosure",
     "daf-w3c": "../../../packages/daf-w3c",
     "graphql": "^14.5.8",
     "lodash.merge": "^4.6.2",
-    "typeorm": "^0.2.24",
-    "ws": "^7.2.1"
+    "sqlite3": "^4.1.1",
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "ts-node": "^8.6.2",

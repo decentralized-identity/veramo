@@ -3,14 +3,11 @@ import { JwtMessageHandler } from 'daf-did-jwt'
 import { DIDCommActionHandler, DIDCommMessageHandler, DIDCommGql } from 'daf-did-comm'
 import { W3cMessageHandler, W3cActionHandler, W3cGql } from 'daf-w3c'
 import { SdrMessageHandler, SdrActionHandler, SdrGql } from 'daf-selective-disclosure'
-import { TrustGraphServiceController, TrustGraphGql, TrustGraphActionHandler } from 'daf-trust-graph'
-import { UrlMessageHandler } from 'daf-url'
 import * as DafEthrDid from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
 import { DafResolver } from 'daf-resolver'
 import { ApolloServer } from 'apollo-server'
 import merge from 'lodash.merge'
-import ws from 'ws'
 import { createConnection } from 'typeorm'
 
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -34,9 +31,8 @@ const identityProviders = [
   }),
 ]
 
-const messageHandler = new UrlMessageHandler()
+const messageHandler = new DIDCommMessageHandler()
 messageHandler
-  .setNext(new DIDCommMessageHandler())
   .setNext(new JwtMessageHandler())
   .setNext(new W3cMessageHandler())
   .setNext(new SdrMessageHandler())
