@@ -1,7 +1,7 @@
 {
   "name": "daf-resolver-universal",
   "description": "DAF universal resolver",
-  "version": "4.0.0-beta.46",
+  "version": "4.0.0-beta.47",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

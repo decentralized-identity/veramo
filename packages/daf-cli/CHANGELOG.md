@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.47](https://github.com/uport-project/daf/compare/v4.0.0-beta.46...v4.0.0-beta.47) (2020-04-17)
+
+### Features
+
+- Handling credentials in SDR message ([32d4a2c](https://github.com/uport-project/daf/commit/32d4a2c95bde9ec9f4f99679f00ef71f00aa1896))
+
 # [4.0.0-beta.46](https://github.com/uport-project/daf/compare/v4.0.0-beta.45...v4.0.0-beta.46) (2020-04-17)
 
 ### Bug Fixes
