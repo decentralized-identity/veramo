@@ -629,25 +629,16 @@ Fields
 
 - did
 - provider
-- sentMessages
-- receivedMessages
-- issuedPresentations
-- receivedPresentations
-- issuedCredentials
-- receivedCredentials
-- issuedClaims
-- receivedClaims
 
 ### Typescript
 
 ```typescript
-import { Identity } from 'daf-core'
+import { Identity, Claim } from 'daf-core'
 const dbConnection = await agent.dbConnection
-const identity = await dbConnection.getRepository(Identity).findOne('did:example:123', {
-  relations: ['issuedClaims'],
-})
-
-console.log(identity.receivedClaims) // [Claim(type: 'name', value: 'Alice'), ...]
+const identity = await dbConnection.getRepository(Identity).findOne('did:example:123')
+const name = await identity.getLatestClaimValue(agent.dbConnection, { type: 'name' })
+const profilePicture = await identity.getLatestClaimValue(agent.dbConnection, { type: 'profilePicture' })
+const issuedClaims = await dbConnection.getRepository(Claim).find({ where: { issuer: identity.did } })
 ```
 
 ### GraphQL
