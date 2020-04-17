@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.46](https://github.com/uport-project/daf/compare/v4.0.0-beta.45...v4.0.0-beta.46) (2020-04-17)
+
+### Bug Fixes
+
+- Using cross-fetch in did-comm ([2a931ff](https://github.com/uport-project/daf/commit/2a931ff46666ca66da2544266cb0ad0a12e2dada))
+
 # [4.0.0-beta.45](https://github.com/uport-project/daf/compare/v4.0.0-beta.44...v4.0.0-beta.45) (2020-04-16)
 
 **Note:** Version bump only for package daf-did-comm

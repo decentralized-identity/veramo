@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.46](https://github.com/uport-project/daf/compare/v4.0.0-beta.45...v4.0.0-beta.46) (2020-04-17)
+
+### Bug Fixes
+
+- React-graphql using new api ([fe53366](https://github.com/uport-project/daf/commit/fe533669de3ff882a9c23357ba2eed35e432d493))
+- Remove daf-data-store from packages ([f3bc819](https://github.com/uport-project/daf/commit/f3bc8192ff7f5418544ea44a8d4d86bff7b8fd1e))
+- Removing daf-data-store from examples ([7c74e18](https://github.com/uport-project/daf/commit/7c74e184df6f5d2c1d0872b9db86da51365b5e47))
+- SDR GQL reason ([ae23c88](https://github.com/uport-project/daf/commit/ae23c8886b59d07f5891d4c2973abfc90f069e3b))
+- Using cross-fetch in did-comm ([2a931ff](https://github.com/uport-project/daf/commit/2a931ff46666ca66da2544266cb0ad0a12e2dada))
+
 # [4.0.0-beta.45](https://github.com/uport-project/daf/compare/v4.0.0-beta.44...v4.0.0-beta.45) (2020-04-16)
 
 ### Bug Fixes

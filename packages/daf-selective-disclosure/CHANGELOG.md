@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.46](https://github.com/uport-project/daf/compare/v4.0.0-beta.45...v4.0.0-beta.46) (2020-04-17)
+
+### Bug Fixes
+
+- Remove daf-data-store from packages ([f3bc819](https://github.com/uport-project/daf/commit/f3bc8192ff7f5418544ea44a8d4d86bff7b8fd1e))
+- SDR GQL reason ([ae23c88](https://github.com/uport-project/daf/commit/ae23c8886b59d07f5891d4c2973abfc90f069e3b))
+
 # [4.0.0-beta.45](https://github.com/uport-project/daf/compare/v4.0.0-beta.44...v4.0.0-beta.45) (2020-04-16)
 
 **Note:** Version bump only for package daf-selective-disclosure
