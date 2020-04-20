@@ -9,6 +9,7 @@ import { ActionHandler } from './action/action-handler'
 import { Action } from './types'
 import { Message, MetaData } from './entities/message'
 import { Connection } from 'typeorm'
+import { verifyJWT } from 'did-jwt'
 
 import Debug from 'debug'
 const debug = Debug('daf:agent')
@@ -34,6 +35,7 @@ interface Config {
 
 export class Agent extends EventEmitter {
   readonly dbConnection: Promise<Connection>
+  readonly authentication?: boolean
   public identityManager: IdentityManager
   public didResolver: Resolver
   private serviceManager: ServiceManager
