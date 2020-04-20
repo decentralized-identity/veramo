@@ -11,6 +11,8 @@ import {
   Any,
   IsNull,
   FindManyOptions,
+  SelectQueryBuilder,
+  Brackets,
 } from 'typeorm'
 import { Agent } from '../agent'
 import { Message } from '../entities/message'
@@ -21,6 +23,7 @@ import { Identity } from '../entities/identity'
 
 export interface Context {
   agent: Agent
+  authenticatedDid?: string
 }
 
 export interface Order {
@@ -55,19 +58,7 @@ interface TypeOrmOrder {
   [x: string]: 'ASC' | 'DESC'
 }
 
-function transformFindInput(input: FindInput): FindManyOptions {
-  const result: FindManyOptions = {
-    where: {},
-  }
-  if (input?.skip) result['skip'] = input.skip
-  if (input?.take) result['take'] = input.take
-  if (input?.order) {
-    const order: TypeOrmOrder = {}
-    for (const item of input.order) {
-      order[item.column] = item.direction
-    }
-    result['order'] = order
-  }
+function createWhereObject(input: FindInput): any {
   if (input?.where) {
     const where = {}
     for (const item of input.where) {
@@ -113,10 +104,35 @@ function transformFindInput(input: FindInput): FindManyOptions {
       if (item.not === true) {
         where[item.column] = Not(where[item.column])
       }
+      return where
     }
-    result['where'] = where
   }
-  return result
+}
+
+function decorateQB(
+  qb: SelectQueryBuilder<any>,
+  tablename: string,
+  input: FindInput,
+): SelectQueryBuilder<any> {
+  if (input?.skip) qb = qb.skip(input.skip)
+  if (input?.take) qb = qb.take(input.take)
+
+  if (input?.order) {
+    for (const item of input.order) {
+      qb = qb.orderBy(`${qb.connection.driver.escape(tablename)}.${qb.connection.driver.escape(item.column)}`, item.direction)
+    }
+  }
+  return qb
+}
+
+function checkAuthIdentity(did: string, authenticatedDid?: string): boolean {
+  if (!authenticatedDid) {
+    return true
+  }
+  if (authenticatedDid !== did) {
+    throw new Error('can not access restricted properties of another identity')
+  }
+  return true
 }
 
 export interface FindArgs {
@@ -124,41 +140,172 @@ export interface FindArgs {
 }
 
 const messages = async (_: any, args: FindArgs, ctx: Context) => {
-  return (await ctx.agent.dbConnection).getRepository(Message).find(transformFindInput(args.input))
+  const where = createWhereObject(args.input)
+  let qb = (await ctx.agent.dbConnection)
+    .getRepository(Message)
+    .createQueryBuilder('message')
+    .leftJoinAndSelect('message.from', 'from')
+    .leftJoinAndSelect('message.to', 'to')
+    .where(where)
+  qb = decorateQB(qb, 'message', args.input)
+  if (ctx.authenticatedDid) {
+    qb = qb.andWhere(
+      new Brackets(qb => {
+        qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
+          ident: ctx.authenticatedDid,
+        })
+      }),
+    )
+  }
+  return qb.getMany()
 }
 const messagesCount = async (_: any, args: FindArgs, ctx: Context) => {
-  return (await ctx.agent.dbConnection).getRepository(Message).count(transformFindInput(args.input))
+  const where = createWhereObject(args.input)
+  let qb = (await ctx.agent.dbConnection)
+    .getRepository(Message)
+    .createQueryBuilder('message')
+    .leftJoinAndSelect('message.from', 'from')
+    .leftJoinAndSelect('message.to', 'to')
+    .where(where)
+  qb = decorateQB(qb, 'message', args.input)
+  if (ctx.authenticatedDid) {
+    qb = qb.andWhere(
+      new Brackets(qb => {
+        qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
+          ident: ctx.authenticatedDid,
+        })
+      }),
+    )
+  }
+  return (await qb.select('COUNT(message.id)').getRawOne())['COUNT("message"."id")']
 }
 
 const presentations = async (_: any, args: FindArgs, ctx: Context) => {
-  const options = transformFindInput(args.input)
-  return (await ctx.agent.dbConnection).getRepository(Presentation).find(options)
+  const where = createWhereObject(args.input)
+  let qb = (await ctx.agent.dbConnection)
+    .getRepository(Presentation)
+    .createQueryBuilder('presentation')
+    .leftJoinAndSelect('presentation.issuer', 'issuer')
+    .leftJoinAndSelect('presentation.audience', 'audience')
+    .where(where)
+  qb = decorateQB(qb, 'presentation', args.input)
+  if (ctx.authenticatedDid) {
+    qb = qb.andWhere(
+      new Brackets(qb => {
+        qb.where('presentation.audience = :ident', {
+          ident: ctx.authenticatedDid,
+        }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
+      }),
+    )
+  }
+  return qb.getMany()
 }
 
 const presentationsCount = async (_: any, args: FindArgs, ctx: Context) => {
-  const options = transformFindInput(args.input)
-  return (await ctx.agent.dbConnection).getRepository(Presentation).count(options)
+  const where = createWhereObject(args.input)
+  let qb = (await ctx.agent.dbConnection)
+    .getRepository(Presentation)
+    .createQueryBuilder('presentation')
+    .leftJoinAndSelect('presentation.issuer', 'issuer')
+    .leftJoinAndSelect('presentation.audience', 'audience')
+    .where(where)
+  qb = decorateQB(qb, 'presentation', args.input)
+  if (ctx.authenticatedDid) {
+    qb = qb.andWhere(
+      new Brackets(qb => {
+        qb.where('presentation.audience = :ident', {
+          ident: ctx.authenticatedDid,
+        }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
+      }),
+    )
+  }
+  return qb.select('COUNT(presentation.hash)').getRawOne()
 }
 
 const credentials = async (_: any, args: FindArgs, ctx: Context) => {
-  const options = transformFindInput(args.input)
-  return (await ctx.agent.dbConnection).getRepository(Credential).find(options)
+  const where = createWhereObject(args.input)
+  let qb = (await ctx.agent.dbConnection)
+    .getRepository(Credential)
+    .createQueryBuilder('credential')
+    .leftJoinAndSelect('credential.issuer', 'issuer')
+    .leftJoinAndSelect('credential.subject', 'subject')
+    .where(where)
+  qb = decorateQB(qb, 'credential', args.input)
+  if (ctx.authenticatedDid) {
+    qb = qb.andWhere(
+      new Brackets(qb => {
+        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('credential.issuer = :ident', {
+          ident: ctx.authenticatedDid,
+        })
+      }),
+    )
+  }
+  return qb.getMany()
 }
 
 const credentialsCount = async (_: any, args: FindArgs, ctx: Context) => {
-  const options = transformFindInput(args.input)
-  return (await ctx.agent.dbConnection).getRepository(Credential).count(options)
+  const where = createWhereObject(args.input)
+  let qb = (await ctx.agent.dbConnection)
+    .getRepository(Credential)
+    .createQueryBuilder('credential')
+    .leftJoinAndSelect('credential.issuer', 'issuer')
+    .leftJoinAndSelect('credential.subject', 'subject')
+    .where(where)
+  qb = decorateQB(qb, 'credential', args.input)
+  if (ctx.authenticatedDid) {
+    qb = qb.andWhere(
+      new Brackets(qb => {
+        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('credential.issuer = :ident', {
+          ident: ctx.authenticatedDid,
+        })
+      }),
+    )
+  }
+  return qb.select('COUNT(credential.hash)').getRawOne()
 }
 
 const claims = async (_: any, args: FindArgs, ctx: Context) => {
-  const options = transformFindInput(args.input)
-  options['relations'] = ['credential']
-  return (await ctx.agent.dbConnection).getRepository(Claim).find(options)
+  const where = createWhereObject(args.input)
+  let qb = (await ctx.agent.dbConnection)
+    .getRepository(Claim)
+    .createQueryBuilder('claim')
+    .leftJoinAndSelect('claim.issuer', 'issuer')
+    .leftJoinAndSelect('claim.subject', 'subject')
+    .where(where)
+  qb = decorateQB(qb, 'claim', args.input)
+  qb = qb.leftJoinAndSelect('claim.credential', 'credential')
+  if (ctx.authenticatedDid) {
+    qb = qb.andWhere(
+      new Brackets(qb => {
+        qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('claim.issuer = :ident', {
+          ident: ctx.authenticatedDid,
+        })
+      }),
+    )
+  }
+  return qb.getMany()
 }
 
 const claimsCount = async (_: any, args: FindArgs, ctx: Context) => {
-  const options = transformFindInput(args.input)
-  return (await ctx.agent.dbConnection).getRepository(Claim).count(options)
+  const where = createWhereObject(args.input)
+  let qb = (await ctx.agent.dbConnection)
+    .getRepository(Claim)
+    .createQueryBuilder('claim')
+    .leftJoinAndSelect('claim.issuer', 'issuer')
+    .leftJoinAndSelect('claim.subject', 'subject')
+    .where(where)
+  qb = decorateQB(qb, 'claim', args.input)
+  qb = qb.leftJoinAndSelect('claim.credential', 'credential')
+  if (ctx.authenticatedDid) {
+    qb = qb.andWhere(
+      new Brackets(qb => {
+        qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('claim.issuer = :ident', {
+          ident: ctx.authenticatedDid,
+        })
+      }),
+    )
+  }
+  return qb.select('COUNT(claim.hash)').getRawOne()
 }
 
 export const resolvers = {
@@ -167,28 +314,100 @@ export const resolvers = {
       _: any,
       args: { raw: string; metaData?: [{ type: string; value?: string }]; save: boolean },
       ctx: Context,
-    ) => ctx.agent.handleMessage(args),
+    ) => {
+      return ctx.agent.handleMessage(args)
+    },
   },
 
   Query: {
     identity: async (_: any, { did }, ctx: Context) =>
+      (checkAuthIdentity(did, ctx.authenticatedDid)) &&
       (await ctx.agent.dbConnection).getRepository(Identity).findOne(did),
-    identities: async (_: any, { input }, ctx: Context) =>
-      (await ctx.agent.dbConnection).getRepository(Identity).find({ ...input?.options }),
-    message: async (_: any, { id }, ctx: Context) =>
-      (await ctx.agent.dbConnection).getRepository(Message).findOne(id),
+    identities: async (_: any, { input }, ctx: Context) => {
+      if (ctx.authenticatedDid) {
+        throw new Error('searching for identities is restricted')
+      }
+      return (await ctx.agent.dbConnection).getRepository(Identity).find({ ...input?.options })
+    },
+    message: async (_: any, { id }, ctx: Context) => {
+      let qb = (await ctx.agent.dbConnection)
+        .getRepository(Message)
+        .createQueryBuilder('message')
+        .leftJoinAndSelect('message.from', 'from')
+        .leftJoinAndSelect('message.to', 'to')
+        .where('message.id = :id', { id })
+      if (ctx.authenticatedDid) {
+        qb = qb.andWhere(
+          new Brackets(qb => {
+            qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
+              ident: ctx.authenticatedDid,
+            })
+          }),
+        )
+      }
+      return qb.getOne()
+    },
     messages,
     messagesCount,
-    presentation: async (_: any, { hash }, ctx: Context) =>
-      (await ctx.agent.dbConnection).getRepository(Presentation).findOne(hash),
+    presentation: async (_: any, { hash }, ctx: Context) => {
+      let qb = (await ctx.agent.dbConnection)
+        .getRepository(Presentation)
+        .createQueryBuilder('presentation')
+        .leftJoinAndSelect('presentation.issuer', 'issuer')
+        .leftJoinAndSelect('presentation.audience', 'audience')
+        .where('presentation.hash = :hash', { hash })
+      if (ctx.authenticatedDid) {
+        qb = qb.andWhere(
+          new Brackets(qb => {
+            qb.where('presentation.audience = :ident', {
+              ident: ctx.authenticatedDid,
+            }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
+          }),
+        )
+      }
+      return qb.getOne()
+    },
     presentations,
     presentationsCount,
-    credential: async (_: any, { hash }, ctx: Context) =>
-      (await ctx.agent.dbConnection).getRepository(Credential).findOne(hash),
+    credential: async (_: any, { hash }, ctx: Context) => {
+      let qb = (await ctx.agent.dbConnection)
+        .getRepository(Credential)
+        .createQueryBuilder('credential')
+        .leftJoinAndSelect('credential.issuer', 'issuer')
+        .leftJoinAndSelect('credential.subject', 'subject')
+        .where('credential.hash = :hash', { hash })
+      if (ctx.authenticatedDid) {
+        qb = qb.andWhere(
+          new Brackets(qb => {
+            qb.where('credential.subject = :ident', {
+              ident: ctx.authenticatedDid,
+            }).orWhere('credential.issuer = :ident', { ident: ctx.authenticatedDid })
+          }),
+        )
+      }
+      qb.getOne()
+    },
     credentials,
     credentialsCount,
-    claim: async (_: any, { hash }, ctx: Context) =>
-      (await ctx.agent.dbConnection).getRepository(Claim).findOne(hash, { relations: ['credential'] }),
+    claim: async (_: any, { hash }, ctx: Context) => {
+      let qb = (await ctx.agent.dbConnection)
+        .getRepository(Claim)
+        .createQueryBuilder('claim')
+        .leftJoinAndSelect('claim.issuer', 'issuer')
+        .leftJoinAndSelect('claim.subject', 'subject')
+        .leftJoinAndSelect('claim.credential', 'credential')
+        .where('claim.hash = :hash', { hash })
+      if (ctx.authenticatedDid) {
+        qb = qb.andWhere(
+          new Brackets(qb => {
+            qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('claim.issuer = :ident', {
+              ident: ctx.authenticatedDid,
+            })
+          }),
+        )
+      }
+      qb.getOne()
+    },
     claims,
     claimsCount,
   },
