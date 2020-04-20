@@ -23,7 +23,11 @@ import { Identity } from '../entities/identity'
 
 export interface Context {
   agent: Agent
+<<<<<<< HEAD
   authenticatedDid?: string
+=======
+  authenticatedDid?: Promise<string>
+>>>>>>> feat: Optionally add permissions to gql resolvers
 }
 
 export interface Order {
