@@ -478,7 +478,7 @@ export const typeDefs = `
     raw: String
     data: Object
     replyTo: [String]
-    replyUrl: [String]
+    replyUrl: String
     from: Identity
     to: Identity
     metaData: [MetaData]

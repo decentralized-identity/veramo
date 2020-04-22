@@ -25,6 +25,9 @@ export class SdrMessageHandler extends AbstractMessageHandler {
       message.from = new Identity()
       message.from.did = message.data.iss
 
+      message.replyTo = Array.isArray(message.data.replyTo) ? message.data.replyTo : [message.data.replyTo]
+      message.replyUrl = message.data.replyUrl
+
       if (message.data.subject) {
         const to = new Identity()
         to.did = message.data.subject
