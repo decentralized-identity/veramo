@@ -64,6 +64,7 @@ export const typeDefs = `
   input SDRInput {
     issuer: String!
     subject: String
+    replyTo: [String]
     replyUrl: String
     tag: String
     claims: [CredentialRequestInput]!
