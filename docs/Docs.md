@@ -176,7 +176,7 @@ const data = {
 ### Typescript
 
 ```typescript
-const sdrJwt = await core.handleAction({
+const sdrJwt = await agent.handleAction({
   type: 'sign.sdr.jwt',
   data,
 })
@@ -218,7 +218,7 @@ const data = {
 ### Typescript
 
 ```typescript
-const message: Message = await core.handleAction({
+const message: Message = await agent.handleAction({
   type: 'send.message.didcomm-alpha-1',
   save: true,
   data,
@@ -252,7 +252,7 @@ const meta = [
 ## Typescript
 
 ```typescript
-const sdrMessage: Message = await core.handleMessage({
+const sdrMessage: Message = await agent.handleMessage({
   raw,
   meta,
   save: true, // default = true
@@ -289,7 +289,7 @@ const data = {
 ## Typescript
 
 ```typescript
-const nameVc: Credential = await core.handleAction({
+const nameVc: Credential = await agent.handleAction({
   type: 'sign.w3c.vc.jwt',
   save: true,
   data,
@@ -455,7 +455,7 @@ const data = {
 ## Typescript
 
 ```typescript
-const vp: Presentation = await core.handleAction({
+const vp: Presentation = await agent.handleAction({
   type: 'sign.w3c.vp.jwt',
   save: true,
   data,
@@ -489,7 +489,7 @@ const data = {
 ## Typescript
 
 ```typescript
-const message: Message = await core.handleAction({
+const message: Message = await agent.handleAction({
   type: 'send.message.didcomm-alpha-1',
   save: true,
   url,
@@ -894,7 +894,7 @@ query {
 ### Typescript
 
 ```typescript
-const identities = await core.identityManager.getIdentities()
+const identities = await agent.identityManager.getIdentities()
 ```
 
 ### GraphQL
