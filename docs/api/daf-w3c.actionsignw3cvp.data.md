@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-data: PresentationPayload
+data: PresentationInput
 ```

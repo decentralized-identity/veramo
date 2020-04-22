@@ -4,6 +4,8 @@
 
 ## IdentityStore.listDids() method
 
+List dids
+
 <b>Signature:</b>
 
 ```typescript

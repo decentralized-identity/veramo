@@ -12,7 +12,7 @@ export interface ActionSignW3cVc extends Action
 
 ## Properties
 
-| Property                                  | Type                                     | Description |
-| ----------------------------------------- | ---------------------------------------- | ----------- |
-| [data](./daf-w3c.actionsignw3cvc.data.md) | <code>VerifiableCredentialPayload</code> |             |
-| [did](./daf-w3c.actionsignw3cvc.did.md)   | <code>string</code>                      |             |
+| Property                                  | Type                         | Description |
+| ----------------------------------------- | ---------------------------- | ----------- |
+| [data](./daf-w3c.actionsignw3cvc.data.md) | <code>CredentialInput</code> |             |
+| [save](./daf-w3c.actionsignw3cvc.save.md) | <code>boolean</code>         |             |

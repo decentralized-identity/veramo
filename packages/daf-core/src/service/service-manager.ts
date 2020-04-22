@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import { Resolver } from '../core'
+import { Resolver } from '../agent'
 import { AbstractServiceController, ServiceControllerDerived } from './abstract-service-controller'
 import { AbstractIdentity } from '../identity/abstract-identity'
 import { Message } from '../entities/message'

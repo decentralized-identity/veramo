@@ -1,12 +1,12 @@
 import { ApolloServer } from 'apollo-server'
 import program from 'commander'
-import * as Daf from 'daf-core'
-import * as W3c from 'daf-w3c'
-import * as TG from 'daf-trust-graph'
-import * as SRD from 'daf-selective-disclosure'
-import { Gql as DataGql } from 'daf-data-store'
+import { Gql } from 'daf-core'
+import { W3cGql } from 'daf-w3c'
+import { TrustGraphGql } from 'daf-trust-graph'
+import { DIDCommGql } from 'daf-did-comm'
+import { SdrGql } from 'daf-selective-disclosure'
 import merge from 'lodash.merge'
-import { core, dataStore } from './setup'
+import { agent } from './setup'
 import { listen } from './services'
 program
   .command('graphql')
@@ -17,26 +17,26 @@ program
   .action(async cmd => {
     const server = new ApolloServer({
       typeDefs: [
-        Daf.Gql.baseTypeDefs,
-        Daf.Gql.Core.typeDefs,
-        Daf.Gql.IdentityManager.typeDefs,
-        DataGql.typeDefs,
-        TG.Gql.typeDefs,
-        W3c.Gql.typeDefs,
-        SRD.Gql.typeDefs,
+        Gql.baseTypeDefs,
+        Gql.Core.typeDefs,
+        Gql.IdentityManager.typeDefs,
+        TrustGraphGql.typeDefs,
+        DIDCommGql.typeDefs,
+        W3cGql.typeDefs,
+        SdrGql.typeDefs,
       ],
       resolvers: merge(
-        Daf.Gql.Core.resolvers,
-        Daf.Gql.IdentityManager.resolvers,
-        DataGql.resolvers,
-        TG.Gql.resolvers,
-        W3c.Gql.resolvers,
-        SRD.Gql.resolvers,
+        Gql.Core.resolvers,
+        Gql.IdentityManager.resolvers,
+        TrustGraphGql.resolvers,
+        DIDCommGql.resolvers,
+        W3cGql.resolvers,
+        SdrGql.resolvers,
       ),
-      context: () => ({ dataStore, core }),
+      context: () => ({ agent }),
       introspection: true,
     })
-    await core.setupServices()
+    // await core.setupServices()
     const info = await server.listen({ port: cmd.port })
     console.log(`🚀  Server ready at ${info.url}`)
 

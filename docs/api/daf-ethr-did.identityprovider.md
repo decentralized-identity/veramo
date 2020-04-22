@@ -25,9 +25,11 @@ export declare class IdentityProvider extends AbstractIdentityProvider
 
 ## Methods
 
-| Method                                                                   | Modifiers | Description |
-| ------------------------------------------------------------------------ | --------- | ----------- |
-| [createIdentity()](./daf-ethr-did.identityprovider.createidentity.md)    |           |             |
-| [deleteIdentity(did)](./daf-ethr-did.identityprovider.deleteidentity.md) |           |             |
-| [getIdentities()](./daf-ethr-did.identityprovider.getidentities.md)      |           |             |
-| [getIdentity(did)](./daf-ethr-did.identityprovider.getidentity.md)       |           |             |
+| Method                                                                      | Modifiers | Description |
+| --------------------------------------------------------------------------- | --------- | ----------- |
+| [createIdentity()](./daf-ethr-did.identityprovider.createidentity.md)       |           |             |
+| [deleteIdentity(did)](./daf-ethr-did.identityprovider.deleteidentity.md)    |           |             |
+| [exportIdentity(did)](./daf-ethr-did.identityprovider.exportidentity.md)    |           |             |
+| [getIdentities()](./daf-ethr-did.identityprovider.getidentities.md)         |           |             |
+| [getIdentity(did)](./daf-ethr-did.identityprovider.getidentity.md)          |           |             |
+| [importIdentity(secret)](./daf-ethr-did.identityprovider.importidentity.md) |           |             |

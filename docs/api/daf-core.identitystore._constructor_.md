@@ -9,11 +9,12 @@ Constructs a new instance of the `IdentityStore` class
 <b>Signature:</b>
 
 ```typescript
-constructor(provider: string);
+constructor(provider: string, dbConnection: Promise<Connection>);
 ```
 
 ## Parameters
 
-| Parameter | Type                | Description |
-| --------- | ------------------- | ----------- |
-| provider  | <code>string</code> |             |
+| Parameter    | Type                                   | Description |
+| ------------ | -------------------------------------- | ----------- |
+| provider     | <code>string</code>                    |             |
+| dbConnection | <code>Promise&lt;Connection&gt;</code> |             |

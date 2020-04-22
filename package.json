@@ -9,7 +9,8 @@
     "test": "jest --config=jest.json",
     "test:watch": "jest --config=jest.json --watch",
     "daf": "./packages/daf-cli/bin/daf.js",
-    "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo"
+    "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo",
+    "publish-beta": "yarn build && npx lerna publish --canary premajor --preid beta --pre-dist-tag beta"
   },
   "workspaces": [
     "packages/*"
@@ -46,6 +47,15 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "release": {
+    "branches": [
+      "master",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ]
   },
   "dependencies": {
     "rimraf": "^3.0.2"

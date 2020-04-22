@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 import { AbstractIdentity } from '../identity/abstract-identity'
-import { Resolver } from '../core'
+import { Resolver } from '../agent'
 import { Message } from '../entities/message'
 
 export abstract class AbstractServiceController extends EventEmitter {

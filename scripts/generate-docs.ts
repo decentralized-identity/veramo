@@ -3,8 +3,6 @@ import { Extractor, ExtractorConfig, ExtractorResult } from '@microsoft/api-extr
 
 const configs = [
   '../packages/daf-core/api-extractor.json',
-  '../packages/daf-data-store/api-extractor.json',
-  '../packages/daf-debug/api-extractor.json',
   '../packages/daf-did-jwt/api-extractor.json',
   '../packages/daf-ethr-did/api-extractor.json',
   '../packages/daf-fs/api-extractor.json',

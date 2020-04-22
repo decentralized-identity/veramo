@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "strict": true,
+    "sourceMap": true,
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "composite": true,
+    "rootDir": "src",
+    "outDir": "build"
+  },
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"],
+  "references": [
+    { "path": "../../packages/daf-core" },
+    { "path": "../../packages/daf-did-jwt" },
+    { "path": "../../packages/daf-resolver" },
+    { "path": "../../packages/daf-selective-disclosure" },
+    { "path": "../../packages/daf-w3c" }
+  ]
+}

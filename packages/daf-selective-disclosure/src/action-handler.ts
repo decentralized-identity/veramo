@@ -1,47 +1,49 @@
-import { Core, AbstractActionHandler, Action } from 'daf-core'
+import { Agent, AbstractActionHandler, Action } from 'daf-core'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
 const debug = Debug('daf:selective-disclosure:action-handler')
 
 export const ActionTypes = {
-  signSdr: 'action.sign.sdr',
+  signSdr: 'sign.sdr.jwt',
 }
 
-interface Iss {
+interface Issuer {
   did: string
   url: string
 }
 
-export interface SDRInput {
+export interface SelectiveDisclosureRequest {
+  issuer: string
+  subject?: string
+  replyUrl?: string
   tag?: string
-  sub?: string
   claims: CredentialRequestInput[]
+  credentials?: string[]
 }
 
 export interface CredentialRequestInput {
   reason?: string
   essential?: boolean
+  credentialType?: string
+  credentialContext?: string
   claimType: string
-  iss?: Iss[]
+  claimValue?: string
+  issuers?: Issuer[]
 }
 
 export interface ActionSignSdr extends Action {
-  did: string
-  data: {
-    sub?: string
-    tag?: string
-    claims: any
-  }
+  data: SelectiveDisclosureRequest
 }
 
-export class ActionHandler extends AbstractActionHandler {
-  public async handleAction(action: Action, core: Core) {
+export class SdrActionHandler extends AbstractActionHandler {
+  public async handleAction(action: Action, agent: Agent) {
     if (action.type === ActionTypes.signSdr) {
-      const { did, data } = action as ActionSignSdr
+      const { data } = action as ActionSignSdr
       try {
-        const identity = await core.identityManager.getIdentity(did)
-        debug('Signing SDR with', did)
+        const identity = await agent.identityManager.getIdentity(data.issuer)
+        delete data.issuer
+        debug('Signing SDR with', identity.did)
 
         const key = await identity.keyByType('Secp256k1')
         const jwt = await createJWT(
@@ -55,7 +57,7 @@ export class ActionHandler extends AbstractActionHandler {
             issuer: identity.did,
           },
         )
-
+        debug(jwt)
         return jwt
       } catch (error) {
         debug(error)
@@ -63,6 +65,6 @@ export class ActionHandler extends AbstractActionHandler {
       }
     }
 
-    return super.handleAction(action, core)
+    return super.handleAction(action, agent)
   }
 }

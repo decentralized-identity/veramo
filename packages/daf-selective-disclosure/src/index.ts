@@ -1,4 +1,11 @@
-export { MessageValidator, MessageTypes } from './message-validator'
-export { ActionHandler, ActionTypes, ActionSignSdr, SDRInput, CredentialRequestInput } from './action-handler'
-import Gql from './graphql'
-export { Gql }
+export { SdrMessageHandler, MessageTypes } from './message-handler'
+export {
+  SdrActionHandler,
+  ActionTypes,
+  ActionSignSdr,
+  SelectiveDisclosureRequest,
+  CredentialRequestInput,
+} from './action-handler'
+export { findCredentialsForSdr } from './helper'
+import SdrGql from './graphql'
+export { SdrGql }

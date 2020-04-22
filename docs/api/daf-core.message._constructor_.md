@@ -11,15 +11,12 @@ Constructs a new instance of the `Message` class
 ```typescript
 constructor(data?: {
         raw: string;
-        meta?: {
-            type: string;
-            value?: string;
-        };
+        metaData?: MetaData[];
     });
 ```
 
 ## Parameters
 
-| Parameter | Type                                                                                                                                                                                | Description |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| data      | <code>{</code><br/><code> raw: string;</code><br/><code> meta?: {</code><br/><code> type: string;</code><br/><code> value?: string;</code><br/><code> };</code><br/><code> }</code> |             |
+| Parameter | Type                                                                                                       | Description |
+| --------- | ---------------------------------------------------------------------------------------------------------- | ----------- |
+| data      | <code>{</code><br/><code> raw: string;</code><br/><code> metaData?: MetaData[];</code><br/><code> }</code> |             |

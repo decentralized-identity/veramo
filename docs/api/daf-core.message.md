@@ -44,3 +44,4 @@ export declare class Message extends BaseEntity
 | [addMetaData(meta)](./daf-core.message.addmetadata.md)     |           |             |
 | [getLastMetaData()](./daf-core.message.getlastmetadata.md) |           |             |
 | [isValid()](./daf-core.message.isvalid.md)                 |           |             |
+| [setId()](./daf-core.message.setid.md)                     |           |             |

@@ -4,7 +4,8 @@ import Page from '../../layout/Page'
 import Panel from '../../components/Panel/Panel'
 import { AppContext } from '../../context/AppProvider'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import * as queries from '../../queries'
+import * as queries from '../../gql/queries'
+import * as mutations from '../../gql/mutations'
 
 declare global {
   interface Window {
@@ -18,8 +19,8 @@ const Component = () => {
   const [receiver, setReceiver] = useState('did:web:uport.me')
   const [claimType, setClaimType] = useState('name')
   const [claimValue, setClaimValue] = useState('Alice')
-  const [signVc] = useMutation(queries.actionSignVc)
-  const [sendJwt] = useMutation(queries.actionSendJwt, {
+  const [signVc] = useMutation(mutations.signCredentialJwt)
+  const [sendMessageDidCommAlpha1] = useMutation(mutations.sendMessageDidCommAlpha1, {
     refetchQueries: [
       {
         query: queries.allMessages,
@@ -33,29 +34,30 @@ const Component = () => {
 
     try {
       const credentialSubject: any = {}
+      credentialSubject['id'] = receiver
       credentialSubject[claimType] = claimValue
 
       const { data } = await signVc({
         variables: {
-          did: appState.defaultDid,
           data: {
-            sub: receiver,
-            vc: {
-              context: ['https://www.w3.org/2018/credentials/v1'],
-              type: ['VerifiableCredential'],
-              credentialSubject,
-            },
+            issuer: appState.defaultDid,
+            context: ['https://www.w3.org/2018/credentials/v1'],
+            type: ['VerifiableCredential'],
+            credentialSubject,
           },
         },
       })
 
       console.log(data)
 
-      const { data: dataSend } = await sendJwt({
+      const { data: dataSend } = await sendMessageDidCommAlpha1({
         variables: {
-          from: appState.defaultDid,
-          to: receiver,
-          jwt: data.actionSignVc,
+          data: {
+            from: appState.defaultDid,
+            to: receiver,
+            type: 'jwt',
+            body: data.signCredentialJwt.raw,
+          },
         },
       })
 

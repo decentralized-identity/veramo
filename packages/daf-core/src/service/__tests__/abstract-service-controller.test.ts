@@ -1,7 +1,7 @@
 import { AbstractServiceController } from '../abstract-service-controller'
 import { ServiceEventTypes } from '../service-manager'
 import { AbstractIdentity } from '../../identity/abstract-identity'
-import { Resolver } from '../../core'
+import { Resolver } from '../../agent'
 import { Message } from '../../entities/message'
 
 describe('dummy', () => {

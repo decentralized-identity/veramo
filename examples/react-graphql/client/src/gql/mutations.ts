@@ -1,38 +1,44 @@
 import { gql } from 'apollo-boost'
 
+export const createIdentity = gql`
+  mutation createIdentity($type: String) {
+    createIdentity(type: $type) {
+      did
+    }
+  }
+`
+
 export const deleteIdentity = gql`
   mutation deleteIdentity($type: String, $did: String) {
     deleteIdentity(type: $type, did: $did)
   }
 `
 
-export const actionSignVc = gql`
-  mutation actionSignVc($did: String!, $data: VerifiableCredentialInput!) {
-    actionSignVc(did: $did, data: $data)
+export const signCredentialJwt = gql`
+  mutation signCredentialJwt($data: SignCredentialInput!) {
+    signCredentialJwt(data: $data) {
+      raw
+    }
   }
 `
 
-export const actionSignVp = gql`
-  mutation signVp($did: String!, $data: VerifiablePresentationInput!) {
-    actionSignVp(did: $did, data: $data)
+export const signPresentationJwt = gql`
+  mutation signPresentationJwt($data: SignPresentationInput!) {
+    signPresentationJwt(data: $data) {
+      raw
+    }
   }
 `
 
-export const actionSignSDR = gql`
-  mutation signSDR($did: String!, $data: SDRInput!) {
-    actionSignSDR(did: $did, data: $data)
+export const signSdrJwt = gql`
+  mutation signSdrJwt($data: SDRInput!) {
+    signSdrJwt(data: $data)
   }
 `
-export const actionSendJwt = gql`
-  mutation actionSendJwt($from: String!, $to: String!, $jwt: String!) {
-    actionSendJwt(from: $from, to: $to, jwt: $jwt)
-  }
-`
-
-export const createIdentity = gql`
-  mutation createIdentity($type: String) {
-    createIdentity(type: $type) {
-      did
+export const sendMessageDidCommAlpha1 = gql`
+  mutation sendMessageDidCommAlpha1($data: SendMessageDidCommAlpha1Input!, $url: String) {
+    sendMessageDidCommAlpha1(data: $data, url: $url, save: true) {
+      id
     }
   }
 `

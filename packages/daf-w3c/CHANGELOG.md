@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
 ## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
 **Note:** Version bump only for package daf-w3c
@@ -15,76 +16,88 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package daf-w3c
 
+# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
+**Note:** Version bump only for package daf-w3c
 
+# [4.0.0-beta.48](https://github.com/uport-project/daf/compare/v4.0.0-beta.47...v4.0.0-beta.48) (2020-04-22)
 
+**Note:** Version bump only for package daf-w3c
+
+# [4.0.0-beta.47](https://github.com/uport-project/daf/compare/v4.0.0-beta.46...v4.0.0-beta.47) (2020-04-17)
+
+**Note:** Version bump only for package daf-w3c
+
+# [4.0.0-beta.46](https://github.com/uport-project/daf/compare/v4.0.0-beta.45...v4.0.0-beta.46) (2020-04-17)
+
+**Note:** Version bump only for package daf-w3c
+
+# [4.0.0-beta.45](https://github.com/uport-project/daf/compare/v4.0.0-beta.44...v4.0.0-beta.45) (2020-04-16)
+
+### Bug Fixes
+
+- Expiration Date ([c7212f9](https://github.com/uport-project/daf/commit/c7212f97cee76dcb83ee748e934abb4b793b4640))
+
+# [4.0.0-beta.44](https://github.com/uport-project/daf/compare/v4.0.0-beta.43...v4.0.0-beta.44) (2020-04-15)
+
+**Note:** Version bump only for package daf-w3c
+
+# [4.0.0-beta.43](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v4.0.0-beta.43) (2020-04-15)
+
+### Features
+
+- Added id and tag fields ([0b62eaa](https://github.com/uport-project/daf/commit/0b62eaa30ceb2f79192a476ff9f6809cbe5b1ccf))
+
+# [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
+
+### Bug Fixes
+
+- Setting credentialSubject last ([b832b7c](https://github.com/uport-project/daf/commit/b832b7c0ffcc3c095d2122fce3287328000faefd))
+
+### Features
+
+- Agent dbConnection constructor option ([e3dfc2f](https://github.com/uport-project/daf/commit/e3dfc2f9a76fbe15ebb4cd2741d8ff580836408f))
+- Renamed Core to Agent ([f2c79b6](https://github.com/uport-project/daf/commit/f2c79b69c59929deaa67a55d5b5b0caf8523ff5b))
+- Renaming MessageValidator to MessageHandler ([586b43c](https://github.com/uport-project/daf/commit/586b43c628028d5c6d6550a9e87877385fa8c4fc))
+- SignCredentialJwt returns Credential ([8aefe92](https://github.com/uport-project/daf/commit/8aefe9216f71cc95812b3f60bd40b1187995ff06))
+- Use handleMessage instead of validateMessage ([75fb74a](https://github.com/uport-project/daf/commit/75fb74ad1cab8fc6c8ec6c507850d27ef507e9af))
 
 # [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [3.3.0](https://github.com/uport-project/daf/compare/v3.2.0...v3.3.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 # [3.2.0](https://github.com/uport-project/daf/compare/v3.1.4...v3.2.0) (2020-03-19)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 ## [3.1.3](https://github.com/uport-project/daf/compare/v3.1.2...v3.1.3) (2020-03-18)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 ## [3.0.2](https://github.com/uport-project/daf/compare/v3.0.1...v3.0.2) (2020-03-16)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 ## [3.0.1](https://github.com/uport-project/daf/compare/v3.0.0...v3.0.1) (2020-03-16)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
-
 
 ### Bug Fixes
 
-* Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
-* Claim hash ([d00b9c6](https://github.com/uport-project/daf/commit/d00b9c6ed1fed1c76cb7ed4939e2f017979360a2))
-* Deduplicating messages ([eda582b](https://github.com/uport-project/daf/commit/eda582b32923d6cd251fc82023dc18b361122c5e))
-* Unit tests ([d764531](https://github.com/uport-project/daf/commit/d764531fe022b1cef4abe33c9a434a53cb2fa23f))
-
+- Building ([60f3777](https://github.com/uport-project/daf/commit/60f3777510514051e75822ae8f350e28e1f64e54))
+- Claim hash ([d00b9c6](https://github.com/uport-project/daf/commit/d00b9c6ed1fed1c76cb7ed4939e2f017979360a2))
+- Deduplicating messages ([eda582b](https://github.com/uport-project/daf/commit/eda582b32923d6cd251fc82023dc18b361122c5e))
+- Unit tests ([d764531](https://github.com/uport-project/daf/commit/d764531fe022b1cef4abe33c9a434a53cb2fa23f))
 
 ### Features
 
-* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
-
-
-
-
+- Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
 
 # [2.5.0](https://github.com/uport-project/daf/compare/v2.4.1...v2.5.0) (2020-03-13)
 

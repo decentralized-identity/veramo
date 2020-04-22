@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
   BeforeInsert,
 } from 'typeorm'
+import { blake2bHex } from 'blakejs'
 import { Identity } from './identity'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
@@ -22,20 +23,20 @@ export interface MetaData {
 
 @Entity()
 export class Message extends BaseEntity {
-  constructor(data?: { raw: string; meta?: { type: string; value?: string } }) {
+  constructor(data?: { raw: string; metaData?: MetaData[] }) {
     super()
     if (data?.raw) {
       this.raw = data.raw
     }
-    if (data?.meta) {
-      this.addMetaData(data.meta)
+    if (data?.metaData) {
+      this.metaData = data.metaData
     }
   }
 
   @BeforeInsert()
-  generateId() {
+  setId() {
     if (!this.id) {
-      this.id = uuidv4()
+      this.id = blake2bHex(this.raw)
     }
   }
 
@@ -80,6 +81,7 @@ export class Message extends BaseEntity {
     {
       nullable: true,
       cascade: ['insert'],
+      eager: true,
     },
   )
   from?: Identity
@@ -90,6 +92,7 @@ export class Message extends BaseEntity {
     {
       nullable: true,
       cascade: ['insert'],
+      eager: true,
     },
   )
   to?: Identity
@@ -107,9 +110,11 @@ export class Message extends BaseEntity {
   @JoinTable()
   presentations: Presentation[]
 
-  @ManyToMany(type => Credential, {
-    cascade: true,
-  })
+  @ManyToMany(
+    type => Credential,
+    credential => credential.messages,
+    { cascade: true },
+  )
   @JoinTable()
   credentials: Credential[]
 

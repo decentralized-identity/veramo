@@ -1,4 +1,4 @@
-import { core, dataStore } from './setup'
+import { agent } from './setup'
 import inquirer from 'inquirer'
 import program from 'commander'
 import { printTable } from 'console-table-printer'
@@ -18,7 +18,11 @@ program
   .option('--decrypt', 'Decrypt data')
   .action(async cmd => {
     if (cmd.types) {
-      const list = await core.identityManager.getIdentityProviderTypes()
+      const providers = await agent.identityManager.getIdentityProviders()
+      const list = providers.map(provider => ({
+        type: provider.type,
+        description: provider.description,
+      }))
 
       if (list.length > 0) {
         printTable(list)
@@ -28,7 +32,7 @@ program
     }
 
     if (cmd.list) {
-      const list = await core.identityManager.getIdentities()
+      const list = await agent.identityManager.getIdentities()
 
       if (list.length > 0) {
         const dids = list.map(item => ({ type: item.identityProviderType, did: item.did }))
@@ -40,17 +44,24 @@ program
 
     if (cmd.create) {
       try {
-        const types = await core.identityManager.getIdentityProviderTypes()
+        const providers = await agent.identityManager.getIdentityProviders()
+        let type
+        if (providers.length > 1) {
+          const answers = await inquirer.prompt([
+            {
+              type: 'list',
+              name: 'type',
+              choices: providers.map(provider => ({
+                name: `${provider.type} - ${provider.description}`,
+                value: provider.type,
+              })),
+              message: 'Select identity provider',
+            },
+          ])
 
-        const answers = await inquirer.prompt([
-          {
-            type: 'list',
-            name: 'type',
-            choices: types.map(item => ({ name: `${item.type} - ${item.description}`, value: item.type })),
-            message: 'Select identity provider',
-          },
-        ])
-        const identity = await core.identityManager.createIdentity(answers.type)
+          type = answers.type
+        }
+        const identity = await agent.identityManager.createIdentity(type)
         printTable([{ type: identity.identityProviderType, did: identity.did }])
       } catch (e) {
         console.error(e)
@@ -59,7 +70,7 @@ program
 
     if (cmd.delete) {
       try {
-        const identities = await core.identityManager.getIdentities()
+        const identities = await agent.identityManager.getIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -69,9 +80,9 @@ program
           },
         ])
 
-        const identity = await core.identityManager.getIdentity(answers.did)
+        const identity = await agent.identityManager.getIdentity(answers.did)
 
-        const result = await core.identityManager.deleteIdentity(identity.identityProviderType, identity.did)
+        const result = await agent.identityManager.deleteIdentity(identity.identityProviderType, identity.did)
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
@@ -80,7 +91,7 @@ program
 
     if (cmd.service) {
       try {
-        const identities = await core.identityManager.getIdentities()
+        const identities = await agent.identityManager.getIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -101,7 +112,7 @@ program
           },
         ])
 
-        const identity = await core.identityManager.getIdentity(answers.did)
+        const identity = await agent.identityManager.getIdentity(answers.did)
         const result = await identity.identityController.addService({
           type: answers.type,
           serviceEndpoint: answers.endpoint,
@@ -115,7 +126,7 @@ program
 
     if (cmd.publicKey) {
       try {
-        const identities = await core.identityManager.getIdentities()
+        const identities = await agent.identityManager.getIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -131,7 +142,7 @@ program
           },
         ])
 
-        const identity = await core.identityManager.getIdentity(answers.did)
+        const identity = await agent.identityManager.getIdentity(answers.did)
         const result = await identity.identityController.addPublicKey(answers.type)
         console.log('Success:', result)
       } catch (e) {
@@ -141,7 +152,7 @@ program
 
     if (cmd.encrypt) {
       try {
-        const identities = await core.identityManager.getIdentities()
+        const identities = await agent.identityManager.getIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -161,9 +172,9 @@ program
           },
         ])
 
-        const identity = await core.identityManager.getIdentity(answers.did)
+        const identity = await agent.identityManager.getIdentity(answers.did)
         const key = await identity.keyByType('Ed25519')
-        const didDoc = await core.didResolver.resolve(answers.to)
+        const didDoc = await agent.didResolver.resolve(answers.to)
         const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
         if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
 
@@ -183,7 +194,7 @@ program
 
     if (cmd.decrypt) {
       try {
-        const identities = await core.identityManager.getIdentities()
+        const identities = await agent.identityManager.getIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -198,7 +209,7 @@ program
           },
         ])
 
-        const identity = await core.identityManager.getIdentity(answers.did)
+        const identity = await agent.identityManager.getIdentity(answers.did)
         const key = await identity.keyByType('Ed25519')
         const result = await key.decrypt(answers.message)
         console.log('Success:', result)
@@ -209,7 +220,7 @@ program
 
     if (cmd.export) {
       try {
-        const identities = await core.identityManager.getIdentities()
+        const identities = await agent.identityManager.getIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -219,8 +230,8 @@ program
           },
         ])
 
-        const identity = await core.identityManager.getIdentity(answers.did)
-        const secret = await core.identityManager.exportIdentity(identity.identityProviderType, identity.did)
+        const identity = await agent.identityManager.getIdentity(answers.did)
+        const secret = await agent.identityManager.exportIdentity(identity.identityProviderType, identity.did)
         console.log(secret)
       } catch (e) {
         console.error(e)
@@ -229,7 +240,7 @@ program
 
     if (cmd.import) {
       try {
-        const providers = await core.identityManager.getIdentityProviderTypes()
+        const providers = await agent.identityManager.getIdentityProviders()
 
         const answers = await inquirer.prompt([
           {
@@ -245,7 +256,7 @@ program
           },
         ])
 
-        const identity = await core.identityManager.importIdentity(answers.provider, answers.secret)
+        const identity = await agent.identityManager.importIdentity(answers.provider, answers.secret)
         console.log(identity)
       } catch (e) {
         console.error(e)

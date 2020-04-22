@@ -1,0 +1,32 @@
+{
+  "name": "daf-example-id-hub",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node build/index.js",
+    "build": "tsc",
+    "build:watch": "tsc -b --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.11.0",
+    "daf-core": "../../packages/daf-core",
+    "daf-did-jwt": "../../packages/daf-did-jwt",
+    "daf-resolver": "../../packages/daf-resolver",
+    "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
+    "daf-w3c": "../../packages/daf-w3c",
+    "graphql": "^14.6.0",
+    "lodash.merge": "^4.6.2",
+    "sqlite3": "^4.1.1",
+    "typeorm": "^0.2.24"
+  },
+  "devDependencies": {
+    "ts-node": "^8.7.0",
+    "typescript": "^3.8.3"
+  }
+}

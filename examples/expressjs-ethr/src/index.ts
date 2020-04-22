@@ -3,14 +3,13 @@ import * as Daf from 'daf-core'
 import * as SD from 'daf-selective-disclosure'
 import * as W3C from 'daf-w3c'
 import { app, server, io, sessionStore } from './server'
-import { core, dataStore, initializeDb } from './framework'
+import { agent } from './framework'
 import { getIdentity, setServiceEndpoint } from './identity'
 
 if (!process.env.HOST) throw Error('Environment variable HOST not set')
 if (!process.env.PORT) throw Error('Environment variable PORT not set')
 
 async function main() {
-  await initializeDb()
   const identity = await getIdentity()
 
   const messagingEndpoint = '/handle-message'
@@ -24,18 +23,14 @@ async function main() {
   app.post(messagingEndpoint, express.text({ type: '*/*' }), async (req, res) => {
     try {
       // This will trigger Daf.EventTypes.validatedMessage
-      const result = await core.validateMessage(
-        new Daf.Message({ raw: req.body, meta: { type: 'serviceEndpoint', value: serviceEndpoint } }),
-      )
+      const result = await agent.handleMessage({ raw: req.body })
       res.json({ id: result.id })
     } catch (e) {
       res.send(e.message)
     }
   })
 
-  core.on(Daf.EventTypes.validatedMessage, async (message: Daf.Message) => {
-    await dataStore.saveMessage(message)
-
+  agent.on(Daf.EventTypes.savedMessage, async (message: Daf.Message) => {
     if (message.type === W3C.MessageTypes.vp && message.threadId) {
       // TODO check for required vcs
 
@@ -73,8 +68,7 @@ async function main() {
     req.session.views = req.session.views ? req.session.views + 1 : 1
 
     const { did, views } = req.session
-    const name = await dataStore.shortId(did)
-    res.render('home', { did, views, name })
+    res.render('home', { did, views })
   })
 
   app.get('/history', requireLogin, async (req, res) => {
@@ -84,8 +78,9 @@ async function main() {
     req.session.views = req.session.views ? req.session.views + 1 : 1
 
     const { did, views } = req.session
-    const name = await dataStore.shortId(did)
-    const messages = await dataStore.findMessages({ sender: did })
+    const messages = await (await agent.dbConnection)
+      .getRepository(Daf.Message)
+      .find({ where: { from: did } })
     console.log(messages)
     res.render('history', { did, views, name, messages })
   })
@@ -97,10 +92,10 @@ async function main() {
     req.session.views = req.session.views ? req.session.views + 1 : 1
 
     // Sign Selective Disclosure Request
-    const jwt = await core.handleAction({
+    const jwt = await agent.handleAction({
       type: SD.ActionTypes.signSdr,
-      did: identity.did,
       data: {
+        issuer: identity.did,
         tag: req.sessionID,
         claims: [
           {
@@ -124,49 +119,42 @@ async function main() {
     req.session.views = req.session.views ? req.session.views + 1 : 1
 
     const { did, views } = req.session
-    const name = await dataStore.shortId(did)
 
     // Sign verifiable credential
-    const nameJwt = await core.handleAction({
-      type: W3C.ActionTypes.signVc,
-      did: identity.did,
+    const nameJwt = await agent.handleAction({
+      type: W3C.ActionTypes.signCredentialJwt,
       data: {
-        sub: did,
-        vc: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
-          credentialSubject: {
-            name,
-          },
+        issuer: identity.did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject: {
+          id: did,
+          name,
         },
       },
     } as W3C.ActionSignW3cVc)
 
-    const kwcJwt = await core.handleAction({
-      type: W3C.ActionTypes.signVc,
-      did: identity.did,
+    const kwcJwt = await agent.handleAction({
+      type: W3C.ActionTypes.signCredentialJwt,
       data: {
-        sub: did,
-        vc: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
-          credentialSubject: {
-            kycId: '123XZY',
-          },
+        issuer: identity.did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject: {
+          id: did,
+          kycId: '123XZY',
         },
       },
     } as W3C.ActionSignW3cVc)
 
-    const vpJwt = await core.handleAction({
-      type: W3C.ActionTypes.signVp,
-      did: identity.did,
+    const vpJwt = await agent.handleAction({
+      type: W3C.ActionTypes.signPresentationJwt,
       data: {
-        aud: did,
-        vp: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiablePresentation'],
-          verifiableCredential: [nameJwt, kwcJwt],
-        },
+        issuer: identity.did,
+        audience: did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiablePresentation'],
+        verifiableCredential: [nameJwt, kwcJwt],
       },
     } as W3C.ActionSignW3cVp)
 
@@ -188,21 +176,19 @@ async function main() {
     res.render('about', { views, url })
   })
 
-  app.get('/public-profile', async(req, res) => {
+  app.get('/public-profile', async (req, res) => {
     // Sign verifiable presentation
-    const jwt = await core.handleAction({
-      type: W3C.ActionTypes.signVc,
-      did: identity.did,
+    const jwt = await agent.handleAction({
+      type: W3C.ActionTypes.signCredentialJwt,
       data: {
-        sub: identity.did,
-        vc: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
-          credentialSubject: {
-            name: 'DAF Demo',
-            description: 'Demo application',
-            profileImage: 'https://i.imgur.com/IMn3dIg.png',
-          },
+        issuer: identity.did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject: {
+          id: identity.did,
+          name: 'DAF Demo',
+          description: 'Demo application',
+          profileImage: 'https://i.imgur.com/IMn3dIg.png',
         },
       },
     } as W3C.ActionSignW3cVc)

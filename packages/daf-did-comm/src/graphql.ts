@@ -1,38 +1,47 @@
-import { Core } from 'daf-core'
-import { ActionTypes } from './action-handler'
+import { Agent } from 'daf-core'
+import { ActionTypes, ActionSendDIDComm } from './action-handler'
 
 interface Context {
-  core: Core
+  agent: Agent
 }
 
-const actionSendJwt = async (
+const sendMessageDidCommAlpha1 = async (
   _: any,
   args: {
-    from: string
-    to: string
-    jwt: string
+    save: boolean
+    url?: string
+    data: {
+      from: string
+      to: string
+      body: string
+      type: string
+    }
   },
   ctx: Context,
 ) => {
-  return await ctx.core.handleAction({
-    type: ActionTypes.sendJwt,
-    data: {
-      from: args.from,
-      to: args.to,
-      jwt: args.jwt,
-    },
-  })
+  return await ctx.agent.handleAction({
+    type: ActionTypes.sendMessageDIDCommAlpha1,
+    save: args.save,
+    url: args.url,
+    data: args.data,
+  } as ActionSendDIDComm)
 }
 
 export const resolvers = {
   Mutation: {
-    actionSendJwt,
+    sendMessageDidCommAlpha1,
   },
 }
 
 export const typeDefs = `
+  input SendMessageDidCommAlpha1Input {
+    from: String!
+    to: String!
+    type: String!
+    body: String!
+  }
   extend type Mutation {
-    actionSendJwt(from: String!, to: String!, jwt: String!): Boolean
+    sendMessageDidCommAlpha1(data: SendMessageDidCommAlpha1Input!, url: String, save: Boolean = true): Message
   }
 `
 export default {

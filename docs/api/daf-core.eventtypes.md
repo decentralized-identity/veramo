@@ -9,6 +9,7 @@
 ```typescript
 EventTypes: {
   validatedMessage: string
+  savedMessage: string
   error: string
 }
 ```

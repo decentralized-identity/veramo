@@ -1,8 +1,8 @@
-import { Core } from 'daf-core'
+import { Agent } from 'daf-core'
 import { ActionTypes } from './action-handler'
 
 interface Context {
-  core: Core
+  agent: Agent
 }
 
 const actionSendJwt = async (
@@ -14,7 +14,7 @@ const actionSendJwt = async (
   },
   ctx: Context,
 ) => {
-  return await ctx.core.handleAction({
+  return await ctx.agent.handleAction({
     type: ActionTypes.sendJwt,
     data: {
       from: args.from,
@@ -32,7 +32,7 @@ export const resolvers = {
 
 export const typeDefs = `
   extend type Mutation {
-    actionSendJwt(from: String!, to: String!, jwt: String!): Boolean
+    actionSendJwt(from: String!, to: String!, jwt: String!): Message
   }
 `
 export default {

@@ -613,57 +613,43 @@ cross-fetch@^3.0.4:
     node-fetch "2.6.0"
     whatwg-fetch "3.0.0"
 
-daf-core@../../packages/daf-core, daf-core@^3.0.2:
-  version "3.0.2"
+daf-core@../../packages/daf-core, daf-core@^4.0.0-beta.45:
+  version "4.0.0-beta.45"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
     typeorm "^0.2.24"
 
-daf-data-store@../../packages/daf-data-store, daf-data-store@^3.0.2:
-  version "3.0.2"
-  dependencies:
-    blakejs "^1.1.0"
-    daf-core "^3.0.2"
-    debug "^4.1.1"
-    sql-bricks-sqlite "^0.1.0"
-
-daf-debug@../../packages/daf-debug:
-  version "3.0.2"
-  dependencies:
-    daf-core "^3.0.2"
-    debug "^4.1.1"
-
 daf-did-comm@../../packages/daf-did-comm:
-  version "3.0.2"
+  version "4.0.0-beta.45"
   dependencies:
-    daf-core "^3.0.2"
+    daf-core "^4.0.0-beta.45"
     debug "^4.1.1"
     uuid "^3.3.3"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^3.0.2:
-  version "3.0.2"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^4.0.0-beta.45:
+  version "4.0.0-beta.45"
   dependencies:
-    daf-core "^3.0.2"
+    daf-core "^4.0.0-beta.45"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     did-resolver "^1.1.0"
 
 daf-ethr-did@../../packages/daf-ethr-did:
-  version "3.0.2"
+  version "4.0.0-beta.45"
   dependencies:
-    daf-core "^3.0.2"
+    daf-core "^4.0.0-beta.45"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
 
 daf-libsodium@../../packages/daf-libsodium:
-  version "3.0.2"
+  version "4.0.0-beta.45"
   dependencies:
     base-58 "^0.0.1"
-    daf-core "^3.0.2"
+    daf-core "^4.0.0-beta.45"
     debug "^4.1.1"
     did-jwt "^4.0.0"
     elliptic "^6.5.2"
@@ -671,13 +657,13 @@ daf-libsodium@../../packages/daf-libsodium:
     libsodium-wrappers "^0.7.6"
 
 daf-resolver-universal@../../packages/daf-resolver-universal:
-  version "3.0.1"
+  version "4.0.0-beta.45"
   dependencies:
     cross-fetch "^3.0.4"
     debug "^4.1.1"
 
 daf-resolver@../../packages/daf-resolver:
-  version "3.0.1"
+  version "4.0.0-beta.45"
   dependencies:
     debug "^4.1.1"
     did-resolver "^1.1.0"
@@ -686,28 +672,28 @@ daf-resolver@../../packages/daf-resolver:
     web-did-resolver "^1.2.0"
 
 daf-selective-disclosure@../../packages/daf-selective-disclosure:
-  version "3.0.2"
+  version "4.0.0-beta.45"
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^3.0.2"
-    daf-data-store "^3.0.2"
-    daf-did-jwt "^3.0.2"
+    daf-core "^4.0.0-beta.45"
+    daf-did-jwt "^4.0.0-beta.45"
     debug "^4.1.1"
     did-jwt "^4.0.0"
+    typeorm "^0.2.24"
 
 daf-url@../../packages/daf-url:
-  version "3.0.2"
+  version "4.0.0-beta.45"
   dependencies:
-    daf-core "^3.0.2"
+    daf-core "^4.0.0-beta.45"
     debug "^4.1.1"
     url-parse "^1.4.7"
 
 daf-w3c@../../packages/daf-w3c:
-  version "3.0.2"
+  version "4.0.0-beta.45"
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^3.0.2"
-    daf-did-jwt "^3.0.2"
+    daf-core "^4.0.0-beta.45"
+    daf-did-jwt "^4.0.0-beta.45"
     debug "^4.1.1"
     did-jwt-vc "^0.1.3"
     did-resolver "^1.1.0"
@@ -2477,21 +2463,6 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-sql-bricks-sqlite@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/sql-bricks-sqlite/-/sql-bricks-sqlite-0.1.0.tgz#5d193589e512e8f8176fdecf19c5bdae5f352550"
-  integrity sha1-XRk1ieUS6PgXb97PGcW9rl81JVA=
-  dependencies:
-    sql-bricks "1.0.0-beta.2"
-    underscore "1.4.x"
-
-sql-bricks@1.0.0-beta.2:
-  version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/sql-bricks/-/sql-bricks-1.0.0-beta.2.tgz#c5b180b943c189f9fe40a71431459b625141b2c0"
-  integrity sha1-xbGAuUPBifn+QKcUMUWbYlFBssA=
-  dependencies:
-    underscore "1.4.x"
-
 sqlite3@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-4.1.1.tgz#539a42e476640796578e22d589b3283c28055242"
@@ -2753,11 +2724,6 @@ uid-safe@~2.1.5:
   integrity sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==
   dependencies:
     random-bytes "~1.0.0"
-
-underscore@1.4.x:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.4.4.tgz#61a6a32010622afa07963bf325203cf12239d604"
-  integrity sha1-YaajIBBiKvoHljvzJSA88SI51gQ=
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"

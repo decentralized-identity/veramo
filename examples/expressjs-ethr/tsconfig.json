@@ -15,8 +15,6 @@
   "references": [
     { "path": "../../packages/daf-cli" },
     { "path": "../../packages/daf-core" },
-    { "path": "../../packages/daf-data-store" },
-    { "path": "../../packages/daf-debug" },
     { "path": "../../packages/daf-did-comm" },
     { "path": "../../packages/daf-did-jwt" },
     { "path": "../../packages/daf-ethr-did" },

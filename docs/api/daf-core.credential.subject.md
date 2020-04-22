@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-subject: Identity
+subject?: Identity;
 ```

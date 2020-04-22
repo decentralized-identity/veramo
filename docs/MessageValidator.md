@@ -13,16 +13,14 @@ import * as Daf from 'daf-core'
 import * as DidJwt from 'daf-did-jwt'
 import * as W3c from 'daf-w3c'
 import * as SD from 'daf-selective-disclosure'
-import * as DBG from 'daf-debug'
 import * as URL from 'daf-url'
 import { DafUniversalResolver } from 'daf-resolver-universal'
 import Debug from 'debug'
 
 Debug.enable('*')
 
-const messageValidator = new DBG.MessageValidator()
+const messageValidator = new URL.MessageValidator()
 messageValidator
-  .setNext(new URL.MessageValidator())
   .setNext(new DidJwt.MessageValidator())
   .setNext(new W3c.MessageValidator())
   .setNext(new SD.MessageValidator())

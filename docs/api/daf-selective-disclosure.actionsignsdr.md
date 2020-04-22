@@ -12,7 +12,6 @@ export interface ActionSignSdr extends Action
 
 ## Properties
 
-| Property                                                 | Type                                                                                                                              | Description |
-| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [data](./daf-selective-disclosure.actionsignsdr.data.md) | <code>{</code><br/><code> sub?: string;</code><br/><code> tag?: string;</code><br/><code> claims: any;</code><br/><code> }</code> |             |
-| [did](./daf-selective-disclosure.actionsignsdr.did.md)   | <code>string</code>                                                                                                               |             |
+| Property                                                 | Type                                    | Description |
+| -------------------------------------------------------- | --------------------------------------- | ----------- |
+| [data](./daf-selective-disclosure.actionsignsdr.data.md) | <code>SelectiveDisclosureRequest</code> |             |

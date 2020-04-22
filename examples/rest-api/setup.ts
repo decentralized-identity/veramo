@@ -1,36 +1,46 @@
 import * as Daf from 'daf-core'
 import * as DafEthr from 'daf-ethr-did'
 import * as DafLibSodium from 'daf-libsodium'
-import * as W3c from 'daf-w3c'
-import * as DBG from 'daf-debug'
-import * as DidJwt from 'daf-did-jwt'
-import * as DidComm from 'daf-did-comm'
+import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
+import { JwtMessageHandler } from 'daf-did-jwt'
+import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
 import { DafResolver } from 'daf-resolver'
+import { createConnection } from 'typeorm'
 
 import Debug from 'debug'
 Debug.enable('*')
 
-const messageValidator = new DBG.MessageValidator()
-messageValidator.setNext(new DidJwt.MessageValidator()).setNext(new W3c.MessageValidator())
+const messageHandler = new DIDCommMessageHandler()
+messageHandler.setNext(new JwtMessageHandler())
+messageHandler.setNext(new W3cMessageHandler())
 
-const actionHandler = new DBG.ActionHandler()
-actionHandler.setNext(new DidComm.ActionHandler()).setNext(new W3c.ActionHandler())
+const actionHandler = new DIDCommActionHandler()
+actionHandler.setNext(new W3cActionHandler())
 
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 const didResolver = new DafResolver({ infuraProjectId })
 
-export const core = new Daf.Core({
+const dbConnection = createConnection({
+  type: 'sqlite',
+  database: './database.sqlite',
+  synchronize: true,
+  logging: true,
+  entities: Daf.Entities,
+})
+
+export const agent = new Daf.Agent({
+  dbConnection,
   identityProviders: [
     new DafEthr.IdentityProvider({
-      kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore()),
-      identityStore: new Daf.IdentityStore('rinkeby-ethr'),
+      kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore(dbConnection)),
+      identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
       network: 'rinkeby',
       rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
     }),
   ],
   serviceControllers: [],
   didResolver,
-  messageValidator,
+  messageHandler,
   actionHandler,
 })

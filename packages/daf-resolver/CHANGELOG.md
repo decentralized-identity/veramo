@@ -3,24 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
+
+**Note:** Version bump only for package daf-resolver
+
+# [4.0.0-beta.48](https://github.com/uport-project/daf/compare/v4.0.0-beta.47...v4.0.0-beta.48) (2020-04-22)
+
+**Note:** Version bump only for package daf-resolver
+
+# [4.0.0-beta.47](https://github.com/uport-project/daf/compare/v4.0.0-beta.46...v4.0.0-beta.47) (2020-04-17)
+
+**Note:** Version bump only for package daf-resolver
+
+# [4.0.0-beta.46](https://github.com/uport-project/daf/compare/v4.0.0-beta.45...v4.0.0-beta.46) (2020-04-17)
+
+**Note:** Version bump only for package daf-resolver
+
+# [4.0.0-beta.45](https://github.com/uport-project/daf/compare/v4.0.0-beta.44...v4.0.0-beta.45) (2020-04-16)
+
+**Note:** Version bump only for package daf-resolver
+
+# [4.0.0-beta.44](https://github.com/uport-project/daf/compare/v4.0.0-beta.43...v4.0.0-beta.44) (2020-04-15)
+
+**Note:** Version bump only for package daf-resolver
+
+# [4.0.0-beta.43](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v4.0.0-beta.43) (2020-04-15)
+
+**Note:** Version bump only for package daf-resolver
+
+# [4.0.0-beta.42](https://github.com/uport-project/daf/compare/v3.4.0...v4.0.0-beta.42) (2020-04-09)
+
+**Note:** Version bump only for package daf-resolver
+
 ## [3.0.1](https://github.com/uport-project/daf/compare/v3.0.0...v3.0.1) (2020-03-16)
 
 **Note:** Version bump only for package daf-resolver
 
-
-
-
-
 # [3.0.0](https://github.com/uport-project/daf/compare/v2.5.0...v3.0.0) (2020-03-13)
-
 
 ### Features
 
-* Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
-
-
-
-
+- Updating examples to the new API ([13c7e3b](https://github.com/uport-project/daf/commit/13c7e3b625ed1924f2ff9346ff0ab40337fcc8d4))
 
 ## [2.3.18](https://github.com/uport-project/daf/compare/v2.3.17...v2.3.18) (2020-03-10)
 

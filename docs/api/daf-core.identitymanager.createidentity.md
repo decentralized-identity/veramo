@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-createIdentity(identityProviderType: string): Promise<AbstractIdentity>;
+createIdentity(identityProviderType?: string): Promise<AbstractIdentity>;
 ```
 
 ## Parameters

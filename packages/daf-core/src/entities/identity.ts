@@ -1,9 +1,18 @@
-import { Entity, Column, PrimaryColumn, BaseEntity, OneToMany, ManyToMany } from 'typeorm'
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  BaseEntity,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm'
 import { Key } from './key'
 import { Message } from './message'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
 import { Claim } from './claim'
+import { Connection } from 'typeorm'
 
 @Entity()
 export class Identity extends BaseEntity {
@@ -12,6 +21,12 @@ export class Identity extends BaseEntity {
 
   @Column({ nullable: true })
   provider: string
+
+  @CreateDateColumn()
+  saveDate: Date
+
+  @UpdateDateColumn()
+  updateDate: Date
 
   @Column({ nullable: true })
   controllerKeyId: string
@@ -69,4 +84,28 @@ export class Identity extends BaseEntity {
     claim => claim.subject,
   )
   receivedClaims: Claim[]
+
+  /**
+   * Convenience method
+   *
+   * const name = await identity.getLatestClaimValue({type: 'name'})
+   *
+   * @param where
+   */
+  async getLatestClaimValue(dbConnection: Promise<Connection>, where: { type: string }): Promise<String> {
+    const claim = await (await dbConnection).getRepository(Claim).findOne({
+      where: {
+        ...where,
+        subject: this.did,
+      },
+      order: {
+        issuanceDate: 'DESC',
+      },
+    })
+    return claim?.value
+  }
+
+  shortDid() {
+    return `${this.did.slice(0, 15)}...${this.did.slice(-4)}`
+  }
 }

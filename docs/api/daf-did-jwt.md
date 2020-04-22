@@ -6,6 +6,6 @@
 
 ## Classes
 
-| Class                                                 | Description |
-| ----------------------------------------------------- | ----------- |
-| [MessageValidator](./daf-did-jwt.messagevalidator.md) |             |
+| Class                                                   | Description |
+| ------------------------------------------------------- | ----------- |
+| [JwtMessageHandler](./daf-did-jwt.jwtmessagehandler.md) |             |

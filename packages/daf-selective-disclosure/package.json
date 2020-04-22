@@ -1,7 +1,7 @@
 {
   "name": "daf-selective-disclosure",
   "description": "DAF selective disclosure",
-  "version": "3.4.3",
+  "version": "4.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^3.4.2",
-    "daf-data-store": "^3.4.2",
-    "daf-did-jwt": "^3.4.3",
+    "daf-core": "^4.0.0",
+    "daf-did-jwt": "^4.0.0",
     "debug": "^4.1.1",
-    "did-jwt": "4.2.0"
+    "did-jwt": "4.2.0",
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
@@ -29,5 +29,5 @@
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
   "license": "Apache-2.0",
   "keywords": [],
-  "gitHead": "ec317e0f10cffe731648a8c2d8f58def3d3c85ff"
+  "gitHead": "b77c5c740ac96a2bb5fb2ca17348f0ffdedc5d9a"
 }

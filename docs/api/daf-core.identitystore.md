@@ -12,9 +12,9 @@ export declare class IdentityStore extends AbstractIdentityStore
 
 ## Constructors
 
-| Constructor                                                          | Modifiers | Description                                                       |
-| -------------------------------------------------------------------- | --------- | ----------------------------------------------------------------- |
-| [(constructor)(provider)](./daf-core.identitystore._constructor_.md) |           | Constructs a new instance of the <code>IdentityStore</code> class |
+| Constructor                                                                        | Modifiers | Description                                                       |
+| ---------------------------------------------------------------------------------- | --------- | ----------------------------------------------------------------- |
+| [(constructor)(provider, dbConnection)](./daf-core.identitystore._constructor_.md) |           | Constructs a new instance of the <code>IdentityStore</code> class |
 
 ## Methods
 
@@ -22,5 +22,5 @@ export declare class IdentityStore extends AbstractIdentityStore
 | --------------------------------------------------------------- | --------- | ----------- |
 | [delete(did)](./daf-core.identitystore.delete.md)               |           |             |
 | [get(did)](./daf-core.identitystore.get.md)                     |           |             |
-| [listDids()](./daf-core.identitystore.listdids.md)              |           |             |
+| [listDids()](./daf-core.identitystore.listdids.md)              |           | List dids   |
 | [set(did, serializedIdentity)](./daf-core.identitystore.set.md) |           |             |

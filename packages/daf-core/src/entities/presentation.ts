@@ -35,6 +35,7 @@ export class Presentation extends BaseEntity {
     identity => identity.issuedPresentations,
     {
       cascade: ['insert'],
+      eager: true,
     },
   )
   issuer: Identity
@@ -44,9 +45,13 @@ export class Presentation extends BaseEntity {
     identity => identity.receivedPresentations,
     {
       cascade: ['insert'],
+      eager: true,
     },
   )
   audience: Identity
+
+  @Column({ nullable: true })
+  id?: String
 
   @Column()
   issuanceDate: Date

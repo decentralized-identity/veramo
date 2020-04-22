@@ -1,61 +1,47 @@
-import { Core } from 'daf-core'
-import { DataStore } from 'daf-data-store'
-import { ActionTypes, ActionSignSdr, SDRInput } from './action-handler'
-import { decodeJWT } from 'did-jwt'
+import { Agent, Message, Presentation } from 'daf-core'
+import { ActionTypes, ActionSignSdr, SelectiveDisclosureRequest } from './action-handler'
+import { findCredentialsForSdr, validatePresentationAgainstSdr } from './helper'
+import { MessageTypes } from './message-handler'
 
 interface Context {
-  core: Core
-  dataStore: DataStore
+  agent: Agent
 }
 
-const actionSignSDR = async (
-  _: any,
-  args: {
-    did: string
-    data: SDRInput
-  },
+const signSdrJwt = async (_: any, args: { data: SelectiveDisclosureRequest }, ctx: Context) =>
+  ctx.agent.handleAction({
+    type: ActionTypes.signSdr,
+    data: args.data,
+  } as ActionSignSdr)
+
+const sdr = async (message: Message, { did }: { did: string }, ctx: Context) => {
+  if (message.type == MessageTypes.sdr) {
+    return findCredentialsForSdr(ctx.agent.dbConnection, message.data, did)
+  }
+  return []
+}
+
+const validateAgainstSdr = async (
+  presentation: Presentation,
+  { sdr }: { sdr: SelectiveDisclosureRequest },
   ctx: Context,
 ) => {
-  const { data } = args
-
-  return await ctx.core.handleAction({
-    type: ActionTypes.signSdr,
-    did: args.did,
-    data: data,
-  } as ActionSignSdr)
-}
-
-const sdr = async (message: any, { sub }: { sub: string }, { dataStore }: Context) => {
-  const { payload }: { payload: SDRInput } = (await decodeJWT(message.raw)) as any
-  const result: any = []
-  const subject = sub || message.receiver?.did
-  if (payload.claims) {
-    for (const credentialRequest of payload.claims) {
-      const iss: any =
-        credentialRequest.iss !== undefined ? credentialRequest.iss.map((iss: any) => iss.did) : null
-      const credentials = await dataStore.findCredentialsByFields({
-        iss,
-        sub: subject ? [subject] : [],
-        claim_type: credentialRequest.claimType,
-      })
-
-      result.push({
-        ...credentialRequest,
-        iss: credentialRequest.iss?.map(item => ({ url: item.url, did: { did: item.did } })),
-        vc: credentials.map((credential: any) => ({ ...credential, __typename: 'VerifiableClaim' })),
-      })
-    }
-  }
-
-  return result
+  const fullPresentation = await (await ctx.agent.dbConnection)
+    .getRepository(Presentation)
+    .findOne(presentation.hash, {
+      relations: ['credentials', 'credentials.claims'],
+    })
+  return validatePresentationAgainstSdr(fullPresentation, sdr)
 }
 
 export const resolvers = {
+  Presentation: {
+    validateAgainstSdr,
+  },
   Message: {
     sdr,
   },
   Mutation: {
-    actionSignSDR,
+    signSdrJwt,
   },
 }
 
@@ -66,16 +52,23 @@ export const typeDefs = `
   }
 
   input CredentialRequestInput {
-    iss: [IssuerInput]
+    issuers: [IssuerInput]
     reason: String
-    claimType: String
+    credentialType: String
+    credentialContext: String
+    claimType: String!
+    claimValue: String
     essential: Boolean
   }
 
   input SDRInput {
+    issuer: String!
+    subject: String
+    replyTo: [String]
+    replyUrl: String
     tag: String
-    sub: String
     claims: [CredentialRequestInput]!
+    credentials: [String]
   }
 
   type Issuer {
@@ -84,19 +77,31 @@ export const typeDefs = `
   }
 
   type CredentialRequest {
-    iss: [Issuer]
+    issuers: [Issuer]
     reason: String
-    claimType: String
+    credentialType: String
+    credentialContext: String
+    claimType: String!
+    claimValue: String
     essential: Boolean
-    vc: [VerifiableClaim]
+    credentials: [Credential]
+  }
+
+  type PresentationValidation {
+    valid: Boolean!
+    claims: [CredentialRequest]
+  }
+
+  extend type Presentation {
+    validateAgainstSdr(data: SDRInput!): PresentationValidation
   }
 
   extend type Message {
-    sdr(sub: ID!): [CredentialRequest]
+    sdr(did: String): [CredentialRequest]
   }
 
   extend type Mutation {
-    actionSignSDR(did: String!, data: SDRInput!): String
+    signSdrJwt(data: SDRInput!): String
   }
 `
 export default {

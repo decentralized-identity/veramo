@@ -1,7 +1,7 @@
 import * as Daf from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as DIDComm from 'daf-did-comm'
-import { core, dataStore } from './setup'
+import { agent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
@@ -12,7 +12,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    const identities = await core.identityManager.getIdentities()
+    const identities = await agent.identityManager.getIdentities()
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -44,47 +44,45 @@ program
     ])
 
     const credentialSubject: any = {}
+    credentialSubject.id = answers.sub
     const type: string = answers.claimType
     credentialSubject[type] = answers.claimValue
 
     const signAction: W3c.ActionSignW3cVc = {
-      type: W3c.ActionTypes.signVc,
-      did: answers.iss,
+      type: W3c.ActionTypes.signCredentialJwt,
+      save: true,
       data: {
-        sub: answers.sub,
-        vc: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
-          credentialSubject,
-        },
+        issuer: answers.iss,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject,
       },
     }
 
-    const jwt = await core.handleAction(signAction)
+    const credential: Daf.Credential = await agent.handleAction(signAction)
 
-    if (!cmd.send) {
-      await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
-    } else {
-      const sendAction: DIDComm.ActionSendJWT = {
-        type: DIDComm.ActionTypes.sendJwt,
+    if (cmd.send) {
+      const sendAction: DIDComm.ActionSendDIDComm = {
+        type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
         data: {
           from: answers.iss,
           to: answers.sub,
-          jwt,
+          type: 'jwt',
+          body: credential.raw,
         },
       }
       try {
-        const result = await core.handleAction(sendAction)
-        console.log('Sent:', result)
+        const message: Daf.Message = await agent.handleAction(sendAction)
+        console.log('Sent:', message)
       } catch (e) {
         console.error(e)
       }
     }
 
     if (cmd.qrcode) {
-      qrcode.generate(jwt)
+      qrcode.generate(credential.raw)
     } else {
-      console.log(`jwt: ${jwt}`)
+      console.log(`jwt: ${credential.raw}`)
     }
   })
 
@@ -94,13 +92,13 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    const myIdentities = await core.identityManager.getIdentities()
+    const myIdentities = await agent.identityManager.getIdentities()
     if (myIdentities.length === 0) {
       console.error('No dids')
       process.exit()
     }
 
-    const dids = await dataStore.allIdentities()
+    const ids = await Daf.Identity.find()
 
     const identities = [
       {
@@ -108,11 +106,11 @@ program
         value: 'manual',
       },
     ]
-    for (const did of dids) {
-      const shortId = await dataStore.shortId(did.did)
+    for (const id of ids) {
+      const name = await id.getLatestClaimValue(agent.dbConnection, { type: 'name'})
       identities.push({
-        value: did.did,
-        name: `${did.did} - ${shortId}`,
+        value: id.did,
+        name: `${id.did} - ${name}`,
       })
     }
 
@@ -150,19 +148,21 @@ program
       aud = answers.aud
     }
 
-    const credentials = await dataStore.findCredentials({ sub: answers.iss })
+    const credentials = await Daf.Credential.find({ 
+      where: { subject: answers.iss}, 
+      relations: ['claims'] 
+    })
     const list: any = []
     if (credentials.length > 0) {
       for (const credential of credentials) {
-        const fields = await dataStore.credentialsFieldsForClaimHash(credential.hash)
-        const issuer = await dataStore.shortId(credential.iss.did)
+        const issuer = credential.issuer.shortDid()
         const claims = []
-        for (const field of fields) {
-          claims.push(field.type + ' = ' + field.value)
+        for (const claim of credential.claims) {
+          claims.push(claim.type + ' = ' + claim.value)
         }
         list.push({
           name: claims.join(', ') + ' | Issuer: ' + issuer,
-          value: credential.jwt,
+          value: credential.raw,
         })
       }
 
@@ -192,44 +192,42 @@ program
       }
 
       const signAction: W3c.ActionSignW3cVp = {
-        type: W3c.ActionTypes.signVp,
-        did: answers.iss,
+        type: W3c.ActionTypes.signPresentationJwt,
+        save: true,
         data: {
-          aud: aud,
+          issuer: answers.iss,
+          audience: aud,
           tag: answers.tag,
-          vp: {
-            '@context': ['https://www.w3.org/2018/credentials/v1'],
-            type: ['VerifiablePresentation'],
-            verifiableCredential,
-          },
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          type: ['VerifiablePresentation'],
+          verifiableCredential,
         },
       }
 
-      const jwt = await core.handleAction(signAction)
+      const presentation: Daf.Presentation = await agent.handleAction(signAction)
 
-      if (!cmd.send) {
-        await core.validateMessage(new Daf.Message({ raw: jwt, meta: { type: 'cli' } }))
-      } else {
-        const sendAction: DIDComm.ActionSendJWT = {
-          type: DIDComm.ActionTypes.sendJwt,
+      if (cmd.send) {
+        const sendAction: DIDComm.ActionSendDIDComm = {
+          type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
           data: {
             from: answers.iss,
             to: aud,
-            jwt,
+            type: 'jwt',
+            body: presentation.raw,
           },
         }
         try {
-          const result = await core.handleAction(sendAction)
-          console.log('Sent:', result)
+          const message: Daf.Message = await agent.handleAction(sendAction)
+          console.log('Sent:', message)
         } catch (e) {
           console.error(e)
         }
       }
 
       if (cmd.qrcode) {
-        qrcode.generate(jwt)
+        qrcode.generate(presentation.raw)
       } else {
-        console.log(`jwt: ${jwt}`)
+        console.log(`jwt: ${presentation.raw}`)
       }
     }
   })

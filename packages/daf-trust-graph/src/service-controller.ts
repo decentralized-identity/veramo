@@ -15,7 +15,7 @@ import { Message } from 'daf-core'
 import Debug from 'debug'
 const debug = Debug('daf:trust-graph:service-controller')
 
-export class ServiceController extends AbstractServiceController {
+export class TrustGraphServiceController extends AbstractServiceController {
   static defaultUri = 'https://trustgraph.uport.me/graphql'
   static defaultWsUri = 'wss://trustgraph.uport.me/graphql'
   static webSocketImpl?: any
@@ -46,8 +46,8 @@ export class ServiceController extends AbstractServiceController {
     const service = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraph')
     const serviceWs = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraphWs')
 
-    this.uri = service ? service.serviceEndpoint : ServiceController.defaultUri
-    this.wsUri = serviceWs ? serviceWs.serviceEndpoint : ServiceController.defaultWsUri
+    this.uri = service ? service.serviceEndpoint : TrustGraphServiceController.defaultUri
+    this.wsUri = serviceWs ? serviceWs.serviceEndpoint : TrustGraphServiceController.defaultWsUri
 
     debug('Initializing for', this.identity.did)
     debug('URI', this.uri)
@@ -67,7 +67,7 @@ export class ServiceController extends AbstractServiceController {
             return { authorization: `Bearer ${token}` }
           },
         },
-        ServiceController.webSocketImpl,
+        TrustGraphServiceController.webSocketImpl,
       )
 
       const wsLink = new WebSocketLink(wsClient)
@@ -137,10 +137,12 @@ export class ServiceController extends AbstractServiceController {
       messages.push(
         new Message({
           raw: edge.jwt,
-          meta: {
-            type: this.instanceId().type,
-            value: this.uri,
-          },
+          metaData: [
+            {
+              type: this.instanceId().type,
+              value: this.uri,
+            },
+          ],
         }),
       )
     }
@@ -169,7 +171,7 @@ export class ServiceController extends AbstractServiceController {
             emit(ServiceEventTypes.NewMessages, [
               new Message({
                 raw: result.data.edgeAdded.jwt,
-                meta: { type, value: uri },
+                metaData: [{ type, value: uri }],
               }),
             ])
           },

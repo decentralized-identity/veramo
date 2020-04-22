@@ -8,7 +8,7 @@
 
 ```typescript
 ActionTypes: {
-  signVc: string
-  signVp: string
+  signCredentialJwt: string
+  signPresentationJwt: string
 }
 ```

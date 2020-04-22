@@ -18,8 +18,9 @@ export declare class KeyManagementSystem extends AbstractKeyManagementSystem
 
 ## Methods
 
-| Method                                                              | Modifiers | Description |
-| ------------------------------------------------------------------- | --------- | ----------- |
-| [createKey(type)](./daf-libsodium.keymanagementsystem.createkey.md) |           |             |
-| [deleteKey(kid)](./daf-libsodium.keymanagementsystem.deletekey.md)  |           |             |
-| [getKey(kid)](./daf-libsodium.keymanagementsystem.getkey.md)        |           |             |
+| Method                                                                       | Modifiers | Description |
+| ---------------------------------------------------------------------------- | --------- | ----------- |
+| [createKey(type)](./daf-libsodium.keymanagementsystem.createkey.md)          |           |             |
+| [deleteKey(kid)](./daf-libsodium.keymanagementsystem.deletekey.md)           |           |             |
+| [getKey(kid)](./daf-libsodium.keymanagementsystem.getkey.md)                 |           |             |
+| [importKey(serializedKey)](./daf-libsodium.keymanagementsystem.importkey.md) |           |             |

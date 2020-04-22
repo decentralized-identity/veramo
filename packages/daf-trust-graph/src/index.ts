@@ -1,4 +1,4 @@
-export { ServiceController } from './service-controller'
-export { ActionHandler, ActionSendJWT, ActionTypes } from './action-handler'
-import Gql from './graphql'
-export { Gql }
+export { TrustGraphServiceController } from './service-controller'
+export { TrustGraphActionHandler, ActionSendJWT, ActionTypes } from './action-handler'
+import TrustGraphGql from './graphql'
+export { TrustGraphGql }

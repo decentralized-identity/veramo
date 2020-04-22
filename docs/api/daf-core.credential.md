@@ -19,6 +19,7 @@ export declare class Credential extends BaseEntity
 | [credentialSubject](./daf-core.credential.credentialsubject.md) |           | <code>object</code>         |             |
 | [expirationDate](./daf-core.credential.expirationdate.md)       |           | <code>Date</code>           |             |
 | [hash](./daf-core.credential.hash.md)                           |           | <code>string</code>         |             |
+| [id](./daf-core.credential.id.md)                               |           | <code>String</code>         |             |
 | [issuanceDate](./daf-core.credential.issuancedate.md)           |           | <code>Date</code>           |             |
 | [issuer](./daf-core.credential.issuer.md)                       |           | <code>Identity</code>       |             |
 | [messages](./daf-core.credential.messages.md)                   |           | <code>Message[]</code>      |             |

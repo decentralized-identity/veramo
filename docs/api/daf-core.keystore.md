@@ -10,6 +10,12 @@
 export declare class KeyStore extends AbstractKeyStore
 ```
 
+## Constructors
+
+| Constructor                                                         | Modifiers | Description                                                  |
+| ------------------------------------------------------------------- | --------- | ------------------------------------------------------------ |
+| [(constructor)(dbConnection)](./daf-core.keystore._constructor_.md) |           | Constructs a new instance of the <code>KeyStore</code> class |
+
 ## Methods
 
 | Method                                                | Modifiers | Description |

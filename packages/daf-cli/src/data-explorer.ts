@@ -1,4 +1,5 @@
-import { core, dataStore } from './setup'
+import * as Daf from 'daf-core'
+import { agent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import { formatDistanceToNow } from 'date-fns'
@@ -11,18 +12,19 @@ program
   .option('-m, --messages', 'List messages')
   .action(async cmd => {
     if (cmd.identities) {
-      const dids = await dataStore.allIdentities()
-      if (dids.length === 0) {
+      const dbConnection = await agent.dbConnection
+      const ids = await dbConnection.getRepository(Daf.Identity).find()
+      if (ids.length === 0) {
         console.error('No dids')
         process.exit()
       }
 
       const identities = []
-      for (const did of dids) {
-        const shortId = await dataStore.shortId(did.did)
+      for (const id of ids) {
+        const name = await id.getLatestClaimValue(agent.dbConnection, {type: 'name'})
         identities.push({
-          value: did.did,
-          name: `${did.did} - ${shortId}`,
+          value: id.did,
+          name: `${id.did} - ${name || id.shortDid()}`,
         })
       }
 
@@ -43,10 +45,10 @@ program
 
       switch (answers.type) {
         case 'Sent Messages':
-          showMessageList(await dataStore.findMessages({ sender: answers.did }))
+          showMessageList(await Daf.Message.find({ where: { from: answers.did } }))
           break
         case 'Received Messages':
-          showMessageList(await dataStore.findMessages({ receiver: answers.did }))
+          showMessageList(await Daf.Message.find({ where: { to: answers.did } }))
           break
         case 'Credentials':
           showCredentials(answers.did)
@@ -55,11 +57,12 @@ program
     }
 
     if (cmd.messages) {
-      showMessageList(await dataStore.findMessages({}))
+      const dbConnection = await agent.dbConnection
+      showMessageList(await dbConnection.getRepository(Daf.Message).find())
     }
   })
 
-const showMessageList = async (messages: any) => {
+const showMessageList = async (messages: Daf.Message[]) => {
   if (messages.length === 0) {
     console.error('No messages')
     process.exit()
@@ -69,9 +72,9 @@ const showMessageList = async (messages: any) => {
     {
       type: 'list',
       name: 'id',
-      choices: messages.map((item: any) => ({
-        name: `${formatDistanceToNow(item.timestamp * 1000)} ${item.type} from: ${item.sender?.did} to: ${
-          item.receiver?.did
+      choices: messages.map((item: Daf.Message) => ({
+        name: `${formatDistanceToNow(item.createdAt)} ${item.type} from: ${item.from?.did} to: ${
+          item.to?.did
         }`,
         value: item.id,
       })),
@@ -82,22 +85,23 @@ const showMessageList = async (messages: any) => {
 }
 
 const showMessage = async (id: string) => {
-  const message = await dataStore.findMessage(id)
+  const dbConnection = await agent.dbConnection
+  const message = await dbConnection.getRepository(Daf.Message)
+    .findOne(id, {relations: ['credentials', 'credentials.claims']})
   console.log(message)
 
   const table = []
-  const credentials = await dataStore.credentialsForMessageId(id)
-  if (credentials.length > 0) {
-    for (const credential of credentials) {
-      const fields = await dataStore.credentialsFieldsForClaimHash(credential.hash)
-      const issuer = await dataStore.shortId(credential.iss.did)
-      const subject = await dataStore.shortId(credential.sub.did)
-      for (const field of fields) {
+  
+  if (message.credentials.length > 0) {
+    for (const credential of message.credentials) {
+      const issuer = credential.issuer.shortDid()
+      const subject = credential.subject.shortDid()
+      for (const claim of credential.claims) {
         table.push({
           from: issuer,
           to: subject,
-          type: field.type,
-          value: field.value,
+          type: claim.type,
+          value: claim.value,
         })
       }
     }
@@ -108,18 +112,21 @@ const showMessage = async (id: string) => {
 
 const showCredentials = async (did: string) => {
   const table = []
-  const credentials = await dataStore.findCredentials({ sub: did })
+  const dbConnection = await agent.dbConnection
+
+  const credentials = await dbConnection.getRepository(Daf.Credential)
+    .find({ where: { subject: did } })
+
   if (credentials.length > 0) {
     for (const credential of credentials) {
-      const fields = await dataStore.credentialsFieldsForClaimHash(credential.hash)
-      const issuer = await dataStore.shortId(credential.iss.did)
-      const subject = await dataStore.shortId(credential.sub.did)
-      for (const field of fields) {
+      const issuer = credential.issuer.shortDid()
+      const subject = credential.subject.shortDid()
+      for (const claim of credential.claims) {
         table.push({
           from: issuer,
           to: subject,
-          type: field.type,
-          value: field.value,
+          type: claim.type,
+          value: claim.value,
         })
       }
     }

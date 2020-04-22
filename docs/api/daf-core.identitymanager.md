@@ -26,5 +26,5 @@ export declare class IdentityManager
 | [getIdentities()](./daf-core.identitymanager.getidentities.md)                               |           |             |
 | [getIdentity(did)](./daf-core.identitymanager.getidentity.md)                                |           |             |
 | [getIdentityProvider(type)](./daf-core.identitymanager.getidentityprovider.md)               |           |             |
-| [getIdentityProviderTypes()](./daf-core.identitymanager.getidentityprovidertypes.md)         |           |             |
+| [getIdentityProviders()](./daf-core.identitymanager.getidentityproviders.md)                 |           |             |
 | [importIdentity(identityProviderType, secret)](./daf-core.identitymanager.importidentity.md) |           |             |
