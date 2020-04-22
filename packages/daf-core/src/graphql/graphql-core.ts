@@ -153,7 +153,7 @@ const messages = async (_: any, args: FindArgs, ctx: Context) => {
       new Brackets(qb => {
         qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
           ident: ctx.authenticatedDid,
-        })
+        }).orWhere('message.visibility = "public"')
       }),
     )
   }
@@ -173,7 +173,7 @@ const messagesCount = async (_: any, args: FindArgs, ctx: Context) => {
       new Brackets(qb => {
         qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
           ident: ctx.authenticatedDid,
-        })
+        }).orWhere('message.visibility = "public"')
       }),
     )
   }
@@ -190,11 +190,13 @@ const presentations = async (_: any, args: FindArgs, ctx: Context) => {
     .where(where)
   qb = decorateQB(qb, 'presentation', args.input)
   if (ctx.authenticatedDid) {
+    qb = qb.leftJoin("presentation.messages", "message")
     qb = qb.andWhere(
       new Brackets(qb => {
         qb.where('audience.did = :ident', {
           ident: ctx.authenticatedDid,
         }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
+        .orWhere('message.visibility = "public"')
       }),
     )
   }
@@ -211,11 +213,13 @@ const presentationsCount = async (_: any, args: FindArgs, ctx: Context) => {
     .where(where)
   qb = decorateQB(qb, 'presentation', args.input)
   if (ctx.authenticatedDid) {
+    qb = qb.leftJoin("presentation.messages", "message")
     qb = qb.andWhere(
       new Brackets(qb => {
         qb.where('audience.did = :ident', {
           ident: ctx.authenticatedDid,
         }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
+        .orWhere('message.visibility = "public"')
       }),
     )
   }
@@ -232,11 +236,12 @@ const credentials = async (_: any, args: FindArgs, ctx: Context) => {
     .where(where)
   qb = decorateQB(qb, 'credential', args.input)
   if (ctx.authenticatedDid) {
+    qb = qb.leftJoin("credential.messages", "message")
     qb = qb.andWhere(
       new Brackets(qb => {
         qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('credential.issuer = :ident', {
           ident: ctx.authenticatedDid,
-        })
+        }).orWhere('message.visibility = "public"')
       }),
     )
   }
@@ -253,11 +258,12 @@ const credentialsCount = async (_: any, args: FindArgs, ctx: Context) => {
     .where(where)
   qb = decorateQB(qb, 'credential', args.input)
   if (ctx.authenticatedDid) {
+    qb = qb.leftJoin("credential.messages", "message")
     qb = qb.andWhere(
       new Brackets(qb => {
         qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('credential.issuer = :ident', {
           ident: ctx.authenticatedDid,
-        })
+        }).orWhere('message.visibility = "public"')
       }),
     )
   }
@@ -341,7 +347,7 @@ export const resolvers = {
           new Brackets(qb => {
             qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
               ident: ctx.authenticatedDid,
-            })
+            }).orWhere('message.visibility = "public"')
           }),
         )
       }
@@ -357,11 +363,13 @@ export const resolvers = {
         .leftJoinAndSelect('presentation.audience', 'audience')
         .where('presentation.hash = :hash', { hash })
       if (ctx.authenticatedDid) {
+        qb = qb.leftJoin("presentation.messages", "message")
         qb = qb.andWhere(
           new Brackets(qb => {
             qb.where('audience.did = :ident', {
               ident: ctx.authenticatedDid,
             }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
+            .orWhere('message.visibility = "public"')
           }),
         )
       }
@@ -377,11 +385,13 @@ export const resolvers = {
         .leftJoinAndSelect('credential.subject', 'subject')
         .where('credential.hash = :hash', { hash })
       if (ctx.authenticatedDid) {
+        qb = qb.leftJoin("credential.messages", "message")
         qb = qb.andWhere(
           new Brackets(qb => {
             qb.where('credential.subject = :ident', {
               ident: ctx.authenticatedDid,
             }).orWhere('credential.issuer = :ident', { ident: ctx.authenticatedDid })
+            .orWhere('message.visibility = "public')
           }),
         )
       }

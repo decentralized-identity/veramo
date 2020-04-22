@@ -67,6 +67,9 @@ export class Message extends BaseEntity {
   @Column('simple-json', { nullable: true })
   data?: any
 
+  @Column({ nullable: true })
+  visibility?: string
+
   // https://github.com/decentralized-identity/didcomm-messaging/blob/41f35f992275dd71d459504d14eb8d70b4185533/jwm.md#jwm-profile
 
   @Column('simple-array', { nullable: true })

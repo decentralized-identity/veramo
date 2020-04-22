@@ -98,6 +98,49 @@ async function populateDB() {
   m4.presentations = [vp2]
 
   await m4.save()
+
+  const m5 = new Message()
+  m5.from = id3
+  m5.to = id2
+  m5.type = 'mock'
+  m5.raw = 'mockpublic'
+  m5.visibility = 'public'
+  m5.createdAt = new Date()
+
+  await m5.save()
+
+  const vc2 = new Credential()
+  vc2.issuer = id1
+  vc2.subject = id2
+  vc2.issuanceDate = new Date()
+  vc2.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
+  vc2.type = ['VerifiableCredential']
+  vc2.raw = 'mockJWTonvisiblemessage'
+  vc2.credentialSubject = {
+    name: 'Alice2',
+  }
+
+  const vp3 = new Presentation()
+  vp3.issuer = id1
+  vp3.audience = [id2]
+  vp3.issuanceDate = new Date()
+  vp3.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
+  vp3.type = ['VerifiablePresentation', 'PublicProfile']
+  vp3.raw = 'mockJWTonvisiblecredential'
+  vp3.credentials = [vc2]
+  
+  const m6 = new Message()
+  m6.from = id1
+  m6.to = id2
+  m6.type = 'mock'
+  m6.raw = 'mockvisiblewithpresentationsandcredentials'
+  m6.createdAt = new Date()
+  m6.credentials = [vc2]
+  m6.presentations = [vp3]
+  m6.visibility = 'public'
+
+  await m6.save()
+
 }
 
 describe('daf-core entities', () => {
@@ -146,7 +189,7 @@ describe('daf-core entities', () => {
     }
 
     const messages = await Gql.Core.resolvers.Query.messages({}, query, { agent })
-    expect(messages.length).toBe(4)
+    expect(messages.length).toBe(6)
   })
 
   test('with auth it only gets messages for the authorized identity', async () => {
@@ -166,7 +209,7 @@ describe('daf-core entities', () => {
     }
 
     const messages = await Gql.Core.resolvers.Query.messages({}, query, { agent, authenticatedDid })
-    expect(messages.length).toBe(3)
+    expect(messages.length).toBe(5)
   })
 
   test('works for counts too', async () => {
@@ -184,14 +227,14 @@ describe('daf-core entities', () => {
     }
 
     const messagesCount = await Gql.Core.resolvers.Query.messagesCount({}, query, { agent })
-    expect(messagesCount).toBe(4)
+    expect(messagesCount).toBe(6)
     const authenticatedDid = 'did:test:111'
 
     const messagesCount2 = await Gql.Core.resolvers.Query.messagesCount({}, query, {
       agent,
       authenticatedDid,
     })
-    expect(messagesCount2).toBe(3)
+    expect(messagesCount2).toBe(5)
   })
 
   test('supports ordering', async () => {
@@ -244,7 +287,7 @@ describe('daf-core entities', () => {
     const query = {}
 
     const claims = await Gql.Core.resolvers.Query.claims({}, query, { agent })
-    expect(claims.length).toBe(3)
+    expect(claims.length).toBe(4)
     expect(claims[0].credential.hash).toBe(
       '616858dd40c4ca838e9a94a368613a057871761d5940e3b57b4f17591799e7d3e5bbe3b7e9b2cb582406737997fe79f99a609c455ee3cd5d5a95b31db7e1c3c7',
     )
@@ -288,24 +331,35 @@ describe('daf-core entities', () => {
       },
     }
 
-    let authenticatedDid = (async () => 'did:test:111')()
+    let authenticatedDid = 'did:test:111'
 
     let presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
     expect(presentations.length).toBe(1)
 
-    authenticatedDid = (async () => 'did:test:222')()
+    authenticatedDid = 'did:test:222'
     presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
 
     expect(presentations.length).toBe(1)
 
-    authenticatedDid = (async () => 'did:test:444')()
+    authenticatedDid = 'did:test:444'
     presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
 
     expect(presentations.length).toBe(1)
 
-    authenticatedDid = (async () => 'did:test:333')()
+    authenticatedDid = 'did:test:333'
     presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
 
     expect(presentations.length).toBe(0)
+  })
+
+  test("can get public presentations and credentials", async () => {
+    const agent = makeAgent()
+    const authenticatedDid = 'did:test:notindb'
+
+    let presentations =  await Gql.Core.resolvers.Query.presentations({}, {}, { agent, authenticatedDid })
+    expect(presentations.length).toBe(1)
+
+    presentations =  await Gql.Core.resolvers.Query.presentations({}, {}, { agent })
+    expect(presentations.length).toBe(3)
   })
 })
