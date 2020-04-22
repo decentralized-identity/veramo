@@ -19,6 +19,7 @@ export declare class Presentation extends BaseEntity
 | [credentials](./daf-core.presentation.credentials.md)       |           | <code>Credential[]</code> |             |
 | [expirationDate](./daf-core.presentation.expirationdate.md) |           | <code>Date</code>         |             |
 | [hash](./daf-core.presentation.hash.md)                     |           | <code>string</code>       |             |
+| [id](./daf-core.presentation.id.md)                         |           | <code>String</code>       |             |
 | [issuanceDate](./daf-core.presentation.issuancedate.md)     |           | <code>Date</code>         |             |
 | [issuer](./daf-core.presentation.issuer.md)                 |           | <code>Identity</code>     |             |
 | [messages](./daf-core.presentation.messages.md)             |           | <code>Message[]</code>    |             |

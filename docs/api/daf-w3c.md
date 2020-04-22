@@ -6,10 +6,10 @@
 
 ## Classes
 
-| Class                                             | Description |
-| ------------------------------------------------- | ----------- |
-| [ActionHandler](./daf-w3c.actionhandler.md)       |             |
-| [MessageValidator](./daf-w3c.messagevalidator.md) |             |
+| Class                                               | Description |
+| --------------------------------------------------- | ----------- |
+| [W3cActionHandler](./daf-w3c.w3cactionhandler.md)   |             |
+| [W3cMessageHandler](./daf-w3c.w3cmessagehandler.md) |             |
 
 ## Interfaces
 
@@ -23,5 +23,5 @@
 | Variable                                  | Description |
 | ----------------------------------------- | ----------- |
 | [ActionTypes](./daf-w3c.actiontypes.md)   |             |
-| [Gql](./daf-w3c.gql.md)                   |             |
 | [MessageTypes](./daf-w3c.messagetypes.md) |             |
+| [W3cGql](./daf-w3c.w3cgql.md)             |             |

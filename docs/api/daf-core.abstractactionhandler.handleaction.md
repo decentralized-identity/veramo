@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-handleAction(action: Action, core: Core): Promise<any>;
+handleAction(action: Action, agent: Agent): Promise<any>;
 ```
 
 ## Parameters
@@ -15,7 +15,7 @@ handleAction(action: Action, core: Core): Promise<any>;
 | Parameter | Type                | Description |
 | --------- | ------------------- | ----------- |
 | action    | <code>Action</code> |             |
-| core      | <code>Core</code>   |             |
+| agent     | <code>Agent</code>  |             |
 
 <b>Returns:</b>
 

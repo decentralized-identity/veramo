@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-getIdentityProvider(type: string): Promise<AbstractIdentityProvider>;
+getIdentityProvider(type: string): AbstractIdentityProvider;
 ```
 
 ## Parameters
@@ -18,4 +18,4 @@ getIdentityProvider(type: string): Promise<AbstractIdentityProvider>;
 
 <b>Returns:</b>
 
-`Promise<AbstractIdentityProvider>`
+`AbstractIdentityProvider`

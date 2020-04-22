@@ -6,23 +6,24 @@
 
 ## Classes
 
-| Class                                                              | Description |
-| ------------------------------------------------------------------ | ----------- |
-| [ActionHandler](./daf-selective-disclosure.actionhandler.md)       |             |
-| [MessageValidator](./daf-selective-disclosure.messagevalidator.md) |             |
+| Class                                                                | Description |
+| -------------------------------------------------------------------- | ----------- |
+| [SdrActionHandler](./daf-selective-disclosure.sdractionhandler.md)   |             |
+| [SdrMessageHandler](./daf-selective-disclosure.sdrmessagehandler.md) |             |
 
 ## Interfaces
 
-| Interface                                                                      | Description |
-| ------------------------------------------------------------------------------ | ----------- |
-| [ActionSignSdr](./daf-selective-disclosure.actionsignsdr.md)                   |             |
-| [CredentialRequestInput](./daf-selective-disclosure.credentialrequestinput.md) |             |
-| [SDRInput](./daf-selective-disclosure.sdrinput.md)                             |             |
+| Interface                                                                              | Description |
+| -------------------------------------------------------------------------------------- | ----------- |
+| [ActionSignSdr](./daf-selective-disclosure.actionsignsdr.md)                           |             |
+| [CredentialRequestInput](./daf-selective-disclosure.credentialrequestinput.md)         |             |
+| [SelectiveDisclosureRequest](./daf-selective-disclosure.selectivedisclosurerequest.md) |             |
 
 ## Variables
 
-| Variable                                                   | Description |
-| ---------------------------------------------------------- | ----------- |
-| [ActionTypes](./daf-selective-disclosure.actiontypes.md)   |             |
-| [Gql](./daf-selective-disclosure.gql.md)                   |             |
-| [MessageTypes](./daf-selective-disclosure.messagetypes.md) |             |
+| Variable                                                                     | Description |
+| ---------------------------------------------------------------------------- | ----------- |
+| [ActionTypes](./daf-selective-disclosure.actiontypes.md)                     |             |
+| [findCredentialsForSdr](./daf-selective-disclosure.findcredentialsforsdr.md) |             |
+| [MessageTypes](./daf-selective-disclosure.messagetypes.md)                   |             |
+| [SdrGql](./daf-selective-disclosure.sdrgql.md)                               |             |

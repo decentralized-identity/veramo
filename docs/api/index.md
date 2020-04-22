@@ -9,8 +9,6 @@
 | Package                                                               | Description |
 | --------------------------------------------------------------------- | ----------- |
 | [daf-core](./daf-core.md)                                             |             |
-| [daf-data-store](./daf-data-store.md)                                 |             |
-| [daf-debug](./daf-debug.md)                                           |             |
 | [daf-did-jwt](./daf-did-jwt.md)                                       |             |
 | [daf-ethr-did](./daf-ethr-did.md)                                     |             |
 | [daf-fs](./daf-fs.md)                                                 |             |

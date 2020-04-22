@@ -11,35 +11,62 @@ Gql: {
     baseTypeDefs: string;
     Core: {
         resolvers: {
-            Query: {
-                serviceMessagesSince: (_: any, args: {
-                    ts: import("..").LastMessageTimestampForInstance[];
-                }, ctx: import("./graphql-core").Context) => Promise<any[]>;
-            };
             Mutation: {
-                newMessage: (_: any, args: {
+                handleMessage: (_: any, args: {
                     raw: string;
-                    sourceType: string;
-                    sourceId?: string;
-                }, ctx: import("./graphql-core").Context) => Promise<{
-                    data: string;
-                    id: string;
-                    raw: string;
-                    __typename: string;
-                    saveDate: Date;
-                    updateDate: Date;
-                    createdAt?: Date;
-                    expiresAt?: Date;
-                    threadId?: string;
+                    metaData?: [{
+                        type: string;
+                        value?: string;
+                    }];
+                    save: boolean;
+                }, ctx: import("./graphql-core").Context) => Promise<import("..").Message>;
+            };
+            Query: {
+                identity: (_: any, { did }: {
+                    did: any;
+                }, ctx: import("./graphql-core").Context) => Promise<import("..").Identity>;
+                identities: (_: any, { input }: {
+                    input: any;
+                }, ctx: import("./graphql-core").Context) => Promise<import("..").Identity[]>;
+                message: (_: any, { id }: {
+                    id: any;
+                }, ctx: import("./graphql-core").Context) => Promise<import("..").Message>;
+                messages: (_: any, args: import("./graphql-core").FindArgs, ctx: import("./graphql-core").Context) => Promise<import("..").Message[]>;
+                messagesCount: (_: any, args: import("./graphql-core").FindArgs, ctx: import("./graphql-core").Context) => Promise<number>;
+                presentation: (_: any, { hash }: {
+                    hash: any;
+                }, ctx: import("./graphql-core").Context) => Promise<import("..").Presentation>;
+                presentations: (_: any, args: import("./graphql-core").FindArgs, ctx: import("./graphql-core").Context) => Promise<import("..").Presentation[]>;
+                presentationsCount: (_: any, args: import("./graphql-core").FindArgs, ctx: import("./graphql-core").Context) => Promise<number>;
+                credential: (_: any, { hash }: {
+                    hash: any;
+                }, ctx: import("./graphql-core").Context) => Promise<import("..").Credential>;
+                credentials: (_: any, args: import("./graphql-core").FindArgs, ctx: import("./graphql-core").Context) => Promise<import("..").Credential[]>;
+                credentialsCount: (_: any, args: import("./graphql-core").FindArgs, ctx: import("./graphql-core").Context) => Promise<number>;
+                claim: (_: any, { hash }: {
+                    hash: any;
+                }, ctx: import("./graphql-core").Context) => Promise<import("..").Claim>;
+                claims: (_: any, args: import("./graphql-core").FindArgs, ctx: import("./graphql-core").Context) => Promise<import("..").Claim[]>;
+                claimsCount: (_: any, args: import("./graphql-core").FindArgs, ctx: import("./graphql-core").Context) => Promise<number>;
+            };
+            Identity: {
+                shortDid: (identity: import("..").Identity, args: any, ctx: import("./graphql-core").Context) => Promise<string>;
+                latestClaimValue: (identity: import("..").Identity, args: {
                     type: string;
-                    replyTo?: string[];
-                    replyUrl?: string;
-                    from?: import("..").Identity;
-                    to?: import("..").Identity;
-                    metaData?: import("../entities/message").MetaData[];
-                    presentations: import("..").Presentation[];
-                    credentials: import("..").Credential[];
-                }>;
+                }, ctx: import("./graphql-core").Context) => Promise<String>;
+            };
+            Credential: {
+                claims: (credential: import("..").Credential, args: any, ctx: import("./graphql-core").Context) => Promise<import("..").Claim[]>;
+                messages: (credential: import("..").Credential, args: any, ctx: import("./graphql-core").Context) => Promise<import("..").Message[]>;
+                presentations: (credential: import("..").Credential, args: any, ctx: import("./graphql-core").Context) => Promise<import("..").Presentation[]>;
+            };
+            Presentation: {
+                credentials: (presentation: import("..").Presentation, args: any, ctx: import("./graphql-core").Context) => Promise<import("..").Credential[]>;
+                messages: (presentation: import("..").Presentation, args: any, ctx: import("./graphql-core").Context) => Promise<import("..").Message[]>;
+            };
+            Message: {
+                presentations: (message: import("..").Message, args: any, ctx: import("./graphql-core").Context) => Promise<import("..").Presentation[]>;
+                credentials: (message: import("..").Message, args: any, ctx: import("./graphql-core").Context) => Promise<import("..").Credential[]>;
             };
         };
         typeDefs: string;
@@ -50,13 +77,10 @@ Gql: {
                 isManaged: (identity: any, args: any, ctx: import("./graphql-identity-manager").Context) => Promise<boolean>;
             };
             Query: {
-                identityProviders: (_: any, args: any, ctx: import("./graphql-identity-manager").Context) => Promise<{
-                    type: string;
-                    description: string;
-                }[]>;
+                identityProviders: (_: any, args: any, ctx: import("./graphql-identity-manager").Context) => Promise<import("..").AbstractIdentityProvider[]>;
                 managedIdentities: (_: any, args: any, ctx: import("./graphql-identity-manager").Context) => Promise<{
                     did: string;
-                    type: string;
+                    provider: string;
                     __typename: string;
                 }[]>;
                 managedIdentitySecret: (_: any, args: {
@@ -69,7 +93,7 @@ Gql: {
                     type: string;
                 }, ctx: import("./graphql-identity-manager").Context) => Promise<{
                     did: string;
-                    type: string;
+                    provider: string;
                     __typename: string;
                 }>;
                 deleteIdentity: (_: any, args: {
@@ -81,7 +105,7 @@ Gql: {
                     secret: string;
                 }, ctx: import("./graphql-identity-manager").Context) => Promise<{
                     did: string;
-                    type: string;
+                    provider: string;
                     __typename: string;
                 }>;
             };

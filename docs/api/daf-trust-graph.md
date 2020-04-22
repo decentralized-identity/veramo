@@ -6,10 +6,10 @@
 
 ## Classes
 
-| Class                                                       | Description |
-| ----------------------------------------------------------- | ----------- |
-| [ActionHandler](./daf-trust-graph.actionhandler.md)         |             |
-| [ServiceController](./daf-trust-graph.servicecontroller.md) |             |
+| Class                                                                           | Description |
+| ------------------------------------------------------------------------------- | ----------- |
+| [TrustGraphActionHandler](./daf-trust-graph.trustgraphactionhandler.md)         |             |
+| [TrustGraphServiceController](./daf-trust-graph.trustgraphservicecontroller.md) |             |
 
 ## Interfaces
 
@@ -19,7 +19,7 @@
 
 ## Variables
 
-| Variable                                        | Description |
-| ----------------------------------------------- | ----------- |
-| [ActionTypes](./daf-trust-graph.actiontypes.md) |             |
-| [Gql](./daf-trust-graph.gql.md)                 |             |
+| Variable                                            | Description |
+| --------------------------------------------------- | ----------- |
+| [ActionTypes](./daf-trust-graph.actiontypes.md)     |             |
+| [TrustGraphGql](./daf-trust-graph.trustgraphgql.md) |             |

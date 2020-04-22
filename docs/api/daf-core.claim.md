@@ -12,12 +12,16 @@ export declare class Claim extends BaseEntity
 
 ## Properties
 
-| Property                                     | Modifiers | Type                    | Description |
-| -------------------------------------------- | --------- | ----------------------- | ----------- |
-| [credential](./daf-core.claim.credential.md) |           | <code>Credential</code> |             |
-| [hash](./daf-core.claim.hash.md)             |           | <code>string</code>     |             |
-| [isObj](./daf-core.claim.isobj.md)           |           | <code>boolean</code>    |             |
-| [issuer](./daf-core.claim.issuer.md)         |           | <code>Identity</code>   |             |
-| [subject](./daf-core.claim.subject.md)       |           | <code>Identity</code>   |             |
-| [type](./daf-core.claim.type.md)             |           | <code>string</code>     |             |
-| [value](./daf-core.claim.value.md)           |           | <code>string</code>     |             |
+| Property                                             | Modifiers | Type                    | Description |
+| ---------------------------------------------------- | --------- | ----------------------- | ----------- |
+| [context](./daf-core.claim.context.md)               |           | <code>string[]</code>   |             |
+| [credential](./daf-core.claim.credential.md)         |           | <code>Credential</code> |             |
+| [credentialType](./daf-core.claim.credentialtype.md) |           | <code>string[]</code>   |             |
+| [expirationDate](./daf-core.claim.expirationdate.md) |           | <code>Date</code>       |             |
+| [hash](./daf-core.claim.hash.md)                     |           | <code>string</code>     |             |
+| [isObj](./daf-core.claim.isobj.md)                   |           | <code>boolean</code>    |             |
+| [issuanceDate](./daf-core.claim.issuancedate.md)     |           | <code>Date</code>       |             |
+| [issuer](./daf-core.claim.issuer.md)                 |           | <code>Identity</code>   |             |
+| [subject](./daf-core.claim.subject.md)               |           | <code>Identity</code>   |             |
+| [type](./daf-core.claim.type.md)                     |           | <code>string</code>     |             |
+| [value](./daf-core.claim.value.md)                   |           | <code>string</code>     |             |

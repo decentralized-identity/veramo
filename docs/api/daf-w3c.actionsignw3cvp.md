@@ -12,7 +12,7 @@ export interface ActionSignW3cVp extends Action
 
 ## Properties
 
-| Property                                  | Type                             | Description |
-| ----------------------------------------- | -------------------------------- | ----------- |
-| [data](./daf-w3c.actionsignw3cvp.data.md) | <code>PresentationPayload</code> |             |
-| [did](./daf-w3c.actionsignw3cvp.did.md)   | <code>string</code>              |             |
+| Property                                  | Type                           | Description |
+| ----------------------------------------- | ------------------------------ | ----------- |
+| [data](./daf-w3c.actionsignw3cvp.data.md) | <code>PresentationInput</code> |             |
+| [save](./daf-w3c.actionsignw3cvp.save.md) | <code>boolean</code>           |             |

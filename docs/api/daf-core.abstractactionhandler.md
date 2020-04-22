@@ -18,7 +18,7 @@ export declare abstract class AbstractActionHandler implements ActionHandler
 
 ## Methods
 
-| Method                                                                         | Modifiers | Description |
-| ------------------------------------------------------------------------------ | --------- | ----------- |
-| [handleAction(action, core)](./daf-core.abstractactionhandler.handleaction.md) |           |             |
-| [setNext(actionHandler)](./daf-core.abstractactionhandler.setnext.md)          |           |             |
+| Method                                                                          | Modifiers | Description |
+| ------------------------------------------------------------------------------- | --------- | ----------- |
+| [handleAction(action, agent)](./daf-core.abstractactionhandler.handleaction.md) |           |             |
+| [setNext(actionHandler)](./daf-core.abstractactionhandler.setnext.md)           |           |             |

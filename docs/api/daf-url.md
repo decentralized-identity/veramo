@@ -6,6 +6,6 @@
 
 ## Classes
 
-| Class                                             | Description |
-| ------------------------------------------------- | ----------- |
-| [MessageValidator](./daf-url.messagevalidator.md) |             |
+| Class                                               | Description |
+| --------------------------------------------------- | ----------- |
+| [UrlMessageHandler](./daf-url.urlmessagehandler.md) |             |

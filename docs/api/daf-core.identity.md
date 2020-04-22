@@ -25,4 +25,13 @@ export declare class Identity extends BaseEntity
 | [receivedCredentials](./daf-core.identity.receivedcredentials.md)     |           | <code>Credential[]</code>   |             |
 | [receivedMessages](./daf-core.identity.receivedmessages.md)           |           | <code>Message[]</code>      |             |
 | [receivedPresentations](./daf-core.identity.receivedpresentations.md) |           | <code>Presentation[]</code> |             |
+| [saveDate](./daf-core.identity.savedate.md)                           |           | <code>Date</code>           |             |
 | [sentMessages](./daf-core.identity.sentmessages.md)                   |           | <code>Message[]</code>      |             |
+| [updateDate](./daf-core.identity.updatedate.md)                       |           | <code>Date</code>           |             |
+
+## Methods
+
+| Method                                                                                 | Modifiers | Description                                                                                                               |
+| -------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| [getLatestClaimValue(dbConnection, where)](./daf-core.identity.getlatestclaimvalue.md) |           | Convenience method<!-- -->const name = await identity.getLatestClaimValue(<!-- -->{<!-- -->type: 'name'<!-- -->}<!-- -->) |
+| [shortDid()](./daf-core.identity.shortdid.md)                                          |           |                                                                                                                           |

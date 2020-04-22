@@ -17,3 +17,4 @@ export declare abstract class AbstractKeyManagementSystem
 | [createKey(type)](./daf-core.abstractkeymanagementsystem.createkey.md) |           |             |
 | [deleteKey(kid)](./daf-core.abstractkeymanagementsystem.deletekey.md)  |           |             |
 | [getKey(kid)](./daf-core.abstractkeymanagementsystem.getkey.md)        |           |             |
+| [importKey(key)](./daf-core.abstractkeymanagementsystem.importkey.md)  |           |             |

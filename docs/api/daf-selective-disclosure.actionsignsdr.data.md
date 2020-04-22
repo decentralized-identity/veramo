@@ -7,9 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-data: {
-        sub?: string;
-        tag?: string;
-        claims: any;
-    };
+data: SelectiveDisclosureRequest
 ```
