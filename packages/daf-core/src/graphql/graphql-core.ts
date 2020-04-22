@@ -23,11 +23,7 @@ import { Identity } from '../entities/identity'
 
 export interface Context {
   agent: Agent
-<<<<<<< HEAD
   authenticatedDid?: string
-=======
-  authenticatedDid?: Promise<string>
->>>>>>> feat: Optionally add permissions to gql resolvers
 }
 
 export interface Order {
@@ -196,7 +192,7 @@ const presentations = async (_: any, args: FindArgs, ctx: Context) => {
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('presentation.audience = :ident', {
+        qb.where('audience.did = :ident', {
           ident: ctx.authenticatedDid,
         }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
       }),
@@ -217,7 +213,7 @@ const presentationsCount = async (_: any, args: FindArgs, ctx: Context) => {
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('presentation.audience = :ident', {
+        qb.where('audience.did = :ident', {
           ident: ctx.authenticatedDid,
         }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
       }),
@@ -363,7 +359,7 @@ export const resolvers = {
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
           new Brackets(qb => {
-            qb.where('presentation.audience = :ident', {
+            qb.where('audience.did = :ident', {
               ident: ctx.authenticatedDid,
             }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
           }),
@@ -719,7 +715,7 @@ export const typeDefs = `
     id: String
     raw: String!
     issuer: Identity!
-    audience: Identity!
+    audience: [Identity]!
     issuanceDate: Date!
     expirationDate: Date
     context: [String]

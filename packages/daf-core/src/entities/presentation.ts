@@ -40,7 +40,7 @@ export class Presentation extends BaseEntity {
   )
   issuer: Identity
 
-  @ManyToOne(
+  @ManyToMany(
     type => Identity,
     identity => identity.receivedPresentations,
     {
@@ -48,7 +48,8 @@ export class Presentation extends BaseEntity {
       eager: true,
     },
   )
-  audience: Identity
+  @JoinTable()
+  audience: Identity[]
 
   @Column({ nullable: true })
   id?: String
