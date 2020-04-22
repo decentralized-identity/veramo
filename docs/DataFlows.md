@@ -9,7 +9,10 @@
 3. Message
 4. Message
 5. Message
-6. Message
+6. Message (if save == true)
+7. Message (if save == true)
+8. Message (if save == true)
+9. Message
 
 ## New message from external service
 
@@ -22,25 +25,28 @@
 5. Message
 6. Message
 7. Message
-8. Message
+8. Message (if save == true)
+9. Message (if save == true)
+10. Message (if save == true)
 
 ## Signing Verifiable Presentation
 
 ![SigningVP](assets/signing-verifiable-presentation.png)
 
-1. Getting VerifiableCredentials in JWT format
-2. Action `action.sign.w3c.vp` + data
-3. Action `action.sign.w3c.vp` + data
+1. Getting Credentials in JWT format
+2. Action `sign.w3c.vp.jwt` + data
+3. Action `sign.w3c.vp.jwt` + data
 4. Getting signing key. Signing
-5. Verifiable Presentation in JWT format
-6. Verifiable Presentation in JWT format
+5. Presentation
+6. Presentation (if save == true)
+7. Presentation
 
 ## Sending Verifiable Presentation
 
 ![SendingVP](assets/sending-verifiable-presentation.png)
 
-1. Action `action.sendJwt` + Verifiable Presentation in JWT format
-2. Action `action.sendJwt` + Verifiable Presentation in JWT format
+1. Action `send.message.didcomm-alpha-1` + JWM with Verifiable Presentation in JWT format as body
+2. Action `send.message.didcomm-alpha-1` + JWM with Verifiable Presentation in JWT format as body
 3. Resolving recipient DID Document
 4. Encrypting message if encryption key is published in DID Document. POSTing message to `Messaging` service endpoint
 5. Raw message
@@ -48,4 +54,8 @@
 7. Message
 8. Message
 9. Message
-10. Message
+10. Message (if save == true)
+11. Message (if save == true)
+12. Message (if save == true)
+13. Message
+14. Message
