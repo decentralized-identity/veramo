@@ -1,5 +1,3 @@
-[TOC]
-
 # Setup
 
 DAF can be used by using Typescript API directly, or by using remote GraphQL api
