@@ -5,6 +5,20 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
 
+## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
+
+**Note:** Version bump only for package daf-cli
+
+## [3.4.1](https://github.com/uport-project/daf/compare/v3.4.0...v3.4.1) (2020-03-20)
+
+**Note:** Version bump only for package daf-cli
+
+# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
+
+### Features
+
+- Ethr-did export/import ([0f8ab11](https://github.com/uport-project/daf/commit/0f8ab111a5e96d3a687b318605ab2ff607c7bf23)), closes [#105](https://github.com/uport-project/daf/issues/105)
+
 **Note:** Version bump only for package daf-cli
 
 # [4.0.0-beta.48](https://github.com/uport-project/daf/compare/v4.0.0-beta.47...v4.0.0-beta.48) (2020-04-22)

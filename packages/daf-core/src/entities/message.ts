@@ -14,6 +14,7 @@ import { blake2bHex } from 'blakejs'
 import { Identity } from './identity'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface MetaData {
   type: string

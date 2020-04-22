@@ -5,6 +5,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
 
+## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
+
+**Note:** Version bump only for package daf-fs
+
+# [3.4.0](https://github.com/uport-project/daf/compare/v3.3.0...v3.4.0) (2020-03-19)
+
 **Note:** Version bump only for package daf-fs
 
 # [4.0.0-beta.48](https://github.com/uport-project/daf/compare/v4.0.0-beta.47...v4.0.0-beta.48) (2020-04-22)
