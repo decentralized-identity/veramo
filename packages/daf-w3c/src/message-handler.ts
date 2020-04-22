@@ -129,8 +129,11 @@ export function createPresentation(
   vp.issuer = new Identity()
   vp.issuer.did = payload.iss
 
-  vp.audience = new Identity()
-  vp.audience.did = payload.aud
+  vp.audience = payload.aud.split(',').map((did: string) => {
+    const id = new Identity()
+    id.did = did
+    return id
+  })
 
   vp.raw = jwt
 

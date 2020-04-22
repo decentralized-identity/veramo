@@ -4,7 +4,7 @@ import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import fs from 'fs'
 
-describe('daf-core', () => {
+describe('daf-core entities', () => {
   let connection: Connection
   const databaseFile = './test-db.sqlite'
 
@@ -97,7 +97,7 @@ describe('daf-core', () => {
 
     const vp = new Presentation()
     vp.issuer = id1
-    vp.audience = id2
+    vp.audience = [id2]
     vp.issuanceDate = new Date()
     vp.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
     vp.type = ['VerifiablePresentation', 'PublicProfile']

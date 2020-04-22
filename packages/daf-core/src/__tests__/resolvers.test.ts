@@ -22,6 +22,9 @@ async function populateDB() {
   const id3 = new Identity()
   id3.did = 'did:test:333'
 
+  const id4 = new Identity()
+  id4.did = 'did:test:444'
+
   const vc = new Credential()
   vc.issuer = id1
   vc.subject = id2
@@ -40,12 +43,21 @@ async function populateDB() {
 
   const vp = new Presentation()
   vp.issuer = id1
-  vp.audience = id2
+  vp.audience = [id2]
   vp.issuanceDate = new Date()
   vp.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
   vp.type = ['VerifiablePresentation', 'PublicProfile']
   vp.raw = 'mockJWT'
   vp.credentials = [vc]
+
+  const vp2 = new Presentation()
+  vp2.issuer = id1
+  vp2.audience = [id2, id4]
+  vp2.issuanceDate = new Date()
+  vp2.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
+  vp2.type = ['VerifiablePresentation', 'PublicProfile']
+  vp2.raw = 'mockjwtwithmoreaudience'
+  vp2.credentials = [vc]
 
   const m = new Message()
   m.from = id1
@@ -75,6 +87,17 @@ async function populateDB() {
   m3.createdAt = new Date()
 
   await m3.save()
+
+  const m4 = new Message()
+  m4.from = id1
+  m4.to = id2
+  m4.type = 'mock'
+  m4.raw = 'mockmoreaudienct'
+  m4.createdAt = new Date()
+  m4.credentials = [vc]
+  m4.presentations = [vp2]
+
+  await m4.save()
 }
 
 describe('daf-core entities', () => {
@@ -123,7 +146,7 @@ describe('daf-core entities', () => {
     }
 
     const messages = await Gql.Core.resolvers.Query.messages({}, query, { agent })
-    expect(messages.length).toBe(3)
+    expect(messages.length).toBe(4)
   })
 
   test('with auth it only gets messages for the authorized identity', async () => {
@@ -143,7 +166,7 @@ describe('daf-core entities', () => {
     }
 
     const messages = await Gql.Core.resolvers.Query.messages({}, query, { agent, authenticatedDid })
-    expect(messages.length).toBe(2)
+    expect(messages.length).toBe(3)
   })
 
   test('works for counts too', async () => {
@@ -161,14 +184,14 @@ describe('daf-core entities', () => {
     }
 
     const messagesCount = await Gql.Core.resolvers.Query.messagesCount({}, query, { agent })
-    expect(messagesCount).toBe(3)
+    expect(messagesCount).toBe(4)
     const authenticatedDid = 'did:test:111'
 
     const messagesCount2 = await Gql.Core.resolvers.Query.messagesCount({}, query, {
       agent,
       authenticatedDid,
     })
-    expect(messagesCount2).toBe(2)
+    expect(messagesCount2).toBe(3)
   })
 
   test('supports ordering', async () => {
@@ -249,5 +272,40 @@ describe('daf-core entities', () => {
 
     const message3 = await Gql.Core.resolvers.Query.message({}, query, { agent, authenticatedDid })
     expect(message3).toBeUndefined()
+  })
+
+  test('multiple audience members can retrieve a credential', async () => {
+    const agent = makeAgent()
+    const query: FindArgs = {
+      input: {
+        where: [
+          {
+            column: 'raw',
+            value: ['mockjwtwithmoreaudience'],
+            op: 'Equal',
+          },
+        ],
+      },
+    }
+
+    let authenticatedDid = (async () => 'did:test:111')()
+
+    let presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
+    expect(presentations.length).toBe(1)
+
+    authenticatedDid = (async () => 'did:test:222')()
+    presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
+
+    expect(presentations.length).toBe(1)
+
+    authenticatedDid = (async () => 'did:test:444')()
+    presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
+
+    expect(presentations.length).toBe(1)
+
+    authenticatedDid = (async () => 'did:test:333')()
+    presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
+
+    expect(presentations.length).toBe(0)
   })
 })
