@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.48](https://github.com/uport-project/daf/compare/v4.0.0-beta.47...v4.0.0-beta.48) (2020-04-22)
+
+### Bug Fixes
+
+- Add replyTo & replyUrl to message ([c6cbd30](https://github.com/uport-project/daf/commit/c6cbd30e74820f4c9d37c0d333ca9cfff4783b89))
+- Fixing replyTo types ([bd9d606](https://github.com/uport-project/daf/commit/bd9d606890060e27b5d236b58e7f404c2c36d613))
+
 # [4.0.0-beta.47](https://github.com/uport-project/daf/compare/v4.0.0-beta.46...v4.0.0-beta.47) (2020-04-17)
 
 ### Bug Fixes

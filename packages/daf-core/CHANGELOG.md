@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-beta.48](https://github.com/uport-project/daf/compare/v4.0.0-beta.47...v4.0.0-beta.48) (2020-04-22)
+
+### Bug Fixes
+
+- Fixing replyTo types ([bd9d606](https://github.com/uport-project/daf/commit/bd9d606890060e27b5d236b58e7f404c2c36d613))
+
 # [4.0.0-beta.47](https://github.com/uport-project/daf/compare/v4.0.0-beta.46...v4.0.0-beta.47) (2020-04-17)
 
 **Note:** Version bump only for package daf-core
