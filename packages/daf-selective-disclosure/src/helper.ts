@@ -1,4 +1,4 @@
-import { Claim, Presentation } from 'daf-core'
+import { Claim, Presentation, Identity } from 'daf-core'
 import { SelectiveDisclosureRequest } from './action-handler'
 import { In, Like, Connection } from 'typeorm'
 
@@ -35,8 +35,20 @@ export const findCredentialsForSdr = async (
     }
 
     const claims = await (await dbConnection).getRepository(Claim).find({ where, relations: ['credential'] })
+    const issuers =
+      credentialRequest.issuers &&
+      credentialRequest.issuers.map(iss => {
+        const issuer = new Identity()
+        issuer.did = iss.did
+        return {
+          url: iss.url,
+          did: issuer,
+        }
+      })
+
     result.push({
       ...credentialRequest,
+      issuers,
       credentials: claims.map(c => c.credential),
     })
   }
