@@ -1,7 +1,7 @@
 {
   "name": "daf-libsodium",
   "description": "DAF libsodium modules",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "base-58": "^0.0.1",
-    "daf-core": "^4.0.0",
+    "daf-core": "^4.1.0",
     "debug": "^4.1.1",
     "did-jwt": "4.2.0",
     "elliptic": "^6.5.2",

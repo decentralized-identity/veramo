@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
+
+
+### Features
+
+* Add version cmd to cli ([64069e9](https://github.com/uport-project/daf/commit/64069e9d60008007a801f127280430538b23b553))
+
+
+
+## [3.4.3](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v3.4.3) (2020-04-10)
+
+
+### Bug Fixes
+
+* **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
+
+
+
+## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
+
+
+### Bug Fixes
+
+* Example queries ([5933e50](https://github.com/uport-project/daf/commit/5933e5003964935d0e1d39c273b2fe38a639ce1b))
+* Generating message.id if not set ([5ce04e5](https://github.com/uport-project/daf/commit/5ce04e5f8ebbba4368b84dffc563696d79a8fee2))
+* Generating message.id if not set ([fabf5f6](https://github.com/uport-project/daf/commit/fabf5f64b9f0733a3a533d037203527f26758106))
+* Removing uuid from id ([df12094](https://github.com/uport-project/daf/commit/df1209461b4b197b5f19c9d5bf4a71caf0c57f7d))
+
+
+
+## [3.4.1](https://github.com/uport-project/daf/compare/v3.4.0...v3.4.1) (2020-03-20)
+
+
+### Bug Fixes
+
+* Bug in findCredentialsByFields ([e9f263a](https://github.com/uport-project/daf/commit/e9f263a45a6b121aef4729bdb45a1be39b753af6))
+
+
+
+
+
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
 ## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
