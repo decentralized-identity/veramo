@@ -8,16 +8,10 @@
   },
   "command": {
     "publish": {
-      "allowBranch": ["master", "beta"],
+      "allowBranch": ["master"],
       "conventionalCommits": true,
       "gitRemote": "origin",
       "message": "chore(release): %s"
-    },
-    "version": {
-      "allowBranch": ["beta"],
-      "conventionalCommits": true,
-      "gitRemote": "origin",
-      "message": "chore(beta-release): %s"
     }
   },
   "useWorkspaces": true
