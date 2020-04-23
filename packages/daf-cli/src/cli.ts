@@ -7,6 +7,7 @@ import './data-explorer'
 import './graphql'
 import './sdr'
 import './msg'
+import './version'
 
 if (!process.argv.slice(2).length) {
   program.outputHelp()
