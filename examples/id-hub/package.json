@@ -20,6 +20,7 @@
     "daf-resolver": "../../packages/daf-resolver",
     "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
     "daf-w3c": "../../packages/daf-w3c",
+    "did-jwt": "^4.2.0",
     "graphql": "^14.6.0",
     "lodash.merge": "^4.6.2",
     "sqlite3": "^4.1.1",

@@ -6,6 +6,7 @@ import { DafResolver } from 'daf-resolver'
 import { ApolloServer } from 'apollo-server'
 import merge from 'lodash.merge'
 import { createConnection } from 'typeorm'
+import { verifyJWT } from 'did-jwt'
 
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
@@ -30,16 +31,24 @@ export const agent = new Daf.Agent({
   messageHandler,
 })
 
+async function getAuthorizedDid(authorization?: string): Promise<string> {
+  if (!authorization) throw Error('Format is Authorization: Bearer [token]')
+  const parts = authorization.split(' ')
+  if (parts.length !== 2) throw Error('Format is Authorization: Bearer [token]')
+  const scheme = parts[0]
+  if (scheme !== 'Bearer') throw Error('Format is Authorization: Bearer [token]')
+
+  const verified = await verifyJWT(parts[1], { resolver: didResolver })
+  //TODO check for specific payload fields. W3C VC or VP should not be a valid
+  return verified.issuer
+}
+
 const server = new ApolloServer({
   typeDefs: [Daf.Gql.baseTypeDefs, Daf.Gql.Core.typeDefs],
   resolvers: merge(Daf.Gql.Core.resolvers),
-  context: ({ req }) => {
-    const token = req.headers.authorization || ''
-    if (token !== 'Bearer hardcoded-example-token') {
-      throw Error('Auth error')
-    }
-
-    return { agent }
+  context: async ({ req }) => {
+    const authorizedDid = await getAuthorizedDid(req.headers.authorization)
+    return { agent, authorizedDid }
   },
   introspection: true,
 })
