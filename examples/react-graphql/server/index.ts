@@ -4,13 +4,16 @@ import { DIDCommActionHandler, DIDCommMessageHandler, DIDCommGql } from 'daf-did
 import { W3cMessageHandler, W3cActionHandler, W3cGql } from 'daf-w3c'
 import { SdrMessageHandler, SdrActionHandler, SdrGql } from 'daf-selective-disclosure'
 import * as DafEthrDid from 'daf-ethr-did'
-import * as DafLibSodium from 'daf-libsodium'
+import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { DafResolver } from 'daf-resolver'
 import { ApolloServer } from 'apollo-server'
 import merge from 'lodash.merge'
 import { createConnection } from 'typeorm'
 
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
+// Generate this by running `npx daf-cli crypto -s`
+const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
+
 
 let didResolver = new DafResolver({ infuraProjectId })
 
@@ -24,7 +27,7 @@ const dbConnection = createConnection({
 
 const identityProviders = [
   new DafEthrDid.IdentityProvider({
-    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore(dbConnection)),
+    kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(secretKey))),
     identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,

@@ -13,9 +13,16 @@ const dbConnection = createConnection({
 // We will be using 'did:ethr' identities
 import { IdentityProvider } from 'daf-ethr-did'
 
+// SecretBox will encrypt/decrypt private keys in key store
+import { SecretBox } from 'daf-libsodium'
+
+// Generate this by running `npx daf-cli crypto -s`
+const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
+const secretBox = new SecretBox(secretKey)
+
 // Storing serialized key pairs in the file system
 import { KeyStore } from 'daf-core'
-const keyStore = new KeyStore(dbConnection)
+const keyStore = new KeyStore(dbConnection, secretBox)
 
 // KeyManagementSystem is responsible for managing encryption and signing keys
 import { KeyManagementSystem } from 'daf-libsodium'
