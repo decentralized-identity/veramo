@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
+
+
+### Features
+
+* Optionally add permissions to gql resolvers ([0d5b212](https://github.com/uport-project/daf/commit/0d5b2126618d81e5f0d1ba5ae30fc33901b8dc94))
+
+
+
+
+
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
 
 
