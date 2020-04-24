@@ -4,14 +4,16 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 import * as Daf from 'daf-core'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
-import * as DafLibSodium from 'daf-libsodium'
+import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { W3cMessageHandler, W3cActionHandler } from 'daf-w3c'
 import { SdrMessageHandler, SdrActionHandler } from 'daf-selective-disclosure'
 import { DIDCommMessageHandler, DIDCommActionHandler } from 'daf-did-comm'
 import { UrlMessageHandler } from 'daf-url'
 import { createConnection } from 'typeorm'
 
-const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
+const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
+// Generate this by running `npx daf-cli crypto -s`
+const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 // DID Document Resolver
 let didResolver: Daf.Resolver = new DafResolver({
@@ -35,7 +37,7 @@ const dbConnection = createConnection({
 const identityProviders = [
   new EthrDid.IdentityProvider({
     identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
-    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore(dbConnection)),
+    kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(secretKey))),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),
