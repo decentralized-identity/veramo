@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.1](https://github.com/uport-project/daf/compare/v4.2.0...v4.2.1) (2020-04-24)
+
+
+### Bug Fixes
+
+* Create identities from required issuers to resolve gql queries ([b93d7ad](https://github.com/uport-project/daf/commit/b93d7adf001e71dbf92164cbd4c44e15f939bed2))
+
+
+
+
+
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
 
