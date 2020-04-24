@@ -4,7 +4,7 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 import * as Daf from 'daf-core'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
-import * as DafLibSodium from 'daf-libsodium'
+import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 
 import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
 import { SdrActionHandler, SdrMessageHandler } from 'daf-selective-disclosure'
@@ -16,16 +16,7 @@ const fs = require('fs')
 
 import ws from 'ws'
 
-const defaultPath = process.env.HOME + '/.daf/'
-
-const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + 'database-v2.sqlite'
-const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
-
-if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE) {
-  if (!fs.existsSync(defaultPath)) {
-    fs.mkdirSync(defaultPath)
-  }
-}
+const infuraProjectId = process.env.DAF_INFURA_ID
 
 // DID Document Resolver
 let didResolver: Daf.Resolver = new DafResolver({
@@ -42,15 +33,15 @@ if (process.env.DAF_TG_URI) TrustGraphServiceController.defaultUri = process.env
 if (process.env.DAF_TG_WSURI) TrustGraphServiceController.defaultWsUri = process.env.DAF_TG_WSURI
 TrustGraphServiceController.webSocketImpl = ws
 
-const migrationsRun = fs.existsSync(dataStoreFilename)
+const migrationsRun = fs.existsSync(process.env.DAF_DATA_STORE)
 const synchronize = !migrationsRun
 
 const dbConnection = createConnection({
   type: 'sqlite',
-  database: dataStoreFilename,
   migrationsRun,
   synchronize,
-  logging: process.env.DEBUG_DAF_DB ? true : false,
+  database: process.env.DAF_DATA_STORE,
+  logging: process.env.DAF_DEBUG_DB === 'true' ? true : false,
   entities: [...Daf.Entities],
   migrations: [...Daf.migrations],
 })
@@ -58,7 +49,7 @@ const dbConnection = createConnection({
 const identityProviders = [
   new EthrDid.IdentityProvider({
     identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
-    kms: new DafLibSodium.KeyManagementSystem(new Daf.KeyStore(dbConnection)),
+    kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),

@@ -1,3 +1,6 @@
+import { config } from 'dotenv'
+config({ path: process.env.HOME + '/.daf/.env'})
+
 import program from 'commander'
 import './identity-manager'
 import './did-resolver'
@@ -8,6 +11,8 @@ import './graphql'
 import './sdr'
 import './msg'
 import './version'
+import './crypto'
+
 
 if (!process.argv.slice(2).length) {
   program.outputHelp()
