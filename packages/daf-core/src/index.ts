@@ -11,6 +11,7 @@ export {
 } from './identity/abstract-key-management-system'
 export { AbstractIdentityStore, SerializedIdentity } from './identity/abstract-identity-store'
 export { AbstractKeyStore } from './identity/abstract-key-store'
+export { AbstractSecretBox } from './identity/abstract-secret-box'
 export { AbstractMessageHandler } from './message/abstract-message-handler'
 export { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
 export { AbstractServiceController } from './service/abstract-service-controller'
