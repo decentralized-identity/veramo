@@ -1,5 +1,5 @@
 const fs = require('fs')
-import { SecretBox } from 'daf-libsodium'
+const { SecretBox } = require('daf-libsodium')
 
 const defaultPath = process.env.HOME + '/.daf/'
 const envFile = defaultPath + '.env'
