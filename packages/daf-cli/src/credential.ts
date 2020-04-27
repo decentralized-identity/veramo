@@ -28,6 +28,7 @@ program
         type: 'input',
         name: 'sub',
         message: 'Subject DID',
+        default: identities[0].did
       },
       {
         type: 'input',
@@ -41,6 +42,15 @@ program
         message: 'Claim Value',
         default: 'Alice',
       },
+      {
+        type: 'list',
+        name: 'addStatus',
+        message: 'Add credential status info?',
+        choices: [
+          { name: 'Yes', value: true },
+          { name: 'No', value: false },
+        ],
+      },
     ])
 
     const credentialSubject: any = {}
@@ -48,15 +58,39 @@ program
     const type: string = answers.claimType
     credentialSubject[type] = answers.claimValue
 
+    const data = {
+      issuer: answers.iss,
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      type: ['VerifiableCredential'],
+      credentialSubject
+    }
+
+    if (answers.addStatus) {
+      const statusAnswers = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'type',
+          message: 'Credential status type',
+          default: 'EthrStatusRegistry2019',
+        },
+        {
+          type: 'input',
+          name: 'id',
+          message: 'Credential status ID',
+          default: 'rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348',
+        },
+      ])
+
+      data['credentialStatus'] = {
+        type: statusAnswers.type,
+        id: statusAnswers.id
+      }
+    }
+
     const signAction: W3c.ActionSignW3cVc = {
       type: W3c.ActionTypes.signCredentialJwt,
       save: true,
-      data: {
-        issuer: answers.iss,
-        '@context': ['https://www.w3.org/2018/credentials/v1'],
-        type: ['VerifiableCredential'],
-        credentialSubject,
-      },
+      data
     }
 
     const credential: Daf.Credential = await agent.handleAction(signAction)
@@ -200,7 +234,7 @@ program
           tag: answers.tag,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
-          verifiableCredential,
+          verifiableCredential
         },
       }
 
