@@ -12,6 +12,7 @@ import { TrustGraphActionHandler, TrustGraphServiceController } from 'daf-trust-
 import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
 import { UrlMessageHandler } from 'daf-url'
 import { createConnection } from 'typeorm'
+const fs = require('fs')
 
 import ws from 'ws'
 
@@ -21,7 +22,6 @@ const dataStoreFilename = process.env.DAF_DATA_STORE ?? defaultPath + 'database-
 const infuraProjectId = process.env.DAF_INFURA_ID ?? '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 if (!process.env.DAF_IDENTITY_STORE || process.env.DAF_DATA_STORE) {
-  const fs = require('fs')
   if (!fs.existsSync(defaultPath)) {
     fs.mkdirSync(defaultPath)
   }
@@ -42,12 +42,17 @@ if (process.env.DAF_TG_URI) TrustGraphServiceController.defaultUri = process.env
 if (process.env.DAF_TG_WSURI) TrustGraphServiceController.defaultWsUri = process.env.DAF_TG_WSURI
 TrustGraphServiceController.webSocketImpl = ws
 
+const migrationsRun = fs.existsSync(dataStoreFilename)
+const synchronize = !migrationsRun
+
 const dbConnection = createConnection({
   type: 'sqlite',
   database: dataStoreFilename,
-  synchronize: true,
+  migrationsRun,
+  synchronize,
   logging: process.env.DEBUG_DAF_DB ? true : false,
   entities: [...Daf.Entities],
+  migrations: [...Daf.migrations],
 })
 
 const identityProviders = [
