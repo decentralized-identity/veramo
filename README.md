@@ -20,7 +20,7 @@
 
 ## Local development
 
-DAF monorepo uses yarn workspaces & lerna
+DAF monorepo uses [yarn](https://yarnpkg.com/) [workspaces](https://classic.yarnpkg.com/en/docs/workspaces/) and [lerna](https://lerna.js.org/)
 
 Install root package dependencies
 
