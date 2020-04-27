@@ -12,7 +12,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    const identities = await agent.identityManager.getIdentities()
+    const identities = await (await agent).identityManager.getIdentities()
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -196,10 +196,10 @@ program
       },
     }
 
-    const jwt = await agent.handleAction(signAction)
+    const jwt = await (await agent).handleAction(signAction)
 
     if (!cmd.send) {
-      await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
+      await (await agent).handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
     } else if (answers.sub !== '') {
       const sendAction: DIDComm.ActionSendDIDComm = {
         type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
@@ -211,7 +211,7 @@ program
         },
       }
       try {
-        const result = await agent.handleAction(sendAction)
+        const result = await (await agent).handleAction(sendAction)
         console.log('Sent:', result)
       } catch (e) {
         console.error(e)

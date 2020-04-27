@@ -8,7 +8,6 @@
     "daf": "bin/daf.js"
   },
   "scripts": {
-    "postinstall": "scripts/postinstall.js",
     "build": "tsc",
     "watch": "tsc -b --watch"
   },
