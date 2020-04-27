@@ -33,7 +33,7 @@ program
         W3cGql.resolvers,
         SdrGql.resolvers,
       ),
-      context: () => ({ agent }),
+      context: async () => ({ agent: (await agent) }),
       introspection: true,
     })
     // await core.setupServices()

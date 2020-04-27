@@ -12,7 +12,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    const identities = await agent.identityManager.getIdentities()
+    const identities = await (await agent).identityManager.getIdentities()
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -59,7 +59,7 @@ program
       },
     }
 
-    const credential: Daf.Credential = await agent.handleAction(signAction)
+    const credential: Daf.Credential = await (await agent).handleAction(signAction)
 
     if (cmd.send) {
       const sendAction: DIDComm.ActionSendDIDComm = {
@@ -72,7 +72,7 @@ program
         },
       }
       try {
-        const message: Daf.Message = await agent.handleAction(sendAction)
+        const message: Daf.Message = await (await agent).handleAction(sendAction)
         console.log('Sent:', message)
       } catch (e) {
         console.error(e)
@@ -92,7 +92,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async cmd => {
-    const myIdentities = await agent.identityManager.getIdentities()
+    const myIdentities = await (await agent).identityManager.getIdentities()
     if (myIdentities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -107,7 +107,7 @@ program
       },
     ]
     for (const id of ids) {
-      const name = await id.getLatestClaimValue(agent.dbConnection, { type: 'name'})
+      const name = await id.getLatestClaimValue((await agent).dbConnection, { type: 'name'})
       identities.push({
         value: id.did,
         name: `${id.did} - ${name}`,
@@ -204,7 +204,7 @@ program
         },
       }
 
-      const presentation: Daf.Presentation = await agent.handleAction(signAction)
+      const presentation: Daf.Presentation = await (await agent).handleAction(signAction)
 
       if (cmd.send) {
         const sendAction: DIDComm.ActionSendDIDComm = {
@@ -217,7 +217,7 @@ program
           },
         }
         try {
-          const message: Daf.Message = await agent.handleAction(sendAction)
+          const message: Daf.Message = await (await agent).handleAction(sendAction)
           console.log('Sent:', message)
         } catch (e) {
           console.error(e)

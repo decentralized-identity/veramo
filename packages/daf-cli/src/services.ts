@@ -12,17 +12,17 @@ program
   })
 
 export const listen = async (pollSeconds?: number) => {
-  agent.on(EventTypes.savedMessage, async (msg: Message) => {
+  (await agent).on(EventTypes.savedMessage, async (msg: Message) => {
     console.log('New message type:', msg.type)
   })
 
-  await agent.setupServices()
-  await agent.listen()
-  await agent.getMessagesSince([])
+  await (await agent).setupServices()
+  await (await agent).listen()
+  await (await agent).getMessagesSince([])
 
   if (pollSeconds) {
     setInterval(async () => {
-      await agent.getMessagesSince([])
+      await (await agent).getMessagesSince([])
     }, pollSeconds * 1000)
   }
 }

@@ -1,6 +1,3 @@
-import { config } from 'dotenv'
-config({ path: process.env.HOME + '/.daf/.env'})
-
 import program from 'commander'
 import './identity-manager'
 import './did-resolver'
