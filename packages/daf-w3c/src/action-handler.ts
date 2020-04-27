@@ -97,6 +97,11 @@ export interface CredentialInput {
   issuer: string
   expirationDate?: string
   credentialSubject: CredentialSubjectInput
+  credentialStatus?: {
+    id: string
+    type: string
+  }
+  [x: string]: any
 }
 
 export interface PresentationInput {
@@ -109,54 +114,80 @@ export interface PresentationInput {
   tag?: string
   expirationDate?: string
   verifiableCredential: string[]
+  [x: string]: any
 }
 
 const transformCredentialInput = (input: CredentialInput): VerifiableCredentialPayload => {
-  // TODO validate input
-  const credentialSubject = { ...input.credentialSubject }
-  delete credentialSubject.id
-  const result: VerifiableCredentialPayload = {
-    sub: input.credentialSubject.id,
-    vc: {
-      '@context': input['@context'] || input['context'],
-      type: input.type,
-      credentialSubject,
-    },
+  
+  const result = { vc: {} }
+
+  for (const key in input) {
+    switch (key) {
+      case 'credentialSubject':
+        result['sub'] = input[key].id
+        const credentialSubject = { ...input.credentialSubject }
+        delete credentialSubject.id
+        result['vc']['credentialSubject'] = credentialSubject
+      break
+      case '@context':
+      case 'context':
+        result['vc']['@context'] = input[key]
+      break
+      case 'type':
+        result['vc']['type'] = input[key]
+      break
+      case 'expirationDate':
+        result['exp'] = Date.parse(input[key]) / 1000
+      break
+      case 'id':
+        result['jti'] = input[key]
+      break
+      case 'credentialStatus':
+        result['status'] = input[key]
+      break
+      case 'issuer':
+        // remove issuer
+      break
+      default:
+        result[key] = input[key]
+    }
   }
 
-  if (input.expirationDate) {
-    result['exp'] = Date.parse(input.expirationDate) / 1000
-  }
-
-  if (input.id) {
-    result['jti'] = input.id
-  }
-
-  return result
+  return result as VerifiableCredentialPayload
 }
 
 const transformPresentationInput = (input: PresentationInput): PresentationPayload => {
-  // TODO validate input
-  const result: PresentationPayload = {
-    aud: input.audience,
-    vp: {
-      '@context': input['@context'] || input['context'],
-      type: input.type,
-      verifiableCredential: input.verifiableCredential,
-    },
+
+  const result = { vp: {} }
+
+  for (const key in input) {
+    switch (key) {
+      case '@context':
+      case 'context':
+        result['vp']['@context'] = input[key]
+      break
+      case 'type':
+        result['vp']['type'] = input[key]
+      break
+      case 'expirationDate':
+        result['exp'] = Date.parse(input[key]) / 1000
+      break
+      case 'id':
+        result['jti'] = input[key]
+      break
+      case 'audience':
+        result['aud'] = input[key]
+      break
+      case 'verifiableCredential': 
+        result['vp']['verifiableCredential'] = input[key]
+      break
+      case 'issuer':
+        // remove issuer
+      break
+      default:
+        result[key] = input[key]
+    }
   }
 
-  if (input.expirationDate) {
-    result['exp'] = Date.parse(input.expirationDate) / 1000
-  }
-
-  if (input.id) {
-    result['jti'] = input.id
-  }
-
-  if (input.tag) {
-    result['tag'] = input.tag
-  }
-
-  return result
+  return result as PresentationPayload
 }
