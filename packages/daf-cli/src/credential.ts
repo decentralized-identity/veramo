@@ -45,7 +45,7 @@ program
       {
         type: 'list',
         name: 'addStatus',
-        message: 'Add credential status info?',
+        message: 'Is the credential revocable?',
         choices: [
           { name: 'Yes', value: true },
           { name: 'No', value: false },
