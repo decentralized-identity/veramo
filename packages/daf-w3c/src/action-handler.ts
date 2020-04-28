@@ -136,6 +136,9 @@ const transformCredentialInput = (input: CredentialInput): VerifiableCredentialP
       case 'type':
         result['vc']['type'] = input[key]
       break
+      case 'issuanceDate':
+        result['nbf'] = Date.parse(input[key]) / 1000
+      break
       case 'expirationDate':
         result['exp'] = Date.parse(input[key]) / 1000
       break
@@ -168,6 +171,9 @@ const transformPresentationInput = (input: PresentationInput): PresentationPaylo
       break
       case 'type':
         result['vp']['type'] = input[key]
+      break
+      case 'issuanceDate':
+        result['nbf'] = Date.parse(input[key]) / 1000
       break
       case 'expirationDate':
         result['exp'] = Date.parse(input[key]) / 1000
