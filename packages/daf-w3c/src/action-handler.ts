@@ -118,7 +118,8 @@ export interface PresentationInput {
 }
 
 const transformCredentialInput = (input: CredentialInput): VerifiableCredentialPayload => {
-  
+  if (Array.isArray(input.credentialSubject)) throw Error('credentialSubject of type array not supported')
+
   const result = { vc: {} }
 
   for (const key in input) {
@@ -128,29 +129,29 @@ const transformCredentialInput = (input: CredentialInput): VerifiableCredentialP
         const credentialSubject = { ...input.credentialSubject }
         delete credentialSubject.id
         result['vc']['credentialSubject'] = credentialSubject
-      break
+        break
       case '@context':
       case 'context':
         result['vc']['@context'] = input[key]
-      break
+        break
       case 'type':
         result['vc']['type'] = input[key]
-      break
+        break
       case 'issuanceDate':
         result['nbf'] = Date.parse(input[key]) / 1000
-      break
+        break
       case 'expirationDate':
         result['exp'] = Date.parse(input[key]) / 1000
-      break
+        break
       case 'id':
         result['jti'] = input[key]
-      break
+        break
       case 'credentialStatus':
         result['vc']['credentialStatus'] = input[key]
-      break
+        break
       case 'issuer':
         // remove issuer
-      break
+        break
       default:
         result[key] = input[key]
     }
@@ -160,7 +161,6 @@ const transformCredentialInput = (input: CredentialInput): VerifiableCredentialP
 }
 
 const transformPresentationInput = (input: PresentationInput): PresentationPayload => {
-
   const result = { vp: {} }
 
   for (const key in input) {
@@ -168,28 +168,28 @@ const transformPresentationInput = (input: PresentationInput): PresentationPaylo
       case '@context':
       case 'context':
         result['vp']['@context'] = input[key]
-      break
+        break
       case 'type':
         result['vp']['type'] = input[key]
-      break
+        break
       case 'issuanceDate':
         result['nbf'] = Date.parse(input[key]) / 1000
-      break
+        break
       case 'expirationDate':
         result['exp'] = Date.parse(input[key]) / 1000
-      break
+        break
       case 'id':
         result['jti'] = input[key]
-      break
+        break
       case 'audience':
         result['aud'] = input[key]
-      break
-      case 'verifiableCredential': 
+        break
+      case 'verifiableCredential':
         result['vp']['verifiableCredential'] = input[key]
-      break
+        break
       case 'issuer':
         // remove issuer
-      break
+        break
       default:
         result[key] = input[key]
     }
