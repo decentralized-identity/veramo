@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
+
+
+### Bug Fixes
+
+* Checking if credentialSubject is array ([2f83192](https://github.com/uport-project/daf/commit/2f83192a47b39369fd1ccad3b0f4a3c70dd4a893))
+* Keeping app specific payload fields ([24ad82a](https://github.com/uport-project/daf/commit/24ad82a9abd1e1a5c3cef91efea7a17637b958c3))
+* Translating issuanceDate to nbf ([51f0eff](https://github.com/uport-project/daf/commit/51f0effa5f911a9432f6d6880d2b23915875001d))
+
+
+### Features
+
+* Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
+
+
+
+
+
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
 **Note:** Version bump only for package daf-w3c

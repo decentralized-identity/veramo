@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
+
+
+### Bug Fixes
+
+* Changing some copy in CLI ([ed2c044](https://github.com/uport-project/daf/commit/ed2c0447a6973d55a3be8bfa4acb9439ff7c83c9))
+
+
+### Features
+
+* Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
+* DB Migration CredentialStatus ([44fd36d](https://github.com/uport-project/daf/commit/44fd36d0a97af96bfca74d1a9953293c00003dcc))
+
+
+
+
+
 ## [4.2.1](https://github.com/uport-project/daf/compare/v4.2.0...v4.2.1) (2020-04-24)
 
 **Note:** Version bump only for package daf-cli
