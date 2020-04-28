@@ -288,22 +288,22 @@ describe('daf-core entities', () => {
       },
     }
 
-    let authenticatedDid = (async () => 'did:test:111')()
+    let authenticatedDid = 'did:test:111'
 
     let presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
     expect(presentations.length).toBe(1)
 
-    authenticatedDid = (async () => 'did:test:222')()
+    authenticatedDid = 'did:test:222'
     presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
 
     expect(presentations.length).toBe(1)
 
-    authenticatedDid = (async () => 'did:test:444')()
+    authenticatedDid = 'did:test:444'
     presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
 
     expect(presentations.length).toBe(1)
 
-    authenticatedDid = (async () => 'did:test:333')()
+    authenticatedDid = 'did:test:333'
     presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
 
     expect(presentations.length).toBe(0)
