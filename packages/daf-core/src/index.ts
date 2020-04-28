@@ -24,10 +24,10 @@ import { Identity } from './entities/identity'
 import { Claim } from './entities/claim'
 import { Credential } from './entities/credential'
 import { Presentation } from './entities/presentation'
-import { Message } from './entities/message'
+import { Message, MetaData } from './entities/message'
 
 export const Entities = [Key, Identity, Message, Claim, Credential, Presentation]
 
-export { KeyType, Key, Identity, Message, Claim, Credential, Presentation }
+export { KeyType, Key, Identity, Message, Claim, Credential, Presentation, MetaData }
 
 export { migrations } from './migrations'
