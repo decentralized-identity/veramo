@@ -106,8 +106,9 @@ export function createCredential(payload: VerifiableCredentialPayload, jwt: stri
     vc.expirationDate = timestampToDate(payload.exp)
   }
 
-  if (payload.status) {
-    vc.credentialStatus = payload.status
+
+  if (payload.vc.credentialStatus) {
+    vc.credentialStatus = payload.vc.credentialStatus
   }
 
   vc.context = payload.vc['@context']
