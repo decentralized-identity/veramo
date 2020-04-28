@@ -735,6 +735,7 @@ export const typeDefs = `
     context: [String]
     type: [String]
     credentialSubject: Object
+    credentialStatus: Object
     claims: [Claim]
     presentations: [Presentation]
     messages: [Message]

@@ -49,6 +49,11 @@ export const resolvers = {
 export const typeDefs = `
   scalar CredentialSubject
 
+  input CredentialStatusInput {
+    type: String!
+    id: String!
+  }
+
   input SignCredentialInput {
     id: String
     expirationDate: Date
@@ -56,6 +61,7 @@ export const typeDefs = `
     context: [String]!
     type: [String]!
     credentialSubject: CredentialSubject!
+    credentialStatus: CredentialStatusInput
   }
   
   input SignPresentationInput {

@@ -281,6 +281,10 @@ const data = {
     id: 'did:example:1234',
     name: 'Alice',
   },
+  credentialStatus:{
+    type: "EthrStatusRegistry2019",
+    id:"rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348"
+  }
 }
 ```
 

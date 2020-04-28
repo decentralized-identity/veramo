@@ -29,3 +29,5 @@ import { Message } from './entities/message'
 export const Entities = [Key, Identity, Message, Claim, Credential, Presentation]
 
 export { KeyType, Key, Identity, Message, Claim, Credential, Presentation }
+
+export { migrations } from './migrations'

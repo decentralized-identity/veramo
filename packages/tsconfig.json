@@ -9,7 +9,6 @@
     { "path": "daf-fs" },
     { "path": "daf-libsodium" },
     { "path": "daf-local-storage" },
-    { "path": "daf-random" },
     { "path": "daf-react-native-async-storage" },
     { "path": "daf-react-native-libsodium" },
     { "path": "daf-resolver" },
