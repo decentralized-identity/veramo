@@ -306,6 +306,14 @@ export const resolvers = {
       args: { raw: string; metaData?: [{ type: string; value?: string }]; save: boolean },
       ctx: Context,
     ) => {
+      if (ctx.authenticatedDid) {
+        const authMeta = {type: "sender", value: ctx.authenticatedDid};
+        if (Array.isArray(args.metaData)) {
+          args.metaData.push(authMeta)
+        } else {
+          args.metaData = [authMeta]
+        }
+      }
       return ctx.agent.handleMessage(args)
     },
   },
