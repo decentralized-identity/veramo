@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
+
+
+### Bug Fixes
+
+* DB migrations ([14b578e](https://github.com/uport-project/daf/commit/14b578e87740cd3d19e5ae728791a192cc50bc4c))
+* Failing CI ([1264b99](https://github.com/uport-project/daf/commit/1264b99766d5b062f19e99326ed7cc1f5f19de89))
+* Failing CI ([53b114e](https://github.com/uport-project/daf/commit/53b114e2f0dbb9414317f64af59b15654827e792))
+* Failing CI ([f910731](https://github.com/uport-project/daf/commit/f910731180b64d1c666cf46bcaa1107f60eb5813))
+* Failing CI ([3f31953](https://github.com/uport-project/daf/commit/3f3195376a54a4dfd605eea521b0beac8de0e160))
+* Remove postinstall ([2577983](https://github.com/uport-project/daf/commit/257798312edaf4817f906f714e0527bf7c112bc8))
+* Remove postinstall ([9fad446](https://github.com/uport-project/daf/commit/9fad4468fcedd567cf0e2dd06b319d50cd10a9a0))
+
+
+### Features
+
+* Encrypting private keys with SecretBox ([8833931](https://github.com/uport-project/daf/commit/883393192cc830534cfec892b4ce271a09bff99d))
+* Encrypting private keys with SecretBox ([b8cbdd4](https://github.com/uport-project/daf/commit/b8cbdd4f96e51ea15786328b2821509cc59e4ba3))
+
+
+
+
+
 # [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
 
 
