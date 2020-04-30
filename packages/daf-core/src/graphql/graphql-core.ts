@@ -104,8 +104,8 @@ function createWhereObject(input: FindInput): any {
       if (item.not === true) {
         where[item.column] = Not(where[item.column])
       }
-      return where
     }
+    return where
   }
 }
 
@@ -119,10 +119,7 @@ function decorateQB(
 
   if (input?.order) {
     for (const item of input.order) {
-      qb = qb.orderBy(
-        `${qb.connection.driver.escape(tablename)}.${qb.connection.driver.escape(item.column)}`,
-        item.direction,
-      )
+      qb = qb.orderBy(qb.connection.driver.escape(`${item.column}`), item.direction)
     }
   }
   return qb
@@ -195,7 +192,7 @@ const presentations = async (_: any, args: FindArgs, ctx: Context) => {
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('presentation.audience = :ident', {
+        qb.where('audience.did = :ident', {
           ident: ctx.authenticatedDid,
         }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
       }),
@@ -216,7 +213,7 @@ const presentationsCount = async (_: any, args: FindArgs, ctx: Context) => {
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('presentation.audience = :ident', {
+        qb.where('audience.did = :ident', {
           ident: ctx.authenticatedDid,
         }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
       }),
@@ -371,7 +368,7 @@ export const resolvers = {
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
           new Brackets(qb => {
-            qb.where('presentation.audience = :ident', {
+            qb.where('audience.did = :ident', {
               ident: ctx.authenticatedDid,
             }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
           }),
