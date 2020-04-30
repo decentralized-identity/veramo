@@ -21,7 +21,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, agent: Agent): Promise<Message> {
     const meta = message.getLastMetaData()
 
-    if (meta?.type === 'JWT' && meta?.value === 'ES256K-R') {
+    if (meta?.type === 'JWT') {
       const { data } = message
 
       try {
@@ -104,10 +104,6 @@ export function createCredential(payload: VerifiableCredentialPayload, jwt: stri
 
   if (payload.exp) {
     vc.expirationDate = timestampToDate(payload.exp)
-  }
-
-  if (payload.vc.credentialStatus) {
-    vc.credentialStatus = payload.vc.credentialStatus
   }
 
   vc.context = payload.vc['@context']
