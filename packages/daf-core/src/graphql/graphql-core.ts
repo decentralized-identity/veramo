@@ -119,7 +119,10 @@ function decorateQB(
 
   if (input?.order) {
     for (const item of input.order) {
-      qb = qb.orderBy(`${qb.connection.driver.escape(tablename)}.${qb.connection.driver.escape(item.column)}`, item.direction)
+      qb = qb.orderBy(
+        `${qb.connection.driver.escape(tablename)}.${qb.connection.driver.escape(item.column)}`,
+        item.direction,
+      )
     }
   }
   return qb
@@ -234,9 +237,12 @@ const credentials = async (_: any, args: FindArgs, ctx: Context) => {
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('credential.issuer = :ident', {
-          ident: ctx.authenticatedDid,
-        })
+        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere(
+          'credential.issuer = :ident',
+          {
+            ident: ctx.authenticatedDid,
+          },
+        )
       }),
     )
   }
@@ -255,9 +261,12 @@ const credentialsCount = async (_: any, args: FindArgs, ctx: Context) => {
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('credential.issuer = :ident', {
-          ident: ctx.authenticatedDid,
-        })
+        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere(
+          'credential.issuer = :ident',
+          {
+            ident: ctx.authenticatedDid,
+          },
+        )
       }),
     )
   }
@@ -321,7 +330,7 @@ export const resolvers = {
 
   Query: {
     identity: async (_: any, { did }, ctx: Context) =>
-      (checkAuthIdentity(did, ctx.authenticatedDid)) &&
+      checkAuthIdentity(did, ctx.authenticatedDid) &&
       (await ctx.agent.dbConnection).getRepository(Identity).findOne(did),
     identities: async (_: any, { input }, ctx: Context) => {
       if (ctx.authenticatedDid) {
@@ -339,9 +348,12 @@ export const resolvers = {
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
           new Brackets(qb => {
-            qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
-              ident: ctx.authenticatedDid,
-            })
+            qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere(
+              'message.from = :ident',
+              {
+                ident: ctx.authenticatedDid,
+              },
+            )
           }),
         )
       }
@@ -400,9 +412,12 @@ export const resolvers = {
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
           new Brackets(qb => {
-            qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('claim.issuer = :ident', {
-              ident: ctx.authenticatedDid,
-            })
+            qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere(
+              'claim.issuer = :ident',
+              {
+                ident: ctx.authenticatedDid,
+              },
+            )
           }),
         )
       }
@@ -715,7 +730,7 @@ export const typeDefs = `
     id: String
     raw: String!
     issuer: Identity!
-    audience: Identity!
+    audience: [Identity]!
     issuanceDate: Date!
     expirationDate: Date
     context: [String]

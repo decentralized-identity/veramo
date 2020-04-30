@@ -4,6 +4,7 @@ import {
   PrimaryColumn,
   BaseEntity,
   OneToMany,
+  ManyToMany,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm'
@@ -55,7 +56,7 @@ export class Identity extends BaseEntity {
   )
   issuedPresentations: Presentation[]
 
-  @OneToMany(
+  @ManyToMany(
     type => Presentation,
     presentation => presentation.audience,
   )

@@ -106,7 +106,6 @@ export function createCredential(payload: VerifiableCredentialPayload, jwt: stri
     vc.expirationDate = timestampToDate(payload.exp)
   }
 
-
   if (payload.vc.credentialStatus) {
     vc.credentialStatus = payload.vc.credentialStatus
   }
@@ -129,8 +128,13 @@ export function createPresentation(
   vp.issuer = new Identity()
   vp.issuer.did = payload.iss
 
-  vp.audience = new Identity()
-  vp.audience.did = payload.aud
+  const audArray = Array.isArray(payload.aud) ? (payload.aud as string[]) : [payload.aud]
+
+  vp.audience = audArray.map((did: string) => {
+    const id = new Identity()
+    id.did = did
+    return id
+  })
 
   vp.raw = jwt
 

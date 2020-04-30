@@ -69,7 +69,7 @@ export const typeDefs = `
     expirationDate: Date
     tag: String
     issuer: String!
-    audience: String!
+    audience: [String]!
     context: [String]!
     type: [String]!
     verifiableCredential: [String]!

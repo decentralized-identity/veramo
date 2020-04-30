@@ -110,7 +110,7 @@ export interface PresentationInput {
   type: string[]
   id?: string
   issuer: string
-  audience: string
+  audience: string[]
   tag?: string
   expirationDate?: string
   verifiableCredential: string[]

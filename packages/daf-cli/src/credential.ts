@@ -28,7 +28,7 @@ program
         type: 'input',
         name: 'sub',
         message: 'Subject DID',
-        default: identities[0].did
+        default: identities[0].did,
       },
       {
         type: 'input',
@@ -62,7 +62,7 @@ program
       issuer: answers.iss,
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiableCredential'],
-      credentialSubject
+      credentialSubject,
     }
 
     if (answers.addStatus) {
@@ -83,14 +83,14 @@ program
 
       data['credentialStatus'] = {
         type: statusAnswers.type,
-        id: statusAnswers.id
+        id: statusAnswers.id,
       }
     }
 
     const signAction: W3c.ActionSignW3cVc = {
       type: W3c.ActionTypes.signCredentialJwt,
       save: true,
-      data
+      data,
     }
 
     const credential: Daf.Credential = await (await agent).handleAction(signAction)
@@ -141,7 +141,7 @@ program
       },
     ]
     for (const id of ids) {
-      const name = await id.getLatestClaimValue((await agent).dbConnection, { type: 'name'})
+      const name = await id.getLatestClaimValue((await agent).dbConnection, { type: 'name' })
       identities.push({
         value: id.did,
         name: `${id.did} - ${name}`,
@@ -182,9 +182,9 @@ program
       aud = answers.aud
     }
 
-    const credentials = await Daf.Credential.find({ 
-      where: { subject: answers.iss}, 
-      relations: ['claims'] 
+    const credentials = await Daf.Credential.find({
+      where: { subject: answers.iss },
+      relations: ['claims'],
     })
     const list: any = []
     if (credentials.length > 0) {
@@ -230,11 +230,11 @@ program
         save: true,
         data: {
           issuer: answers.iss,
-          audience: aud,
+          audience: [aud],
           tag: answers.tag,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
-          verifiableCredential
+          verifiableCredential,
         },
       }
 
