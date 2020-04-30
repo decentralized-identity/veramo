@@ -677,7 +677,7 @@ export const typeDefs = `
     value: String
   }
   extend type Mutation {
-    handleMessage(raw: String!, meta: [MetaDataInput], save: Boolean = true): Message
+    handleMessage(raw: String!, metaData: [MetaDataInput], save: Boolean = true): Message
   }
 
 
