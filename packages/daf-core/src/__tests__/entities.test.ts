@@ -1,4 +1,4 @@
-import { createConnection, Connection, In } from 'typeorm'
+import { createConnection, Connection, In, Raw } from 'typeorm'
 import { Identity, Key, Message, Credential, Presentation, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
@@ -116,6 +116,8 @@ describe('daf-core', () => {
     vp2.raw = 'mockJWT'
     vp2.credentials = [vc]
 
+    await vp2.save()
+
     const m = new Message()
     m.from = id1
     m.to = id2
@@ -157,12 +159,10 @@ describe('daf-core', () => {
     expect(claims[0].value).toEqual('Alice')
 
     const presentations = await Presentation.find({
-      where: {
-        audience: { did: 'did:test:333' },
-      },
+      relations: ["audience"],
+      where: Raw((alias) => `audience.did = "did:test:333"`)
     })
 
-    console.log(presentations)
     expect(presentations.length).toEqual(1)
   })
 

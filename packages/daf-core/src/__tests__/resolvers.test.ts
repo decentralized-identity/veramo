@@ -128,7 +128,7 @@ describe('daf-core entities', () => {
 
   afterAll(async () => {
     await connection.close()
-    // fs.unlinkSync(databaseFile)
+    fs.unlinkSync(databaseFile)
   })
 
   test('search presentations by audience', async () => {
@@ -145,8 +145,20 @@ describe('daf-core entities', () => {
       },
     }
 
-    const messages = await Gql.Core.resolvers.Query.messages({}, query, { agent })
-    expect(messages.length).toBe(1)
+    let presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent })
+    expect(presentations.length).toBe(1)
+    // search when authenticated as the issuer
+    let authenticatedDid = 'did:test:111'
+
+    presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
+    expect(presentations.length).toBe(1)
+
+    // search when authenticated as another did
+    authenticatedDid = 'did:test:333'
+
+    presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
+    expect(presentations.length).toBe(0)
+    
   })
 
   test('without auth it fetches all messages that match the query', async () => {
