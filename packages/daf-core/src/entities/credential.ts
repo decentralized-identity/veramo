@@ -83,9 +83,6 @@ export class Credential extends BaseEntity {
   @Column({ nullable: true })
   expirationDate?: Date
 
-  @Column('simple-json', { nullable: true })
-  credentialStatus?: object
-
   @Column('simple-array')
   context: string[]
 

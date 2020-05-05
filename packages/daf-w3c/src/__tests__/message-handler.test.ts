@@ -136,6 +136,5 @@ describe('daf-w3c', () => {
     expect(handled.type).toEqual(MessageTypes.vc)
     expect(handled.from.did).toEqual('did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e')
     expect(handled.to.did).toEqual('did:web:uport.me')
-    expect(handled.credentials[0].credentialStatus).toEqual(message.data['credentialStatus'])
   })
 })
