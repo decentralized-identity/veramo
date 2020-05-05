@@ -30,7 +30,7 @@ const kms = new KeyManagementSystem(keyStore)
 
 // Storing serialized identities in the file system
 import { IdentityStore } from 'daf-core'
-const identityStore = new IdentityStore('rinkeby-ethr-2', dbConnection)
+const identityStore = new IdentityStore('rinkeby-ethr', dbConnection)
 
 // Infura is being used to access Ethereum blockchain. https://infura.io
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -56,13 +56,12 @@ messageHandler.setNext(new W3cMessageHandler())
 
 // Setting up Action Handler Chain
 import { DIDCommActionHandler } from 'daf-did-comm'
-import { TrustGraphActionHandler } from 'daf-trust-graph'
 import { W3cActionHandler } from 'daf-w3c'
 import { CredentialStatusActionHandler } from './status-action-handler'
 
 const actionHandler = new W3cActionHandler()
+actionHandler
   .setNext(new DIDCommActionHandler())
-  .setNext(new TrustGraphActionHandler())
   .setNext(new CredentialStatusActionHandler({ infuraProjectId: infuraProjectId }))
 
 // Initializing the Core by injecting dependencies
