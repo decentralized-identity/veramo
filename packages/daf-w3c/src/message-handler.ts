@@ -41,7 +41,8 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.from.did = message.data.iss
 
         message.to = new Identity()
-        message.to.did = message.data.aud
+        const audArray = Array.isArray(message.data.aud) ? (message.data.aud as string[]) : [message.data.aud]
+        message.to.did = audArray[0]
 
         if (message.data.tag) {
           message.threadId = message.data.tag
