@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
+
+
+### Features
+
+* Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
+
+
+### BREAKING CHANGES
+
+* DB Schema change
+
+
+
+
+
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-cli

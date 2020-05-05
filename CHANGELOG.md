@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
+
+
+### Bug Fixes
+
+* babel running out of memory when running jest ([92e285e](https://github.com/uport-project/daf/commit/92e285e184f56e3ca9441ecbcdc6b287727cb4f9))
+* fixes failing audience query tests ([40408dc](https://github.com/uport-project/daf/commit/40408dce03a3c23dff07c89f2455d89c60893ebf))
+* JWT verification with multiple audiences ([dbbb85f](https://github.com/uport-project/daf/commit/dbbb85f4261ac0d1a0f8080fcb734c66eb311696))
+* Remove static Credential.credentialStatus ([f9a06af](https://github.com/uport-project/daf/commit/f9a06afcd01fc9e0452535d10d32158414490ea4))
+* Use the first audience did for message.to ([c71eec7](https://github.com/uport-project/daf/commit/c71eec784526b44f22d76307ac0e83b0e125d965))
+
+
+### Features
+
+* Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
+* Reinstate `credentialStatus` as top level attribute ([4b17689](https://github.com/uport-project/daf/commit/4b1768936a173844e8710993a42600eab4051f9c))
+
+
+### BREAKING CHANGES
+
+* DB Schema change
+
+
+
+
+
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
 

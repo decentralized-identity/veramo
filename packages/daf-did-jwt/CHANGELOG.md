@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
+
+
+### Bug Fixes
+
+* JWT verification with multiple audiences ([dbbb85f](https://github.com/uport-project/daf/commit/dbbb85f4261ac0d1a0f8080fcb734c66eb311696))
+
+
+
+
+
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-did-jwt

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
+
+
+### Bug Fixes
+
+* fixes failing audience query tests ([40408dc](https://github.com/uport-project/daf/commit/40408dce03a3c23dff07c89f2455d89c60893ebf))
+* Remove static Credential.credentialStatus ([f9a06af](https://github.com/uport-project/daf/commit/f9a06afcd01fc9e0452535d10d32158414490ea4))
+
+
+### Features
+
+* Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
+
+
+### BREAKING CHANGES
+
+* DB Schema change
+
+
+
+
+
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
 
