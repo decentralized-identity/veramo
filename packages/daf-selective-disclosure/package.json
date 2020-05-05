@@ -12,7 +12,7 @@
     "daf-core": "^4.5.0",
     "daf-did-jwt": "^4.5.0",
     "debug": "^4.1.1",
-    "did-jwt": "4.2.0",
+    "did-jwt": "^4.3.2",
     "typeorm": "^0.2.24"
   },
   "devDependencies": {
