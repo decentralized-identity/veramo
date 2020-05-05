@@ -146,9 +146,6 @@ const transformCredentialInput = (input: CredentialInput): VerifiableCredentialP
       case 'id':
         result['jti'] = input[key]
         break
-      case 'credentialStatus':
-        result['vc']['credentialStatus'] = input[key]
-        break
       case 'issuer':
         // remove issuer
         break

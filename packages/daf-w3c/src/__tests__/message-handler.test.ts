@@ -101,4 +101,40 @@ describe('daf-w3c', () => {
     expect(handled.threadId).toEqual(vpPayload.tag)
     // expect(handled.timestamp).toEqual(vpPayload.iat)
   })
+
+  it('should return handled VC message with credentialStatus', async () => {
+    const token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJpYXQiOjE1ODgyNDkyNTgsInN1YiI6ImRpZDp3ZWI6dXBvcnQubWUiLCJub25jZSI6IjM4NzE4Njc0NTMiLCJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiQXdlc29tZW5lc3NDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7Iml0IjoicmVhbGx5IHdoaXBzIHRoZSBsbGFtbWEncyBhc3MhIn19LCJjcmVkZW50aWFsU3RhdHVzIjp7InR5cGUiOiJFdGhyU3RhdHVzUmVnaXN0cnkyMDE5IiwiaWQiOiJyaW5rZWJ5OjB4OTdmZDI3ODkyY2RjRDAzNWRBZTFmZTcxMjM1YzYzNjA0NEI1OTM0OCJ9LCJpc3MiOiJkaWQ6ZXRocjoweDU0ZDU5ZTNmZmQ3NjkxN2Y2MmRiNzAyYWMzNTRiMTdmMzg0Mjk1NWUifQ.mtMt6-sJdaKH_sPUFPan1FzvWPtlrdKLRCHrh1aOS_zSVyTGHynA0-5AHcEujB1Rz1SuzuM3rkhHRO8eX2IAYg'
+    const message = new Message({
+      raw: token,
+      metaData: [{ type: 'test' }],
+    })
+    // This would be done by 'daf-did-jwt':
+    message.data = {
+      iat: 1588249258,
+      sub: 'did:web:uport.me',
+      vc: {
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential', 'AwesomenessCredential'],
+        credentialSubject: {
+          it: "really whips the llamma's ass!",
+        },
+      },
+      credentialStatus: {
+        type: 'EthrStatusRegistry2019',
+        id: 'rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348',
+      },
+      iss: 'did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e',
+    }
+    message.addMetaData({ type: 'JWT', value: 'ES256K' })
+
+    const handled = await handler.handle(message, agent)
+
+    expect(handled.isValid()).toEqual(true)
+    expect(handled.id).toEqual(blake2bHex(token))
+    expect(handled.raw).toEqual(token)
+    expect(handled.type).toEqual(MessageTypes.vc)
+    expect(handled.from.did).toEqual('did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e')
+    expect(handled.to.did).toEqual('did:web:uport.me')
+  })
 })
