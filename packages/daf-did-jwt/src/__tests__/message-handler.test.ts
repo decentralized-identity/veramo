@@ -1,8 +1,8 @@
 import { Message, Agent } from 'daf-core'
-import { W3cMessageHandler, MessageTypes } from '../index'
+import { JwtMessageHandler } from '../index'
 import { blake2bHex } from 'blakejs'
 
-describe('daf-w3c', () => {
+describe('daf-did-jwt', () => {
   const vcJwt =
     'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODI2MTk2NzYsInN1YiI6ImRpZDpldGhyOnJpbmtlYnk6MHgzYzM1N2JhNDU4OTMzYTE5YzFkZjFjN2Y2YjQ3M2IzMzAyYmJiZTYxIiwidmMiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCJdLCJjcmVkZW50aWFsU3ViamVjdCI6eyJuYW1lIjoiQWxpY2UifX0sImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgzYzM1N2JhNDU4OTMzYTE5YzFkZjFjN2Y2YjQ3M2IzMzAyYmJiZTYxIn0.IGF1LFOc4_PcGVeq7Yw7OGz4Gj7xXZK6p8bP9CSEIXz7mNFPM0v0nuevTZ47a0I8XgLfCFNkUrIIscjH8MFx_wE'
 
@@ -53,14 +53,14 @@ describe('daf-w3c', () => {
     iss: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
   }
 
-  const handler = new W3cMessageHandler()
-
   const agent = new Agent({
     identityProviders: [],
     serviceControllers: [],
-    messageHandler: handler,
+    messageHandler: {
+      setNext: jest.fn(),
+      handle: jest.fn().mockResolvedValue(true),
+    },
     didResolver: {
-      //"did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61"
       resolve: async (did: string) => ({
         '@context': 'https://w3id.org/did/v1',
         id: did,
@@ -69,7 +69,7 @@ describe('daf-w3c', () => {
             id: `${did}#owner`,
             type: 'Secp256k1VerificationKey2018',
             owner: did,
-            ethereumAddress: '0x3c357ba458933a19c1df1c7f6b473b3302bbbe61',
+            ethereumAddress: did.slice(-42),
           },
         ],
         authentication: [
@@ -83,91 +83,73 @@ describe('daf-w3c', () => {
   })
 
   it('should reject unknown message type', async () => {
+    const mockNextHandler = {
+      setNext: jest.fn(),
+      handle: jest.fn().mockRejectedValue('Unsupported message type'),
+    }
+    const handler = new JwtMessageHandler()
+    handler.setNext(mockNextHandler)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
     expect(handler.handle(message, agent)).rejects.toEqual('Unsupported message type')
   })
 
-  it('should return handled VC message', async () => {
-    const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
-    // This would be done by 'daf-did-jwt':
-    message.data = vcPayload
-    message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
-    const handled = await handler.handle(message, agent)
-    expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(vcJwt))
-    expect(handled.raw).toEqual(vcJwt)
-    expect(handled.type).toEqual(MessageTypes.vc)
-    expect(handled.from.did).toEqual(vcPayload.iss)
-    expect(handled.to.did).toEqual(vcPayload.sub)
-    // expect(handled.timestamp).toEqual(vcPayload.iat)
-  })
-
-  it('should return handled VP message', async () => {
-    const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
-    // This would be done by 'daf-did-jwt':
-    message.data = vpPayload
-    message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
-
-    const handled = await handler.handle(message, agent)
-    expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(vpJwt))
-    expect(handled.raw).toEqual(vpJwt)
-    expect(handled.type).toEqual(MessageTypes.vp)
-    expect(handled.from.did).toEqual(vpPayload.iss)
-    expect(handled.to.did).toEqual(vpPayload.aud)
-    expect(handled.threadId).toEqual(vpPayload.tag)
-    // expect(handled.timestamp).toEqual(vpPayload.iat)
-  })
-
-  it('should use the first audience did as a message.to field', async () => {
-    const message = new Message({ raw: vpMultiAudJwt, metaData: [{ type: 'test' }] })
-    // This would be done by 'daf-did-jwt':
-    message.data = vpMultiAudPayload
-    message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
-
-    const handled = await handler.handle(message, agent)
-    expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(vpMultiAudJwt))
-    expect(handled.raw).toEqual(vpMultiAudJwt)
-    expect(handled.type).toEqual(MessageTypes.vp)
-    expect(handled.from.did).toEqual(vpMultiAudPayload.iss)
-    expect(handled.to.did).toEqual(vpMultiAudPayload.aud[0])
-    expect(handled.threadId).toEqual(vpMultiAudPayload.tag)
-  })
-
-  it('should return handled VC message with credentialStatus', async () => {
-    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJpYXQiOjE1ODgyNDkyNTgsInN1YiI6ImRpZDp3ZWI6dXBvcnQubWUiLCJub25jZSI6IjM4NzE4Njc0NTMiLCJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiQXdlc29tZW5lc3NDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7Iml0IjoicmVhbGx5IHdoaXBzIHRoZSBsbGFtbWEncyBhc3MhIn19LCJjcmVkZW50aWFsU3RhdHVzIjp7InR5cGUiOiJFdGhyU3RhdHVzUmVnaXN0cnkyMDE5IiwiaWQiOiJyaW5rZWJ5OjB4OTdmZDI3ODkyY2RjRDAzNWRBZTFmZTcxMjM1YzYzNjA0NEI1OTM0OCJ9LCJpc3MiOiJkaWQ6ZXRocjoweDU0ZDU5ZTNmZmQ3NjkxN2Y2MmRiNzAyYWMzNTRiMTdmMzg0Mjk1NWUifQ.mtMt6-sJdaKH_sPUFPan1FzvWPtlrdKLRCHrh1aOS_zSVyTGHynA0-5AHcEujB1Rz1SuzuM3rkhHRO8eX2IAYg'
-    const message = new Message({
-      raw: token,
-      metaData: [{ type: 'test' }],
-    })
-    // This would be done by 'daf-did-jwt':
-    message.data = {
-      iat: 1588249258,
-      sub: 'did:web:uport.me',
-      vc: {
-        '@context': ['https://www.w3.org/2018/credentials/v1'],
-        type: ['VerifiableCredential', 'AwesomenessCredential'],
-        credentialSubject: {
-          it: "really whips the llamma's ass!",
-        },
-      },
-      credentialStatus: {
-        type: 'EthrStatusRegistry2019',
-        id: 'rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348',
-      },
-      iss: 'did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e',
+  it('should set data field for VC jwt', async () => {
+    const mockNextHandler = {
+      setNext: jest.fn(),
+      handle: jest.fn().mockResolvedValue(true),
     }
-    message.addMetaData({ type: 'JWT', value: 'ES256K' })
+    const handler = new JwtMessageHandler()
+    handler.setNext(mockNextHandler)
 
-    const handled = await handler.handle(message, agent)
+    const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
+    await handler.handle(message, agent)
+    expect(mockNextHandler.handle).toBeCalledWith(
+      expect.objectContaining({
+        raw: vcJwt,
+        data: vcPayload,
+        metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
+      }),
+      agent,
+    )
+  })
 
-    expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(token))
-    expect(handled.raw).toEqual(token)
-    expect(handled.type).toEqual(MessageTypes.vc)
-    expect(handled.from.did).toEqual('did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e')
-    expect(handled.to.did).toEqual('did:web:uport.me')
+  it('should set data field for VP jwt', async () => {
+    const mockNextHandler = {
+      setNext: jest.fn(),
+      handle: jest.fn().mockResolvedValue(true),
+    }
+    const handler = new JwtMessageHandler()
+    handler.setNext(mockNextHandler)
+
+    const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
+    await handler.handle(message, agent)
+    expect(mockNextHandler.handle).toBeCalledWith(
+      expect.objectContaining({
+        raw: vpJwt,
+        data: vpPayload,
+        metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
+      }),
+      agent,
+    )
+  })
+
+  it('should set data field for multi audience VP jwt', async () => {
+    const mockNextHandler = {
+      setNext: jest.fn(),
+      handle: jest.fn(),
+    }
+    const handler = new JwtMessageHandler()
+    handler.setNext(mockNextHandler)
+
+    const message = new Message({ raw: vpMultiAudJwt, metaData: [{ type: 'test' }] })
+    await handler.handle(message, agent)
+    expect(mockNextHandler.handle).toBeCalledWith(
+      expect.objectContaining({
+        raw: vpMultiAudJwt,
+        data: vpMultiAudPayload,
+        metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
+      }),
+      agent,
+    )
   })
 })

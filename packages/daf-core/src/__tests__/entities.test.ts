@@ -1,4 +1,4 @@
-import { createConnection, Connection, In } from 'typeorm'
+import { createConnection, Connection, In, Raw } from 'typeorm'
 import { Identity, Key, Message, Credential, Presentation, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
@@ -79,6 +79,9 @@ describe('daf-core', () => {
     const id2 = new Identity()
     id2.did = 'did:test:222'
 
+    const id3 = new Identity()
+    id3.did = 'did:test:333'
+
     const vc = new Credential()
     vc.issuer = id1
     vc.subject = id2
@@ -97,12 +100,23 @@ describe('daf-core', () => {
 
     const vp = new Presentation()
     vp.issuer = id1
-    vp.audience = id2
+    vp.audience = [id2]
     vp.issuanceDate = new Date()
     vp.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
     vp.type = ['VerifiablePresentation', 'PublicProfile']
     vp.raw = 'mockJWT'
     vp.credentials = [vc]
+
+    const vp2 = new Presentation()
+    vp2.issuer = id1
+    vp2.audience = [id3]
+    vp2.issuanceDate = new Date()
+    vp2.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
+    vp2.type = ['VerifiablePresentation', 'PublicProfile', 'Specific']
+    vp2.raw = 'mockJWT'
+    vp2.credentials = [vc]
+
+    await vp2.save()
 
     const m = new Message()
     m.from = id1
@@ -143,6 +157,13 @@ describe('daf-core', () => {
 
     expect(claims[0].type).toEqual('name')
     expect(claims[0].value).toEqual('Alice')
+
+    const presentations = await Presentation.find({
+      relations: ["audience"],
+      where: Raw((alias) => `audience.did = "did:test:333"`)
+    })
+
+    expect(presentations.length).toEqual(1)
   })
 
   it('Message can have externally set id', async () => {

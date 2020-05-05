@@ -28,7 +28,7 @@ describe('daf-w3c:graphql', () => {
   it('handles Mutation.actionSignVp', async () => {
     const data = {
       issuer: mockDid,
-      audience: 'did:web:uport.me',
+      audience: ['did:web:uport.me'],
       context: ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiablePresentation'],
       verifiableCredential: ['JWT'],

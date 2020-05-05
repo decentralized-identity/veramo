@@ -78,7 +78,7 @@ describe('daf-selective-disclosure-helper', () => {
 
     const presentation = new Presentation()
     presentation.issuer = identity
-    presentation.audience = identity
+    presentation.audience = [identity]
     presentation.context = ['https://www.w3.org/2018/credentials/v1']
     presentation.type = ['VerifiablePresentation']
     presentation.credentials = [credential1, credential3]
@@ -120,7 +120,7 @@ describe('daf-selective-disclosure-helper', () => {
 
     const presentation = new Presentation()
     presentation.issuer = identity
-    presentation.audience = identity
+    presentation.audience = [identity]
     presentation.context = ['https://www.w3.org/2018/credentials/v1']
     presentation.type = ['VerifiablePresentation']
     presentation.credentials = [credential1]

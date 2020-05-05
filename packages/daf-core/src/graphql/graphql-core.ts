@@ -58,10 +58,48 @@ interface TypeOrmOrder {
   [x: string]: 'ASC' | 'DESC'
 }
 
+function opToSQL(item: Where): any[] {
+  switch (item.op) {
+    case 'IsNull':
+      return ['IS NULL', '']
+    case 'Like':
+      if (item.value?.length != 1) throw Error('Operation Equal requires one value')
+      return ['LIKE :value', item.value[0]]
+    case 'Equal':
+      if (item.value?.length != 1) throw Error('Operation Equal requires one value')
+      return ['= :value', item.value[0]]
+    case 'Any':
+    case 'Between':
+    case 'LessThan':
+    case 'LessThanOrEqual':
+    case 'MoreThan':
+    case 'MoreThanOrEqual':
+      throw new Error(`${item.op} not compatable with DID argument`)
+    case 'In':
+    default:
+      return ['IN (:...value)', item.value]
+  }
+}
+
+function  addAudienceQuery(input: FindInput, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
+  if (!Array.isArray(input.where)) {
+    return qb
+  }
+  const audienceWhere = input.where.find((item) => item.column === "audience")
+  if (!audienceWhere) {
+    return qb
+  }
+  const [op, value] = opToSQL(audienceWhere)
+  return qb.andWhere(`audience.did ${op}`, {value})
+}
+
 function createWhereObject(input: FindInput): any {
   if (input?.where) {
     const where = {}
     for (const item of input.where) {
+      if (item.column === "audience") {
+        continue
+      }
       switch (item.op) {
         case 'Any':
           where[item.column] = Any(item.value)
@@ -104,8 +142,8 @@ function createWhereObject(input: FindInput): any {
       if (item.not === true) {
         where[item.column] = Not(where[item.column])
       }
-      return where
     }
+    return where
   }
 }
 
@@ -119,10 +157,7 @@ function decorateQB(
 
   if (input?.order) {
     for (const item of input.order) {
-      qb = qb.orderBy(
-        `${qb.connection.driver.escape(tablename)}.${qb.connection.driver.escape(item.column)}`,
-        item.direction,
-      )
+      qb = qb.orderBy(qb.connection.driver.escape(`${item.column}`), item.direction)
     }
   }
   return qb
@@ -142,7 +177,7 @@ export interface FindArgs {
   input?: FindInput
 }
 
-const messages = async (_: any, args: FindArgs, ctx: Context) => {
+const messagesQuery = async (_: any, args: FindArgs, ctx: Context): Promise<SelectQueryBuilder<any>> => {
   const where = createWhereObject(args.input)
   let qb = (await ctx.agent.dbConnection)
     .getRepository(Message)
@@ -160,161 +195,108 @@ const messages = async (_: any, args: FindArgs, ctx: Context) => {
       }),
     )
   }
-  return qb.getMany()
+  return qb
 }
+
+const messages = async (_: any, args: FindArgs, ctx: Context) => {
+  return (await messagesQuery(_, args, ctx)).getMany()
+}
+
 const messagesCount = async (_: any, args: FindArgs, ctx: Context) => {
+  return (await messagesQuery(_, args, ctx)).getCount()
+}
+
+const presentationsQuery = async (_: any, args: FindArgs, ctx: Context) => {
   const where = createWhereObject(args.input)
   let qb = (await ctx.agent.dbConnection)
-    .getRepository(Message)
-    .createQueryBuilder('message')
-    .leftJoinAndSelect('message.from', 'from')
-    .leftJoinAndSelect('message.to', 'to')
+    .getRepository(Presentation)
+    .createQueryBuilder('presentation')
+    .leftJoinAndSelect('presentation.issuer', 'issuer')
+    .leftJoinAndSelect('presentation.audience', 'audience')
     .where(where)
-  qb = decorateQB(qb, 'message', args.input)
+  qb = decorateQB(qb, 'presentation', args.input)
+  qb = addAudienceQuery(args.input, qb)
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
+        qb.where('audience.did = :ident', {
           ident: ctx.authenticatedDid,
-        })
+        }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
       }),
     )
   }
-  return (await qb.select('COUNT(message.id)').getRawOne())['COUNT("message"."id")']
+  return qb
 }
 
 const presentations = async (_: any, args: FindArgs, ctx: Context) => {
-  const where = createWhereObject(args.input)
-  let qb = (await ctx.agent.dbConnection)
-    .getRepository(Presentation)
-    .createQueryBuilder('presentation')
-    .leftJoinAndSelect('presentation.issuer', 'issuer')
-    .leftJoinAndSelect('presentation.audience', 'audience')
-    .where(where)
-  qb = decorateQB(qb, 'presentation', args.input)
-  if (ctx.authenticatedDid) {
-    qb = qb.andWhere(
-      new Brackets(qb => {
-        qb.where('presentation.audience = :ident', {
-          ident: ctx.authenticatedDid,
-        }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
-      }),
-    )
-  }
-  return qb.getMany()
+  return (await presentationsQuery(_, args, ctx)).getMany()
 }
 
 const presentationsCount = async (_: any, args: FindArgs, ctx: Context) => {
+  return (await presentationsQuery(_, args, ctx)).getCount()
+}
+
+const credentialsQuery = async (_: any, args: FindArgs, ctx: Context) => {
   const where = createWhereObject(args.input)
   let qb = (await ctx.agent.dbConnection)
-    .getRepository(Presentation)
-    .createQueryBuilder('presentation')
-    .leftJoinAndSelect('presentation.issuer', 'issuer')
-    .leftJoinAndSelect('presentation.audience', 'audience')
+    .getRepository(Credential)
+    .createQueryBuilder('credential')
+    .leftJoinAndSelect('credential.issuer', 'issuer')
+    .leftJoinAndSelect('credential.subject', 'subject')
     .where(where)
-  qb = decorateQB(qb, 'presentation', args.input)
+  qb = decorateQB(qb, 'credential', args.input)
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('presentation.audience = :ident', {
-          ident: ctx.authenticatedDid,
-        }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
+        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere(
+          'credential.issuer = :ident',
+          {
+            ident: ctx.authenticatedDid,
+          },
+        )
       }),
     )
   }
-  return qb.select('COUNT(presentation.hash)').getRawOne()
+  return qb
 }
 
 const credentials = async (_: any, args: FindArgs, ctx: Context) => {
-  const where = createWhereObject(args.input)
-  let qb = (await ctx.agent.dbConnection)
-    .getRepository(Credential)
-    .createQueryBuilder('credential')
-    .leftJoinAndSelect('credential.issuer', 'issuer')
-    .leftJoinAndSelect('credential.subject', 'subject')
-    .where(where)
-  qb = decorateQB(qb, 'credential', args.input)
-  if (ctx.authenticatedDid) {
-    qb = qb.andWhere(
-      new Brackets(qb => {
-        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere(
-          'credential.issuer = :ident',
-          {
-            ident: ctx.authenticatedDid,
-          },
-        )
-      }),
-    )
-  }
-  return qb.getMany()
+  return (await credentialsQuery(_, args, ctx)).getMany()
 }
 
 const credentialsCount = async (_: any, args: FindArgs, ctx: Context) => {
+  return (await credentialsQuery(_, args, ctx)).getCount()
+}
+
+
+const claimsQuery = async (_: any, args: FindArgs, ctx: Context) => {
   const where = createWhereObject(args.input)
   let qb = (await ctx.agent.dbConnection)
-    .getRepository(Credential)
-    .createQueryBuilder('credential')
-    .leftJoinAndSelect('credential.issuer', 'issuer')
-    .leftJoinAndSelect('credential.subject', 'subject')
+    .getRepository(Claim)
+    .createQueryBuilder('claim')
+    .leftJoinAndSelect('claim.issuer', 'issuer')
+    .leftJoinAndSelect('claim.subject', 'subject')
     .where(where)
-  qb = decorateQB(qb, 'credential', args.input)
+  qb = decorateQB(qb, 'claim', args.input)
+  qb = qb.leftJoinAndSelect('claim.credential', 'credential')
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets(qb => {
-        qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere(
-          'credential.issuer = :ident',
-          {
-            ident: ctx.authenticatedDid,
-          },
-        )
+        qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('claim.issuer = :ident', {
+          ident: ctx.authenticatedDid,
+        })
       }),
     )
   }
-  return qb.select('COUNT(credential.hash)').getRawOne()
+  return qb
 }
 
 const claims = async (_: any, args: FindArgs, ctx: Context) => {
-  const where = createWhereObject(args.input)
-  let qb = (await ctx.agent.dbConnection)
-    .getRepository(Claim)
-    .createQueryBuilder('claim')
-    .leftJoinAndSelect('claim.issuer', 'issuer')
-    .leftJoinAndSelect('claim.subject', 'subject')
-    .where(where)
-  qb = decorateQB(qb, 'claim', args.input)
-  qb = qb.leftJoinAndSelect('claim.credential', 'credential')
-  if (ctx.authenticatedDid) {
-    qb = qb.andWhere(
-      new Brackets(qb => {
-        qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('claim.issuer = :ident', {
-          ident: ctx.authenticatedDid,
-        })
-      }),
-    )
-  }
-  return qb.getMany()
+  return (await claimsQuery(_, args, ctx)).getMany()
 }
 
 const claimsCount = async (_: any, args: FindArgs, ctx: Context) => {
-  const where = createWhereObject(args.input)
-  let qb = (await ctx.agent.dbConnection)
-    .getRepository(Claim)
-    .createQueryBuilder('claim')
-    .leftJoinAndSelect('claim.issuer', 'issuer')
-    .leftJoinAndSelect('claim.subject', 'subject')
-    .where(where)
-  qb = decorateQB(qb, 'claim', args.input)
-  qb = qb.leftJoinAndSelect('claim.credential', 'credential')
-  if (ctx.authenticatedDid) {
-    qb = qb.andWhere(
-      new Brackets(qb => {
-        qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('claim.issuer = :ident', {
-          ident: ctx.authenticatedDid,
-        })
-      }),
-    )
-  }
-  return qb.select('COUNT(claim.hash)').getRawOne()
+  return (await claimsQuery(_, args, ctx)).getCount()
 }
 
 export const resolvers = {
@@ -371,7 +353,7 @@ export const resolvers = {
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
           new Brackets(qb => {
-            qb.where('presentation.audience = :ident', {
+            qb.where('audience.did = :ident', {
               ident: ctx.authenticatedDid,
             }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
           }),
@@ -730,7 +712,7 @@ export const typeDefs = `
     id: String
     raw: String!
     issuer: Identity!
-    audience: Identity!
+    audience: [Identity]!
     issuanceDate: Date!
     expirationDate: Date
     context: [String]

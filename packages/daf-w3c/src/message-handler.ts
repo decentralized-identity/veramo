@@ -41,7 +41,8 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.from.did = message.data.iss
 
         message.to = new Identity()
-        message.to.did = message.data.aud
+        const audArray = Array.isArray(message.data.aud) ? (message.data.aud as string[]) : [message.data.aud]
+        message.to.did = audArray[0]
 
         if (message.data.tag) {
           message.threadId = message.data.tag
@@ -124,8 +125,13 @@ export function createPresentation(
   vp.issuer = new Identity()
   vp.issuer.did = payload.iss
 
-  vp.audience = new Identity()
-  vp.audience.did = payload.aud
+  const audArray = Array.isArray(payload.aud) ? (payload.aud as string[]) : [payload.aud]
+
+  vp.audience = audArray.map((did: string) => {
+    const id = new Identity()
+    id.did = did
+    return id
+  })
 
   vp.raw = jwt
 
