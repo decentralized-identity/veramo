@@ -1,7 +1,8 @@
 import { W3cActionHandler, ActionTypes, ActionSignW3cVc } from '../index'
-import { SimpleSigner } from 'did-jwt'
+import { SimpleSigner, decodeJWT } from 'did-jwt'
 import { Resolver } from 'did-resolver'
 import { ActionSignW3cVp } from '../action-handler'
+import { Credential } from 'daf-core'
 
 const privateKey = 'a285ab66393c5fdda46d6fbad9e27fafd438254ab72ad5acb681a0e9f20f5d7b'
 const signerAddress = '0x2036c6cd85692f0fb2c26e6c6b2eced9e4478dfd'
@@ -92,7 +93,7 @@ describe('daf-w3c', () => {
       },
     }
 
-    let result = await actionHandler.handleAction(
+    let result: Credential = await actionHandler.handleAction(
       {
         type: ActionTypes.signCredentialJwt,
         data,
@@ -100,6 +101,8 @@ describe('daf-w3c', () => {
       mockAgent as any,
     )
 
-    expect(result.credentialStatus).toMatchObject({ type: 'TestStatusMethod', id: 'local' })
+    const decoded = decodeJWT(result.raw)
+
+    expect(decoded.payload.credentialStatus).toMatchObject({ type: 'TestStatusMethod', id: 'local' })
   })
 })
