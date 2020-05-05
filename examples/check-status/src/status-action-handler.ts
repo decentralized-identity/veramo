@@ -43,10 +43,10 @@ export class CredentialStatusActionHandler extends AbstractActionHandler {
       const { data } = action as ActionCheckStatus
       try {
         let rawToken: string = null
-        if (data instanceof Credential || data instanceof Presentation) {
-          rawToken = data.raw
-        } else {
+        if (typeof data === 'string') {
           rawToken = data
+        } else {
+          rawToken = data.raw
         }
 
         const decoded = await decodeJWT(rawToken)
