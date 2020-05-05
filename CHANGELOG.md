@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
+
+
+### Bug Fixes
+
+* Remove static Credential.credentialStatus ([719fddc](https://github.com/uport-project/daf/commit/719fddc558dd7ec2925e3a8d695a5de4c65e91cd))
+
+
+### Features
+
+* Reinstate `credentialStatus` as top level attribute ([8347b1f](https://github.com/uport-project/daf/commit/8347b1f5e93840ae6f6548609b87720027dc538e))
+
+
+
+
+
 # [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
 
 
