@@ -262,8 +262,8 @@ console.log(message.credentials) // public profile
 ## GraphQL
 
 ```graphql
-mutation handleMessage($raw: String!, $meta: [MetaDataInput]) {
-  handleMessage(raw: $raw, meta: $meta, save: true) {
+mutation handleMessage($raw: String!, $metaData: [MetaDataInput]) {
+  handleMessage(raw: $raw, metaData: $meta, save: true) {
     id
     type
   }
@@ -281,10 +281,10 @@ const data = {
     id: 'did:example:1234',
     name: 'Alice',
   },
-  credentialStatus:{
-    type: "EthrStatusRegistry2019",
-    id:"rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348"
-  }
+  credentialStatus: {
+    type: 'EthrStatusRegistry2019',
+    id: 'rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348',
+  },
 }
 ```
 
