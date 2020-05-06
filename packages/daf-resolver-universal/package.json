@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
+    "jest-fetch-mock": "^3.0.3",
     "typescript": "^3.8.3"
   },
   "files": [

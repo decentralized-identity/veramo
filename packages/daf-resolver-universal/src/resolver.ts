@@ -11,6 +11,8 @@ export class DafUniversalResolver {
   private url: string
 
   constructor(options: Options) {
+    if (!options.url) throw Error('[daf-resolver-universal] url required')
+    debug(options.url)
     this.url = options.url
   }
 
