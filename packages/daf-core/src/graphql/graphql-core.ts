@@ -306,6 +306,14 @@ export const resolvers = {
       args: { raw: string; metaData?: [{ type: string; value?: string }]; save: boolean },
       ctx: Context,
     ) => {
+      if (ctx.authenticatedDid) {
+        const authMeta = {type: "sender", value: ctx.authenticatedDid};
+        if (Array.isArray(args.metaData)) {
+          args.metaData.push(authMeta)
+        } else {
+          args.metaData = [authMeta]
+        }
+      }
       return ctx.agent.handleMessage(args)
     },
   },
@@ -669,7 +677,7 @@ export const typeDefs = `
     value: String
   }
   extend type Mutation {
-    handleMessage(raw: String!, meta: [MetaDataInput], save: Boolean = true): Message
+    handleMessage(raw: String!, metaData: [MetaDataInput], save: Boolean = true): Message
   }
 
 
