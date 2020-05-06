@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/uport-project/daf/compare/v5.0.0...v5.1.0) (2020-05-06)
+
+
+### Bug Fixes
+
+* resolvers and handlers didn't match schema ([85c38a2](https://github.com/uport-project/daf/commit/85c38a206a163e3ed601b1ad2ac330f275d7ac4a))
+
+
+### Features
+
+* pass along authentication metadata into handlers ([199426b](https://github.com/uport-project/daf/commit/199426b4dba9013d34fea92585583487abdae041))
+
+
+
+
+
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
 
 
