@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/uport-project/daf/compare/v5.2.0...v5.3.0) (2020-05-06)
+
+
+### Features
+
+* Network config for daf-resolver ([5efd82c](https://github.com/uport-project/daf/commit/5efd82c5343dd99dc644a49774210b31bb2a717a))
+* Universal resolver unit tests ([8b92d1c](https://github.com/uport-project/daf/commit/8b92d1c032b19124271bff7884ceebace6331a4e))
+
+
+
+
+
 # [5.2.0](https://github.com/uport-project/daf/compare/v5.1.0...v5.2.0) (2020-05-06)
 
 

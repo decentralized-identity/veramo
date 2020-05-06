@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/uport-project/daf/compare/v5.2.0...v5.3.0) (2020-05-06)
+
+
+### Features
+
+* Network config for daf-resolver ([5efd82c](https://github.com/uport-project/daf/commit/5efd82c5343dd99dc644a49774210b31bb2a717a))
+
+
+
+
+
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-resolver
