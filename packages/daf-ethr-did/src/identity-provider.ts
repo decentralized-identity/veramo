@@ -27,6 +27,8 @@ export class IdentityProvider extends AbstractIdentityProvider {
   private rpcUrl?: string
   private kms: AbstractKeyManagementSystem
   private identityStore: AbstractIdentityStore
+  private gas?: number
+  private ttl?: number
 
   constructor(options: {
     kms: AbstractKeyManagementSystem
@@ -34,6 +36,8 @@ export class IdentityProvider extends AbstractIdentityProvider {
     network: string
     rpcUrl?: string
     web3Provider?: object
+    ttl?: number
+    gas?: number
   }) {
     super()
     this.kms = options.kms
@@ -43,6 +47,8 @@ export class IdentityProvider extends AbstractIdentityProvider {
     this.web3Provider = options.web3Provider
     this.type = options.network + '-' + this.type
     this.description = 'did:ethr ' + options.network + ' ' + this.description
+    this.ttl = options.ttl
+    this.gas = options.gas
   }
 
   private async identityFromSerialized(serializedIdentity: SerializedIdentity): Promise<AbstractIdentity> {
@@ -62,6 +68,8 @@ export class IdentityProvider extends AbstractIdentityProvider {
       kms: this.kms,
       identityStore: this.identityStore,
       address: toEthereumAddress(key.serialized.publicKeyHex),
+      gas: this.gas,
+      ttl: this.ttl,
     })
 
     return new Identity({

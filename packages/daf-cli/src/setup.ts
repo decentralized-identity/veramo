@@ -76,6 +76,8 @@ const setupAgent = async (): Promise<Daf.Agent> => {
       kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
       network: 'rinkeby',
       rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+      gas: 10001,
+      ttl: 60 * 60 * 24 * 30 * 12 + 1,
     }),
   ]
   const serviceControllers = [TrustGraphServiceController]
