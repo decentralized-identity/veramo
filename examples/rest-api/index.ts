@@ -6,13 +6,13 @@ import { agent } from './setup'
 
 app.get('/identities', async (req, res) => {
   const identities = await agent.identityManager.getIdentities()
-  res.json(identities.map(identity => identity.did))
+  res.json(identities.map((identity: any) => identity.did))
 })
 
 app.get('/providers', async (req, res) => {
   const providers = await agent.identityManager.getIdentityProviders()
   res.json(
-    providers.map(provider => {
+    providers.map((provider: any) => {
       provider.type, provider.description
     }),
   )
