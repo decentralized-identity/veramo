@@ -32,16 +32,16 @@ curl --location --request POST 'http://localhost:8080/create-identity' \
 curl --location --request GET 'http://localhost:8080/identities'
 ```
 
-### Sing VC
+### Sign VC
 
 ```
 curl --location --request POST 'http://localhost:8080/handle-action' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-  "type": "action.sign.w3c.vc",
-  "did": "did:ethr:rinkeby:0x7dd28328c8b05a852839284c304b4bd4b628e357",
+  "type": "sign.w3c.vc.jwt",
   "data": {
     "sub": "did:web:uport.me",
+    "issuer": "<replace this with the created DID: did:ethr:rinkeby:0xabc...>",
     "vc": {
       "@context": ["https://www.w3.org/2018/credentials/v1"],
       "type": ["VerifiableCredential"],
