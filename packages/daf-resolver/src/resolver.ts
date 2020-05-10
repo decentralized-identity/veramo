@@ -9,6 +9,7 @@ const debug = Debug('daf:resolver')
 interface NetworkConfig {
   name: string
   rpcUrl: string
+  registry?: string
 }
 
 interface Options {
