@@ -58,11 +58,13 @@ messageHandler.setNext(new W3cMessageHandler())
 import { DIDCommActionHandler } from 'daf-did-comm'
 import { W3cActionHandler } from 'daf-w3c'
 import { CredentialStatusActionHandler } from './status-action-handler'
+import { EthrRevokerActionHandler } from './ethr-revoker-action-handler'
 
 const actionHandler = new W3cActionHandler()
 actionHandler
   .setNext(new DIDCommActionHandler())
   .setNext(new CredentialStatusActionHandler({ infuraProjectId: infuraProjectId }))
+  .setNext(new EthrRevokerActionHandler({ infuraProjectId: infuraProjectId }))
 
 // Initializing the Core by injecting dependencies
 import { Agent } from 'daf-core'

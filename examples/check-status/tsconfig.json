@@ -10,8 +10,10 @@
     "declarationMap": true,
     "declaration": true,
     "composite": true,
+    "strict": false,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "outDir": "out"
   },
   "exclude": ["**/__tests__/**/*", "**/build/**/*"],
   "references": [

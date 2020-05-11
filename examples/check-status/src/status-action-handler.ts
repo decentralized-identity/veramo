@@ -1,4 +1,4 @@
-import { Agent, AbstractActionHandler, Action, Credential, Presentation } from 'daf-core'
+import { Agent, AbstractActionHandler, Action, Credential, Presentation, Key, Identity } from 'daf-core'
 
 import { EthrStatusRegistry } from 'ethr-status-registry'
 import { Status, CredentialStatus } from 'credential-status'
@@ -7,11 +7,11 @@ import { decodeJWT, verifyJWT } from 'did-jwt'
 import { DIDDocument } from 'did-resolver'
 
 export const ActionTypes = {
-  checkCredentialStatus: 'verify.status.jwt',
+  checkCredentialStatus: 'jwt.status.verify',
 }
 
 export interface ActionCheckStatus extends Action {
-  data: Credential | any
+  data: Credential | string
 }
 
 export interface ConfigOptions {

@@ -49,6 +49,11 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
+aes-js@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/aes-js/-/aes-js-3.0.0.tgz#e21df10ad6c2053295bcbb8dab40b09dbea87e4d"
+  integrity sha1-4h3xCtbCBTKVvLuNq0Cwnb6ofk0=
+
 ajv@^6.5.5:
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.0.tgz#06d60b96d87b8454a5adaba86e7854da629db4b7"
@@ -342,14 +347,6 @@ buffer@^5.1.0, buffer@^5.2.1:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-buffer@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.6.0.tgz#a31749dc7d81d84db08abf937b6b8c4033f62786"
-  integrity sha512-/gDYp/UtU0eA1ys8bOs9J6a+E/KWIY+DZ+Q2WESNUA0jFRsJOc0SNUO6xJ5SGA1xueg3NL65W6s+NY5l9cunuw==
-  dependencies:
-    base64-js "^1.0.2"
-    ieee754 "^1.1.4"
-
 camelcase@^5.0.0:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
@@ -495,8 +492,8 @@ cross-fetch@^3.0.4:
     node-fetch "2.6.0"
     whatwg-fetch "3.0.0"
 
-daf-core@../../packages/daf-core, daf-core@^4.4.0:
-  version "4.4.0"
+daf-core@../../packages/daf-core, daf-core@^5.1.0:
+  version "5.1.0"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
@@ -505,49 +502,49 @@ daf-core@../../packages/daf-core, daf-core@^4.4.0:
     uuid "^7.0.2"
 
 daf-did-comm@../../packages/daf-did-comm:
-  version "4.4.0"
+  version "5.1.0"
   dependencies:
     cross-fetch "^3.0.4"
-    daf-core "^4.4.0"
+    daf-core "^5.1.0"
     debug "^4.1.1"
     uuid "^3.3.3"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^4.4.0:
-  version "4.4.0"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^5.1.0:
+  version "5.1.0"
   dependencies:
-    daf-core "^4.4.0"
+    daf-core "^5.1.0"
     debug "^4.1.1"
-    did-jwt "4.2.0"
+    did-jwt "^4.3.2"
     did-resolver "^1.1.0"
 
 daf-ethr-did@../../packages/daf-ethr-did:
-  version "4.4.0"
+  version "5.2.0"
   dependencies:
-    daf-core "^4.4.0"
+    daf-core "^5.1.0"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
 
 daf-fs@../../packages/daf-fs:
-  version "4.4.0"
+  version "5.1.0"
   dependencies:
-    daf-core "^4.4.0"
+    daf-core "^5.1.0"
     debug "^4.1.1"
 
 daf-libsodium@../../packages/daf-libsodium:
-  version "4.4.0"
+  version "5.1.0"
   dependencies:
     base-58 "^0.0.1"
-    daf-core "^4.4.0"
+    daf-core "^5.1.0"
     debug "^4.1.1"
-    did-jwt "4.2.0"
+    did-jwt "^4.3.2"
     elliptic "^6.5.2"
     ethjs-signer "^0.1.1"
     libsodium-wrappers "^0.7.6"
 
 daf-resolver@../../packages/daf-resolver:
-  version "4.1.0"
+  version "5.3.1"
   dependencies:
     debug "^4.1.1"
     did-resolver "^1.1.0"
@@ -556,7 +553,7 @@ daf-resolver@../../packages/daf-resolver:
     web-did-resolver "^1.2.0"
 
 daf-trust-graph@../../packages/daf-trust-graph:
-  version "4.4.0"
+  version "5.1.0"
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"
@@ -565,19 +562,19 @@ daf-trust-graph@../../packages/daf-trust-graph:
     apollo-link-ws "^1.0.19"
     apollo-utilities "^1.3.2"
     cross-fetch "^3.0.4"
-    daf-core "^4.4.0"
+    daf-core "^5.1.0"
     debug "^4.1.1"
-    did-jwt "4.2.0"
+    did-jwt "^4.3.2"
     graphql "^14.0.0"
     graphql-tag "^2.10.1"
     subscriptions-transport-ws "^0.9.0"
 
 daf-w3c@../../packages/daf-w3c:
-  version "4.4.0"
+  version "5.1.0"
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^4.4.0"
-    daf-did-jwt "^4.4.0"
+    daf-core "^5.1.0"
+    daf-did-jwt "^5.1.0"
     debug "^4.1.1"
     did-jwt-vc "0.2.0"
     did-resolver "^1.1.0"
@@ -635,21 +632,6 @@ did-jwt-vc@0.2.0:
   dependencies:
     did-jwt "^4.3.2"
 
-did-jwt@4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-4.2.0.tgz#38798716ba646191fd512d280df39c99da1b7ec8"
-  integrity sha512-fuC/0DCmu1mM1gc1vdrtdCX5Rmj2c/OPxCVU5nnYsLN1eqRjui+7z3MjGOfSqSdh/rWQZrQfzliS+FyOI6jOsA==
-  dependencies:
-    "@babel/runtime" "^7.3.1"
-    "@stablelib/utf8" "^0.10.1"
-    buffer "^5.2.1"
-    did-resolver "^1.0.0"
-    elliptic "^6.4.0"
-    js-sha256 "^0.9.0"
-    js-sha3 "^0.8.0"
-    tweetnacl "^1.0.1"
-    uport-base64url "3.0.2-alpha.0"
-
 did-jwt@^0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-0.1.3.tgz#0d23c74ed4e5188e9c10fb85b5e8c3e42ecb9da9"
@@ -664,21 +646,6 @@ did-jwt@^0.1.1:
     js-sha3 "^0.8.0"
     tweetnacl "^1.0.1"
     tweetnacl-util "^0.15.0"
-
-did-jwt@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-3.0.0.tgz#5e11f1d6e5c9e2d8bdcba0d391f1fcec7c58a07d"
-  integrity sha512-/zHwoUN6eA+zTpV4HjTVMrVXOGfcfh8le4s9ibvv53ammMwdPj3RnLpw539JtnHm7dCXLq7rpjBkoX3lbbxoPQ==
-  dependencies:
-    "@babel/runtime" "^7.3.1"
-    "@stablelib/utf8" "^0.10.1"
-    buffer "^5.2.1"
-    did-resolver "^1.0.0"
-    elliptic "^6.4.0"
-    js-sha256 "^0.9.0"
-    js-sha3 "^0.8.0"
-    tweetnacl "^1.0.1"
-    uport-base64url "3.0.2-alpha.0"
 
 did-jwt@^4.3.2:
   version "4.3.2"
@@ -745,7 +712,7 @@ elliptic@6.3.2:
     hash.js "^1.0.0"
     inherits "^2.0.1"
 
-elliptic@^6.4.0, elliptic@^6.5.2:
+elliptic@6.5.2, elliptic@^6.4.0, elliptic@^6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.2.tgz#05c5678d7173c049d8ca433552224a495d0e3762"
   integrity sha512-f4x70okzZbIQl/NSRLkI/+tteV/9WqL98zx+SQ69KbXxmVrmjwsNUPn/gYJJ0sHvEak24cZgHIPegRePAtA/xw==
@@ -778,6 +745,21 @@ esprima@^4.0.0:
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-4.0.1.tgz#13b04cdb3e6c5d19df91ab6987a8695619b0aa71"
   integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
 
+ethers@^4.0.47:
+  version "4.0.47"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-4.0.47.tgz#91b9cd80473b1136dd547095ff9171bd1fc68c85"
+  integrity sha512-hssRYhngV4hiDNeZmVU/k5/E8xmLG8UpcNUzg6mb7lqhgpFPH/t7nuv20RjRrEf0gblzvi2XwR5Te+V3ZFc9pQ==
+  dependencies:
+    aes-js "3.0.0"
+    bn.js "^4.4.0"
+    elliptic "6.5.2"
+    hash.js "1.1.3"
+    js-sha3 "0.5.7"
+    scrypt-js "2.0.4"
+    setimmediate "1.0.4"
+    uuid "2.0.1"
+    xmlhttprequest "1.8.0"
+
 ethjs-abi@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ethjs-abi/-/ethjs-abi-0.2.0.tgz#d3e2c221011520fc499b71682036c14fcc2f5b25"
@@ -806,26 +788,10 @@ ethjs-contract@^0.1.9:
     ethjs-util "0.1.3"
     js-sha3 "0.5.5"
 
-ethjs-contract@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/ethjs-contract/-/ethjs-contract-0.2.3.tgz#f113ced8ed1c9c635b0b7ec71901340b64e8cded"
-  integrity sha512-fKsHm57wxwHrZhVlD8AHU2lC2G3c1fmvoEz15BpqIkuGWiTbjuvrQo2Avc+3EQpSsTFWNdyxC0h1WKRcn5kkyQ==
-  dependencies:
-    babel-runtime "^6.26.0"
-    ethjs-abi "0.2.0"
-    ethjs-filter "0.1.8"
-    ethjs-util "0.1.3"
-    js-sha3 "0.5.5"
-
 ethjs-filter@0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/ethjs-filter/-/ethjs-filter-0.1.5.tgz#0112af6017c24677e32b8fdeb20e6196019b7598"
   integrity sha1-ARKvYBfCRnfjK4/esg5hlgGbdZg=
-
-ethjs-filter@0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/ethjs-filter/-/ethjs-filter-0.1.8.tgz#2b02726b820ed4dd3860614d185c0c0f7ed1747f"
-  integrity sha512-qTDPskDL2UadHwjvM8A+WG9HwM4/FoSY3p3rMJORkHltYcAuiQZd2otzOYKcL5w2Q3sbAkW/E3yt/FPFL/AVXA==
 
 ethjs-format@0.1.8:
   version "0.1.8"
@@ -966,20 +932,15 @@ ethr-did@^1.1.0:
     ethjs-query "^0.3.8"
     ethr-did-resolver "^0.2.0"
 
-ethr-status-registry@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/ethr-status-registry/-/ethr-status-registry-1.3.1.tgz#dc57c6af519f820d47bbc363f2dae3a8a0167059"
-  integrity sha512-0yR8GHAjqCtrunBhnF2JeZ5fFVv8h7kvnIkwpW/nneMXp8CjGvBZno9XR9C44g/SAtwSRRbX8ZP/x9njgov0NQ==
+ethr-status-registry@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ethr-status-registry/-/ethr-status-registry-2.1.1.tgz#ac9c1e6226dbbddd291b80d74928267eb8ef1b5e"
+  integrity sha512-oewpxEim2kyp7YbhdqDEYHox42i9fOAoIKvBfuF4bsrWlvycQFTU5KrxIQu4UEqyN72ajHQFAmDARzfOU/Cq3Q==
   dependencies:
-    buffer "^5.6.0"
     credential-status "^1.2.1"
-    did-jwt "^3.0.0"
+    did-jwt "^4.3.2"
     did-resolver "^1.1.0"
-    ethjs-contract "^0.2.3"
-    ethjs-provider-http "^0.1.6"
-    ethjs-provider-signer "^0.1.4"
-    ethjs-query "^0.3.8"
-    js-sha3 "^0.8.0"
+    ethers "^4.0.47"
     revocation-registry "^0.1.0"
 
 eventemitter3@^3.1.0:
@@ -1163,6 +1124,14 @@ has-unicode@^2.0.0:
   resolved "https://registry.yarnpkg.com/has-unicode/-/has-unicode-2.0.1.tgz#e0e6fe6a28cf51138855e086d1691e771de2a8b9"
   integrity sha1-4Ob+aijPUROIVeCG0Wkedx3iqLk=
 
+hash.js@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.3.tgz#340dedbe6290187151c1ea1d777a3448935df846"
+  integrity sha512-/UETyP0W22QILqS+6HowevwhEFJ3MBJnwTf75Qob9Wz9t0DPuisL8kW8YZMK62dHAKE1c1p+gY1TtOLY+USEHA==
+  dependencies:
+    inherits "^2.0.3"
+    minimalistic-assert "^1.0.0"
+
 hash.js@^1.0.0, hash.js@^1.0.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
@@ -1287,6 +1256,11 @@ js-sha3@0.5.5:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.5.5.tgz#baf0c0e8c54ad5903447df96ade7a4a1bca79a4a"
   integrity sha1-uvDA6MVK1ZA0R9+Wreekobynmko=
+
+js-sha3@0.5.7:
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.5.7.tgz#0d4ffd8002d5333aabaf4a23eed2f6374c9f28e7"
+  integrity sha1-DU/9gALVMzqrr0oj7tL2N0yfKOc=
 
 js-sha3@^0.8.0:
   version "0.8.0"
@@ -1923,6 +1897,11 @@ sax@>=0.6.0, sax@^1.2.4:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
+scrypt-js@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/scrypt-js/-/scrypt-js-2.0.4.tgz#32f8c5149f0797672e551c07e230f834b6af5f16"
+  integrity sha512-4KsaGcPnuhtCZQCxFxN3GVYIhKFPTdLd8PLC552XwbMndtD0cjRFAhDuuydXQ0h08ZfPgzqe6EKHozpuH74iDw==
+
 semver@4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/semver/-/semver-4.3.2.tgz#c7a07158a80bedd052355b770d82d6640f803be7"
@@ -1942,6 +1921,11 @@ set-immediate-shim@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/set-immediate-shim/-/set-immediate-shim-1.0.1.tgz#4b2b1b27eb808a9f8dcc481a58e5e56f599f3f61"
   integrity sha1-SysbJ+uAip+NzEgaWOXlb1mfP2E=
+
+setimmediate@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.4.tgz#20e81de622d4a02588ce0c8da8973cbcf1d3138f"
+  integrity sha1-IOgd5iLUoCWIzgyNqJc8vPHTE48=
 
 sha.js@^2.4.11:
   version "2.4.11"
@@ -2252,6 +2236,11 @@ util-deprecate@~1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
+uuid@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.1.tgz#c2a30dedb3e535d72ccf82e343941a50ba8533ac"
+  integrity sha1-wqMN7bPlNdcsz4LjQ5QaULqFM6w=
+
 uuid@^3.3.2, uuid@^3.3.3:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
@@ -2343,6 +2332,11 @@ xmlbuilder@~11.0.0:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-11.0.1.tgz#be9bae1c8a046e76b31127726347d0ad7002beb3"
   integrity sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==
+
+xmlhttprequest@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz#67fe075c5c24fef39f9d65f5f7b7fe75171968fc"
+  integrity sha1-Z/4HXFwk/vOfnWX197f+dRcZaPw=
 
 xtend@^4.0.0:
   version "4.0.2"
