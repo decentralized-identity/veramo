@@ -51,6 +51,23 @@ export class IdentityController extends AbstractIdentityController {
     }
   }
 
+  async removeService(service: { id: string; type: string; serviceEndpoint: string }): Promise<any> {
+    const ethrDid = new EthrDID({ address: this.address, provider: this.web3Provider })
+
+    const attribute = 'did/svc/' + service.type
+    const value = service.serviceEndpoint
+    const { gas } = this
+    debug('ethrDid.revokeAttribute', { attribute, value, gas })
+    try {
+      const txHash = await ethrDid.revokeAttribute(attribute, value, gas)
+      debug({ txHash })
+      return txHash
+    } catch (e) {
+      debug(e.message)
+      return false
+    }
+  }
+
   async addPublicKey(type: 'Ed25519' | 'Secp256k1', proofPurpose?: string[]): Promise<any> {
     const serializedIdentity = await this.identityStore.get(this.did)
     const ethrDid = new EthrDID({ address: this.address, provider: this.web3Provider })
@@ -72,6 +89,28 @@ export class IdentityController extends AbstractIdentityController {
     } catch (e) {
       debug(e.message)
       this.kms.deleteKey(key.serialized.kid)
+      return false
+    }
+  }
+
+  async removePublicKey(keyId: string): Promise<any> {
+    const serializedIdentity = await this.identityStore.get(this.did)
+    const serializedKey = serializedIdentity.keys.find(item => item.kid === keyId)
+    if (!serializedKey) throw Error('Key not found')
+    const key = this.kms.getKey(serializedKey.kid)
+
+    const usg = 'veriKey'
+    const attribute = 'did/pub/' + key.type + '/' + usg + '/hex'
+    const value = '0x' + key.publicKeyHex
+    const { gas } = this
+
+    debug('ethrDid.revokeAttribute', { attribute, value, gas })
+    try {
+      const txHash = await ethrDid.revokeAttribute(attribute, value, gas)
+      debug({ txHash })
+      return txHash
+    } catch (e) {
+      debug(e.message)
       return false
     }
   }
