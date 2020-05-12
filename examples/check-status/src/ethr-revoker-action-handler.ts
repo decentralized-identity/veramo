@@ -68,7 +68,10 @@ export class EthrRevokerActionHandler extends AbstractActionHandler {
           //TODO: check if docKey matches the revokerKey
         }
 
-        const txHash = await this.statusRevoker.revoke(rawToken, revokerKey.signEthTransaction)
+        const txHash = await this.statusRevoker.revoke(
+          rawToken,
+          revokerKey.signEthTransaction.bind(revokerKey),
+        )
 
         if (waitForTx) {
           //TODO: wait for transaction. use constructor config to build provider => await provider.waitForTransaction(txHash)
