@@ -12,22 +12,23 @@ import { SdrActionHandler, SdrMessageHandler } from 'daf-selective-disclosure'
 import { TrustGraphActionHandler, TrustGraphServiceController } from 'daf-trust-graph'
 import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
 import { UrlMessageHandler } from 'daf-url'
-import { createConnection } from 'typeorm'
+import { createConnection, ConnectionOptions } from 'typeorm'
 import { migrations } from './migrations'
 const fs = require('fs')
 import ws from 'ws'
 import { config } from 'dotenv'
+import { getConfiguration } from './config'
 
 const defaultPath = process.env.HOME + '/.daf/'
 const envFile = defaultPath + '.env'
 
-const writeDefaultConfig = async () => {
+const writeDefaultEnv = async () => {
   if (!fs.existsSync(defaultPath)) {
     fs.mkdirSync(defaultPath)
   }
 
   if (!fs.existsSync(envFile)) {
-    console.log('Configuration file does not exist. Creating: ' + envFile)
+    console.log('Environment file does not exist. Creating: ' + envFile)
     let env = 'DAF_DATA_STORE=' + defaultPath + 'database-v2.sqlite'
     env += '\nDAF_DEBUG_DB=false'
     env += '\nDAF_SECRET_KEY=' + (await SecretBox.createSecretKey())
@@ -39,14 +40,13 @@ const writeDefaultConfig = async () => {
 }
 
 const setupAgent = async (): Promise<Daf.Agent> => {
-  await writeDefaultConfig()
+  await writeDefaultEnv()
   config({ path: envFile })
-
-  const infuraProjectId = process.env.DAF_INFURA_ID
+  const configuration = getConfiguration()
 
   // DID Document Resolver
   let didResolver: Daf.Resolver = new DafResolver({
-    infuraProjectId,
+    networks: configuration.ethrDidNetworks,
   })
 
   if (process.env.DAF_UNIVERSAL_RESOLVER_URL) {
@@ -59,35 +59,38 @@ const setupAgent = async (): Promise<Daf.Agent> => {
   if (process.env.DAF_TG_WSURI) TrustGraphServiceController.defaultWsUri = process.env.DAF_TG_WSURI
   TrustGraphServiceController.webSocketImpl = ws
 
-  const synchronize = !fs.existsSync(process.env.DAF_DATA_STORE)
-
   const dbConnection = createConnection({
-    type: 'sqlite',
-    migrationsRun: true,
-    synchronize,
-    database: process.env.DAF_DATA_STORE,
-    logging: process.env.DAF_DEBUG_DB === 'true' ? true : false,
+    ...configuration.database,
     entities: [...Daf.Entities],
     migrations: [...Daf.migrations, ...migrations],
   })
 
-  const identityProviders = [
-    new EthrDid.IdentityProvider({
-      identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
-      kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
-      network: 'rinkeby',
-      rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-      gas: 10001,
-      ttl: 60 * 60 * 24 * 30 * 12 + 1,
-    }),
+  const identityProviders: Daf.AbstractIdentityProvider[] = []
 
-    new ElemDid.IdentityProvider({
-      identityStore: new Daf.IdentityStore('elem-did', dbConnection),
-      kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
-      apiUrl: 'https://element-did.com/api/v1/sidetree',
-      network: 'ropsten'
-    }),
-  ]
+  for (const identityProviderConfig of configuration.identityProviders) {
+    switch(identityProviderConfig.package) {
+      case 'daf-ethr-did':
+        identityProviders.push(new EthrDid.IdentityProvider({
+          identityStore: new Daf.IdentityStore(identityProviderConfig.package + identityProviderConfig.network, dbConnection),
+          kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
+          network: identityProviderConfig.network,
+          rpcUrl: identityProviderConfig.rpcUrl,
+          gas: identityProviderConfig.gas,
+          ttl: identityProviderConfig.ttl,
+          registry: identityProviderConfig.registry
+        }))
+      break
+      case 'daf-elem-did':
+        identityProviders.push(new ElemDid.IdentityProvider({
+          identityStore: new Daf.IdentityStore(identityProviderConfig.package + identityProviderConfig.network, dbConnection),
+          kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
+          apiUrl: identityProviderConfig.apiUrl,
+          network: identityProviderConfig.network
+        }))
+      break
+    }
+  }
+
   const serviceControllers = [TrustGraphServiceController]
 
   const messageHandler = new UrlMessageHandler()
