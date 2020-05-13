@@ -4,7 +4,6 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 import * as Daf from 'daf-core'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
-import * as ElemDid from 'daf-elem-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 
 import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
@@ -68,26 +67,41 @@ const setupAgent = async (): Promise<Daf.Agent> => {
   const identityProviders: Daf.AbstractIdentityProvider[] = []
 
   for (const identityProviderConfig of configuration.identityProviders) {
-    switch(identityProviderConfig.package) {
+    switch (identityProviderConfig.package) {
       case 'daf-ethr-did':
-        identityProviders.push(new EthrDid.IdentityProvider({
-          identityStore: new Daf.IdentityStore(identityProviderConfig.package + identityProviderConfig.network, dbConnection),
-          kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
-          network: identityProviderConfig.network,
-          rpcUrl: identityProviderConfig.rpcUrl,
-          gas: identityProviderConfig.gas,
-          ttl: identityProviderConfig.ttl,
-          registry: identityProviderConfig.registry
-        }))
-      break
+        identityProviders.push(
+          new EthrDid.IdentityProvider({
+            identityStore: new Daf.IdentityStore(
+              identityProviderConfig.package + identityProviderConfig.network,
+              dbConnection,
+            ),
+            kms: new KeyManagementSystem(
+              new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY)),
+            ),
+            network: identityProviderConfig.network,
+            rpcUrl: identityProviderConfig.rpcUrl,
+            gas: identityProviderConfig.gas,
+            ttl: identityProviderConfig.ttl,
+            registry: identityProviderConfig.registry,
+          }),
+        )
+        break
       case 'daf-elem-did':
-        identityProviders.push(new ElemDid.IdentityProvider({
-          identityStore: new Daf.IdentityStore(identityProviderConfig.package + identityProviderConfig.network, dbConnection),
-          kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
-          apiUrl: identityProviderConfig.apiUrl,
-          network: identityProviderConfig.network
-        }))
-      break
+        const ElemDid = require('daf-elem-did')
+        identityProviders.push(
+          new ElemDid.IdentityProvider({
+            identityStore: new Daf.IdentityStore(
+              identityProviderConfig.package + identityProviderConfig.network,
+              dbConnection,
+            ),
+            kms: new KeyManagementSystem(
+              new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY)),
+            ),
+            apiUrl: identityProviderConfig.apiUrl,
+            network: identityProviderConfig.network,
+          }),
+        )
+        break
     }
   }
 

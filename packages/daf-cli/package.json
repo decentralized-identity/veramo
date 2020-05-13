@@ -18,7 +18,6 @@
     "daf-core": "^5.5.0",
     "daf-did-comm": "^5.5.0",
     "daf-did-jwt": "^5.5.0",
-    "daf-elem-did": "^5.5.0",
     "daf-ethr-did": "^5.5.0",
     "daf-fs": "^5.5.0",
     "daf-libsodium": "^5.5.0",
@@ -47,6 +46,9 @@
     "@types/node-fetch": "^2.5.4",
     "@types/ws": "^6.0.3",
     "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "daf-elem-did": "^5.5.0"
   },
   "files": [
     "bin/**/*",

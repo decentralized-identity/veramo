@@ -23,40 +23,40 @@ module.exports = {
       package: 'daf-ethr-did',
       network: 'private',
       rpcUrl: 'http://localhost:8545/',
-      registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
+      registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532',
     },
-    {
-      package: 'daf-elem-did',
-      network: 'ropsten',
-      apiUrl: 'https://element-did.com/api/v1/sidetree',
-    },
+    // {
+    //   package: 'daf-elem-did',
+    //   network: 'ropsten',
+    //   apiUrl: 'https://element-did.com/api/v1/sidetree',
+    // },
   ],
   ethrDidNetworks: [
     {
       name: 'mainnet',
-      rpcUrl: 'https://mainnet.infura.io/v3/' + process.env.DAF_INFURA_ID
+      rpcUrl: 'https://mainnet.infura.io/v3/' + process.env.DAF_INFURA_ID,
     },
     {
       name: 'rinkeby',
-      rpcUrl: 'https://rinkeby.infura.io/v3/' + process.env.DAF_INFURA_ID
+      rpcUrl: 'https://rinkeby.infura.io/v3/' + process.env.DAF_INFURA_ID,
     },
     {
       name: 'ropsten',
-      rpcUrl: 'https://ropsten.infura.io/v3/' + process.env.DAF_INFURA_ID
+      rpcUrl: 'https://ropsten.infura.io/v3/' + process.env.DAF_INFURA_ID,
     },
     {
       name: 'kovan',
-      rpcUrl: 'https://kovan.infura.io/v3/' + process.env.DAF_INFURA_ID
+      rpcUrl: 'https://kovan.infura.io/v3/' + process.env.DAF_INFURA_ID,
     },
     {
       name: 'goerli',
-      rpcUrl: 'https://goerli.infura.io/v3/' + process.env.DAF_INFURA_ID
+      rpcUrl: 'https://goerli.infura.io/v3/' + process.env.DAF_INFURA_ID,
     },
     {
       name: 'private',
       rpcUrl: 'http://localhost:8545/',
-      registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
-    }
+      registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532',
+    },
   ],
   // https://typeorm.io/#/connection-options
   database: {
@@ -67,13 +67,13 @@ module.exports = {
     migrationsRun: true,
   },
   graphql: {
-    apiKey: process.env.DAF_GRAPHQL_API_KEY, 
+    apiKey: process.env.DAF_GRAPHQL_API_KEY,
     resolvers: {
       IdentityManager: true,
       TrustGraph: false,
       DIDComm: true,
       W3c: true,
       Sdr: true,
-    }
-  }
+    },
+  },
 }
