@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
+
+
+### Bug Fixes
+
+* Resolver debug info ([5a32a63](https://github.com/uport-project/daf/commit/5a32a630884486934530cdb31b3cf8fb887a44da))
+
+
+
+
+
 ## [5.3.1](https://github.com/uport-project/daf/compare/v5.3.0...v5.3.1) (2020-05-11)
 
 

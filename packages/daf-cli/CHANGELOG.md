@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
+
+
+### Features
+
+* CLI config ([5a3391e](https://github.com/uport-project/daf/commit/5a3391e77790e0b10268c4e189f34c5f20246616))
+
+
+
+
+
 # [5.4.0](https://github.com/uport-project/daf/compare/v5.3.1...v5.4.0) (2020-05-13)
 
 
