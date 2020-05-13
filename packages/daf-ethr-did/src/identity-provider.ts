@@ -29,6 +29,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
   private identityStore: AbstractIdentityStore
   private gas?: number
   private ttl?: number
+  private registry?: string
 
   constructor(options: {
     kms: AbstractKeyManagementSystem
@@ -38,6 +39,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
     web3Provider?: object
     ttl?: number
     gas?: number
+    registry?: string
   }) {
     super()
     this.kms = options.kms
@@ -49,6 +51,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
     this.description = 'did:ethr ' + options.network + ' ' + this.description
     this.ttl = options.ttl
     this.gas = options.gas
+    this.registry = options.registry
   }
 
   private async identityFromSerialized(serializedIdentity: SerializedIdentity): Promise<AbstractIdentity> {
