@@ -8,4 +8,11 @@ export const baseTypeDefs = `
     provider: String
   }
 
+  type Message 
+  type Presentation
+  type Credential
+  type Claim
+  
+  scalar Object
+  scalar Date
 `

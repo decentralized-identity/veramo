@@ -8,6 +8,9 @@ import { SdrGql } from 'daf-selective-disclosure'
 import merge from 'lodash.merge'
 import { agent } from './setup'
 import { listen } from './services'
+import { makeExecutableSchema, mergeSchemas } from 'graphql-tools'
+import { getConfiguration } from './config'
+
 program
   .command('graphql')
   .description('GraphQL server')
@@ -15,25 +18,74 @@ program
   .option('-l, --listen', 'Listen for new messages')
   .option('-i, --interval <seconds>', 'Poll for new messages with interval of <seconds>')
   .action(async cmd => {
+    await agent
+    const { graphql } = getConfiguration()
+    const schemas = [
+      makeExecutableSchema({
+        typeDefs: Gql.baseTypeDefs + Gql.Core.typeDefs,
+        resolvers: Gql.Core.resolvers
+      })
+    ]
+
+    if (graphql.resolvers.IdentityManager) {
+      schemas.push(
+        makeExecutableSchema({
+          typeDefs: Gql.baseTypeDefs + Gql.IdentityManager.typeDefs,
+          resolvers: Gql.IdentityManager.resolvers
+        })
+      )
+    }
+
+    if (graphql.resolvers.TrustGraph) {
+      schemas.push(
+        makeExecutableSchema({
+          typeDefs: Gql.baseTypeDefs + TrustGraphGql.typeDefs,
+          resolvers: TrustGraphGql.resolvers
+        })
+      )
+    }
+
+    if (graphql.resolvers.DIDComm) {
+      schemas.push(
+        makeExecutableSchema({
+          typeDefs: Gql.baseTypeDefs + DIDCommGql.typeDefs,
+          resolvers: DIDCommGql.resolvers
+        })
+      )
+    }
+
+    if (graphql.resolvers.W3c) {
+      schemas.push(
+        makeExecutableSchema({
+          typeDefs: Gql.baseTypeDefs + W3cGql.typeDefs,
+          resolvers: W3cGql.resolvers
+        })
+      )
+    }
+
+    if (graphql.resolvers.Sdr) {
+      schemas.push(
+        makeExecutableSchema({
+          typeDefs: Gql.baseTypeDefs + SdrGql.typeDefs,
+          resolvers: SdrGql.resolvers
+        })
+      )
+    }
+
+    const schema = mergeSchemas({ schemas })
+
     const server = new ApolloServer({
-      typeDefs: [
-        Gql.baseTypeDefs,
-        Gql.Core.typeDefs,
-        Gql.IdentityManager.typeDefs,
-        TrustGraphGql.typeDefs,
-        DIDCommGql.typeDefs,
-        W3cGql.typeDefs,
-        SdrGql.typeDefs,
-      ],
-      resolvers: merge(
-        Gql.Core.resolvers,
-        Gql.IdentityManager.resolvers,
-        TrustGraphGql.resolvers,
-        DIDCommGql.resolvers,
-        W3cGql.resolvers,
-        SdrGql.resolvers,
-      ),
-      context: async () => ({ agent: (await agent) }),
+      schema,
+      context: async ({ req }) => {
+        if (graphql.apiKey) {
+          const token = req.headers.authorization || ''
+          if (token !== 'Bearer ' + graphql.apiKey) {
+            throw Error('Auth error')
+          }
+        }
+    
+        return { agent: (await agent) }
+      },
       introspection: true,
     })
     // await core.setupServices()
