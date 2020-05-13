@@ -8,6 +8,7 @@
     { "path": "../daf-core" },
     { "path": "../daf-did-comm" },
     { "path": "../daf-did-jwt" },
+    { "path": "../daf-elem-did" },
     { "path": "../daf-ethr-did" },
     { "path": "../daf-fs" },
     { "path": "../daf-libsodium" },
