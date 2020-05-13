@@ -18,6 +18,7 @@
     "daf-core": "^5.1.0",
     "daf-did-comm": "^5.1.0",
     "daf-did-jwt": "^5.1.0",
+    "daf-elem-did": "^5.2.0",
     "daf-ethr-did": "^5.2.0",
     "daf-fs": "^5.1.0",
     "daf-libsodium": "^5.1.0",

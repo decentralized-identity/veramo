@@ -4,6 +4,7 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 import * as Daf from 'daf-core'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
+import * as ElemDid from 'daf-elem-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 
 import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
@@ -78,6 +79,13 @@ const setupAgent = async (): Promise<Daf.Agent> => {
       rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
       gas: 10001,
       ttl: 60 * 60 * 24 * 30 * 12 + 1,
+    }),
+
+    new ElemDid.IdentityProvider({
+      identityStore: new Daf.IdentityStore('elem-did', dbConnection),
+      kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY))),
+      apiUrl: 'https://element-did.com/api/v1/sidetree',
+      network: 'ropsten'
     }),
   ]
   const serviceControllers = [TrustGraphServiceController]
