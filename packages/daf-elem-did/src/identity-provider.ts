@@ -8,71 +8,43 @@ import {
 } from 'daf-core'
 import { Identity } from './identity'
 import { IdentityController } from './identity-controller'
-import { keccak_256 } from 'js-sha3'
 const SignerProvider = require('ethjs-provider-signer')
 import Debug from 'debug'
-const debug = Debug('daf:ethr-did:identity-provider')
-
-export function toEthereumAddress(hexPublicKey: string): string {
-  return `0x${Buffer.from(keccak_256.arrayBuffer(Buffer.from(hexPublicKey.slice(2), 'hex')))
-    .slice(-20)
-    .toString('hex')}`
-}
+const debug = Debug('daf:elem-did:identity-provider')
+const element = require('@transmute/element-lib')
+const op = require('@transmute/element-lib/src/sidetree/op')
+const func = require('@transmute/element-lib/src/func')
 
 export class IdentityProvider extends AbstractIdentityProvider {
-  public type = 'ethr-did'
+  public type = 'elem-did'
   public description = 'identities'
-  private network: string
-  private web3Provider?: any
-  private rpcUrl?: string
+  private apiUrl: string
+  private network?: string
   private kms: AbstractKeyManagementSystem
   private identityStore: AbstractIdentityStore
-  private gas?: number
-  private ttl?: number
-  private registry?: string
 
   constructor(options: {
     kms: AbstractKeyManagementSystem
     identityStore: AbstractIdentityStore
-    network: string
-    rpcUrl?: string
-    web3Provider?: object
-    ttl?: number
-    gas?: number
-    registry?: string
+    apiUrl: string
+    network?: string
   }) {
     super()
     this.kms = options.kms
     this.identityStore = options.identityStore
+    this.apiUrl = options.apiUrl
     this.network = options.network
-    this.rpcUrl = options.rpcUrl
-    this.web3Provider = options.web3Provider
+    this.description = 'did:elem '+ this.network +' using ' + options.apiUrl
     this.type = options.network + '-' + this.type
-    this.description = 'did:ethr ' + options.network + ' ' + this.description
-    this.ttl = options.ttl
-    this.gas = options.gas
-    this.registry = options.registry
   }
 
   private async identityFromSerialized(serializedIdentity: SerializedIdentity): Promise<AbstractIdentity> {
-    const key = await this.kms.getKey(serializedIdentity.controllerKeyId)
-
-    if (!this.web3Provider && !this.rpcUrl) throw Error('Web3Provider or rpcUrl required')
-
-    const web3Provider =
-      this.web3Provider ||
-      new SignerProvider(this.rpcUrl, {
-        signTransaction: key.signEthTransaction.bind(key),
-      })
 
     const identityController = new IdentityController({
       did: serializedIdentity.did,
-      web3Provider,
       kms: this.kms,
       identityStore: this.identityStore,
-      address: toEthereumAddress(key.serialized.publicKeyHex),
-      gas: this.gas,
-      ttl: this.ttl,
+      apiUrl: this.apiUrl
     })
 
     return new Identity({
@@ -94,13 +66,33 @@ export class IdentityProvider extends AbstractIdentityProvider {
   }
 
   async createIdentity() {
-    const key = await this.kms.createKey('Secp256k1')
-    const address = toEthereumAddress(key.serialized.publicKeyHex)
-    const serializedIdentity: SerializedIdentity = {
-      did: 'did:ethr:' + (this.network !== 'mainnet' ? this.network + ':' : '') + address,
-      controllerKeyId: key.serialized.kid,
-      keys: [key.serialized],
+
+    const primaryKey = await this.kms.createKey('Secp256k1')
+    const recoveryKey = await this.kms.createKey('Secp256k1')
+    const didMethodName = 'did:elem' + (this.network ? ':' + this.network : '')
+    const operations = op({ parameters: { didMethodName }})
+    const didDocumentModel = operations.getDidDocumentModel(primaryKey.serialized.publicKeyHex, recoveryKey.serialized.publicKeyHex)
+    const createPayload = await operations.getCreatePayload(didDocumentModel, { privateKey: primaryKey.serialized.privateKeyHex })
+    const didUniqueSuffix = func.getDidUniqueSuffix(createPayload)
+    const did = didMethodName + ':' + didUniqueSuffix
+    debug('Creating new DID at', this.apiUrl)
+    debug('Posting new DID Document for', did)
+    const response = await fetch(this.apiUrl + '/requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(createPayload),
+    })
+
+    if (response.status !== 200) {
+      return Promise.reject(response.statusText)
     }
+    
+    const serializedIdentity: SerializedIdentity = {
+      did,
+      controllerKeyId: primaryKey.serialized.kid,
+      keys: [primaryKey.serialized, recoveryKey.serialized],
+    }
+
     await this.identityStore.set(serializedIdentity.did, serializedIdentity)
     debug('Created', serializedIdentity.did)
     return this.identityFromSerialized(serializedIdentity)

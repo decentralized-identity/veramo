@@ -688,10 +688,9 @@ export const typeDefs = `
     updateDate: Date!
   }
 
-  scalar Object
-  scalar Date
+
   
-  type Message {
+  extend type Message {
     id: ID!
     saveDate: Date!
     updateDate: Date!
@@ -715,7 +714,7 @@ export const typeDefs = `
     value: String
   }
 
-  type Presentation {
+  extend type Presentation {
     hash: ID!
     id: String
     raw: String!
@@ -729,7 +728,7 @@ export const typeDefs = `
     messages: [Message]
   }
   
-  type Credential {
+  extend type Credential {
     hash: ID!
     id: String
     raw: String!
@@ -745,7 +744,7 @@ export const typeDefs = `
     messages: [Message]
   }
 
-  type Claim {
+  extend type Claim {
     hash: ID!
     issuer: Identity!
     subject: Identity

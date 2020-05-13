@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
+
+
+### Features
+
+* Registry config ([fe2ebc6](https://github.com/uport-project/daf/commit/fe2ebc6cf5d8146fe0e22bfafcceca44dd5cea44))
+
+
+
+
+
 # [5.2.0](https://github.com/uport-project/daf/compare/v5.1.0...v5.2.0) (2020-05-06)
 
 

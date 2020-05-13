@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.1](https://github.com/uport-project/daf/compare/v5.5.0...v5.5.1) (2020-05-13)
+
+
+### Bug Fixes
+
+* Daf-elem-did missing peer deps ([747b8f9](https://github.com/uport-project/daf/commit/747b8f9fb4ec52e82cde519adaae92bc7bd46a0a))
+* Optional dependency of daf-elem-did ([8c733b8](https://github.com/uport-project/daf/commit/8c733b8e06e0ef0a379fa43a534733e37063834b))
+
+
+
+
+
+# [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
+
+
+### Bug Fixes
+
+* Resolver debug info ([5a32a63](https://github.com/uport-project/daf/commit/5a32a630884486934530cdb31b3cf8fb887a44da))
+
+
+### Features
+
+* CLI config ([5a3391e](https://github.com/uport-project/daf/commit/5a3391e77790e0b10268c4e189f34c5f20246616))
+* Registry config ([fe2ebc6](https://github.com/uport-project/daf/commit/fe2ebc6cf5d8146fe0e22bfafcceca44dd5cea44))
+
+
+
+
+
+# [5.4.0](https://github.com/uport-project/daf/compare/v5.3.1...v5.4.0) (2020-05-13)
+
+
+### Features
+
+* daf-elem-did ([62776c2](https://github.com/uport-project/daf/commit/62776c274838b686f954e66482ae99e336bb2e16))
+
+
+
+
+
 ## [5.3.1](https://github.com/uport-project/daf/compare/v5.3.0...v5.3.1) (2020-05-11)
 
 

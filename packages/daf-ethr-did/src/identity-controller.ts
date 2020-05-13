@@ -14,6 +14,7 @@ export class IdentityController extends AbstractIdentityController {
   private address: string
   private gas?: number
   private ttl?: number
+  private registry?: string
 
   constructor(options: {
     did: string
@@ -23,6 +24,7 @@ export class IdentityController extends AbstractIdentityController {
     address: string
     ttl?: number
     gas?: number
+    registry?: string
   }) {
     super()
     this.did = options.did
@@ -32,10 +34,15 @@ export class IdentityController extends AbstractIdentityController {
     this.address = options.address
     this.ttl = options.ttl || DEFAULT_TTL
     this.gas = options.gas || DEFAULT_GAS
+    this.registry = options.registry
   }
 
   async addService(service: { id: string; type: string; serviceEndpoint: string }): Promise<any> {
-    const ethrDid = new EthrDID({ address: this.address, provider: this.web3Provider })
+    const ethrDid = new EthrDID({ 
+      address: this.address,
+      provider: this.web3Provider,
+      registry: this.registry
+    })
 
     const attribute = 'did/svc/' + service.type
     const value = service.serviceEndpoint
@@ -53,7 +60,11 @@ export class IdentityController extends AbstractIdentityController {
 
   async addPublicKey(type: 'Ed25519' | 'Secp256k1', proofPurpose?: string[]): Promise<any> {
     const serializedIdentity = await this.identityStore.get(this.did)
-    const ethrDid = new EthrDID({ address: this.address, provider: this.web3Provider })
+    const ethrDid = new EthrDID({ 
+      address: this.address,
+      provider: this.web3Provider,
+      registry: this.registry
+    })
 
     const key = await this.kms.createKey(type)
 
