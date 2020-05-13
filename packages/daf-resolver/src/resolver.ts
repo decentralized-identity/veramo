@@ -19,6 +19,7 @@ interface Options {
 
 export class DafResolver {
   private didResolver: Resolver
+  private networks: NetworkConfig[]
 
   constructor(options: Options) {
     let networks: NetworkConfig[]
@@ -35,7 +36,7 @@ export class DafResolver {
     } else {
       throw Error('[daf-resolver] infuraProjectId or networks config required')
     }
-    debug('Networks config', networks)
+    this.networks = networks
     this.didResolver = new Resolver({
       ...ethrDidResolver({ networks }),
       ...webDidResolver(),
@@ -44,6 +45,7 @@ export class DafResolver {
   }
 
   async resolve(did: string) {
+    debug('Networks config %o', this.networks)
     debug('Resolving %s', did)
     return this.didResolver.resolve(did)
   }
