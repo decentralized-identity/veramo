@@ -14,7 +14,6 @@ import { blake2bHex } from 'blakejs'
 import { Identity } from './identity'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
-import { v4 as uuidv4 } from 'uuid'
 
 export interface MetaData {
   type: string
@@ -111,7 +110,7 @@ export class Message extends BaseEntity {
   }
 
   getLastMetaData(): MetaData | null {
-    if (this.metaData?.length > 0) {
+    if (this.metaData && this.metaData?.length > 0) {
       return this.metaData[this.metaData.length - 1]
     } else {
       return null
@@ -122,9 +121,6 @@ export class Message extends BaseEntity {
     if (this.type === null || this.type === '') {
       return false
     }
-    if (!this.raw || this.raw === null || this.raw === '') {
-      return false
-    }
-    return true
+    return !(!this.raw || this.raw === '')
   }
 }
