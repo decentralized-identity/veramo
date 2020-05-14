@@ -1,14 +1,5 @@
 import { blake2bHex } from 'blakejs'
-import {
-  Entity,
-  Column,
-  BaseEntity,
-  ManyToOne,
-  JoinTable,
-  PrimaryColumn,
-  BeforeInsert,
-  ManyToMany,
-} from 'typeorm'
+import { Entity, Column, BaseEntity, ManyToOne, JoinTable, PrimaryColumn, ManyToMany } from 'typeorm'
 import { Identity } from './identity'
 import { Message } from './message'
 import { Credential } from './credential'
