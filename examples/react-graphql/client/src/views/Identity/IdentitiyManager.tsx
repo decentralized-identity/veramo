@@ -13,7 +13,7 @@ const Component = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
   const [highlightedIdentity, highlightIdentity] = useState()
-  const [appState, setDefaultDid] = useContext(AppContext)
+  const { appState, setDefaultDid } = useContext(AppContext)
   const { defaultDid } = appState
   const { data: managedIdentitiesData } = useQuery(queries.managedIdentities)
   const [createIdentity] = useMutation(mutations.createIdentity, {

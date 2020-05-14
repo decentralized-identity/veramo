@@ -30,7 +30,7 @@ const Component: React.FC<Props> = ({ sdr, from, to, threadId, close }) => {
   const [sending, updateSending] = useState<boolean>(false)
   const [selected, updateSelected] = useState<ValidationState>({})
   const [formValid, setValid] = useState(true)
-  const [appState] = useContext(AppContext)
+  const { appState } = useContext(AppContext)
 
   const checkValidity = () => {
     let valid = true

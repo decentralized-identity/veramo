@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.2](https://github.com/uport-project/daf/compare/v5.6.1...v5.6.2) (2020-05-14)
+
+
+### Bug Fixes
+
+* CLI graphql typeDefs and resolvers ([88626d3](https://github.com/uport-project/daf/commit/88626d37621929b3383fdef5849dbea795fbe053))
+
+
+### Features
+
+* GraphQL client settings: apiUrl, apiKey ([9b1fd12](https://github.com/uport-project/daf/commit/9b1fd128a287667c7007e2acb534f5969e0d5711))
+
+
+
+
+
+## [5.6.1](https://github.com/uport-project/daf/compare/v5.6.0...v5.6.1) (2020-05-14)
+
+
+### Bug Fixes
+
+* CLI sqlite and pg deps ([31fc85a](https://github.com/uport-project/daf/commit/31fc85a16c8edc098fac13c0a96faad151fda208))
+
+
+
+
+
 # [5.6.0](https://github.com/uport-project/daf/compare/v5.5.2...v5.6.0) (2020-05-14)
 
 

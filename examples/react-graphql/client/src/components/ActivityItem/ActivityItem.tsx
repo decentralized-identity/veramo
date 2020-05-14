@@ -28,7 +28,7 @@ interface Props {
   /**
    * The viewer's did
    */
-  viewerDid: Types.Identity
+  viewerDid: string
 
   /**
    * The issuer of this message item

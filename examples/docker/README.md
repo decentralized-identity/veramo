@@ -1,5 +1,11 @@
 # Usage
 
+## Pull latest docker image
+
+```
+docker pull uport/daf:latest
+```
+
 ## Help
 
 ```

@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Component: React.FC<Props> = ({ title, closeUrl, query, children, renderQuery }) => {
-  const [appState] = useContext(AppContext)
+  const { appState } = useContext(AppContext)
   const history = useHistory()
   const { id } = useParams()
 
