@@ -10,7 +10,6 @@ import {
   In,
   Any,
   IsNull,
-  FindManyOptions,
   SelectQueryBuilder,
   Brackets,
 } from 'typeorm'
@@ -52,10 +51,6 @@ export interface FindInput {
   order?: Order[]
   take?: number
   skip?: number
-}
-
-interface TypeOrmOrder {
-  [x: string]: 'ASC' | 'DESC'
 }
 
 function opToSQL(item: Where): any[] {
@@ -102,7 +97,7 @@ function createWhereObject(input: FindInput): any {
       }
       switch (item.op) {
         case 'Any':
-          where[item.column] = Any(item.value)
+          where[item.column] = Any(item.value || [])
           break
         case 'Between':
           if (item.value?.length != 2) throw Error('Operation Between requires two values')
@@ -137,7 +132,7 @@ function createWhereObject(input: FindInput): any {
           break
         case 'In':
         default:
-          where[item.column] = In(item.value)
+          where[item.column] = In(item.value || [])
       }
       if (item.not === true) {
         where[item.column] = Not(where[item.column])
@@ -178,14 +173,18 @@ export interface FindArgs {
 }
 
 const messagesQuery = async (_: any, args: FindArgs, ctx: Context): Promise<SelectQueryBuilder<any>> => {
-  const where = createWhereObject(args.input)
-  let qb = (await ctx.agent.dbConnection)
+  const dbConnection = await ctx.agent.dbConnection
+  if (!dbConnection) {
+    throw new Error('A database connection is required for this query')
+  }
+  const where = createWhereObject(args.input || {})
+  let qb = dbConnection
     .getRepository(Message)
     .createQueryBuilder('message')
     .leftJoinAndSelect('message.from', 'from')
     .leftJoinAndSelect('message.to', 'to')
     .where(where)
-  qb = decorateQB(qb, 'message', args.input)
+  qb = decorateQB(qb, 'message', args.input || {})
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets((qb) => {
@@ -207,15 +206,19 @@ const messagesCount = async (_: any, args: FindArgs, ctx: Context) => {
 }
 
 const presentationsQuery = async (_: any, args: FindArgs, ctx: Context) => {
-  const where = createWhereObject(args.input)
-  let qb = (await ctx.agent.dbConnection)
+  const dbConnection = await ctx.agent.dbConnection
+  if (!dbConnection) {
+    throw new Error('A database connection is required for this query')
+  }
+  const where = createWhereObject(args.input || {})
+  let qb = dbConnection
     .getRepository(Presentation)
     .createQueryBuilder('presentation')
     .leftJoinAndSelect('presentation.issuer', 'issuer')
     .leftJoinAndSelect('presentation.audience', 'audience')
     .where(where)
-  qb = decorateQB(qb, 'presentation', args.input)
-  qb = addAudienceQuery(args.input, qb)
+  qb = decorateQB(qb, 'presentation', args.input || {})
+  qb = addAudienceQuery(args.input || {}, qb)
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets((qb) => {
@@ -237,14 +240,18 @@ const presentationsCount = async (_: any, args: FindArgs, ctx: Context) => {
 }
 
 const credentialsQuery = async (_: any, args: FindArgs, ctx: Context) => {
-  const where = createWhereObject(args.input)
-  let qb = (await ctx.agent.dbConnection)
+  const dbConnection = await ctx.agent.dbConnection
+  if (!dbConnection) {
+    throw new Error('A database connection is required for this query')
+  }
+  const where = createWhereObject(args.input || {})
+  let qb = dbConnection
     .getRepository(Credential)
     .createQueryBuilder('credential')
     .leftJoinAndSelect('credential.issuer', 'issuer')
     .leftJoinAndSelect('credential.subject', 'subject')
     .where(where)
-  qb = decorateQB(qb, 'credential', args.input)
+  qb = decorateQB(qb, 'credential', args.input || {})
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
       new Brackets((qb) => {
@@ -269,14 +276,18 @@ const credentialsCount = async (_: any, args: FindArgs, ctx: Context) => {
 }
 
 const claimsQuery = async (_: any, args: FindArgs, ctx: Context) => {
-  const where = createWhereObject(args.input)
-  let qb = (await ctx.agent.dbConnection)
+  const dbConnection = await ctx.agent.dbConnection
+  if (!dbConnection) {
+    throw new Error('A database connection is required for this query')
+  }
+  const where = createWhereObject(args.input || {})
+  let qb = dbConnection
     .getRepository(Claim)
     .createQueryBuilder('claim')
     .leftJoinAndSelect('claim.issuer', 'issuer')
     .leftJoinAndSelect('claim.subject', 'subject')
     .where(where)
-  qb = decorateQB(qb, 'claim', args.input)
+  qb = decorateQB(qb, 'claim', args.input || {})
   qb = qb.leftJoinAndSelect('claim.credential', 'credential')
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
@@ -318,17 +329,29 @@ export const resolvers = {
   },
 
   Query: {
-    identity: async (_: any, { did }, ctx: Context) =>
-      checkAuthIdentity(did, ctx.authenticatedDid) &&
-      (await ctx.agent.dbConnection).getRepository(Identity).findOne(did),
-    identities: async (_: any, { input }, ctx: Context) => {
+    identity: async (_: any, { did }: { did: string }, ctx: Context) => {
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      return checkAuthIdentity(did, ctx.authenticatedDid) && dbConnection.getRepository(Identity).findOne(did)
+    },
+    identities: async (_: any, {}, ctx: Context) => {
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
       if (ctx.authenticatedDid) {
         throw new Error('searching for identities is restricted')
       }
-      return (await ctx.agent.dbConnection).getRepository(Identity).find({ ...input?.options })
+      return dbConnection.getRepository(Identity).find({})
     },
-    message: async (_: any, { id }, ctx: Context) => {
-      let qb = (await ctx.agent.dbConnection)
+    message: async (_: any, { id }: { id: string }, ctx: Context) => {
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      let qb = dbConnection
         .getRepository(Message)
         .createQueryBuilder('message')
         .leftJoinAndSelect('message.from', 'from')
@@ -350,8 +373,12 @@ export const resolvers = {
     },
     messages,
     messagesCount,
-    presentation: async (_: any, { hash }, ctx: Context) => {
-      let qb = (await ctx.agent.dbConnection)
+    presentation: async (_: any, { hash }: { hash: string }, ctx: Context) => {
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      let qb = dbConnection
         .getRepository(Presentation)
         .createQueryBuilder('presentation')
         .leftJoinAndSelect('presentation.issuer', 'issuer')
@@ -370,8 +397,12 @@ export const resolvers = {
     },
     presentations,
     presentationsCount,
-    credential: async (_: any, { hash }, ctx: Context) => {
-      let qb = (await ctx.agent.dbConnection)
+    credential: async (_: any, { hash }: { hash: string }, ctx: Context) => {
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      let qb = dbConnection
         .getRepository(Credential)
         .createQueryBuilder('credential')
         .leftJoinAndSelect('credential.issuer', 'issuer')
@@ -386,12 +417,16 @@ export const resolvers = {
           }),
         )
       }
-      qb.getOne()
+      return qb.getOne()
     },
     credentials,
     credentialsCount,
-    claim: async (_: any, { hash }, ctx: Context) => {
-      let qb = (await ctx.agent.dbConnection)
+    claim: async (_: any, { hash }: { hash: string }, ctx: Context) => {
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      let qb = dbConnection
         .getRepository(Claim)
         .createQueryBuilder('claim')
         .leftJoinAndSelect('claim.issuer', 'issuer')
@@ -410,74 +445,156 @@ export const resolvers = {
           }),
         )
       }
-      qb.getOne()
+      return qb.getOne()
     },
     claims,
     claimsCount,
   },
 
   Identity: {
-    shortDid: async (identity: Identity, args, ctx: Context) =>
-      (await (await ctx.agent.dbConnection).getRepository(Identity).findOne(identity.did)).shortDid(),
-    latestClaimValue: async (identity: Identity, args: { type: string }, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection).getRepository(Identity).findOne(identity.did)
-      ).getLatestClaimValue(ctx.agent.dbConnection, { type: args.type }),
+    shortDid: async (identity: Identity, {}, ctx: Context) => {
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const ident = await dbConnection.getRepository(Identity).findOne(identity.did)
+      if (!ident) {
+        throw new Error(`Identity with did ${identity.did} could not be found`)
+      }
+      return ident.shortDid()
+    },
+    latestClaimValue: async (identity: Identity, args: { type: string }, ctx: Context) => {
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const ident = await dbConnection.getRepository(Identity).findOne(identity.did)
+      if (!ident) {
+        throw new Error(`Identity with did ${identity.did} could not be found`)
+      }
+      return ident.getLatestClaimValue(dbConnection, { type: args.type })
+    },
   },
 
   Credential: {
-    claims: async (credential: Credential, args, ctx: Context) =>
-      credential.claims ||
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Credential)
-          .findOne(credential.hash, { relations: ['claims'] })
-      ).claims,
-    messages: async (credential: Credential, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Credential)
-          .findOne(credential.hash, { relations: ['messages'] })
-      ).messages,
-    presentations: async (credential: Credential, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Credential)
-          .findOne(credential.hash, { relations: ['presentations'] })
-      ).presentations,
+    claims: async (credential: Credential, {}, ctx: Context) => {
+      if (credential.claims) {
+        return credential.claims
+      }
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const cred = await dbConnection
+        .getRepository(Credential)
+        .findOne(credential.hash, { relations: ['claims'] })
+      if (!cred) {
+        throw new Error(`Credential with hash ${credential.hash} could not be found`)
+      }
+      return cred.claims
+    },
+    messages: async (credential: Credential, {}, ctx: Context) => {
+      if (credential.messages) {
+        return credential.messages
+      }
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const cred = await dbConnection
+        .getRepository(Credential)
+        .findOne(credential.hash, { relations: ['messages'] })
+      if (!cred) {
+        throw new Error(`Credential with hash ${credential.hash} could not be found`)
+      }
+      return cred.messages
+    },
+    presentations: async (credential: Credential, {}, ctx: Context) => {
+      if (credential.presentations) {
+        return credential.presentations
+      }
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const cred = await dbConnection
+        .getRepository(Credential)
+        .findOne(credential.hash, { relations: ['presentations'] })
+      if (!cred) {
+        throw new Error(`Credential with hash ${credential.hash} could not be found`)
+      }
+      return cred.presentations
+    },
   },
 
   Presentation: {
-    credentials: async (presentation: Presentation, args, ctx: Context) =>
-      presentation.credentials ||
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Presentation)
-          .findOne(presentation.hash, { relations: ['credentials'] })
-      ).credentials,
-    messages: async (presentation: Presentation, args, ctx: Context) =>
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Presentation)
-          .findOne(presentation.hash, { relations: ['messages'] })
-      ).messages,
+    credentials: async (presentation: Presentation, {}, ctx: Context) => {
+      if (presentation.credentials) {
+        return presentation.credentials
+      }
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const pres = await dbConnection
+        .getRepository(Presentation)
+        .findOne(presentation.hash, { relations: ['credentials'] })
+      if (!pres) {
+        throw new Error(`Presentation with hash ${presentation.hash} could not be found`)
+      }
+      return pres.credentials
+    },
+    messages: async (presentation: Presentation, {}, ctx: Context) => {
+      if (presentation.messages) {
+        return presentation.messages
+      }
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const pres = await dbConnection
+        .getRepository(Presentation)
+        .findOne(presentation.hash, { relations: ['messages'] })
+      if (!pres) {
+        throw new Error(`Presentation with hash ${presentation.hash} could not be found`)
+      }
+      return pres.messages
+    },
   },
 
   Message: {
-    presentations: async (message: Message, args, ctx: Context) =>
-      message.presentations ||
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Message)
-          .findOne(message.id, { relations: ['presentations'] })
-      ).presentations,
-    credentials: async (message: Message, args, ctx: Context) =>
-      message.credentials ||
-      (
-        await (await ctx.agent.dbConnection)
-          .getRepository(Message)
-          .findOne(message.id, { relations: ['credentials'] })
-      ).credentials,
+    presentations: async (message: Message, {}, ctx: Context) => {
+      if (message.presentations) {
+        return message.presentations
+      }
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const mess = await dbConnection
+        .getRepository(Message)
+        .findOne(message.id, { relations: ['presentations'] })
+      if (!mess) {
+        throw new Error(`Presentation with hash ${message.id} could not be found`)
+      }
+      return mess.presentations
+    },
+    credentials: async (message: Message, {}, ctx: Context) => {
+      if (message.credentials) {
+        return message.credentials
+      }
+      const dbConnection = await ctx.agent.dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required for this query')
+      }
+      const mess = await dbConnection
+        .getRepository(Message)
+        .findOne(message.id, { relations: ['credentials'] })
+      if (!mess) {
+        throw new Error(`Presentation with hash ${message.id} could not be found`)
+      }
+      return mess.credentials
+    },
   },
 }
 
@@ -688,7 +805,7 @@ export const typeDefs = `
   }
 
 
-  
+
   extend type Message {
     id: ID!
     saveDate: Date!
@@ -726,7 +843,7 @@ export const typeDefs = `
     credentials: [Credential]
     messages: [Message]
   }
-  
+
   extend type Credential {
     hash: ID!
     id: String
@@ -755,5 +872,5 @@ export const typeDefs = `
     type: String!
     value: String!
     isObj: Boolean
-  } 
+  }
 `

@@ -67,11 +67,8 @@ export class Identity extends BaseEntity {
    * @param dbConnection
    * @param where
    */
-  async getLatestClaimValue(
-    dbConnection: Promise<Connection>,
-    where: { type: string },
-  ): Promise<String | undefined> {
-    const claim = await (await dbConnection).getRepository(Claim).findOne({
+  async getLatestClaimValue(dbConnection: Connection, where: { type: string }): Promise<String | undefined> {
+    const claim = await dbConnection.getRepository(Claim).findOne({
       where: {
         ...where,
         subject: this.did,
