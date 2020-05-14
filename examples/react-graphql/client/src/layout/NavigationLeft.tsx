@@ -28,6 +28,9 @@ const Component = () => {
         <li className={'left-nav-item'}>
           <NavLink to="/connections">Connections</NavLink>
         </li>
+        <li className={'left-nav-item'}>
+          <NavLink to="/settings">Settings</NavLink>
+        </li>
       </ul>
     </Box>
   )

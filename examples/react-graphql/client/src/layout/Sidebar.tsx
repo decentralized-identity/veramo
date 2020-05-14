@@ -6,7 +6,7 @@ import * as queries from '../gql/queries'
 import { useQuery } from 'react-apollo'
 
 const Component = () => {
-  const [appState] = useContext(AppContext)
+  const { appState } = useContext(AppContext)
   const { data } = useQuery(queries.identity, { variables: { did: appState.defaultDid } })
 
   return (

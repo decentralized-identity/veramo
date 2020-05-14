@@ -1,33 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Layout from './layout/Layout'
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from 'react-apollo'
 import * as serviceWorker from './serviceWorker'
 import { BaseStyles, theme, ToastMessage } from 'rimble-ui'
 import { ThemeProvider } from 'styled-components'
 import { AppProvider } from './context/AppProvider'
+import { GraphQLProvider } from './context/GraphQLProvider'
 
 import '../src/styles/base.css'
 
-const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
-
-  // Authorization is out of scope for this example,
-  // but this is where you could add your auth logic
-  request: operation => {
-    const token = 'hardcoded-example-token'
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : '',
-      },
-    })
-  },
-})
-
 ReactDOM.render(
   <AppProvider>
-    <ApolloProvider client={client}>
+    <GraphQLProvider>
       <ThemeProvider
         theme={Object.assign({}, theme, {
           colors: {
@@ -45,7 +29,7 @@ ReactDOM.render(
           <Layout />
         </BaseStyles>
       </ThemeProvider>
-    </ApolloProvider>
+    </GraphQLProvider>
   </AppProvider>,
   document.getElementById('root'),
 )

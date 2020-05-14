@@ -14,7 +14,7 @@ declare global {
 }
 
 const Component = () => {
-  const [appState] = useContext(AppContext)
+  const { appState } = useContext(AppContext)
   const [isSending, setIsSending] = useState(false)
   const [receiver, setReceiver] = useState('did:web:uport.me')
   const [claims, updateClaims] = useState<any>([])

@@ -8,7 +8,6 @@ import { SdrGql } from 'daf-selective-disclosure'
 import merge from 'lodash.merge'
 import { agent } from './setup'
 import { listen } from './services'
-import { makeExecutableSchema, mergeSchemas } from 'graphql-tools'
 import { getConfiguration } from './config'
 
 program
@@ -20,66 +19,42 @@ program
   .action(async cmd => {
     await agent
     const { graphql } = getConfiguration()
-    const schemas = [
-      makeExecutableSchema({
-        typeDefs: Gql.baseTypeDefs + Gql.Core.typeDefs,
-        resolvers: Gql.Core.resolvers
-      })
-    ]
+    const typeDefs = [Gql.baseTypeDefs, Gql.Core.typeDefs]
+    let resolvers = Gql.Core.resolvers
 
     if (graphql.resolvers.IdentityManager) {
-      schemas.push(
-        makeExecutableSchema({
-          typeDefs: Gql.baseTypeDefs + Gql.IdentityManager.typeDefs,
-          resolvers: Gql.IdentityManager.resolvers
-        })
-      )
+      typeDefs.push(Gql.IdentityManager.typeDefs)
+      resolvers = merge(resolvers, Gql.IdentityManager.resolvers)
     }
 
     if (graphql.resolvers.TrustGraph) {
-      schemas.push(
-        makeExecutableSchema({
-          typeDefs: Gql.baseTypeDefs + TrustGraphGql.typeDefs,
-          resolvers: TrustGraphGql.resolvers
-        })
-      )
+      typeDefs.push(TrustGraphGql.typeDefs)
+      resolvers = merge(resolvers, TrustGraphGql.resolvers)
     }
 
     if (graphql.resolvers.DIDComm) {
-      schemas.push(
-        makeExecutableSchema({
-          typeDefs: Gql.baseTypeDefs + DIDCommGql.typeDefs,
-          resolvers: DIDCommGql.resolvers
-        })
-      )
+      typeDefs.push(DIDCommGql.typeDefs)
+      resolvers = merge(resolvers, DIDCommGql.resolvers)
     }
 
     if (graphql.resolvers.W3c) {
-      schemas.push(
-        makeExecutableSchema({
-          typeDefs: Gql.baseTypeDefs + W3cGql.typeDefs,
-          resolvers: W3cGql.resolvers
-        })
-      )
+      typeDefs.push(W3cGql.typeDefs)
+      resolvers = merge(resolvers, W3cGql.resolvers)
     }
 
     if (graphql.resolvers.Sdr) {
-      schemas.push(
-        makeExecutableSchema({
-          typeDefs: Gql.baseTypeDefs + SdrGql.typeDefs,
-          resolvers: SdrGql.resolvers
-        })
-      )
+      typeDefs.push(SdrGql.typeDefs)
+      resolvers = merge(resolvers, SdrGql.resolvers)
     }
 
-    const schema = mergeSchemas({ schemas })
-
     const server = new ApolloServer({
-      schema,
+      typeDefs,
+      resolvers,
       context: async ({ req }) => {
         if (graphql.apiKey) {
-          const token = req.headers.authorization || ''
+          const token = req.headers.authorization || '' 
           if (token !== 'Bearer ' + graphql.apiKey) {
+            console.log({token})
             throw Error('Auth error')
           }
         }
