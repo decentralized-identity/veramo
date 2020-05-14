@@ -3556,59 +3556,60 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
-daf-core@../../packages/daf-core, daf-core@^4.0.0-beta.39+63dd12d:
-  version "4.0.0-beta.39"
+daf-core@../../packages/daf-core, daf-core@^5.5.0:
+  version "5.5.0"
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
     events "^3.0.0"
     typeorm "^0.2.24"
+    uuid "^7.0.2"
 
-daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^4.0.0-beta.39+63dd12d:
-  version "4.0.0-beta.39"
+daf-did-jwt@../../packages/daf-did-jwt, daf-did-jwt@^5.5.0:
+  version "5.5.0"
   dependencies:
-    daf-core "^4.0.0-beta.39+63dd12d"
+    daf-core "^5.5.0"
     debug "^4.1.1"
-    did-jwt "^4.0.0"
+    did-jwt "^4.3.2"
     did-resolver "^1.1.0"
 
 daf-ethr-did@../../packages/daf-ethr-did:
-  version "4.0.0-beta.39"
+  version "5.5.2"
   dependencies:
-    daf-core "^4.0.0-beta.39+63dd12d"
+    daf-core "^5.5.0"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
 
 daf-libsodium@../../packages/daf-libsodium:
-  version "4.0.0-beta.39"
+  version "5.5.0"
   dependencies:
     base-58 "^0.0.1"
-    daf-core "^4.0.0-beta.39+63dd12d"
+    daf-core "^5.5.0"
     debug "^4.1.1"
-    did-jwt "^4.0.0"
+    did-jwt "^4.3.2"
     elliptic "^6.5.2"
     ethjs-signer "^0.1.1"
     libsodium-wrappers "^0.7.6"
 
 daf-local-storage@../../packages/daf-local-storage:
-  version "4.0.0-beta.39"
+  version "5.5.0"
   dependencies:
-    daf-core "^4.0.0-beta.39+63dd12d"
+    daf-core "^5.5.0"
     debug "^4.1.1"
 
 daf-resolver@../../packages/daf-resolver:
-  version "3.0.1"
+  version "5.5.2"
   dependencies:
     debug "^4.1.1"
     did-resolver "^1.1.0"
-    ethr-did-resolver "^1.0.3"
+    ethr-did-resolver "2.2.0"
     nacl-did "^1.0.0"
     web-did-resolver "^1.2.0"
 
 daf-trust-graph@../../packages/daf-trust-graph:
-  version "4.0.0-beta.39"
+  version "5.5.0"
   dependencies:
     apollo-cache-inmemory "^1.6.3"
     apollo-client "^2.6.4"
@@ -3617,21 +3618,21 @@ daf-trust-graph@../../packages/daf-trust-graph:
     apollo-link-ws "^1.0.19"
     apollo-utilities "^1.3.2"
     cross-fetch "^3.0.4"
-    daf-core "^4.0.0-beta.39+63dd12d"
+    daf-core "^5.5.0"
     debug "^4.1.1"
-    did-jwt "^4.0.0"
+    did-jwt "^4.3.2"
     graphql "^14.0.0"
     graphql-tag "^2.10.1"
     subscriptions-transport-ws "^0.9.0"
 
 daf-w3c@../../packages/daf-w3c:
-  version "4.0.0-beta.39"
+  version "5.5.0"
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^4.0.0-beta.39+63dd12d"
-    daf-did-jwt "^4.0.0-beta.39+63dd12d"
+    daf-core "^5.5.0"
+    daf-did-jwt "^5.5.0"
     debug "^4.1.1"
-    did-jwt-vc "^0.1.3"
+    did-jwt-vc "0.2.0"
     did-resolver "^1.1.0"
 
 damerau-levenshtein@^1.0.4:
@@ -3814,12 +3815,12 @@ detect-port-alt@1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
-did-jwt-vc@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-0.1.3.tgz#2b7631d961406f1f2c10c5b7bb4a121fd1db5d71"
-  integrity sha512-rYVlFOr93+88sdgXGcfbYb5nCKDjqznwOOArJas5Vyad46is8jqfKhdeSlQcMefzD/JMxiR+E0diPS6MitA4CQ==
+did-jwt-vc@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/did-jwt-vc/-/did-jwt-vc-0.2.0.tgz#a3592217622d4eccbe1c6b2ea68ba41fe79d7e5d"
+  integrity sha512-YlIXA3GLryD9nlHOUAzYaU6UMVvZ3103HVBILuGLvRTnE9YVmlfc6nMuYOcIzbgLW2P8pZgIgZsyEFzRdkDRFg==
   dependencies:
-    did-jwt "^3.0.0"
+    did-jwt "^4.3.2"
 
 did-jwt@^0.1.1:
   version "0.1.3"
@@ -3836,25 +3837,10 @@ did-jwt@^0.1.1:
     tweetnacl "^1.0.1"
     tweetnacl-util "^0.15.0"
 
-did-jwt@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-3.0.0.tgz#5e11f1d6e5c9e2d8bdcba0d391f1fcec7c58a07d"
-  integrity sha512-/zHwoUN6eA+zTpV4HjTVMrVXOGfcfh8le4s9ibvv53ammMwdPj3RnLpw539JtnHm7dCXLq7rpjBkoX3lbbxoPQ==
-  dependencies:
-    "@babel/runtime" "^7.3.1"
-    "@stablelib/utf8" "^0.10.1"
-    buffer "^5.2.1"
-    did-resolver "^1.0.0"
-    elliptic "^6.4.0"
-    js-sha256 "^0.9.0"
-    js-sha3 "^0.8.0"
-    tweetnacl "^1.0.1"
-    uport-base64url "3.0.2-alpha.0"
-
-did-jwt@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-4.0.0.tgz#243bf1da82d5a67ce4d742afb10f5f63169f5b4e"
-  integrity sha512-esCR3mVngXQhV2Q1NjdVdkzirgxHpuzqnn4Ga4mNwXFbvYNj9fHD2/oTJXaLZeXxImJmHJQwFEr0TPMoQAlcwg==
+did-jwt@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.npmjs.org/did-jwt/-/did-jwt-4.3.2.tgz#e36cddd1976711a14be5bfa4567fe77388038612"
+  integrity sha512-emkWdlt24qfhFVkPvAWIS5o5Wdyz3OyN3OQnkgW3iOow4PvtM3uO0rg1L9P9yKwl+pwg005AfM3WInjFbVjZmQ==
   dependencies:
     "@babel/runtime" "^7.3.1"
     "@stablelib/utf8" "^0.10.1"
@@ -4582,6 +4568,19 @@ ethr-did-registry@^0.0.3:
   resolved "https://registry.yarnpkg.com/ethr-did-registry/-/ethr-did-registry-0.0.3.tgz#f363d2c73cb9572b57bd7a5c9c90c88485feceb5"
   integrity sha512-4BPvMGkxAK9vTduCq6D5b8ZqjteD2cvDIPPriXP6nnmPhWKFSxypo+AFvyQ0omJGa0cGTR+dkdI/8jiF7U/qaw==
 
+ethr-did-resolver@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/ethr-did-resolver/-/ethr-did-resolver-2.2.0.tgz#bd1c838fc0140bae03e34897352da94ec514deb2"
+  integrity sha512-Ca8hucIpO0LZ0Td3vEyUGRMyStATvof7EI5knazt8xpco5ao03HA9nQJdyRL7SDu9wDvw5iC1Z/8XmbWBuKPig==
+  dependencies:
+    buffer "^5.1.0"
+    did-resolver "1.0.0"
+    ethjs-abi "^0.2.1"
+    ethjs-contract "^0.1.9"
+    ethjs-provider-http "^0.1.6"
+    ethjs-query "^0.3.5"
+    ethr-did-registry "^0.0.3"
+
 ethr-did-resolver@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-0.2.0.tgz#1af748f1c878d45feca8d05f5d8a2eb26b4247d7"
@@ -4591,19 +4590,6 @@ ethr-did-resolver@^0.2.0:
     babel-runtime "^6.26.0"
     buffer "^5.1.0"
     did-resolver "0.0.6"
-    ethjs-abi "^0.2.1"
-    ethjs-contract "^0.1.9"
-    ethjs-provider-http "^0.1.6"
-    ethjs-query "^0.3.5"
-    ethr-did-registry "^0.0.3"
-
-ethr-did-resolver@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-1.0.3.tgz#8a4777c6267afe80a55a16fcee21845ddfd25104"
-  integrity sha512-9XtaB+4Ozc4W0gWHZ4J2HA+c+M7r0xcktmQI6v3GMjFto7b42Mq9zhh24kAxCqmtkqQhmUDJeqqSOIOwHrNbmQ==
-  dependencies:
-    buffer "^5.1.0"
-    did-resolver "1.0.0"
     ethjs-abi "^0.2.1"
     ethjs-contract "^0.1.9"
     ethjs-provider-http "^0.1.6"
@@ -11251,6 +11237,11 @@ uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
+
+uuid@^7.0.2:
+  version "7.0.3"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
+  integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
 v8-compile-cache@^2.0.3:
   version "2.1.0"

@@ -5,6 +5,7 @@ import { JwtMessageHandler } from 'daf-did-jwt'
 import { DafResolver } from 'daf-resolver'
 import * as EthrDid from 'daf-ethr-did'
 import * as DafLocalStorage from 'daf-local-storage'
+import * as DafMetaMask from '../daf-metamask-identity/src'
 import * as DafLibSodium from 'daf-libsodium'
 // import * as MM from 'daf-ethr-did-metamask'
 
@@ -25,6 +26,12 @@ const identityProviders: Daf.AbstractIdentityProvider[] = [
   new EthrDid.IdentityProvider({
     kms: new DafLibSodium.KeyManagementSystem(new DafLocalStorage.KeyStore('localKeys')),
     identityStore: new DafLocalStorage.IdentityStore('localIdentities'),
+    network: 'rinkeby',
+    rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+  }),
+  new EthrDid.IdentityProvider({
+    // kms: new DafLibSodium.KeyManagementSystem(new DafMetaMask.KeyStore('blahhhh')),
+    identityStore: new DafMetaMask.IdentityStore('ethr-did-metamask', 'http://localhost:8082/package.json'),
     network: 'rinkeby',
     rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
   }),

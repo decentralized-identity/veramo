@@ -33,9 +33,12 @@ const App: React.FC = () => {
   const [identities, setIdentities] = useState([{ identityProviderType: '', did: '' }])
 
   useEffect(() => {
-    agent.identityManager.getIdentityProviders().then((providers: any) => {
+    const getIdProviders = async () => {
+      const providers = await agent.identityManager.getIdentityProviders()
       setIdentityProviders(providers)
-    })
+    }
+
+    getIdProviders()
   }, [])
 
   const updateIdentityList = () => {
