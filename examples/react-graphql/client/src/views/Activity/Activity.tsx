@@ -11,7 +11,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom'
 interface Activity {}
 
 const Activity: React.FC<Activity> = () => {
-  const [appState] = useContext(AppContext)
+  const { appState } = useContext(AppContext)
   const history = useHistory()
   const { url } = useRouteMatch()
 
