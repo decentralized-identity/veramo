@@ -1,4 +1,4 @@
-import { Agent, AbstractActionHandler, Action, Message } from 'daf-core'
+import { Agent, AbstractActionHandler, Action } from 'daf-core'
 import { TrustGraphServiceController } from './service-controller'
 
 import Debug from 'debug'
