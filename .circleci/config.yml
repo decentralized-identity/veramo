@@ -97,19 +97,41 @@ jobs:
           name: Release packages to npm
           command: npx lerna publish --canary premajor --preid beta --pre-dist-tag beta --no-git-reset --yes
 
+  docker:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:8.10
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: docker-login
+          command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+      - run:
+          name: Build docker image
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker build -t uport/daf:master .
+              docker tag uport/daf:master uport/daf:latest
+            else
+              docker build -t uport/daf:`echo ${CIRCLE_BRANCH} | sed 's/\//-/g'` .
+            fi
+      - run:
+          name: Push to dockerhub
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker push uport/daf:master
+              docker push uport/daf:latest
+            else
+              docker push uport/daf:`echo ${CIRCLE_BRANCH} | sed 's/\//-/g'`
+            fi
+
 workflows:
   version: 2
 
   verify-test-build:
     jobs:
       - test-packages
-      # - publish-beta-packages-npm:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - beta
-      #     requires:
-      #       - test-packages
       - publish-packages-npm:
           filters:
             branches:
@@ -117,3 +139,10 @@ workflows:
                 - master
           requires:
             - test-packages
+      - docker:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - publish-packages-npm
