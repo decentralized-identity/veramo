@@ -3,9 +3,9 @@
 ## Install
 
 ```
-npm i
+yarn
 npx lerna run build
-npm start
+yarn start
 ```
 
 ## Sample queries
@@ -40,12 +40,12 @@ curl --location --request POST 'http://localhost:8080/handle-action' \
 --data-raw '{
   "type": "sign.w3c.vc.jwt",
   "data": {
-    "sub": "did:web:uport.me",
     "issuer": "<replace this with the created DID: did:ethr:rinkeby:0xabc...>",
     "vc": {
       "@context": ["https://www.w3.org/2018/credentials/v1"],
       "type": ["VerifiableCredential"],
       "credentialSubject": {
+        "id": "did:web:uport.me",
         "you": "Rock"
       }
     }
