@@ -6,6 +6,9 @@ const debug = Debug('daf:did-jwt:message-handler')
 export class JwtMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, agent: Agent): Promise<Message> {
     try {
+      if (!message.raw) {
+        throw new Error(`Message has no raw field`)
+      }
       const decoded = decodeJWT(message.raw)
       const audience = Array.isArray(decoded.payload.aud) ? decoded.payload.aud[0] : decoded.payload.aud
       const verified = await verifyJWT(message.raw, { resolver: agent.didResolver, audience })
