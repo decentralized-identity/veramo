@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import { Agent, AbstractActionHandler, Action, Message } from 'daf-core'
+import { Agent, AbstractActionHandler, Action } from 'daf-core'
 import uuid from 'uuid'
 import Debug from 'debug'
 

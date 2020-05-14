@@ -9,6 +9,9 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
 
   async handle(message: Message, agent: Agent): Promise<Message> {
     try {
+      if (!message.raw) {
+        throw new Error('Message without raw')
+      }
       const parsed = JSON.parse(message.raw)
       if (parsed.ciphertext && parsed.protected) {
         const identities = await agent.identityManager.getIdentities()
