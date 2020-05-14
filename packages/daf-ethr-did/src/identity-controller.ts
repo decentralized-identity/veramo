@@ -82,7 +82,7 @@ export class IdentityController extends AbstractIdentityController {
       return true
     } catch (e) {
       debug(e.message)
-      this.kms.deleteKey(key.serialized.kid)
+      await this.kms.deleteKey(key.serialized.kid)
       return false
     }
   }
