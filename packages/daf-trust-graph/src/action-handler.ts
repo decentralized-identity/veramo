@@ -24,7 +24,7 @@ export class TrustGraphActionHandler extends AbstractActionHandler {
       debug('Resolving didDoc')
       const didDoc = await agent.didResolver.resolve(data.to)
 
-      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'TrustGraph')
+      const service = didDoc && didDoc.service && didDoc.service.find((item) => item.type == 'TrustGraph')
       const uri = service ? service.serviceEndpoint : TrustGraphServiceController.defaultUri
 
       try {

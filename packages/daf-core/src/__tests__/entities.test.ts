@@ -159,8 +159,8 @@ describe('daf-core', () => {
     expect(claims[0].value).toEqual('Alice')
 
     const presentations = await Presentation.find({
-      relations: ["audience"],
-      where: Raw((alias) => `audience.did = "did:test:333"`)
+      relations: ['audience'],
+      where: Raw((alias) => `audience.did = "did:test:333"`),
     })
 
     expect(presentations.length).toEqual(1)

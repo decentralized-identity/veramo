@@ -81,23 +81,23 @@ function opToSQL(item: Where): any[] {
   }
 }
 
-function  addAudienceQuery(input: FindInput, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
+function addAudienceQuery(input: FindInput, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
   if (!Array.isArray(input.where)) {
     return qb
   }
-  const audienceWhere = input.where.find((item) => item.column === "audience")
+  const audienceWhere = input.where.find((item) => item.column === 'audience')
   if (!audienceWhere) {
     return qb
   }
   const [op, value] = opToSQL(audienceWhere)
-  return qb.andWhere(`audience.did ${op}`, {value})
+  return qb.andWhere(`audience.did ${op}`, { value })
 }
 
 function createWhereObject(input: FindInput): any {
   if (input?.where) {
     const where = {}
     for (const item of input.where) {
-      if (item.column === "audience") {
+      if (item.column === 'audience') {
         continue
       }
       switch (item.op) {
@@ -188,7 +188,7 @@ const messagesQuery = async (_: any, args: FindArgs, ctx: Context): Promise<Sele
   qb = decorateQB(qb, 'message', args.input)
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
-      new Brackets(qb => {
+      new Brackets((qb) => {
         qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere('message.from = :ident', {
           ident: ctx.authenticatedDid,
         })
@@ -218,7 +218,7 @@ const presentationsQuery = async (_: any, args: FindArgs, ctx: Context) => {
   qb = addAudienceQuery(args.input, qb)
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
-      new Brackets(qb => {
+      new Brackets((qb) => {
         qb.where('audience.did = :ident', {
           ident: ctx.authenticatedDid,
         }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
@@ -247,7 +247,7 @@ const credentialsQuery = async (_: any, args: FindArgs, ctx: Context) => {
   qb = decorateQB(qb, 'credential', args.input)
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
-      new Brackets(qb => {
+      new Brackets((qb) => {
         qb.where('credential.subject = :ident', { ident: ctx.authenticatedDid }).orWhere(
           'credential.issuer = :ident',
           {
@@ -268,7 +268,6 @@ const credentialsCount = async (_: any, args: FindArgs, ctx: Context) => {
   return (await credentialsQuery(_, args, ctx)).getCount()
 }
 
-
 const claimsQuery = async (_: any, args: FindArgs, ctx: Context) => {
   const where = createWhereObject(args.input)
   let qb = (await ctx.agent.dbConnection)
@@ -281,7 +280,7 @@ const claimsQuery = async (_: any, args: FindArgs, ctx: Context) => {
   qb = qb.leftJoinAndSelect('claim.credential', 'credential')
   if (ctx.authenticatedDid) {
     qb = qb.andWhere(
-      new Brackets(qb => {
+      new Brackets((qb) => {
         qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere('claim.issuer = :ident', {
           ident: ctx.authenticatedDid,
         })
@@ -307,7 +306,7 @@ export const resolvers = {
       ctx: Context,
     ) => {
       if (ctx.authenticatedDid) {
-        const authMeta = {type: "sender", value: ctx.authenticatedDid};
+        const authMeta = { type: 'sender', value: ctx.authenticatedDid }
         if (Array.isArray(args.metaData)) {
           args.metaData.push(authMeta)
         } else {
@@ -337,7 +336,7 @@ export const resolvers = {
         .where('message.id = :id', { id })
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
-          new Brackets(qb => {
+          new Brackets((qb) => {
             qb.where('message.to = :ident', { ident: ctx.authenticatedDid }).orWhere(
               'message.from = :ident',
               {
@@ -360,7 +359,7 @@ export const resolvers = {
         .where('presentation.hash = :hash', { hash })
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
-          new Brackets(qb => {
+          new Brackets((qb) => {
             qb.where('audience.did = :ident', {
               ident: ctx.authenticatedDid,
             }).orWhere('presentation.issuer = :ident', { ident: ctx.authenticatedDid })
@@ -380,7 +379,7 @@ export const resolvers = {
         .where('credential.hash = :hash', { hash })
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
-          new Brackets(qb => {
+          new Brackets((qb) => {
             qb.where('credential.subject = :ident', {
               ident: ctx.authenticatedDid,
             }).orWhere('credential.issuer = :ident', { ident: ctx.authenticatedDid })
@@ -401,7 +400,7 @@ export const resolvers = {
         .where('claim.hash = :hash', { hash })
       if (ctx.authenticatedDid) {
         qb = qb.andWhere(
-          new Brackets(qb => {
+          new Brackets((qb) => {
             qb.where('claim.subject = :ident', { ident: ctx.authenticatedDid }).orWhere(
               'claim.issuer = :ident',
               {

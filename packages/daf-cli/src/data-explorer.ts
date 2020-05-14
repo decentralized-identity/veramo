@@ -10,7 +10,7 @@ program
   .description('Explore data store')
   .option('-i, --identities', 'List known identities')
   .option('-m, --messages', 'List messages')
-  .action(async cmd => {
+  .action(async (cmd) => {
     if (cmd.identities) {
       const dbConnection = await (await agent).dbConnection
       const ids = await dbConnection.getRepository(Daf.Identity).find()
@@ -21,7 +21,7 @@ program
 
       const identities = []
       for (const id of ids) {
-        const name = await id.getLatestClaimValue((await agent).dbConnection, {type: 'name'})
+        const name = await id.getLatestClaimValue((await agent).dbConnection, { type: 'name' })
         identities.push({
           value: id.did,
           name: `${id.did} - ${name || id.shortDid()}`,
@@ -86,12 +86,13 @@ const showMessageList = async (messages: Daf.Message[]) => {
 
 const showMessage = async (id: string) => {
   const dbConnection = await (await agent).dbConnection
-  const message = await dbConnection.getRepository(Daf.Message)
-    .findOne(id, {relations: ['credentials', 'credentials.claims']})
+  const message = await dbConnection
+    .getRepository(Daf.Message)
+    .findOne(id, { relations: ['credentials', 'credentials.claims'] })
   console.log(message)
 
   const table = []
-  
+
   if (message.credentials.length > 0) {
     for (const credential of message.credentials) {
       const issuer = credential.issuer.shortDid()
@@ -114,8 +115,7 @@ const showCredentials = async (did: string) => {
   const table = []
   const dbConnection = await (await agent).dbConnection
 
-  const credentials = await dbConnection.getRepository(Daf.Credential)
-    .find({ where: { subject: did } })
+  const credentials = await dbConnection.getRepository(Daf.Credential).find({ where: { subject: did } })
 
   if (credentials.length > 0) {
     for (const credential of credentials) {

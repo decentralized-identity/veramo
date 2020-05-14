@@ -19,7 +19,7 @@ export const findCredentialsForSdr = async (
     }
 
     if (credentialRequest.issuers) {
-      where['issuer'] = In(credentialRequest.issuers.map(i => i.did))
+      where['issuer'] = In(credentialRequest.issuers.map((i) => i.did))
     }
 
     if (credentialRequest.credentialType) {
@@ -37,7 +37,7 @@ export const findCredentialsForSdr = async (
     const claims = await (await dbConnection).getRepository(Claim).find({ where, relations: ['credential'] })
     const issuers =
       credentialRequest.issuers &&
-      credentialRequest.issuers.map(iss => {
+      credentialRequest.issuers.map((iss) => {
         const issuer = new Identity()
         issuer.did = iss.did
         return {
@@ -49,7 +49,7 @@ export const findCredentialsForSdr = async (
     result.push({
       ...credentialRequest,
       issuers,
-      credentials: claims.map(c => c.credential),
+      credentials: claims.map((c) => c.credential),
     })
   }
   return result
@@ -62,12 +62,13 @@ export const validatePresentationAgainstSdr = (
   let valid = true
   let claims = []
   for (const credentialRequest of sdr.claims) {
-    let credentials = presentation.credentials.filter(credential => {
+    let credentials = presentation.credentials.filter((credential) => {
       if (
         credentialRequest.claimType &&
         credentialRequest.claimValue &&
         !credential.claims.find(
-          claim => claim.type === credentialRequest.claimType && claim.value === credentialRequest.claimValue,
+          (claim) =>
+            claim.type === credentialRequest.claimType && claim.value === credentialRequest.claimValue,
         )
       ) {
         return false
@@ -76,14 +77,14 @@ export const validatePresentationAgainstSdr = (
       if (
         credentialRequest.claimType &&
         !credentialRequest.claimValue &&
-        !credential.claims.find(claim => claim.type === credentialRequest.claimType)
+        !credential.claims.find((claim) => claim.type === credentialRequest.claimType)
       ) {
         return false
       }
 
       if (
         credentialRequest.issuers &&
-        !credentialRequest.issuers.map(i => i.did).includes(credential.issuer.did)
+        !credentialRequest.issuers.map((i) => i.did).includes(credential.issuer.did)
       ) {
         return false
       }

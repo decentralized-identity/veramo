@@ -16,10 +16,10 @@ program
   .option('-p, --publicKey', 'Add public key')
   .option('--encrypt', 'Encrypt data to a recipient DID')
   .option('--decrypt', 'Decrypt data')
-  .action(async cmd => {
+  .action(async (cmd) => {
     if (cmd.types) {
       const providers = (await agent).identityManager.getIdentityProviders()
-      const list = providers.map(provider => ({
+      const list = providers.map((provider) => ({
         type: provider.type,
         description: provider.description,
       }))
@@ -35,7 +35,7 @@ program
       const list = await (await agent).identityManager.getIdentities()
 
       if (list.length > 0) {
-        const dids = list.map(item => ({ type: item.identityProviderType, did: item.did }))
+        const dids = list.map((item) => ({ type: item.identityProviderType, did: item.did }))
         printTable(dids)
       } else {
         console.log('No dids')
@@ -51,7 +51,7 @@ program
             {
               type: 'list',
               name: 'type',
-              choices: providers.map(provider => ({
+              choices: providers.map((provider) => ({
                 name: `${provider.type} - ${provider.description}`,
                 value: provider.type,
               })),
@@ -75,14 +75,17 @@ program
           {
             type: 'list',
             name: 'did',
-            choices: identities.map(item => item.did),
+            choices: identities.map((item) => item.did),
             message: 'Delete DID',
           },
         ])
 
         const identity = await (await agent).identityManager.getIdentity(answers.did)
 
-        const result = await (await agent).identityManager.deleteIdentity(identity.identityProviderType, identity.did)
+        const result = await (await agent).identityManager.deleteIdentity(
+          identity.identityProviderType,
+          identity.did,
+        )
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
@@ -96,7 +99,7 @@ program
           {
             type: 'list',
             name: 'did',
-            choices: identities.map(item => item.did),
+            choices: identities.map((item) => item.did),
             message: 'Select DID',
           },
           {
@@ -131,7 +134,7 @@ program
           {
             type: 'list',
             name: 'did',
-            choices: identities.map(item => item.did),
+            choices: identities.map((item) => item.did),
             message: 'Select DID',
           },
           {
@@ -157,7 +160,7 @@ program
           {
             type: 'list',
             name: 'did',
-            choices: identities.map(item => item.did),
+            choices: identities.map((item) => item.did),
             message: 'Select DID',
           },
           {
@@ -175,7 +178,7 @@ program
         const identity = await (await agent).identityManager.getIdentity(answers.did)
         const key = await identity.keyByType('Ed25519')
         const didDoc = await (await agent).didResolver.resolve(answers.to)
-        const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
+        const publicKey = didDoc?.publicKey.find((item) => item.type == 'Ed25519VerificationKey2018')
         if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
 
         const result = await key.encrypt(
@@ -199,7 +202,7 @@ program
           {
             type: 'list',
             name: 'did',
-            choices: identities.map(item => item.did),
+            choices: identities.map((item) => item.did),
             message: 'Select DID',
           },
           {
@@ -225,13 +228,16 @@ program
           {
             type: 'list',
             name: 'did',
-            choices: identities.map(item => item.did),
+            choices: identities.map((item) => item.did),
             message: 'Select DID',
           },
         ])
 
         const identity = await (await agent).identityManager.getIdentity(answers.did)
-        const secret = await (await agent).identityManager.exportIdentity(identity.identityProviderType, identity.did)
+        const secret = await (await agent).identityManager.exportIdentity(
+          identity.identityProviderType,
+          identity.did,
+        )
         console.log(secret)
       } catch (e) {
         console.error(e)
@@ -246,7 +252,7 @@ program
           {
             type: 'list',
             name: 'provider',
-            choices: providers.map(item => item.type),
+            choices: providers.map((item) => item.type),
             message: 'Select identity provider',
           },
           {

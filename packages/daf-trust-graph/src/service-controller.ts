@@ -43,8 +43,8 @@ export class TrustGraphServiceController extends AbstractServiceController {
   async initialize(): Promise<boolean> {
     const didDoc = await this.didResolver.resolve(this.identity.did)
 
-    const service = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraph')
-    const serviceWs = didDoc && didDoc.service && didDoc.service.find(item => item.type === 'TrustGraphWs')
+    const service = didDoc && didDoc.service && didDoc.service.find((item) => item.type === 'TrustGraph')
+    const serviceWs = didDoc && didDoc.service && didDoc.service.find((item) => item.type === 'TrustGraphWs')
 
     this.uri = service ? service.serviceEndpoint : TrustGraphServiceController.defaultUri
     this.wsUri = serviceWs ? serviceWs.serviceEndpoint : TrustGraphServiceController.defaultWsUri

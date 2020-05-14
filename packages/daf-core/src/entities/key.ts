@@ -17,9 +17,6 @@ export class Key extends BaseEntity {
   @Column()
   privateKeyHex?: string
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.keys,
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.keys)
   identity: Identity
 }

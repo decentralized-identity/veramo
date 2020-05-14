@@ -17,22 +17,22 @@ program
   .option('-p, --port <port>', 'Port')
   .option('-l, --listen', 'Listen for new messages')
   .option('-i, --interval <seconds>', 'Poll for new messages with interval of <seconds>')
-  .action(async cmd => {
+  .action(async (cmd) => {
     await agent
     const { graphql } = getConfiguration()
     const schemas = [
       makeExecutableSchema({
         typeDefs: Gql.baseTypeDefs + Gql.Core.typeDefs,
-        resolvers: Gql.Core.resolvers
-      })
+        resolvers: Gql.Core.resolvers,
+      }),
     ]
 
     if (graphql.resolvers.IdentityManager) {
       schemas.push(
         makeExecutableSchema({
           typeDefs: Gql.baseTypeDefs + Gql.IdentityManager.typeDefs,
-          resolvers: Gql.IdentityManager.resolvers
-        })
+          resolvers: Gql.IdentityManager.resolvers,
+        }),
       )
     }
 
@@ -40,8 +40,8 @@ program
       schemas.push(
         makeExecutableSchema({
           typeDefs: Gql.baseTypeDefs + TrustGraphGql.typeDefs,
-          resolvers: TrustGraphGql.resolvers
-        })
+          resolvers: TrustGraphGql.resolvers,
+        }),
       )
     }
 
@@ -49,8 +49,8 @@ program
       schemas.push(
         makeExecutableSchema({
           typeDefs: Gql.baseTypeDefs + DIDCommGql.typeDefs,
-          resolvers: DIDCommGql.resolvers
-        })
+          resolvers: DIDCommGql.resolvers,
+        }),
       )
     }
 
@@ -58,8 +58,8 @@ program
       schemas.push(
         makeExecutableSchema({
           typeDefs: Gql.baseTypeDefs + W3cGql.typeDefs,
-          resolvers: W3cGql.resolvers
-        })
+          resolvers: W3cGql.resolvers,
+        }),
       )
     }
 
@@ -67,8 +67,8 @@ program
       schemas.push(
         makeExecutableSchema({
           typeDefs: Gql.baseTypeDefs + SdrGql.typeDefs,
-          resolvers: SdrGql.resolvers
-        })
+          resolvers: SdrGql.resolvers,
+        }),
       )
     }
 
@@ -83,8 +83,8 @@ program
             throw Error('Auth error')
           }
         }
-    
-        return { agent: (await agent) }
+
+        return { agent: await agent }
       },
       introspection: true,
     })

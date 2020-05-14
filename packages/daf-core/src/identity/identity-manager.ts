@@ -37,7 +37,7 @@ export class IdentityManager {
 
   async getIdentity(did: string): Promise<AbstractIdentity> {
     const identities = await this.getIdentities()
-    const identity = identities.find(item => item.did === did)
+    const identity = identities.find((item) => item.did === did)
     if (identity) {
       return identity
     } else {

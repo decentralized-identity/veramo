@@ -20,7 +20,7 @@ const managedIdentities = async (_: any, args: any, ctx: Context) => {
 
 const isManaged = async (identity: any, args: any, ctx: Context) => {
   const list = await ctx.agent.identityManager.getIdentities()
-  return list.map(item => item.did).indexOf(identity.did) > -1
+  return list.map((item) => item.did).indexOf(identity.did) > -1
 }
 
 const createIdentity = async (

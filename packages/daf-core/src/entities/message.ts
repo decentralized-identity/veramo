@@ -75,46 +75,30 @@ export class Message extends BaseEntity {
   @Column({ nullable: true })
   replyUrl?: string
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.sentMessages,
-    {
-      nullable: true,
-      cascade: ['insert'],
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.sentMessages, {
+    nullable: true,
+    cascade: ['insert'],
+    eager: true,
+  })
   from?: Identity
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.receivedMessages,
-    {
-      nullable: true,
-      cascade: ['insert'],
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.receivedMessages, {
+    nullable: true,
+    cascade: ['insert'],
+    eager: true,
+  })
   to?: Identity
 
   @Column('simple-json', { nullable: true })
   metaData?: MetaData[]
 
-  @ManyToMany(
-    type => Presentation,
-    presentation => presentation.messages,
-    {
-      cascade: true,
-    },
-  )
+  @ManyToMany((type) => Presentation, (presentation) => presentation.messages, {
+    cascade: true,
+  })
   @JoinTable()
   presentations: Presentation[]
 
-  @ManyToMany(
-    type => Credential,
-    credential => credential.messages,
-    { cascade: true },
-  )
+  @ManyToMany((type) => Credential, (credential) => credential.messages, { cascade: true })
   @JoinTable()
   credentials: Credential[]
 

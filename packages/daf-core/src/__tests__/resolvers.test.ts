@@ -158,7 +158,6 @@ describe('daf-core entities', () => {
 
     presentations = await Gql.Core.resolvers.Query.presentations({}, query, { agent, authenticatedDid })
     expect(presentations.length).toBe(0)
-    
   })
 
   test('without auth it fetches all messages that match the query', async () => {
