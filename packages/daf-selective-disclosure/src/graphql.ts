@@ -14,8 +14,12 @@ const signSdrJwt = async (_: any, args: { data: SelectiveDisclosureRequest }, ct
   } as ActionSignSdr)
 
 const sdr = async (message: Message, { did }: { did: string }, ctx: Context) => {
+  const dbConnection = await ctx.agent.dbConnection
+  if (!dbConnection) {
+    throw new Error('A database connection is required for this query')
+  }
   if (message.type == MessageTypes.sdr) {
-    return findCredentialsForSdr(ctx.agent.dbConnection, message.data, did)
+    return findCredentialsForSdr(dbConnection, message.data, did)
   }
   return []
 }
@@ -25,11 +29,16 @@ const validateAgainstSdr = async (
   { sdr }: { sdr: SelectiveDisclosureRequest },
   ctx: Context,
 ) => {
-  const fullPresentation = await (await ctx.agent.dbConnection)
-    .getRepository(Presentation)
-    .findOne(presentation.hash, {
-      relations: ['credentials', 'credentials.claims'],
-    })
+  const dbConnection = await ctx.agent.dbConnection
+  if (!dbConnection) {
+    throw new Error('A database connection is required for this query')
+  }
+  const fullPresentation = await dbConnection.getRepository(Presentation).findOne(presentation.hash, {
+    relations: ['credentials', 'credentials.claims'],
+  })
+  if (!fullPresentation) {
+    throw new Error(`No Presentation found with hash ${presentation.hash}`)
+  }
   return validatePresentationAgainstSdr(fullPresentation, sdr)
 }
 

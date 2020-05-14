@@ -3,7 +3,7 @@ import { SelectiveDisclosureRequest } from './action-handler'
 import { In, Like, Connection } from 'typeorm'
 
 export const findCredentialsForSdr = async (
-  dbConnection: Promise<Connection>,
+  dbConnection: Connection,
   sdr: SelectiveDisclosureRequest,
   did?: string,
 ) => {
@@ -34,7 +34,7 @@ export const findCredentialsForSdr = async (
       where['subject'] = did || sdr.subject
     }
 
-    const claims = await (await dbConnection).getRepository(Claim).find({ where, relations: ['credential'] })
+    const claims = await dbConnection.getRepository(Claim).find({ where, relations: ['credential'] })
     const issuers =
       credentialRequest.issuers &&
       credentialRequest.issuers.map((iss) => {
@@ -95,11 +95,9 @@ export const validatePresentationAgainstSdr = (
         return false
       }
 
-      if (credentialRequest.credentialType && !credential.type.includes(credentialRequest.credentialType)) {
-        return false
-      }
-
-      return true
+      return !(
+        credentialRequest.credentialType && !credential.type.includes(credentialRequest.credentialType)
+      )
     })
 
     if (credentialRequest.essential === true && credentials.length == 0) {
