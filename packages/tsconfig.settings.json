@@ -12,7 +12,6 @@
     "composite": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
@@ -26,7 +25,5 @@
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "strictBindCallApply": true
-  },
-  "include": ["**/src/**/*", "**/tests/**/*.ts"],
-  "exclude": ["**/build/**/*"]
+  }
 }

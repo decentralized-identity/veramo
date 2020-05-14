@@ -9,7 +9,6 @@
     "esModuleInterop": true,
     "downlevelIteration": true,
     "composite": true,
-    "rootDir": "src",
     "outDir": "build"
   },
   "exclude": ["**/__tests__/**/*", "**/build/**/*"],
