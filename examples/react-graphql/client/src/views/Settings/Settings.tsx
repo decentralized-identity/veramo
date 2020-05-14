@@ -8,8 +8,8 @@ import { AppContext } from '../../context/AppProvider'
 
 const Component = () => {
   const { appState, setApiKey, setApiUrl } = useContext(AppContext)
-  const [ newApiKey, setNewApiKey ] = useState(appState.apiKey)
-  const [ newApiUrl, setNewApiUrl ] = useState(appState.apiUrl)
+  const [newApiKey, setNewApiKey] = useState(appState.apiKey)
+  const [newApiUrl, setNewApiUrl] = useState(appState.apiUrl)
 
   const handleSave = () => {
     setApiKey(newApiKey)
@@ -18,14 +18,10 @@ const Component = () => {
 
   return (
     <Page title={'Settings'}>
-
       <Box p={3}>
         <Panel heading={'API details'}>
-
-
           <Flex mx={-3} flexWrap={'wrap'}>
             <Box width={1} px={3}>
-
               <Field label="API URL">
                 <Input
                   border={0}
@@ -41,7 +37,6 @@ const Component = () => {
 
           <Flex mx={-3} flexWrap={'wrap'}>
             <Box width={1} px={3}>
-
               <Field label="API Key">
                 <Input
                   border={0}
@@ -52,9 +47,8 @@ const Component = () => {
                   onChange={(e: any) => setNewApiKey(e.target.value)}
                 />
               </Field>
-              </Box>
+            </Box>
           </Flex>
- 
         </Panel>
         <Button onClick={handleSave}>Save</Button>
       </Box>

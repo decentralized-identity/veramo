@@ -8,6 +8,7 @@ import { SdrGql } from 'daf-selective-disclosure'
 import { agent } from './setup'
 import { listen } from './services'
 import { getConfiguration } from './config'
+import merge from 'lodash.merge'
 
 program
   .command('graphql')
@@ -51,9 +52,9 @@ program
       resolvers,
       context: async ({ req }) => {
         if (graphql.apiKey) {
-          const token = req.headers.authorization || '' 
+          const token = req.headers.authorization || ''
           if (token !== 'Bearer ' + graphql.apiKey) {
-            console.log({token})
+            console.log({ token })
             throw Error('Auth error')
           }
         }

@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc -b"
   },
   "dependencies": {
     "daf-core": "^5.5.0",

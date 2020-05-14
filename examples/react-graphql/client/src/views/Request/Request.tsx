@@ -23,7 +23,7 @@ const Component = () => {
   const [claimTypeRequired, updateClaimTypeRequired] = useState(false)
   const [jwt, setJwt] = useState()
   const [sendMessageDidCommAlpha1] = useMutation(mutations.sendMessageDidCommAlpha1, {
-    onCompleted: response => {
+    onCompleted: (response) => {
       if (response?.sendMessageDidCommAlpha1?.id) {
         setIsSending(false)
         window.toastProvider.addMessage('Request sent!', { variant: 'success' })
@@ -32,7 +32,7 @@ const Component = () => {
   })
 
   const [actionSignSDR] = useMutation(mutations.signSdrJwt, {
-    onCompleted: response => {
+    onCompleted: (response) => {
       if (response && response.signSdrJwt) {
         setJwt(response.signSdrJwt)
         setIsSending(true)

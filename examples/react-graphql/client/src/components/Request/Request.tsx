@@ -38,7 +38,7 @@ const Component: React.FC<Props> = ({ sdr, from, to, threadId, close }) => {
     if (Object.keys(selected).length === 0) {
       valid = false
     }
-    Object.keys(selected).map(key => {
+    Object.keys(selected).map((key) => {
       if (selected[key].required && !selected[key].jwt) {
         valid = false
       }
@@ -54,7 +54,7 @@ const Component: React.FC<Props> = ({ sdr, from, to, threadId, close }) => {
         variables: { activeDid: appState.defaultDid },
       },
     ],
-    onCompleted: response => {
+    onCompleted: (response) => {
       if (response?.sendMessageDidCommAlpha1?.id) {
         updateSending(false)
         window.toastProvider.addMessage('Response sent!', { variant: 'success' })
@@ -66,7 +66,7 @@ const Component: React.FC<Props> = ({ sdr, from, to, threadId, close }) => {
     },
   })
   const [signPresentationJwt] = useMutation(mutations.signPresentationJwt, {
-    onCompleted: response => {
+    onCompleted: (response) => {
       if (response.signPresentationJwt) {
         updateSending(true)
 
@@ -87,8 +87,8 @@ const Component: React.FC<Props> = ({ sdr, from, to, threadId, close }) => {
   const accept = () => {
     if (formValid) {
       const selectedVc = Object.keys(selected)
-        .map(key => selected[key].jwt)
-        .filter(item => item)
+        .map((key) => selected[key].jwt)
+        .filter((item) => item)
 
       const payload = {
         variables: {

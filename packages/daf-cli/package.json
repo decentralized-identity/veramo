@@ -8,7 +8,7 @@
     "daf": "bin/daf.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b",
     "watch": "tsc -b --watch"
   },
   "dependencies": {

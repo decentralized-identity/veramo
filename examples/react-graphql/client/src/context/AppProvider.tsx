@@ -11,11 +11,11 @@ export const AppContext = createContext<IAppContext>({
   appState: {
     defaultDid: '',
     apiUrl: '',
-    apiKey: ''
+    apiKey: '',
   },
   setDefaultDid: (defaultDid: string) => {},
   setApiKey: (apiKey: string) => {},
-  setApiUrl: (apiUrl: string) => {}
+  setApiUrl: (apiUrl: string) => {},
 })
 
 interface AppState {
@@ -32,7 +32,7 @@ export const AppProvider = (props: any) => {
   const [appState, setGlobalState] = useState<AppState>({
     defaultDid,
     apiKey,
-    apiUrl
+    apiUrl,
   })
 
   const setDefaultDid = (defaultDid: string) => {
@@ -68,11 +68,16 @@ export const AppProvider = (props: any) => {
     setGlobalState(newState)
   }
 
-
-  return <AppContext.Provider value={{
-    appState,
-    setDefaultDid,
-    setApiKey,
-    setApiUrl
-  }}>{props.children}</AppContext.Provider>
+  return (
+    <AppContext.Provider
+      value={{
+        appState,
+        setDefaultDid,
+        setApiKey,
+        setApiUrl,
+      }}
+    >
+      {props.children}
+    </AppContext.Provider>
+  )
 }
