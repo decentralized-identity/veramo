@@ -1,27 +1,23 @@
 import {
   AbstractIdentityProvider,
   AbstractIdentity,
-  Resolver,
   AbstractIdentityStore,
   AbstractKeyManagementSystem,
   SerializedIdentity,
 } from 'daf-core'
 import { Identity } from './identity'
 import { IdentityController } from './identity-controller'
-const SignerProvider = require('ethjs-provider-signer')
+import { func, Sidetree } from '@transmute/element-lib'
 import Debug from 'debug'
 const debug = Debug('daf:elem-did:identity-provider')
-const element = require('@transmute/element-lib')
-const op = require('@transmute/element-lib/src/sidetree/op')
-const func = require('@transmute/element-lib/src/func')
 
 export class IdentityProvider extends AbstractIdentityProvider {
   public type = 'elem-did'
   public description = 'identities'
-  private apiUrl: string
-  private network?: string
-  private kms: AbstractKeyManagementSystem
-  private identityStore: AbstractIdentityStore
+  private readonly apiUrl: string
+  private readonly network?: string
+  private readonly kms: AbstractKeyManagementSystem
+  private readonly identityStore: AbstractIdentityStore
 
   constructor(options: {
     kms: AbstractKeyManagementSystem
@@ -34,17 +30,16 @@ export class IdentityProvider extends AbstractIdentityProvider {
     this.identityStore = options.identityStore
     this.apiUrl = options.apiUrl
     this.network = options.network
-    this.description = 'did:elem '+ this.network +' using ' + options.apiUrl
+    this.description = 'did:elem ' + this.network + ' using ' + options.apiUrl
     this.type = options.network + '-' + this.type
   }
 
   private async identityFromSerialized(serializedIdentity: SerializedIdentity): Promise<AbstractIdentity> {
-
     const identityController = new IdentityController({
       did: serializedIdentity.did,
       kms: this.kms,
       identityStore: this.identityStore,
-      apiUrl: this.apiUrl
+      apiUrl: this.apiUrl,
     })
 
     return new Identity({
@@ -66,13 +61,17 @@ export class IdentityProvider extends AbstractIdentityProvider {
   }
 
   async createIdentity() {
-
     const primaryKey = await this.kms.createKey('Secp256k1')
     const recoveryKey = await this.kms.createKey('Secp256k1')
     const didMethodName = 'did:elem' + (this.network ? ':' + this.network : '')
-    const operations = op({ parameters: { didMethodName }})
-    const didDocumentModel = operations.getDidDocumentModel(primaryKey.serialized.publicKeyHex, recoveryKey.serialized.publicKeyHex)
-    const createPayload = await operations.getCreatePayload(didDocumentModel, { privateKey: primaryKey.serialized.privateKeyHex })
+    const operations = Sidetree.op({ parameters: { didMethodName } })
+    const didDocumentModel = operations.getDidDocumentModel(
+      primaryKey.serialized.publicKeyHex,
+      recoveryKey.serialized.publicKeyHex,
+    )
+    const createPayload = await operations.getCreatePayload(didDocumentModel, {
+      privateKey: primaryKey.serialized.privateKeyHex,
+    })
     const didUniqueSuffix = func.getDidUniqueSuffix(createPayload)
     const did = didMethodName + ':' + didUniqueSuffix
     debug('Creating new DID at', this.apiUrl)
@@ -86,7 +85,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
     if (response.status !== 200) {
       return Promise.reject(response.statusText)
     }
-    
+
     const serializedIdentity: SerializedIdentity = {
       did,
       controllerKeyId: primaryKey.serialized.kid,

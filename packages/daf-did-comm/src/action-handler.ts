@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import { Agent, AbstractActionHandler, Action, Message } from 'daf-core'
+import { Agent, AbstractActionHandler, Action } from 'daf-core'
 import uuid from 'uuid'
 import Debug from 'debug'
 
@@ -36,7 +36,7 @@ export class DIDCommActionHandler extends AbstractActionHandler {
       if (url) {
         serviceEndpoint = url
       } else {
-        const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'Messaging')
+        const service = didDoc && didDoc.service && didDoc.service.find((item) => item.type == 'Messaging')
         serviceEndpoint = service?.serviceEndpoint
       }
 
@@ -47,7 +47,7 @@ export class DIDCommActionHandler extends AbstractActionHandler {
           try {
             const identity = await agent.identityManager.getIdentity(data.from)
             const key = await identity.keyByType('Ed25519')
-            const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
+            const publicKey = didDoc?.publicKey.find((item) => item.type == 'Ed25519VerificationKey2018')
             if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
 
             postPayload = await key.encrypt(

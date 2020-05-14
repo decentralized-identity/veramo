@@ -11,7 +11,7 @@ program
   .description('Create Selective Disclosure Request')
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
-  .action(async cmd => {
+  .action(async (cmd) => {
     const identities = await (await agent).identityManager.getIdentities()
     if (identities.length === 0) {
       console.error('No dids')
@@ -21,7 +21,7 @@ program
       {
         type: 'list',
         name: 'iss',
-        choices: identities.map(item => item.did),
+        choices: identities.map((item) => item.did),
         message: 'Issuer DID',
       },
       {

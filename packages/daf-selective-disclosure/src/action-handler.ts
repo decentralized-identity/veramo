@@ -8,7 +8,7 @@ export const ActionTypes = {
   signSdr: 'sign.sdr.jwt',
 }
 
-interface Issuer {
+export interface Issuer {
   did: string
   url: string
 }

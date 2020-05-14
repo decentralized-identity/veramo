@@ -11,7 +11,7 @@ program
   .description('Create W3C Verifiable Credential')
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
-  .action(async cmd => {
+  .action(async (cmd) => {
     const identities = await (await agent).identityManager.getIdentities()
     if (identities.length === 0) {
       console.error('No dids')
@@ -21,7 +21,7 @@ program
       {
         type: 'list',
         name: 'iss',
-        choices: identities.map(item => item.did),
+        choices: identities.map((item) => item.did),
         message: 'Issuer DID',
       },
       {
@@ -125,7 +125,7 @@ program
   .description('Create W3C Verifiable Presentation')
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
-  .action(async cmd => {
+  .action(async (cmd) => {
     const myIdentities = await (await agent).identityManager.getIdentities()
     if (myIdentities.length === 0) {
       console.error('No dids')
@@ -141,7 +141,11 @@ program
       },
     ]
     for (const id of ids) {
-      const name = await id.getLatestClaimValue((await agent).dbConnection, { type: 'name' })
+      const dbConnection = await (await agent).dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required')
+      }
+      const name = await id.getLatestClaimValue(dbConnection, { type: 'name' })
       identities.push({
         value: id.did,
         name: `${id.did} - ${name}`,
@@ -153,7 +157,7 @@ program
       {
         type: 'list',
         name: 'iss',
-        choices: myIdentities.map(item => item.did),
+        choices: myIdentities.map((item) => item.did),
         message: 'Issuer DID',
       },
       {

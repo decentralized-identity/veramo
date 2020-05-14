@@ -52,26 +52,18 @@ export class Credential extends BaseEntity {
     }
   }
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.issuedCredentials,
-    {
-      cascade: ['insert'],
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.issuedCredentials, {
+    cascade: ['insert'],
+    eager: true,
+  })
   issuer: Identity
 
   // Subject can be null https://w3c.github.io/vc-data-model/#credential-uniquely-identifies-a-subject
-  @ManyToOne(
-    type => Identity,
-    identity => identity.receivedCredentials,
-    {
-      cascade: ['insert'],
-      eager: true,
-      nullable: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.receivedCredentials, {
+    cascade: ['insert'],
+    eager: true,
+    nullable: true,
+  })
   subject?: Identity
 
   @Column({ nullable: true })
@@ -89,24 +81,14 @@ export class Credential extends BaseEntity {
   @Column('simple-array')
   type: string[]
 
-  @OneToMany(
-    type => Claim,
-    claim => claim.credential,
-    {
-      cascade: ['insert'],
-    },
-  )
+  @OneToMany((type) => Claim, (claim) => claim.credential, {
+    cascade: ['insert'],
+  })
   claims: Claim[]
 
-  @ManyToMany(
-    type => Presentation,
-    presentation => presentation.credentials,
-  )
+  @ManyToMany((type) => Presentation, (presentation) => presentation.credentials)
   presentations: Presentation[]
 
-  @ManyToMany(
-    type => Message,
-    message => message.credentials,
-  )
+  @ManyToMany((type) => Message, (message) => message.credentials)
   messages: Message[]
 }

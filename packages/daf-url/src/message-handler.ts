@@ -6,6 +6,9 @@ const debug = Debug('daf:url:message-handler')
 
 export class UrlMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, agent: Agent): Promise<Message> {
+    if (!message.raw) {
+      throw new Error('Message without raw')
+    }
     const parsed = parse(message.raw, true)
 
     if (parsed && parsed.query && parsed.query.c_i) {

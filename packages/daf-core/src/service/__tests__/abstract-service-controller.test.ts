@@ -1,12 +1,14 @@
-import { AbstractServiceController } from '../abstract-service-controller'
-import { ServiceEventTypes } from '../service-manager'
-import { AbstractIdentity } from '../../identity/abstract-identity'
-import { Resolver } from '../../agent'
-import { Message } from '../../entities/message'
+// import { AbstractServiceController } from '../abstract-service-controller'
+// import { ServiceEventTypes } from '../service-manager'
+// import { AbstractIdentity } from '../../identity/abstract-identity'
+// import { Resolver } from '../../agent'
+// import { Message } from '../../entities/message'
+import util from 'util'
 
 describe('dummy', () => {
   const a = 100
   it('should run a dummy test', () => {
+    util.inspect(a)
     expect(a).toEqual(100)
   })
 })

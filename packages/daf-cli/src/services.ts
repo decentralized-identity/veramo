@@ -7,12 +7,12 @@ program
   .command('listen')
   .description('Receive new messages and listen for new ones')
   .option('-i, --interval <seconds>', 'Poll for new messages with interval of <seconds>')
-  .action(async cmd => {
+  .action(async (cmd) => {
     await listen(cmd.interval)
   })
 
 export const listen = async (pollSeconds?: number) => {
-  (await agent).on(EventTypes.savedMessage, async (msg: Message) => {
+  ;(await agent).on(EventTypes.savedMessage, async (msg: Message) => {
     console.log('New message type:', msg.type)
   })
 

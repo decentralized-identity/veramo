@@ -1,14 +1,5 @@
 import { blake2bHex } from 'blakejs'
-import {
-  Entity,
-  Column,
-  BaseEntity,
-  ManyToOne,
-  JoinTable,
-  PrimaryColumn,
-  BeforeInsert,
-  ManyToMany,
-} from 'typeorm'
+import { Entity, Column, BaseEntity, ManyToOne, JoinTable, PrimaryColumn, ManyToMany } from 'typeorm'
 import { Identity } from './identity'
 import { Message } from './message'
 import { Credential } from './credential'
@@ -30,24 +21,16 @@ export class Presentation extends BaseEntity {
     return this._raw
   }
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.issuedPresentations,
-    {
-      cascade: ['insert'],
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.issuedPresentations, {
+    cascade: ['insert'],
+    eager: true,
+  })
   issuer: Identity
 
-  @ManyToMany(
-    type => Identity,
-    identity => identity.receivedPresentations,
-    {
-      cascade: ['insert'],
-      eager: true,
-    },
-  )
+  @ManyToMany((type) => Identity, (identity) => identity.receivedPresentations, {
+    cascade: ['insert'],
+    eager: true,
+  })
   @JoinTable()
   audience: Identity[]
 
@@ -66,19 +49,12 @@ export class Presentation extends BaseEntity {
   @Column('simple-array')
   type: string[]
 
-  @ManyToMany(
-    type => Credential,
-    credential => credential.presentations,
-    {
-      cascade: true,
-    },
-  )
+  @ManyToMany((type) => Credential, (credential) => credential.presentations, {
+    cascade: true,
+  })
   @JoinTable()
   credentials: Credential[]
 
-  @ManyToMany(
-    type => Message,
-    message => message.presentations,
-  )
+  @ManyToMany((type) => Message, (message) => message.presentations)
   messages: Message[]
 }

@@ -1,6 +1,5 @@
 import { Message, Agent } from 'daf-core'
 import { JwtMessageHandler } from '../index'
-import { blake2bHex } from 'blakejs'
 
 describe('daf-did-jwt', () => {
   const vcJwt =

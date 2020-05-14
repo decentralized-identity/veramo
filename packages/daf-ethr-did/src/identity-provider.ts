@@ -1,7 +1,6 @@
 import {
   AbstractIdentityProvider,
   AbstractIdentity,
-  Resolver,
   AbstractIdentityStore,
   AbstractKeyManagementSystem,
   SerializedIdentity,
@@ -22,13 +21,13 @@ export function toEthereumAddress(hexPublicKey: string): string {
 export class IdentityProvider extends AbstractIdentityProvider {
   public type = 'ethr-did'
   public description = 'identities'
-  private network: string
-  private web3Provider?: any
-  private rpcUrl?: string
-  private kms: AbstractKeyManagementSystem
-  private identityStore: AbstractIdentityStore
-  private gas?: number
-  private ttl?: number
+  private readonly network: string
+  private readonly web3Provider?: any
+  private readonly rpcUrl?: string
+  private readonly kms: AbstractKeyManagementSystem
+  private readonly identityStore: AbstractIdentityStore
+  private readonly gas?: number
+  private readonly ttl?: number
   private registry?: string
 
   constructor(options: {

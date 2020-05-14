@@ -3,8 +3,6 @@ import { Resolver } from '../agent'
 import { AbstractServiceController, ServiceControllerDerived } from './abstract-service-controller'
 import { AbstractIdentity } from '../identity/abstract-identity'
 import { Message } from '../entities/message'
-import Debug from 'debug'
-const debug = Debug('daf:service-manager')
 
 export enum ServiceEventTypes {
   NewMessages = 'NewMessages',
@@ -59,7 +57,7 @@ export class ServiceManager extends EventEmitter {
     let result: Message[] = []
     for (const instance of this.controllerInstances) {
       const { id, type, did } = instance.instanceId()
-      const found = ts.find(i => i.did === did && i.id === id && i.type === type)
+      const found = ts.find((i) => i.did === did && i.id === id && i.type === type)
       let since = found ? found.timestamp : 0
       const messages = await instance.getMessagesSince(since)
       result = result.concat(messages)

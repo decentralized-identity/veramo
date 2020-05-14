@@ -15,12 +15,12 @@ export class SecretBox extends AbstractSecretBox {
     const secretKey = sodium.to_hex(boxKeyPair.privateKey)
     return secretKey
   }
-  
+
   async encrypt(message: string): Promise<string> {
     await sodium.ready
     const nonce = sodium.randombytes_buf(sodium.crypto_secretbox_NONCEBYTES)
     const cipherText = sodium.crypto_secretbox_easy(message, nonce, sodium.from_hex(this.secretKey))
-    return sodium.to_hex(new Uint8Array([ ...nonce, ...cipherText ]))
+    return sodium.to_hex(new Uint8Array([...nonce, ...cipherText]))
   }
 
   async decrypt(encryptedMessageHex: string): Promise<string> {
@@ -28,11 +28,8 @@ export class SecretBox extends AbstractSecretBox {
     const cipherTextWithNonce = sodium.from_hex(encryptedMessageHex)
     const nonce = cipherTextWithNonce.slice(0, sodium.crypto_secretbox_NONCEBYTES)
     const cipherText = cipherTextWithNonce.slice(sodium.crypto_secretbox_NONCEBYTES)
-    return sodium.to_string(sodium.crypto_secretbox_open_easy(
-      cipherText,
-      nonce,
-      sodium.from_hex(this.secretKey)
-      ))
+    return sodium.to_string(
+      sodium.crypto_secretbox_open_easy(cipherText, nonce, sodium.from_hex(this.secretKey)),
+    )
   }
-
 }

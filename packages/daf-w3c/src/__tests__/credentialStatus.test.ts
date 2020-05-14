@@ -1,7 +1,5 @@
 import { W3cActionHandler, ActionTypes, ActionSignW3cVc } from '../index'
 import { SimpleSigner, decodeJWT } from 'did-jwt'
-import { Resolver } from 'did-resolver'
-import { ActionSignW3cVp } from '../action-handler'
 import { Credential } from 'daf-core'
 
 const privateKey = 'a285ab66393c5fdda46d6fbad9e27fafd438254ab72ad5acb681a0e9f20f5d7b'

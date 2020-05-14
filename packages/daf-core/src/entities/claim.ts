@@ -7,29 +7,18 @@ export class Claim extends BaseEntity {
   @PrimaryColumn()
   hash: string
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.issuedClaims,
-    {
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.issuedClaims, {
+    eager: true,
+  })
   issuer: Identity
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.receivedClaims,
-    {
-      eager: true,
-      nullable: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.receivedClaims, {
+    eager: true,
+    nullable: true,
+  })
   subject?: Identity
 
-  @ManyToOne(
-    type => Credential,
-    credential => credential.claims,
-  )
+  @ManyToOne((type) => Credential, (credential) => credential.claims)
   credential: Credential
 
   @Column()

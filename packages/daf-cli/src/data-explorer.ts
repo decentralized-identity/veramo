@@ -10,9 +10,12 @@ program
   .description('Explore data store')
   .option('-i, --identities', 'List known identities')
   .option('-m, --messages', 'List messages')
-  .action(async cmd => {
+  .action(async (cmd) => {
+    const dbConnection = await (await agent).dbConnection
+    if (!dbConnection) {
+      throw new Error('A database connection is required')
+    }
     if (cmd.identities) {
-      const dbConnection = await (await agent).dbConnection
       const ids = await dbConnection.getRepository(Daf.Identity).find()
       if (ids.length === 0) {
         console.error('No dids')
@@ -21,7 +24,7 @@ program
 
       const identities = []
       for (const id of ids) {
-        const name = await id.getLatestClaimValue((await agent).dbConnection, {type: 'name'})
+        const name = await id.getLatestClaimValue(dbConnection, { type: 'name' })
         identities.push({
           value: id.did,
           name: `${id.did} - ${name || id.shortDid()}`,
@@ -45,20 +48,19 @@ program
 
       switch (answers.type) {
         case 'Sent Messages':
-          showMessageList(await Daf.Message.find({ where: { from: answers.did } }))
+          await showMessageList(await Daf.Message.find({ where: { from: answers.did } }))
           break
         case 'Received Messages':
-          showMessageList(await Daf.Message.find({ where: { to: answers.did } }))
+          await showMessageList(await Daf.Message.find({ where: { to: answers.did } }))
           break
         case 'Credentials':
-          showCredentials(answers.did)
+          await showCredentials(answers.did)
           break
       }
     }
 
     if (cmd.messages) {
-      const dbConnection = await (await agent).dbConnection
-      showMessageList(await dbConnection.getRepository(Daf.Message).find())
+      await showMessageList(await dbConnection.getRepository(Daf.Message).find())
     }
   })
 
@@ -73,7 +75,7 @@ const showMessageList = async (messages: Daf.Message[]) => {
       type: 'list',
       name: 'id',
       choices: messages.map((item: Daf.Message) => ({
-        name: `${formatDistanceToNow(item.createdAt)} ${item.type} from: ${item.from?.did} to: ${
+        name: `${formatDistanceToNow(item.createdAt || 0)} ${item.type} from: ${item.from?.did} to: ${
           item.to?.did
         }`,
         value: item.id,
@@ -81,20 +83,30 @@ const showMessageList = async (messages: Daf.Message[]) => {
       message: 'Message',
     },
   ])
-  showMessage(answers.id)
+  await showMessage(answers.id)
 }
 
 const showMessage = async (id: string) => {
   const dbConnection = await (await agent).dbConnection
-  const message = await dbConnection.getRepository(Daf.Message)
-    .findOne(id, {relations: ['credentials', 'credentials.claims']})
-  console.log(message)
+  if (!dbConnection) {
+    throw new Error('A database connection is required')
+  }
+  const message = await dbConnection
+    .getRepository(Daf.Message)
+    .findOne(id, { relations: ['credentials', 'credentials.claims'] })
+
+  if (!message) {
+    throw new Error(`Message with id ${id} could not be found`)
+  }
 
   const table = []
-  
+
   if (message.credentials.length > 0) {
     for (const credential of message.credentials) {
       const issuer = credential.issuer.shortDid()
+      if (!credential.subject) {
+        throw new Error('Credential does not have a subject')
+      }
       const subject = credential.subject.shortDid()
       for (const claim of credential.claims) {
         table.push({
@@ -113,13 +125,17 @@ const showMessage = async (id: string) => {
 const showCredentials = async (did: string) => {
   const table = []
   const dbConnection = await (await agent).dbConnection
-
-  const credentials = await dbConnection.getRepository(Daf.Credential)
-    .find({ where: { subject: did } })
+  if (!dbConnection) {
+    throw new Error('A database connection is required')
+  }
+  const credentials = await dbConnection.getRepository(Daf.Credential).find({ where: { subject: did } })
 
   if (credentials.length > 0) {
     for (const credential of credentials) {
       const issuer = credential.issuer.shortDid()
+      if (!credential.subject) {
+        throw new Error('Credential does not have a subject')
+      }
       const subject = credential.subject.shortDid()
       for (const claim of credential.claims) {
         table.push({

@@ -5,7 +5,6 @@ import { W3cGql } from 'daf-w3c'
 import { TrustGraphGql } from 'daf-trust-graph'
 import { DIDCommGql } from 'daf-did-comm'
 import { SdrGql } from 'daf-selective-disclosure'
-import merge from 'lodash.merge'
 import { agent } from './setup'
 import { listen } from './services'
 import { getConfiguration } from './config'
@@ -16,7 +15,7 @@ program
   .option('-p, --port <port>', 'Port')
   .option('-l, --listen', 'Listen for new messages')
   .option('-i, --interval <seconds>', 'Poll for new messages with interval of <seconds>')
-  .action(async cmd => {
+  .action(async (cmd) => {
     await agent
     const { graphql } = getConfiguration()
     const typeDefs = [Gql.baseTypeDefs, Gql.Core.typeDefs]
@@ -58,8 +57,8 @@ program
             throw Error('Auth error')
           }
         }
-    
-        return { agent: (await agent) }
+
+        return { agent: await agent }
       },
       introspection: true,
     })

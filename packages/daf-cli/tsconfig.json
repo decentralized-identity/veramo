@@ -1,9 +1,12 @@
 {
   "extends": "../tsconfig.settings.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "build"
+    "outDir": "./build",
+    "baseUrl": ".",
+    "rootDir": "src"
   },
+  "include": ["**/src/**/*"],
+  "exclude": ["**/build/**/*", "**/__tests__/**/*"],
   "references": [
     { "path": "../daf-core" },
     { "path": "../daf-did-comm" },

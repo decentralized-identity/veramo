@@ -11,7 +11,7 @@ import { SdrActionHandler, SdrMessageHandler } from 'daf-selective-disclosure'
 import { TrustGraphActionHandler, TrustGraphServiceController } from 'daf-trust-graph'
 import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
 import { UrlMessageHandler } from 'daf-url'
-import { createConnection, ConnectionOptions } from 'typeorm'
+import { createConnection } from 'typeorm'
 import { migrations } from './migrations'
 const fs = require('fs')
 import ws from 'ws'
@@ -75,7 +75,7 @@ const setupAgent = async (): Promise<Daf.Agent> => {
               dbConnection,
             ),
             kms: new KeyManagementSystem(
-              new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY)),
+              new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY || 's3cr3t')),
             ),
             network: identityProviderConfig.network,
             rpcUrl: identityProviderConfig.rpcUrl,
@@ -94,7 +94,7 @@ const setupAgent = async (): Promise<Daf.Agent> => {
               dbConnection,
             ),
             kms: new KeyManagementSystem(
-              new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY)),
+              new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY || 's3cr3t')),
             ),
             apiUrl: identityProviderConfig.apiUrl,
             network: identityProviderConfig.network,

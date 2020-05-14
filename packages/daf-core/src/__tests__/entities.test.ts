@@ -1,5 +1,5 @@
 import { createConnection, Connection, In, Raw } from 'typeorm'
-import { Identity, Key, Message, Credential, Presentation, Claim } from '../index'
+import { Identity, Message, Credential, Presentation, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import fs from 'fs'
@@ -33,7 +33,7 @@ describe('daf-core', () => {
     await identity.save()
 
     const fromDb = await Identity.findOne(identity.did)
-    expect(fromDb.did).toEqual(identity.did)
+    expect(fromDb?.did).toEqual(identity.did)
   })
 
   it('Saves credential with claims', async () => {
@@ -64,11 +64,11 @@ describe('daf-core', () => {
     const credential = await Credential.findOne(vc.hash, {
       relations: ['issuer', 'subject', 'claims', 'claims.issuer', 'claims.subject'],
     })
-    expect(credential.issuer.did).toEqual(id1.did)
-    expect(credential.subject.did).toEqual(id2.did)
-    expect(credential.claims.length).toEqual(3)
-    expect(credential.claims[0].issuer.did).toEqual(id1.did)
-    expect(credential.claims[0].subject.did).toEqual(id2.did)
+    expect(credential?.issuer.did).toEqual(id1.did)
+    expect(credential?.subject?.did).toEqual(id2.did)
+    expect(credential?.claims.length).toEqual(3)
+    expect(credential?.claims[0].issuer.did).toEqual(id1.did)
+    expect(credential?.claims[0].subject?.did).toEqual(id2.did)
     // TODO
   })
 
@@ -139,10 +139,10 @@ describe('daf-core', () => {
       ],
     })
 
-    expect(message.credentials.length).toEqual(1)
-    expect(message.credentials[0].claims.length).toEqual(3)
-    expect(message.presentations.length).toEqual(1)
-    expect(message.presentations[0].credentials.length).toEqual(1)
+    expect(message?.credentials.length).toEqual(1)
+    expect(message?.credentials[0].claims.length).toEqual(3)
+    expect(message?.presentations.length).toEqual(1)
+    expect(message?.presentations[0].credentials.length).toEqual(1)
 
     let where = {}
 
@@ -159,8 +159,8 @@ describe('daf-core', () => {
     expect(claims[0].value).toEqual('Alice')
 
     const presentations = await Presentation.find({
-      relations: ["audience"],
-      where: Raw((alias) => `audience.did = "did:test:333"`)
+      relations: ['audience'],
+      where: Raw((alias) => `audience.did = "did:test:333"`),
     })
 
     expect(presentations.length).toEqual(1)
@@ -177,7 +177,7 @@ describe('daf-core', () => {
 
     const fromDb = await Message.findOne(customId)
 
-    expect(fromDb.id).toEqual(customId)
-    expect(fromDb.type).toEqual('custom')
+    expect(fromDb?.id).toEqual(customId)
+    expect(fromDb?.type).toEqual('custom')
   })
 })

@@ -27,13 +27,13 @@ export class Identity extends AbstractIdentity {
   }
 
   async keyById(kid: string) {
-    const serializedKey = this.serializedIdentity.keys.find(item => item.kid === kid)
+    const serializedKey = this.serializedIdentity.keys.find((item) => item.kid === kid)
     if (!serializedKey) throw Error('Key not found')
     return this.kms.getKey(serializedKey.kid)
   }
 
   async keyByType(type: string) {
-    const serializedKey = this.serializedIdentity.keys.find(item => item.type === type)
+    const serializedKey = this.serializedIdentity.keys.find((item) => item.type === type)
     if (!serializedKey) throw Error('Key not found')
     return this.kms.getKey(serializedKey.kid)
   }

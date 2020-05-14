@@ -71,6 +71,6 @@ export class IdentityStore extends AbstractIdentityStore {
     const identities = await (await this.dbConnection)
       .getRepository(Identity)
       .find({ where: { provider: this.provider } })
-    return identities.map(identity => identity.did)
+    return identities.map((identity) => identity.did)
   }
 }
