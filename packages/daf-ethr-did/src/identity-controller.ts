@@ -78,7 +78,7 @@ export class IdentityController extends AbstractIdentityController {
       const txHash = await ethrDid.setAttribute(attribute, value, ttl, gas)
       debug({ txHash })
       serializedIdentity.keys.push(key.serialized)
-      this.identityStore.set(serializedIdentity.did, serializedIdentity)
+      await this.identityStore.set(serializedIdentity.did, serializedIdentity)
       return true
     } catch (e) {
       debug(e.message)
