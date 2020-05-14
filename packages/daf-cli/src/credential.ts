@@ -141,7 +141,11 @@ program
       },
     ]
     for (const id of ids) {
-      const name = await id.getLatestClaimValue((await agent).dbConnection, { type: 'name' })
+      const dbConnection = await (await agent).dbConnection
+      if (!dbConnection) {
+        throw new Error('A database connection is required')
+      }
+      const name = await id.getLatestClaimValue(dbConnection, { type: 'name' })
       identities.push({
         value: id.did,
         name: `${id.did} - ${name}`,

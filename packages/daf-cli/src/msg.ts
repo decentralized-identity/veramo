@@ -1,4 +1,3 @@
-import * as Daf from 'daf-core'
 import { agent } from './setup'
 import program from 'commander'
 
