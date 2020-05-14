@@ -16,6 +16,7 @@ import NavigationLeft from './NavigationLeft'
 
 import Credential from '../components/Credential/Credential'
 import RequestDetail from '../components/Request/Request'
+import Settings from '../views/Settings/Settings'
 
 import * as queries from '../gql/queries'
 
@@ -57,6 +58,9 @@ const Dashboard: React.FC<DashboardProps> = () => {
             </Route>
             <Route path="/connections">
               <Connections />
+            </Route>
+            <Route path="/settings">
+              <Settings />
             </Route>
           </Switch>
         </Box>

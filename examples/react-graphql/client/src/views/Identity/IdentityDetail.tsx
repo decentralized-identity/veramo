@@ -11,7 +11,7 @@ interface IdentityDetail {}
 const Component: React.FC<IdentityDetail> = () => {
   let { id } = useParams()
   let history = useHistory()
-  const [appState, setDefaultDid] = useContext(AppContext)
+  const { appState, setDefaultDid } = useContext(AppContext)
   const { defaultDid } = appState
   const [deleteIdentity] = useMutation(mutations.deleteIdentity, {
     refetchQueries: [{ query: queries.managedIdentities }],
@@ -46,7 +46,7 @@ const Component: React.FC<IdentityDetail> = () => {
               ? 'This is your current default identity'
               : 'Set this DID as the default identity'}
           </Text>
-          <Button mt={3} mb={3} mr={3} onClick={() => setDefaultDid(id)} disabled={defaultDid === id}>
+          <Button mt={3} mb={3} mr={3} onClick={() => setDefaultDid(id || '')} disabled={defaultDid === id}>
             Set as default
           </Button>
         </Box>
