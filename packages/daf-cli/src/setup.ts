@@ -27,7 +27,6 @@ const writeDefaultEnv = async () => {
   }
 
   if (!fs.existsSync(envFile)) {
-    console.log('Environment file does not exist. Creating: ' + envFile)
     let env = 'DAF_DATA_STORE=' + defaultPath + 'database-v2.sqlite'
     env += '\nDAF_DEBUG_DB=false'
     env += '\nDAF_SECRET_KEY=' + (await SecretBox.createSecretKey())

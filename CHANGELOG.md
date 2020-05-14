@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.6.0](https://github.com/uport-project/daf/compare/v5.5.2...v5.6.0) (2020-05-14)
+
+
+### Features
+
+* Docker image and docker-compose example ([84ddcad](https://github.com/uport-project/daf/commit/84ddcad8b54fec0b53297cbfe11275af06922cd6))
+
+
+
+
+
 ## [5.5.2](https://github.com/uport-project/daf/compare/v5.5.1...v5.5.2) (2020-05-14)
 
 
