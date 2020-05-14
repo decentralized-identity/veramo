@@ -33,7 +33,7 @@ interface Config {
 }
 
 export class Agent extends EventEmitter {
-  readonly dbConnection: Promise<Connection>
+  readonly dbConnection?: Promise<Connection>
   public identityManager: IdentityManager
   public didResolver: Resolver
   private serviceManager: ServiceManager
@@ -42,7 +42,7 @@ export class Agent extends EventEmitter {
 
   constructor(config: Config) {
     super()
-    this.dbConnection = config.dbConnection || null
+    this.dbConnection = config.dbConnection
 
     this.identityManager = new IdentityManager({
       identityProviders: config.identityProviders,
@@ -80,12 +80,18 @@ export class Agent extends EventEmitter {
     const result: Message[] = []
     for (const message of messages) {
       try {
+        if (!message.raw) {
+          debug('Skipping message due to a missing raw: %o', message)
+          continue
+        }
         const validMessage = await this.handleMessage({
           raw: message.raw,
           metaData: message.metaData,
         })
         result.push(validMessage)
-      } catch (e) {}
+      } catch (e) {
+        debug('Skipping message due to a handler error: %o', e)
+      }
     }
 
     return result
@@ -114,7 +120,11 @@ export class Agent extends EventEmitter {
 
       debug('Validated message %o', message)
       if (save) {
-        await (await this.dbConnection).getRepository(Message).save(message)
+        const dbConnection = await this.dbConnection
+        if (!dbConnection) {
+          return Promise.reject('A database connection is required to save messages')
+        }
+        await dbConnection.getRepository(Message).save(message)
         debug('Emitting event', EventTypes.savedMessage)
         this.emit(EventTypes.savedMessage, message)
       }
