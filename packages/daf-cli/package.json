@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "5.5.1",
+  "version": "5.5.2",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -18,10 +18,10 @@
     "daf-core": "^5.5.0",
     "daf-did-comm": "^5.5.0",
     "daf-did-jwt": "^5.5.0",
-    "daf-ethr-did": "^5.5.0",
+    "daf-ethr-did": "^5.5.2",
     "daf-fs": "^5.5.0",
     "daf-libsodium": "^5.5.0",
-    "daf-resolver": "^5.5.0",
+    "daf-resolver": "^5.5.2",
     "daf-resolver-universal": "^5.3.0",
     "daf-selective-disclosure": "^5.5.0",
     "daf-trust-graph": "^5.5.0",

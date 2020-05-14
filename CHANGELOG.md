@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.2](https://github.com/uport-project/daf/compare/v5.5.1...v5.5.2) (2020-05-14)
+
+
+### Bug Fixes
+
+* Pass ethr-did registry param down to the identity controller ([a0a2a98](https://github.com/uport-project/daf/commit/a0a2a98600f6a0c22105e5f9d7ab2a8d174d57c2))
+
+
+
+
+
 ## [5.5.1](https://github.com/uport-project/daf/compare/v5.5.0...v5.5.1) (2020-05-13)
 
 

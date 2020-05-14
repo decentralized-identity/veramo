@@ -22,3 +22,5 @@ lerna-debug.log
 identity-store.json
 key-store.json
 *.sqlite
+
+.vscode/
