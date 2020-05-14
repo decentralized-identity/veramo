@@ -73,6 +73,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
       address: toEthereumAddress(key.serialized.publicKeyHex),
       gas: this.gas,
       ttl: this.ttl,
+      registry: this.registry,
     })
 
     return new Identity({
