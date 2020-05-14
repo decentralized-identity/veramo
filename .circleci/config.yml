@@ -120,7 +120,6 @@ jobs:
           name: Push to dockerhub
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              docker push uport/daf:master
               docker push uport/daf:latest
             else
               docker push uport/daf:`echo ${CIRCLE_BRANCH} | sed 's/\//-/g'`
