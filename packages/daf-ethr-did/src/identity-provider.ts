@@ -28,6 +28,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
   private readonly identityStore: AbstractIdentityStore
   private readonly gas?: number
   private readonly ttl?: number
+  private registry?: string
 
   constructor(options: {
     kms: AbstractKeyManagementSystem
@@ -49,6 +50,7 @@ export class IdentityProvider extends AbstractIdentityProvider {
     this.description = 'did:ethr ' + options.network + ' ' + this.description
     this.ttl = options.ttl
     this.gas = options.gas
+    this.registry = options.registry
   }
 
   private async identityFromSerialized(serializedIdentity: SerializedIdentity): Promise<AbstractIdentity> {
