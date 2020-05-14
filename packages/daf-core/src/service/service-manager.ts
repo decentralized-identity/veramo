@@ -3,8 +3,6 @@ import { Resolver } from '../agent'
 import { AbstractServiceController, ServiceControllerDerived } from './abstract-service-controller'
 import { AbstractIdentity } from '../identity/abstract-identity'
 import { Message } from '../entities/message'
-import Debug from 'debug'
-const debug = Debug('daf:service-manager')
 
 export enum ServiceEventTypes {
   NewMessages = 'NewMessages',

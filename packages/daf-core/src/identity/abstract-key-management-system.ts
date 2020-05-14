@@ -15,7 +15,6 @@ interface EcdsaSignature {
 }
 // Placeholder:
 type Signer = (data: string) => Promise<EcdsaSignature | string>
-type EthSigner = (transaction: object) => string
 
 export abstract class AbstractKey {
   abstract serialized: SerializedKey
