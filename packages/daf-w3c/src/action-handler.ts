@@ -51,7 +51,11 @@ export class W3cActionHandler extends AbstractActionHandler {
         const decoded = decodeJWT(jwt)
         const presentation = createPresentation(decoded.payload as PresentationPayload, jwt, credentials)
         if (save) {
-          await (await agent.dbConnection).getRepository(Presentation).save(presentation)
+          const dbConnection = await agent.dbConnection
+          if (!dbConnection) {
+            throw new Error('A database connection is required to save')
+          }
+          await dbConnection.getRepository(Presentation).save(presentation)
         }
         return presentation
       } catch (error) {
@@ -72,7 +76,11 @@ export class W3cActionHandler extends AbstractActionHandler {
         const decoded = decodeJWT(jwt)
         const credential = createCredential(decoded.payload as VerifiableCredentialPayload, jwt)
         if (save) {
-          await (await agent.dbConnection).getRepository(Credential).save(credential)
+          const dbConnection = await agent.dbConnection
+          if (!dbConnection) {
+            throw new Error('A database connection is required to save')
+          }
+          await dbConnection.getRepository(Credential).save(credential)
         }
         return credential
       } catch (error) {
@@ -141,7 +149,7 @@ const transformCredentialInput = (input: CredentialInput): VerifiableCredentialP
         result['nbf'] = Date.parse(input[key]) / 1000
         break
       case 'expirationDate':
-        result['exp'] = Date.parse(input[key]) / 1000
+        result['exp'] = Date.parse(input[key] || '') / 1000
         break
       case 'id':
         result['jti'] = input[key]
@@ -173,7 +181,7 @@ const transformPresentationInput = (input: PresentationInput): PresentationPaylo
         result['nbf'] = Date.parse(input[key]) / 1000
         break
       case 'expirationDate':
-        result['exp'] = Date.parse(input[key]) / 1000
+        result['exp'] = Date.parse(input[key] || '') / 1000
         break
       case 'id':
         result['jti'] = input[key]

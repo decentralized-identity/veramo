@@ -48,12 +48,18 @@ export class W3cMessageHandler extends AbstractMessageHandler {
           message.threadId = message.data.tag
         }
 
+        if (!message.raw) {
+          throw new Error('Message without raw')
+        }
+
         message.createdAt = timestampToDate(message.data.nbf || message.data.iat)
         message.presentations = [createPresentation(data, message.raw, credentials)]
         message.credentials = credentials
 
         return message
-      } catch (e) {}
+      } catch (e) {
+        debug('Error modifying the message: %o', e)
+      }
 
       try {
         validateVerifiableCredentialAttributes(message.data)
@@ -72,10 +78,16 @@ export class W3cMessageHandler extends AbstractMessageHandler {
           message.threadId = message.data.tag
         }
 
+        if (!message.raw) {
+          throw new Error('Message without raw')
+        }
+
         message.createdAt = timestampToDate(message.data.nbf || message.data.iat)
         message.credentials = [createCredential(message.data, message.raw)]
         return message
-      } catch (e) {}
+      } catch (e) {
+        debug('Error modifying the message: %o', e)
+      }
     }
 
     return super.handle(message, agent)
