@@ -7,22 +7,22 @@ jest.mock('did-jwt-vc', () => ({
   decodeJWT: jest.fn(),
 }))
 
-import { W3cActionHandler, ActionTypes, ActionSignW3cVc, ActionSignW3cVp } from '../index'
+import { ActionTypes } from '../index'
 
-const mockDid = 'did:example:123'
+// const mockDid = 'did:example:123'
+//
+// const mockSigner = jest.fn()
 
-const mockSigner = jest.fn()
-
-const mockAgent = {
-  identityManager: {
-    getIdentity: async (did: string) => ({
-      did: mockDid,
-      keyByType: async (type: string) => ({
-        signer: () => mockSigner,
-      }),
-    }),
-  },
-}
+// const mockAgent = {
+//   identityManager: {
+//     getIdentity: async (did: string) => ({
+//       did: mockDid,
+//       keyByType: async (type: string) => ({
+//         signer: () => mockSigner,
+//       }),
+//     }),
+//   },
+// }
 
 describe('daf-w3c', () => {
   it('handles ' + ActionTypes.signCredentialJwt, async () => {

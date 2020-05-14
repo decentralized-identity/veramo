@@ -27,5 +27,6 @@
     "strictNullChecks": true,
     "strictBindCallApply": true
   },
-  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
+  "include": ["**/src/**/*", "**/tests/**/*.ts"],
+  "exclude": ["**/build/**/*"]
 }

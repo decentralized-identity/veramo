@@ -48,7 +48,7 @@ it('can throw an error', async () => {
   const msg = new Message({ raw: 'mock', metaData: [{ type: 'test3' }] })
   const Handler = new MockMessageHandlerWithError()
   try {
-    const handled = await Handler.handle(msg, agent)
+    await Handler.handle(msg, agent)
   } catch (e) {
     expect(e !== unsupportedMessageTypeError).toEqual(true)
   }

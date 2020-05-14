@@ -1,9 +1,8 @@
-import { createConnection, Connection, In } from 'typeorm'
-import { Identity, Key, Message, Credential, Presentation, Claim } from '../index'
+import { createConnection, Connection } from 'typeorm'
+import { Identity, Message, Credential, Presentation } from '../index'
 import { Entities, Gql, Agent, Resolver } from '../index'
 import { DafResolver } from 'daf-resolver'
 import fs from 'fs'
-import { resolvers } from '../graphql/graphql-identity-manager'
 import { FindArgs } from '../graphql/graphql-core'
 
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -277,7 +276,7 @@ describe('daf-core entities', () => {
     expect(claims[0].credential.hash).toBe(
       '616858dd40c4ca838e9a94a368613a057871761d5940e3b57b4f17591799e7d3e5bbe3b7e9b2cb582406737997fe79f99a609c455ee3cd5d5a95b31db7e1c3c7',
     )
-    const agent2 = makeAgent()
+    // const agent2 = makeAgent()
     const authenticatedDid = 'did:test:333'
 
     const claims2 = await Gql.Core.resolvers.Query.claims({}, query, { agent, authenticatedDid })
@@ -291,11 +290,11 @@ describe('daf-core entities', () => {
     }
 
     const message = await Gql.Core.resolvers.Query.message({}, query, { agent })
-    expect(message.raw).toBe('mock')
+    expect(message?.raw).toBe('mock')
     let authenticatedDid = 'did:test:111'
 
     const message2 = await Gql.Core.resolvers.Query.message({}, query, { agent, authenticatedDid })
-    expect(message.raw).toBe('mock')
+    expect(message2?.raw).toBe('mock')
 
     authenticatedDid = 'did:test:333'
 
