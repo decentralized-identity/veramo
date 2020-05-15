@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.3](https://github.com/uport-project/daf/compare/v5.6.2...v5.6.3) (2020-05-15)
+
+
+### Bug Fixes
+
+* Another missing await ([b924f92](https://github.com/uport-project/daf/commit/b924f925ad47810aaa43876cef0d49a42e6d126f))
+* Missing await ([9c36f84](https://github.com/uport-project/daf/commit/9c36f8415f27c91824af97bbc6e2415aba9c5feb))
+
+
+
+
+
 ## [5.5.2](https://github.com/uport-project/daf/compare/v5.5.1...v5.5.2) (2020-05-14)
 
 
