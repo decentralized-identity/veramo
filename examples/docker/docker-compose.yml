@@ -11,6 +11,7 @@ services:
       - DAF_GRAPHQL_API_KEY=
       - DAF_INFURA_ID=5ffc47f65c4042ce847ef66a3fa70d4c
       - DAF_SECRET_KEY=d72629cfd01e8e64762808a37e29d63103ef5cb7e92888afb9d4c0a6426c933e
+      - DAF_UNIVERSAL_RESOLVER_URL=https://uniresolver.io/1.0/identifiers/
     command:
       [
         "graphql",
