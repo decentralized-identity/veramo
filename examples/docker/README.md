@@ -1,5 +1,7 @@
 # Usage
 
+Download config.js and docker-compose.yml and store in the same directory before launching the following commands:
+
 ## Pull latest docker image
 
 ```
