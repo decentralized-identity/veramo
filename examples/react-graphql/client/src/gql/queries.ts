@@ -25,6 +25,31 @@ export const credential = gql`
   }
 `
 
+export const credentials = gql`
+  query credentials($subject: String!) {
+    credentials(input: { where: [{ column: subject, value: $subject }] }) {
+      hash
+      issuanceDate
+      expirationDate
+      claims {
+        type
+        value
+        isObj
+      }
+      issuer {
+        did
+        shortId: shortDid
+        profileImage: latestClaimValue(type: "profileImage")
+      }
+      subject {
+        did
+        shortId: shortDid
+        profileImage: latestClaimValue(type: "profileImage")
+      }
+    }
+  }
+`
+
 export const identity = gql`
   query identity($did: String!) {
     identity(did: $did) {

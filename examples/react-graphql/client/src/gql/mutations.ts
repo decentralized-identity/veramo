@@ -15,8 +15,8 @@ export const deleteIdentity = gql`
 `
 
 export const signCredentialJwt = gql`
-  mutation signCredentialJwt($data: SignCredentialInput!) {
-    signCredentialJwt(data: $data) {
+  mutation signCredentialJwt($data: SignCredentialInput!, $save: Boolean) {
+    signCredentialJwt(data: $data, save: $save) {
       raw
     }
   }

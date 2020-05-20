@@ -46,9 +46,9 @@ const Component = () => {
             type: ['VerifiableCredential'],
             credentialSubject,
           },
+          save: true,
         },
       })
-      console.log(data)
       setSignedVC(data.signCredentialJwt.raw)
     } catch (e) {}
   }

@@ -12,7 +12,7 @@ import { AppContext } from '../../context/AppProvider'
 const Component = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
-  const [highlightedIdentity, highlightIdentity] = useState()
+  const [highlightedIdentity, highlightIdentity] = useState<string>()
   const { appState, setDefaultDid } = useContext(AppContext)
   const { defaultDid } = appState
   const { data: managedIdentitiesData } = useQuery(queries.managedIdentities)
