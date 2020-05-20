@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Box, Button, Field, Text, Form, Flex, Input, Loader, ToastMessage } from 'rimble-ui'
+import { Box, Button, Field, Text, Form, Flex, Input, Loader, ToastMessage, QR } from 'rimble-ui'
 import Page from '../../layout/Page'
 import Panel from '../../components/Panel/Panel'
 import { AppContext } from '../../context/AppProvider'
@@ -19,6 +19,7 @@ const Component = () => {
   const [receiver, setReceiver] = useState('did:web:uport.me')
   const [claimType, setClaimType] = useState('name')
   const [claimValue, setClaimValue] = useState('Alice')
+  const [signedVC, setSignedVC] = useState<any>(null)
   const [signVc] = useMutation(mutations.signCredentialJwt)
   const [sendMessageDidCommAlpha1] = useMutation(mutations.sendMessageDidCommAlpha1, {
     refetchQueries: [
@@ -29,8 +30,8 @@ const Component = () => {
     ],
   })
 
-  const send = async () => {
-    setIsSending(true)
+  const signVC = async (e: any) => {
+    e.preventDefault()
 
     try {
       const credentialSubject: any = {}
@@ -45,18 +46,31 @@ const Component = () => {
             type: ['VerifiableCredential'],
             credentialSubject,
           },
+          save: true,
         },
       })
+      setSignedVC(data.signCredentialJwt.raw)
+    } catch (e) {}
+  }
 
-      console.log(data)
+  const send = async (e: any) => {
+    e.preventDefault()
 
+    if (!signedVC) {
+      return
+    }
+
+    setIsSending(true)
+
+    try {
+      console.log(signedVC)
       const { data: dataSend } = await sendMessageDidCommAlpha1({
         variables: {
           data: {
             from: appState.defaultDid,
             to: receiver,
             type: 'jwt',
-            body: data.signCredentialJwt.raw,
+            body: signedVC,
           },
         },
       })
@@ -71,16 +85,11 @@ const Component = () => {
     setIsSending(false)
   }
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    send()
-  }
-
   return (
     <Page title={'Issue Credential'} padding={3}>
       <Panel heading={'Credential form'}>
         <Box p={3}>
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Field label="Sender" required>
               <Text>{appState.defaultDid}</Text>
             </Field>
@@ -130,8 +139,25 @@ const Component = () => {
               </Box>
             </Flex>
 
+            {signedVC && (
+              <Box p={3} border={10} borderColor={'#FFFFFF'}>
+                <QR size={300} value={signedVC} />
+              </Box>
+            )}
+
             <Flex flexWrap={'wrap'}>
-              {isSending ? <Loader size="40px" /> : <Button type="submit">Sign and send</Button>}
+              {isSending ? (
+                <Loader size="40px" />
+              ) : (
+                <Box>
+                  <Button type="submit" mr={4} onClick={signVC}>
+                    Sign
+                  </Button>
+                  <Button type="submit" disabled={!signedVC} onClick={send}>
+                    Send
+                  </Button>
+                </Box>
+              )}
             </Flex>
           </Form>
         </Box>
