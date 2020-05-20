@@ -15,6 +15,7 @@ import SidePanel from './SidePanel'
 import NavigationLeft from './NavigationLeft'
 
 import Credential from '../components/Credential/Credential'
+import CredentialList from '../components/Credential/CredentialList'
 import RequestDetail from '../components/Request/Request'
 import Settings from '../views/Settings/Settings'
 
@@ -76,6 +77,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
           <Route path="/identities/user/:id">
             <SidePanel title={'Identity'} closeUrl={'/identities'}>
               <IdentityDetail />
+              <CredentialList />
             </SidePanel>
           </Route>
           <Route
