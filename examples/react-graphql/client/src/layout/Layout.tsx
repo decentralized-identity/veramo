@@ -74,6 +74,23 @@ const Dashboard: React.FC<DashboardProps> = () => {
         */}
 
         <Switch>
+          <Route path="/connections/user/:id">
+            <SidePanel title={'Identity'} closeUrl={'/connections'}>
+              <CredentialList />
+            </SidePanel>
+          </Route>
+          <Route
+            exact
+            path="/activity/credential/:id"
+            component={() => (
+              <SidePanel
+                title={'Credential'}
+                closeUrl={'/activity'}
+                query={queries.credential}
+                renderQuery={renderCredentialQuery}
+              ></SidePanel>
+            )}
+          ></Route>
           <Route path="/identities/user/:id">
             <SidePanel title={'Identity'} closeUrl={'/identities'}>
               <IdentityDetail />
