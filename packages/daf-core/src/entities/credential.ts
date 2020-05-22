@@ -75,7 +75,7 @@ export class Credential extends BaseEntity {
   subject?: Identity
 
   @Column({ nullable: true })
-  id?: String
+  id?: string
 
   @Column()
   issuanceDate: Date
