@@ -46,6 +46,7 @@ program
       try {
         const providers = await (await agent).identityManager.getIdentityProviders()
         let type
+        let options
         if (providers.length > 1) {
           const answers = await inquirer.prompt([
             {
@@ -60,11 +61,22 @@ program
           ])
 
           type = answers.type
+
+          if (type === 'web-did') {
+            const answers2 = await inquirer.prompt([
+              {
+                type: 'input',
+                name: 'domain',
+                message: 'Enter domain',
+              },
+            ])
+            options = { domain: answers2.domain }
+          }
         }
-        const identity = await (await agent).identityManager.createIdentity(type)
+        const identity = await (await agent).identityManager.createIdentity(type, options)
         printTable([{ type: identity.identityProviderType, did: identity.did }])
       } catch (e) {
-        console.error(e)
+        console.error(e.message)
       }
     }
 
@@ -82,7 +94,10 @@ program
 
         const identity = await (await agent).identityManager.getIdentity(answers.did)
 
-        const result = await (await agent).identityManager.deleteIdentity(identity.identityProviderType, identity.did)
+        const result = await (await agent).identityManager.deleteIdentity(
+          identity.identityProviderType,
+          identity.did,
+        )
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
@@ -231,7 +246,10 @@ program
         ])
 
         const identity = await (await agent).identityManager.getIdentity(answers.did)
-        const secret = await (await agent).identityManager.exportIdentity(identity.identityProviderType, identity.did)
+        const secret = await (await agent).identityManager.exportIdentity(
+          identity.identityProviderType,
+          identity.did,
+        )
         console.log(secret)
       } catch (e) {
         console.error(e)

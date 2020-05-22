@@ -45,11 +45,11 @@ export class IdentityManager {
     }
   }
 
-  async createIdentity(identityProviderType?: string): Promise<AbstractIdentity> {
+  async createIdentity(identityProviderType?: string, options?: any): Promise<AbstractIdentity> {
     const identityProvider = identityProviderType
       ? this.getIdentityProvider(identityProviderType)
       : this.getDefaultIdentityProvider()
-    return identityProvider.createIdentity()
+    return identityProvider.createIdentity(options)
   }
 
   async importIdentity(identityProviderType: string, secret: string): Promise<AbstractIdentity> {
