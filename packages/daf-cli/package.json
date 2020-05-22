@@ -26,6 +26,7 @@
     "daf-selective-disclosure": "^5.6.4",
     "daf-trust-graph": "^5.6.4",
     "daf-url": "^5.6.4",
+    "daf-web-did": "^5.6.4",
     "daf-w3c": "^5.6.4",
     "date-fns": "^2.8.1",
     "debug": "^4.1.1",
