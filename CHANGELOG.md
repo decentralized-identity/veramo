@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
+
+
+### Bug Fixes
+
+* Credential id type ([39d8d18](https://github.com/uport-project/daf/commit/39d8d18ce7c87db179a4fcb73fc333c544ce841f))
+* Remove dup ([82629e1](https://github.com/uport-project/daf/commit/82629e13d49385cf7dfb562c7cc9bbe21cfd210c))
+
+
+### Features
+
+* Query credentials for did ([a39f956](https://github.com/uport-project/daf/commit/a39f9568e2b4ef3e8b0ee62f23c96451ca427cd4))
+* Show credentials on connections ([84abfa0](https://github.com/uport-project/daf/commit/84abfa0f2ea2c0e009692cf0ccd76a93c968f0ea))
+
+
+
+
+
 ## [5.6.3](https://github.com/uport-project/daf/compare/v5.6.2...v5.6.3) (2020-05-15)
 
 

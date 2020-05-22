@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
+
+
+### Bug Fixes
+
+* Credential id type ([39d8d18](https://github.com/uport-project/daf/commit/39d8d18ce7c87db179a4fcb73fc333c544ce841f))
+
+
+
+
+
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
 
 
