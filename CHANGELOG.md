@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.5](https://github.com/uport-project/daf/compare/v5.6.4...v5.6.5) (2020-05-25)
+
+
+### Bug Fixes
+
+* GraphQL orderBy ([bb06094](https://github.com/uport-project/daf/commit/bb060941fab367540d1fd8cdbc4ad6de51fb00ab))
+
+
+
+
+
 ## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
 
 
