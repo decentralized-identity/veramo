@@ -81,23 +81,23 @@ function opToSQL(item: Where): any[] {
   }
 }
 
-function  addAudienceQuery(input: FindInput, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
+function addAudienceQuery(input: FindInput, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
   if (!Array.isArray(input.where)) {
     return qb
   }
-  const audienceWhere = input.where.find((item) => item.column === "audience")
+  const audienceWhere = input.where.find(item => item.column === 'audience')
   if (!audienceWhere) {
     return qb
   }
   const [op, value] = opToSQL(audienceWhere)
-  return qb.andWhere(`audience.did ${op}`, {value})
+  return qb.andWhere(`audience.did ${op}`, { value })
 }
 
 function createWhereObject(input: FindInput): any {
   if (input?.where) {
     const where = {}
     for (const item of input.where) {
-      if (item.column === "audience") {
+      if (item.column === 'audience') {
         continue
       }
       switch (item.op) {
@@ -149,7 +149,7 @@ function createWhereObject(input: FindInput): any {
 
 function decorateQB(
   qb: SelectQueryBuilder<any>,
-  tablename: string,
+  tableName: string,
   input: FindInput,
 ): SelectQueryBuilder<any> {
   if (input?.skip) qb = qb.skip(input.skip)
@@ -157,7 +157,10 @@ function decorateQB(
 
   if (input?.order) {
     for (const item of input.order) {
-      qb = qb.orderBy(qb.connection.driver.escape(`${item.column}`), item.direction)
+      qb = qb.orderBy(
+        qb.connection.driver.escape(tableName) + '.' + qb.connection.driver.escape(item.column),
+        item.direction,
+      )
     }
   }
   return qb
@@ -268,7 +271,6 @@ const credentialsCount = async (_: any, args: FindArgs, ctx: Context) => {
   return (await credentialsQuery(_, args, ctx)).getCount()
 }
 
-
 const claimsQuery = async (_: any, args: FindArgs, ctx: Context) => {
   const where = createWhereObject(args.input)
   let qb = (await ctx.agent.dbConnection)
@@ -307,7 +309,7 @@ export const resolvers = {
       ctx: Context,
     ) => {
       if (ctx.authenticatedDid) {
-        const authMeta = {type: "sender", value: ctx.authenticatedDid};
+        const authMeta = { type: 'sender', value: ctx.authenticatedDid }
         if (Array.isArray(args.metaData)) {
           args.metaData.push(authMeta)
         } else {
