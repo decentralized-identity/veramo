@@ -38,10 +38,10 @@ export class IdentityController extends AbstractIdentityController {
   }
 
   async addService(service: { id: string; type: string; serviceEndpoint: string }): Promise<any> {
-    const ethrDid = new EthrDID({ 
+    const ethrDid = new EthrDID({
       address: this.address,
       provider: this.web3Provider,
-      registry: this.registry
+      registry: this.registry,
     })
 
     const attribute = 'did/svc/' + service.type
@@ -60,10 +60,10 @@ export class IdentityController extends AbstractIdentityController {
 
   async addPublicKey(type: 'Ed25519' | 'Secp256k1', proofPurpose?: string[]): Promise<any> {
     const serializedIdentity = await this.identityStore.get(this.did)
-    const ethrDid = new EthrDID({ 
+    const ethrDid = new EthrDID({
       address: this.address,
       provider: this.web3Provider,
-      registry: this.registry
+      registry: this.registry,
     })
 
     const key = await this.kms.createKey(type)

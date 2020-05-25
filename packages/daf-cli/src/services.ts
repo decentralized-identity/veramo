@@ -12,7 +12,7 @@ program
   })
 
 export const listen = async (pollSeconds?: number) => {
-  (await agent).on(EventTypes.savedMessage, async (msg: Message) => {
+  ;(await agent).on(EventTypes.savedMessage, async (msg: Message) => {
     console.log('New message type:', msg.type)
   })
 

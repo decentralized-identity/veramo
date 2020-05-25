@@ -1,1 +1,1 @@
-declare module 'blakejs';
+declare module 'blakejs'

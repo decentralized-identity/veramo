@@ -9,6 +9,7 @@
     "test": "jest --config=jest.json --maxWorkers=2",
     "test:watch": "jest --config=jest.json --watch",
     "daf": "./packages/daf-cli/bin/daf.js",
+    "prettier": "prettier --write '{packages,__tests__, !build}/**/*.ts'",
     "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo",
     "publish-beta": "yarn build && npx lerna publish --canary premajor --preid beta --pre-dist-tag beta"
   },
