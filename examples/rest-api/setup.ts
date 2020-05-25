@@ -11,8 +11,7 @@ import Debug from 'debug'
 Debug.enable('*')
 
 const messageHandler = new DIDCommMessageHandler()
-messageHandler.setNext(new JwtMessageHandler())
-messageHandler.setNext(new W3cMessageHandler())
+messageHandler.setNext(new JwtMessageHandler()).setNext(new W3cMessageHandler())
 
 const actionHandler = new DIDCommActionHandler()
 actionHandler.setNext(new W3cActionHandler())
