@@ -32,7 +32,7 @@ export class IdentityController extends AbstractIdentityController {
     return true
   }
 
-  async getDidDocument(service: any): Promise<any> {
+  async getDidDocument(): Promise<any> {
     const serializedIdentity = await this.identityStore.get(this.did)
     return {
       '@context': 'https://w3id.org/did/v1',
@@ -50,7 +50,6 @@ export class IdentityController extends AbstractIdentityController {
             : 'Ed25519SignatureAuthentication2018',
         publicKey: serializedIdentity.did + '#' + key.kid,
       })),
-      service,
     }
   }
 }

@@ -5,18 +5,19 @@ import {
   AbstractIdentityController,
 } from 'daf-core'
 
+import { IdentityController } from './identity-controller'
 export class Identity extends AbstractIdentity {
   public readonly did: string
   private readonly serializedIdentity: SerializedIdentity
   public readonly identityProviderType: string
   private readonly kms: AbstractKeyManagementSystem
-  public readonly identityController: AbstractIdentityController
+  public readonly identityController: IdentityController
 
   constructor(options: {
     identityProviderType: string
     serializedIdentity: SerializedIdentity
     kms: AbstractKeyManagementSystem
-    identityController: AbstractIdentityController
+    identityController: IdentityController
   }) {
     super()
     this.did = options.serializedIdentity.did
