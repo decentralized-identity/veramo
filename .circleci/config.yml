@@ -37,9 +37,9 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - run: *check-code-format
       - restore_cache: *restore-cache
       - run: *install-node-dependencies
+      - run: *check-code-format
       - run: *bootstrap-packages
       - run: *build-packages
       - save_cache: *save-node-cache
