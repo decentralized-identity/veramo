@@ -1,1 +1,1 @@
-declare module 'ethr-did-resolver';
+declare module 'ethr-did-resolver'

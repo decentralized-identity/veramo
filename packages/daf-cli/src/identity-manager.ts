@@ -82,7 +82,10 @@ program
 
         const identity = await (await agent).identityManager.getIdentity(answers.did)
 
-        const result = await (await agent).identityManager.deleteIdentity(identity.identityProviderType, identity.did)
+        const result = await (await agent).identityManager.deleteIdentity(
+          identity.identityProviderType,
+          identity.did,
+        )
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
@@ -231,7 +234,10 @@ program
         ])
 
         const identity = await (await agent).identityManager.getIdentity(answers.did)
-        const secret = await (await agent).identityManager.exportIdentity(identity.identityProviderType, identity.did)
+        const secret = await (await agent).identityManager.exportIdentity(
+          identity.identityProviderType,
+          identity.did,
+        )
         console.log(secret)
       } catch (e) {
         console.error(e)

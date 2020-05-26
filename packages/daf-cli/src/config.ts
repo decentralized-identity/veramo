@@ -10,13 +10,13 @@ export interface Configuration {
     gas?: number
     ttl?: number
     registry?: string
-  }[],
+  }[]
   ethrDidNetworks: {
     name: string
     rpcUrl: string
     registry?: string
-  }[],
-  database: ConnectionOptions,
+  }[]
+  database: ConnectionOptions
   graphql: {
     apiKey?: string
     resolvers: {
@@ -31,7 +31,6 @@ export interface Configuration {
 
 const defaultPath = process.env.HOME + '/.daf/'
 const configFile = process.env.DAF_CONFIG || defaultPath + 'config.js'
-
 
 export const getConfiguration = (): Configuration => {
   if (!fs.existsSync(configFile)) {

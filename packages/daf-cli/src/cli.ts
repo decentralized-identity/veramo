@@ -10,7 +10,6 @@ import './msg'
 import './version'
 import './crypto'
 
-
 if (!process.argv.slice(2).length) {
   program.outputHelp()
 } else {

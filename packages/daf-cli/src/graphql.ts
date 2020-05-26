@@ -52,14 +52,14 @@ program
       resolvers,
       context: async ({ req }) => {
         if (graphql.apiKey) {
-          const token = req.headers.authorization || '' 
+          const token = req.headers.authorization || ''
           if (token !== 'Bearer ' + graphql.apiKey) {
-            console.log({token})
+            console.log({ token })
             throw Error('Auth error')
           }
         }
-    
-        return { agent: (await agent) }
+
+        return { agent: await agent }
       },
       introspection: true,
     })
