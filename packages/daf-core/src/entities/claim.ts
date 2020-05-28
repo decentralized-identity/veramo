@@ -47,7 +47,7 @@ export class Claim extends BaseEntity {
   @Column()
   type: string
 
-  @Column()
+  @Column("text")
   value: string
 
   @Column()
