@@ -27,6 +27,7 @@
     "daf-trust-graph": "^6.0.0",
     "daf-url": "^6.0.0",
     "daf-w3c": "^6.0.0",
+    "daf-web-did": "^6.0.0",
     "date-fns": "^2.8.1",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
