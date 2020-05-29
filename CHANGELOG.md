@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.1.0](https://github.com/uport-project/daf/compare/v6.0.1...v6.1.0) (2020-05-29)
+
+
+### Features
+
+* Return the txHash in addPublic key ([c56ada2](https://github.com/uport-project/daf/commit/c56ada29264a3cb77ae8fb4b8f887e00be257838))
+
+
+
+
+
 ## [6.0.1](https://github.com/uport-project/daf/compare/v6.0.0...v6.0.1) (2020-05-29)
 
 

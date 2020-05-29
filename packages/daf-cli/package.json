@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line tool",
-  "version": "6.0.1",
+  "version": "6.1.0",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -18,7 +18,7 @@
     "daf-core": "^6.0.0",
     "daf-did-comm": "^6.0.0",
     "daf-did-jwt": "^6.0.0",
-    "daf-ethr-did": "^6.0.0",
+    "daf-ethr-did": "^6.1.0",
     "daf-fs": "^6.0.0",
     "daf-libsodium": "^6.0.0",
     "daf-resolver": "^6.0.0",
