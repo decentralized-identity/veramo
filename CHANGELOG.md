@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
+
+
+### Bug Fixes
+
+* Big value handling ([#167](https://github.com/uport-project/daf/issues/167)) ([39a76b6](https://github.com/uport-project/daf/commit/39a76b60ecc085d7ce0c476b0b20e166b415d408))
+
+
+### BREAKING CHANGES
+
+* database schema change required to accept large claims
+
+
+
+
+
 # [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
 
 
