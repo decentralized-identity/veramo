@@ -6,7 +6,7 @@ const debug = Debug('daf:url:message-handler')
 
 export class UrlMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, agent: Agent): Promise<Message> {
-    const parsed = parse(message.raw, true)
+    const parsed = parse(message.raw, {}, true)
 
     if (parsed && parsed.query && parsed.query.c_i) {
       debug('Detected standard URL')
