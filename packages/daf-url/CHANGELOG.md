@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.7](https://github.com/uport-project/daf/compare/v5.6.6...v5.6.7) (2020-05-29)
+
+
+### Bug Fixes
+
+* handle jwt messages correctly in daf-url in browser environments ([db26132](https://github.com/uport-project/daf/commit/db261325a606b0077cc333600b844101be1cd009))
+
+
+
+
+
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-url
