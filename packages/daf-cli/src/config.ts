@@ -3,7 +3,7 @@ const fs = require('fs')
 
 export interface Configuration {
   identityProviders: {
-    package: 'daf-ethr-did' | 'daf-elem-did'
+    package: 'daf-ethr-did' | 'daf-elem-did' | 'daf-web-did'
     network: string
     rpcUrl?: string
     apiUrl?: string

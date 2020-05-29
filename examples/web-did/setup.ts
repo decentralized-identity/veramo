@@ -1,12 +1,11 @@
 import * as Daf from 'daf-core'
-import * as DafEthr from 'daf-ethr-did'
+import { IdentityProvider } from 'daf-web-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
 import { DafResolver } from 'daf-resolver'
 import { createConnection } from 'typeorm'
-
 import Debug from 'debug'
 Debug.enable('*')
 
@@ -26,18 +25,16 @@ const dbConnection = createConnection({
   type: 'sqlite',
   database: './database.sqlite',
   synchronize: true,
-  logging: true,
+  logging: false,
   entities: Daf.Entities,
 })
 
 export const agent = new Daf.Agent({
   dbConnection,
   identityProviders: [
-    new DafEthr.IdentityProvider({
+    new IdentityProvider({
       kms: new KeyManagementSystem(new Daf.KeyStore(dbConnection, new SecretBox(secretKey))),
-      identityStore: new Daf.IdentityStore('rinkeby-ethr', dbConnection),
-      network: 'rinkeby',
-      rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+      identityStore: new Daf.IdentityStore('web-did', dbConnection),
     }),
   ],
   serviceControllers: [],

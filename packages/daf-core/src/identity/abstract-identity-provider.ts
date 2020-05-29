@@ -4,7 +4,7 @@ import { AbstractIdentity } from './abstract-identity'
 export abstract class AbstractIdentityProvider extends EventEmitter {
   abstract type: string
   abstract description: string
-  abstract createIdentity(): Promise<AbstractIdentity>
+  abstract createIdentity(options?: any): Promise<AbstractIdentity>
   abstract deleteIdentity(did: string): Promise<boolean>
   abstract getIdentities(): Promise<AbstractIdentity[]>
   abstract getIdentity(did: string): Promise<AbstractIdentity>

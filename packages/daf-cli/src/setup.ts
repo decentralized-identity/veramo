@@ -4,6 +4,7 @@ import { DafUniversalResolver } from 'daf-resolver-universal'
 import * as Daf from 'daf-core'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import * as EthrDid from 'daf-ethr-did'
+import * as WebDid from 'daf-web-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 
 import { W3cActionHandler, W3cMessageHandler } from 'daf-w3c'
@@ -11,7 +12,7 @@ import { SdrActionHandler, SdrMessageHandler } from 'daf-selective-disclosure'
 import { TrustGraphActionHandler, TrustGraphServiceController } from 'daf-trust-graph'
 import { DIDCommActionHandler, DIDCommMessageHandler } from 'daf-did-comm'
 import { UrlMessageHandler } from 'daf-url'
-import { createConnection, ConnectionOptions } from 'typeorm'
+import { createConnection } from 'typeorm'
 import { migrations } from './migrations'
 const fs = require('fs')
 import ws from 'ws'
@@ -98,6 +99,16 @@ const setupAgent = async (): Promise<Daf.Agent> => {
             ),
             apiUrl: identityProviderConfig.apiUrl,
             network: identityProviderConfig.network,
+          }),
+        )
+        break
+      case 'daf-web-did':
+        identityProviders.push(
+          new WebDid.IdentityProvider({
+            identityStore: new Daf.IdentityStore(identityProviderConfig.package, dbConnection),
+            kms: new KeyManagementSystem(
+              new Daf.KeyStore(dbConnection, new SecretBox(process.env.DAF_SECRET_KEY)),
+            ),
           }),
         )
         break

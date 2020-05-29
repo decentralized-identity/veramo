@@ -46,6 +46,7 @@ program
       try {
         const providers = await (await agent).identityManager.getIdentityProviders()
         let type
+        let options
         if (providers.length > 1) {
           const answers = await inquirer.prompt([
             {
@@ -60,11 +61,22 @@ program
           ])
 
           type = answers.type
+
+          if (type === 'web-did') {
+            const answers2 = await inquirer.prompt([
+              {
+                type: 'input',
+                name: 'domain',
+                message: 'Enter domain',
+              },
+            ])
+            options = { domain: answers2.domain }
+          }
         }
-        const identity = await (await agent).identityManager.createIdentity(type)
+        const identity = await (await agent).identityManager.createIdentity(type, options)
         printTable([{ type: identity.identityProviderType, did: identity.did }])
       } catch (e) {
-        console.error(e)
+        console.error(e.message)
       }
     }
 
