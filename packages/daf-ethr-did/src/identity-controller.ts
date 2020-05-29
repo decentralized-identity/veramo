@@ -79,7 +79,7 @@ export class IdentityController extends AbstractIdentityController {
       debug({ txHash })
       serializedIdentity.keys.push(key.serialized)
       await this.identityStore.set(serializedIdentity.did, serializedIdentity)
-      return true
+      return txHash
     } catch (e) {
       debug(e.message)
       await this.kms.deleteKey(key.serialized.kid)
