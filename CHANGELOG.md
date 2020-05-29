@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
+
+
+### Bug Fixes
+
+* IdentityController for web-did ([a829991](https://github.com/uport-project/daf/commit/a829991f0d16b424e756684cbca8d159b8195cac))
+* Message handler chain ([58b0629](https://github.com/uport-project/daf/commit/58b062921e02ca4160b1a90efa56e1c5c89ba8bb))
+
+
+### Features
+
+* Identity provider for did:web ([9b20fb1](https://github.com/uport-project/daf/commit/9b20fb13da21865d50f6e0680e0d7da040a3d75c))
+* Identity provider for did:web ([ba030bf](https://github.com/uport-project/daf/commit/ba030bf708e8e79dcf117685ace2286bff6ea69d))
+
+
+
+
+
 ## [5.6.7](https://github.com/uport-project/daf/compare/v5.6.6...v5.6.7) (2020-05-29)
 
 
