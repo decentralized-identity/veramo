@@ -3,7 +3,7 @@ import { ActionTypes, ActionSignSdr, SelectiveDisclosureRequest } from './action
 import { findCredentialsForSdr, validatePresentationAgainstSdr } from './helper'
 import { MessageTypes } from './message-handler'
 
-interface Context {
+export interface Context {
   agent: Agent
 }
 
