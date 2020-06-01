@@ -14,6 +14,8 @@ const managedIdentities = async (_: any, args: any, ctx: Context) => {
   return list.map((identity: AbstractIdentity) => ({
     did: identity.did,
     provider: identity.identityProviderType,
+    saveDate: identity.saveDate,
+    updateDate: identity.updateDate,
     __typename: 'Identity',
   }))
 }
