@@ -7,7 +7,7 @@ import {
   PresentationInput,
 } from './action-handler'
 
-interface Context {
+export interface Context {
   agent: Agent
 }
 
