@@ -1,7 +1,6 @@
 import {
   AbstractIdentityProvider,
   AbstractIdentity,
-  Resolver,
   AbstractIdentityStore,
   AbstractKeyManagementSystem,
   SerializedIdentity,
