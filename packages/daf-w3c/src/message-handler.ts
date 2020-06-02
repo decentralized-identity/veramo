@@ -1,4 +1,5 @@
-import { Agent, AbstractMessageHandler, Message, Identity, Credential, Presentation } from 'daf-core'
+import { IAgent, AbstractMessageHandler, Message, Identity, Credential, Presentation } from 'daf-core'
+import { IAgentResolve } from 'daf-resolver'
 import { blake2bHex } from 'blakejs'
 
 import {
@@ -17,8 +18,12 @@ export const MessageTypes = {
   vp: 'w3c.vp',
 }
 
+interface IContext {
+  agent: IAgent & IAgentResolve
+}
+
 export class W3cMessageHandler extends AbstractMessageHandler {
-  async handle(message: Message, agent: Agent): Promise<Message> {
+  async handle(message: Message, context: IContext): Promise<Message> {
     const meta = message.getLastMetaData()
 
     if (meta?.type === 'JWT') {
@@ -30,7 +35,9 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         debug('JWT is', MessageTypes.vp)
         const credentials: Credential[] = []
         for (const jwt of data.vp.verifiableCredential) {
-          const verified = await verifyCredential(jwt, agent.didResolver)
+          const verified = await verifyCredential(jwt, {
+            resolve: (did: string) => context.agent.resolve({ did }),
+          })
           credentials.push(createCredential(verified.payload, jwt))
         }
 
@@ -78,7 +85,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
       } catch (e) {}
     }
 
-    return super.handle(message, agent)
+    return super.handle(message, context)
   }
 }
 
