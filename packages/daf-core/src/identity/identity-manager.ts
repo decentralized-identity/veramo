@@ -10,7 +10,7 @@ export interface IAgentIdentityManager {
   getIdentityProviders?: () => Promise<AbstractIdentityProvider[]>
   getIdentities?: () => Promise<AbstractIdentity[]>
   getIdentity?: (args: { did: string }) => Promise<AbstractIdentity>
-  createIdentity?: (args: { identityProviderType?: string; options?: any }) => Promise<AbstractIdentity>
+  createIdentity?: (args?: { identityProviderType?: string; options?: any }) => Promise<AbstractIdentity>
   deleteIdentity?: (args: { identityProviderType: string; did: string }) => Promise<boolean>
 }
 
@@ -65,11 +65,11 @@ export class IdentityManager implements IAgentPlugin {
     }
   }
 
-  async createIdentity(args: { identityProviderType?: string; options?: any }): Promise<AbstractIdentity> {
-    const identityProvider = args.identityProviderType
+  async createIdentity(args?: { identityProviderType?: string; options?: any }): Promise<AbstractIdentity> {
+    const identityProvider = args?.identityProviderType
       ? this.getIdentityProvider(args.identityProviderType)
       : this.getDefaultIdentityProvider()
-    return identityProvider.createIdentity(args.options)
+    return identityProvider.createIdentity(args?.options)
   }
 
   async deleteIdentity(args: { identityProviderType: string; did: string }): Promise<boolean> {
