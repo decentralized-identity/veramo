@@ -5,13 +5,11 @@
     { "path": "daf-did-comm" },
     { "path": "daf-did-jwt" },
     { "path": "daf-ethr-did" },
-    { "path": "daf-elem-did" },
     { "path": "daf-libsodium" },
     { "path": "daf-resolver" },
     { "path": "daf-resolver-universal" },
     { "path": "daf-selective-disclosure" },
     { "path": "daf-url" },
-    { "path": "daf-web-did" },
     { "path": "daf-w3c" }
   ]
 }
