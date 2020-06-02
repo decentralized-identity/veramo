@@ -7,5 +7,3 @@ export {
   CredentialRequestInput,
 } from './action-handler'
 export { findCredentialsForSdr } from './helper'
-import SdrGql from './graphql'
-export { SdrGql }
