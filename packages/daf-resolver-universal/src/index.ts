@@ -1,1 +1,1 @@
-export { DafUniversalResolver } from './resolver'
+export { DafUniversalResolver, IAgentResolve } from './resolver'
