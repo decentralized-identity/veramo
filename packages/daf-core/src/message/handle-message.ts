@@ -28,10 +28,18 @@ export class HandleMessage extends EventEmitter implements IAgentPlugin {
   private dbConnection: Promise<Connection>
   private messageHandler: AbstractMessageHandler
 
-  constructor(options: { dbConnection: Promise<Connection>; messageHandler: AbstractMessageHandler }) {
+  constructor(options: { dbConnection: Promise<Connection>; messageHandlers: AbstractMessageHandler[] }) {
     super()
     this.dbConnection = options.dbConnection
-    this.messageHandler = options.messageHandler
+
+    for (const messageHandler of options.messageHandlers) {
+      if (!this.messageHandler) {
+        this.messageHandler = messageHandler
+      } else {
+        this.messageHandler.setNext(messageHandler)
+      }
+    }
+
     this.handleMessage = this.handleMessage.bind(this)
     this.methods = {
       handleMessage: this.handleMessage,
