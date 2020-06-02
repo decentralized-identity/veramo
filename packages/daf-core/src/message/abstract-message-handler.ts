@@ -1,9 +1,9 @@
 import { Message } from '../entities/message'
-import { Agent } from '../agent'
+import { IContext } from '../agent'
 
 export interface MessageHandler {
   setNext(messageHandler: MessageHandler): MessageHandler
-  handle: (message: Message, agent: Agent) => Promise<Message>
+  handle: (message: Message, context: IContext) => Promise<Message>
 }
 
 export const unsupportedMessageTypeError = 'Unsupported message type'
@@ -16,9 +16,9 @@ export abstract class AbstractMessageHandler implements MessageHandler {
     return messageHandler
   }
 
-  public async handle(message: Message, agent: Agent): Promise<Message> {
+  public async handle(message: Message, context: IContext): Promise<Message> {
     if (this.nextMessageHandler) {
-      return this.nextMessageHandler.handle(message, agent)
+      return this.nextMessageHandler.handle(message, context)
     }
     return Promise.reject(unsupportedMessageTypeError)
   }
