@@ -20,7 +20,7 @@ type THandleMessageArgs = {
 }
 
 export interface IAgentHandleMessage {
-  handleMessage?: (args: THandleMessageArgs, context: IContext) => Promise<Message>
+  handleMessage?: (args: THandleMessageArgs) => Promise<Message>
 }
 
 export class HandleMessage extends EventEmitter implements IAgentPlugin {
