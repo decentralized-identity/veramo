@@ -1,17 +1,21 @@
-import { Agent, AbstractMessageHandler, Message } from 'daf-core'
+import { AbstractMessageHandler, Message, IAgent, IAgentIdentityManager } from 'daf-core'
 import Debug from 'debug'
 const debug = Debug('daf:did-comm:message-handler')
+
+interface IContext {
+  agent: IAgent & IAgentIdentityManager
+}
 
 export class DIDCommMessageHandler extends AbstractMessageHandler {
   constructor() {
     super()
   }
 
-  async handle(message: Message, agent: Agent): Promise<Message> {
+  async handle(message: Message, context: IContext): Promise<Message> {
     try {
       const parsed = JSON.parse(message.raw)
       if (parsed.ciphertext && parsed.protected) {
-        const identities = await agent.identityManager.getIdentities()
+        const identities = await context.agent.getIdentities()
         for (const identity of identities) {
           let decrypted
           try {
@@ -34,7 +38,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
                 message.data = json
                 message.addMetaData({ type: 'DIDComm' })
               }
-              return super.handle(message, agent)
+              return super.handle(message, context)
             } catch (e) {
               debug(e.message)
             }
@@ -42,25 +46,25 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
             message.raw = decrypted
             message.addMetaData({ type: 'DIDComm' })
 
-            return super.handle(message, agent)
+            return super.handle(message, context)
           }
         }
       } else if (parsed.type === 'jwt') {
         message.raw = parsed.body
         if (parsed['id']) message.id = parsed['id']
         message.addMetaData({ type: 'DIDComm' })
-        return super.handle(message, agent)
+        return super.handle(message, context)
       } else {
         message.data = parsed.body
         if (parsed['id']) message.id = parsed['id']
         if (parsed['type']) message.type = parsed['type']
         message.addMetaData({ type: 'DIDComm' })
-        return super.handle(message, agent)
+        return super.handle(message, context)
       }
     } catch (e) {
       // not a JSON string
     }
 
-    return super.handle(message, agent)
+    return super.handle(message, context)
   }
 }
