@@ -1,5 +1,4 @@
 export { Agent, IAgent, IAgentExtension, IAgentPlugin, IContext, TMethodMap, TAgentMethod } from './agent'
-export { AbstractActionHandler } from './action/action-handler'
 export { IdentityManager, IAgentIdentityManager } from './identity/identity-manager'
 export { AbstractIdentity } from './identity/abstract-identity'
 export { AbstractIdentityController } from './identity/abstract-identity-controller'
@@ -13,7 +12,6 @@ export { AbstractIdentityStore, SerializedIdentity } from './identity/abstract-i
 export { AbstractKeyStore } from './identity/abstract-key-store'
 export { AbstractSecretBox } from './identity/abstract-secret-box'
 export { AbstractMessageHandler } from './message/abstract-message-handler'
-export { Action } from './types'
 export { IdentityStore } from './identity/identity-store'
 export { KeyStore } from './identity/key-store'
 export { HandleMessage, IAgentHandleMessage } from './message/handle-message'
