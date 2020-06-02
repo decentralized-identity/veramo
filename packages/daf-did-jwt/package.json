@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "daf-core": "^6.0.0",
+    "daf-resolver": "^6.0.0",
     "debug": "^4.1.1",
     "did-jwt": "^4.3.2",
     "did-resolver": "^1.1.0"

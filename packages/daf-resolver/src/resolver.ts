@@ -24,7 +24,7 @@ interface IArgs {
 }
 
 export interface IAgentResolve extends IAgent {
-  resolve?: (args: IArgs) => Promise<DIDDocument>
+  resolve?: (args: IArgs) => Promise<DIDDocument | null>
 }
 
 export class DafResolver implements IAgentPlugin {
