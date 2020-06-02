@@ -1,12 +1,8 @@
-import { Agent, AbstractActionHandler, Action } from 'daf-core'
+import { IAgent, IAgentIdentityManager, IAgentExtension } from 'daf-core'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
 const debug = Debug('daf:selective-disclosure:action-handler')
-
-export const ActionTypes = {
-  signSdr: 'sign.sdr.jwt',
-}
 
 interface Issuer {
   did: string
@@ -32,39 +28,44 @@ export interface CredentialRequestInput {
   issuers?: Issuer[]
 }
 
-export interface ActionSignSdr extends Action {
+export interface IArgs {
   data: SelectiveDisclosureRequest
 }
 
-export class SdrActionHandler extends AbstractActionHandler {
-  public async handleAction(action: Action, agent: Agent) {
-    if (action.type === ActionTypes.signSdr) {
-      const { data } = action as ActionSignSdr
-      try {
-        const identity = await agent.identityManager.getIdentity(data.issuer)
-        delete data.issuer
-        debug('Signing SDR with', identity.did)
+type ConfiguredAgent = IAgent & IAgentIdentityManager
+type TContext = {
+  agent: ConfiguredAgent
+}
 
-        const key = await identity.keyByType('Secp256k1')
-        const jwt = await createJWT(
-          {
-            type: 'sdr',
-            ...data,
-          },
-          {
-            signer: key.signer(),
-            alg: 'ES256K-R',
-            issuer: identity.did,
-          },
-        )
-        debug(jwt)
-        return jwt
-      } catch (error) {
-        debug(error)
-        return Promise.reject(error)
-      }
-    }
+type TSignSdr = (args: IArgs, context: TContext) => Promise<string>
 
-    return super.handleAction(action, agent)
+export interface IAgentSignSdr {
+  signSdr?: IAgentExtension<TSignSdr>
+}
+
+export const signSdr: TSignSdr = async (args, ctx) => {
+  const { data } = args
+  try {
+    const identity = await ctx.agent.getIdentity({ did: data.issuer })
+    delete data.issuer
+    debug('Signing SDR with', identity.did)
+
+    const key = await identity.keyByType('Secp256k1')
+    const jwt = await createJWT(
+      {
+        type: 'sdr',
+        ...data,
+      },
+      {
+        signer: key.signer(),
+        alg: 'ES256K-R',
+        issuer: identity.did,
+      },
+    )
+    debug(jwt)
+    return jwt
+  } catch (error) {
+    debug(error)
+    return Promise.reject(error)
   }
 }
