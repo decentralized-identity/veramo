@@ -1,4 +1,5 @@
-import { Agent, AbstractActionHandler, Action, Credential, Presentation } from 'daf-core'
+import { IAgent, IAgentIdentityManager, IAgentExtension, Credential, Presentation } from 'daf-core'
+import { IAgentResolve } from 'daf-resolver'
 import {
   createVerifiableCredential,
   createPresentation as createVerifiablePresentation,
@@ -7,81 +8,89 @@ import {
   verifyCredential,
 } from 'did-jwt-vc'
 import { decodeJWT } from 'did-jwt'
+import { Connection } from 'typeorm'
 
 import { createCredential, createPresentation } from './message-handler'
 
 import Debug from 'debug'
 const debug = Debug('daf:w3c:action-handler')
 
-export const ActionTypes = {
-  signCredentialJwt: 'sign.w3c.vc.jwt',
-  signPresentationJwt: 'sign.w3c.vp.jwt',
-}
-
-export interface ActionSignW3cVp extends Action {
+export interface ISignPresentationJwtArgs {
   data: PresentationInput
   save?: boolean
 }
 
-export interface ActionSignW3cVc extends Action {
+export interface ISignCredentialJwtArgs {
   data: CredentialInput
   save?: boolean
 }
 
-export class W3cActionHandler extends AbstractActionHandler {
-  public async handleAction(action: Action, agent: Agent) {
-    if (action.type === ActionTypes.signPresentationJwt) {
-      const { data, save } = action as ActionSignW3cVp
-      try {
-        const payload = transformPresentationInput(data)
-        const identity = await agent.identityManager.getIdentity(data.issuer)
-        const key = await identity.keyByType('Secp256k1')
-        debug('Signing VP with', identity.did)
-        // Removing duplicate JWT
-        payload.vp.verifiableCredential = Array.from(new Set(payload.vp.verifiableCredential))
-        const jwt = await createVerifiablePresentation(payload, { did: identity.did, signer: key.signer() })
+type TContext = {
+  agent: IAgent & IAgentIdentityManager & IAgentResolve
+  dbConnection: Promise<Connection>
+}
 
-        const credentials: Credential[] = []
-        for (const credentialJwt of payload.vp.verifiableCredential) {
-          const verified = await verifyCredential(credentialJwt, agent.didResolver)
-          credentials.push(createCredential(verified.payload, credentialJwt))
-        }
+type TSignPresentationJwt = (args: ISignPresentationJwtArgs, context: TContext) => Promise<Presentation>
+type TSignCredentialJwt = (args: ISignCredentialJwtArgs, context: TContext) => Promise<Credential>
 
-        debug(jwt)
-        const decoded = decodeJWT(jwt)
-        const presentation = createPresentation(decoded.payload as PresentationPayload, jwt, credentials)
-        if (save) {
-          await (await agent.dbConnection).getRepository(Presentation).save(presentation)
-        }
-        return presentation
-      } catch (error) {
-        debug(error)
-        return Promise.reject(error)
-      }
+export interface IAgentSignPresentationJwt {
+  signPresentationJwt?: IAgentExtension<TSignPresentationJwt>
+}
+
+export interface IAgentSignCredentialJwt {
+  signCredentialJwt?: IAgentExtension<TSignCredentialJwt>
+}
+
+export const signPresentationJwt: TSignPresentationJwt = async (args, ctx) => {
+  const { data, save } = args
+  try {
+    const payload = transformPresentationInput(data)
+    const identity = await ctx.agent.getIdentity({ did: data.issuer })
+    const key = await identity.keyByType('Secp256k1')
+    debug('Signing VP with', identity.did)
+    // Removing duplicate JWT
+    payload.vp.verifiableCredential = Array.from(new Set(payload.vp.verifiableCredential))
+    const jwt = await createVerifiablePresentation(payload, { did: identity.did, signer: key.signer() })
+
+    const credentials: Credential[] = []
+    for (const credentialJwt of payload.vp.verifiableCredential) {
+      const verified = await verifyCredential(credentialJwt, {
+        resolve: (did: string) => ctx.agent.resolve({ did }),
+      })
+      credentials.push(createCredential(verified.payload, credentialJwt))
     }
 
-    if (action.type === ActionTypes.signCredentialJwt) {
-      const { data, save } = action as ActionSignW3cVc
-      try {
-        const payload = transformCredentialInput(data)
-        const identity = await agent.identityManager.getIdentity(data.issuer)
-        const key = await identity.keyByType('Secp256k1')
-        debug('Signing VC with', identity.did)
-        const jwt = await createVerifiableCredential(payload, { did: identity.did, signer: key.signer() })
-        debug(jwt)
-        const decoded = decodeJWT(jwt)
-        const credential = createCredential(decoded.payload as VerifiableCredentialPayload, jwt)
-        if (save) {
-          await (await agent.dbConnection).getRepository(Credential).save(credential)
-        }
-        return credential
-      } catch (error) {
-        debug(error)
-        return Promise.reject(error)
-      }
+    debug(jwt)
+    const decoded = decodeJWT(jwt)
+    const presentation = createPresentation(decoded.payload as PresentationPayload, jwt, credentials)
+    if (save) {
+      await (await ctx.dbConnection).getRepository(Presentation).save(presentation)
     }
+    return presentation
+  } catch (error) {
+    debug(error)
+    return Promise.reject(error)
+  }
+}
 
-    return super.handleAction(action, agent)
+export const signCredentialJwt: TSignCredentialJwt = async (args, ctx) => {
+  const { data, save } = args
+  try {
+    const payload = transformCredentialInput(data)
+    const identity = await ctx.agent.getIdentity({ did: data.issuer })
+    const key = await identity.keyByType('Secp256k1')
+    debug('Signing VC with', identity.did)
+    const jwt = await createVerifiableCredential(payload, { did: identity.did, signer: key.signer() })
+    debug(jwt)
+    const decoded = decodeJWT(jwt)
+    const credential = createCredential(decoded.payload as VerifiableCredentialPayload, jwt)
+    if (save) {
+      await (await ctx.dbConnection).getRepository(Credential).save(credential)
+    }
+    return credential
+  } catch (error) {
+    debug(error)
+    return Promise.reject(error)
   }
 }
 
