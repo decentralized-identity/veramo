@@ -6,7 +6,7 @@ const dbConnection = createConnection({
   type: 'sqlite',
   database: 'database.sqlite',
   synchronize: true,
-  logging: true,
+  logging: false,
   entities: Entities,
 })
 
@@ -46,26 +46,32 @@ const rinkebyIdentityProvider = new IdentityProvider({
 // Using local DID Document resolver. It is being used internally to
 /// validate messages and to get information about service endpoints
 import { DafResolver } from 'daf-resolver'
-const didResolver = new DafResolver({ infuraProjectId })
 
 // Setting up Message Validator Chain
+import { IAgentHandleMessage, HandleMessage } from 'daf-core'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3cMessageHandler } from 'daf-w3c'
 const messageHandler = new JwtMessageHandler()
 messageHandler.setNext(new W3cMessageHandler())
 
 // Setting up Action Handler Chain
-import { DIDCommActionHandler } from 'daf-did-comm'
-import { TrustGraphActionHandler } from 'daf-trust-graph'
-import { W3cActionHandler } from 'daf-w3c'
-const actionHandler = new W3cActionHandler()
-actionHandler.setNext(new DIDCommActionHandler()).setNext(new TrustGraphActionHandler())
+import { DIDComm, IAgentSendMessageDIDCommAlpha1 } from 'daf-did-comm'
+import { W3c, IAgentW3c } from 'daf-w3c'
 
 // Initializing the Core by injecting dependencies
-import { Agent } from 'daf-core'
-export const agent = new Agent({
-  didResolver,
-  identityProviders: [rinkebyIdentityProvider],
-  actionHandler,
-  messageHandler,
+import { Agent, IAgent, IAgentIdentityManager, IdentityManager } from 'daf-core'
+type ConfiguredAgent = IAgent &
+  IAgentIdentityManager &
+  IAgentHandleMessage &
+  IAgentSendMessageDIDCommAlpha1 &
+  IAgentW3c
+
+export const agent: ConfiguredAgent = new Agent({
+  plugins: [
+    new IdentityManager({ identityProviders: [rinkebyIdentityProvider] }),
+    new DafResolver({ infuraProjectId }),
+    new HandleMessage({ dbConnection, messageHandler }),
+    new DIDComm(),
+    new W3c(),
+  ],
 })
