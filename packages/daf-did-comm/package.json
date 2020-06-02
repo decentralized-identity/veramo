@@ -10,6 +10,7 @@
   "dependencies": {
     "cross-fetch": "^3.0.4",
     "daf-core": "^6.0.0",
+    "daf-resolver": "^6.0.0",
     "debug": "^4.1.1",
     "uuid": "^3.3.3"
   },
