@@ -24,7 +24,7 @@ import { KeyStore } from 'daf-core'
 const keyStore = new KeyStore(dbConnection)
 
 // KeyManagementSystem is responsible for managing encryption and signing keys
-import { KeyManagementSystem } from 'daf-libsodium'
+import { KeyManagementSystem } from 'daf-react-native-libsodium'
 const kms = new KeyManagementSystem(keyStore)
 
 // Storing managed identities in the database
