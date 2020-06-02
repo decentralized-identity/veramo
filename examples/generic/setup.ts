@@ -51,8 +51,6 @@ import { DafResolver } from 'daf-resolver'
 import { IAgentHandleMessage, HandleMessage } from 'daf-core'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3cMessageHandler } from 'daf-w3c'
-const messageHandler = new JwtMessageHandler()
-messageHandler.setNext(new W3cMessageHandler())
 
 // Setting up Action Handler Chain
 import { DIDComm, IAgentSendMessageDIDCommAlpha1 } from 'daf-did-comm'
@@ -70,7 +68,10 @@ export const agent: ConfiguredAgent = new Agent({
   plugins: [
     new IdentityManager({ identityProviders: [rinkebyIdentityProvider] }),
     new DafResolver({ infuraProjectId }),
-    new HandleMessage({ dbConnection, messageHandler }),
+    new HandleMessage({
+      dbConnection,
+      messageHandlers: [new JwtMessageHandler(), new W3cMessageHandler()],
+    }),
     new DIDComm(),
     new W3c(),
   ],

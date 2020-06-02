@@ -4,7 +4,8 @@
   "version": "2.0.0",
   "main": "index.ts",
   "scripts": {
-    "start": "DEBUG=daf:* ts-node index.ts",
+    "msg": "DEBUG=daf:* ts-node handle-msg.ts",
+    "send": "DEBUG=daf:* ts-node send-vc.ts",
     "test": "DEBUG=daf:* ts-node test.ts"
   },
   "dependencies": {
