@@ -1,4 +1,4 @@
-import { Agent, AbstractMessageHandler, Message, Identity } from 'daf-core'
+import { AbstractMessageHandler, Message, Identity, IAgent, IAgentHandleMessage } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'
@@ -8,8 +8,12 @@ export const MessageTypes = {
   sdr: 'sdr',
 }
 
+interface IContext {
+  agent: IAgent & IAgentHandleMessage
+}
+
 export class SdrMessageHandler extends AbstractMessageHandler {
-  async handle(message: Message, agent: Agent): Promise<Message> {
+  async handle(message: Message, context: IContext): Promise<Message> {
     const meta = message.getLastMetaData()
 
     if (
@@ -46,7 +50,7 @@ export class SdrMessageHandler extends AbstractMessageHandler {
         message.credentials = []
         for (const raw of message.data.credentials) {
           try {
-            const tmpMessage = await agent.handleMessage({ raw, save: false })
+            const tmpMessage = await context.agent.handleMessage({ raw, save: false })
             if (tmpMessage.credentials) {
               message.credentials = [...message.credentials, ...tmpMessage.credentials]
             }
@@ -59,7 +63,7 @@ export class SdrMessageHandler extends AbstractMessageHandler {
       return message
     }
 
-    return super.handle(message, agent)
+    return super.handle(message, context)
   }
 
   private timestampToDate(timestamp: number): Date {
