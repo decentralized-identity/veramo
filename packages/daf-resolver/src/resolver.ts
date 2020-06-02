@@ -1,7 +1,9 @@
-import { Resolver } from 'did-resolver'
+import { IContext, TMethodMap, IAgent, IAgentPlugin } from 'daf-core'
+import { Resolver, DIDDocument } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { resolver as naclDidResolver } from 'nacl-did'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+export { DIDDocument }
 import Debug from 'debug'
 
 const debug = Debug('daf:resolver')
@@ -17,7 +19,16 @@ interface Options {
   networks?: NetworkConfig[]
 }
 
-export class DafResolver {
+interface IArgs {
+  did: string
+}
+
+export interface IAgentResolve extends IAgent {
+  resolve?: (args: IArgs) => Promise<DIDDocument>
+}
+
+export class DafResolver implements IAgentPlugin {
+  public methods: TMethodMap
   private didResolver: Resolver
   private networks: NetworkConfig[]
 
@@ -42,11 +53,17 @@ export class DafResolver {
       ...webDidResolver(),
       nacl: naclDidResolver,
     })
+
+    this.resolve = this.resolve.bind(this)
+
+    this.methods = {
+      resolve: this.resolve,
+    }
   }
 
-  async resolve(did: string) {
+  async resolve(args: IArgs, context: IContext): Promise<DIDDocument> {
     debug('Networks config %o', this.networks)
-    debug('Resolving %s', did)
-    return this.didResolver.resolve(did)
+    debug('Resolving %s', args.did)
+    return this.didResolver.resolve(args.did)
   }
 }

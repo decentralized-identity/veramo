@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.4",
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "did-resolver": "^1.1.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
