@@ -58,7 +58,7 @@ import { W3c, IAgentW3c } from 'daf-w3c'
 
 // Initializing the Core by injecting dependencies
 import { Agent, IAgent, IAgentIdentityManager, IdentityManager } from 'daf-core'
-type ConfiguredAgent = IAgent &
+export type ConfiguredAgent = IAgent &
   IAgentIdentityManager &
   IAgentResolve &
   IAgentHandleMessage &

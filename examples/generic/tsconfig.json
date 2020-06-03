@@ -19,12 +19,10 @@
     { "path": "../../packages/daf-did-comm" },
     { "path": "../../packages/daf-did-jwt" },
     { "path": "../../packages/daf-ethr-did" },
-    { "path": "../../packages/daf-fs" },
     { "path": "../../packages/daf-libsodium" },
     { "path": "../../packages/daf-resolver" },
     { "path": "../../packages/daf-resolver-universal" },
     { "path": "../../packages/daf-selective-disclosure" },
-    { "path": "../../packages/daf-trust-graph" },
     { "path": "../../packages/daf-url" },
     { "path": "../../packages/daf-w3c" }
   ]

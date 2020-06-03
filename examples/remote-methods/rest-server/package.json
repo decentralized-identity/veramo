@@ -1,0 +1,14 @@
+{
+  "name": "rest-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "DEBUG=daf:* ts-node index.ts"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.3"
+  }
+}
