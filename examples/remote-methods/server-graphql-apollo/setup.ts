@@ -58,22 +58,11 @@ import { W3c, IAgentW3c } from 'daf-w3c'
 
 // Initializing the Core by injecting dependencies
 import { Agent, IAgent, IAgentIdentityManager, IdentityManager } from 'daf-core'
-export type ConfiguredAgent = IAgent &
-  IAgentIdentityManager &
-  IAgentResolve &
-  IAgentHandleMessage &
-  IAgentSendMessageDIDCommAlpha1 &
-  IAgentW3c
+export type ConfiguredAgent = IAgent & IAgentIdentityManager & IAgentResolve
 
 export const agent: ConfiguredAgent = new Agent({
   plugins: [
     new IdentityManager({ identityProviders: [rinkebyIdentityProvider] }),
     new DafResolver({ infuraProjectId }),
-    new HandleMessage({
-      dbConnection,
-      messageHandlers: [new JwtMessageHandler(), new W3cMessageHandler()],
-    }),
-    new DIDComm(),
-    new W3c(),
   ],
 })
