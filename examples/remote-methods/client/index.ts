@@ -35,8 +35,8 @@ const agent: ConfiguredAgent = new Agent({
 })
 
 async function main() {
-  // const providers = await agent.getIdentityProviders()
-  // console.log({ providers })
+  const providers = await agent.getIdentityProviders()
+  console.log({ providers })
 
   // const newIdentity = await agent.createIdentity({ identityProviderType: 'rinkeby-ethr-did' })
   // console.log({ newIdentity })
