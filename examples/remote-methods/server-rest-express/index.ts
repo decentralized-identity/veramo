@@ -9,8 +9,8 @@ app.use(
   AgentExpressMiddleware({
     agent,
     prefix: '/agent',
-    methods: agent.availableMethods(),
-    // methods: ['resolve'],
+    // methods: agent.availableMethods(),
+    methods: ['resolve'],
   }),
 )
 
