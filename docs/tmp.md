@@ -127,7 +127,7 @@ interface IBaseAgent {
   availableMethods: () => string[]
 }
 
-export type IAgent = IBAseAgent &
+export type IAgent = IBaseAgent &
   IAgentSecretBox &
   IAgentKeyManager &
   IAgentIdentityManager &
