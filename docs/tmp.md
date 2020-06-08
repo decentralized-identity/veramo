@@ -29,28 +29,30 @@ interface Identity {
   service: Service[]
 }
 
-
+// Todo make it a String
 interface EcdsaSignature {
   r: string
   s: string
   recoveryParam?: number
 }
 
-interface IAgentSecretBox {
-  secretEncrypt?: (args: { message: string }) => Promise<string>
-  secretDecrypt?: (args: { encryptedMessageHex: string }) => Promise<string>
-}
-
 interface IAgentKeyManager {
   createKey?: (args: { type: KeyType, kms: string, meta?: Record<string, any> }) => Promise<Key>
   getKey?: (args: { kid: string }) => Promise<Key>
   deleteKey?: (args: { kid: string }) => Promise<boolean>
-  saveKey?: (args: Key ) => Promise<Key> // import
-  keyEncrypt?: (args: { kid: sting, to: string, data: string }) => Promise<string>
-  keyDecrypt?: (args: { kid: sting, data: string }) => Promise<string>
+  importKey?: (args: Key ) => Promise<Key>
+  // how is this related to secretBox?
+  // why does it need key prefix?
+  keyEncryptJWE?: (args: { kid: sting, to: string, data: string }) => Promise<string>
+  keyDecryptJWE?: (args: { kid: sting, data: string }) => Promise<string>
   keySignJwt?: (args: { kid: sting, data: string }) => Promise<EcdsaSignature | string>
   keySignEthTX?: (args: { kid: sting, data: string }) => Promise<string>
 }
+// TODO research "namespaces"
+
+// await agent.identityManager.create()
+// await agent.identityManagerCreate()
+
 
 interface IAgentIdentityManager {
   getIdentityProviders?: () => Promise<string[]>
@@ -58,16 +60,20 @@ interface IAgentIdentityManager {
   getIdentity?: (args: { did: string }) => Promise<Identity>
   createIdentity?: (args?: { provider?: string; alias?: string, kms?: string }) => Promise<Identity>
   getOrCreateIdentity?: (args?: { provider?: string; alias?: string, kms?: string }) => Promise<Identity>
-  saveIdentity?: (args: Identity) => Promise<Identity> // import
+  importIdentity?: (args: Identity) => Promise<Identity>
   deleteIdentity?: (args: { provider: string; did: string }) => Promise<boolean>
-  addKey?: (args: { did: string, key: Key }) => Promise<any> // txHash?
-  removeKey?: (args: { did: string, kid: string }) => Promise<any> // txHash?
-  addService?: (args: { did: string, service: Service }) => Promise<any> //txHash?
-  removeService?: (args: { did: string, id: string }) => Promise<any> //txHash?
+  // Sometimes only initiates:
+  identityAddKey?: (args: { did: string, key: Key, options?: any }) => Promise<any> // txHash?
+  identityRemoveKey?: (args: { did: string, kid: string, options?: any }) => Promise<any> // txHash?
+  identityAddService?: (args: { did: string, service: Service, options?: any }) => Promise<any> //txHash?
+  identityRemoveService?: (args: { did: string, id: string, options?: any }) => Promise<any> //txHash?
 }
 
 interface IAgentResolve {
+  // TODO why null?
   resolve?: (args: { did: string }) => Promise<DIDDocument | null>
+  // TODO:
+  dereference?: (args: { didUrl: string }) => Promise<any>
 }
 
 interface Message {
@@ -92,7 +98,6 @@ interface MetaData {
 
 interface IAgentHandleMessage {
   handleMessage?: (args: { raw: string, metaData?: MetaData[], save?: boolean }) => Promise<Message>
-  saveMessage?: (args: Message) => Promise<Message>
 }
 
 interface IAgentDataStore {
@@ -113,13 +118,18 @@ interface Credential {
 
 }
 
+interface VerifiableCredential extends Credential {
+  proof: any
+}
+
+
 interface Presentation {
 
 }
 
 interface IAgentW3c {
-  signCredential?: (args: { data: Credential, proof: 'jwt' | 'ld' }) => Promise<Credential>
-  signPresentation?: (args: { data: Presentation, proof: 'jwt' | 'ld' }) => Promise<Presentation>
+  createVerifiableCredential?: (args: { data: Credential, proof: 'jwt' | 'ld' }) => Promise<VerifiableCredential>
+  createVerifiablePresentation?: (args: { data: Presentation, proof: 'jwt' | 'ld' }) => Promise<VerifiablePresentation>
 }
 
 interface IBaseAgent {
@@ -143,12 +153,12 @@ export type IAgent = IBaseAgent &
 
 ```typescript
 
-import { Agent, IdentityManager, HandleMessage } from 'daf-core'
+import { Agent, IdentityManager, KeyManager, HandleMessage } from 'daf-core'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { WebIdentityProvider } from 'daf-web-did'
 import { SecretBox, KeyManagementSystem } from 'daf-libsodium'
 import { HSMKeyManagementSystem } from 'some-hsm-kms'
-import { DafResolver } from 'daf-resolver'
+import { Resolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3cMessageHandler, W3c } from 'daf-w3c'
 import { SdrMessageHandler, Sdr } from 'daf-selective-disclosure'
@@ -168,9 +178,8 @@ const infuraProjectId = process.env.INFURA_PROJECT_ID
 
 export const agent: IAgent = new Agent({
   plugins: [
-    new SecretBox(secretKey),
     new KeyManager({
-      store: new KeyStore(dbConnection)
+      store: new KeyStore(dbConnection, new SecretBox(secretKey)),
       kms: {
         local: new KeyManagementSystem(),
         hsm: new HSMKeyManagementSystem(process.env.HSM_API_KEY),
@@ -193,10 +202,9 @@ export const agent: IAgent = new Agent({
         'did:web': new WebIdentityProvider({
           defaultKms: 'hsm'
         }),
-
       }
     }),
-    new DafResolver({ infuraProjectId }),
+    new Resolver({ infuraProjectId }),
     new HandleMessage({
       handlers: [
         new JwtMessageHandler(),
