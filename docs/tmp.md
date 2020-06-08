@@ -239,8 +239,8 @@ async function main() {
   // Send verifiable credential using DIDComm
   const message = await agent.sendMessageDIDCommAlpha1({
     data: {
-      from: identity.did,
-      to: 'did:ethr:rinkeby:0x79292ba5a516f04c3de11e8f06642c7bec16c490',
+      from: bob.did,
+      to: 'did:web:public-credential-registry.com',
       type: 'jwt',
       body: credential.raw,
     },
