@@ -37,43 +37,35 @@ interface EcdsaSignature {
 }
 
 interface IAgentKeyManager {
-  createKey?: (args: { type: KeyType, kms: string, meta?: Record<string, any> }) => Promise<Key>
-  getKey?: (args: { kid: string }) => Promise<Key>
-  deleteKey?: (args: { kid: string }) => Promise<boolean>
-  importKey?: (args: Key ) => Promise<Key>
-  // how is this related to secretBox?
-  // why does it need key prefix?
-  keyEncryptJWE?: (args: { kid: sting, to: string, data: string }) => Promise<string>
-  keyDecryptJWE?: (args: { kid: sting, data: string }) => Promise<string>
-  keySignJwt?: (args: { kid: sting, data: string }) => Promise<EcdsaSignature | string>
-  keySignEthTX?: (args: { kid: sting, data: string }) => Promise<string>
+  keyManagerCreateKey?: (args: { type: KeyType, kms: string, meta?: Record<string, any> }) => Promise<Key>
+  keyManagerGetKey?: (args: { kid: string }) => Promise<Key>
+  keyManagerDeleteKey?: (args: { kid: string }) => Promise<boolean>
+  keyManagerImportKey?: (args: Key ) => Promise<Key>
+  keyManagerEncryptJWE?: (args: { kid: sting, to: string, data: string }) => Promise<string>
+  keyManagerDecryptJWE?: (args: { kid: sting, data: string }) => Promise<string>
+  keyManagerSignJWT?: (args: { kid: sting, data: string }) => Promise<EcdsaSignature | string>
+  keyManagerSignEthTX?: (args: { kid: sting, data: string }) => Promise<string>
 }
 // TODO research "namespaces"
 
-// await agent.identityManager.create()
-// await agent.identityManagerCreate()
-
 
 interface IAgentIdentityManager {
-  getIdentityProviders?: () => Promise<string[]>
-  getIdentities?: () => Promise<Identity[]>
-  getIdentity?: (args: { did: string }) => Promise<Identity>
-  createIdentity?: (args?: { provider?: string; alias?: string, kms?: string }) => Promise<Identity>
-  getOrCreateIdentity?: (args?: { provider?: string; alias?: string, kms?: string }) => Promise<Identity>
-  importIdentity?: (args: Identity) => Promise<Identity>
-  deleteIdentity?: (args: { provider: string; did: string }) => Promise<boolean>
-  // Sometimes only initiates:
-  identityAddKey?: (args: { did: string, key: Key, options?: any }) => Promise<any> // txHash?
-  identityRemoveKey?: (args: { did: string, kid: string, options?: any }) => Promise<any> // txHash?
-  identityAddService?: (args: { did: string, service: Service, options?: any }) => Promise<any> //txHash?
-  identityRemoveService?: (args: { did: string, id: string, options?: any }) => Promise<any> //txHash?
+  identityManagerGetProviders?: () => Promise<string[]>
+  identityManagerGetIdentities?: () => Promise<Identity[]>
+  identityManagerGetIdentity?: (args: { did: string }) => Promise<Identity>
+  identityManagerCreateIdentity?: (args?: { provider?: string; alias?: string, kms?: string }) => Promise<Identity>
+  identityManagerGetOrCreateIdentity?: (args?: { provider?: string; alias?: string, kms?: string }) => Promise<Identity>
+  identityManagerImportIdentity?: (args: Identity) => Promise<Identity>
+  identityManagerDeleteIdentity?: (args: { provider: string; did: string }) => Promise<boolean>
+  identityManagerAddKey?: (args: { did: string, key: Key, options?: any }) => Promise<any> // txHash?
+  identityManagerRemoveKey?: (args: { did: string, kid: string, options?: any }) => Promise<any> // txHash?
+  identityManagerAddService?: (args: { did: string, service: Service, options?: any }) => Promise<any> //txHash?
+  identityManagerRemoveService?: (args: { did: string, id: string, options?: any }) => Promise<any> //txHash?
 }
 
 interface IAgentResolve {
   // TODO why null?
   resolve?: (args: { did: string }) => Promise<DIDDocument | null>
-  // TODO:
-  dereference?: (args: { didUrl: string }) => Promise<any>
 }
 
 interface Message {
@@ -105,21 +97,74 @@ interface IAgentDataStore {
   getMessage?: (args: { id: string }) => Promise<Message>
   // TODO
   // saveCredential
-  // getCredential
   // savePresentation
   // getPresentation
+  // getCredentials
 }
+
+await agent.getCredentialsORM
+await agent.getCredentialsElasticSearch
+await agent.getCredentials
+
+// JSONPath
+const credentials: VerifiableCredential[] = await agent.getCredentials({
+  jsonPath: [
+    {
+      path: ["$.issuer", "$.vc.issuer", "$.iss"],
+      filter: {
+        type: "string",
+        pattern: "did:example:123|did:example:456"
+      }
+    }
+  ],
+})
+
+// Trust Agency
+const credentials: VerifiableCredential[] = await agent.getCredentials({
+  filter: {
+    type: ['VerifiableCredential', 'Diploma']
+  },
+})
+
+// TypeOrm
+const credentials: VerifiableCredential[] = await agent.getCredentials({
+  filter: [
+    { column: 'type' value: ['VerifiableCredential', 'Diploma'] },
+  ],
+  order: [
+    { column: 'createdAt', direction: 'DESC' }
+  ],
+  take: 10,
+  skip: 5
+})
 
 interface IAgentDIDComm {
   sendMessage?: (args: Message) => Promise<boolean>
 }
 
 interface Credential {
-
+  '@context'?: string[]
+  type: string[]
+  id?: string
+  issuer: string
+  expirationDate?: string
+  issuanceDate?: string
+  credentialSubject: {
+    id?: string
+    [x: string]: any
+  }
+  credentialStatus?: {
+    id: string
+    type: string
+  }
+  [x: string]: any
 }
 
 interface VerifiableCredential extends Credential {
-  proof: any
+  proof: {
+    jwt?: string
+    jws?: string
+  }
 }
 
 
@@ -127,9 +172,31 @@ interface Presentation {
 
 }
 
+interface VerifiablePresentation extends Presentation {
+  proof: {
+    jwt?: string
+  }
+}
+
+
 interface IAgentW3c {
   createVerifiableCredential?: (args: { data: Credential, proof: 'jwt' | 'ld' }) => Promise<VerifiableCredential>
   createVerifiablePresentation?: (args: { data: Presentation, proof: 'jwt' | 'ld' }) => Promise<VerifiablePresentation>
+}
+
+interface SelectiveDisclosureRequest {
+
+}
+
+interface VerifiableSelectiveDisclosureRequest extends SelectiveDisclosureRequest {
+  proof: {
+    jwt?: string
+  }
+}
+
+
+interface IAgentSDR {
+  createVerifiableSelectiveDisclosureRequest?: (args: { data: SelectiveDisclosureRequest, proof: 'jwt' | 'ld' }) => Promise<VerifiableSelectiveDisclosureRequest>
 }
 
 interface IBaseAgent {
