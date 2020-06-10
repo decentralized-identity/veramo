@@ -71,7 +71,7 @@ interface IAgentIdentityManager {
 
 interface IAgentResolve {
   // TODO why null?
-  resolve?: (args: { did: string }) => Promise<DIDDocument | null>
+  resolveDid?: (args: { did: string }) => Promise<DIDDocument | null>
 }
 
 interface Message {
@@ -152,9 +152,14 @@ interface IAgentDataStore {
   dataStoreSaveMessage?: (args: Message) => Promise<boolean>
   dataStoreSaveVerifiableCredential?: (args: VerifiableCredential) => Promise<boolean>
   dataStoreSaveVerifiablePresentation?: (args: VerifiablePresentation) => Promise<boolean>
-  dataStoreGetMessages?: (args: FindArgs<MessageColumns>) => Promise<Message[]>
-  dataStoreGetVerifiableCredentials?: (args: FindArgs<CredentialColumns>) => Promise<VerifiableCredential[]>
-  dataStoreGetVerifiablePresentations?: (
+}
+
+interface IAgentDataStoreORM {
+  dataStoreGetMessagesORM?: (args: FindArgs<MessageColumns>) => Promise<Message[]>
+  dataStoreGetVerifiableCredentialsORM?: (
+    args: FindArgs<CredentialColumns>,
+  ) => Promise<VerifiableCredential[]>
+  dataStoreGetVerifiablePresentationsORM?: (
     args: FindArgs<PresentationColumns>,
   ) => Promise<VerifiablePresentation[]>
 }
@@ -237,17 +242,8 @@ export interface CredentialRequest {
   }[]
 }
 
-interface VerifiableSelectiveDisclosureRequest extends SelectiveDisclosureRequest {
-  proof: {
-    jwt?: string
-  }
-}
-
 interface IAgentSelectiveDisclosure {
-  createVerifiableSelectiveDisclosureRequest?: (args: {
-    data: SelectiveDisclosureRequest
-    proof: 'jwt' | 'ld'
-  }) => Promise<VerifiableSelectiveDisclosureRequest>
+  createSelectiveDisclosureRequest?: (args: SelectiveDisclosureRequest) => Promise<string>
 }
 
 interface IBaseAgent {
@@ -269,7 +265,7 @@ export type IAgent = IBaseAgent &
 
 ```typescript
 
-import { Agent, IdentityManager, KeyManager, HandleMessage } from 'daf-core'
+import { Agent, IdentityManager, KeyManager, MessageHandler } from 'daf-core'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { WebIdentityProvider } from 'daf-web-did'
 import { SecretBox, KeyManagementSystem } from 'daf-libsodium'
@@ -278,7 +274,7 @@ import { Resolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3cMessageHandler, W3c } from 'daf-w3c'
 import { SdrMessageHandler, SelectiveDisclosure } from 'daf-selective-disclosure'
-import { DIDComm } from 'daf-did-comm'
+import { DIDCommMessageHandler, DIDComm } from 'daf-did-comm'
 import { Entities, KeyStore, IdentityStore, DataStore } from 'daf-typeorm'
 import { createConnection } from 'typeorm'
 
@@ -321,8 +317,9 @@ export const agent: IAgent = new Agent({
       }
     }),
     new Resolver({ infuraProjectId }),
-    new HandleMessage({
+    new MessageHandler({
       handlers: [
+        new DIDCommMessageHandler(),
         new JwtMessageHandler(),
         new W3cMessageHandler(),
         new SdrMessageHandler(),
