@@ -1,7 +1,6 @@
 # Types
 
 ```typescript
-
 type KeyType = 'Ed25519' | 'Secp256k1'
 
 interface Key {
@@ -37,30 +36,37 @@ interface EcdsaSignature {
 }
 
 interface IAgentKeyManager {
-  keyManagerCreateKey?: (args: { type: KeyType, kms: string, meta?: Record<string, any> }) => Promise<Key>
+  keyManagerCreateKey?: (args: { type: KeyType; kms: string; meta?: Record<string, any> }) => Promise<Key>
   keyManagerGetKey?: (args: { kid: string }) => Promise<Key>
   keyManagerDeleteKey?: (args: { kid: string }) => Promise<boolean>
-  keyManagerImportKey?: (args: Key ) => Promise<Key>
-  keyManagerEncryptJWE?: (args: { kid: sting, to: string, data: string }) => Promise<string>
-  keyManagerDecryptJWE?: (args: { kid: sting, data: string }) => Promise<string>
-  keyManagerSignJWT?: (args: { kid: sting, data: string }) => Promise<EcdsaSignature | string>
-  keyManagerSignEthTX?: (args: { kid: sting, data: string }) => Promise<string>
+  keyManagerImportKey?: (args: Key) => Promise<Key>
+  keyManagerEncryptJWE?: (args: { kid: string; to: string; data: string }) => Promise<string>
+  keyManagerDecryptJWE?: (args: { kid: string; data: string }) => Promise<string>
+  keyManagerSignJWT?: (args: { kid: string; data: string }) => Promise<EcdsaSignature | string>
+  keyManagerSignEthTX?: (args: { kid: string; data: string }) => Promise<string>
 }
 // TODO research "namespaces"
-
 
 interface IAgentIdentityManager {
   identityManagerGetProviders?: () => Promise<string[]>
   identityManagerGetIdentities?: () => Promise<Identity[]>
   identityManagerGetIdentity?: (args: { did: string }) => Promise<Identity>
-  identityManagerCreateIdentity?: (args?: { provider?: string; alias?: string, kms?: string }) => Promise<Identity>
-  identityManagerGetOrCreateIdentity?: (args?: { provider?: string; alias?: string, kms?: string }) => Promise<Identity>
+  identityManagerCreateIdentity?: (args?: {
+    provider?: string
+    alias?: string
+    kms?: string
+  }) => Promise<Identity>
+  identityManagerGetOrCreateIdentity?: (args?: {
+    provider?: string
+    alias?: string
+    kms?: string
+  }) => Promise<Identity>
   identityManagerImportIdentity?: (args: Identity) => Promise<Identity>
   identityManagerDeleteIdentity?: (args: { provider: string; did: string }) => Promise<boolean>
-  identityManagerAddKey?: (args: { did: string, key: Key, options?: any }) => Promise<any> // txHash?
-  identityManagerRemoveKey?: (args: { did: string, kid: string, options?: any }) => Promise<any> // txHash?
-  identityManagerAddService?: (args: { did: string, service: Service, options?: any }) => Promise<any> //txHash?
-  identityManagerRemoveService?: (args: { did: string, id: string, options?: any }) => Promise<any> //txHash?
+  identityManagerAddKey?: (args: { did: string; key: Key; options?: any }) => Promise<any> // txHash?
+  identityManagerRemoveKey?: (args: { did: string; kid: string; options?: any }) => Promise<any> // txHash?
+  identityManagerAddService?: (args: { did: string; service: Service; options?: any }) => Promise<any> //txHash?
+  identityManagerRemoveService?: (args: { did: string; id: string; options?: any }) => Promise<any> //txHash?
 }
 
 interface IAgentResolve {
@@ -89,54 +95,69 @@ interface MetaData {
 }
 
 interface IAgentHandleMessage {
-  handleMessage?: (args: { raw: string, metaData?: MetaData[], save?: boolean }) => Promise<Message>
+  handleMessage?: (args: { raw: string; metaData?: MetaData[]; save?: boolean }) => Promise<Message>
 }
+
+export interface Order<TColumns> {
+  column: TColumns
+  direction: 'ASC' | 'DESC'
+}
+
+export interface Where<TColumns> {
+  column: TColumns
+  value?: string[]
+  not?: boolean
+  op?:
+    | 'LessThan'
+    | 'LessThanOrEqual'
+    | 'MoreThan'
+    | 'MoreThanOrEqual'
+    | 'Equal'
+    | 'Like'
+    | 'Between'
+    | 'In'
+    | 'Any'
+    | 'IsNull'
+}
+
+export interface FindArgs<TColumns> {
+  where?: Where<TColumns>[]
+  order?: Order<TColumns>[]
+  take?: number
+  skip?: number
+}
+
+type MessageColumns =
+  | 'from'
+  | 'to'
+  | 'id'
+  | 'createdAt'
+  | 'expiresAt'
+  | 'threadId'
+  | 'type'
+  | 'raw'
+  | 'replyTo'
+  | 'replyUrl'
+type CredentialColumns = 'context' | 'type' | 'id' | 'issuer' | 'expirationDate' | 'issuanceDate'
+type PresentationColumns =
+  | 'context'
+  | 'type'
+  | 'id'
+  | 'issuer'
+  | 'audience'
+  | 'expirationDate'
+  | 'issuanceDate'
 
 interface IAgentDataStore {
-  saveMessage?: (args: Message) => Promise<boolean>
-  getMessage?: (args: { id: string }) => Promise<Message>
-  // TODO
-  // saveCredential
-  // savePresentation
-  // getPresentation
-  // getCredentials
+  dataStoreSaveMessage?: (args: Message) => Promise<boolean>
+  dataStoreSaveVerifiableCredential?: (args: VerifiableCredential) => Promise<boolean>
+  dataStoreSaveVerifiablePresentation?: (args: VerifiablePresentation) => Promise<boolean>
+  dataStoreGetMessages?: (args: FindArgs<MessageColumns>) => Promise<Message[]>
+  dataStoreGetVerifiableCredentials?: (args: FindArgs<CredentialColumns>) => Promise<VerifiableCredential[]>
+  dataStoreGetVerifiablePresentations?: (
+    args: FindArgs<PresentationColumns>,
+  ) => Promise<VerifiablePresentation[]>
 }
-
-await agent.getCredentialsORM
-await agent.getCredentialsElasticSearch
-await agent.getCredentials
-
-// JSONPath
-const credentials: VerifiableCredential[] = await agent.getCredentials({
-  jsonPath: [
-    {
-      path: ["$.issuer", "$.vc.issuer", "$.iss"],
-      filter: {
-        type: "string",
-        pattern: "did:example:123|did:example:456"
-      }
-    }
-  ],
-})
-
-// Trust Agency
-const credentials: VerifiableCredential[] = await agent.getCredentials({
-  filter: {
-    type: ['VerifiableCredential', 'Diploma']
-  },
-})
-
-// TypeOrm
-const credentials: VerifiableCredential[] = await agent.getCredentials({
-  filter: [
-    { column: 'type' value: ['VerifiableCredential', 'Diploma'] },
-  ],
-  order: [
-    { column: 'createdAt', direction: 'DESC' }
-  ],
-  take: 10,
-  skip: 5
-})
 
 interface IAgentDIDComm {
   sendMessage?: (args: Message) => Promise<boolean>
@@ -167,9 +188,14 @@ interface VerifiableCredential extends Credential {
   }
 }
 
-
 interface Presentation {
-
+  '@context'?: string[]
+  type: string[]
+  id?: string
+  issuer: string
+  expirationDate?: string
+  issuanceDate?: string
+  verifiableCredential: string[]
 }
 
 interface VerifiablePresentation extends Presentation {
@@ -178,14 +204,37 @@ interface VerifiablePresentation extends Presentation {
   }
 }
 
-
 interface IAgentW3c {
-  createVerifiableCredential?: (args: { data: Credential, proof: 'jwt' | 'ld' }) => Promise<VerifiableCredential>
-  createVerifiablePresentation?: (args: { data: Presentation, proof: 'jwt' | 'ld' }) => Promise<VerifiablePresentation>
+  createVerifiableCredential?: (args: {
+    data: Credential
+    proofFormat: 'jwt' | 'ld'
+  }) => Promise<VerifiableCredential>
+  createVerifiablePresentation?: (args: {
+    data: Presentation
+    proofFormat: 'jwt' | 'ld'
+  }) => Promise<VerifiablePresentation>
 }
 
-interface SelectiveDisclosureRequest {
+export interface SelectiveDisclosureRequest {
+  issuer: string
+  subject?: string
+  replyUrl?: string
+  tag?: string
+  claims: CredentialRequest[]
+  credentials?: string[]
+}
 
+export interface CredentialRequest {
+  reason?: string
+  essential?: boolean
+  credentialType?: string
+  credentialContext?: string
+  claimType: string
+  claimValue?: string
+  issuers?: {
+    did: string
+    url: string
+  }[]
 }
 
 interface VerifiableSelectiveDisclosureRequest extends SelectiveDisclosureRequest {
@@ -194,9 +243,11 @@ interface VerifiableSelectiveDisclosureRequest extends SelectiveDisclosureReques
   }
 }
 
-
-interface IAgentSDR {
-  createVerifiableSelectiveDisclosureRequest?: (args: { data: SelectiveDisclosureRequest, proof: 'jwt' | 'ld' }) => Promise<VerifiableSelectiveDisclosureRequest>
+interface IAgentSelectiveDisclosure {
+  createVerifiableSelectiveDisclosureRequest?: (args: {
+    data: SelectiveDisclosureRequest
+    proof: 'jwt' | 'ld'
+  }) => Promise<VerifiableSelectiveDisclosureRequest>
 }
 
 interface IBaseAgent {
@@ -205,15 +256,13 @@ interface IBaseAgent {
 }
 
 export type IAgent = IBaseAgent &
-  IAgentSecretBox &
   IAgentKeyManager &
   IAgentIdentityManager &
   IAgentResolve &
   IAgentHandleMessage &
   IAgentDataStore &
-  IAgentW3c &
-
-
+  IAgentSelectiveDisclosure &
+  IAgentW3c
 ```
 
 # Setup
@@ -228,7 +277,7 @@ import { HSMKeyManagementSystem } from 'some-hsm-kms'
 import { Resolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3cMessageHandler, W3c } from 'daf-w3c'
-import { SdrMessageHandler, Sdr } from 'daf-selective-disclosure'
+import { SdrMessageHandler, SelectiveDisclosure } from 'daf-selective-disclosure'
 import { DIDComm } from 'daf-did-comm'
 import { Entities, KeyStore, IdentityStore, DataStore } from 'daf-typeorm'
 import { createConnection } from 'typeorm'
@@ -282,7 +331,7 @@ export const agent: IAgent = new Agent({
     new DataStore(dbConnection),
     new DIDComm(),
     new W3c(),
-    new Sdr(),
+    new SelectiveDisclosure(),
   ],
 })
 
