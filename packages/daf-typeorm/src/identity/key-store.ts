@@ -1,4 +1,4 @@
-import { SerializedKey, AbstractKeyStore, AbstractSecretBox } from 'daf-core'
+import { IKey, AbstractKeyStore, AbstractSecretBox } from 'daf-core'
 import { Connection } from 'typeorm'
 
 import { Key } from '../entities/key'
@@ -14,7 +14,7 @@ export class KeyStore extends AbstractKeyStore {
     }
   }
 
-  async get(kid: string) {
+  async get({ kid }: {kid: string}): Promise<IKey> {
     const key = await (await this.dbConnection).getRepository(Key).findOne(kid)
     if (!key) throw Error('Key not found')
     if (this.secretBox && key.privateKeyHex) {
@@ -23,7 +23,7 @@ export class KeyStore extends AbstractKeyStore {
     return key
   }
 
-  async delete(kid: string) {
+  async delete({ kid }: { kid: string }) {
     const key = await (await this.dbConnection).getRepository(Key).findOne(kid)
     if (!key) throw Error('Key not found')
     debug('Deleting key', kid)
@@ -31,16 +31,18 @@ export class KeyStore extends AbstractKeyStore {
     return true
   }
 
-  async set(kid: string, serializedKey: SerializedKey) {
+  async import(args: IKey) {
     const key = new Key()
-    key.kid = kid
-    key.privateKeyHex = serializedKey.privateKeyHex
+    key.kid = args.kid
+    key.privateKeyHex = args.privateKeyHex
     if (this.secretBox && key.privateKeyHex) {
       key.privateKeyHex = await this.secretBox.encrypt(key.privateKeyHex)
     }
-    key.publicKeyHex = serializedKey.publicKeyHex
-    key.type = serializedKey.type
-    debug('Saving key', kid)
+    key.publicKeyHex = args.publicKeyHex
+    key.type = args.type
+    key.kms = args.kms
+    key.meta = args.meta
+    debug('Saving key', args.kid)
     await (await this.dbConnection).getRepository(Key).save(key)
     return true
   }

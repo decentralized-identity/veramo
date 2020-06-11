@@ -9,6 +9,9 @@ export class Key extends BaseEntity {
   kid: string
 
   @Column()
+  kms: string
+
+  @Column()
   type: KeyType
 
   @Column()
@@ -16,6 +19,9 @@ export class Key extends BaseEntity {
 
   @Column()
   privateKeyHex?: string
+
+  @Column({type: 'simple-json'})
+  meta?: Record<string, any>
 
   @ManyToOne(
     type => Identity,

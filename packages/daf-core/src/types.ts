@@ -24,7 +24,7 @@ export interface IIdentity {
   provider: string
   controllerKeyId: string
   keys: IKey[]
-  service: IService[]
+  services: IService[]
 }
 
 // Todo make it a String
