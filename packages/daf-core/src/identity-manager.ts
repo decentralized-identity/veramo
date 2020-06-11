@@ -77,8 +77,8 @@ export class IdentityManager implements IAgentPlugin {
     context: IContext,
   ): Promise<IIdentity> {
     const identityProvider = this.getProvider(provider || this.defaultProvider)
-    const identity = await identityProvider.createIdentity({ kms, alias, options }, context)
-    identity.alias = alias
+    const partialIdentity = await identityProvider.createIdentity({ kms, options }, context)
+    const identity: IIdentity = {...partialIdentity, alias, provider}
     await this.store.import(identity)
     return identity
   }
@@ -91,7 +91,7 @@ export class IdentityManager implements IAgentPlugin {
   async identityManagerDeleteIdentity({ did }: { did: string }, context: IContext): Promise<boolean> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
-    await provider.deleteIdentity({ did }, context)
+    await provider.deleteIdentity(identity, context)
     return this.store.delete({ did })
   }
 
@@ -141,7 +141,7 @@ export class IdentityManager implements IAgentPlugin {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
     const result = await provider.addService({ did, service, options })
-    identity.service.push(service)
+    identity.services.push(service)
     await this.store.import(identity)
     return result
   }
@@ -158,7 +158,7 @@ export class IdentityManager implements IAgentPlugin {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
     const result = await provider.removeService({ did, id, options })
-    identity.service = identity.service.filter(s => s.id !== id)
+    identity.services = identity.services.filter(s => s.id !== id)
     await this.store.import(identity)
     return result
   }

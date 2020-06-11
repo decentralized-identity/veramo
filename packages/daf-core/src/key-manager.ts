@@ -1,10 +1,10 @@
 import { AbstractKeyStore } from './abstract/abstract-key-store'
 import { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'
 import { IAgentPlugin } from './types'
-import { IKey, EcdsaSignature } from './types'
+import { IKey, TKeyType, EcdsaSignature } from './types'
 
 export interface IAgentKeyManager {
-  keyManagerCreateKey?: (args: { type: KeyType; kms: string; meta?: Record<string, any> }) => Promise<IKey>
+  keyManagerCreateKey?: (args: { type: TKeyType; kms: string; meta?: Record<string, any> }) => Promise<IKey>
   keyManagerGetKey?: (args: { kid: string }) => Promise<IKey>
   keyManagerDeleteKey?: (args: { kid: string }) => Promise<boolean>
   keyManagerImportKey?: (args: IKey) => Promise<boolean>
