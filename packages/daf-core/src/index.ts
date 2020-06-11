@@ -1,5 +1,5 @@
 export { Agent } from './agent'
-export { IAgentBase, IAgentExtension, IAgentPlugin, IContext, TMethodMap, TAgentMethod } from './types'
+export * from './types'
 export { IdentityManager, IAgentIdentityManager } from './identity-manager'
 export { KeyManager, IAgentKeyManager } from './key-manager'
 export { MessageHandler, IAgentHandleMessage } from './message-handler'
