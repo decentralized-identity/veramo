@@ -8,11 +8,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "blakejs": "^1.1.0",
     "debug": "^4.1.1",
-    "events": "^3.0.0",
-    "typeorm": "^0.2.24",
-    "uuid": "^7.0.2"
+    "events": "^3.0.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
