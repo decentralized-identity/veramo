@@ -1,5 +1,5 @@
-import { Message } from '../entities/message'
-import { IContext } from '../agent'
+import { Message } from '../message'
+import { IContext, IMessage } from '../types'
 
 export interface MessageHandler {
   setNext(messageHandler: MessageHandler): MessageHandler

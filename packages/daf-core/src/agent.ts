@@ -1,20 +1,4 @@
-export interface IAgent {
-  execute: <A = any, R = any>(method: string, args: A) => Promise<R>
-  availableMethods: () => string[]
-}
-
-export interface IContext extends Record<string, any> {
-  agent: IAgent
-}
-
-export type TAgentMethod = (args?: any, context?: IContext) => Promise<any>
-export type TMethodMap = Record<string, TAgentMethod>
-export interface IAgentExtension<T extends TAgentMethod> {
-  (arg: Parameters<T>[0]): ReturnType<T>
-}
-export interface IAgentPlugin {
-  readonly methods: TMethodMap
-}
+import { IAgent, TMethodMap, IAgentPlugin } from './types'
 
 export class Agent implements IAgent {
   readonly methods: TMethodMap = {}

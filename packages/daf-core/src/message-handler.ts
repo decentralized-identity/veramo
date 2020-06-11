@@ -1,11 +1,10 @@
 import { EventEmitter } from 'events'
-import { Message, MetaData } from '../entities/message'
-import { AbstractMessageHandler } from './abstract-message-handler'
-import { Connection } from 'typeorm'
-import { IAgentPlugin, TMethodMap, IContext } from '../agent'
+import { Message } from './message'
+import { IMetaData, IAgentDataStore, IAgentPlugin, TMethodMap, IContext, IAgent } from './types'
+import { AbstractMessageHandler } from './abstract/abstract-message-handler'
 
 import Debug from 'debug'
-const debug = Debug('daf:handle-message')
+const debug = Debug('daf:message-handler')
 
 export const EventTypes = {
   validatedMessage: 'validatedMessage',
@@ -15,22 +14,24 @@ export const EventTypes = {
 
 type THandleMessageArgs = {
   raw: string
-  metaData?: MetaData[]
+  metaData?: IMetaData[]
   save?: boolean
+}
+
+interface Context extends IContext {
+  agent: IAgent & IAgentDataStore
 }
 
 export interface IAgentHandleMessage {
   handleMessage?: (args: THandleMessageArgs) => Promise<Message>
 }
 
-export class HandleMessage extends EventEmitter implements IAgentPlugin {
+export class MessageHandler extends EventEmitter implements IAgentPlugin {
   readonly methods: TMethodMap
-  private dbConnection: Promise<Connection>
   private messageHandler: AbstractMessageHandler
 
-  constructor(options: { dbConnection: Promise<Connection>; messageHandlers: AbstractMessageHandler[] }) {
+  constructor(options: { messageHandlers: AbstractMessageHandler[] }) {
     super()
-    this.dbConnection = options.dbConnection
 
     for (const messageHandler of options.messageHandlers) {
       if (!this.messageHandler) {
@@ -46,7 +47,7 @@ export class HandleMessage extends EventEmitter implements IAgentPlugin {
     }
   }
 
-  public async handleMessage(args: THandleMessageArgs, context: IContext): Promise<Message> {
+  public async handleMessage(args: THandleMessageArgs, context: Context): Promise<Message> {
     const { raw, metaData, save } = args
     debug('%o', { raw, metaData, save })
     if (!this.messageHandler) {
@@ -62,7 +63,7 @@ export class HandleMessage extends EventEmitter implements IAgentPlugin {
 
       debug('Validated message %o', message)
       if (save) {
-        await (await this.dbConnection).getRepository(Message).save(message)
+        await context.agent.dataStoreSaveMessage(message)
         debug('Emitting event', EventTypes.savedMessage)
         // this.emit(EventTypes.savedMessage, message)
       }

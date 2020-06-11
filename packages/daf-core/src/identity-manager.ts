@@ -1,6 +1,5 @@
-import { AbstractIdentity } from './abstract-identity'
-import { AbstractIdentityProvider } from './abstract-identity-provider'
-import { TMethodMap, IAgentPlugin } from '../agent'
+import { AbstractIdentityProvider } from './abstract/abstract-identity-provider'
+import { TMethodMap, IAgentPlugin } from './types'
 
 interface Options {
   identityProviders: AbstractIdentityProvider[]
