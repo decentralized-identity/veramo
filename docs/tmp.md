@@ -165,7 +165,16 @@ interface IAgentDataStoreORM {
 }
 
 interface IAgentDIDComm {
-  sendMessage?: (args: Message) => Promise<boolean>
+  sendMessageDIDCommAlpha1?: (args: {
+  url?: string
+  save?: boolean
+  data: {
+    id?: string
+    from: string
+    to: string
+    type: string
+    body: any
+  }) => Promise<Message>
 }
 
 interface Credential {
