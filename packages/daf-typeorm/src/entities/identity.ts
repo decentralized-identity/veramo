@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 import { Key } from './key'
+import { Service } from './service'
 import { Message } from './message'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
@@ -22,6 +23,9 @@ export class Identity extends BaseEntity {
 
   @Column({ nullable: true })
   provider: string
+
+  @Column({ nullable: true })
+  alias: string
 
   @CreateDateColumn()
   saveDate: Date
@@ -37,6 +41,12 @@ export class Identity extends BaseEntity {
     key => key.identity,
   )
   keys: Key[]
+
+  @OneToMany(
+    type => Service,
+    service => service.identity,
+  )
+  services: Service[]
 
   @OneToMany(
     type => Message,
