@@ -10,6 +10,7 @@
     { "path": "daf-resolver-universal" },
     { "path": "daf-selective-disclosure" },
     { "path": "daf-url" },
+    { "path": "daf-typeorm" },
     { "path": "daf-w3c" }
   ]
 }
