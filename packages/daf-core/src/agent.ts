@@ -1,6 +1,6 @@
-import { IAgent, TMethodMap, IAgentPlugin } from './types'
+import { IAgentBase, TMethodMap, IAgentPlugin } from './types'
 
-export class Agent implements IAgent {
+export class Agent implements IAgentBase {
   readonly methods: TMethodMap = {}
   private context: Record<string, any>
   private protectedMethods = ['execute', 'availableMethods']

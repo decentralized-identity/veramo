@@ -1,79 +1,165 @@
 import { AbstractIdentityProvider } from './abstract/abstract-identity-provider'
-import { TMethodMap, IAgentPlugin } from './types'
-
-interface Options {
-  identityProviders: AbstractIdentityProvider[]
-}
+import { IAgentPlugin, IIdentity, IService, IKey, IAgentBase } from './types'
+import { AbstractIdentityStore } from './abstract/abstract-identity-store'
+import { IAgentKeyManager } from './key-manager'
 
 export interface IAgentIdentityManager {
-  getIdentityProviders?: () => Promise<AbstractIdentityProvider[]>
-  getIdentities?: () => Promise<AbstractIdentity[]>
-  getIdentity?: (args: { did: string }) => Promise<AbstractIdentity>
-  createIdentity?: (args?: { identityProviderType?: string; options?: any }) => Promise<AbstractIdentity>
-  deleteIdentity?: (args: { identityProviderType: string; did: string }) => Promise<boolean>
+  identityManagerGetProviders?: () => Promise<string[]>
+  identityManagerGetIdentities?: () => Promise<IIdentity[]>
+  identityManagerGetIdentity?: (args: { did: string }) => Promise<IIdentity>
+  identityManagerCreateIdentity?: (args: {
+    alias?: string
+    provider?: string
+    kms?: string
+    options?: any
+  }) => Promise<IIdentity>
+  // identityManagerGetOrCreateIdentity?: (args: { alias: string, provider?: string, kms?: string, options?: any}) => Promise<IIdentity>
+  identityManagerImportIdentity?: (args: IIdentity) => Promise<IIdentity>
+  identityManagerDeleteIdentity?: (args: { did: string }) => Promise<boolean>
+  identityManagerAddKey?: (args: { did: string; key: IKey; options?: any }) => Promise<any> // txHash?
+  identityManagerRemoveKey?: (args: { did: string; kid: string; options?: any }) => Promise<any> // txHash?
+  identityManagerAddService?: (args: { did: string; service: IService; options?: any }) => Promise<any> //txHash?
+  identityManagerRemoveService?: (args: { did: string; id: string; options?: any }) => Promise<any> //txHash?
+}
+
+interface IContext {
+  agent: IAgentBase & IAgentKeyManager
 }
 
 export class IdentityManager implements IAgentPlugin {
-  readonly methods: TMethodMap
-  private identityProviders: AbstractIdentityProvider[]
+  readonly methods: Required<IAgentIdentityManager>
+  private providers: Record<string, AbstractIdentityProvider>
+  private defaultProvider: string
+  private store: AbstractIdentityStore
 
-  constructor(options: Options) {
-    this.identityProviders = options.identityProviders
+  constructor(options: {
+    providers: Record<string, AbstractIdentityProvider>
+    defaultProvider: string
+    store: AbstractIdentityStore
+  }) {
+    this.providers = options.providers
+    this.defaultProvider = options.defaultProvider
+    this.store = options.store
     this.methods = {
-      getIdentityProviders: this.getIdentityProviders.bind(this),
-      getIdentities: this.getIdentities.bind(this),
-      getIdentity: this.getIdentity.bind(this),
-      createIdentity: this.createIdentity.bind(this),
-      deleteIdentity: this.deleteIdentity.bind(this),
+      identityManagerGetProviders: this.identityManagerGetProviders.bind(this),
+      identityManagerGetIdentities: this.identityManagerGetIdentities.bind(this),
+      identityManagerGetIdentity: this.identityManagerGetIdentity.bind(this),
+      identityManagerCreateIdentity: this.identityManagerCreateIdentity.bind(this),
+      identityManagerImportIdentity: this.identityManagerImportIdentity.bind(this),
+      identityManagerDeleteIdentity: this.identityManagerDeleteIdentity.bind(this),
+      identityManagerAddKey: this.identityManagerAddKey.bind(this),
+      identityManagerRemoveKey: this.identityManagerRemoveKey.bind(this),
+      identityManagerAddService: this.identityManagerAddService.bind(this),
+      identityManagerRemoveService: this.identityManagerRemoveService.bind(this),
     }
   }
 
-  getIdentityProviders(): AbstractIdentityProvider[] {
-    return this.identityProviders
+  private getProvider(name: string): AbstractIdentityProvider {
+    const provider = this.providers[name]
+    if (!provider) throw Error('Identity provider does not exist: ' + name)
+    return provider
   }
 
-  private getIdentityProvider(type: string): AbstractIdentityProvider {
-    for (const identityProvider of this.identityProviders) {
-      if (identityProvider.type === type) {
-        return identityProvider
-      }
-    }
-
-    throw Error('IdentityProvider not found for type: ' + type)
+  async identityManagerGetProviders(): Promise<string[]> {
+    return Object.keys(this.providers)
   }
 
-  async getIdentities(): Promise<AbstractIdentity[]> {
-    let allIdentities: AbstractIdentity[] = []
-    for (const identityProvider of this.identityProviders) {
-      const identities = await identityProvider.getIdentities()
-      allIdentities = allIdentities.concat(identities)
-    }
-    return allIdentities
+  async identityManagerGetIdentities(): Promise<IIdentity[]> {
+    return this.store.list()
   }
 
-  async getIdentity({ did }: { did: string }): Promise<AbstractIdentity> {
-    const identities = await this.getIdentities()
-    const identity = identities.find(item => item.did === did)
-    if (identity) {
-      return identity
-    } else {
-      return Promise.reject('No identity: ' + did)
-    }
+  async identityManagerGetIdentity({ did }: { did: string }): Promise<IIdentity> {
+    return this.store.get({ did })
   }
 
-  async createIdentity(args?: { identityProviderType?: string; options?: any }): Promise<AbstractIdentity> {
-    const identityProvider = args?.identityProviderType
-      ? this.getIdentityProvider(args.identityProviderType)
-      : this.getDefaultIdentityProvider()
-    return identityProvider.createIdentity(args?.options)
+  async identityManagerCreateIdentity(
+    { provider, alias, kms, options }: { alias?: string; provider?: string; kms?: string; options?: any },
+    context: IContext,
+  ): Promise<IIdentity> {
+    const identityProvider = this.getProvider(provider || this.defaultProvider)
+    const identity = await identityProvider.createIdentity({ kms, alias, options }, context)
+    identity.alias = alias
+    await this.store.import(identity)
+    return identity
   }
 
-  async deleteIdentity(args: { identityProviderType: string; did: string }): Promise<boolean> {
-    const identityProvider = this.getIdentityProvider(args.identityProviderType)
-    return identityProvider.deleteIdentity(args.did)
+  async identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity> {
+    await this.store.import(identity)
+    return identity
   }
 
-  private getDefaultIdentityProvider(): AbstractIdentityProvider {
-    return this.identityProviders[0]
+  async identityManagerDeleteIdentity({ did }: { did: string }, context: IContext): Promise<boolean> {
+    const identity = await this.store.get({ did })
+    const provider = this.getProvider(identity.provider)
+    await provider.deleteIdentity({ did }, context)
+    return this.store.delete({ did })
+  }
+
+  async identityManagerAddKey({
+    did,
+    key,
+    options,
+  }: {
+    did: string
+    key: IKey
+    options?: any
+  }): Promise<any> {
+    const identity = await this.store.get({ did })
+    const provider = this.getProvider(identity.provider)
+    const result = await provider.addKey({ did, key, options })
+    identity.keys.push(key)
+    await this.store.import(identity)
+    return result
+  }
+
+  async identityManagerRemoveKey({
+    did,
+    kid,
+    options,
+  }: {
+    did: string
+    kid: string
+    options?: any
+  }): Promise<any> {
+    const identity = await this.store.get({ did })
+    const provider = this.getProvider(identity.provider)
+    const result = await provider.removeKey({ did, kid, options })
+    identity.keys = identity.keys.filter(k => k.kid !== kid)
+    await this.store.import(identity)
+    return result
+  }
+
+  async identityManagerAddService({
+    did,
+    service,
+    options,
+  }: {
+    did: string
+    service: IService
+    options?: any
+  }): Promise<any> {
+    const identity = await this.store.get({ did })
+    const provider = this.getProvider(identity.provider)
+    const result = await provider.addService({ did, service, options })
+    identity.service.push(service)
+    await this.store.import(identity)
+    return result
+  }
+
+  async identityManagerRemoveService({
+    did,
+    id,
+    options,
+  }: {
+    did: string
+    id: string
+    options?: any
+  }): Promise<any> {
+    const identity = await this.store.get({ did })
+    const provider = this.getProvider(identity.provider)
+    const result = await provider.removeService({ did, id, options })
+    identity.service = identity.service.filter(s => s.id !== id)
+    await this.store.import(identity)
+    return result
   }
 }

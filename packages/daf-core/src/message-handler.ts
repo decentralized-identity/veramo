@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 import { Message } from './message'
-import { IMetaData, IAgentDataStore, IAgentPlugin, TMethodMap, IContext, IAgent } from './types'
+import { IMetaData, IAgentDataStore, IAgentPlugin, TMethodMap, IContext, IAgentBase } from './types'
 import { AbstractMessageHandler } from './abstract/abstract-message-handler'
 
 import Debug from 'debug'
@@ -19,7 +19,7 @@ type THandleMessageArgs = {
 }
 
 interface Context extends IContext {
-  agent: IAgent & IAgentDataStore
+  agent: IAgentBase & IAgentDataStore
 }
 
 export interface IAgentHandleMessage {
