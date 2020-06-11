@@ -1,9 +1,9 @@
 import { AbstractKeyStore } from './abstract/abstract-key-store'
 import { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'
-import { TMethodMap, IAgentPlugin } from './types'
+import { IAgentPlugin } from './types'
 import { IKey, EcdsaSignature } from './types'
 
-interface IAgentKeyManager {
+export interface IAgentKeyManager {
   keyManagerCreateKey?: (args: { type: KeyType; kms: string; meta?: Record<string, any> }) => Promise<IKey>
   keyManagerGetKey?: (args: { kid: string }) => Promise<IKey>
   keyManagerDeleteKey?: (args: { kid: string }) => Promise<boolean>
@@ -13,18 +13,12 @@ interface IAgentKeyManager {
   keyManagerSignJWT?: (args: { kid: string; data: string }) => Promise<EcdsaSignature | string>
   keyManagerSignEthTX?: (args: { kid: string; data: string }) => Promise<string>
 }
-
-interface Options {
-  store: AbstractKeyStore
-  kms: Record<string, AbstractKeyManagementSystem>
-}
-
 export class KeyManager implements IAgentPlugin {
   readonly methods: Required<IAgentKeyManager>
   private store: AbstractKeyStore
   private kms: Record<string, AbstractKeyManagementSystem>
 
-  constructor(options: Options) {
+  constructor(options: { store: AbstractKeyStore; kms: Record<string, AbstractKeyManagementSystem> }) {
     this.store = options.store
     this.kms = options.kms
     this.methods = {

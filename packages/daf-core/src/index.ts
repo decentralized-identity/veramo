@@ -1,6 +1,7 @@
 export { Agent } from './agent'
-export { IAgent, IAgentExtension, IAgentPlugin, IContext, TMethodMap, TAgentMethod } from './types'
+export { IAgentBase, IAgentExtension, IAgentPlugin, IContext, TMethodMap, TAgentMethod } from './types'
 export { IdentityManager, IAgentIdentityManager } from './identity-manager'
+export { KeyManager, IAgentKeyManager } from './key-manager'
 export { MessageHandler, IAgentHandleMessage } from './message-handler'
 export { AbstractIdentityProvider } from './abstract/abstract-identity-provider'
 export { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'
