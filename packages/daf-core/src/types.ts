@@ -34,6 +34,48 @@ export interface EcdsaSignature {
   recoveryParam?: number
 }
 
+export interface Credential {
+  '@context'?: string[]
+  type: string[]
+  id?: string
+  issuer: string
+  expirationDate?: string
+  issuanceDate?: string
+  credentialSubject: {
+    id?: string
+    [x: string]: any
+  }
+  credentialStatus?: {
+    id: string
+    type: string
+  }
+  [x: string]: any
+}
+
+export interface VerifiableCredential extends Credential {
+  proof: {
+    jwt?: string
+    jws?: string
+  }
+}
+
+export interface Presentation {
+  '@context'?: string[]
+  type: string[]
+  id?: string
+  issuer: string
+  audience: string[]
+  expirationDate?: string
+  issuanceDate?: string
+  verifiableCredential: Array<string | VerifiableCredential>
+}
+
+export interface VerifiablePresentation extends Presentation {
+  proof: {
+    jwt?: string
+  }
+}
+
 export interface IMetaData {
   type: string
   value?: string
@@ -52,6 +94,8 @@ export interface IMessage {
   from?: string
   to?: string
   metaData?: IMetaData[]
+  credentials?: VerifiableCredential[]
+  presentations?: VerifiablePresentation[]
 }
 
 export interface IAgentBase {
@@ -76,8 +120,8 @@ export interface IAgentPlugin {
 
 export interface IAgentDataStore {
   dataStoreSaveMessage?: (args: IMessage) => Promise<boolean>
-  // dataStoreSaveVerifiableCredential?: (args: VerifiableCredential) => Promise<boolean>
-  // dataStoreSaveVerifiablePresentation?: (args: VerifiablePresentation) => Promise<boolean>
+  dataStoreSaveVerifiableCredential?: (args: VerifiableCredential) => Promise<boolean>
+  dataStoreSaveVerifiablePresentation?: (args: VerifiablePresentation) => Promise<boolean>
 }
 
 export interface IAgentResolve {
