@@ -1,6 +1,4 @@
 import { IIdentity, IKey, IService, IAgentBase, IAgentKeyManager, AbstractIdentityProvider } from 'daf-core'
-import { Identity } from './identity'
-import { IdentityController } from './identity-controller'
 import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'
 const EthrDID = require('ethr-did')
@@ -43,46 +41,6 @@ export class IdentityProvider extends AbstractIdentityProvider {
     this.registry = options.registry
   }
 
-  // private async identityFromSerialized(serializedIdentity: SerializedIdentity): Promise<AbstractIdentity> {
-  //   const key = await this.kms.getKey(serializedIdentity.controllerKeyId)
-
-  //   if (!this.web3Provider && !this.rpcUrl) throw Error('Web3Provider or rpcUrl required')
-
-  //   const web3Provider =
-  //     this.web3Provider ||
-  //     new SignerProvider(this.rpcUrl, {
-  //       signTransaction: key.signEthTransaction.bind(key),
-  //     })
-
-  //   const identityController = new IdentityController({
-  //     did: serializedIdentity.did,
-  //     web3Provider,
-  //     kms: this.kms,
-  //     identityStore: this.identityStore,
-  //     address: toEthereumAddress(key.serialized.publicKeyHex),
-  //     gas: this.gas,
-  //     ttl: this.ttl,
-  //     registry: this.registry,
-  //   })
-
-  //   return new Identity({
-  //     serializedIdentity,
-  //     kms: this.kms,
-  //     identityProviderType: this.type,
-  //     identityController,
-  //   })
-  // }
-
-  // async getIdentities() {
-  //   const dids = await this.identityStore.listDids()
-  //   const result = []
-  //   for (const did of dids) {
-  //     const serializedIdentity = await this.identityStore.get(did)
-  //     result.push(await this.identityFromSerialized(serializedIdentity))
-  //   }
-  //   return result
-  // }
-
   async createIdentity(
     { kms, options }: { kms: string; options?: any },
     context: IContext,
@@ -107,21 +65,26 @@ export class IdentityProvider extends AbstractIdentityProvider {
     return true
   }
 
-  private getWeb3Provider(key: IKey) {
+  private getWeb3Provider({ controllerKeyId }: IIdentity, context: IContext) {
     if (!this.web3Provider && !this.rpcUrl) throw Error('Web3Provider or rpcUrl required')
 
     const web3Provider =
       this.web3Provider ||
       new SignerProvider(this.rpcUrl, {
-        signTransaction: key.signEthTransaction.bind(key),
+        signTransaction: (transaction: object, callback: (error: string | null, signature: string) => void) => {
+          context.agent.keyManagerSignEthTX({kid: controllerKeyId, transaction})
+            .then(signature => callback(null, signature))
+            .catch(error => callback(error, null))
+        },
       })
+    return web3Provider
   }
 
-  async addKey({ did, key, options }: { did: string; key: IKey; options?: any }): Promise<any> {
+  async addKey({ identity, key, options }: { identity: IIdentity; key: IKey; options?: any }, context: IContext): Promise<any> {
 
     const ethrDid = new EthrDID({
-      address: did.split(':').pop,
-      provider: this.web3Provider,
+      address: identity.did.split(':').pop,
+      provider: this.getWeb3Provider(identity, context),
       registry: this.registry,
     })
 
@@ -138,10 +101,10 @@ export class IdentityProvider extends AbstractIdentityProvider {
     return txHash
   }
 
-  async addService({ did, service, options }: { did: string; service: IService; options?: any }): Promise<any> {
+  async addService({ identity, service, options }: { identity: IIdentity; service: IService; options?: any }, context: IContext): Promise<any> {
     const ethrDid = new EthrDID({
-      address: did.split(':').pop,
-      provider: this.web3Provider,
+      address: identity.did.split(':').pop,
+      provider: this.getWeb3Provider(identity, context),
       registry: this.registry,
     })
 
@@ -157,11 +120,11 @@ export class IdentityProvider extends AbstractIdentityProvider {
     return txHash
   }
 
-  async removeKey(args: { did: string; kid: string; options?: any }): Promise<any> {
+  async removeKey(args: { identity: IIdentity; kid: string; options?: any }, context: IContext): Promise<any> {
     throw Error('Not implemented')
   }
 
-  async removeService(args: { did: string; id: string; options?: any }): Promise<any> {
+  async removeService(args: { identity: IIdentity; id: string; options?: any }, context: IContext): Promise<any> {
     throw Error('Not implemented')
   }
 

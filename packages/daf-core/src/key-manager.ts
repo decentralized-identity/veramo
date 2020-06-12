@@ -8,10 +8,10 @@ export interface IAgentKeyManager {
   keyManagerGetKey?: (args: { kid: string }) => Promise<IKey>
   keyManagerDeleteKey?: (args: { kid: string }) => Promise<boolean>
   keyManagerImportKey?: (args: IKey) => Promise<boolean>
-  keyManagerEncryptJWE?: (args: { kid: string; to: string; data: string }) => Promise<string>
+  keyManagerEncryptJWE?: (args: { kid: string; to: IKey; data: string }) => Promise<string>
   keyManagerDecryptJWE?: (args: { kid: string; data: string }) => Promise<string>
   keyManagerSignJWT?: (args: { kid: string; data: string }) => Promise<EcdsaSignature | string>
-  keyManagerSignEthTX?: (args: { kid: string; data: string }) => Promise<string>
+  keyManagerSignEthTX?: (args: { kid: string; transaction: object }) => Promise<string>
 }
 export class KeyManager implements IAgentPlugin {
   readonly methods: Required<IAgentKeyManager>
@@ -39,9 +39,10 @@ export class KeyManager implements IAgentPlugin {
     return kms
   }
 
-  async keyManagerCreateKey(args: { type: KeyType; kms: string; meta?: Record<string, any> }): Promise<IKey> {
+  async keyManagerCreateKey(args: { type: TKeyType; kms: string; meta?: Record<string, any> }): Promise<IKey> {
     const kms = this.getKms(args.kms)
-    const key = await kms.createKey({ type: args.type, meta: args.meta })
+    const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
+    const key: IKey = {...partialKey, kms: args.kms}
     await this.store.import(key)
     return key
   }
@@ -61,7 +62,7 @@ export class KeyManager implements IAgentPlugin {
     return this.store.import(key)
   }
 
-  async keyManagerEncryptJWE({ kid, to, data }: { kid: string; to: string; data: string }): Promise<string> {
+  async keyManagerEncryptJWE({ kid, to, data }: { kid: string; to: IKey; data: string }): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.encryptJWE({ key, to, data })
@@ -79,9 +80,9 @@ export class KeyManager implements IAgentPlugin {
     return kms.signJWT({ key, data })
   }
 
-  async keyManagerSignEthTX({ kid, data }: { kid: string; data: string }): Promise<string> {
+  async keyManagerSignEthTX({ kid, transaction }: { kid: string; transaction: object }): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
-    return kms.signEthTX({ key, data })
+    return kms.signEthTX({ key, transaction })
   }
 }
