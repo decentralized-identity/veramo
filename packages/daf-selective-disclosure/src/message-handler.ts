@@ -1,4 +1,4 @@
-import { AbstractMessageHandler, Message, Identity, IAgent, IAgentHandleMessage } from 'daf-core'
+import { AbstractMessageHandler, Message, IIdentity, IAgentBase, IAgentHandleMessage } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'
@@ -9,7 +9,7 @@ export const MessageTypes = {
 }
 
 interface IContext {
-  agent: IAgent & IAgentHandleMessage
+  agent: IAgentBase & IAgentHandleMessage
 }
 
 export class SdrMessageHandler extends AbstractMessageHandler {
@@ -26,16 +26,13 @@ export class SdrMessageHandler extends AbstractMessageHandler {
 
       message.id = blake2bHex(message.raw)
       message.type = MessageTypes.sdr
-      message.from = new Identity()
-      message.from.did = message.data.iss
+      message.from = message.data.iss
 
       message.replyTo = Array.isArray(message.data.replyTo) ? message.data.replyTo : [message.data.replyTo]
       message.replyUrl = message.data.replyUrl
 
       if (message.data.subject) {
-        const to = new Identity()
-        to.did = message.data.subject
-        message.to = to
+        message.to = message.data.subject
       }
 
       message.threadId = message.data.tag
@@ -47,18 +44,19 @@ export class SdrMessageHandler extends AbstractMessageHandler {
         message.data.credentials.length > 0
       ) {
         debug('Verifying included credentials')
-        message.credentials = []
-        for (const raw of message.data.credentials) {
-          try {
-            const tmpMessage = await context.agent.handleMessage({ raw, save: false })
-            if (tmpMessage.credentials) {
-              message.credentials = [...message.credentials, ...tmpMessage.credentials]
-            }
-          } catch (e) {
-            // Unsupported message type, or some other error
-            debug(e)
-          }
-        }
+        // FIXME
+        // message.credentials = []
+        // for (const raw of message.data.credentials) {
+        //   try {
+        //     const tmpMessage = await context.agent.handleMessage({ raw, save: false })
+        //     if (tmpMessage.credentials) {
+        //       message.credentials = [...message.credentials, ...tmpMessage.credentials]
+        //     }
+        //   } catch (e) {
+        //     // Unsupported message type, or some other error
+        //     debug(e)
+        //   }
+        // }
       }
       return message
     }
