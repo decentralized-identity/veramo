@@ -1,11 +1,10 @@
-import { Agent, AbstractMessageHandler, Message, IAgent } from 'daf-core'
-import { IAgentResolve } from 'daf-resolver'
+import { Agent, AbstractMessageHandler, Message, IAgentBase, IAgentResolve } from 'daf-core'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
 const debug = Debug('daf:did-jwt:message-handler')
 
 interface IContext {
-  agent: IAgent & IAgentResolve
+  agent: IAgentBase & IAgentResolve
 }
 
 export class JwtMessageHandler extends AbstractMessageHandler {
@@ -13,7 +12,7 @@ export class JwtMessageHandler extends AbstractMessageHandler {
     try {
       const decoded = decodeJWT(message.raw)
       const audience = Array.isArray(decoded.payload.aud) ? decoded.payload.aud[0] : decoded.payload.aud
-      const resolver = { resolve: (did: string) => context.agent.resolve({ did }) }
+      const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) }
       const verified = await verifyJWT(message.raw, { resolver, audience })
       debug('Message.raw is a valid JWT')
       message.addMetaData({ type: decoded.header.typ, value: decoded.header.alg })
