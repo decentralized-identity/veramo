@@ -70,6 +70,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   async signEthTX({ key, transaction }: { key: IKey; transaction: object }): Promise<string> {
+    debug('signEthTX', {key, transaction})
     return sign(transaction, '0x' + key.privateKeyHex)
   }
 

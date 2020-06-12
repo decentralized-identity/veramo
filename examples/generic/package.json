@@ -6,6 +6,7 @@
   "scripts": {
     "msg": "DEBUG=daf:* ts-node handle-msg.ts",
     "send": "DEBUG=daf:* ts-node send-vc.ts",
+    "add-key": "DEBUG=daf:* ts-node add-key.ts",
     "test": "DEBUG=daf:* ts-node test.ts"
   },
   "dependencies": {
