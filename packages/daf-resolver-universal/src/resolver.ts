@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import { IContext, TMethodMap, IAgent, IAgentPlugin } from 'daf-core'
+import { IAgentPlugin, IAgentResolve } from 'daf-core'
 import { DIDDocument } from 'did-resolver'
 export { DIDDocument }
 import Debug from 'debug'
@@ -9,16 +9,8 @@ interface Options {
   url: string
 }
 
-interface IArgs {
-  did: string
-}
-
-export interface IAgentResolve extends IAgent {
-  resolve?: (args: IArgs) => Promise<DIDDocument | null>
-}
-
 export class DafUniversalResolver implements IAgentPlugin {
-  public methods: TMethodMap
+  public methods: Required<IAgentResolve>
   private url: string
 
   constructor(options: Options) {
@@ -26,17 +18,17 @@ export class DafUniversalResolver implements IAgentPlugin {
     debug(options.url)
     this.url = options.url
 
-    this.resolve = this.resolve.bind(this)
+    this.resolveDid = this.resolveDid.bind(this)
 
     this.methods = {
-      resolve: this.resolve,
+      resolveDid: this.resolveDid,
     }
   }
 
-  async resolve(args: IArgs, context: IContext): Promise<DIDDocument> {
-    debug('Resolving %s', args.did)
+  async resolveDid({ didUrl }: { didUrl: string }): Promise<DIDDocument> {
+    debug('Resolving %s', didUrl)
     try {
-      const result = await fetch(this.url + args.did)
+      const result = await fetch(this.url + didUrl)
       const ddo = await result.json()
       return ddo.didDocument
     } catch (e) {
