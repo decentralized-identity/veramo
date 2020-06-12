@@ -1,6 +1,5 @@
 import 'cross-fetch/polyfill'
-import { IAgent, Message, IAgentIdentityManager, IAgentHandleMessage, IAgentExtension } from 'daf-core'
-import { IAgentResolve } from 'daf-resolver'
+import { IAgentBase, IAgentResolve, Message, IAgentIdentityManager, IAgentKeyManager, IAgentHandleMessage, IAgentExtension } from 'daf-core'
 import uuid from 'uuid'
 import Debug from 'debug'
 
@@ -18,9 +17,8 @@ export interface IArgs {
   }
 }
 
-type ConfiguredAgent = IAgent & IAgentIdentityManager & IAgentResolve & IAgentHandleMessage
 type TContext = {
-  agent: ConfiguredAgent
+  agent: IAgentBase & IAgentIdentityManager & IAgentKeyManager & IAgentResolve & IAgentHandleMessage
 }
 
 type TSendMessageDIDCommAlpha1 = (args: IArgs, context: TContext) => Promise<Message>
@@ -33,7 +31,7 @@ export const sendMessageDIDCommAlpha1: TSendMessageDIDCommAlpha1 = async (args, 
   const { data, url, save = true } = args
 
   debug('Resolving didDoc')
-  const didDoc = await ctx.agent.resolve({ did: data.to })
+  const didDoc = await ctx.agent.resolveDid({ didUrl: data.to })
   let serviceEndpoint
   if (url) {
     serviceEndpoint = url
@@ -47,18 +45,21 @@ export const sendMessageDIDCommAlpha1: TSendMessageDIDCommAlpha1 = async (args, 
       data.id = data.id || uuid.v4()
       let postPayload = JSON.stringify(data)
       try {
-        const identity = await ctx.agent.getIdentity({ did: data.from })
-        const key = await identity.keyByType('Ed25519')
+        const identity = await ctx.agent.identityManagerGetIdentity({ did: data.from })
+        const key = identity.keys.find(k => k.type === 'Ed25519')
         const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
         if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
 
-        postPayload = await key.encrypt(
+        postPayload = await ctx.agent.keyManagerEncryptJWE(
           {
-            type: 'Ed25519',
-            publicKeyHex: publicKey?.publicKeyHex,
-            kid: publicKey?.publicKeyHex,
-          },
-          postPayload,
+            kid: key.kid,
+            to: {
+              type: 'Ed25519',
+              publicKeyHex: publicKey?.publicKeyHex,
+              kid: publicKey?.publicKeyHex,
+            },
+            data: postPayload
+          }
         )
 
         debug('Encrypted:', postPayload)
