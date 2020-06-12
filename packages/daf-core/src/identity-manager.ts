@@ -76,9 +76,10 @@ export class IdentityManager implements IAgentPlugin {
     { provider, alias, kms, options }: { alias?: string; provider?: string; kms?: string; options?: any },
     context: IContext,
   ): Promise<IIdentity> {
-    const identityProvider = this.getProvider(provider || this.defaultProvider)
+    const providerName = provider || this.defaultProvider
+    const identityProvider = this.getProvider(providerName)
     const partialIdentity = await identityProvider.createIdentity({ kms, options }, context)
-    const identity: IIdentity = {...partialIdentity, alias, provider}
+    const identity: IIdentity = {...partialIdentity, alias, provider: providerName}
     await this.store.import(identity)
     return identity
   }
