@@ -16,7 +16,7 @@ export function toEthereumAddress(hexPublicKey: string): string {
     .toString('hex')}`
 }
 
-export class IdentityProvider extends AbstractIdentityProvider {
+export class EthrIdentityProvider extends AbstractIdentityProvider {
   private network: string
   private web3Provider?: any
   private rpcUrl?: string
