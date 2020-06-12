@@ -53,6 +53,8 @@ export const agent: ConfiguredAgent = new Agent({
           defaultKms: 'local',
           network: 'rinkeby',
           rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+          gas: 10001,
+          ttl: 60 * 60 * 24 * 30 * 12 + 1,
         })
       }
     }),

@@ -84,8 +84,10 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
 
   async addKey({ identity, key, options }: { identity: IIdentity; key: IKey; options?: any }, context: IContext): Promise<any> {
 
+    const address = identity.did.split(':').pop()
+    debug('addKey', { identity, key, options, address})
     const ethrDid = new EthrDID({
-      address: identity.did.split(':').pop,
+      address,
       provider: this.getWeb3Provider(identity, context),
       registry: this.registry,
     })
@@ -105,7 +107,7 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
 
   async addService({ identity, service, options }: { identity: IIdentity; service: IService; options?: any }, context: IContext): Promise<any> {
     const ethrDid = new EthrDID({
-      address: identity.did.split(':').pop,
+      address: identity.did.split(':').pop(),
       provider: this.getWeb3Provider(identity, context),
       registry: this.registry,
     })
