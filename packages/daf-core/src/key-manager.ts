@@ -8,7 +8,7 @@ export interface IAgentKeyManager {
   keyManagerGetKey?: (args: { kid: string }) => Promise<IKey>
   keyManagerDeleteKey?: (args: { kid: string }) => Promise<boolean>
   keyManagerImportKey?: (args: IKey) => Promise<boolean>
-  keyManagerEncryptJWE?: (args: { kid: string; to: IKey; data: string }) => Promise<string>
+  keyManagerEncryptJWE?: (args: { kid: string; to: Omit<IKey, 'kms'>; data: string }) => Promise<string>
   keyManagerDecryptJWE?: (args: { kid: string; data: string }) => Promise<string>
   keyManagerSignJWT?: (args: { kid: string; data: string }) => Promise<EcdsaSignature | string>
   keyManagerSignEthTX?: (args: { kid: string; transaction: object }) => Promise<string>
