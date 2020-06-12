@@ -1,14 +1,14 @@
-import { AbstractIdentity } from 'daf-core'
+import { IIdentity } from 'daf-core'
 import { agent } from './setup'
 
 async function main() {
   // Getting existing identity or creating a new one
-  let identity: AbstractIdentity
-  const identities = await agent.getIdentities()
+  let identity: IIdentity
+  const identities = await agent.identityManagerGetIdentities()
   if (identities.length > 0) {
     identity = identities[0]
   } else {
-    identity = await agent.createIdentity()
+    identity = await agent.identityManagerCreateIdentity({kms: 'local'})
   }
 
   // Sign verifiable credential
@@ -24,13 +24,15 @@ async function main() {
     },
   })
 
+  console.log(credential)
+
   // Send verifiable credential using DIDComm
   const message = await agent.sendMessageDIDCommAlpha1({
     data: {
       from: identity.did,
       to: 'did:ethr:rinkeby:0x79292ba5a516f04c3de11e8f06642c7bec16c490',
       type: 'jwt',
-      body: credential.raw,
+      body: credential.p,
     },
   })
   console.log({ message })

@@ -20,7 +20,7 @@ export class Key extends BaseEntity {
   @Column()
   privateKeyHex?: string
 
-  @Column({type: 'simple-json'})
+  @Column({type: 'simple-json', nullable: true})
   meta?: Record<string, any>
 
   @ManyToOne(
