@@ -1,4 +1,4 @@
-import { Claim, Presentation, Identity } from 'daf-core'
+import { Claim, Presentation, Identity } from 'daf-typeorm'
 import { SelectiveDisclosureRequest } from './action-handler'
 import { In, Like, Connection } from 'typeorm'
 

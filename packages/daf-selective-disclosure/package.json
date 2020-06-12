@@ -10,6 +10,7 @@
   "dependencies": {
     "blakejs": "^1.1.0",
     "daf-core": "^6.0.0",
+    "daf-typeorm": "^6.0.0",
     "daf-did-jwt": "^6.0.0",
     "debug": "^4.1.1",
     "did-jwt": "^4.3.2",

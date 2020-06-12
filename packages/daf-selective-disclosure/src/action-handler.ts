@@ -1,4 +1,4 @@
-import { IAgent, IAgentIdentityManager, IAgentExtension } from 'daf-core'
+import { IAgentBase, IAgentIdentityManager, IAgentExtension, IAgentKeyManager } from 'daf-core'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
@@ -32,32 +32,32 @@ export interface IArgs {
   data: SelectiveDisclosureRequest
 }
 
-type ConfiguredAgent = IAgent & IAgentIdentityManager
-type TContext = {
-  agent: ConfiguredAgent
+interface IContext {
+  agent: IAgentBase & IAgentIdentityManager & IAgentKeyManager
 }
 
-type TSignSdr = (args: IArgs, context: TContext) => Promise<string>
+type TSignSdr = (args: IArgs, context: IContext) => Promise<string>
 
 export interface IAgentSignSdr {
   signSdr?: IAgentExtension<TSignSdr>
 }
 
-export const signSdr: TSignSdr = async (args, ctx) => {
+export const signSdr: TSignSdr = async (args, context) => {
   const { data } = args
   try {
-    const identity = await ctx.agent.getIdentity({ did: data.issuer })
+    const identity = await context.agent.identityManagerGetIdentity({ did: data.issuer })
     delete data.issuer
     debug('Signing SDR with', identity.did)
 
-    const key = await identity.keyByType('Secp256k1')
+    const key = identity.keys.find(k => k.type === 'Secp256k1')
+    const signer = (data: string) => context.agent.keyManagerSignJWT({kid: key.kid, data})
     const jwt = await createJWT(
       {
         type: 'sdr',
         ...data,
       },
       {
-        signer: key.signer(),
+        signer,
         alg: 'ES256K-R',
         issuer: identity.did,
       },
