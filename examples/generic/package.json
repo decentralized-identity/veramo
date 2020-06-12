@@ -1,5 +1,5 @@
 {
-  "name": "send-vc",
+  "name": "daf-generic-examples",
   "private": true,
   "version": "2.0.0",
   "main": "index.ts",
@@ -15,6 +15,7 @@
     "daf-ethr-did": "../../packages/daf-ethr-did",
     "daf-libsodium": "../../packages/daf-libsodium",
     "daf-resolver": "../../packages/daf-resolver",
+    "daf-typeorm": "../../packages/daf-typeorm",
     "daf-w3c": "../../packages/daf-w3c",
     "pg": "^7.18.2",
     "reflect-metadata": "^0.1.13",

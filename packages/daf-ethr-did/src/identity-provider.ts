@@ -17,6 +17,7 @@ export function toEthereumAddress(hexPublicKey: string): string {
 }
 
 export class EthrIdentityProvider extends AbstractIdentityProvider {
+  private defaultKms: string
   private network: string
   private web3Provider?: any
   private rpcUrl?: string
@@ -25,6 +26,7 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
   private registry?: string
 
   constructor(options: {
+    defaultKms: string
     network: string
     rpcUrl?: string
     web3Provider?: object
@@ -46,7 +48,7 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
     context: IContext,
   ): Promise<Omit<IIdentity, 'provider'>> {
 
-    const key = await context.agent.keyManagerCreateKey({ kms, type: 'Secp256k1' })
+    const key = await context.agent.keyManagerCreateKey({ kms: kms || this.defaultKms, type: 'Secp256k1' })
     const address = toEthereumAddress(key.publicKeyHex)
     const identity: Omit<IIdentity, 'provider'> = {
       did: 'did:ethr:' + (this.network !== 'mainnet' ? this.network + ':' : '') + address,
