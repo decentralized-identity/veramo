@@ -1,9 +1,9 @@
-import { AbstractMessageHandler, Message, IAgent, IAgentIdentityManager } from 'daf-core'
+import { AbstractMessageHandler, Message, IAgentBase, IAgentIdentityManager, IAgentKeyManager } from 'daf-core'
 import Debug from 'debug'
 const debug = Debug('daf:did-comm:message-handler')
 
 interface IContext {
-  agent: IAgent & IAgentIdentityManager
+  agent: IAgentBase & IAgentIdentityManager & IAgentKeyManager
 }
 
 export class DIDCommMessageHandler extends AbstractMessageHandler {
@@ -15,12 +15,13 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
     try {
       const parsed = JSON.parse(message.raw)
       if (parsed.ciphertext && parsed.protected) {
-        const identities = await context.agent.getIdentities()
+        const identities = await context.agent.identityManagerGetIdentities()
         for (const identity of identities) {
           let decrypted
           try {
-            const key = await identity.keyByType('Ed25519')
-            decrypted = await key.decrypt(message.raw)
+            const key = identity.keys.find(k => k.type === 'Ed25519')
+            if(!key) throw Error('No encryption keys')
+            decrypted = await context.agent.keyManagerDecryptJWE({ kid: key.kid, data: message.raw})
           } catch (e) {}
           if (decrypted) {
             debug('Decrypted for %s', identity.did)
