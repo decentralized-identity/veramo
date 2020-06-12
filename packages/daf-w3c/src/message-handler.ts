@@ -1,5 +1,4 @@
-import { IAgent, AbstractMessageHandler, Message, Identity, Credential, Presentation } from 'daf-core'
-import { IAgentResolve } from 'daf-resolver'
+import { IAgentBase, IAgentResolve, AbstractMessageHandler, Message, IIdentity, Credential, Presentation, VerifiablePresentation, VerifiableCredential } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import {
@@ -19,7 +18,7 @@ export const MessageTypes = {
 }
 
 interface IContext {
-  agent: IAgent & IAgentResolve
+  agent: IAgentBase & IAgentResolve
 }
 
 export class W3cMessageHandler extends AbstractMessageHandler {
@@ -33,10 +32,10 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         validatePresentationAttributes(data)
 
         debug('JWT is', MessageTypes.vp)
-        const credentials: Credential[] = []
+        const credentials: VerifiableCredential[] = []
         for (const jwt of data.vp.verifiableCredential) {
           const verified = await verifyCredential(jwt, {
-            resolve: (did: string) => context.agent.resolve({ did }),
+            resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }),
           })
           credentials.push(createCredential(verified.payload, jwt))
         }
@@ -44,12 +43,10 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.id = blake2bHex(message.raw)
         message.type = MessageTypes.vp
 
-        message.from = new Identity()
-        message.from.did = message.data.iss
+        message.from = message.data.iss
 
-        message.to = new Identity()
         const audArray = Array.isArray(message.data.aud) ? (message.data.aud as string[]) : [message.data.aud]
-        message.to.did = audArray[0]
+        message.to = audArray[0]
 
         if (message.data.tag) {
           message.threadId = message.data.tag
@@ -69,11 +66,9 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.id = blake2bHex(message.raw)
         message.type = MessageTypes.vc
 
-        message.from = new Identity()
-        message.from.did = message.data.iss
+        message.from = message.data.iss
 
-        message.to = new Identity()
-        message.to.did = message.data.sub
+        message.to = message.data.sub
 
         if (message.data.tag) {
           message.threadId = message.data.tag
@@ -89,77 +84,67 @@ export class W3cMessageHandler extends AbstractMessageHandler {
   }
 }
 
-export function createCredential(payload: VerifiableCredentialPayload, jwt: string): Credential {
-  const vc = new Credential()
-
-  vc.issuer = new Identity()
-  vc.issuer.did = payload.iss
-
-  if (payload.sub) {
-    vc.subject = new Identity()
-    vc.subject.did = payload.sub
+export function createCredential(payload: VerifiableCredentialPayload, jwt: string): VerifiableCredential {
+  const vc: Partial<VerifiableCredential> = {
+    '@context': payload.vc['@context'],
+    type: payload.vc.type,
+    issuer: payload.iss,
+    proof: {
+      jwt
+    }
   }
 
-  vc.raw = jwt
+  if (payload.sub) {
+    vc.subject = payload.sub
+  }
 
   if (payload.jti) {
     vc.id = payload.jti
   }
 
   if (payload.nbf || payload.iat) {
-    vc.issuanceDate = timestampToDate(payload.nbf || payload.iat)
+    vc.issuanceDate = timestampToDate(payload.nbf || payload.iat).toISOString()
   }
 
   if (payload.exp) {
-    vc.expirationDate = timestampToDate(payload.exp)
+    vc.expirationDate = timestampToDate(payload.exp).toISOString()
   }
-
-  vc.context = payload.vc['@context']
-  vc.type = payload.vc.type
 
   vc.credentialSubject = payload.vc.credentialSubject
 
-  return vc
+  return vc as VerifiableCredential
 }
 
 export function createPresentation(
   payload: PresentationPayload,
   jwt: string,
-  credentials: Credential[],
-): Presentation {
-  const vp = new Presentation()
-
-  vp.issuer = new Identity()
-  vp.issuer.did = payload.iss
-
-  const audArray = Array.isArray(payload.aud) ? (payload.aud as string[]) : [payload.aud]
-
-  vp.audience = audArray.map((did: string) => {
-    const id = new Identity()
-    id.did = did
-    return id
-  })
-
-  vp.raw = jwt
+  credentials: VerifiableCredential[],
+): VerifiablePresentation {
+  const vp: Partial<VerifiablePresentation> = {
+    '@context': payload.vp['@context'],
+    type: payload.type,
+    issuer: payload.iss,
+    audience: Array.isArray(payload.aud) ? (payload.aud as string[]) : [payload.aud],
+    proof: {
+      jwt
+    }
+  }
 
   if (payload.jti) {
     vp.id = payload.jti
   }
 
   if (payload.nbf || payload.iat) {
-    vp.issuanceDate = timestampToDate(payload.nbf || payload.iat)
+    vp.issuanceDate = timestampToDate(payload.nbf || payload.iat).toISOString()
   }
 
   if (payload.exp) {
-    vp.expirationDate = timestampToDate(payload.exp)
+    vp.expirationDate = timestampToDate(payload.exp).toISOString()
   }
 
-  vp.context = payload.vp['@context']
-  vp.type = payload.vp.type
+  vp.verifiableCredential = credentials
 
-  vp.credentials = credentials
-
-  return vp
+  return vp as VerifiablePresentation
 }
 
 function timestampToDate(timestamp: number): Date {

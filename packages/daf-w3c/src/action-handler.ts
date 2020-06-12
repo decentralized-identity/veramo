@@ -1,5 +1,4 @@
-import { IAgent, IAgentIdentityManager, IAgentExtension, Credential, Presentation } from 'daf-core'
-import { IAgentResolve } from 'daf-resolver'
+import { IAgentBase, IAgentResolve, IAgentIdentityManager, IAgentKeyManager, IAgentExtension, Credential, Presentation, VerifiableCredential, VerifiablePresentation, IAgentDataStore } from 'daf-core'
 import {
   createVerifiableCredential,
   createPresentation as createVerifiablePresentation,
@@ -26,7 +25,7 @@ export interface ISignCredentialJwtArgs {
 }
 
 type TContext = {
-  agent: IAgent & IAgentIdentityManager & IAgentResolve
+  agent: IAgentBase & IAgentIdentityManager & IAgentResolve & IAgentDataStore & IAgentKeyManager
   dbConnection: Promise<Connection>
 }
 
@@ -41,21 +40,22 @@ export interface IAgentSignCredentialJwt {
   signCredentialJwt?: IAgentExtension<TSignCredentialJwt>
 }
 
-export const signPresentationJwt: TSignPresentationJwt = async (args, ctx) => {
+export const signPresentationJwt: TSignPresentationJwt = async (args, context) => {
   const { data, save } = args
   try {
     const payload = transformPresentationInput(data)
-    const identity = await ctx.agent.getIdentity({ did: data.issuer })
-    const key = await identity.keyByType('Secp256k1')
+    const identity = await context.agent.identityManagerGetIdentity({ did: data.issuer })
+    const key = identity.keys.find(k => k.type === 'Secp256k1')
+    const signer = (data: string) => context.agent.keyManagerSignJWT({kid: key.kid, data})
     debug('Signing VP with', identity.did)
     // Removing duplicate JWT
     payload.vp.verifiableCredential = Array.from(new Set(payload.vp.verifiableCredential))
-    const jwt = await createVerifiablePresentation(payload, { did: identity.did, signer: key.signer() })
+    const jwt = await createVerifiablePresentation(payload, { did: identity.did, signer })
 
-    const credentials: Credential[] = []
+    const credentials: VerifiableCredential[] = []
     for (const credentialJwt of payload.vp.verifiableCredential) {
       const verified = await verifyCredential(credentialJwt, {
-        resolve: (did: string) => ctx.agent.resolve({ did }),
+        resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }),
       })
       credentials.push(createCredential(verified.payload, credentialJwt))
     }
@@ -64,7 +64,7 @@ export const signPresentationJwt: TSignPresentationJwt = async (args, ctx) => {
     const decoded = decodeJWT(jwt)
     const presentation = createPresentation(decoded.payload as PresentationPayload, jwt, credentials)
     if (save) {
-      await (await ctx.dbConnection).getRepository(Presentation).save(presentation)
+      await context.agent.dataStoreSaveVerifiablePresentation(presentation)
     }
     return presentation
   } catch (error) {
@@ -73,19 +73,21 @@ export const signPresentationJwt: TSignPresentationJwt = async (args, ctx) => {
   }
 }
 
-export const signCredentialJwt: TSignCredentialJwt = async (args, ctx) => {
+export const signCredentialJwt: TSignCredentialJwt = async (args, context) => {
   const { data, save } = args
   try {
     const payload = transformCredentialInput(data)
-    const identity = await ctx.agent.getIdentity({ did: data.issuer })
-    const key = await identity.keyByType('Secp256k1')
+    const identity = await context.agent.identityManagerGetIdentity({ did: data.issuer })
+    const key = identity.keys.find(k => k.type === 'Secp256k1')
+    const signer = (data: string) => context.agent.keyManagerSignJWT({kid: key.kid, data})
+
     debug('Signing VC with', identity.did)
-    const jwt = await createVerifiableCredential(payload, { did: identity.did, signer: key.signer() })
+    const jwt = await createVerifiableCredential(payload, { did: identity.did, signer })
     debug(jwt)
     const decoded = decodeJWT(jwt)
     const credential = createCredential(decoded.payload as VerifiableCredentialPayload, jwt)
     if (save) {
-      await (await ctx.dbConnection).getRepository(Credential).save(credential)
+      await context.agent.dataStoreSaveVerifiableCredential(credential)
     }
     return credential
   } catch (error) {
