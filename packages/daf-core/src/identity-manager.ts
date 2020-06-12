@@ -103,10 +103,10 @@ export class IdentityManager implements IAgentPlugin {
     did: string
     key: IKey
     options?: any
-  }): Promise<any> {
+  }, context: IContext): Promise<any> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
-    const result = await provider.addKey({ did, key, options })
+    const result = await provider.addKey({ identity, key, options }, context)
     identity.keys.push(key)
     await this.store.import(identity)
     return result
@@ -120,10 +120,10 @@ export class IdentityManager implements IAgentPlugin {
     did: string
     kid: string
     options?: any
-  }): Promise<any> {
+  }, context: IContext): Promise<any> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
-    const result = await provider.removeKey({ did, kid, options })
+    const result = await provider.removeKey({ identity, kid, options }, context)
     identity.keys = identity.keys.filter(k => k.kid !== kid)
     await this.store.import(identity)
     return result
@@ -137,10 +137,10 @@ export class IdentityManager implements IAgentPlugin {
     did: string
     service: IService
     options?: any
-  }): Promise<any> {
+  }, context: IContext): Promise<any> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
-    const result = await provider.addService({ did, service, options })
+    const result = await provider.addService({ identity, service, options }, context)
     identity.services.push(service)
     await this.store.import(identity)
     return result
@@ -154,10 +154,10 @@ export class IdentityManager implements IAgentPlugin {
     did: string
     id: string
     options?: any
-  }): Promise<any> {
+  }, context: IContext): Promise<any> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
-    const result = await provider.removeService({ did, id, options })
+    const result = await provider.removeService({ identity, id, options }, context)
     identity.services = identity.services.filter(s => s.id !== id)
     await this.store.import(identity)
     return result
