@@ -80,6 +80,6 @@ export interface IAgentDataStore {
   // dataStoreSaveVerifiablePresentation?: (args: VerifiablePresentation) => Promise<boolean>
 }
 
-interface IAgentResolve {
-  resolveDid?: (args: { did: string }) => Promise<DIDDocument>
+export interface IAgentResolve {
+  resolveDid?: (args: { didUrl: string }) => Promise<DIDDocument>
 }
