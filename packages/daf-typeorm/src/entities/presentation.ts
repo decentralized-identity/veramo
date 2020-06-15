@@ -1,3 +1,4 @@
+import { IVerifiablePresentation } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 import {
   Entity,
@@ -11,7 +12,7 @@ import {
 } from 'typeorm'
 import { Identity } from './identity'
 import { Message } from './message'
-import { Credential } from './credential'
+import { Credential, createCredentialEntity } from './credential'
 
 @Entity()
 export class Presentation extends BaseEntity {
@@ -81,4 +82,34 @@ export class Presentation extends BaseEntity {
     message => message.presentations,
   )
   messages: Message[]
+}
+
+export const createPresentationEntity = (vp: IVerifiablePresentation): Presentation => {
+  const presentation = new Presentation()
+  presentation.context = vp["@context"]
+  presentation.type = vp.type
+  presentation.id = vp.id
+
+  if (vp.issuanceDate) {  
+    presentation.issuanceDate = new Date(vp.issuanceDate)
+  }
+
+  if (vp.expirationDate) {  
+    presentation.expirationDate = new Date(vp.expirationDate)
+  }
+  
+  const issuer = new Identity()
+  issuer.did = vp.issuer
+  presentation.issuer = issuer
+
+  presentation.audience = vp.audience.map(audienceDid => {
+    const id = new Identity()
+    id.did = audienceDid
+    return id
+  })
+
+  presentation.raw = vp.proof?.jwt
+
+  presentation.credentials = vp.verifiableCredential.map(createCredentialEntity)
+  return presentation
 }

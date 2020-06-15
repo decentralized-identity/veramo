@@ -1,5 +1,6 @@
 export { IdentityStore } from './identity/identity-store'
 export { KeyStore } from './identity/key-store'
+export { DataStore } from './data-store'
 import { Key, KeyType } from './entities/key'
 import { Identity } from './entities/identity'
 import { Claim } from './entities/claim'

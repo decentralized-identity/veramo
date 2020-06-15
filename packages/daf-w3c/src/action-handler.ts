@@ -1,4 +1,4 @@
-import { IAgentBase, IAgentResolve, IAgentIdentityManager, IAgentKeyManager, IAgentExtension, Credential, Presentation, VerifiableCredential, VerifiablePresentation, IAgentDataStore } from 'daf-core'
+import { IAgentBase, IAgentResolve, IAgentIdentityManager, IAgentKeyManager, IAgentExtension, ICredential, IPresentation, IVerifiableCredential, IVerifiablePresentation, IAgentDataStore } from 'daf-core'
 import {
   createVerifiableCredential,
   createPresentation as createVerifiablePresentation,
@@ -29,8 +29,8 @@ type TContext = {
   dbConnection: Promise<Connection>
 }
 
-type TSignPresentationJwt = (args: ISignPresentationJwtArgs, context: TContext) => Promise<Presentation>
-type TSignCredentialJwt = (args: ISignCredentialJwtArgs, context: TContext) => Promise<Credential>
+type TSignPresentationJwt = (args: ISignPresentationJwtArgs, context: TContext) => Promise<IPresentation>
+type TSignCredentialJwt = (args: ISignCredentialJwtArgs, context: TContext) => Promise<ICredential>
 
 export interface IAgentSignPresentationJwt {
   signPresentationJwt?: IAgentExtension<TSignPresentationJwt>
@@ -52,7 +52,7 @@ export const signPresentationJwt: TSignPresentationJwt = async (args, context) =
     payload.vp.verifiableCredential = Array.from(new Set(payload.vp.verifiableCredential))
     const jwt = await createVerifiablePresentation(payload, { did: identity.did, signer })
 
-    const credentials: VerifiableCredential[] = []
+    const credentials: IVerifiableCredential[] = []
     for (const credentialJwt of payload.vp.verifiableCredential) {
       const verified = await verifyCredential(credentialJwt, {
         resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }),

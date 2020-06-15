@@ -34,7 +34,7 @@ export interface EcdsaSignature {
   recoveryParam?: number
 }
 
-export interface Credential {
+export interface ICredential {
   '@context'?: string[]
   type: string[]
   id?: string
@@ -52,14 +52,14 @@ export interface Credential {
   [x: string]: any
 }
 
-export interface VerifiableCredential extends Credential {
+export interface IVerifiableCredential extends ICredential {
   proof: {
     jwt?: string
     jws?: string
   }
 }
 
-export interface Presentation {
+export interface IPresentation {
   '@context'?: string[]
   type: string[]
   id?: string
@@ -67,10 +67,10 @@ export interface Presentation {
   audience: string[]
   expirationDate?: string
   issuanceDate?: string
-  verifiableCredential: Array<string | VerifiableCredential>
+  verifiableCredential: IVerifiableCredential[]
 }
 
-export interface VerifiablePresentation extends Presentation {
+export interface IVerifiablePresentation extends IPresentation {
   proof: {
     jwt?: string
   }
@@ -83,8 +83,8 @@ export interface IMetaData {
 
 export interface IMessage {
   id: string
-  createdAt?: Date
-  expiresAt?: Date
+  createdAt?: string
+  expiresAt?: string
   threadId?: string
   type: string
   raw?: string
@@ -94,8 +94,8 @@ export interface IMessage {
   from?: string
   to?: string
   metaData?: IMetaData[]
-  credentials?: VerifiableCredential[]
-  presentations?: VerifiablePresentation[]
+  credentials?: IVerifiableCredential[]
+  presentations?: IVerifiablePresentation[]
 }
 
 export interface IAgentBase {
@@ -119,11 +119,11 @@ export interface IAgentPlugin {
 }
 
 export interface IAgentDataStore {
-  dataStoreSaveMessage?: (args: IMessage) => Promise<boolean>
-  dataStoreSaveVerifiableCredential?: (args: VerifiableCredential) => Promise<boolean>
-  dataStoreSaveVerifiablePresentation?: (args: VerifiablePresentation) => Promise<boolean>
+  dataStoreSaveMessage?(args: IMessage): Promise<boolean>
+  dataStoreSaveVerifiableCredential?(args: IVerifiableCredential): Promise<boolean>
+  dataStoreSaveVerifiablePresentation?(args: IVerifiablePresentation): Promise<boolean>
 }
 
 export interface IAgentResolve {
-  resolveDid?: (args: { didUrl: string }) => Promise<DIDDocument>
+  resolveDid?(args: { didUrl: string }): Promise<DIDDocument>
 }

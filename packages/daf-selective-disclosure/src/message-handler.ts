@@ -36,7 +36,7 @@ export class SdrMessageHandler extends AbstractMessageHandler {
       }
 
       message.threadId = message.data.tag
-      message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat)
+      message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat).toISOString()
 
       if (
         message.data.credentials &&

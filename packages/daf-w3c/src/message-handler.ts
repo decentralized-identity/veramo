@@ -1,4 +1,4 @@
-import { IAgentBase, IAgentResolve, AbstractMessageHandler, Message, IIdentity, Credential, Presentation, VerifiablePresentation, VerifiableCredential } from 'daf-core'
+import { IAgentBase, IAgentResolve, AbstractMessageHandler, Message, IIdentity, ICredential, IPresentation, IVerifiablePresentation, IVerifiableCredential } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import {
@@ -32,7 +32,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         validatePresentationAttributes(data)
 
         debug('JWT is', MessageTypes.vp)
-        const credentials: VerifiableCredential[] = []
+        const credentials: IVerifiableCredential[] = []
         for (const jwt of data.vp.verifiableCredential) {
           const verified = await verifyCredential(jwt, {
             resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }),
@@ -52,7 +52,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
           message.threadId = message.data.tag
         }
 
-        message.createdAt = timestampToDate(message.data.nbf || message.data.iat)
+        message.createdAt = timestampToDate(message.data.nbf || message.data.iat).toISOString()
         message.presentations = [createPresentation(data, message.raw, credentials)]
         message.credentials = credentials
 
@@ -74,7 +74,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
           message.threadId = message.data.tag
         }
 
-        message.createdAt = timestampToDate(message.data.nbf || message.data.iat)
+        message.createdAt = timestampToDate(message.data.nbf || message.data.iat).toISOString()
         message.credentials = [createCredential(message.data, message.raw)]
         return message
       } catch (e) {}
@@ -84,8 +84,8 @@ export class W3cMessageHandler extends AbstractMessageHandler {
   }
 }
 
-export function createCredential(payload: VerifiableCredentialPayload, jwt: string): VerifiableCredential {
-  const vc: Partial<VerifiableCredential> = {
+export function createCredential(payload: VerifiableCredentialPayload, jwt: string): IVerifiableCredential {
+  const vc: Partial<IVerifiableCredential> = {
     '@context': payload.vc['@context'],
     type: payload.vc.type,
     issuer: payload.iss,
@@ -112,17 +112,17 @@ export function createCredential(payload: VerifiableCredentialPayload, jwt: stri
 
   vc.credentialSubject = payload.vc.credentialSubject
 
-  return vc as VerifiableCredential
+  return vc as IVerifiableCredential
 }
 
 export function createPresentation(
   payload: PresentationPayload,
   jwt: string,
-  credentials: VerifiableCredential[],
-): VerifiablePresentation {
-  const vp: Partial<VerifiablePresentation> = {
+  credentials: IVerifiableCredential[],
+): IVerifiablePresentation {
+  const vp: Partial<IVerifiablePresentation> = {
     '@context': payload.vp['@context'],
-    type: payload.type,
+    type: payload.vp.type,
     issuer: payload.iss,
     audience: Array.isArray(payload.aud) ? (payload.aud as string[]) : [payload.aud],
     proof: {
@@ -144,7 +144,7 @@ export function createPresentation(
 
   vp.verifiableCredential = credentials
 
-  return vp as VerifiablePresentation
+  return vp as IVerifiablePresentation
 }
 
 function timestampToDate(timestamp: number): Date {
