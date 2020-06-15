@@ -6,6 +6,7 @@ import {
   IAgentBase,
   IAgentIdentityManager,
   IAgentResolve,
+  IAgentDataStore,
   IAgentKeyManager,
   IAgentHandleMessage,
 } from 'daf-core'
@@ -15,7 +16,7 @@ import { W3c, IAgentW3c, W3cMessageHandler } from 'daf-w3c'
 import { DIDComm, DIDCommMessageHandler, IAgentSendMessageDIDCommAlpha1 } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
-import { Entities, KeyStore, IdentityStore, DataStore } from 'daf-typeorm'
+import { Entities, KeyStore, IdentityStore, DataStore, DataStoreORM, IAgentDataStoreORM } from 'daf-typeorm'
 import { createConnection } from 'typeorm'
 
 const dbConnection = createConnection({
@@ -32,12 +33,17 @@ const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 type ConfiguredAgent = IAgentBase &
   IAgentIdentityManager &
   IAgentKeyManager &
+  IAgentDataStore &
+  IAgentDataStoreORM &
   IAgentResolve &
   IAgentHandleMessage &
   IAgentSendMessageDIDCommAlpha1 &
   IAgentW3c
 
 export const agent: ConfiguredAgent = new Agent({
+  context: {
+    // authenticatedDid: 'did:example:3456'
+  },
   plugins: [
     new KeyManager({
       store: new KeyStore(dbConnection, new SecretBox(secretKey)),
@@ -60,6 +66,7 @@ export const agent: ConfiguredAgent = new Agent({
     }),
     new DafResolver({ infuraProjectId }),
     new DataStore(dbConnection),
+    new DataStoreORM(dbConnection),
     new MessageHandler({
       messageHandlers: [
         new DIDCommMessageHandler(),
