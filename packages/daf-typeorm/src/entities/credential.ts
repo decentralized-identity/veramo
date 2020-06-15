@@ -141,3 +141,18 @@ export const createCredentialEntity = (vc: IVerifiableCredential): Credential =>
   credential.raw = vc.proof?.jwt
   return credential
 }
+
+export const createCredential = (args: Credential): IVerifiableCredential => {
+  const credential: Partial<IVerifiableCredential> = {
+    id: args.id,
+    type: args.type,
+    '@context': args.context,
+    proof: {
+      jwt: args.raw
+    }
+  }
+  // TODO standardize this transformation
+
+  return credential as IVerifiableCredential
+
+}

@@ -177,3 +177,37 @@ export const createMessageEntity = ( args: IMessage ): Message => {
 
   return message
 }
+
+export const createMessage = (args: Message): IMessage => {
+  const message: Partial<IMessage> = {
+    id: args.id,
+    threadId: args.threadId,
+    type: args.type,
+    raw: args.raw,
+    data: args.data,
+    replyTo: args.replyTo,
+    replyUrl: args.replyUrl,
+    metaData: args.metaData,
+  }
+
+  if (args.createdAt) {
+    message.createdAt = args.createdAt.toISOString()
+  }
+
+  if (args.expiresAt) {
+    message.expiresAt = args.expiresAt.toISOString()
+  }
+
+  if (args.from) {
+    message.from = args.from.did
+  }
+
+  if (args.to) {
+    message.to = args.to.did
+  }
+
+  // TODO VPs and VCs
+
+  return message as IMessage
+
+}

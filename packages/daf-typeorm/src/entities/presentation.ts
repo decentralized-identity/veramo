@@ -113,3 +113,18 @@ export const createPresentationEntity = (vp: IVerifiablePresentation): Presentat
   presentation.credentials = vp.verifiableCredential.map(createCredentialEntity)
   return presentation
 }
+
+
+export const createPresentation = (args: Presentation): IVerifiablePresentation => {
+  const presentation: Partial<IVerifiablePresentation> = {
+    type: args.type,
+    '@context': args.context,
+    proof: {
+      jwt: args.raw
+    }
+}
+  // TODO standardize this transformation
+
+  return presentation as IVerifiablePresentation
+
+}
