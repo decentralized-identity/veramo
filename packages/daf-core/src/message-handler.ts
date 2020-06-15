@@ -37,7 +37,11 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
       if (!this.messageHandler) {
         this.messageHandler = messageHandler
       } else {
-        this.messageHandler.setNext(messageHandler)
+        let lastHandler = this.messageHandler
+        while(lastHandler.nextMessageHandler !== undefined) {
+          lastHandler = lastHandler.nextMessageHandler
+        }
+        lastHandler.setNext(messageHandler)
       }
     }
 
