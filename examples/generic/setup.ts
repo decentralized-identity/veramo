@@ -15,7 +15,7 @@ import { W3c, IAgentW3c, W3cMessageHandler } from 'daf-w3c'
 import { DIDComm, DIDCommMessageHandler, IAgentSendMessageDIDCommAlpha1 } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
-import { Entities, KeyStore, IdentityStore } from 'daf-typeorm'
+import { Entities, KeyStore, IdentityStore, DataStore } from 'daf-typeorm'
 import { createConnection } from 'typeorm'
 
 const dbConnection = createConnection({
@@ -59,6 +59,7 @@ export const agent: ConfiguredAgent = new Agent({
       }
     }),
     new DafResolver({ infuraProjectId }),
+    new DataStore(dbConnection),
     new MessageHandler({
       messageHandlers: [
         new DIDCommMessageHandler(),

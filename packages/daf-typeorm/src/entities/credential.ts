@@ -1,3 +1,4 @@
+import { IVerifiableCredential } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToMany, ManyToMany } from 'typeorm'
 import { Identity } from './identity'
@@ -109,4 +110,34 @@ export class Credential extends BaseEntity {
     message => message.credentials,
   )
   messages: Message[]
+}
+
+export const createCredentialEntity = (vc: IVerifiableCredential): Credential => {
+  const credential = new Credential()
+  credential.context = vc["@context"]
+  credential.type = vc.type
+  credential.id = vc.id
+
+  if (vc.issuanceDate) {  
+    credential.issuanceDate = new Date(vc.issuanceDate)
+  }
+
+  if (vc.expirationDate) {  
+    credential.expirationDate = new Date(vc.expirationDate)
+  }
+  
+  const issuer = new Identity()
+  issuer.did = vc.issuer
+  credential.issuer = issuer
+
+  if (vc.credentialSubject?.id) {
+    const subject = new Identity()
+    subject.did = vc.credentialSubject.id
+    credential.subject = subject
+    delete vc.credentialSubject.id
+  }
+
+  credential.credentialSubject = vc.credentialSubject
+  credential.raw = vc.proof?.jwt
+  return credential
 }

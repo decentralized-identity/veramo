@@ -11,10 +11,10 @@ import {
   BeforeInsert,
 } from 'typeorm'
 import { blake2bHex } from 'blakejs'
+import { IMessage } from 'daf-core'
 import { Identity } from './identity'
-import { Presentation } from './presentation'
-import { Credential } from './credential'
-import { v4 as uuidv4 } from 'uuid'
+import { Presentation, createPresentationEntity } from './presentation'
+import { Credential, createCredentialEntity } from './credential'
 
 export interface MetaData {
   type: string
@@ -23,15 +23,6 @@ export interface MetaData {
 
 @Entity()
 export class Message extends BaseEntity {
-  constructor(data?: { raw: string; metaData?: MetaData[] }) {
-    super()
-    if (data?.raw) {
-      this.raw = data.raw
-    }
-    if (data?.metaData) {
-      this.metaData = data.metaData
-    }
-  }
 
   @BeforeInsert()
   setId() {
@@ -143,4 +134,46 @@ export class Message extends BaseEntity {
     }
     return true
   }
+}
+
+export const createMessageEntity = ( args: IMessage ): Message => {
+  const message = new Message()
+  message.id = args.id
+  message.threadId = args.threadId
+  message.type = args.type
+  message.raw = args.raw
+  message.data = args.data
+  message.replyTo = args.replyTo
+  message.replyUrl = args.replyUrl
+  message.metaData = args.metaData
+
+  if (args.createdAt) {
+    message.createdAt = new Date(args.createdAt)
+  }
+
+  if (args.expiresAt) {
+    message.createdAt = new Date(args.expiresAt)
+  }
+
+  if (args.from) {
+    const from = new Identity()
+    from.did = args.from
+    message.from = from
+  }
+
+  if (args.to) {
+    const to = new Identity()
+    to.did = args.to
+    message.to = to
+  }
+
+  if (args.presentations) {
+    message.presentations = args.presentations.map(createPresentationEntity)
+  }
+
+  if (args.credentials) {
+    message.credentials = args.credentials.map(createCredentialEntity)
+  }
+
+  return message
 }
