@@ -12,13 +12,13 @@ describe('daf-resolver-universal', () => {
 
   it('should have resolve method', () => {
     const resolver = new DafUniversalResolver({ url: 'https://example/' })
-    expect(resolver).toHaveProperty('resolve')
+    expect(resolver).toHaveProperty('resolveDid')
   })
 
   it('should fetch did doc', async () => {
     const resolver = new DafUniversalResolver({ url: 'https://example/' })
     fetchMock.mockResponse(JSON.stringify({ didDocument: { data: '12345' } }))
-    const doc = await resolver.resolve('did:example:123')
+    const doc = await resolver.resolveDid({ didUrl: 'did:example:123' })
     expect(doc).toEqual({ data: '12345' })
   })
 })
