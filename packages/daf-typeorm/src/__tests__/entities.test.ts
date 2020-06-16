@@ -1,5 +1,8 @@
+import { IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
+import { Credential, createCredentialEntity } from '../entities/credential'
+import { Presentation, createPresentationEntity } from '../entities/presentation'
 import { createConnection, Connection, In, Raw } from 'typeorm'
-import { Identity, Key, Message, Credential, Presentation, Claim } from '../index'
+import { Identity, Key, Message, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import fs from 'fs'
@@ -37,90 +40,94 @@ describe('daf-core', () => {
   })
 
   it('Saves credential with claims', async () => {
-    const id1 = new Identity()
-    id1.did = 'did:test:111'
+    const did1 = 'did:test:111'
+    const did2 = 'did:test:222'
 
-    const id2 = new Identity()
-    id2.did = 'did:test:222'
-
-    const vc = new Credential()
-    vc.issuer = id1
-    vc.subject = id2
-    vc.issuanceDate = new Date()
-    vc.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
-    vc.type = ['VerifiableCredential', 'PublicProfile']
-    vc.raw = 'mockJWT'
-    vc.credentialSubject = {
-      name: 'Alice',
-      profilePicture: 'https://example.com/a.png',
-      address: {
-        street: 'Some str.',
-        house: 1,
+    const entity = createCredentialEntity({
+      '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
+      type: ['VerifiableCredential', 'PublicProfile'],
+      issuer: did1,
+      issuanceDate: new Date().toISOString(),
+      credentialSubject: {
+        id: did2,
+        name: 'Alice',
+        profilePicture: 'https://example.com/a.png',
+        address: {
+          street: 'Some str.',
+          house: 1,
+        },
       },
-    }
+      proof: {
+        jwt: 'mockJWT',
+      },
+    })
+    await entity.save()
 
-    await vc.save()
-
-    const credential = await Credential.findOne(vc.hash, {
+    const credential = await Credential.findOne(entity.hash, {
       relations: ['issuer', 'subject', 'claims', 'claims.issuer', 'claims.subject'],
     })
-    expect(credential.issuer.did).toEqual(id1.did)
-    expect(credential.subject.did).toEqual(id2.did)
+    expect(credential.issuer.did).toEqual(did1)
+    expect(credential.subject.did).toEqual(did2)
     expect(credential.claims.length).toEqual(3)
-    expect(credential.claims[0].issuer.did).toEqual(id1.did)
-    expect(credential.claims[0].subject.did).toEqual(id2.did)
-    // TODO
+    expect(credential.claims[0].issuer.did).toEqual(did1)
+    expect(credential.claims[0].subject.did).toEqual(did2)
   })
 
   it('Saves message with credentials', async () => {
-    const id1 = new Identity()
-    id1.did = 'did:test:111'
+    const did1 = 'did:test:111'
+    const did2 = 'did:test:222'
+    const did3 = 'did:test:333'
 
-    const id2 = new Identity()
-    id2.did = 'did:test:222'
-
-    const id3 = new Identity()
-    id3.did = 'did:test:333'
-
-    const vc = new Credential()
-    vc.issuer = id1
-    vc.subject = id2
-    vc.issuanceDate = new Date()
-    vc.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
-    vc.type = ['VerifiableCredential']
-    vc.raw = 'mockJWT'
-    vc.credentialSubject = {
-      name: 'Alice',
-      profilePicture: 'https://example.com/a.png',
-      address: {
-        street: 'Some str.',
-        house: 1,
+    const vc = createCredentialEntity({
+      '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
+      type: ['VerifiableCredential', 'PublicProfile'],
+      issuer: did1,
+      issuanceDate: new Date().toISOString(),
+      credentialSubject: {
+        id: did2,
+        name: 'Alice',
+        profilePicture: 'https://example.com/a.png',
+        address: {
+          street: 'Some str.',
+          house: 1,
+        },
       },
-    }
+      proof: {
+        jwt: 'mockJWT',
+      },
+    })
 
-    const vp = new Presentation()
-    vp.issuer = id1
-    vp.audience = [id2]
-    vp.issuanceDate = new Date()
-    vp.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
-    vp.type = ['VerifiablePresentation', 'PublicProfile']
-    vp.raw = 'mockJWT'
-    vp.credentials = [vc]
+    const vp = createPresentationEntity({
+      '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
+      type: ['VerifiablePresentation', 'PublicProfile'],
+      issuer: did1,
+      audience: [did2],
+      issuanceDate: new Date().toISOString(),
+      verifiableCredential: [vc.raw],
+      proof: {
+        jwt: 'mockJWT',
+      },
+    })
 
-    const vp2 = new Presentation()
-    vp2.issuer = id1
-    vp2.audience = [id3]
-    vp2.issuanceDate = new Date()
-    vp2.context = ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323']
-    vp2.type = ['VerifiablePresentation', 'PublicProfile', 'Specific']
-    vp2.raw = 'mockJWT'
-    vp2.credentials = [vc]
+    const vp2 = createPresentationEntity({
+      '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
+      type: ['VerifiablePresentation', 'PublicProfile'],
+      issuer: did1,
+      audience: [did3],
+      issuanceDate: new Date().toISOString(),
+      verifiableCredential: [vc.raw],
+      proof: {
+        jwt: 'mockJWT',
+      },
+    })
 
     await vp2.save()
 
     const m = new Message()
-    m.from = id1
-    m.to = id2
+    m.from = new Identity()
+    m.from.did = did1
+    m.to = new Identity()
+    m.to.did = did2
     m.type = 'mock'
     m.raw = 'mock'
     m.createdAt = new Date()
@@ -134,6 +141,7 @@ describe('daf-core', () => {
         'credentials',
         'credentials.issuer',
         'credentials.subject',
+        'credentials.claims',
         'presentations',
         'presentations.credentials',
       ],
@@ -146,8 +154,8 @@ describe('daf-core', () => {
 
     let where = {}
 
-    where['issuer'] = In([id1.did])
-    where['subject'] = In([id2.did])
+    where['issuer'] = In([did1])
+    where['subject'] = In([did2])
     where['type'] = 'name'
 
     const claims = await Claim.find({
@@ -157,13 +165,6 @@ describe('daf-core', () => {
 
     expect(claims[0].type).toEqual('name')
     expect(claims[0].value).toEqual('Alice')
-
-    const presentations = await Presentation.find({
-      relations: ['audience'],
-      where: Raw(alias => `audience.did = "did:test:333"`),
-    })
-
-    expect(presentations.length).toEqual(1)
   })
 
   it('Message can have externally set id', async () => {
