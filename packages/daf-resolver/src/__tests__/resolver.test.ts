@@ -9,6 +9,6 @@ describe('daf-resolver', () => {
 
   it('should have resolve method', () => {
     const resolver = new DafResolver({ infuraProjectId: 'xxx' })
-    expect(resolver).toHaveProperty('resolve')
+    expect(resolver).toHaveProperty('resolveDid')
   })
 })
