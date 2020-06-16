@@ -11,46 +11,16 @@ export class Credential extends BaseEntity {
   @PrimaryColumn()
   hash: string
 
-  private _raw: string
+  private _raw: IVerifiableCredential
 
-  set raw(raw: string) {
+  set raw(raw: IVerifiableCredential) {
     this._raw = raw
-    this.hash = blake2bHex(raw)
+    this.hash = blake2bHex(JSON.stringify(raw))
   }
-
-  @Column()
-  get raw(): string {
-    return this._raw
-  }
-
-  private _credentialSubject: object
 
   @Column('simple-json')
-  get credentialSubject(): object {
-    return this._credentialSubject
-  }
-
-  set credentialSubject(credentialSubject: object) {
-    this._credentialSubject = credentialSubject
-    this.claims = []
-    for (const type in this.credentialSubject) {
-      if (this.credentialSubject.hasOwnProperty(type)) {
-        const value = this.credentialSubject[type]
-        const isObj = typeof value === 'function' || (typeof value === 'object' && !!value)
-        const claim = new Claim()
-        claim.hash = blake2bHex(this.raw + type)
-        claim.type = type
-        claim.value = isObj ? JSON.stringify(value) : value
-        claim.isObj = isObj
-        claim.issuer = this.issuer
-        claim.subject = this.subject
-        claim.expirationDate = this.expirationDate
-        claim.issuanceDate = this.issuanceDate
-        claim.credentialType = this.type
-        claim.context = this.context
-        this.claims.push(claim)
-      }
-    }
+  get raw(): IVerifiableCredential {
+    return this._raw
   }
 
   @ManyToOne(
@@ -114,45 +84,49 @@ export class Credential extends BaseEntity {
 
 export const createCredentialEntity = (vc: IVerifiableCredential): Credential => {
   const credential = new Credential()
-  credential.context = vc["@context"]
+  credential.context = vc['@context']
   credential.type = vc.type
   credential.id = vc.id
 
-  if (vc.issuanceDate) {  
+  if (vc.issuanceDate) {
     credential.issuanceDate = new Date(vc.issuanceDate)
   }
 
-  if (vc.expirationDate) {  
+  if (vc.expirationDate) {
     credential.expirationDate = new Date(vc.expirationDate)
   }
-  
+
   const issuer = new Identity()
   issuer.did = vc.issuer
   credential.issuer = issuer
 
-  if (vc.credentialSubject?.id) {
-    const subject = new Identity()
-    subject.did = vc.credentialSubject.id
-    credential.subject = subject
-    delete vc.credentialSubject.id
-  }
+  credential.claims = []
+  for (const type in vc.credentialSubject) {
+    if (vc.credentialSubject.hasOwnProperty(type)) {
+      const value = vc.credentialSubject[type]
 
-  credential.credentialSubject = vc.credentialSubject
-  credential.raw = vc.proof?.jwt
-  return credential
-}
-
-export const createCredential = (args: Credential): IVerifiableCredential => {
-  const credential: Partial<IVerifiableCredential> = {
-    id: args.id,
-    type: args.type,
-    '@context': args.context,
-    proof: {
-      jwt: args.raw
+      if (type === 'id') {
+        const subject = new Identity()
+        subject.did = value
+        credential.subject = subject
+      } else {
+        const isObj = typeof value === 'function' || (typeof value === 'object' && !!value)
+        const claim = new Claim()
+        claim.hash = blake2bHex(JSON.stringify(vc.raw) + type)
+        claim.type = type
+        claim.value = isObj ? JSON.stringify(value) : value
+        claim.isObj = isObj
+        claim.issuer = credential.issuer
+        claim.subject = credential.subject
+        claim.expirationDate = credential.expirationDate
+        claim.issuanceDate = credential.issuanceDate
+        claim.credentialType = credential.type
+        claim.context = credential.context
+        credential.claims.push(claim)
+      }
     }
   }
-  // TODO standardize this transformation
 
-  return credential as IVerifiableCredential
-
+  credential.raw = vc
+  return credential
 }

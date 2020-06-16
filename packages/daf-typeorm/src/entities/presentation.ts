@@ -19,15 +19,15 @@ export class Presentation extends BaseEntity {
   @PrimaryColumn()
   hash: string
 
-  private _raw: string
+  private _raw: IVerifiablePresentation
 
-  set raw(raw: string) {
+  set raw(raw: IVerifiablePresentation) {
     this._raw = raw
-    this.hash = blake2bHex(raw)
+    this.hash = blake2bHex(JSON.stringify(raw))
   }
 
-  @Column()
-  get raw(): string {
+  @Column({ type: 'simple-json' })
+  get raw(): IVerifiablePresentation {
     return this._raw
   }
 
@@ -86,18 +86,18 @@ export class Presentation extends BaseEntity {
 
 export const createPresentationEntity = (vp: IVerifiablePresentation): Presentation => {
   const presentation = new Presentation()
-  presentation.context = vp["@context"]
+  presentation.context = vp['@context']
   presentation.type = vp.type
   presentation.id = vp.id
 
-  if (vp.issuanceDate) {  
+  if (vp.issuanceDate) {
     presentation.issuanceDate = new Date(vp.issuanceDate)
   }
 
-  if (vp.expirationDate) {  
+  if (vp.expirationDate) {
     presentation.expirationDate = new Date(vp.expirationDate)
   }
-  
+
   const issuer = new Identity()
   issuer.did = vp.issuer
   presentation.issuer = issuer
@@ -108,23 +108,8 @@ export const createPresentationEntity = (vp: IVerifiablePresentation): Presentat
     return id
   })
 
-  presentation.raw = vp.proof?.jwt
+  presentation.raw = vp
 
   presentation.credentials = vp.verifiableCredential.map(createCredentialEntity)
   return presentation
-}
-
-
-export const createPresentation = (args: Presentation): IVerifiablePresentation => {
-  const presentation: Partial<IVerifiablePresentation> = {
-    type: args.type,
-    '@context': args.context,
-    proof: {
-      jwt: args.raw
-    }
-}
-  // TODO standardize this transformation
-
-  return presentation as IVerifiablePresentation
-
 }
