@@ -50,7 +50,7 @@ export interface FindArgs<TColumns> {
   skip?: number
 }
 
-type MessageColumns =
+export type TMessageColumns =
   | 'from'
   | 'to'
   | 'id'
@@ -61,8 +61,15 @@ type MessageColumns =
   | 'raw'
   | 'replyTo'
   | 'replyUrl'
-type CredentialColumns = 'context' | 'type' | 'id' | 'issuer' | 'subject' | 'expirationDate' | 'issuanceDate'
-type ClaimsColumns =
+export type TCredentialColumns =
+  | 'context'
+  | 'type'
+  | 'id'
+  | 'issuer'
+  | 'subject'
+  | 'expirationDate'
+  | 'issuanceDate'
+export type TClaimsColumns =
   | 'context'
   | 'credentialType'
   | 'type'
@@ -73,7 +80,7 @@ type ClaimsColumns =
   | 'subject'
   | 'expirationDate'
   | 'issuanceDate'
-type PresentationColumns =
+export type TPresentationColumns =
   | 'context'
   | 'type'
   | 'id'
@@ -191,16 +198,18 @@ function decorateQB(
 }
 
 export interface IAgentDataStoreORM {
-  dataStoreORMGetMessages?(args: FindArgs<MessageColumns>): Promise<IMessage[]>
-  dataStoreORMGetMessagesCount?(args: FindArgs<MessageColumns>): Promise<number>
-  dataStoreORMGetClaims?(args: FindArgs<ClaimsColumns>): Promise<IVerifiableCredential[]>
-  dataStoreORMGetClaimsCount?(args: FindArgs<ClaimsColumns>): Promise<number>
-  dataStoreORMGetVerifiableCredentials?(args: FindArgs<CredentialColumns>): Promise<IVerifiableCredential[]>
-  dataStoreORMGetVerifiableCredentialsCount?(args: FindArgs<CredentialColumns>): Promise<number>
+  dataStoreORMGetMessages?(args: FindArgs<TMessageColumns>): Promise<IMessage[]>
+  dataStoreORMGetMessagesCount?(args: FindArgs<TMessageColumns>): Promise<number>
+  dataStoreORMGetVerifiableCredentialsByClaims?(
+    args: FindArgs<TClaimsColumns>,
+  ): Promise<IVerifiableCredential[]>
+  dataStoreORMGetVerifiableCredentialsByClaimsCount?(args: FindArgs<TClaimsColumns>): Promise<number>
+  dataStoreORMGetVerifiableCredentials?(args: FindArgs<TCredentialColumns>): Promise<IVerifiableCredential[]>
+  dataStoreORMGetVerifiableCredentialsCount?(args: FindArgs<TCredentialColumns>): Promise<number>
   dataStoreORMGetVerifiablePresentations?(
-    args: FindArgs<PresentationColumns>,
+    args: FindArgs<TPresentationColumns>,
   ): Promise<IVerifiablePresentation[]>
-  dataStoreORMGetVerifiablePresentationsCount?(args: FindArgs<PresentationColumns>): Promise<number>
+  dataStoreORMGetVerifiablePresentationsCount?(args: FindArgs<TPresentationColumns>): Promise<number>
 }
 
 interface IContext {
@@ -217,8 +226,12 @@ export class DataStoreORM implements IAgentPlugin {
     this.methods = {
       dataStoreORMGetMessages: this.dataStoreORMGetMessages.bind(this),
       dataStoreORMGetMessagesCount: this.dataStoreORMGetMessagesCount.bind(this),
-      dataStoreORMGetClaims: this.dataStoreORMGetClaims.bind(this),
-      dataStoreORMGetClaimsCount: this.dataStoreORMGetClaimsCount.bind(this),
+      dataStoreORMGetVerifiableCredentialsByClaims: this.dataStoreORMGetVerifiableCredentialsByClaims.bind(
+        this,
+      ),
+      dataStoreORMGetVerifiableCredentialsByClaimsCount: this.dataStoreORMGetVerifiableCredentialsByClaimsCount.bind(
+        this,
+      ),
       dataStoreORMGetVerifiableCredentials: this.dataStoreORMGetVerifiableCredentials.bind(this),
       dataStoreORMGetVerifiableCredentialsCount: this.dataStoreORMGetVerifiableCredentialsCount.bind(this),
       dataStoreORMGetVerifiablePresentations: this.dataStoreORMGetVerifiablePresentations.bind(this),
@@ -231,7 +244,7 @@ export class DataStoreORM implements IAgentPlugin {
   // Messages
 
   private async messagesQuery(
-    args: FindArgs<MessageColumns>,
+    args: FindArgs<TMessageColumns>,
     context: IContext,
   ): Promise<SelectQueryBuilder<Message>> {
     const where = createWhereObject(args)
@@ -257,19 +270,19 @@ export class DataStoreORM implements IAgentPlugin {
     return qb
   }
 
-  async dataStoreORMGetMessages(args: FindArgs<MessageColumns>, context: IContext): Promise<IMessage[]> {
+  async dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Promise<IMessage[]> {
     const messages = await (await this.messagesQuery(args, context)).getMany()
     return messages.map(createMessage)
   }
 
-  async dataStoreORMGetMessagesCount(args: FindArgs<MessageColumns>, context: IContext): Promise<number> {
+  async dataStoreORMGetMessagesCount(args: FindArgs<TMessageColumns>, context: IContext): Promise<number> {
     return (await this.messagesQuery(args, context)).getCount()
   }
 
   // Claims
 
   private async claimsQuery(
-    args: FindArgs<ClaimsColumns>,
+    args: FindArgs<TClaimsColumns>,
     context: IContext,
   ): Promise<SelectQueryBuilder<Claim>> {
     const where = createWhereObject(args)
@@ -296,22 +309,25 @@ export class DataStoreORM implements IAgentPlugin {
     return qb
   }
 
-  async dataStoreORMGetClaims(
-    args: FindArgs<ClaimsColumns>,
+  async dataStoreORMGetVerifiableCredentialsByClaims(
+    args: FindArgs<TClaimsColumns>,
     context: IContext,
   ): Promise<IVerifiableCredential[]> {
     const claims = await (await this.claimsQuery(args, context)).getMany()
     return claims.map(claim => claim.credential.raw)
   }
 
-  async dataStoreORMGetClaimsCount(args: FindArgs<CredentialColumns>, context: IContext): Promise<number> {
+  async dataStoreORMGetVerifiableCredentialsByClaimsCount(
+    args: FindArgs<TCredentialColumns>,
+    context: IContext,
+  ): Promise<number> {
     return (await this.credentialsQuery(args, context)).getCount()
   }
 
   // Credentials
 
   private async credentialsQuery(
-    args: FindArgs<CredentialColumns>,
+    args: FindArgs<TCredentialColumns>,
     context: IContext,
   ): Promise<SelectQueryBuilder<Credential>> {
     const where = createWhereObject(args)
@@ -338,7 +354,7 @@ export class DataStoreORM implements IAgentPlugin {
   }
 
   async dataStoreORMGetVerifiableCredentials(
-    args: FindArgs<CredentialColumns>,
+    args: FindArgs<TCredentialColumns>,
     context: IContext,
   ): Promise<IVerifiableCredential[]> {
     const credentials = await (await this.credentialsQuery(args, context)).getMany()
@@ -346,7 +362,7 @@ export class DataStoreORM implements IAgentPlugin {
   }
 
   async dataStoreORMGetVerifiableCredentialsCount(
-    args: FindArgs<CredentialColumns>,
+    args: FindArgs<TCredentialColumns>,
     context: IContext,
   ): Promise<number> {
     return (await this.credentialsQuery(args, context)).getCount()
@@ -355,7 +371,7 @@ export class DataStoreORM implements IAgentPlugin {
   // Presentations
 
   private async presentationsQuery(
-    args: FindArgs<PresentationColumns>,
+    args: FindArgs<TPresentationColumns>,
     context: IContext,
   ): Promise<SelectQueryBuilder<Presentation>> {
     const where = createWhereObject(args)
@@ -380,7 +396,7 @@ export class DataStoreORM implements IAgentPlugin {
   }
 
   async dataStoreORMGetVerifiablePresentations(
-    args: FindArgs<PresentationColumns>,
+    args: FindArgs<TPresentationColumns>,
     context: IContext,
   ): Promise<IVerifiablePresentation[]> {
     const presentations = await (await this.presentationsQuery(args, context)).getMany()
@@ -388,7 +404,7 @@ export class DataStoreORM implements IAgentPlugin {
   }
 
   async dataStoreORMGetVerifiablePresentationsCount(
-    args: FindArgs<PresentationColumns>,
+    args: FindArgs<TPresentationColumns>,
     context: IContext,
   ): Promise<number> {
     return (await this.presentationsQuery(args, context)).getCount()

@@ -23,7 +23,6 @@ export interface MetaData {
 
 @Entity()
 export class Message extends BaseEntity {
-
   @BeforeInsert()
   setId() {
     if (!this.id) {
@@ -136,7 +135,7 @@ export class Message extends BaseEntity {
   }
 }
 
-export const createMessageEntity = ( args: IMessage ): Message => {
+export const createMessageEntity = (args: IMessage): Message => {
   const message = new Message()
   message.id = args.id
   message.threadId = args.threadId
@@ -206,8 +205,13 @@ export const createMessage = (args: Message): IMessage => {
     message.to = args.to.did
   }
 
-  // TODO VPs and VCs
+  if (args.presentations) {
+    message.presentations = args.presentations.map(vp => vp.raw)
+  }
+
+  if (args.credentials) {
+    message.credentials = args.credentials.map(vc => vc.raw)
+  }
 
   return message as IMessage
-
 }
