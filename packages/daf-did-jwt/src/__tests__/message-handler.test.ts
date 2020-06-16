@@ -53,34 +53,30 @@ describe('daf-did-jwt', () => {
     iss: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
   }
 
-  const agent = new Agent({
-    identityProviders: [],
-    serviceControllers: [],
-    messageHandler: {
-      setNext: jest.fn(),
-      handle: jest.fn().mockResolvedValue(true),
-    },
-    didResolver: {
-      resolve: async (did: string) => ({
-        '@context': 'https://w3id.org/did/v1',
-        id: did,
-        publicKey: [
-          {
-            id: `${did}#owner`,
-            type: 'Secp256k1VerificationKey2018',
-            owner: did,
-            ethereumAddress: did.slice(-42),
-          },
-        ],
-        authentication: [
-          {
-            type: 'Secp256k1SignatureAuthentication2018',
-            publicKey: `${did}#owner`,
-          },
-        ],
-      }),
-    },
-  })
+  const context = {
+    agent: new Agent({
+      overrides: {
+        resolveDid: async ({ didUrl }: { didUrl: string }) => ({
+          '@context': 'https://w3id.org/did/v1',
+          id: didUrl,
+          publicKey: [
+            {
+              id: `${didUrl}#owner`,
+              type: 'Secp256k1VerificationKey2018',
+              owner: didUrl,
+              ethereumAddress: didUrl.slice(-42),
+            },
+          ],
+          authentication: [
+            {
+              type: 'Secp256k1SignatureAuthentication2018',
+              publicKey: `${didUrl}#owner`,
+            },
+          ],
+        }),
+      },
+    }),
+  }
 
   it('should reject unknown message type', async () => {
     const mockNextHandler = {
@@ -90,7 +86,7 @@ describe('daf-did-jwt', () => {
     const handler = new JwtMessageHandler()
     handler.setNext(mockNextHandler)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(handler.handle(message, agent)).rejects.toEqual('Unsupported message type')
+    expect(handler.handle(message, null)).rejects.toEqual('Unsupported message type')
   })
 
   it('should set data field for VC jwt', async () => {
@@ -102,14 +98,14 @@ describe('daf-did-jwt', () => {
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
-    await handler.handle(message, agent)
+    await handler.handle(message, context)
     expect(mockNextHandler.handle).toBeCalledWith(
       expect.objectContaining({
         raw: vcJwt,
         data: vcPayload,
         metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
       }),
-      agent,
+      context,
     )
   })
 
@@ -122,14 +118,14 @@ describe('daf-did-jwt', () => {
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
-    await handler.handle(message, agent)
+    await handler.handle(message, context)
     expect(mockNextHandler.handle).toBeCalledWith(
       expect.objectContaining({
         raw: vpJwt,
         data: vpPayload,
         metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
       }),
-      agent,
+      context,
     )
   })
 
@@ -142,14 +138,14 @@ describe('daf-did-jwt', () => {
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vpMultiAudJwt, metaData: [{ type: 'test' }] })
-    await handler.handle(message, agent)
+    await handler.handle(message, context)
     expect(mockNextHandler.handle).toBeCalledWith(
       expect.objectContaining({
         raw: vpMultiAudJwt,
         data: vpMultiAudPayload,
         metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
       }),
-      agent,
+      context,
     )
   })
 })
