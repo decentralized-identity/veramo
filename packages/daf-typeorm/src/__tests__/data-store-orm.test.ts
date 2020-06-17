@@ -7,15 +7,8 @@ import {
   IAgentDataStore,
 } from 'daf-core'
 import { createConnection, Connection } from 'typeorm'
-import {
-  DataStoreORM,
-  IAgentDataStoreORM,
-  FindArgs,
-  TClaimsColumns,
-  TCredentialColumns,
-  TMessageColumns,
-  TPresentationColumns,
-} from '../data-store-orm'
+import { DataStoreORM, IAgentDataStoreORM } from '../data-store-orm'
+import { FindArgs, TClaimsColumns, TCredentialColumns, TMessageColumns, TPresentationColumns } from '../types'
 import { DataStore } from '../data-store'
 import { Entities } from '../index'
 import fs from 'fs'
