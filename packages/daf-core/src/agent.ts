@@ -1,4 +1,5 @@
 import { IAgentBase, TMethodMap, IAgentPlugin } from './types'
+import Debug from 'debug'
 
 export class Agent implements IAgentBase {
   readonly methods: TMethodMap = {}
@@ -30,7 +31,10 @@ export class Agent implements IAgentBase {
   }
 
   async execute<P = any, R = any>(method: string, args: P): Promise<R> {
+    Debug('daf:agent:' + method)('%o', args)
     if (!this.methods[method]) throw Error('Method not available: ' + method)
-    return this.methods[method](args, { ...this.context, agent: this })
+    const result = await this.methods[method](args, { ...this.context, agent: this })
+    Debug('daf:agent:' + method + ':result')('%o', result)
+    return result
   }
 }
