@@ -2,18 +2,17 @@ import { AbstractIdentityStore, IIdentity } from 'daf-core'
 import { Identity } from '../entities/identity'
 import { Key } from '../entities/key'
 import { Service } from '../entities/service'
-import { Connection } from 'typeorm'
+import { Connection, IsNull, Not } from 'typeorm'
 
 import Debug from 'debug'
 const debug = Debug('daf:typeorm:identity-store')
 
 export class IdentityStore extends AbstractIdentityStore {
-
   constructor(private dbConnection: Promise<Connection>) {
     super()
   }
 
-  async get({ did, alias }: { did: string, alias?: string }): Promise<IIdentity> {
+  async get({ did, alias }: { did: string; alias?: string }): Promise<IIdentity> {
     //TODO alias
     const identity = await (await this.dbConnection)
       .getRepository(Identity)
@@ -36,7 +35,7 @@ export class IdentityStore extends AbstractIdentityStore {
     identity.did = args.did
     identity.controllerKeyId = args.controllerKeyId
     identity.provider = args.provider
-    
+
     identity.keys = []
     for (const argsKey of args.keys) {
       const key = new Key()
@@ -65,9 +64,10 @@ export class IdentityStore extends AbstractIdentityStore {
   }
 
   async list(): Promise<IIdentity[]> {
-    const identities = await (await this.dbConnection)
-      .getRepository(Identity)
-      .find({ relations: ['keys', 'services'] })
+    const identities = await (await this.dbConnection).getRepository(Identity).find({
+      where: [{ provider: Not(IsNull()) }],
+      relations: ['keys', 'services'],
+    })
     return identities
   }
 }
