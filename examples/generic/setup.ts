@@ -1,5 +1,5 @@
-import { 
-  Agent, 
+import {
+  Agent,
   KeyManager,
   MessageHandler,
   IdentityManager,
@@ -10,7 +10,7 @@ import {
   IAgentKeyManager,
   IAgentHandleMessage,
 } from 'daf-core'
-import { DafResolver} from 'daf-resolver'
+import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, IAgentW3c, W3cMessageHandler } from 'daf-w3c'
 import { DIDComm, DIDCommMessageHandler, IAgentSendMessageDIDCommAlpha1 } from 'daf-did-comm'
@@ -48,8 +48,8 @@ export const agent: ConfiguredAgent = new Agent({
     new KeyManager({
       store: new KeyStore(dbConnection, new SecretBox(secretKey)),
       kms: {
-        local: new KeyManagementSystem()
-      }
+        local: new KeyManagementSystem(),
+      },
     }),
     new IdentityManager({
       store: new IdentityStore(dbConnection),
@@ -59,20 +59,16 @@ export const agent: ConfiguredAgent = new Agent({
           defaultKms: 'local',
           network: 'rinkeby',
           rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-          gas: 10001,
+          gas: 1000001,
           ttl: 60 * 60 * 24 * 30 * 12 + 1,
-        })
-      }
+        }),
+      },
     }),
     new DafResolver({ infuraProjectId }),
     new DataStore(dbConnection),
     new DataStoreORM(dbConnection),
     new MessageHandler({
-      messageHandlers: [
-        new DIDCommMessageHandler(),
-        new JwtMessageHandler(),
-        new W3cMessageHandler()
-      ],
+      messageHandlers: [new DIDCommMessageHandler(), new JwtMessageHandler(), new W3cMessageHandler()],
     }),
     new DIDComm(),
     new W3c(),
