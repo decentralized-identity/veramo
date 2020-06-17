@@ -1,79 +1,151 @@
+import {
+  ICredential,
+  IVerifiableCredential,
+  IIdentity,
+  IPresentation,
+  IVerifiablePresentation,
+} from 'daf-core'
+
 const mockCreateVerifiableCredential = jest.fn()
 const mockCreatePresentation = jest.fn()
 
 jest.mock('did-jwt-vc', () => ({
   createVerifiableCredential: mockCreateVerifiableCredential,
   createPresentation: mockCreatePresentation,
-  decodeJWT: jest.fn(),
+  verifyCredential: jest.fn().mockReturnValue({ payload: {} }),
 }))
 
-import { W3cActionHandler, ActionTypes, ActionSignW3cVc, ActionSignW3cVp } from '../index'
+jest.mock('did-jwt', () => ({
+  decodeJWT: jest.fn().mockReturnValue({ payload: {} }),
+}))
 
-const mockDid = 'did:example:123'
+jest.mock('../message-handler', () => ({
+  createCredential: jest.fn().mockImplementation(() => 'mock'),
+  createPresentation: jest.fn().mockImplementation(() => 'mock'),
+}))
 
-const mockSigner = jest.fn()
+import { W3c, IContext } from '../action-handler'
 
-const mockAgent = {
-  identityManager: {
-    getIdentity: async (did: string) => ({
-      did: mockDid,
-      keyByType: async (type: string) => ({
-        signer: () => mockSigner,
-      }),
-    }),
+const mockIdentity1: IIdentity = {
+  did: 'did:example:111',
+  provider: 'mock',
+  controllerKeyId: 'kid1',
+  keys: [
+    {
+      kid: 'kid1',
+      publicKeyHex: 'pub',
+      type: 'Secp256k1',
+      kms: 'mock',
+    },
+  ],
+  services: [],
+}
+
+const mockIdentity2: IIdentity = {
+  did: 'did:example:222',
+  provider: 'mock',
+  controllerKeyId: 'kid2',
+  keys: [
+    {
+      kid: 'kid2',
+      publicKeyHex: 'pub',
+      type: 'Secp256k1',
+      kms: 'mock',
+    },
+  ],
+  services: [],
+}
+
+const context: IContext = {
+  agent: {
+    execute: jest.fn(),
+    availableMethods: jest.fn(),
+    identityManagerGetIdentity: jest
+      .fn()
+      .mockImplementation(async (args): Promise<IIdentity> => mockIdentity1),
+    keyManagerSignJWT: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
+    dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
+    dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
   },
 }
 
+const w3c = new W3c()
+
 describe('daf-w3c', () => {
-  it('handles ' + ActionTypes.signCredentialJwt, async () => {
-    // expect.assertions(1)
+  it('handles createVerifiableCredential', async () => {
+    const credential: ICredential = {
+      '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
+      type: ['VerifiableCredential', 'PublicProfile'],
+      issuer: mockIdentity1.did,
+      issuanceDate: new Date().toISOString(),
+      id: 'vc1',
+      credentialSubject: {
+        id: mockIdentity2.did,
+        name: 'Alice',
+        profilePicture: 'https://example.com/a.png',
+        address: {
+          street: 'Some str.',
+          house: 1,
+        },
+      },
+    }
 
-    // const actionHandler = new W3cActionHandler()
-
-    // const data = {
-    //   issuer: mockDid,
-    //   '@context': ['https://www.w3.org/2018/credentials/v1'],
-    //   type: ['VerifiableCredential'],
-    //   credentialSubject: {
-    //     id: 'did:web:uport.me',
-    //     you: 'Rock',
-    //   },
-    // }
-
-    // await actionHandler.handleAction(
-    //   {
-    //     type: ActionTypes.signCredentialJwt,
-    //     data,
-    //   } as ActionSignW3cVc,
-    //   mockAgent as any,
-    // )
-
-    // expect(mockCreateVerifiableCredential).toBeCalledWith(data, { did: mockDid, signer: mockSigner })
-    expect(1).toEqual(1)
+    const vc = await w3c.createVerifiableCredential(
+      {
+        credential,
+        save: true,
+        proofFormat: 'jwt',
+      },
+      context,
+    )
+    // TODO Update these after refactoring did-jwt-vc
+    expect(context.agent.identityManagerGetIdentity).toBeCalledWith({ did: mockIdentity1.did })
+    expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith('mock')
+    expect(vc).toEqual('mock')
   })
 
-  it('handles ' + ActionTypes.signPresentationJwt, async () => {
-    // expect.assertions(1)
+  it('handles createVerifiablePresentation', async () => {
+    const credential: IVerifiableCredential = {
+      '@context': ['https://www.w3.org/2018/credentials/v1323'],
+      type: ['VerifiableCredential', 'PublicProfile'],
+      issuer: mockIdentity1.did,
+      issuanceDate: new Date().toISOString(),
+      id: 'vc1',
+      credentialSubject: {
+        id: mockIdentity2.did,
+        name: 'Alice',
+        profilePicture: 'https://example.com/a.png',
+        address: {
+          street: 'Some str.',
+          house: 1,
+        },
+      },
+      proof: {
+        jwt: 'mockJWT',
+      },
+    }
 
-    // const actionHandler = new W3cActionHandler()
+    const presentation: IPresentation = {
+      '@context': ['https://www.w3.org/2018/credentials/v1323'],
+      type: ['VerifiablePresentation'],
+      issuer: mockIdentity1.did,
+      audience: [mockIdentity2.did],
+      issuanceDate: new Date().toISOString(),
+      verifiableCredential: [credential],
+    }
 
-    // const data = {
-    //   issuer: mockDid,
-    //   audience: 'did:web:uport.me',
-    //   '@context': ['https://www.w3.org/2018/credentials/v1'],
-    //   type: ['VerifiablePresentation'],
-    //   verifiableCredential: ['eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODU4MTEyNTksInN1YiI6ImRpZDp3ZWI6dXBvcnQubWUiLCJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7Im5hbWUiOiJCb2IifX0sImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHg0MmJhNzFjNTlhMjJhMDM3ZTU0ZjhkNWIxM2Q3YjM3MjFkYWExOGMzIn0.lSuP2V-xr0RaW-M_egBXnhv0cUuM7Vp54wz1A_f3zCXjR7-bcfk1HqvweQsX-m7mXx9J9sn2vNS6YcJhWk2oBAE'],
-    // }
+    const vp = await w3c.createVerifiablePresentation(
+      {
+        presentation,
+        save: true,
+        proofFormat: 'jwt',
+      },
+      context,
+    )
 
-    // await actionHandler.handleAction(
-    //   {
-    //     type: ActionTypes.signPresentationJwt,
-    //     data,
-    //   } as ActionSignW3cVp,
-    //   mockAgent as any,
-    // )
-
-    // expect(mockCreatePresentation).toBeCalledWith(data, { did: mockDid, signer: mockSigner })
-    expect(1).toEqual(1)
+    // TODO Update these after refactoring did-jwt-vc
+    expect(context.agent.identityManagerGetIdentity).toBeCalledWith({ did: mockIdentity1.did })
+    expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith('mock')
+    expect(vp).toEqual('mock')
   })
 })
