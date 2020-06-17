@@ -62,8 +62,8 @@ export class W3c implements IAgentPlugin {
     try {
       const payload = transformPresentationInput(args.presentation)
       const identity = await context.agent.identityManagerGetIdentity({ did: args.presentation.issuer })
-      const key = identity.keys.find(k => k.type === 'Secp256k1')
-      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
+      const { kid } = identity.keys.find(k => k.type === 'Secp256k1')
+      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid, data })
       debug('Signing VP with', identity.did)
       // Removing duplicate JWT
       payload.vp.verifiableCredential = Array.from(new Set(payload.vp.verifiableCredential))
@@ -101,8 +101,8 @@ export class W3c implements IAgentPlugin {
     try {
       const payload = transformCredentialInput(args.credential)
       const identity = await context.agent.identityManagerGetIdentity({ did: args.credential.issuer })
-      const key = identity.keys.find(k => k.type === 'Secp256k1')
-      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
+      const { kid } = identity.keys.find(k => k.type === 'Secp256k1')
+      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid, data })
 
       debug('Signing VC with', identity.did)
       const jwt = await createVerifiableCredential(payload, { did: identity.did, signer })
