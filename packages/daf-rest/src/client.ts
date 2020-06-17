@@ -1,7 +1,7 @@
 import { IAgentPlugin, TMethodMap } from 'daf-core'
 import { supportedMethods } from './methods'
 
-export class RESTAgentPlugin implements IAgentPlugin {
+export class AgentRestClient implements IAgentPlugin {
   readonly methods: TMethodMap = {}
   private url: string
 

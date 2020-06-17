@@ -1,8 +1,8 @@
-import { IAgent } from 'daf-core'
+import { IAgentBase } from 'daf-core'
 import { Request, Response, NextFunction } from 'express'
-import { supportedMethods } from '../daf-rest'
+import { supportedMethods } from 'daf-rest'
 
-export const AgentExpressMiddleware = (options: { agent: IAgent; methods: string[]; prefix: string }) => {
+export const AgentExpressMiddleware = (options: { agent: IAgentBase; methods: string[]; prefix: string }) => {
   const availableEndpoints = options.methods.map(method => options.prefix + supportedMethods[method].path)
   let methodPathMap: Record<string, string> = {}
   for (const method of options.methods) {
