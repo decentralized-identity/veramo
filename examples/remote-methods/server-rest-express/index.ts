@@ -1,6 +1,6 @@
 import express from 'express'
 import { agent } from './setup'
-import { AgentExpressMiddleware } from '../lib/daf-expressjs'
+import { AgentExpressMiddleware } from 'daf-express'
 
 const app = express()
 app.use(express.json())
@@ -10,7 +10,14 @@ app.use(
     agent,
     prefix: '/agent',
     // methods: agent.availableMethods(),
-    methods: ['resolve'],
+    methods: [
+      'resolveDid',
+      'identityManagerGetProviders',
+      'identityManagerGetIdentities',
+      'identityManagerGetIdentity',
+      'identityManagerCreateIdentity',
+      'identityManagerCreateIdentity',
+    ],
   }),
 )
 

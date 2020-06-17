@@ -1,0 +1,73 @@
+Arguments: 
+  /Users/simonas/.nvm/versions/node/v10.18.1/bin/node /Users/simonas/.yarn/bin/yarn.js
+
+PATH: 
+  /Users/simonas/.nvm/versions/node/v10.18.1/bin:/Users/simonas/.yarn/bin:/Users/simonas/.config/yarn/global/node_modules/.bin:/Users/simonas/.nvm/versions/node/v12.13.1/bin:/Users/simonas/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/simonas/.yarn/bin:/Users/simonas/.config/yarn/global/node_modules/.bin:/Users/simonas/.nvm/versions/node/v12.13.1/bin:/Users/simonas/.cargo/bin:/Users/simonas/Library/Android/sdk/tools:/Users/simonas/Library/Android/sdk/platform-tools:/Users/simonas/Library/Android/sdk/tools:/Users/simonas/Library/Android/sdk/platform-tools
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  10.18.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/daf-rest: Not found
+      at Request.params.callback [as _callback] (/Users/simonas/.yarn/lib/cli.js:66947:18)
+      at Request.self.callback (/Users/simonas/.yarn/lib/cli.js:140665:22)
+      at Request.emit (events.js:198:13)
+      at Request.<anonymous> (/Users/simonas/.yarn/lib/cli.js:141637:10)
+      at Request.emit (events.js:198:13)
+      at IncomingMessage.<anonymous> (/Users/simonas/.yarn/lib/cli.js:141559:12)
+      at Object.onceWrapper (events.js:286:20)
+      at IncomingMessage.emit (events.js:203:15)
+      at endReadableNT (_stream_readable.js:1145:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+    "name": "remote-methods",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+      "start:client": "DEBUG=daf:* ts-node client/index.ts",
+      "start:rest": "DEBUG=daf:* ts-node server-rest-express/index.ts",
+      "start:graphql": "DEBUG=daf:* ts-node server-graphql-apollo/index.ts",
+      "start:grpc": "DEBUG=daf:* ts-node server-grpc/index.ts"
+    },
+    "dependencies": {
+      "@types/express": "^4.17.6",
+      "apollo-server": "^2.14.1",
+      "cross-fetch": "^3.0.4",
+      "daf-core": "../../packages/daf-core",
+      "daf-did-comm": "../../packages/daf-did-comm",
+      "daf-did-jwt": "../../packages/daf-did-jwt",
+      "daf-ethr-did": "../../packages/daf-ethr-did",
+      "daf-express": "../../packages/daf-express",
+      "daf-libsodium": "../../packages/daf-libsodium",
+      "daf-resolver": "../../packages/daf-resolver",
+      "daf-rest": "../../packages/daf-rest",
+      "daf-w3c": "../../packages/daf-w3c",
+      "express": "^4.17.1",
+      "graphql": "^15.0.0",
+      "graphql-request": "^2.0.0",
+      "graphql-tag": "^2.10.3",
+      "graphql-tools": "^6.0.6",
+      "sqlite3": "^4.1.1",
+      "ts-node": "^8.10.2",
+      "typeorm": "^0.2.24",
+      "typescript": "^3.9.3"
+    },
+    "resolutions": {
+      "daf-rest": "^6.0.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -1,2 +1,2 @@
-export { RESTAgentPlugin } from './plugin'
+export { AgentRestClient } from './client'
 export { supportedMethods } from './methods'
