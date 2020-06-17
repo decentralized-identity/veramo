@@ -29,7 +29,7 @@ export class KeyManager implements IAgentPlugin {
       keyManagerEncryptJWE: this.keyManagerDecryptJWE.bind(this),
       keyManagerDecryptJWE: this.keyManagerDecryptJWE.bind(this),
       keyManagerSignJWT: this.keyManagerSignJWT.bind(this),
-      keyManagerSignEthTX: this.keyManagerSignJWT.bind(this),
+      keyManagerSignEthTX: this.keyManagerSignEthTX.bind(this),
     }
   }
 
@@ -39,10 +39,14 @@ export class KeyManager implements IAgentPlugin {
     return kms
   }
 
-  async keyManagerCreateKey(args: { type: TKeyType; kms: string; meta?: Record<string, any> }): Promise<IKey> {
+  async keyManagerCreateKey(args: {
+    type: TKeyType
+    kms: string
+    meta?: Record<string, any>
+  }): Promise<IKey> {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
-    const key: IKey = {...partialKey, kms: args.kms}
+    const key: IKey = { ...partialKey, kms: args.kms }
     await this.store.import(key)
     return key
   }
