@@ -10,9 +10,8 @@ import Debug from 'debug'
 const debug = Debug('daf:sodium:kms')
 
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
-  
   async createKey({ type }: { type: TKeyType }): Promise<Omit<IKey, 'kms'>> {
-    let key: Omit<IKey, "kms">
+    let key: Omit<IKey, 'kms'>
 
     switch (type) {
       case 'Ed25519':
@@ -38,7 +37,6 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         throw Error('Key type not supported: ' + type)
     }
 
-
     debug('Created key', type, key.publicKeyHex)
 
     return key
@@ -49,7 +47,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return true
   }
 
-  async encryptJWE({ key, to, data}: { key: IKey; to: IKey; data: string }): Promise<string> {
+  async encryptJWE({ key, to, data }: { key: IKey; to: IKey; data: string }): Promise<string> {
     await didcomm.ready
     return await didcomm.pack_anon_msg_for_recipients(data, [
       Uint8Array.from(Buffer.from(to.publicKeyHex, 'hex')),
@@ -70,7 +68,6 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   async signEthTX({ key, transaction }: { key: IKey; transaction: object }): Promise<string> {
-    debug('signEthTX', {key, transaction})
     return sign(transaction, '0x' + key.privateKeyHex)
   }
 
@@ -78,5 +75,4 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     const signer = SimpleSigner(key.privateKeyHex)
     return signer(data)
   }
-
 }
