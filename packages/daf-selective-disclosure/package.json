@@ -13,8 +13,7 @@
     "daf-did-jwt": "^6.3.0",
     "daf-typeorm": "^6.3.0",
     "debug": "^4.1.1",
-    "did-jwt": "^4.3.2",
-    "typeorm": "^0.2.24"
+    "did-jwt": "^4.3.2"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
