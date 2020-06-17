@@ -8,12 +8,12 @@ async function main() {
   if (identities.length > 0) {
     identity = identities[0]
   } else {
-    identity = await agent.identityManagerCreateIdentity({kms: 'local'})
+    identity = await agent.identityManagerCreateIdentity({ kms: 'local' })
   }
 
   // Sign verifiable credential
-  const credential = await agent.signCredentialJwt({
-    data: {
+  const credential = await agent.createVerifiableCredential({
+    credential: {
       issuer: identity.did,
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiableCredential'],
@@ -22,6 +22,7 @@ async function main() {
         you: 'Rock',
       },
     },
+    proofFormat: 'jwt',
   })
 
   console.log(credential)
