@@ -19,7 +19,7 @@ type THandleMessageArgs = {
 }
 
 interface Context extends IContext {
-  agent: IAgentBase & IAgentDataStore
+  agent: Required<IAgentBase & IAgentDataStore>
 }
 
 export interface IAgentHandleMessage {
@@ -28,7 +28,7 @@ export interface IAgentHandleMessage {
 
 export class MessageHandler extends EventEmitter implements IAgentPlugin {
   readonly methods: TMethodMap
-  private messageHandler: AbstractMessageHandler
+  private messageHandler?: AbstractMessageHandler
 
   constructor(options: { messageHandlers: AbstractMessageHandler[] }) {
     super()
@@ -38,7 +38,7 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
         this.messageHandler = messageHandler
       } else {
         let lastHandler = this.messageHandler
-        while(lastHandler.nextMessageHandler !== undefined) {
+        while (lastHandler.nextMessageHandler !== undefined) {
           lastHandler = lastHandler.nextMessageHandler
         }
         lastHandler.setNext(messageHandler)

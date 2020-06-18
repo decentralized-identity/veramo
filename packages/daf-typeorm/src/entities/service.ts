@@ -4,12 +4,15 @@ import { Identity } from './identity'
 @Entity()
 export class Service extends BaseEntity {
   @PrimaryColumn()
+  //@ts-ignore
   id: string
 
   @Column()
+  //@ts-ignore
   type: string
 
   @Column()
+  //@ts-ignore
   serviceEndpoint: string
 
   @Column({ nullable: true })
@@ -19,5 +22,6 @@ export class Service extends BaseEntity {
     type => Identity,
     identity => identity.services,
   )
+  //@ts-ignore
   identity: Identity
 }

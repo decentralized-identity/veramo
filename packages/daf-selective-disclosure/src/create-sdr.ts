@@ -10,7 +10,7 @@ export interface IArgs {
 }
 
 interface IContext {
-  agent: IAgentBase & IAgentIdentityManager & IAgentKeyManager
+  agent: Required<IAgentBase & IAgentIdentityManager & IAgentKeyManager>
 }
 
 export type TCreateSelectiveDisclosureRequest = (args: IArgs, context: IContext) => Promise<string>
@@ -27,6 +27,7 @@ export const createSelectiveDisclosureRequest: TCreateSelectiveDisclosureRequest
     debug('Signing SDR with', identity.did)
 
     const key = identity.keys.find(k => k.type === 'Secp256k1')
+    if (!key) throw Error('Signing key not found')
     const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
     const jwt = await createJWT(
       {

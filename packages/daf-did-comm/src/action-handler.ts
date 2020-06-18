@@ -1,5 +1,13 @@
 import 'cross-fetch/polyfill'
-import { IAgentBase, IAgentResolve, Message, IAgentIdentityManager, IAgentKeyManager, IAgentHandleMessage, IAgentExtension } from 'daf-core'
+import {
+  IAgentBase,
+  IAgentResolve,
+  Message,
+  IAgentIdentityManager,
+  IAgentKeyManager,
+  IAgentHandleMessage,
+  IAgentExtension,
+} from 'daf-core'
 import uuid from 'uuid'
 import Debug from 'debug'
 
@@ -18,7 +26,7 @@ export interface IArgs {
 }
 
 type TContext = {
-  agent: IAgentBase & IAgentIdentityManager & IAgentKeyManager & IAgentResolve & IAgentHandleMessage
+  agent: Required<IAgentBase & IAgentIdentityManager & IAgentKeyManager & IAgentResolve & IAgentHandleMessage>
 }
 
 type TSendMessageDIDCommAlpha1 = (args: IArgs, context: TContext) => Promise<Message>
@@ -47,20 +55,19 @@ export const sendMessageDIDCommAlpha1: TSendMessageDIDCommAlpha1 = async (args, 
       try {
         const identity = await ctx.agent.identityManagerGetIdentity({ did: data.from })
         const key = identity.keys.find(k => k.type === 'Ed25519')
+        if (!key) throw Error('No encryption key')
         const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
         if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
 
-        postPayload = await ctx.agent.keyManagerEncryptJWE(
-          {
-            kid: key.kid,
-            to: {
-              type: 'Ed25519',
-              publicKeyHex: publicKey?.publicKeyHex,
-              kid: publicKey?.publicKeyHex,
-            },
-            data: postPayload
-          }
-        )
+        postPayload = await ctx.agent.keyManagerEncryptJWE({
+          kid: key.kid,
+          to: {
+            type: 'Ed25519',
+            publicKeyHex: publicKey?.publicKeyHex,
+            kid: publicKey?.publicKeyHex,
+          },
+          data: postPayload,
+        })
 
         debug('Encrypted:', postPayload)
       } catch (e) {}

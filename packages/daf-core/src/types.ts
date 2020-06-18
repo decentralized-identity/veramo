@@ -35,7 +35,7 @@ export interface EcdsaSignature {
 }
 
 export interface ICredential {
-  '@context'?: string[]
+  '@context': string[]
   type: string[]
   id?: string
   issuer: string
@@ -60,7 +60,7 @@ export interface IVerifiableCredential extends ICredential {
 }
 
 export interface IPresentation {
-  '@context'?: string[]
+  '@context': string[]
   type: string[]
   id?: string
   issuer: string
@@ -68,6 +68,7 @@ export interface IPresentation {
   expirationDate?: string
   issuanceDate?: string
   verifiableCredential: IVerifiableCredential[]
+  [x: string]: any
 }
 
 export interface IVerifiablePresentation extends IPresentation {
@@ -83,10 +84,10 @@ export interface IMetaData {
 
 export interface IMessage {
   id: string
+  type: string
   createdAt?: string
   expiresAt?: string
   threadId?: string
-  type: string
   raw?: string
   data?: any
   replyTo?: string[]
@@ -107,13 +108,18 @@ export interface IContext extends Record<string, any> {
   agent: IAgentBase
 }
 
-export type TAgentMethod = (args?: any, context?: IContext) => Promise<any>
+export type TAgentMethod = (...args: any) => Promise<any>
 
 export type TMethodMap = Record<string, TAgentMethod>
 
 export interface IAgentExtension<T extends TAgentMethod> {
-  (arg: Parameters<T>[0]): ReturnType<T>
+  (args?: Parameters<T>[0] | undefined): ReturnType<T>
 }
+
+export type TAgentMethods<T extends TMethodMap> = {
+  [P in keyof T]?: IAgentExtension<T[P]>
+}
+
 export interface IAgentPlugin {
   readonly methods: TMethodMap
 }

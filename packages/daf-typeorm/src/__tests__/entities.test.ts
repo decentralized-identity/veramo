@@ -1,7 +1,7 @@
 import { IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
 import { Credential, createCredentialEntity } from '../entities/credential'
 import { Presentation, createPresentationEntity } from '../entities/presentation'
-import { createConnection, Connection, In, Raw } from 'typeorm'
+import { createConnection, Connection, In, Raw, FindConditions } from 'typeorm'
 import { Identity, Key, Message, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
@@ -36,7 +36,7 @@ describe('daf-core', () => {
     await identity.save()
 
     const fromDb = await Identity.findOne(identity.did)
-    expect(fromDb.did).toEqual(identity.did)
+    expect(fromDb?.did).toEqual(identity.did)
   })
 
   it('Saves credential with claims', async () => {
@@ -66,11 +66,11 @@ describe('daf-core', () => {
     const credential = await Credential.findOne(entity.hash, {
       relations: ['issuer', 'subject', 'claims', 'claims.issuer', 'claims.subject'],
     })
-    expect(credential.issuer.did).toEqual(did1)
-    expect(credential.subject.did).toEqual(did2)
-    expect(credential.claims.length).toEqual(3)
-    expect(credential.claims[0].issuer.did).toEqual(did1)
-    expect(credential.claims[0].subject.did).toEqual(did2)
+    expect(credential?.issuer.did).toEqual(did1)
+    expect(credential?.subject?.did).toEqual(did2)
+    expect(credential?.claims.length).toEqual(3)
+    expect(credential?.claims[0]?.issuer?.did).toEqual(did1)
+    expect(credential?.claims[0]?.subject?.did).toEqual(did2)
   })
 
   it('Saves message with credentials', async () => {
@@ -147,12 +147,12 @@ describe('daf-core', () => {
       ],
     })
 
-    expect(message.credentials.length).toEqual(1)
-    expect(message.credentials[0].claims.length).toEqual(3)
-    expect(message.presentations.length).toEqual(1)
-    expect(message.presentations[0].credentials.length).toEqual(1)
+    expect(message?.credentials.length).toEqual(1)
+    expect(message?.credentials[0].claims.length).toEqual(3)
+    expect(message?.presentations.length).toEqual(1)
+    expect(message?.presentations[0].credentials.length).toEqual(1)
 
-    let where = {}
+    let where: FindConditions<Claim> = {}
 
     where['issuer'] = In([did1])
     where['subject'] = In([did2])
@@ -178,7 +178,7 @@ describe('daf-core', () => {
 
     const fromDb = await Message.findOne(customId)
 
-    expect(fromDb.id).toEqual(customId)
-    expect(fromDb.type).toEqual('custom')
+    expect(fromDb?.id).toEqual(customId)
+    expect(fromDb?.type).toEqual('custom')
   })
 })

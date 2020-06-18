@@ -1,4 +1,11 @@
-import { IAgentPlugin, IMessage, IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
+import {
+  IAgentPlugin,
+  IMessage,
+  IVerifiableCredential,
+  IVerifiablePresentation,
+  TAgentMethods,
+  TMethodMap,
+} from 'daf-core'
 import { Message, createMessage } from './entities/message'
 import { Claim } from './entities/claim'
 import { Credential } from './entities/credential'
@@ -63,15 +70,18 @@ function addAudienceQuery(input: FindArgs<any>, qb: SelectQueryBuilder<any>): Se
   return qb.andWhere(`audience.did ${op}`, { value })
 }
 
-function createWhereObject(input: FindArgs<any>): any {
+function createWhereObject(
+  input: FindArgs<TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns>,
+): any {
   if (input?.where) {
-    const where = {}
+    const where: Record<string, any> = {}
     for (const item of input.where) {
       if (item.column === 'audience') {
         continue
       }
       switch (item.op) {
         case 'Any':
+          if (!Array.isArray(item.value)) throw Error('Operator Any requires value to be an array')
           where[item.column] = Any(item.value)
           break
         case 'Between':
@@ -107,6 +117,7 @@ function createWhereObject(input: FindArgs<any>): any {
           break
         case 'In':
         default:
+          if (!Array.isArray(item.value)) throw Error('Operator IN requires value to be an array')
           where[item.column] = In(item.value)
       }
       if (item.not === true) {
@@ -136,27 +147,43 @@ function decorateQB(
   return qb
 }
 
-export interface IAgentDataStoreORM {
-  dataStoreORMGetMessages?(args: FindArgs<TMessageColumns>): Promise<IMessage[]>
-  dataStoreORMGetMessagesCount?(args: FindArgs<TMessageColumns>): Promise<number>
-  dataStoreORMGetVerifiableCredentialsByClaims?(
-    args: FindArgs<TClaimsColumns>,
-  ): Promise<IVerifiableCredential[]>
-  dataStoreORMGetVerifiableCredentialsByClaimsCount?(args: FindArgs<TClaimsColumns>): Promise<number>
-  dataStoreORMGetVerifiableCredentials?(args: FindArgs<TCredentialColumns>): Promise<IVerifiableCredential[]>
-  dataStoreORMGetVerifiableCredentialsCount?(args: FindArgs<TCredentialColumns>): Promise<number>
-  dataStoreORMGetVerifiablePresentations?(
-    args: FindArgs<TPresentationColumns>,
-  ): Promise<IVerifiablePresentation[]>
-  dataStoreORMGetVerifiablePresentationsCount?(args: FindArgs<TPresentationColumns>): Promise<number>
+interface IContext {
+  authenticatedDid?: string
 }
 
-interface IContext {
-  authenticatedDid: string
+export interface DataStoreORMMethods extends TMethodMap {
+  dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Promise<IMessage[]>
+  dataStoreORMGetMessagesCount(args: FindArgs<TMessageColumns>, context: IContext): Promise<number>
+  dataStoreORMGetVerifiableCredentialsByClaims(
+    args: FindArgs<TClaimsColumns>,
+    context: IContext,
+  ): Promise<IVerifiableCredential[]>
+  dataStoreORMGetVerifiableCredentialsByClaimsCount(
+    args: FindArgs<TClaimsColumns>,
+    context: IContext,
+  ): Promise<number>
+  dataStoreORMGetVerifiableCredentials(
+    args: FindArgs<TCredentialColumns>,
+    context: IContext,
+  ): Promise<IVerifiableCredential[]>
+  dataStoreORMGetVerifiableCredentialsCount(
+    args: FindArgs<TCredentialColumns>,
+    context: IContext,
+  ): Promise<number>
+  dataStoreORMGetVerifiablePresentations(
+    args: FindArgs<TPresentationColumns>,
+    context: IContext,
+  ): Promise<IVerifiablePresentation[]>
+  dataStoreORMGetVerifiablePresentationsCount(
+    args: FindArgs<TPresentationColumns>,
+    context: IContext,
+  ): Promise<number>
 }
+
+export type IAgentDataStoreORM = TAgentMethods<DataStoreORMMethods>
 
 export class DataStoreORM implements IAgentPlugin {
-  readonly methods: Required<IAgentDataStoreORM>
+  readonly methods: DataStoreORMMethods
   private dbConnection: Promise<Connection>
 
   constructor(dbConnection: Promise<Connection>) {

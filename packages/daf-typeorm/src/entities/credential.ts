@@ -9,8 +9,10 @@ import { Claim } from './claim'
 @Entity()
 export class Credential extends BaseEntity {
   @PrimaryColumn()
+  //@ts-ignore
   hash: string
 
+  //@ts-ignore
   private _raw: IVerifiableCredential
 
   set raw(raw: IVerifiableCredential) {
@@ -31,6 +33,7 @@ export class Credential extends BaseEntity {
       eager: true,
     },
   )
+  //@ts-ignore
   issuer: Identity
 
   // Subject can be null https://w3c.github.io/vc-data-model/#credential-uniquely-identifies-a-subject
@@ -49,15 +52,18 @@ export class Credential extends BaseEntity {
   id?: string
 
   @Column()
+  //@ts-ignore
   issuanceDate: Date
 
   @Column({ nullable: true })
   expirationDate?: Date
 
   @Column('simple-array')
+  //@ts-ignore
   context: string[]
 
   @Column('simple-array')
+  //@ts-ignore
   type: string[]
 
   @OneToMany(
@@ -67,18 +73,21 @@ export class Credential extends BaseEntity {
       cascade: ['insert'],
     },
   )
+  //@ts-ignore
   claims: Claim[]
 
   @ManyToMany(
     type => Presentation,
     presentation => presentation.credentials,
   )
+  //@ts-ignore
   presentations: Presentation[]
 
   @ManyToMany(
     type => Message,
     message => message.credentials,
   )
+  //@ts-ignore
   messages: Message[]
 }
 

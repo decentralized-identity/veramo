@@ -1,14 +1,21 @@
-import { Message, Agent } from 'daf-core'
+import { Message, IContext } from 'daf-core'
 import { UrlMessageHandler } from '../index'
 import fetchMock from 'jest-fetch-mock'
 fetchMock.enableMocks()
+
+const context: IContext = {
+  agent: {
+    execute: jest.fn(),
+    availableMethods: jest.fn(),
+  },
+}
 
 describe('daf-url', () => {
   const messageHandler = new UrlMessageHandler()
 
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(messageHandler.handle(message, null)).rejects.toEqual('Unsupported message type')
+    expect(messageHandler.handle(message, context)).rejects.toEqual('Unsupported message type')
   })
 
   it('should transform message after standard URL', async () => {
@@ -22,7 +29,7 @@ describe('daf-url', () => {
         },
       ],
     })
-    expect(messageHandler.handle(message, null)).rejects.toEqual('Unsupported message type')
+    expect(messageHandler.handle(message, context)).rejects.toEqual('Unsupported message type')
     expect(message.raw).toEqual(JWT)
   })
 
@@ -31,7 +38,7 @@ describe('daf-url', () => {
     fetchMock.mockResponse('mockbody')
     expect.assertions(2)
     try {
-      await messageHandler.handle(message, null)
+      await messageHandler.handle(message, context)
     } catch (e) {
       expect(e).toMatch('Unsupported message type')
     }

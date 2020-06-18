@@ -4,7 +4,8 @@ import {
   IAgentResolve,
   IAgentIdentityManager,
   IAgentKeyManager,
-  IAgentExtension,
+  TMethodMap,
+  TAgentMethods,
   ICredential,
   IPresentation,
   IVerifiableCredential,
@@ -25,24 +26,38 @@ import { createCredential, createPresentation } from './message-handler'
 import Debug from 'debug'
 const debug = Debug('daf:w3c:action-handler')
 
-export interface IAgentW3c {
-  createVerifiablePresentation?: (args: {
-    presentation: IPresentation
-    save?: boolean
-    proofFormat: 'jwt'
-  }) => Promise<IVerifiablePresentation>
-  createVerifiableCredential?(args: {
-    credential: ICredential
-    save?: boolean
-    proofFormat: 'jwt'
-  }): Promise<IVerifiableCredential>
+export interface W3cMethods extends TMethodMap {
+  createVerifiablePresentation: (
+    args: {
+      presentation: IPresentation
+      save?: boolean
+      proofFormat: 'jwt'
+    },
+    context: IContext,
+  ) => Promise<IVerifiablePresentation>
+  createVerifiableCredential(
+    args: {
+      credential: ICredential
+      save?: boolean
+      proofFormat: 'jwt'
+    },
+    context: IContext,
+  ): Promise<IVerifiableCredential>
 }
 export interface IContext {
-  agent: IAgentBase & IAgentIdentityManager & IAgentResolve & IAgentDataStore & IAgentKeyManager
+  agent: Required<
+    IAgentBase &
+      Pick<IAgentIdentityManager, 'identityManagerGetIdentity'> &
+      IAgentResolve &
+      Pick<IAgentDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+      Pick<IAgentKeyManager, 'keyManagerSignJWT'>
+  >
 }
 
+export type IAgentW3c = TAgentMethods<W3cMethods>
+
 export class W3c implements IAgentPlugin {
-  readonly methods: Required<IAgentW3c>
+  readonly methods: W3cMethods
 
   constructor() {
     this.methods = {
@@ -57,13 +72,14 @@ export class W3c implements IAgentPlugin {
       save?: boolean
       proofFormat: 'jwt'
     },
-    context?: IContext,
+    context: IContext,
   ): Promise<IVerifiablePresentation> {
     try {
       const payload = transformPresentationInput(args.presentation)
       const identity = await context.agent.identityManagerGetIdentity({ did: args.presentation.issuer })
-      const { kid } = identity.keys.find(k => k.type === 'Secp256k1')
-      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid, data })
+      const key = identity.keys.find(k => k.type === 'Secp256k1')
+      if (!key) throw Error('No signing key')
+      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       debug('Signing VP with', identity.did)
       // Removing duplicate JWT
       payload.vp.verifiableCredential = Array.from(new Set(payload.vp.verifiableCredential))
@@ -96,13 +112,14 @@ export class W3c implements IAgentPlugin {
       save?: boolean
       proofFormat: 'jwt'
     },
-    context?: IContext,
+    context: IContext,
   ): Promise<IVerifiableCredential> {
     try {
       const payload = transformCredentialInput(args.credential)
       const identity = await context.agent.identityManagerGetIdentity({ did: args.credential.issuer })
-      const { kid } = identity.keys.find(k => k.type === 'Secp256k1')
-      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid, data })
+      const key = identity.keys.find(k => k.type === 'Secp256k1')
+      if (!key) throw Error('No signing key')
+      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
 
       debug('Signing VC with', identity.did)
       const jwt = await createVerifiableCredential(payload, { did: identity.did, signer })
@@ -124,7 +141,7 @@ export class W3c implements IAgentPlugin {
 const transformCredentialInput = (input: ICredential): VerifiableCredentialPayload => {
   if (Array.isArray(input.credentialSubject)) throw Error('credentialSubject of type array not supported')
 
-  const result = { vc: {} }
+  const result: Record<string, any> = { vc: {} }
 
   for (const key in input) {
     switch (key) {
@@ -142,10 +159,10 @@ const transformCredentialInput = (input: ICredential): VerifiableCredentialPaylo
         result['vc']['type'] = input[key]
         break
       case 'issuanceDate':
-        result['nbf'] = Date.parse(input[key]) / 1000
+        result['nbf'] = Date.parse('' + input[key]) / 1000
         break
       case 'expirationDate':
-        result['exp'] = Date.parse(input[key]) / 1000
+        result['exp'] = Date.parse('' + input[key]) / 1000
         break
       case 'id':
         result['jti'] = input[key]
@@ -162,22 +179,21 @@ const transformCredentialInput = (input: ICredential): VerifiableCredentialPaylo
 }
 
 const transformPresentationInput = (input: IPresentation): PresentationPayload => {
-  const result = { vp: {} }
+  const result: Record<string, any> = { vp: {} }
 
   for (const key in input) {
     switch (key) {
       case '@context':
-      case 'context':
         result['vp']['@context'] = input[key]
         break
       case 'type':
         result['vp']['type'] = input[key]
         break
       case 'issuanceDate':
-        result['nbf'] = Date.parse(input[key]) / 1000
+        result['nbf'] = Date.parse('' + input[key]) / 1000
         break
       case 'expirationDate':
-        result['exp'] = Date.parse(input[key]) / 1000
+        result['exp'] = Date.parse('' + input[key]) / 1000
         break
       case 'id':
         result['jti'] = input[key]

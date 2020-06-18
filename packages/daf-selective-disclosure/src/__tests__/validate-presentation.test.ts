@@ -1,6 +1,13 @@
-import { IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
+import { IVerifiableCredential, IVerifiablePresentation, IContext } from 'daf-core'
 import { ISelectiveDisclosureRequest } from '../types'
 import { validatePresentationAgainstSdr } from '../validate-presentation'
+
+const context: IContext = {
+  agent: {
+    execute: jest.fn(),
+    availableMethods: jest.fn(),
+  },
+}
 
 describe('daf-selective-disclosure-helper', () => {
   it('should validate presentation for sdr', async () => {
@@ -76,7 +83,7 @@ describe('daf-selective-disclosure-helper', () => {
       },
     }
 
-    const result = await validatePresentationAgainstSdr({ presentation, sdr }, null)
+    const result = await validatePresentationAgainstSdr({ presentation, sdr }, context)
 
     expect(result.claims[0].credentials[0].credentialSubject['firstName']).toEqual('Alice')
     expect(result.valid).toEqual(true)
@@ -119,7 +126,7 @@ describe('daf-selective-disclosure-helper', () => {
         jwt: 'mock',
       },
     }
-    const result = await validatePresentationAgainstSdr({ presentation, sdr }, null)
+    const result = await validatePresentationAgainstSdr({ presentation, sdr }, context)
 
     expect(result.valid).toEqual(false)
   })
