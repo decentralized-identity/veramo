@@ -19,81 +19,97 @@ import { Connection } from 'typeorm'
 @Entity()
 export class Identity extends BaseEntity {
   @PrimaryColumn()
+  //@ts-ignore
   did: string
 
   @Column({ nullable: true })
+  //@ts-ignore
   provider: string
 
   @Column({ nullable: true })
+  //@ts-ignore
   alias: string
 
   @CreateDateColumn()
+  //@ts-ignore
   saveDate: Date
 
   @UpdateDateColumn()
+  //@ts-ignore
   updateDate: Date
 
   @Column({ nullable: true })
+  //@ts-ignore
   controllerKeyId: string
 
   @OneToMany(
     type => Key,
     key => key.identity,
   )
+  //@ts-ignore
   keys: Key[]
 
   @OneToMany(
     type => Service,
     service => service.identity,
   )
+  //@ts-ignore
   services: Service[]
 
   @OneToMany(
     type => Message,
     message => message.from,
   )
+  //@ts-ignore
   sentMessages: Message[]
 
   @OneToMany(
     type => Message,
     message => message.to,
   )
+  //@ts-ignore
   receivedMessages: Message[]
 
   @OneToMany(
     type => Presentation,
     presentation => presentation.issuer,
   )
+  //@ts-ignore
   issuedPresentations: Presentation[]
 
   @ManyToMany(
     type => Presentation,
     presentation => presentation.audience,
   )
+  //@ts-ignore
   receivedPresentations: Presentation[]
 
   @OneToMany(
     type => Credential,
     credential => credential.issuer,
   )
+  //@ts-ignore
   issuedCredentials: Credential[]
 
   @OneToMany(
     type => Credential,
     credential => credential.subject,
   )
+  //@ts-ignore
   receivedCredentials: Credential[]
 
   @OneToMany(
     type => Claim,
     claim => claim.issuer,
   )
+  //@ts-ignore
   issuedClaims: Claim[]
 
   @OneToMany(
     type => Claim,
     claim => claim.subject,
   )
+  //@ts-ignore
   receivedClaims: Claim[]
 
   /**
@@ -103,7 +119,10 @@ export class Identity extends BaseEntity {
    *
    * @param where
    */
-  async getLatestClaimValue(dbConnection: Promise<Connection>, where: { type: string }): Promise<String> {
+  async getLatestClaimValue(
+    dbConnection: Promise<Connection>,
+    where: { type: string },
+  ): Promise<string | undefined> {
     const claim = await (await dbConnection).getRepository(Claim).findOne({
       where: {
         ...where,

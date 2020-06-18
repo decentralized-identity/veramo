@@ -31,12 +31,15 @@ export class Message extends BaseEntity {
   }
 
   @PrimaryColumn()
+  //@ts-ignore
   id: string
 
   @CreateDateColumn()
+  //@ts-ignore
   saveDate: Date
 
   @UpdateDateColumn()
+  //@ts-ignore
   updateDate: Date
 
   @Column({ nullable: true })
@@ -49,6 +52,7 @@ export class Message extends BaseEntity {
   threadId?: string
 
   @Column()
+  //@ts-ignore
   type: string
 
   @Column({ nullable: true })
@@ -98,6 +102,7 @@ export class Message extends BaseEntity {
     },
   )
   @JoinTable()
+  //@ts-ignore
   presentations: Presentation[]
 
   @ManyToMany(
@@ -106,33 +111,8 @@ export class Message extends BaseEntity {
     { cascade: true },
   )
   @JoinTable()
+  //@ts-ignore
   credentials: Credential[]
-
-  addMetaData(meta: MetaData) {
-    if (this.metaData) {
-      this.metaData.push(meta)
-    } else {
-      this.metaData = [meta]
-    }
-  }
-
-  getLastMetaData(): MetaData | null {
-    if (this.metaData?.length > 0) {
-      return this.metaData[this.metaData.length - 1]
-    } else {
-      return null
-    }
-  }
-
-  isValid() {
-    if (this.type === null || this.type === '') {
-      return false
-    }
-    if (!this.raw || this.raw === null || this.raw === '') {
-      return false
-    }
-    return true
-  }
 }
 
 export const createMessageEntity = (args: IMessage): Message => {

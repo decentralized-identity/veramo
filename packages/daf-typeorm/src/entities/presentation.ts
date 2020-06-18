@@ -17,8 +17,10 @@ import { Credential, createCredentialEntity } from './credential'
 @Entity()
 export class Presentation extends BaseEntity {
   @PrimaryColumn()
+  //@ts-ignore
   hash: string
 
+  //@ts-ignore
   private _raw: IVerifiablePresentation
 
   set raw(raw: IVerifiablePresentation) {
@@ -39,6 +41,7 @@ export class Presentation extends BaseEntity {
       eager: true,
     },
   )
+  //@ts-ignore
   issuer: Identity
 
   @ManyToMany(
@@ -50,21 +53,25 @@ export class Presentation extends BaseEntity {
     },
   )
   @JoinTable()
+  //@ts-ignore
   audience: Identity[]
 
   @Column({ nullable: true })
   id?: String
 
   @Column()
+  //@ts-ignore
   issuanceDate: Date
 
   @Column({ nullable: true })
   expirationDate?: Date
 
   @Column('simple-array')
+  //@ts-ignore
   context: string[]
 
   @Column('simple-array')
+  //@ts-ignore
   type: string[]
 
   @ManyToMany(
@@ -75,12 +82,14 @@ export class Presentation extends BaseEntity {
     },
   )
   @JoinTable()
+  //@ts-ignore
   credentials: Credential[]
 
   @ManyToMany(
     type => Message,
     message => message.presentations,
   )
+  //@ts-ignore
   messages: Message[]
 }
 

@@ -1,4 +1,4 @@
-import { Message, Agent } from 'daf-core'
+import { Message, IAgentResolve, IAgentBase } from 'daf-core'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { blake2bHex } from 'blakejs'
 
@@ -55,29 +55,33 @@ describe('daf-w3c', () => {
 
   const handler = new W3cMessageHandler()
 
-  const context = {
-    agent: new Agent({
-      overrides: {
-        resolveDid: async ({ didUrl }: { didUrl: string }) => ({
-          '@context': 'https://w3id.org/did/v1',
-          id: didUrl,
-          publicKey: [
-            {
-              id: `${didUrl}#owner`,
-              type: 'Secp256k1VerificationKey2018',
-              owner: didUrl,
-              ethereumAddress: didUrl.slice(-42),
-            },
-          ],
-          authentication: [
-            {
-              type: 'Secp256k1SignatureAuthentication2018',
-              publicKey: `${didUrl}#owner`,
-            },
-          ],
-        }),
-      },
-    }),
+  interface IContext {
+    agent: Required<IAgentBase & IAgentResolve>
+  }
+
+  const context: IContext = {
+    agent: {
+      execute: jest.fn(),
+      availableMethods: jest.fn(),
+      resolveDid: async ({ didUrl }: { didUrl: string }) => ({
+        '@context': 'https://w3id.org/did/v1',
+        id: didUrl,
+        publicKey: [
+          {
+            id: `${didUrl}#owner`,
+            type: 'Secp256k1VerificationKey2018',
+            owner: didUrl,
+            ethereumAddress: didUrl.slice(-42),
+          },
+        ],
+        authentication: [
+          {
+            type: 'Secp256k1SignatureAuthentication2018',
+            publicKey: `${didUrl}#owner`,
+          },
+        ],
+      }),
+    },
   }
 
   it('should reject unknown message type', async () => {

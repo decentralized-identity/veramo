@@ -13,7 +13,7 @@ import { DataStore } from '../data-store'
 import { Entities } from '../index'
 import fs from 'fs'
 
-type TAgent = IAgentBase & IAgentDataStore & IAgentDataStoreORM
+type TAgent = Required<IAgentBase & IAgentDataStore & IAgentDataStoreORM>
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'
 const did3 = 'did:test:333'
@@ -114,6 +114,7 @@ describe('daf-core entities', () => {
   const databaseFile = './test-db2.sqlite'
 
   function makeAgent(context?: Record<string, any>): TAgent {
+    //@ts-ignore
     return new Agent({
       context,
       plugins: [new DataStore(dbConnection), new DataStoreORM(dbConnection)],
@@ -227,8 +228,8 @@ describe('daf-core entities', () => {
     }
 
     const messages = await agent.dataStoreORMGetMessages(args)
-    expect(new Date(messages[0].createdAt).getTime()).toBeGreaterThan(
-      new Date(messages[1].createdAt).getTime(),
+    expect(new Date('' + messages[0].createdAt).getTime()).toBeGreaterThan(
+      new Date('' + messages[1].createdAt).getTime(),
     )
 
     const args2: FindArgs<TMessageColumns> = {
@@ -248,8 +249,8 @@ describe('daf-core entities', () => {
     }
 
     const messages2 = await agent.dataStoreORMGetMessages(args2)
-    expect(new Date(messages2[0].createdAt).getTime()).toBeLessThan(
-      new Date(messages2[1].createdAt).getTime(),
+    expect(new Date('' + messages2[0].createdAt).getTime()).toBeLessThan(
+      new Date('' + messages2[1].createdAt).getTime(),
     )
   })
 

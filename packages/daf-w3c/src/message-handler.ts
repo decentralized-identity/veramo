@@ -1,4 +1,14 @@
-import { IAgentBase, IAgentResolve, AbstractMessageHandler, Message, IIdentity, ICredential, IPresentation, IVerifiablePresentation, IVerifiableCredential } from 'daf-core'
+import {
+  IAgentBase,
+  IAgentResolve,
+  AbstractMessageHandler,
+  Message,
+  IIdentity,
+  ICredential,
+  IPresentation,
+  IVerifiablePresentation,
+  IVerifiableCredential,
+} from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import {
@@ -18,14 +28,14 @@ export const MessageTypes = {
 }
 
 interface IContext {
-  agent: IAgentBase & IAgentResolve
+  agent: Required<IAgentBase & IAgentResolve>
 }
 
 export class W3cMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {
     const meta = message.getLastMetaData()
 
-    if (meta?.type === 'JWT') {
+    if (meta?.type === 'JWT' && message.raw) {
       const { data } = message
 
       try {
@@ -90,8 +100,8 @@ export function createCredential(payload: VerifiableCredentialPayload, jwt: stri
     type: payload.vc.type,
     issuer: payload.iss,
     proof: {
-      jwt
-    }
+      jwt,
+    },
   }
 
   if (payload.sub) {
@@ -120,14 +130,16 @@ export function createPresentation(
   jwt: string,
   credentials: IVerifiableCredential[],
 ): IVerifiablePresentation {
+  if (!payload.aud) throw Error('Audience field required')
+
   const vp: Partial<IVerifiablePresentation> = {
     '@context': payload.vp['@context'],
     type: payload.vp.type,
     issuer: payload.iss,
     audience: Array.isArray(payload.aud) ? (payload.aud as string[]) : [payload.aud],
     proof: {
-      jwt
-    }
+      jwt,
+    },
   }
 
   if (payload.jti) {

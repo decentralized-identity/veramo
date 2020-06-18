@@ -19,7 +19,7 @@ const filterUnauthorizedMethods = (methods: TMethodMap, authorizedMethods?: stri
 
 export class Agent implements IAgentBase {
   readonly methods: TMethodMap = {}
-  private context: Record<string, any>
+  private context?: Record<string, any>
   private protectedMethods = ['execute', 'availableMethods']
 
   constructor(options?: {
@@ -48,6 +48,7 @@ export class Agent implements IAgentBase {
 
     for (const method of Object.keys(this.methods)) {
       if (!this.protectedMethods.includes(method)) {
+        //@ts-ignore
         this[method] = async (args: any) => this.execute(method, args)
       }
     }

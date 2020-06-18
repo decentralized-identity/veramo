@@ -1,6 +1,5 @@
 import { Message, Agent } from 'daf-core'
-import { JwtMessageHandler } from '../index'
-import { blake2bHex } from 'blakejs'
+import { JwtMessageHandler, IContext } from '../message-handler'
 
 describe('daf-did-jwt', () => {
   const vcJwt =
@@ -53,29 +52,29 @@ describe('daf-did-jwt', () => {
     iss: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
   }
 
-  const context = {
-    agent: new Agent({
-      overrides: {
-        resolveDid: async ({ didUrl }: { didUrl: string }) => ({
-          '@context': 'https://w3id.org/did/v1',
-          id: didUrl,
-          publicKey: [
-            {
-              id: `${didUrl}#owner`,
-              type: 'Secp256k1VerificationKey2018',
-              owner: didUrl,
-              ethereumAddress: didUrl.slice(-42),
-            },
-          ],
-          authentication: [
-            {
-              type: 'Secp256k1SignatureAuthentication2018',
-              publicKey: `${didUrl}#owner`,
-            },
-          ],
-        }),
-      },
-    }),
+  const context: IContext = {
+    agent: {
+      execute: jest.fn(),
+      availableMethods: jest.fn(),
+      resolveDid: async ({ didUrl }: { didUrl: string }) => ({
+        '@context': 'https://w3id.org/did/v1',
+        id: didUrl,
+        publicKey: [
+          {
+            id: `${didUrl}#owner`,
+            type: 'Secp256k1VerificationKey2018',
+            owner: didUrl,
+            ethereumAddress: didUrl.slice(-42),
+          },
+        ],
+        authentication: [
+          {
+            type: 'Secp256k1SignatureAuthentication2018',
+            publicKey: `${didUrl}#owner`,
+          },
+        ],
+      }),
+    },
   }
 
   it('should reject unknown message type', async () => {
@@ -86,7 +85,7 @@ describe('daf-did-jwt', () => {
     const handler = new JwtMessageHandler()
     handler.setNext(mockNextHandler)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(handler.handle(message, null)).rejects.toEqual('Unsupported message type')
+    expect(handler.handle(message, context)).rejects.toEqual('Unsupported message type')
   })
 
   it('should set data field for VC jwt', async () => {

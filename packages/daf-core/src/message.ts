@@ -10,6 +10,7 @@ export class Message implements IMessage {
     }
   }
 
+  //@ts-ignore
   id: string
 
   createdAt?: string
@@ -18,6 +19,7 @@ export class Message implements IMessage {
 
   threadId?: string
 
+  //@ts-ignore
   type: string
 
   raw?: string
@@ -46,7 +48,7 @@ export class Message implements IMessage {
   }
 
   getLastMetaData(): IMetaData | null {
-    if (this.metaData?.length > 0) {
+    if (this.metaData !== undefined && this.metaData.length > 0) {
       return this.metaData[this.metaData.length - 1]
     } else {
       return null

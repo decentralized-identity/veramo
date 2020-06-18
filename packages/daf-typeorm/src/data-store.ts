@@ -1,4 +1,10 @@
-import { IAgentPlugin, IAgentDataStore, IMessage, IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
+import {
+  IAgentPlugin,
+  IAgentDataStore,
+  IMessage,
+  IVerifiableCredential,
+  IVerifiablePresentation,
+} from 'daf-core'
 import { Message, createMessageEntity } from './entities/message'
 import { Credential, createCredentialEntity } from './entities/credential'
 import { Presentation, createPresentationEntity } from './entities/presentation'
@@ -8,7 +14,7 @@ export class DataStore implements IAgentPlugin {
   readonly methods: Required<IAgentDataStore>
   private dbConnection: Promise<Connection>
 
-  constructor(dbConnection: Promise<Connection> ) {
+  constructor(dbConnection: Promise<Connection>) {
     this.dbConnection = dbConnection
 
     this.methods = {
@@ -19,24 +25,17 @@ export class DataStore implements IAgentPlugin {
   }
 
   async dataStoreSaveMessage(args: IMessage): Promise<boolean> {
-    await (await this.dbConnection)
-      .getRepository(Message)
-      .save(createMessageEntity(args))
+    await (await this.dbConnection).getRepository(Message).save(createMessageEntity(args))
     return true
   }
 
   async dataStoreSaveVerifiableCredential(args: IVerifiableCredential): Promise<boolean> {
-    await (await this.dbConnection)
-      .getRepository(Credential)
-      .save(createCredentialEntity(args))
+    await (await this.dbConnection).getRepository(Credential).save(createCredentialEntity(args))
     return true
   }
 
-  async dataStoreSaveVerifiablePresentation?(args: IVerifiablePresentation): Promise<boolean> {
-    await (await this.dbConnection)
-      .getRepository(Presentation)
-      .save(createPresentationEntity(args))
+  async dataStoreSaveVerifiablePresentation(args: IVerifiablePresentation): Promise<boolean> {
+    await (await this.dbConnection).getRepository(Presentation).save(createPresentationEntity(args))
     return true
   }
-  
 }

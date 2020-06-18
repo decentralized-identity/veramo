@@ -6,7 +6,7 @@ const SignerProvider = require('ethjs-provider-signer')
 const debug = Debug('daf:ethr-did:identity-provider')
 
 interface IContext {
-  agent: IAgentBase & IAgentKeyManager
+  agent: Required<IAgentBase & IAgentKeyManager>
 }
 
 export function toEthereumAddress(hexPublicKey: string): string {
@@ -34,6 +34,7 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
     registry?: string
   }) {
     super()
+    this.defaultKms = options.defaultKms
     this.network = options.network
     this.rpcUrl = options.rpcUrl
     this.web3Provider = options.web3Provider
@@ -73,12 +74,12 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
       new SignerProvider(this.rpcUrl, {
         signTransaction: (
           transaction: object,
-          callback: (error: string | null, signature: string) => void,
+          callback: (error: string | null, signature?: string) => void,
         ) => {
           context.agent
             .keyManagerSignEthTX({ kid: controllerKeyId, transaction })
             .then(signature => callback(null, signature))
-            .catch(error => callback(error, null))
+            .catch(error => callback(error))
         },
       })
     return web3Provider
