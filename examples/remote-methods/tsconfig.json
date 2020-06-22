@@ -1,17 +1,13 @@
 {
   "compilerOptions": {
-    "preserveConstEnums": true,
+    "outDir": "./build",
+    "rootDir": "./src",
     "sourceMap": true,
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "downlevelIteration": true,
-    "declarationMap": true,
-    "declaration": true,
-    "composite": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "downlevelIteration": true
   },
   "exclude": ["**/__tests__/**/*", "**/build/**/*"],
   "references": [

@@ -1,17 +1,27 @@
 import 'cross-fetch/polyfill'
 import { Agent } from 'daf-core'
-// import { GraphQLAgentPlugin } from '../lib/daf-graphql'
+import { AgentGraphQLClient } from 'daf-graphql'
 import { AgentRestClient } from 'daf-rest'
 // import { DafGrpc } from '../lib/daf-grpc'
 import { IAgentBase, IAgentIdentityManager, IAgentResolve } from 'daf-core'
 
-export type ConfiguredAgent = IAgentBase & IAgentIdentityManager & IAgentResolve
+export type ConfiguredAgent = Partial<IAgentBase & IAgentIdentityManager & IAgentResolve>
 
-const agent: ConfiguredAgent = new Agent({
+const agent = new Agent({
   plugins: [
-    new AgentRestClient({
-      url: 'http://localhost:3002/agent',
-      methods: [
+    // new AgentRestClient({
+    //   url: 'http://localhost:3002/agent',
+    //   enabledMethods: [
+    //     'resolveDid',
+    //     'identityManagerGetProviders',
+    //     'identityManagerGetIdentities',
+    //     'identityManagerGetIdentity',
+    //     'identityManagerCreateIdentity',
+    //   ],
+    // }),
+    new AgentGraphQLClient({
+      url: 'http://localhost:3001',
+      enabledMethods: [
         'resolveDid',
         'identityManagerGetProviders',
         'identityManagerGetIdentities',
@@ -19,12 +29,7 @@ const agent: ConfiguredAgent = new Agent({
         'identityManagerCreateIdentity',
       ],
     }),
-    // new DafGrpc({
-    //   url: 'http://localhost:3001',
-    //   methods: [
-    //     // 'signCredentialJwt',
-    //   ],
-    // }),
+
     // new RESTAgentPlugin({
     //   url: 'http://localhost:3002/agent',
     //   methods: ['resolve'],
@@ -33,8 +38,8 @@ const agent: ConfiguredAgent = new Agent({
 })
 
 async function main() {
-  const providers = await agent.identityManagerGetProviders()
-  console.log({ providers })
+  // const providers = await agent.identityManagerGetProviders()
+  // console.log({ providers })
 
   // const newIdentity = await agent.createIdentity({ identityProviderType: 'rinkeby-ethr-did' })
   // console.log({ newIdentity })
@@ -45,6 +50,7 @@ async function main() {
   // const identity = await agent.getIdentity({ did: identities[0].did })
   // console.log({ identity })
 
+  //@ts-ignore
   const doc = await agent.resolveDid({
     didUrl: 'did:ethr:rinkeby:0x79292ba5a516f04c3de11e8f06642c7bec16c490',
   })
