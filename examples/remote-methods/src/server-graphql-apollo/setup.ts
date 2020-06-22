@@ -1,22 +1,11 @@
-import {
-  Agent,
-  KeyManager,
-  MessageHandler,
-  IdentityManager,
-  IAgentBase,
-  IAgentIdentityManager,
-  IAgentResolve,
-  IAgentDataStore,
-  IAgentKeyManager,
-  IAgentHandleMessage,
-} from 'daf-core'
+import { Agent, KeyManager, MessageHandler, IdentityManager } from 'daf-core'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
-import { W3c, IAgentW3c, W3cMessageHandler } from 'daf-w3c'
-import { DIDComm, DIDCommMessageHandler, IAgentSendMessageDIDCommAlpha1 } from 'daf-did-comm'
+import { W3c, W3cMessageHandler } from 'daf-w3c'
+import { DIDComm, DIDCommMessageHandler } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
-import { Entities, KeyStore, IdentityStore, DataStore, DataStoreORM, IAgentDataStoreORM } from 'daf-typeorm'
+import { Entities, KeyStore, IdentityStore, DataStore, DataStoreORM } from 'daf-typeorm'
 import { createConnection } from 'typeorm'
 
 const dbConnection = createConnection({
@@ -30,17 +19,7 @@ const dbConnection = createConnection({
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
-type ConfiguredAgent = IAgentBase &
-  IAgentIdentityManager &
-  IAgentKeyManager &
-  IAgentDataStore &
-  IAgentDataStoreORM &
-  IAgentResolve &
-  IAgentHandleMessage &
-  IAgentSendMessageDIDCommAlpha1 &
-  IAgentW3c
-
-export const agent: ConfiguredAgent = new Agent({
+export const agent = new Agent({
   context: {
     // authenticatedDid: 'did:example:3456'
   },

@@ -1,7 +1,4 @@
-interface IAgentRESTMethod {
-  type: 'GET' | 'POST'
-  path: string
-}
+import { IAgentRESTMethod } from './types'
 
 export const supportedMethods: Record<string, IAgentRESTMethod> = {
   availableMethods: { type: 'POST', path: '/availableMethods' },
