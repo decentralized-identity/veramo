@@ -2,7 +2,6 @@ import 'cross-fetch/polyfill'
 import { Agent } from 'daf-core'
 import { AgentGraphQLClient } from 'daf-graphql'
 import { AgentRestClient } from 'daf-rest'
-// import { DafGrpc } from '../lib/daf-grpc'
 import { IAgentBase, IAgentIdentityManager, IAgentResolve } from 'daf-core'
 
 export type ConfiguredAgent = Partial<IAgentBase & IAgentIdentityManager & IAgentResolve>
@@ -29,11 +28,6 @@ const agent = new Agent({
         'identityManagerCreateIdentity',
       ],
     }),
-
-    // new RESTAgentPlugin({
-    //   url: 'http://localhost:3002/agent',
-    //   methods: ['resolve'],
-    // }),
   ],
 })
 
