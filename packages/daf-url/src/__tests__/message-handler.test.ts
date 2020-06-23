@@ -1,9 +1,9 @@
-import { Message, IContext } from 'daf-core'
+import { Message } from 'daf-core'
 import { UrlMessageHandler } from '../index'
 import fetchMock from 'jest-fetch-mock'
 fetchMock.enableMocks()
 
-const context: IContext = {
+const context = {
   agent: {
     execute: jest.fn(),
     availableMethods: jest.fn(),

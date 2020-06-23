@@ -24,7 +24,7 @@ export const MessageTypes = {
   vp: 'w3c.vp',
 }
 
-type IContext = IAgentContext<IResolveDid>
+export type IContext = IAgentContext<IResolveDid>
 
 export class W3cMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {

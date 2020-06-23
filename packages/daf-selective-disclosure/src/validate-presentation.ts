@@ -1,10 +1,15 @@
-import { IVerifiablePresentation, IPluginMethodMap } from 'daf-core'
+import { IVerifiablePresentation, IPluginMethodMap, IAgentContext } from 'daf-core'
 import { ISelectiveDisclosureRequest, IPresentationValidationResult } from './types'
 
-type TValidatePresentationAgainstSdr = (args: {
-  presentation: IVerifiablePresentation
-  sdr: ISelectiveDisclosureRequest
-}) => Promise<IPresentationValidationResult>
+type IContext = IAgentContext<{}>
+
+type TValidatePresentationAgainstSdr = (
+  args: {
+    presentation: IVerifiablePresentation
+    sdr: ISelectiveDisclosureRequest
+  },
+  context: IContext,
+) => Promise<IPresentationValidationResult>
 
 export interface IValidatePresentationAgainstSdr extends IPluginMethodMap {
   validatePresentationAgainstSdr: TValidatePresentationAgainstSdr

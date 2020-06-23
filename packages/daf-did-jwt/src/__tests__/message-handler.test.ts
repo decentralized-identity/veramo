@@ -1,4 +1,4 @@
-import { Message, Agent } from 'daf-core'
+import { Message, IAgentContext, IResolveDid, DIDDocument } from 'daf-core'
 import { JwtMessageHandler, IContext } from '../message-handler'
 
 describe('daf-did-jwt', () => {
@@ -56,24 +56,28 @@ describe('daf-did-jwt', () => {
     agent: {
       execute: jest.fn(),
       availableMethods: jest.fn(),
-      resolveDid: async ({ didUrl }: { didUrl: string }) => ({
-        '@context': 'https://w3id.org/did/v1',
-        id: didUrl,
-        publicKey: [
-          {
-            id: `${didUrl}#owner`,
-            type: 'Secp256k1VerificationKey2018',
-            owner: didUrl,
-            ethereumAddress: didUrl.slice(-42),
-          },
-        ],
-        authentication: [
-          {
-            type: 'Secp256k1SignatureAuthentication2018',
-            publicKey: `${didUrl}#owner`,
-          },
-        ],
-      }),
+      resolveDid: async (args?): Promise<DIDDocument> => {
+        if (!args?.didUrl) throw Error('DID required')
+
+        return {
+          '@context': 'https://w3id.org/did/v1',
+          id: args?.didUrl,
+          publicKey: [
+            {
+              id: `${args?.didUrl}#owner`,
+              type: 'Secp256k1VerificationKey2018',
+              owner: args?.didUrl,
+              ethereumAddress: args?.didUrl.slice(-42),
+            },
+          ],
+          authentication: [
+            {
+              type: 'Secp256k1SignatureAuthentication2018',
+              publicKey: `${args?.didUrl}#owner`,
+            },
+          ],
+        }
+      },
     },
   }
 
