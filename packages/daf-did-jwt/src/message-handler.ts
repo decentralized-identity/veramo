@@ -1,11 +1,9 @@
-import { Agent, AbstractMessageHandler, Message, IAgentBase, IAgentResolve } from 'daf-core'
+import { AbstractMessageHandler, Message, IAgentContext, IResolveDid } from 'daf-core'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
 const debug = Debug('daf:did-jwt:message-handler')
 
-export interface IContext {
-  agent: Required<IAgentBase & IAgentResolve>
-}
+type IContext = IAgentContext<IResolveDid>
 
 export class JwtMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {

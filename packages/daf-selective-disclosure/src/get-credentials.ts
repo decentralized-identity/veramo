@@ -1,23 +1,19 @@
-import { IAgentBase, IAgentExtension } from 'daf-core'
-import { IAgentDataStoreORM, TClaimsColumns, FindArgs } from 'daf-typeorm'
+import { IAgentContext, IPluginMethodMap } from 'daf-core'
+import { IDataStoreORM, TClaimsColumns, FindArgs } from 'daf-typeorm'
 import { ISelectiveDisclosureRequest, ICredentialsForSdr } from './types'
 
-export interface IArgs {
-  sdr: ISelectiveDisclosureRequest
-  did?: string
-}
-
-export interface IContext {
-  agent: Required<IAgentBase & IAgentDataStoreORM>
-}
+type IContext = IAgentContext<IDataStoreORM>
 
 export type TGetVerifiableCredentialsForSdr = (
-  args: IArgs,
+  args: {
+    sdr: ISelectiveDisclosureRequest
+    did?: string
+  },
   context: IContext,
 ) => Promise<ICredentialsForSdr[]>
 
-export interface IAgentGetVerifiableCredentialsForSdr {
-  createSelectiveDisclosureRequest?: IAgentExtension<TGetVerifiableCredentialsForSdr>
+export interface IGetVerifiableCredentialsForSdr extends IPluginMethodMap {
+  getVerifiableCredentialsForSdr: TGetVerifiableCredentialsForSdr
 }
 
 export const getVerifiableCredentialsForSdr: TGetVerifiableCredentialsForSdr = async (args, context) => {

@@ -1,27 +1,28 @@
 import 'cross-fetch/polyfill'
-import { Agent } from 'daf-core'
+import { createAgent, TAgent, IIdentityManager, IResolveDid } from 'daf-core'
 import { AgentGraphQLClient } from 'daf-graphql'
 import { AgentRestClient } from 'daf-rest'
-import { IAgentBase, IAgentIdentityManager, IAgentResolve } from 'daf-core'
 
-export type ConfiguredAgent = Partial<IAgentBase & IAgentIdentityManager & IAgentResolve>
-
-const agent = new Agent({
+const agent = createAgent<
+  TAgent<
+    Pick<
+      IIdentityManager,
+      | 'identityManagerGetProviders'
+      | 'identityManagerGetIdentities'
+      | 'identityManagerGetIdentity'
+      | 'identityManagerCreateIdentity'
+    > &
+      IResolveDid
+  >
+>({
   plugins: [
-    // new AgentRestClient({
-    //   url: 'http://localhost:3002/agent',
-    //   enabledMethods: [
-    //     'resolveDid',
-    //     'identityManagerGetProviders',
-    //     'identityManagerGetIdentities',
-    //     'identityManagerGetIdentity',
-    //     'identityManagerCreateIdentity',
-    //   ],
-    // }),
+    new AgentRestClient({
+      url: 'http://localhost:3002/agent',
+      enabledMethods: ['resolveDid'],
+    }),
     new AgentGraphQLClient({
       url: 'http://localhost:3001',
       enabledMethods: [
-        'resolveDid',
         'identityManagerGetProviders',
         'identityManagerGetIdentities',
         'identityManagerGetIdentity',

@@ -1,13 +1,16 @@
-import { IAgentBase, TMethodMap, IAgentPlugin } from './types'
+import { IAgent, IPluginMethodMap, IAgentPlugin } from './types'
 import Debug from 'debug'
 
-const filterUnauthorizedMethods = (methods: TMethodMap, authorizedMethods?: string[]): TMethodMap => {
+const filterUnauthorizedMethods = (
+  methods: IPluginMethodMap,
+  authorizedMethods?: string[],
+): IPluginMethodMap => {
   // All methods are authorized by default
   if (!authorizedMethods) {
     return methods
   }
 
-  const result: TMethodMap = {}
+  const result: IPluginMethodMap = {}
   for (const methodName of Object.keys(methods)) {
     if (authorizedMethods.includes(methodName)) {
       result[methodName] = methods[methodName]
@@ -17,17 +20,19 @@ const filterUnauthorizedMethods = (methods: TMethodMap, authorizedMethods?: stri
   return result
 }
 
-export class Agent implements IAgentBase {
-  readonly methods: TMethodMap = {}
+export interface IAgentOptions {
+  plugins?: IAgentPlugin[]
+  overrides?: IPluginMethodMap
+  authorizedMethods?: string[]
+  context?: Record<string, any>
+}
+
+export class Agent implements IAgent {
+  readonly methods: IPluginMethodMap = {}
   private context?: Record<string, any>
   private protectedMethods = ['execute', 'availableMethods']
 
-  constructor(options?: {
-    plugins?: IAgentPlugin[]
-    overrides?: TMethodMap
-    authorizedMethods?: string[]
-    context?: Record<string, any>
-  }) {
+  constructor(options?: IAgentOptions) {
     this.context = options?.context
 
     if (options?.plugins) {
@@ -65,4 +70,9 @@ export class Agent implements IAgentBase {
     Debug('daf:agent:' + method + ':result')('%o', result)
     return result
   }
+}
+
+export function createAgent<T>(options: IAgentOptions): T {
+  //@ts-ignore
+  return new Agent(options)
 }

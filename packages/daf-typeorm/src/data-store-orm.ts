@@ -3,8 +3,7 @@ import {
   IMessage,
   IVerifiableCredential,
   IVerifiablePresentation,
-  TAgentMethods,
-  TMethodMap,
+  IPluginMethodMap,
 } from 'daf-core'
 import { Message, createMessage } from './entities/message'
 import { Claim } from './entities/claim'
@@ -34,6 +33,234 @@ import {
   TPresentationColumns,
   FindArgs,
 } from './types'
+
+interface IContext {
+  authenticatedDid?: string
+}
+
+export interface IDataStoreORM extends IPluginMethodMap {
+  dataStoreORMGetMessages: (args: FindArgs<TMessageColumns>, context: IContext) => Promise<IMessage[]>
+  dataStoreORMGetMessagesCount: (args: FindArgs<TMessageColumns>, context: IContext) => Promise<number>
+  dataStoreORMGetVerifiableCredentialsByClaims: (
+    args: FindArgs<TClaimsColumns>,
+    context: IContext,
+  ) => Promise<IVerifiableCredential[]>
+  dataStoreORMGetVerifiableCredentialsByClaimsCount: (
+    args: FindArgs<TClaimsColumns>,
+    context: IContext,
+  ) => Promise<number>
+  dataStoreORMGetVerifiableCredentials: (
+    args: FindArgs<TCredentialColumns>,
+    context: IContext,
+  ) => Promise<IVerifiableCredential[]>
+  dataStoreORMGetVerifiableCredentialsCount: (
+    args: FindArgs<TCredentialColumns>,
+    context: IContext,
+  ) => Promise<number>
+  dataStoreORMGetVerifiablePresentations: (
+    args: FindArgs<TPresentationColumns>,
+    context: IContext,
+  ) => Promise<IVerifiablePresentation[]>
+  dataStoreORMGetVerifiablePresentationsCount: (
+    args: FindArgs<TPresentationColumns>,
+    context: IContext,
+  ) => Promise<number>
+}
+
+export class DataStoreORM implements IAgentPlugin {
+  readonly methods: IDataStoreORM
+  private dbConnection: Promise<Connection>
+
+  constructor(dbConnection: Promise<Connection>) {
+    this.dbConnection = dbConnection
+
+    this.methods = {
+      dataStoreORMGetMessages: this.dataStoreORMGetMessages.bind(this),
+      dataStoreORMGetMessagesCount: this.dataStoreORMGetMessagesCount.bind(this),
+      dataStoreORMGetVerifiableCredentialsByClaims: this.dataStoreORMGetVerifiableCredentialsByClaims.bind(
+        this,
+      ),
+      dataStoreORMGetVerifiableCredentialsByClaimsCount: this.dataStoreORMGetVerifiableCredentialsByClaimsCount.bind(
+        this,
+      ),
+      dataStoreORMGetVerifiableCredentials: this.dataStoreORMGetVerifiableCredentials.bind(this),
+      dataStoreORMGetVerifiableCredentialsCount: this.dataStoreORMGetVerifiableCredentialsCount.bind(this),
+      dataStoreORMGetVerifiablePresentations: this.dataStoreORMGetVerifiablePresentations.bind(this),
+      dataStoreORMGetVerifiablePresentationsCount: this.dataStoreORMGetVerifiablePresentationsCount.bind(
+        this,
+      ),
+    }
+  }
+
+  // Messages
+
+  private async messagesQuery(
+    args: FindArgs<TMessageColumns>,
+    context: IContext,
+  ): Promise<SelectQueryBuilder<Message>> {
+    const where = createWhereObject(args)
+    let qb = (await this.dbConnection)
+      .getRepository(Message)
+      .createQueryBuilder('message')
+      .leftJoinAndSelect('message.from', 'from')
+      .leftJoinAndSelect('message.to', 'to')
+      .where(where)
+    qb = decorateQB(qb, 'message', args)
+    if (context.authenticatedDid) {
+      qb = qb.andWhere(
+        new Brackets(qb => {
+          qb.where('message.to = :ident', { ident: context.authenticatedDid }).orWhere(
+            'message.from = :ident',
+            {
+              ident: context.authenticatedDid,
+            },
+          )
+        }),
+      )
+    }
+    return qb
+  }
+
+  async dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Promise<IMessage[]> {
+    const messages = await (await this.messagesQuery(args, context)).getMany()
+    return messages.map(createMessage)
+  }
+
+  async dataStoreORMGetMessagesCount(args: FindArgs<TMessageColumns>, context: IContext): Promise<number> {
+    return (await this.messagesQuery(args, context)).getCount()
+  }
+
+  // Claims
+
+  private async claimsQuery(
+    args: FindArgs<TClaimsColumns>,
+    context: IContext,
+  ): Promise<SelectQueryBuilder<Claim>> {
+    const where = createWhereObject(args)
+    let qb = (await this.dbConnection)
+      .getRepository(Claim)
+      .createQueryBuilder('claim')
+      .leftJoinAndSelect('claim.issuer', 'issuer')
+      .leftJoinAndSelect('claim.subject', 'subject')
+      .where(where)
+    qb = decorateQB(qb, 'claim', args)
+    qb = qb.leftJoinAndSelect('claim.credential', 'credential')
+    if (context.authenticatedDid) {
+      qb = qb.andWhere(
+        new Brackets(qb => {
+          qb.where('claim.subject = :ident', { ident: context.authenticatedDid }).orWhere(
+            'claim.issuer = :ident',
+            {
+              ident: context.authenticatedDid,
+            },
+          )
+        }),
+      )
+    }
+    return qb
+  }
+
+  async dataStoreORMGetVerifiableCredentialsByClaims(
+    args: FindArgs<TClaimsColumns>,
+    context: IContext,
+  ): Promise<IVerifiableCredential[]> {
+    const claims = await (await this.claimsQuery(args, context)).getMany()
+    return claims.map(claim => claim.credential.raw)
+  }
+
+  async dataStoreORMGetVerifiableCredentialsByClaimsCount(
+    args: FindArgs<TClaimsColumns>,
+    context: IContext,
+  ): Promise<number> {
+    return (await this.claimsQuery(args, context)).getCount()
+  }
+
+  // Credentials
+
+  private async credentialsQuery(
+    args: FindArgs<TCredentialColumns>,
+    context: IContext,
+  ): Promise<SelectQueryBuilder<Credential>> {
+    const where = createWhereObject(args)
+    let qb = (await this.dbConnection)
+      .getRepository(Credential)
+      .createQueryBuilder('credential')
+      .leftJoinAndSelect('credential.issuer', 'issuer')
+      .leftJoinAndSelect('credential.subject', 'subject')
+      .where(where)
+    qb = decorateQB(qb, 'credential', args)
+    if (context.authenticatedDid) {
+      qb = qb.andWhere(
+        new Brackets(qb => {
+          qb.where('credential.subject = :ident', { ident: context.authenticatedDid }).orWhere(
+            'credential.issuer = :ident',
+            {
+              ident: context.authenticatedDid,
+            },
+          )
+        }),
+      )
+    }
+    return qb
+  }
+
+  async dataStoreORMGetVerifiableCredentials(
+    args: FindArgs<TCredentialColumns>,
+    context: IContext,
+  ): Promise<IVerifiableCredential[]> {
+    const credentials = await (await this.credentialsQuery(args, context)).getMany()
+    return credentials.map(vc => vc.raw)
+  }
+
+  async dataStoreORMGetVerifiableCredentialsCount(
+    args: FindArgs<TCredentialColumns>,
+    context: IContext,
+  ): Promise<number> {
+    return (await this.credentialsQuery(args, context)).getCount()
+  }
+
+  // Presentations
+
+  private async presentationsQuery(
+    args: FindArgs<TPresentationColumns>,
+    context: IContext,
+  ): Promise<SelectQueryBuilder<Presentation>> {
+    const where = createWhereObject(args)
+    let qb = (await this.dbConnection)
+      .getRepository(Presentation)
+      .createQueryBuilder('presentation')
+      .leftJoinAndSelect('presentation.issuer', 'issuer')
+      .leftJoinAndSelect('presentation.audience', 'audience')
+      .where(where)
+    qb = decorateQB(qb, 'presentation', args)
+    qb = addAudienceQuery(args, qb)
+    if (context.authenticatedDid) {
+      qb = qb.andWhere(
+        new Brackets(qb => {
+          qb.where('audience.did = :ident', {
+            ident: context.authenticatedDid,
+          }).orWhere('presentation.issuer = :ident', { ident: context.authenticatedDid })
+        }),
+      )
+    }
+    return qb
+  }
+
+  async dataStoreORMGetVerifiablePresentations(
+    args: FindArgs<TPresentationColumns>,
+    context: IContext,
+  ): Promise<IVerifiablePresentation[]> {
+    const presentations = await (await this.presentationsQuery(args, context)).getMany()
+    return presentations.map(vp => vp.raw)
+  }
+
+  async dataStoreORMGetVerifiablePresentationsCount(
+    args: FindArgs<TPresentationColumns>,
+    context: IContext,
+  ): Promise<number> {
+    return (await this.presentationsQuery(args, context)).getCount()
+  }
+}
 
 function opToSQL(item: Where<any>): any[] {
   switch (item.op) {
@@ -145,234 +372,4 @@ function decorateQB(
     }
   }
   return qb
-}
-
-interface IContext {
-  authenticatedDid?: string
-}
-
-export interface DataStoreORMMethods extends TMethodMap {
-  dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Promise<IMessage[]>
-  dataStoreORMGetMessagesCount(args: FindArgs<TMessageColumns>, context: IContext): Promise<number>
-  dataStoreORMGetVerifiableCredentialsByClaims(
-    args: FindArgs<TClaimsColumns>,
-    context: IContext,
-  ): Promise<IVerifiableCredential[]>
-  dataStoreORMGetVerifiableCredentialsByClaimsCount(
-    args: FindArgs<TClaimsColumns>,
-    context: IContext,
-  ): Promise<number>
-  dataStoreORMGetVerifiableCredentials(
-    args: FindArgs<TCredentialColumns>,
-    context: IContext,
-  ): Promise<IVerifiableCredential[]>
-  dataStoreORMGetVerifiableCredentialsCount(
-    args: FindArgs<TCredentialColumns>,
-    context: IContext,
-  ): Promise<number>
-  dataStoreORMGetVerifiablePresentations(
-    args: FindArgs<TPresentationColumns>,
-    context: IContext,
-  ): Promise<IVerifiablePresentation[]>
-  dataStoreORMGetVerifiablePresentationsCount(
-    args: FindArgs<TPresentationColumns>,
-    context: IContext,
-  ): Promise<number>
-}
-
-export type IAgentDataStoreORM = TAgentMethods<DataStoreORMMethods>
-
-export class DataStoreORM implements IAgentPlugin {
-  readonly methods: DataStoreORMMethods
-  private dbConnection: Promise<Connection>
-
-  constructor(dbConnection: Promise<Connection>) {
-    this.dbConnection = dbConnection
-
-    this.methods = {
-      dataStoreORMGetMessages: this.dataStoreORMGetMessages.bind(this),
-      dataStoreORMGetMessagesCount: this.dataStoreORMGetMessagesCount.bind(this),
-      dataStoreORMGetVerifiableCredentialsByClaims: this.dataStoreORMGetVerifiableCredentialsByClaims.bind(
-        this,
-      ),
-      dataStoreORMGetVerifiableCredentialsByClaimsCount: this.dataStoreORMGetVerifiableCredentialsByClaimsCount.bind(
-        this,
-      ),
-      dataStoreORMGetVerifiableCredentials: this.dataStoreORMGetVerifiableCredentials.bind(this),
-      dataStoreORMGetVerifiableCredentialsCount: this.dataStoreORMGetVerifiableCredentialsCount.bind(this),
-      dataStoreORMGetVerifiablePresentations: this.dataStoreORMGetVerifiablePresentations.bind(this),
-      dataStoreORMGetVerifiablePresentationsCount: this.dataStoreORMGetVerifiablePresentationsCount.bind(
-        this,
-      ),
-    }
-  }
-
-  // Messages
-
-  private async messagesQuery(
-    args: FindArgs<TMessageColumns>,
-    context: IContext,
-  ): Promise<SelectQueryBuilder<Message>> {
-    const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
-      .getRepository(Message)
-      .createQueryBuilder('message')
-      .leftJoinAndSelect('message.from', 'from')
-      .leftJoinAndSelect('message.to', 'to')
-      .where(where)
-    qb = decorateQB(qb, 'message', args)
-    if (context.authenticatedDid) {
-      qb = qb.andWhere(
-        new Brackets(qb => {
-          qb.where('message.to = :ident', { ident: context.authenticatedDid }).orWhere(
-            'message.from = :ident',
-            {
-              ident: context.authenticatedDid,
-            },
-          )
-        }),
-      )
-    }
-    return qb
-  }
-
-  async dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Promise<IMessage[]> {
-    const messages = await (await this.messagesQuery(args, context)).getMany()
-    return messages.map(createMessage)
-  }
-
-  async dataStoreORMGetMessagesCount(args: FindArgs<TMessageColumns>, context: IContext): Promise<number> {
-    return (await this.messagesQuery(args, context)).getCount()
-  }
-
-  // Claims
-
-  private async claimsQuery(
-    args: FindArgs<TClaimsColumns>,
-    context: IContext,
-  ): Promise<SelectQueryBuilder<Claim>> {
-    const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
-      .getRepository(Claim)
-      .createQueryBuilder('claim')
-      .leftJoinAndSelect('claim.issuer', 'issuer')
-      .leftJoinAndSelect('claim.subject', 'subject')
-      .where(where)
-    qb = decorateQB(qb, 'claim', args)
-    qb = qb.leftJoinAndSelect('claim.credential', 'credential')
-    if (context.authenticatedDid) {
-      qb = qb.andWhere(
-        new Brackets(qb => {
-          qb.where('claim.subject = :ident', { ident: context.authenticatedDid }).orWhere(
-            'claim.issuer = :ident',
-            {
-              ident: context.authenticatedDid,
-            },
-          )
-        }),
-      )
-    }
-    return qb
-  }
-
-  async dataStoreORMGetVerifiableCredentialsByClaims(
-    args: FindArgs<TClaimsColumns>,
-    context: IContext,
-  ): Promise<IVerifiableCredential[]> {
-    const claims = await (await this.claimsQuery(args, context)).getMany()
-    return claims.map(claim => claim.credential.raw)
-  }
-
-  async dataStoreORMGetVerifiableCredentialsByClaimsCount(
-    args: FindArgs<TCredentialColumns>,
-    context: IContext,
-  ): Promise<number> {
-    return (await this.credentialsQuery(args, context)).getCount()
-  }
-
-  // Credentials
-
-  private async credentialsQuery(
-    args: FindArgs<TCredentialColumns>,
-    context: IContext,
-  ): Promise<SelectQueryBuilder<Credential>> {
-    const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
-      .getRepository(Credential)
-      .createQueryBuilder('credential')
-      .leftJoinAndSelect('credential.issuer', 'issuer')
-      .leftJoinAndSelect('credential.subject', 'subject')
-      .where(where)
-    qb = decorateQB(qb, 'credential', args)
-    if (context.authenticatedDid) {
-      qb = qb.andWhere(
-        new Brackets(qb => {
-          qb.where('credential.subject = :ident', { ident: context.authenticatedDid }).orWhere(
-            'credential.issuer = :ident',
-            {
-              ident: context.authenticatedDid,
-            },
-          )
-        }),
-      )
-    }
-    return qb
-  }
-
-  async dataStoreORMGetVerifiableCredentials(
-    args: FindArgs<TCredentialColumns>,
-    context: IContext,
-  ): Promise<IVerifiableCredential[]> {
-    const credentials = await (await this.credentialsQuery(args, context)).getMany()
-    return credentials.map(vc => vc.raw)
-  }
-
-  async dataStoreORMGetVerifiableCredentialsCount(
-    args: FindArgs<TCredentialColumns>,
-    context: IContext,
-  ): Promise<number> {
-    return (await this.credentialsQuery(args, context)).getCount()
-  }
-
-  // Presentations
-
-  private async presentationsQuery(
-    args: FindArgs<TPresentationColumns>,
-    context: IContext,
-  ): Promise<SelectQueryBuilder<Presentation>> {
-    const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
-      .getRepository(Presentation)
-      .createQueryBuilder('presentation')
-      .leftJoinAndSelect('presentation.issuer', 'issuer')
-      .leftJoinAndSelect('presentation.audience', 'audience')
-      .where(where)
-    qb = decorateQB(qb, 'presentation', args)
-    qb = addAudienceQuery(args, qb)
-    if (context.authenticatedDid) {
-      qb = qb.andWhere(
-        new Brackets(qb => {
-          qb.where('audience.did = :ident', {
-            ident: context.authenticatedDid,
-          }).orWhere('presentation.issuer = :ident', { ident: context.authenticatedDid })
-        }),
-      )
-    }
-    return qb
-  }
-
-  async dataStoreORMGetVerifiablePresentations(
-    args: FindArgs<TPresentationColumns>,
-    context: IContext,
-  ): Promise<IVerifiablePresentation[]> {
-    const presentations = await (await this.presentationsQuery(args, context)).getMany()
-    return presentations.map(vp => vp.raw)
-  }
-
-  async dataStoreORMGetVerifiablePresentationsCount(
-    args: FindArgs<TPresentationColumns>,
-    context: IContext,
-  ): Promise<number> {
-    return (await this.presentationsQuery(args, context)).getCount()
-  }
 }

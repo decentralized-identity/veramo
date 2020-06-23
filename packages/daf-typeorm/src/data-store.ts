@@ -1,17 +1,11 @@
-import {
-  IAgentPlugin,
-  IAgentDataStore,
-  IMessage,
-  IVerifiableCredential,
-  IVerifiablePresentation,
-} from 'daf-core'
+import { IAgentPlugin, IDataStore, IMessage, IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
 import { Message, createMessageEntity } from './entities/message'
 import { Credential, createCredentialEntity } from './entities/credential'
 import { Presentation, createPresentationEntity } from './entities/presentation'
 import { Connection } from 'typeorm'
 
 export class DataStore implements IAgentPlugin {
-  readonly methods: Required<IAgentDataStore>
+  readonly methods: IDataStore
   private dbConnection: Promise<Connection>
 
   constructor(dbConnection: Promise<Connection>) {

@@ -1,13 +1,5 @@
 import 'cross-fetch/polyfill'
-import {
-  IAgentBase,
-  IAgentResolve,
-  Message,
-  IAgentIdentityManager,
-  IAgentKeyManager,
-  IAgentHandleMessage,
-  IAgentExtension,
-} from 'daf-core'
+import { IAgentContext, IResolveDid, Message, IIdentityManager, IKeyManager, IHandleMessage } from 'daf-core'
 import uuid from 'uuid'
 import Debug from 'debug'
 
@@ -25,14 +17,12 @@ export interface IArgs {
   }
 }
 
-type TContext = {
-  agent: Required<IAgentBase & IAgentIdentityManager & IAgentKeyManager & IAgentResolve & IAgentHandleMessage>
-}
+type TContext = IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>
 
 type TSendMessageDIDCommAlpha1 = (args: IArgs, context: TContext) => Promise<Message>
 
-export interface IAgentSendMessageDIDCommAlpha1 {
-  sendMessageDIDCommAlpha1?: IAgentExtension<TSendMessageDIDCommAlpha1>
+export interface ISendMessageDIDCommAlpha1 {
+  sendMessageDIDCommAlpha1: TSendMessageDIDCommAlpha1
 }
 
 export const sendMessageDIDCommAlpha1: TSendMessageDIDCommAlpha1 = async (args, ctx) => {

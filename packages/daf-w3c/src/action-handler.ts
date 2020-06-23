@@ -1,16 +1,15 @@
 import {
-  IAgentBase,
+  IAgentContext,
   IAgentPlugin,
-  IAgentResolve,
-  IAgentIdentityManager,
-  IAgentKeyManager,
-  TMethodMap,
-  TAgentMethods,
+  IResolveDid,
+  IIdentityManager,
+  IKeyManager,
+  IPluginMethodMap,
   ICredential,
   IPresentation,
   IVerifiableCredential,
   IVerifiablePresentation,
-  IAgentDataStore,
+  IDataStore,
 } from 'daf-core'
 import {
   createVerifiableCredential,
@@ -26,7 +25,7 @@ import { createCredential, createPresentation } from './message-handler'
 import Debug from 'debug'
 const debug = Debug('daf:w3c:action-handler')
 
-export interface W3cMethods extends TMethodMap {
+export interface IW3c extends IPluginMethodMap {
   createVerifiablePresentation: (
     args: {
       presentation: IPresentation
@@ -44,20 +43,15 @@ export interface W3cMethods extends TMethodMap {
     context: IContext,
   ): Promise<IVerifiableCredential>
 }
-export interface IContext {
-  agent: Required<
-    IAgentBase &
-      Pick<IAgentIdentityManager, 'identityManagerGetIdentity'> &
-      IAgentResolve &
-      Pick<IAgentDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-      Pick<IAgentKeyManager, 'keyManagerSignJWT'>
-  >
-}
-
-export type IAgentW3c = TAgentMethods<W3cMethods>
+type IContext = IAgentContext<
+  IResolveDid &
+    Pick<IIdentityManager, 'identityManagerGetIdentity'> &
+    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+    Pick<IKeyManager, 'keyManagerSignJWT'>
+>
 
 export class W3c implements IAgentPlugin {
-  readonly methods: W3cMethods
+  readonly methods: IW3c
 
   constructor() {
     this.methods = {

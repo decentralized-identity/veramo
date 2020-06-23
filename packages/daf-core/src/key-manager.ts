@@ -1,20 +1,19 @@
 import { AbstractKeyStore } from './abstract/abstract-key-store'
 import { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'
-import { IAgentPlugin } from './types'
-import { IKey, TKeyType, EcdsaSignature } from './types'
+import { IKey, TKeyType, EcdsaSignature, IAgentPlugin, IPluginMethodMap } from './types'
 
-export interface IAgentKeyManager {
-  keyManagerCreateKey?: (args: { type: TKeyType; kms: string; meta?: Record<string, any> }) => Promise<IKey>
-  keyManagerGetKey?: (args: { kid: string }) => Promise<IKey>
-  keyManagerDeleteKey?: (args: { kid: string }) => Promise<boolean>
-  keyManagerImportKey?: (args: IKey) => Promise<boolean>
-  keyManagerEncryptJWE?: (args: { kid: string; to: Omit<IKey, 'kms'>; data: string }) => Promise<string>
-  keyManagerDecryptJWE?: (args: { kid: string; data: string }) => Promise<string>
-  keyManagerSignJWT?: (args: { kid: string; data: string }) => Promise<EcdsaSignature | string>
-  keyManagerSignEthTX?: (args: { kid: string; transaction: object }) => Promise<string>
+export interface IKeyManager extends IPluginMethodMap {
+  keyManagerCreateKey: (args: { type: TKeyType; kms: string; meta?: Record<string, any> }) => Promise<IKey>
+  keyManagerGetKey: (args: { kid: string }) => Promise<IKey>
+  keyManagerDeleteKey: (args: { kid: string }) => Promise<boolean>
+  keyManagerImportKey: (args: IKey) => Promise<boolean>
+  keyManagerEncryptJWE: (args: { kid: string; to: Omit<IKey, 'kms'>; data: string }) => Promise<string>
+  keyManagerDecryptJWE: (args: { kid: string; data: string }) => Promise<string>
+  keyManagerSignJWT: (args: { kid: string; data: string }) => Promise<EcdsaSignature | string>
+  keyManagerSignEthTX: (args: { kid: string; transaction: object }) => Promise<string>
 }
 export class KeyManager implements IAgentPlugin {
-  readonly methods: Required<IAgentKeyManager>
+  readonly methods: IKeyManager
   private store: AbstractKeyStore
   private kms: Record<string, AbstractKeyManagementSystem>
 

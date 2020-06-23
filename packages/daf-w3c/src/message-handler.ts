@@ -1,11 +1,8 @@
 import {
-  IAgentBase,
-  IAgentResolve,
+  IAgentContext,
+  IResolveDid,
   AbstractMessageHandler,
   Message,
-  IIdentity,
-  ICredential,
-  IPresentation,
   IVerifiablePresentation,
   IVerifiableCredential,
 } from 'daf-core'
@@ -27,9 +24,7 @@ export const MessageTypes = {
   vp: 'w3c.vp',
 }
 
-interface IContext {
-  agent: Required<IAgentBase & IAgentResolve>
-}
+type IContext = IAgentContext<IResolveDid>
 
 export class W3cMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {
