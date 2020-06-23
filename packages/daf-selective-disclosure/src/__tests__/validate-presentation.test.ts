@@ -1,8 +1,8 @@
-import { IVerifiableCredential, IVerifiablePresentation, IContext } from 'daf-core'
+import { IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
 import { ISelectiveDisclosureRequest } from '../types'
 import { validatePresentationAgainstSdr } from '../validate-presentation'
 
-const context: IContext = {
+const context = {
   agent: {
     execute: jest.fn(),
     availableMethods: jest.fn(),

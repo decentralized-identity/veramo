@@ -1,25 +1,17 @@
-import {
-  Agent,
-  IVerifiableCredential,
-  IVerifiablePresentation,
-  IMessage,
-  IAgentBase,
-  IAgentDataStore,
-} from 'daf-core'
+import { Agent, IVerifiableCredential, IVerifiablePresentation, IMessage, IDataStore, TAgent } from 'daf-core'
 import { createConnection, Connection } from 'typeorm'
-import { DataStoreORM, IAgentDataStoreORM } from '../data-store-orm'
+import { DataStoreORM, IDataStoreORM } from '../data-store-orm'
 import { FindArgs, TClaimsColumns, TCredentialColumns, TMessageColumns, TPresentationColumns } from '../types'
 import { DataStore } from '../data-store'
 import { Entities } from '../index'
 import fs from 'fs'
 
-type TAgent = Required<IAgentBase & IAgentDataStore & IAgentDataStoreORM>
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'
 const did3 = 'did:test:333'
 const did4 = 'did:test:444'
 
-async function populateDB(agent: TAgent) {
+async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
   const vc1: IVerifiableCredential = {
     '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
     type: ['VerifiableCredential', 'PublicProfile'],
@@ -109,11 +101,11 @@ async function populateDB(agent: TAgent) {
   await agent.dataStoreSaveMessage(m4)
 }
 
-describe('daf-core entities', () => {
+describe('daf-typeorm entities', () => {
   let dbConnection: Promise<Connection>
   const databaseFile = './test-db2.sqlite'
 
-  function makeAgent(context?: Record<string, any>): TAgent {
+  function makeAgent(context?: Record<string, any>): TAgent<IDataStore & IDataStoreORM> {
     //@ts-ignore
     return new Agent({
       context,
@@ -259,7 +251,7 @@ describe('daf-core entities', () => {
     expect(credentials.length).toBe(3)
     expect(credentials[0].id).toBe('vc1')
     const count = await makeAgent().dataStoreORMGetVerifiableCredentialsByClaimsCount({})
-    expect(count).toBe(1)
+    expect(count).toBe(3)
 
     const credentials2 = await makeAgent({
       authenticatedDid: did3,

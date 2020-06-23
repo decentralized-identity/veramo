@@ -43,7 +43,7 @@ export interface IW3c extends IPluginMethodMap {
     context: IContext,
   ): Promise<IVerifiableCredential>
 }
-type IContext = IAgentContext<
+export type IContext = IAgentContext<
   IResolveDid &
     Pick<IIdentityManager, 'identityManagerGetIdentity'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &

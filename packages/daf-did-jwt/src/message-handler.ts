@@ -3,7 +3,7 @@ import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
 const debug = Debug('daf:did-jwt:message-handler')
 
-type IContext = IAgentContext<IResolveDid>
+export type IContext = IAgentContext<IResolveDid>
 
 export class JwtMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {
