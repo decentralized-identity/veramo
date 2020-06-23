@@ -1,13 +1,11 @@
-import { IIdentity, IKey, IService, IAgentBase, IAgentKeyManager, AbstractIdentityProvider } from 'daf-core'
+import { IIdentity, IKey, IService, IAgentContext, IKeyManager, AbstractIdentityProvider } from 'daf-core'
 import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'
 const EthrDID = require('ethr-did')
 const SignerProvider = require('ethjs-provider-signer')
 const debug = Debug('daf:ethr-did:identity-provider')
 
-interface IContext {
-  agent: Required<IAgentBase & IAgentKeyManager>
-}
+type IContext = IAgentContext<IKeyManager>
 
 export function toEthereumAddress(hexPublicKey: string): string {
   return `0x${Buffer.from(keccak_256.arrayBuffer(Buffer.from(hexPublicKey.slice(2), 'hex')))

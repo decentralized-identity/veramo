@@ -1,3 +1,3 @@
-import { IAgentPlugin, TMethodMap } from 'daf-core'
+import { IAgentPlugin, IPluginMethodMap } from 'daf-core'
 export { W3cMessageHandler, MessageTypes } from './message-handler'
-export { W3c, IAgentW3c } from './action-handler'
+export { W3c, IW3c } from './action-handler'

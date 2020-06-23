@@ -1,5 +1,7 @@
 import { Message } from '../message'
-import { IContext, IMessage } from '../types'
+import { IAgentContext } from '../types'
+
+type IContext = IAgentContext<{}>
 
 export interface MessageHandler {
   setNext(messageHandler: MessageHandler): MessageHandler

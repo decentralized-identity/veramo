@@ -1,16 +1,8 @@
-import {
-  AbstractMessageHandler,
-  Message,
-  IAgentBase,
-  IAgentIdentityManager,
-  IAgentKeyManager,
-} from 'daf-core'
+import { AbstractMessageHandler, Message, IAgentContext, IIdentityManager, IKeyManager } from 'daf-core'
 import Debug from 'debug'
 const debug = Debug('daf:did-comm:message-handler')
 
-interface IContext {
-  agent: Required<IAgentBase & IAgentIdentityManager & IAgentKeyManager>
-}
+type IContext = IAgentContext<IIdentityManager & IKeyManager>
 
 export class DIDCommMessageHandler extends AbstractMessageHandler {
   constructor() {

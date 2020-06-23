@@ -1,22 +1,21 @@
-import { IAgentBase, IAgentIdentityManager, IAgentExtension, IAgentKeyManager } from 'daf-core'
+import { IAgentContext, IIdentityManager, IKeyManager, IPluginMethodMap } from 'daf-core'
 import { ISelectiveDisclosureRequest } from './types'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
 const debug = Debug('daf:selective-disclosure:create-sdr')
 
-export interface IArgs {
-  data: ISelectiveDisclosureRequest
-}
+type IContext = IAgentContext<IIdentityManager & IKeyManager>
 
-interface IContext {
-  agent: Required<IAgentBase & IAgentIdentityManager & IAgentKeyManager>
-}
+export type TCreateSelectiveDisclosureRequest = (
+  args: {
+    data: ISelectiveDisclosureRequest
+  },
+  context: IContext,
+) => Promise<string>
 
-export type TCreateSelectiveDisclosureRequest = (args: IArgs, context: IContext) => Promise<string>
-
-export interface IAgentCreateSelectiveDisclosureRequest {
-  createSelectiveDisclosureRequest?: IAgentExtension<TCreateSelectiveDisclosureRequest>
+export interface ICreateSelectiveDisclosureRequest extends IPluginMethodMap {
+  createSelectiveDisclosureRequest: TCreateSelectiveDisclosureRequest
 }
 
 export const createSelectiveDisclosureRequest: TCreateSelectiveDisclosureRequest = async (args, context) => {

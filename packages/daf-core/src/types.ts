@@ -100,36 +100,42 @@ export interface IMessage {
 }
 
 export interface IAgentBase {
-  execute: <A = any, R = any>(method: string, args: A) => Promise<R>
   availableMethods: () => string[]
 }
 
-export interface IContext extends Record<string, any> {
-  agent: IAgentBase
+export interface IAgent extends IAgentBase {
+  execute: <A = any, R = any>(method: string, args: A) => Promise<R>
 }
 
-export type TAgentMethod = (...args: any) => Promise<any>
+export interface IPluginMethod {
+  (args: any, context: any): Promise<any>
+}
 
-export type TMethodMap = Record<string, TAgentMethod>
+export interface IPluginMethodMap extends Record<string, IPluginMethod> {}
 
-export interface IAgentExtension<T extends TAgentMethod> {
+export interface IAgentPlugin {
+  readonly methods: IPluginMethodMap
+}
+
+export interface RemoveContext<T extends IPluginMethod> {
   (args?: Parameters<T>[0] | undefined): ReturnType<T>
 }
 
-export type TAgentMethods<T extends TMethodMap> = {
-  [P in keyof T]?: IAgentExtension<T[P]>
+export type TAgent<T extends IPluginMethodMap> = {
+  [P in keyof T]: RemoveContext<T[P]>
+} &
+  Pick<IAgentBase, 'availableMethods'>
+
+export interface IAgentContext<T extends IPluginMethodMap> {
+  agent: TAgent<T>
 }
 
-export interface IAgentPlugin {
-  readonly methods: TMethodMap
+export interface IDataStore extends IPluginMethodMap {
+  dataStoreSaveMessage(args: IMessage): Promise<boolean>
+  dataStoreSaveVerifiableCredential(args: IVerifiableCredential): Promise<boolean>
+  dataStoreSaveVerifiablePresentation(args: IVerifiablePresentation): Promise<boolean>
 }
 
-export interface IAgentDataStore {
-  dataStoreSaveMessage?(args: IMessage): Promise<boolean>
-  dataStoreSaveVerifiableCredential?(args: IVerifiableCredential): Promise<boolean>
-  dataStoreSaveVerifiablePresentation?(args: IVerifiablePresentation): Promise<boolean>
-}
-
-export interface IAgentResolve {
-  resolveDid?(args: { didUrl: string }): Promise<DIDDocument>
+export interface IResolveDid extends IPluginMethodMap {
+  resolveDid(args: { didUrl: string }): Promise<DIDDocument>
 }

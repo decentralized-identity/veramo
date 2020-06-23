@@ -1,12 +1,12 @@
 import 'cross-fetch/polyfill'
-import { IAgentPlugin, TMethodMap } from 'daf-core'
+import { IAgentPlugin, IPluginMethodMap } from 'daf-core'
 import { GraphQLClient } from 'graphql-request'
 import { IAgentGraphQLMethod } from './types'
 import { supportedMethods } from './methods'
 
 export class AgentGraphQLClient implements IAgentPlugin {
   private client: GraphQLClient
-  readonly methods: TMethodMap = {}
+  readonly methods: IPluginMethodMap = {}
 
   constructor(options: {
     url: string

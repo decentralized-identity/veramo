@@ -1,9 +1,7 @@
-import { IIdentity, IKey, IService, IAgentBase } from '../types'
-import { IAgentKeyManager } from '../key-manager'
+import { IIdentity, IKey, IService, IAgentContext } from '../types'
+import { IKeyManager } from '../key-manager'
 
-interface IContext {
-  agent: IAgentBase & IAgentKeyManager
-}
+type IContext = IAgentContext<IKeyManager>
 
 export abstract class AbstractIdentityProvider {
   abstract createIdentity(

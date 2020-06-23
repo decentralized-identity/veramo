@@ -1,21 +1,16 @@
-import { IVerifiablePresentation, IContext, IAgentExtension } from 'daf-core'
+import { IVerifiablePresentation, IPluginMethodMap } from 'daf-core'
 import { ISelectiveDisclosureRequest, IPresentationValidationResult } from './types'
 
-export interface IArgs {
+type TValidatePresentationAgainstSdr = (args: {
   presentation: IVerifiablePresentation
   sdr: ISelectiveDisclosureRequest
+}) => Promise<IPresentationValidationResult>
+
+export interface IValidatePresentationAgainstSdr extends IPluginMethodMap {
+  validatePresentationAgainstSdr: TValidatePresentationAgainstSdr
 }
 
-export type TValidatePresentationAgainstSdr = (
-  args: IArgs,
-  context: IContext,
-) => Promise<IPresentationValidationResult>
-
-export interface IAgentValidatePresentationAgainstSdr {
-  validatePresentationAgainstSdr?: IAgentExtension<TValidatePresentationAgainstSdr>
-}
-
-export const validatePresentationAgainstSdr: TValidatePresentationAgainstSdr = async (args, context) => {
+export const validatePresentationAgainstSdr: TValidatePresentationAgainstSdr = async args => {
   let valid = true
   let claims = []
   for (const credentialRequest of args.sdr.claims) {

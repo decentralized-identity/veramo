@@ -1,4 +1,4 @@
-import { AbstractMessageHandler, Message, IIdentity, IAgentBase, IAgentHandleMessage } from 'daf-core'
+import { AbstractMessageHandler, Message, IAgentContext, IHandleMessage } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'
@@ -8,9 +8,7 @@ export const MessageTypes = {
   sdr: 'sdr',
 }
 
-interface IContext {
-  agent: IAgentBase & IAgentHandleMessage
-}
+type IContext = IAgentContext<IHandleMessage>
 
 export class SdrMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {

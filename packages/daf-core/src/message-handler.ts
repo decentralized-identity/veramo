@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 import { Message } from './message'
-import { IMetaData, IAgentDataStore, IAgentPlugin, TMethodMap, IContext, IAgentBase } from './types'
+import { IMetaData, IDataStore, IAgentPlugin, IPluginMethodMap, IAgentContext } from './types'
 import { AbstractMessageHandler } from './abstract/abstract-message-handler'
 
 import Debug from 'debug'
@@ -18,16 +18,14 @@ type THandleMessageArgs = {
   save?: boolean
 }
 
-interface Context extends IContext {
-  agent: Required<IAgentBase & IAgentDataStore>
-}
+type Context = IAgentContext<IDataStore>
 
-export interface IAgentHandleMessage {
-  handleMessage?: (args: THandleMessageArgs) => Promise<Message>
+export interface IHandleMessage extends IPluginMethodMap {
+  handleMessage: (args: THandleMessageArgs, context: Context) => Promise<Message>
 }
 
 export class MessageHandler extends EventEmitter implements IAgentPlugin {
-  readonly methods: TMethodMap
+  readonly methods: IHandleMessage
   private messageHandler?: AbstractMessageHandler
 
   constructor(options: { messageHandlers: AbstractMessageHandler[] }) {

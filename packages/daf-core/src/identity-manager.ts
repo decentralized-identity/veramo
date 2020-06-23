@@ -1,13 +1,11 @@
 import { AbstractIdentityProvider } from './abstract/abstract-identity-provider'
-import { IAgentPlugin, IIdentity, IService, IKey, IAgentBase, TAgentMethods, TMethodMap } from './types'
+import { IAgentPlugin, IIdentity, IService, IKey, IPluginMethodMap, IAgentContext } from './types'
 import { AbstractIdentityStore } from './abstract/abstract-identity-store'
-import { IAgentKeyManager } from './key-manager'
+import { IKeyManager } from './key-manager'
 
-interface IContext {
-  agent: IAgentBase & IAgentKeyManager
-}
+type IContext = IAgentContext<IKeyManager>
 
-export interface IdentityManagerMethods extends TMethodMap {
+export interface IIdentityManager extends IPluginMethodMap {
   identityManagerGetProviders: () => Promise<string[]>
   identityManagerGetIdentities: () => Promise<IIdentity[]>
   identityManagerGetIdentity: (args: { did: string }) => Promise<IIdentity>
@@ -38,10 +36,8 @@ export interface IdentityManagerMethods extends TMethodMap {
   ) => Promise<any> //txHash?
 }
 
-export type IAgentIdentityManager = TAgentMethods<IdentityManagerMethods>
-
 export class IdentityManager implements IAgentPlugin {
-  readonly methods: IdentityManagerMethods
+  readonly methods: IIdentityManager
   private providers: Record<string, AbstractIdentityProvider>
   private defaultProvider: string
   private store: AbstractIdentityStore

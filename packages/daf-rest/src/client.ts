@@ -1,9 +1,9 @@
-import { IAgentPlugin, TMethodMap } from 'daf-core'
+import { IAgentPlugin, IPluginMethodMap } from 'daf-core'
 import { supportedMethods } from './methods'
 import { IAgentRESTMethod } from './types'
 
 export class AgentRestClient implements IAgentPlugin {
-  readonly methods: TMethodMap = {}
+  readonly methods: IPluginMethodMap = {}
   private url: string
 
   constructor(options: {
