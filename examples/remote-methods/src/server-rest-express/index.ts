@@ -16,7 +16,6 @@ app.use(
       'identityManagerGetIdentities',
       'identityManagerGetIdentity',
       'identityManagerCreateIdentity',
-      'identityManagerCreateIdentity',
     ],
   }),
 )

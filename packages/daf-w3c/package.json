@@ -14,8 +14,7 @@
     "daf-resolver": "^6.3.0",
     "debug": "^4.1.1",
     "did-jwt-vc": "0.2.0",
-    "did-resolver": "^1.1.0",
-    "typeorm": "^0.2.25"
+    "did-resolver": "^1.1.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
