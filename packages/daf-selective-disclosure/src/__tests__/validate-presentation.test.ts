@@ -1,4 +1,4 @@
-import { IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
+import { VerifiableCredential, VerifiablePresentation } from 'daf-core'
 import { ISelectiveDisclosureRequest } from '../types'
 import { validatePresentationAgainstSdr } from '../validate-presentation'
 
@@ -45,10 +45,11 @@ describe('daf-selective-disclosure-helper', () => {
     const did1 = 'did:example:555'
     const did2 = 'did:ethr:659'
 
-    const credential1: IVerifiableCredential = {
+    const credential1: VerifiableCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiableCredential'],
-      issuer: did1,
+      issuer: { id: did1 },
+      issuanceDate: '2012-12-19T06:01:17.171Z',
       credentialSubject: {
         id: did1,
         firstName: 'Alice',
@@ -59,10 +60,11 @@ describe('daf-selective-disclosure-helper', () => {
       },
     }
 
-    const credential2: IVerifiableCredential = {
+    const credential2: VerifiableCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiableCredential', 'ClubMembership'],
-      issuer: did2,
+      issuer: { id: did2 },
+      issuanceDate: '2012-12-19T06:01:17.171Z',
       credentialSubject: {
         id: did1,
         status: 'member',
@@ -72,9 +74,9 @@ describe('daf-selective-disclosure-helper', () => {
       },
     }
 
-    const presentation: IVerifiablePresentation = {
-      issuer: did1,
-      audience: [did1],
+    const presentation: VerifiablePresentation = {
+      holder: did1,
+      verifier: [did1],
       type: ['VerifiablePresentation'],
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       verifiableCredential: [credential1, credential2],
@@ -103,10 +105,11 @@ describe('daf-selective-disclosure-helper', () => {
 
     const did1 = 'did:example:555'
 
-    const credential1: IVerifiableCredential = {
+    const credential1: VerifiableCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiableCredential'],
-      issuer: did1,
+      issuer: { id: did1 },
+      issuanceDate: '2012-12-19T06:01:17.171Z',
       credentialSubject: {
         id: did1,
         lastName: 'Smith',
@@ -116,9 +119,9 @@ describe('daf-selective-disclosure-helper', () => {
       },
     }
 
-    const presentation: IVerifiablePresentation = {
-      issuer: did1,
-      audience: [did1],
+    const presentation: VerifiablePresentation = {
+      holder: did1,
+      verifier: [did1],
       type: ['VerifiablePresentation'],
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       verifiableCredential: [credential1],

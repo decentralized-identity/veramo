@@ -1371,9 +1371,9 @@
     rimraf "^2.5.2"
 
 "@microsoft/api-documenter@^7.7.12":
-  version "7.8.17"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.8.17.tgz#67b634357ac92a305c35739cdf8666a9ec24a87f"
-  integrity sha512-uF1+YzGoAmWVmD27W/g3d6NRTv9OSSUGX7sS1xMGBjA2Ty4j2waJc8BPsb9oCeEGEFi5jDbZf4AmR0YEGNjdbw==
+  version "7.8.19"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.8.19.tgz#8a0356184c0f4400a211032a5f5c203f2b13ba1c"
+  integrity sha512-pod7Fy/ItMgJFTdq9o4/YPxl5n2wF+oQCjuRgYG6rAhS+tC/EmW/AwnqZxfLi6Fe8ePNBgUHY/ko6Qlnydx05w==
   dependencies:
     "@microsoft/api-extractor-model" "7.8.11"
     "@microsoft/tsdoc" "0.12.19"
@@ -3612,10 +3612,10 @@ dezalgo@^1.0.0, dezalgo@~1.0.3:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-0.2.0.tgz#a3592217622d4eccbe1c6b2ea68ba41fe79d7e5d"
-  integrity sha512-YlIXA3GLryD9nlHOUAzYaU6UMVvZ3103HVBILuGLvRTnE9YVmlfc6nMuYOcIzbgLW2P8pZgIgZsyEFzRdkDRFg==
+did-jwt-vc@^1.0.0, did-jwt-vc@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-1.0.2.tgz#d86ff83c822e1d772ea3cac0451de4722506eb6b"
+  integrity sha512-hdcIYB11GCvbyJ6Q1t/oM+rIeKCPntCSnd2enuGPtc6aBXP4nZWBj1KREkCwjwCgQV8WgN90dhYUFwBrLsPrsQ==
   dependencies:
     did-jwt "^4.3.2"
 
@@ -5586,11 +5586,9 @@ is-plain-object@^2.0.3, is-plain-object@^2.0.4:
     isobject "^3.0.1"
 
 is-plain-object@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-3.0.0.tgz#47bfc5da1b5d50d64110806c199359482e75a928"
-  integrity sha512-tZIpofR+P05k8Aocp7UI/2UTa9lTJSebCXpFFoR9aibpokDj/uXBsJ8luUu0tTVYKkMU6URDUuOfJZ7koewXvg==
-  dependencies:
-    isobject "^4.0.0"
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-3.0.1.tgz#662d92d24c0aa4302407b0d45d21f2251c85f85b"
+  integrity sha512-Xnpx182SBMrr/aBik8y+GuR4U1L9FqMSojwDQwPMmxyC6bvEqly9UBCxhauBF5vNh2gwWJNX6oDV7O+OM4z34g==
 
 is-redirect@^1.0.0:
   version "1.0.0"
@@ -5688,11 +5686,6 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
-
-isobject@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/isobject/-/isobject-4.0.0.tgz#3f1c9155e73b192022a80819bacd0343711697b0"
-  integrity sha512-S/2fF5wH8SJA/kmwr6HYhK/RI/OkhD84k8ntalo0iJjZikgq1XFvR5M8NPT1x5F7fBwCG3qHfnzeP/Vh/ZxCUA==
 
 isstream@~0.1.2:
   version "0.1.2"
@@ -9167,9 +9160,9 @@ saxes@^3.1.9:
     xmlchars "^2.1.1"
 
 semantic-release@^17.0.4:
-  version "17.1.0"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.1.0.tgz#f22d9418d62a5c04e99c92c2162ae3b19f844e22"
-  integrity sha512-17Ja/BIs3kyVbERj2QOUcEvU/RNro+rZoRgIsbfzrMFECX7cuo9MkYiw4xT7k6MIjuvG4X6unEvVDUJdUZInvg==
+  version "17.1.1"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.1.1.tgz#d9775968e841b2b7c5020559e4481aea8520ca75"
+  integrity sha512-9H+207eynBJElrQBHySZm+sIEoJeUhPA2zU4cdlY1QSInd2lnE8GRD2ALry9EassE22c9WW+aCREwBhro5AIIg==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"

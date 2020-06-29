@@ -1,11 +1,11 @@
-import { IVerifiablePresentation, IPluginMethodMap, IAgentContext } from 'daf-core'
+import { VerifiablePresentation, IPluginMethodMap, IAgentContext } from 'daf-core'
 import { ISelectiveDisclosureRequest, IPresentationValidationResult } from './types'
 
 type IContext = IAgentContext<{}>
 
 type TValidatePresentationAgainstSdr = (
   args: {
-    presentation: IVerifiablePresentation
+    presentation: VerifiablePresentation
     sdr: ISelectiveDisclosureRequest
   },
   context: IContext,
@@ -38,7 +38,7 @@ export const validatePresentationAgainstSdr: TValidatePresentationAgainstSdr = a
 
       if (
         credentialRequest.issuers &&
-        !credentialRequest.issuers.map(i => i.did).includes(credential.issuer)
+        !credentialRequest.issuers.map(i => i.did).includes(credential.issuer.id)
       ) {
         return false
       }

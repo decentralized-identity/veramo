@@ -9,14 +9,14 @@ app.use(
   AgentExpressMiddleware({
     agent,
     prefix: '/agent',
-    // methods: agent.availableMethods(),
-    methods: [
-      'resolveDid',
-      'identityManagerGetProviders',
-      'identityManagerGetIdentities',
-      'identityManagerGetIdentity',
-      'identityManagerCreateIdentity',
-    ],
+    methods: agent.availableMethods(),
+    // methods: [
+    //   'resolveDid',
+    //   'identityManagerGetProviders',
+    //   'identityManagerGetIdentities',
+    //   'identityManagerGetIdentity',
+    //   'identityManagerCreateIdentity',
+    // ],
   }),
 )
 

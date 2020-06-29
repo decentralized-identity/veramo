@@ -1,4 +1,4 @@
-import { IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
+import { VerifiableCredential, VerifiablePresentation } from 'daf-core'
 import { Credential, createCredentialEntity } from '../entities/credential'
 import { Presentation, createPresentationEntity } from '../entities/presentation'
 import { createConnection, Connection, In, Raw, FindConditions } from 'typeorm'
@@ -46,7 +46,7 @@ describe('daf-core', () => {
     const entity = createCredentialEntity({
       '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: did1,
+      issuer: { id: did1 },
       issuanceDate: new Date().toISOString(),
       credentialSubject: {
         id: did2,
@@ -81,7 +81,7 @@ describe('daf-core', () => {
     const vc = createCredentialEntity({
       '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: did1,
+      issuer: { id: did1 },
       issuanceDate: new Date().toISOString(),
       credentialSubject: {
         id: did2,
@@ -100,8 +100,8 @@ describe('daf-core', () => {
     const vp = createPresentationEntity({
       '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiablePresentation', 'PublicProfile'],
-      issuer: did1,
-      audience: [did2],
+      holder: did1,
+      verifier: [did2],
       issuanceDate: new Date().toISOString(),
       verifiableCredential: [vc.raw],
       proof: {
@@ -112,8 +112,8 @@ describe('daf-core', () => {
     const vp2 = createPresentationEntity({
       '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiablePresentation', 'PublicProfile'],
-      issuer: did1,
-      audience: [did3],
+      holder: did1,
+      verifier: [did3],
       issuanceDate: new Date().toISOString(),
       verifiableCredential: [vc.raw],
       proof: {

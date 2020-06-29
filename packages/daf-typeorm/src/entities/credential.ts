@@ -1,4 +1,4 @@
-import { IVerifiableCredential } from 'daf-core'
+import { VerifiableCredential } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToMany, ManyToMany } from 'typeorm'
 import { Identity } from './identity'
@@ -13,15 +13,15 @@ export class Credential extends BaseEntity {
   hash: string
 
   //@ts-ignore
-  private _raw: IVerifiableCredential
+  private _raw: VerifiableCredential
 
-  set raw(raw: IVerifiableCredential) {
+  set raw(raw: VerifiableCredential) {
     this._raw = raw
     this.hash = blake2bHex(JSON.stringify(raw))
   }
 
   @Column('simple-json')
-  get raw(): IVerifiableCredential {
+  get raw(): VerifiableCredential {
     return this._raw
   }
 
@@ -91,7 +91,7 @@ export class Credential extends BaseEntity {
   messages: Message[]
 }
 
-export const createCredentialEntity = (vc: IVerifiableCredential): Credential => {
+export const createCredentialEntity = (vc: VerifiableCredential): Credential => {
   const credential = new Credential()
   credential.context = vc['@context']
   credential.type = vc.type
@@ -106,7 +106,7 @@ export const createCredentialEntity = (vc: IVerifiableCredential): Credential =>
   }
 
   const issuer = new Identity()
-  issuer.did = vc.issuer
+  issuer.did = vc.issuer.id
   credential.issuer = issuer
 
   credential.claims = []

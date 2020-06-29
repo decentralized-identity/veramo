@@ -21,6 +21,7 @@
     "daf-graphql": "../../packages/daf-graphql",
     "daf-libsodium": "../../packages/daf-libsodium",
     "daf-resolver": "../../packages/daf-resolver",
+    "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
     "daf-typeorm": "../../packages/daf-typeorm",
     "daf-rest": "../../packages/daf-rest",
     "daf-w3c": "../../packages/daf-w3c",
@@ -40,6 +41,7 @@
     "daf-graphql": "../../packages/daf-graphql",
     "daf-libsodium": "../../packages/daf-libsodium",
     "daf-resolver": "../../packages/daf-resolver",
+    "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
     "daf-typeorm": "../../packages/daf-typeorm",
     "daf-rest": "../../packages/daf-rest",
     "daf-w3c": "../../packages/daf-w3c"

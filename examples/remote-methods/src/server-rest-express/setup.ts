@@ -2,6 +2,7 @@ import { Agent, KeyManager, MessageHandler, IdentityManager } from 'daf-core'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, W3cMessageHandler } from 'daf-w3c'
+import { Sdr, SdrMessageHandler } from 'daf-selective-disclosure'
 import { DIDComm, DIDCommMessageHandler } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
@@ -47,9 +48,15 @@ export const agent = new Agent({
     new DataStore(dbConnection),
     new DataStoreORM(dbConnection),
     new MessageHandler({
-      messageHandlers: [new DIDCommMessageHandler(), new JwtMessageHandler(), new W3cMessageHandler()],
+      messageHandlers: [
+        new DIDCommMessageHandler(),
+        new JwtMessageHandler(),
+        new W3cMessageHandler(),
+        new SdrMessageHandler(),
+      ],
     }),
     new DIDComm(),
     new W3c(),
+    new Sdr(),
   ],
 })

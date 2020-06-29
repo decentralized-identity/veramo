@@ -72,14 +72,14 @@ export class Identity extends BaseEntity {
 
   @OneToMany(
     type => Presentation,
-    presentation => presentation.issuer,
+    presentation => presentation.holder,
   )
   //@ts-ignore
   issuedPresentations: Presentation[]
 
   @ManyToMany(
     type => Presentation,
-    presentation => presentation.audience,
+    presentation => presentation.verifier,
   )
   //@ts-ignore
   receivedPresentations: Presentation[]
