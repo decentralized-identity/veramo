@@ -1,4 +1,4 @@
-import { Agent, IVerifiableCredential, IVerifiablePresentation, IMessage, IDataStore, TAgent } from 'daf-core'
+import { Agent, VerifiableCredential, VerifiablePresentation, IMessage, IDataStore, TAgent } from 'daf-core'
 import { createConnection, Connection } from 'typeorm'
 import { DataStoreORM, IDataStoreORM } from '../data-store-orm'
 import { FindArgs, TClaimsColumns, TCredentialColumns, TMessageColumns, TPresentationColumns } from '../types'
@@ -12,10 +12,10 @@ const did3 = 'did:test:333'
 const did4 = 'did:test:444'
 
 async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
-  const vc1: IVerifiableCredential = {
+  const vc1: VerifiableCredential = {
     '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
     type: ['VerifiableCredential', 'PublicProfile'],
-    issuer: did1,
+    issuer: { id: did1 },
     issuanceDate: new Date().toISOString(),
     id: 'vc1',
     credentialSubject: {
@@ -32,11 +32,11 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
     },
   }
 
-  const vp1: IVerifiablePresentation = {
+  const vp1: VerifiablePresentation = {
     '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
     type: ['VerifiablePresentation', 'PublicProfile'],
-    issuer: did1,
-    audience: [did2],
+    holder: did1,
+    verifier: [did2],
     issuanceDate: new Date().toISOString(),
     verifiableCredential: [vc1],
     proof: {
@@ -44,11 +44,11 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
     },
   }
 
-  const vp2: IVerifiablePresentation = {
+  const vp2: VerifiablePresentation = {
     '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
     type: ['VerifiablePresentation', 'PublicProfileMultiAudience'],
-    issuer: did1,
-    audience: [did2, did4],
+    holder: did1,
+    verifier: [did2, did4],
     issuanceDate: new Date().toISOString(),
     verifiableCredential: [vc1],
     proof: {
@@ -132,12 +132,12 @@ describe('daf-typeorm entities', () => {
     fs.unlinkSync(databaseFile)
   })
 
-  test('search presentations by audience', async () => {
+  test('search presentations by verifier', async () => {
     const agent = makeAgent()
     const args: FindArgs<TPresentationColumns> = {
       where: [
         {
-          column: 'audience',
+          column: 'verifier',
           value: [did4],
           op: 'In',
         },
@@ -290,10 +290,10 @@ describe('daf-typeorm entities', () => {
   })
 
   test('store credential and retrieve by id', async () => {
-    const vc5: IVerifiableCredential = {
+    const vc5: VerifiableCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: did1,
+      issuer: { id: did1 },
       issuanceDate: new Date().toISOString(),
       id: 'vc5',
       credentialSubject: {
@@ -329,10 +329,10 @@ describe('daf-typeorm entities', () => {
   })
 
   test('store presentation and retrieve by context and type', async () => {
-    const vc6: IVerifiableCredential = {
+    const vc6: VerifiableCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/666'],
       type: ['VerifiableCredential', 'PublicProfile6'],
-      issuer: did1,
+      issuer: { id: did1 },
       issuanceDate: new Date().toISOString(),
       id: 'vc6',
       credentialSubject: {
@@ -349,11 +349,11 @@ describe('daf-typeorm entities', () => {
       },
     }
 
-    const vp6: IVerifiablePresentation = {
+    const vp6: VerifiablePresentation = {
       '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/99999966666'],
       type: ['VerifiablePresentation', 'PublicProfile6666'],
-      issuer: did1,
-      audience: [did2],
+      holder: did1,
+      verifier: [did2],
       issuanceDate: new Date().toISOString(),
       verifiableCredential: [vc6],
       proof: {

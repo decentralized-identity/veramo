@@ -1,4 +1,4 @@
-import { IVerifiableCredential } from 'daf-core'
+import { VerifiableCredential } from 'daf-core'
 export interface Issuer {
   did: string
   url: string
@@ -24,7 +24,7 @@ export interface ICredentialRequestInput {
 }
 
 export interface ICredentialsForSdr extends ICredentialRequestInput {
-  credentials: IVerifiableCredential[]
+  credentials: VerifiableCredential[]
 }
 
 export interface IPresentationValidationResult {

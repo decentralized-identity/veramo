@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
+    "did-jwt-vc": "^1.0.2",
     "events": "^3.0.0"
   },
   "devDependencies": {

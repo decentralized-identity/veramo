@@ -1,4 +1,4 @@
-import { IAgentPlugin, IDataStore, IMessage, IVerifiableCredential, IVerifiablePresentation } from 'daf-core'
+import { IAgentPlugin, IDataStore, IMessage, VerifiableCredential, VerifiablePresentation } from 'daf-core'
 import { Message, createMessageEntity } from './entities/message'
 import { Credential, createCredentialEntity } from './entities/credential'
 import { Presentation, createPresentationEntity } from './entities/presentation'
@@ -23,12 +23,12 @@ export class DataStore implements IAgentPlugin {
     return true
   }
 
-  async dataStoreSaveVerifiableCredential(args: IVerifiableCredential): Promise<boolean> {
+  async dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean> {
     await (await this.dbConnection).getRepository(Credential).save(createCredentialEntity(args))
     return true
   }
 
-  async dataStoreSaveVerifiablePresentation(args: IVerifiablePresentation): Promise<boolean> {
+  async dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean> {
     await (await this.dbConnection).getRepository(Presentation).save(createPresentationEntity(args))
     return true
   }

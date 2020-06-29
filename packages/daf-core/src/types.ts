@@ -1,4 +1,9 @@
 import { DIDDocument } from 'did-resolver'
+import { Verifiable, W3CCredential, W3CPresentation } from 'did-jwt-vc'
+
+export type VerifiableCredential = Verifiable<W3CCredential>
+export type VerifiablePresentation = Verifiable<W3CPresentation>
+export { W3CCredential, W3CPresentation }
 
 export type TKeyType = 'Ed25519' | 'Secp256k1'
 
@@ -34,49 +39,6 @@ export interface EcdsaSignature {
   recoveryParam?: number
 }
 
-export interface ICredential {
-  '@context': string[]
-  type: string[]
-  id?: string
-  issuer: string
-  expirationDate?: string
-  issuanceDate?: string
-  credentialSubject: {
-    id?: string
-    [x: string]: any
-  }
-  credentialStatus?: {
-    id: string
-    type: string
-  }
-  [x: string]: any
-}
-
-export interface IVerifiableCredential extends ICredential {
-  proof: {
-    jwt?: string
-    jws?: string
-  }
-}
-
-export interface IPresentation {
-  '@context': string[]
-  type: string[]
-  id?: string
-  issuer: string
-  audience: string[]
-  expirationDate?: string
-  issuanceDate?: string
-  verifiableCredential: IVerifiableCredential[]
-  [x: string]: any
-}
-
-export interface IVerifiablePresentation extends IPresentation {
-  proof: {
-    jwt?: string
-  }
-}
-
 export interface IMetaData {
   type: string
   value?: string
@@ -95,8 +57,8 @@ export interface IMessage {
   from?: string
   to?: string
   metaData?: IMetaData[]
-  credentials?: IVerifiableCredential[]
-  presentations?: IVerifiablePresentation[]
+  credentials?: VerifiableCredential[]
+  presentations?: VerifiablePresentation[]
 }
 
 export interface IAgentBase {
@@ -132,8 +94,8 @@ export interface IAgentContext<T extends IPluginMethodMap> {
 
 export interface IDataStore extends IPluginMethodMap {
   dataStoreSaveMessage(args: IMessage): Promise<boolean>
-  dataStoreSaveVerifiableCredential(args: IVerifiableCredential): Promise<boolean>
-  dataStoreSaveVerifiablePresentation(args: IVerifiablePresentation): Promise<boolean>
+  dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>
+  dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean>
 }
 
 export interface IResolveDid extends IPluginMethodMap {

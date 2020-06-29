@@ -1,8 +1,8 @@
 import {
   IAgentPlugin,
   IMessage,
-  IVerifiableCredential,
-  IVerifiablePresentation,
+  VerifiableCredential,
+  VerifiablePresentation,
   IPluginMethodMap,
 } from 'daf-core'
 import { Message, createMessage } from './entities/message'
@@ -44,7 +44,7 @@ export interface IDataStoreORM extends IPluginMethodMap {
   dataStoreORMGetVerifiableCredentialsByClaims: (
     args: FindArgs<TClaimsColumns>,
     context: IContext,
-  ) => Promise<IVerifiableCredential[]>
+  ) => Promise<VerifiableCredential[]>
   dataStoreORMGetVerifiableCredentialsByClaimsCount: (
     args: FindArgs<TClaimsColumns>,
     context: IContext,
@@ -52,7 +52,7 @@ export interface IDataStoreORM extends IPluginMethodMap {
   dataStoreORMGetVerifiableCredentials: (
     args: FindArgs<TCredentialColumns>,
     context: IContext,
-  ) => Promise<IVerifiableCredential[]>
+  ) => Promise<VerifiableCredential[]>
   dataStoreORMGetVerifiableCredentialsCount: (
     args: FindArgs<TCredentialColumns>,
     context: IContext,
@@ -60,7 +60,7 @@ export interface IDataStoreORM extends IPluginMethodMap {
   dataStoreORMGetVerifiablePresentations: (
     args: FindArgs<TPresentationColumns>,
     context: IContext,
-  ) => Promise<IVerifiablePresentation[]>
+  ) => Promise<VerifiablePresentation[]>
   dataStoreORMGetVerifiablePresentationsCount: (
     args: FindArgs<TPresentationColumns>,
     context: IContext,
@@ -163,7 +163,7 @@ export class DataStoreORM implements IAgentPlugin {
   async dataStoreORMGetVerifiableCredentialsByClaims(
     args: FindArgs<TClaimsColumns>,
     context: IContext,
-  ): Promise<IVerifiableCredential[]> {
+  ): Promise<VerifiableCredential[]> {
     const claims = await (await this.claimsQuery(args, context)).getMany()
     return claims.map(claim => claim.credential.raw)
   }
@@ -207,7 +207,7 @@ export class DataStoreORM implements IAgentPlugin {
   async dataStoreORMGetVerifiableCredentials(
     args: FindArgs<TCredentialColumns>,
     context: IContext,
-  ): Promise<IVerifiableCredential[]> {
+  ): Promise<VerifiableCredential[]> {
     const credentials = await (await this.credentialsQuery(args, context)).getMany()
     return credentials.map(vc => vc.raw)
   }
@@ -229,17 +229,17 @@ export class DataStoreORM implements IAgentPlugin {
     let qb = (await this.dbConnection)
       .getRepository(Presentation)
       .createQueryBuilder('presentation')
-      .leftJoinAndSelect('presentation.issuer', 'issuer')
-      .leftJoinAndSelect('presentation.audience', 'audience')
+      .leftJoinAndSelect('presentation.holder', 'holder')
+      .leftJoinAndSelect('presentation.verifier', 'verifier')
       .where(where)
     qb = decorateQB(qb, 'presentation', args)
-    qb = addAudienceQuery(args, qb)
+    qb = addVerifierQuery(args, qb)
     if (context.authenticatedDid) {
       qb = qb.andWhere(
         new Brackets(qb => {
-          qb.where('audience.did = :ident', {
+          qb.where('verifier.did = :ident', {
             ident: context.authenticatedDid,
-          }).orWhere('presentation.issuer = :ident', { ident: context.authenticatedDid })
+          }).orWhere('presentation.holder = :ident', { ident: context.authenticatedDid })
         }),
       )
     }
@@ -249,7 +249,7 @@ export class DataStoreORM implements IAgentPlugin {
   async dataStoreORMGetVerifiablePresentations(
     args: FindArgs<TPresentationColumns>,
     context: IContext,
-  ): Promise<IVerifiablePresentation[]> {
+  ): Promise<VerifiablePresentation[]> {
     const presentations = await (await this.presentationsQuery(args, context)).getMany()
     return presentations.map(vp => vp.raw)
   }
@@ -278,23 +278,23 @@ function opToSQL(item: Where<any>): any[] {
     case 'LessThanOrEqual':
     case 'MoreThan':
     case 'MoreThanOrEqual':
-      throw new Error(`${item.op} not compatable with DID argument`)
+      throw new Error(`${item.op} not compatible with DID argument`)
     case 'In':
     default:
       return ['IN (:...value)', item.value]
   }
 }
 
-function addAudienceQuery(input: FindArgs<any>, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
+function addVerifierQuery(input: FindArgs<any>, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
   if (!Array.isArray(input.where)) {
     return qb
   }
-  const audienceWhere = input.where.find(item => item.column === 'audience')
-  if (!audienceWhere) {
+  const verifierWhere = input.where.find(item => item.column === 'verifier')
+  if (!verifierWhere) {
     return qb
   }
-  const [op, value] = opToSQL(audienceWhere)
-  return qb.andWhere(`audience.did ${op}`, { value })
+  const [op, value] = opToSQL(verifierWhere)
+  return qb.andWhere(`verifier.did ${op}`, { value })
 }
 
 function createWhereObject(
@@ -303,7 +303,7 @@ function createWhereObject(
   if (input?.where) {
     const where: Record<string, any> = {}
     for (const item of input.where) {
-      if (item.column === 'audience') {
+      if (item.column === 'verifier') {
         continue
       }
       switch (item.op) {

@@ -7,12 +7,12 @@ import { IGetVerifiableCredentialsForSdr, getVerifiableCredentialsForSdr } from 
 export { IValidatePresentationAgainstSdr, validatePresentationAgainstSdr } from './validate-presentation'
 import { IValidatePresentationAgainstSdr, validatePresentationAgainstSdr } from './validate-presentation'
 
-export type IAgentSdr = ICreateSelectiveDisclosureRequest &
+export type ISdr = ICreateSelectiveDisclosureRequest &
   IGetVerifiableCredentialsForSdr &
   IValidatePresentationAgainstSdr
 
 export class Sdr implements IAgentPlugin {
-  readonly methods: IAgentSdr = {
+  readonly methods: ISdr = {
     createSelectiveDisclosureRequest,
     getVerifiableCredentialsForSdr,
     validatePresentationAgainstSdr,

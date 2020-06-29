@@ -13,12 +13,15 @@
     "daf-did-jwt": "^6.0.0",
     "daf-resolver": "^6.0.0",
     "debug": "^4.1.1",
-    "did-jwt-vc": "0.2.0",
+    "did-jwt-vc": "^1.0.0",
     "did-resolver": "^1.1.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
     "typescript": "^3.8.3"
+  },
+  "resolutions": {
+    "did-jwt-vc": "../../decentralized-identity/did-jwt-vc"
   },
   "files": [
     "build/**/*",

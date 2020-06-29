@@ -1,4 +1,4 @@
-import { IMessage, IMetaData, IVerifiableCredential, IVerifiablePresentation } from './types'
+import { IMessage, IMetaData, VerifiableCredential, VerifiablePresentation } from './types'
 
 export class Message implements IMessage {
   constructor(data?: { raw: string; metaData?: IMetaData[] }) {
@@ -36,8 +36,8 @@ export class Message implements IMessage {
 
   metaData?: IMetaData[]
 
-  presentations?: IVerifiablePresentation[]
-  credentials?: IVerifiableCredential[]
+  presentations?: VerifiablePresentation[]
+  credentials?: VerifiableCredential[]
 
   addMetaData(meta: IMetaData) {
     if (this.metaData) {

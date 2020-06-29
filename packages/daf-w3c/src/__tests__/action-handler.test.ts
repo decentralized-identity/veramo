@@ -1,28 +1,22 @@
 import {
-  ICredential,
-  IVerifiableCredential,
+  W3CCredential,
+  VerifiableCredential,
   IIdentity,
-  IPresentation,
-  IVerifiablePresentation,
+  W3CPresentation,
+  VerifiablePresentation,
 } from 'daf-core'
 
-const mockCreateVerifiableCredential = jest.fn()
-const mockCreatePresentation = jest.fn()
-
-jest.mock('did-jwt-vc', () => ({
-  createVerifiableCredential: mockCreateVerifiableCredential,
-  createPresentation: mockCreatePresentation,
+const mockDidJwtVc = {
+  createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
+  createVerifiablePresentationJwt: jest.fn().mockReturnValue('mockVcJwt'),
   verifyCredential: jest.fn().mockReturnValue({ payload: {} }),
-}))
+  transformCredentialInput: jest.fn().mockReturnValue('mockTransformedCredential'),
+  transformPresentationInput: jest.fn().mockReturnValue('mockTransformedPresentation'),
+  normalizeCredential: jest.fn().mockReturnValue('mockCredential'),
+  normalizePresentation: jest.fn().mockReturnValue('mockPresentation'),
+}
 
-jest.mock('did-jwt', () => ({
-  decodeJWT: jest.fn().mockReturnValue({ payload: {} }),
-}))
-
-jest.mock('../message-handler', () => ({
-  createCredential: jest.fn().mockImplementation(() => 'mock'),
-  createPresentation: jest.fn().mockImplementation(() => 'mock'),
-}))
+jest.mock('did-jwt-vc', () => mockDidJwtVc)
 
 import { W3c, IContext } from '../action-handler'
 
@@ -74,10 +68,10 @@ const w3c = new W3c()
 
 describe('daf-w3c', () => {
   it('handles createVerifiableCredential', async () => {
-    const credential: ICredential = {
+    const credential: W3CCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: mockIdentity1.did,
+      issuer: { id: mockIdentity1.did },
       issuanceDate: new Date().toISOString(),
       id: 'vc1',
       credentialSubject: {
@@ -100,16 +94,17 @@ describe('daf-w3c', () => {
       context,
     )
     // TODO Update these after refactoring did-jwt-vc
+    expect(mockDidJwtVc.transformCredentialInput).toBeCalledWith(credential)
     expect(context.agent.identityManagerGetIdentity).toBeCalledWith({ did: mockIdentity1.did })
-    expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith('mock')
-    expect(vc).toEqual('mock')
+    expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith('mockCredential')
+    expect(vc).toEqual('mockCredential')
   })
 
   it('handles createVerifiablePresentation', async () => {
-    const credential: IVerifiableCredential = {
+    const credential: VerifiableCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1323'],
       type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: mockIdentity1.did,
+      issuer: { id: mockIdentity1.did },
       issuanceDate: new Date().toISOString(),
       id: 'vc1',
       credentialSubject: {
@@ -126,11 +121,11 @@ describe('daf-w3c', () => {
       },
     }
 
-    const presentation: IPresentation = {
+    const presentation: W3CPresentation = {
       '@context': ['https://www.w3.org/2018/credentials/v1323'],
       type: ['VerifiablePresentation'],
-      issuer: mockIdentity1.did,
-      audience: [mockIdentity2.did],
+      holder: mockIdentity1.did,
+      verifier: [mockIdentity2.did],
       issuanceDate: new Date().toISOString(),
       verifiableCredential: [credential],
     }
@@ -144,9 +139,9 @@ describe('daf-w3c', () => {
       context,
     )
 
-    // TODO Update these after refactoring did-jwt-vc
+    expect(mockDidJwtVc.transformPresentationInput).toBeCalledWith(presentation)
     expect(context.agent.identityManagerGetIdentity).toBeCalledWith({ did: mockIdentity1.did })
-    expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith('mock')
-    expect(vp).toEqual('mock')
+    expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith('mockPresentation')
+    expect(vp).toEqual('mockPresentation')
   })
 })

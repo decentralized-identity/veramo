@@ -1,4 +1,4 @@
-import { IVerifiablePresentation } from 'daf-core'
+import { VerifiablePresentation } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 import {
   Entity,
@@ -23,13 +23,13 @@ export class Presentation extends BaseEntity {
   //@ts-ignore
   private _raw: IVerifiablePresentation
 
-  set raw(raw: IVerifiablePresentation) {
+  set raw(raw: VerifiablePresentation) {
     this._raw = raw
     this.hash = blake2bHex(JSON.stringify(raw))
   }
 
   @Column({ type: 'simple-json' })
-  get raw(): IVerifiablePresentation {
+  get raw(): VerifiablePresentation {
     return this._raw
   }
 
@@ -42,7 +42,7 @@ export class Presentation extends BaseEntity {
     },
   )
   //@ts-ignore
-  issuer: Identity
+  holder: Identity
 
   @ManyToMany(
     type => Identity,
@@ -50,11 +50,12 @@ export class Presentation extends BaseEntity {
     {
       cascade: ['insert'],
       eager: true,
+      nullable: true,
     },
   )
   @JoinTable()
   //@ts-ignore
-  audience: Identity[]
+  verifier?: Identity[]
 
   @Column({ nullable: true })
   id?: String
@@ -93,7 +94,7 @@ export class Presentation extends BaseEntity {
   messages: Message[]
 }
 
-export const createPresentationEntity = (vp: IVerifiablePresentation): Presentation => {
+export const createPresentationEntity = (vp: VerifiablePresentation): Presentation => {
   const presentation = new Presentation()
   presentation.context = vp['@context']
   presentation.type = vp.type
@@ -107,13 +108,13 @@ export const createPresentationEntity = (vp: IVerifiablePresentation): Presentat
     presentation.expirationDate = new Date(vp.expirationDate)
   }
 
-  const issuer = new Identity()
-  issuer.did = vp.issuer
-  presentation.issuer = issuer
+  const holder = new Identity()
+  holder.did = vp.holder
+  presentation.holder = holder
 
-  presentation.audience = vp.audience.map(audienceDid => {
+  presentation.verifier = vp.verifier?.map(verifierDid => {
     const id = new Identity()
-    id.did = audienceDid
+    id.did = verifierDid
     return id
   })
 
