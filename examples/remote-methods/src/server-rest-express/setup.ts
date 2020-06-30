@@ -13,7 +13,7 @@ const dbConnection = createConnection({
   type: 'sqlite',
   database: 'database.sqlite',
   synchronize: true,
-  logging: true,
+  logging: false,
   entities: Entities,
 })
 

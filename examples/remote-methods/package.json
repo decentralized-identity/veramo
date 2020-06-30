@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start:client": "DEBUG=daf:* ts-node src/client/index.ts",
-    "start:rest": "DEBUG=daf:* node build/server-rest-express/index.js",
+    "start:rest": "DEBUG=daf:* ts-node src/server-rest-express/index.ts",
     "start:graphql": "DEBUG=daf:* PORT=3001 node build/server-graphql-apollo/index.js",
     "start:grpc": "DEBUG=daf:* ts-node src/server-grpc/index.ts"
   },
@@ -21,10 +21,11 @@
     "daf-graphql": "../../packages/daf-graphql",
     "daf-libsodium": "../../packages/daf-libsodium",
     "daf-resolver": "../../packages/daf-resolver",
+    "daf-rest": "../../packages/daf-rest",
     "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
     "daf-typeorm": "../../packages/daf-typeorm",
-    "daf-rest": "../../packages/daf-rest",
     "daf-w3c": "../../packages/daf-w3c",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
     "graphql": "^15.0.0",
     "sqlite3": "^4.1.1",
