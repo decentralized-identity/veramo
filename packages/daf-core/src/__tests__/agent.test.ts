@@ -98,4 +98,12 @@ describe('daf-core agent', () => {
       { agent, authorizedDid: 'did:example:123' },
     )
   })
+
+  it.todo('createAgent should return instance of Agent')
+  it.todo('should throw an error on method exception')
+  it.todo('should throw an error on invalid types of constructor params')
+  it.todo('should throw an error on invalid types of constructor param')
+  it.todo('should throw an error if plugin implements protected methods')
+  it.todo("should throw an error if authorized methods don't match available methods")
+  it.todo('should throw an error if execute is called on unauthorized method')
 })
