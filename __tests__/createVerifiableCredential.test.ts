@@ -3,12 +3,9 @@ import {
   KeyManager,
   IdentityManager,
   TAgent,
-  IIdentity,
   IIdentityManager,
   IResolveDid,
-  IDataStore,
   IKeyManager,
-  IHandleMessage,
 } from 'daf-core'
 import { Connection, createConnection } from 'typeorm'
 import { DafResolver } from 'daf-resolver'
@@ -18,15 +15,14 @@ import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { Entities, KeyStore, IdentityStore } from 'daf-typeorm'
 import fs from 'fs'
 
-let agent: TAgent<IIdentityManager & IKeyManager & IDataStore & IResolveDid & IW3c>
+let agent: TAgent<IIdentityManager & IKeyManager & IResolveDid & IW3c>
 let dbConnection: Promise<Connection>
 const databaseFile = 'database.sqlite'
+const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
+const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 describe('integration test for creating Verifiable Credentials', () => {
   beforeAll(() => {
-    const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
-    const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
-
     dbConnection = createConnection({
       type: 'sqlite',
       database: databaseFile,
@@ -35,9 +31,7 @@ describe('integration test for creating Verifiable Credentials', () => {
       entities: Entities,
     })
 
-    agent = createAgent<
-      TAgent<IIdentityManager & IKeyManager & IDataStore & IResolveDid & IHandleMessage & IW3c>
-    >({
+    agent = createAgent<TAgent<IIdentityManager & IKeyManager & IResolveDid & IW3c>>({
       plugins: [
         new KeyManager({
           store: new KeyStore(dbConnection, new SecretBox(secretKey)),
