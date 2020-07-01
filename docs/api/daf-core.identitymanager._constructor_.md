@@ -9,11 +9,15 @@ Constructs a new instance of the `IdentityManager` class
 <b>Signature:</b>
 
 ```typescript
-constructor(options: Options);
+constructor(options: {
+        providers: Record<string, AbstractIdentityProvider>;
+        defaultProvider: string;
+        store: AbstractIdentityStore;
+    });
 ```
 
 ## Parameters
 
-| Parameter | Type                 | Description |
-| --------- | -------------------- | ----------- |
-| options   | <code>Options</code> |             |
+| Parameter | Type                                                                                                                                                                                                                   | Description |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| options   | { providers: Record&lt;string, [AbstractIdentityProvider](./daf-core.abstractidentityprovider.md)<!-- -->&gt;; defaultProvider: string; store: [AbstractIdentityStore](./daf-core.abstractidentitystore.md)<!-- -->; } |             |

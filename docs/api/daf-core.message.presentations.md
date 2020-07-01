@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-presentations: Presentation[];
+presentations?: VerifiablePresentation[];
 ```

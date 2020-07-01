@@ -7,9 +7,19 @@
 <b>Signature:</b>
 
 ```typescript
-abstract createIdentity(): Promise<AbstractIdentity>;
+abstract createIdentity(args: {
+        kms?: string;
+        options?: any;
+    }, context: IContext): Promise<Omit<IIdentity, 'provider'>>;
 ```
+
+## Parameters
+
+| Parameter | Type                             | Description |
+| --------- | -------------------------------- | ----------- |
+| args      | { kms?: string; options?: any; } |             |
+| context   | IContext                         |             |
 
 <b>Returns:</b>
 
-`Promise<AbstractIdentity>`
+Promise&lt;Omit&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->, 'provider'&gt;&gt;

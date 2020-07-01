@@ -7,8 +7,10 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class Message extends BaseEntity
+export declare class Message implements IMessage
 ```
+
+<b>Implements:</b> [IMessage](./daf-core.imessage.md)
 
 ## Constructors
 
@@ -18,24 +20,22 @@ export declare class Message extends BaseEntity
 
 ## Properties
 
-| Property                                             | Modifiers | Type                        | Description |
-| ---------------------------------------------------- | --------- | --------------------------- | ----------- |
-| [createdAt](./daf-core.message.createdat.md)         |           | <code>Date</code>           |             |
-| [credentials](./daf-core.message.credentials.md)     |           | <code>Credential[]</code>   |             |
-| [data](./daf-core.message.data.md)                   |           | <code>any</code>            |             |
-| [expiresAt](./daf-core.message.expiresat.md)         |           | <code>Date</code>           |             |
-| [from](./daf-core.message.from.md)                   |           | <code>Identity</code>       |             |
-| [id](./daf-core.message.id.md)                       |           | <code>string</code>         |             |
-| [metaData](./daf-core.message.metadata.md)           |           | <code>MetaData[]</code>     |             |
-| [presentations](./daf-core.message.presentations.md) |           | <code>Presentation[]</code> |             |
-| [raw](./daf-core.message.raw.md)                     |           | <code>string</code>         |             |
-| [replyTo](./daf-core.message.replyto.md)             |           | <code>string[]</code>       |             |
-| [replyUrl](./daf-core.message.replyurl.md)           |           | <code>string</code>         |             |
-| [saveDate](./daf-core.message.savedate.md)           |           | <code>Date</code>           |             |
-| [threadId](./daf-core.message.threadid.md)           |           | <code>string</code>         |             |
-| [to](./daf-core.message.to.md)                       |           | <code>Identity</code>       |             |
-| [type](./daf-core.message.type.md)                   |           | <code>string</code>         |             |
-| [updateDate](./daf-core.message.updatedate.md)       |           | <code>Date</code>           |             |
+| Property                                             | Modifiers | Type                                                                       | Description |
+| ---------------------------------------------------- | --------- | -------------------------------------------------------------------------- | ----------- |
+| [createdAt](./daf-core.message.createdat.md)         |           | string                                                                     |             |
+| [credentials](./daf-core.message.credentials.md)     |           | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\]     |             |
+| [data](./daf-core.message.data.md)                   |           | any                                                                        |             |
+| [expiresAt](./daf-core.message.expiresat.md)         |           | string                                                                     |             |
+| [from](./daf-core.message.from.md)                   |           | string                                                                     |             |
+| [id](./daf-core.message.id.md)                       |           | string                                                                     |             |
+| [metaData](./daf-core.message.metadata.md)           |           | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\]                           |             |
+| [presentations](./daf-core.message.presentations.md) |           | [VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->\[\] |             |
+| [raw](./daf-core.message.raw.md)                     |           | string                                                                     |             |
+| [replyTo](./daf-core.message.replyto.md)             |           | string\[\]                                                                 |             |
+| [replyUrl](./daf-core.message.replyurl.md)           |           | string                                                                     |             |
+| [threadId](./daf-core.message.threadid.md)           |           | string                                                                     |             |
+| [to](./daf-core.message.to.md)                       |           | string                                                                     |             |
+| [type](./daf-core.message.type.md)                   |           | string                                                                     |             |
 
 ## Methods
 
@@ -44,4 +44,3 @@ export declare class Message extends BaseEntity
 | [addMetaData(meta)](./daf-core.message.addmetadata.md)     |           |             |
 | [getLastMetaData()](./daf-core.message.getlastmetadata.md) |           |             |
 | [isValid()](./daf-core.message.isvalid.md)                 |           |             |
-| [setId()](./daf-core.message.setid.md)                     |           |             |

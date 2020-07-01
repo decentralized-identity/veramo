@@ -12,9 +12,11 @@ export declare abstract class AbstractKeyManagementSystem
 
 ## Methods
 
-| Method                                                                 | Modifiers | Description |
-| ---------------------------------------------------------------------- | --------- | ----------- |
-| [createKey(type)](./daf-core.abstractkeymanagementsystem.createkey.md) |           |             |
-| [deleteKey(kid)](./daf-core.abstractkeymanagementsystem.deletekey.md)  |           |             |
-| [getKey(kid)](./daf-core.abstractkeymanagementsystem.getkey.md)        |           |             |
-| [importKey(key)](./daf-core.abstractkeymanagementsystem.importkey.md)  |           |             |
+| Method                                                                   | Modifiers | Description |
+| ------------------------------------------------------------------------ | --------- | ----------- |
+| [createKey(args)](./daf-core.abstractkeymanagementsystem.createkey.md)   |           |             |
+| [decryptJWE(args)](./daf-core.abstractkeymanagementsystem.decryptjwe.md) |           |             |
+| [deleteKey(args)](./daf-core.abstractkeymanagementsystem.deletekey.md)   |           |             |
+| [encryptJWE(args)](./daf-core.abstractkeymanagementsystem.encryptjwe.md) |           |             |
+| [signEthTX(args)](./daf-core.abstractkeymanagementsystem.signethtx.md)   |           |             |
+| [signJWT(args)](./daf-core.abstractkeymanagementsystem.signjwt.md)       |           |             |

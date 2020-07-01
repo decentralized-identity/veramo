@@ -8,55 +8,52 @@
 
 | Class                                                                    | Description |
 | ------------------------------------------------------------------------ | ----------- |
-| [AbstractActionHandler](./daf-core.abstractactionhandler.md)             |             |
-| [AbstractIdentity](./daf-core.abstractidentity.md)                       |             |
-| [AbstractIdentityController](./daf-core.abstractidentitycontroller.md)   |             |
 | [AbstractIdentityProvider](./daf-core.abstractidentityprovider.md)       |             |
 | [AbstractIdentityStore](./daf-core.abstractidentitystore.md)             |             |
-| [AbstractKey](./daf-core.abstractkey.md)                                 |             |
 | [AbstractKeyManagementSystem](./daf-core.abstractkeymanagementsystem.md) |             |
 | [AbstractKeyStore](./daf-core.abstractkeystore.md)                       |             |
 | [AbstractMessageHandler](./daf-core.abstractmessagehandler.md)           |             |
-| [AbstractServiceController](./daf-core.abstractservicecontroller.md)     |             |
+| [AbstractSecretBox](./daf-core.abstractsecretbox.md)                     |             |
 | [Agent](./daf-core.agent.md)                                             |             |
-| [Claim](./daf-core.claim.md)                                             |             |
-| [Credential](./daf-core.credential.md)                                   |             |
-| [Identity](./daf-core.identity.md)                                       |             |
 | [IdentityManager](./daf-core.identitymanager.md)                         |             |
-| [IdentityStore](./daf-core.identitystore.md)                             |             |
-| [Key](./daf-core.key.md)                                                 |             |
-| [KeyStore](./daf-core.keystore.md)                                       |             |
+| [KeyManager](./daf-core.keymanager.md)                                   |             |
 | [Message](./daf-core.message.md)                                         |             |
-| [Presentation](./daf-core.presentation.md)                               |             |
-| [ServiceManager](./daf-core.servicemanager.md)                           |             |
+| [MessageHandler](./daf-core.messagehandler.md)                           |             |
 
-## Enumerations
+## Functions
 
-| Enumeration                                          | Description |
-| ---------------------------------------------------- | ----------- |
-| [ServiceEventTypes](./daf-core.serviceeventtypes.md) |             |
+| Function                                          | Description |
+| ------------------------------------------------- | ----------- |
+| [createAgent(options)](./daf-core.createagent.md) |             |
 
 ## Interfaces
 
-| Interface                                                                        | Description |
-| -------------------------------------------------------------------------------- | ----------- |
-| [Action](./daf-core.action.md)                                                   |             |
-| [IdentityProviderDerived](./daf-core.identityproviderderived.md)                 |             |
-| [LastMessageTimestampForInstance](./daf-core.lastmessagetimestampforinstance.md) |             |
-| [Resolver](./daf-core.resolver.md)                                               |             |
-| [SerializedIdentity](./daf-core.serializedidentity.md)                           |             |
-| [SerializedKey](./daf-core.serializedkey.md)                                     |             |
-
-## Variables
-
-| Variable                               | Description |
-| -------------------------------------- | ----------- |
-| [Entities](./daf-core.entities.md)     |             |
-| [EventTypes](./daf-core.eventtypes.md) |             |
-| [Gql](./daf-core.gql.md)               |             |
+| Interface                                          | Description |
+| -------------------------------------------------- | ----------- |
+| [EcdsaSignature](./daf-core.ecdsasignature.md)     |             |
+| [IAgent](./daf-core.iagent.md)                     |             |
+| [IAgentBase](./daf-core.iagentbase.md)             |             |
+| [IAgentContext](./daf-core.iagentcontext.md)       |             |
+| [IAgentPlugin](./daf-core.iagentplugin.md)         |             |
+| [IDataStore](./daf-core.idatastore.md)             |             |
+| [IHandleMessage](./daf-core.ihandlemessage.md)     |             |
+| [IIdentity](./daf-core.iidentity.md)               |             |
+| [IIdentityManager](./daf-core.iidentitymanager.md) |             |
+| [IKey](./daf-core.ikey.md)                         |             |
+| [IKeyManager](./daf-core.ikeymanager.md)           |             |
+| [IMessage](./daf-core.imessage.md)                 |             |
+| [IMetaData](./daf-core.imetadata.md)               |             |
+| [IPluginMethod](./daf-core.ipluginmethod.md)       |             |
+| [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |             |
+| [IResolveDid](./daf-core.iresolvedid.md)           |             |
+| [IService](./daf-core.iservice.md)                 |             |
+| [RemoveContext](./daf-core.removecontext.md)       |             |
 
 ## Type Aliases
 
-| Type Alias                       | Description |
-| -------------------------------- | ----------- |
-| [KeyType](./daf-core.keytype.md) |             |
+| Type Alias                                                     | Description |
+| -------------------------------------------------------------- | ----------- |
+| [TAgent](./daf-core.tagent.md)                                 |             |
+| [TKeyType](./daf-core.tkeytype.md)                             |             |
+| [VerifiableCredential](./daf-core.verifiablecredential.md)     |             |
+| [VerifiablePresentation](./daf-core.verifiablepresentation.md) |             |

@@ -6,19 +6,7 @@
 
 ## Packages
 
-| Package                                                               | Description |
-| --------------------------------------------------------------------- | ----------- |
-| [daf-core](./daf-core.md)                                             |             |
-| [daf-did-jwt](./daf-did-jwt.md)                                       |             |
-| [daf-ethr-did](./daf-ethr-did.md)                                     |             |
-| [daf-fs](./daf-fs.md)                                                 |             |
-| [daf-libsodium](./daf-libsodium.md)                                   |             |
-| [daf-local-storage](./daf-local-storage.md)                           |             |
-| [daf-react-native-async-storage](./daf-react-native-async-storage.md) |             |
-| [daf-react-native-libsodium](./daf-react-native-libsodium.md)         |             |
-| [daf-resolver](./daf-resolver.md)                                     |             |
-| [daf-resolver-universal](./daf-resolver-universal.md)                 |             |
-| [daf-selective-disclosure](./daf-selective-disclosure.md)             |             |
-| [daf-trust-graph](./daf-trust-graph.md)                               |             |
-| [daf-url](./daf-url.md)                                               |             |
-| [daf-w3c](./daf-w3c.md)                                               |             |
+| Package                   | Description |
+| ------------------------- | ----------- |
+| [daf-core](./daf-core.md) |             |
+| [daf-w3c](./daf-w3c.md)   |             |

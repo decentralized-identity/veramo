@@ -7,15 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-addMetaData(meta: MetaData): void;
+addMetaData(meta: IMetaData): void;
 ```
 
 ## Parameters
 
-| Parameter | Type                  | Description |
-| --------- | --------------------- | ----------- |
-| meta      | <code>MetaData</code> |             |
+| Parameter | Type                                 | Description |
+| --------- | ------------------------------------ | ----------- |
+| meta      | [IMetaData](./daf-core.imetadata.md) |             |
 
 <b>Returns:</b>
 
-`void`
+void

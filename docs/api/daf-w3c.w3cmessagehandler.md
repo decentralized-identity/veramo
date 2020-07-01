@@ -10,8 +10,10 @@
 export declare class W3cMessageHandler extends AbstractMessageHandler
 ```
 
+<b>Extends:</b> [AbstractMessageHandler](./daf-core.abstractmessagehandler.md)
+
 ## Methods
 
-| Method                                                          | Modifiers | Description |
-| --------------------------------------------------------------- | --------- | ----------- |
-| [handle(message, agent)](./daf-w3c.w3cmessagehandler.handle.md) |           |             |
+| Method                                                            | Modifiers | Description |
+| ----------------------------------------------------------------- | --------- | ----------- |
+| [handle(message, context)](./daf-w3c.w3cmessagehandler.handle.md) |           |             |

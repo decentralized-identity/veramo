@@ -7,15 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-abstract deleteIdentity(did: string): Promise<boolean>;
+abstract deleteIdentity(args: IIdentity, context: IContext): Promise<boolean>;
 ```
 
 ## Parameters
 
-| Parameter | Type                | Description |
-| --------- | ------------------- | ----------- |
-| did       | <code>string</code> |             |
+| Parameter | Type                                 | Description |
+| --------- | ------------------------------------ | ----------- |
+| args      | [IIdentity](./daf-core.iidentity.md) |             |
+| context   | IContext                             |             |
 
 <b>Returns:</b>
 
-`Promise<boolean>`
+Promise&lt;boolean&gt;

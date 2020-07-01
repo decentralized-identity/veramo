@@ -8,20 +8,17 @@
 
 | Class                                               | Description |
 | --------------------------------------------------- | ----------- |
-| [W3cActionHandler](./daf-w3c.w3cactionhandler.md)   |             |
+| [W3c](./daf-w3c.w3c.md)                             |             |
 | [W3cMessageHandler](./daf-w3c.w3cmessagehandler.md) |             |
 
 ## Interfaces
 
-| Interface                                       | Description |
-| ----------------------------------------------- | ----------- |
-| [ActionSignW3cVc](./daf-w3c.actionsignw3cvc.md) |             |
-| [ActionSignW3cVp](./daf-w3c.actionsignw3cvp.md) |             |
+| Interface                 | Description |
+| ------------------------- | ----------- |
+| [IW3c](./daf-w3c.iw3c.md) |             |
 
 ## Variables
 
 | Variable                                  | Description |
 | ----------------------------------------- | ----------- |
-| [ActionTypes](./daf-w3c.actiontypes.md)   |             |
 | [MessageTypes](./daf-w3c.messagetypes.md) |             |
-| [W3cGql](./daf-w3c.w3cgql.md)             |             |

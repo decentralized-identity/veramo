@@ -7,15 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-abstract deleteKey(kid: string): Promise<boolean>;
+abstract deleteKey(args: {
+        kid: string;
+    }): Promise<boolean>;
 ```
 
 ## Parameters
 
-| Parameter | Type                | Description |
-| --------- | ------------------- | ----------- |
-| kid       | <code>string</code> |             |
+| Parameter | Type             | Description |
+| --------- | ---------------- | ----------- |
+| args      | { kid: string; } |             |
 
 <b>Returns:</b>
 
-`Promise<boolean>`
+Promise&lt;boolean&gt;
