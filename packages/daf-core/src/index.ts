@@ -1,4 +1,9 @@
-export { Agent, createAgent } from './agent'
+/**
+ * The main library for creating Decentralized Identity Agents
+ *
+ * @packageDocumentation
+ */
+export { Agent, createAgent, IAgentOptions } from './agent'
 export * from './types'
 export { IdentityManager, IIdentityManager } from './identity-manager'
 export { KeyManager, IKeyManager } from './key-manager'
