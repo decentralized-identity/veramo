@@ -10,7 +10,7 @@ interface RequestWithAgent extends Request {
 export const AgentRouter = (options: {
   getAgentForRequest: (req: Request) => Promise<IAgent>
   exposedMethods: string[]
-}) => {
+}): Router => {
   const router = Router()
   router.use(json())
   router.use(async (req: RequestWithAgent, res, next) => {
