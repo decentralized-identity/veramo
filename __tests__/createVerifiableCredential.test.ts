@@ -70,13 +70,7 @@ describe('integration test for creating Verifiable Credentials', () => {
   })
 
   it('should create identity and verifiable credential', async () => {
-    let identity: IIdentity
-    const identities = await agent.identityManagerGetIdentities()
-    if (identities.length > 0) {
-      identity = identities[0]
-    } else {
-      identity = await agent.identityManagerCreateIdentity({ kms: 'local' })
-    }
+    let identity = await agent.identityManagerCreateIdentity({ kms: 'local' })
 
     const verifiableCredential = await agent.createVerifiableCredential({
       credential: {
