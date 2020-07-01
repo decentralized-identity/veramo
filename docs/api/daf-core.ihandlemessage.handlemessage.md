@@ -7,5 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-handleMessage: (args: THandleMessageArgs, context: Context) => Promise<Message>;
+handleMessage: (args: {
+        raw: string;
+        metaData?: IMetaData[];
+        save?: boolean;
+    }, context: IAgentContext<IDataStore>) => Promise<Message>;
 ```

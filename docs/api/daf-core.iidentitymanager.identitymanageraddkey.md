@@ -11,5 +11,5 @@ identityManagerAddKey: (args: {
         did: string;
         key: IKey;
         options?: any;
-    }, context: IContext) => Promise<any>;
+    }, context: IAgentContext<IKeyManager>) => Promise<any>;
 ```

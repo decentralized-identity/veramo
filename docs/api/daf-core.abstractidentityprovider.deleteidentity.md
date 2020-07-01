@@ -7,15 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-abstract deleteIdentity(args: IIdentity, context: IContext): Promise<boolean>;
+abstract deleteIdentity(args: IIdentity, context: IAgentContext<IKeyManager>): Promise<boolean>;
 ```
 
 ## Parameters
 
-| Parameter | Type                                 | Description |
-| --------- | ------------------------------------ | ----------- |
-| args      | [IIdentity](./daf-core.iidentity.md) |             |
-| context   | IContext                             |             |
+| Parameter | Type                                                                                                         | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| args      | [IIdentity](./daf-core.iidentity.md)                                                                         |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

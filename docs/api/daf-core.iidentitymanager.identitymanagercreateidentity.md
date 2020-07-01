@@ -12,5 +12,5 @@ identityManagerCreateIdentity: (args: {
         provider?: string;
         kms?: string;
         options?: any;
-    }, context: IContext) => Promise<IIdentity>;
+    }, context: IAgentContext<IKeyManager>) => Promise<IIdentity>;
 ```

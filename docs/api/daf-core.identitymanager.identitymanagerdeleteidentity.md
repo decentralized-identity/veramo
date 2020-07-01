@@ -9,15 +9,15 @@
 ```typescript
 identityManagerDeleteIdentity({ did }: {
         did: string;
-    }, context: IContext): Promise<boolean>;
+    }, context: IAgentContext<IKeyManager>): Promise<boolean>;
 ```
 
 ## Parameters
 
-| Parameter | Type             | Description |
-| --------- | ---------------- | ----------- |
-| { did }   | { did: string; } |             |
-| context   | IContext         |             |
+| Parameter | Type                                                                                                         | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| { did }   | { did: string; }                                                                                             |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

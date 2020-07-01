@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-nextMessageHandler?: MessageHandler;
+nextMessageHandler?: AbstractMessageHandler;
 ```

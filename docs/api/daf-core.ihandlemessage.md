@@ -14,6 +14,6 @@ export interface IHandleMessage extends IPluginMethodMap
 
 ## Properties
 
-| Property                                                    | Type                                                                                                       | Description |
-| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------- |
-| [handleMessage](./daf-core.ihandlemessage.handlemessage.md) | (args: THandleMessageArgs, context: Context) =&gt; Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt; |             |
+| Property                                                    | Type                                                                                                                                                                                                                                                                                     | Description |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [handleMessage](./daf-core.ihandlemessage.handlemessage.md) | (args: { raw: string; metaData?: [IMetaData](./daf-core.imetadata.md)<!-- -->\[\]; save?: boolean; }, context: [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStore](./daf-core.idatastore.md)<!-- -->&gt;) =&gt; Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt; |             |

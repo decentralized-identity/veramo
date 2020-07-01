@@ -11,5 +11,5 @@ identityManagerRemoveService: (args: {
         did: string;
         id: string;
         options?: any;
-    }, context: IContext) => Promise<any>;
+    }, context: IAgentContext<IKeyManager>) => Promise<any>;
 ```

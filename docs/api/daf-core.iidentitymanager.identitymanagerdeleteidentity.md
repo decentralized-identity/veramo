@@ -9,5 +9,5 @@
 ```typescript
 identityManagerDeleteIdentity: (args: {
         did: string;
-    }, context: IContext) => Promise<boolean>;
+    }, context: IAgentContext<IKeyManager>) => Promise<boolean>;
 ```

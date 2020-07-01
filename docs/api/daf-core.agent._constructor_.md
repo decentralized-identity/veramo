@@ -14,6 +14,6 @@ constructor(options?: IAgentOptions);
 
 ## Parameters
 
-| Parameter | Type          | Description |
-| --------- | ------------- | ----------- |
-| options   | IAgentOptions |             |
+| Parameter | Type                                         | Description |
+| --------- | -------------------------------------------- | ----------- |
+| options   | [IAgentOptions](./daf-core.iagentoptions.md) |             |

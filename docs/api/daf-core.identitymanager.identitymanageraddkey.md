@@ -11,15 +11,15 @@ identityManagerAddKey({ did, key, options, }: {
         did: string;
         key: IKey;
         options?: any;
-    }, context: IContext): Promise<any>;
+    }, context: IAgentContext<IKeyManager>): Promise<any>;
 ```
 
 ## Parameters
 
-| Parameter              | Type                                                                     | Description |
-| ---------------------- | ------------------------------------------------------------------------ | ----------- |
-| { did, key, options, } | { did: string; key: [IKey](./daf-core.ikey.md)<!-- -->; options?: any; } |             |
-| context                | IContext                                                                 |             |
+| Parameter              | Type                                                                                                         | Description |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| { did, key, options, } | { did: string; key: [IKey](./daf-core.ikey.md)<!-- -->; options?: any; }                                     |             |
+| context                | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

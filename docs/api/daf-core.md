@@ -4,6 +4,8 @@
 
 ## daf-core package
 
+The main library for creating Decentralized Identity Agents
+
 ## Classes
 
 | Class                                                                    | Description |
@@ -22,9 +24,9 @@
 
 ## Functions
 
-| Function                                          | Description |
-| ------------------------------------------------- | ----------- |
-| [createAgent(options)](./daf-core.createagent.md) |             |
+| Function                                          | Description                                                       |
+| ------------------------------------------------- | ----------------------------------------------------------------- |
+| [createAgent(options)](./daf-core.createagent.md) | Returns a new instance of the [Agent](./daf-core.agent.md) class. |
 
 ## Interfaces
 
@@ -34,6 +36,7 @@
 | [IAgent](./daf-core.iagent.md)                     |             |
 | [IAgentBase](./daf-core.iagentbase.md)             |             |
 | [IAgentContext](./daf-core.iagentcontext.md)       |             |
+| [IAgentOptions](./daf-core.iagentoptions.md)       |             |
 | [IAgentPlugin](./daf-core.iagentplugin.md)         |             |
 | [IDataStore](./daf-core.idatastore.md)             |             |
 | [IHandleMessage](./daf-core.ihandlemessage.md)     |             |

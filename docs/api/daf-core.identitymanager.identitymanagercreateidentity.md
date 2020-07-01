@@ -12,15 +12,15 @@ identityManagerCreateIdentity({ provider, alias, kms, options }: {
         provider?: string;
         kms?: string;
         options?: any;
-    }, context: IContext): Promise<IIdentity>;
+    }, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
 ```
 
 ## Parameters
 
-| Parameter                         | Type                                                                | Description |
-| --------------------------------- | ------------------------------------------------------------------- | ----------- |
-| { provider, alias, kms, options } | { alias?: string; provider?: string; kms?: string; options?: any; } |             |
-| context                           | IContext                                                            |             |
+| Parameter                         | Type                                                                                                         | Description |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| { provider, alias, kms, options } | { alias?: string; provider?: string; kms?: string; options?: any; }                                          |             |
+| context                           | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

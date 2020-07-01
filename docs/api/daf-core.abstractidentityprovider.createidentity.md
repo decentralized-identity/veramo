@@ -10,15 +10,15 @@
 abstract createIdentity(args: {
         kms?: string;
         options?: any;
-    }, context: IContext): Promise<Omit<IIdentity, 'provider'>>;
+    }, context: IAgentContext<IKeyManager>): Promise<Omit<IIdentity, 'provider'>>;
 ```
 
 ## Parameters
 
-| Parameter | Type                             | Description |
-| --------- | -------------------------------- | ----------- |
-| args      | { kms?: string; options?: any; } |             |
-| context   | IContext                         |             |
+| Parameter | Type                                                                                                         | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| args      | { kms?: string; options?: any; }                                                                             |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

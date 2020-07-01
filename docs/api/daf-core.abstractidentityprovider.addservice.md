@@ -11,7 +11,7 @@ abstract addService(args: {
         identity: IIdentity;
         service: IService;
         options?: any;
-    }, context: IContext): Promise<any>;
+    }, context: IAgentContext<IKeyManager>): Promise<any>;
 ```
 
 ## Parameters
@@ -19,7 +19,7 @@ abstract addService(args: {
 | Parameter | Type                                                                                                                            | Description |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | args      | { identity: [IIdentity](./daf-core.iidentity.md)<!-- -->; service: [IService](./daf-core.iservice.md)<!-- -->; options?: any; } |             |
-| context   | IContext                                                                                                                        |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt;                    |             |
 
 <b>Returns:</b>
 
