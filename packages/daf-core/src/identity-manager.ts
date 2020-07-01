@@ -3,8 +3,6 @@ import { IAgentPlugin, IIdentity, IService, IKey, IPluginMethodMap, IAgentContex
 import { AbstractIdentityStore } from './abstract/abstract-identity-store'
 import { IKeyManager } from './key-manager'
 
-type IContext = IAgentContext<IKeyManager>
-
 export interface IIdentityManager extends IPluginMethodMap {
   identityManagerGetProviders: () => Promise<string[]>
   identityManagerGetIdentities: () => Promise<IIdentity[]>
@@ -16,23 +14,29 @@ export interface IIdentityManager extends IPluginMethodMap {
       kms?: string
       options?: any
     },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ) => Promise<IIdentity>
   // identityManagerGetOrCreateIdentity?: (args: { alias: string, provider?: string, kms?: string, options?: any}) => Promise<IIdentity>
   identityManagerImportIdentity: (args: IIdentity) => Promise<IIdentity>
-  identityManagerDeleteIdentity: (args: { did: string }, context: IContext) => Promise<boolean>
-  identityManagerAddKey: (args: { did: string; key: IKey; options?: any }, context: IContext) => Promise<any> // txHash?
+  identityManagerDeleteIdentity: (
+    args: { did: string },
+    context: IAgentContext<IKeyManager>,
+  ) => Promise<boolean>
+  identityManagerAddKey: (
+    args: { did: string; key: IKey; options?: any },
+    context: IAgentContext<IKeyManager>,
+  ) => Promise<any> // txHash?
   identityManagerRemoveKey: (
     args: { did: string; kid: string; options?: any },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ) => Promise<any> // txHash?
   identityManagerAddService: (
     args: { did: string; service: IService; options?: any },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ) => Promise<any> //txHash?
   identityManagerRemoveService: (
     args: { did: string; id: string; options?: any },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ) => Promise<any> //txHash?
 }
 
@@ -84,7 +88,7 @@ export class IdentityManager implements IAgentPlugin {
 
   async identityManagerCreateIdentity(
     { provider, alias, kms, options }: { alias?: string; provider?: string; kms?: string; options?: any },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity> {
     const providerName = provider || this.defaultProvider
     const identityProvider = this.getProvider(providerName)
@@ -99,7 +103,10 @@ export class IdentityManager implements IAgentPlugin {
     return identity
   }
 
-  async identityManagerDeleteIdentity({ did }: { did: string }, context: IContext): Promise<boolean> {
+  async identityManagerDeleteIdentity(
+    { did }: { did: string },
+    context: IAgentContext<IKeyManager>,
+  ): Promise<boolean> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
     await provider.deleteIdentity(identity, context)
@@ -116,7 +123,7 @@ export class IdentityManager implements IAgentPlugin {
       key: IKey
       options?: any
     },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
@@ -136,7 +143,7 @@ export class IdentityManager implements IAgentPlugin {
       kid: string
       options?: any
     },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
@@ -156,7 +163,7 @@ export class IdentityManager implements IAgentPlugin {
       service: IService
       options?: any
     },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
@@ -176,7 +183,7 @@ export class IdentityManager implements IAgentPlugin {
       id: string
       options?: any
     },
-    context: IContext,
+    context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)

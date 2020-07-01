@@ -1,11 +1,14 @@
 import { IAgent, IPluginMethodMap, IAgentPlugin } from './types'
 import Debug from 'debug'
 
+/**
+ * Filters unauthorized methods. By default all methods are authorized
+ * @internal
+ */
 const filterUnauthorizedMethods = (
   methods: IPluginMethodMap,
   authorizedMethods?: string[],
 ): IPluginMethodMap => {
-  // All methods are authorized by default
   if (!authorizedMethods) {
     return methods
   }
@@ -20,6 +23,9 @@ const filterUnauthorizedMethods = (
   return result
 }
 
+/**
+ * @public
+ */
 export interface IAgentOptions {
   plugins?: IAgentPlugin[]
   overrides?: IPluginMethodMap
@@ -27,6 +33,9 @@ export interface IAgentOptions {
   context?: Record<string, any>
 }
 
+/**
+ * @public
+ */
 export class Agent implements IAgent {
   readonly methods: IPluginMethodMap = {}
   private context?: Record<string, any>
@@ -72,6 +81,29 @@ export class Agent implements IAgent {
   }
 }
 
+/**
+ * Returns a new instance of the {@link Agent} class.
+ *
+ * @example
+ * ```typescript
+ * import { createAgent, TAgent, IResolveDid, IHandleMessage } from 'daf-core'
+ * import { AgentRestClient } from 'daf-rest'
+ * const agent = createAgent<TAgent<IResolveDid & IHandleMessage>>({
+ *   plugins: [
+ *     new AgentRestClient({
+ *       url: 'http://localhost:3002/agent',
+ *       enabledMethods: [
+ *         'resolveDid',
+ *         'handleMessage',
+ *       ],
+ *     }),
+ *   ],
+ * })
+ * ```
+ * @param options - Agent configuration options
+ * @returns configured agent
+ * @public
+ */
 export function createAgent<T>(options: IAgentOptions): T {
   //@ts-ignore
   return new Agent(options)
