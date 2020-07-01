@@ -11,15 +11,15 @@ abstract removeKey(args: {
         identity: IIdentity;
         kid: string;
         options?: any;
-    }, context: IContext): Promise<any>;
+    }, context: IAgentContext<IKeyManager>): Promise<any>;
 ```
 
 ## Parameters
 
-| Parameter | Type                                                                                    | Description |
-| --------- | --------------------------------------------------------------------------------------- | ----------- |
-| args      | { identity: [IIdentity](./daf-core.iidentity.md)<!-- -->; kid: string; options?: any; } |             |
-| context   | IContext                                                                                |             |
+| Parameter | Type                                                                                                         | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| args      | { identity: [IIdentity](./daf-core.iidentity.md)<!-- -->; kid: string; options?: any; }                      |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

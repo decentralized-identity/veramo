@@ -15,7 +15,7 @@ const configs = [
   // '../packages/daf-selective-disclosure/api-extractor.json',
   // '../packages/daf-typeorm/api-extractor.json',
   // '../packages/daf-url/api-extractor.json',
-  '../packages/daf-w3c/api-extractor.json',
+  // '../packages/daf-w3c/api-extractor.json',
 ]
 
 for (const config of configs) {

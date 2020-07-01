@@ -11,5 +11,5 @@ identityManagerAddService: (args: {
         did: string;
         service: IService;
         options?: any;
-    }, context: IContext) => Promise<any>;
+    }, context: IAgentContext<IKeyManager>) => Promise<any>;
 ```

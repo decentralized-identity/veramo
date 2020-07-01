@@ -4,6 +4,8 @@
 
 ## createAgent() function
 
+Returns a new instance of the [Agent](./daf-core.agent.md) class.
+
 <b>Signature:</b>
 
 ```typescript
@@ -12,10 +14,27 @@ export declare function createAgent<T>(options: IAgentOptions): T
 
 ## Parameters
 
-| Parameter | Type          | Description |
-| --------- | ------------- | ----------- |
-| options   | IAgentOptions |             |
+| Parameter | Type                                         | Description                 |
+| --------- | -------------------------------------------- | --------------------------- |
+| options   | [IAgentOptions](./daf-core.iagentoptions.md) | Agent configuration options |
 
 <b>Returns:</b>
 
 T
+
+configured agent
+
+## Example
+
+```typescript
+import { createAgent, TAgent, IResolveDid, IHandleMessage } from 'daf-core'
+import { AgentRestClient } from 'daf-rest'
+const agent = createAgent<TAgent<IResolveDid & IHandleMessage>>({
+  plugins: [
+    new AgentRestClient({
+      url: 'http://localhost:3002/agent',
+      enabledMethods: ['resolveDid', 'handleMessage'],
+    }),
+  ],
+})
+```

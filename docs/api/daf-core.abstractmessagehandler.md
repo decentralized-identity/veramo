@@ -7,16 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export declare abstract class AbstractMessageHandler implements MessageHandler
+export declare abstract class AbstractMessageHandler
 ```
-
-<b>Implements:</b> MessageHandler
 
 ## Properties
 
-| Property                                                                      | Modifiers | Type           | Description |
-| ----------------------------------------------------------------------------- | --------- | -------------- | ----------- |
-| [nextMessageHandler](./daf-core.abstractmessagehandler.nextmessagehandler.md) |           | MessageHandler |             |
+| Property                                                                      | Modifiers | Type                                                           | Description |
+| ----------------------------------------------------------------------------- | --------- | -------------------------------------------------------------- | ----------- |
+| [nextMessageHandler](./daf-core.abstractmessagehandler.nextmessagehandler.md) |           | [AbstractMessageHandler](./daf-core.abstractmessagehandler.md) |             |
 
 ## Methods
 

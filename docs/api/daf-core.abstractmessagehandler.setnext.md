@@ -7,15 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-setNext(messageHandler: MessageHandler): MessageHandler;
+setNext(messageHandler: AbstractMessageHandler): AbstractMessageHandler;
 ```
 
 ## Parameters
 
-| Parameter      | Type           | Description |
-| -------------- | -------------- | ----------- |
-| messageHandler | MessageHandler |             |
+| Parameter      | Type                                                           | Description |
+| -------------- | -------------------------------------------------------------- | ----------- |
+| messageHandler | [AbstractMessageHandler](./daf-core.abstractmessagehandler.md) |             |
 
 <b>Returns:</b>
 
-MessageHandler
+[AbstractMessageHandler](./daf-core.abstractmessagehandler.md)

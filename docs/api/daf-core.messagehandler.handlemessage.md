@@ -7,15 +7,19 @@
 <b>Signature:</b>
 
 ```typescript
-handleMessage(args: THandleMessageArgs, context: Context): Promise<Message>;
+handleMessage(args: {
+        raw: string;
+        metaData?: IMetaData[];
+        save?: boolean;
+    }, context: IAgentContext<IDataStore>): Promise<Message>;
 ```
 
 ## Parameters
 
-| Parameter | Type               | Description |
-| --------- | ------------------ | ----------- |
-| args      | THandleMessageArgs |             |
-| context   | Context            |             |
+| Parameter | Type                                                                                                       | Description |
+| --------- | ---------------------------------------------------------------------------------------------------------- | ----------- |
+| args      | { raw: string; metaData?: [IMetaData](./daf-core.imetadata.md)<!-- -->\[\]; save?: boolean; }              |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStore](./daf-core.idatastore.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 
