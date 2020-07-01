@@ -12,4 +12,4 @@ isValid(): boolean;
 
 <b>Returns:</b>
 
-`boolean`
+boolean

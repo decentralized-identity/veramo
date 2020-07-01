@@ -10,15 +10,17 @@
 export declare abstract class AbstractMessageHandler implements MessageHandler
 ```
 
+<b>Implements:</b> MessageHandler
+
 ## Properties
 
-| Property                                                                      | Modifiers | Type                        | Description |
-| ----------------------------------------------------------------------------- | --------- | --------------------------- | ----------- |
-| [nextMessageHandler](./daf-core.abstractmessagehandler.nextmessagehandler.md) |           | <code>MessageHandler</code> |             |
+| Property                                                                      | Modifiers | Type           | Description |
+| ----------------------------------------------------------------------------- | --------- | -------------- | ----------- |
+| [nextMessageHandler](./daf-core.abstractmessagehandler.nextmessagehandler.md) |           | MessageHandler |             |
 
 ## Methods
 
 | Method                                                                  | Modifiers | Description |
 | ----------------------------------------------------------------------- | --------- | ----------- |
-| [handle(message, agent)](./daf-core.abstractmessagehandler.handle.md)   |           |             |
+| [handle(message, context)](./daf-core.abstractmessagehandler.handle.md) |           |             |
 | [setNext(messageHandler)](./daf-core.abstractmessagehandler.setnext.md) |           |             |

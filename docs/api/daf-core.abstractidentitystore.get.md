@@ -7,15 +7,18 @@
 <b>Signature:</b>
 
 ```typescript
-abstract get(did: string): Promise<SerializedIdentity>;
+abstract get(args: {
+        did?: string;
+        alias?: string;
+    }): Promise<IIdentity>;
 ```
 
 ## Parameters
 
-| Parameter | Type                | Description |
-| --------- | ------------------- | ----------- |
-| did       | <code>string</code> |             |
+| Parameter | Type                              | Description |
+| --------- | --------------------------------- | ----------- |
+| args      | { did?: string; alias?: string; } |             |
 
 <b>Returns:</b>
 
-`Promise<SerializedIdentity>`
+Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;

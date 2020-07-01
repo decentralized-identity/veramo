@@ -12,9 +12,9 @@ export declare abstract class AbstractIdentityStore
 
 ## Methods
 
-| Method                                                                  | Modifiers | Description |
-| ----------------------------------------------------------------------- | --------- | ----------- |
-| [delete(did)](./daf-core.abstractidentitystore.delete.md)               |           |             |
-| [get(did)](./daf-core.abstractidentitystore.get.md)                     |           |             |
-| [listDids()](./daf-core.abstractidentitystore.listdids.md)              |           |             |
-| [set(did, serializedIdentity)](./daf-core.abstractidentitystore.set.md) |           |             |
+| Method                                                     | Modifiers | Description |
+| ---------------------------------------------------------- | --------- | ----------- |
+| [delete(args)](./daf-core.abstractidentitystore.delete.md) |           |             |
+| [get(args)](./daf-core.abstractidentitystore.get.md)       |           |             |
+| [import(args)](./daf-core.abstractidentitystore.import.md) |           |             |
+| [list()](./daf-core.abstractidentitystore.list.md)         |           |             |

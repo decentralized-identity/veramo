@@ -9,11 +9,11 @@ Constructs a new instance of the `Agent` class
 <b>Signature:</b>
 
 ```typescript
-constructor(config: Config);
+constructor(options?: IAgentOptions);
 ```
 
 ## Parameters
 
-| Parameter | Type                | Description |
-| --------- | ------------------- | ----------- |
-| config    | <code>Config</code> |             |
+| Parameter | Type          | Description |
+| --------- | ------------- | ----------- |
+| options   | IAgentOptions |             |

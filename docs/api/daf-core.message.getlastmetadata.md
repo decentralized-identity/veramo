@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-getLastMetaData(): MetaData | null;
+getLastMetaData(): IMetaData | null;
 ```
 
 <b>Returns:</b>
 
-`MetaData | null`
+[IMetaData](./daf-core.imetadata.md) \| null

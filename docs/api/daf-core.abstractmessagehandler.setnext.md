@@ -12,10 +12,10 @@ setNext(messageHandler: MessageHandler): MessageHandler;
 
 ## Parameters
 
-| Parameter      | Type                        | Description |
-| -------------- | --------------------------- | ----------- |
-| messageHandler | <code>MessageHandler</code> |             |
+| Parameter      | Type           | Description |
+| -------------- | -------------- | ----------- |
+| messageHandler | MessageHandler |             |
 
 <b>Returns:</b>
 
-`MessageHandler`
+MessageHandler

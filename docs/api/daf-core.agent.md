@@ -7,29 +7,26 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class Agent extends EventEmitter
+export declare class Agent implements IAgent
 ```
+
+<b>Implements:</b> [IAgent](./daf-core.iagent.md)
 
 ## Constructors
 
-| Constructor                                                | Modifiers | Description                                               |
-| ---------------------------------------------------------- | --------- | --------------------------------------------------------- |
-| [(constructor)(config)](./daf-core.agent._constructor_.md) |           | Constructs a new instance of the <code>Agent</code> class |
+| Constructor                                                 | Modifiers | Description                                               |
+| ----------------------------------------------------------- | --------- | --------------------------------------------------------- |
+| [(constructor)(options)](./daf-core.agent._constructor_.md) |           | Constructs a new instance of the <code>Agent</code> class |
 
 ## Properties
 
-| Property                                               | Modifiers | Type                                   | Description |
-| ------------------------------------------------------ | --------- | -------------------------------------- | ----------- |
-| [dbConnection](./daf-core.agent.dbconnection.md)       |           | <code>Promise&lt;Connection&gt;</code> |             |
-| [didResolver](./daf-core.agent.didresolver.md)         |           | <code>Resolver</code>                  |             |
-| [identityManager](./daf-core.agent.identitymanager.md) |           | <code>IdentityManager</code>           |             |
+| Property                               | Modifiers | Type                                               | Description |
+| -------------------------------------- | --------- | -------------------------------------------------- | ----------- |
+| [methods](./daf-core.agent.methods.md) |           | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |             |
 
 ## Methods
 
-| Method                                                                       | Modifiers | Description |
-| ---------------------------------------------------------------------------- | --------- | ----------- |
-| [getMessagesSince(ts)](./daf-core.agent.getmessagessince.md)                 |           |             |
-| [handleAction(action)](./daf-core.agent.handleaction.md)                     |           |             |
-| [handleMessage({ raw, metaData, save, })](./daf-core.agent.handlemessage.md) |           |             |
-| [listen()](./daf-core.agent.listen.md)                                       |           |             |
-| [setupServices()](./daf-core.agent.setupservices.md)                         |           |             |
+| Method                                                     | Modifiers | Description |
+| ---------------------------------------------------------- | --------- | ----------- |
+| [availableMethods()](./daf-core.agent.availablemethods.md) |           |             |
+| [execute(method, args)](./daf-core.agent.execute.md)       |           |             |

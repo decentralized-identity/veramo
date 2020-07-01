@@ -7,23 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-export declare abstract class AbstractIdentityProvider extends EventEmitter
+export declare abstract class AbstractIdentityProvider
 ```
-
-## Properties
-
-| Property                                                          | Modifiers | Type                | Description |
-| ----------------------------------------------------------------- | --------- | ------------------- | ----------- |
-| [description](./daf-core.abstractidentityprovider.description.md) |           | <code>string</code> |             |
-| [type](./daf-core.abstractidentityprovider.type.md)               |           | <code>string</code> |             |
 
 ## Methods
 
-| Method                                                                          | Modifiers | Description |
-| ------------------------------------------------------------------------------- | --------- | ----------- |
-| [createIdentity()](./daf-core.abstractidentityprovider.createidentity.md)       |           |             |
-| [deleteIdentity(did)](./daf-core.abstractidentityprovider.deleteidentity.md)    |           |             |
-| [exportIdentity(did)](./daf-core.abstractidentityprovider.exportidentity.md)    |           |             |
-| [getIdentities()](./daf-core.abstractidentityprovider.getidentities.md)         |           |             |
-| [getIdentity(did)](./daf-core.abstractidentityprovider.getidentity.md)          |           |             |
-| [importIdentity(secret)](./daf-core.abstractidentityprovider.importidentity.md) |           |             |
+| Method                                                                                 | Modifiers | Description |
+| -------------------------------------------------------------------------------------- | --------- | ----------- |
+| [addKey(args, context)](./daf-core.abstractidentityprovider.addkey.md)                 |           |             |
+| [addService(args, context)](./daf-core.abstractidentityprovider.addservice.md)         |           |             |
+| [createIdentity(args, context)](./daf-core.abstractidentityprovider.createidentity.md) |           |             |
+| [deleteIdentity(args, context)](./daf-core.abstractidentityprovider.deleteidentity.md) |           |             |
+| [removeKey(args, context)](./daf-core.abstractidentityprovider.removekey.md)           |           |             |
+| [removeService(args, context)](./daf-core.abstractidentityprovider.removeservice.md)   |           |             |

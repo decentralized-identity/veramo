@@ -12,8 +12,8 @@ export declare abstract class AbstractKeyStore
 
 ## Methods
 
-| Method                                                        | Modifiers | Description |
-| ------------------------------------------------------------- | --------- | ----------- |
-| [delete(kid)](./daf-core.abstractkeystore.delete.md)          |           |             |
-| [get(kid)](./daf-core.abstractkeystore.get.md)                |           |             |
-| [set(kid, serializedKey)](./daf-core.abstractkeystore.set.md) |           |             |
+| Method                                                | Modifiers | Description |
+| ----------------------------------------------------- | --------- | ----------- |
+| [delete(args)](./daf-core.abstractkeystore.delete.md) |           |             |
+| [get(args)](./daf-core.abstractkeystore.get.md)       |           |             |
+| [import(args)](./daf-core.abstractkeystore.import.md) |           |             |

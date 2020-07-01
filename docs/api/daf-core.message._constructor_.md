@@ -11,12 +11,12 @@ Constructs a new instance of the `Message` class
 ```typescript
 constructor(data?: {
         raw: string;
-        metaData?: MetaData[];
+        metaData?: IMetaData[];
     });
 ```
 
 ## Parameters
 
-| Parameter | Type                                                                                                       | Description |
-| --------- | ---------------------------------------------------------------------------------------------------------- | ----------- |
-| data      | <code>{</code><br/><code> raw: string;</code><br/><code> metaData?: MetaData[];</code><br/><code> }</code> |             |
+| Parameter | Type                                                                          | Description |
+| --------- | ----------------------------------------------------------------------------- | ----------- |
+| data      | { raw: string; metaData?: [IMetaData](./daf-core.imetadata.md)<!-- -->\[\]; } |             |

@@ -7,15 +7,18 @@
 <b>Signature:</b>
 
 ```typescript
-abstract createKey(type: KeyType): Promise<AbstractKey>;
+abstract createKey(args: {
+        type: TKeyType;
+        meta?: any;
+    }): Promise<Omit<IKey, 'kms'>>;
 ```
 
 ## Parameters
 
-| Parameter | Type                 | Description |
-| --------- | -------------------- | ----------- |
-| type      | <code>KeyType</code> |             |
+| Parameter | Type                                                              | Description |
+| --------- | ----------------------------------------------------------------- | ----------- |
+| args      | { type: [TKeyType](./daf-core.tkeytype.md)<!-- -->; meta?: any; } |             |
 
 <b>Returns:</b>
 
-`Promise<AbstractKey>`
+Promise&lt;Omit&lt;[IKey](./daf-core.ikey.md)<!-- -->, 'kms'&gt;&gt;

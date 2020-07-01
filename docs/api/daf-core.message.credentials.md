@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-credentials: Credential[];
+credentials?: VerifiableCredential[];
 ```

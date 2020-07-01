@@ -7,8 +7,10 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class IdentityManager
+export declare class IdentityManager implements IAgentPlugin
 ```
+
+<b>Implements:</b> [IAgentPlugin](./daf-core.iagentplugin.md)
 
 ## Constructors
 
@@ -16,15 +18,23 @@ export declare class IdentityManager
 | --------------------------------------------------------------------- | --------- | ------------------------------------------------------------------- |
 | [(constructor)(options)](./daf-core.identitymanager._constructor_.md) |           | Constructs a new instance of the <code>IdentityManager</code> class |
 
+## Properties
+
+| Property                                         | Modifiers | Type                                               | Description |
+| ------------------------------------------------ | --------- | -------------------------------------------------- | ----------- |
+| [methods](./daf-core.identitymanager.methods.md) |           | [IIdentityManager](./daf-core.iidentitymanager.md) |             |
+
 ## Methods
 
-| Method                                                                                       | Modifiers | Description |
-| -------------------------------------------------------------------------------------------- | --------- | ----------- |
-| [createIdentity(identityProviderType)](./daf-core.identitymanager.createidentity.md)         |           |             |
-| [deleteIdentity(identityProviderType, did)](./daf-core.identitymanager.deleteidentity.md)    |           |             |
-| [exportIdentity(identityProviderType, did)](./daf-core.identitymanager.exportidentity.md)    |           |             |
-| [getIdentities()](./daf-core.identitymanager.getidentities.md)                               |           |             |
-| [getIdentity(did)](./daf-core.identitymanager.getidentity.md)                                |           |             |
-| [getIdentityProvider(type)](./daf-core.identitymanager.getidentityprovider.md)               |           |             |
-| [getIdentityProviders()](./daf-core.identitymanager.getidentityproviders.md)                 |           |             |
-| [importIdentity(identityProviderType, secret)](./daf-core.identitymanager.importidentity.md) |           |             |
+| Method                                                                                                                                   | Modifiers | Description |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| [identityManagerAddKey({ did, key, options, }, context)](./daf-core.identitymanager.identitymanageraddkey.md)                            |           |             |
+| [identityManagerAddService({ did, service, options, }, context)](./daf-core.identitymanager.identitymanageraddservice.md)                |           |             |
+| [identityManagerCreateIdentity({ provider, alias, kms, options }, context)](./daf-core.identitymanager.identitymanagercreateidentity.md) |           |             |
+| [identityManagerDeleteIdentity({ did }, context)](./daf-core.identitymanager.identitymanagerdeleteidentity.md)                           |           |             |
+| [identityManagerGetIdentities()](./daf-core.identitymanager.identitymanagergetidentities.md)                                             |           |             |
+| [identityManagerGetIdentity({ did })](./daf-core.identitymanager.identitymanagergetidentity.md)                                          |           |             |
+| [identityManagerGetProviders()](./daf-core.identitymanager.identitymanagergetproviders.md)                                               |           |             |
+| [identityManagerImportIdentity(identity)](./daf-core.identitymanager.identitymanagerimportidentity.md)                                   |           |             |
+| [identityManagerRemoveKey({ did, kid, options, }, context)](./daf-core.identitymanager.identitymanagerremovekey.md)                      |           |             |
+| [identityManagerRemoveService({ did, id, options, }, context)](./daf-core.identitymanager.identitymanagerremoveservice.md)               |           |             |

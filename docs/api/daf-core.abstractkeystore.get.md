@@ -7,15 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-abstract get(kid: string): Promise<SerializedKey>;
+abstract get(args: {
+        kid: string;
+    }): Promise<IKey>;
 ```
 
 ## Parameters
 
-| Parameter | Type                | Description |
-| --------- | ------------------- | ----------- |
-| kid       | <code>string</code> |             |
+| Parameter | Type             | Description |
+| --------- | ---------------- | ----------- |
+| args      | { kid: string; } |             |
 
 <b>Returns:</b>
 
-`Promise<SerializedKey>`
+Promise&lt;[IKey](./daf-core.ikey.md)<!-- -->&gt;

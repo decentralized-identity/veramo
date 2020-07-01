@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-expiresAt?: Date;
+expiresAt?: string;
 ```
