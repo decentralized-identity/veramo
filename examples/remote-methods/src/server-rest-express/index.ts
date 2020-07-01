@@ -16,6 +16,8 @@ const agentRouter = AgentRouter({
     'createVerifiableCredential',
     'createVerifiablePresentation',
     'createSelectiveDisclosureRequest',
+    'getVerifiableCredentialsForSdr',
+    'dataStoreORMGetVerifiableCredentials',
   ],
 })
 
