@@ -23,7 +23,7 @@ import fs from 'fs'
 
 let agent: TAgent<IIdentityManager & IKeyManager & IDataStore & IResolveDid & IW3c>
 let dbConnection: Promise<Connection>
-const databaseFile = 'database.sqlite'
+const databaseFile = 'database3.sqlite'
 const JWT =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1OTM0NTE3MDAsInR5cGUiOiJzZHIiLCJzdWJqZWN0IjoiZGlkOmV0aHI6cmlua2VieToweDM2MjQ2M2NiZTUyMjhjZTUwMGJlOGUwMzVjZGIyMWI3NzQ1ZjZkYjAiLCJ0YWciOiJzZHItb25lIiwiY2xhaW1zIjpbeyJyZWFzb24iOiJXZSBuZWVkIGl0IiwiY2xhaW1UeXBlIjoibmFtZSIsImVzc2VudGlhbCI6dHJ1ZX1dLCJpc3MiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4MTM4NGMxZmNlM2Y3MWQ3NjU5NzcwOGY1NGM0ZDEyOGMyNDFkMDBkMiJ9.L-j-gREAuN7DAxDCe1vXJWtMIdmn88HTuTFp2PasTTo_aqvIdGcFtv-rSfvRHkauNq5C3PkXkQWY01VGqpJ-QwE'
 
@@ -97,7 +97,7 @@ describe('integration test for handling messages', () => {
       proofFormat: 'jwt',
     })
 
-    expect(verifiableCredential.proof.jwt).toBeTruthy()
+    expect(verifiableCredential.proof.jwt).toBeDefined()
   })
 
   it('should save an SDR message', async () => {
@@ -136,6 +136,6 @@ describe('integration test for handling messages', () => {
       proofFormat: 'jwt',
     })
 
-    expect(verifiableCredential.proof.jwt).toBeTruthy()
+    expect(verifiableCredential.proof.jwt).toBeDefined()
   })
 })

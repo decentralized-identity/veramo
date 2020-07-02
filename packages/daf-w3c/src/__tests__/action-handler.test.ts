@@ -10,8 +10,6 @@ const mockDidJwtVc = {
   createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
   createVerifiablePresentationJwt: jest.fn().mockReturnValue('mockVcJwt'),
   verifyCredential: jest.fn().mockReturnValue({ payload: {} }),
-  transformCredentialInput: jest.fn().mockReturnValue('mockTransformedCredential'),
-  transformPresentationInput: jest.fn().mockReturnValue('mockTransformedPresentation'),
   normalizeCredential: jest.fn().mockReturnValue('mockCredential'),
   normalizePresentation: jest.fn().mockReturnValue('mockPresentation'),
 }
@@ -69,7 +67,7 @@ const w3c = new W3c()
 describe('daf-w3c', () => {
   it('handles createVerifiableCredential', async () => {
     const credential: W3CCredential = {
-      '@context': ['https://www.w3.org/2018/credentials/v1323', 'https://www.w3.org/2020/demo/4342323'],
+      '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiableCredential', 'PublicProfile'],
       issuer: { id: mockIdentity1.did },
       issuanceDate: new Date().toISOString(),
@@ -94,7 +92,6 @@ describe('daf-w3c', () => {
       context,
     )
     // TODO Update these after refactoring did-jwt-vc
-    expect(mockDidJwtVc.transformCredentialInput).toBeCalledWith(credential)
     expect(context.agent.identityManagerGetIdentity).toBeCalledWith({ did: mockIdentity1.did })
     expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith('mockCredential')
     expect(vc).toEqual('mockCredential')
@@ -102,7 +99,7 @@ describe('daf-w3c', () => {
 
   it('handles createVerifiablePresentation', async () => {
     const credential: VerifiableCredential = {
-      '@context': ['https://www.w3.org/2018/credentials/v1323'],
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiableCredential', 'PublicProfile'],
       issuer: { id: mockIdentity1.did },
       issuanceDate: new Date().toISOString(),
@@ -122,7 +119,7 @@ describe('daf-w3c', () => {
     }
 
     const presentation: W3CPresentation = {
-      '@context': ['https://www.w3.org/2018/credentials/v1323'],
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiablePresentation'],
       holder: mockIdentity1.did,
       verifier: [mockIdentity2.did],
@@ -139,7 +136,6 @@ describe('daf-w3c', () => {
       context,
     )
 
-    expect(mockDidJwtVc.transformPresentationInput).toBeCalledWith(presentation)
     expect(context.agent.identityManagerGetIdentity).toBeCalledWith({ did: mockIdentity1.did })
     expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith('mockPresentation')
     expect(vp).toEqual('mockPresentation')

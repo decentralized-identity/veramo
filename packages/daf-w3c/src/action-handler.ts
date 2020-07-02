@@ -67,13 +67,12 @@ export class W3c implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiablePresentation> {
     try {
-      const payload = transformPresentationInput(args.presentation)
       const identity = await context.agent.identityManagerGetIdentity({ did: args.presentation.holder })
       const key = identity.keys.find(k => k.type === 'Secp256k1')
-      if (!key) throw Error('No signing key')
+      if (!key) throw Error('No signing key for ' + identity.did)
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       debug('Signing VP with', identity.did)
-      const jwt = await createVerifiablePresentationJwt(payload, { did: identity.did, signer })
+      const jwt = await createVerifiablePresentationJwt(args.presentation, { did: identity.did, signer })
       debug(jwt)
       const presentation = normalizePresentation(jwt)
       if (args.save) {
@@ -95,14 +94,13 @@ export class W3c implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiableCredential> {
     try {
-      const payload = transformCredentialInput(args.credential)
       const identity = await context.agent.identityManagerGetIdentity({ did: args.credential.issuer.id })
       const key = identity.keys.find(k => k.type === 'Secp256k1')
-      if (!key) throw Error('No signing key')
+      if (!key) throw Error('No signing key for ' + identity.did)
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
 
       debug('Signing VC with', identity.did)
-      const jwt = await createVerifiableCredentialJwt(payload, { did: identity.did, signer })
+      const jwt = await createVerifiableCredentialJwt(args.credential, { did: identity.did, signer })
       debug(jwt)
       const credential = normalizeCredential(jwt)
       if (args.save) {
