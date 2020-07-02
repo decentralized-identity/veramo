@@ -1,5 +1,4 @@
-import { TAgent, IResolveDid, IIdentity } from 'daf-core'
-import { IW3c } from 'daf-w3c'
+import { TAgent, IResolveDid } from 'daf-core'
 
 type ConfiguredAgent = TAgent<IResolveDid>
 
