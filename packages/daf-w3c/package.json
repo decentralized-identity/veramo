@@ -13,7 +13,7 @@
     "daf-did-jwt": "^6.3.0",
     "daf-resolver": "^6.3.0",
     "debug": "^4.1.1",
-    "did-jwt-vc": "^1.0.0",
+    "did-jwt-vc": "^1.0.2",
     "did-resolver": "^1.1.0"
   },
   "devDependencies": {
