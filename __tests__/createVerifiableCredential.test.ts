@@ -80,6 +80,6 @@ describe('integration test for creating Verifiable Credentials', () => {
       proofFormat: 'jwt',
     })
 
-    expect(verifiableCredential.proof.jwt).toBeTruthy()
+    expect(verifiableCredential.proof.jwt).toBeDefined()
   })
 })
