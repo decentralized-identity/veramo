@@ -5,8 +5,8 @@ type ConfiguredAgent = TAgent<IIdentityManager & IW3c>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
-  setup: () => Promise<void>
-  tearDown: () => Promise<void>
+  setup: () => Promise<boolean>
+  tearDown: () => Promise<boolean>
 }) => {
   describe('creating Verifiable Credentials', () => {
     let agent: ConfiguredAgent
@@ -19,13 +19,11 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should create identity', async () => {
-      expect.assertions(1)
       identity = await agent.identityManagerCreateIdentity({ kms: 'local' })
       expect(identity).toHaveProperty('did')
     })
 
     it('should create verifiable credential', async () => {
-      expect.assertions(1)
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: identity.did },

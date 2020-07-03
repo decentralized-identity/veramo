@@ -6,8 +6,8 @@ type ConfiguredAgent = TAgent<IIdentityManager & IW3c & IDataStoreORM & IDataSto
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
-  setup: () => Promise<void>
-  tearDown: () => Promise<void>
+  setup: () => Promise<boolean>
+  tearDown: () => Promise<boolean>
 }) => {
   describe('handling sdr message', () => {
     let agent: ConfiguredAgent
