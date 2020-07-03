@@ -18,12 +18,16 @@ export class AgentRestClient implements IAgentPlugin {
       if (supportedMethods[method]) {
         this.methods[method] = async (args: any) => {
           // TODO: handle GET
-          const data = await fetch(this.url + supportedMethods[method].path, {
+          const res = await fetch(this.url + supportedMethods[method].path, {
             headers: { ...options.headers, 'Content-Type': 'application/json' },
             method: supportedMethods[method].type,
             body: JSON.stringify(args),
           })
-          return data.json()
+          if (res.status >= 400) {
+            throw Error('Bad response from server: ' + res.status + ' ' + res.statusText)
+          }
+
+          return res.json()
         }
       }
     }

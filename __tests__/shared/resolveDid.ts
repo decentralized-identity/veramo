@@ -4,15 +4,16 @@ type ConfiguredAgent = TAgent<IResolveDid>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
-  setup: () => Promise<void>
-  tearDown: () => Promise<void>
+  setup: () => Promise<boolean>
+  tearDown: () => Promise<boolean>
 }) => {
   describe('resolving didUrl', () => {
     let agent: ConfiguredAgent
 
-    beforeAll(() => {
-      testContext.setup()
+    beforeAll(async () => {
+      await testContext.setup()
       agent = testContext.getAgent()
+      return true
     })
     afterAll(testContext.tearDown)
 
