@@ -1,14 +1,14 @@
 {
   "name": "daf-local-storage",
   "description": "DAF File system modules",
-  "version": "6.0.0",
+  "version": "6.1.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^6.0.0",
+    "daf-core": "^6.1.1",
     "debug": "^4.1.1"
   },
   "devDependencies": {
