@@ -74,13 +74,42 @@ export default (testContext: {
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
             id: 'did:web:uport.me',
-            test: 'Passed?',
+            name: 'Carrot',
           },
         },
         proofFormat: 'jwt',
+        save: true,
       })
 
       expect(verifiableCredential.proof.jwt).toBeDefined()
+    })
+
+    it('should create verifiable presentation', async () => {
+      const credentials = await agent.getVerifiableCredentialsForSdr({
+        sdr: {
+          claims: [
+            {
+              claimType: 'name',
+            },
+          ],
+        },
+      })
+
+      const verifiablePresentation = await agent.createVerifiablePresentation({
+        presentation: {
+          verifier: [],
+          holder: '',
+          issuer: { id: identity.did },
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          type: ['VerifiableCredential'],
+          issuanceDate: new Date().toISOString(),
+          verifiableCredential: credentials[0].credentials,
+        },
+        proofFormat: 'jwt',
+        save: true,
+      })
+
+      expect(verifiablePresentation).toHaveProperty('proof.jwt')
     })
   })
 }
