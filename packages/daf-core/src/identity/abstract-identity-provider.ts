@@ -10,7 +10,7 @@ export abstract class AbstractIdentityProvider extends EventEmitter {
   abstract getIdentity(did: string): Promise<AbstractIdentity>
 
   exportIdentity(did: string): Promise<string> {
-    return Promise.reject('Method importIdentity not implemented')
+    return Promise.reject('Method exportIdentity not implemented')
   }
 
   importIdentity(secret: string): Promise<AbstractIdentity> {
