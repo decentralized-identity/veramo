@@ -1,8 +1,9 @@
 import { TAgent, IIdentityManager, IIdentity, IDataStore, IHandleMessage } from 'daf-core'
 import { IW3c } from 'daf-w3c'
+import { ISdr } from 'daf-selective-disclosure'
 import { IDataStoreORM } from 'daf-typeorm'
 
-type ConfiguredAgent = TAgent<IIdentityManager & IW3c & IDataStoreORM & IDataStore & IHandleMessage>
+type ConfiguredAgent = TAgent<IIdentityManager & IW3c & IDataStoreORM & IDataStore & IHandleMessage & ISdr>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -98,10 +99,9 @@ export default (testContext: {
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
           verifier: [],
-          holder: '',
-          issuer: { id: identity.did },
+          holder: identity.did,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential'],
+          type: ['VerifiablePresentation'],
           issuanceDate: new Date().toISOString(),
           verifiableCredential: credentials[0].credentials,
         },
