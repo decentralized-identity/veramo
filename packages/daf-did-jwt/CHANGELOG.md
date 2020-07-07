@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
+
+### Bug Fixes
+
+- Test daf-did-jwt ([bf21775](https://github.com/uport-project/daf/commit/bf2177575923aaf4485b9b1215758e134bcc5a94))
+
 ## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
 
 **Note:** Version bump only for package daf-did-jwt

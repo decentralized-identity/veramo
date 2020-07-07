@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
+
+### Bug Fixes
+
+- Daf-libsodium debug ([0b606be](https://github.com/uport-project/daf/commit/0b606be181377f95f37c015580f19b156f0c1c7f))
+- IdentityProvider WIP ([e732621](https://github.com/uport-project/daf/commit/e732621a1d358c2ade4508f31ee602454bf28c56))
+
 ## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
 
 **Note:** Version bump only for package daf-libsodium

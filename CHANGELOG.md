@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
+
+### Bug Fixes
+
+- Creating VC ([df40d7e](https://github.com/uport-project/daf/commit/df40d7e12750b7016c693f1a3f86c83bda4a0e89))
+- Daf-libsodium debug ([0b606be](https://github.com/uport-project/daf/commit/0b606be181377f95f37c015580f19b156f0c1c7f))
+- Ethr-did debug ([6fe373b](https://github.com/uport-project/daf/commit/6fe373b1d6dca18f0ca47aa917b522c26a86237d))
+- IdentityManager ([4d2fc90](https://github.com/uport-project/daf/commit/4d2fc9035f409b376c9843c4dc937605da7e0baa))
+- IdentityManager ([396871c](https://github.com/uport-project/daf/commit/396871c436f151c80abc4dac60b94ea3e776aa41))
+- IdentityProvider WIP ([e732621](https://github.com/uport-project/daf/commit/e732621a1d358c2ade4508f31ee602454bf28c56))
+- IdentityStore ([53a9e04](https://github.com/uport-project/daf/commit/53a9e04065931aac45926ce8aec2d6246850b263))
+- KeyManagerSignEthTX ([6031817](https://github.com/uport-project/daf/commit/60318170f77e532e95c125196088a87bc5978446))
+- MessageHandler chain ([3e6b595](https://github.com/uport-project/daf/commit/3e6b59563b8feac62d6fbf55b541d1efa517e174))
+- Resolver tests ([8a21aed](https://github.com/uport-project/daf/commit/8a21aed769fc5c1ea31774bbe0fb06d2db185d90))
+- Rest client error handling ([5f0e925](https://github.com/uport-project/daf/commit/5f0e925ca8b900628911b86dc11b737a7567ab7f))
+- Sdr helper function types ([57a3a66](https://github.com/uport-project/daf/commit/57a3a664d3789dec42c4e5bc5d1968a4666fc107))
+- Test daf-did-jwt ([bf21775](https://github.com/uport-project/daf/commit/bf2177575923aaf4485b9b1215758e134bcc5a94))
+- Test daf-url ([419bd47](https://github.com/uport-project/daf/commit/419bd478135bc459416ee1584dda04369abc7a3e))
+- Types ([6495529](https://github.com/uport-project/daf/commit/6495529a9424bddf34b6985411bdf8dc32260d8f))
+- W3c tests ([8505631](https://github.com/uport-project/daf/commit/8505631078ed0bad6f5fbfedd675c2e43a04a974))
+
+### Features
+
+- Authorized agent methods ([1894302](https://github.com/uport-project/daf/commit/1894302fda9b7e5bd8b7e472146aa77b86225cec))
+- Daf-rest & daf-express ([0f94f2c](https://github.com/uport-project/daf/commit/0f94f2c70a7d34d034c69b6a455fab5b76f4de4c))
+- Debug agent.execute ([6b8fb1b](https://github.com/uport-project/daf/commit/6b8fb1b67779e250020ee26aeb0d7c09703e1cd9))
+- Express router ([ae7190c](https://github.com/uport-project/daf/commit/ae7190c707bcc4f6ce6094bfd2e827a02f7fb7be))
+- Remote methods example ([7387405](https://github.com/uport-project/daf/commit/7387405450b2cc878af89033e7b9261588e66997))
+
 ## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
 
 ### Bug Fixes
