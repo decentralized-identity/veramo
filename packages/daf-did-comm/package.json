@@ -1,7 +1,7 @@
 {
   "name": "daf-did-comm",
   "description": "DAF DIDComm",
-  "version": "6.0.0",
+  "version": "6.1.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.4",
-    "daf-core": "^6.0.0",
-    "daf-resolver": "^6.0.0",
+    "daf-core": "^6.1.1",
     "debug": "^4.1.1",
     "uuid": "^3.3.3"
   },

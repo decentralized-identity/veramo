@@ -3,155 +3,91 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
+
+### Bug Fixes
+
+- export context ([f6265f9](https://github.com/uport-project/daf/commit/f6265f9a3b78b3c9ad10ade4e3bd96cc37d1d9d6))
+
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-selective-disclosure
-
-
-
-
 
 # [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-selective-disclosure
-
-
-
-
 
 ## [5.6.5](https://github.com/uport-project/daf/compare/v5.6.4...v5.6.5) (2020-05-25)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 ## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
 
 **Note:** Version bump only for package daf-selective-disclosure
-
-
-
-
 
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 # [5.1.0](https://github.com/uport-project/daf/compare/v5.0.0...v5.1.0) (2020-05-06)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
-
 
 ### Features
 
-* Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
-
+- Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
 
 ### BREAKING CHANGES
 
-* DB Schema change
-
-
-
-
+- DB Schema change
 
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 # [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
 
 **Note:** Version bump only for package daf-selective-disclosure
-
-
-
-
 
 # [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 ## [4.2.1](https://github.com/uport-project/daf/compare/v4.2.0...v4.2.1) (2020-04-24)
-
 
 ### Bug Fixes
 
-* Create identities from required issuers to resolve gql queries ([b93d7ad](https://github.com/uport-project/daf/commit/b93d7adf001e71dbf92164cbd4c44e15f939bed2))
-
-
-
-
+- Create identities from required issuers to resolve gql queries ([b93d7ad](https://github.com/uport-project/daf/commit/b93d7adf001e71dbf92164cbd4c44e15f939bed2))
 
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
 **Note:** Version bump only for package daf-selective-disclosure
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
-
-
 
 ## [3.4.3](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v3.4.3) (2020-04-10)
 
-
 ### Bug Fixes
 
-* **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
-
-
+- **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 
-
-
 ## [3.4.1](https://github.com/uport-project/daf/compare/v3.4.0...v3.4.1) (2020-03-20)
 
-
-
-
-
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
-## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
+## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
 ### Bug Fixes
 
-* **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
-
-
-
-
+- **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 

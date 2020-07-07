@@ -3,161 +3,90 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [6.1.0](https://github.com/uport-project/daf/compare/v6.0.1...v6.1.0) (2020-05-29)
+## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
 
+**Note:** Version bump only for package daf-ethr-did
+
+# [6.1.0](https://github.com/uport-project/daf/compare/v6.0.1...v6.1.0) (2020-05-29)
 
 ### Features
 
-* Return the txHash in addPublic key ([c56ada2](https://github.com/uport-project/daf/commit/c56ada29264a3cb77ae8fb4b8f887e00be257838))
-
-
-
-
+- Return the txHash in addPublic key ([c56ada2](https://github.com/uport-project/daf/commit/c56ada29264a3cb77ae8fb4b8f887e00be257838))
 
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 # [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-ethr-did
-
-
-
-
 
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 ## [5.6.5](https://github.com/uport-project/daf/compare/v5.6.4...v5.6.5) (2020-05-25)
 
 **Note:** Version bump only for package daf-ethr-did
-
-
-
-
 
 ## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 ## [5.6.3](https://github.com/uport-project/daf/compare/v5.6.2...v5.6.3) (2020-05-15)
-
 
 ### Bug Fixes
 
-* Another missing await ([b924f92](https://github.com/uport-project/daf/commit/b924f925ad47810aaa43876cef0d49a42e6d126f))
-* Missing await ([9c36f84](https://github.com/uport-project/daf/commit/9c36f8415f27c91824af97bbc6e2415aba9c5feb))
-
-
-
-
+- Another missing await ([b924f92](https://github.com/uport-project/daf/commit/b924f925ad47810aaa43876cef0d49a42e6d126f))
+- Missing await ([9c36f84](https://github.com/uport-project/daf/commit/9c36f8415f27c91824af97bbc6e2415aba9c5feb))
 
 ## [5.5.2](https://github.com/uport-project/daf/compare/v5.5.1...v5.5.2) (2020-05-14)
 
-
 ### Bug Fixes
 
-* Pass ethr-did registry param down to the identity controller ([a0a2a98](https://github.com/uport-project/daf/commit/a0a2a98600f6a0c22105e5f9d7ab2a8d174d57c2))
-
-
-
-
+- Pass ethr-did registry param down to the identity controller ([a0a2a98](https://github.com/uport-project/daf/commit/a0a2a98600f6a0c22105e5f9d7ab2a8d174d57c2))
 
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
 
-
 ### Features
 
-* Registry config ([fe2ebc6](https://github.com/uport-project/daf/commit/fe2ebc6cf5d8146fe0e22bfafcceca44dd5cea44))
-
-
-
-
+- Registry config ([fe2ebc6](https://github.com/uport-project/daf/commit/fe2ebc6cf5d8146fe0e22bfafcceca44dd5cea44))
 
 # [5.2.0](https://github.com/uport-project/daf/compare/v5.1.0...v5.2.0) (2020-05-06)
 
-
 ### Features
 
-* Adding ethr-did gas and ttl config ([d910b14](https://github.com/uport-project/daf/commit/d910b140f78efc69b80adffacd00058b9477fc94))
-
-
-
-
+- Adding ethr-did gas and ttl config ([d910b14](https://github.com/uport-project/daf/commit/d910b140f78efc69b80adffacd00058b9477fc94))
 
 # [5.1.0](https://github.com/uport-project/daf/compare/v5.0.0...v5.1.0) (2020-05-06)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-ethr-did
-
-
-
-
 
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 # [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
 
 **Note:** Version bump only for package daf-ethr-did
-
-
-
-
 
 # [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
 **Note:** Version bump only for package daf-ethr-did
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
-
-
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 
 **Note:** Version bump only for package daf-ethr-did
-
-
-
-
 
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
 

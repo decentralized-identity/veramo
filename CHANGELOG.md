@@ -3,422 +3,271 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [6.1.0](https://github.com/uport-project/daf/compare/v6.0.1...v6.1.0) (2020-05-29)
+## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
 
+### Bug Fixes
+
+- export context ([99fd267](https://github.com/uport-project/daf/commit/99fd267c70946e24df5dd8b42f8345aadc9366c2))
+- export context ([f6265f9](https://github.com/uport-project/daf/commit/f6265f9a3b78b3c9ad10ade4e3bd96cc37d1d9d6))
+
+# [6.1.0](https://github.com/uport-project/daf/compare/v6.0.1...v6.1.0) (2020-05-29)
 
 ### Features
 
-* Return the txHash in addPublic key ([c56ada2](https://github.com/uport-project/daf/commit/c56ada29264a3cb77ae8fb4b8f887e00be257838))
-
-
-
-
+- Return the txHash in addPublic key ([c56ada2](https://github.com/uport-project/daf/commit/c56ada29264a3cb77ae8fb4b8f887e00be257838))
 
 ## [6.0.1](https://github.com/uport-project/daf/compare/v6.0.0...v6.0.1) (2020-05-29)
 
-
 ### Bug Fixes
 
-* Missing dependency ([773dbb2](https://github.com/uport-project/daf/commit/773dbb2c890428157ae4c7218b7e29e0853d738c))
-
-
-
-
+- Missing dependency ([773dbb2](https://github.com/uport-project/daf/commit/773dbb2c890428157ae4c7218b7e29e0853d738c))
 
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
-
 ### Bug Fixes
 
-* Big value handling ([#167](https://github.com/uport-project/daf/issues/167)) ([39a76b6](https://github.com/uport-project/daf/commit/39a76b60ecc085d7ce0c476b0b20e166b415d408))
-
+- Big value handling ([#167](https://github.com/uport-project/daf/issues/167)) ([39a76b6](https://github.com/uport-project/daf/commit/39a76b60ecc085d7ce0c476b0b20e166b415d408))
 
 ### BREAKING CHANGES
 
-* database schema change required to accept large claims
-
-
-
-
+- database schema change required to accept large claims
 
 # [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
 
-
 ### Bug Fixes
 
-* IdentityController for web-did ([a829991](https://github.com/uport-project/daf/commit/a829991f0d16b424e756684cbca8d159b8195cac))
-* Message handler chain ([58b0629](https://github.com/uport-project/daf/commit/58b062921e02ca4160b1a90efa56e1c5c89ba8bb))
-
+- IdentityController for web-did ([a829991](https://github.com/uport-project/daf/commit/a829991f0d16b424e756684cbca8d159b8195cac))
+- Message handler chain ([58b0629](https://github.com/uport-project/daf/commit/58b062921e02ca4160b1a90efa56e1c5c89ba8bb))
 
 ### Features
 
-* Identity provider for did:web ([9b20fb1](https://github.com/uport-project/daf/commit/9b20fb13da21865d50f6e0680e0d7da040a3d75c))
-* Identity provider for did:web ([ba030bf](https://github.com/uport-project/daf/commit/ba030bf708e8e79dcf117685ace2286bff6ea69d))
-
-
-
-
+- Identity provider for did:web ([9b20fb1](https://github.com/uport-project/daf/commit/9b20fb13da21865d50f6e0680e0d7da040a3d75c))
+- Identity provider for did:web ([ba030bf](https://github.com/uport-project/daf/commit/ba030bf708e8e79dcf117685ace2286bff6ea69d))
 
 ## [5.6.7](https://github.com/uport-project/daf/compare/v5.6.6...v5.6.7) (2020-05-29)
 
-
 ### Bug Fixes
 
-* handle jwt messages correctly in daf-url in browser environments ([db26132](https://github.com/uport-project/daf/commit/db261325a606b0077cc333600b844101be1cd009))
-
-
-
-
+- handle jwt messages correctly in daf-url in browser environments ([db26132](https://github.com/uport-project/daf/commit/db261325a606b0077cc333600b844101be1cd009))
 
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf
 
-
-
-
-
 ## [5.6.5](https://github.com/uport-project/daf/compare/v5.6.4...v5.6.5) (2020-05-25)
-
 
 ### Bug Fixes
 
-* GraphQL orderBy ([bb06094](https://github.com/uport-project/daf/commit/bb060941fab367540d1fd8cdbc4ad6de51fb00ab))
-
-
-
-
+- GraphQL orderBy ([bb06094](https://github.com/uport-project/daf/commit/bb060941fab367540d1fd8cdbc4ad6de51fb00ab))
 
 ## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
 
-
 ### Bug Fixes
 
-* Credential id type ([39d8d18](https://github.com/uport-project/daf/commit/39d8d18ce7c87db179a4fcb73fc333c544ce841f))
-* Remove dup ([82629e1](https://github.com/uport-project/daf/commit/82629e13d49385cf7dfb562c7cc9bbe21cfd210c))
-
+- Credential id type ([39d8d18](https://github.com/uport-project/daf/commit/39d8d18ce7c87db179a4fcb73fc333c544ce841f))
+- Remove dup ([82629e1](https://github.com/uport-project/daf/commit/82629e13d49385cf7dfb562c7cc9bbe21cfd210c))
 
 ### Features
 
-* Query credentials for did ([a39f956](https://github.com/uport-project/daf/commit/a39f9568e2b4ef3e8b0ee62f23c96451ca427cd4))
-* Show credentials on connections ([84abfa0](https://github.com/uport-project/daf/commit/84abfa0f2ea2c0e009692cf0ccd76a93c968f0ea))
-
-
-
-
+- Query credentials for did ([a39f956](https://github.com/uport-project/daf/commit/a39f9568e2b4ef3e8b0ee62f23c96451ca427cd4))
+- Show credentials on connections ([84abfa0](https://github.com/uport-project/daf/commit/84abfa0f2ea2c0e009692cf0ccd76a93c968f0ea))
 
 ## [5.6.3](https://github.com/uport-project/daf/compare/v5.6.2...v5.6.3) (2020-05-15)
 
-
 ### Bug Fixes
 
-* Another missing await ([b924f92](https://github.com/uport-project/daf/commit/b924f925ad47810aaa43876cef0d49a42e6d126f))
-* Missing await ([9c36f84](https://github.com/uport-project/daf/commit/9c36f8415f27c91824af97bbc6e2415aba9c5feb))
-* Version takes only two parameters ([5951fe4](https://github.com/uport-project/daf/commit/5951fe416186d295ccd9fc10aa17f75f47e5bbf0))
-
-
-
-
+- Another missing await ([b924f92](https://github.com/uport-project/daf/commit/b924f925ad47810aaa43876cef0d49a42e6d126f))
+- Missing await ([9c36f84](https://github.com/uport-project/daf/commit/9c36f8415f27c91824af97bbc6e2415aba9c5feb))
+- Version takes only two parameters ([5951fe4](https://github.com/uport-project/daf/commit/5951fe416186d295ccd9fc10aa17f75f47e5bbf0))
 
 ## [5.6.2](https://github.com/uport-project/daf/compare/v5.6.1...v5.6.2) (2020-05-14)
 
-
 ### Bug Fixes
 
-* CLI graphql typeDefs and resolvers ([88626d3](https://github.com/uport-project/daf/commit/88626d37621929b3383fdef5849dbea795fbe053))
-
+- CLI graphql typeDefs and resolvers ([88626d3](https://github.com/uport-project/daf/commit/88626d37621929b3383fdef5849dbea795fbe053))
 
 ### Features
 
-* GraphQL client settings: apiUrl, apiKey ([9b1fd12](https://github.com/uport-project/daf/commit/9b1fd128a287667c7007e2acb534f5969e0d5711))
-
-
-
-
+- GraphQL client settings: apiUrl, apiKey ([9b1fd12](https://github.com/uport-project/daf/commit/9b1fd128a287667c7007e2acb534f5969e0d5711))
 
 ## [5.6.1](https://github.com/uport-project/daf/compare/v5.6.0...v5.6.1) (2020-05-14)
 
-
 ### Bug Fixes
 
-* CLI sqlite and pg deps ([31fc85a](https://github.com/uport-project/daf/commit/31fc85a16c8edc098fac13c0a96faad151fda208))
-
-
-
-
+- CLI sqlite and pg deps ([31fc85a](https://github.com/uport-project/daf/commit/31fc85a16c8edc098fac13c0a96faad151fda208))
 
 # [5.6.0](https://github.com/uport-project/daf/compare/v5.5.2...v5.6.0) (2020-05-14)
 
-
 ### Features
 
-* Docker image and docker-compose example ([84ddcad](https://github.com/uport-project/daf/commit/84ddcad8b54fec0b53297cbfe11275af06922cd6))
-
-
-
-
+- Docker image and docker-compose example ([84ddcad](https://github.com/uport-project/daf/commit/84ddcad8b54fec0b53297cbfe11275af06922cd6))
 
 ## [5.5.2](https://github.com/uport-project/daf/compare/v5.5.1...v5.5.2) (2020-05-14)
 
-
 ### Bug Fixes
 
-* Pass ethr-did registry param down to the identity controller ([a0a2a98](https://github.com/uport-project/daf/commit/a0a2a98600f6a0c22105e5f9d7ab2a8d174d57c2))
-
-
-
-
+- Pass ethr-did registry param down to the identity controller ([a0a2a98](https://github.com/uport-project/daf/commit/a0a2a98600f6a0c22105e5f9d7ab2a8d174d57c2))
 
 ## [5.5.1](https://github.com/uport-project/daf/compare/v5.5.0...v5.5.1) (2020-05-13)
 
-
 ### Bug Fixes
 
-* Daf-elem-did missing peer deps ([747b8f9](https://github.com/uport-project/daf/commit/747b8f9fb4ec52e82cde519adaae92bc7bd46a0a))
-* Optional dependency of daf-elem-did ([8c733b8](https://github.com/uport-project/daf/commit/8c733b8e06e0ef0a379fa43a534733e37063834b))
-
-
-
-
+- Daf-elem-did missing peer deps ([747b8f9](https://github.com/uport-project/daf/commit/747b8f9fb4ec52e82cde519adaae92bc7bd46a0a))
+- Optional dependency of daf-elem-did ([8c733b8](https://github.com/uport-project/daf/commit/8c733b8e06e0ef0a379fa43a534733e37063834b))
 
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
 
-
 ### Bug Fixes
 
-* Resolver debug info ([5a32a63](https://github.com/uport-project/daf/commit/5a32a630884486934530cdb31b3cf8fb887a44da))
-
+- Resolver debug info ([5a32a63](https://github.com/uport-project/daf/commit/5a32a630884486934530cdb31b3cf8fb887a44da))
 
 ### Features
 
-* CLI config ([5a3391e](https://github.com/uport-project/daf/commit/5a3391e77790e0b10268c4e189f34c5f20246616))
-* Registry config ([fe2ebc6](https://github.com/uport-project/daf/commit/fe2ebc6cf5d8146fe0e22bfafcceca44dd5cea44))
-
-
-
-
+- CLI config ([5a3391e](https://github.com/uport-project/daf/commit/5a3391e77790e0b10268c4e189f34c5f20246616))
+- Registry config ([fe2ebc6](https://github.com/uport-project/daf/commit/fe2ebc6cf5d8146fe0e22bfafcceca44dd5cea44))
 
 # [5.4.0](https://github.com/uport-project/daf/compare/v5.3.1...v5.4.0) (2020-05-13)
 
-
 ### Features
 
-* daf-elem-did ([62776c2](https://github.com/uport-project/daf/commit/62776c274838b686f954e66482ae99e336bb2e16))
-
-
-
-
+- daf-elem-did ([62776c2](https://github.com/uport-project/daf/commit/62776c274838b686f954e66482ae99e336bb2e16))
 
 ## [5.3.1](https://github.com/uport-project/daf/compare/v5.3.0...v5.3.1) (2020-05-11)
 
-
 ### Bug Fixes
 
-* allow to pass in a custom registry address ([c785167](https://github.com/uport-project/daf/commit/c785167f6b3bf6b51325e431fba80c242204f590)), closes [/github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js#L187](https://github.com//github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js/issues/L187)
-
-
-
-
+- allow to pass in a custom registry address ([c785167](https://github.com/uport-project/daf/commit/c785167f6b3bf6b51325e431fba80c242204f590)), closes [/github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js#L187](https://github.com//github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js/issues/L187)
 
 # [5.3.0](https://github.com/uport-project/daf/compare/v5.2.0...v5.3.0) (2020-05-06)
 
-
 ### Features
 
-* Network config for daf-resolver ([5efd82c](https://github.com/uport-project/daf/commit/5efd82c5343dd99dc644a49774210b31bb2a717a))
-* Universal resolver unit tests ([8b92d1c](https://github.com/uport-project/daf/commit/8b92d1c032b19124271bff7884ceebace6331a4e))
-
-
-
-
+- Network config for daf-resolver ([5efd82c](https://github.com/uport-project/daf/commit/5efd82c5343dd99dc644a49774210b31bb2a717a))
+- Universal resolver unit tests ([8b92d1c](https://github.com/uport-project/daf/commit/8b92d1c032b19124271bff7884ceebace6331a4e))
 
 # [5.2.0](https://github.com/uport-project/daf/compare/v5.1.0...v5.2.0) (2020-05-06)
 
-
 ### Features
 
-* Adding ethr-did gas and ttl config ([d910b14](https://github.com/uport-project/daf/commit/d910b140f78efc69b80adffacd00058b9477fc94))
-
-
-
-
+- Adding ethr-did gas and ttl config ([d910b14](https://github.com/uport-project/daf/commit/d910b140f78efc69b80adffacd00058b9477fc94))
 
 # [5.1.0](https://github.com/uport-project/daf/compare/v5.0.0...v5.1.0) (2020-05-06)
 
-
 ### Bug Fixes
 
-* resolvers and handlers didn't match schema ([85c38a2](https://github.com/uport-project/daf/commit/85c38a206a163e3ed601b1ad2ac330f275d7ac4a))
-
+- resolvers and handlers didn't match schema ([85c38a2](https://github.com/uport-project/daf/commit/85c38a206a163e3ed601b1ad2ac330f275d7ac4a))
 
 ### Features
 
-* pass along authentication metadata into handlers ([199426b](https://github.com/uport-project/daf/commit/199426b4dba9013d34fea92585583487abdae041))
-
-
-
-
+- pass along authentication metadata into handlers ([199426b](https://github.com/uport-project/daf/commit/199426b4dba9013d34fea92585583487abdae041))
 
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
 
-
 ### Bug Fixes
 
-* babel running out of memory when running jest ([92e285e](https://github.com/uport-project/daf/commit/92e285e184f56e3ca9441ecbcdc6b287727cb4f9))
-* fixes failing audience query tests ([40408dc](https://github.com/uport-project/daf/commit/40408dce03a3c23dff07c89f2455d89c60893ebf))
-* JWT verification with multiple audiences ([dbbb85f](https://github.com/uport-project/daf/commit/dbbb85f4261ac0d1a0f8080fcb734c66eb311696))
-* Remove static Credential.credentialStatus ([f9a06af](https://github.com/uport-project/daf/commit/f9a06afcd01fc9e0452535d10d32158414490ea4))
-* Use the first audience did for message.to ([c71eec7](https://github.com/uport-project/daf/commit/c71eec784526b44f22d76307ac0e83b0e125d965))
-
+- babel running out of memory when running jest ([92e285e](https://github.com/uport-project/daf/commit/92e285e184f56e3ca9441ecbcdc6b287727cb4f9))
+- fixes failing audience query tests ([40408dc](https://github.com/uport-project/daf/commit/40408dce03a3c23dff07c89f2455d89c60893ebf))
+- JWT verification with multiple audiences ([dbbb85f](https://github.com/uport-project/daf/commit/dbbb85f4261ac0d1a0f8080fcb734c66eb311696))
+- Remove static Credential.credentialStatus ([f9a06af](https://github.com/uport-project/daf/commit/f9a06afcd01fc9e0452535d10d32158414490ea4))
+- Use the first audience did for message.to ([c71eec7](https://github.com/uport-project/daf/commit/c71eec784526b44f22d76307ac0e83b0e125d965))
 
 ### Features
 
-* Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
-* Reinstate `credentialStatus` as top level attribute ([4b17689](https://github.com/uport-project/daf/commit/4b1768936a173844e8710993a42600eab4051f9c))
-
+- Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
+- Reinstate `credentialStatus` as top level attribute ([4b17689](https://github.com/uport-project/daf/commit/4b1768936a173844e8710993a42600eab4051f9c))
 
 ### BREAKING CHANGES
 
-* DB Schema change
-
-
-
-
+- DB Schema change
 
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
-
 ### Bug Fixes
 
-* Remove static Credential.credentialStatus ([719fddc](https://github.com/uport-project/daf/commit/719fddc558dd7ec2925e3a8d695a5de4c65e91cd))
-
+- Remove static Credential.credentialStatus ([719fddc](https://github.com/uport-project/daf/commit/719fddc558dd7ec2925e3a8d695a5de4c65e91cd))
 
 ### Features
 
-* Reinstate `credentialStatus` as top level attribute ([8347b1f](https://github.com/uport-project/daf/commit/8347b1f5e93840ae6f6548609b87720027dc538e))
-
-
-
-
+- Reinstate `credentialStatus` as top level attribute ([8347b1f](https://github.com/uport-project/daf/commit/8347b1f5e93840ae6f6548609b87720027dc538e))
 
 # [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
 
-
 ### Bug Fixes
 
-* DB migrations ([14b578e](https://github.com/uport-project/daf/commit/14b578e87740cd3d19e5ae728791a192cc50bc4c))
-* Failing CI ([1264b99](https://github.com/uport-project/daf/commit/1264b99766d5b062f19e99326ed7cc1f5f19de89))
-* Failing CI ([53b114e](https://github.com/uport-project/daf/commit/53b114e2f0dbb9414317f64af59b15654827e792))
-* Failing CI ([f910731](https://github.com/uport-project/daf/commit/f910731180b64d1c666cf46bcaa1107f60eb5813))
-* Failing CI ([3f31953](https://github.com/uport-project/daf/commit/3f3195376a54a4dfd605eea521b0beac8de0e160))
-* Remove postinstall ([2577983](https://github.com/uport-project/daf/commit/257798312edaf4817f906f714e0527bf7c112bc8))
-* Remove postinstall ([9fad446](https://github.com/uport-project/daf/commit/9fad4468fcedd567cf0e2dd06b319d50cd10a9a0))
-
+- DB migrations ([14b578e](https://github.com/uport-project/daf/commit/14b578e87740cd3d19e5ae728791a192cc50bc4c))
+- Failing CI ([1264b99](https://github.com/uport-project/daf/commit/1264b99766d5b062f19e99326ed7cc1f5f19de89))
+- Failing CI ([53b114e](https://github.com/uport-project/daf/commit/53b114e2f0dbb9414317f64af59b15654827e792))
+- Failing CI ([f910731](https://github.com/uport-project/daf/commit/f910731180b64d1c666cf46bcaa1107f60eb5813))
+- Failing CI ([3f31953](https://github.com/uport-project/daf/commit/3f3195376a54a4dfd605eea521b0beac8de0e160))
+- Remove postinstall ([2577983](https://github.com/uport-project/daf/commit/257798312edaf4817f906f714e0527bf7c112bc8))
+- Remove postinstall ([9fad446](https://github.com/uport-project/daf/commit/9fad4468fcedd567cf0e2dd06b319d50cd10a9a0))
 
 ### Features
 
-* Encrypting private keys with SecretBox ([8833931](https://github.com/uport-project/daf/commit/883393192cc830534cfec892b4ce271a09bff99d))
-* Encrypting private keys with SecretBox ([b8cbdd4](https://github.com/uport-project/daf/commit/b8cbdd4f96e51ea15786328b2821509cc59e4ba3))
-
-
-
-
+- Encrypting private keys with SecretBox ([8833931](https://github.com/uport-project/daf/commit/883393192cc830534cfec892b4ce271a09bff99d))
+- Encrypting private keys with SecretBox ([b8cbdd4](https://github.com/uport-project/daf/commit/b8cbdd4f96e51ea15786328b2821509cc59e4ba3))
 
 # [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
 
-
 ### Bug Fixes
 
-* Changing some copy in CLI ([ed2c044](https://github.com/uport-project/daf/commit/ed2c0447a6973d55a3be8bfa4acb9439ff7c83c9))
-* Checking if credentialSubject is array ([2f83192](https://github.com/uport-project/daf/commit/2f83192a47b39369fd1ccad3b0f4a3c70dd4a893))
-* CredentialStatus field type ([40e97a6](https://github.com/uport-project/daf/commit/40e97a6e6daeb8357332456967799a18434bfbaf))
-* Keeping app specific payload fields ([24ad82a](https://github.com/uport-project/daf/commit/24ad82a9abd1e1a5c3cef91efea7a17637b958c3))
-* Translating issuanceDate to nbf ([51f0eff](https://github.com/uport-project/daf/commit/51f0effa5f911a9432f6d6880d2b23915875001d))
-
+- Changing some copy in CLI ([ed2c044](https://github.com/uport-project/daf/commit/ed2c0447a6973d55a3be8bfa4acb9439ff7c83c9))
+- Checking if credentialSubject is array ([2f83192](https://github.com/uport-project/daf/commit/2f83192a47b39369fd1ccad3b0f4a3c70dd4a893))
+- CredentialStatus field type ([40e97a6](https://github.com/uport-project/daf/commit/40e97a6e6daeb8357332456967799a18434bfbaf))
+- Keeping app specific payload fields ([24ad82a](https://github.com/uport-project/daf/commit/24ad82a9abd1e1a5c3cef91efea7a17637b958c3))
+- Translating issuanceDate to nbf ([51f0eff](https://github.com/uport-project/daf/commit/51f0effa5f911a9432f6d6880d2b23915875001d))
 
 ### Features
 
-* Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
-* DB Migration CredentialStatus ([44fd36d](https://github.com/uport-project/daf/commit/44fd36d0a97af96bfca74d1a9953293c00003dcc))
-
-
-
-
+- Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
+- DB Migration CredentialStatus ([44fd36d](https://github.com/uport-project/daf/commit/44fd36d0a97af96bfca74d1a9953293c00003dcc))
 
 ## [4.2.1](https://github.com/uport-project/daf/compare/v4.2.0...v4.2.1) (2020-04-24)
 
-
 ### Bug Fixes
 
-* Create identities from required issuers to resolve gql queries ([b93d7ad](https://github.com/uport-project/daf/commit/b93d7adf001e71dbf92164cbd4c44e15f939bed2))
-
-
-
-
+- Create identities from required issuers to resolve gql queries ([b93d7ad](https://github.com/uport-project/daf/commit/b93d7adf001e71dbf92164cbd4c44e15f939bed2))
 
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
-
 ### Features
 
-* Optionally add permissions to gql resolvers ([0d5b212](https://github.com/uport-project/daf/commit/0d5b2126618d81e5f0d1ba5ae30fc33901b8dc94))
-
-
-
-
+- Optionally add permissions to gql resolvers ([0d5b212](https://github.com/uport-project/daf/commit/0d5b2126618d81e5f0d1ba5ae30fc33901b8dc94))
 
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
 
-
 ### Features
 
-* Add version cmd to cli ([64069e9](https://github.com/uport-project/daf/commit/64069e9d60008007a801f127280430538b23b553))
-
-
+- Add version cmd to cli ([64069e9](https://github.com/uport-project/daf/commit/64069e9d60008007a801f127280430538b23b553))
 
 ## [3.4.3](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v3.4.3) (2020-04-10)
 
-
 ### Bug Fixes
 
-* **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
-
-
+- **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 
-
 ### Bug Fixes
 
-* Example queries ([5933e50](https://github.com/uport-project/daf/commit/5933e5003964935d0e1d39c273b2fe38a639ce1b))
-* Generating message.id if not set ([5ce04e5](https://github.com/uport-project/daf/commit/5ce04e5f8ebbba4368b84dffc563696d79a8fee2))
-* Generating message.id if not set ([fabf5f6](https://github.com/uport-project/daf/commit/fabf5f64b9f0733a3a533d037203527f26758106))
-* Removing uuid from id ([df12094](https://github.com/uport-project/daf/commit/df1209461b4b197b5f19c9d5bf4a71caf0c57f7d))
-
-
+- Example queries ([5933e50](https://github.com/uport-project/daf/commit/5933e5003964935d0e1d39c273b2fe38a639ce1b))
+- Generating message.id if not set ([5ce04e5](https://github.com/uport-project/daf/commit/5ce04e5f8ebbba4368b84dffc563696d79a8fee2))
+- Generating message.id if not set ([fabf5f6](https://github.com/uport-project/daf/commit/fabf5f64b9f0733a3a533d037203527f26758106))
+- Removing uuid from id ([df12094](https://github.com/uport-project/daf/commit/df1209461b4b197b5f19c9d5bf4a71caf0c57f7d))
 
 ## [3.4.1](https://github.com/uport-project/daf/compare/v3.4.0...v3.4.1) (2020-03-20)
 
-
 ### Bug Fixes
 
-* Bug in findCredentialsByFields ([e9f263a](https://github.com/uport-project/daf/commit/e9f263a45a6b121aef4729bdb45a1be39b753af6))
-
-
-
-
+- Bug in findCredentialsByFields ([e9f263a](https://github.com/uport-project/daf/commit/e9f263a45a6b121aef4729bdb45a1be39b753af6))
 
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
-## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
+## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
 ### Bug Fixes
 
-* **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
-
-
-
-
+- **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 
