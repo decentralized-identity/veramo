@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
+
+### Bug Fixes
+
+- Resolver tests ([8a21aed](https://github.com/uport-project/daf/commit/8a21aed769fc5c1ea31774bbe0fb06d2db185d90))
+
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
 
@@ -30,74 +36,39 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package daf-resolver
 
-
-
-
-
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-resolver
-
-
-
-
 
 ## [5.5.2](https://github.com/uport-project/daf/compare/v5.5.1...v5.5.2) (2020-05-14)
 
 **Note:** Version bump only for package daf-resolver
 
-
-
-
-
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
-
 
 ### Bug Fixes
 
-* Resolver debug info ([5a32a63](https://github.com/uport-project/daf/commit/5a32a630884486934530cdb31b3cf8fb887a44da))
-
-
-
-
+- Resolver debug info ([5a32a63](https://github.com/uport-project/daf/commit/5a32a630884486934530cdb31b3cf8fb887a44da))
 
 ## [5.3.1](https://github.com/uport-project/daf/compare/v5.3.0...v5.3.1) (2020-05-11)
 
-
 ### Bug Fixes
 
-* allow to pass in a custom registry address ([c785167](https://github.com/uport-project/daf/commit/c785167f6b3bf6b51325e431fba80c242204f590)), closes [/github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js#L187](https://github.com//github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js/issues/L187)
-
-
-
-
+- allow to pass in a custom registry address ([c785167](https://github.com/uport-project/daf/commit/c785167f6b3bf6b51325e431fba80c242204f590)), closes [/github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js#L187](https://github.com//github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js/issues/L187)
 
 # [5.3.0](https://github.com/uport-project/daf/compare/v5.2.0...v5.3.0) (2020-05-06)
 
-
 ### Features
 
-* Network config for daf-resolver ([5efd82c](https://github.com/uport-project/daf/commit/5efd82c5343dd99dc644a49774210b31bb2a717a))
-
-
-
-
+- Network config for daf-resolver ([5efd82c](https://github.com/uport-project/daf/commit/5efd82c5343dd99dc644a49774210b31bb2a717a))
 
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-resolver
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
 
 **Note:** Version bump only for package daf-resolver
-
-
-
-
 
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
 

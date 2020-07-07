@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
+
+### Bug Fixes
+
+- Ethr-did debug ([6fe373b](https://github.com/uport-project/daf/commit/6fe373b1d6dca18f0ca47aa917b522c26a86237d))
+- IdentityProvider WIP ([e732621](https://github.com/uport-project/daf/commit/e732621a1d358c2ade4508f31ee602454bf28c56))
+
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
 

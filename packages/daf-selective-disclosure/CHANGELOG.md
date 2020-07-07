@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
+
+### Bug Fixes
+
+- Sdr helper function types ([57a3a66](https://github.com/uport-project/daf/commit/57a3a664d3789dec42c4e5bc5d1968a4666fc107))
+
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
 

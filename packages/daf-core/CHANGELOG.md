@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
+
+### Bug Fixes
+
+- IdentityManager ([4d2fc90](https://github.com/uport-project/daf/commit/4d2fc9035f409b376c9843c4dc937605da7e0baa))
+- IdentityManager ([396871c](https://github.com/uport-project/daf/commit/396871c436f151c80abc4dac60b94ea3e776aa41))
+- KeyManagerSignEthTX ([6031817](https://github.com/uport-project/daf/commit/60318170f77e532e95c125196088a87bc5978446))
+- MessageHandler chain ([3e6b595](https://github.com/uport-project/daf/commit/3e6b59563b8feac62d6fbf55b541d1efa517e174))
+
+### Features
+
+- Authorized agent methods ([1894302](https://github.com/uport-project/daf/commit/1894302fda9b7e5bd8b7e472146aa77b86225cec))
+- Debug agent.execute ([6b8fb1b](https://github.com/uport-project/daf/commit/6b8fb1b67779e250020ee26aeb0d7c09703e1cd9))
+
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
 

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
+
+### Bug Fixes
+
+- Creating VC ([df40d7e](https://github.com/uport-project/daf/commit/df40d7e12750b7016c693f1a3f86c83bda4a0e89))
+- W3c tests ([8505631](https://github.com/uport-project/daf/commit/8505631078ed0bad6f5fbfedd675c2e43a04a974))
+
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
 
