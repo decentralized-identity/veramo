@@ -3612,10 +3612,10 @@ dezalgo@^1.0.0, dezalgo@~1.0.3:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-1.0.2.tgz#d86ff83c822e1d772ea3cac0451de4722506eb6b"
-  integrity sha512-hdcIYB11GCvbyJ6Q1t/oM+rIeKCPntCSnd2enuGPtc6aBXP4nZWBj1KREkCwjwCgQV8WgN90dhYUFwBrLsPrsQ==
+did-jwt-vc@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-1.0.3.tgz#1e290437972b40e8b8fcaaca4f16f02b7bd9aca7"
+  integrity sha512-hOZT/XaFlj5LcxVvcYNzQueqF5QLgAQlh6qyGJ4CHiY29ueY+aKjoR18k8NKgTQDD9pdcoJQqtvWccnxS2SBxw==
   dependencies:
     did-jwt "^4.3.2"
 
