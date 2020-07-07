@@ -6,7 +6,7 @@ type IContext = IAgentContext<IDataStoreORM>
 
 export type TGetVerifiableCredentialsForSdr = (
   args: {
-    sdr: ISelectiveDisclosureRequest
+    sdr: Omit<ISelectiveDisclosureRequest, 'issuer'>
     did?: string
   },
   context: IContext,
