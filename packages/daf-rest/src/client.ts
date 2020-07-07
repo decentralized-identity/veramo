@@ -23,11 +23,13 @@ export class AgentRestClient implements IAgentPlugin {
             method: supportedMethods[method].type,
             body: JSON.stringify(args),
           })
+          const json = await res.json()
+
           if (res.status >= 400) {
-            throw Error('Bad response from server: ' + res.status + ' ' + res.statusText)
+            throw Error(json.error)
           }
 
-          return res.json()
+          return json
         }
       }
     }
