@@ -10,12 +10,16 @@
   },
   "command": {
     "publish": {
-      "allowBranch": [
-        "master"
-      ],
+      "allowBranch": ["master", "beta"],
       "conventionalCommits": true,
       "gitRemote": "origin",
       "message": "chore(release): %s"
+    },
+    "version": {
+      "allowBranch": ["beta"],
+      "conventionalCommits": true,
+      "gitRemote": "origin",
+      "message": "chore(beta-release): %s"
     }
   },
   "useWorkspaces": true
