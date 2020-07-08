@@ -9,7 +9,7 @@ export const identityManagerGetProviders: IAgentGraphQLMethod = {
   `,
   typeDef: `
     extend type Query {
-      getIdentityProviders: [String]
+      identityManagerGetProviders: [String]
     }
   `,
 }
