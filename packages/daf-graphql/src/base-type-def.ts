@@ -9,5 +9,30 @@ type Identity {
 
 scalar Object
 scalar Date
+scalar VerifiablePresentation
+scalar VerifiableCredential
+
+type Message {
+  id: ID!
+  createdAt: Date
+  expiresAt: Date
+  threadId: String
+  type: String!
+  raw: String
+  data: Object
+  replyTo: [String]
+  replyUrl: String
+  from: String
+  to: String
+  metaData: [MetaData]
+  presentations: [VerifiablePresentation]
+  credentials: [VerifiableCredential]
+}
+
+type MetaData {
+  type: String!
+  value: String
+}
+
 
 `
