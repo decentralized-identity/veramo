@@ -11,6 +11,8 @@ scalar Object
 scalar Date
 scalar VerifiablePresentation
 scalar VerifiableCredential
+scalar Presentation
+scalar Credential
 
 type Message {
   id: ID!
