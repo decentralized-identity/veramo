@@ -68,10 +68,11 @@ export default (testContext: {
     describe('should create verifiable credential', () => {
       it('issuer: serviceIdentity', async () => {
         const verifiableCredential = await agent.createVerifiableCredential({
+          save: true,
           credential: {
             issuer: { id: serviceIdentity.did },
             '@context': ['https://www.w3.org/2018/credentials/v1'],
-            type: ['VerifiableCredential'],
+            type: ['VerifiableCredential', 'Profile'],
             issuanceDate: new Date().toISOString(),
             credentialSubject: {
               id: alice.did,
@@ -96,6 +97,7 @@ export default (testContext: {
         })
 
         const verifiableCredential = await agent.createVerifiableCredential({
+          save: true,
           credential: {
             issuer: { id: a.did },
             '@context': ['https://www.w3.org/2018/credentials/v1'],
@@ -112,6 +114,18 @@ export default (testContext: {
         expect(verifiableCredential.issuer).toEqual({ id: alice.did })
         expect(verifiableCredential.credentialSubject).toEqual({ id: bob.did, name: 'Bob' })
         expect(verifiableCredential).toHaveProperty('proof.jwt')
+      })
+
+      it('should be able to query credentials', async () => {
+        const credentials = await agent.dataStoreORMGetVerifiableCredentials({
+          where: [
+            { column: 'subject', value: [alice.did], op: 'Equal' },
+            { column: 'type', value: ['VerifiableCredential,Profile'], op: 'Equal' },
+          ],
+          order: [{ column: 'issuanceDate', direction: 'DESC' }],
+        })
+
+        expect(credentials.length).toEqual(1)
       })
     })
   })

@@ -74,8 +74,45 @@ export const dataStoreORMGetMessages: IAgentGraphQLMethod = {
   `,
 }
 
+export const dataStoreORMGetVerifiableCredentials: IAgentGraphQLMethod = {
+  type: 'Query',
+  query: `
+    query dataStoreORMGetVerifiableCredentials($where: [CredentialsWhere], $order: [CredentialsOrder], $take: Int, $skip: Int) {
+      dataStoreORMGetVerifiableCredentials(where: $where, order: $order, take: $take, skip: $skip) 
+    }
+  `,
+  typeDef: `
+
+    enum CredentialsColumns {
+      context
+      type
+      id
+      issuer
+      subject
+      expirationDate
+      issuanceDate
+    }
+
+    input CredentialsWhere {
+      column: CredentialsColumns!
+      value: [String]
+      not: Boolean
+      op: WhereOperation
+    }
+
+    input CredentialsOrder {
+      column: CredentialsColumns!
+      direction: OrderDirection!
+    }
+
+    extend type Query {
+      dataStoreORMGetVerifiableCredentials(where: [CredentialsWhere], order: [CredentialsOrder], take: Int, skip: Int): [Credential]
+    }
+  `,
+}
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   dataStoreORMGetMessages,
+  dataStoreORMGetVerifiableCredentials,
 }
 
 export default supportedMethods

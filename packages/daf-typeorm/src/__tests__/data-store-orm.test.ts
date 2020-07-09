@@ -320,6 +320,7 @@ describe('daf-typeorm entities', () => {
           value: ['vc5'],
         },
       ],
+      order: [{ column: 'issuanceDate', direction: 'DESC' }],
     }
 
     const credentials = await agent.dataStoreORMGetVerifiableCredentials(args)
