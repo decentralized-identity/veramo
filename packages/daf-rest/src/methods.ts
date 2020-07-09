@@ -19,6 +19,7 @@ export const supportedMethods: Record<string, IAgentRESTMethod> = {
   identityManagerGetIdentities: { type: 'POST', path: '/identityManagerGetIdentities' },
   identityManagerGetIdentity: { type: 'POST', path: '/identityManagerGetIdentity' },
   identityManagerCreateIdentity: { type: 'POST', path: '/identityManagerCreateIdentity' },
+  identityManagerGetOrCreateIdentity: { type: 'POST', path: '/identityManagerGetOrCreateIdentity' },
   identityManagerImportIdentity: { type: 'POST', path: '/identityManagerImportIdentity' },
   identityManagerDeleteIdentity: { type: 'POST', path: '/identityManagerDeleteIdentity' },
   identityManagerAddKey: { type: 'POST', path: '/identityManagerAddKey' },

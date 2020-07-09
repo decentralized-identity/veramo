@@ -13,6 +13,7 @@
     { "path": "daf-selective-disclosure" },
     { "path": "daf-url" },
     { "path": "daf-typeorm" },
+    { "path": "daf-web-did" },
     { "path": "daf-w3c" }
   ]
 }

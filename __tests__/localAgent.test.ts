@@ -15,6 +15,7 @@ import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
 import { EthrIdentityProvider } from 'daf-ethr-did'
+import { WebIdentityProvider } from 'daf-web-did'
 import { DIDComm, DIDCommMessageHandler, ISendMessageDIDCommAlpha1 } from 'daf-did-comm'
 import { Sdr, ISdr, SdrMessageHandler } from 'daf-selective-disclosure'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
@@ -25,6 +26,7 @@ import fs from 'fs'
 import createVerifiableCredential from './shared/createVerifiableCredential'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
+import webDidFlow from './shared/webDidFlow'
 
 const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -84,6 +86,9 @@ const setup = async (): Promise<boolean> => {
             gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
           }),
+          'did:web': new WebIdentityProvider({
+            defaultKms: 'local',
+          }),
         },
       }),
       new DafResolver({ infuraProjectId }),
@@ -119,4 +124,5 @@ describe('Local integration tests', () => {
   createVerifiableCredential(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
+  webDidFlow(testContext)
 })

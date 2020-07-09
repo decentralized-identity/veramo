@@ -42,7 +42,7 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
   }
 
   async createIdentity(
-    { kms, options }: { kms: string; options?: any },
+    { kms, options }: { kms?: string; options?: any },
     context: IContext,
   ): Promise<Omit<IIdentity, 'provider'>> {
     const key = await context.agent.keyManagerCreateKey({ kms: kms || this.defaultKms, type: 'Secp256k1' })

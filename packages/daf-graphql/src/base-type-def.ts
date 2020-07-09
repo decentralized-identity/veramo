@@ -2,9 +2,26 @@ export const baseTypeDef = `
 type Query
 type Mutation
 
+type Key {
+  kid: String!
+  kms: String!
+  type: String!
+  publicKeyHex: String
+}
+
+type Service {
+  id: String!
+  type: String!
+  serviceEndpoint: String!
+  description: String
+}
+
 type Identity {
   did: String!
   provider: String
+  alias: String
+  keys: [Key]
+  services: [Service]
 }
 
 scalar Object

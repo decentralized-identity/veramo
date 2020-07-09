@@ -16,7 +16,10 @@ export interface IIdentityManager extends IPluginMethodMap {
     },
     context: IAgentContext<IKeyManager>,
   ) => Promise<IIdentity>
-  // identityManagerGetOrCreateIdentity?: (args: { alias: string, provider?: string, kms?: string, options?: any}) => Promise<IIdentity>
+  identityManagerGetOrCreateIdentity: (
+    args: { alias: string; provider?: string; kms?: string; options?: any },
+    context: IAgentContext<IKeyManager>,
+  ) => Promise<IIdentity>
   identityManagerImportIdentity: (args: IIdentity) => Promise<IIdentity>
   identityManagerDeleteIdentity: (
     args: { did: string },
@@ -59,6 +62,7 @@ export class IdentityManager implements IAgentPlugin {
       identityManagerGetIdentities: this.identityManagerGetIdentities.bind(this),
       identityManagerGetIdentity: this.identityManagerGetIdentity.bind(this),
       identityManagerCreateIdentity: this.identityManagerCreateIdentity.bind(this),
+      identityManagerGetOrCreateIdentity: this.identityManagerGetOrCreateIdentity.bind(this),
       identityManagerImportIdentity: this.identityManagerImportIdentity.bind(this),
       identityManagerDeleteIdentity: this.identityManagerDeleteIdentity.bind(this),
       identityManagerAddKey: this.identityManagerAddKey.bind(this),
@@ -92,10 +96,22 @@ export class IdentityManager implements IAgentPlugin {
   ): Promise<IIdentity> {
     const providerName = provider || this.defaultProvider
     const identityProvider = this.getProvider(providerName)
-    const partialIdentity = await identityProvider.createIdentity({ kms, options }, context)
+    const partialIdentity = await identityProvider.createIdentity({ kms, alias, options }, context)
     const identity: IIdentity = { ...partialIdentity, alias, provider: providerName }
     await this.store.import(identity)
     return identity
+  }
+
+  async identityManagerGetOrCreateIdentity(
+    { provider, alias, kms, options }: { alias: string; provider?: string; kms?: string; options?: any },
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentity> {
+    try {
+      const identity = await this.store.get({ alias })
+      return identity
+    } catch {
+      return this.identityManagerCreateIdentity({ provider, alias, kms, options }, context)
+    }
   }
 
   async identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity> {

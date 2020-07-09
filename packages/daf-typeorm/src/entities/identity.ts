@@ -28,7 +28,7 @@ export class Identity extends BaseEntity {
 
   @Column({ nullable: true })
   //@ts-ignore
-  alias: string
+  alias?: string
 
   @CreateDateColumn()
   //@ts-ignore
