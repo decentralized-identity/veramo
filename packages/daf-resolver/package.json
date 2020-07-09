@@ -8,7 +8,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.2",
+    "daf-core": "^7.0.0-beta.3",
     "debug": "^4.1.1",
     "did-resolver": "^2.0.1",
     "ethr-did-resolver": "^2.2.0",

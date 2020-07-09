@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^7.0.0-beta.2",
-    "daf-did-jwt": "^7.0.0-beta.2",
-    "daf-resolver": "^7.0.0-beta.2",
+    "daf-core": "^7.0.0-beta.3",
+    "daf-did-jwt": "^7.0.0-beta.3",
+    "daf-resolver": "^7.0.0-beta.3",
     "debug": "^4.1.1",
     "did-jwt-vc": "^1.0.3",
     "did-resolver": "^1.1.0"
