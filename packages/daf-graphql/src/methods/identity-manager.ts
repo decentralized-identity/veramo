@@ -21,6 +21,19 @@ export const identityManagerGetIdentities: IAgentGraphQLMethod = {
       identityManagerGetIdentities{
         did
         provider
+        alias
+        keys {
+          kid
+          kms
+          type
+          publicKeyHex
+        }
+        services {
+          id
+          type
+          serviceEndpoint
+          description
+        }
       }
     } 
   `,
@@ -38,6 +51,19 @@ export const identityManagerGetIdentity: IAgentGraphQLMethod = {
       identityManagerGetIdentity(did: $did) {
         did
         provider
+        alias
+        keys {
+          kid
+          kms
+          type
+          publicKeyHex
+        }
+        services {
+          id
+          type
+          serviceEndpoint
+          description
+        }
       }
     }
   `,
@@ -48,12 +74,56 @@ export const identityManagerGetIdentity: IAgentGraphQLMethod = {
   `,
 }
 
+export const identityManagerGetOrCreateIdentity: IAgentGraphQLMethod = {
+  type: 'Mutation',
+  query: `
+    mutation identityManagerGetOrCreateIdentity($alias: String!, $provider: String, $kms: String) {
+      identityManagerGetOrCreateIdentity(alias: $alias, provider: $provider, kms: $kms) {
+        did
+        provider
+        alias
+        keys {
+          kid
+          kms
+          type
+          publicKeyHex
+        }
+        services {
+          id
+          type
+          serviceEndpoint
+          description
+        }
+      }
+    }
+  `,
+  typeDef: `
+    extend type Mutation {
+      identityManagerGetOrCreateIdentity(alias: String!, provider: String, kms: String): Identity!
+    }
+  `,
+}
+
 export const identityManagerCreateIdentity: IAgentGraphQLMethod = {
   type: 'Mutation',
   query: `
     mutation identityManagerCreateIdentity($alias: String, $provider: String, $kms: String) {
       identityManagerCreateIdentity(alias: $alias, provider: $provider, kms: $kms) {
         did
+        provider
+        alias
+        keys {
+          kid
+          kms
+          type
+          publicKeyHex
+        }
+        services {
+          id
+          type
+          serviceEndpoint
+          description
+        }
       }
     }
   `,
@@ -83,6 +153,7 @@ export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerGetIdentities,
   identityManagerGetIdentity,
   identityManagerCreateIdentity,
+  identityManagerGetOrCreateIdentity,
   identityManagerDeleteIdentity,
   // TODO identityManagerImportIdentity
 }

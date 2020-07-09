@@ -12,13 +12,35 @@ export class IdentityStore extends AbstractIdentityStore {
     super()
   }
 
-  async get({ did, alias }: { did: string; alias?: string }): Promise<IIdentity> {
-    //TODO alias
-    const identity = await (await this.dbConnection)
-      .getRepository(Identity)
-      .findOne(did, { relations: ['keys', 'services'] })
+  async get({ did, alias }: { did: string; alias: string }): Promise<IIdentity> {
+    let where = {}
+    if (did !== undefined && alias === undefined) {
+      where = { did }
+    } else if (did === undefined && alias !== undefined) {
+      where = { alias }
+    } else {
+      throw Error('[daf:typeorm:identity-store] Get requires did or alias')
+    }
+
+    const identity = await (await this.dbConnection).getRepository(Identity).findOne({
+      where,
+      relations: ['keys', 'services'],
+    })
+
     if (!identity) throw Error('Identity not found')
-    return identity
+    return {
+      did: identity.did,
+      controllerKeyId: identity.controllerKeyId,
+      alias: identity.alias,
+      provider: identity.provider,
+      services: identity.services,
+      keys: identity.keys.map(k => ({
+        kid: k.kid,
+        type: k.type,
+        kms: k.kms,
+        publicKeyHex: k.publicKeyHex,
+      })),
+    }
   }
 
   async delete({ did }: { did: string }) {
@@ -35,6 +57,7 @@ export class IdentityStore extends AbstractIdentityStore {
     identity.did = args.did
     identity.controllerKeyId = args.controllerKeyId
     identity.provider = args.provider
+    identity.alias = args.alias
 
     identity.keys = []
     for (const argsKey of args.keys) {

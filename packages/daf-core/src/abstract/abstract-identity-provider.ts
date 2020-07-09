@@ -6,7 +6,7 @@ import { IKeyManager } from '../key-manager'
  */
 export abstract class AbstractIdentityProvider {
   abstract createIdentity(
-    args: { kms?: string; options?: any },
+    args: { kms?: string; alias?: string; options?: any },
     context: IAgentContext<IKeyManager>,
   ): Promise<Omit<IIdentity, 'provider'>>
   abstract deleteIdentity(args: IIdentity, context: IAgentContext<IKeyManager>): Promise<boolean>
