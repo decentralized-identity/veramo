@@ -109,16 +109,17 @@ export const createCredentialEntity = (vc: VerifiableCredential): Credential => 
   issuer.did = vc.issuer.id
   credential.issuer = issuer
 
+  if (vc.credentialSubject.id) {
+    const subject = new Identity()
+    subject.did = vc.credentialSubject.id
+    credential.subject = subject
+  }
   credential.claims = []
   for (const type in vc.credentialSubject) {
     if (vc.credentialSubject.hasOwnProperty(type)) {
       const value = vc.credentialSubject[type]
 
-      if (type === 'id') {
-        const subject = new Identity()
-        subject.did = value
-        credential.subject = subject
-      } else {
+      if (type !== 'id') {
         const isObj = typeof value === 'function' || (typeof value === 'object' && !!value)
         const claim = new Claim()
         claim.hash = blake2bHex(JSON.stringify(vc.raw) + type)
