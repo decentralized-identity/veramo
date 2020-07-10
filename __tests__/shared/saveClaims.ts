@@ -10,11 +10,9 @@ export default (testContext: {
   setup: () => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
-  describe('handling sdr message', () => {
+  describe('Save credentials and query by claim type', () => {
     let agent: ConfiguredAgent
     let identity: IIdentity
-    const JWT =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1OTM0NTE3MDAsInR5cGUiOiJzZHIiLCJzdWJqZWN0IjoiZGlkOmV0aHI6cmlua2VieToweDM2MjQ2M2NiZTUyMjhjZTUwMGJlOGUwMzVjZGIyMWI3NzQ1ZjZkYjAiLCJ0YWciOiJzZHItb25lIiwiY2xhaW1zIjpbeyJyZWFzb24iOiJXZSBuZWVkIGl0IiwiY2xhaW1UeXBlIjoibmFtZSIsImVzc2VudGlhbCI6dHJ1ZX1dLCJpc3MiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4MTM4NGMxZmNlM2Y3MWQ3NjU5NzcwOGY1NGM0ZDEyOGMyNDFkMDBkMiJ9.L-j-gREAuN7DAxDCe1vXJWtMIdmn88HTuTFp2PasTTo_aqvIdGcFtv-rSfvRHkauNq5C3PkXkQWY01VGqpJ-QwE'
 
     beforeAll(() => {
       testContext.setup()
@@ -28,9 +26,7 @@ export default (testContext: {
     })
 
     it('should create verifiable credentials', async () => {
-      const topics = ['math', 'science', 'art']
-
-      // Looping these in a map thorws SQL errors
+      // Looping these in a map/forEach throws SQL UNIQUE CONSTRAINT errors
 
       await agent.createVerifiableCredential({
         credential: {
@@ -88,6 +84,16 @@ export default (testContext: {
         where: [{ column: 'type', value: ['topic'] }],
       })
       expect(credentials).toHaveLength(3)
+    })
+
+    it('should be able to find all the credentials when query by claim type and value', async () => {
+      const credentials = await agent.dataStoreORMGetVerifiableCredentialsByClaims({
+        where: [
+          { column: 'type', value: ['topic'] },
+          { column: 'value', value: ['math', 'art'] },
+        ],
+      })
+      expect(credentials).toHaveLength(2)
     })
   })
 }
