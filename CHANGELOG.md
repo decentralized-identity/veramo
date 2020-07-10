@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.6](https://github.com/uport-project/daf/compare/v7.0.0-beta.5...v7.0.0-beta.6) (2020-07-10)
+
+### Features
+
+- Daf-express overrides ([cd2281b](https://github.com/uport-project/daf/commit/cd2281bae5a8681a0034819076d6fa4960517a51))
+
 # [7.0.0-beta.5](https://github.com/uport-project/daf/compare/v7.0.0-beta.4...v7.0.0-beta.5) (2020-07-10)
 
 ### Bug Fixes
