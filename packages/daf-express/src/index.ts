@@ -1,6 +1,6 @@
 import { IAgent } from 'daf-core'
 import { Request, Response, NextFunction, Router, json } from 'express'
-import { supportedMethods } from 'daf-rest'
+import { supportedMethods, IAgentRESTMethod } from 'daf-rest'
 import Debug from 'debug'
 
 interface RequestWithAgent extends Request {
@@ -10,6 +10,7 @@ interface RequestWithAgent extends Request {
 export const AgentRouter = (options: {
   getAgentForRequest: (req: Request) => Promise<IAgent>
   exposedMethods: string[]
+  overrides?: Record<string, IAgentRESTMethod>
 }): Router => {
   const router = Router()
   router.use(json())
@@ -18,8 +19,10 @@ export const AgentRouter = (options: {
     next()
   })
 
+  const allMethods: Record<string, IAgentRESTMethod> = { ...supportedMethods, ...options.overrides }
+
   for (const exposedMethod of options.exposedMethods) {
-    const method = supportedMethods[exposedMethod]
+    const method = allMethods[exposedMethod]
     if (!method) throw Error('Method not supported: ' + exposedMethod)
     Debug('daf:express:initializing')(exposedMethod)
 
