@@ -1,14 +1,14 @@
 {
   "name": "daf-ethr-did",
   "description": "DAF ehtr-did modules",
-  "version": "7.0.0-beta.5",
+  "version": "7.0.0-beta.6",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.5",
+    "daf-core": "^7.0.0-beta.6",
     "debug": "^4.1.1",
     "ethjs-provider-signer": "^0.1.4",
     "ethr-did": "^1.1.0",
