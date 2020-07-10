@@ -9,7 +9,7 @@ export class AgentRestClient implements IAgentPlugin {
   constructor(options: {
     url: string
     enabledMethods: string[]
-    headers?: Response['headers']
+    headers?: Record<string, string>
     overrides?: Record<string, IAgentRESTMethod>
   }) {
     this.url = options.url
