@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.5](https://github.com/uport-project/daf/compare/v7.0.0-beta.4...v7.0.0-beta.5) (2020-07-10)
+
+### Bug Fixes
+
+- Daf REST headers type ([6bf5909](https://github.com/uport-project/daf/commit/6bf5909ffce0cfa36585c4b02fedc0df19ea2d8b))
+
 # [7.0.0-beta.4](https://github.com/uport-project/daf/compare/v7.0.0-beta.3...v7.0.0-beta.4) (2020-07-09)
 
 ### Bug Fixes
