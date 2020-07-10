@@ -14,13 +14,15 @@ export class AgentRestClient implements IAgentPlugin {
   }) {
     this.url = options.url
 
+    const allMethods: Record<string, IAgentRESTMethod> = { ...supportedMethods, ...options.overrides }
+
     for (const method of options.enabledMethods) {
-      if (supportedMethods[method]) {
+      if (allMethods[method]) {
         this.methods[method] = async (args: any) => {
           // TODO: handle GET
-          const res = await fetch(this.url + supportedMethods[method].path, {
+          const res = await fetch(this.url + allMethods[method].path, {
             headers: { ...options.headers, 'Content-Type': 'application/json' },
-            method: supportedMethods[method].type,
+            method: allMethods[method].type,
             body: JSON.stringify(args),
           })
           const json = await res.json()
