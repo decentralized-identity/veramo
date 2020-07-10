@@ -1,15 +1,15 @@
 {
   "name": "daf-express",
   "description": "DAF express",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.7",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.6",
-    "daf-rest": "^7.0.0-beta.6",
+    "daf-core": "^7.0.0-beta.7",
+    "daf-rest": "^7.0.0-beta.7",
     "debug": "^4.1.1"
   },
   "devDependencies": {
