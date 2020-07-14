@@ -4,11 +4,13 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   IPluginMethodMap,
+  IIdentity,
 } from 'daf-core'
 import { Message, createMessage } from './entities/message'
 import { Claim } from './entities/claim'
 import { Credential } from './entities/credential'
 import { Presentation } from './entities/presentation'
+import { Identity } from './entities/identity'
 import {
   Connection,
   Not,
@@ -31,6 +33,7 @@ import {
   TCredentialColumns,
   TMessageColumns,
   TPresentationColumns,
+  TIdentitiesColumns,
   FindArgs,
 } from './types'
 
@@ -39,6 +42,8 @@ interface IContext {
 }
 
 export interface IDataStoreORM extends IPluginMethodMap {
+  dataStoreORMGetIdentities: (args: FindArgs<TIdentitiesColumns>, context: IContext) => Promise<IIdentity[]>
+  dataStoreORMGetIdentitiesCount: (args: FindArgs<TIdentitiesColumns>, context: IContext) => Promise<number>
   dataStoreORMGetMessages: (args: FindArgs<TMessageColumns>, context: IContext) => Promise<IMessage[]>
   dataStoreORMGetMessagesCount: (args: FindArgs<TMessageColumns>, context: IContext) => Promise<number>
   dataStoreORMGetVerifiableCredentialsByClaims: (
@@ -75,6 +80,8 @@ export class DataStoreORM implements IAgentPlugin {
     this.dbConnection = dbConnection
 
     this.methods = {
+      dataStoreORMGetIdentities: this.dataStoreORMGetIdentities.bind(this),
+      dataStoreORMGetIdentitiesCount: this.dataStoreORMGetIdentitiesCount.bind(this),
       dataStoreORMGetMessages: this.dataStoreORMGetMessages.bind(this),
       dataStoreORMGetMessagesCount: this.dataStoreORMGetMessagesCount.bind(this),
       dataStoreORMGetVerifiableCredentialsByClaims: this.dataStoreORMGetVerifiableCredentialsByClaims.bind(
@@ -90,6 +97,38 @@ export class DataStoreORM implements IAgentPlugin {
         this,
       ),
     }
+  }
+
+  // Identities
+
+  private async identitiesQuery(
+    args: FindArgs<TIdentitiesColumns>,
+    context: IContext,
+  ): Promise<SelectQueryBuilder<Identity>> {
+    const where = createWhereObject(args)
+    let qb = (await this.dbConnection)
+      .getRepository(Identity)
+      .createQueryBuilder('identity')
+      .leftJoinAndSelect('identity.keys', 'keys')
+      .leftJoinAndSelect('identity.services', 'services')
+      .where(where)
+    qb = decorateQB(qb, 'message', args)
+    return qb
+  }
+
+  async dataStoreORMGetIdentities(
+    args: FindArgs<TIdentitiesColumns>,
+    context: IContext,
+  ): Promise<IIdentity[]> {
+    const identities = await (await this.identitiesQuery(args, context)).getMany()
+    return identities
+  }
+
+  async dataStoreORMGetIdentitiesCount(
+    args: FindArgs<TIdentitiesColumns>,
+    context: IContext,
+  ): Promise<number> {
+    return await (await this.identitiesQuery(args, context)).getCount()
   }
 
   // Messages
@@ -298,7 +337,9 @@ function addVerifierQuery(input: FindArgs<any>, qb: SelectQueryBuilder<any>): Se
 }
 
 function createWhereObject(
-  input: FindArgs<TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns>,
+  input: FindArgs<
+    TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns | TIdentitiesColumns
+  >,
 ): any {
   if (input?.where) {
     const where: Record<string, any> = {}

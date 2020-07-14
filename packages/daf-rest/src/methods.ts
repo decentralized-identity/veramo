@@ -30,6 +30,8 @@ export const supportedMethods: Record<string, IAgentRESTMethod> = {
   createSelectiveDisclosureRequest: { type: 'POST', path: '/createSelectiveDisclosureRequest' },
   getVerifiableCredentialsForSdr: { type: 'POST', path: '/getVerifiableCredentialsForSdr' },
   validatePresentationAgainstSdr: { type: 'POST', path: '/validatePresentationAgainstSdr' },
+  dataStoreORMGetIdentities: { type: 'POST', path: '/dataStoreORMGetIdentities' },
+  dataStoreORMGetIdentitiesCount: { type: 'POST', path: '/dataStoreORMGetIdentitiesCount' },
   dataStoreORMGetMessages: { type: 'POST', path: '/dataStoreORMGetMessages' },
   dataStoreORMGetMessagesCount: { type: 'POST', path: '/dataStoreORMGetMessagesCount' },
   dataStoreORMGetVerifiableCredentialsByClaims: {
