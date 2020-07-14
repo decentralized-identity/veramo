@@ -122,7 +122,7 @@ export const createCredentialEntity = (vc: VerifiableCredential): Credential => 
       if (type !== 'id') {
         const isObj = typeof value === 'function' || (typeof value === 'object' && !!value)
         const claim = new Claim()
-        claim.hash = blake2bHex(JSON.stringify(vc.raw) + type)
+        claim.hash = blake2bHex(JSON.stringify(vc) + type)
         claim.type = type
         claim.value = isObj ? JSON.stringify(value) : value
         claim.isObj = isObj
