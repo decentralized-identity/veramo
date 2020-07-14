@@ -65,6 +65,13 @@ export default (testContext: {
       expect(bob.did).toBeDefined()
     })
 
+    it('should query identities', async () => {
+      const identities = await agent.dataStoreORMGetIdentities()
+      expect(identities.length).toEqual(3)
+      const count = await agent.dataStoreORMGetIdentitiesCount()
+      expect(count).toEqual(3)
+    })
+
     describe('should create verifiable credential', () => {
       it('issuer: serviceIdentity', async () => {
         const verifiableCredential = await agent.createVerifiableCredential({

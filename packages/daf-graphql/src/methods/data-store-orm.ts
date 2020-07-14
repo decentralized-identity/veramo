@@ -110,9 +110,74 @@ export const dataStoreORMGetVerifiableCredentials: IAgentGraphQLMethod = {
     }
   `,
 }
+
+export const dataStoreORMGetIdentities: IAgentGraphQLMethod = {
+  type: 'Query',
+  query: `
+    query dataStoreORMGetIdentities($where: [IdentitiesWhere], $order: [IdentitiesOrder], $take: Int, $skip: Int) {
+      dataStoreORMGetIdentities(where: $where, order: $order, take: $take, skip: $skip) {
+        did
+        provider
+        alias
+        keys {
+          kid
+          kms
+          type
+          publicKeyHex
+        }
+        services{
+          id
+          type
+          serviceEndpoint
+          description
+        }
+      }
+    }
+  `,
+  typeDef: `
+
+    enum IdentitiesColumns {
+      alias
+      provider
+    }
+
+    input IdentitiesWhere {
+      column: IdentitiesColumns!
+      value: [String]
+      not: Boolean
+      op: WhereOperation
+    }
+
+    input IdentitiesOrder {
+      column: IdentitiesColumns!
+      direction: OrderDirection!
+    }
+
+    extend type Query {
+      dataStoreORMGetIdentities(where: [IdentitiesWhere], order: [IdentitiesOrder], take: Int, skip: Int): [Identity]
+    }
+  `,
+}
+
+export const dataStoreORMGetIdentitiesCount: IAgentGraphQLMethod = {
+  type: 'Query',
+  query: `
+    query dataStoreORMGetIdentitiesCount($where: [IdentitiesWhere], $order: [IdentitiesOrder]) {
+      dataStoreORMGetIdentitiesCount(where: $where, order: $order) 
+    }
+  `,
+  typeDef: `
+    extend type Query {
+      dataStoreORMGetIdentitiesCount(where: [IdentitiesWhere], order: [IdentitiesOrder]): Int
+    }
+  `,
+}
+
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   dataStoreORMGetMessages,
   dataStoreORMGetVerifiableCredentials,
+  dataStoreORMGetIdentities,
+  dataStoreORMGetIdentitiesCount,
 }
 
 export default supportedMethods

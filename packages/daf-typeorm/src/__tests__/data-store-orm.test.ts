@@ -1,7 +1,14 @@
 import { Agent, VerifiableCredential, VerifiablePresentation, IMessage, IDataStore, TAgent } from 'daf-core'
 import { createConnection, Connection } from 'typeorm'
 import { DataStoreORM, IDataStoreORM } from '../data-store-orm'
-import { FindArgs, TClaimsColumns, TCredentialColumns, TMessageColumns, TPresentationColumns } from '../types'
+import {
+  FindArgs,
+  TClaimsColumns,
+  TCredentialColumns,
+  TMessageColumns,
+  TPresentationColumns,
+  TIdentitiesColumns,
+} from '../types'
 import { DataStore } from '../data-store'
 import { Entities } from '../index'
 import fs from 'fs'
@@ -380,5 +387,14 @@ describe('daf-typeorm entities', () => {
 
     const presentations = await agent.dataStoreORMGetVerifiablePresentations(args)
     expect(presentations[0].verifiableCredential[0].id).toEqual('vc6')
+  })
+
+  it('should query identities', async () => {
+    const agent = makeAgent()
+    const identities = await agent.dataStoreORMGetIdentities()
+    expect(identities.length).toEqual(4)
+
+    const count = await agent.dataStoreORMGetIdentitiesCount()
+    expect(count).toEqual(4)
   })
 })
