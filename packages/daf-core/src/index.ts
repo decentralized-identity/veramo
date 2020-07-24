@@ -28,7 +28,7 @@ export {
   IKeyManagerSignEthTXArgs,
   IKeyManagerSignJWTArgs,
 } from './key-manager'
-export { MessageHandler, IHandleMessage } from './message-handler'
+export { MessageHandler, IHandleMessage, IHandleMessageArgs } from './message-handler'
 export { Message } from './message'
 export { AbstractIdentityProvider } from './abstract/abstract-identity-provider'
 export { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'
