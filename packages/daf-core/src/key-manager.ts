@@ -2,15 +2,44 @@ import { AbstractKeyStore } from './abstract/abstract-key-store'
 import { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'
 import { IKey, TKeyType, EcdsaSignature, IAgentPlugin, IPluginMethodMap } from './types'
 
+export interface IKeyManagerCreateKeyArgs {
+  type: TKeyType
+  kms: string
+  meta?: Record<string, any>
+}
+export interface IKeyManagerGetKeyArgs {
+  kid: string
+}
+export interface IKeyManagerDeleteKeyArgs {
+  kid: string
+}
+export interface IKeyManagerEncryptJWEArgs {
+  kid: string
+  to: Omit<IKey, 'kms'>
+  data: string
+}
+export interface IKeyManagerDecryptJWEArgs {
+  kid: string
+  data: string
+}
+export interface IKeyManagerSignJWTArgs {
+  kid: string
+  data: string
+}
+export interface IKeyManagerSignEthTXArgs {
+  kid: string
+  transaction: object
+}
+
 export interface IKeyManager extends IPluginMethodMap {
-  keyManagerCreateKey: (args: { type: TKeyType; kms: string; meta?: Record<string, any> }) => Promise<IKey>
-  keyManagerGetKey: (args: { kid: string }) => Promise<IKey>
-  keyManagerDeleteKey: (args: { kid: string }) => Promise<boolean>
-  keyManagerImportKey: (args: IKey) => Promise<boolean>
-  keyManagerEncryptJWE: (args: { kid: string; to: Omit<IKey, 'kms'>; data: string }) => Promise<string>
-  keyManagerDecryptJWE: (args: { kid: string; data: string }) => Promise<string>
-  keyManagerSignJWT: (args: { kid: string; data: string }) => Promise<EcdsaSignature | string>
-  keyManagerSignEthTX: (args: { kid: string; transaction: object }) => Promise<string>
+  keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>
+  keyManagerGetKey(args: IKeyManagerGetKeyArgs): Promise<IKey>
+  keyManagerDeleteKey(args: IKeyManagerDeleteKeyArgs): Promise<boolean>
+  keyManagerImportKey(args: IKey): Promise<boolean>
+  keyManagerEncryptJWE(args: IKeyManagerEncryptJWEArgs): Promise<string>
+  keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>
+  keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string>
+  keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>
 }
 export class KeyManager implements IAgentPlugin {
   readonly methods: IKeyManager
@@ -38,11 +67,7 @@ export class KeyManager implements IAgentPlugin {
     return kms
   }
 
-  async keyManagerCreateKey(args: {
-    type: TKeyType
-    kms: string
-    meta?: Record<string, any>
-  }): Promise<IKey> {
+  async keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey> {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
     const key: IKey = { ...partialKey, kms: args.kms }
@@ -53,11 +78,11 @@ export class KeyManager implements IAgentPlugin {
     return key
   }
 
-  async keyManagerGetKey({ kid }: { kid: string }): Promise<IKey> {
+  async keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey> {
     return this.store.get({ kid })
   }
 
-  async keyManagerDeleteKey({ kid }: { kid: string }): Promise<boolean> {
+  async keyManagerDeleteKey({ kid }: IKeyManagerDeleteKeyArgs): Promise<boolean> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     await kms.deleteKey({ kid })
@@ -68,25 +93,25 @@ export class KeyManager implements IAgentPlugin {
     return this.store.import(key)
   }
 
-  async keyManagerEncryptJWE({ kid, to, data }: { kid: string; to: IKey; data: string }): Promise<string> {
+  async keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.encryptJWE({ key, to, data })
   }
 
-  async keyManagerDecryptJWE({ kid, data }: { kid: string; data: string }): Promise<string> {
+  async keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.decryptJWE({ key, data })
   }
 
-  async keyManagerSignJWT({ kid, data }: { kid: string; data: string }): Promise<EcdsaSignature | string> {
+  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.signJWT({ key, data })
   }
 
-  async keyManagerSignEthTX({ kid, transaction }: { kid: string; transaction: object }): Promise<string> {
+  async keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.signEthTX({ key, transaction })

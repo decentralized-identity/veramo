@@ -47,7 +47,8 @@
     "ts-jest": "^25.2.1",
     "ts-json-schema-generator": "^0.70.2",
     "ts-node": "^8.6.2",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.6",
+    "typescript-json-schema": "^0.42.0"
   },
   "repository": {
     "type": "git",

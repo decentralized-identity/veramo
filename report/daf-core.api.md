@@ -83,7 +83,7 @@ export abstract class AbstractKeyManagementSystem {
   // (undocumented)
   abstract deleteKey(args: { kid: string }): Promise<boolean>
   // (undocumented)
-  abstract encryptJWE(args: { key: IKey; to: IKey; data: string }): Promise<string>
+  abstract encryptJWE(args: { key: IKey; to: Omit<IKey, 'kms'>; data: string }): Promise<string>
   // (undocumented)
   abstract signEthTX(args: { key: IKey; transaction: object }): Promise<string>
   // (undocumented)
@@ -423,21 +423,77 @@ export interface IKey {
 // @public (undocumented)
 export interface IKeyManager extends IPluginMethodMap {
   // (undocumented)
-  keyManagerCreateKey: (args: { type: TKeyType; kms: string; meta?: Record<string, any> }) => Promise<IKey>
+  keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>
   // (undocumented)
-  keyManagerDecryptJWE: (args: { kid: string; data: string }) => Promise<string>
+  keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>
   // (undocumented)
-  keyManagerDeleteKey: (args: { kid: string }) => Promise<boolean>
+  keyManagerDeleteKey(args: IKeyManagerDeleteKeyArgs): Promise<boolean>
   // (undocumented)
-  keyManagerEncryptJWE: (args: { kid: string; to: Omit<IKey, 'kms'>; data: string }) => Promise<string>
+  keyManagerEncryptJWE(args: IKeyManagerEncryptJWEArgs): Promise<string>
   // (undocumented)
-  keyManagerGetKey: (args: { kid: string }) => Promise<IKey>
+  keyManagerGetKey(args: IKeyManagerGetKeyArgs): Promise<IKey>
   // (undocumented)
-  keyManagerImportKey: (args: IKey) => Promise<boolean>
+  keyManagerImportKey(args: IKey): Promise<boolean>
   // (undocumented)
-  keyManagerSignEthTX: (args: { kid: string; transaction: object }) => Promise<string>
+  keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>
   // (undocumented)
-  keyManagerSignJWT: (args: { kid: string; data: string }) => Promise<EcdsaSignature | string>
+  keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string>
+}
+
+// @public (undocumented)
+export interface IKeyManagerCreateKeyArgs {
+  // (undocumented)
+  kms: string
+  // (undocumented)
+  meta?: Record<string, any>
+  // (undocumented)
+  type: TKeyType
+}
+
+// @public (undocumented)
+export interface IKeyManagerDecryptJWEArgs {
+  // (undocumented)
+  data: string
+  // (undocumented)
+  kid: string
+}
+
+// @public (undocumented)
+export interface IKeyManagerDeleteKeyArgs {
+  // (undocumented)
+  kid: string
+}
+
+// @public (undocumented)
+export interface IKeyManagerEncryptJWEArgs {
+  // (undocumented)
+  data: string
+  // (undocumented)
+  kid: string
+  // (undocumented)
+  to: Omit<IKey, 'kms'>
+}
+
+// @public (undocumented)
+export interface IKeyManagerGetKeyArgs {
+  // (undocumented)
+  kid: string
+}
+
+// @public (undocumented)
+export interface IKeyManagerSignEthTXArgs {
+  // (undocumented)
+  kid: string
+  // (undocumented)
+  transaction: object
+}
+
+// @public (undocumented)
+export interface IKeyManagerSignJWTArgs {
+  // (undocumented)
+  data: string
+  // (undocumented)
+  kid: string
 }
 
 // @public (undocumented)
@@ -510,21 +566,21 @@ export interface IService {
 export class KeyManager implements IAgentPlugin {
   constructor(options: { store: AbstractKeyStore; kms: Record<string, AbstractKeyManagementSystem> })
   // (undocumented)
-  keyManagerCreateKey(args: { type: TKeyType; kms: string; meta?: Record<string, any> }): Promise<IKey>
+  keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>
   // (undocumented)
-  keyManagerDecryptJWE({ kid, data }: { kid: string; data: string }): Promise<string>
+  keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string>
   // (undocumented)
-  keyManagerDeleteKey({ kid }: { kid: string }): Promise<boolean>
+  keyManagerDeleteKey({ kid }: IKeyManagerDeleteKeyArgs): Promise<boolean>
   // (undocumented)
-  keyManagerEncryptJWE({ kid, to, data }: { kid: string; to: IKey; data: string }): Promise<string>
+  keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<string>
   // (undocumented)
-  keyManagerGetKey({ kid }: { kid: string }): Promise<IKey>
+  keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey>
   // (undocumented)
   keyManagerImportKey(key: IKey): Promise<boolean>
   // (undocumented)
-  keyManagerSignEthTX({ kid, transaction }: { kid: string; transaction: object }): Promise<string>
+  keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string>
   // (undocumented)
-  keyManagerSignJWT({ kid, data }: { kid: string; data: string }): Promise<EcdsaSignature | string>
+  keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string>
   // (undocumented)
   readonly methods: IKeyManager
 }

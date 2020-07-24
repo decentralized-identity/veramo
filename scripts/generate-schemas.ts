@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { writeFileSync } from 'fs'
-import * as TJS from 'ts-json-schema-generator'
+import * as TJS from 'typescript-json-schema'
 import { JSONSchema7 } from 'json-schema'
 import {
   ApiModel,
@@ -14,10 +14,8 @@ import {
 const apiExtractorConfig = require('../api-extractor-base.json')
 
 const agentPlugins: Record<string, Array<string>> = {
-  'daf-core': [
-    'IResolveDid',
-    // 'IDataStore'
-  ],
+  'daf-core': ['IResolveDid', 'IDataStore', 'IKeyManager'],
+  'daf-w3c': ['IW3c'],
 }
 
 interface RestMethod {
@@ -35,13 +33,18 @@ const openApi = {
   paths: {},
 }
 
-function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
-  const defaultTypes = ['boolean', 'string', 'number']
-  if (defaultTypes.includes(symbol)) {
+const genericTypes = ['boolean', 'string', 'number']
+
+function createSchema(generator: TJS.JsonSchemaGenerator, symbol: string) {
+  if (genericTypes.includes(symbol)) {
     return { components: { schemas: {} } }
   }
 
-  const schema = generator.createSchema(symbol)
+  //hack
+  const fixedSymbol = symbol === 'EcdsaSignature | string' ? 'EcdsaSignature' : symbol
+  // TODO fix 'EcdsaSignature | string' in openApi responses
+
+  const schema = generator.getSchemaForSymbol(fixedSymbol)
 
   const newSchema = {
     components: {
@@ -57,11 +60,8 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
 }
 
 for (const packageName of Object.keys(agentPlugins)) {
-  const generator = TJS.createGenerator({
-    path: 'packages/' + packageName + '/src/index.ts',
-    additionalProperties: true,
-    tsconfig: './packages/' + packageName + '/tsconfig.json',
-  })
+  const program = TJS.getProgramFromFiles([resolve('packages/' + packageName + '/src/index.ts')])
+  const generator = TJS.buildGenerator(program, { required: true, topRef: true })
 
   const apiModel: ApiModel = new ApiModel()
   const apiPackage = apiModel.loadPackage(
@@ -77,6 +77,7 @@ for (const packageName of Object.keys(agentPlugins)) {
     for (const member of pluginInterface.members) {
       const method: Partial<RestMethod> = {}
       method.operationId = member.displayName
+      // console.log(member)
       method.parameters = (member as ApiParameterListMixin).parameters[0].parameterTypeExcerpt.text
       method.response = (member as ApiReturnTypeMixin).returnTypeExcerpt.text
         .replace('Promise<', '')
@@ -112,10 +113,12 @@ for (const packageName of Object.keys(agentPlugins)) {
               description: method.description,
               content: {
                 'application/json': {
-                  schema: {
-                    //@ts-ignore
-                    $ref: '#/components/schemas/' + method.response,
-                  },
+                  schema: genericTypes.includes(method.response)
+                    ? // TODO: is this correct?
+                      { type: method.response }
+                    : {
+                        $ref: '#/components/schemas/' + method.response,
+                      },
                 },
               },
             },

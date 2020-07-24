@@ -6,7 +6,17 @@
 export { Agent, createAgent, IAgentOptions } from './agent'
 export * from './types'
 export { IdentityManager, IIdentityManager } from './identity-manager'
-export { KeyManager, IKeyManager } from './key-manager'
+export {
+  KeyManager,
+  IKeyManager,
+  IKeyManagerCreateKeyArgs,
+  IKeyManagerDecryptJWEArgs,
+  IKeyManagerDeleteKeyArgs,
+  IKeyManagerEncryptJWEArgs,
+  IKeyManagerGetKeyArgs,
+  IKeyManagerSignEthTXArgs,
+  IKeyManagerSignJWTArgs,
+} from './key-manager'
 export { MessageHandler, IHandleMessage } from './message-handler'
 export { Message } from './message'
 export { AbstractIdentityProvider } from './abstract/abstract-identity-provider'
