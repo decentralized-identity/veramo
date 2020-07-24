@@ -13,23 +13,16 @@ const configs = [
   // '../packages/daf-resolver-universal/api-extractor.json',
   // '../packages/daf-rest/api-extractor.json',
   // '../packages/daf-selective-disclosure/api-extractor.json',
-  // '../packages/daf-typeorm/api-extractor.json',
+  '../packages/daf-typeorm/api-extractor.json',
   '../packages/daf-url/api-extractor.json',
   '../packages/daf-w3c/api-extractor.json',
 ]
 
 for (const config of configs) {
   const apiExtractorJsonPath: string = path.join(__dirname, config)
-
-  // Load and parse the api-extractor.json file
   const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
-
-  // Invoke API Extractor
   const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
-    // Equivalent to the "--local" command-line parameter
     localBuild: true,
-
-    // Equivalent to the "--verbose" command-line parameter
     showVerboseMessages: true,
   })
 

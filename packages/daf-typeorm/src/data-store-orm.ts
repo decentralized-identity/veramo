@@ -41,35 +41,32 @@ interface IContext {
   authenticatedDid?: string
 }
 
+export type FindIdentitiesArgs = FindArgs<TIdentitiesColumns>
+export type FindMessagesArgs = FindArgs<TMessageColumns>
+export type FindClaimsArgs = FindArgs<TClaimsColumns>
+export type FindCredentialsArgs = FindArgs<TCredentialColumns>
+export type FindPresentationsArgs = FindArgs<TPresentationColumns>
+
 export interface IDataStoreORM extends IPluginMethodMap {
-  dataStoreORMGetIdentities: (args: FindArgs<TIdentitiesColumns>, context: IContext) => Promise<IIdentity[]>
-  dataStoreORMGetIdentitiesCount: (args: FindArgs<TIdentitiesColumns>, context: IContext) => Promise<number>
-  dataStoreORMGetMessages: (args: FindArgs<TMessageColumns>, context: IContext) => Promise<IMessage[]>
-  dataStoreORMGetMessagesCount: (args: FindArgs<TMessageColumns>, context: IContext) => Promise<number>
-  dataStoreORMGetVerifiableCredentialsByClaims: (
-    args: FindArgs<TClaimsColumns>,
+  dataStoreORMGetIdentities(args: FindIdentitiesArgs, context: IContext): Promise<Array<IIdentity>>
+  dataStoreORMGetIdentitiesCount(args: FindIdentitiesArgs, context: IContext): Promise<number>
+  dataStoreORMGetMessages(args: FindMessagesArgs, context: IContext): Promise<Array<IMessage>>
+  dataStoreORMGetMessagesCount(args: FindMessagesArgs, context: IContext): Promise<number>
+  dataStoreORMGetVerifiableCredentialsByClaims(
+    args: FindClaimsArgs,
     context: IContext,
-  ) => Promise<VerifiableCredential[]>
-  dataStoreORMGetVerifiableCredentialsByClaimsCount: (
-    args: FindArgs<TClaimsColumns>,
+  ): Promise<Array<VerifiableCredential>>
+  dataStoreORMGetVerifiableCredentialsByClaimsCount(args: FindClaimsArgs, context: IContext): Promise<number>
+  dataStoreORMGetVerifiableCredentials(
+    args: FindCredentialsArgs,
     context: IContext,
-  ) => Promise<number>
-  dataStoreORMGetVerifiableCredentials: (
-    args: FindArgs<TCredentialColumns>,
+  ): Promise<Array<VerifiableCredential>>
+  dataStoreORMGetVerifiableCredentialsCount(args: FindCredentialsArgs, context: IContext): Promise<number>
+  dataStoreORMGetVerifiablePresentations(
+    args: FindPresentationsArgs,
     context: IContext,
-  ) => Promise<VerifiableCredential[]>
-  dataStoreORMGetVerifiableCredentialsCount: (
-    args: FindArgs<TCredentialColumns>,
-    context: IContext,
-  ) => Promise<number>
-  dataStoreORMGetVerifiablePresentations: (
-    args: FindArgs<TPresentationColumns>,
-    context: IContext,
-  ) => Promise<VerifiablePresentation[]>
-  dataStoreORMGetVerifiablePresentationsCount: (
-    args: FindArgs<TPresentationColumns>,
-    context: IContext,
-  ) => Promise<number>
+  ): Promise<Array<VerifiablePresentation>>
+  dataStoreORMGetVerifiablePresentationsCount(args: FindPresentationsArgs, context: IContext): Promise<number>
 }
 
 export class DataStoreORM implements IAgentPlugin {

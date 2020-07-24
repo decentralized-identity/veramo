@@ -15,6 +15,8 @@ const apiExtractorConfig = require('../api-extractor-base.json')
 
 const agentPlugins: Record<string, Array<string>> = {
   'daf-core': ['IResolveDid', 'IDataStore', 'IKeyManager', 'IIdentityManager', 'IHandleMessage'],
+  // 'daf-selective-disclosure': ['ISdr'],
+  'daf-typeorm': ['IDataStoreORM'],
   'daf-w3c': ['IW3c'],
 }
 
@@ -46,9 +48,6 @@ function createSchema(generator: TJS.JsonSchemaGenerator, symbol: string) {
   fixedSymbol = fixedSymbol.replace('Array<', '').replace('>', '')
 
   const schema = generator.getSchemaForSymbol(fixedSymbol)
-  if (fixedSymbol === 'TIdentityManagerGetIdentitiesResult') {
-    console.log(schema)
-  }
 
   const newSchema = {
     components: {
@@ -87,12 +86,13 @@ function getResponseSchema(response: string) {
 
 for (const packageName of Object.keys(agentPlugins)) {
   const program = TJS.getProgramFromFiles([resolve('packages/' + packageName + '/src/index.ts')])
-  const generator = TJS.buildGenerator(program, { required: true, topRef: true })
+  const generator = TJS.buildGenerator(program, { required: true, topRef: true, excludePrivate: false })
 
   const apiModel: ApiModel = new ApiModel()
   const apiPackage = apiModel.loadPackage(
     (apiExtractorConfig.docModel.apiJsonFilePath as string).replace('<unscopedPackageName>', packageName),
   )
+
   const entry = apiPackage.entryPoints[0]
 
   for (const pluginInterfaceName of agentPlugins[packageName]) {
@@ -129,6 +129,7 @@ for (const packageName of Object.keys(agentPlugins)) {
     }
 
     for (const method of methods) {
+      console.log(`${method.operationId}(args: ${method.parameters}) => Promise<${method.response}>`)
       //@ts-ignore
       openApi.paths['/' + method.operationId] = {
         post: {
@@ -151,4 +152,5 @@ for (const packageName of Object.keys(agentPlugins)) {
   }
 }
 
-console.dir(openApi, { depth: 10 })
+console.log('Writing ./openApi.json')
+writeFileSync('./openApi.json', JSON.stringify(openApi, null, 2))

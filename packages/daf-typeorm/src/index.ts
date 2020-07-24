@@ -1,7 +1,15 @@
 export { IdentityStore } from './identity/identity-store'
 export { KeyStore } from './identity/key-store'
 export { DataStore } from './data-store'
-export { DataStoreORM, IDataStoreORM } from './data-store-orm'
+export {
+  DataStoreORM,
+  IDataStoreORM,
+  FindClaimsArgs,
+  FindCredentialsArgs,
+  FindIdentitiesArgs,
+  FindMessagesArgs,
+  FindPresentationsArgs,
+} from './data-store-orm'
 export * from './types'
 import { Key, KeyType } from './entities/key'
 import { Identity } from './entities/identity'
