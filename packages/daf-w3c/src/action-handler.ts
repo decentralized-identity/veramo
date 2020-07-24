@@ -23,21 +23,25 @@ import {
 import Debug from 'debug'
 const debug = Debug('daf:w3c:action-handler')
 
+export interface ICreateVerifiablePresentationArgs {
+  presentation: W3CPresentation
+  save?: boolean
+  proofFormat: 'jwt'
+}
+
+export interface ICreateVerifiableCredentialArgs {
+  credential: W3CCredential
+  save?: boolean
+  proofFormat: 'jwt'
+}
+
 export interface IW3c extends IPluginMethodMap {
-  createVerifiablePresentation: (
-    args: {
-      presentation: W3CPresentation
-      save?: boolean
-      proofFormat: 'jwt'
-    },
+  createVerifiablePresentation(
+    args: ICreateVerifiablePresentationArgs,
     context: IContext,
-  ) => Promise<VerifiablePresentation>
+  ): Promise<VerifiablePresentation>
   createVerifiableCredential(
-    args: {
-      credential: W3CCredential
-      save?: boolean
-      proofFormat: 'jwt'
-    },
+    args: ICreateVerifiableCredentialArgs,
     context: IContext,
   ): Promise<VerifiableCredential>
 }
@@ -59,11 +63,7 @@ export class W3c implements IAgentPlugin {
   }
 
   async createVerifiablePresentation(
-    args: {
-      presentation: W3CPresentation
-      save?: boolean
-      proofFormat: 'jwt'
-    },
+    args: ICreateVerifiablePresentationArgs,
     context: IContext,
   ): Promise<VerifiablePresentation> {
     try {
@@ -86,11 +86,7 @@ export class W3c implements IAgentPlugin {
   }
 
   async createVerifiableCredential(
-    args: {
-      credential: W3CCredential
-      save?: boolean
-      proofFormat: 'jwt'
-    },
+    args: ICreateVerifiableCredentialArgs,
     context: IContext,
   ): Promise<VerifiableCredential> {
     try {
