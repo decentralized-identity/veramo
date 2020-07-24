@@ -14,14 +14,14 @@ import {
 const apiExtractorConfig = require('../api-extractor-base.json')
 
 const agentPlugins: Record<string, Array<string>> = {
-  'daf-core': ['IResolveDid', 'IDataStore', 'IKeyManager'],
+  'daf-core': ['IResolveDid', 'IDataStore', 'IKeyManager', 'IIdentityManager'],
   'daf-w3c': ['IW3c'],
 }
 
 interface RestMethod {
   operationId: string
   description?: string
-  parameters: string
+  parameters?: string
   response: string
 }
 
@@ -33,7 +33,7 @@ const openApi = {
   paths: {},
 }
 
-const genericTypes = ['boolean', 'string', 'number']
+const genericTypes = ['boolean', 'string', 'number', 'any', 'Array<string>']
 
 function createSchema(generator: TJS.JsonSchemaGenerator, symbol: string) {
   if (genericTypes.includes(symbol)) {
@@ -41,10 +41,14 @@ function createSchema(generator: TJS.JsonSchemaGenerator, symbol: string) {
   }
 
   //hack
-  const fixedSymbol = symbol === 'EcdsaSignature | string' ? 'EcdsaSignature' : symbol
+  let fixedSymbol = symbol === 'EcdsaSignature | string' ? 'EcdsaSignature' : symbol
   // TODO fix 'EcdsaSignature | string' in openApi responses
+  fixedSymbol = fixedSymbol.replace('Array<', '').replace('>', '')
 
   const schema = generator.getSchemaForSymbol(fixedSymbol)
+  if (fixedSymbol === 'TIdentityManagerGetIdentitiesResult') {
+    console.log(schema)
+  }
 
   const newSchema = {
     components: {
@@ -57,6 +61,28 @@ function createSchema(generator: TJS.JsonSchemaGenerator, symbol: string) {
   schemaStr = schemaStr.replace(/#\/definitions\//gm, '#/components/schemas/')
   schemaStr = schemaStr.replace(/\"patternProperties\":{([^:]*):{[^}]*}}/gm, '"pattern": $1')
   return JSON.parse(schemaStr)
+}
+
+function getParametersSchema(parameters?: string) {
+  if (!parameters) {
+    return []
+  } else {
+    return [{ $ref: '#/components/schemas/' + parameters }]
+  }
+}
+
+function getResponseSchema(response: string) {
+  if (response.slice(0, 6) === 'Array<') {
+    const symbol = response.replace('Array<', '').replace('>', '')
+    return {
+      type: 'array',
+      items: genericTypes.includes(symbol) ? { type: symbol } : { $ref: '#/components/schemas/' + symbol },
+    }
+  }
+  if (response === 'any') {
+    return { type: ['array', 'boolean', 'integer', 'number', 'object', 'string'] }
+  }
+  return genericTypes.includes(response) ? { type: response } : { $ref: '#/components/schemas/' + response }
 }
 
 for (const packageName of Object.keys(agentPlugins)) {
@@ -78,7 +104,7 @@ for (const packageName of Object.keys(agentPlugins)) {
       const method: Partial<RestMethod> = {}
       method.operationId = member.displayName
       // console.log(member)
-      method.parameters = (member as ApiParameterListMixin).parameters[0].parameterTypeExcerpt.text
+      method.parameters = (member as ApiParameterListMixin).parameters[0]?.parameterTypeExcerpt?.text
       method.response = (member as ApiReturnTypeMixin).returnTypeExcerpt.text
         .replace('Promise<', '')
         .replace('>', '')
@@ -88,9 +114,15 @@ for (const packageName of Object.keys(agentPlugins)) {
         //@ts-ignore
         ?.getChildNodes()[0]?.text
 
+      if (method.parameters) {
+        openApi.components.schemas = {
+          ...openApi.components.schemas,
+          ...createSchema(generator, method.parameters).components.schemas,
+        }
+      }
+
       openApi.components.schemas = {
         ...openApi.components.schemas,
-        ...createSchema(generator, method.parameters).components.schemas,
         ...createSchema(generator, method.response).components.schemas,
       }
       methods.push(method as RestMethod)
@@ -102,23 +134,13 @@ for (const packageName of Object.keys(agentPlugins)) {
         post: {
           description: method.description,
           operationId: method.operationId,
-          parameters: [
-            {
-              //@ts-ignore
-              $ref: '#/components/schemas/' + method.parameters,
-            },
-          ],
+          parameters: getParametersSchema(method.parameters),
           responses: {
             200: {
               description: method.description,
               content: {
                 'application/json': {
-                  schema: genericTypes.includes(method.response)
-                    ? // TODO: is this correct?
-                      { type: method.response }
-                    : {
-                        $ref: '#/components/schemas/' + method.response,
-                      },
+                  schema: getResponseSchema(method.response),
                 },
               },
             },
