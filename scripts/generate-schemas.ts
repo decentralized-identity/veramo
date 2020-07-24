@@ -14,7 +14,7 @@ import {
 const apiExtractorConfig = require('../api-extractor-base.json')
 
 const agentPlugins: Record<string, Array<string>> = {
-  'daf-core': ['IResolveDid', 'IDataStore', 'IKeyManager', 'IIdentityManager'],
+  'daf-core': ['IResolveDid', 'IDataStore', 'IKeyManager', 'IIdentityManager', 'IHandleMessage'],
   'daf-w3c': ['IW3c'],
 }
 

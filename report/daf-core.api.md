@@ -247,14 +247,17 @@ export class IdentityManager implements IAgentPlugin {
 // @public (undocumented)
 export interface IHandleMessage extends IPluginMethodMap {
   // (undocumented)
-  handleMessage: (
-    args: {
-      raw: string
-      metaData?: IMetaData[]
-      save?: boolean
-    },
-    context: IAgentContext<IDataStore>,
-  ) => Promise<Message>
+  handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>
+}
+
+// @public (undocumented)
+export interface IHandleMessageArgs {
+  // (undocumented)
+  metaData?: IMetaData[]
+  // (undocumented)
+  raw: string
+  // (undocumented)
+  save?: boolean
 }
 
 // @public (undocumented)
@@ -617,14 +620,7 @@ export class Message implements IMessage {
 export class MessageHandler extends EventEmitter implements IAgentPlugin {
   constructor(options: { messageHandlers: AbstractMessageHandler[] })
   // (undocumented)
-  handleMessage(
-    args: {
-      raw: string
-      metaData?: IMetaData[]
-      save?: boolean
-    },
-    context: IAgentContext<IDataStore>,
-  ): Promise<Message>
+  handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>
   // (undocumented)
   readonly methods: IHandleMessage
 }

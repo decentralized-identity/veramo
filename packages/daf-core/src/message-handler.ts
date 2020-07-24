@@ -12,15 +12,14 @@ export const EventTypes = {
   error: 'error',
 }
 
+export interface IHandleMessageArgs {
+  raw: string
+  metaData?: IMetaData[]
+  save?: boolean
+}
+
 export interface IHandleMessage extends IPluginMethodMap {
-  handleMessage: (
-    args: {
-      raw: string
-      metaData?: IMetaData[]
-      save?: boolean
-    },
-    context: IAgentContext<IDataStore>,
-  ) => Promise<Message>
+  handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>
 }
 
 export class MessageHandler extends EventEmitter implements IAgentPlugin {
@@ -48,14 +47,7 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
     }
   }
 
-  public async handleMessage(
-    args: {
-      raw: string
-      metaData?: IMetaData[]
-      save?: boolean
-    },
-    context: IAgentContext<IDataStore>,
-  ): Promise<Message> {
+  public async handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message> {
     const { raw, metaData, save } = args
     debug('%o', { raw, metaData, save })
     if (!this.messageHandler) {
