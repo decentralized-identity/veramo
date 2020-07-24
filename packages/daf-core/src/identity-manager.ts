@@ -3,44 +3,76 @@ import { IAgentPlugin, IIdentity, IService, IKey, IPluginMethodMap, IAgentContex
 import { AbstractIdentityStore } from './abstract/abstract-identity-store'
 import { IKeyManager } from './key-manager'
 
+export interface IIdentityManagerGetIdentityArgs {
+  did: string
+}
+export interface IIdentityManagerDeleteIdentityArgs {
+  did: string
+}
+export interface IIdentityManagerCreateIdentityArgs {
+  alias?: string
+  provider?: string
+  kms?: string
+  options?: any
+}
+
+export interface IIdentityManagerGetOrCreateIdentityArgs {
+  alias: string
+  provider?: string
+  kms?: string
+  options?: any
+}
+export interface IIdentityManagerAddKeyArgs {
+  did: string
+  key: IKey
+  options?: any
+}
+export interface IIdentityManagerRemoveKeyArgs {
+  did: string
+  kid: string
+  options?: any
+}
+export interface IIdentityManagerAddServiceArgs {
+  did: string
+  service: IService
+  options?: any
+}
+export interface IIdentityManagerRemoveServiceArgs {
+  did: string
+  id: string
+  options?: any
+}
+
 export interface IIdentityManager extends IPluginMethodMap {
-  identityManagerGetProviders: () => Promise<string[]>
-  identityManagerGetIdentities: () => Promise<IIdentity[]>
-  identityManagerGetIdentity: (args: { did: string }) => Promise<IIdentity>
-  identityManagerCreateIdentity: (
-    args: {
-      alias?: string
-      provider?: string
-      kms?: string
-      options?: any
-    },
+  identityManagerGetProviders(): Promise<Array<string>>
+  identityManagerGetIdentities(): Promise<Array<IIdentity>>
+  identityManagerGetIdentity(args: IIdentityManagerGetIdentityArgs): Promise<IIdentity>
+  identityManagerCreateIdentity(
+    args: IIdentityManagerCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<IIdentity>
-  identityManagerGetOrCreateIdentity: (
-    args: { alias: string; provider?: string; kms?: string; options?: any },
+  ): Promise<IIdentity>
+  identityManagerGetOrCreateIdentity(
+    args: IIdentityManagerGetOrCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<IIdentity>
-  identityManagerImportIdentity: (args: IIdentity) => Promise<IIdentity>
-  identityManagerDeleteIdentity: (
-    args: { did: string },
+  ): Promise<IIdentity>
+  identityManagerImportIdentity(args: IIdentity): Promise<IIdentity>
+  identityManagerDeleteIdentity(
+    args: IIdentityManagerDeleteIdentityArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<boolean>
-  identityManagerAddKey: (
-    args: { did: string; key: IKey; options?: any },
+  ): Promise<boolean>
+  identityManagerAddKey(args: IIdentityManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any> // txHash?
+  identityManagerRemoveKey(
+    args: IIdentityManagerRemoveKeyArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<any> // txHash?
-  identityManagerRemoveKey: (
-    args: { did: string; kid: string; options?: any },
+  ): Promise<any> // txHash?
+  identityManagerAddService(
+    args: IIdentityManagerAddServiceArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<any> // txHash?
-  identityManagerAddService: (
-    args: { did: string; service: IService; options?: any },
+  ): Promise<any> //txHash?
+  identityManagerRemoveService(
+    args: IIdentityManagerRemoveServiceArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<any> //txHash?
-  identityManagerRemoveService: (
-    args: { did: string; id: string; options?: any },
-    context: IAgentContext<IKeyManager>,
-  ) => Promise<any> //txHash?
+  ): Promise<any> //txHash?
 }
 
 export class IdentityManager implements IAgentPlugin {
@@ -86,12 +118,12 @@ export class IdentityManager implements IAgentPlugin {
     return this.store.list()
   }
 
-  async identityManagerGetIdentity({ did }: { did: string }): Promise<IIdentity> {
+  async identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity> {
     return this.store.get({ did })
   }
 
   async identityManagerCreateIdentity(
-    { provider, alias, kms, options }: { alias?: string; provider?: string; kms?: string; options?: any },
+    { provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity> {
     const providerName = provider || this.defaultProvider
@@ -103,7 +135,7 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   async identityManagerGetOrCreateIdentity(
-    { provider, alias, kms, options }: { alias: string; provider?: string; kms?: string; options?: any },
+    { provider, alias, kms, options }: IIdentityManagerGetOrCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity> {
     try {
@@ -120,7 +152,7 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   async identityManagerDeleteIdentity(
-    { did }: { did: string },
+    { did }: IIdentityManagerDeleteIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<boolean> {
     const identity = await this.store.get({ did })
@@ -130,15 +162,7 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   async identityManagerAddKey(
-    {
-      did,
-      key,
-      options,
-    }: {
-      did: string
-      key: IKey
-      options?: any
-    },
+    { did, key, options }: IIdentityManagerAddKeyArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identity = await this.store.get({ did })
@@ -150,15 +174,7 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   async identityManagerRemoveKey(
-    {
-      did,
-      kid,
-      options,
-    }: {
-      did: string
-      kid: string
-      options?: any
-    },
+    { did, kid, options }: IIdentityManagerRemoveKeyArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identity = await this.store.get({ did })
@@ -170,15 +186,7 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   async identityManagerAddService(
-    {
-      did,
-      service,
-      options,
-    }: {
-      did: string
-      service: IService
-      options?: any
-    },
+    { did, service, options }: IIdentityManagerAddServiceArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identity = await this.store.get({ did })
@@ -190,15 +198,7 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   async identityManagerRemoveService(
-    {
-      did,
-      id,
-      options,
-    }: {
-      did: string
-      id: string
-      options?: any
-    },
+    { did, id, options }: IIdentityManagerRemoveServiceArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identity = await this.store.get({ did })

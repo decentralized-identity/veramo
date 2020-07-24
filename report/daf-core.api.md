@@ -199,71 +199,31 @@ export class IdentityManager implements IAgentPlugin {
   })
   // (undocumented)
   identityManagerAddKey(
-    {
-      did,
-      key,
-      options,
-    }: {
-      did: string
-      key: IKey
-      options?: any
-    },
+    { did, key, options }: IIdentityManagerAddKeyArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any>
   // (undocumented)
   identityManagerAddService(
-    {
-      did,
-      service,
-      options,
-    }: {
-      did: string
-      service: IService
-      options?: any
-    },
+    { did, service, options }: IIdentityManagerAddServiceArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any>
   // (undocumented)
   identityManagerCreateIdentity(
-    {
-      provider,
-      alias,
-      kms,
-      options,
-    }: {
-      alias?: string
-      provider?: string
-      kms?: string
-      options?: any
-    },
+    { provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity>
   // (undocumented)
   identityManagerDeleteIdentity(
-    {
-      did,
-    }: {
-      did: string
-    },
+    { did }: IIdentityManagerDeleteIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<boolean>
   // (undocumented)
   identityManagerGetIdentities(): Promise<IIdentity[]>
   // (undocumented)
-  identityManagerGetIdentity({ did }: { did: string }): Promise<IIdentity>
+  identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity>
   // (undocumented)
   identityManagerGetOrCreateIdentity(
-    {
-      provider,
-      alias,
-      kms,
-      options,
-    }: {
-      alias: string
-      provider?: string
-      kms?: string
-      options?: any
-    },
+    { provider, alias, kms, options }: IIdentityManagerGetOrCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity>
   // (undocumented)
@@ -272,28 +232,12 @@ export class IdentityManager implements IAgentPlugin {
   identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity>
   // (undocumented)
   identityManagerRemoveKey(
-    {
-      did,
-      kid,
-      options,
-    }: {
-      did: string
-      kid: string
-      options?: any
-    },
+    { did, kid, options }: IIdentityManagerRemoveKeyArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any>
   // (undocumented)
   identityManagerRemoveService(
-    {
-      did,
-      id,
-      options,
-    }: {
-      did: string
-      id: string
-      options?: any
-    },
+    { did, id, options }: IIdentityManagerRemoveServiceArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any>
   // (undocumented)
@@ -332,76 +276,121 @@ export interface IIdentity {
 // @public (undocumented)
 export interface IIdentityManager extends IPluginMethodMap {
   // (undocumented)
-  identityManagerAddKey: (
-    args: {
-      did: string
-      key: IKey
-      options?: any
-    },
+  identityManagerAddKey(args: IIdentityManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>
+  // (undocumented)
+  identityManagerAddService(
+    args: IIdentityManagerAddServiceArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<any>
+  ): Promise<any>
   // (undocumented)
-  identityManagerAddService: (
-    args: {
-      did: string
-      service: IService
-      options?: any
-    },
+  identityManagerCreateIdentity(
+    args: IIdentityManagerCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<any>
+  ): Promise<IIdentity>
   // (undocumented)
-  identityManagerCreateIdentity: (
-    args: {
-      alias?: string
-      provider?: string
-      kms?: string
-      options?: any
-    },
+  identityManagerDeleteIdentity(
+    args: IIdentityManagerDeleteIdentityArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<IIdentity>
+  ): Promise<boolean>
   // (undocumented)
-  identityManagerDeleteIdentity: (
-    args: {
-      did: string
-    },
+  identityManagerGetIdentities(): Promise<Array<IIdentity>>
+  // (undocumented)
+  identityManagerGetIdentity(args: IIdentityManagerGetIdentityArgs): Promise<IIdentity>
+  // (undocumented)
+  identityManagerGetOrCreateIdentity(
+    args: IIdentityManagerGetOrCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<boolean>
+  ): Promise<IIdentity>
   // (undocumented)
-  identityManagerGetIdentities: () => Promise<IIdentity[]>
+  identityManagerGetProviders(): Promise<Array<string>>
   // (undocumented)
-  identityManagerGetIdentity: (args: { did: string }) => Promise<IIdentity>
+  identityManagerImportIdentity(args: IIdentity): Promise<IIdentity>
   // (undocumented)
-  identityManagerGetOrCreateIdentity: (
-    args: {
-      alias: string
-      provider?: string
-      kms?: string
-      options?: any
-    },
+  identityManagerRemoveKey(
+    args: IIdentityManagerRemoveKeyArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<IIdentity>
+  ): Promise<any>
   // (undocumented)
-  identityManagerGetProviders: () => Promise<string[]>
-  // (undocumented)
-  identityManagerImportIdentity: (args: IIdentity) => Promise<IIdentity>
-  // (undocumented)
-  identityManagerRemoveKey: (
-    args: {
-      did: string
-      kid: string
-      options?: any
-    },
+  identityManagerRemoveService(
+    args: IIdentityManagerRemoveServiceArgs,
     context: IAgentContext<IKeyManager>,
-  ) => Promise<any>
+  ): Promise<any>
+}
+
+// @public (undocumented)
+export interface IIdentityManagerAddKeyArgs {
   // (undocumented)
-  identityManagerRemoveService: (
-    args: {
-      did: string
-      id: string
-      options?: any
-    },
-    context: IAgentContext<IKeyManager>,
-  ) => Promise<any>
+  did: string
+  // (undocumented)
+  key: IKey
+  // (undocumented)
+  options?: any
+}
+
+// @public (undocumented)
+export interface IIdentityManagerAddServiceArgs {
+  // (undocumented)
+  did: string
+  // (undocumented)
+  options?: any
+  // (undocumented)
+  service: IService
+}
+
+// @public (undocumented)
+export interface IIdentityManagerCreateIdentityArgs {
+  // (undocumented)
+  alias?: string
+  // (undocumented)
+  kms?: string
+  // (undocumented)
+  options?: any
+  // (undocumented)
+  provider?: string
+}
+
+// @public (undocumented)
+export interface IIdentityManagerDeleteIdentityArgs {
+  // (undocumented)
+  did: string
+}
+
+// @public (undocumented)
+export interface IIdentityManagerGetIdentityArgs {
+  // (undocumented)
+  did: string
+}
+
+// @public (undocumented)
+export interface IIdentityManagerGetOrCreateIdentityArgs {
+  // (undocumented)
+  alias: string
+  // (undocumented)
+  kms?: string
+  // (undocumented)
+  options?: any
+  // (undocumented)
+  provider?: string
+}
+
+// @public (undocumented)
+export interface IIdentityManagerRemoveKeyArgs {
+  // (undocumented)
+  did: string
+  // (undocumented)
+  kid: string
+  // (undocumented)
+  options?: any
+}
+
+// @public (undocumented)
+export interface IIdentityManagerRemoveServiceArgs {
+  // (undocumented)
+  did: string
+  // (undocumented)
+  id: string
+  // (undocumented)
+  options?: any
 }
 
 // @public (undocumented)
