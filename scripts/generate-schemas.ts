@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { writeFileSync } from 'fs'
 import * as TJS from 'typescript-json-schema'
-import { JSONSchema7 } from 'json-schema'
+import { OpenAPIV3 } from 'openapi-types'
 import {
   ApiModel,
   ApiPackage,
@@ -13,9 +13,11 @@ import {
 
 const apiExtractorConfig = require('../api-extractor-base.json')
 
+const outputFile = 'packages/daf-rest/src/openApiSchema.ts'
+
 const agentPlugins: Record<string, Array<string>> = {
   'daf-core': ['IResolveDid', 'IDataStore', 'IKeyManager', 'IIdentityManager', 'IHandleMessage'],
-  // 'daf-selective-disclosure': ['ISdr'],
+  'daf-selective-disclosure': ['ISdr'],
   'daf-typeorm': ['IDataStoreORM'],
   'daf-w3c': ['IW3c'],
 }
@@ -27,8 +29,12 @@ interface RestMethod {
   response: string
 }
 
-const openApi = {
+const openApi: OpenAPIV3.Document = {
   openapi: '3.0.0',
+  info: {
+    title: 'DAF OpenAPI',
+    version: '',
+  },
   components: {
     schemas: {},
   },
@@ -70,18 +76,29 @@ function getParametersSchema(parameters?: string) {
   }
 }
 
-function getResponseSchema(response: string) {
+function getResponseSchema(response: string): OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject {
   if (response.slice(0, 6) === 'Array<') {
-    const symbol = response.replace('Array<', '').replace('>', '')
+    const symbol = response.replace('Array<', '').replace('>', '') as
+      | 'string'
+      | 'number'
+      | 'boolean'
+      | 'object'
+      | 'integer'
     return {
       type: 'array',
       items: genericTypes.includes(symbol) ? { type: symbol } : { $ref: '#/components/schemas/' + symbol },
     }
   }
   if (response === 'any') {
-    return { type: ['array', 'boolean', 'integer', 'number', 'object', 'string'] }
+    return {}
   }
-  return genericTypes.includes(response) ? { type: response } : { $ref: '#/components/schemas/' + response }
+
+  if (['string', 'number', 'boolean', 'object', 'integer'].includes(response)) {
+    //@ts-ignore
+    return { type: response }
+  } else {
+    return { $ref: '#/components/schemas/' + response }
+  }
 }
 
 for (const packageName of Object.keys(agentPlugins)) {
@@ -133,12 +150,12 @@ for (const packageName of Object.keys(agentPlugins)) {
       //@ts-ignore
       openApi.paths['/' + method.operationId] = {
         post: {
-          description: method.description,
+          description: method.description || '',
           operationId: method.operationId,
           parameters: getParametersSchema(method.parameters),
           responses: {
             200: {
-              description: method.description,
+              description: method.description || '',
               content: {
                 'application/json': {
                   schema: getResponseSchema(method.response),
@@ -152,5 +169,9 @@ for (const packageName of Object.keys(agentPlugins)) {
   }
 }
 
-console.log('Writing ./openApi.json')
-writeFileSync('./openApi.json', JSON.stringify(openApi, null, 2))
+console.log('Writing ' + outputFile)
+writeFileSync(
+  outputFile,
+  "import { OpenAPIV3 } from 'openapi-types'\nexport const openApiSchema: OpenAPIV3.Document = " +
+    JSON.stringify(openApi, null, 2),
+)

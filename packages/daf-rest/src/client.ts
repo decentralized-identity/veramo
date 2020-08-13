@@ -1,6 +1,5 @@
 import { IAgentPlugin, IPluginMethodMap } from 'daf-core'
-import { supportedMethods } from './methods'
-import { IAgentRESTMethod } from './types'
+import { supportedMethods } from './index'
 
 export class AgentRestClient implements IAgentPlugin {
   readonly methods: IPluginMethodMap = {}
@@ -10,19 +9,20 @@ export class AgentRestClient implements IAgentPlugin {
     url: string
     enabledMethods: string[]
     headers?: Record<string, string>
-    overrides?: Record<string, IAgentRESTMethod>
+    extraMethods?: Array<string>
   }) {
     this.url = options.url
 
-    const allMethods: Record<string, IAgentRESTMethod> = { ...supportedMethods, ...options.overrides }
+    const allMethods: Array<string> = supportedMethods.concat(
+      options.extraMethods ? options.extraMethods : [],
+    )
 
     for (const method of options.enabledMethods) {
-      if (allMethods[method]) {
+      if (allMethods.includes(method)) {
         this.methods[method] = async (args: any) => {
-          // TODO: handle GET
-          const res = await fetch(this.url + allMethods[method].path, {
+          const res = await fetch(this.url + '/' + method, {
             headers: { ...options.headers, 'Content-Type': 'application/json' },
-            method: allMethods[method].type,
+            method: 'post',
             body: JSON.stringify(args),
           })
           const json = await res.json()

@@ -136,13 +136,13 @@ export class DataStoreORM implements IAgentPlugin {
 
 // @public (undocumented)
 export const Entities: (
+  | typeof Key
   | typeof Identity
-  | typeof Message
+  | typeof Service
   | typeof Claim
   | typeof Credential_2
   | typeof Presentation
-  | typeof Key
-  | typeof Service
+  | typeof Message
 )[]
 
 // @public (undocumented)
