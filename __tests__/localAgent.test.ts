@@ -16,7 +16,7 @@ import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { WebIdentityProvider } from 'daf-web-did'
-import { DIDComm, DIDCommMessageHandler, ISendMessageDIDCommAlpha1 } from 'daf-did-comm'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
 import { Sdr, ISdr, SdrMessageHandler } from 'daf-selective-disclosure'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { Entities, KeyStore, IdentityStore, IDataStoreORM, DataStore, DataStoreORM } from 'daf-typeorm'
@@ -39,7 +39,7 @@ let agent: TAgent<IIdentityManager &
   IDataStoreORM &
   IResolveDid &
   IHandleMessage &
-  ISendMessageDIDCommAlpha1 &
+  IDIDComm &
   IW3c &
   ISdr>
 let dbConnection: Promise<Connection>
@@ -61,7 +61,7 @@ const setup = async (): Promise<boolean> => {
         IDataStoreORM &
         IResolveDid &
         IHandleMessage &
-        ISendMessageDIDCommAlpha1 &
+        IDIDComm &
         IW3c &
         ISdr
     >
