@@ -15,46 +15,85 @@ import { Message } from 'daf-core'
 import { VerifiableCredential } from 'daf-core'
 import { VerifiablePresentation } from 'daf-core'
 
-// Warning: (ae-forgotten-export) The symbol "TCreateSelectiveDisclosureRequest" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export const createSelectiveDisclosureRequest: TCreateSelectiveDisclosureRequest
+export interface ICredentialRequestInput {
+  // (undocumented)
+  claimType: string
+  // (undocumented)
+  claimValue?: string
+  // (undocumented)
+  credentialContext?: string
+  // (undocumented)
+  credentialType?: string
+  // (undocumented)
+  essential?: boolean
+  // (undocumented)
+  issuers?: Issuer[]
+  // (undocumented)
+  reason?: string
+}
 
-// Warning: (ae-forgotten-export) The symbol "TGetVerifiableCredentialsForSdr" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export const getVerifiableCredentialsForSdr: TGetVerifiableCredentialsForSdr
+export interface ICredentialsForSdr extends ICredentialRequestInput {
+  // (undocumented)
+  credentials: VerifiableCredential[]
+}
 
 // @public (undocumented)
-export interface ICreateSelectiveDisclosureRequest extends IPluginMethodMap {
+export interface IPresentationValidationResult {
+  // (undocumented)
+  claims: ICredentialsForSdr[]
+  // (undocumented)
+  valid: boolean
+}
+
+// @public (undocumented)
+export interface ISdr extends IPluginMethodMap {
   // Warning: (ae-forgotten-export) The symbol "ICreateSelectiveDisclosureRequestArgs" needs to be exported by the entry point index.d.ts
-  // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
   //
   // (undocumented)
   createSelectiveDisclosureRequest(
     args: ICreateSelectiveDisclosureRequestArgs,
-    context: IContext_2,
+    context: IAgentContext<IIdentityManager & IKeyManager>,
   ): Promise<string>
-}
-
-// @public (undocumented)
-export interface IGetVerifiableCredentialsForSdr extends IPluginMethodMap {
-  // (undocumented)
-  getVerifiableCredentialsForSdr: TGetVerifiableCredentialsForSdr
-}
-
-// @public (undocumented)
-export interface ISdr
-  extends ICreateSelectiveDisclosureRequest,
-    IGetVerifiableCredentialsForSdr,
-    IValidatePresentationAgainstSdr {}
-
-// @public (undocumented)
-export interface IValidatePresentationAgainstSdr extends IPluginMethodMap {
-  // Warning: (ae-forgotten-export) The symbol "TValidatePresentationAgainstSdr" needs to be exported by the entry point index.d.ts
+  // Warning: (ae-forgotten-export) The symbol "IGetVerifiableCredentialsForSdrArgs" needs to be exported by the entry point index.d.ts
   //
   // (undocumented)
-  validatePresentationAgainstSdr: TValidatePresentationAgainstSdr
+  getVerifiableCredentialsForSdr(
+    args: IGetVerifiableCredentialsForSdrArgs,
+    context: IAgentContext<IDataStoreORM>,
+  ): Promise<Array<ICredentialsForSdr>>
+  // Warning: (ae-forgotten-export) The symbol "IValidatePresentationAgainstSdrArgs" needs to be exported by the entry point index.d.ts
+  //
+  // (undocumented)
+  validatePresentationAgainstSdr(
+    args: IValidatePresentationAgainstSdrArgs,
+    context: IAgentContext<{}>,
+  ): Promise<IPresentationValidationResult>
+}
+
+// @public (undocumented)
+export interface ISelectiveDisclosureRequest {
+  // (undocumented)
+  claims: ICredentialRequestInput[]
+  // (undocumented)
+  credentials?: string[]
+  // (undocumented)
+  issuer: string
+  // (undocumented)
+  replyUrl?: string
+  // (undocumented)
+  subject?: string
+  // (undocumented)
+  tag?: string
+}
+
+// @public (undocumented)
+export interface Issuer {
+  // (undocumented)
+  did: string
+  // (undocumented)
+  url: string
 }
 
 // @public (undocumented)
@@ -64,8 +103,24 @@ export const MessageTypes: {
 
 // @public (undocumented)
 export class Sdr implements IAgentPlugin {
+  constructor()
+  // (undocumented)
+  createSelectiveDisclosureRequest(
+    args: ICreateSelectiveDisclosureRequestArgs,
+    context: IAgentContext<IIdentityManager & IKeyManager>,
+  ): Promise<string>
+  // (undocumented)
+  getVerifiableCredentialsForSdr(
+    args: IGetVerifiableCredentialsForSdrArgs,
+    context: IAgentContext<IDataStoreORM>,
+  ): Promise<ICredentialsForSdr[]>
   // (undocumented)
   readonly methods: ISdr
+  // (undocumented)
+  validatePresentationAgainstSdr(
+    args: IValidatePresentationAgainstSdrArgs,
+    context: IAgentContext<{}>,
+  ): Promise<IPresentationValidationResult>
 }
 
 // @public (undocumented)
@@ -75,9 +130,6 @@ export class SdrMessageHandler extends AbstractMessageHandler {
   // (undocumented)
   handle(message: Message, context: IContext): Promise<Message>
 }
-
-// @public (undocumented)
-export const validatePresentationAgainstSdr: TValidatePresentationAgainstSdr
 
 // (No @packageDocumentation comment for this package)
 ```

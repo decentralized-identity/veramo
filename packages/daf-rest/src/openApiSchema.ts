@@ -719,6 +719,241 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         required: ['__@toStringTag', 'byteLength'],
       },
+      ICreateSelectiveDisclosureRequestArgs: {
+        type: 'object',
+        properties: {
+          data: {
+            $ref: '#/components/schemas/ISelectiveDisclosureRequest',
+          },
+        },
+        required: ['data'],
+      },
+      ISelectiveDisclosureRequest: {
+        type: 'object',
+        properties: {
+          issuer: {
+            type: 'string',
+          },
+          subject: {
+            type: 'string',
+          },
+          replyUrl: {
+            type: 'string',
+          },
+          tag: {
+            type: 'string',
+          },
+          claims: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/ICredentialRequestInput',
+            },
+          },
+          credentials: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        required: ['claims', 'issuer'],
+      },
+      ICredentialRequestInput: {
+        type: 'object',
+        properties: {
+          reason: {
+            type: 'string',
+          },
+          essential: {
+            type: 'boolean',
+          },
+          credentialType: {
+            type: 'string',
+          },
+          credentialContext: {
+            type: 'string',
+          },
+          claimType: {
+            type: 'string',
+          },
+          claimValue: {
+            type: 'string',
+          },
+          issuers: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Issuer',
+            },
+          },
+        },
+        required: ['claimType'],
+      },
+      Issuer: {
+        type: 'object',
+        properties: {
+          did: {
+            type: 'string',
+          },
+          url: {
+            type: 'string',
+          },
+        },
+        required: ['did', 'url'],
+      },
+      IGetVerifiableCredentialsForSdrArgs: {
+        type: 'object',
+        properties: {
+          sdr: {
+            $ref:
+              '#/components/schemas/Pick<ISelectiveDisclosureRequest,"replyUrl"|"subject"|"tag"|"claims"|"credentials">',
+          },
+          did: {
+            type: 'string',
+          },
+        },
+        required: ['sdr'],
+      },
+      'Pick<ISelectiveDisclosureRequest,"replyUrl"|"subject"|"tag"|"claims"|"credentials">': {
+        description: 'Construct a type with the properties of T except for those in type K.',
+        type: 'object',
+        properties: {
+          replyUrl: {
+            type: 'string',
+          },
+          subject: {
+            type: 'string',
+          },
+          tag: {
+            type: 'string',
+          },
+          claims: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/ICredentialRequestInput',
+            },
+          },
+          credentials: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        required: ['claims'],
+      },
+      ICredentialsForSdr: {
+        type: 'object',
+        properties: {
+          credentials: {
+            type: 'array',
+            items: {
+              allOf: [
+                {
+                  allOf: [
+                    {
+                      $ref:
+                        '#/components/schemas/Pick<FixedCredentialPayload,"id"|"credentialSubject"|"credentialStatus">',
+                    },
+                    {
+                      $ref: '#/components/schemas/NarrowCredentialDefinitions',
+                    },
+                    {
+                      type: 'object',
+                      additionalProperties: {},
+                    },
+                  ],
+                },
+                {
+                  type: 'object',
+                  properties: {
+                    proof: {
+                      $ref: '#/components/schemas/Proof',
+                    },
+                  },
+                  required: ['proof'],
+                },
+              ],
+            },
+          },
+          reason: {
+            type: 'string',
+          },
+          essential: {
+            type: 'boolean',
+          },
+          credentialType: {
+            type: 'string',
+          },
+          credentialContext: {
+            type: 'string',
+          },
+          claimType: {
+            type: 'string',
+          },
+          claimValue: {
+            type: 'string',
+          },
+          issuers: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Issuer',
+            },
+          },
+        },
+        required: ['claimType', 'credentials'],
+      },
+      IValidatePresentationAgainstSdrArgs: {
+        type: 'object',
+        properties: {
+          presentation: {
+            allOf: [
+              {
+                allOf: [
+                  {
+                    $ref:
+                      '#/components/schemas/Pick<FixedPresentationPayload,"id"|"issuanceDate"|"expirationDate"|"holder">',
+                  },
+                  {
+                    $ref: '#/components/schemas/NarrowPresentationDefinitions',
+                  },
+                  {
+                    type: 'object',
+                    additionalProperties: {},
+                  },
+                ],
+              },
+              {
+                type: 'object',
+                properties: {
+                  proof: {
+                    $ref: '#/components/schemas/Proof',
+                  },
+                },
+                required: ['proof'],
+              },
+            ],
+          },
+          sdr: {
+            $ref: '#/components/schemas/ISelectiveDisclosureRequest',
+          },
+        },
+        required: ['presentation', 'sdr'],
+      },
+      IPresentationValidationResult: {
+        type: 'object',
+        properties: {
+          valid: {
+            type: 'boolean',
+          },
+          claims: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/ICredentialsForSdr',
+            },
+          },
+        },
+        required: ['claims', 'valid'],
+      },
       FindIdentitiesArgs: {
         type: 'object',
         properties: {
@@ -1746,6 +1981,78 @@ export const openApiSchema: OpenAPIV3.Document = {
               'application/json': {
                 schema: {
                   $ref: '#/components/schemas/Message',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/createSelectiveDisclosureRequest': {
+      post: {
+        description: '',
+        operationId: 'createSelectiveDisclosureRequest',
+        parameters: [
+          {
+            $ref: '#/components/schemas/ICreateSelectiveDisclosureRequestArgs',
+          },
+        ],
+        responses: {
+          '200': {
+            description: '',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/getVerifiableCredentialsForSdr': {
+      post: {
+        description: '',
+        operationId: 'getVerifiableCredentialsForSdr',
+        parameters: [
+          {
+            $ref: '#/components/schemas/IGetVerifiableCredentialsForSdrArgs',
+          },
+        ],
+        responses: {
+          '200': {
+            description: '',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/ICredentialsForSdr',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/validatePresentationAgainstSdr': {
+      post: {
+        description: '',
+        operationId: 'validatePresentationAgainstSdr',
+        parameters: [
+          {
+            $ref: '#/components/schemas/IValidatePresentationAgainstSdrArgs',
+          },
+        ],
+        responses: {
+          '200': {
+            description: '',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/IPresentationValidationResult',
                 },
               },
             },
