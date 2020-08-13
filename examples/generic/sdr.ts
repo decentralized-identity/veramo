@@ -3,13 +3,7 @@ import { agent } from './setup'
 
 async function main() {
   // Getting existing identity or creating a new one
-  let identity: IIdentity
-  const identities = await agent.identityManagerGetIdentities()
-  if (identities.length > 0) {
-    identity = identities[0]
-  } else {
-    identity = await agent.identityManagerCreateIdentity({ kms: 'local' })
-  }
+  let identity = await agent.identityManagerGetOrCreateIdentity({ alias: 'default' })
 
   const sdr = await agent.createSelectiveDisclosureRequest({
     data: {
