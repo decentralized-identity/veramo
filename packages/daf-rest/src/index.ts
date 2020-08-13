@@ -1,3 +1,4 @@
 export { AgentRestClient } from './client'
-export { supportedMethods } from './methods'
-export * from './types'
+import { openApiSchema } from './openApiSchema'
+export { openApiSchema }
+export const supportedMethods = Object.keys(openApiSchema.paths).map(path => path.slice(1))

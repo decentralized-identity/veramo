@@ -56,7 +56,7 @@ const agent = createAgent<
   plugins: [
     new AgentRestClient({
       url: 'http://localhost:' + port + '/agent',
-      enabledMethods: Object.keys(supportedMethods),
+      enabledMethods: supportedMethods,
     }),
   ],
 })
@@ -116,7 +116,7 @@ const setup = async (): Promise<boolean> => {
 
   const agentRouter = AgentRouter({
     getAgentForRequest: async req => serverAgent,
-    exposedMethods: serverAgent.availableMethods(),
+    exposedMethods: supportedMethods,
   })
 
   return new Promise((resolve, reject) => {
