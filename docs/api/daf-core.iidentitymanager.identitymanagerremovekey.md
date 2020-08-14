@@ -2,14 +2,21 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IIdentityManager](./daf-core.iidentitymanager.md) &gt; [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md)
 
-## IIdentityManager.identityManagerRemoveKey property
+## IIdentityManager.identityManagerRemoveKey() method
 
 <b>Signature:</b>
 
 ```typescript
-identityManagerRemoveKey: (args: {
-        did: string;
-        kid: string;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>) => Promise<any>;
+identityManagerRemoveKey(args: IIdentityManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                                                                         | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| args      | [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md)                                 |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+
+<b>Returns:</b>
+
+Promise&lt;any&gt;

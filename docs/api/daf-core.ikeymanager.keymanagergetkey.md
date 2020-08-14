@@ -2,12 +2,20 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IKeyManager](./daf-core.ikeymanager.md) &gt; [keyManagerGetKey](./daf-core.ikeymanager.keymanagergetkey.md)
 
-## IKeyManager.keyManagerGetKey property
+## IKeyManager.keyManagerGetKey() method
 
 <b>Signature:</b>
 
 ```typescript
-keyManagerGetKey: (args: {
-        kid: string;
-    }) => Promise<IKey>;
+keyManagerGetKey(args: IKeyManagerGetKeyArgs): Promise<IKey>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                         | Description |
+| --------- | ------------------------------------------------------------ | ----------- |
+| args      | [IKeyManagerGetKeyArgs](./daf-core.ikeymanagergetkeyargs.md) |             |
+
+<b>Returns:</b>
+
+Promise&lt;[IKey](./daf-core.ikey.md)<!-- -->&gt;

@@ -7,16 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-identityManagerGetIdentity({ did }: {
-        did: string;
-    }): Promise<IIdentity>;
+identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
 ```
 
 ## Parameters
 
-| Parameter | Type             | Description |
-| --------- | ---------------- | ----------- |
-| { did }   | { did: string; } |             |
+| Parameter | Type                                                                             | Description |
+| --------- | -------------------------------------------------------------------------------- | ----------- |
+| { did }   | [IIdentityManagerGetIdentityArgs](./daf-core.iidentitymanagergetidentityargs.md) |             |
 
 <b>Returns:</b>
 

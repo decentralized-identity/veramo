@@ -2,12 +2,21 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IIdentityManager](./daf-core.iidentitymanager.md) &gt; [identityManagerDeleteIdentity](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md)
 
-## IIdentityManager.identityManagerDeleteIdentity property
+## IIdentityManager.identityManagerDeleteIdentity() method
 
 <b>Signature:</b>
 
 ```typescript
-identityManagerDeleteIdentity: (args: {
-        did: string;
-    }, context: IAgentContext<IKeyManager>) => Promise<boolean>;
+identityManagerDeleteIdentity(args: IIdentityManagerDeleteIdentityArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                                                                         | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| args      | [IIdentityManagerDeleteIdentityArgs](./daf-core.iidentitymanagerdeleteidentityargs.md)                       |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+
+<b>Returns:</b>
+
+Promise&lt;boolean&gt;

@@ -7,19 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-identityManagerAddKey({ did, key, options, }: {
-        did: string;
-        key: IKey;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<any>;
+identityManagerAddKey({ did, key, options }: IIdentityManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
 ```
 
 ## Parameters
 
-| Parameter              | Type                                                                                                         | Description |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { did, key, options, } | { did: string; key: [IKey](./daf-core.ikey.md)<!-- -->; options?: any; }                                     |             |
-| context                | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+| Parameter             | Type                                                                                                         | Description |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| { did, key, options } | [IIdentityManagerAddKeyArgs](./daf-core.iidentitymanageraddkeyargs.md)                                       |             |
+| context               | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

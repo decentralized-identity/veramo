@@ -16,5 +16,6 @@ export declare abstract class AbstractIdentityStore
 | ---------------------------------------------------------- | --------- | ----------- |
 | [delete(args)](./daf-core.abstractidentitystore.delete.md) |           |             |
 | [get(args)](./daf-core.abstractidentitystore.get.md)       |           |             |
+| [get(args)](./daf-core.abstractidentitystore.get_1.md)     |           |             |
 | [import(args)](./daf-core.abstractidentitystore.import.md) |           |             |
 | [list()](./daf-core.abstractidentitystore.list.md)         |           |             |

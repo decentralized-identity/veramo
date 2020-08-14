@@ -7,17 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-keyManagerDecryptJWE({ kid, data }: {
-        kid: string;
-        data: string;
-    }): Promise<string>;
+keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string>;
 ```
 
 ## Parameters
 
-| Parameter     | Type                           | Description |
-| ------------- | ------------------------------ | ----------- |
-| { kid, data } | { kid: string; data: string; } |             |
+| Parameter     | Type                                                                 | Description |
+| ------------- | -------------------------------------------------------------------- | ----------- |
+| { kid, data } | [IKeyManagerDecryptJWEArgs](./daf-core.ikeymanagerdecryptjweargs.md) |             |
 
 <b>Returns:</b>
 

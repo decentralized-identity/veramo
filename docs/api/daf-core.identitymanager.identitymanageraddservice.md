@@ -7,19 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-identityManagerAddService({ did, service, options, }: {
-        did: string;
-        service: IService;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<any>;
+identityManagerAddService({ did, service, options }: IIdentityManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
 ```
 
 ## Parameters
 
-| Parameter                  | Type                                                                                                         | Description |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { did, service, options, } | { did: string; service: [IService](./daf-core.iservice.md)<!-- -->; options?: any; }                         |             |
-| context                    | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+| Parameter                 | Type                                                                                                         | Description |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| { did, service, options } | [IIdentityManagerAddServiceArgs](./daf-core.iidentitymanageraddserviceargs.md)                               |             |
+| context                   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

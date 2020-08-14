@@ -2,13 +2,20 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IKeyManager](./daf-core.ikeymanager.md) &gt; [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md)
 
-## IKeyManager.keyManagerSignJWT property
+## IKeyManager.keyManagerSignJWT() method
 
 <b>Signature:</b>
 
 ```typescript
-keyManagerSignJWT: (args: {
-        kid: string;
-        data: string;
-    }) => Promise<EcdsaSignature | string>;
+keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<string>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                           | Description |
+| --------- | -------------------------------------------------------------- | ----------- |
+| args      | [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md) |             |
+
+<b>Returns:</b>
+
+Promise&lt;string&gt;

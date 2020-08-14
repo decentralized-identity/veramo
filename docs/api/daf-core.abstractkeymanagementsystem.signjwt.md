@@ -10,7 +10,7 @@
 abstract signJWT(args: {
         key: IKey;
         data: string;
-    }): Promise<EcdsaSignature | string>;
+    }): Promise<string>;
 ```
 
 ## Parameters
@@ -21,4 +21,4 @@ abstract signJWT(args: {
 
 <b>Returns:</b>
 
-Promise&lt;[EcdsaSignature](./daf-core.ecdsasignature.md) \| string&gt;
+Promise&lt;string&gt;

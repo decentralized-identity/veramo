@@ -12,15 +12,15 @@ export interface IKeyManager extends IPluginMethodMap
 
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
-## Properties
+## Methods
 
-| Property                                                               | Type                                                                                                                                                                 | Description |
-| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [keyManagerCreateKey](./daf-core.ikeymanager.keymanagercreatekey.md)   | (args: { type: [TKeyType](./daf-core.tkeytype.md)<!-- -->; kms: string; meta?: Record&lt;string, any&gt;; }) =&gt; Promise&lt;[IKey](./daf-core.ikey.md)<!-- -->&gt; |             |
-| [keyManagerDecryptJWE](./daf-core.ikeymanager.keymanagerdecryptjwe.md) | (args: { kid: string; data: string; }) =&gt; Promise&lt;string&gt;                                                                                                   |             |
-| [keyManagerDeleteKey](./daf-core.ikeymanager.keymanagerdeletekey.md)   | (args: { kid: string; }) =&gt; Promise&lt;boolean&gt;                                                                                                                |             |
-| [keyManagerEncryptJWE](./daf-core.ikeymanager.keymanagerencryptjwe.md) | (args: { kid: string; to: Omit&lt;[IKey](./daf-core.ikey.md)<!-- -->, 'kms'&gt;; data: string; }) =&gt; Promise&lt;string&gt;                                        |             |
-| [keyManagerGetKey](./daf-core.ikeymanager.keymanagergetkey.md)         | (args: { kid: string; }) =&gt; Promise&lt;[IKey](./daf-core.ikey.md)<!-- -->&gt;                                                                                     |             |
-| [keyManagerImportKey](./daf-core.ikeymanager.keymanagerimportkey.md)   | (args: [IKey](./daf-core.ikey.md)<!-- -->) =&gt; Promise&lt;boolean&gt;                                                                                              |             |
-| [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md)   | (args: { kid: string; transaction: object; }) =&gt; Promise&lt;string&gt;                                                                                            |             |
-| [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md)       | (args: { kid: string; data: string; }) =&gt; Promise&lt;[EcdsaSignature](./daf-core.ecdsasignature.md) \| string&gt;                                                 |             |
+| Method                                                                       | Description |
+| ---------------------------------------------------------------------------- | ----------- |
+| [keyManagerCreateKey(args)](./daf-core.ikeymanager.keymanagercreatekey.md)   |             |
+| [keyManagerDecryptJWE(args)](./daf-core.ikeymanager.keymanagerdecryptjwe.md) |             |
+| [keyManagerDeleteKey(args)](./daf-core.ikeymanager.keymanagerdeletekey.md)   |             |
+| [keyManagerEncryptJWE(args)](./daf-core.ikeymanager.keymanagerencryptjwe.md) |             |
+| [keyManagerGetKey(args)](./daf-core.ikeymanager.keymanagergetkey.md)         |             |
+| [keyManagerImportKey(args)](./daf-core.ikeymanager.keymanagerimportkey.md)   |             |
+| [keyManagerSignEthTX(args)](./daf-core.ikeymanager.keymanagersignethtx.md)   |             |
+| [keyManagerSignJWT(args)](./daf-core.ikeymanager.keymanagersignjwt.md)       |             |

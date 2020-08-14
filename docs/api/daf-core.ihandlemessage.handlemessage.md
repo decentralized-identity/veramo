@@ -2,14 +2,21 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IHandleMessage](./daf-core.ihandlemessage.md) &gt; [handleMessage](./daf-core.ihandlemessage.handlemessage.md)
 
-## IHandleMessage.handleMessage property
+## IHandleMessage.handleMessage() method
 
 <b>Signature:</b>
 
 ```typescript
-handleMessage: (args: {
-        raw: string;
-        metaData?: IMetaData[];
-        save?: boolean;
-    }, context: IAgentContext<IDataStore>) => Promise<Message>;
+handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                                                                       | Description |
+| --------- | ---------------------------------------------------------------------------------------------------------- | ----------- |
+| args      | [IHandleMessageArgs](./daf-core.ihandlemessageargs.md)                                                     |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStore](./daf-core.idatastore.md)<!-- -->&gt; |             |
+
+<b>Returns:</b>
+
+Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt;

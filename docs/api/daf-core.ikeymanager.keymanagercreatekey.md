@@ -2,14 +2,20 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IKeyManager](./daf-core.ikeymanager.md) &gt; [keyManagerCreateKey](./daf-core.ikeymanager.keymanagercreatekey.md)
 
-## IKeyManager.keyManagerCreateKey property
+## IKeyManager.keyManagerCreateKey() method
 
 <b>Signature:</b>
 
 ```typescript
-keyManagerCreateKey: (args: {
-        type: TKeyType;
-        kms: string;
-        meta?: Record<string, any>;
-    }) => Promise<IKey>;
+keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                               | Description |
+| --------- | ------------------------------------------------------------------ | ----------- |
+| args      | [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md) |             |
+
+<b>Returns:</b>
+
+Promise&lt;[IKey](./daf-core.ikey.md)<!-- -->&gt;

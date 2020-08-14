@@ -7,19 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-identityManagerRemoveKey({ did, kid, options, }: {
-        did: string;
-        kid: string;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<any>;
+identityManagerRemoveKey({ did, kid, options }: IIdentityManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
 ```
 
 ## Parameters
 
-| Parameter              | Type                                                                                                         | Description |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { did, kid, options, } | { did: string; kid: string; options?: any; }                                                                 |             |
-| context                | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+| Parameter             | Type                                                                                                         | Description |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| { did, kid, options } | [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md)                                 |             |
+| context               | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>
 

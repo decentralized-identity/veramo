@@ -8,16 +8,15 @@
 
 ```typescript
 abstract get(args: {
-        did?: string;
-        alias?: string;
+        did: string;
     }): Promise<IIdentity>;
 ```
 
 ## Parameters
 
-| Parameter | Type                              | Description |
-| --------- | --------------------------------- | ----------- |
-| args      | { did?: string; alias?: string; } |             |
+| Parameter | Type             | Description |
+| --------- | ---------------- | ----------- |
+| args      | { did: string; } |             |
 
 <b>Returns:</b>
 

@@ -7,17 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-keyManagerSignEthTX({ kid, transaction }: {
-        kid: string;
-        transaction: object;
-    }): Promise<string>;
+keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string>;
 ```
 
 ## Parameters
 
-| Parameter            | Type                                  | Description |
-| -------------------- | ------------------------------------- | ----------- |
-| { kid, transaction } | { kid: string; transaction: object; } |             |
+| Parameter            | Type                                                               | Description |
+| -------------------- | ------------------------------------------------------------------ | ----------- |
+| { kid, transaction } | [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) |             |
 
 <b>Returns:</b>
 
