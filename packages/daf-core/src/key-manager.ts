@@ -1,6 +1,6 @@
 import { AbstractKeyStore } from './abstract/abstract-key-store'
 import { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'
-import { IKey, TKeyType, EcdsaSignature, IAgentPlugin, IPluginMethodMap } from './types'
+import { IKey, TKeyType, IAgentPlugin, IPluginMethodMap } from './types'
 
 export interface IKeyManagerCreateKeyArgs {
   type: TKeyType
@@ -38,7 +38,7 @@ export interface IKeyManager extends IPluginMethodMap {
   keyManagerImportKey(args: IKey): Promise<boolean>
   keyManagerEncryptJWE(args: IKeyManagerEncryptJWEArgs): Promise<string>
   keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>
-  keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string>
+  keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<string>
   keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>
 }
 export class KeyManager implements IAgentPlugin {
@@ -105,7 +105,7 @@ export class KeyManager implements IAgentPlugin {
     return kms.decryptJWE({ key, data })
   }
 
-  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string> {
+  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.signJWT({ key, data })
