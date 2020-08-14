@@ -2,7 +2,7 @@
   "name": "daf",
   "private": true,
   "scripts": {
-    "build": "lerna run build",
+    "build": "lerna run build && yarn docs:api && yarn schemas && yarn lerna run --scope daf-rest build",
     "publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
     "schemas": "ts-node ./scripts/generate-schemas.ts",
@@ -46,10 +46,9 @@
     "rimraf": "^3.0.2",
     "semantic-release": "^17.0.4",
     "ts-jest": "^25.2.1",
-    "ts-json-schema-generator": "^0.70.2",
+    "ts-json-schema-generator": "^0.71.1",
     "ts-node": "^8.6.2",
-    "typescript": "^3.9.6",
-    "typescript-json-schema": "^0.42.0"
+    "typescript": "^3.9.6"
   },
   "repository": {
     "type": "git",
