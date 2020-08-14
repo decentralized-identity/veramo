@@ -7,16 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-keyManagerGetKey({ kid }: {
-        kid: string;
-    }): Promise<IKey>;
+keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey>;
 ```
 
 ## Parameters
 
-| Parameter | Type             | Description |
-| --------- | ---------------- | ----------- |
-| { kid }   | { kid: string; } |             |
+| Parameter | Type                                                         | Description |
+| --------- | ------------------------------------------------------------ | ----------- |
+| { kid }   | [IKeyManagerGetKeyArgs](./daf-core.ikeymanagergetkeyargs.md) |             |
 
 <b>Returns:</b>
 

@@ -4,20 +4,26 @@
 
 ## IResolveDid.resolveDid() method
 
+Resolves DID and returns DID Document
+
 <b>Signature:</b>
 
 ```typescript
-resolveDid(args: {
-        didUrl: string;
-    }): Promise<DIDDocument>;
+resolveDid(args: ResolveDidArgs): Promise<DIDDocument>;
 ```
 
 ## Parameters
 
-| Parameter | Type                | Description |
-| --------- | ------------------- | ----------- |
-| args      | { didUrl: string; } |             |
+| Parameter | Type                                           | Description                         |
+| --------- | ---------------------------------------------- | ----------------------------------- |
+| args      | [ResolveDidArgs](./daf-core.resolvedidargs.md) | Input arguments for resolving a DID |
 
 <b>Returns:</b>
 
 Promise&lt;DIDDocument&gt;
+
+## Example
+
+```typescript
+const doc = await agent.resolveDid({ didUrl: 'did:web:uport.me' })
+```

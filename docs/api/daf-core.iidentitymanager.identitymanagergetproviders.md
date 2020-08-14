@@ -2,10 +2,14 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IIdentityManager](./daf-core.iidentitymanager.md) &gt; [identityManagerGetProviders](./daf-core.iidentitymanager.identitymanagergetproviders.md)
 
-## IIdentityManager.identityManagerGetProviders property
+## IIdentityManager.identityManagerGetProviders() method
 
 <b>Signature:</b>
 
 ```typescript
-identityManagerGetProviders: () => Promise<string[]>;
+identityManagerGetProviders(): Promise<Array<string>>;
 ```
+
+<b>Returns:</b>
+
+Promise&lt;Array&lt;string&gt;&gt;

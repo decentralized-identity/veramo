@@ -7,18 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-keyManagerCreateKey(args: {
-        type: TKeyType;
-        kms: string;
-        meta?: Record<string, any>;
-    }): Promise<IKey>;
+keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
 ```
 
 ## Parameters
 
-| Parameter | Type                                                                                                 | Description |
-| --------- | ---------------------------------------------------------------------------------------------------- | ----------- |
-| args      | { type: [TKeyType](./daf-core.tkeytype.md)<!-- -->; kms: string; meta?: Record&lt;string, any&gt;; } |             |
+| Parameter | Type                                                               | Description |
+| --------- | ------------------------------------------------------------------ | ----------- |
+| args      | [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md) |             |
 
 <b>Returns:</b>
 

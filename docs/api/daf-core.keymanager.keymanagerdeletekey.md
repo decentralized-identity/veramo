@@ -7,16 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-keyManagerDeleteKey({ kid }: {
-        kid: string;
-    }): Promise<boolean>;
+keyManagerDeleteKey({ kid }: IKeyManagerDeleteKeyArgs): Promise<boolean>;
 ```
 
 ## Parameters
 
-| Parameter | Type             | Description |
-| --------- | ---------------- | ----------- |
-| { kid }   | { kid: string; } |             |
+| Parameter | Type                                                               | Description |
+| --------- | ------------------------------------------------------------------ | ----------- |
+| { kid }   | [IKeyManagerDeleteKeyArgs](./daf-core.ikeymanagerdeletekeyargs.md) |             |
 
 <b>Returns:</b>
 

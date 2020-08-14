@@ -2,10 +2,20 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IKeyManager](./daf-core.ikeymanager.md) &gt; [keyManagerImportKey](./daf-core.ikeymanager.keymanagerimportkey.md)
 
-## IKeyManager.keyManagerImportKey property
+## IKeyManager.keyManagerImportKey() method
 
 <b>Signature:</b>
 
 ```typescript
-keyManagerImportKey: (args: IKey) => Promise<boolean>;
+keyManagerImportKey(args: IKey): Promise<boolean>;
 ```
+
+## Parameters
+
+| Parameter | Type                       | Description |
+| --------- | -------------------------- | ----------- |
+| args      | [IKey](./daf-core.ikey.md) |             |
+
+<b>Returns:</b>
+
+Promise&lt;boolean&gt;
