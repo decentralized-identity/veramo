@@ -9,6 +9,7 @@
 ```typescript
 abstract createIdentity(args: {
         kms?: string;
+        alias?: string;
         options?: any;
     }, context: IAgentContext<IKeyManager>): Promise<Omit<IIdentity, 'provider'>>;
 ```
@@ -17,7 +18,7 @@ abstract createIdentity(args: {
 
 | Parameter | Type                                                                                                         | Description |
 | --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| args      | { kms?: string; options?: any; }                                                                             |             |
+| args      | { kms?: string; alias?: string; options?: any; }                                                             |             |
 | context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>

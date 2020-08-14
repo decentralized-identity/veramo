@@ -2,14 +2,21 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IIdentityManager](./daf-core.iidentitymanager.md) &gt; [identityManagerAddService](./daf-core.iidentitymanager.identitymanageraddservice.md)
 
-## IIdentityManager.identityManagerAddService property
+## IIdentityManager.identityManagerAddService() method
 
 <b>Signature:</b>
 
 ```typescript
-identityManagerAddService: (args: {
-        did: string;
-        service: IService;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>) => Promise<any>;
+identityManagerAddService(args: IIdentityManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                                                                         | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| args      | [IIdentityManagerAddServiceArgs](./daf-core.iidentitymanageraddserviceargs.md)                               |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+
+<b>Returns:</b>
+
+Promise&lt;any&gt;

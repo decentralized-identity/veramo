@@ -6,6 +6,11 @@
 
 ## Packages
 
-| Package                   | Description                                                 |
-| ------------------------- | ----------------------------------------------------------- |
-| [daf-core](./daf-core.md) | The main library for creating Decentralized Identity Agents |
+| Package                                                   | Description                                                 |
+| --------------------------------------------------------- | ----------------------------------------------------------- |
+| [daf-core](./daf-core.md)                                 | The main library for creating Decentralized Identity Agents |
+| [daf-did-comm](./daf-did-comm.md)                         |                                                             |
+| [daf-selective-disclosure](./daf-selective-disclosure.md) |                                                             |
+| [daf-typeorm](./daf-typeorm.md)                           |                                                             |
+| [daf-url](./daf-url.md)                                   |                                                             |
+| [daf-w3c](./daf-w3c.md)                                   |                                                             |

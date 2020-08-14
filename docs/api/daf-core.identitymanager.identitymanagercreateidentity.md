@@ -7,19 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-identityManagerCreateIdentity({ provider, alias, kms, options }: {
-        alias?: string;
-        provider?: string;
-        kms?: string;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
+identityManagerCreateIdentity({ provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
 ```
 
 ## Parameters
 
 | Parameter                         | Type                                                                                                         | Description |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { provider, alias, kms, options } | { alias?: string; provider?: string; kms?: string; options?: any; }                                          |             |
+| { provider, alias, kms, options } | [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md)                       |             |
 | context                           | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>

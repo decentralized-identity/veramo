@@ -2,13 +2,20 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IKeyManager](./daf-core.ikeymanager.md) &gt; [keyManagerDecryptJWE](./daf-core.ikeymanager.keymanagerdecryptjwe.md)
 
-## IKeyManager.keyManagerDecryptJWE property
+## IKeyManager.keyManagerDecryptJWE() method
 
 <b>Signature:</b>
 
 ```typescript
-keyManagerDecryptJWE: (args: {
-        kid: string;
-        data: string;
-    }) => Promise<string>;
+keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                                 | Description |
+| --------- | -------------------------------------------------------------------- | ----------- |
+| args      | [IKeyManagerDecryptJWEArgs](./daf-core.ikeymanagerdecryptjweargs.md) |             |
+
+<b>Returns:</b>
+
+Promise&lt;string&gt;

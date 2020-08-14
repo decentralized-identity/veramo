@@ -14,6 +14,6 @@ export interface IResolveDid extends IPluginMethodMap
 
 ## Methods
 
-| Method                                                   | Description |
-| -------------------------------------------------------- | ----------- |
-| [resolveDid(args)](./daf-core.iresolvedid.resolvedid.md) |             |
+| Method                                                   | Description                           |
+| -------------------------------------------------------- | ------------------------------------- |
+| [resolveDid(args)](./daf-core.iresolvedid.resolvedid.md) | Resolves DID and returns DID Document |

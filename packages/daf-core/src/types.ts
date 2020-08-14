@@ -32,13 +32,6 @@ export interface IIdentity {
   services: IService[]
 }
 
-// Todo make it a String
-export interface EcdsaSignature {
-  r: string
-  s: string
-  recoveryParam?: number
-}
-
 export interface IMetaData {
   type: string
   value?: string
@@ -98,6 +91,32 @@ export interface IDataStore extends IPluginMethodMap {
   dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean>
 }
 
+/**
+ * Input arguments for {@link IResolveDid.resolveDid}
+ *
+ * @public
+ */
+export interface ResolveDidArgs {
+  /**
+   * DID URL
+   *
+   * @example
+   * `did:web:uport.me`
+   */
+  didUrl: string
+}
+
 export interface IResolveDid extends IPluginMethodMap {
-  resolveDid(args: { didUrl: string }): Promise<DIDDocument>
+  /**
+   * Resolves DID and returns DID Document
+   *
+   * @example
+   * ```typescript
+   * const doc = await agent.resolveDid({ didUrl: 'did:web:uport.me' })
+   * ```
+   *
+   * @param args - Input arguments for resolving a DID
+   * @public
+   */
+  resolveDid(args: ResolveDidArgs): Promise<DIDDocument>
 }

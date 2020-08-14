@@ -5,9 +5,30 @@
  */
 export { Agent, createAgent, IAgentOptions } from './agent'
 export * from './types'
-export { IdentityManager, IIdentityManager } from './identity-manager'
-export { KeyManager, IKeyManager } from './key-manager'
-export { MessageHandler, IHandleMessage } from './message-handler'
+export {
+  IdentityManager,
+  IIdentityManager,
+  IIdentityManagerAddKeyArgs,
+  IIdentityManagerAddServiceArgs,
+  IIdentityManagerCreateIdentityArgs,
+  IIdentityManagerDeleteIdentityArgs,
+  IIdentityManagerGetIdentityArgs,
+  IIdentityManagerGetOrCreateIdentityArgs,
+  IIdentityManagerRemoveKeyArgs,
+  IIdentityManagerRemoveServiceArgs,
+} from './identity-manager'
+export {
+  KeyManager,
+  IKeyManager,
+  IKeyManagerCreateKeyArgs,
+  IKeyManagerDecryptJWEArgs,
+  IKeyManagerDeleteKeyArgs,
+  IKeyManagerEncryptJWEArgs,
+  IKeyManagerGetKeyArgs,
+  IKeyManagerSignEthTXArgs,
+  IKeyManagerSignJWTArgs,
+} from './key-manager'
+export { MessageHandler, IHandleMessage, IHandleMessageArgs } from './message-handler'
 export { Message } from './message'
 export { AbstractIdentityProvider } from './abstract/abstract-identity-provider'
 export { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'

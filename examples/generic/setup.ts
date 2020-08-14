@@ -14,7 +14,7 @@ import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
 import { Sdr, ISdr, SdrMessageHandler } from 'daf-selective-disclosure'
-import { DIDComm, DIDCommMessageHandler, ISendMessageDIDCommAlpha1 } from 'daf-did-comm'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { Entities, KeyStore, IdentityStore, DataStore, DataStoreORM, IDataStoreORM } from 'daf-typeorm'
@@ -39,7 +39,7 @@ export const agent = createAgent<
       IDataStoreORM &
       IResolveDid &
       IHandleMessage &
-      ISendMessageDIDCommAlpha1 &
+      IDIDComm &
       IW3c &
       ISdr
   >

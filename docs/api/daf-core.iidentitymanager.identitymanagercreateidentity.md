@@ -2,15 +2,21 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IIdentityManager](./daf-core.iidentitymanager.md) &gt; [identityManagerCreateIdentity](./daf-core.iidentitymanager.identitymanagercreateidentity.md)
 
-## IIdentityManager.identityManagerCreateIdentity property
+## IIdentityManager.identityManagerCreateIdentity() method
 
 <b>Signature:</b>
 
 ```typescript
-identityManagerCreateIdentity: (args: {
-        alias?: string;
-        provider?: string;
-        kms?: string;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>) => Promise<IIdentity>;
+identityManagerCreateIdentity(args: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                                                                         | Description |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
+| args      | [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md)                       |             |
+| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+
+<b>Returns:</b>
+
+Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;

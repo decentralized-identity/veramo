@@ -2,13 +2,20 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IKeyManager](./daf-core.ikeymanager.md) &gt; [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md)
 
-## IKeyManager.keyManagerSignEthTX property
+## IKeyManager.keyManagerSignEthTX() method
 
 <b>Signature:</b>
 
 ```typescript
-keyManagerSignEthTX: (args: {
-        kid: string;
-        transaction: object;
-    }) => Promise<string>;
+keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                               | Description |
+| --------- | ------------------------------------------------------------------ | ----------- |
+| args      | [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) |             |
+
+<b>Returns:</b>
+
+Promise&lt;string&gt;

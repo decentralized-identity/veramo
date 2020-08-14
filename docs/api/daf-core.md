@@ -30,27 +30,43 @@ The main library for creating Decentralized Identity Agents
 
 ## Interfaces
 
-| Interface                                          | Description |
-| -------------------------------------------------- | ----------- |
-| [EcdsaSignature](./daf-core.ecdsasignature.md)     |             |
-| [IAgent](./daf-core.iagent.md)                     |             |
-| [IAgentBase](./daf-core.iagentbase.md)             |             |
-| [IAgentContext](./daf-core.iagentcontext.md)       |             |
-| [IAgentOptions](./daf-core.iagentoptions.md)       |             |
-| [IAgentPlugin](./daf-core.iagentplugin.md)         |             |
-| [IDataStore](./daf-core.idatastore.md)             |             |
-| [IHandleMessage](./daf-core.ihandlemessage.md)     |             |
-| [IIdentity](./daf-core.iidentity.md)               |             |
-| [IIdentityManager](./daf-core.iidentitymanager.md) |             |
-| [IKey](./daf-core.ikey.md)                         |             |
-| [IKeyManager](./daf-core.ikeymanager.md)           |             |
-| [IMessage](./daf-core.imessage.md)                 |             |
-| [IMetaData](./daf-core.imetadata.md)               |             |
-| [IPluginMethod](./daf-core.ipluginmethod.md)       |             |
-| [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |             |
-| [IResolveDid](./daf-core.iresolvedid.md)           |             |
-| [IService](./daf-core.iservice.md)                 |             |
-| [RemoveContext](./daf-core.removecontext.md)       |             |
+| Interface                                                                                        | Description                                                                          |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| [IAgent](./daf-core.iagent.md)                                                                   |                                                                                      |
+| [IAgentBase](./daf-core.iagentbase.md)                                                           |                                                                                      |
+| [IAgentContext](./daf-core.iagentcontext.md)                                                     |                                                                                      |
+| [IAgentOptions](./daf-core.iagentoptions.md)                                                     |                                                                                      |
+| [IAgentPlugin](./daf-core.iagentplugin.md)                                                       |                                                                                      |
+| [IDataStore](./daf-core.idatastore.md)                                                           |                                                                                      |
+| [IHandleMessage](./daf-core.ihandlemessage.md)                                                   |                                                                                      |
+| [IHandleMessageArgs](./daf-core.ihandlemessageargs.md)                                           |                                                                                      |
+| [IIdentity](./daf-core.iidentity.md)                                                             |                                                                                      |
+| [IIdentityManager](./daf-core.iidentitymanager.md)                                               |                                                                                      |
+| [IIdentityManagerAddKeyArgs](./daf-core.iidentitymanageraddkeyargs.md)                           |                                                                                      |
+| [IIdentityManagerAddServiceArgs](./daf-core.iidentitymanageraddserviceargs.md)                   |                                                                                      |
+| [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md)           |                                                                                      |
+| [IIdentityManagerDeleteIdentityArgs](./daf-core.iidentitymanagerdeleteidentityargs.md)           |                                                                                      |
+| [IIdentityManagerGetIdentityArgs](./daf-core.iidentitymanagergetidentityargs.md)                 |                                                                                      |
+| [IIdentityManagerGetOrCreateIdentityArgs](./daf-core.iidentitymanagergetorcreateidentityargs.md) |                                                                                      |
+| [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md)                     |                                                                                      |
+| [IIdentityManagerRemoveServiceArgs](./daf-core.iidentitymanagerremoveserviceargs.md)             |                                                                                      |
+| [IKey](./daf-core.ikey.md)                                                                       |                                                                                      |
+| [IKeyManager](./daf-core.ikeymanager.md)                                                         |                                                                                      |
+| [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md)                               |                                                                                      |
+| [IKeyManagerDecryptJWEArgs](./daf-core.ikeymanagerdecryptjweargs.md)                             |                                                                                      |
+| [IKeyManagerDeleteKeyArgs](./daf-core.ikeymanagerdeletekeyargs.md)                               |                                                                                      |
+| [IKeyManagerEncryptJWEArgs](./daf-core.ikeymanagerencryptjweargs.md)                             |                                                                                      |
+| [IKeyManagerGetKeyArgs](./daf-core.ikeymanagergetkeyargs.md)                                     |                                                                                      |
+| [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md)                               |                                                                                      |
+| [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md)                                   |                                                                                      |
+| [IMessage](./daf-core.imessage.md)                                                               |                                                                                      |
+| [IMetaData](./daf-core.imetadata.md)                                                             |                                                                                      |
+| [IPluginMethod](./daf-core.ipluginmethod.md)                                                     |                                                                                      |
+| [IPluginMethodMap](./daf-core.ipluginmethodmap.md)                                               |                                                                                      |
+| [IResolveDid](./daf-core.iresolvedid.md)                                                         |                                                                                      |
+| [IService](./daf-core.iservice.md)                                                               |                                                                                      |
+| [RemoveContext](./daf-core.removecontext.md)                                                     |                                                                                      |
+| [ResolveDidArgs](./daf-core.resolvedidargs.md)                                                   | Input arguments for [IResolveDid.resolveDid()](./daf-core.iresolvedid.resolvedid.md) |
 
 ## Type Aliases
 

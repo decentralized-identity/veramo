@@ -9,16 +9,16 @@
 ```typescript
 abstract encryptJWE(args: {
         key: IKey;
-        to: IKey;
+        to: Omit<IKey, 'kms'>;
         data: string;
     }): Promise<string>;
 ```
 
 ## Parameters
 
-| Parameter | Type                                                                                               | Description |
-| --------- | -------------------------------------------------------------------------------------------------- | ----------- |
-| args      | { key: [IKey](./daf-core.ikey.md)<!-- -->; to: [IKey](./daf-core.ikey.md)<!-- -->; data: string; } |             |
+| Parameter | Type                                                                                                                  | Description |
+| --------- | --------------------------------------------------------------------------------------------------------------------- | ----------- |
+| args      | { key: [IKey](./daf-core.ikey.md)<!-- -->; to: Omit&lt;[IKey](./daf-core.ikey.md)<!-- -->, 'kms'&gt;; data: string; } |             |
 
 <b>Returns:</b>
 

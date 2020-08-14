@@ -7,18 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-handleMessage(args: {
-        raw: string;
-        metaData?: IMetaData[];
-        save?: boolean;
-    }, context: IAgentContext<IDataStore>): Promise<Message>;
+handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>;
 ```
 
 ## Parameters
 
 | Parameter | Type                                                                                                       | Description |
 | --------- | ---------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | { raw: string; metaData?: [IMetaData](./daf-core.imetadata.md)<!-- -->\[\]; save?: boolean; }              |             |
+| args      | [IHandleMessageArgs](./daf-core.ihandlemessageargs.md)                                                     |             |
 | context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStore](./daf-core.idatastore.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>

@@ -19,7 +19,7 @@ import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { WebIdentityProvider } from 'daf-web-did'
-import { DIDComm, DIDCommMessageHandler, ISendMessageDIDCommAlpha1 } from 'daf-did-comm'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
 import { Sdr, ISdr, SdrMessageHandler } from 'daf-selective-disclosure'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { Entities, KeyStore, IdentityStore, IDataStoreORM, DataStore, DataStoreORM } from 'daf-typeorm'
@@ -48,7 +48,7 @@ const agent = createAgent<
       IDataStoreORM &
       IResolveDid &
       IHandleMessage &
-      ISendMessageDIDCommAlpha1 &
+      IDIDComm &
       IW3c &
       ISdr
   >
@@ -56,7 +56,7 @@ const agent = createAgent<
   plugins: [
     new AgentRestClient({
       url: 'http://localhost:' + port + '/agent',
-      enabledMethods: Object.keys(supportedMethods),
+      enabledMethods: supportedMethods,
     }),
   ],
 })
@@ -116,7 +116,7 @@ const setup = async (): Promise<boolean> => {
 
   const agentRouter = AgentRouter({
     getAgentForRequest: async req => serverAgent,
-    exposedMethods: serverAgent.availableMethods(),
+    exposedMethods: supportedMethods,
   })
 
   return new Promise((resolve, reject) => {

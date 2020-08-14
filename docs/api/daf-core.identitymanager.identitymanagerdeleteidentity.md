@@ -7,16 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-identityManagerDeleteIdentity({ did }: {
-        did: string;
-    }, context: IAgentContext<IKeyManager>): Promise<boolean>;
+identityManagerDeleteIdentity({ did }: IIdentityManagerDeleteIdentityArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
 ```
 
 ## Parameters
 
 | Parameter | Type                                                                                                         | Description |
 | --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { did }   | { did: string; }                                                                                             |             |
+| { did }   | [IIdentityManagerDeleteIdentityArgs](./daf-core.iidentitymanagerdeleteidentityargs.md)                       |             |
 | context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
 
 <b>Returns:</b>

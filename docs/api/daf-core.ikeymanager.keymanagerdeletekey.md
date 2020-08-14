@@ -2,12 +2,20 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [IKeyManager](./daf-core.ikeymanager.md) &gt; [keyManagerDeleteKey](./daf-core.ikeymanager.keymanagerdeletekey.md)
 
-## IKeyManager.keyManagerDeleteKey property
+## IKeyManager.keyManagerDeleteKey() method
 
 <b>Signature:</b>
 
 ```typescript
-keyManagerDeleteKey: (args: {
-        kid: string;
-    }) => Promise<boolean>;
+keyManagerDeleteKey(args: IKeyManagerDeleteKeyArgs): Promise<boolean>;
 ```
+
+## Parameters
+
+| Parameter | Type                                                               | Description |
+| --------- | ------------------------------------------------------------------ | ----------- |
+| args      | [IKeyManagerDeleteKeyArgs](./daf-core.ikeymanagerdeletekeyargs.md) |             |
+
+<b>Returns:</b>
+
+Promise&lt;boolean&gt;

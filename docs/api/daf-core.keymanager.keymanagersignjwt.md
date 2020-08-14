@@ -7,18 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-keyManagerSignJWT({ kid, data }: {
-        kid: string;
-        data: string;
-    }): Promise<EcdsaSignature | string>;
+keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string>;
 ```
 
 ## Parameters
 
-| Parameter     | Type                           | Description |
-| ------------- | ------------------------------ | ----------- |
-| { kid, data } | { kid: string; data: string; } |             |
+| Parameter     | Type                                                           | Description |
+| ------------- | -------------------------------------------------------------- | ----------- |
+| { kid, data } | [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md) |             |
 
 <b>Returns:</b>
 
-Promise&lt;[EcdsaSignature](./daf-core.ecdsasignature.md) \| string&gt;
+Promise&lt;string&gt;
