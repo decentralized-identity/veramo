@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
+
+### Bug Fixes
+
+- IHandleMessage interface ([350a128](https://github.com/uport-project/daf/commit/350a128c9ddc4bf6ec3182f8da5837d00ad0c167))
+- IIdentityManager interface ([a0362c0](https://github.com/uport-project/daf/commit/a0362c07776e461ee4505b077b69965876672b3b))
+- IKeyManager arg types ([723db1d](https://github.com/uport-project/daf/commit/723db1d2d100f8e80bf2da900ded2c658584486a))
+- Removing EcdsaSignature type ([df443e5](https://github.com/uport-project/daf/commit/df443e50c7df3cdc0de78e421e960769cced38ae))
+
+### Features
+
+- Generating OpenAPI schema (broken) ([cf2f685](https://github.com/uport-project/daf/commit/cf2f685e842c5bc95caae5993beb2a687169914b))
+
 # [7.0.0-beta.8](https://github.com/uport-project/daf/compare/v7.0.0-beta.7...v7.0.0-beta.8) (2020-07-14)
 
 **Note:** Version bump only for package daf-core

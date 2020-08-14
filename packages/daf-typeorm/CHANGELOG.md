@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
+
+### Bug Fixes
+
+- DataStoreORM interface ([b70e44a](https://github.com/uport-project/daf/commit/b70e44ab8f37310554b90ca37bac5e33fbcfaa68))
+
 # [7.0.0-beta.8](https://github.com/uport-project/daf/compare/v7.0.0-beta.7...v7.0.0-beta.8) (2020-07-14)
 
 ### Bug Fixes

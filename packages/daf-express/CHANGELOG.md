@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
+
+### Features
+
+- Using OpenAPI schema in rest & express ([3f817f9](https://github.com/uport-project/daf/commit/3f817f99eb59bdabe4d64554cfbe9c0759b17bd5))
+
 # [7.0.0-beta.8](https://github.com/uport-project/daf/compare/v7.0.0-beta.7...v7.0.0-beta.8) (2020-07-14)
 
 **Note:** Version bump only for package daf-express
