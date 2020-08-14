@@ -49,10 +49,8 @@ function createSchema(generator: TJS.JsonSchemaGenerator, symbol: string) {
     return { components: { schemas: {} } }
   }
 
-  //hack
-  let fixedSymbol = symbol === 'EcdsaSignature | string' ? 'EcdsaSignature' : symbol
-  // TODO fix 'EcdsaSignature | string' in openApi responses
-  fixedSymbol = fixedSymbol.replace('Array<', '').replace('>', '')
+
+  let fixedSymbol = symbol.replace('Array<', '').replace('>', '')
 
   const schema = generator.getSchemaForSymbol(fixedSymbol)
 
@@ -104,7 +102,12 @@ function getResponseSchema(response: string): OpenAPIV3.ReferenceObject | OpenAP
 
 for (const packageName of Object.keys(agentPlugins)) {
   const program = TJS.getProgramFromFiles([resolve('packages/' + packageName + '/src/index.ts')])
-  const generator = TJS.buildGenerator(program, { required: true, topRef: true, excludePrivate: false })
+  const generator = TJS.buildGenerator(program, { 
+    required: true,
+    topRef: true,
+    excludePrivate: false,
+  })
+
 
   const apiModel: ApiModel = new ApiModel()
   const apiPackage = apiModel.loadPackage(

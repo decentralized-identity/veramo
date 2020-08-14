@@ -32,13 +32,6 @@ export interface IIdentity {
   services: IService[]
 }
 
-// Todo make it a String
-export interface EcdsaSignature {
-  r: string
-  s: string
-  recoveryParam?: number
-}
-
 export interface IMetaData {
   type: string
   value?: string

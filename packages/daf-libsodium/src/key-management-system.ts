@@ -1,4 +1,4 @@
-import { AbstractKeyManagementSystem, TKeyType, IKey, EcdsaSignature } from 'daf-core'
+import { AbstractKeyManagementSystem, TKeyType, IKey } from 'daf-core'
 import sodium from 'libsodium-wrappers'
 import { SimpleSigner } from 'did-jwt'
 const EC = require('elliptic').ec
@@ -71,9 +71,9 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return sign(transaction, '0x' + key.privateKeyHex)
   }
 
-  async signJWT({ key, data }: { key: IKey; data: string }): Promise<EcdsaSignature | string> {
+  async signJWT({ key, data }: { key: IKey; data: string }): Promise<string> {
     if (!key.privateKeyHex) throw Error('No private key for kid: ' + key.kid)
     const signer = SimpleSigner(key.privateKeyHex)
-    return signer(data)
+    return signer(data) as any as string
   }
 }
