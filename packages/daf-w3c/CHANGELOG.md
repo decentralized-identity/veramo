@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
+
+### Bug Fixes
+
+- Types for IW3c ([7b82729](https://github.com/uport-project/daf/commit/7b82729e6d0a396abde5222ef39dd4ab4c2a5312))
+
 # [7.0.0-beta.8](https://github.com/uport-project/daf/compare/v7.0.0-beta.7...v7.0.0-beta.8) (2020-07-14)
 
 **Note:** Version bump only for package daf-w3c

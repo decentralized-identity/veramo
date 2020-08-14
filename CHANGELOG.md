@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
+
+### Bug Fixes
+
+- DataStoreORM interface ([b70e44a](https://github.com/uport-project/daf/commit/b70e44ab8f37310554b90ca37bac5e33fbcfaa68))
+- IHandleMessage interface ([350a128](https://github.com/uport-project/daf/commit/350a128c9ddc4bf6ec3182f8da5837d00ad0c167))
+- IIdentityManager interface ([a0362c0](https://github.com/uport-project/daf/commit/a0362c07776e461ee4505b077b69965876672b3b))
+- IKeyManager arg types ([723db1d](https://github.com/uport-project/daf/commit/723db1d2d100f8e80bf2da900ded2c658584486a))
+- Removing EcdsaSignature type ([df443e5](https://github.com/uport-project/daf/commit/df443e50c7df3cdc0de78e421e960769cced38ae))
+- Types for IW3c ([7b82729](https://github.com/uport-project/daf/commit/7b82729e6d0a396abde5222ef39dd4ab4c2a5312))
+- Valid OpenApi v3 schema ([b01d34d](https://github.com/uport-project/daf/commit/b01d34d0212aedc66f58b1505fb114f85dcfc0b1))
+
+### Features
+
+- Generating OpenAPI schema (broken) ([cf2f685](https://github.com/uport-project/daf/commit/cf2f685e842c5bc95caae5993beb2a687169914b))
+- Using OpenAPI schema in rest & express ([3f817f9](https://github.com/uport-project/daf/commit/3f817f99eb59bdabe4d64554cfbe9c0759b17bd5))
+
 # [7.0.0-beta.8](https://github.com/uport-project/daf/compare/v7.0.0-beta.7...v7.0.0-beta.8) (2020-07-14)
 
 ### Bug Fixes

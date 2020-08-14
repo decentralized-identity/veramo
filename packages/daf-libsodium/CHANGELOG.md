@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
+
+### Bug Fixes
+
+- Removing EcdsaSignature type ([df443e5](https://github.com/uport-project/daf/commit/df443e50c7df3cdc0de78e421e960769cced38ae))
+
 # [7.0.0-beta.8](https://github.com/uport-project/daf/compare/v7.0.0-beta.7...v7.0.0-beta.8) (2020-07-14)
 
 **Note:** Version bump only for package daf-libsodium
