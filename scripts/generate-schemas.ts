@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { writeFileSync } from 'fs'
-import * as TJS from 'typescript-json-schema'
+import * as TJS from 'ts-json-schema-generator'
 import { OpenAPIV3 } from 'openapi-types'
 import {
   ApiModel,
@@ -44,15 +44,15 @@ const openApi: OpenAPIV3.Document = {
 
 const genericTypes = ['boolean', 'string', 'number', 'any', 'Array<string>']
 
-function createSchema(generator: TJS.JsonSchemaGenerator, symbol: string) {
+function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
   if (genericTypes.includes(symbol)) {
     return { components: { schemas: {} } }
   }
 
-
   let fixedSymbol = symbol.replace('Array<', '').replace('>', '')
 
-  const schema = generator.getSchemaForSymbol(fixedSymbol)
+  const schema = generator.createSchema(fixedSymbol)
+  // console.dir({ fixedSymbol, schema }, {depth: 10})
 
   const newSchema = {
     components: {
@@ -64,14 +64,20 @@ function createSchema(generator: TJS.JsonSchemaGenerator, symbol: string) {
 
   schemaStr = schemaStr.replace(/#\/definitions\//gm, '#/components/schemas/')
   schemaStr = schemaStr.replace(/\"patternProperties\":{([^:]*):{[^}]*}}/gm, '"pattern": $1')
+  schemaStr = schemaStr.replace(/Verifiable\<(.*)\>/gm, 'Verifiable-$1')
+  schemaStr = schemaStr.replace(/Where\<(.*)\>/gm, 'Where-$1')
+  schemaStr = schemaStr.replace(/Order\<(.*)\>/gm, 'Order-$1')
+  schemaStr = schemaStr.replace(/FindArgs\<(.*)\>/gm, 'FindArgs-$1')
   return JSON.parse(schemaStr)
 }
 
-function getParametersSchema(parameters?: string) {
+function getRequestBodySchema(parameters?: string): OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject {
   if (!parameters) {
-    return []
+    return {}
   } else {
-    return [{ $ref: '#/components/schemas/' + parameters }]
+    return {
+      $ref: '#/components/schemas/' + parameters,
+    }
   }
 }
 
@@ -101,13 +107,11 @@ function getResponseSchema(response: string): OpenAPIV3.ReferenceObject | OpenAP
 }
 
 for (const packageName of Object.keys(agentPlugins)) {
-  const program = TJS.getProgramFromFiles([resolve('packages/' + packageName + '/src/index.ts')])
-  const generator = TJS.buildGenerator(program, { 
-    required: true,
-    topRef: true,
-    excludePrivate: false,
+  // const program = TJS.getProgramFromFiles([resolve('packages/' + packageName + '/src/index.ts')])
+  const generator = TJS.createGenerator({
+    path: resolve('packages/' + packageName + '/src/index.ts'),
+    encodeRefs: false,
   })
-
 
   const apiModel: ApiModel = new ApiModel()
   const apiPackage = apiModel.loadPackage(
@@ -156,7 +160,13 @@ for (const packageName of Object.keys(agentPlugins)) {
         post: {
           description: method.description || '',
           operationId: method.operationId,
-          parameters: getParametersSchema(method.parameters),
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getRequestBodySchema(method.parameters),
+              },
+            },
+          },
           responses: {
             200: {
               description: method.description || '',
