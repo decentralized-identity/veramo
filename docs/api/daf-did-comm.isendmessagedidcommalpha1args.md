@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ISendMessageDIDCommAlpha1Args
+export interface ISendMessageDIDCommAlpha1Args 
 ```
 
 ## Properties
 
-| Property                                                     | Type                                                                | Description |
-| ------------------------------------------------------------ | ------------------------------------------------------------------- | ----------- |
-| [data](./daf-did-comm.isendmessagedidcommalpha1args.data.md) | { id?: string; from: string; to: string; type: string; body: any; } |             |
-| [save](./daf-did-comm.isendmessagedidcommalpha1args.save.md) | boolean                                                             |             |
-| [url](./daf-did-comm.isendmessagedidcommalpha1args.url.md)   | string                                                              |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [data](./daf-did-comm.isendmessagedidcommalpha1args.data.md) | { id?: string; from: string; to: string; type: string; body: any; } |  |
+|  [save](./daf-did-comm.isendmessagedidcommalpha1args.save.md) | boolean |  |
+|  [url](./daf-did-comm.isendmessagedidcommalpha1args.url.md) | string |  |
+

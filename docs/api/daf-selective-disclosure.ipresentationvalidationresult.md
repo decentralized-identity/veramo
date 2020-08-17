@@ -7,12 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IPresentationValidationResult
+export interface IPresentationValidationResult 
 ```
 
 ## Properties
 
-| Property                                                                     | Type                                                                               | Description |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----------- |
-| [claims](./daf-selective-disclosure.ipresentationvalidationresult.claims.md) | [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md)<!-- -->\[\] |             |
-| [valid](./daf-selective-disclosure.ipresentationvalidationresult.valid.md)   | boolean                                                                            |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [claims](./daf-selective-disclosure.ipresentationvalidationresult.claims.md) | [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md)<!-- -->\[\] |  |
+|  [valid](./daf-selective-disclosure.ipresentationvalidationresult.valid.md) | boolean |  |
+

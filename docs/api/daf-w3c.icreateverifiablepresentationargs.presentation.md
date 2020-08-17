@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-presentation: W3CPresentation
+presentation: W3CPresentation;
 ```

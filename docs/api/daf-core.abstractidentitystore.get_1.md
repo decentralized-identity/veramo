@@ -14,10 +14,11 @@ abstract get(args: {
 
 ## Parameters
 
-| Parameter | Type               | Description |
-| --------- | ------------------ | ----------- |
-| args      | { alias: string; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { alias: string; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;
+

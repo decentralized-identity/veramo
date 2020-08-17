@@ -12,11 +12,12 @@ execute<P = any, R = any>(method: string, args: P): Promise<R>;
 
 ## Parameters
 
-| Parameter | Type   | Description |
-| --------- | ------ | ----------- |
-| method    | string |             |
-| args      | P      |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  method | string |  |
+|  args | P |  |
 
 <b>Returns:</b>
 
 Promise&lt;R&gt;
+

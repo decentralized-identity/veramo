@@ -7,15 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-export declare abstract class AbstractIdentityStore
+export declare abstract class AbstractIdentityStore 
 ```
 
 ## Methods
 
-| Method                                                     | Modifiers | Description |
-| ---------------------------------------------------------- | --------- | ----------- |
-| [delete(args)](./daf-core.abstractidentitystore.delete.md) |           |             |
-| [get(args)](./daf-core.abstractidentitystore.get.md)       |           |             |
-| [get(args)](./daf-core.abstractidentitystore.get_1.md)     |           |             |
-| [import(args)](./daf-core.abstractidentitystore.import.md) |           |             |
-| [list()](./daf-core.abstractidentitystore.list.md)         |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [delete(args)](./daf-core.abstractidentitystore.delete.md) |  |  |
+|  [get(args)](./daf-core.abstractidentitystore.get.md) |  |  |
+|  [get(args)](./daf-core.abstractidentitystore.get_1.md) |  |  |
+|  [import(args)](./daf-core.abstractidentitystore.import.md) |  |  |
+|  [list()](./daf-core.abstractidentitystore.list.md) |  |  |
+

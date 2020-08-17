@@ -7,19 +7,19 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class Key extends BaseEntity
+export declare class Key extends BaseEntity 
 ```
-
 <b>Extends:</b> BaseEntity
 
 ## Properties
 
-| Property                                            | Modifiers | Type                                  | Description |
-| --------------------------------------------------- | --------- | ------------------------------------- | ----------- |
-| [identity](./daf-typeorm.key.identity.md)           |           | [Identity](./daf-typeorm.identity.md) |             |
-| [kid](./daf-typeorm.key.kid.md)                     |           | string                                |             |
-| [kms](./daf-typeorm.key.kms.md)                     |           | string                                |             |
-| [meta](./daf-typeorm.key.meta.md)                   |           | Record&lt;string, any&gt;             |             |
-| [privateKeyHex](./daf-typeorm.key.privatekeyhex.md) |           | string                                |             |
-| [publicKeyHex](./daf-typeorm.key.publickeyhex.md)   |           | string                                |             |
-| [type](./daf-typeorm.key.type.md)                   |           | KeyType                               |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [identity](./daf-typeorm.key.identity.md) |  | [Identity](./daf-typeorm.identity.md) |  |
+|  [kid](./daf-typeorm.key.kid.md) |  | string |  |
+|  [kms](./daf-typeorm.key.kms.md) |  | string |  |
+|  [meta](./daf-typeorm.key.meta.md) |  | Record&lt;string, any&gt; |  |
+|  [privateKeyHex](./daf-typeorm.key.privatekeyhex.md) |  | string |  |
+|  [publicKeyHex](./daf-typeorm.key.publickeyhex.md) |  | string |  |
+|  [type](./daf-typeorm.key.type.md) |  | KeyType |  |
+

@@ -12,11 +12,12 @@ dataStoreORMGetIdentities(args: FindIdentitiesArgs, context: IContext): Promise<
 
 ## Parameters
 
-| Parameter | Type                                                      | Description |
-| --------- | --------------------------------------------------------- | ----------- |
-| args      | [FindIdentitiesArgs](./daf-typeorm.findidentitiesargs.md) |             |
-| context   | IContext                                                  |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindIdentitiesArgs](./daf-typeorm.findidentitiesargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;Array&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;&gt;
+

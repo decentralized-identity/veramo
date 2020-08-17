@@ -7,15 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IDataStore extends IPluginMethodMap
+export interface IDataStore extends IPluginMethodMap 
 ```
-
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
 ## Methods
 
-| Method                                                                                                    | Description |
-| --------------------------------------------------------------------------------------------------------- | ----------- |
-| [dataStoreSaveMessage(args)](./daf-core.idatastore.datastoresavemessage.md)                               |             |
-| [dataStoreSaveVerifiableCredential(args)](./daf-core.idatastore.datastoresaveverifiablecredential.md)     |             |
-| [dataStoreSaveVerifiablePresentation(args)](./daf-core.idatastore.datastoresaveverifiablepresentation.md) |             |
+|  Method | Description |
+|  --- | --- |
+|  [dataStoreSaveMessage(args)](./daf-core.idatastore.datastoresavemessage.md) |  |
+|  [dataStoreSaveVerifiableCredential(args)](./daf-core.idatastore.datastoresaveverifiablecredential.md) |  |
+|  [dataStoreSaveVerifiablePresentation(args)](./daf-core.idatastore.datastoresaveverifiablepresentation.md) |  |
+

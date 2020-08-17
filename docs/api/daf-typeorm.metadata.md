@@ -7,12 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface MetaData
+export interface MetaData 
 ```
 
 ## Properties
 
-| Property                                 | Type   | Description |
-| ---------------------------------------- | ------ | ----------- |
-| [type](./daf-typeorm.metadata.type.md)   | string |             |
-| [value](./daf-typeorm.metadata.value.md) | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [type](./daf-typeorm.metadata.type.md) | string |  |
+|  [value](./daf-typeorm.metadata.value.md) | string |  |
+

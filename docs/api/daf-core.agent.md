@@ -4,29 +4,30 @@
 
 ## Agent class
 
+
 <b>Signature:</b>
 
 ```typescript
-export declare class Agent implements IAgent
+export declare class Agent implements IAgent 
 ```
-
 <b>Implements:</b> [IAgent](./daf-core.iagent.md)
 
 ## Constructors
 
-| Constructor                                                 | Modifiers | Description                                               |
-| ----------------------------------------------------------- | --------- | --------------------------------------------------------- |
-| [(constructor)(options)](./daf-core.agent._constructor_.md) |           | Constructs a new instance of the <code>Agent</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(options)](./daf-core.agent._constructor_.md) |  | Constructs a new instance of the <code>Agent</code> class |
 
 ## Properties
 
-| Property                               | Modifiers | Type                                               | Description |
-| -------------------------------------- | --------- | -------------------------------------------------- | ----------- |
-| [methods](./daf-core.agent.methods.md) |           | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [methods](./daf-core.agent.methods.md) |  | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
 
 ## Methods
 
-| Method                                                     | Modifiers | Description |
-| ---------------------------------------------------------- | --------- | ----------- |
-| [availableMethods()](./daf-core.agent.availablemethods.md) |           |             |
-| [execute(method, args)](./daf-core.agent.execute.md)       |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [availableMethods()](./daf-core.agent.availablemethods.md) |  |  |
+|  [execute(method, args)](./daf-core.agent.execute.md) |  |  |
+

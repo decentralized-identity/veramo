@@ -12,11 +12,12 @@ dataStoreORMGetVerifiablePresentations(args: FindPresentationsArgs, context: ICo
 
 ## Parameters
 
-| Parameter | Type                                                            | Description |
-| --------- | --------------------------------------------------------------- | ----------- |
-| args      | [FindPresentationsArgs](./daf-typeorm.findpresentationsargs.md) |             |
-| context   | IContext                                                        |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindPresentationsArgs](./daf-typeorm.findpresentationsargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;Array&lt;[VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->&gt;&gt;
+

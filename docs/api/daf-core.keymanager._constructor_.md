@@ -17,6 +17,7 @@ constructor(options: {
 
 ## Parameters
 
-| Parameter | Type                                                                                                                                                                                | Description |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| options   | { store: [AbstractKeyStore](./daf-core.abstractkeystore.md)<!-- -->; kms: Record&lt;string, [AbstractKeyManagementSystem](./daf-core.abstractkeymanagementsystem.md)<!-- -->&gt;; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  options | { store: [AbstractKeyStore](./daf-core.abstractkeystore.md)<!-- -->; kms: Record&lt;string, [AbstractKeyManagementSystem](./daf-core.abstractkeymanagementsystem.md)<!-- -->&gt;; } |  |
+

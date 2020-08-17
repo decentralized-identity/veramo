@@ -8,6 +8,6 @@
 
 ```typescript
 MessageTypes: {
-  sdr: string
+    sdr: string;
 }
 ```

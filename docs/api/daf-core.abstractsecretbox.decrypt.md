@@ -12,10 +12,11 @@ abstract decrypt(encryptedMessageHex: string): Promise<string>;
 
 ## Parameters
 
-| Parameter           | Type   | Description |
-| ------------------- | ------ | ----------- |
-| encryptedMessageHex | string |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  encryptedMessageHex | string |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

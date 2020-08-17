@@ -7,13 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IDIDComm extends IPluginMethodMap
+export interface IDIDComm extends IPluginMethodMap 
 ```
-
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
 ## Methods
 
-| Method                                                                                         | Description |
-| ---------------------------------------------------------------------------------------------- | ----------- |
-| [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) |             |
+|  Method | Description |
+|  --- | --- |
+|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) |  |
+

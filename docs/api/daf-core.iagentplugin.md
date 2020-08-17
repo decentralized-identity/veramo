@@ -7,11 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IAgentPlugin
+export interface IAgentPlugin 
 ```
 
 ## Properties
 
-| Property                                      | Type                                               | Description |
-| --------------------------------------------- | -------------------------------------------------- | ----------- |
-| [methods](./daf-core.iagentplugin.methods.md) | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [methods](./daf-core.iagentplugin.methods.md) | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
+

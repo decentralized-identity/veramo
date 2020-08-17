@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-credential: W3CCredential
+credential: W3CCredential;
 ```

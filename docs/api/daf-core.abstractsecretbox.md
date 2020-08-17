@@ -7,12 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export declare abstract class AbstractSecretBox
+export declare abstract class AbstractSecretBox 
 ```
 
 ## Methods
 
-| Method                                                                  | Modifiers | Description |
-| ----------------------------------------------------------------------- | --------- | ----------- |
-| [decrypt(encryptedMessageHex)](./daf-core.abstractsecretbox.decrypt.md) |           |             |
-| [encrypt(message)](./daf-core.abstractsecretbox.encrypt.md)             |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [decrypt(encryptedMessageHex)](./daf-core.abstractsecretbox.decrypt.md) |  |  |
+|  [encrypt(message)](./daf-core.abstractsecretbox.encrypt.md) |  |  |
+

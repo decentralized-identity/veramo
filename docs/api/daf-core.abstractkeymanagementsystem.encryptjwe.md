@@ -16,10 +16,11 @@ abstract encryptJWE(args: {
 
 ## Parameters
 
-| Parameter | Type                                                                                                                  | Description |
-| --------- | --------------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | { key: [IKey](./daf-core.ikey.md)<!-- -->; to: Omit&lt;[IKey](./daf-core.ikey.md)<!-- -->, 'kms'&gt;; data: string; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { key: [IKey](./daf-core.ikey.md)<!-- -->; to: Omit&lt;[IKey](./daf-core.ikey.md)<!-- -->, 'kms'&gt;; data: string; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-service: IService
+service: IService;
 ```

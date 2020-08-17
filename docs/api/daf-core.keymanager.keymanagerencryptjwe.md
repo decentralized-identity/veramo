@@ -12,10 +12,11 @@ keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<stri
 
 ## Parameters
 
-| Parameter         | Type                                                                 | Description |
-| ----------------- | -------------------------------------------------------------------- | ----------- |
-| { kid, to, data } | [IKeyManagerEncryptJWEArgs](./daf-core.ikeymanagerencryptjweargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { kid, to, data } | [IKeyManagerEncryptJWEArgs](./daf-core.ikeymanagerencryptjweargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

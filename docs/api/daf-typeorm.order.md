@@ -7,12 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface Order<TColumns>
+export interface Order<TColumns> 
 ```
 
 ## Properties
 
-| Property                                      | Type            | Description |
-| --------------------------------------------- | --------------- | ----------- |
-| [column](./daf-typeorm.order.column.md)       | TColumns        |             |
-| [direction](./daf-typeorm.order.direction.md) | 'ASC' \| 'DESC' |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [column](./daf-typeorm.order.column.md) | TColumns |  |
+|  [direction](./daf-typeorm.order.direction.md) | 'ASC' \| 'DESC' |  |
+

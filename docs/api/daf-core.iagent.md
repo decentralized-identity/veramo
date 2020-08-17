@@ -7,13 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IAgent extends IAgentBase
+export interface IAgent extends IAgentBase 
 ```
-
 <b>Extends:</b> [IAgentBase](./daf-core.iagentbase.md)
 
 ## Properties
 
-| Property                                | Type                                                                     | Description |
-| --------------------------------------- | ------------------------------------------------------------------------ | ----------- |
-| [execute](./daf-core.iagent.execute.md) | &lt;A = any, R = any&gt;(method: string, args: A) =&gt; Promise&lt;R&gt; |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [execute](./daf-core.iagent.execute.md) | &lt;A = any, R = any&gt;(method: string, args: A) =&gt; Promise&lt;R&gt; |  |
+

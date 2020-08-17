@@ -12,11 +12,12 @@ dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Pro
 
 ## Parameters
 
-| Parameter | Type                                                                                                             | Description |
-| --------- | ---------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TMessageColumns](./daf-typeorm.tmessagecolumns.md)<!-- -->&gt; |             |
-| context   | IContext                                                                                                         |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TMessageColumns](./daf-typeorm.tmessagecolumns.md)<!-- -->&gt; |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IMessage](./daf-core.imessage.md)<!-- -->\[\]&gt;
+

@@ -7,13 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class UrlMessageHandler extends AbstractMessageHandler
+export declare class UrlMessageHandler extends AbstractMessageHandler 
 ```
-
 <b>Extends:</b> [AbstractMessageHandler](./daf-core.abstractmessagehandler.md)
 
 ## Methods
 
-| Method                                                            | Modifiers | Description |
-| ----------------------------------------------------------------- | --------- | ----------- |
-| [handle(message, context)](./daf-url.urlmessagehandler.handle.md) |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [handle(message, context)](./daf-url.urlmessagehandler.handle.md) |  |  |
+

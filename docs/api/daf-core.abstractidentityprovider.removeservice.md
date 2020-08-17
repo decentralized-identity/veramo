@@ -16,11 +16,12 @@ abstract removeService(args: {
 
 ## Parameters
 
-| Parameter | Type                                                                                                         | Description |
-| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| args      | { identity: [IIdentity](./daf-core.iidentity.md)<!-- -->; id: string; options?: any; }                       |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { identity: [IIdentity](./daf-core.iidentity.md)<!-- -->; id: string; options?: any; } |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+

@@ -6,21 +6,22 @@
 
 ## Classes
 
-| Class                                               | Description |
-| --------------------------------------------------- | ----------- |
-| [W3c](./daf-w3c.w3c.md)                             |             |
-| [W3cMessageHandler](./daf-w3c.w3cmessagehandler.md) |             |
+|  Class | Description |
+|  --- | --- |
+|  [W3c](./daf-w3c.w3c.md) |  |
+|  [W3cMessageHandler](./daf-w3c.w3cmessagehandler.md) |  |
 
 ## Interfaces
 
-| Interface                                                                           | Description |
-| ----------------------------------------------------------------------------------- | ----------- |
-| [ICreateVerifiableCredentialArgs](./daf-w3c.icreateverifiablecredentialargs.md)     |             |
-| [ICreateVerifiablePresentationArgs](./daf-w3c.icreateverifiablepresentationargs.md) |             |
-| [IW3c](./daf-w3c.iw3c.md)                                                           |             |
+|  Interface | Description |
+|  --- | --- |
+|  [ICreateVerifiableCredentialArgs](./daf-w3c.icreateverifiablecredentialargs.md) |  |
+|  [ICreateVerifiablePresentationArgs](./daf-w3c.icreateverifiablepresentationargs.md) |  |
+|  [IW3c](./daf-w3c.iw3c.md) |  |
 
 ## Variables
 
-| Variable                                  | Description |
-| ----------------------------------------- | ----------- |
-| [MessageTypes](./daf-w3c.messagetypes.md) |             |
+|  Variable | Description |
+|  --- | --- |
+|  [MessageTypes](./daf-w3c.messagetypes.md) |  |
+

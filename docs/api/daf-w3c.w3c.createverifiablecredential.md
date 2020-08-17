@@ -12,11 +12,12 @@ createVerifiableCredential(args: ICreateVerifiableCredentialArgs, context: ICont
 
 ## Parameters
 
-| Parameter | Type                                                                            | Description |
-| --------- | ------------------------------------------------------------------------------- | ----------- |
-| args      | [ICreateVerifiableCredentialArgs](./daf-w3c.icreateverifiablecredentialargs.md) |             |
-| context   | IContext                                                                        |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [ICreateVerifiableCredentialArgs](./daf-w3c.icreateverifiablecredentialargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;[VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->&gt;
+

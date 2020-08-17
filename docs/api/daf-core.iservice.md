@@ -7,14 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IService
+export interface IService 
 ```
 
 ## Properties
 
-| Property                                                  | Type   | Description |
-| --------------------------------------------------------- | ------ | ----------- |
-| [description](./daf-core.iservice.description.md)         | string |             |
-| [id](./daf-core.iservice.id.md)                           | string |             |
-| [serviceEndpoint](./daf-core.iservice.serviceendpoint.md) | string |             |
-| [type](./daf-core.iservice.type.md)                       | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [description](./daf-core.iservice.description.md) | string |  |
+|  [id](./daf-core.iservice.id.md) | string |  |
+|  [serviceEndpoint](./daf-core.iservice.serviceendpoint.md) | string |  |
+|  [type](./daf-core.iservice.type.md) | string |  |
+

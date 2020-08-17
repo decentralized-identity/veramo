@@ -7,16 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IKey
+export interface IKey 
 ```
 
 ## Properties
 
-| Property                                          | Type                               | Description |
-| ------------------------------------------------- | ---------------------------------- | ----------- |
-| [kid](./daf-core.ikey.kid.md)                     | string                             |             |
-| [kms](./daf-core.ikey.kms.md)                     | string                             |             |
-| [meta](./daf-core.ikey.meta.md)                   | Record&lt;string, any&gt;          |             |
-| [privateKeyHex](./daf-core.ikey.privatekeyhex.md) | string                             |             |
-| [publicKeyHex](./daf-core.ikey.publickeyhex.md)   | string                             |             |
-| [type](./daf-core.ikey.type.md)                   | [TKeyType](./daf-core.tkeytype.md) |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [kid](./daf-core.ikey.kid.md) | string |  |
+|  [kms](./daf-core.ikey.kms.md) | string |  |
+|  [meta](./daf-core.ikey.meta.md) | Record&lt;string, any&gt; |  |
+|  [privateKeyHex](./daf-core.ikey.privatekeyhex.md) | string |  |
+|  [publicKeyHex](./daf-core.ikey.publickeyhex.md) | string |  |
+|  [type](./daf-core.ikey.type.md) | [TKeyType](./daf-core.tkeytype.md) |  |
+

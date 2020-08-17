@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ICreateVerifiableCredentialArgs
+export interface ICreateVerifiableCredentialArgs 
 ```
 
 ## Properties
 
-| Property                                                                | Type          | Description |
-| ----------------------------------------------------------------------- | ------------- | ----------- |
-| [credential](./daf-w3c.icreateverifiablecredentialargs.credential.md)   | W3CCredential |             |
-| [proofFormat](./daf-w3c.icreateverifiablecredentialargs.proofformat.md) | 'jwt'         |             |
-| [save](./daf-w3c.icreateverifiablecredentialargs.save.md)               | boolean       |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [credential](./daf-w3c.icreateverifiablecredentialargs.credential.md) | W3CCredential |  |
+|  [proofFormat](./daf-w3c.icreateverifiablecredentialargs.proofformat.md) | 'jwt' |  |
+|  [save](./daf-w3c.icreateverifiablecredentialargs.save.md) | boolean |  |
+

@@ -12,11 +12,12 @@ getVerifiableCredentialsForSdr(args: IGetVerifiableCredentialsForSdrArgs, contex
 
 ## Parameters
 
-| Parameter | Type                                                                                                                | Description |
-| --------- | ------------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | IGetVerifiableCredentialsForSdrArgs                                                                                 |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStoreORM](./daf-typeorm.idatastoreorm.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | IGetVerifiableCredentialsForSdrArgs |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStoreORM](./daf-typeorm.idatastoreorm.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;[ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md)<!-- -->\[\]&gt;
+

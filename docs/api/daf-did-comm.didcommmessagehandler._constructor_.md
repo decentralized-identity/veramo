@@ -9,5 +9,5 @@ Constructs a new instance of the `DIDCommMessageHandler` class
 <b>Signature:</b>
 
 ```typescript
-constructor()
+constructor();
 ```

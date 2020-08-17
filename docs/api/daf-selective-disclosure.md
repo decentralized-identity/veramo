@@ -6,24 +6,25 @@
 
 ## Classes
 
-| Class                                                                | Description |
-| -------------------------------------------------------------------- | ----------- |
-| [Sdr](./daf-selective-disclosure.sdr.md)                             |             |
-| [SdrMessageHandler](./daf-selective-disclosure.sdrmessagehandler.md) |             |
+|  Class | Description |
+|  --- | --- |
+|  [Sdr](./daf-selective-disclosure.sdr.md) |  |
+|  [SdrMessageHandler](./daf-selective-disclosure.sdrmessagehandler.md) |  |
 
 ## Interfaces
 
-| Interface                                                                                    | Description |
-| -------------------------------------------------------------------------------------------- | ----------- |
-| [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md)             |             |
-| [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md)                       |             |
-| [IPresentationValidationResult](./daf-selective-disclosure.ipresentationvalidationresult.md) |             |
-| [ISdr](./daf-selective-disclosure.isdr.md)                                                   |             |
-| [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md)     |             |
-| [Issuer](./daf-selective-disclosure.issuer.md)                                               |             |
+|  Interface | Description |
+|  --- | --- |
+|  [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md) |  |
+|  [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md) |  |
+|  [IPresentationValidationResult](./daf-selective-disclosure.ipresentationvalidationresult.md) |  |
+|  [ISdr](./daf-selective-disclosure.isdr.md) |  |
+|  [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) |  |
+|  [Issuer](./daf-selective-disclosure.issuer.md) |  |
 
 ## Variables
 
-| Variable                                                   | Description |
-| ---------------------------------------------------------- | ----------- |
-| [MessageTypes](./daf-selective-disclosure.messagetypes.md) |             |
+|  Variable | Description |
+|  --- | --- |
+|  [MessageTypes](./daf-selective-disclosure.messagetypes.md) |  |
+

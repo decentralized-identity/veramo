@@ -7,17 +7,18 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ICredentialRequestInput
+export interface ICredentialRequestInput 
 ```
 
 ## Properties
 
-| Property                                                                                     | Type                                                       | Description |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
-| [claimType](./daf-selective-disclosure.icredentialrequestinput.claimtype.md)                 | string                                                     |             |
-| [claimValue](./daf-selective-disclosure.icredentialrequestinput.claimvalue.md)               | string                                                     |             |
-| [credentialContext](./daf-selective-disclosure.icredentialrequestinput.credentialcontext.md) | string                                                     |             |
-| [credentialType](./daf-selective-disclosure.icredentialrequestinput.credentialtype.md)       | string                                                     |             |
-| [essential](./daf-selective-disclosure.icredentialrequestinput.essential.md)                 | boolean                                                    |             |
-| [issuers](./daf-selective-disclosure.icredentialrequestinput.issuers.md)                     | [Issuer](./daf-selective-disclosure.issuer.md)<!-- -->\[\] |             |
-| [reason](./daf-selective-disclosure.icredentialrequestinput.reason.md)                       | string                                                     |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [claimType](./daf-selective-disclosure.icredentialrequestinput.claimtype.md) | string |  |
+|  [claimValue](./daf-selective-disclosure.icredentialrequestinput.claimvalue.md) | string |  |
+|  [credentialContext](./daf-selective-disclosure.icredentialrequestinput.credentialcontext.md) | string |  |
+|  [credentialType](./daf-selective-disclosure.icredentialrequestinput.credentialtype.md) | string |  |
+|  [essential](./daf-selective-disclosure.icredentialrequestinput.essential.md) | boolean |  |
+|  [issuers](./daf-selective-disclosure.icredentialrequestinput.issuers.md) | [Issuer](./daf-selective-disclosure.issuer.md)<!-- -->\[\] |  |
+|  [reason](./daf-selective-disclosure.icredentialrequestinput.reason.md) | string |  |
+

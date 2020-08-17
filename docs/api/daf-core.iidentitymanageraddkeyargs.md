@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IIdentityManagerAddKeyArgs
+export interface IIdentityManagerAddKeyArgs 
 ```
 
 ## Properties
 
-| Property                                                    | Type                       | Description |
-| ----------------------------------------------------------- | -------------------------- | ----------- |
-| [did](./daf-core.iidentitymanageraddkeyargs.did.md)         | string                     |             |
-| [key](./daf-core.iidentitymanageraddkeyargs.key.md)         | [IKey](./daf-core.ikey.md) |             |
-| [options](./daf-core.iidentitymanageraddkeyargs.options.md) | any                        |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [did](./daf-core.iidentitymanageraddkeyargs.did.md) | string |  |
+|  [key](./daf-core.iidentitymanageraddkeyargs.key.md) | [IKey](./daf-core.ikey.md) |  |
+|  [options](./daf-core.iidentitymanageraddkeyargs.options.md) | any |  |
+

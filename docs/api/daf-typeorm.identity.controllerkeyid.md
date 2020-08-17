@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-controllerKeyId: string
+controllerKeyId: string;
 ```

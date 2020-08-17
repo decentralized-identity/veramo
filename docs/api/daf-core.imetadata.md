@@ -7,12 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IMetaData
+export interface IMetaData 
 ```
 
 ## Properties
 
-| Property                               | Type   | Description |
-| -------------------------------------- | ------ | ----------- |
-| [type](./daf-core.imetadata.type.md)   | string |             |
-| [value](./daf-core.imetadata.value.md) | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [type](./daf-core.imetadata.type.md) | string |  |
+|  [value](./daf-core.imetadata.value.md) | string |  |
+

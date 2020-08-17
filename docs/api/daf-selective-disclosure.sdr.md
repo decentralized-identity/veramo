@@ -7,27 +7,27 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class Sdr implements IAgentPlugin
+export declare class Sdr implements IAgentPlugin 
 ```
-
 <b>Implements:</b> [IAgentPlugin](./daf-core.iagentplugin.md)
 
 ## Constructors
 
-| Constructor                                                        | Modifiers | Description                                             |
-| ------------------------------------------------------------------ | --------- | ------------------------------------------------------- |
-| [(constructor)()](./daf-selective-disclosure.sdr._constructor_.md) |           | Constructs a new instance of the <code>Sdr</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)()](./daf-selective-disclosure.sdr._constructor_.md) |  | Constructs a new instance of the <code>Sdr</code> class |
 
 ## Properties
 
-| Property                                             | Modifiers | Type                                       | Description |
-| ---------------------------------------------------- | --------- | ------------------------------------------ | ----------- |
-| [methods](./daf-selective-disclosure.sdr.methods.md) |           | [ISdr](./daf-selective-disclosure.isdr.md) |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [methods](./daf-selective-disclosure.sdr.methods.md) |  | [ISdr](./daf-selective-disclosure.isdr.md) |  |
 
 ## Methods
 
-| Method                                                                                                                | Modifiers | Description |
-| --------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| [createSelectiveDisclosureRequest(args, context)](./daf-selective-disclosure.sdr.createselectivedisclosurerequest.md) |           |             |
-| [getVerifiableCredentialsForSdr(args, context)](./daf-selective-disclosure.sdr.getverifiablecredentialsforsdr.md)     |           |             |
-| [validatePresentationAgainstSdr(args, context)](./daf-selective-disclosure.sdr.validatepresentationagainstsdr.md)     |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [createSelectiveDisclosureRequest(args, context)](./daf-selective-disclosure.sdr.createselectivedisclosurerequest.md) |  |  |
+|  [getVerifiableCredentialsForSdr(args, context)](./daf-selective-disclosure.sdr.getverifiablecredentialsforsdr.md) |  |  |
+|  [validatePresentationAgainstSdr(args, context)](./daf-selective-disclosure.sdr.validatepresentationagainstsdr.md) |  |  |
+

@@ -12,10 +12,11 @@ keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey>;
 
 ## Parameters
 
-| Parameter | Type                                                         | Description |
-| --------- | ------------------------------------------------------------ | ----------- |
-| { kid }   | [IKeyManagerGetKeyArgs](./daf-core.ikeymanagergetkeyargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { kid } | [IKeyManagerGetKeyArgs](./daf-core.ikeymanagergetkeyargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IKey](./daf-core.ikey.md)<!-- -->&gt;
+

@@ -18,6 +18,7 @@ constructor(options: {
 
 ## Parameters
 
-| Parameter | Type                                                                                                                                                                                                                   | Description |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| options   | { providers: Record&lt;string, [AbstractIdentityProvider](./daf-core.abstractidentityprovider.md)<!-- -->&gt;; defaultProvider: string; store: [AbstractIdentityStore](./daf-core.abstractidentitystore.md)<!-- -->; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  options | { providers: Record&lt;string, [AbstractIdentityProvider](./daf-core.abstractidentityprovider.md)<!-- -->&gt;; defaultProvider: string; store: [AbstractIdentityStore](./daf-core.abstractidentitystore.md)<!-- -->; } |  |
+

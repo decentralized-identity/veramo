@@ -7,13 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ICredentialsForSdr extends ICredentialRequestInput
+export interface ICredentialsForSdr extends ICredentialRequestInput 
 ```
-
 <b>Extends:</b> [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md)
 
 ## Properties
 
-| Property                                                                    | Type                                                                   | Description |
-| --------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ----------- |
-| [credentials](./daf-selective-disclosure.icredentialsforsdr.credentials.md) | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\] |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [credentials](./daf-selective-disclosure.icredentialsforsdr.credentials.md) | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\] |  |
+

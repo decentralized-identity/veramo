@@ -4,19 +4,21 @@
 
 ## AbstractIdentityProvider class
 
+
 <b>Signature:</b>
 
 ```typescript
-export declare abstract class AbstractIdentityProvider
+export declare abstract class AbstractIdentityProvider 
 ```
 
 ## Methods
 
-| Method                                                                                 | Modifiers | Description |
-| -------------------------------------------------------------------------------------- | --------- | ----------- |
-| [addKey(args, context)](./daf-core.abstractidentityprovider.addkey.md)                 |           |             |
-| [addService(args, context)](./daf-core.abstractidentityprovider.addservice.md)         |           |             |
-| [createIdentity(args, context)](./daf-core.abstractidentityprovider.createidentity.md) |           |             |
-| [deleteIdentity(args, context)](./daf-core.abstractidentityprovider.deleteidentity.md) |           |             |
-| [removeKey(args, context)](./daf-core.abstractidentityprovider.removekey.md)           |           |             |
-| [removeService(args, context)](./daf-core.abstractidentityprovider.removeservice.md)   |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [addKey(args, context)](./daf-core.abstractidentityprovider.addkey.md) |  |  |
+|  [addService(args, context)](./daf-core.abstractidentityprovider.addservice.md) |  |  |
+|  [createIdentity(args, context)](./daf-core.abstractidentityprovider.createidentity.md) |  |  |
+|  [deleteIdentity(args, context)](./daf-core.abstractidentityprovider.deleteidentity.md) |  |  |
+|  [removeKey(args, context)](./daf-core.abstractidentityprovider.removekey.md) |  |  |
+|  [removeService(args, context)](./daf-core.abstractidentityprovider.removeservice.md) |  |  |
+

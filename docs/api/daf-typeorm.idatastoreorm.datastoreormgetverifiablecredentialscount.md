@@ -12,11 +12,12 @@ dataStoreORMGetVerifiableCredentialsCount(args: FindCredentialsArgs, context: IC
 
 ## Parameters
 
-| Parameter | Type                                                        | Description |
-| --------- | ----------------------------------------------------------- | ----------- |
-| args      | [FindCredentialsArgs](./daf-typeorm.findcredentialsargs.md) |             |
-| context   | IContext                                                    |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindCredentialsArgs](./daf-typeorm.findcredentialsargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;number&gt;
+

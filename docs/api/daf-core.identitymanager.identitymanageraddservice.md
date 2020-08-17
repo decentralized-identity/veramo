@@ -12,11 +12,12 @@ identityManagerAddService({ did, service, options }: IIdentityManagerAddServiceA
 
 ## Parameters
 
-| Parameter                 | Type                                                                                                         | Description |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { did, service, options } | [IIdentityManagerAddServiceArgs](./daf-core.iidentitymanageraddserviceargs.md)                               |             |
-| context                   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { did, service, options } | [IIdentityManagerAddServiceArgs](./daf-core.iidentitymanageraddserviceargs.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+

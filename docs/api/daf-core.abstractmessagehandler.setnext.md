@@ -12,10 +12,11 @@ setNext(messageHandler: AbstractMessageHandler): AbstractMessageHandler;
 
 ## Parameters
 
-| Parameter      | Type                                                           | Description |
-| -------------- | -------------------------------------------------------------- | ----------- |
-| messageHandler | [AbstractMessageHandler](./daf-core.abstractmessagehandler.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  messageHandler | [AbstractMessageHandler](./daf-core.abstractmessagehandler.md) |  |
 
 <b>Returns:</b>
 
 [AbstractMessageHandler](./daf-core.abstractmessagehandler.md)
+

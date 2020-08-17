@@ -12,11 +12,12 @@ identityManagerRemoveService(args: IIdentityManagerRemoveServiceArgs, context: I
 
 ## Parameters
 
-| Parameter | Type                                                                                                         | Description |
-| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| args      | [IIdentityManagerRemoveServiceArgs](./daf-core.iidentitymanagerremoveserviceargs.md)                         |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IIdentityManagerRemoveServiceArgs](./daf-core.iidentitymanagerremoveserviceargs.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+

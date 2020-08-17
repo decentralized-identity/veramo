@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export interface RemoveContext<T extends IPluginMethod>
+export interface RemoveContext<T extends IPluginMethod> 
 ```

@@ -12,11 +12,12 @@ dataStoreORMGetVerifiableCredentialsByClaimsCount(args: FindClaimsArgs, context:
 
 ## Parameters
 
-| Parameter | Type                                              | Description |
-| --------- | ------------------------------------------------- | ----------- |
-| args      | [FindClaimsArgs](./daf-typeorm.findclaimsargs.md) |             |
-| context   | IContext                                          |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindClaimsArgs](./daf-typeorm.findclaimsargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;number&gt;
+

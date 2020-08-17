@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-direction: 'ASC' | 'DESC'
+direction: 'ASC' | 'DESC';
 ```

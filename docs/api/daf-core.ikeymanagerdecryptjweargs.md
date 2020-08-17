@@ -7,12 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IKeyManagerDecryptJWEArgs
+export interface IKeyManagerDecryptJWEArgs 
 ```
 
 ## Properties
 
-| Property                                             | Type   | Description |
-| ---------------------------------------------------- | ------ | ----------- |
-| [data](./daf-core.ikeymanagerdecryptjweargs.data.md) | string |             |
-| [kid](./daf-core.ikeymanagerdecryptjweargs.kid.md)   | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [data](./daf-core.ikeymanagerdecryptjweargs.data.md) | string |  |
+|  [kid](./daf-core.ikeymanagerdecryptjweargs.kid.md) | string |  |
+

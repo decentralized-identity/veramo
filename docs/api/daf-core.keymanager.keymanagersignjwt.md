@@ -12,10 +12,11 @@ keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string>;
 
 ## Parameters
 
-| Parameter     | Type                                                           | Description |
-| ------------- | -------------------------------------------------------------- | ----------- |
-| { kid, data } | [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { kid, data } | [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

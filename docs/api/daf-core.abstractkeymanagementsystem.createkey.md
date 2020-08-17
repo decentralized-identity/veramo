@@ -15,10 +15,11 @@ abstract createKey(args: {
 
 ## Parameters
 
-| Parameter | Type                                                              | Description |
-| --------- | ----------------------------------------------------------------- | ----------- |
-| args      | { type: [TKeyType](./daf-core.tkeytype.md)<!-- -->; meta?: any; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { type: [TKeyType](./daf-core.tkeytype.md)<!-- -->; meta?: any; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;Omit&lt;[IKey](./daf-core.ikey.md)<!-- -->, 'kms'&gt;&gt;
+

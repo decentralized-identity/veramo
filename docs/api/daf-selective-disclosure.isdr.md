@@ -7,15 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ISdr extends IPluginMethodMap
+export interface ISdr extends IPluginMethodMap 
 ```
-
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
 ## Methods
 
-| Method                                                                                                                 | Description |
-| ---------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [createSelectiveDisclosureRequest(args, context)](./daf-selective-disclosure.isdr.createselectivedisclosurerequest.md) |             |
-| [getVerifiableCredentialsForSdr(args, context)](./daf-selective-disclosure.isdr.getverifiablecredentialsforsdr.md)     |             |
-| [validatePresentationAgainstSdr(args, context)](./daf-selective-disclosure.isdr.validatepresentationagainstsdr.md)     |             |
+|  Method | Description |
+|  --- | --- |
+|  [createSelectiveDisclosureRequest(args, context)](./daf-selective-disclosure.isdr.createselectivedisclosurerequest.md) |  |
+|  [getVerifiableCredentialsForSdr(args, context)](./daf-selective-disclosure.isdr.getverifiablecredentialsforsdr.md) |  |
+|  [validatePresentationAgainstSdr(args, context)](./daf-selective-disclosure.isdr.validatepresentationagainstsdr.md) |  |
+

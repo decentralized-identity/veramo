@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IIdentityManagerRemoveServiceArgs
+export interface IIdentityManagerRemoveServiceArgs 
 ```
 
 ## Properties
 
-| Property                                                           | Type   | Description |
-| ------------------------------------------------------------------ | ------ | ----------- |
-| [did](./daf-core.iidentitymanagerremoveserviceargs.did.md)         | string |             |
-| [id](./daf-core.iidentitymanagerremoveserviceargs.id.md)           | string |             |
-| [options](./daf-core.iidentitymanagerremoveserviceargs.options.md) | any    |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [did](./daf-core.iidentitymanagerremoveserviceargs.did.md) | string |  |
+|  [id](./daf-core.iidentitymanagerremoveserviceargs.id.md) | string |  |
+|  [options](./daf-core.iidentitymanagerremoveserviceargs.options.md) | any |  |
+

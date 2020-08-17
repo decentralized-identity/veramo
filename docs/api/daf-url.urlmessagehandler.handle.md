@@ -12,11 +12,12 @@ handle(message: Message, context: IContext): Promise<Message>;
 
 ## Parameters
 
-| Parameter | Type                             | Description |
-| --------- | -------------------------------- | ----------- |
-| message   | [Message](./daf-core.message.md) |             |
-| context   | IContext                         |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  message | [Message](./daf-core.message.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt;
+

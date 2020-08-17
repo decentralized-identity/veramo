@@ -12,10 +12,11 @@ addMetaData(meta: IMetaData): void;
 
 ## Parameters
 
-| Parameter | Type                                 | Description |
-| --------- | ------------------------------------ | ----------- |
-| meta      | [IMetaData](./daf-core.imetadata.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  meta | [IMetaData](./daf-core.imetadata.md) |  |
 
 <b>Returns:</b>
 
 void
+

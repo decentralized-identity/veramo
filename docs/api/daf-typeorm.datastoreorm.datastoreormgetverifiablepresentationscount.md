@@ -12,11 +12,12 @@ dataStoreORMGetVerifiablePresentationsCount(args: FindArgs<TPresentationColumns>
 
 ## Parameters
 
-| Parameter | Type                                                                                                                       | Description |
-| --------- | -------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TPresentationColumns](./daf-typeorm.tpresentationcolumns.md)<!-- -->&gt; |             |
-| context   | IContext                                                                                                                   |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TPresentationColumns](./daf-typeorm.tpresentationcolumns.md)<!-- -->&gt; |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;number&gt;
+

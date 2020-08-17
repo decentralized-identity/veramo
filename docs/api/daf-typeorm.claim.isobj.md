@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-isObj: boolean
+isObj: boolean;
 ```

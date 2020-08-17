@@ -7,25 +7,25 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class DIDComm implements IAgentPlugin
+export declare class DIDComm implements IAgentPlugin 
 ```
-
 <b>Implements:</b> [IAgentPlugin](./daf-core.iagentplugin.md)
 
 ## Constructors
 
-| Constructor                                                | Modifiers | Description                                                 |
-| ---------------------------------------------------------- | --------- | ----------------------------------------------------------- |
-| [(constructor)()](./daf-did-comm.didcomm._constructor_.md) |           | Constructs a new instance of the <code>DIDComm</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)()](./daf-did-comm.didcomm._constructor_.md) |  | Constructs a new instance of the <code>DIDComm</code> class |
 
 ## Properties
 
-| Property                                     | Modifiers | Type                                   | Description |
-| -------------------------------------------- | --------- | -------------------------------------- | ----------- |
-| [methods](./daf-did-comm.didcomm.methods.md) |           | [IDIDComm](./daf-did-comm.ididcomm.md) |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [methods](./daf-did-comm.didcomm.methods.md) |  | [IDIDComm](./daf-did-comm.ididcomm.md) |  |
 
 ## Methods
 
-| Method                                                                                        | Modifiers | Description |
-| --------------------------------------------------------------------------------------------- | --------- | ----------- |
-| [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.didcomm.sendmessagedidcommalpha1.md) |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.didcomm.sendmessagedidcommalpha1.md) |  |  |
+

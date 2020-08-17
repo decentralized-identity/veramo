@@ -7,11 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IAgentBase
+export interface IAgentBase 
 ```
 
 ## Properties
 
-| Property                                                      | Type                | Description |
-| ------------------------------------------------------------- | ------------------- | ----------- |
-| [availableMethods](./daf-core.iagentbase.availablemethods.md) | () =&gt; string\[\] |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [availableMethods](./daf-core.iagentbase.availablemethods.md) | () =&gt; string\[\] |  |
+

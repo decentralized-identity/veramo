@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-proofFormat: 'jwt'
+proofFormat: 'jwt';
 ```

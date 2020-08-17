@@ -12,11 +12,12 @@ identityManagerGetOrCreateIdentity({ provider, alias, kms, options }: IIdentityM
 
 ## Parameters
 
-| Parameter                         | Type                                                                                                         | Description |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { provider, alias, kms, options } | [IIdentityManagerGetOrCreateIdentityArgs](./daf-core.iidentitymanagergetorcreateidentityargs.md)             |             |
-| context                           | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { provider, alias, kms, options } | [IIdentityManagerGetOrCreateIdentityArgs](./daf-core.iidentitymanagergetorcreateidentityargs.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;
+

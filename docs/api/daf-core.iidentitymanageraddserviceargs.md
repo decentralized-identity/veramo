@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IIdentityManagerAddServiceArgs
+export interface IIdentityManagerAddServiceArgs 
 ```
 
 ## Properties
 
-| Property                                                        | Type                               | Description |
-| --------------------------------------------------------------- | ---------------------------------- | ----------- |
-| [did](./daf-core.iidentitymanageraddserviceargs.did.md)         | string                             |             |
-| [options](./daf-core.iidentitymanageraddserviceargs.options.md) | any                                |             |
-| [service](./daf-core.iidentitymanageraddserviceargs.service.md) | [IService](./daf-core.iservice.md) |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [did](./daf-core.iidentitymanageraddserviceargs.did.md) | string |  |
+|  [options](./daf-core.iidentitymanageraddserviceargs.options.md) | any |  |
+|  [service](./daf-core.iidentitymanageraddserviceargs.service.md) | [IService](./daf-core.iservice.md) |  |
+

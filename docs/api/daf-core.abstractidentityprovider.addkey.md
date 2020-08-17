@@ -16,11 +16,12 @@ abstract addKey(args: {
 
 ## Parameters
 
-| Parameter | Type                                                                                                                | Description |
-| --------- | ------------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | { identity: [IIdentity](./daf-core.iidentity.md)<!-- -->; key: [IKey](./daf-core.ikey.md)<!-- -->; options?: any; } |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt;        |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { identity: [IIdentity](./daf-core.iidentity.md)<!-- -->; key: [IKey](./daf-core.ikey.md)<!-- -->; options?: any; } |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+

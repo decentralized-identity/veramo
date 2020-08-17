@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IW3c extends IPluginMethodMap
+export interface IW3c extends IPluginMethodMap 
 ```
-
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
 ## Methods
 
-| Method                                                                                        | Description |
-| --------------------------------------------------------------------------------------------- | ----------- |
-| [createVerifiableCredential(args, context)](./daf-w3c.iw3c.createverifiablecredential.md)     |             |
-| [createVerifiablePresentation(args, context)](./daf-w3c.iw3c.createverifiablepresentation.md) |             |
+|  Method | Description |
+|  --- | --- |
+|  [createVerifiableCredential(args, context)](./daf-w3c.iw3c.createverifiablecredential.md) |  |
+|  [createVerifiablePresentation(args, context)](./daf-w3c.iw3c.createverifiablepresentation.md) |  |
+

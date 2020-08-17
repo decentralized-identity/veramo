@@ -14,10 +14,11 @@ delete({ did }: {
 
 ## Parameters
 
-| Parameter | Type             | Description |
-| --------- | ---------------- | ----------- |
-| { did }   | { did: string; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { did } | { did: string; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

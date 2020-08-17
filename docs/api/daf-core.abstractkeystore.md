@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export declare abstract class AbstractKeyStore
+export declare abstract class AbstractKeyStore 
 ```
 
 ## Methods
 
-| Method                                                | Modifiers | Description |
-| ----------------------------------------------------- | --------- | ----------- |
-| [delete(args)](./daf-core.abstractkeystore.delete.md) |           |             |
-| [get(args)](./daf-core.abstractkeystore.get.md)       |           |             |
-| [import(args)](./daf-core.abstractkeystore.import.md) |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [delete(args)](./daf-core.abstractkeystore.delete.md) |  |  |
+|  [get(args)](./daf-core.abstractkeystore.get.md) |  |  |
+|  [import(args)](./daf-core.abstractkeystore.import.md) |  |  |
+

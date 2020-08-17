@@ -15,10 +15,11 @@ abstract signJWT(args: {
 
 ## Parameters
 
-| Parameter | Type                                                       | Description |
-| --------- | ---------------------------------------------------------- | ----------- |
-| args      | { key: [IKey](./daf-core.ikey.md)<!-- -->; data: string; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { key: [IKey](./daf-core.ikey.md)<!-- -->; data: string; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

@@ -14,6 +14,7 @@ constructor(dbConnection: Promise<Connection>);
 
 ## Parameters
 
-| Parameter    | Type                      | Description |
-| ------------ | ------------------------- | ----------- |
-| dbConnection | Promise&lt;Connection&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  dbConnection | Promise&lt;Connection&gt; |  |
+

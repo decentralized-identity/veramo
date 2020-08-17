@@ -6,14 +6,15 @@
 
 ## Classes
 
-| Class                                                            | Description |
-| ---------------------------------------------------------------- | ----------- |
-| [DIDComm](./daf-did-comm.didcomm.md)                             |             |
-| [DIDCommMessageHandler](./daf-did-comm.didcommmessagehandler.md) |             |
+|  Class | Description |
+|  --- | --- |
+|  [DIDComm](./daf-did-comm.didcomm.md) |  |
+|  [DIDCommMessageHandler](./daf-did-comm.didcommmessagehandler.md) |  |
 
 ## Interfaces
 
-| Interface                                                                        | Description |
-| -------------------------------------------------------------------------------- | ----------- |
-| [IDIDComm](./daf-did-comm.ididcomm.md)                                           |             |
-| [ISendMessageDIDCommAlpha1Args](./daf-did-comm.isendmessagedidcommalpha1args.md) |             |
+|  Interface | Description |
+|  --- | --- |
+|  [IDIDComm](./daf-did-comm.ididcomm.md) |  |
+|  [ISendMessageDIDCommAlpha1Args](./daf-did-comm.isendmessagedidcommalpha1args.md) |  |
+

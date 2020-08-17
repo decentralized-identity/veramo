@@ -7,11 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IKeyManagerDeleteKeyArgs
+export interface IKeyManagerDeleteKeyArgs 
 ```
 
 ## Properties
 
-| Property                                          | Type   | Description |
-| ------------------------------------------------- | ------ | ----------- |
-| [kid](./daf-core.ikeymanagerdeletekeyargs.kid.md) | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [kid](./daf-core.ikeymanagerdeletekeyargs.kid.md) | string |  |
+

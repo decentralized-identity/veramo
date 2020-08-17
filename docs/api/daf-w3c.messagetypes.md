@@ -8,7 +8,7 @@
 
 ```typescript
 MessageTypes: {
-  vc: string
-  vp: string
+    vc: string;
+    vp: string;
 }
 ```

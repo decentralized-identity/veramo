@@ -7,14 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IIdentityManagerGetOrCreateIdentityArgs
+export interface IIdentityManagerGetOrCreateIdentityArgs 
 ```
 
 ## Properties
 
-| Property                                                                   | Type   | Description |
-| -------------------------------------------------------------------------- | ------ | ----------- |
-| [alias](./daf-core.iidentitymanagergetorcreateidentityargs.alias.md)       | string |             |
-| [kms](./daf-core.iidentitymanagergetorcreateidentityargs.kms.md)           | string |             |
-| [options](./daf-core.iidentitymanagergetorcreateidentityargs.options.md)   | any    |             |
-| [provider](./daf-core.iidentitymanagergetorcreateidentityargs.provider.md) | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [alias](./daf-core.iidentitymanagergetorcreateidentityargs.alias.md) | string |  |
+|  [kms](./daf-core.iidentitymanagergetorcreateidentityargs.kms.md) | string |  |
+|  [options](./daf-core.iidentitymanagergetorcreateidentityargs.options.md) | any |  |
+|  [provider](./daf-core.iidentitymanagergetorcreateidentityargs.provider.md) | string |  |
+

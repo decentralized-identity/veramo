@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-column: TColumns
+column: TColumns;
 ```

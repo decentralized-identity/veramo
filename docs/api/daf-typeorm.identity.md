@@ -7,35 +7,35 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class Identity extends BaseEntity
+export declare class Identity extends BaseEntity 
 ```
-
 <b>Extends:</b> BaseEntity
 
 ## Properties
 
-| Property                                                                 | Modifiers | Type                                                      | Description |
-| ------------------------------------------------------------------------ | --------- | --------------------------------------------------------- | ----------- |
-| [alias](./daf-typeorm.identity.alias.md)                                 |           | string                                                    |             |
-| [controllerKeyId](./daf-typeorm.identity.controllerkeyid.md)             |           | string                                                    |             |
-| [did](./daf-typeorm.identity.did.md)                                     |           | string                                                    |             |
-| [issuedClaims](./daf-typeorm.identity.issuedclaims.md)                   |           | [Claim](./daf-typeorm.claim.md)<!-- -->\[\]               |             |
-| [issuedCredentials](./daf-typeorm.identity.issuedcredentials.md)         |           | Credential\[\]                                            |             |
-| [issuedPresentations](./daf-typeorm.identity.issuedpresentations.md)     |           | [Presentation](./daf-typeorm.presentation.md)<!-- -->\[\] |             |
-| [keys](./daf-typeorm.identity.keys.md)                                   |           | [Key](./daf-typeorm.key.md)<!-- -->\[\]                   |             |
-| [provider](./daf-typeorm.identity.provider.md)                           |           | string                                                    |             |
-| [receivedClaims](./daf-typeorm.identity.receivedclaims.md)               |           | [Claim](./daf-typeorm.claim.md)<!-- -->\[\]               |             |
-| [receivedCredentials](./daf-typeorm.identity.receivedcredentials.md)     |           | Credential\[\]                                            |             |
-| [receivedMessages](./daf-typeorm.identity.receivedmessages.md)           |           | [Message](./daf-typeorm.message.md)<!-- -->\[\]           |             |
-| [receivedPresentations](./daf-typeorm.identity.receivedpresentations.md) |           | [Presentation](./daf-typeorm.presentation.md)<!-- -->\[\] |             |
-| [saveDate](./daf-typeorm.identity.savedate.md)                           |           | Date                                                      |             |
-| [sentMessages](./daf-typeorm.identity.sentmessages.md)                   |           | [Message](./daf-typeorm.message.md)<!-- -->\[\]           |             |
-| [services](./daf-typeorm.identity.services.md)                           |           | [Service](./daf-typeorm.service.md)<!-- -->\[\]           |             |
-| [updateDate](./daf-typeorm.identity.updatedate.md)                       |           | Date                                                      |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [alias](./daf-typeorm.identity.alias.md) |  | string |  |
+|  [controllerKeyId](./daf-typeorm.identity.controllerkeyid.md) |  | string |  |
+|  [did](./daf-typeorm.identity.did.md) |  | string |  |
+|  [issuedClaims](./daf-typeorm.identity.issuedclaims.md) |  | [Claim](./daf-typeorm.claim.md)<!-- -->\[\] |  |
+|  [issuedCredentials](./daf-typeorm.identity.issuedcredentials.md) |  | Credential\[\] |  |
+|  [issuedPresentations](./daf-typeorm.identity.issuedpresentations.md) |  | [Presentation](./daf-typeorm.presentation.md)<!-- -->\[\] |  |
+|  [keys](./daf-typeorm.identity.keys.md) |  | [Key](./daf-typeorm.key.md)<!-- -->\[\] |  |
+|  [provider](./daf-typeorm.identity.provider.md) |  | string |  |
+|  [receivedClaims](./daf-typeorm.identity.receivedclaims.md) |  | [Claim](./daf-typeorm.claim.md)<!-- -->\[\] |  |
+|  [receivedCredentials](./daf-typeorm.identity.receivedcredentials.md) |  | Credential\[\] |  |
+|  [receivedMessages](./daf-typeorm.identity.receivedmessages.md) |  | [Message](./daf-typeorm.message.md)<!-- -->\[\] |  |
+|  [receivedPresentations](./daf-typeorm.identity.receivedpresentations.md) |  | [Presentation](./daf-typeorm.presentation.md)<!-- -->\[\] |  |
+|  [saveDate](./daf-typeorm.identity.savedate.md) |  | Date |  |
+|  [sentMessages](./daf-typeorm.identity.sentmessages.md) |  | [Message](./daf-typeorm.message.md)<!-- -->\[\] |  |
+|  [services](./daf-typeorm.identity.services.md) |  | [Service](./daf-typeorm.service.md)<!-- -->\[\] |  |
+|  [updateDate](./daf-typeorm.identity.updatedate.md) |  | Date |  |
 
 ## Methods
 
-| Method                                                                                    | Modifiers | Description                                                                                                               |
-| ----------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
-| [getLatestClaimValue(dbConnection, where)](./daf-typeorm.identity.getlatestclaimvalue.md) |           | Convenience method<!-- -->const name = await identity.getLatestClaimValue(<!-- -->{<!-- -->type: 'name'<!-- -->}<!-- -->) |
-| [shortDid()](./daf-typeorm.identity.shortdid.md)                                          |           |                                                                                                                           |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [getLatestClaimValue(dbConnection, where)](./daf-typeorm.identity.getlatestclaimvalue.md) |  | Convenience method<!-- -->const name = await identity.getLatestClaimValue(<!-- -->{<!-- -->type: 'name'<!-- -->}<!-- -->) |
+|  [shortDid()](./daf-typeorm.identity.shortdid.md) |  |  |
+

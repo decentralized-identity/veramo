@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type VerifiablePresentation = Verifiable<W3CPresentation>
+export declare type VerifiablePresentation = Verifiable<W3CPresentation>;
 ```

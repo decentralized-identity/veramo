@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ICreateVerifiablePresentationArgs
+export interface ICreateVerifiablePresentationArgs 
 ```
 
 ## Properties
 
-| Property                                                                    | Type            | Description |
-| --------------------------------------------------------------------------- | --------------- | ----------- |
-| [presentation](./daf-w3c.icreateverifiablepresentationargs.presentation.md) | W3CPresentation |             |
-| [proofFormat](./daf-w3c.icreateverifiablepresentationargs.proofformat.md)   | 'jwt'           |             |
-| [save](./daf-w3c.icreateverifiablepresentationargs.save.md)                 | boolean         |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [presentation](./daf-w3c.icreateverifiablepresentationargs.presentation.md) | W3CPresentation |  |
+|  [proofFormat](./daf-w3c.icreateverifiablepresentationargs.proofformat.md) | 'jwt' |  |
+|  [save](./daf-w3c.icreateverifiablepresentationargs.save.md) | boolean |  |
+

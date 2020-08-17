@@ -7,11 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IIdentityManagerGetIdentityArgs
+export interface IIdentityManagerGetIdentityArgs 
 ```
 
 ## Properties
 
-| Property                                                 | Type   | Description |
-| -------------------------------------------------------- | ------ | ----------- |
-| [did](./daf-core.iidentitymanagergetidentityargs.did.md) | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [did](./daf-core.iidentitymanagergetidentityargs.did.md) | string |  |
+

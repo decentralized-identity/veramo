@@ -12,10 +12,11 @@ keyManagerImportKey(args: IKey): Promise<boolean>;
 
 ## Parameters
 
-| Parameter | Type                       | Description |
-| --------- | -------------------------- | ----------- |
-| args      | [IKey](./daf-core.ikey.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IKey](./daf-core.ikey.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IHandleMessageArgs
+export interface IHandleMessageArgs 
 ```
 
 ## Properties
 
-| Property                                              | Type                                             | Description |
-| ----------------------------------------------------- | ------------------------------------------------ | ----------- |
-| [metaData](./daf-core.ihandlemessageargs.metadata.md) | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] |             |
-| [raw](./daf-core.ihandlemessageargs.raw.md)           | string                                           |             |
-| [save](./daf-core.ihandlemessageargs.save.md)         | boolean                                          |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [metaData](./daf-core.ihandlemessageargs.metadata.md) | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] |  |
+|  [raw](./daf-core.ihandlemessageargs.raw.md) | string |  |
+|  [save](./daf-core.ihandlemessageargs.save.md) | boolean |  |
+

@@ -12,11 +12,12 @@ createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, co
 
 ## Parameters
 
-| Parameter | Type                                                                                                                                                                  | Description |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | ICreateSelectiveDisclosureRequestArgs                                                                                                                                 |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IIdentityManager](./daf-core.iidentitymanager.md) &amp; [IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | ICreateSelectiveDisclosureRequestArgs |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IIdentityManager](./daf-core.iidentitymanager.md) &amp; [IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

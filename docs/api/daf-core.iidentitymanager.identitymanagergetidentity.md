@@ -12,10 +12,11 @@ identityManagerGetIdentity(args: IIdentityManagerGetIdentityArgs): Promise<IIden
 
 ## Parameters
 
-| Parameter | Type                                                                             | Description |
-| --------- | -------------------------------------------------------------------------------- | ----------- |
-| args      | [IIdentityManagerGetIdentityArgs](./daf-core.iidentitymanagergetidentityargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IIdentityManagerGetIdentityArgs](./daf-core.iidentitymanagergetidentityargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;
+
