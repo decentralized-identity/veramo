@@ -76,8 +76,8 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
         ) => {
           context.agent
             .keyManagerSignEthTX({ kid: controllerKeyId, transaction })
-            .then(signature => callback(null, signature))
-            .catch(error => callback(error))
+            .then((signature) => callback(null, signature))
+            .catch((error) => callback(error))
         },
       })
     return web3Provider

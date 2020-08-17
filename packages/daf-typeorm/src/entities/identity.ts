@@ -42,73 +42,43 @@ export class Identity extends BaseEntity {
   //@ts-ignore
   controllerKeyId: string
 
-  @OneToMany(
-    type => Key,
-    key => key.identity,
-  )
+  @OneToMany((type) => Key, (key) => key.identity)
   //@ts-ignore
   keys: Key[]
 
-  @OneToMany(
-    type => Service,
-    service => service.identity,
-  )
+  @OneToMany((type) => Service, (service) => service.identity)
   //@ts-ignore
   services: Service[]
 
-  @OneToMany(
-    type => Message,
-    message => message.from,
-  )
+  @OneToMany((type) => Message, (message) => message.from)
   //@ts-ignore
   sentMessages: Message[]
 
-  @OneToMany(
-    type => Message,
-    message => message.to,
-  )
+  @OneToMany((type) => Message, (message) => message.to)
   //@ts-ignore
   receivedMessages: Message[]
 
-  @OneToMany(
-    type => Presentation,
-    presentation => presentation.holder,
-  )
+  @OneToMany((type) => Presentation, (presentation) => presentation.holder)
   //@ts-ignore
   issuedPresentations: Presentation[]
 
-  @ManyToMany(
-    type => Presentation,
-    presentation => presentation.verifier,
-  )
+  @ManyToMany((type) => Presentation, (presentation) => presentation.verifier)
   //@ts-ignore
   receivedPresentations: Presentation[]
 
-  @OneToMany(
-    type => Credential,
-    credential => credential.issuer,
-  )
+  @OneToMany((type) => Credential, (credential) => credential.issuer)
   //@ts-ignore
   issuedCredentials: Credential[]
 
-  @OneToMany(
-    type => Credential,
-    credential => credential.subject,
-  )
+  @OneToMany((type) => Credential, (credential) => credential.subject)
   //@ts-ignore
   receivedCredentials: Credential[]
 
-  @OneToMany(
-    type => Claim,
-    claim => claim.issuer,
-  )
+  @OneToMany((type) => Claim, (claim) => claim.issuer)
   //@ts-ignore
   issuedClaims: Claim[]
 
-  @OneToMany(
-    type => Claim,
-    claim => claim.subject,
-  )
+  @OneToMany((type) => Claim, (claim) => claim.subject)
   //@ts-ignore
   receivedClaims: Claim[]
 

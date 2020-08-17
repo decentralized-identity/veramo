@@ -1,5 +1,14 @@
 import 'cross-fetch/polyfill'
-import { IAgentContext, IResolveDid, Message, IIdentityManager, IKeyManager, IHandleMessage, IPluginMethodMap, IAgentPlugin } from 'daf-core'
+import {
+  IAgentContext,
+  IResolveDid,
+  Message,
+  IIdentityManager,
+  IKeyManager,
+  IHandleMessage,
+  IPluginMethodMap,
+  IAgentPlugin,
+} from 'daf-core'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
 
@@ -20,7 +29,7 @@ export interface ISendMessageDIDCommAlpha1Args {
 export interface IDIDComm extends IPluginMethodMap {
   sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>
+    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>,
   ): Promise<Message>
 }
 
@@ -35,7 +44,7 @@ export class DIDComm implements IAgentPlugin {
 
   async sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>
+    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>,
   ): Promise<Message> {
     const { data, url, save = true } = args
 
@@ -45,21 +54,21 @@ export class DIDComm implements IAgentPlugin {
     if (url) {
       serviceEndpoint = url
     } else {
-      const service = didDoc && didDoc.service && didDoc.service.find(item => item.type == 'Messaging')
+      const service = didDoc && didDoc.service && didDoc.service.find((item) => item.type == 'Messaging')
       serviceEndpoint = service?.serviceEndpoint
     }
-  
+
     if (serviceEndpoint) {
       try {
         data.id = data.id || uuidv4()
         let postPayload = JSON.stringify(data)
         try {
           const identity = await context.agent.identityManagerGetIdentity({ did: data.from })
-          const key = identity.keys.find(k => k.type === 'Ed25519')
+          const key = identity.keys.find((k) => k.type === 'Ed25519')
           if (!key) throw Error('No encryption key')
-          const publicKey = didDoc?.publicKey.find(item => item.type == 'Ed25519VerificationKey2018')
+          const publicKey = didDoc?.publicKey.find((item) => item.type == 'Ed25519VerificationKey2018')
           if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
-  
+
           postPayload = await context.agent.keyManagerEncryptJWE({
             kid: key.kid,
             to: {
@@ -69,21 +78,25 @@ export class DIDComm implements IAgentPlugin {
             },
             data: postPayload,
           })
-  
+
           debug('Encrypted:', postPayload)
         } catch (e) {}
-  
+
         debug('Sending to %s', serviceEndpoint)
         const res = await fetch(serviceEndpoint, {
           method: 'POST',
           body: postPayload,
         })
         debug('Status', res.status, res.statusText)
-  
+
         if (res.status == 200) {
-          return await context.agent.handleMessage({ raw: data.body, metaData: [{ type: 'DIDComm-sent' }], save })
+          return await context.agent.handleMessage({
+            raw: data.body,
+            metaData: [{ type: 'DIDComm-sent' }],
+            save,
+          })
         }
-  
+
         return Promise.reject('Message not sent')
       } catch (e) {
         return Promise.reject(e)
@@ -93,6 +106,4 @@ export class DIDComm implements IAgentPlugin {
       return Promise.reject('No service endpoint')
     }
   }
-
 }
-

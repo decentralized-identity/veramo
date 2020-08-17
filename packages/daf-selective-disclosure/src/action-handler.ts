@@ -61,7 +61,7 @@ export class Sdr implements IAgentPlugin {
       delete data.issuer
       Debug('daf:selective-disclosure:create-sdr')('Signing SDR with', identity.did)
 
-      const key = identity.keys.find(k => k.type === 'Secp256k1')
+      const key = identity.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('Signing key not found')
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       const jwt = await createJWT(
@@ -97,7 +97,7 @@ export class Sdr implements IAgentPlugin {
       }
 
       if (credentialRequest.issuers) {
-        findArgs.where?.push({ column: 'issuer', value: credentialRequest.issuers.map(i => i.did) })
+        findArgs.where?.push({ column: 'issuer', value: credentialRequest.issuers.map((i) => i.did) })
       }
 
       if (credentialRequest.credentialType) {
@@ -137,7 +137,7 @@ export class Sdr implements IAgentPlugin {
     let valid = true
     let claims = []
     for (const credentialRequest of args.sdr.claims) {
-      let credentials = args.presentation.verifiableCredential.filter(credential => {
+      let credentials = args.presentation.verifiableCredential.filter((credential) => {
         if (
           credentialRequest.claimType &&
           credentialRequest.claimValue &&
@@ -156,7 +156,7 @@ export class Sdr implements IAgentPlugin {
 
         if (
           credentialRequest.issuers &&
-          !credentialRequest.issuers.map(i => i.did).includes(credential.issuer.id)
+          !credentialRequest.issuers.map((i) => i.did).includes(credential.issuer.id)
         ) {
           return false
         }
