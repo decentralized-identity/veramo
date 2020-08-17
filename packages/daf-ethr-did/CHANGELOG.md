@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.10](https://github.com/uport-project/daf/compare/v7.0.0-beta.9...v7.0.0-beta.10) (2020-08-17)
+
+**Note:** Version bump only for package daf-ethr-did
+
+
+
+
+
 # [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
 
 **Note:** Version bump only for package daf-ethr-did

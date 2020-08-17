@@ -1,6 +1,8 @@
 {
-  "version": "7.0.0-beta.9",
-  "packages": ["packages/*"],
+  "version": "7.0.0-beta.10",
+  "packages": [
+    "packages/*"
+  ],
   "npmClient": "yarn",
   "changelog": {
     "repo": "uport-project/daf",
@@ -8,13 +10,18 @@
   },
   "command": {
     "publish": {
-      "allowBranch": ["master", "beta"],
+      "allowBranch": [
+        "master",
+        "beta"
+      ],
       "conventionalCommits": true,
       "gitRemote": "origin",
       "message": "chore(release): %s"
     },
     "version": {
-      "allowBranch": ["beta"],
+      "allowBranch": [
+        "beta"
+      ],
       "conventionalCommits": true,
       "gitRemote": "origin",
       "message": "chore(beta-release): %s"
