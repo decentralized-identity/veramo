@@ -5,18 +5,7 @@
  */
 export { Agent, createAgent, IAgentOptions } from './agent'
 export * from './types'
-export {
-  IdentityManager,
-  IIdentityManager,
-  IIdentityManagerAddKeyArgs,
-  IIdentityManagerAddServiceArgs,
-  IIdentityManagerCreateIdentityArgs,
-  IIdentityManagerDeleteIdentityArgs,
-  IIdentityManagerGetIdentityArgs,
-  IIdentityManagerGetOrCreateIdentityArgs,
-  IIdentityManagerRemoveKeyArgs,
-  IIdentityManagerRemoveServiceArgs,
-} from './identity-manager'
+export { IdentityManager, IIdentityManager, IIdentityManagerAddKeyArgs, IIdentityManagerAddServiceArgs, IIdentityManagerCreateIdentityArgs, IIdentityManagerDeleteIdentityArgs, IIdentityManagerGetIdentityArgs, IIdentityManagerGetOrCreateIdentityArgs, IIdentityManagerRemoveKeyArgs, IIdentityManagerRemoveServiceArgs } from './identity-manager'
 export {
   KeyManager,
   IKeyManager,
