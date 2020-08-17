@@ -180,7 +180,7 @@ export class IdentityManager implements IAgentPlugin {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
     const result = await provider.removeKey({ identity, kid, options }, context)
-    identity.keys = identity.keys.filter(k => k.kid !== kid)
+    identity.keys = identity.keys.filter((k) => k.kid !== kid)
     await this.store.import(identity)
     return result
   }
@@ -204,7 +204,7 @@ export class IdentityManager implements IAgentPlugin {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
     const result = await provider.removeService({ identity, id, options }, context)
-    identity.services = identity.services.filter(s => s.id !== id)
+    identity.services = identity.services.filter((s) => s.id !== id)
     await this.store.import(identity)
     return result
   }

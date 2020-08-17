@@ -144,7 +144,7 @@ export class DataStoreORM implements IAgentPlugin {
     qb = decorateQB(qb, 'message', args)
     if (context.authenticatedDid) {
       qb = qb.andWhere(
-        new Brackets(qb => {
+        new Brackets((qb) => {
           qb.where('message.to = :ident', { ident: context.authenticatedDid }).orWhere(
             'message.from = :ident',
             {
@@ -183,7 +183,7 @@ export class DataStoreORM implements IAgentPlugin {
     qb = qb.leftJoinAndSelect('claim.credential', 'credential')
     if (context.authenticatedDid) {
       qb = qb.andWhere(
-        new Brackets(qb => {
+        new Brackets((qb) => {
           qb.where('claim.subject = :ident', { ident: context.authenticatedDid }).orWhere(
             'claim.issuer = :ident',
             {
@@ -201,7 +201,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiableCredential[]> {
     const claims = await (await this.claimsQuery(args, context)).getMany()
-    return claims.map(claim => claim.credential.raw)
+    return claims.map((claim) => claim.credential.raw)
   }
 
   async dataStoreORMGetVerifiableCredentialsByClaimsCount(
@@ -227,7 +227,7 @@ export class DataStoreORM implements IAgentPlugin {
     qb = decorateQB(qb, 'credential', args)
     if (context.authenticatedDid) {
       qb = qb.andWhere(
-        new Brackets(qb => {
+        new Brackets((qb) => {
           qb.where('credential.subject = :ident', { ident: context.authenticatedDid }).orWhere(
             'credential.issuer = :ident',
             {
@@ -245,7 +245,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiableCredential[]> {
     const credentials = await (await this.credentialsQuery(args, context)).getMany()
-    return credentials.map(vc => vc.raw)
+    return credentials.map((vc) => vc.raw)
   }
 
   async dataStoreORMGetVerifiableCredentialsCount(
@@ -272,7 +272,7 @@ export class DataStoreORM implements IAgentPlugin {
     qb = addVerifierQuery(args, qb)
     if (context.authenticatedDid) {
       qb = qb.andWhere(
-        new Brackets(qb => {
+        new Brackets((qb) => {
           qb.where('verifier.did = :ident', {
             ident: context.authenticatedDid,
           }).orWhere('presentation.holder = :ident', { ident: context.authenticatedDid })
@@ -287,7 +287,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiablePresentation[]> {
     const presentations = await (await this.presentationsQuery(args, context)).getMany()
-    return presentations.map(vp => vp.raw)
+    return presentations.map((vp) => vp.raw)
   }
 
   async dataStoreORMGetVerifiablePresentationsCount(
@@ -325,7 +325,7 @@ function addVerifierQuery(input: FindArgs<any>, qb: SelectQueryBuilder<any>): Se
   if (!Array.isArray(input.where)) {
     return qb
   }
-  const verifierWhere = input.where.find(item => item.column === 'verifier')
+  const verifierWhere = input.where.find((item) => item.column === 'verifier')
   if (!verifierWhere) {
     return qb
   }

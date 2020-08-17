@@ -1,5 +1,0 @@
-examples/
-build/**/*
-docs/api
-report/
-packages/daf-rest/src/openApiSchema.ts

@@ -18,7 +18,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           for (const identity of identities) {
             let decrypted
             try {
-              const key = identity.keys.find(k => k.type === 'Ed25519')
+              const key = identity.keys.find((k) => k.type === 'Ed25519')
               if (!key) throw Error('No encryption keys')
               decrypted = await context.agent.keyManagerDecryptJWE({ kid: key.kid, data: message.raw })
             } catch (e) {}

@@ -115,7 +115,7 @@ const setup = async (): Promise<boolean> => {
   })
 
   const agentRouter = AgentRouter({
-    getAgentForRequest: async req => serverAgent,
+    getAgentForRequest: async (req) => serverAgent,
     exposedMethods: supportedMethods,
   })
 

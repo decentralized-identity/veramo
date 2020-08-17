@@ -38,7 +38,7 @@ const qrcodeData =
 
 const msg = new Daf.Message({ raw: qrcodeData, meta: { type: 'QRCode' } })
 
-core.validateMessage(msg).then(message => {
+core.validateMessage(msg).then((message) => {
   console.log(message.id) // 4a2e23d287ad2eb6d24b0ac1618998426449201dbfc476eee01702e1d11ff8d0cdba29a3d4a9f815ef6658f6264e9db3b868be359acdb945ea70b369f8743dbb
   console.log(message.timestamp) // 1575632244
   console.log(message.threadId) // sess-123

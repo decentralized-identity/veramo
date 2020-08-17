@@ -33,26 +33,18 @@ export class Presentation extends BaseEntity {
     return this._raw
   }
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.issuedPresentations,
-    {
-      cascade: ['insert'],
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.issuedPresentations, {
+    cascade: ['insert'],
+    eager: true,
+  })
   //@ts-ignore
   holder: Identity
 
-  @ManyToMany(
-    type => Identity,
-    identity => identity.receivedPresentations,
-    {
-      cascade: ['insert'],
-      eager: true,
-      nullable: true,
-    },
-  )
+  @ManyToMany((type) => Identity, (identity) => identity.receivedPresentations, {
+    cascade: ['insert'],
+    eager: true,
+    nullable: true,
+  })
   @JoinTable()
   //@ts-ignore
   verifier?: Identity[]
@@ -75,21 +67,14 @@ export class Presentation extends BaseEntity {
   //@ts-ignore
   type: string[]
 
-  @ManyToMany(
-    type => Credential,
-    credential => credential.presentations,
-    {
-      cascade: true,
-    },
-  )
+  @ManyToMany((type) => Credential, (credential) => credential.presentations, {
+    cascade: true,
+  })
   @JoinTable()
   //@ts-ignore
   credentials: Credential[]
 
-  @ManyToMany(
-    type => Message,
-    message => message.presentations,
-  )
+  @ManyToMany((type) => Message, (message) => message.presentations)
   //@ts-ignore
   messages: Message[]
 }
@@ -112,7 +97,7 @@ export const createPresentationEntity = (vp: VerifiablePresentation): Presentati
   holder.did = vp.holder
   presentation.holder = holder
 
-  presentation.verifier = vp.verifier?.map(verifierDid => {
+  presentation.verifier = vp.verifier?.map((verifierDid) => {
     const id = new Identity()
     id.did = verifierDid
     return id

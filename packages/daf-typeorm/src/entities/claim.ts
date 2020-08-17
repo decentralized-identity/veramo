@@ -8,30 +8,19 @@ export class Claim extends BaseEntity {
   //@ts-ignore
   hash: string
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.issuedClaims,
-    {
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.issuedClaims, {
+    eager: true,
+  })
   //@ts-ignore
   issuer: Identity
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.receivedClaims,
-    {
-      eager: true,
-      nullable: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.receivedClaims, {
+    eager: true,
+    nullable: true,
+  })
   subject?: Identity
 
-  @ManyToOne(
-    type => Credential,
-    credential => credential.claims,
-  )
+  @ManyToOne((type) => Credential, (credential) => credential.claims)
   //@ts-ignore
   credential: Credential
 

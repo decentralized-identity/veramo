@@ -14,7 +14,7 @@ export class KeyStore extends AbstractKeyStore {
     }
   }
 
-  async get({ kid }: {kid: string}): Promise<IKey> {
+  async get({ kid }: { kid: string }): Promise<IKey> {
     const key = await (await this.dbConnection).getRepository(Key).findOne(kid)
     if (!key) throw Error('Key not found')
     if (this.secretBox && key.privateKeyHex) {

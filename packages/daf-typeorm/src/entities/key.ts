@@ -27,10 +27,7 @@ export class Key extends BaseEntity {
   @Column({ type: 'simple-json', nullable: true })
   meta?: Record<string, any>
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.keys,
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.keys)
   //@ts-ignore
   identity: Identity
 }

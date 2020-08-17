@@ -68,7 +68,7 @@ export class W3c implements IAgentPlugin {
   ): Promise<VerifiablePresentation> {
     try {
       const identity = await context.agent.identityManagerGetIdentity({ did: args.presentation.holder })
-      const key = identity.keys.find(k => k.type === 'Secp256k1')
+      const key = identity.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('No signing key for ' + identity.did)
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       debug('Signing VP with', identity.did)
@@ -91,7 +91,7 @@ export class W3c implements IAgentPlugin {
   ): Promise<VerifiableCredential> {
     try {
       const identity = await context.agent.identityManagerGetIdentity({ did: args.credential.issuer.id })
-      const key = identity.keys.find(k => k.type === 'Secp256k1')
+      const key = identity.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('No signing key for ' + identity.did)
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
 

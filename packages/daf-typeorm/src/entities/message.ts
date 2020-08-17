@@ -69,47 +69,31 @@ export class Message extends BaseEntity {
   @Column({ nullable: true })
   replyUrl?: string
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.sentMessages,
-    {
-      nullable: true,
-      cascade: ['insert'],
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.sentMessages, {
+    nullable: true,
+    cascade: ['insert'],
+    eager: true,
+  })
   from?: Identity
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.receivedMessages,
-    {
-      nullable: true,
-      cascade: ['insert'],
-      eager: true,
-    },
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.receivedMessages, {
+    nullable: true,
+    cascade: ['insert'],
+    eager: true,
+  })
   to?: Identity
 
   @Column('simple-json', { nullable: true })
   metaData?: MetaData[]
 
-  @ManyToMany(
-    type => Presentation,
-    presentation => presentation.messages,
-    {
-      cascade: true,
-    },
-  )
+  @ManyToMany((type) => Presentation, (presentation) => presentation.messages, {
+    cascade: true,
+  })
   @JoinTable()
   //@ts-ignore
   presentations: Presentation[]
 
-  @ManyToMany(
-    type => Credential,
-    credential => credential.messages,
-    { cascade: true },
-  )
+  @ManyToMany((type) => Credential, (credential) => credential.messages, { cascade: true })
   @JoinTable()
   //@ts-ignore
   credentials: Credential[]
@@ -186,11 +170,11 @@ export const createMessage = (args: Message): IMessage => {
   }
 
   if (args.presentations) {
-    message.presentations = args.presentations.map(vp => vp.raw)
+    message.presentations = args.presentations.map((vp) => vp.raw)
   }
 
   if (args.credentials) {
-    message.credentials = args.credentials.map(vc => vc.raw)
+    message.credentials = args.credentials.map((vc) => vc.raw)
   }
 
   return message as IMessage

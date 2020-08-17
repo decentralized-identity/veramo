@@ -33,15 +33,17 @@ const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
-let agent: TAgent<IIdentityManager &
-  IKeyManager &
-  IDataStore &
-  IDataStoreORM &
-  IResolveDid &
-  IHandleMessage &
-  IDIDComm &
-  IW3c &
-  ISdr>
+let agent: TAgent<
+  IIdentityManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolveDid &
+    IHandleMessage &
+    IDIDComm &
+    IW3c &
+    ISdr
+>
 let dbConnection: Promise<Connection>
 
 const setup = async (): Promise<boolean> => {

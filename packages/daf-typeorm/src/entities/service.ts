@@ -18,10 +18,7 @@ export class Service extends BaseEntity {
   @Column({ nullable: true })
   description?: string
 
-  @ManyToOne(
-    type => Identity,
-    identity => identity.services,
-  )
+  @ManyToOne((type) => Identity, (identity) => identity.services)
   //@ts-ignore
   identity: Identity
 }

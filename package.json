@@ -20,7 +20,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick",
+      "pre-commit": "pretty-quick --staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
@@ -34,14 +34,14 @@
     "apollo-server-express": "^2.15.1",
     "codecov": "^3.6.5",
     "cross-fetch": "^3.0.5",
-    "husky": "^4.2.3",
+    "husky": "^4.2.5",
     "jest": "^25.1.0",
     "jest-fetch-mock": "^3.0.3",
     "json-schema": "^0.2.5",
     "lerna": "^3.20.2",
     "lerna-changelog": "^1.0.1",
     "openapi-types": "^7.0.0",
-    "prettier": "^1.19.1",
+    "prettier": "2.0.5",
     "pretty-quick": "^2.0.1",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.0.4",

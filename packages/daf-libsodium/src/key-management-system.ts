@@ -74,6 +74,6 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   async signJWT({ key, data }: { key: IKey; data: string }): Promise<string> {
     if (!key.privateKeyHex) throw Error('No private key for kid: ' + key.kid)
     const signer = SimpleSigner(key.privateKeyHex)
-    return signer(data) as any as string
+    return (signer(data) as any) as string
   }
 }

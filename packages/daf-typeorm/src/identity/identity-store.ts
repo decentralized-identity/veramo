@@ -34,7 +34,7 @@ export class IdentityStore extends AbstractIdentityStore {
       alias: identity.alias,
       provider: identity.provider,
       services: identity.services,
-      keys: identity.keys.map(k => ({
+      keys: identity.keys.map((k) => ({
         kid: k.kid,
         type: k.type,
         kms: k.kms,
