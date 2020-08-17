@@ -126,10 +126,10 @@ export abstract class AbstractMessageHandler {
 
 // @public (undocumented)
 export abstract class AbstractSecretBox {
-    // (undocumented)
-    abstract decrypt(encryptedMessageHex: string): Promise<string>;
-    // (undocumented)
-    abstract encrypt(message: string): Promise<string>;
+  // (undocumented)
+  abstract decrypt(encryptedMessageHex: string): Promise<string>
+  // (undocumented)
+  abstract encrypt(message: string): Promise<string>
 }
 
 // @public (undocumented)

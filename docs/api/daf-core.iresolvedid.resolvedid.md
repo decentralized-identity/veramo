@@ -26,7 +26,9 @@ Promise&lt;DIDDocument&gt;
 
 
 ```typescript
-const doc = await agent.resolveDid({ didUrl: 'did:web:uport.me' })
+const doc = await agent.resolveDid({
+  didUrl: 'did:web:uport.me'
+})
 
 ```
 

@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-abstract decrypt(encryptedMessageHex: string): Promise<string>;
+abstract decrypt(encryptedMessageHex: string): Promise<string>
 ```
 
 ## Parameters

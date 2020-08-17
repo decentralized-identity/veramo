@@ -8,13 +8,13 @@
 
 ```typescript
 createSchema: (options: {
-    enabledMethods: string[];
-    overrides?: Record<string, IAgentGraphQLMethod>;
+  enabledMethods: string[]
+  overrides?: Record<string, IAgentGraphQLMethod>
 }) => {
-    resolvers: {
-        Query: Record<string, (_: any, args: any, ctx: any) => any>;
-        Mutation: Record<string, (_: any, args: any, ctx: any) => any>;
-    };
-    typeDefs: string;
+  resolvers: {
+    Query: Record<string, (_: any, args: any, ctx: any) => any>
+    Mutation: Record<string, (_: any, args: any, ctx: any) => any>
+  }
+  typeDefs: string
 }
 ```

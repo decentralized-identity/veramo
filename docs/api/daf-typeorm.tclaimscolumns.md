@@ -7,5 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type TClaimsColumns = 'context' | 'credentialType' | 'type' | 'value' | 'isObj' | 'id' | 'issuer' | 'subject' | 'expirationDate' | 'issuanceDate';
+export declare type TClaimsColumns =
+  | 'context'
+  | 'credentialType'
+  | 'type'
+  | 'value'
+  | 'isObj'
+  | 'id'
+  | 'issuer'
+  | 'subject'
+  | 'expirationDate'
+  | 'issuanceDate'
 ```

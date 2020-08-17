@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-query: string;
+query: string
 ```

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-order?: Order<TColumns>[];
+order?: Order<TColumns>[]
 ```
