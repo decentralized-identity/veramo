@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.10](https://github.com/uport-project/daf/compare/v7.0.0-beta.9...v7.0.0-beta.10) (2020-08-17)
+
+
+### Bug Fixes
+
+* OpenAPI types dep for daf-rest ([4a37a99](https://github.com/uport-project/daf/commit/4a37a9912b66f98413cc051636cce93c43d6ecf5))
+
+
+
+
+
 # [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
 
 ### Bug Fixes
