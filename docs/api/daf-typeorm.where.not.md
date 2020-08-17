@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-not?: boolean;
+not?: boolean
 ```

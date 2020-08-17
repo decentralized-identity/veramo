@@ -112,7 +112,9 @@ export interface IResolveDid extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const doc = await agent.resolveDid({ didUrl: 'did:web:uport.me' })
+   * const doc = await agent.resolveDid({
+   *   didUrl: 'did:web:uport.me'
+   * })
    * ```
    *
    * @param args - Input arguments for resolving a DID

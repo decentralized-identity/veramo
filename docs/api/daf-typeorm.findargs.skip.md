@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-skip?: number;
+skip?: number
 ```

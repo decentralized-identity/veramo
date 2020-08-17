@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type TIdentitiesColumns = 'did' | 'alias' | 'provider';
+export declare type TIdentitiesColumns = 'did' | 'alias' | 'provider'
 ```

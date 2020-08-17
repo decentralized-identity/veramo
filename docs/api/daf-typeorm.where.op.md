@@ -7,5 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-op?: 'LessThan' | 'LessThanOrEqual' | 'MoreThan' | 'MoreThanOrEqual' | 'Equal' | 'Like' | 'Between' | 'In' | 'Any' | 'IsNull';
+op?:
+    | 'LessThan'
+    | 'LessThanOrEqual'
+    | 'MoreThan'
+    | 'MoreThanOrEqual'
+    | 'Equal'
+    | 'Like'
+    | 'Between'
+    | 'In'
+    | 'Any'
+    | 'IsNull'
 ```
