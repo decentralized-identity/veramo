@@ -7,27 +7,27 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class MessageHandler extends EventEmitter implements IAgentPlugin
+export declare class MessageHandler extends EventEmitter implements IAgentPlugin 
 ```
-
 <b>Extends:</b> EventEmitter
 
 <b>Implements:</b> [IAgentPlugin](./daf-core.iagentplugin.md)
 
 ## Constructors
 
-| Constructor                                                          | Modifiers | Description                                                        |
-| -------------------------------------------------------------------- | --------- | ------------------------------------------------------------------ |
-| [(constructor)(options)](./daf-core.messagehandler._constructor_.md) |           | Constructs a new instance of the <code>MessageHandler</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(options)](./daf-core.messagehandler._constructor_.md) |  | Constructs a new instance of the <code>MessageHandler</code> class |
 
 ## Properties
 
-| Property                                        | Modifiers | Type                                           | Description |
-| ----------------------------------------------- | --------- | ---------------------------------------------- | ----------- |
-| [methods](./daf-core.messagehandler.methods.md) |           | [IHandleMessage](./daf-core.ihandlemessage.md) |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [methods](./daf-core.messagehandler.methods.md) |  | [IHandleMessage](./daf-core.ihandlemessage.md) |  |
 
 ## Methods
 
-| Method                                                                     | Modifiers | Description |
-| -------------------------------------------------------------------------- | --------- | ----------- |
-| [handleMessage(args, context)](./daf-core.messagehandler.handlemessage.md) |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [handleMessage(args, context)](./daf-core.messagehandler.handlemessage.md) |  |  |
+

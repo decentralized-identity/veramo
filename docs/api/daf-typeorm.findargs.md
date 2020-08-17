@@ -7,14 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-export interface FindArgs<TColumns>
+export interface FindArgs<TColumns> 
 ```
 
 ## Properties
 
-| Property                                 | Type                                                        | Description |
-| ---------------------------------------- | ----------------------------------------------------------- | ----------- |
-| [order](./daf-typeorm.findargs.order.md) | [Order](./daf-typeorm.order.md)<!-- -->&lt;TColumns&gt;\[\] |             |
-| [skip](./daf-typeorm.findargs.skip.md)   | number                                                      |             |
-| [take](./daf-typeorm.findargs.take.md)   | number                                                      |             |
-| [where](./daf-typeorm.findargs.where.md) | [Where](./daf-typeorm.where.md)<!-- -->&lt;TColumns&gt;\[\] |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [order](./daf-typeorm.findargs.order.md) | [Order](./daf-typeorm.order.md)<!-- -->&lt;TColumns&gt;\[\] |  |
+|  [skip](./daf-typeorm.findargs.skip.md) | number |  |
+|  [take](./daf-typeorm.findargs.take.md) | number |  |
+|  [where](./daf-typeorm.findargs.where.md) | [Where](./daf-typeorm.where.md)<!-- -->&lt;TColumns&gt;\[\] |  |
+

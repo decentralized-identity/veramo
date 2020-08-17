@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type TKeyType = 'Ed25519' | 'Secp256k1'
+export declare type TKeyType = 'Ed25519' | 'Secp256k1';
 ```

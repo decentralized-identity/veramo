@@ -12,11 +12,12 @@ identityManagerDeleteIdentity({ did }: IIdentityManagerDeleteIdentityArgs, conte
 
 ## Parameters
 
-| Parameter | Type                                                                                                         | Description |
-| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { did }   | [IIdentityManagerDeleteIdentityArgs](./daf-core.iidentitymanagerdeleteidentityargs.md)                       |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { did } | [IIdentityManagerDeleteIdentityArgs](./daf-core.iidentitymanagerdeleteidentityargs.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

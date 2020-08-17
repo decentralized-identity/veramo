@@ -12,10 +12,11 @@ dataStoreSaveMessage(args: IMessage): Promise<boolean>;
 
 ## Parameters
 
-| Parameter | Type                               | Description |
-| --------- | ---------------------------------- | ----------- |
-| args      | [IMessage](./daf-core.imessage.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IMessage](./daf-core.imessage.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

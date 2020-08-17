@@ -7,13 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IHandleMessage extends IPluginMethodMap
+export interface IHandleMessage extends IPluginMethodMap 
 ```
-
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
 ## Methods
 
-| Method                                                                     | Description |
-| -------------------------------------------------------------------------- | ----------- |
-| [handleMessage(args, context)](./daf-core.ihandlemessage.handlemessage.md) |             |
+|  Method | Description |
+|  --- | --- |
+|  [handleMessage(args, context)](./daf-core.ihandlemessage.handlemessage.md) |  |
+

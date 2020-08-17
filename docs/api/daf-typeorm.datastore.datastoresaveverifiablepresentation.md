@@ -12,10 +12,11 @@ dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boole
 
 ## Parameters
 
-| Parameter | Type                                                           | Description |
-| --------- | -------------------------------------------------------------- | ----------- |
-| args      | [VerifiablePresentation](./daf-core.verifiablepresentation.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [VerifiablePresentation](./daf-core.verifiablepresentation.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

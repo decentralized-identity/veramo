@@ -9,7 +9,7 @@
 ```typescript
 isValid(): boolean;
 ```
-
 <b>Returns:</b>
 
 boolean
+

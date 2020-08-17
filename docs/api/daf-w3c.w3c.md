@@ -7,26 +7,26 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class W3c implements IAgentPlugin
+export declare class W3c implements IAgentPlugin 
 ```
-
 <b>Implements:</b> [IAgentPlugin](./daf-core.iagentplugin.md)
 
 ## Constructors
 
-| Constructor                                       | Modifiers | Description                                             |
-| ------------------------------------------------- | --------- | ------------------------------------------------------- |
-| [(constructor)()](./daf-w3c.w3c._constructor_.md) |           | Constructs a new instance of the <code>W3c</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)()](./daf-w3c.w3c._constructor_.md) |  | Constructs a new instance of the <code>W3c</code> class |
 
 ## Properties
 
-| Property                            | Modifiers | Type                      | Description |
-| ----------------------------------- | --------- | ------------------------- | ----------- |
-| [methods](./daf-w3c.w3c.methods.md) |           | [IW3c](./daf-w3c.iw3c.md) |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [methods](./daf-w3c.w3c.methods.md) |  | [IW3c](./daf-w3c.iw3c.md) |  |
 
 ## Methods
 
-| Method                                                                                       | Modifiers | Description |
-| -------------------------------------------------------------------------------------------- | --------- | ----------- |
-| [createVerifiableCredential(args, context)](./daf-w3c.w3c.createverifiablecredential.md)     |           |             |
-| [createVerifiablePresentation(args, context)](./daf-w3c.w3c.createverifiablepresentation.md) |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [createVerifiableCredential(args, context)](./daf-w3c.w3c.createverifiablecredential.md) |  |  |
+|  [createVerifiablePresentation(args, context)](./daf-w3c.w3c.createverifiablepresentation.md) |  |  |
+

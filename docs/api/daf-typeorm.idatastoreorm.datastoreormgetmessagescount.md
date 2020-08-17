@@ -12,11 +12,12 @@ dataStoreORMGetMessagesCount(args: FindMessagesArgs, context: IContext): Promise
 
 ## Parameters
 
-| Parameter | Type                                                  | Description |
-| --------- | ----------------------------------------------------- | ----------- |
-| args      | [FindMessagesArgs](./daf-typeorm.findmessagesargs.md) |             |
-| context   | IContext                                              |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindMessagesArgs](./daf-typeorm.findmessagesargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;number&gt;
+

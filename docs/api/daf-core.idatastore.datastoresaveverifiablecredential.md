@@ -12,10 +12,11 @@ dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>;
 
 ## Parameters
 
-| Parameter | Type                                                       | Description |
-| --------- | ---------------------------------------------------------- | ----------- |
-| args      | [VerifiableCredential](./daf-core.verifiablecredential.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [VerifiableCredential](./daf-core.verifiablecredential.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

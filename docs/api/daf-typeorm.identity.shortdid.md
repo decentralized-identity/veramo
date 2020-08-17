@@ -9,7 +9,7 @@
 ```typescript
 shortDid(): string;
 ```
-
 <b>Returns:</b>
 
 string
+

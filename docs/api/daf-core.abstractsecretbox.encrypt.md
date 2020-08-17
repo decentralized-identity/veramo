@@ -12,10 +12,11 @@ abstract encrypt(message: string): Promise<string>;
 
 ## Parameters
 
-| Parameter | Type   | Description |
-| --------- | ------ | ----------- |
-| message   | string |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  message | string |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

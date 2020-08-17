@@ -7,17 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class Service extends BaseEntity
+export declare class Service extends BaseEntity 
 ```
-
 <b>Extends:</b> BaseEntity
 
 ## Properties
 
-| Property                                                    | Modifiers | Type                                  | Description |
-| ----------------------------------------------------------- | --------- | ------------------------------------- | ----------- |
-| [description](./daf-typeorm.service.description.md)         |           | string                                |             |
-| [id](./daf-typeorm.service.id.md)                           |           | string                                |             |
-| [identity](./daf-typeorm.service.identity.md)               |           | [Identity](./daf-typeorm.identity.md) |             |
-| [serviceEndpoint](./daf-typeorm.service.serviceendpoint.md) |           | string                                |             |
-| [type](./daf-typeorm.service.type.md)                       |           | string                                |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [description](./daf-typeorm.service.description.md) |  | string |  |
+|  [id](./daf-typeorm.service.id.md) |  | string |  |
+|  [identity](./daf-typeorm.service.identity.md) |  | [Identity](./daf-typeorm.identity.md) |  |
+|  [serviceEndpoint](./daf-typeorm.service.serviceendpoint.md) |  | string |  |
+|  [type](./daf-typeorm.service.type.md) |  | string |  |
+

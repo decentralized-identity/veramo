@@ -12,11 +12,12 @@ dataStoreORMGetVerifiableCredentials(args: FindCredentialsArgs, context: IContex
 
 ## Parameters
 
-| Parameter | Type                                                        | Description |
-| --------- | ----------------------------------------------------------- | ----------- |
-| args      | [FindCredentialsArgs](./daf-typeorm.findcredentialsargs.md) |             |
-| context   | IContext                                                    |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindCredentialsArgs](./daf-typeorm.findcredentialsargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;Array&lt;[VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->&gt;&gt;
+

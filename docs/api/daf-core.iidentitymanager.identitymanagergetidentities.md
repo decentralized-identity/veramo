@@ -9,7 +9,7 @@
 ```typescript
 identityManagerGetIdentities(): Promise<Array<IIdentity>>;
 ```
-
 <b>Returns:</b>
 
 Promise&lt;Array&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;&gt;
+

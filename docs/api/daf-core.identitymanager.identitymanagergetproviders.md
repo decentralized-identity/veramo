@@ -9,7 +9,7 @@
 ```typescript
 identityManagerGetProviders(): Promise<string[]>;
 ```
-
 <b>Returns:</b>
 
 Promise&lt;string\[\]&gt;
+

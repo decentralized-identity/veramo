@@ -7,13 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IIdentityManagerRemoveKeyArgs
+export interface IIdentityManagerRemoveKeyArgs 
 ```
 
 ## Properties
 
-| Property                                                       | Type   | Description |
-| -------------------------------------------------------------- | ------ | ----------- |
-| [did](./daf-core.iidentitymanagerremovekeyargs.did.md)         | string |             |
-| [kid](./daf-core.iidentitymanagerremovekeyargs.kid.md)         | string |             |
-| [options](./daf-core.iidentitymanagerremovekeyargs.options.md) | any    |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [did](./daf-core.iidentitymanagerremovekeyargs.did.md) | string |  |
+|  [kid](./daf-core.iidentitymanagerremovekeyargs.kid.md) | string |  |
+|  [options](./daf-core.iidentitymanagerremovekeyargs.options.md) | any |  |
+

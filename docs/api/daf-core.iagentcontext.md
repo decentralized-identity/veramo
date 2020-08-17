@@ -7,11 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IAgentContext<T extends IPluginMethodMap>
+export interface IAgentContext<T extends IPluginMethodMap> 
 ```
 
 ## Properties
 
-| Property                                   | Type                                            | Description |
-| ------------------------------------------ | ----------------------------------------------- | ----------- |
-| [agent](./daf-core.iagentcontext.agent.md) | [TAgent](./daf-core.tagent.md)<!-- -->&lt;T&gt; |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [agent](./daf-core.iagentcontext.agent.md) | [TAgent](./daf-core.tagent.md)<!-- -->&lt;T&gt; |  |
+

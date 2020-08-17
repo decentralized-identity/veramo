@@ -1,4 +1,5 @@
 examples/
 build/**/*
-readme.md
 docs/api
+report/
+packages/daf-rest/src/openApiSchema.ts

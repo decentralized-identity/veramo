@@ -12,11 +12,12 @@ handle(message: Message, context: IAgentContext<{}>): Promise<Message>;
 
 ## Parameters
 
-| Parameter | Type                                                           | Description |
-| --------- | -------------------------------------------------------------- | ----------- |
-| message   | [Message](./daf-core.message.md)                               |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;{}&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  message | [Message](./daf-core.message.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;{}&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt;
+

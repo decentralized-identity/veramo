@@ -7,20 +7,20 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IKeyManager extends IPluginMethodMap
+export interface IKeyManager extends IPluginMethodMap 
 ```
-
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
 ## Methods
 
-| Method                                                                       | Description |
-| ---------------------------------------------------------------------------- | ----------- |
-| [keyManagerCreateKey(args)](./daf-core.ikeymanager.keymanagercreatekey.md)   |             |
-| [keyManagerDecryptJWE(args)](./daf-core.ikeymanager.keymanagerdecryptjwe.md) |             |
-| [keyManagerDeleteKey(args)](./daf-core.ikeymanager.keymanagerdeletekey.md)   |             |
-| [keyManagerEncryptJWE(args)](./daf-core.ikeymanager.keymanagerencryptjwe.md) |             |
-| [keyManagerGetKey(args)](./daf-core.ikeymanager.keymanagergetkey.md)         |             |
-| [keyManagerImportKey(args)](./daf-core.ikeymanager.keymanagerimportkey.md)   |             |
-| [keyManagerSignEthTX(args)](./daf-core.ikeymanager.keymanagersignethtx.md)   |             |
-| [keyManagerSignJWT(args)](./daf-core.ikeymanager.keymanagersignjwt.md)       |             |
+|  Method | Description |
+|  --- | --- |
+|  [keyManagerCreateKey(args)](./daf-core.ikeymanager.keymanagercreatekey.md) |  |
+|  [keyManagerDecryptJWE(args)](./daf-core.ikeymanager.keymanagerdecryptjwe.md) |  |
+|  [keyManagerDeleteKey(args)](./daf-core.ikeymanager.keymanagerdeletekey.md) |  |
+|  [keyManagerEncryptJWE(args)](./daf-core.ikeymanager.keymanagerencryptjwe.md) |  |
+|  [keyManagerGetKey(args)](./daf-core.ikeymanager.keymanagergetkey.md) |  |
+|  [keyManagerImportKey(args)](./daf-core.ikeymanager.keymanagerimportkey.md) |  |
+|  [keyManagerSignEthTX(args)](./daf-core.ikeymanager.keymanagersignethtx.md) |  |
+|  [keyManagerSignJWT(args)](./daf-core.ikeymanager.keymanagersignjwt.md) |  |
+

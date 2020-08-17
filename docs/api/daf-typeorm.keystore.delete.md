@@ -14,10 +14,11 @@ delete({ kid }: {
 
 ## Parameters
 
-| Parameter | Type             | Description |
-| --------- | ---------------- | ----------- |
-| { kid }   | { kid: string; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { kid } | { kid: string; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

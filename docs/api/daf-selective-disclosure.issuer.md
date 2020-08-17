@@ -7,12 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface Issuer
+export interface Issuer 
 ```
 
 ## Properties
 
-| Property                                        | Type   | Description |
-| ----------------------------------------------- | ------ | ----------- |
-| [did](./daf-selective-disclosure.issuer.did.md) | string |             |
-| [url](./daf-selective-disclosure.issuer.url.md) | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [did](./daf-selective-disclosure.issuer.did.md) | string |  |
+|  [url](./daf-selective-disclosure.issuer.url.md) | string |  |
+

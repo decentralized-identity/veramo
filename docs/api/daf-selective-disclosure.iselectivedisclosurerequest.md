@@ -7,16 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ISelectiveDisclosureRequest
+export interface ISelectiveDisclosureRequest 
 ```
 
 ## Properties
 
-| Property                                                                             | Type                                                                                         | Description |
-| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- | ----------- |
-| [claims](./daf-selective-disclosure.iselectivedisclosurerequest.claims.md)           | [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md)<!-- -->\[\] |             |
-| [credentials](./daf-selective-disclosure.iselectivedisclosurerequest.credentials.md) | string\[\]                                                                                   |             |
-| [issuer](./daf-selective-disclosure.iselectivedisclosurerequest.issuer.md)           | string                                                                                       |             |
-| [replyUrl](./daf-selective-disclosure.iselectivedisclosurerequest.replyurl.md)       | string                                                                                       |             |
-| [subject](./daf-selective-disclosure.iselectivedisclosurerequest.subject.md)         | string                                                                                       |             |
-| [tag](./daf-selective-disclosure.iselectivedisclosurerequest.tag.md)                 | string                                                                                       |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [claims](./daf-selective-disclosure.iselectivedisclosurerequest.claims.md) | [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md)<!-- -->\[\] |  |
+|  [credentials](./daf-selective-disclosure.iselectivedisclosurerequest.credentials.md) | string\[\] |  |
+|  [issuer](./daf-selective-disclosure.iselectivedisclosurerequest.issuer.md) | string |  |
+|  [replyUrl](./daf-selective-disclosure.iselectivedisclosurerequest.replyurl.md) | string |  |
+|  [subject](./daf-selective-disclosure.iselectivedisclosurerequest.subject.md) | string |  |
+|  [tag](./daf-selective-disclosure.iselectivedisclosurerequest.tag.md) | string |  |
+

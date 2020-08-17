@@ -12,11 +12,12 @@ dataStoreORMGetMessages(args: FindMessagesArgs, context: IContext): Promise<Arra
 
 ## Parameters
 
-| Parameter | Type                                                  | Description |
-| --------- | ----------------------------------------------------- | ----------- |
-| args      | [FindMessagesArgs](./daf-typeorm.findmessagesargs.md) |             |
-| context   | IContext                                              |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindMessagesArgs](./daf-typeorm.findmessagesargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;Array&lt;[IMessage](./daf-core.imessage.md)<!-- -->&gt;&gt;
+

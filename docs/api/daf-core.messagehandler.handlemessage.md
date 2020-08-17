@@ -12,11 +12,12 @@ handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Pro
 
 ## Parameters
 
-| Parameter | Type                                                                                                       | Description |
-| --------- | ---------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | [IHandleMessageArgs](./daf-core.ihandlemessageargs.md)                                                     |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStore](./daf-core.idatastore.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStore](./daf-core.idatastore.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt;
+

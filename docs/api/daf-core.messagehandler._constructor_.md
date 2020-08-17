@@ -16,6 +16,7 @@ constructor(options: {
 
 ## Parameters
 
-| Parameter | Type                                                                                             | Description |
-| --------- | ------------------------------------------------------------------------------------------------ | ----------- |
-| options   | { messageHandlers: [AbstractMessageHandler](./daf-core.abstractmessagehandler.md)<!-- -->\[\]; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  options | { messageHandlers: [AbstractMessageHandler](./daf-core.abstractmessagehandler.md)<!-- -->\[\]; } |  |
+

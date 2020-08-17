@@ -12,11 +12,12 @@ abstract deleteIdentity(args: IIdentity, context: IAgentContext<IKeyManager>): P
 
 ## Parameters
 
-| Parameter | Type                                                                                                         | Description |
-| --------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| args      | [IIdentity](./daf-core.iidentity.md)                                                                         |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IIdentity](./daf-core.iidentity.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-type: TKeyType
+type: TKeyType;
 ```

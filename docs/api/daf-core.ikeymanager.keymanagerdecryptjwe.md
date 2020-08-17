@@ -12,10 +12,11 @@ keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>;
 
 ## Parameters
 
-| Parameter | Type                                                                 | Description |
-| --------- | -------------------------------------------------------------------- | ----------- |
-| args      | [IKeyManagerDecryptJWEArgs](./daf-core.ikeymanagerdecryptjweargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IKeyManagerDecryptJWEArgs](./daf-core.ikeymanagerdecryptjweargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

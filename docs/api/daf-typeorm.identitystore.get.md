@@ -15,10 +15,11 @@ get({ did, alias }: {
 
 ## Parameters
 
-| Parameter      | Type                            | Description |
-| -------------- | ------------------------------- | ----------- |
-| { did, alias } | { did: string; alias: string; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { did, alias } | { did: string; alias: string; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;
+

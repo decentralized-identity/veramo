@@ -12,10 +12,11 @@ import(args: IIdentity): Promise<boolean>;
 
 ## Parameters
 
-| Parameter | Type                                 | Description |
-| --------- | ------------------------------------ | ----------- |
-| args      | [IIdentity](./daf-core.iidentity.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IIdentity](./daf-core.iidentity.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

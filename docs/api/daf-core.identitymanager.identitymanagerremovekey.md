@@ -12,11 +12,12 @@ identityManagerRemoveKey({ did, kid, options }: IIdentityManagerRemoveKeyArgs, c
 
 ## Parameters
 
-| Parameter             | Type                                                                                                         | Description |
-| --------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| { did, kid, options } | [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md)                                 |             |
-| context               | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { did, kid, options } | [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+

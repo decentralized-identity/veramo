@@ -14,7 +14,8 @@ constructor(dbConnection: Promise<Connection>, secretBox?: AbstractSecretBox | u
 
 ## Parameters
 
-| Parameter    | Type                                                              | Description |
-| ------------ | ----------------------------------------------------------------- | ----------- |
-| dbConnection | Promise&lt;Connection&gt;                                         |             |
-| secretBox    | [AbstractSecretBox](./daf-core.abstractsecretbox.md) \| undefined |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  dbConnection | Promise&lt;Connection&gt; |  |
+|  secretBox | [AbstractSecretBox](./daf-core.abstractsecretbox.md) \| undefined |  |
+

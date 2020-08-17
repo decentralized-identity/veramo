@@ -6,6 +6,7 @@
 
 ## Classes
 
-| Class                                               | Description |
-| --------------------------------------------------- | ----------- |
-| [UrlMessageHandler](./daf-url.urlmessagehandler.md) |             |
+|  Class | Description |
+|  --- | --- |
+|  [UrlMessageHandler](./daf-url.urlmessagehandler.md) |  |
+

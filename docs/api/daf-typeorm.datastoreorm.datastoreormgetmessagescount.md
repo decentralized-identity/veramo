@@ -12,11 +12,12 @@ dataStoreORMGetMessagesCount(args: FindArgs<TMessageColumns>, context: IContext)
 
 ## Parameters
 
-| Parameter | Type                                                                                                             | Description |
-| --------- | ---------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TMessageColumns](./daf-typeorm.tmessagecolumns.md)<!-- -->&gt; |             |
-| context   | IContext                                                                                                         |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TMessageColumns](./daf-typeorm.tmessagecolumns.md)<!-- -->&gt; |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;number&gt;
+

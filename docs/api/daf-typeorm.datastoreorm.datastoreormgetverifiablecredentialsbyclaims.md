@@ -12,11 +12,12 @@ dataStoreORMGetVerifiableCredentialsByClaims(args: FindArgs<TClaimsColumns>, con
 
 ## Parameters
 
-| Parameter | Type                                                                                                           | Description |
-| --------- | -------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TClaimsColumns](./daf-typeorm.tclaimscolumns.md)<!-- -->&gt; |             |
-| context   | IContext                                                                                                       |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TClaimsColumns](./daf-typeorm.tclaimscolumns.md)<!-- -->&gt; |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;[VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\]&gt;
+

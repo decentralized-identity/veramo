@@ -7,14 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-export interface Where<TColumns>
+export interface Where<TColumns> 
 ```
 
 ## Properties
 
-| Property                                | Type                                                                                                                              | Description |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [column](./daf-typeorm.where.column.md) | TColumns                                                                                                                          |             |
-| [not](./daf-typeorm.where.not.md)       | boolean                                                                                                                           |             |
-| [op](./daf-typeorm.where.op.md)         | 'LessThan' \| 'LessThanOrEqual' \| 'MoreThan' \| 'MoreThanOrEqual' \| 'Equal' \| 'Like' \| 'Between' \| 'In' \| 'Any' \| 'IsNull' |             |
-| [value](./daf-typeorm.where.value.md)   | string\[\]                                                                                                                        |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [column](./daf-typeorm.where.column.md) | TColumns |  |
+|  [not](./daf-typeorm.where.not.md) | boolean |  |
+|  [op](./daf-typeorm.where.op.md) | 'LessThan' \| 'LessThanOrEqual' \| 'MoreThan' \| 'MoreThanOrEqual' \| 'Equal' \| 'Like' \| 'Between' \| 'In' \| 'Any' \| 'IsNull' |  |
+|  [value](./daf-typeorm.where.value.md) | string\[\] |  |
+

@@ -14,10 +14,11 @@ abstract get(args: {
 
 ## Parameters
 
-| Parameter | Type             | Description |
-| --------- | ---------------- | ----------- |
-| args      | { kid: string; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { kid: string; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IKey](./daf-core.ikey.md)<!-- -->&gt;
+

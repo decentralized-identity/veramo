@@ -18,11 +18,12 @@ getLatestClaimValue(dbConnection: Promise<Connection>, where: {
 
 ## Parameters
 
-| Parameter    | Type                      | Description |
-| ------------ | ------------------------- | ----------- |
-| dbConnection | Promise&lt;Connection&gt; |             |
-| where        | { type: string; }         |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  dbConnection | Promise&lt;Connection&gt; |  |
+|  where | { type: string; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;string \| undefined&gt;
+

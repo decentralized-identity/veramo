@@ -9,9 +9,10 @@ DID URL
 <b>Signature:</b>
 
 ```typescript
-didUrl: string
+didUrl: string;
 ```
 
 ## Example
 
 `did:web:uport.me`
+

@@ -9,5 +9,5 @@ Constructs a new instance of the `W3c` class
 <b>Signature:</b>
 
 ```typescript
-constructor()
+constructor();
 ```

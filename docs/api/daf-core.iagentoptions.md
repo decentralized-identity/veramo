@@ -4,17 +4,19 @@
 
 ## IAgentOptions interface
 
+
 <b>Signature:</b>
 
 ```typescript
-export interface IAgentOptions
+export interface IAgentOptions 
 ```
 
 ## Properties
 
-| Property                                                           | Type                                                   | Description |
-| ------------------------------------------------------------------ | ------------------------------------------------------ | ----------- |
-| [authorizedMethods](./daf-core.iagentoptions.authorizedmethods.md) | string\[\]                                             |             |
-| [context](./daf-core.iagentoptions.context.md)                     | Record&lt;string, any&gt;                              |             |
-| [overrides](./daf-core.iagentoptions.overrides.md)                 | [IPluginMethodMap](./daf-core.ipluginmethodmap.md)     |             |
-| [plugins](./daf-core.iagentoptions.plugins.md)                     | [IAgentPlugin](./daf-core.iagentplugin.md)<!-- -->\[\] |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [authorizedMethods](./daf-core.iagentoptions.authorizedmethods.md) | string\[\] |  |
+|  [context](./daf-core.iagentoptions.context.md) | Record&lt;string, any&gt; |  |
+|  [overrides](./daf-core.iagentoptions.overrides.md) | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
+|  [plugins](./daf-core.iagentoptions.plugins.md) | [IAgentPlugin](./daf-core.iagentplugin.md)<!-- -->\[\] |  |
+

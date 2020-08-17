@@ -7,23 +7,23 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class Claim extends BaseEntity
+export declare class Claim extends BaseEntity 
 ```
-
 <b>Extends:</b> BaseEntity
 
 ## Properties
 
-| Property                                                | Modifiers | Type                                  | Description |
-| ------------------------------------------------------- | --------- | ------------------------------------- | ----------- |
-| [context](./daf-typeorm.claim.context.md)               |           | string\[\]                            |             |
-| [credential](./daf-typeorm.claim.credential.md)         |           | Credential                            |             |
-| [credentialType](./daf-typeorm.claim.credentialtype.md) |           | string\[\]                            |             |
-| [expirationDate](./daf-typeorm.claim.expirationdate.md) |           | Date                                  |             |
-| [hash](./daf-typeorm.claim.hash.md)                     |           | string                                |             |
-| [isObj](./daf-typeorm.claim.isobj.md)                   |           | boolean                               |             |
-| [issuanceDate](./daf-typeorm.claim.issuancedate.md)     |           | Date                                  |             |
-| [issuer](./daf-typeorm.claim.issuer.md)                 |           | [Identity](./daf-typeorm.identity.md) |             |
-| [subject](./daf-typeorm.claim.subject.md)               |           | [Identity](./daf-typeorm.identity.md) |             |
-| [type](./daf-typeorm.claim.type.md)                     |           | string                                |             |
-| [value](./daf-typeorm.claim.value.md)                   |           | string                                |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [context](./daf-typeorm.claim.context.md) |  | string\[\] |  |
+|  [credential](./daf-typeorm.claim.credential.md) |  | Credential |  |
+|  [credentialType](./daf-typeorm.claim.credentialtype.md) |  | string\[\] |  |
+|  [expirationDate](./daf-typeorm.claim.expirationdate.md) |  | Date |  |
+|  [hash](./daf-typeorm.claim.hash.md) |  | string |  |
+|  [isObj](./daf-typeorm.claim.isobj.md) |  | boolean |  |
+|  [issuanceDate](./daf-typeorm.claim.issuancedate.md) |  | Date |  |
+|  [issuer](./daf-typeorm.claim.issuer.md) |  | [Identity](./daf-typeorm.identity.md) |  |
+|  [subject](./daf-typeorm.claim.subject.md) |  | [Identity](./daf-typeorm.identity.md) |  |
+|  [type](./daf-typeorm.claim.type.md) |  | string |  |
+|  [value](./daf-typeorm.claim.value.md) |  | string |  |
+

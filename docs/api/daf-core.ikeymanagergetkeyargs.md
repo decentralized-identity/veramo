@@ -7,11 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IKeyManagerGetKeyArgs
+export interface IKeyManagerGetKeyArgs 
 ```
 
 ## Properties
 
-| Property                                       | Type   | Description |
-| ---------------------------------------------- | ------ | ----------- |
-| [kid](./daf-core.ikeymanagergetkeyargs.kid.md) | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [kid](./daf-core.ikeymanagergetkeyargs.kid.md) | string |  |
+

@@ -7,22 +7,22 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IDataStoreORM extends IPluginMethodMap
+export interface IDataStoreORM extends IPluginMethodMap 
 ```
-
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
 ## Methods
 
-| Method                                                                                                                                               | Description |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [dataStoreORMGetIdentities(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetidentities.md)                                                 |             |
-| [dataStoreORMGetIdentitiesCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetidentitiescount.md)                                       |             |
-| [dataStoreORMGetMessages(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetmessages.md)                                                     |             |
-| [dataStoreORMGetMessagesCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetmessagescount.md)                                           |             |
-| [dataStoreORMGetVerifiableCredentials(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentials.md)                           |             |
-| [dataStoreORMGetVerifiableCredentialsByClaims(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialsbyclaims.md)           |             |
-| [dataStoreORMGetVerifiableCredentialsByClaimsCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialsbyclaimscount.md) |             |
-| [dataStoreORMGetVerifiableCredentialsCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialscount.md)                 |             |
-| [dataStoreORMGetVerifiablePresentations(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablepresentations.md)                       |             |
-| [dataStoreORMGetVerifiablePresentationsCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablepresentationscount.md)             |             |
+|  Method | Description |
+|  --- | --- |
+|  [dataStoreORMGetIdentities(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetidentities.md) |  |
+|  [dataStoreORMGetIdentitiesCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetidentitiescount.md) |  |
+|  [dataStoreORMGetMessages(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetmessages.md) |  |
+|  [dataStoreORMGetMessagesCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetmessagescount.md) |  |
+|  [dataStoreORMGetVerifiableCredentials(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentials.md) |  |
+|  [dataStoreORMGetVerifiableCredentialsByClaims(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialsbyclaims.md) |  |
+|  [dataStoreORMGetVerifiableCredentialsByClaimsCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialsbyclaimscount.md) |  |
+|  [dataStoreORMGetVerifiableCredentialsCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialscount.md) |  |
+|  [dataStoreORMGetVerifiablePresentations(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablepresentations.md) |  |
+|  [dataStoreORMGetVerifiablePresentationsCount(args, context)](./daf-typeorm.idatastoreorm.datastoreormgetverifiablepresentationscount.md) |  |
+

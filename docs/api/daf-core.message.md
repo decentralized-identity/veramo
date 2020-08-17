@@ -7,40 +7,40 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class Message implements IMessage
+export declare class Message implements IMessage 
 ```
-
 <b>Implements:</b> [IMessage](./daf-core.imessage.md)
 
 ## Constructors
 
-| Constructor                                                | Modifiers | Description                                                 |
-| ---------------------------------------------------------- | --------- | ----------------------------------------------------------- |
-| [(constructor)(data)](./daf-core.message._constructor_.md) |           | Constructs a new instance of the <code>Message</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(data)](./daf-core.message._constructor_.md) |  | Constructs a new instance of the <code>Message</code> class |
 
 ## Properties
 
-| Property                                             | Modifiers | Type                                                                       | Description |
-| ---------------------------------------------------- | --------- | -------------------------------------------------------------------------- | ----------- |
-| [createdAt](./daf-core.message.createdat.md)         |           | string                                                                     |             |
-| [credentials](./daf-core.message.credentials.md)     |           | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\]     |             |
-| [data](./daf-core.message.data.md)                   |           | any                                                                        |             |
-| [expiresAt](./daf-core.message.expiresat.md)         |           | string                                                                     |             |
-| [from](./daf-core.message.from.md)                   |           | string                                                                     |             |
-| [id](./daf-core.message.id.md)                       |           | string                                                                     |             |
-| [metaData](./daf-core.message.metadata.md)           |           | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\]                           |             |
-| [presentations](./daf-core.message.presentations.md) |           | [VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->\[\] |             |
-| [raw](./daf-core.message.raw.md)                     |           | string                                                                     |             |
-| [replyTo](./daf-core.message.replyto.md)             |           | string\[\]                                                                 |             |
-| [replyUrl](./daf-core.message.replyurl.md)           |           | string                                                                     |             |
-| [threadId](./daf-core.message.threadid.md)           |           | string                                                                     |             |
-| [to](./daf-core.message.to.md)                       |           | string                                                                     |             |
-| [type](./daf-core.message.type.md)                   |           | string                                                                     |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [createdAt](./daf-core.message.createdat.md) |  | string |  |
+|  [credentials](./daf-core.message.credentials.md) |  | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\] |  |
+|  [data](./daf-core.message.data.md) |  | any |  |
+|  [expiresAt](./daf-core.message.expiresat.md) |  | string |  |
+|  [from](./daf-core.message.from.md) |  | string |  |
+|  [id](./daf-core.message.id.md) |  | string |  |
+|  [metaData](./daf-core.message.metadata.md) |  | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] |  |
+|  [presentations](./daf-core.message.presentations.md) |  | [VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->\[\] |  |
+|  [raw](./daf-core.message.raw.md) |  | string |  |
+|  [replyTo](./daf-core.message.replyto.md) |  | string\[\] |  |
+|  [replyUrl](./daf-core.message.replyurl.md) |  | string |  |
+|  [threadId](./daf-core.message.threadid.md) |  | string |  |
+|  [to](./daf-core.message.to.md) |  | string |  |
+|  [type](./daf-core.message.type.md) |  | string |  |
 
 ## Methods
 
-| Method                                                     | Modifiers | Description |
-| ---------------------------------------------------------- | --------- | ----------- |
-| [addMetaData(meta)](./daf-core.message.addmetadata.md)     |           |             |
-| [getLastMetaData()](./daf-core.message.getlastmetadata.md) |           |             |
-| [isValid()](./daf-core.message.isvalid.md)                 |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [addMetaData(meta)](./daf-core.message.addmetadata.md) |  |  |
+|  [getLastMetaData()](./daf-core.message.getlastmetadata.md) |  |  |
+|  [isValid()](./daf-core.message.isvalid.md) |  |  |
+

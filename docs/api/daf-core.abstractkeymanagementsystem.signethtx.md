@@ -15,10 +15,11 @@ abstract signEthTX(args: {
 
 ## Parameters
 
-| Parameter | Type                                                              | Description |
-| --------- | ----------------------------------------------------------------- | ----------- |
-| args      | { key: [IKey](./daf-core.ikey.md)<!-- -->; transaction: object; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { key: [IKey](./daf-core.ikey.md)<!-- -->; transaction: object; } |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

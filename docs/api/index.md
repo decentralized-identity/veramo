@@ -6,11 +6,20 @@
 
 ## Packages
 
-| Package                                                   | Description                                                 |
-| --------------------------------------------------------- | ----------------------------------------------------------- |
-| [daf-core](./daf-core.md)                                 | The main library for creating Decentralized Identity Agents |
-| [daf-did-comm](./daf-did-comm.md)                         |                                                             |
-| [daf-selective-disclosure](./daf-selective-disclosure.md) |                                                             |
-| [daf-typeorm](./daf-typeorm.md)                           |                                                             |
-| [daf-url](./daf-url.md)                                   |                                                             |
-| [daf-w3c](./daf-w3c.md)                                   |                                                             |
+|  Package | Description |
+|  --- | --- |
+|  [daf-core](./daf-core.md) | The main library for creating Decentralized Identity Agents |
+|  [daf-did-comm](./daf-did-comm.md) |  |
+|  [daf-did-jwt](./daf-did-jwt.md) |  |
+|  [daf-ethr-did](./daf-ethr-did.md) |  |
+|  [daf-express](./daf-express.md) |  |
+|  [daf-graphql](./daf-graphql.md) |  |
+|  [daf-libsodium](./daf-libsodium.md) |  |
+|  [daf-resolver](./daf-resolver.md) |  |
+|  [daf-resolver-universal](./daf-resolver-universal.md) |  |
+|  [daf-rest](./daf-rest.md) |  |
+|  [daf-selective-disclosure](./daf-selective-disclosure.md) |  |
+|  [daf-typeorm](./daf-typeorm.md) |  |
+|  [daf-url](./daf-url.md) |  |
+|  [daf-w3c](./daf-w3c.md) |  |
+

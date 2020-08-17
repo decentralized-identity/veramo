@@ -7,16 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IIdentity
+export interface IIdentity 
 ```
 
 ## Properties
 
-| Property                                                   | Type                                           | Description |
-| ---------------------------------------------------------- | ---------------------------------------------- | ----------- |
-| [alias](./daf-core.iidentity.alias.md)                     | string                                         |             |
-| [controllerKeyId](./daf-core.iidentity.controllerkeyid.md) | string                                         |             |
-| [did](./daf-core.iidentity.did.md)                         | string                                         |             |
-| [keys](./daf-core.iidentity.keys.md)                       | [IKey](./daf-core.ikey.md)<!-- -->\[\]         |             |
-| [provider](./daf-core.iidentity.provider.md)               | string                                         |             |
-| [services](./daf-core.iidentity.services.md)               | [IService](./daf-core.iservice.md)<!-- -->\[\] |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [alias](./daf-core.iidentity.alias.md) | string |  |
+|  [controllerKeyId](./daf-core.iidentity.controllerkeyid.md) | string |  |
+|  [did](./daf-core.iidentity.did.md) | string |  |
+|  [keys](./daf-core.iidentity.keys.md) | [IKey](./daf-core.ikey.md)<!-- -->\[\] |  |
+|  [provider](./daf-core.iidentity.provider.md) | string |  |
+|  [services](./daf-core.iidentity.services.md) | [IService](./daf-core.iservice.md)<!-- -->\[\] |  |
+

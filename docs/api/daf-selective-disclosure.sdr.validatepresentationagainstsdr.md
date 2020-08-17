@@ -12,11 +12,12 @@ validatePresentationAgainstSdr(args: IValidatePresentationAgainstSdrArgs, contex
 
 ## Parameters
 
-| Parameter | Type                                                           | Description |
-| --------- | -------------------------------------------------------------- | ----------- |
-| args      | IValidatePresentationAgainstSdrArgs                            |             |
-| context   | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;{}&gt; |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | IValidatePresentationAgainstSdrArgs |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;{}&gt; |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IPresentationValidationResult](./daf-selective-disclosure.ipresentationvalidationresult.md)<!-- -->&gt;
+

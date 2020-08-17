@@ -12,11 +12,12 @@ dataStoreORMGetIdentitiesCount(args: FindIdentitiesArgs, context: IContext): Pro
 
 ## Parameters
 
-| Parameter | Type                                                      | Description |
-| --------- | --------------------------------------------------------- | ----------- |
-| args      | [FindIdentitiesArgs](./daf-typeorm.findidentitiesargs.md) |             |
-| context   | IContext                                                  |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindIdentitiesArgs](./daf-typeorm.findidentitiesargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;number&gt;
+

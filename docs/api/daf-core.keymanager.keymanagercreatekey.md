@@ -12,10 +12,11 @@ keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
 
 ## Parameters
 
-| Parameter | Type                                                               | Description |
-| --------- | ------------------------------------------------------------------ | ----------- |
-| args      | [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;[IKey](./daf-core.ikey.md)<!-- -->&gt;
+

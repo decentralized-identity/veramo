@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-publicKeyHex: string
+publicKeyHex: string;
 ```

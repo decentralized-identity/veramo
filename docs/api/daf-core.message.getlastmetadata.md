@@ -9,7 +9,7 @@
 ```typescript
 getLastMetaData(): IMetaData | null;
 ```
-
 <b>Returns:</b>
 
 [IMetaData](./daf-core.imetadata.md) \| null
+

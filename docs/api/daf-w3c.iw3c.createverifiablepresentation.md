@@ -12,11 +12,12 @@ createVerifiablePresentation(args: ICreateVerifiablePresentationArgs, context: I
 
 ## Parameters
 
-| Parameter | Type                                                                                | Description |
-| --------- | ----------------------------------------------------------------------------------- | ----------- |
-| args      | [ICreateVerifiablePresentationArgs](./daf-w3c.icreateverifiablepresentationargs.md) |             |
-| context   | IContext                                                                            |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [ICreateVerifiablePresentationArgs](./daf-w3c.icreateverifiablepresentationargs.md) |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;[VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->&gt;
+

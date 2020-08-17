@@ -7,21 +7,21 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class KeyStore extends AbstractKeyStore
+export declare class KeyStore extends AbstractKeyStore 
 ```
-
 <b>Extends:</b> [AbstractKeyStore](./daf-core.abstractkeystore.md)
 
 ## Constructors
 
-| Constructor                                                                       | Modifiers | Description                                                  |
-| --------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------ |
-| [(constructor)(dbConnection, secretBox)](./daf-typeorm.keystore._constructor_.md) |           | Constructs a new instance of the <code>KeyStore</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(dbConnection, secretBox)](./daf-typeorm.keystore._constructor_.md) |  | Constructs a new instance of the <code>KeyStore</code> class |
 
 ## Methods
 
-| Method                                              | Modifiers | Description |
-| --------------------------------------------------- | --------- | ----------- |
-| [delete({ kid })](./daf-typeorm.keystore.delete.md) |           |             |
-| [get({ kid })](./daf-typeorm.keystore.get.md)       |           |             |
-| [import(args)](./daf-typeorm.keystore.import.md)    |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [delete({ kid })](./daf-typeorm.keystore.delete.md) |  |  |
+|  [get({ kid })](./daf-typeorm.keystore.get.md) |  |  |
+|  [import(args)](./daf-typeorm.keystore.import.md) |  |  |
+

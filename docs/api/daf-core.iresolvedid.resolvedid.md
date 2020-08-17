@@ -14,9 +14,9 @@ resolveDid(args: ResolveDidArgs): Promise<DIDDocument>;
 
 ## Parameters
 
-| Parameter | Type                                           | Description                         |
-| --------- | ---------------------------------------------- | ----------------------------------- |
-| args      | [ResolveDidArgs](./daf-core.resolvedidargs.md) | Input arguments for resolving a DID |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [ResolveDidArgs](./daf-core.resolvedidargs.md) | Input arguments for resolving a DID |
 
 <b>Returns:</b>
 
@@ -24,6 +24,9 @@ Promise&lt;DIDDocument&gt;
 
 ## Example
 
+
 ```typescript
 const doc = await agent.resolveDid({ didUrl: 'did:web:uport.me' })
+
 ```
+

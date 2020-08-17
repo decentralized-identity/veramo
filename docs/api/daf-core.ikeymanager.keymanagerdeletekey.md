@@ -12,10 +12,11 @@ keyManagerDeleteKey(args: IKeyManagerDeleteKeyArgs): Promise<boolean>;
 
 ## Parameters
 
-| Parameter | Type                                                               | Description |
-| --------- | ------------------------------------------------------------------ | ----------- |
-| args      | [IKeyManagerDeleteKeyArgs](./daf-core.ikeymanagerdeletekeyargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IKeyManagerDeleteKeyArgs](./daf-core.ikeymanagerdeletekeyargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+

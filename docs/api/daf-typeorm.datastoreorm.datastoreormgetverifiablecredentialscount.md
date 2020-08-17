@@ -12,11 +12,12 @@ dataStoreORMGetVerifiableCredentialsCount(args: FindArgs<TCredentialColumns>, co
 
 ## Parameters
 
-| Parameter | Type                                                                                                                   | Description |
-| --------- | ---------------------------------------------------------------------------------------------------------------------- | ----------- |
-| args      | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TCredentialColumns](./daf-typeorm.tcredentialcolumns.md)<!-- -->&gt; |             |
-| context   | IContext                                                                                                               |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [FindArgs](./daf-typeorm.findargs.md)<!-- -->&lt;[TCredentialColumns](./daf-typeorm.tcredentialcolumns.md)<!-- -->&gt; |  |
+|  context | IContext |  |
 
 <b>Returns:</b>
 
 Promise&lt;number&gt;
+

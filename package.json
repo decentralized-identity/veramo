@@ -2,12 +2,12 @@
   "name": "daf",
   "private": true,
   "scripts": {
-    "build": "lerna run build && yarn docs:api && yarn schemas && yarn lerna run --scope daf-rest build",
+    "build": "lerna run build && yarn docs:api && yarn schemas && yarn lerna run --scope daf-rest build && yarn docs:reference",
     "publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
     "schemas": "ts-node ./scripts/generate-schemas.ts",
     "docs:api": "ts-node ./scripts/generate-docs.ts",
-    "docs": "yarn docs:api && api-documenter markdown -i ./temp -o ./docs/api && rm -rf ./temp",
+    "docs:reference": "api-documenter markdown -i ./temp -o ./docs/api && rm -rf ./temp",
     "test": "jest --config=jest.json --maxWorkers=2",
     "test:watch": "jest --config=jest.json --watch --verbose",
     "daf": "./packages/daf-cli/bin/daf.js",
@@ -20,7 +20,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
+      "pre-commit": "pretty-quick",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },

@@ -6,49 +6,50 @@
 
 ## Classes
 
-| Class                                           | Description |
-| ----------------------------------------------- | ----------- |
-| [Claim](./daf-typeorm.claim.md)                 |             |
-| [Credential_2](./daf-typeorm.credential_2.md)   |             |
-| [DataStore](./daf-typeorm.datastore.md)         |             |
-| [DataStoreORM](./daf-typeorm.datastoreorm.md)   |             |
-| [Identity](./daf-typeorm.identity.md)           |             |
-| [IdentityStore](./daf-typeorm.identitystore.md) |             |
-| [Key](./daf-typeorm.key.md)                     |             |
-| [KeyStore](./daf-typeorm.keystore.md)           |             |
-| [Message](./daf-typeorm.message.md)             |             |
-| [Presentation](./daf-typeorm.presentation.md)   |             |
-| [Service](./daf-typeorm.service.md)             |             |
+|  Class | Description |
+|  --- | --- |
+|  [Claim](./daf-typeorm.claim.md) |  |
+|  [Credential\_2](./daf-typeorm.credential_2.md) |  |
+|  [DataStore](./daf-typeorm.datastore.md) |  |
+|  [DataStoreORM](./daf-typeorm.datastoreorm.md) |  |
+|  [Identity](./daf-typeorm.identity.md) |  |
+|  [IdentityStore](./daf-typeorm.identitystore.md) |  |
+|  [Key](./daf-typeorm.key.md) |  |
+|  [KeyStore](./daf-typeorm.keystore.md) |  |
+|  [Message](./daf-typeorm.message.md) |  |
+|  [Presentation](./daf-typeorm.presentation.md) |  |
+|  [Service](./daf-typeorm.service.md) |  |
 
 ## Interfaces
 
-| Interface                                       | Description |
-| ----------------------------------------------- | ----------- |
-| [FindArgs](./daf-typeorm.findargs.md)           |             |
-| [IDataStoreORM](./daf-typeorm.idatastoreorm.md) |             |
-| [MetaData](./daf-typeorm.metadata.md)           |             |
-| [Order](./daf-typeorm.order.md)                 |             |
-| [Where](./daf-typeorm.where.md)                 |             |
+|  Interface | Description |
+|  --- | --- |
+|  [FindArgs](./daf-typeorm.findargs.md) |  |
+|  [IDataStoreORM](./daf-typeorm.idatastoreorm.md) |  |
+|  [MetaData](./daf-typeorm.metadata.md) |  |
+|  [Order](./daf-typeorm.order.md) |  |
+|  [Where](./daf-typeorm.where.md) |  |
 
 ## Variables
 
-| Variable                                  | Description |
-| ----------------------------------------- | ----------- |
-| [Entities](./daf-typeorm.entities.md)     |             |
-| [migrations](./daf-typeorm.migrations.md) |             |
+|  Variable | Description |
+|  --- | --- |
+|  [Entities](./daf-typeorm.entities.md) |  |
+|  [migrations](./daf-typeorm.migrations.md) |  |
 
 ## Type Aliases
 
-| Type Alias                                                      | Description |
-| --------------------------------------------------------------- | ----------- |
-| [FindClaimsArgs](./daf-typeorm.findclaimsargs.md)               |             |
-| [FindCredentialsArgs](./daf-typeorm.findcredentialsargs.md)     |             |
-| [FindIdentitiesArgs](./daf-typeorm.findidentitiesargs.md)       |             |
-| [FindMessagesArgs](./daf-typeorm.findmessagesargs.md)           |             |
-| [FindPresentationsArgs](./daf-typeorm.findpresentationsargs.md) |             |
-| [KeyType_2](./daf-typeorm.keytype_2.md)                         |             |
-| [TClaimsColumns](./daf-typeorm.tclaimscolumns.md)               |             |
-| [TCredentialColumns](./daf-typeorm.tcredentialcolumns.md)       |             |
-| [TIdentitiesColumns](./daf-typeorm.tidentitiescolumns.md)       |             |
-| [TMessageColumns](./daf-typeorm.tmessagecolumns.md)             |             |
-| [TPresentationColumns](./daf-typeorm.tpresentationcolumns.md)   |             |
+|  Type Alias | Description |
+|  --- | --- |
+|  [FindClaimsArgs](./daf-typeorm.findclaimsargs.md) |  |
+|  [FindCredentialsArgs](./daf-typeorm.findcredentialsargs.md) |  |
+|  [FindIdentitiesArgs](./daf-typeorm.findidentitiesargs.md) |  |
+|  [FindMessagesArgs](./daf-typeorm.findmessagesargs.md) |  |
+|  [FindPresentationsArgs](./daf-typeorm.findpresentationsargs.md) |  |
+|  [KeyType\_2](./daf-typeorm.keytype_2.md) |  |
+|  [TClaimsColumns](./daf-typeorm.tclaimscolumns.md) |  |
+|  [TCredentialColumns](./daf-typeorm.tcredentialcolumns.md) |  |
+|  [TIdentitiesColumns](./daf-typeorm.tidentitiescolumns.md) |  |
+|  [TMessageColumns](./daf-typeorm.tmessagecolumns.md) |  |
+|  [TPresentationColumns](./daf-typeorm.tpresentationcolumns.md) |  |
+

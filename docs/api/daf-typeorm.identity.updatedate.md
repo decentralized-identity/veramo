@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-updateDate: Date
+updateDate: Date;
 ```

@@ -7,27 +7,27 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class DataStore implements IAgentPlugin
+export declare class DataStore implements IAgentPlugin 
 ```
-
 <b>Implements:</b> [IAgentPlugin](./daf-core.iagentplugin.md)
 
 ## Constructors
 
-| Constructor                                                             | Modifiers | Description                                                   |
-| ----------------------------------------------------------------------- | --------- | ------------------------------------------------------------- |
-| [(constructor)(dbConnection)](./daf-typeorm.datastore._constructor_.md) |           | Constructs a new instance of the <code>DataStore</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(dbConnection)](./daf-typeorm.datastore._constructor_.md) |  | Constructs a new instance of the <code>DataStore</code> class |
 
 ## Properties
 
-| Property                                      | Modifiers | Type                                   | Description |
-| --------------------------------------------- | --------- | -------------------------------------- | ----------- |
-| [methods](./daf-typeorm.datastore.methods.md) |           | [IDataStore](./daf-core.idatastore.md) |             |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [methods](./daf-typeorm.datastore.methods.md) |  | [IDataStore](./daf-core.idatastore.md) |  |
 
 ## Methods
 
-| Method                                                                                                      | Modifiers | Description |
-| ----------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| [dataStoreSaveMessage(args)](./daf-typeorm.datastore.datastoresavemessage.md)                               |           |             |
-| [dataStoreSaveVerifiableCredential(args)](./daf-typeorm.datastore.datastoresaveverifiablecredential.md)     |           |             |
-| [dataStoreSaveVerifiablePresentation(args)](./daf-typeorm.datastore.datastoresaveverifiablepresentation.md) |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [dataStoreSaveMessage(args)](./daf-typeorm.datastore.datastoresavemessage.md) |  |  |
+|  [dataStoreSaveVerifiableCredential(args)](./daf-typeorm.datastore.datastoresaveverifiablecredential.md) |  |  |
+|  [dataStoreSaveVerifiablePresentation(args)](./daf-typeorm.datastore.datastoresaveverifiablepresentation.md) |  |  |
+

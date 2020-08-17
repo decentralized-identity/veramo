@@ -7,11 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IIdentityManagerDeleteIdentityArgs
+export interface IIdentityManagerDeleteIdentityArgs 
 ```
 
 ## Properties
 
-| Property                                                    | Type   | Description |
-| ----------------------------------------------------------- | ------ | ----------- |
-| [did](./daf-core.iidentitymanagerdeleteidentityargs.did.md) | string |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [did](./daf-core.iidentitymanagerdeleteidentityargs.did.md) | string |  |
+

@@ -9,11 +9,12 @@ Input arguments for [IResolveDid.resolveDid()](./daf-core.iresolvedid.resolvedid
 <b>Signature:</b>
 
 ```typescript
-export interface ResolveDidArgs
+export interface ResolveDidArgs 
 ```
 
 ## Properties
 
-| Property                                      | Type   | Description |
-| --------------------------------------------- | ------ | ----------- |
-| [didUrl](./daf-core.resolvedidargs.didurl.md) | string | DID URL     |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [didUrl](./daf-core.resolvedidargs.didurl.md) | string | DID URL |
+

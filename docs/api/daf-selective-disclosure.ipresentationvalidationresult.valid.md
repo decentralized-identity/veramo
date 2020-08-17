@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-valid: boolean
+valid: boolean;
 ```

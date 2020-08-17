@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-claimType: string
+claimType: string;
 ```

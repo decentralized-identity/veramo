@@ -12,10 +12,11 @@ keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<str
 
 ## Parameters
 
-| Parameter            | Type                                                               | Description |
-| -------------------- | ------------------------------------------------------------------ | ----------- |
-| { kid, transaction } | [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  { kid, transaction } | [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

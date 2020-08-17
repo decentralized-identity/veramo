@@ -7,22 +7,22 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class IdentityStore extends AbstractIdentityStore
+export declare class IdentityStore extends AbstractIdentityStore 
 ```
-
 <b>Extends:</b> [AbstractIdentityStore](./daf-core.abstractidentitystore.md)
 
 ## Constructors
 
-| Constructor                                                                 | Modifiers | Description                                                       |
-| --------------------------------------------------------------------------- | --------- | ----------------------------------------------------------------- |
-| [(constructor)(dbConnection)](./daf-typeorm.identitystore._constructor_.md) |           | Constructs a new instance of the <code>IdentityStore</code> class |
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(dbConnection)](./daf-typeorm.identitystore._constructor_.md) |  | Constructs a new instance of the <code>IdentityStore</code> class |
 
 ## Methods
 
-| Method                                                    | Modifiers | Description |
-| --------------------------------------------------------- | --------- | ----------- |
-| [delete({ did })](./daf-typeorm.identitystore.delete.md)  |           |             |
-| [get({ did, alias })](./daf-typeorm.identitystore.get.md) |           |             |
-| [import(args)](./daf-typeorm.identitystore.import.md)     |           |             |
-| [list()](./daf-typeorm.identitystore.list.md)             |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [delete({ did })](./daf-typeorm.identitystore.delete.md) |  |  |
+|  [get({ did, alias })](./daf-typeorm.identitystore.get.md) |  |  |
+|  [import(args)](./daf-typeorm.identitystore.import.md) |  |  |
+|  [list()](./daf-typeorm.identitystore.list.md) |  |  |
+

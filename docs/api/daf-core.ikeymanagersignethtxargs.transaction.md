@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-transaction: object
+transaction: object;
 ```

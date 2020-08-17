@@ -12,10 +12,11 @@ keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>;
 
 ## Parameters
 
-| Parameter | Type                                                               | Description |
-| --------- | ------------------------------------------------------------------ | ----------- |
-| args      | [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) |  |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+

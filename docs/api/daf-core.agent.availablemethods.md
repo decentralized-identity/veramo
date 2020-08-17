@@ -9,7 +9,7 @@
 ```typescript
 availableMethods(): string[];
 ```
-
 <b>Returns:</b>
 
 string\[\]
+

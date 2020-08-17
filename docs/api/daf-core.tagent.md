@@ -8,7 +8,6 @@
 
 ```typescript
 export declare type TAgent<T extends IPluginMethodMap> = {
-  [P in keyof T]: RemoveContext<T[P]>
-} &
-  Pick<IAgentBase, 'availableMethods'>
+    [P in keyof T]: RemoveContext<T[P]>;
+} & Pick<IAgentBase, 'availableMethods'>;
 ```

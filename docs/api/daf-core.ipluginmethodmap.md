@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IPluginMethodMap extends Record<string, IPluginMethod>
+export interface IPluginMethodMap extends Record<string, IPluginMethod> 
 ```
-
 <b>Extends:</b> Record&lt;string, [IPluginMethod](./daf-core.ipluginmethod.md)<!-- -->&gt;
+

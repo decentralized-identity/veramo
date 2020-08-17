@@ -7,12 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IKeyManagerSignEthTXArgs
+export interface IKeyManagerSignEthTXArgs 
 ```
 
 ## Properties
 
-| Property                                                          | Type   | Description |
-| ----------------------------------------------------------------- | ------ | ----------- |
-| [kid](./daf-core.ikeymanagersignethtxargs.kid.md)                 | string |             |
-| [transaction](./daf-core.ikeymanagersignethtxargs.transaction.md) | object |             |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [kid](./daf-core.ikeymanagersignethtxargs.kid.md) | string |  |
+|  [transaction](./daf-core.ikeymanagersignethtxargs.transaction.md) | object |  |
+

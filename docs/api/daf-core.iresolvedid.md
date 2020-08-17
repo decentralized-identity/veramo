@@ -7,13 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IResolveDid extends IPluginMethodMap
+export interface IResolveDid extends IPluginMethodMap 
 ```
-
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
 ## Methods
 
-| Method                                                   | Description                           |
-| -------------------------------------------------------- | ------------------------------------- |
-| [resolveDid(args)](./daf-core.iresolvedid.resolvedid.md) | Resolves DID and returns DID Document |
+|  Method | Description |
+|  --- | --- |
+|  [resolveDid(args)](./daf-core.iresolvedid.resolvedid.md) | Resolves DID and returns DID Document |
+

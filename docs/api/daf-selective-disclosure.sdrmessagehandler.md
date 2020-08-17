@@ -7,13 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class SdrMessageHandler extends AbstractMessageHandler
+export declare class SdrMessageHandler extends AbstractMessageHandler 
 ```
-
 <b>Extends:</b> [AbstractMessageHandler](./daf-core.abstractmessagehandler.md)
 
 ## Methods
 
-| Method                                                                             | Modifiers | Description |
-| ---------------------------------------------------------------------------------- | --------- | ----------- |
-| [handle(message, context)](./daf-selective-disclosure.sdrmessagehandler.handle.md) |           |             |
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [handle(message, context)](./daf-selective-disclosure.sdrmessagehandler.handle.md) |  |  |
+

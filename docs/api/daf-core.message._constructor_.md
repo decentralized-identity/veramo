@@ -17,6 +17,7 @@ constructor(data?: {
 
 ## Parameters
 
-| Parameter | Type                                                                          | Description |
-| --------- | ----------------------------------------------------------------------------- | ----------- |
-| data      | { raw: string; metaData?: [IMetaData](./daf-core.imetadata.md)<!-- -->\[\]; } |             |
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  data | { raw: string; metaData?: [IMetaData](./daf-core.imetadata.md)<!-- -->\[\]; } |  |
+

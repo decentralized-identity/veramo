@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type FindMessagesArgs = FindArgs<TMessageColumns>
+export declare type FindMessagesArgs = FindArgs<TMessageColumns>;
 ```
