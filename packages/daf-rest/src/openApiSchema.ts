@@ -7,402 +7,22 @@ export const openApiSchema: OpenAPIV3.Document = {
   },
   "components": {
     "schemas": {
-      "ResolveDidArgs": {
+      "IIdentityManagerAddKeyArgs": {
         "type": "object",
         "properties": {
-          "didUrl": {
-            "type": "string",
-            "description": "DID URL"
-          }
+          "did": {
+            "type": "string"
+          },
+          "key": {
+            "$ref": "#/components/schemas/IKey"
+          },
+          "options": {}
         },
         "required": [
-          "didUrl"
-        ],
-        "additionalProperties": false,
-        "description": "Input arguments for {@link IResolveDid.resolveDid}"
-      },
-      "DIDDocument": {
-        "type": "object",
-        "properties": {
-          "@context": {
-            "type": "string",
-            "enum": [
-              "https://w3id.org/did/v1"
-            ]
-          },
-          "id": {
-            "type": "string"
-          },
-          "publicKey": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PublicKey"
-            }
-          },
-          "authentication": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Authentication"
-            }
-          },
-          "uportProfile": {},
-          "service": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ServiceEndpoint"
-            }
-          },
-          "created": {
-            "type": "string"
-          },
-          "updated": {
-            "type": "string"
-          },
-          "proof": {
-            "$ref": "#/components/schemas/LinkedDataProof"
-          }
-        },
-        "required": [
-          "@context",
-          "id",
-          "publicKey"
+          "did",
+          "key"
         ],
         "additionalProperties": false
-      },
-      "PublicKey": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "owner": {
-            "type": "string"
-          },
-          "ethereumAddress": {
-            "type": "string"
-          },
-          "publicKeyBase64": {
-            "type": "string"
-          },
-          "publicKeyBase58": {
-            "type": "string"
-          },
-          "publicKeyHex": {
-            "type": "string"
-          },
-          "publicKeyPem": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "owner"
-        ],
-        "additionalProperties": false
-      },
-      "Authentication": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string"
-          },
-          "publicKey": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "publicKey"
-        ],
-        "additionalProperties": false
-      },
-      "ServiceEndpoint": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "serviceEndpoint": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "serviceEndpoint"
-        ],
-        "additionalProperties": false
-      },
-      "LinkedDataProof": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string"
-          },
-          "created": {
-            "type": "string"
-          },
-          "creator": {
-            "type": "string"
-          },
-          "nonce": {
-            "type": "string"
-          },
-          "signatureValue": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "created",
-          "creator",
-          "nonce",
-          "signatureValue"
-        ],
-        "additionalProperties": false
-      },
-      "IMessage": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "expiresAt": {
-            "type": "string"
-          },
-          "threadId": {
-            "type": "string"
-          },
-          "raw": {
-            "type": "string"
-          },
-          "data": {},
-          "replyTo": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "replyUrl": {
-            "type": "string"
-          },
-          "from": {
-            "type": "string"
-          },
-          "to": {
-            "type": "string"
-          },
-          "metaData": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IMetaData"
-            }
-          },
-          "credentials": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VerifiableCredential"
-            }
-          },
-          "presentations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VerifiablePresentation"
-            }
-          }
-        },
-        "required": [
-          "id",
-          "type"
-        ],
-        "additionalProperties": false
-      },
-      "IMetaData": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string"
-          },
-          "value": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type"
-        ],
-        "additionalProperties": false
-      },
-      "VerifiableCredential": {
-        "$ref": "#/components/schemas/Verifiable-W3CCredential"
-      },
-      "Verifiable-W3CCredential": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "proof": {
-            "$ref": "#/components/schemas/Proof"
-          },
-          "id": {
-            "type": "string"
-          },
-          "credentialSubject": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          },
-          "credentialStatus": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "type": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "id",
-              "type"
-            ]
-          },
-          "@context": {
-            "type": "object",
-            "properties": {}
-          },
-          "type": {
-            "type": "object",
-            "properties": {}
-          },
-          "issuer": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          },
-          "issuanceDate": {
-            "type": "string"
-          },
-          "expirationDate": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "@context",
-          "credentialSubject",
-          "issuanceDate",
-          "issuer",
-          "proof",
-          "type"
-        ]
-      },
-      "Proof": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string"
-          }
-        }
-      },
-      "VerifiablePresentation": {
-        "$ref": "#/components/schemas/Verifiable-W3CPresentation"
-      },
-      "Verifiable-W3CPresentation": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "proof": {
-            "$ref": "#/components/schemas/Proof"
-          },
-          "id": {
-            "type": "string"
-          },
-          "holder": {
-            "type": "string"
-          },
-          "issuanceDate": {
-            "type": "string"
-          },
-          "expirationDate": {
-            "type": "string"
-          },
-          "@context": {
-            "type": "object",
-            "properties": {}
-          },
-          "type": {
-            "type": "object",
-            "properties": {}
-          },
-          "verifier": {
-            "type": "object",
-            "properties": {}
-          },
-          "verifiableCredential": {
-            "type": "object",
-            "properties": {}
-          }
-        },
-        "required": [
-          "@context",
-          "holder",
-          "proof",
-          "type",
-          "verifiableCredential",
-          "verifier"
-        ]
-      },
-      "IKeyManagerCreateKeyArgs": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/TKeyType"
-          },
-          "kms": {
-            "type": "string"
-          },
-          "meta": {
-            "type": "object"
-          }
-        },
-        "required": [
-          "type",
-          "kms"
-        ],
-        "additionalProperties": false
-      },
-      "TKeyType": {
-        "type": "string",
-        "enum": [
-          "Ed25519",
-          "Secp256k1"
-        ]
       },
       "IKey": {
         "type": "object",
@@ -434,137 +54,12 @@ export const openApiSchema: OpenAPIV3.Document = {
         ],
         "additionalProperties": false
       },
-      "IKeyManagerDecryptJWEArgs": {
-        "type": "object",
-        "properties": {
-          "kid": {
-            "type": "string"
-          },
-          "data": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "kid",
-          "data"
-        ],
-        "additionalProperties": false
-      },
-      "IKeyManagerDeleteKeyArgs": {
-        "type": "object",
-        "properties": {
-          "kid": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "kid"
-        ],
-        "additionalProperties": false
-      },
-      "IKeyManagerEncryptJWEArgs": {
-        "type": "object",
-        "properties": {
-          "kid": {
-            "type": "string"
-          },
-          "to": {
-            "type": "object",
-            "properties": {
-              "kid": {
-                "type": "string"
-              },
-              "type": {
-                "$ref": "#/components/schemas/TKeyType"
-              },
-              "publicKeyHex": {
-                "type": "string"
-              },
-              "privateKeyHex": {
-                "type": "string"
-              },
-              "meta": {
-                "type": "object"
-              }
-            },
-            "required": [
-              "kid",
-              "type",
-              "publicKeyHex"
-            ],
-            "additionalProperties": false
-          },
-          "data": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "kid",
-          "to",
-          "data"
-        ],
-        "additionalProperties": false
-      },
-      "IKeyManagerGetKeyArgs": {
-        "type": "object",
-        "properties": {
-          "kid": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "kid"
-        ],
-        "additionalProperties": false
-      },
-      "IKeyManagerSignEthTXArgs": {
-        "type": "object",
-        "properties": {
-          "kid": {
-            "type": "string"
-          },
-          "transaction": {
-            "type": "object"
-          }
-        },
-        "required": [
-          "kid",
-          "transaction"
-        ],
-        "additionalProperties": false
-      },
-      "IKeyManagerSignJWTArgs": {
-        "type": "object",
-        "properties": {
-          "kid": {
-            "type": "string"
-          },
-          "data": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "kid",
-          "data"
-        ],
-        "additionalProperties": false
-      },
-      "IIdentityManagerAddKeyArgs": {
-        "type": "object",
-        "properties": {
-          "did": {
-            "type": "string"
-          },
-          "key": {
-            "$ref": "#/components/schemas/IKey"
-          },
-          "options": {}
-        },
-        "required": [
-          "did",
-          "key"
-        ],
-        "additionalProperties": false
+      "TKeyType": {
+        "type": "string",
+        "enum": [
+          "Ed25519",
+          "Secp256k1"
+        ]
       },
       "IIdentityManagerAddServiceArgs": {
         "type": "object",
@@ -736,6 +231,170 @@ export const openApiSchema: OpenAPIV3.Document = {
         ],
         "additionalProperties": false
       },
+      "ResolveDidArgs": {
+        "type": "object",
+        "properties": {
+          "didUrl": {
+            "type": "string",
+            "description": "DID URL"
+          }
+        },
+        "required": [
+          "didUrl"
+        ],
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IResolveDid.resolveDid}"
+      },
+      "DIDDocument": {
+        "type": "object",
+        "properties": {
+          "@context": {
+            "type": "string",
+            "enum": [
+              "https://w3id.org/did/v1"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "publicKey": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicKey"
+            }
+          },
+          "authentication": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Authentication"
+            }
+          },
+          "uportProfile": {},
+          "service": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceEndpoint"
+            }
+          },
+          "created": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string"
+          },
+          "proof": {
+            "$ref": "#/components/schemas/LinkedDataProof"
+          }
+        },
+        "required": [
+          "@context",
+          "id",
+          "publicKey"
+        ],
+        "additionalProperties": false
+      },
+      "PublicKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "ethereumAddress": {
+            "type": "string"
+          },
+          "publicKeyBase64": {
+            "type": "string"
+          },
+          "publicKeyBase58": {
+            "type": "string"
+          },
+          "publicKeyHex": {
+            "type": "string"
+          },
+          "publicKeyPem": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "owner"
+        ],
+        "additionalProperties": false
+      },
+      "Authentication": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "publicKey": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "publicKey"
+        ],
+        "additionalProperties": false
+      },
+      "ServiceEndpoint": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "serviceEndpoint": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "serviceEndpoint"
+        ],
+        "additionalProperties": false
+      },
+      "LinkedDataProof": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string"
+          },
+          "creator": {
+            "type": "string"
+          },
+          "nonce": {
+            "type": "string"
+          },
+          "signatureValue": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "created",
+          "creator",
+          "nonce",
+          "signatureValue"
+        ],
+        "additionalProperties": false
+      },
       "IHandleMessageArgs": {
         "type": "object",
         "properties": {
@@ -754,6 +413,21 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "required": [
           "raw"
+        ],
+        "additionalProperties": false
+      },
+      "IMetaData": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
         ],
         "additionalProperties": false
       },
@@ -819,45 +493,499 @@ export const openApiSchema: OpenAPIV3.Document = {
         ],
         "additionalProperties": false
       },
-      "ISendMessageDIDCommAlpha1Args": {
+      "VerifiableCredential": {
+        "$ref": "#/components/schemas/Verifiable-W3CCredential"
+      },
+      "Verifiable-W3CCredential": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
-          "url": {
+          "proof": {
+            "$ref": "#/components/schemas/Proof"
+          },
+          "id": {
             "type": "string"
           },
-          "save": {
-            "type": "boolean"
+          "credentialSubject": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
           },
-          "data": {
+          "credentialStatus": {
             "type": "object",
             "properties": {
               "id": {
                 "type": "string"
               },
-              "from": {
-                "type": "string"
-              },
-              "to": {
-                "type": "string"
-              },
               "type": {
                 "type": "string"
-              },
-              "body": {}
+              }
             },
             "required": [
-              "from",
-              "to",
-              "type",
-              "body"
-            ],
-            "additionalProperties": false
+              "id",
+              "type"
+            ]
+          },
+          "@context": {
+            "type": "object",
+            "properties": {}
+          },
+          "type": {
+            "type": "object",
+            "properties": {}
+          },
+          "issuer": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "issuanceDate": {
+            "type": "string"
+          },
+          "expirationDate": {
+            "type": "string"
           }
         },
         "required": [
+          "@context",
+          "credentialSubject",
+          "issuanceDate",
+          "issuer",
+          "proof",
+          "type"
+        ]
+      },
+      "Proof": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "VerifiablePresentation": {
+        "$ref": "#/components/schemas/Verifiable-W3CPresentation"
+      },
+      "Verifiable-W3CPresentation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "proof": {
+            "$ref": "#/components/schemas/Proof"
+          },
+          "id": {
+            "type": "string"
+          },
+          "holder": {
+            "type": "string"
+          },
+          "issuanceDate": {
+            "type": "string"
+          },
+          "expirationDate": {
+            "type": "string"
+          },
+          "@context": {
+            "type": "object",
+            "properties": {}
+          },
+          "type": {
+            "type": "object",
+            "properties": {}
+          },
+          "verifier": {
+            "type": "object",
+            "properties": {}
+          },
+          "verifiableCredential": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "required": [
+          "@context",
+          "holder",
+          "proof",
+          "type",
+          "verifiableCredential",
+          "verifier"
+        ]
+      },
+      "IMessage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string"
+          },
+          "threadId": {
+            "type": "string"
+          },
+          "raw": {
+            "type": "string"
+          },
+          "data": {},
+          "replyTo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "replyUrl": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "metaData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMetaData"
+            }
+          },
+          "credentials": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            }
+          },
+          "presentations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VerifiablePresentation"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "IKeyManagerCreateKeyArgs": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/TKeyType"
+          },
+          "kms": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "type",
+          "kms"
+        ],
+        "additionalProperties": false
+      },
+      "IKeyManagerDecryptJWEArgs": {
+        "type": "object",
+        "properties": {
+          "kid": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kid",
           "data"
         ],
         "additionalProperties": false
+      },
+      "IKeyManagerDeleteKeyArgs": {
+        "type": "object",
+        "properties": {
+          "kid": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kid"
+        ],
+        "additionalProperties": false
+      },
+      "IKeyManagerEncryptJWEArgs": {
+        "type": "object",
+        "properties": {
+          "kid": {
+            "type": "string"
+          },
+          "to": {
+            "type": "object",
+            "properties": {
+              "kid": {
+                "type": "string"
+              },
+              "type": {
+                "$ref": "#/components/schemas/TKeyType"
+              },
+              "publicKeyHex": {
+                "type": "string"
+              },
+              "privateKeyHex": {
+                "type": "string"
+              },
+              "meta": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "kid",
+              "type",
+              "publicKeyHex"
+            ],
+            "additionalProperties": false
+          },
+          "data": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kid",
+          "to",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "IKeyManagerGetKeyArgs": {
+        "type": "object",
+        "properties": {
+          "kid": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kid"
+        ],
+        "additionalProperties": false
+      },
+      "IKeyManagerSignEthTXArgs": {
+        "type": "object",
+        "properties": {
+          "kid": {
+            "type": "string"
+          },
+          "transaction": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "kid",
+          "transaction"
+        ],
+        "additionalProperties": false
+      },
+      "IKeyManagerSignJWTArgs": {
+        "type": "object",
+        "properties": {
+          "kid": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kid",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "ICreateVerifiableCredentialArgs": {
+        "type": "object",
+        "properties": {
+          "credential": {
+            "$ref": "#/components/schemas/W3CCredential"
+          },
+          "save": {
+            "type": "boolean"
+          },
+          "proofFormat": {
+            "type": "string",
+            "enum": [
+              "jwt"
+            ]
+          }
+        },
+        "required": [
+          "credential",
+          "proofFormat"
+        ],
+        "additionalProperties": false
+      },
+      "W3CCredential": {
+        "type": "object",
+        "properties": {
+          "@context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "issuer": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "issuanceDate": {
+            "type": "string"
+          },
+          "expirationDate": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "credentialSubject": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "credentialStatus": {
+            "$ref": "#/components/schemas/CredentialStatus"
+          }
+        },
+        "required": [
+          "@context",
+          "credentialSubject",
+          "issuanceDate",
+          "issuer",
+          "type"
+        ],
+        "description": "This data type represents a parsed VerifiableCredential.\nIt is meant to be an unambiguous representation of the properties of a Credential and is usually the result of a transformation method.\n\n`issuer` is always an object with an `id` property and potentially other app specific issuer claims\n`issuanceDate` is an ISO DateTime string\n`expirationDate`, is a nullable ISO DateTime string\n\nAny JWT specific properties are transformed to the broader W3C variant and any app specific properties are left intact"
+      },
+      "CredentialStatus": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "ICreateVerifiablePresentationArgs": {
+        "type": "object",
+        "properties": {
+          "presentation": {
+            "$ref": "#/components/schemas/W3CPresentation"
+          },
+          "save": {
+            "type": "boolean"
+          },
+          "proofFormat": {
+            "type": "string",
+            "enum": [
+              "jwt"
+            ]
+          }
+        },
+        "required": [
+          "presentation",
+          "proofFormat"
+        ],
+        "additionalProperties": false
+      },
+      "W3CPresentation": {
+        "type": "object",
+        "properties": {
+          "@context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "verifier": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "verifiableCredential": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Verifiable-W3CCredential"
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "holder": {
+            "type": "string"
+          },
+          "issuanceDate": {
+            "type": "string"
+          },
+          "expirationDate": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "@context",
+          "holder",
+          "type",
+          "verifiableCredential",
+          "verifier"
+        ],
+        "description": "This data type represents a parsed Presentation payload.\nIt is meant to be an unambiguous representation of the properties of a Presentation and is usually the result of a transformation method.\n\nThe `verifiableCredential` array should contain parsed `Verifiable-Credential` elements.\nAny JWT specific properties are transformed to the broader W3C variant and any other app specific properties are left intact."
       },
       "ICreateSelectiveDisclosureRequestArgs": {
         "type": "object",
@@ -1068,6 +1196,46 @@ export const openApiSchema: OpenAPIV3.Document = {
         "required": [
           "valid",
           "claims"
+        ],
+        "additionalProperties": false
+      },
+      "ISendMessageDIDCommAlpha1Args": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "save": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "body": {}
+            },
+            "required": [
+              "from",
+              "to",
+              "type",
+              "body"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "data"
         ],
         "additionalProperties": false
       },
@@ -1547,178 +1715,301 @@ export const openApiSchema: OpenAPIV3.Document = {
           "direction"
         ],
         "additionalProperties": false
-      },
-      "ICreateVerifiableCredentialArgs": {
-        "type": "object",
-        "properties": {
-          "credential": {
-            "$ref": "#/components/schemas/W3CCredential"
-          },
-          "save": {
-            "type": "boolean"
-          },
-          "proofFormat": {
-            "type": "string",
-            "enum": [
-              "jwt"
-            ]
-          }
-        },
-        "required": [
-          "credential",
-          "proofFormat"
-        ],
-        "additionalProperties": false
-      },
-      "W3CCredential": {
-        "type": "object",
-        "properties": {
-          "@context": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "type": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "issuer": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          },
-          "issuanceDate": {
-            "type": "string"
-          },
-          "expirationDate": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "credentialSubject": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          },
-          "credentialStatus": {
-            "$ref": "#/components/schemas/CredentialStatus"
-          }
-        },
-        "required": [
-          "@context",
-          "credentialSubject",
-          "issuanceDate",
-          "issuer",
-          "type"
-        ],
-        "description": "This data type represents a parsed VerifiableCredential.\nIt is meant to be an unambiguous representation of the properties of a Credential and is usually the result of a transformation method.\n\n`issuer` is always an object with an `id` property and potentially other app specific issuer claims\n`issuanceDate` is an ISO DateTime string\n`expirationDate`, is a nullable ISO DateTime string\n\nAny JWT specific properties are transformed to the broader W3C variant and any app specific properties are left intact"
-      },
-      "CredentialStatus": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "type"
-        ],
-        "additionalProperties": false
-      },
-      "ICreateVerifiablePresentationArgs": {
-        "type": "object",
-        "properties": {
-          "presentation": {
-            "$ref": "#/components/schemas/W3CPresentation"
-          },
-          "save": {
-            "type": "boolean"
-          },
-          "proofFormat": {
-            "type": "string",
-            "enum": [
-              "jwt"
-            ]
-          }
-        },
-        "required": [
-          "presentation",
-          "proofFormat"
-        ],
-        "additionalProperties": false
-      },
-      "W3CPresentation": {
-        "type": "object",
-        "properties": {
-          "@context": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "type": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "verifier": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "verifiableCredential": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Verifiable-W3CCredential"
-            }
-          },
-          "id": {
-            "type": "string"
-          },
-          "holder": {
-            "type": "string"
-          },
-          "issuanceDate": {
-            "type": "string"
-          },
-          "expirationDate": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "@context",
-          "holder",
-          "type",
-          "verifiableCredential",
-          "verifier"
-        ],
-        "description": "This data type represents a parsed Presentation payload.\nIt is meant to be an unambiguous representation of the properties of a Presentation and is usually the result of a transformation method.\n\nThe `verifiableCredential` array should contain parsed `Verifiable-Credential` elements.\nAny JWT specific properties are transformed to the broader W3C variant and any other app specific properties are left intact."
       }
     }
   },
   "paths": {
+    "/identityManagerAddKey": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerAddKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerAddKeyArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerAddService": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerAddService",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerAddServiceArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerCreateIdentity": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerCreateIdentity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerCreateIdentityArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IIdentity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerDeleteIdentity": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerDeleteIdentity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerDeleteIdentityArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerGetIdentities": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerGetIdentities",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IIdentity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerGetIdentity": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerGetIdentity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerGetIdentityArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IIdentity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerGetOrCreateIdentity": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerGetOrCreateIdentity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerGetOrCreateIdentityArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IIdentity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerGetProviders": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerGetProviders",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerImportIdentity": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerImportIdentity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentity"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IIdentity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerRemoveKey": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerRemoveKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerRemoveKeyArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerRemoveService": {
+      "post": {
+        "description": "",
+        "operationId": "identityManagerRemoveService",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerRemoveServiceArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/resolveDid": {
       "post": {
         "description": "Resolves DID and returns DID Document",
@@ -1739,6 +2030,33 @@ export const openApiSchema: OpenAPIV3.Document = {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DIDDocument"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/handleMessage": {
+      "post": {
+        "description": "",
+        "operationId": "handleMessage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IHandleMessageArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
                 }
               }
             }
@@ -2043,65 +2361,15 @@ export const openApiSchema: OpenAPIV3.Document = {
         }
       }
     },
-    "/identityManagerAddKey": {
+    "/createVerifiableCredential": {
       "post": {
         "description": "",
-        "operationId": "identityManagerAddKey",
+        "operationId": "createVerifiableCredential",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IIdentityManagerAddKeyArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerAddService": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerAddService",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IIdentityManagerAddServiceArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerCreateIdentity": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerCreateIdentity",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IIdentityManagerCreateIdentityArgs"
+                "$ref": "#/components/schemas/ICreateVerifiableCredentialArgs"
               }
             }
           }
@@ -2112,7 +2380,7 @@ export const openApiSchema: OpenAPIV3.Document = {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IIdentity"
+                  "$ref": "#/components/schemas/VerifiableCredential"
                 }
               }
             }
@@ -2120,15 +2388,15 @@ export const openApiSchema: OpenAPIV3.Document = {
         }
       }
     },
-    "/identityManagerDeleteIdentity": {
+    "/createVerifiablePresentation": {
       "post": {
         "description": "",
-        "operationId": "identityManagerDeleteIdentity",
+        "operationId": "createVerifiablePresentation",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IIdentityManagerDeleteIdentityArgs"
+                "$ref": "#/components/schemas/ICreateVerifiablePresentationArgs"
               }
             }
           }
@@ -2139,248 +2407,7 @@ export const openApiSchema: OpenAPIV3.Document = {
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerGetIdentities": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerGetIdentities",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/IIdentity"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerGetIdentity": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerGetIdentity",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IIdentityManagerGetIdentityArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IIdentity"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerGetOrCreateIdentity": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerGetOrCreateIdentity",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IIdentityManagerGetOrCreateIdentityArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IIdentity"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerGetProviders": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerGetProviders",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerImportIdentity": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerImportIdentity",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IIdentity"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IIdentity"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerRemoveKey": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerRemoveKey",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IIdentityManagerRemoveKeyArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/identityManagerRemoveService": {
-      "post": {
-        "description": "",
-        "operationId": "identityManagerRemoveService",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IIdentityManagerRemoveServiceArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/handleMessage": {
-      "post": {
-        "description": "",
-        "operationId": "handleMessage",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IHandleMessageArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/sendMessageDIDCommAlpha1": {
-      "post": {
-        "description": "",
-        "operationId": "sendMessageDIDCommAlpha1",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ISendMessageDIDCommAlpha1Args"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "$ref": "#/components/schemas/VerifiablePresentation"
                 }
               }
             }
@@ -2465,6 +2492,33 @@ export const openApiSchema: OpenAPIV3.Document = {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/IPresentationValidationResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sendMessageDIDCommAlpha1": {
+      "post": {
+        "description": "",
+        "operationId": "sendMessageDIDCommAlpha1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ISendMessageDIDCommAlpha1Args"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
                 }
               }
             }
@@ -2750,60 +2804,6 @@ export const openApiSchema: OpenAPIV3.Document = {
               "application/json": {
                 "schema": {
                   "type": "number"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/createVerifiableCredential": {
-      "post": {
-        "description": "",
-        "operationId": "createVerifiableCredential",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ICreateVerifiableCredentialArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VerifiableCredential"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/createVerifiablePresentation": {
-      "post": {
-        "description": "",
-        "operationId": "createVerifiablePresentation",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ICreateVerifiablePresentationArgs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VerifiablePresentation"
                 }
               }
             }

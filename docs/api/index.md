@@ -23,3 +23,49 @@
 |  [daf-url](./daf-url.md) |  |
 |  [daf-w3c](./daf-w3c.md) |  |
 
+
+
+## Available agent methods
+
+|  Method | Description | 
+|  --- | --- |
+| [identityManagerAddKey](./daf-core.iidentitymanager.identitymanageraddkey.md) |  |
+| [identityManagerAddService](./daf-core.iidentitymanager.identitymanageraddservice.md) |  |
+| [identityManagerCreateIdentity](./daf-core.iidentitymanager.identitymanagercreateidentity.md) |  |
+| [identityManagerDeleteIdentity](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md) |  |
+| [identityManagerGetIdentities](./daf-core.iidentitymanager.identitymanagergetidentities.md) |  |
+| [identityManagerGetIdentity](./daf-core.iidentitymanager.identitymanagergetidentity.md) |  |
+| [identityManagerGetOrCreateIdentity](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) |  |
+| [identityManagerGetProviders](./daf-core.iidentitymanager.identitymanagergetproviders.md) |  |
+| [identityManagerImportIdentity](./daf-core.iidentitymanager.identitymanagerimportidentity.md) |  |
+| [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) |  |
+| [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) |  |
+| [resolveDid](./daf-core.iresolvedid.resolvedid.md) | Resolves DID and returns DID Document |
+| [handleMessage](./daf-core.ihandlemessage.handlemessage.md) |  |
+| [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) |  |
+| [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) |  |
+| [dataStoreSaveVerifiablePresentation](./daf-core.idatastore.datastoresaveverifiablepresentation.md) |  |
+| [keyManagerCreateKey](./daf-core.ikeymanager.keymanagercreatekey.md) |  |
+| [keyManagerDecryptJWE](./daf-core.ikeymanager.keymanagerdecryptjwe.md) |  |
+| [keyManagerDeleteKey](./daf-core.ikeymanager.keymanagerdeletekey.md) |  |
+| [keyManagerEncryptJWE](./daf-core.ikeymanager.keymanagerencryptjwe.md) |  |
+| [keyManagerGetKey](./daf-core.ikeymanager.keymanagergetkey.md) |  |
+| [keyManagerImportKey](./daf-core.ikeymanager.keymanagerimportkey.md) |  |
+| [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md) |  |
+| [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md) |  |
+| [createVerifiableCredential](./daf-w3c.iw3c.createverifiablecredential.md) |  |
+| [createVerifiablePresentation](./daf-w3c.iw3c.createverifiablepresentation.md) |  |
+| [createSelectiveDisclosureRequest](./daf-selective-disclosure.isdr.createselectivedisclosurerequest.md) |  |
+| [getVerifiableCredentialsForSdr](./daf-selective-disclosure.isdr.getverifiablecredentialsforsdr.md) |  |
+| [validatePresentationAgainstSdr](./daf-selective-disclosure.isdr.validatepresentationagainstsdr.md) |  |
+| [sendMessageDIDCommAlpha1](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) |  |
+| [dataStoreORMGetIdentities](./daf-typeorm.idatastoreorm.datastoreormgetidentities.md) |  |
+| [dataStoreORMGetIdentitiesCount](./daf-typeorm.idatastoreorm.datastoreormgetidentitiescount.md) |  |
+| [dataStoreORMGetMessages](./daf-typeorm.idatastoreorm.datastoreormgetmessages.md) |  |
+| [dataStoreORMGetMessagesCount](./daf-typeorm.idatastoreorm.datastoreormgetmessagescount.md) |  |
+| [dataStoreORMGetVerifiableCredentials](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentials.md) |  |
+| [dataStoreORMGetVerifiableCredentialsByClaims](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialsbyclaims.md) |  |
+| [dataStoreORMGetVerifiableCredentialsByClaimsCount](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialsbyclaimscount.md) |  |
+| [dataStoreORMGetVerifiableCredentialsCount](./daf-typeorm.idatastoreorm.datastoreormgetverifiablecredentialscount.md) |  |
+| [dataStoreORMGetVerifiablePresentations](./daf-typeorm.idatastoreorm.datastoreormgetverifiablepresentations.md) |  |
+| [dataStoreORMGetVerifiablePresentationsCount](./daf-typeorm.idatastoreorm.datastoreormgetverifiablepresentationscount.md) |  |
