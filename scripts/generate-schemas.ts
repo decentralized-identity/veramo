@@ -16,14 +16,16 @@ const apiExtractorConfig = require('../api-extractor-base.json')
 const outputFile = 'packages/daf-rest/src/openApiSchema.ts'
 
 const agentPlugins: Record<string, Array<string>> = {
-  'daf-core': ['IResolveDid', 'IDataStore', 'IKeyManager', 'IIdentityManager', 'IHandleMessage'],
-  'daf-did-comm': ['IDIDComm'],
-  'daf-selective-disclosure': ['ISdr'],
-  'daf-typeorm': ['IDataStoreORM'],
+  'daf-core': ['IIdentityManager', 'IResolveDid', 'IHandleMessage', 'IDataStore', 'IKeyManager'],
   'daf-w3c': ['IW3c'],
+  'daf-selective-disclosure': ['ISdr'],
+  'daf-did-comm': ['IDIDComm'],
+  'daf-typeorm': ['IDataStoreORM'],
 }
 
 interface RestMethod {
+  packageName: string
+  pluginInterfaceName: string
   operationId: string
   description?: string
   parameters?: string
@@ -106,8 +108,9 @@ function getResponseSchema(response: string): OpenAPIV3.ReferenceObject | OpenAP
   }
 }
 
+let allMethods: Array<RestMethod> = []
+
 for (const packageName of Object.keys(agentPlugins)) {
-  // const program = TJS.getProgramFromFiles([resolve('packages/' + packageName + '/src/index.ts')])
   const generator = TJS.createGenerator({
     path: resolve('packages/' + packageName + '/src/index.ts'),
     encodeRefs: false,
@@ -121,12 +124,15 @@ for (const packageName of Object.keys(agentPlugins)) {
   const entry = apiPackage.entryPoints[0]
 
   for (const pluginInterfaceName of agentPlugins[packageName]) {
+    console.log(packageName, pluginInterfaceName)
     const pluginInterface = entry.findMembersByName(pluginInterfaceName)[0]
 
     // Collecting method information
     const methods: RestMethod[] = []
     for (const member of pluginInterface.members) {
       const method: Partial<RestMethod> = {}
+      method.packageName = packageName
+      method.pluginInterfaceName = pluginInterfaceName
       method.operationId = member.displayName
       // console.log(member)
       method.parameters = (member as ApiParameterListMixin).parameters[0]?.parameterTypeExcerpt?.text
@@ -138,6 +144,8 @@ for (const packageName of Object.keys(agentPlugins)) {
         ?.getChildNodes()[0]
         //@ts-ignore
         ?.getChildNodes()[0]?.text
+
+      method.description = method.description || ''
 
       if (method.parameters) {
         openApi.components.schemas = {
@@ -153,12 +161,14 @@ for (const packageName of Object.keys(agentPlugins)) {
       methods.push(method as RestMethod)
     }
 
+    allMethods = allMethods.concat(methods)
+
     for (const method of methods) {
-      console.log(`${method.operationId}(args: ${method.parameters}) => Promise<${method.response}>`)
+      console.log(` - ${method.operationId}(args: ${method.parameters}) => Promise<${method.response}>`)
       //@ts-ignore
       openApi.paths['/' + method.operationId] = {
         post: {
-          description: method.description || '',
+          description: method.description,
           operationId: method.operationId,
           requestBody: {
             content: {
@@ -169,7 +179,7 @@ for (const packageName of Object.keys(agentPlugins)) {
           },
           responses: {
             200: {
-              description: method.description || '',
+              description: method.description,
               content: {
                 'application/json': {
                   schema: getResponseSchema(method.response),
@@ -189,3 +199,14 @@ writeFileSync(
   "import { OpenAPIV3 } from 'openapi-types'\nexport const openApiSchema: OpenAPIV3.Document = " +
     JSON.stringify(openApi, null, 2),
 )
+
+let summary = '\n\n## Available agent methods\n\n|  Method | Description | \n|  --- | --- |\n'
+for (const method of allMethods) {
+  summary += `| [${method.operationId}](./${
+    method.packageName
+  }.${method.pluginInterfaceName.toLowerCase()}.${method.operationId.toLowerCase()}.md) | ${
+    method.description
+  } |\n`
+}
+
+writeFileSync('docs/api/index.md', summary, { flag: 'a' })
