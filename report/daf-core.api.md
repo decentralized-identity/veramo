@@ -132,19 +132,16 @@ export abstract class AbstractSecretBox {
   abstract encrypt(message: string): Promise<string>
 }
 
-// @public (undocumented)
+// @public
 export class Agent implements IAgent {
     constructor(options?: IAgentOptions);
-    // (undocumented)
     availableMethods(): string[];
-    // (undocumented)
     execute<P = any, R = any>(method: string, args: P): Promise<R>;
-    // (undocumented)
     readonly methods: IPluginMethodMap;
     }
 
 // @public
-export function createAgent<T>(options: IAgentOptions): T;
+export function createAgent<ConfiguredAgent>(options: IAgentOptions): ConfiguredAgent;
 
 export { DIDDocument }
 
@@ -166,15 +163,11 @@ export interface IAgentContext<T extends IPluginMethodMap> {
     agent: TAgent<T>;
 }
 
-// @public (undocumented)
+// @public
 export interface IAgentOptions {
-    // (undocumented)
     authorizedMethods?: string[];
-    // (undocumented)
     context?: Record<string, any>;
-    // (undocumented)
     overrides?: IPluginMethodMap;
-    // (undocumented)
     plugins?: IAgentPlugin[];
 }
 

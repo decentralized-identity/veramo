@@ -16,7 +16,7 @@ The main library for creating Decentralized Identity Agents
 |  [AbstractKeyStore](./daf-core.abstractkeystore.md) |  |
 |  [AbstractMessageHandler](./daf-core.abstractmessagehandler.md) |  |
 |  [AbstractSecretBox](./daf-core.abstractsecretbox.md) |  |
-|  [Agent](./daf-core.agent.md) |  |
+|  [Agent](./daf-core.agent.md) | Provides a common context for all plugin methods |
 |  [IdentityManager](./daf-core.identitymanager.md) |  |
 |  [KeyManager](./daf-core.keymanager.md) |  |
 |  [Message](./daf-core.message.md) |  |
@@ -26,7 +26,7 @@ The main library for creating Decentralized Identity Agents
 
 |  Function | Description |
 |  --- | --- |
-|  [createAgent(options)](./daf-core.createagent.md) | Returns a new instance of the [Agent](./daf-core.agent.md) class. |
+|  [createAgent(options)](./daf-core.createagent.md) | Helper function to create a new instance of the [Agent](./daf-core.agent.md) class with correct type |
 
 ## Interfaces
 
@@ -35,7 +35,7 @@ The main library for creating Decentralized Identity Agents
 |  [IAgent](./daf-core.iagent.md) |  |
 |  [IAgentBase](./daf-core.iagentbase.md) |  |
 |  [IAgentContext](./daf-core.iagentcontext.md) |  |
-|  [IAgentOptions](./daf-core.iagentoptions.md) |  |
+|  [IAgentOptions](./daf-core.iagentoptions.md) | Agent configuration options |
 |  [IAgentPlugin](./daf-core.iagentplugin.md) |  |
 |  [IDataStore](./daf-core.idatastore.md) |  |
 |  [IHandleMessage](./daf-core.ihandlemessage.md) |  |

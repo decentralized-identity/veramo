@@ -4,6 +4,7 @@
 
 ## Agent class
 
+Provides a common context for all plugin methods
 
 <b>Signature:</b>
 
@@ -22,12 +23,12 @@ export declare class Agent implements IAgent
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [methods](./daf-core.agent.methods.md) |  | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
+|  [methods](./daf-core.agent.methods.md) |  | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) | The map of plugin + override methods |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [availableMethods()](./daf-core.agent.availablemethods.md) |  |  |
-|  [execute(method, args)](./daf-core.agent.execute.md) |  |  |
+|  [availableMethods()](./daf-core.agent.availablemethods.md) |  | Lists available agent method names |
+|  [execute(method, args)](./daf-core.agent.execute.md) |  | Executes a plugin method |
 

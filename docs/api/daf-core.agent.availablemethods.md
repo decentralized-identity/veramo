@@ -4,6 +4,8 @@
 
 ## Agent.availableMethods() method
 
+Lists available agent method names
+
 <b>Signature:</b>
 
 ```typescript
@@ -12,4 +14,6 @@ availableMethods(): string[];
 <b>Returns:</b>
 
 string\[\]
+
+a list of available methods
 

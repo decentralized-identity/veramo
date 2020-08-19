@@ -4,6 +4,8 @@
 
 ## Agent.methods property
 
+The map of plugin + override methods
+
 <b>Signature:</b>
 
 ```typescript
