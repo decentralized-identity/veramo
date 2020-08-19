@@ -94,20 +94,20 @@ export class IdentityController extends AbstractIdentityController {
   }
 
   async removePublicKey(keyId: string): Promise<any> {
-    const serializedIdentity = await this.identityStore.get(this.did)
-    const serializedKey = serializedIdentity.keys.find(item => item.kid === keyId)
-    if (!serializedKey) throw Error('Key not found')
-    const key = this.kms.getKey(serializedKey.kid)
+    const ethrDid = new EthrDID({ address: this.address, provider: this.web3Provider })
+
+    const key = await this.kms.getKey(keyId)
 
     const usg = 'veriKey'
-    const attribute = 'did/pub/' + key.type + '/' + usg + '/hex'
-    const value = '0x' + key.publicKeyHex
+    const attribute = 'did/pub/' + key.serialized.type + '/' + usg + '/hex'
+    const value = '0x' + key.serialized.publicKeyHex
     const { gas } = this
 
     debug('ethrDid.revokeAttribute', { attribute, value, gas })
     try {
       const txHash = await ethrDid.revokeAttribute(attribute, value, gas)
       debug({ txHash })
+      this.kms.deleteKey(key.serialized.kid);
       return txHash
     } catch (e) {
       debug(e.message)
