@@ -4,12 +4,12 @@
 
 ## createAgent() function
 
-Returns a new instance of the [Agent](./daf-core.agent.md) class.
+Helper function to create a new instance of the [Agent](./daf-core.agent.md) class with correct type
 
 <b>Signature:</b>
 
 ```typescript
-export declare function createAgent<T>(options: IAgentOptions): T;
+export declare function createAgent<ConfiguredAgent>(options: IAgentOptions): ConfiguredAgent;
 ```
 
 ## Parameters
@@ -20,9 +20,13 @@ export declare function createAgent<T>(options: IAgentOptions): T;
 
 <b>Returns:</b>
 
-T
+ConfiguredAgent
 
 configured agent
+
+## Remarks
+
+Use [TAgent](./daf-core.tagent.md) to configure agent type (list of available methods) for autocomplete in IDE
 
 ## Example
 
@@ -30,8 +34,10 @@ configured agent
 ```typescript
 import { createAgent, TAgent, IResolveDid, IHandleMessage } from 'daf-core'
 import { AgentRestClient } from 'daf-rest'
-const agent = createAgent<TAgent<IResolveDid & IHandleMessage>>({
+import { W3c, IW3c } from 'daf-w3c'
+const agent = createAgent<TAgent<IResolveDid & IHandleMessage & IW3c>>({
   plugins: [
+    new W3c(),
     new AgentRestClient({
       url: 'http://localhost:3002/agent',
       enabledMethods: [

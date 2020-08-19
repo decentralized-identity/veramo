@@ -4,6 +4,8 @@
 
 ## IAgentOptions.authorizedMethods property
 
+The array of method names that will be exposed by the agent
+
 <b>Signature:</b>
 
 ```typescript

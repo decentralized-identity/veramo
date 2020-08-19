@@ -4,6 +4,8 @@
 
 ## Agent.execute() method
 
+Executes a plugin method
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,10 +16,25 @@ execute<P = any, R = any>(method: string, args: P): Promise<R>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  method | string |  |
-|  args | P |  |
+|  method | string | method name |
+|  args | P | arguments object |
 
 <b>Returns:</b>
 
 Promise&lt;R&gt;
+
+## Remarks
+
+Plugin method will receive a context object as a second argument. Context object always has `agent` property that is the `Agent` instance that is executing said method
+
+## Example
+
+
+```typescript
+await agent.execute('foo', { bar: 'baz' })
+
+// is equivalent to:
+await agent.foo({ bar: 'baz' })
+
+```
 

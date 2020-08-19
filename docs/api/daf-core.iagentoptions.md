@@ -4,6 +4,7 @@
 
 ## IAgentOptions interface
 
+Agent configuration options
 
 <b>Signature:</b>
 
@@ -15,8 +16,8 @@ export interface IAgentOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [authorizedMethods](./daf-core.iagentoptions.authorizedmethods.md) | string\[\] |  |
-|  [context](./daf-core.iagentoptions.context.md) | Record&lt;string, any&gt; |  |
-|  [overrides](./daf-core.iagentoptions.overrides.md) | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
-|  [plugins](./daf-core.iagentoptions.plugins.md) | [IAgentPlugin](./daf-core.iagentplugin.md)<!-- -->\[\] |  |
+|  [authorizedMethods](./daf-core.iagentoptions.authorizedmethods.md) | string\[\] | The array of method names that will be exposed by the agent |
+|  [context](./daf-core.iagentoptions.context.md) | Record&lt;string, any&gt; | The context object that will be available to the plugin methods |
+|  [overrides](./daf-core.iagentoptions.overrides.md) | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) | The map of plugin methods. Can be used to override methods provided by plugins, or to add additional methods without writing a plugin |
+|  [plugins](./daf-core.iagentoptions.plugins.md) | [IAgentPlugin](./daf-core.iagentplugin.md)<!-- -->\[\] | The array of agent plugins |
 

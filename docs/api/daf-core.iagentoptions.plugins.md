@@ -4,6 +4,8 @@
 
 ## IAgentOptions.plugins property
 
+The array of agent plugins
+
 <b>Signature:</b>
 
 ```typescript
