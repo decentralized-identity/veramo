@@ -4,6 +4,8 @@
 
 ## IAgentBase interface
 
+Agent base interface
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IIdentity.provider property
 
+Identity provider name
+
 <b>Signature:</b>
 
 ```typescript

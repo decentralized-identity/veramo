@@ -4,6 +4,8 @@
 
 ## IIdentityManagerDeleteIdentityArgs.did property
 
+DID
+
 <b>Signature:</b>
 
 ```typescript

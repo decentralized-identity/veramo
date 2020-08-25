@@ -4,6 +4,8 @@
 
 ## IPluginMethodMap interface
 
+Plugin method map interface
+
 <b>Signature:</b>
 
 ```typescript

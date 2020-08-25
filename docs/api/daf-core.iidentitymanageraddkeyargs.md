@@ -4,6 +4,8 @@
 
 ## IIdentityManagerAddKeyArgs interface
 
+Input arguments for [identityManagerAddKey](./daf-core.iidentitymanager.identitymanageraddkey.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export interface IIdentityManagerAddKeyArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [did](./daf-core.iidentitymanageraddkeyargs.did.md) | string |  |
-|  [key](./daf-core.iidentitymanageraddkeyargs.key.md) | [IKey](./daf-core.ikey.md) |  |
-|  [options](./daf-core.iidentitymanageraddkeyargs.options.md) | any |  |
+|  [did](./daf-core.iidentitymanageraddkeyargs.did.md) | string | DID |
+|  [key](./daf-core.iidentitymanageraddkeyargs.key.md) | [IKey](./daf-core.ikey.md) | Key object |
+|  [options](./daf-core.iidentitymanageraddkeyargs.options.md) | any | Optional. Identity provider specific options |
 

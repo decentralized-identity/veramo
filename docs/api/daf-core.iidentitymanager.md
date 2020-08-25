@@ -4,6 +4,8 @@
 
 ## IIdentityManager interface
 
+Identity manager interface
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,15 +17,15 @@ export interface IIdentityManager extends IPluginMethodMap
 
 |  Method | Description |
 |  --- | --- |
-|  [identityManagerAddKey(args, context)](./daf-core.iidentitymanager.identitymanageraddkey.md) |  |
-|  [identityManagerAddService(args, context)](./daf-core.iidentitymanager.identitymanageraddservice.md) |  |
-|  [identityManagerCreateIdentity(args, context)](./daf-core.iidentitymanager.identitymanagercreateidentity.md) |  |
-|  [identityManagerDeleteIdentity(args, context)](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md) |  |
-|  [identityManagerGetIdentities()](./daf-core.iidentitymanager.identitymanagergetidentities.md) |  |
-|  [identityManagerGetIdentity(args)](./daf-core.iidentitymanager.identitymanagergetidentity.md) |  |
-|  [identityManagerGetOrCreateIdentity(args, context)](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) |  |
-|  [identityManagerGetProviders()](./daf-core.iidentitymanager.identitymanagergetproviders.md) |  |
-|  [identityManagerImportIdentity(args)](./daf-core.iidentitymanager.identitymanagerimportidentity.md) |  |
-|  [identityManagerRemoveKey(args, context)](./daf-core.iidentitymanager.identitymanagerremovekey.md) |  |
-|  [identityManagerRemoveService(args, context)](./daf-core.iidentitymanager.identitymanagerremoveservice.md) |  |
+|  [identityManagerAddKey(args, context)](./daf-core.iidentitymanager.identitymanageraddkey.md) | Adds a key to a DID Document |
+|  [identityManagerAddService(args, context)](./daf-core.iidentitymanager.identitymanageraddservice.md) | Adds a service to a DID Document |
+|  [identityManagerCreateIdentity(args, context)](./daf-core.iidentitymanager.identitymanagercreateidentity.md) | Creates and returns a new identity |
+|  [identityManagerDeleteIdentity(args, context)](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md) | Deletes identity |
+|  [identityManagerGetIdentities()](./daf-core.iidentitymanager.identitymanagergetidentities.md) | Returns a list of managed identities |
+|  [identityManagerGetIdentity(args)](./daf-core.iidentitymanager.identitymanagergetidentity.md) | Returns a specific identity |
+|  [identityManagerGetOrCreateIdentity(args, context)](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) | Returns an existing identity or creates a new one for a specific alias |
+|  [identityManagerGetProviders()](./daf-core.iidentitymanager.identitymanagergetproviders.md) | Returns a list of available identity providers |
+|  [identityManagerImportIdentity(args)](./daf-core.iidentitymanager.identitymanagerimportidentity.md) | Imports identity |
+|  [identityManagerRemoveKey(args, context)](./daf-core.iidentitymanager.identitymanagerremovekey.md) | Removes a key from a DID Document |
+|  [identityManagerRemoveService(args, context)](./daf-core.iidentitymanager.identitymanagerremoveservice.md) | Removes a service from a DID Document |
 

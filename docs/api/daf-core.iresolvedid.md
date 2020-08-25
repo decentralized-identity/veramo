@@ -4,6 +4,8 @@
 
 ## IResolveDid interface
 
+DID Resolver interface
+
 <b>Signature:</b>
 
 ```typescript

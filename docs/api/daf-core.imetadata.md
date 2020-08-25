@@ -4,6 +4,8 @@
 
 ## IMetaData interface
 
+Message meta data
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +16,6 @@ export interface IMetaData
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [type](./daf-core.imetadata.type.md) | string |  |
-|  [value](./daf-core.imetadata.value.md) | string |  |
+|  [type](./daf-core.imetadata.type.md) | string | Type |
+|  [value](./daf-core.imetadata.value.md) | string | Optional. Value |
 

@@ -4,6 +4,8 @@
 
 ## IMessage.expiresAt property
 
+Optional. Expiration date (ISO 8601)
+
 <b>Signature:</b>
 
 ```typescript

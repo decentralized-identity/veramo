@@ -4,6 +4,8 @@
 
 ## IKey.publicKeyHex property
 
+Public key
+
 <b>Signature:</b>
 
 ```typescript

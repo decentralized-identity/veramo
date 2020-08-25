@@ -4,6 +4,8 @@
 
 ## IService.type property
 
+Service type
+
 <b>Signature:</b>
 
 ```typescript

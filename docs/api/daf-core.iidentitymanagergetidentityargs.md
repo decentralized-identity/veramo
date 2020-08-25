@@ -4,6 +4,8 @@
 
 ## IIdentityManagerGetIdentityArgs interface
 
+Input arguments for [identityManagerGetIdentity](./daf-core.iidentitymanager.identitymanagergetidentity.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,5 +16,5 @@ export interface IIdentityManagerGetIdentityArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [did](./daf-core.iidentitymanagergetidentityargs.did.md) | string |  |
+|  [did](./daf-core.iidentitymanagergetidentityargs.did.md) | string | DID |
 

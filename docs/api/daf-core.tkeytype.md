@@ -4,6 +4,8 @@
 
 ## TKeyType type
 
+Cryptographic key type
+
 <b>Signature:</b>
 
 ```typescript

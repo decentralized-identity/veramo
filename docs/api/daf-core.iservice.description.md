@@ -4,6 +4,8 @@
 
 ## IService.description property
 
+Optional. Description
+
 <b>Signature:</b>
 
 ```typescript

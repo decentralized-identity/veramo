@@ -4,6 +4,8 @@
 
 ## IAgentContext interface
 
+Standard plugin method context interface
+
 <b>Signature:</b>
 
 ```typescript

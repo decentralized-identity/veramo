@@ -4,6 +4,8 @@
 
 ## IService.serviceEndpoint property
 
+Endpoint URL
+
 <b>Signature:</b>
 
 ```typescript

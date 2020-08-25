@@ -4,6 +4,8 @@
 
 ## IIdentityManagerAddServiceArgs.service property
 
+Service object
+
 <b>Signature:</b>
 
 ```typescript

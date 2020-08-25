@@ -17,7 +17,7 @@ The main library for creating Decentralized Identity Agents
 |  [AbstractMessageHandler](./daf-core.abstractmessagehandler.md) |  |
 |  [AbstractSecretBox](./daf-core.abstractsecretbox.md) |  |
 |  [Agent](./daf-core.agent.md) | Provides a common context for all plugin methods |
-|  [IdentityManager](./daf-core.identitymanager.md) |  |
+|  [IdentityManager](./daf-core.identitymanager.md) | Agent plugin that provides [IIdentityManager](./daf-core.iidentitymanager.md) methods |
 |  [KeyManager](./daf-core.keymanager.md) |  |
 |  [Message](./daf-core.message.md) |  |
 |  [MessageHandler](./daf-core.messagehandler.md) |  |
@@ -32,25 +32,25 @@ The main library for creating Decentralized Identity Agents
 
 |  Interface | Description |
 |  --- | --- |
-|  [IAgent](./daf-core.iagent.md) |  |
-|  [IAgentBase](./daf-core.iagentbase.md) |  |
-|  [IAgentContext](./daf-core.iagentcontext.md) |  |
+|  [IAgent](./daf-core.iagent.md) | Agent that can execute methods |
+|  [IAgentBase](./daf-core.iagentbase.md) | Agent base interface |
+|  [IAgentContext](./daf-core.iagentcontext.md) | Standard plugin method context interface |
 |  [IAgentOptions](./daf-core.iagentoptions.md) | Agent configuration options |
-|  [IAgentPlugin](./daf-core.iagentplugin.md) |  |
-|  [IDataStore](./daf-core.idatastore.md) |  |
+|  [IAgentPlugin](./daf-core.iagentplugin.md) | Agent plugin interface |
+|  [IDataStore](./daf-core.idatastore.md) | Basic data store interface |
 |  [IHandleMessage](./daf-core.ihandlemessage.md) |  |
 |  [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) |  |
-|  [IIdentity](./daf-core.iidentity.md) |  |
-|  [IIdentityManager](./daf-core.iidentitymanager.md) |  |
-|  [IIdentityManagerAddKeyArgs](./daf-core.iidentitymanageraddkeyargs.md) |  |
-|  [IIdentityManagerAddServiceArgs](./daf-core.iidentitymanageraddserviceargs.md) |  |
-|  [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) |  |
-|  [IIdentityManagerDeleteIdentityArgs](./daf-core.iidentitymanagerdeleteidentityargs.md) |  |
-|  [IIdentityManagerGetIdentityArgs](./daf-core.iidentitymanagergetidentityargs.md) |  |
-|  [IIdentityManagerGetOrCreateIdentityArgs](./daf-core.iidentitymanagergetorcreateidentityargs.md) |  |
-|  [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md) |  |
-|  [IIdentityManagerRemoveServiceArgs](./daf-core.iidentitymanagerremoveserviceargs.md) |  |
-|  [IKey](./daf-core.ikey.md) |  |
+|  [IIdentity](./daf-core.iidentity.md) | Identity interface |
+|  [IIdentityManager](./daf-core.iidentitymanager.md) | Identity manager interface |
+|  [IIdentityManagerAddKeyArgs](./daf-core.iidentitymanageraddkeyargs.md) | Input arguments for [identityManagerAddKey](./daf-core.iidentitymanager.identitymanageraddkey.md) |
+|  [IIdentityManagerAddServiceArgs](./daf-core.iidentitymanageraddserviceargs.md) | Input arguments for [identityManagerAddService](./daf-core.iidentitymanager.identitymanageraddservice.md) |
+|  [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) | Input arguments for [identityManagerCreateIdentity](./daf-core.iidentitymanager.identitymanagercreateidentity.md) |
+|  [IIdentityManagerDeleteIdentityArgs](./daf-core.iidentitymanagerdeleteidentityargs.md) | Input arguments for [identityManagerDeleteIdentity](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md) |
+|  [IIdentityManagerGetIdentityArgs](./daf-core.iidentitymanagergetidentityargs.md) | Input arguments for [identityManagerGetIdentity](./daf-core.iidentitymanager.identitymanagergetidentity.md) |
+|  [IIdentityManagerGetOrCreateIdentityArgs](./daf-core.iidentitymanagergetorcreateidentityargs.md) | Input arguments for [identityManagerGetOrCreateIdentity](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) |
+|  [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md) | Input arguments for [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) |
+|  [IIdentityManagerRemoveServiceArgs](./daf-core.iidentitymanagerremoveserviceargs.md) | Input arguments for [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) |
+|  [IKey](./daf-core.ikey.md) | Cryptographic key |
 |  [IKeyManager](./daf-core.ikeymanager.md) |  |
 |  [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md) |  |
 |  [IKeyManagerDecryptJWEArgs](./daf-core.ikeymanagerdecryptjweargs.md) |  |
@@ -59,21 +59,21 @@ The main library for creating Decentralized Identity Agents
 |  [IKeyManagerGetKeyArgs](./daf-core.ikeymanagergetkeyargs.md) |  |
 |  [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) |  |
 |  [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md) |  |
-|  [IMessage](./daf-core.imessage.md) |  |
-|  [IMetaData](./daf-core.imetadata.md) |  |
-|  [IPluginMethod](./daf-core.ipluginmethod.md) |  |
-|  [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
-|  [IResolveDid](./daf-core.iresolvedid.md) |  |
-|  [IService](./daf-core.iservice.md) |  |
-|  [RemoveContext](./daf-core.removecontext.md) |  |
-|  [ResolveDidArgs](./daf-core.resolvedidargs.md) | Input arguments for [IResolveDid.resolveDid()](./daf-core.iresolvedid.resolvedid.md) |
+|  [IMessage](./daf-core.imessage.md) | DIDComm message |
+|  [IMetaData](./daf-core.imetadata.md) | Message meta data |
+|  [IPluginMethod](./daf-core.ipluginmethod.md) | Agent plugin method interface |
+|  [IPluginMethodMap](./daf-core.ipluginmethodmap.md) | Plugin method map interface |
+|  [IResolveDid](./daf-core.iresolvedid.md) | DID Resolver interface |
+|  [IService](./daf-core.iservice.md) | Identity service |
+|  [RemoveContext](./daf-core.removecontext.md) | Removes context parameter from plugin method interface |
+|  [ResolveDidArgs](./daf-core.resolvedidargs.md) | Input arguments for [resolveDid](./daf-core.iresolvedid.resolvedid.md) |
 
 ## Type Aliases
 
 |  Type Alias | Description |
 |  --- | --- |
-|  [TAgent](./daf-core.tagent.md) |  |
-|  [TKeyType](./daf-core.tkeytype.md) |  |
-|  [VerifiableCredential](./daf-core.verifiablecredential.md) |  |
-|  [VerifiablePresentation](./daf-core.verifiablepresentation.md) |  |
+|  [TAgent](./daf-core.tagent.md) | Utility type for constructing agent type that has a list of available methods |
+|  [TKeyType](./daf-core.tkeytype.md) | Cryptographic key type |
+|  [VerifiableCredential](./daf-core.verifiablecredential.md) | Verifiable Credential  |
+|  [VerifiablePresentation](./daf-core.verifiablepresentation.md) | Verifiable Presentation  |
 

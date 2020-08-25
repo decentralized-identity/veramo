@@ -4,6 +4,8 @@
 
 ## IIdentityManagerCreateIdentityArgs interface
 
+Input arguments for [identityManagerCreateIdentity](./daf-core.iidentitymanager.identitymanagercreateidentity.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,8 +16,8 @@ export interface IIdentityManagerCreateIdentityArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [alias](./daf-core.iidentitymanagercreateidentityargs.alias.md) | string |  |
-|  [kms](./daf-core.iidentitymanagercreateidentityargs.kms.md) | string |  |
-|  [options](./daf-core.iidentitymanagercreateidentityargs.options.md) | any |  |
-|  [provider](./daf-core.iidentitymanagercreateidentityargs.provider.md) | string |  |
+|  [alias](./daf-core.iidentitymanagercreateidentityargs.alias.md) | string | Optional. Identity alias. Can be used to reference an object in an external system |
+|  [kms](./daf-core.iidentitymanagercreateidentityargs.kms.md) | string | Optional. Key Management System |
+|  [options](./daf-core.iidentitymanagercreateidentityargs.options.md) | any | Optional. Identity provider specific options |
+|  [provider](./daf-core.iidentitymanagercreateidentityargs.provider.md) | string | Optional. Identity provider |
 

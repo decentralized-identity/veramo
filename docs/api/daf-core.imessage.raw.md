@@ -4,6 +4,8 @@
 
 ## IMessage.raw property
 
+Optional. Original message raw data
+
 <b>Signature:</b>
 
 ```typescript

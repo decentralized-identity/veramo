@@ -4,6 +4,8 @@
 
 ## IMessage.from property
 
+Optional. Sender DID
+
 <b>Signature:</b>
 
 ```typescript

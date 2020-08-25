@@ -4,6 +4,8 @@
 
 ## IMessage.metaData property
 
+Optional. Array of message metadata
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## RemoveContext interface
 
+Removes context parameter from plugin method interface
+
 <b>Signature:</b>
 
 ```typescript

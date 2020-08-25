@@ -4,6 +4,8 @@
 
 ## IMessage interface
 
+DIDComm message
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,18 +16,18 @@ export interface IMessage
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [createdAt](./daf-core.imessage.createdat.md) | string |  |
-|  [credentials](./daf-core.imessage.credentials.md) | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\] |  |
-|  [data](./daf-core.imessage.data.md) | any |  |
-|  [expiresAt](./daf-core.imessage.expiresat.md) | string |  |
-|  [from](./daf-core.imessage.from.md) | string |  |
-|  [id](./daf-core.imessage.id.md) | string |  |
-|  [metaData](./daf-core.imessage.metadata.md) | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] |  |
-|  [presentations](./daf-core.imessage.presentations.md) | [VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->\[\] |  |
-|  [raw](./daf-core.imessage.raw.md) | string |  |
-|  [replyTo](./daf-core.imessage.replyto.md) | string\[\] |  |
-|  [replyUrl](./daf-core.imessage.replyurl.md) | string |  |
-|  [threadId](./daf-core.imessage.threadid.md) | string |  |
-|  [to](./daf-core.imessage.to.md) | string |  |
-|  [type](./daf-core.imessage.type.md) | string |  |
+|  [createdAt](./daf-core.imessage.createdat.md) | string | Optional. Creation date (ISO 8601) |
+|  [credentials](./daf-core.imessage.credentials.md) | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\] | Optional. Array of attached verifiable credentials |
+|  [data](./daf-core.imessage.data.md) | any | Optional. Parsed data |
+|  [expiresAt](./daf-core.imessage.expiresat.md) | string | Optional. Expiration date (ISO 8601) |
+|  [from](./daf-core.imessage.from.md) | string | Optional. Sender DID |
+|  [id](./daf-core.imessage.id.md) | string | Unique message ID |
+|  [metaData](./daf-core.imessage.metadata.md) | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] | Optional. Array of message metadata |
+|  [presentations](./daf-core.imessage.presentations.md) | [VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->\[\] | Optional. Array of attached verifiable presentations |
+|  [raw](./daf-core.imessage.raw.md) | string | Optional. Original message raw data |
+|  [replyTo](./daf-core.imessage.replyto.md) | string\[\] | Optional. List of DIDs to reply to |
+|  [replyUrl](./daf-core.imessage.replyurl.md) | string | Optional. URL to post a reply message to |
+|  [threadId](./daf-core.imessage.threadid.md) | string | Optional. Thread ID |
+|  [to](./daf-core.imessage.to.md) | string | Optional. Recipient DID |
+|  [type](./daf-core.imessage.type.md) | string | Message type |
 

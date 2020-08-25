@@ -4,6 +4,8 @@
 
 ## IService interface
 
+Identity service
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,8 +16,8 @@ export interface IService
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [description](./daf-core.iservice.description.md) | string |  |
-|  [id](./daf-core.iservice.id.md) | string |  |
-|  [serviceEndpoint](./daf-core.iservice.serviceendpoint.md) | string |  |
-|  [type](./daf-core.iservice.type.md) | string |  |
+|  [description](./daf-core.iservice.description.md) | string | Optional. Description |
+|  [id](./daf-core.iservice.id.md) | string | ID |
+|  [serviceEndpoint](./daf-core.iservice.serviceendpoint.md) | string | Endpoint URL |
+|  [type](./daf-core.iservice.type.md) | string | Service type |
 

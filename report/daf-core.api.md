@@ -145,19 +145,19 @@ export function createAgent<ConfiguredAgent>(options: IAgentOptions): Configured
 
 export { DIDDocument }
 
-// @public (undocumented)
+// @public
 export interface IAgent extends IAgentBase {
     // (undocumented)
     execute: <A = any, R = any>(method: string, args: A) => Promise<R>;
 }
 
-// @public (undocumented)
+// @public
 export interface IAgentBase {
     // (undocumented)
     availableMethods: () => string[];
 }
 
-// @public (undocumented)
+// @public
 export interface IAgentContext<T extends IPluginMethodMap> {
     // (undocumented)
     agent: TAgent<T>;
@@ -171,52 +171,37 @@ export interface IAgentOptions {
     plugins?: IAgentPlugin[];
 }
 
-// @public (undocumented)
+// @public
 export interface IAgentPlugin {
     // (undocumented)
     readonly methods: IPluginMethodMap;
 }
 
-// @public (undocumented)
+// @public
 export interface IDataStore extends IPluginMethodMap {
-    // (undocumented)
     dataStoreSaveMessage(args: IMessage): Promise<boolean>;
-    // (undocumented)
     dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>;
-    // (undocumented)
     dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean>;
 }
 
-// @public (undocumented)
+// @public
 export class IdentityManager implements IAgentPlugin {
     constructor(options: {
         providers: Record<string, AbstractIdentityProvider>;
         defaultProvider: string;
         store: AbstractIdentityStore;
     });
-    // (undocumented)
     identityManagerAddKey({ did, key, options }: IIdentityManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
     identityManagerAddService({ did, service, options }: IIdentityManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
     identityManagerCreateIdentity({ provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    // (undocumented)
     identityManagerDeleteIdentity({ did }: IIdentityManagerDeleteIdentityArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
-    // (undocumented)
     identityManagerGetIdentities(): Promise<IIdentity[]>;
-    // (undocumented)
     identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
-    // (undocumented)
     identityManagerGetOrCreateIdentity({ provider, alias, kms, options }: IIdentityManagerGetOrCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    // (undocumented)
     identityManagerGetProviders(): Promise<string[]>;
-    // (undocumented)
     identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity>;
-    // (undocumented)
     identityManagerRemoveKey({ did, kid, options }: IIdentityManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
     identityManagerRemoveService({ did, id, options }: IIdentityManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
     readonly methods: IIdentityManager;
     }
 
@@ -236,137 +221,92 @@ export interface IHandleMessageArgs {
     save?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentity {
-    // (undocumented)
     alias?: string;
-    // (undocumented)
     controllerKeyId: string;
-    // (undocumented)
     did: string;
-    // (undocumented)
     keys: IKey[];
-    // (undocumented)
     provider: string;
-    // (undocumented)
     services: IService[];
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManager extends IPluginMethodMap {
-    // (undocumented)
     identityManagerAddKey(args: IIdentityManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
     identityManagerAddService(args: IIdentityManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
     identityManagerCreateIdentity(args: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    // (undocumented)
     identityManagerDeleteIdentity(args: IIdentityManagerDeleteIdentityArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
-    // (undocumented)
     identityManagerGetIdentities(): Promise<Array<IIdentity>>;
-    // (undocumented)
     identityManagerGetIdentity(args: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
-    // (undocumented)
     identityManagerGetOrCreateIdentity(args: IIdentityManagerGetOrCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    // (undocumented)
     identityManagerGetProviders(): Promise<Array<string>>;
-    // (undocumented)
     identityManagerImportIdentity(args: IIdentity): Promise<IIdentity>;
-    // (undocumented)
     identityManagerRemoveKey(args: IIdentityManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
     identityManagerRemoveService(args: IIdentityManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManagerAddKeyArgs {
-    // (undocumented)
     did: string;
-    // (undocumented)
     key: IKey;
-    // (undocumented)
     options?: any;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManagerAddServiceArgs {
-    // (undocumented)
     did: string;
-    // (undocumented)
     options?: any;
-    // (undocumented)
     service: IService;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManagerCreateIdentityArgs {
-    // (undocumented)
     alias?: string;
-    // (undocumented)
     kms?: string;
-    // (undocumented)
     options?: any;
-    // (undocumented)
     provider?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManagerDeleteIdentityArgs {
-    // (undocumented)
     did: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManagerGetIdentityArgs {
-    // (undocumented)
     did: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManagerGetOrCreateIdentityArgs {
-    // (undocumented)
     alias: string;
-    // (undocumented)
     kms?: string;
-    // (undocumented)
     options?: any;
-    // (undocumented)
     provider?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManagerRemoveKeyArgs {
-    // (undocumented)
     did: string;
-    // (undocumented)
     kid: string;
-    // (undocumented)
     options?: any;
 }
 
-// @public (undocumented)
+// @public
 export interface IIdentityManagerRemoveServiceArgs {
-    // (undocumented)
     did: string;
-    // (undocumented)
     id: string;
-    // (undocumented)
     options?: any;
 }
 
-// @public (undocumented)
+// @public
 export interface IKey {
-    // (undocumented)
     kid: string;
-    // (undocumented)
     kms: string;
-    // (undocumented)
     meta?: Record<string, any>;
-    // (undocumented)
     privateKeyHex?: string;
-    // (undocumented)
     publicKeyHex: string;
-    // (undocumented)
     type: TKeyType;
 }
 
@@ -446,70 +386,50 @@ export interface IKeyManagerSignJWTArgs {
     kid: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IMessage {
-    // (undocumented)
     createdAt?: string;
-    // (undocumented)
     credentials?: VerifiableCredential[];
-    // (undocumented)
     data?: any;
-    // (undocumented)
     expiresAt?: string;
-    // (undocumented)
     from?: string;
-    // (undocumented)
     id: string;
-    // (undocumented)
     metaData?: IMetaData[];
-    // (undocumented)
     presentations?: VerifiablePresentation[];
-    // (undocumented)
     raw?: string;
-    // (undocumented)
     replyTo?: string[];
-    // (undocumented)
     replyUrl?: string;
-    // (undocumented)
     threadId?: string;
-    // (undocumented)
     to?: string;
-    // (undocumented)
     type: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IMetaData {
-    // (undocumented)
     type: string;
-    // (undocumented)
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IPluginMethod {
     // (undocumented)
     (args: any, context: any): Promise<any>;
 }
 
-// @public (undocumented)
+// @public
 export interface IPluginMethodMap extends Record<string, IPluginMethod> {
 }
 
-// @public (undocumented)
+// @public
 export interface IResolveDid extends IPluginMethodMap {
     resolveDid(args: ResolveDidArgs): Promise<DIDDocument>;
 }
 
-// @public (undocumented)
+// @public
 export interface IService {
-    // (undocumented)
     description?: string;
-    // (undocumented)
     id: string;
-    // (undocumented)
     serviceEndpoint: string;
-    // (undocumented)
     type: string;
 }
 
@@ -592,7 +512,7 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
     readonly methods: IHandleMessage;
 }
 
-// @public (undocumented)
+// @public
 export interface RemoveContext<T extends IPluginMethod> {
     // (undocumented)
     (args?: Parameters<T>[0] | undefined): ReturnType<T>;
@@ -603,18 +523,18 @@ export interface ResolveDidArgs {
     didUrl: string;
 }
 
-// @public (undocumented)
+// @public
 export type TAgent<T extends IPluginMethodMap> = {
     [P in keyof T]: RemoveContext<T[P]>;
 } & Pick<IAgentBase, 'availableMethods'>;
 
-// @public (undocumented)
+// @public
 export type TKeyType = 'Ed25519' | 'Secp256k1';
 
-// @public (undocumented)
+// @public
 export type VerifiableCredential = Verifiable<W3CCredential>;
 
-// @public (undocumented)
+// @public
 export type VerifiablePresentation = Verifiable<W3CPresentation>;
 
 export { W3CCredential }

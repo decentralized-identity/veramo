@@ -4,6 +4,8 @@
 
 ## IIdentityManagerRemoveKeyArgs interface
 
+Input arguments for [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export interface IIdentityManagerRemoveKeyArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [did](./daf-core.iidentitymanagerremovekeyargs.did.md) | string |  |
-|  [kid](./daf-core.iidentitymanagerremovekeyargs.kid.md) | string |  |
-|  [options](./daf-core.iidentitymanagerremovekeyargs.options.md) | any |  |
+|  [did](./daf-core.iidentitymanagerremovekeyargs.did.md) | string | DID |
+|  [kid](./daf-core.iidentitymanagerremovekeyargs.kid.md) | string | Key ID |
+|  [options](./daf-core.iidentitymanagerremovekeyargs.options.md) | any | Optional. Identity provider specific options |
 

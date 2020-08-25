@@ -29,22 +29,22 @@
 
 |  Method | Description | 
 |  --- | --- |
-| [identityManagerAddKey](./daf-core.iidentitymanager.identitymanageraddkey.md) |  |
-| [identityManagerAddService](./daf-core.iidentitymanager.identitymanageraddservice.md) |  |
-| [identityManagerCreateIdentity](./daf-core.iidentitymanager.identitymanagercreateidentity.md) |  |
-| [identityManagerDeleteIdentity](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md) |  |
-| [identityManagerGetIdentities](./daf-core.iidentitymanager.identitymanagergetidentities.md) |  |
-| [identityManagerGetIdentity](./daf-core.iidentitymanager.identitymanagergetidentity.md) |  |
-| [identityManagerGetOrCreateIdentity](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) |  |
-| [identityManagerGetProviders](./daf-core.iidentitymanager.identitymanagergetproviders.md) |  |
-| [identityManagerImportIdentity](./daf-core.iidentitymanager.identitymanagerimportidentity.md) |  |
-| [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) |  |
-| [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) |  |
+| [identityManagerAddKey](./daf-core.iidentitymanager.identitymanageraddkey.md) | Adds a key to a DID Document |
+| [identityManagerAddService](./daf-core.iidentitymanager.identitymanageraddservice.md) | Adds a service to a DID Document |
+| [identityManagerCreateIdentity](./daf-core.iidentitymanager.identitymanagercreateidentity.md) | Creates and returns a new identity |
+| [identityManagerDeleteIdentity](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md) | Deletes identity |
+| [identityManagerGetIdentities](./daf-core.iidentitymanager.identitymanagergetidentities.md) | Returns a list of managed identities |
+| [identityManagerGetIdentity](./daf-core.iidentitymanager.identitymanagergetidentity.md) | Returns a specific identity |
+| [identityManagerGetOrCreateIdentity](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) | Returns an existing identity or creates a new one for a specific alias |
+| [identityManagerGetProviders](./daf-core.iidentitymanager.identitymanagergetproviders.md) | Returns a list of available identity providers |
+| [identityManagerImportIdentity](./daf-core.iidentitymanager.identitymanagerimportidentity.md) | Imports identity |
+| [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) | Removes a key from a DID Document |
+| [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) | Removes a service from a DID Document |
 | [resolveDid](./daf-core.iresolvedid.resolvedid.md) | Resolves DID and returns DID Document |
 | [handleMessage](./daf-core.ihandlemessage.handlemessage.md) |  |
-| [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) |  |
-| [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) |  |
-| [dataStoreSaveVerifiablePresentation](./daf-core.idatastore.datastoresaveverifiablepresentation.md) |  |
+| [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) | Saves message to the data store |
+| [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) | Saves verifiable credential to the data store |
+| [dataStoreSaveVerifiablePresentation](./daf-core.idatastore.datastoresaveverifiablepresentation.md) | Saves verifiable presentation to the data store |
 | [keyManagerCreateKey](./daf-core.ikeymanager.keymanagercreatekey.md) |  |
 | [keyManagerDecryptJWE](./daf-core.ikeymanager.keymanagerdecryptjwe.md) |  |
 | [keyManagerDeleteKey](./daf-core.ikeymanager.keymanagerdeletekey.md) |  |

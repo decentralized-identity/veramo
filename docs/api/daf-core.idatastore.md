@@ -4,6 +4,8 @@
 
 ## IDataStore interface
 
+Basic data store interface
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,7 +17,7 @@ export interface IDataStore extends IPluginMethodMap
 
 |  Method | Description |
 |  --- | --- |
-|  [dataStoreSaveMessage(args)](./daf-core.idatastore.datastoresavemessage.md) |  |
-|  [dataStoreSaveVerifiableCredential(args)](./daf-core.idatastore.datastoresaveverifiablecredential.md) |  |
-|  [dataStoreSaveVerifiablePresentation(args)](./daf-core.idatastore.datastoresaveverifiablepresentation.md) |  |
+|  [dataStoreSaveMessage(args)](./daf-core.idatastore.datastoresavemessage.md) | Saves message to the data store |
+|  [dataStoreSaveVerifiableCredential(args)](./daf-core.idatastore.datastoresaveverifiablecredential.md) | Saves verifiable credential to the data store |
+|  [dataStoreSaveVerifiablePresentation(args)](./daf-core.idatastore.datastoresaveverifiablepresentation.md) | Saves verifiable presentation to the data store |
 

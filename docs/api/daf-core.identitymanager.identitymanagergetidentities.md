@@ -4,6 +4,8 @@
 
 ## IdentityManager.identityManagerGetIdentities() method
 
+Returns a list of managed identities
+
 <b>Signature:</b>
 
 ```typescript

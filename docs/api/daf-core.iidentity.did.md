@@ -4,6 +4,8 @@
 
 ## IIdentity.did property
 
+Decentralized identifier
+
 <b>Signature:</b>
 
 ```typescript

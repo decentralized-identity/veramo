@@ -4,6 +4,8 @@
 
 ## IPluginMethod interface
 
+Agent plugin method interface
+
 <b>Signature:</b>
 
 ```typescript

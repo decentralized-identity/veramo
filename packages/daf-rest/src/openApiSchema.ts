@@ -11,39 +11,50 @@ export const openApiSchema: OpenAPIV3.Document = {
         "type": "object",
         "properties": {
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "DID"
           },
           "key": {
-            "$ref": "#/components/schemas/IKey"
+            "$ref": "#/components/schemas/IKey",
+            "description": "Key object"
           },
-          "options": {}
+          "options": {
+            "description": "Optional. Identity provider specific options"
+          }
         },
         "required": [
           "did",
           "key"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerAddKey | identityManagerAddKey}"
       },
       "IKey": {
         "type": "object",
         "properties": {
           "kid": {
-            "type": "string"
+            "type": "string",
+            "description": "Key ID"
           },
           "kms": {
-            "type": "string"
+            "type": "string",
+            "description": "Key Management System"
           },
           "type": {
-            "$ref": "#/components/schemas/TKeyType"
+            "$ref": "#/components/schemas/TKeyType",
+            "description": "Key type"
           },
           "publicKeyHex": {
-            "type": "string"
+            "type": "string",
+            "description": "Public key"
           },
           "privateKeyHex": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Private key"
           },
           "meta": {
-            "type": "object"
+            "type": "object",
+            "description": "Optional. Key metadata. Can be used to store auth data to access remote kms"
           }
         },
         "required": [
@@ -52,46 +63,57 @@ export const openApiSchema: OpenAPIV3.Document = {
           "type",
           "publicKeyHex"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Cryptographic key"
       },
       "TKeyType": {
         "type": "string",
         "enum": [
           "Ed25519",
           "Secp256k1"
-        ]
+        ],
+        "description": "Cryptographic key type"
       },
       "IIdentityManagerAddServiceArgs": {
         "type": "object",
         "properties": {
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "DID"
           },
           "service": {
-            "$ref": "#/components/schemas/IService"
+            "$ref": "#/components/schemas/IService",
+            "description": "Service object"
           },
-          "options": {}
+          "options": {
+            "description": "Optional. Identity provider specific options"
+          }
         },
         "required": [
           "did",
           "service"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerAddService | identityManagerAddService}"
       },
       "IService": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "ID"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "description": "Service type"
           },
           "serviceEndpoint": {
-            "type": "string"
+            "type": "string",
+            "description": "Endpoint URL"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Description"
           }
         },
         "required": [
@@ -99,50 +121,63 @@ export const openApiSchema: OpenAPIV3.Document = {
           "type",
           "serviceEndpoint"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Identity service"
       },
       "IIdentityManagerCreateIdentityArgs": {
         "type": "object",
         "properties": {
           "alias": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Identity alias. Can be used to reference an object in an external system"
           },
           "provider": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Identity provider"
           },
           "kms": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Key Management System"
           },
-          "options": {}
+          "options": {
+            "description": "Optional. Identity provider specific options"
+          }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerCreateIdentity | identityManagerCreateIdentity}"
       },
       "IIdentity": {
         "type": "object",
         "properties": {
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "Decentralized identifier"
           },
           "alias": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Identity alias. Can be used to reference an object in an external system"
           },
           "provider": {
-            "type": "string"
+            "type": "string",
+            "description": "Identity provider name"
           },
           "controllerKeyId": {
-            "type": "string"
+            "type": "string",
+            "description": "Controller key id"
           },
           "keys": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IKey"
-            }
+            },
+            "description": "Array of managed keys"
           },
           "services": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IService"
-            }
+            },
+            "description": "Array of services"
           }
         },
         "required": [
@@ -152,84 +187,105 @@ export const openApiSchema: OpenAPIV3.Document = {
           "keys",
           "services"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Identity interface"
       },
       "IIdentityManagerDeleteIdentityArgs": {
         "type": "object",
         "properties": {
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "DID"
           }
         },
         "required": [
           "did"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerDeleteIdentity | identityManagerDeleteIdentity}"
       },
       "IIdentityManagerGetIdentityArgs": {
         "type": "object",
         "properties": {
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "DID"
           }
         },
         "required": [
           "did"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentity | identityManagerGetIdentity}"
       },
       "IIdentityManagerGetOrCreateIdentityArgs": {
         "type": "object",
         "properties": {
           "alias": {
-            "type": "string"
+            "type": "string",
+            "description": "Identity alias. Can be used to reference an object in an external system"
           },
           "provider": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Identity provider"
           },
           "kms": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Key Management System"
           },
-          "options": {}
+          "options": {
+            "description": "Optional. Identity provider specific options"
+          }
         },
         "required": [
           "alias"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerGetOrCreateIdentity | identityManagerGetOrCreateIdentity}"
       },
       "IIdentityManagerRemoveKeyArgs": {
         "type": "object",
         "properties": {
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "DID"
           },
           "kid": {
-            "type": "string"
+            "type": "string",
+            "description": "Key ID"
           },
-          "options": {}
+          "options": {
+            "description": "Optional. Identity provider specific options"
+          }
         },
         "required": [
           "did",
           "kid"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerRemoveKey | identityManagerRemoveKey}"
       },
       "IIdentityManagerRemoveServiceArgs": {
         "type": "object",
         "properties": {
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "DID"
           },
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Service ID"
           },
-          "options": {}
+          "options": {
+            "description": "Optional. Identity provider specific options"
+          }
         },
         "required": [
           "did",
           "id"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerRemoveService | identityManagerRemoveService}"
       },
       "ResolveDidArgs": {
         "type": "object",
@@ -243,7 +299,7 @@ export const openApiSchema: OpenAPIV3.Document = {
           "didUrl"
         ],
         "additionalProperties": false,
-        "description": "Input arguments for {@link IResolveDid.resolveDid}"
+        "description": "Input arguments for {@link IResolveDid.resolveDid | resolveDid}"
       },
       "DIDDocument": {
         "type": "object",
@@ -420,71 +476,89 @@ export const openApiSchema: OpenAPIV3.Document = {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string"
+            "type": "string",
+            "description": "Type"
           },
           "value": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Value"
           }
         },
         "required": [
           "type"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Message meta data"
       },
       "Message": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique message ID"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "description": "Message type"
           },
           "createdAt": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Creation date (ISO 8601)"
           },
           "expiresAt": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Expiration date (ISO 8601)"
           },
           "threadId": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Thread ID"
           },
           "raw": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Original message raw data"
           },
-          "data": {},
+          "data": {
+            "description": "Optional. Parsed data"
+          },
           "replyTo": {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Optional. List of DIDs to reply to"
           },
           "replyUrl": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. URL to post a reply message to"
           },
           "from": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Sender DID"
           },
           "to": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Recipient DID"
           },
           "metaData": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IMetaData"
-            }
+            },
+            "description": "Optional. Array of message metadata"
           },
           "credentials": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/VerifiableCredential"
-            }
+            },
+            "description": "Optional. Array of attached verifiable credentials"
           },
           "presentations": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/VerifiablePresentation"
-            }
+            },
+            "description": "Optional. Array of attached verifiable presentations"
           }
         },
         "required": [
@@ -494,7 +568,8 @@ export const openApiSchema: OpenAPIV3.Document = {
         "additionalProperties": false
       },
       "VerifiableCredential": {
-        "$ref": "#/components/schemas/Verifiable-W3CCredential"
+        "$ref": "#/components/schemas/Verifiable-W3CCredential",
+        "description": "Verifiable Credential {@link decentralized-identity/did-jwt-vc#Verifiable-W3CCredential}"
       },
       "Verifiable-W3CCredential": {
         "type": "object",
@@ -576,7 +651,8 @@ export const openApiSchema: OpenAPIV3.Document = {
         }
       },
       "VerifiablePresentation": {
-        "$ref": "#/components/schemas/Verifiable-W3CPresentation"
+        "$ref": "#/components/schemas/Verifiable-W3CPresentation",
+        "description": "Verifiable Presentation {@link decentralized-identity/did-jwt-vc#Verifiable-W3CPresentation}"
       },
       "Verifiable-W3CPresentation": {
         "type": "object",
@@ -627,63 +703,79 @@ export const openApiSchema: OpenAPIV3.Document = {
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique message ID"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "description": "Message type"
           },
           "createdAt": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Creation date (ISO 8601)"
           },
           "expiresAt": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Expiration date (ISO 8601)"
           },
           "threadId": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Thread ID"
           },
           "raw": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Original message raw data"
           },
-          "data": {},
+          "data": {
+            "description": "Optional. Parsed data"
+          },
           "replyTo": {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Optional. List of DIDs to reply to"
           },
           "replyUrl": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. URL to post a reply message to"
           },
           "from": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Sender DID"
           },
           "to": {
-            "type": "string"
+            "type": "string",
+            "description": "Optional. Recipient DID"
           },
           "metaData": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IMetaData"
-            }
+            },
+            "description": "Optional. Array of message metadata"
           },
           "credentials": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/VerifiableCredential"
-            }
+            },
+            "description": "Optional. Array of attached verifiable credentials"
           },
           "presentations": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/VerifiablePresentation"
-            }
+            },
+            "description": "Optional. Array of attached verifiable presentations"
           }
         },
         "required": [
           "id",
           "type"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "DIDComm message"
       },
       "IKeyManagerCreateKeyArgs": {
         "type": "object",
@@ -742,19 +834,24 @@ export const openApiSchema: OpenAPIV3.Document = {
             "type": "object",
             "properties": {
               "kid": {
-                "type": "string"
+                "type": "string",
+                "description": "Key ID"
               },
               "type": {
-                "$ref": "#/components/schemas/TKeyType"
+                "$ref": "#/components/schemas/TKeyType",
+                "description": "Key type"
               },
               "publicKeyHex": {
-                "type": "string"
+                "type": "string",
+                "description": "Public key"
               },
               "privateKeyHex": {
-                "type": "string"
+                "type": "string",
+                "description": "Optional. Private key"
               },
               "meta": {
-                "type": "object"
+                "type": "object",
+                "description": "Optional. Key metadata. Can be used to store auth data to access remote kms"
               }
             },
             "required": [
@@ -1721,7 +1818,7 @@ export const openApiSchema: OpenAPIV3.Document = {
   "paths": {
     "/identityManagerAddKey": {
       "post": {
-        "description": "",
+        "description": "Adds a key to a DID Document",
         "operationId": "identityManagerAddKey",
         "requestBody": {
           "content": {
@@ -1734,7 +1831,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Adds a key to a DID Document",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1746,7 +1843,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerAddService": {
       "post": {
-        "description": "",
+        "description": "Adds a service to a DID Document",
         "operationId": "identityManagerAddService",
         "requestBody": {
           "content": {
@@ -1759,7 +1856,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Adds a service to a DID Document",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1771,7 +1868,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerCreateIdentity": {
       "post": {
-        "description": "",
+        "description": "Creates and returns a new identity",
         "operationId": "identityManagerCreateIdentity",
         "requestBody": {
           "content": {
@@ -1784,7 +1881,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Creates and returns a new identity",
             "content": {
               "application/json": {
                 "schema": {
@@ -1798,7 +1895,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerDeleteIdentity": {
       "post": {
-        "description": "",
+        "description": "Deletes identity",
         "operationId": "identityManagerDeleteIdentity",
         "requestBody": {
           "content": {
@@ -1811,7 +1908,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Deletes identity",
             "content": {
               "application/json": {
                 "schema": {
@@ -1825,7 +1922,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerGetIdentities": {
       "post": {
-        "description": "",
+        "description": "Returns a list of managed identities",
         "operationId": "identityManagerGetIdentities",
         "requestBody": {
           "content": {
@@ -1836,7 +1933,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Returns a list of managed identities",
             "content": {
               "application/json": {
                 "schema": {
@@ -1853,7 +1950,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerGetIdentity": {
       "post": {
-        "description": "",
+        "description": "Returns a specific identity",
         "operationId": "identityManagerGetIdentity",
         "requestBody": {
           "content": {
@@ -1866,7 +1963,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Returns a specific identity",
             "content": {
               "application/json": {
                 "schema": {
@@ -1880,7 +1977,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerGetOrCreateIdentity": {
       "post": {
-        "description": "",
+        "description": "Returns an existing identity or creates a new one for a specific alias",
         "operationId": "identityManagerGetOrCreateIdentity",
         "requestBody": {
           "content": {
@@ -1893,7 +1990,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Returns an existing identity or creates a new one for a specific alias",
             "content": {
               "application/json": {
                 "schema": {
@@ -1907,7 +2004,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerGetProviders": {
       "post": {
-        "description": "",
+        "description": "Returns a list of available identity providers",
         "operationId": "identityManagerGetProviders",
         "requestBody": {
           "content": {
@@ -1918,7 +2015,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Returns a list of available identity providers",
             "content": {
               "application/json": {
                 "schema": {
@@ -1935,7 +2032,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerImportIdentity": {
       "post": {
-        "description": "",
+        "description": "Imports identity",
         "operationId": "identityManagerImportIdentity",
         "requestBody": {
           "content": {
@@ -1948,7 +2045,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Imports identity",
             "content": {
               "application/json": {
                 "schema": {
@@ -1962,7 +2059,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerRemoveKey": {
       "post": {
-        "description": "",
+        "description": "Removes a key from a DID Document",
         "operationId": "identityManagerRemoveKey",
         "requestBody": {
           "content": {
@@ -1975,7 +2072,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Removes a key from a DID Document",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1987,7 +2084,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/identityManagerRemoveService": {
       "post": {
-        "description": "",
+        "description": "Removes a service from a DID Document",
         "operationId": "identityManagerRemoveService",
         "requestBody": {
           "content": {
@@ -2000,7 +2097,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Removes a service from a DID Document",
             "content": {
               "application/json": {
                 "schema": {}
@@ -2066,7 +2163,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/dataStoreSaveMessage": {
       "post": {
-        "description": "",
+        "description": "Saves message to the data store",
         "operationId": "dataStoreSaveMessage",
         "requestBody": {
           "content": {
@@ -2079,7 +2176,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Saves message to the data store",
             "content": {
               "application/json": {
                 "schema": {
@@ -2093,7 +2190,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/dataStoreSaveVerifiableCredential": {
       "post": {
-        "description": "",
+        "description": "Saves verifiable credential to the data store",
         "operationId": "dataStoreSaveVerifiableCredential",
         "requestBody": {
           "content": {
@@ -2106,7 +2203,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Saves verifiable credential to the data store",
             "content": {
               "application/json": {
                 "schema": {
@@ -2120,7 +2217,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/dataStoreSaveVerifiablePresentation": {
       "post": {
-        "description": "",
+        "description": "Saves verifiable presentation to the data store",
         "operationId": "dataStoreSaveVerifiablePresentation",
         "requestBody": {
           "content": {
@@ -2133,7 +2230,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Saves verifiable presentation to the data store",
             "content": {
               "application/json": {
                 "schema": {

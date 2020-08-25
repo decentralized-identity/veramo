@@ -4,6 +4,8 @@
 
 ## IDataStore.dataStoreSaveVerifiablePresentation() method
 
+Saves verifiable presentation to the data store
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,9 +16,11 @@ dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boole
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [VerifiablePresentation](./daf-core.verifiablepresentation.md) |  |
+|  args | [VerifiablePresentation](./daf-core.verifiablepresentation.md) | verifiable presentation |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+
+`true` if successful
 

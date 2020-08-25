@@ -4,6 +4,8 @@
 
 ## VerifiableCredential type
 
+Verifiable Credential 
+
 <b>Signature:</b>
 
 ```typescript

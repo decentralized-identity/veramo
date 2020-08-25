@@ -4,6 +4,8 @@
 
 ## IAgentPlugin interface
 
+Agent plugin interface
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IdentityManager.identityManagerRemoveService() method
 
+Removes a service from a DID Document
+
 <b>Signature:</b>
 
 ```typescript
@@ -20,4 +22,6 @@ identityManagerRemoveService({ did, id, options }: IIdentityManagerRemoveService
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+
+identity provider specific response. Can be txHash, etc,
 

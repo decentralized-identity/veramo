@@ -4,6 +4,8 @@
 
 ## IMetaData.type property
 
+Type
+
 <b>Signature:</b>
 
 ```typescript

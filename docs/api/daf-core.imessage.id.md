@@ -4,6 +4,8 @@
 
 ## IMessage.id property
 
+Unique message ID
+
 <b>Signature:</b>
 
 ```typescript

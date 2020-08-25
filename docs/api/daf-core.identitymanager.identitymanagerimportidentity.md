@@ -4,6 +4,8 @@
 
 ## IdentityManager.identityManagerImportIdentity() method
 
+Imports identity
+
 <b>Signature:</b>
 
 ```typescript

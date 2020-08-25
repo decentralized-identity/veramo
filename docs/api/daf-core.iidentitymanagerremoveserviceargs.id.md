@@ -4,6 +4,8 @@
 
 ## IIdentityManagerRemoveServiceArgs.id property
 
+Service ID
+
 <b>Signature:</b>
 
 ```typescript
