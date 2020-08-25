@@ -4,6 +4,8 @@
 
 ## IIdentityManager.identityManagerDeleteIdentity() method
 
+Deletes identity
+
 <b>Signature:</b>
 
 ```typescript

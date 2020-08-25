@@ -4,6 +4,8 @@
 
 ## IIdentityManager.identityManagerCreateIdentity() method
 
+Creates and returns a new identity
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,9 +17,20 @@ identityManagerCreateIdentity(args: IIdentityManagerCreateIdentityArgs, context:
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  args | [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) |  |
-|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; | Execution context. Requires <code>agent</code> that has [IKeyManager](./daf-core.ikeymanager.md) methods |
 
 <b>Returns:</b>
 
 Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;
+
+## Example
+
+
+```typescript
+const identity = await agent.identityManagerCreateIdentity({
+  provider: 'did:ethr',
+  kms: 'local'
+})
+
+```
 

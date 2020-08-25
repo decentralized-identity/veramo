@@ -4,6 +4,8 @@
 
 ## IKey.privateKeyHex property
 
+Optional. Private key
+
 <b>Signature:</b>
 
 ```typescript

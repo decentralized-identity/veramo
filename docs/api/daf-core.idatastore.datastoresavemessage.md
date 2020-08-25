@@ -4,6 +4,8 @@
 
 ## IDataStore.dataStoreSaveMessage() method
 
+Saves message to the data store
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,9 +16,11 @@ dataStoreSaveMessage(args: IMessage): Promise<boolean>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [IMessage](./daf-core.imessage.md) |  |
+|  args | [IMessage](./daf-core.imessage.md) | message |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+
+`true` if successful
 

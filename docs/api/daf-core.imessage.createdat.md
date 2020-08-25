@@ -4,6 +4,8 @@
 
 ## IMessage.createdAt property
 
+Optional. Creation date (ISO 8601)
+
 <b>Signature:</b>
 
 ```typescript

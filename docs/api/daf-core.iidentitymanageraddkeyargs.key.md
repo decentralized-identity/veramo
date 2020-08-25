@@ -4,6 +4,8 @@
 
 ## IIdentityManagerAddKeyArgs.key property
 
+Key object
+
 <b>Signature:</b>
 
 ```typescript

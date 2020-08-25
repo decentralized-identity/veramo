@@ -4,6 +4,8 @@
 
 ## IMessage.type property
 
+Message type
+
 <b>Signature:</b>
 
 ```typescript

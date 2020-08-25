@@ -4,6 +4,8 @@
 
 ## IIdentity.alias property
 
+Optional. Identity alias. Can be used to reference an object in an external system
+
 <b>Signature:</b>
 
 ```typescript

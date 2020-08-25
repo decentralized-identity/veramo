@@ -4,6 +4,8 @@
 
 ## IIdentity.keys property
 
+Array of managed keys
+
 <b>Signature:</b>
 
 ```typescript

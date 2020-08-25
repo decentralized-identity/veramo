@@ -4,6 +4,8 @@
 
 ## IMessage.data property
 
+Optional. Parsed data
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IIdentityManager.identityManagerGetOrCreateIdentity() method
 
+Returns an existing identity or creates a new one for a specific alias
+
 <b>Signature:</b>
 
 ```typescript

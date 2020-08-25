@@ -4,6 +4,8 @@
 
 ## IIdentityManager.identityManagerAddService() method
 
+Adds a service to a DID Document
+
 <b>Signature:</b>
 
 ```typescript
@@ -20,4 +22,6 @@ identityManagerAddService(args: IIdentityManagerAddServiceArgs, context: IAgentC
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+
+identity provider specific response. Can be txHash, etc,
 

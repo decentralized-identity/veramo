@@ -4,6 +4,8 @@
 
 ## IKey interface
 
+Cryptographic key
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,10 +16,10 @@ export interface IKey
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [kid](./daf-core.ikey.kid.md) | string |  |
-|  [kms](./daf-core.ikey.kms.md) | string |  |
-|  [meta](./daf-core.ikey.meta.md) | Record&lt;string, any&gt; |  |
-|  [privateKeyHex](./daf-core.ikey.privatekeyhex.md) | string |  |
-|  [publicKeyHex](./daf-core.ikey.publickeyhex.md) | string |  |
-|  [type](./daf-core.ikey.type.md) | [TKeyType](./daf-core.tkeytype.md) |  |
+|  [kid](./daf-core.ikey.kid.md) | string | Key ID |
+|  [kms](./daf-core.ikey.kms.md) | string | Key Management System |
+|  [meta](./daf-core.ikey.meta.md) | Record&lt;string, any&gt; | Optional. Key metadata. Can be used to store auth data to access remote kms |
+|  [privateKeyHex](./daf-core.ikey.privatekeyhex.md) | string | Optional. Private key |
+|  [publicKeyHex](./daf-core.ikey.publickeyhex.md) | string | Public key |
+|  [type](./daf-core.ikey.type.md) | [TKeyType](./daf-core.tkeytype.md) | Key type |
 

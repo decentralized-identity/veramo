@@ -4,6 +4,8 @@
 
 ## IIdentityManagerGetOrCreateIdentityArgs.provider property
 
+Optional. Identity provider
+
 <b>Signature:</b>
 
 ```typescript

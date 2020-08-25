@@ -4,6 +4,8 @@
 
 ## IIdentityManager.identityManagerGetProviders() method
 
+Returns a list of available identity providers
+
 <b>Signature:</b>
 
 ```typescript

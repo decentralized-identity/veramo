@@ -4,6 +4,8 @@
 
 ## IdentityManager.identityManagerAddKey() method
 
+Adds a key to a DID Document
+
 <b>Signature:</b>
 
 ```typescript
@@ -20,4 +22,6 @@ identityManagerAddKey({ did, key, options }: IIdentityManagerAddKeyArgs, context
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+
+identity provider specific response. Can be txHash, etc,
 

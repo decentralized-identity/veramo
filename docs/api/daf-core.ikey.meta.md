@@ -4,6 +4,8 @@
 
 ## IKey.meta property
 
+Optional. Key metadata. Can be used to store auth data to access remote kms
+
 <b>Signature:</b>
 
 ```typescript

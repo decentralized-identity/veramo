@@ -4,6 +4,8 @@
 
 ## IIdentity interface
 
+Identity interface
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,10 +16,10 @@ export interface IIdentity
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [alias](./daf-core.iidentity.alias.md) | string |  |
-|  [controllerKeyId](./daf-core.iidentity.controllerkeyid.md) | string |  |
-|  [did](./daf-core.iidentity.did.md) | string |  |
-|  [keys](./daf-core.iidentity.keys.md) | [IKey](./daf-core.ikey.md)<!-- -->\[\] |  |
-|  [provider](./daf-core.iidentity.provider.md) | string |  |
-|  [services](./daf-core.iidentity.services.md) | [IService](./daf-core.iservice.md)<!-- -->\[\] |  |
+|  [alias](./daf-core.iidentity.alias.md) | string | Optional. Identity alias. Can be used to reference an object in an external system |
+|  [controllerKeyId](./daf-core.iidentity.controllerkeyid.md) | string | Controller key id |
+|  [did](./daf-core.iidentity.did.md) | string | Decentralized identifier |
+|  [keys](./daf-core.iidentity.keys.md) | [IKey](./daf-core.ikey.md)<!-- -->\[\] | Array of managed keys |
+|  [provider](./daf-core.iidentity.provider.md) | string | Identity provider name |
+|  [services](./daf-core.iidentity.services.md) | [IService](./daf-core.iservice.md)<!-- -->\[\] | Array of services |
 

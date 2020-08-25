@@ -4,6 +4,8 @@
 
 ## IIdentityManagerRemoveServiceArgs interface
 
+Input arguments for [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export interface IIdentityManagerRemoveServiceArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [did](./daf-core.iidentitymanagerremoveserviceargs.did.md) | string |  |
-|  [id](./daf-core.iidentitymanagerremoveserviceargs.id.md) | string |  |
-|  [options](./daf-core.iidentitymanagerremoveserviceargs.options.md) | any |  |
+|  [did](./daf-core.iidentitymanagerremoveserviceargs.did.md) | string | DID |
+|  [id](./daf-core.iidentitymanagerremoveserviceargs.id.md) | string | Service ID |
+|  [options](./daf-core.iidentitymanagerremoveserviceargs.options.md) | any | Optional. Identity provider specific options |
 

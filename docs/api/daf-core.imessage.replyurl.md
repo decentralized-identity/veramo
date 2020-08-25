@@ -4,6 +4,8 @@
 
 ## IMessage.replyUrl property
 
+Optional. URL to post a reply message to
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IAgent interface
 
+Agent that can execute methods
+
 <b>Signature:</b>
 
 ```typescript

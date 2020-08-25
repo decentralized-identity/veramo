@@ -4,6 +4,8 @@
 
 ## IKey.type property
 
+Key type
+
 <b>Signature:</b>
 
 ```typescript

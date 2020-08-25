@@ -4,6 +4,8 @@
 
 ## IIdentity.services property
 
+Array of services
+
 <b>Signature:</b>
 
 ```typescript

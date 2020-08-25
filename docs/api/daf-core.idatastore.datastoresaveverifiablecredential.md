@@ -4,6 +4,8 @@
 
 ## IDataStore.dataStoreSaveVerifiableCredential() method
 
+Saves verifiable credential to the data store
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,9 +16,11 @@ dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [VerifiableCredential](./daf-core.verifiablecredential.md) |  |
+|  args | [VerifiableCredential](./daf-core.verifiablecredential.md) | verifiable credential |
 
 <b>Returns:</b>
 
 Promise&lt;boolean&gt;
+
+`true` if successful
 

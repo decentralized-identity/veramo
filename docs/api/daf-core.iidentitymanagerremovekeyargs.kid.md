@@ -4,6 +4,8 @@
 
 ## IIdentityManagerRemoveKeyArgs.kid property
 
+Key ID
+
 <b>Signature:</b>
 
 ```typescript

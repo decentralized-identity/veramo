@@ -4,6 +4,8 @@
 
 ## IIdentityManagerCreateIdentityArgs.kms property
 
+Optional. Key Management System
+
 <b>Signature:</b>
 
 ```typescript

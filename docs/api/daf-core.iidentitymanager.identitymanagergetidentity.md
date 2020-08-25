@@ -4,6 +4,8 @@
 
 ## IIdentityManager.identityManagerGetIdentity() method
 
+Returns a specific identity
+
 <b>Signature:</b>
 
 ```typescript

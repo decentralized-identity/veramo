@@ -4,6 +4,8 @@
 
 ## IMessage.presentations property
 
+Optional. Array of attached verifiable presentations
+
 <b>Signature:</b>
 
 ```typescript

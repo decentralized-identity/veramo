@@ -4,6 +4,8 @@
 
 ## VerifiablePresentation type
 
+Verifiable Presentation 
+
 <b>Signature:</b>
 
 ```typescript

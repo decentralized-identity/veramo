@@ -4,6 +4,8 @@
 
 ## IIdentityManagerAddServiceArgs interface
 
+Input arguments for [identityManagerAddService](./daf-core.iidentitymanager.identitymanageraddservice.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export interface IIdentityManagerAddServiceArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [did](./daf-core.iidentitymanageraddserviceargs.did.md) | string |  |
-|  [options](./daf-core.iidentitymanageraddserviceargs.options.md) | any |  |
-|  [service](./daf-core.iidentitymanageraddserviceargs.service.md) | [IService](./daf-core.iservice.md) |  |
+|  [did](./daf-core.iidentitymanageraddserviceargs.did.md) | string | DID |
+|  [options](./daf-core.iidentitymanageraddserviceargs.options.md) | any | Optional. Identity provider specific options |
+|  [service](./daf-core.iidentitymanageraddserviceargs.service.md) | [IService](./daf-core.iservice.md) | Service object |
 

@@ -4,6 +4,8 @@
 
 ## IService.id property
 
+ID
+
 <b>Signature:</b>
 
 ```typescript

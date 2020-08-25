@@ -4,6 +4,8 @@
 
 ## IIdentityManagerDeleteIdentityArgs interface
 
+Input arguments for [identityManagerDeleteIdentity](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,5 +16,5 @@ export interface IIdentityManagerDeleteIdentityArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [did](./daf-core.iidentitymanagerdeleteidentityargs.did.md) | string |  |
+|  [did](./daf-core.iidentitymanagerdeleteidentityargs.did.md) | string | DID |
 

@@ -4,6 +4,8 @@
 
 ## IMessage.threadId property
 
+Optional. Thread ID
+
 <b>Signature:</b>
 
 ```typescript

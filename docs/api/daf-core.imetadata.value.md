@@ -4,6 +4,8 @@
 
 ## IMetaData.value property
 
+Optional. Value
+
 <b>Signature:</b>
 
 ```typescript

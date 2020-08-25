@@ -4,6 +4,8 @@
 
 ## IMessage.credentials property
 
+Optional. Array of attached verifiable credentials
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IMessage.replyTo property
 
+Optional. List of DIDs to reply to
+
 <b>Signature:</b>
 
 ```typescript

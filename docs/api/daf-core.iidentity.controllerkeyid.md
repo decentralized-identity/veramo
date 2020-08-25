@@ -4,6 +4,8 @@
 
 ## IIdentity.controllerKeyId property
 
+Controller key id
+
 <b>Signature:</b>
 
 ```typescript

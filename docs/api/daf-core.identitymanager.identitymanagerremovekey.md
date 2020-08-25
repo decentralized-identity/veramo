@@ -4,6 +4,8 @@
 
 ## IdentityManager.identityManagerRemoveKey() method
 
+Removes a key from a DID Document
+
 <b>Signature:</b>
 
 ```typescript
@@ -20,4 +22,6 @@ identityManagerRemoveKey({ did, kid, options }: IIdentityManagerRemoveKeyArgs, c
 <b>Returns:</b>
 
 Promise&lt;any&gt;
+
+identity provider specific response. Can be txHash, etc,
 
