@@ -4,6 +4,8 @@
 
 ## KeyManager.keyManagerGetKey() method
 
+Returns an existing key
+
 <b>Signature:</b>
 
 ```typescript

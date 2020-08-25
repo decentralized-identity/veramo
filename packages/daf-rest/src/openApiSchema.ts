@@ -781,54 +781,64 @@ export const openApiSchema: OpenAPIV3.Document = {
         "type": "object",
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/TKeyType"
+            "$ref": "#/components/schemas/TKeyType",
+            "description": "Key type"
           },
           "kms": {
-            "type": "string"
+            "type": "string",
+            "description": "Key Management System"
           },
           "meta": {
-            "type": "object"
+            "type": "object",
+            "description": "Optional. Key meta data"
           }
         },
         "required": [
           "type",
           "kms"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IKeyManager.keyManagerCreateKey | keyManagerCreateKey}"
       },
       "IKeyManagerDecryptJWEArgs": {
         "type": "object",
         "properties": {
           "kid": {
-            "type": "string"
+            "type": "string",
+            "description": "Key ID"
           },
           "data": {
-            "type": "string"
+            "type": "string",
+            "description": "Encrypted data"
           }
         },
         "required": [
           "kid",
           "data"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IKeyManager.keyManagerDecryptJWE | keyManagerDecryptJWE}"
       },
       "IKeyManagerDeleteKeyArgs": {
         "type": "object",
         "properties": {
           "kid": {
-            "type": "string"
+            "type": "string",
+            "description": "Key ID"
           }
         },
         "required": [
           "kid"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IKeyManager.keyManagerDeleteKey | keyManagerDeleteKey}"
       },
       "IKeyManagerEncryptJWEArgs": {
         "type": "object",
         "properties": {
           "kid": {
-            "type": "string"
+            "type": "string",
+            "description": "Key ID to use for encryption"
           },
           "to": {
             "type": "object",
@@ -859,10 +869,12 @@ export const openApiSchema: OpenAPIV3.Document = {
               "type",
               "publicKeyHex"
             ],
-            "additionalProperties": false
+            "additionalProperties": false,
+            "description": "Recipient key object"
           },
           "data": {
-            "type": "string"
+            "type": "string",
+            "description": "Data to encrypt"
           }
         },
         "required": [
@@ -870,51 +882,60 @@ export const openApiSchema: OpenAPIV3.Document = {
           "to",
           "data"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IKeyManager.keyManagerEncryptJWE | keyManagerEncryptJWE}"
       },
       "IKeyManagerGetKeyArgs": {
         "type": "object",
         "properties": {
           "kid": {
-            "type": "string"
+            "type": "string",
+            "description": "Key ID"
           }
         },
         "required": [
           "kid"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IKeyManager.keyManagerGetKey | keyManagerGetKey}"
       },
       "IKeyManagerSignEthTXArgs": {
         "type": "object",
         "properties": {
           "kid": {
-            "type": "string"
+            "type": "string",
+            "description": "Key ID"
           },
           "transaction": {
-            "type": "object"
+            "type": "object",
+            "description": "Ethereum transaction object"
           }
         },
         "required": [
           "kid",
           "transaction"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IKeyManager.keyManagerSignEthTX | keyManagerSignEthTX}"
       },
       "IKeyManagerSignJWTArgs": {
         "type": "object",
         "properties": {
           "kid": {
-            "type": "string"
+            "type": "string",
+            "description": "Key ID"
           },
           "data": {
-            "type": "string"
+            "type": "string",
+            "description": "Data to sign"
           }
         },
         "required": [
           "kid",
           "data"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IKeyManager.keyManagerSignJWT | keyManagerSignJWT}"
       },
       "ICreateVerifiableCredentialArgs": {
         "type": "object",
@@ -2244,7 +2265,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/keyManagerCreateKey": {
       "post": {
-        "description": "",
+        "description": "Creates and returns a new key",
         "operationId": "keyManagerCreateKey",
         "requestBody": {
           "content": {
@@ -2257,7 +2278,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Creates and returns a new key",
             "content": {
               "application/json": {
                 "schema": {
@@ -2271,7 +2292,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/keyManagerDecryptJWE": {
       "post": {
-        "description": "",
+        "description": "Decrypts data",
         "operationId": "keyManagerDecryptJWE",
         "requestBody": {
           "content": {
@@ -2284,7 +2305,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Decrypts data",
             "content": {
               "application/json": {
                 "schema": {
@@ -2298,7 +2319,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/keyManagerDeleteKey": {
       "post": {
-        "description": "",
+        "description": "Deletes a key",
         "operationId": "keyManagerDeleteKey",
         "requestBody": {
           "content": {
@@ -2311,7 +2332,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Deletes a key",
             "content": {
               "application/json": {
                 "schema": {
@@ -2325,7 +2346,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/keyManagerEncryptJWE": {
       "post": {
-        "description": "",
+        "description": "Encrypts data",
         "operationId": "keyManagerEncryptJWE",
         "requestBody": {
           "content": {
@@ -2338,7 +2359,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Encrypts data",
             "content": {
               "application/json": {
                 "schema": {
@@ -2352,7 +2373,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/keyManagerGetKey": {
       "post": {
-        "description": "",
+        "description": "Returns an existing key",
         "operationId": "keyManagerGetKey",
         "requestBody": {
           "content": {
@@ -2365,7 +2386,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Returns an existing key",
             "content": {
               "application/json": {
                 "schema": {
@@ -2379,7 +2400,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/keyManagerImportKey": {
       "post": {
-        "description": "",
+        "description": "Imports a created key",
         "operationId": "keyManagerImportKey",
         "requestBody": {
           "content": {
@@ -2392,7 +2413,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Imports a created key",
             "content": {
               "application/json": {
                 "schema": {
@@ -2406,7 +2427,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/keyManagerSignEthTX": {
       "post": {
-        "description": "",
+        "description": "Signs Ethereum transaction",
         "operationId": "keyManagerSignEthTX",
         "requestBody": {
           "content": {
@@ -2419,7 +2440,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Signs Ethereum transaction",
             "content": {
               "application/json": {
                 "schema": {
@@ -2433,7 +2454,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/keyManagerSignJWT": {
       "post": {
-        "description": "",
+        "description": "Signs JWT",
         "operationId": "keyManagerSignJWT",
         "requestBody": {
           "content": {
@@ -2446,7 +2467,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Signs JWT",
             "content": {
               "application/json": {
                 "schema": {

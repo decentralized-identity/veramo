@@ -310,79 +310,59 @@ export interface IKey {
     type: TKeyType;
 }
 
-// @public (undocumented)
+// @public
 export interface IKeyManager extends IPluginMethodMap {
-    // (undocumented)
     keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
-    // (undocumented)
+    // @beta
     keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>;
-    // (undocumented)
     keyManagerDeleteKey(args: IKeyManagerDeleteKeyArgs): Promise<boolean>;
-    // (undocumented)
+    // @beta
     keyManagerEncryptJWE(args: IKeyManagerEncryptJWEArgs): Promise<string>;
-    // (undocumented)
     keyManagerGetKey(args: IKeyManagerGetKeyArgs): Promise<IKey>;
-    // (undocumented)
     keyManagerImportKey(args: IKey): Promise<boolean>;
-    // (undocumented)
     keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>;
-    // (undocumented)
     keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface IKeyManagerCreateKeyArgs {
-    // (undocumented)
     kms: string;
-    // (undocumented)
     meta?: Record<string, any>;
-    // (undocumented)
     type: TKeyType;
 }
 
-// @public (undocumented)
+// @beta
 export interface IKeyManagerDecryptJWEArgs {
-    // (undocumented)
     data: string;
-    // (undocumented)
     kid: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IKeyManagerDeleteKeyArgs {
-    // (undocumented)
     kid: string;
 }
 
-// @public (undocumented)
+// @beta
 export interface IKeyManagerEncryptJWEArgs {
-    // (undocumented)
     data: string;
-    // (undocumented)
     kid: string;
-    // (undocumented)
     to: Omit<IKey, 'kms'>;
 }
 
-// @public (undocumented)
+// @public
 export interface IKeyManagerGetKeyArgs {
-    // (undocumented)
     kid: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IKeyManagerSignEthTXArgs {
-    // (undocumented)
     kid: string;
-    // (undocumented)
     transaction: object;
 }
 
-// @public (undocumented)
+// @public
 export interface IKeyManagerSignJWTArgs {
-    // (undocumented)
     data: string;
-    // (undocumented)
     kid: string;
 }
 
@@ -433,29 +413,22 @@ export interface IService {
     type: string;
 }
 
-// @public (undocumented)
+// @public
 export class KeyManager implements IAgentPlugin {
     constructor(options: {
         store: AbstractKeyStore;
         kms: Record<string, AbstractKeyManagementSystem>;
     });
-    // (undocumented)
     keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
-    // (undocumented)
+    // Warning: (ae-incompatible-release-tags) The symbol "keyManagerDecryptJWE" is marked as @public, but its signature references "IKeyManagerDecryptJWEArgs" which is marked as @beta
     keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string>;
-    // (undocumented)
     keyManagerDeleteKey({ kid }: IKeyManagerDeleteKeyArgs): Promise<boolean>;
-    // (undocumented)
+    // Warning: (ae-incompatible-release-tags) The symbol "keyManagerEncryptJWE" is marked as @public, but its signature references "IKeyManagerEncryptJWEArgs" which is marked as @beta
     keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<string>;
-    // (undocumented)
     keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey>;
-    // (undocumented)
     keyManagerImportKey(key: IKey): Promise<boolean>;
-    // (undocumented)
     keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string>;
-    // (undocumented)
     keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string>;
-    // (undocumented)
     readonly methods: IKeyManager;
     }
 

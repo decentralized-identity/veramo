@@ -4,6 +4,8 @@
 
 ## IKeyManagerSignEthTXArgs interface
 
+Input arguments for [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +16,6 @@ export interface IKeyManagerSignEthTXArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [kid](./daf-core.ikeymanagersignethtxargs.kid.md) | string |  |
-|  [transaction](./daf-core.ikeymanagersignethtxargs.transaction.md) | object |  |
+|  [kid](./daf-core.ikeymanagersignethtxargs.kid.md) | string | Key ID |
+|  [transaction](./daf-core.ikeymanagersignethtxargs.transaction.md) | object | Ethereum transaction object |
 

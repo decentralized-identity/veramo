@@ -4,6 +4,8 @@
 
 ## IKeyManager interface
 
+Key manager interface
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,12 +17,12 @@ export interface IKeyManager extends IPluginMethodMap
 
 |  Method | Description |
 |  --- | --- |
-|  [keyManagerCreateKey(args)](./daf-core.ikeymanager.keymanagercreatekey.md) |  |
-|  [keyManagerDecryptJWE(args)](./daf-core.ikeymanager.keymanagerdecryptjwe.md) |  |
-|  [keyManagerDeleteKey(args)](./daf-core.ikeymanager.keymanagerdeletekey.md) |  |
-|  [keyManagerEncryptJWE(args)](./daf-core.ikeymanager.keymanagerencryptjwe.md) |  |
-|  [keyManagerGetKey(args)](./daf-core.ikeymanager.keymanagergetkey.md) |  |
-|  [keyManagerImportKey(args)](./daf-core.ikeymanager.keymanagerimportkey.md) |  |
-|  [keyManagerSignEthTX(args)](./daf-core.ikeymanager.keymanagersignethtx.md) |  |
-|  [keyManagerSignJWT(args)](./daf-core.ikeymanager.keymanagersignjwt.md) |  |
+|  [keyManagerCreateKey(args)](./daf-core.ikeymanager.keymanagercreatekey.md) | Creates and returns a new key |
+|  [keyManagerDecryptJWE(args)](./daf-core.ikeymanager.keymanagerdecryptjwe.md) | <b><i>(BETA)</i></b> Decrypts data |
+|  [keyManagerDeleteKey(args)](./daf-core.ikeymanager.keymanagerdeletekey.md) | Deletes a key |
+|  [keyManagerEncryptJWE(args)](./daf-core.ikeymanager.keymanagerencryptjwe.md) | <b><i>(BETA)</i></b> Encrypts data |
+|  [keyManagerGetKey(args)](./daf-core.ikeymanager.keymanagergetkey.md) | Returns an existing key |
+|  [keyManagerImportKey(args)](./daf-core.ikeymanager.keymanagerimportkey.md) | Imports a created key |
+|  [keyManagerSignEthTX(args)](./daf-core.ikeymanager.keymanagersignethtx.md) | Signs Ethereum transaction |
+|  [keyManagerSignJWT(args)](./daf-core.ikeymanager.keymanagersignjwt.md) | Signs JWT |
 

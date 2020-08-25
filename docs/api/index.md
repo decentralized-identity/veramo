@@ -8,7 +8,7 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [daf-core](./daf-core.md) | The main library for creating Decentralized Identity Agents |
+|  [daf-core](./daf-core.md) | The core package of DID Agent Framework |
 |  [daf-did-comm](./daf-did-comm.md) |  |
 |  [daf-did-jwt](./daf-did-jwt.md) |  |
 |  [daf-ethr-did](./daf-ethr-did.md) |  |
@@ -45,14 +45,14 @@
 | [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) | Saves message to the data store |
 | [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) | Saves verifiable credential to the data store |
 | [dataStoreSaveVerifiablePresentation](./daf-core.idatastore.datastoresaveverifiablepresentation.md) | Saves verifiable presentation to the data store |
-| [keyManagerCreateKey](./daf-core.ikeymanager.keymanagercreatekey.md) |  |
-| [keyManagerDecryptJWE](./daf-core.ikeymanager.keymanagerdecryptjwe.md) |  |
-| [keyManagerDeleteKey](./daf-core.ikeymanager.keymanagerdeletekey.md) |  |
-| [keyManagerEncryptJWE](./daf-core.ikeymanager.keymanagerencryptjwe.md) |  |
-| [keyManagerGetKey](./daf-core.ikeymanager.keymanagergetkey.md) |  |
-| [keyManagerImportKey](./daf-core.ikeymanager.keymanagerimportkey.md) |  |
-| [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md) |  |
-| [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md) |  |
+| [keyManagerCreateKey](./daf-core.ikeymanager.keymanagercreatekey.md) | Creates and returns a new key |
+| [keyManagerDecryptJWE](./daf-core.ikeymanager.keymanagerdecryptjwe.md) | Decrypts data |
+| [keyManagerDeleteKey](./daf-core.ikeymanager.keymanagerdeletekey.md) | Deletes a key |
+| [keyManagerEncryptJWE](./daf-core.ikeymanager.keymanagerencryptjwe.md) | Encrypts data |
+| [keyManagerGetKey](./daf-core.ikeymanager.keymanagergetkey.md) | Returns an existing key |
+| [keyManagerImportKey](./daf-core.ikeymanager.keymanagerimportkey.md) | Imports a created key |
+| [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md) | Signs Ethereum transaction |
+| [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md) | Signs JWT |
 | [createVerifiableCredential](./daf-w3c.iw3c.createverifiablecredential.md) |  |
 | [createVerifiablePresentation](./daf-w3c.iw3c.createverifiablepresentation.md) |  |
 | [createSelectiveDisclosureRequest](./daf-selective-disclosure.isdr.createselectivedisclosurerequest.md) |  |

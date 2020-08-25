@@ -4,6 +4,8 @@
 
 ## IKeyManagerSignJWTArgs.data property
 
+Data to sign
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IKeyManager.keyManagerDeleteKey() method
 
+Deletes a key
+
 <b>Signature:</b>
 
 ```typescript

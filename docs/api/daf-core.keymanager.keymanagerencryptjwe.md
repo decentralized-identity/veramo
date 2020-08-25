@@ -4,6 +4,8 @@
 
 ## KeyManager.keyManagerEncryptJWE() method
 
+Encrypts data
+
 <b>Signature:</b>
 
 ```typescript

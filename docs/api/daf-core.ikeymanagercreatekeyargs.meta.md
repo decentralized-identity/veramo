@@ -4,6 +4,8 @@
 
 ## IKeyManagerCreateKeyArgs.meta property
 
+Optional. Key meta data
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## KeyManager.keyManagerSignEthTX() method
 
+Signs Ethereum transaction
+
 <b>Signature:</b>
 
 ```typescript

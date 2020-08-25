@@ -4,6 +4,8 @@
 
 ## IKeyManagerGetKeyArgs interface
 
+Input arguments for [keyManagerGetKey](./daf-core.ikeymanager.keymanagergetkey.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,5 +16,5 @@ export interface IKeyManagerGetKeyArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [kid](./daf-core.ikeymanagergetkeyargs.kid.md) | string |  |
+|  [kid](./daf-core.ikeymanagergetkeyargs.kid.md) | string | Key ID |
 
