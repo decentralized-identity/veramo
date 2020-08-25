@@ -4,6 +4,8 @@
 
 ## IKeyManagerSignEthTXArgs.kid property
 
+Key ID
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IKeyManager.keyManagerSignJWT() method
 
+Signs JWT
+
 <b>Signature:</b>
 
 ```typescript

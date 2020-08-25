@@ -4,6 +4,8 @@
 
 ## IKeyManager.keyManagerImportKey() method
 
+Imports a created key
+
 <b>Signature:</b>
 
 ```typescript

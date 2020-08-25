@@ -4,6 +4,8 @@
 
 ## IKeyManagerDeleteKeyArgs interface
 
+Input arguments for [keyManagerDeleteKey](./daf-core.ikeymanager.keymanagerdeletekey.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,5 +16,5 @@ export interface IKeyManagerDeleteKeyArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [kid](./daf-core.ikeymanagerdeletekeyargs.kid.md) | string |  |
+|  [kid](./daf-core.ikeymanagerdeletekeyargs.kid.md) | string | Key ID |
 

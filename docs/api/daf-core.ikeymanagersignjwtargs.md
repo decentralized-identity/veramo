@@ -4,6 +4,8 @@
 
 ## IKeyManagerSignJWTArgs interface
 
+Input arguments for [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +16,6 @@ export interface IKeyManagerSignJWTArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [data](./daf-core.ikeymanagersignjwtargs.data.md) | string |  |
-|  [kid](./daf-core.ikeymanagersignjwtargs.kid.md) | string |  |
+|  [data](./daf-core.ikeymanagersignjwtargs.data.md) | string | Data to sign |
+|  [kid](./daf-core.ikeymanagersignjwtargs.kid.md) | string | Key ID |
 

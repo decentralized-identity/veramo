@@ -4,6 +4,8 @@
 
 ## IKeyManager.keyManagerCreateKey() method
 
+Creates and returns a new key
+
 <b>Signature:</b>
 
 ```typescript

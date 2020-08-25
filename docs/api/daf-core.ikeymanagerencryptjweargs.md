@@ -4,6 +4,11 @@
 
 ## IKeyManagerEncryptJWEArgs interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Input arguments for [keyManagerEncryptJWE](./daf-core.ikeymanager.keymanagerencryptjwe.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +19,7 @@ export interface IKeyManagerEncryptJWEArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [data](./daf-core.ikeymanagerencryptjweargs.data.md) | string |  |
-|  [kid](./daf-core.ikeymanagerencryptjweargs.kid.md) | string |  |
-|  [to](./daf-core.ikeymanagerencryptjweargs.to.md) | Omit&lt;[IKey](./daf-core.ikey.md)<!-- -->, 'kms'&gt; |  |
+|  [data](./daf-core.ikeymanagerencryptjweargs.data.md) | string | <b><i>(BETA)</i></b> Data to encrypt |
+|  [kid](./daf-core.ikeymanagerencryptjweargs.kid.md) | string | <b><i>(BETA)</i></b> Key ID to use for encryption |
+|  [to](./daf-core.ikeymanagerencryptjweargs.to.md) | Omit&lt;[IKey](./daf-core.ikey.md)<!-- -->, 'kms'&gt; | <b><i>(BETA)</i></b> Recipient key object |
 

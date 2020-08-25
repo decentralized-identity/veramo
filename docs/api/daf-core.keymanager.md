@@ -4,6 +4,8 @@
 
 ## KeyManager class
 
+Agent plugin that provides [IKeyManager](./daf-core.ikeymanager.md) methods
+
 <b>Signature:</b>
 
 ```typescript
@@ -21,18 +23,18 @@ export declare class KeyManager implements IAgentPlugin
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [methods](./daf-core.keymanager.methods.md) |  | [IKeyManager](./daf-core.ikeymanager.md) |  |
+|  [methods](./daf-core.keymanager.methods.md) |  | [IKeyManager](./daf-core.ikeymanager.md) | Plugin methods |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [keyManagerCreateKey(args)](./daf-core.keymanager.keymanagercreatekey.md) |  |  |
-|  [keyManagerDecryptJWE({ kid, data })](./daf-core.keymanager.keymanagerdecryptjwe.md) |  |  |
-|  [keyManagerDeleteKey({ kid })](./daf-core.keymanager.keymanagerdeletekey.md) |  |  |
-|  [keyManagerEncryptJWE({ kid, to, data })](./daf-core.keymanager.keymanagerencryptjwe.md) |  |  |
-|  [keyManagerGetKey({ kid })](./daf-core.keymanager.keymanagergetkey.md) |  |  |
-|  [keyManagerImportKey(key)](./daf-core.keymanager.keymanagerimportkey.md) |  |  |
-|  [keyManagerSignEthTX({ kid, transaction })](./daf-core.keymanager.keymanagersignethtx.md) |  |  |
-|  [keyManagerSignJWT({ kid, data })](./daf-core.keymanager.keymanagersignjwt.md) |  |  |
+|  [keyManagerCreateKey(args)](./daf-core.keymanager.keymanagercreatekey.md) |  | Creates and returns a new key |
+|  [keyManagerDecryptJWE({ kid, data })](./daf-core.keymanager.keymanagerdecryptjwe.md) |  | Decrypts data |
+|  [keyManagerDeleteKey({ kid })](./daf-core.keymanager.keymanagerdeletekey.md) |  | Deletes a key |
+|  [keyManagerEncryptJWE({ kid, to, data })](./daf-core.keymanager.keymanagerencryptjwe.md) |  | Encrypts data |
+|  [keyManagerGetKey({ kid })](./daf-core.keymanager.keymanagergetkey.md) |  | Returns an existing key |
+|  [keyManagerImportKey(key)](./daf-core.keymanager.keymanagerimportkey.md) |  | Imports a created key |
+|  [keyManagerSignEthTX({ kid, transaction })](./daf-core.keymanager.keymanagersignethtx.md) |  | Signs Ethereum transaction |
+|  [keyManagerSignJWT({ kid, data })](./daf-core.keymanager.keymanagersignjwt.md) |  | Signs JWT |
 

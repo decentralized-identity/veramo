@@ -4,6 +4,11 @@
 
 ## IKeyManagerDecryptJWEArgs interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Input arguments for [keyManagerDecryptJWE](./daf-core.ikeymanager.keymanagerdecryptjwe.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +19,6 @@ export interface IKeyManagerDecryptJWEArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [data](./daf-core.ikeymanagerdecryptjweargs.data.md) | string |  |
-|  [kid](./daf-core.ikeymanagerdecryptjweargs.kid.md) | string |  |
+|  [data](./daf-core.ikeymanagerdecryptjweargs.data.md) | string | <b><i>(BETA)</i></b> Encrypted data |
+|  [kid](./daf-core.ikeymanagerdecryptjweargs.kid.md) | string | <b><i>(BETA)</i></b> Key ID |
 

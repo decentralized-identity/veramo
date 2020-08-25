@@ -1,5 +1,5 @@
 /**
- * The main library for creating Decentralized Identity Agents
+ * The core package of DID Agent Framework
  *
  * @packageDocumentation
  */

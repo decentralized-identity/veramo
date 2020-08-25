@@ -4,7 +4,7 @@
 
 ## daf-core package
 
-The main library for creating Decentralized Identity Agents
+The core package of DID Agent Framework
 
 ## Classes
 
@@ -18,7 +18,7 @@ The main library for creating Decentralized Identity Agents
 |  [AbstractSecretBox](./daf-core.abstractsecretbox.md) |  |
 |  [Agent](./daf-core.agent.md) | Provides a common context for all plugin methods |
 |  [IdentityManager](./daf-core.identitymanager.md) | Agent plugin that provides [IIdentityManager](./daf-core.iidentitymanager.md) methods |
-|  [KeyManager](./daf-core.keymanager.md) |  |
+|  [KeyManager](./daf-core.keymanager.md) | Agent plugin that provides [IKeyManager](./daf-core.ikeymanager.md) methods |
 |  [Message](./daf-core.message.md) |  |
 |  [MessageHandler](./daf-core.messagehandler.md) |  |
 
@@ -51,14 +51,14 @@ The main library for creating Decentralized Identity Agents
 |  [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md) | Input arguments for [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) |
 |  [IIdentityManagerRemoveServiceArgs](./daf-core.iidentitymanagerremoveserviceargs.md) | Input arguments for [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) |
 |  [IKey](./daf-core.ikey.md) | Cryptographic key |
-|  [IKeyManager](./daf-core.ikeymanager.md) |  |
-|  [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md) |  |
-|  [IKeyManagerDecryptJWEArgs](./daf-core.ikeymanagerdecryptjweargs.md) |  |
-|  [IKeyManagerDeleteKeyArgs](./daf-core.ikeymanagerdeletekeyargs.md) |  |
-|  [IKeyManagerEncryptJWEArgs](./daf-core.ikeymanagerencryptjweargs.md) |  |
-|  [IKeyManagerGetKeyArgs](./daf-core.ikeymanagergetkeyargs.md) |  |
-|  [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) |  |
-|  [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md) |  |
+|  [IKeyManager](./daf-core.ikeymanager.md) | Key manager interface |
+|  [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md) | Input arguments for [keyManagerCreateKey](./daf-core.ikeymanager.keymanagercreatekey.md) |
+|  [IKeyManagerDecryptJWEArgs](./daf-core.ikeymanagerdecryptjweargs.md) | <b><i>(BETA)</i></b> Input arguments for [keyManagerDecryptJWE](./daf-core.ikeymanager.keymanagerdecryptjwe.md) |
+|  [IKeyManagerDeleteKeyArgs](./daf-core.ikeymanagerdeletekeyargs.md) | Input arguments for [keyManagerDeleteKey](./daf-core.ikeymanager.keymanagerdeletekey.md) |
+|  [IKeyManagerEncryptJWEArgs](./daf-core.ikeymanagerencryptjweargs.md) | <b><i>(BETA)</i></b> Input arguments for [keyManagerEncryptJWE](./daf-core.ikeymanager.keymanagerencryptjwe.md) |
+|  [IKeyManagerGetKeyArgs](./daf-core.ikeymanagergetkeyargs.md) | Input arguments for [keyManagerGetKey](./daf-core.ikeymanager.keymanagergetkey.md) |
+|  [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) | Input arguments for [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md) |
+|  [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md) | Input arguments for [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md) |
 |  [IMessage](./daf-core.imessage.md) | DIDComm message |
 |  [IMetaData](./daf-core.imetadata.md) | Message meta data |
 |  [IPluginMethod](./daf-core.ipluginmethod.md) | Agent plugin method interface |

@@ -4,6 +4,8 @@
 
 ## IKeyManagerSignEthTXArgs.transaction property
 
+Ethereum transaction object
+
 <b>Signature:</b>
 
 ```typescript
