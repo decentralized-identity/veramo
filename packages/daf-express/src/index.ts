@@ -1,3 +1,25 @@
+/**
+ * Expressjs router for exposing `daf-rest` OpenAPI schema
+ *
+ * @example
+ * ```typescript
+ * import express from 'express'
+ * import { agent } from './agent'
+ * import { AgentRouter } from 'daf-express'
+ *
+ * const agentRouter = AgentRouter({
+ *   getAgentForRequest: async req => agent,
+ *   exposedMethods: agent.availableMethods()
+ * })
+ *
+ * const app = express()
+ * app.use('/agent', agentRouter)
+ * app.listen(3002)
+ * ```
+ *
+ * @packageDocumentation
+ */
+
 import { IAgent } from 'daf-core'
 import { Request, Response, NextFunction, Router, json } from 'express'
 import { supportedMethods } from 'daf-rest'
