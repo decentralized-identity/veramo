@@ -74,6 +74,6 @@ The core package of DID Agent Framework
 |  --- | --- |
 |  [TAgent](./daf-core.tagent.md) | Utility type for constructing agent type that has a list of available methods |
 |  [TKeyType](./daf-core.tkeytype.md) | Cryptographic key type |
-|  [VerifiableCredential](./daf-core.verifiablecredential.md) | Verifiable Credential  |
-|  [VerifiablePresentation](./daf-core.verifiablepresentation.md) | Verifiable Presentation  |
+|  [VerifiableCredential](./daf-core.verifiablecredential.md) | Verifiable Credential [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
+|  [VerifiablePresentation](./daf-core.verifiablepresentation.md) | Verifiable Presentation [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
 

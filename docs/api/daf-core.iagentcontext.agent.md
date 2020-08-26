@@ -4,6 +4,8 @@
 
 ## IAgentContext.agent property
 
+Configured agent
+
 <b>Signature:</b>
 
 ```typescript

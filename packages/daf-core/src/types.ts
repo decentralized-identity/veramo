@@ -3,13 +3,13 @@ import { Verifiable, W3CCredential, W3CPresentation } from 'did-jwt-vc'
 export { W3CCredential, W3CPresentation }
 
 /**
- * Verifiable Credential {@link decentralized-identity/did-jwt-vc#Verifiable<W3CCredential>}
+ * Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}
  * @public
  */
 export type VerifiableCredential = Verifiable<W3CCredential>
 
 /**
- * Verifiable Presentation {@link decentralized-identity/did-jwt-vc#Verifiable<W3CPresentation>}
+ * Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}
  * @public
  */
 export type VerifiablePresentation = Verifiable<W3CPresentation>
@@ -273,9 +273,23 @@ export type TAgent<T extends IPluginMethodMap> = {
 
 /**
  * Standard plugin method context interface
+ *
+ * @remarks
+ * When executing plugin method, you don't need to pass in the context.
+ * It is done automatically by the agent
+ *
+ * @example
+ * ```typescript
+ * await agent.resolveDid({
+ *   didUrl: 'did:example:123'
+ * })
+ * ```
  * @public
  */
 export interface IAgentContext<T extends IPluginMethodMap> {
+  /**
+   * Configured agent
+   */
   agent: TAgent<T>
 }
 

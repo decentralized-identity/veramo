@@ -5,18 +5,38 @@
 
 ## Documentation
 
-- [Guide](docs/Docs.md)
-- [Data flow diagrams](docs/DataFlows.md)
-- [Message Validator chain](docs/MessageValidator.md)
 - [API Reference](docs/api/index.md)
-
-## Architecture
-
-![architecture](docs/assets/architecture.png)
-
-## ORM Data model
-
-[![orm](docs/assets/orm-data-model.png)](docs/assets/orm-data-model.png)
+- Agent setup
+  - Local
+  - Remote
+  - Mixed
+- Using agent
+  - Resolving a DID Document
+  - Creating identities
+  - Importing identities
+  - Deleting identities
+  - Adding keys to a DID Document
+  - Adding services to a DID Document
+  - Creating keys
+  - Importing keys
+  - Deleting keys
+  - Creating Verifiable Credentials
+  - Creating Verifiable Presentations
+  - Handling a message
+  - Sending a message
+  - Storing data
+  - Querying data
+  - Selective disclosure
+- Extending agent
+  - [Agent plugin](docs/plugin.md)
+  - Identity manager
+    - Identity store
+    - Identity provider
+  - Key Manager
+    - Key store
+    - Key Management System
+    - Secret Box
+  - Message handler
 
 ## Local development
 
@@ -48,38 +68,4 @@ yarn test
 
 ```
 yarn test:watch
-```
-
-## DAF cli tool
-
-Use the local development version
-
-```
-yarn daf <command> <options>
-```
-
-Use the released version [daf-cli](packages/daf-cli)
-
-Create identity
-
-```
-npx daf identity-manager --create
-```
-
-Create and send Verifiable Credential
-
-```
-npx daf credential --qrcode --send
-```
-
-Start GraphQL server
-
-```
-npx daf graphql --port 8899
-```
-
-More
-
-```
-npx daf --help
 ```
