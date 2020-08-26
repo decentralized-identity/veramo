@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.14](https://github.com/uport-project/daf/compare/v7.0.0-beta.13...v7.0.0-beta.14) (2020-08-26)
+
+
+### Bug Fixes
+
+* Deps for daf-rest ([9962a58](https://github.com/uport-project/daf/commit/9962a588c1f493e8cb11e8cf19182d547dbcd936))
+
+
+
+
+
 # [7.0.0-beta.13](https://github.com/uport-project/daf/compare/v7.0.0-beta.12...v7.0.0-beta.13) (2020-08-26)
 
 **Note:** Version bump only for package daf
