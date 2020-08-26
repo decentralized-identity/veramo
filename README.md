@@ -6,10 +6,10 @@
 ## Documentation
 
 - [API Reference](docs/api/index.md)
-- Agent setup
-  - Local
-  - Remote
-  - Mixed
+- [Agent setup](docs/setup.md)
+  - [Local](docs/setup.md#local)
+  - [Remote](docs/setup.md#remote)
+  - [Mixed](docs/setup.md#mixed)
 - Using agent
   - Resolving a DID Document
   - Creating identities

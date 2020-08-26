@@ -108,3 +108,155 @@ export const agent = createAgent<
 
 ## Remote
 
+Expose local agent through REST api using [daf-express](api/daf-express.md)
+
+Install DAF core + plugins
+
+```bash
+yarn add daf-core@beta daf-rest@beta daf-w3c@beta daf-did-comm@beta daf-selective-disclosure@beta daf-typeorm@beta 
+```
+
+
+```typescript
+// agent.ts
+import {
+  createAgent,
+  TAgent,
+  IIdentityManager,
+  IResolveDid,
+  IKeyManager,
+  IDataStore,
+  IHandleMessage,
+} from 'daf-core'
+import { IW3c } from 'daf-w3c'
+import { IDIDComm } from 'daf-did-comm'
+import { ISdr } from 'daf-selective-disclosure'
+import { IDataStoreORM } from 'daf-typeorm'
+import { AgentRestClient } from 'daf-rest'
+
+export const agent = createAgent<
+  TAgent<
+    IIdentityManager &
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolveDid &
+      IHandleMessage &
+      IDIDComm &
+      IW3c &
+      ISdr
+  >
+>({
+  plugins: [
+    new AgentRestClient({
+      url: 'http://localhost:3002/agent',
+      enabledMethods: [
+        'keyManagerCreateKey',
+        'keyManagerGetKey',
+        'keyManagerDeleteKey',
+        'keyManagerImportKey',
+        'keyManagerEncryptJWE',
+        'keyManagerDecryptJWE',
+        'keyManagerSignJWT',
+        'keyManagerSignEthTX',
+        'identityManagerGetProviders',
+        'identityManagerGetIdentities',
+        'identityManagerGetIdentity',
+        'identityManagerCreateIdentity',
+        'identityManagerGetOrCreateIdentity',
+        'identityManagerImportIdentity',
+        'identityManagerDeleteIdentity',
+        'identityManagerAddKey',
+        'identityManagerRemoveKey',
+        'identityManagerAddService',
+        'identityManagerRemoveService',
+        'resolveDid',
+        'dataStoreSaveMessage',
+        'dataStoreSaveVerifiableCredential',
+        'dataStoreSaveVerifiablePresentation',
+        'dataStoreORMGetIdentities',
+        'dataStoreORMGetIdentitiesCount',
+        'dataStoreORMGetMessages',
+        'dataStoreORMGetMessagesCount',
+        'dataStoreORMGetVerifiableCredentialsByClaims',
+        'dataStoreORMGetVerifiableCredentialsByClaimsCount',
+        'dataStoreORMGetVerifiableCredentials',
+        'dataStoreORMGetVerifiableCredentialsCount',
+        'dataStoreORMGetVerifiablePresentations',
+        'dataStoreORMGetVerifiablePresentationsCount',
+        'handleMessage',
+        'sendMessageDIDCommAlpha1',
+        'createVerifiablePresentation',
+        'createVerifiableCredential',
+        'createSelectiveDisclosureRequest',
+        'getVerifiableCredentialsForSdr',
+        'validatePresentationAgainstSdr'
+      ]
+    })
+  ]
+})
+```
+
+## Mixed
+
+It is possible to mix these two approaches. This example shows how to use remote methods for key manager, and the rest of functionality would be local.
+
+```typescript
+export const agent = createAgent<
+  TAgent<
+    IIdentityManager &
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolveDid &
+      IHandleMessage &
+      IDIDComm &
+      IW3c &
+      ISdr
+  >
+>({
+  plugins: [
+    new AgentRestClient({
+      url: 'http://localhost:3002/agent',
+      enabledMethods: [
+        'keyManagerCreateKey',
+        'keyManagerGetKey',
+        'keyManagerDeleteKey',
+        'keyManagerImportKey',
+        'keyManagerEncryptJWE',
+        'keyManagerDecryptJWE',
+        'keyManagerSignJWT',
+        'keyManagerSignEthTX',
+      ]
+    })
+    new IdentityManager({
+      store: new IdentityStore(dbConnection),
+      defaultProvider: 'did:ethr:rinkeby',
+      providers: {
+        'did:ethr:rinkeby': new EthrIdentityProvider({
+          defaultKms: 'local',
+          network: 'rinkeby',
+          rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+        }),
+        'did:web': new WebIdentityProvider({
+          defaultKms: 'local',
+        }),
+      },
+    }),
+    new DafResolver({ infuraProjectId }),
+    new DataStore(dbConnection),
+    new DataStoreORM(dbConnection),
+    new MessageHandler({
+      messageHandlers: [
+        new DIDCommMessageHandler(),
+        new JwtMessageHandler(),
+        new W3cMessageHandler(),
+        new SdrMessageHandler(),
+      ],
+    }),
+    new DIDComm(),
+    new W3c(),
+    new Sdr(),
+  ],
+})
+```
