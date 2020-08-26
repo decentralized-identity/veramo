@@ -11,7 +11,7 @@ Utility type for constructing agent type that has a list of available methods
 ```typescript
 export declare type TAgent<T extends IPluginMethodMap> = {
     [P in keyof T]: RemoveContext<T[P]>;
-} & Pick<IAgentBase, 'availableMethods'>;
+} & IAgent;
 ```
 
 ## Example
