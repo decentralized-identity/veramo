@@ -4,7 +4,7 @@
 
 ## VerifiablePresentation type
 
-Verifiable Presentation 
+Verifiable Presentation [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc)
 
 <b>Signature:</b>
 

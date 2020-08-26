@@ -12,9 +12,23 @@ Standard plugin method context interface
 export interface IAgentContext<T extends IPluginMethodMap> 
 ```
 
+## Remarks
+
+When executing plugin method, you don't need to pass in the context. It is done automatically by the agent
+
+## Example
+
+
+```typescript
+await agent.resolveDid({
+  didUrl: 'did:example:123'
+})
+
+```
+
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [agent](./daf-core.iagentcontext.agent.md) | [TAgent](./daf-core.tagent.md)<!-- -->&lt;T&gt; |  |
+|  [agent](./daf-core.iagentcontext.agent.md) | [TAgent](./daf-core.tagent.md)<!-- -->&lt;T&gt; | Configured agent |
 

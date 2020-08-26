@@ -573,7 +573,7 @@ export const openApiSchema: OpenAPIV3.Document = {
       },
       "VerifiableCredential": {
         "$ref": "#/components/schemas/Verifiable-W3CCredential",
-        "description": "Verifiable Credential {@link decentralized-identity/did-jwt-vc#Verifiable-W3CCredential}"
+        "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
       },
       "Verifiable-W3CCredential": {
         "type": "object",
@@ -656,7 +656,7 @@ export const openApiSchema: OpenAPIV3.Document = {
       },
       "VerifiablePresentation": {
         "$ref": "#/components/schemas/Verifiable-W3CPresentation",
-        "description": "Verifiable Presentation {@link decentralized-identity/did-jwt-vc#Verifiable-W3CPresentation}"
+        "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}"
       },
       "Verifiable-W3CPresentation": {
         "type": "object",

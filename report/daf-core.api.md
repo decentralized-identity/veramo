@@ -159,7 +159,6 @@ export interface IAgentBase {
 
 // @public
 export interface IAgentContext<T extends IPluginMethodMap> {
-    // (undocumented)
     agent: TAgent<T>;
 }
 
