@@ -1,3 +1,4 @@
+import 'cross-fetch/polyfill'
 import { IAgentPlugin, IPluginMethodMap } from 'daf-core'
 import { supportedMethods } from './index'
 
