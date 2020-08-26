@@ -4,6 +4,8 @@
 
 ## MessageHandler.methods property
 
+Plugin methods
+
 <b>Signature:</b>
 
 ```typescript

@@ -41,7 +41,7 @@
 | [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) | Removes a key from a DID Document |
 | [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) | Removes a service from a DID Document |
 | [resolveDid](./daf-core.iresolvedid.resolvedid.md) | Resolves DID and returns DID Document |
-| [handleMessage](./daf-core.ihandlemessage.handlemessage.md) |  |
+| [handleMessage](./daf-core.ihandlemessage.handlemessage.md) | Parses and optionally saves a message |
 | [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) | Saves message to the data store |
 | [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) | Saves verifiable credential to the data store |
 | [dataStoreSaveVerifiablePresentation](./daf-core.idatastore.datastoresaveverifiablepresentation.md) | Saves verifiable presentation to the data store |

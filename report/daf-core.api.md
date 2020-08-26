@@ -205,19 +205,15 @@ export class IdentityManager implements IAgentPlugin {
     readonly methods: IIdentityManager;
     }
 
-// @public (undocumented)
+// @public
 export interface IHandleMessage extends IPluginMethodMap {
-    // (undocumented)
     handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>;
 }
 
-// @public (undocumented)
+// @public
 export interface IHandleMessageArgs {
-    // (undocumented)
     metaData?: IMetaData[];
-    // (undocumented)
     raw: string;
-    // (undocumented)
     save?: boolean;
 }
 
@@ -474,14 +470,12 @@ export class Message implements IMessage {
     type: string;
 }
 
-// @public (undocumented)
+// @public
 export class MessageHandler extends EventEmitter implements IAgentPlugin {
     constructor(options: {
         messageHandlers: AbstractMessageHandler[];
     });
-    // (undocumented)
     handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>;
-    // (undocumented)
     readonly methods: IHandleMessage;
 }
 

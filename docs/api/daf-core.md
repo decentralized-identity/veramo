@@ -20,7 +20,7 @@ The core package of DID Agent Framework
 |  [IdentityManager](./daf-core.identitymanager.md) | Agent plugin that provides [IIdentityManager](./daf-core.iidentitymanager.md) methods |
 |  [KeyManager](./daf-core.keymanager.md) | Agent plugin that provides [IKeyManager](./daf-core.ikeymanager.md) methods |
 |  [Message](./daf-core.message.md) |  |
-|  [MessageHandler](./daf-core.messagehandler.md) |  |
+|  [MessageHandler](./daf-core.messagehandler.md) | Agent plugin that provides [IHandleMessage](./daf-core.ihandlemessage.md) methods |
 
 ## Functions
 
@@ -38,8 +38,8 @@ The core package of DID Agent Framework
 |  [IAgentOptions](./daf-core.iagentoptions.md) | Agent configuration options |
 |  [IAgentPlugin](./daf-core.iagentplugin.md) | Agent plugin interface |
 |  [IDataStore](./daf-core.idatastore.md) | Basic data store interface |
-|  [IHandleMessage](./daf-core.ihandlemessage.md) |  |
-|  [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) |  |
+|  [IHandleMessage](./daf-core.ihandlemessage.md) | Message handler interface |
+|  [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) | Input arguments for [handleMessage](./daf-core.ihandlemessage.handlemessage.md) |
 |  [IIdentity](./daf-core.iidentity.md) | Identity interface |
 |  [IIdentityManager](./daf-core.iidentitymanager.md) | Identity manager interface |
 |  [IIdentityManagerAddKeyArgs](./daf-core.iidentitymanageraddkeyargs.md) | Input arguments for [identityManagerAddKey](./daf-core.iidentitymanager.identitymanageraddkey.md) |

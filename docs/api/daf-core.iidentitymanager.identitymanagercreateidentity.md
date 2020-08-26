@@ -16,7 +16,7 @@ identityManagerCreateIdentity(args: IIdentityManagerCreateIdentityArgs, context:
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) |  |
+|  args | [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) | Required [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) <code>arguments</code> to create the identity |
 |  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; | Execution context. Requires <code>agent</code> that has [IKeyManager](./daf-core.ikeymanager.md) methods |
 
 <b>Returns:</b>

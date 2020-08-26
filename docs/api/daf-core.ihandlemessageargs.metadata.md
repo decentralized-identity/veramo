@@ -4,6 +4,8 @@
 
 ## IHandleMessageArgs.metaData property
 
+Optional. Message meta data
+
 <b>Signature:</b>
 
 ```typescript

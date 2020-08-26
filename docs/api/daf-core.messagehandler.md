@@ -4,6 +4,8 @@
 
 ## MessageHandler class
 
+Agent plugin that provides [IHandleMessage](./daf-core.ihandlemessage.md) methods
+
 <b>Signature:</b>
 
 ```typescript
@@ -23,11 +25,11 @@ export declare class MessageHandler extends EventEmitter implements IAgentPlugin
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [methods](./daf-core.messagehandler.methods.md) |  | [IHandleMessage](./daf-core.ihandlemessage.md) |  |
+|  [methods](./daf-core.messagehandler.methods.md) |  | [IHandleMessage](./daf-core.ihandlemessage.md) | Plugin methods |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [handleMessage(args, context)](./daf-core.messagehandler.handlemessage.md) |  |  |
+|  [handleMessage(args, context)](./daf-core.messagehandler.handlemessage.md) |  | Parses and optionally saves a message |
 
