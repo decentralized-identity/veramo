@@ -492,7 +492,7 @@ export interface ResolveDidArgs {
 // @public
 export type TAgent<T extends IPluginMethodMap> = {
     [P in keyof T]: RemoveContext<T[P]>;
-} & Pick<IAgentBase, 'availableMethods'>;
+} & IAgent;
 
 // @public
 export type TKeyType = 'Ed25519' | 'Secp256k1';

@@ -269,7 +269,7 @@ export interface RemoveContext<T extends IPluginMethod> {
 export type TAgent<T extends IPluginMethodMap> = {
   [P in keyof T]: RemoveContext<T[P]>
 } &
-  Pick<IAgentBase, 'availableMethods'>
+  IAgent
 
 /**
  * Standard plugin method context interface
