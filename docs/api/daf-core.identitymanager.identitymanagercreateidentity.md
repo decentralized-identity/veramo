@@ -17,7 +17,7 @@ identityManagerCreateIdentity({ provider, alias, kms, options }: IIdentityManage
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  { provider, alias, kms, options } | [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) |  |
-|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; | [Execution context](./daf-core.iagentcontext.md)<!-- -->. Requires <code>agent</code> that has [IKeyManager](./daf-core.ikeymanager.md) methods |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; | <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires <code>agent</code> that has [IKeyManager](./daf-core.ikeymanager.md) methods |
 
 <b>Returns:</b>
 

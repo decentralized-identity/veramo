@@ -185,7 +185,7 @@ export interface IIdentityManager extends IPluginMethodMap {
    * Creates and returns a new identity
    *
    * @param args - Required.  Arguments to create the identity
-   * @param context - {@link IAgentContext | Execution context}. Requires `agent` that has {@link IKeyManager} methods
+   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link IKeyManager} methods
    *
    * @example
    * ```typescript

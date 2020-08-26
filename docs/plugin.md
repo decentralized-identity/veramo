@@ -20,7 +20,10 @@ export interface IGetServiceArgs {
 }
 
 export interface IMyMethods extends IPluginMethodMap {
-  getService(args: IGetServiceArgs, context: IAgentContext<IResolveDid>): Promise<IService>
+  getService(
+    args: IGetServiceArgs,              // Method arguments
+    context: IAgentContext<IResolveDid> // Execution context
+  ): Promise<IService>
 }
 
 export class MyPlugin implements IAgentPlugin {
@@ -32,11 +35,16 @@ export class MyPlugin implements IAgentPlugin {
     }
   }
 
-  async getService(args: IGetServiceArgs, context: IAgentContext<IResolveDid>): Promise<IService> {
+  async getService(
+    args: IGetServiceArgs,
+    context: IAgentContext<IResolveDid>
+  ): Promise<IService> {
     // Resolving a DID Document using a method provided by another plugin
     const didDoc = await context.agent.resolveDid({ didUrl: args.didUrl })
 
-    const service = didDoc?.service?.find((item) => item.type === args.serviceType)
+    const service = didDoc?.service?.find(
+      (item) => item.type === args.serviceType
+    )
 
     if (!service) throw Error(args.serviceType + ' service not found')
     return service
@@ -53,16 +61,16 @@ There are two valid ways of executing agent methods:
 await agent.getService({
   didUrl: 'did:example:123',
   serviceType: 'custom',
-})
+}) // Notice: no need to pass in the context
 
 // or without IDE autocomplete
 await agent.execute('getService', {
   didUrl: 'did:example:123',
   serviceType: 'custom',
-})
+}) // Notice: no need to pass in the context
 ```
 
-**Notice** that you don't have to pass in the context. It is done automatically by the agent.
+**You don't have to pass in the context**. It is done automatically by the agent.
 
 ### With IDE autocomplete
 
@@ -72,7 +80,10 @@ import { DafResolver } from 'daf-resolver'
 import { MyPlugin, IMyMethods } from './my-plugin'
 
 const agent = createAgent<TAgent<IMyMethods & IResolveDid>>({
-  plugins: [new DafResolver({ infuraProjectId: '5ffc47f65c4042ce847ef66a3fa70d4c' }), new MyPlugin()],
+  plugins: [
+    new MyPlugin(),
+    new DafResolver({ infuraProjectId: '5ffc47f65c4042ce847ef66a3fa70d4c' }),
+  ],
 })
 
 agent
@@ -92,7 +103,10 @@ import { DafResolver } from 'daf-resolver'
 import { MyPlugin } from './my-plugin'
 
 const agent = new Agent({
-  plugins: [new DafResolver({ infuraProjectId: '5ffc47f65c4042ce847ef66a3fa70d4c' }), new MyPlugin()],
+  plugins: [
+    new MyPlugin(),
+    new DafResolver({ infuraProjectId: '5ffc47f65c4042ce847ef66a3fa70d4c' }), 
+  ],
 })
 
 agent

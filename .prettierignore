@@ -1,7 +1,7 @@
 coverage
 examples
 build/**/*
-docs/api
+docs
 report
 packages/daf-rest/src/openApiSchema.ts
 .vscode/settings.json
