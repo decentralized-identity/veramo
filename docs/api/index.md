@@ -12,7 +12,7 @@
 |  [daf-did-comm](./daf-did-comm.md) |  |
 |  [daf-did-jwt](./daf-did-jwt.md) |  |
 |  [daf-ethr-did](./daf-ethr-did.md) |  |
-|  [daf-express](./daf-express.md) |  |
+|  [daf-express](./daf-express.md) | Expressjs router for exposing <code>daf-rest</code> OpenAPI schema |
 |  [daf-graphql](./daf-graphql.md) |  |
 |  [daf-libsodium](./daf-libsodium.md) |  |
 |  [daf-resolver](./daf-resolver.md) |  |

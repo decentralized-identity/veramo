@@ -16,6 +16,4 @@ export const AgentRouter: (options: {
 }) => Router;
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

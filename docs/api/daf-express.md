@@ -4,6 +4,27 @@
 
 ## daf-express package
 
+Expressjs router for exposing `daf-rest` OpenAPI schema
+
+## Example
+
+
+```typescript
+import express from 'express'
+import { agent } from './agent'
+import { AgentRouter } from 'daf-express'
+
+const agentRouter = AgentRouter({
+  getAgentForRequest: async req => agent,
+  exposedMethods: agent.availableMethods()
+})
+
+const app = express()
+app.use('/agent', agentRouter)
+app.listen(3002)
+
+```
+
 ## Variables
 
 |  Variable | Description |
