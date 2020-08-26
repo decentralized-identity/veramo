@@ -455,22 +455,26 @@ export const openApiSchema: OpenAPIV3.Document = {
         "type": "object",
         "properties": {
           "raw": {
-            "type": "string"
+            "type": "string",
+            "description": "Raw message data"
           },
           "metaData": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IMetaData"
-            }
+            },
+            "description": "Optional. Message meta data"
           },
           "save": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Optional. If set to `true`, the message will be saved using {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}"
           }
         },
         "required": [
           "raw"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IHandleMessage.handleMessage | handleMessage}"
       },
       "IMetaData": {
         "type": "object",
@@ -2157,7 +2161,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/handleMessage": {
       "post": {
-        "description": "",
+        "description": "Parses and optionally saves a message",
         "operationId": "handleMessage",
         "requestBody": {
           "content": {
@@ -2170,7 +2174,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Parses and optionally saves a message",
             "content": {
               "application/json": {
                 "schema": {

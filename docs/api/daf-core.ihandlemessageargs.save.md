@@ -4,6 +4,8 @@
 
 ## IHandleMessageArgs.save property
 
+Optional. If set to `true`<!-- -->, the message will be saved using [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md)
+
 <b>Signature:</b>
 
 ```typescript

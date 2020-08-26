@@ -4,6 +4,8 @@
 
 ## IHandleMessageArgs.raw property
 
+Raw message data
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IHandleMessage interface
 
+Message handler interface
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,5 +17,5 @@ export interface IHandleMessage extends IPluginMethodMap
 
 |  Method | Description |
 |  --- | --- |
-|  [handleMessage(args, context)](./daf-core.ihandlemessage.handlemessage.md) |  |
+|  [handleMessage(args, context)](./daf-core.ihandlemessage.handlemessage.md) | Parses and optionally saves a message |
 

@@ -4,6 +4,8 @@
 
 ## IHandleMessageArgs interface
 
+Input arguments for [handleMessage](./daf-core.ihandlemessage.handlemessage.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export interface IHandleMessageArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [metaData](./daf-core.ihandlemessageargs.metadata.md) | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] |  |
-|  [raw](./daf-core.ihandlemessageargs.raw.md) | string |  |
-|  [save](./daf-core.ihandlemessageargs.save.md) | boolean |  |
+|  [metaData](./daf-core.ihandlemessageargs.metadata.md) | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] | Optional. Message meta data |
+|  [raw](./daf-core.ihandlemessageargs.raw.md) | string | Raw message data |
+|  [save](./daf-core.ihandlemessageargs.save.md) | boolean | Optional. If set to <code>true</code>, the message will be saved using [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) |
 

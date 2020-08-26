@@ -12,17 +12,47 @@ export const EventTypes = {
   error: 'error',
 }
 
+/**
+ * Input arguments for {@link IHandleMessage.handleMessage | handleMessage}
+ * @public
+ */
 export interface IHandleMessageArgs {
+  /**
+   * Raw message data
+   */
   raw: string
+
+  /**
+   * Optional. Message meta data
+   */
   metaData?: IMetaData[]
+
+  /**
+   * Optional. If set to `true`, the message will be saved using {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}
+   */
   save?: boolean
 }
 
+/**
+ * Message handler interface
+ * @public
+ */
 export interface IHandleMessage extends IPluginMethodMap {
+  /**
+   * Parses and optionally saves a message
+   * @param context - Execution context. Requires agent with {@link IDataStore} methods
+   */
   handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>
 }
 
+/**
+ * Agent plugin that provides {@link IHandleMessage} methods
+ */
 export class MessageHandler extends EventEmitter implements IAgentPlugin {
+  /**
+   * Plugin methods
+   * @public
+   */
   readonly methods: IHandleMessage
   private messageHandler?: AbstractMessageHandler
 
@@ -47,6 +77,7 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
     }
   }
 
+  /** {@inheritDoc IHandleMessage.handleMessage} */
   public async handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message> {
     const { raw, metaData, save } = args
     debug('%o', { raw, metaData, save })
