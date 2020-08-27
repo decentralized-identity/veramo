@@ -1,15 +1,15 @@
 {
   "name": "daf-web-did",
   "description": "DAF web-did modules",
-  "version": "7.0.0-beta.14",
+  "version": "7.0.0-beta.15",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.14",
-    "daf-identity-manager": "^7.0.0-beta.14",
+    "daf-core": "^7.0.0-beta.15",
+    "daf-identity-manager": "^7.0.0-beta.15",
     "debug": "^4.1.1"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 {
   "name": "daf-libsodium",
   "description": "DAF libsodium modules",
-  "version": "7.0.0-beta.14",
+  "version": "7.0.0-beta.15",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "base-58": "^0.0.1",
-    "daf-core": "^7.0.0-beta.14",
-    "daf-key-manager": "^7.0.0-beta.14",
+    "daf-core": "^7.0.0-beta.15",
+    "daf-key-manager": "^7.0.0-beta.15",
     "debug": "^4.1.1",
     "did-jwt": "^4.3.2",
     "elliptic": "^6.5.2",

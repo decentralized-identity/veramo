@@ -1,7 +1,7 @@
 {
   "name": "daf-resolver-universal",
   "description": "DAF universal resolver",
-  "version": "7.0.0-beta.14",
+  "version": "7.0.0-beta.15",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.5",
-    "daf-core": "^7.0.0-beta.14",
+    "daf-core": "^7.0.0-beta.15",
     "debug": "^4.1.1",
     "did-resolver": "^1.1.0"
   },
