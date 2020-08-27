@@ -2,17 +2,16 @@ import 'cross-fetch/polyfill'
 import {
   Agent,
   createAgent,
-  KeyManager,
-  IdentityManager,
   TAgent,
   IIdentityManager,
   IResolveDid,
   IKeyManager,
   IDataStore,
   IHandleMessage,
-  MessageHandler,
-  IAgentBase,
 } from 'daf-core'
+import { MessageHandler } from 'daf-message-handler'
+import { KeyManager } from 'daf-key-manager'
+import { IdentityManager } from 'daf-identity-manager'
 import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'

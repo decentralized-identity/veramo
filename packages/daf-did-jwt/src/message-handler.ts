@@ -1,4 +1,5 @@
-import { AbstractMessageHandler, Message, IAgentContext, IResolveDid } from 'daf-core'
+import { IAgentContext, IResolveDid } from 'daf-core'
+import { AbstractMessageHandler, Message } from 'daf-message-handler'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
 const debug = Debug('daf:did-jwt:message-handler')

@@ -4,16 +4,14 @@
 
 ```ts
 
-import { AbstractMessageHandler } from 'daf-core';
+import { AbstractMessageHandler } from 'daf-message-handler';
 import { IAgentContext } from 'daf-core';
-import { Message } from 'daf-core';
+import { Message } from 'daf-message-handler';
 
 // @public (undocumented)
 export class UrlMessageHandler extends AbstractMessageHandler {
-    // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    handle(message: Message, context: IContext): Promise<Message>;
+    handle(message: Message, context: IAgentContext<{}>): Promise<Message>;
 }
 
 

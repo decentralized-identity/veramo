@@ -4,16 +4,13 @@
 
 ## daf-core package
 
-The core package of DID Agent Framework
+The core package of DID Agent Framework. Defines default plugin interfaces
 
 ## Classes
 
 |  Class | Description |
 |  --- | --- |
-|  [AbstractMessageHandler](./daf-core.abstractmessagehandler.md) |  |
 |  [Agent](./daf-core.agent.md) | Provides a common context for all plugin methods |
-|  [Message](./daf-core.message.md) |  |
-|  [MessageHandler](./daf-core.messagehandler.md) | Agent plugin that provides [IHandleMessage](./daf-core.ihandlemessage.md) methods |
 
 ## Functions
 

@@ -9,7 +9,7 @@
 ```typescript
 export declare class DIDCommMessageHandler extends AbstractMessageHandler 
 ```
-<b>Extends:</b> [AbstractMessageHandler](./daf-core.abstractmessagehandler.md)
+<b>Extends:</b> [AbstractMessageHandler](./daf-message-handler.abstractmessagehandler.md)
 
 ## Constructors
 

@@ -1,4 +1,5 @@
-import { Message, IResolveDid, IAgentContext, DIDDocument } from 'daf-core'
+import { DIDDocument } from 'daf-core'
+import { Message } from 'daf-message-handler'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { IContext } from '../message-handler'
 import { blake2bHex } from 'blakejs'

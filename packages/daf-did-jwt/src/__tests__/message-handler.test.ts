@@ -1,4 +1,5 @@
-import { Message, IAgentContext, IResolveDid, DIDDocument } from 'daf-core'
+import { DIDDocument } from 'daf-core'
+import { Message } from 'daf-message-handler'
 import { JwtMessageHandler, IContext } from '../message-handler'
 
 describe('daf-did-jwt', () => {

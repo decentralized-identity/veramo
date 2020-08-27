@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>): Promise<Message>;
+sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>): Promise<IMessage>;
 ```
 
 ## Parameters
@@ -19,5 +19,5 @@ sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentCon
 
 <b>Returns:</b>
 
-Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt;
+Promise&lt;[IMessage](./daf-core.imessage.md)<!-- -->&gt;
 

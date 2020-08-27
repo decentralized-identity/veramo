@@ -4,10 +4,10 @@
 
 ```ts
 
-import { AbstractMessageHandler } from 'daf-core';
+import { AbstractMessageHandler } from 'daf-message-handler';
 import { IAgentContext } from 'daf-core';
 import { IResolveDid } from 'daf-core';
-import { Message } from 'daf-core';
+import { Message } from 'daf-message-handler';
 
 // @public (undocumented)
 export class JwtMessageHandler extends AbstractMessageHandler {

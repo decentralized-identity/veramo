@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbstractMessageHandler } from 'daf-core';
+import { AbstractMessageHandler } from 'daf-message-handler';
 import { IAgentContext } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { IDataStore } from 'daf-core';
@@ -12,7 +12,7 @@ import { IIdentityManager } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
 import { IResolveDid } from 'daf-core';
-import { Message } from 'daf-core';
+import { Message } from 'daf-message-handler';
 import { VerifiableCredential } from 'daf-core';
 import { VerifiablePresentation } from 'daf-core';
 import { W3CCredential } from 'daf-core';

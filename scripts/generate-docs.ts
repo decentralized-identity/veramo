@@ -18,6 +18,7 @@ const configs = [
   '../packages/daf-w3c/api-extractor.json',
   '../packages/daf-key-manager/api-extractor.json',
   '../packages/daf-identity-manager/api-extractor.json',
+  '../packages/daf-message-handler/api-extractor.json',
 ]
 
 for (const config of configs) {
