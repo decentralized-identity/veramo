@@ -7,8 +7,7 @@
     "build": "tsc",
     "start:client": "DEBUG=daf:* ts-node src/client/index.ts",
     "start:rest": "DEBUG=daf:* ts-node src/server-rest-express/index.ts",
-    "start:graphql": "DEBUG=daf:* PORT=3001 node build/server-graphql-apollo/index.js",
-    "start:grpc": "DEBUG=daf:* ts-node src/server-grpc/index.ts"
+    "start:graphql": "DEBUG=daf:* PORT=3001 node build/server-graphql-apollo/index.js"
   },
   "dependencies": {
     "@types/express": "^4.17.6",
@@ -23,6 +22,9 @@
     "daf-resolver": "../../packages/daf-resolver",
     "daf-rest": "../../packages/daf-rest",
     "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
+    "daf-identity-manager": "../../packages/daf-identity-manager",
+    "daf-key-manager": "../../packages/daf-key-manager",
+    "daf-message-handler": "../../packages/daf-message-handler",
     "daf-typeorm": "../../packages/daf-typeorm",
     "daf-w3c": "../../packages/daf-w3c",
     "debug": "^4.1.1",
@@ -43,6 +45,9 @@
     "daf-libsodium": "../../packages/daf-libsodium",
     "daf-resolver": "../../packages/daf-resolver",
     "daf-selective-disclosure": "../../packages/daf-selective-disclosure",
+    "daf-identity-manager": "../../packages/daf-identity-manager",
+    "daf-key-manager": "../../packages/daf-key-manager",
+    "daf-message-handler": "../../packages/daf-message-handler",
     "daf-typeorm": "../../packages/daf-typeorm",
     "daf-rest": "../../packages/daf-rest",
     "daf-w3c": "../../packages/daf-w3c"

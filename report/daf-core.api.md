@@ -18,7 +18,7 @@ export class Agent implements IAgent {
     }
 
 // @public
-export function createAgent<ConfiguredAgent>(options: IAgentOptions): ConfiguredAgent;
+export function createAgent<T extends IPluginMethodMap>(options: IAgentOptions): TAgent<T>;
 
 export { DIDDocument }
 

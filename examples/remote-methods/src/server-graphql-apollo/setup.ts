@@ -1,4 +1,7 @@
-import { Agent, KeyManager, MessageHandler, IdentityManager } from 'daf-core'
+import { Agent } from 'daf-core'
+import { MessageHandler } from 'daf-message-handler'
+import { KeyManager } from 'daf-key-manager'
+import { IdentityManager } from 'daf-identity-manager'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, W3cMessageHandler } from 'daf-w3c'

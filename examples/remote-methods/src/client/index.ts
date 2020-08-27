@@ -7,21 +7,19 @@ import { AgentGraphQLClient } from 'daf-graphql'
 import { AgentRestClient } from 'daf-rest'
 
 const agent = createAgent<
-  TAgent<
-    Pick<
-      IIdentityManager,
-      | 'identityManagerGetProviders'
-      | 'identityManagerGetIdentities'
-      | 'identityManagerGetIdentity'
-      | 'identityManagerCreateIdentity'
-    > &
-      IResolveDid &
-      IHandleMessage &
-      IDataStoreORM &
-      IDataStore &
-      IW3c &
-      ISdr
-  >
+  Pick<
+    IIdentityManager,
+    | 'identityManagerGetProviders'
+    | 'identityManagerGetIdentities'
+    | 'identityManagerGetIdentity'
+    | 'identityManagerCreateIdentity'
+  > &
+    IResolveDid &
+    IHandleMessage &
+    IDataStoreORM &
+    IDataStore &
+    IW3c &
+    ISdr
 >({
   plugins: [
     new AgentRestClient({

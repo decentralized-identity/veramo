@@ -56,17 +56,15 @@ const setup = async (): Promise<boolean> => {
   })
 
   agent = createAgent<
-    TAgent<
-      IIdentityManager &
-        IKeyManager &
-        IDataStore &
-        IDataStoreORM &
-        IResolveDid &
-        IHandleMessage &
-        IDIDComm &
-        IW3c &
-        ISdr
-    >
+    IIdentityManager &
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolveDid &
+      IHandleMessage &
+      IDIDComm &
+      IW3c &
+      ISdr
   >({
     context: {
       // authenticatedDid: 'did:example:3456'
