@@ -1,15 +1,14 @@
 import {
   createAgent,
-  KeyManager,
-  MessageHandler,
-  IdentityManager,
-  TAgent,
   IIdentityManager,
   IResolveDid,
   IDataStore,
   IKeyManager,
   IHandleMessage,
 } from 'daf-core'
+import { MessageHandler } from 'daf-message-handler'
+import { KeyManager } from 'daf-key-manager'
+import { IdentityManager } from 'daf-identity-manager'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
@@ -32,17 +31,15 @@ const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa8
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 
 export const agent = createAgent<
-  TAgent<
-    IIdentityManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolveDid &
-      IHandleMessage &
-      IDIDComm &
-      IW3c &
-      ISdr
-  >
+  IIdentityManager &
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolveDid &
+  IHandleMessage &
+  IDIDComm &
+  IW3c &
+  ISdr
 >({
   context: {
     // authenticatedDid: 'did:example:3456'

@@ -19,18 +19,10 @@ Configure your agent
 ```typescript
 // agent.ts
 
-import {
-  createAgent,
-  KeyManager,
-  IdentityManager,
-  TAgent,
-  IIdentityManager,
-  IResolveDid,
-  IKeyManager,
-  IDataStore,
-  IHandleMessage,
-  MessageHandler,
-} from 'daf-core'
+import { createAgent, IIdentityManager, IResolveDid, IKeyManager, IDataStore, IHandleMessage} from 'daf-core'
+import { MessageHandler } from 'daf-message-handler'
+import { KeyManager } from 'daf-key-manager'
+import { IdentityManager } from 'daf-identity-manager'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
@@ -55,17 +47,15 @@ const dbConnection = createConnection({
 })
 
 export const agent = createAgent<
-  TAgent<
-    IIdentityManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolveDid &
-      IHandleMessage &
-      IDIDComm &
-      IW3c &
-      ISdr
-  >
+  IIdentityManager &
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolveDid &
+  IHandleMessage &
+  IDIDComm &
+  IW3c &
+  ISdr
 >({
   plugins: [
     new KeyManager({
@@ -119,79 +109,28 @@ yarn add daf-core@beta daf-rest@beta daf-w3c@beta daf-did-comm@beta daf-selectiv
 
 ```typescript
 // agent.ts
-import {
-  createAgent,
-  TAgent,
-  IIdentityManager,
-  IResolveDid,
-  IKeyManager,
-  IDataStore,
-  IHandleMessage,
-} from 'daf-core'
+import { createAgent, IIdentityManager, IResolveDid, IKeyManager, IDataStore, IHandleMessage} from 'daf-core'
 import { IW3c } from 'daf-w3c'
 import { IDIDComm } from 'daf-did-comm'
 import { ISdr } from 'daf-selective-disclosure'
 import { IDataStoreORM } from 'daf-typeorm'
-import { AgentRestClient } from 'daf-rest'
+import { AgentRestClient, supportedMethods } from 'daf-rest'
 
 export const agent = createAgent<
-  TAgent<
-    IIdentityManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolveDid &
-      IHandleMessage &
-      IDIDComm &
-      IW3c &
-      ISdr
-  >
+  IIdentityManager &
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolveDid &
+  IHandleMessage &
+  IDIDComm &
+  IW3c &
+  ISdr
 >({
   plugins: [
     new AgentRestClient({
       url: 'http://localhost:3002/agent',
-      enabledMethods: [
-        'keyManagerCreateKey',
-        'keyManagerGetKey',
-        'keyManagerDeleteKey',
-        'keyManagerImportKey',
-        'keyManagerEncryptJWE',
-        'keyManagerDecryptJWE',
-        'keyManagerSignJWT',
-        'keyManagerSignEthTX',
-        'identityManagerGetProviders',
-        'identityManagerGetIdentities',
-        'identityManagerGetIdentity',
-        'identityManagerCreateIdentity',
-        'identityManagerGetOrCreateIdentity',
-        'identityManagerImportIdentity',
-        'identityManagerDeleteIdentity',
-        'identityManagerAddKey',
-        'identityManagerRemoveKey',
-        'identityManagerAddService',
-        'identityManagerRemoveService',
-        'resolveDid',
-        'dataStoreSaveMessage',
-        'dataStoreSaveVerifiableCredential',
-        'dataStoreSaveVerifiablePresentation',
-        'dataStoreORMGetIdentities',
-        'dataStoreORMGetIdentitiesCount',
-        'dataStoreORMGetMessages',
-        'dataStoreORMGetMessagesCount',
-        'dataStoreORMGetVerifiableCredentialsByClaims',
-        'dataStoreORMGetVerifiableCredentialsByClaimsCount',
-        'dataStoreORMGetVerifiableCredentials',
-        'dataStoreORMGetVerifiableCredentialsCount',
-        'dataStoreORMGetVerifiablePresentations',
-        'dataStoreORMGetVerifiablePresentationsCount',
-        'handleMessage',
-        'sendMessageDIDCommAlpha1',
-        'createVerifiablePresentation',
-        'createVerifiableCredential',
-        'createSelectiveDisclosureRequest',
-        'getVerifiableCredentialsForSdr',
-        'validatePresentationAgainstSdr'
-      ]
+      enabledMethods: supportedMethods
     })
   ]
 })
@@ -203,17 +142,15 @@ It is possible to mix these two approaches. This example shows how to use remote
 
 ```typescript
 export const agent = createAgent<
-  TAgent<
-    IIdentityManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolveDid &
-      IHandleMessage &
-      IDIDComm &
-      IW3c &
-      ISdr
-  >
+  IIdentityManager &
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolveDid &
+  IHandleMessage &
+  IDIDComm &
+  IW3c &
+  ISdr
 >({
   plugins: [
     new AgentRestClient({

@@ -1,4 +1,4 @@
-import { IAgent, IPluginMethodMap, IAgentPlugin } from './types'
+import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent } from './types'
 import Debug from 'debug'
 
 /**
@@ -149,10 +149,10 @@ export class Agent implements IAgent {
  *
  * @example
  * ```typescript
- * import { createAgent, TAgent, IResolveDid, IHandleMessage } from 'daf-core'
+ * import { createAgent, IResolveDid, IHandleMessage } from 'daf-core'
  * import { AgentRestClient } from 'daf-rest'
  * import { W3c, IW3c } from 'daf-w3c'
- * const agent = createAgent<TAgent<IResolveDid & IHandleMessage & IW3c>>({
+ * const agent = createAgent<IResolveDid & IHandleMessage & IW3c>({
  *   plugins: [
  *     new W3c(),
  *     new AgentRestClient({
@@ -169,7 +169,7 @@ export class Agent implements IAgent {
  * @returns configured agent
  * @public
  */
-export function createAgent<ConfiguredAgent>(options: IAgentOptions): ConfiguredAgent {
+export function createAgent<T extends IPluginMethodMap>(options: IAgentOptions): TAgent<T> {
   //@ts-ignore
   return new Agent(options)
 }

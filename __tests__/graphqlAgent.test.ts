@@ -40,17 +40,15 @@ const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa8
 const port = 3001
 
 const agent = createAgent<
-  TAgent<
-    IIdentityManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolveDid &
-      IHandleMessage &
-      IDIDComm &
-      IW3c &
-      ISdr
-  >
+  IIdentityManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolveDid &
+    IHandleMessage &
+    IDIDComm &
+    IW3c &
+    ISdr
 >({
   plugins: [
     new AgentGraphQLClient({

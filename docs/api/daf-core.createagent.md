@@ -9,7 +9,7 @@ Helper function to create a new instance of the [Agent](./daf-core.agent.md) cla
 <b>Signature:</b>
 
 ```typescript
-export declare function createAgent<ConfiguredAgent>(options: IAgentOptions): ConfiguredAgent;
+export declare function createAgent<T extends IPluginMethodMap>(options: IAgentOptions): TAgent<T>;
 ```
 
 ## Parameters
@@ -20,7 +20,7 @@ export declare function createAgent<ConfiguredAgent>(options: IAgentOptions): Co
 
 <b>Returns:</b>
 
-ConfiguredAgent
+[TAgent](./daf-core.tagent.md)<!-- -->&lt;T&gt;
 
 configured agent
 
@@ -32,10 +32,10 @@ Use [TAgent](./daf-core.tagent.md) to configure agent type (list of available me
 
 
 ```typescript
-import { createAgent, TAgent, IResolveDid, IHandleMessage } from 'daf-core'
+import { createAgent, IResolveDid, IHandleMessage } from 'daf-core'
 import { AgentRestClient } from 'daf-rest'
 import { W3c, IW3c } from 'daf-w3c'
-const agent = createAgent<TAgent<IResolveDid & IHandleMessage & IW3c>>({
+const agent = createAgent<IResolveDid & IHandleMessage & IW3c>({
   plugins: [
     new W3c(),
     new AgentRestClient({

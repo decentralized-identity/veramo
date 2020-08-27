@@ -1,4 +1,3 @@
-import { IIdentity } from 'daf-core'
 import { agent } from './setup'
 
 async function main() {
