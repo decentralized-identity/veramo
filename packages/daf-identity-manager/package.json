@@ -1,14 +1,14 @@
 {
   "name": "daf-identity-manager",
   "description": "DAF Identity Manager",
-  "version": "7.0.0-beta.14",
+  "version": "7.0.0-beta.15",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.14"
+    "daf-core": "^7.0.0-beta.15"
   },
   "devDependencies": {
     "typescript": "^3.8.3"
