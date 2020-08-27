@@ -4,8 +4,8 @@
 
 ```ts
 
-import { AbstractKeyManagementSystem } from 'daf-core';
-import { AbstractSecretBox } from 'daf-core';
+import { AbstractKeyManagementSystem } from 'daf-key-manager';
+import { AbstractSecretBox } from 'daf-key-manager';
 import { IKey } from 'daf-core';
 import { TKeyType } from 'daf-core';
 

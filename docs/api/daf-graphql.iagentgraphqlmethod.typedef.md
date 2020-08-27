@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-typeDef: string
+typeDef: string;
 ```

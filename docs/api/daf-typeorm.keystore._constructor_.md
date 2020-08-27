@@ -17,5 +17,5 @@ constructor(dbConnection: Promise<Connection>, secretBox?: AbstractSecretBox | u
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  dbConnection | Promise&lt;Connection&gt; |  |
-|  secretBox | [AbstractSecretBox](./daf-core.abstractsecretbox.md) \| undefined |  |
+|  secretBox | [AbstractSecretBox](./daf-key-manager.abstractsecretbox.md) \| undefined |  |
 

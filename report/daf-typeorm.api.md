@@ -4,9 +4,9 @@
 
 ```ts
 
-import { AbstractIdentityStore } from 'daf-core';
-import { AbstractKeyStore } from 'daf-core';
-import { AbstractSecretBox } from 'daf-core';
+import { AbstractIdentityStore } from 'daf-identity-manager';
+import { AbstractKeyStore } from 'daf-key-manager';
+import { AbstractSecretBox } from 'daf-key-manager';
 import { BaseEntity } from 'typeorm';
 import { Connection } from 'typeorm';
 import { IAgentPlugin } from 'daf-core';
@@ -118,18 +118,18 @@ export class DataStoreORM implements IAgentPlugin {
     }
 
 // @public (undocumented)
-export const Entities: (typeof Credential_2 | typeof Identity | typeof Claim | typeof Presentation | typeof Message | typeof Key | typeof Service)[];
+export const Entities: (typeof Key | typeof Identity | typeof Service | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Message)[];
 
 // @public (undocumented)
 export interface FindArgs<TColumns> {
-  // (undocumented)
-  order?: Order<TColumns>[]
-  // (undocumented)
-  skip?: number
-  // (undocumented)
-  take?: number
-  // (undocumented)
-  where?: Where<TColumns>[]
+    // (undocumented)
+    order?: Order<TColumns>[];
+    // (undocumented)
+    skip?: number;
+    // (undocumented)
+    take?: number;
+    // (undocumented)
+    where?: Where<TColumns>[];
 }
 
 // @public (undocumented)
@@ -319,10 +319,10 @@ export const migrations: never[];
 
 // @public (undocumented)
 export interface Order<TColumns> {
-  // (undocumented)
-  column: TColumns
-  // (undocumented)
-  direction: 'ASC' | 'DESC'
+    // (undocumented)
+    column: TColumns;
+    // (undocumented)
+    direction: 'ASC' | 'DESC';
 }
 
 // @public (undocumented)
@@ -367,74 +367,30 @@ export class Service extends BaseEntity {
 }
 
 // @public (undocumented)
-export type TClaimsColumns =
-  | 'context'
-  | 'credentialType'
-  | 'type'
-  | 'value'
-  | 'isObj'
-  | 'id'
-  | 'issuer'
-  | 'subject'
-  | 'expirationDate'
-  | 'issuanceDate'
+export type TClaimsColumns = 'context' | 'credentialType' | 'type' | 'value' | 'isObj' | 'id' | 'issuer' | 'subject' | 'expirationDate' | 'issuanceDate';
 
 // @public (undocumented)
-export type TCredentialColumns =
-  | 'context'
-  | 'type'
-  | 'id'
-  | 'issuer'
-  | 'subject'
-  | 'expirationDate'
-  | 'issuanceDate'
+export type TCredentialColumns = 'context' | 'type' | 'id' | 'issuer' | 'subject' | 'expirationDate' | 'issuanceDate';
 
 // @public (undocumented)
-export type TIdentitiesColumns = 'did' | 'alias' | 'provider'
+export type TIdentitiesColumns = 'did' | 'alias' | 'provider';
 
 // @public (undocumented)
-export type TMessageColumns =
-  | 'from'
-  | 'to'
-  | 'id'
-  | 'createdAt'
-  | 'expiresAt'
-  | 'threadId'
-  | 'type'
-  | 'raw'
-  | 'replyTo'
-  | 'replyUrl'
+export type TMessageColumns = 'from' | 'to' | 'id' | 'createdAt' | 'expiresAt' | 'threadId' | 'type' | 'raw' | 'replyTo' | 'replyUrl';
 
 // @public (undocumented)
-export type TPresentationColumns =
-  | 'context'
-  | 'type'
-  | 'id'
-  | 'holder'
-  | 'verifier'
-  | 'expirationDate'
-  | 'issuanceDate'
+export type TPresentationColumns = 'context' | 'type' | 'id' | 'holder' | 'verifier' | 'expirationDate' | 'issuanceDate';
 
 // @public (undocumented)
 export interface Where<TColumns> {
-  // (undocumented)
-  column: TColumns
-  // (undocumented)
-  not?: boolean
-  // (undocumented)
-  op?:
-    | 'LessThan'
-    | 'LessThanOrEqual'
-    | 'MoreThan'
-    | 'MoreThanOrEqual'
-    | 'Equal'
-    | 'Like'
-    | 'Between'
-    | 'In'
-    | 'Any'
-    | 'IsNull'
-  // (undocumented)
-  value?: string[]
+    // (undocumented)
+    column: TColumns;
+    // (undocumented)
+    not?: boolean;
+    // (undocumented)
+    op?: 'LessThan' | 'LessThanOrEqual' | 'MoreThan' | 'MoreThanOrEqual' | 'Equal' | 'Like' | 'Between' | 'In' | 'Any' | 'IsNull';
+    // (undocumented)
+    value?: string[];
 }
 
 

@@ -1,4 +1,5 @@
-import { IKey, AbstractKeyStore, AbstractSecretBox } from 'daf-core'
+import { IKey } from 'daf-core'
+import { AbstractKeyStore, AbstractSecretBox } from 'daf-key-manager'
 import { Connection } from 'typeorm'
 
 import { Key } from '../entities/key'

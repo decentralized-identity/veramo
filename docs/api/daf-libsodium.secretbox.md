@@ -9,7 +9,7 @@
 ```typescript
 export declare class SecretBox extends AbstractSecretBox 
 ```
-<b>Extends:</b> [AbstractSecretBox](./daf-core.abstractsecretbox.md)
+<b>Extends:</b> [AbstractSecretBox](./daf-key-manager.abstractsecretbox.md)
 
 ## Constructors
 

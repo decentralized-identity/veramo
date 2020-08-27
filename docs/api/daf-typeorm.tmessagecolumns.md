@@ -7,15 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type TMessageColumns =
-  | 'from'
-  | 'to'
-  | 'id'
-  | 'createdAt'
-  | 'expiresAt'
-  | 'threadId'
-  | 'type'
-  | 'raw'
-  | 'replyTo'
-  | 'replyUrl'
+export declare type TMessageColumns = 'from' | 'to' | 'id' | 'createdAt' | 'expiresAt' | 'threadId' | 'type' | 'raw' | 'replyTo' | 'replyUrl';
 ```

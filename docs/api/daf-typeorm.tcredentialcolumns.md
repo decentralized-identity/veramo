@@ -7,12 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type TCredentialColumns =
-  | 'context'
-  | 'type'
-  | 'id'
-  | 'issuer'
-  | 'subject'
-  | 'expirationDate'
-  | 'issuanceDate'
+export declare type TCredentialColumns = 'context' | 'type' | 'id' | 'issuer' | 'subject' | 'expirationDate' | 'issuanceDate';
 ```

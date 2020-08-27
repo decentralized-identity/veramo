@@ -14,6 +14,8 @@
 |  [daf-ethr-did](./daf-ethr-did.md) |  |
 |  [daf-express](./daf-express.md) | Expressjs router for exposing <code>daf-rest</code> OpenAPI schema |
 |  [daf-graphql](./daf-graphql.md) |  |
+|  [daf-identity-manager](./daf-identity-manager.md) | Plugin that implements [IIdentityManager](./daf-core.iidentitymanager.md) interface |
+|  [daf-key-manager](./daf-key-manager.md) | Plugin that implements [IKeyManager](./daf-core.ikeymanager.md) interface |
 |  [daf-libsodium](./daf-libsodium.md) |  |
 |  [daf-resolver](./daf-resolver.md) |  |
 |  [daf-resolver-universal](./daf-resolver-universal.md) |  |

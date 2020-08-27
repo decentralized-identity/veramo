@@ -9,7 +9,7 @@
 ```typescript
 export declare class IdentityStore extends AbstractIdentityStore 
 ```
-<b>Extends:</b> [AbstractIdentityStore](./daf-core.abstractidentitystore.md)
+<b>Extends:</b> [AbstractIdentityStore](./daf-identity-manager.abstractidentitystore.md)
 
 ## Constructors
 

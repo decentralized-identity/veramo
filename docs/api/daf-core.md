@@ -10,15 +10,8 @@ The core package of DID Agent Framework
 
 |  Class | Description |
 |  --- | --- |
-|  [AbstractIdentityProvider](./daf-core.abstractidentityprovider.md) |  |
-|  [AbstractIdentityStore](./daf-core.abstractidentitystore.md) |  |
-|  [AbstractKeyManagementSystem](./daf-core.abstractkeymanagementsystem.md) |  |
-|  [AbstractKeyStore](./daf-core.abstractkeystore.md) |  |
 |  [AbstractMessageHandler](./daf-core.abstractmessagehandler.md) |  |
-|  [AbstractSecretBox](./daf-core.abstractsecretbox.md) |  |
 |  [Agent](./daf-core.agent.md) | Provides a common context for all plugin methods |
-|  [IdentityManager](./daf-core.identitymanager.md) | Agent plugin that provides [IIdentityManager](./daf-core.iidentitymanager.md) methods |
-|  [KeyManager](./daf-core.keymanager.md) | Agent plugin that provides [IKeyManager](./daf-core.ikeymanager.md) methods |
 |  [Message](./daf-core.message.md) |  |
 |  [MessageHandler](./daf-core.messagehandler.md) | Agent plugin that provides [IHandleMessage](./daf-core.ihandlemessage.md) methods |
 

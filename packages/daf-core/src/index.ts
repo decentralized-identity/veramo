@@ -5,35 +5,7 @@
  */
 export { Agent, createAgent, IAgentOptions } from './agent'
 export * from './types'
-export {
-  IdentityManager,
-  IIdentityManager,
-  IIdentityManagerAddKeyArgs,
-  IIdentityManagerAddServiceArgs,
-  IIdentityManagerCreateIdentityArgs,
-  IIdentityManagerDeleteIdentityArgs,
-  IIdentityManagerGetIdentityArgs,
-  IIdentityManagerGetOrCreateIdentityArgs,
-  IIdentityManagerRemoveKeyArgs,
-  IIdentityManagerRemoveServiceArgs,
-} from './identity-manager'
-export {
-  KeyManager,
-  IKeyManager,
-  IKeyManagerCreateKeyArgs,
-  IKeyManagerDecryptJWEArgs,
-  IKeyManagerDeleteKeyArgs,
-  IKeyManagerEncryptJWEArgs,
-  IKeyManagerGetKeyArgs,
-  IKeyManagerSignEthTXArgs,
-  IKeyManagerSignJWTArgs,
-} from './key-manager'
 export { MessageHandler, IHandleMessage, IHandleMessageArgs } from './message-handler'
 export { Message } from './message'
-export { AbstractIdentityProvider } from './abstract/abstract-identity-provider'
-export { AbstractKeyManagementSystem } from './abstract/abstract-key-management-system'
-export { AbstractIdentityStore } from './abstract/abstract-identity-store'
-export { AbstractKeyStore } from './abstract/abstract-key-store'
-export { AbstractSecretBox } from './abstract/abstract-secret-box'
 export { AbstractMessageHandler } from './abstract/abstract-message-handler'
 export { DIDDocument } from 'did-resolver'
