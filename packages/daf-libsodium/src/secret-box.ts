@@ -1,4 +1,4 @@
-import { AbstractSecretBox } from 'daf-core'
+import { AbstractSecretBox } from 'daf-key-manager'
 import sodium from 'libsodium-wrappers'
 
 export class SecretBox extends AbstractSecretBox {

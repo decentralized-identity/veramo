@@ -9,7 +9,7 @@
 ```typescript
 export declare class KeyManagementSystem extends AbstractKeyManagementSystem 
 ```
-<b>Extends:</b> [AbstractKeyManagementSystem](./daf-core.abstractkeymanagementsystem.md)
+<b>Extends:</b> [AbstractKeyManagementSystem](./daf-key-manager.abstractkeymanagementsystem.md)
 
 ## Methods
 

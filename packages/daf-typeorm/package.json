@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "daf-core": "^7.0.0-beta.14",
+    "daf-identity-manager": "^7.0.0-beta.14",
+    "daf-key-manager": "^7.0.0-beta.14",
     "debug": "^4.1.1",
     "typeorm": "0.2.25"
   },

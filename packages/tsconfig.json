@@ -6,6 +6,8 @@
     { "path": "daf-did-jwt" },
     { "path": "daf-ethr-did" },
     { "path": "daf-express" },
+    { "path": "daf-identity-manager" },
+    { "path": "daf-key-manager" },
     { "path": "daf-libsodium" },
     { "path": "daf-resolver" },
     { "path": "daf-resolver-universal" },

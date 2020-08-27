@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-type: 'Query' | 'Mutation'
+type: 'Query' | 'Mutation';
 ```

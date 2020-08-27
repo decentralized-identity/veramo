@@ -1,4 +1,5 @@
-import { AbstractKeyManagementSystem, TKeyType, IKey } from 'daf-core'
+import { TKeyType, IKey } from 'daf-core'
+import { AbstractKeyManagementSystem } from 'daf-key-manager'
 import sodium from 'libsodium-wrappers'
 import { SimpleSigner } from 'did-jwt'
 const EC = require('elliptic').ec

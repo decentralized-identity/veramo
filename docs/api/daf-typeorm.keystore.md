@@ -9,7 +9,7 @@
 ```typescript
 export declare class KeyStore extends AbstractKeyStore 
 ```
-<b>Extends:</b> [AbstractKeyStore](./daf-core.abstractkeystore.md)
+<b>Extends:</b> [AbstractKeyStore](./daf-key-manager.abstractkeystore.md)
 
 ## Constructors
 

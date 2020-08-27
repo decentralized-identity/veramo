@@ -1,4 +1,5 @@
-import { IIdentity, IKey, IService, IAgentContext, IKeyManager, AbstractIdentityProvider } from 'daf-core'
+import { IIdentity, IKey, IService, IAgentContext, IKeyManager } from 'daf-core'
+import { AbstractIdentityProvider } from 'daf-identity-manager'
 import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'
 const EthrDID = require('ethr-did')

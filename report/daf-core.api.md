@@ -11,110 +11,6 @@ import { W3CCredential } from 'did-jwt-vc';
 import { W3CPresentation } from 'did-jwt-vc';
 
 // @public (undocumented)
-export abstract class AbstractIdentityProvider {
-    // (undocumented)
-    abstract addKey(args: {
-        identity: IIdentity;
-        key: IKey;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
-    abstract addService(args: {
-        identity: IIdentity;
-        service: IService;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
-    abstract createIdentity(args: {
-        kms?: string;
-        alias?: string;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<Omit<IIdentity, 'provider'>>;
-    // (undocumented)
-    abstract deleteIdentity(args: IIdentity, context: IAgentContext<IKeyManager>): Promise<boolean>;
-    // (undocumented)
-    abstract removeKey(args: {
-        identity: IIdentity;
-        kid: string;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<any>;
-    // (undocumented)
-    abstract removeService(args: {
-        identity: IIdentity;
-        id: string;
-        options?: any;
-    }, context: IAgentContext<IKeyManager>): Promise<any>;
-}
-
-// @public (undocumented)
-export abstract class AbstractIdentityStore {
-    // (undocumented)
-    abstract delete(args: {
-        did: string;
-    }): Promise<boolean>;
-    // (undocumented)
-    abstract get(args: {
-        did: string;
-    }): Promise<IIdentity>;
-    // (undocumented)
-    abstract get(args: {
-        alias: string;
-    }): Promise<IIdentity>;
-    // (undocumented)
-    abstract import(args: IIdentity): Promise<boolean>;
-    // (undocumented)
-    abstract list(): Promise<IIdentity[]>;
-}
-
-// @public (undocumented)
-export abstract class AbstractKeyManagementSystem {
-    // (undocumented)
-    abstract createKey(args: {
-        type: TKeyType;
-        meta?: any;
-    }): Promise<Omit<IKey, 'kms'>>;
-    // (undocumented)
-    abstract decryptJWE(args: {
-        key: IKey;
-        data: string;
-    }): Promise<string>;
-    // (undocumented)
-    abstract deleteKey(args: {
-        kid: string;
-    }): Promise<boolean>;
-    // (undocumented)
-    abstract encryptJWE(args: {
-        key: IKey;
-        to: Omit<IKey, 'kms'>;
-        data: string;
-    }): Promise<string>;
-    // (undocumented)
-    abstract signEthTX(args: {
-        key: IKey;
-        transaction: object;
-    }): Promise<string>;
-    // (undocumented)
-    abstract signJWT(args: {
-        key: IKey;
-        data: string;
-    }): Promise<string>;
-}
-
-// @public (undocumented)
-export abstract class AbstractKeyStore {
-    // (undocumented)
-    abstract delete(args: {
-        kid: string;
-    }): Promise<boolean>;
-    // (undocumented)
-    abstract get(args: {
-        kid: string;
-    }): Promise<IKey>;
-    // (undocumented)
-    abstract import(args: IKey): Promise<boolean>;
-}
-
-// @public (undocumented)
 export abstract class AbstractMessageHandler {
     // (undocumented)
     handle(message: Message, context: IAgentContext<{}>): Promise<Message>;
@@ -122,14 +18,6 @@ export abstract class AbstractMessageHandler {
     nextMessageHandler?: AbstractMessageHandler;
     // (undocumented)
     setNext(messageHandler: AbstractMessageHandler): AbstractMessageHandler;
-}
-
-// @public (undocumented)
-export abstract class AbstractSecretBox {
-  // (undocumented)
-  abstract decrypt(encryptedMessageHex: string): Promise<string>
-  // (undocumented)
-  abstract encrypt(message: string): Promise<string>
 }
 
 // @public
@@ -182,27 +70,6 @@ export interface IDataStore extends IPluginMethodMap {
     dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>;
     dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean>;
 }
-
-// @public
-export class IdentityManager implements IAgentPlugin {
-    constructor(options: {
-        providers: Record<string, AbstractIdentityProvider>;
-        defaultProvider: string;
-        store: AbstractIdentityStore;
-    });
-    identityManagerAddKey({ did, key, options }: IIdentityManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    identityManagerAddService({ did, service, options }: IIdentityManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    identityManagerCreateIdentity({ provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    identityManagerDeleteIdentity({ did }: IIdentityManagerDeleteIdentityArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
-    identityManagerGetIdentities(): Promise<IIdentity[]>;
-    identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
-    identityManagerGetOrCreateIdentity({ provider, alias, kms, options }: IIdentityManagerGetOrCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    identityManagerGetProviders(): Promise<string[]>;
-    identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity>;
-    identityManagerRemoveKey({ did, kid, options }: IIdentityManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    identityManagerRemoveService({ did, id, options }: IIdentityManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    readonly methods: IIdentityManager;
-    }
 
 // @public
 export interface IHandleMessage extends IPluginMethodMap {
@@ -407,25 +274,6 @@ export interface IService {
     serviceEndpoint: string;
     type: string;
 }
-
-// @public
-export class KeyManager implements IAgentPlugin {
-    constructor(options: {
-        store: AbstractKeyStore;
-        kms: Record<string, AbstractKeyManagementSystem>;
-    });
-    keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
-    // Warning: (ae-incompatible-release-tags) The symbol "keyManagerDecryptJWE" is marked as @public, but its signature references "IKeyManagerDecryptJWEArgs" which is marked as @beta
-    keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string>;
-    keyManagerDeleteKey({ kid }: IKeyManagerDeleteKeyArgs): Promise<boolean>;
-    // Warning: (ae-incompatible-release-tags) The symbol "keyManagerEncryptJWE" is marked as @public, but its signature references "IKeyManagerEncryptJWEArgs" which is marked as @beta
-    keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<string>;
-    keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey>;
-    keyManagerImportKey(key: IKey): Promise<boolean>;
-    keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string>;
-    keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string>;
-    readonly methods: IKeyManager;
-    }
 
 // @public (undocumented)
 export class Message implements IMessage {

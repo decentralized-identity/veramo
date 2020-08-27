@@ -9,7 +9,7 @@
 ```typescript
 export declare class EthrIdentityProvider extends AbstractIdentityProvider 
 ```
-<b>Extends:</b> [AbstractIdentityProvider](./daf-core.abstractidentityprovider.md)
+<b>Extends:</b> [AbstractIdentityProvider](./daf-identity-manager.abstractidentityprovider.md)
 
 ## Constructors
 

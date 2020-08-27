@@ -1,4 +1,5 @@
-import { AbstractIdentityStore, IIdentity } from 'daf-core'
+import { IIdentity } from 'daf-core'
+import { AbstractIdentityStore } from 'daf-identity-manager'
 import { Identity } from '../entities/identity'
 import { Key } from '../entities/key'
 import { Service } from '../entities/service'

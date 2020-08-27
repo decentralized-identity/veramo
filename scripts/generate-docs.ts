@@ -16,6 +16,8 @@ const configs = [
   '../packages/daf-typeorm/api-extractor.json',
   '../packages/daf-url/api-extractor.json',
   '../packages/daf-w3c/api-extractor.json',
+  '../packages/daf-key-manager/api-extractor.json',
+  '../packages/daf-identity-manager/api-extractor.json',
 ]
 
 for (const config of configs) {

@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbstractIdentityProvider } from 'daf-core';
+import { AbstractIdentityProvider } from 'daf-identity-manager';
 import { IAgentContext } from 'daf-core';
 import { IIdentity } from 'daf-core';
 import { IKey } from 'daf-core';

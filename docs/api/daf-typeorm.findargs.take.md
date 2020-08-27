@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-take?: number
+take?: number;
 ```

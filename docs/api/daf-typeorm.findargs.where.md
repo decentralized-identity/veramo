@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-where?: Where<TColumns>[]
+where?: Where<TColumns>[];
 ```
