@@ -14,10 +14,10 @@ handle(message: Message, context: IContext): Promise<Message>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  message | [Message](./daf-core.message.md) |  |
+|  message | [Message](./daf-message-handler.message.md) |  |
 |  context | IContext |  |
 
 <b>Returns:</b>
 
-Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt;
+Promise&lt;[Message](./daf-message-handler.message.md)<!-- -->&gt;
 

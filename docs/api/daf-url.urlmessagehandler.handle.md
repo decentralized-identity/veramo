@@ -7,17 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-handle(message: Message, context: IContext): Promise<Message>;
+handle(message: Message, context: IAgentContext<{}>): Promise<Message>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  message | [Message](./daf-core.message.md) |  |
-|  context | IContext |  |
+|  message | [Message](./daf-message-handler.message.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;{}&gt; |  |
 
 <b>Returns:</b>
 
-Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt;
+Promise&lt;[Message](./daf-message-handler.message.md)<!-- -->&gt;
 

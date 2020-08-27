@@ -1,13 +1,12 @@
-import { Agent, AbstractMessageHandler, Message, IAgentContext } from 'daf-core'
+import { IAgentContext } from 'daf-core'
+import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import parse = require('url-parse')
 
 import Debug from 'debug'
 const debug = Debug('daf:url:message-handler')
 
-type IContext = IAgentContext<{}>
-
 export class UrlMessageHandler extends AbstractMessageHandler {
-  async handle(message: Message, context: IContext): Promise<Message> {
+  async handle(message: Message, context: IAgentContext<{}>): Promise<Message> {
     if (message.raw) {
       const parsed = parse(message.raw, {}, true)
       if (parsed && parsed.query && parsed.query.c_i) {

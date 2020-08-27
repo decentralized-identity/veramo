@@ -9,7 +9,7 @@ Parses and optionally saves a message
 <b>Signature:</b>
 
 ```typescript
-handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>;
+handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<IMessage>;
 ```
 
 ## Parameters
@@ -21,5 +21,5 @@ handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Pro
 
 <b>Returns:</b>
 
-Promise&lt;[Message](./daf-core.message.md)<!-- -->&gt;
+Promise&lt;[IMessage](./daf-core.imessage.md)<!-- -->&gt;
 

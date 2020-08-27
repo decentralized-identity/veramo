@@ -1,4 +1,5 @@
-import { AbstractMessageHandler, Message, IAgentContext, IHandleMessage } from 'daf-core'
+import { IAgentContext, IHandleMessage } from 'daf-core'
+import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'

@@ -8,7 +8,7 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [daf-core](./daf-core.md) | The core package of DID Agent Framework |
+|  [daf-core](./daf-core.md) | The core package of DID Agent Framework. Defines default plugin interfaces |
 |  [daf-did-comm](./daf-did-comm.md) |  |
 |  [daf-did-jwt](./daf-did-jwt.md) |  |
 |  [daf-ethr-did](./daf-ethr-did.md) |  |
@@ -17,6 +17,7 @@
 |  [daf-identity-manager](./daf-identity-manager.md) | Plugin that implements [IIdentityManager](./daf-core.iidentitymanager.md) interface |
 |  [daf-key-manager](./daf-key-manager.md) | Plugin that implements [IKeyManager](./daf-core.ikeymanager.md) interface |
 |  [daf-libsodium](./daf-libsodium.md) |  |
+|  [daf-message-handler](./daf-message-handler.md) | Plugin that implements [IHandleMessage](./daf-core.ihandlemessage.md) interface |
 |  [daf-resolver](./daf-resolver.md) |  |
 |  [daf-resolver-universal](./daf-resolver-universal.md) |  |
 |  [daf-rest](./daf-rest.md) |  |

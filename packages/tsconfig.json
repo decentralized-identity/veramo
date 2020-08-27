@@ -9,6 +9,7 @@
     { "path": "daf-identity-manager" },
     { "path": "daf-key-manager" },
     { "path": "daf-libsodium" },
+    { "path": "daf-message-handler" },
     { "path": "daf-resolver" },
     { "path": "daf-resolver-universal" },
     { "path": "daf-rest" },

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "daf-core": "^7.0.0-beta.14",
+    "daf-message-handler": "^7.0.0-beta.14",
     "debug": "^4.1.1",
     "url-parse": "^1.4.7"
   },

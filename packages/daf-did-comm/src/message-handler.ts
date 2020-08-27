@@ -1,4 +1,5 @@
-import { AbstractMessageHandler, Message, IAgentContext, IIdentityManager, IKeyManager } from 'daf-core'
+import { IAgentContext, IIdentityManager, IKeyManager } from 'daf-core'
+import { AbstractMessageHandler, Message } from 'daf-message-handler'
 import Debug from 'debug'
 const debug = Debug('daf:did-comm:message-handler')
 

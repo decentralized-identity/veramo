@@ -1,15 +1,8 @@
-import {
-  IAgentContext,
-  IResolveDid,
-  AbstractMessageHandler,
-  Message,
-  VerifiablePresentation,
-  VerifiableCredential,
-} from 'daf-core'
+import { IAgentContext, IResolveDid } from 'daf-core'
+import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
 import {
-  verifyCredential,
   validateJwtCredentialPayload,
   validateJwtPresentationPayload,
   normalizePresentation,

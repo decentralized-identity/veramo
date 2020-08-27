@@ -1,4 +1,4 @@
-import { Message } from 'daf-core'
+import { Message } from 'daf-message-handler'
 import { UrlMessageHandler } from '../index'
 import fetchMock from 'jest-fetch-mock'
 fetchMock.enableMocks()

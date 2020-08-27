@@ -5,20 +5,9 @@
 ```ts
 
 import { DIDDocument } from 'did-resolver';
-import { EventEmitter } from 'events';
 import { Verifiable } from 'did-jwt-vc';
 import { W3CCredential } from 'did-jwt-vc';
 import { W3CPresentation } from 'did-jwt-vc';
-
-// @public (undocumented)
-export abstract class AbstractMessageHandler {
-    // (undocumented)
-    handle(message: Message, context: IAgentContext<{}>): Promise<Message>;
-    // (undocumented)
-    nextMessageHandler?: AbstractMessageHandler;
-    // (undocumented)
-    setNext(messageHandler: AbstractMessageHandler): AbstractMessageHandler;
-}
 
 // @public
 export class Agent implements IAgent {
@@ -73,7 +62,7 @@ export interface IDataStore extends IPluginMethodMap {
 
 // @public
 export interface IHandleMessage extends IPluginMethodMap {
-    handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>;
+    handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<IMessage>;
 }
 
 // @public
@@ -273,57 +262,6 @@ export interface IService {
     id: string;
     serviceEndpoint: string;
     type: string;
-}
-
-// @public (undocumented)
-export class Message implements IMessage {
-    constructor(data?: {
-        raw: string;
-        metaData?: IMetaData[];
-    });
-    // (undocumented)
-    addMetaData(meta: IMetaData): void;
-    // (undocumented)
-    createdAt?: string;
-    // (undocumented)
-    credentials?: VerifiableCredential[];
-    // (undocumented)
-    data?: any;
-    // (undocumented)
-    expiresAt?: string;
-    // (undocumented)
-    from?: string;
-    // (undocumented)
-    getLastMetaData(): IMetaData | null;
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    isValid(): boolean;
-    // (undocumented)
-    metaData?: IMetaData[];
-    // (undocumented)
-    presentations?: VerifiablePresentation[];
-    // (undocumented)
-    raw?: string;
-    // (undocumented)
-    replyTo?: string[];
-    // (undocumented)
-    replyUrl?: string;
-    // (undocumented)
-    threadId?: string;
-    // (undocumented)
-    to?: string;
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export class MessageHandler extends EventEmitter implements IAgentPlugin {
-    constructor(options: {
-        messageHandlers: AbstractMessageHandler[];
-    });
-    handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>;
-    readonly methods: IHandleMessage;
 }
 
 // @public

@@ -1,7 +1,7 @@
 import { DIDDocument } from 'did-resolver'
 import { Verifiable, W3CCredential, W3CPresentation } from 'did-jwt-vc'
 export { W3CCredential, W3CPresentation }
-
+export { DIDDocument } from 'did-resolver'
 /**
  * Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}
  * @public
@@ -763,4 +763,37 @@ export interface IKeyManager extends IPluginMethodMap {
 
   /** Signs Ethereum transaction */
   keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>
+}
+
+/**
+ * Input arguments for {@link IHandleMessage.handleMessage | handleMessage}
+ * @public
+ */
+export interface IHandleMessageArgs {
+  /**
+   * Raw message data
+   */
+  raw: string
+
+  /**
+   * Optional. Message meta data
+   */
+  metaData?: IMetaData[]
+
+  /**
+   * Optional. If set to `true`, the message will be saved using {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}
+   */
+  save?: boolean
+}
+
+/**
+ * Message handler interface
+ * @public
+ */
+export interface IHandleMessage extends IPluginMethodMap {
+  /**
+   * Parses and optionally saves a message
+   * @param context - Execution context. Requires agent with {@link IDataStore} methods
+   */
+  handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<IMessage>
 }
