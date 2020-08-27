@@ -27,6 +27,7 @@
   - Storing data
   - Querying data
   - Selective disclosure
+  - Revocation
 - Extending agent
   - [Agent plugin](docs/plugin.md)
   - Identity manager
