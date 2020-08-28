@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>): Promise<IMessage>;
+sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IMessageHandler>): Promise<IMessage>;
 ```
 
 ## Parameters
@@ -15,7 +15,7 @@ sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentCon
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  args | [ISendMessageDIDCommAlpha1Args](./daf-did-comm.isendmessagedidcommalpha1args.md) |  |
-|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IIdentityManager](./daf-core.iidentitymanager.md) &amp; [IKeyManager](./daf-core.ikeymanager.md) &amp; [IResolveDid](./daf-core.iresolvedid.md) &amp; [IHandleMessage](./daf-core.ihandlemessage.md)<!-- -->&gt; |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IIdentityManager](./daf-core.iidentitymanager.md) &amp; [IKeyManager](./daf-core.ikeymanager.md) &amp; [IResolveDid](./daf-core.iresolvedid.md) &amp; [IMessageHandler](./daf-core.imessagehandler.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 

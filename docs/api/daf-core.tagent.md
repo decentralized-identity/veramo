@@ -13,13 +13,3 @@ export declare type TAgent<T extends IPluginMethodMap> = {
     [P in keyof T]: RemoveContext<T[P]>;
 } & IAgent;
 ```
-
-## Example
-
-
-```typescript
-import { createAgent, TAgent, IResolveDid, IHandleMessage } from 'daf-core'
-const agent = createAgent<TAgent<IResolveDid & IHandleMessage & IW3c>>(...)
-
-```
-

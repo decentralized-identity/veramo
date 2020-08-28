@@ -5,7 +5,7 @@ import {
   IResolveDid,
   IKeyManager,
   IDataStore,
-  IHandleMessage,
+  IMessageHandler,
 } from 'daf-core'
 import { MessageHandler } from 'daf-message-handler'
 import { KeyManager } from 'daf-key-manager'
@@ -39,7 +39,7 @@ let agent: TAgent<
     IDataStore &
     IDataStoreORM &
     IResolveDid &
-    IHandleMessage &
+    IMessageHandler &
     IDIDComm &
     IW3c &
     ISdr
@@ -61,7 +61,7 @@ const setup = async (): Promise<boolean> => {
       IDataStore &
       IDataStoreORM &
       IResolveDid &
-      IHandleMessage &
+      IMessageHandler &
       IDIDComm &
       IW3c &
       ISdr

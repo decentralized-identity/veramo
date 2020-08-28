@@ -1,5 +1,5 @@
 /**
- * Plugin that implements {@link daf-core#IHandleMessage} interface
+ * Plugin that implements {@link daf-core#IMessageHandler} interface
  *
  * @packageDocumentation
  */

@@ -4,7 +4,7 @@
 
 ## IHandleMessageArgs interface
 
-Input arguments for [handleMessage](./daf-core.ihandlemessage.handlemessage.md)
+Input arguments for [handleMessage](./daf-core.imessagehandler.handlemessage.md)
 
 <b>Signature:</b>
 

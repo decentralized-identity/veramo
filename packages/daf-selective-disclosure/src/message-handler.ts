@@ -1,4 +1,4 @@
-import { IAgentContext, IHandleMessage } from 'daf-core'
+import { IAgentContext, IMessageHandler } from 'daf-core'
 import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
@@ -9,10 +9,8 @@ export const MessageTypes = {
   sdr: 'sdr',
 }
 
-type IContext = IAgentContext<IHandleMessage>
-
 export class SdrMessageHandler extends AbstractMessageHandler {
-  async handle(message: Message, context: IContext): Promise<Message> {
+  async handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message> {
     const meta = message.getLastMetaData()
 
     if (

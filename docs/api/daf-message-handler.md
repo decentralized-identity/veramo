@@ -4,7 +4,7 @@
 
 ## daf-message-handler package
 
-Plugin that implements [IHandleMessage](./daf-core.ihandlemessage.md) interface
+Plugin that implements [IMessageHandler](./daf-core.imessagehandler.md) interface
 
 ## Classes
 
@@ -12,5 +12,5 @@ Plugin that implements [IHandleMessage](./daf-core.ihandlemessage.md) interface
 |  --- | --- |
 |  [AbstractMessageHandler](./daf-message-handler.abstractmessagehandler.md) |  |
 |  [Message](./daf-message-handler.message.md) |  |
-|  [MessageHandler](./daf-message-handler.messagehandler.md) | Agent plugin that provides [IHandleMessage](./daf-core.ihandlemessage.md) methods |
+|  [MessageHandler](./daf-message-handler.messagehandler.md) | Agent plugin that provides [IMessageHandler](./daf-core.imessagehandler.md) methods |
 

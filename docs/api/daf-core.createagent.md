@@ -32,10 +32,10 @@ Use [TAgent](./daf-core.tagent.md) to configure agent type (list of available me
 
 
 ```typescript
-import { createAgent, IResolveDid, IHandleMessage } from 'daf-core'
+import { createAgent, IResolveDid, IMessageHandler } from 'daf-core'
 import { AgentRestClient } from 'daf-rest'
 import { W3c, IW3c } from 'daf-w3c'
-const agent = createAgent<IResolveDid & IHandleMessage & IW3c>({
+const agent = createAgent<IResolveDid & IMessageHandler & IW3c>({
   plugins: [
     new W3c(),
     new AgentRestClient({

@@ -474,7 +474,7 @@ export const openApiSchema: OpenAPIV3.Document = {
           "raw"
         ],
         "additionalProperties": false,
-        "description": "Input arguments for {@link IHandleMessage.handleMessage | handleMessage}"
+        "description": "Input arguments for {@link IMessageHandler.handleMessage | handleMessage}"
       },
       "IMetaData": {
         "type": "object",

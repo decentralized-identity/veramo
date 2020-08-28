@@ -9,5 +9,5 @@ Plugin methods
 <b>Signature:</b>
 
 ```typescript
-readonly methods: IHandleMessage;
+readonly methods: IMessageHandler;
 ```
