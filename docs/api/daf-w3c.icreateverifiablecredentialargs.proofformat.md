@@ -4,8 +4,10 @@
 
 ## ICreateVerifiableCredentialArgs.proofFormat property
 
+The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported
+
 <b>Signature:</b>
 
 ```typescript
-proofFormat: 'jwt';
+proofFormat: EncodingFormat;
 ```

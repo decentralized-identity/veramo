@@ -13,7 +13,7 @@ import { IdentityManager } from 'daf-identity-manager'
 import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
-import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from 'daf-w3c'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { WebIdentityProvider } from 'daf-web-did'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
@@ -41,7 +41,7 @@ let agent: TAgent<
     IResolveDid &
     IMessageHandler &
     IDIDComm &
-    IW3c &
+    ICredentialIssuer &
     ISdr
 >
 let dbConnection: Promise<Connection>
@@ -63,7 +63,7 @@ const setup = async (): Promise<boolean> => {
       IResolveDid &
       IMessageHandler &
       IDIDComm &
-      IW3c &
+      ICredentialIssuer &
       ISdr
   >({
     context: {
@@ -104,7 +104,7 @@ const setup = async (): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new W3c(),
+      new CredentialIssuer(),
       new Sdr(),
     ],
   })

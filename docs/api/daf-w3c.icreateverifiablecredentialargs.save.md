@@ -4,6 +4,8 @@
 
 ## ICreateVerifiableCredentialArgs.save property
 
+If this parameter is true, the resulting VerifiablePresentation is sent to the [storage plugin](./daf-core.idatastore.md) to be saved
+
 <b>Signature:</b>
 
 ```typescript

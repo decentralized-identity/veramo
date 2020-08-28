@@ -4,14 +4,14 @@ import {
   IResolveDid,
   IDataStore,
   IKeyManager,
-  IHandleMessage,
+  IMessageHandler,
 } from 'daf-core'
 import { MessageHandler } from 'daf-message-handler'
 import { KeyManager } from 'daf-key-manager'
 import { IdentityManager } from 'daf-identity-manager'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
-import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from 'daf-w3c'
 import { Sdr, ISdr, SdrMessageHandler } from 'daf-selective-disclosure'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
@@ -36,9 +36,9 @@ export const agent = createAgent<
   IDataStore &
   IDataStoreORM &
   IResolveDid &
-  IHandleMessage &
+  IMessageHandler &
   IDIDComm &
-  IW3c &
+  ICredentialIssuer &
   ISdr
 >({
   context: {
@@ -76,7 +76,7 @@ export const agent = createAgent<
       ],
     }),
     new DIDComm(),
-    new W3c(),
+    new CredentialIssuer(),
     new Sdr(),
   ],
 })

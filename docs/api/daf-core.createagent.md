@@ -34,10 +34,10 @@ Use [TAgent](./daf-core.tagent.md) to configure agent type (list of available me
 ```typescript
 import { createAgent, IResolveDid, IMessageHandler } from 'daf-core'
 import { AgentRestClient } from 'daf-rest'
-import { W3c, IW3c } from 'daf-w3c'
-const agent = createAgent<IResolveDid & IMessageHandler & IW3c>({
+import { CredentialIssuer, ICredentialIssuer } from 'daf-w3c'
+const agent = createAgent<IResolveDid & IMessageHandler & ICredentialIssuer>({
   plugins: [
-    new W3c(),
+    new CredentialIssuer(),
     new AgentRestClient({
       url: 'http://localhost:3002/agent',
       enabledMethods: [

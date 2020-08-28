@@ -67,7 +67,7 @@ describe('daf-did-jwt', () => {
             {
               id: `${args?.didUrl}#owner`,
               type: 'Secp256k1VerificationKey2018',
-              owner: args?.didUrl,
+              controller: args?.didUrl,
               ethereumAddress: args?.didUrl.slice(-42),
             },
           ],

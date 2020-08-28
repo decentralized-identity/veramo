@@ -868,23 +868,24 @@ export const openApiSchema: OpenAPIV3.Document = {
         "type": "object",
         "properties": {
           "credential": {
-            "$ref": "#/components/schemas/W3CCredential"
+            "$ref": "#/components/schemas/W3CCredential",
+            "description": "The json payload of the Credential according to the\n{@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}\n\nThe signer of the Credential is chosen based on the `issuer.id` property\nof the `credential`"
           },
           "save": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n{@link daf-core#IDataStore | storage plugin} to be saved"
           },
           "proofFormat": {
-            "type": "string",
-            "enum": [
-              "jwt"
-            ]
+            "$ref": "#/components/schemas/EncodingFormat",
+            "description": "The desired format for the VerifiablePresentation to be created.\nCurrently, only JWT is supported"
           }
         },
         "required": [
           "credential",
           "proofFormat"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Encapsulates the parameters required to create a\n{@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}"
       },
       "W3CCredential": {
         "type": "object",
@@ -961,27 +962,35 @@ export const openApiSchema: OpenAPIV3.Document = {
         ],
         "additionalProperties": false
       },
+      "EncodingFormat": {
+        "type": "string",
+        "enum": [
+          "jwt"
+        ],
+        "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` is supported at the moment."
+      },
       "ICreateVerifiablePresentationArgs": {
         "type": "object",
         "properties": {
           "presentation": {
-            "$ref": "#/components/schemas/W3CPresentation"
+            "$ref": "#/components/schemas/W3CPresentation",
+            "description": "The json payload of the Presentation according to the\n{@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.\n\nThe signer of the Presentation is chosen based on the `holder` property\nof the `presentation`"
           },
           "save": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n{@link daf-core#IDataStore | storage plugin} to be saved"
           },
           "proofFormat": {
-            "type": "string",
-            "enum": [
-              "jwt"
-            ]
+            "$ref": "#/components/schemas/EncodingFormat",
+            "description": "The desired format for the VerifiablePresentation to be created.\nCurrently, only JWT is supported"
           }
         },
         "required": [
           "presentation",
           "proofFormat"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Encapsulates the parameters required to create a\n{@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}"
       },
       "W3CPresentation": {
         "type": "object",
@@ -2408,7 +2417,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/createVerifiableCredential": {
       "post": {
-        "description": "",
+        "description": "Creates a Verifiable Credential. The payload, signer and format are chosen based on the ",
         "operationId": "createVerifiableCredential",
         "requestBody": {
           "content": {
@@ -2421,7 +2430,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Creates a Verifiable Credential. The payload, signer and format are chosen based on the ",
             "content": {
               "application/json": {
                 "schema": {
@@ -2435,7 +2444,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/createVerifiablePresentation": {
       "post": {
-        "description": "",
+        "description": "Creates a Verifiable Presentation. The payload, signer and format are chosen based on the ",
         "operationId": "createVerifiablePresentation",
         "requestBody": {
           "content": {
@@ -2448,7 +2457,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Creates a Verifiable Presentation. The payload, signer and format are chosen based on the ",
             "content": {
               "application/json": {
                 "schema": {

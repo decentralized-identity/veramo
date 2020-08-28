@@ -4,6 +4,10 @@
 
 ## ICreateVerifiablePresentationArgs.presentation property
 
+The json payload of the Presentation according to the [canonical model](https://www.w3.org/TR/vc-data-model/#presentations)<!-- -->.
+
+The signer of the Presentation is chosen based on the `holder` property of the `presentation`
+
 <b>Signature:</b>
 
 ```typescript

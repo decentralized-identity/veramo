@@ -56,8 +56,8 @@
 | [keyManagerImportKey](./daf-core.ikeymanager.keymanagerimportkey.md) | Imports a created key |
 | [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md) | Signs Ethereum transaction |
 | [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md) | Signs JWT |
-| [createVerifiableCredential](./daf-w3c.iw3c.createverifiablecredential.md) |  |
-| [createVerifiablePresentation](./daf-w3c.iw3c.createverifiablepresentation.md) |  |
+| [createVerifiableCredential](./daf-w3c.icredentialissuer.createverifiablecredential.md) | Creates a Verifiable Credential. The payload, signer and format are chosen based on the  |
+| [createVerifiablePresentation](./daf-w3c.icredentialissuer.createverifiablepresentation.md) | Creates a Verifiable Presentation. The payload, signer and format are chosen based on the  |
 | [createSelectiveDisclosureRequest](./daf-selective-disclosure.isdr.createselectivedisclosurerequest.md) |  |
 | [getVerifiableCredentialsForSdr](./daf-selective-disclosure.isdr.getverifiablecredentialsforsdr.md) |  |
 | [validatePresentationAgainstSdr](./daf-selective-disclosure.isdr.validatepresentationagainstsdr.md) |  |
