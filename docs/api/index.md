@@ -17,7 +17,7 @@
 |  [daf-identity-manager](./daf-identity-manager.md) | Plugin that implements [IIdentityManager](./daf-core.iidentitymanager.md) interface |
 |  [daf-key-manager](./daf-key-manager.md) | Plugin that implements [IKeyManager](./daf-core.ikeymanager.md) interface |
 |  [daf-libsodium](./daf-libsodium.md) |  |
-|  [daf-message-handler](./daf-message-handler.md) | Plugin that implements [IHandleMessage](./daf-core.ihandlemessage.md) interface |
+|  [daf-message-handler](./daf-message-handler.md) | Plugin that implements [IMessageHandler](./daf-core.imessagehandler.md) interface |
 |  [daf-resolver](./daf-resolver.md) |  |
 |  [daf-resolver-universal](./daf-resolver-universal.md) |  |
 |  [daf-rest](./daf-rest.md) |  |
@@ -44,7 +44,7 @@
 | [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) | Removes a key from a DID Document |
 | [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) | Removes a service from a DID Document |
 | [resolveDid](./daf-core.iresolvedid.resolvedid.md) | Resolves DID and returns DID Document |
-| [handleMessage](./daf-core.ihandlemessage.handlemessage.md) | Parses and optionally saves a message |
+| [handleMessage](./daf-core.imessagehandler.handlemessage.md) | Parses and optionally saves a message |
 | [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) | Saves message to the data store |
 | [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) | Saves verifiable credential to the data store |
 | [dataStoreSaveVerifiablePresentation](./daf-core.idatastore.datastoresaveverifiablepresentation.md) | Saves verifiable presentation to the data store |

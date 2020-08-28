@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import { IDataStore, IAgentPlugin, IAgentContext, IHandleMessage, IHandleMessageArgs } from 'daf-core'
+import { IDataStore, IAgentPlugin, IAgentContext, IMessageHandler, IHandleMessageArgs } from 'daf-core'
 import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
 
@@ -13,14 +13,14 @@ export const EventTypes = {
 }
 
 /**
- * Agent plugin that provides {@link daf-core#IHandleMessage} methods
+ * Agent plugin that provides {@link daf-core#IMessageHandler} methods
  */
 export class MessageHandler extends EventEmitter implements IAgentPlugin {
   /**
    * Plugin methods
    * @public
    */
-  readonly methods: IHandleMessage
+  readonly methods: IMessageHandler
   private messageHandler?: AbstractMessageHandler
 
   constructor(options: { messageHandlers: AbstractMessageHandler[] }) {
@@ -44,7 +44,7 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc daf-core#IHandleMessage.handleMessage} */
+  /** {@inheritDoc daf-core#IMessageHandler.handleMessage} */
   public async handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message> {
     const { raw, metaData, save } = args
     debug('%o', { raw, metaData, save })

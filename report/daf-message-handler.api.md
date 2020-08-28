@@ -8,9 +8,9 @@ import { EventEmitter } from 'events';
 import { IAgentContext } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { IDataStore } from 'daf-core';
-import { IHandleMessage } from 'daf-core';
 import { IHandleMessageArgs } from 'daf-core';
 import { IMessage } from 'daf-core';
+import { IMessageHandler } from 'daf-core';
 import { IMetaData } from 'daf-core';
 import { VerifiableCredential } from 'daf-core';
 import { VerifiablePresentation } from 'daf-core';
@@ -74,7 +74,7 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
     });
     // (undocumented)
     handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message>;
-    readonly methods: IHandleMessage;
+    readonly methods: IMessageHandler;
 }
 
 

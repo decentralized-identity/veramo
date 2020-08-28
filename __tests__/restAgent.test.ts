@@ -6,7 +6,7 @@ import {
   IResolveDid,
   IKeyManager,
   IDataStore,
-  IHandleMessage,
+  IMessageHandler,
 } from 'daf-core'
 import { MessageHandler } from 'daf-message-handler'
 import { KeyManager } from 'daf-key-manager'
@@ -44,7 +44,7 @@ const agent = createAgent<
     IDataStore &
     IDataStoreORM &
     IResolveDid &
-    IHandleMessage &
+    IMessageHandler &
     IDIDComm &
     IW3c &
     ISdr

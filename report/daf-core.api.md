@@ -61,11 +61,6 @@ export interface IDataStore extends IPluginMethodMap {
 }
 
 // @public
-export interface IHandleMessage extends IPluginMethodMap {
-    handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<IMessage>;
-}
-
-// @public
 export interface IHandleMessageArgs {
     metaData?: IMetaData[];
     raw: string;
@@ -233,6 +228,11 @@ export interface IMessage {
     threadId?: string;
     to?: string;
     type: string;
+}
+
+// @public
+export interface IMessageHandler extends IPluginMethodMap {
+    handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<IMessage>;
 }
 
 // @public

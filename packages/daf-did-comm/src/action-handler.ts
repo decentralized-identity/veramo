@@ -5,7 +5,7 @@ import {
   IMessage,
   IIdentityManager,
   IKeyManager,
-  IHandleMessage,
+  IMessageHandler,
   IPluginMethodMap,
   IAgentPlugin,
 } from 'daf-core'
@@ -29,7 +29,7 @@ export interface ISendMessageDIDCommAlpha1Args {
 export interface IDIDComm extends IPluginMethodMap {
   sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>,
+    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IMessageHandler>,
   ): Promise<IMessage>
 }
 
@@ -44,7 +44,7 @@ export class DIDComm implements IAgentPlugin {
 
   async sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IHandleMessage>,
+    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IMessageHandler>,
   ): Promise<IMessage> {
     const { data, url, save = true } = args
 

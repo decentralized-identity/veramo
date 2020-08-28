@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-handle(message: Message, context: IContext): Promise<Message>;
+handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message>;
 ```
 
 ## Parameters
@@ -15,7 +15,7 @@ handle(message: Message, context: IContext): Promise<Message>;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  message | [Message](./daf-message-handler.message.md) |  |
-|  context | IContext |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IMessageHandler](./daf-core.imessagehandler.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 

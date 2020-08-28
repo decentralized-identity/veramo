@@ -8,9 +8,9 @@ import { AbstractMessageHandler } from 'daf-message-handler';
 import { IAgentContext } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { IDataStoreORM } from 'daf-typeorm';
-import { IHandleMessage } from 'daf-core';
 import { IIdentityManager } from 'daf-core';
 import { IKeyManager } from 'daf-core';
+import { IMessageHandler } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
 import { Message } from 'daf-message-handler';
 import { VerifiableCredential } from 'daf-core';
@@ -108,10 +108,8 @@ export class Sdr implements IAgentPlugin {
 
 // @public (undocumented)
 export class SdrMessageHandler extends AbstractMessageHandler {
-    // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    handle(message: Message, context: IContext): Promise<Message>;
+    handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message>;
     }
 
 

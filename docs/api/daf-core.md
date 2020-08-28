@@ -28,8 +28,7 @@ The core package of DID Agent Framework. Defines default plugin interfaces
 |  [IAgentOptions](./daf-core.iagentoptions.md) | Agent configuration options |
 |  [IAgentPlugin](./daf-core.iagentplugin.md) | Agent plugin interface |
 |  [IDataStore](./daf-core.idatastore.md) | Basic data store interface |
-|  [IHandleMessage](./daf-core.ihandlemessage.md) | Message handler interface |
-|  [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) | Input arguments for [handleMessage](./daf-core.ihandlemessage.handlemessage.md) |
+|  [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) | Input arguments for [handleMessage](./daf-core.imessagehandler.handlemessage.md) |
 |  [IIdentity](./daf-core.iidentity.md) | Identity interface |
 |  [IIdentityManager](./daf-core.iidentitymanager.md) | Identity manager interface |
 |  [IIdentityManagerAddKeyArgs](./daf-core.iidentitymanageraddkeyargs.md) | Input arguments for [identityManagerAddKey](./daf-core.iidentitymanager.identitymanageraddkey.md) |
@@ -50,6 +49,7 @@ The core package of DID Agent Framework. Defines default plugin interfaces
 |  [IKeyManagerSignEthTXArgs](./daf-core.ikeymanagersignethtxargs.md) | Input arguments for [keyManagerSignEthTX](./daf-core.ikeymanager.keymanagersignethtx.md) |
 |  [IKeyManagerSignJWTArgs](./daf-core.ikeymanagersignjwtargs.md) | Input arguments for [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md) |
 |  [IMessage](./daf-core.imessage.md) | DIDComm message |
+|  [IMessageHandler](./daf-core.imessagehandler.md) | Message handler interface |
 |  [IMetaData](./daf-core.imetadata.md) | Message meta data |
 |  [IPluginMethod](./daf-core.ipluginmethod.md) | Agent plugin method interface |
 |  [IPluginMethodMap](./daf-core.ipluginmethodmap.md) | Plugin method map interface |

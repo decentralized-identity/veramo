@@ -258,12 +258,6 @@ export interface RemoveContext<T extends IPluginMethod> {
 
 /**
  * Utility type for constructing agent type that has a list of available methods
- *
- * @example
- * ```typescript
- * import { createAgent, TAgent, IResolveDid, IHandleMessage } from 'daf-core'
- * const agent = createAgent<TAgent<IResolveDid & IHandleMessage & IW3c>>(...)
- * ```
  * @public
  */
 export type TAgent<T extends IPluginMethodMap> = {
@@ -766,7 +760,7 @@ export interface IKeyManager extends IPluginMethodMap {
 }
 
 /**
- * Input arguments for {@link IHandleMessage.handleMessage | handleMessage}
+ * Input arguments for {@link IMessageHandler.handleMessage | handleMessage}
  * @public
  */
 export interface IHandleMessageArgs {
@@ -790,7 +784,7 @@ export interface IHandleMessageArgs {
  * Message handler interface
  * @public
  */
-export interface IHandleMessage extends IPluginMethodMap {
+export interface IMessageHandler extends IPluginMethodMap {
   /**
    * Parses and optionally saves a message
    * @param context - Execution context. Requires agent with {@link IDataStore} methods
