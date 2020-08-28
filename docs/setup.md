@@ -25,7 +25,7 @@ import { KeyManager } from 'daf-key-manager'
 import { IdentityManager } from 'daf-identity-manager'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
-import { W3c, IW3c, W3cMessageHandler } from 'daf-w3c'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from 'daf-w3c'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { WebIdentityProvider } from 'daf-web-did'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
@@ -52,9 +52,9 @@ export const agent = createAgent<
   IDataStore &
   IDataStoreORM &
   IResolveDid &
-  IHandleMessage &
+  IMessageHandler &
   IDIDComm &
-  IW3c &
+  ICredentialIssuer &
   ISdr
 >({
   plugins: [
@@ -90,7 +90,7 @@ export const agent = createAgent<
       ],
     }),
     new DIDComm(),
-    new W3c(),
+    new CredentialIssuer(),
     new Sdr(),
   ],
 })
@@ -110,7 +110,7 @@ yarn add daf-core@beta daf-rest@beta daf-w3c@beta daf-did-comm@beta daf-selectiv
 ```typescript
 // agent.ts
 import { createAgent, IIdentityManager, IResolveDid, IKeyManager, IDataStore, IHandleMessage} from 'daf-core'
-import { IW3c } from 'daf-w3c'
+import { ICredentialIssuer } from 'daf-w3c'
 import { IDIDComm } from 'daf-did-comm'
 import { ISdr } from 'daf-selective-disclosure'
 import { IDataStoreORM } from 'daf-typeorm'
@@ -122,9 +122,9 @@ export const agent = createAgent<
   IDataStore &
   IDataStoreORM &
   IResolveDid &
-  IHandleMessage &
+  IMessageHandler &
   IDIDComm &
-  IW3c &
+  ICredentialIssuer &
   ISdr
 >({
   plugins: [
@@ -147,9 +147,9 @@ export const agent = createAgent<
   IDataStore &
   IDataStoreORM &
   IResolveDid &
-  IHandleMessage &
+  IMessageHandler &
   IDIDComm &
-  IW3c &
+  ICredentialIssuer &
   ISdr
 >({
   plugins: [
@@ -192,7 +192,7 @@ export const agent = createAgent<
       ],
     }),
     new DIDComm(),
-    new W3c(),
+    new CredentialIssuer(),
     new Sdr(),
   ],
 })

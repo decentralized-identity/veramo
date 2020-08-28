@@ -11,8 +11,8 @@
     "daf-core": "^7.0.0-beta.15",
     "daf-message-handler": "^7.0.0-beta.15",
     "debug": "^4.1.1",
-    "did-jwt": "^4.3.2",
-    "did-resolver": "^1.1.0"
+    "did-jwt": "4.5.0",
+    "did-resolver": "2.1.1"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",

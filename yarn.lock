@@ -266,6 +266,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.11.2":
+  version "7.11.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
+  integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.10.1", "@babel/template@^7.10.3", "@babel/template@^7.3.3":
   version "7.10.3"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.10.3.tgz#4d13bc8e30bf95b0ce9d175d30306f42a2c9a7b8"
@@ -4084,6 +4091,21 @@ did-jwt-vc@^1.0.3:
   dependencies:
     did-jwt "^4.3.2"
 
+did-jwt@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-4.5.0.tgz#9dfb1490d0c497cb86b5a1ee601b7d072e77a948"
+  integrity sha512-5duVhz8d9Af9ZoBYEGGfaGdM1RM2VDawbjs6FUg8gjNCfkKd9R6RNYdAma/pZAuHY1lGXnFQBKzBZhib0y5Y3g==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@stablelib/utf8" "^1.0.0"
+    buffer "^5.6.0"
+    did-resolver "^2.1.0"
+    elliptic "^6.5.3"
+    js-sha256 "^0.9.0"
+    js-sha3 "^0.8.0"
+    tweetnacl "^1.0.3"
+    uport-base64url "3.0.2-alpha.0"
+
 did-jwt@^0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-0.1.3.tgz#0d23c74ed4e5188e9c10fb85b5e8c3e42ecb9da9"
@@ -4124,7 +4146,12 @@ did-resolver@1.0.0:
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-1.0.0.tgz#892bcffe66352b1360c928a23082a731c83ca7c3"
   integrity sha512-mgJG0oqlkG7jfRzW0yN9qKawp24M4thGFdfIaZI30SAJXhpkkjqbkRxqMZLJNwqXEM0cqFbXaiFDqnd9Q1UUaw==
 
-did-resolver@^1.0.0, did-resolver@^1.1.0:
+did-resolver@2.1.1, did-resolver@^2.1.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-2.1.1.tgz#43796f8a3e921644e5fb15a8147684ca87019cfd"
+  integrity sha512-FYLTkNWofjYNDGV1HTQlyVu1OqZiFxR4I8KM+oxGVOkbXva15NfWzbzciqdXUDqOhe6so5aroAdrVip6gSAYSA==
+
+did-resolver@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-1.1.0.tgz#27a63b6f2aa8dee3d622cd8b8b47360661e24f1e"
   integrity sha512-Q02Sc5VuQnJzzR8fQ/DzyCHiYb31WpQdocOsxppI66wwT4XalYRDeCr3a48mL6sYPQo76AkBh0mxte9ZBuQzxA==
@@ -4251,7 +4278,7 @@ elliptic@6.3.2:
     hash.js "^1.0.0"
     inherits "^2.0.1"
 
-elliptic@^6.4.0, elliptic@^6.5.2:
+elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3:
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.3.tgz#cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6"
   integrity sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==

@@ -16,7 +16,7 @@ const mockDidJwtVc = {
 
 jest.mock('did-jwt-vc', () => mockDidJwtVc)
 
-import { W3c, IContext } from '../action-handler'
+import { CredentialIssuer, IContext } from '../action-handler'
 
 const mockIdentity1: IIdentity = {
   did: 'did:example:111',
@@ -62,7 +62,7 @@ const context: IContext = {
   },
 }
 
-const w3c = new W3c()
+const w3c = new CredentialIssuer()
 
 describe('daf-w3c', () => {
   it('handles createVerifiableCredential', async () => {

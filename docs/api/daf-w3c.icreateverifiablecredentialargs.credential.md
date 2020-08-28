@@ -4,6 +4,10 @@
 
 ## ICreateVerifiableCredentialArgs.credential property
 
+The json payload of the Credential according to the [canonical model](https://www.w3.org/TR/vc-data-model/#credentials)
+
+The signer of the Credential is chosen based on the `issuer.id` property of the `credential`
+
 <b>Signature:</b>
 
 ```typescript

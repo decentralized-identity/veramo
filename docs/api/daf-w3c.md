@@ -8,20 +8,14 @@
 
 |  Class | Description |
 |  --- | --- |
-|  [W3c](./daf-w3c.w3c.md) |  |
-|  [W3cMessageHandler](./daf-w3c.w3cmessagehandler.md) |  |
+|  [CredentialIssuer](./daf-w3c.credentialissuer.md) | A DAF plugin that implements the [ICredentialIssuer](./daf-w3c.icredentialissuer.md) methods. |
+|  [W3cMessageHandler](./daf-w3c.w3cmessagehandler.md) | An implementation of the [AbstractMessageHandler](./daf-message-handler.abstractmessagehandler.md)<!-- -->.<!-- -->This plugin can handle incoming W3C Verifiable Credentials and Presentations and prepare them for internal storage as [Message](./daf-message-handler.message.md) types.<!-- -->The current version can only handle <code>JWT</code> encoded |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
-|  [ICreateVerifiableCredentialArgs](./daf-w3c.icreateverifiablecredentialargs.md) |  |
-|  [ICreateVerifiablePresentationArgs](./daf-w3c.icreateverifiablepresentationargs.md) |  |
-|  [IW3c](./daf-w3c.iw3c.md) |  |
-
-## Variables
-
-|  Variable | Description |
-|  --- | --- |
-|  [MessageTypes](./daf-w3c.messagetypes.md) |  |
+|  [ICreateVerifiableCredentialArgs](./daf-w3c.icreateverifiablecredentialargs.md) | Encapsulates the parameters required to create a [W3C Verifiable Credential](https://www.w3.org/TR/vc-data-model/#credentials) |
+|  [ICreateVerifiablePresentationArgs](./daf-w3c.icreateverifiablepresentationargs.md) | Encapsulates the parameters required to create a [W3C Verifiable Presentation](https://www.w3.org/TR/vc-data-model/#presentations) |
+|  [ICredentialIssuer](./daf-w3c.icredentialissuer.md) | The interface definition for a plugin that can generate Verifiable Credentials and Presentations |
 

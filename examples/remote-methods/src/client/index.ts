@@ -1,7 +1,7 @@
 import 'cross-fetch/polyfill'
-import { createAgent, TAgent, IIdentityManager, IResolveDid, IHandleMessage, IDataStore } from 'daf-core'
+import { createAgent, TAgent, IIdentityManager, IResolveDid, IMessageHandler, IDataStore } from 'daf-core'
 import { IDataStoreORM } from 'daf-typeorm'
-import { IW3c } from 'daf-w3c'
+import { ICredentialIssuer } from 'daf-w3c'
 import { ISdr } from 'daf-selective-disclosure'
 import { AgentGraphQLClient } from 'daf-graphql'
 import { AgentRestClient } from 'daf-rest'
@@ -15,10 +15,10 @@ const agent = createAgent<
     | 'identityManagerCreateIdentity'
   > &
     IResolveDid &
-    IHandleMessage &
+    IMessageHandler &
     IDataStoreORM &
     IDataStore &
-    IW3c &
+    ICredentialIssuer &
     ISdr
 >({
   plugins: [

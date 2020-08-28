@@ -1,7 +1,7 @@
 import { TAgent, IIdentityManager, IIdentity } from 'daf-core'
-import { IW3c } from 'daf-w3c'
+import { ICredentialIssuer } from 'daf-w3c'
 
-type ConfiguredAgent = TAgent<IIdentityManager & IW3c>
+type ConfiguredAgent = TAgent<IIdentityManager & ICredentialIssuer>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent

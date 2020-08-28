@@ -1,8 +1,8 @@
 import { IAgentPlugin, IPluginMethodMap } from 'daf-core'
 export { W3cMessageHandler, MessageTypes } from './message-handler'
 export {
-  W3c,
-  IW3c,
+  CredentialIssuer,
+  ICredentialIssuer,
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,
 } from './action-handler'

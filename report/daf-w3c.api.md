@@ -18,54 +18,46 @@ import { VerifiablePresentation } from 'daf-core';
 import { W3CCredential } from 'daf-core';
 import { W3CPresentation } from 'daf-core';
 
-// @public (undocumented)
-export interface ICreateVerifiableCredentialArgs {
-    // (undocumented)
-    credential: W3CCredential;
-    // (undocumented)
-    proofFormat: 'jwt';
-    // (undocumented)
-    save?: boolean;
-}
-
-// @public (undocumented)
-export interface ICreateVerifiablePresentationArgs {
-    // (undocumented)
-    presentation: W3CPresentation;
-    // (undocumented)
-    proofFormat: 'jwt';
-    // (undocumented)
-    save?: boolean;
-}
-
-// @public (undocumented)
-export interface IW3c extends IPluginMethodMap {
-    // (undocumented)
+// @public
+export class CredentialIssuer implements IAgentPlugin {
+    constructor();
     createVerifiableCredential(args: ICreateVerifiableCredentialArgs, context: IContext_2): Promise<VerifiableCredential>;
     // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
-    //
+    createVerifiablePresentation(args: ICreateVerifiablePresentationArgs, context: IContext_2): Promise<VerifiablePresentation>;
     // (undocumented)
+    readonly methods: ICredentialIssuer;
+}
+
+// @public
+export interface ICreateVerifiableCredentialArgs {
+    credential: W3CCredential;
+    // Warning: (ae-forgotten-export) The symbol "EncodingFormat" needs to be exported by the entry point index.d.ts
+    proofFormat: EncodingFormat;
+    save?: boolean;
+}
+
+// @public
+export interface ICreateVerifiablePresentationArgs {
+    presentation: W3CPresentation;
+    proofFormat: EncodingFormat;
+    save?: boolean;
+}
+
+// @public
+export interface ICredentialIssuer extends IPluginMethodMap {
+    createVerifiableCredential(args: ICreateVerifiableCredentialArgs, context: IContext_2): Promise<VerifiableCredential>;
     createVerifiablePresentation(args: ICreateVerifiablePresentationArgs, context: IContext_2): Promise<VerifiablePresentation>;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MessageTypes" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export const MessageTypes: {
     vc: string;
     vp: string;
 };
 
-// @public (undocumented)
-export class W3c implements IAgentPlugin {
-    constructor();
-    // (undocumented)
-    createVerifiableCredential(args: ICreateVerifiableCredentialArgs, context: IContext_2): Promise<VerifiableCredential>;
-    // (undocumented)
-    createVerifiablePresentation(args: ICreateVerifiablePresentationArgs, context: IContext_2): Promise<VerifiablePresentation>;
-    // (undocumented)
-    readonly methods: IW3c;
-}
-
-// @public (undocumented)
+// @public
 export class W3cMessageHandler extends AbstractMessageHandler {
     // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
     //

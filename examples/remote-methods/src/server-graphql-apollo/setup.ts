@@ -4,7 +4,7 @@ import { KeyManager } from 'daf-key-manager'
 import { IdentityManager } from 'daf-identity-manager'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
-import { W3c, W3cMessageHandler } from 'daf-w3c'
+import { CredentialIssuer, W3cMessageHandler } from 'daf-w3c'
 import { DIDComm, DIDCommMessageHandler } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
@@ -53,6 +53,6 @@ export const agent = new Agent({
       messageHandlers: [new DIDCommMessageHandler(), new JwtMessageHandler(), new W3cMessageHandler()],
     }),
     new DIDComm(),
-    new W3c(),
+    new CredentialIssuer(),
   ],
 })

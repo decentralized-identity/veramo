@@ -4,7 +4,7 @@ import { KeyManager } from 'daf-key-manager'
 import { IdentityManager } from 'daf-identity-manager'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
-import { W3c, W3cMessageHandler } from 'daf-w3c'
+import { CredentialIssuer, W3cMessageHandler } from 'daf-w3c'
 import { Sdr, SdrMessageHandler } from 'daf-selective-disclosure'
 import { DIDComm, DIDCommMessageHandler } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
@@ -59,7 +59,7 @@ export const agent = new Agent({
       ],
     }),
     new DIDComm(),
-    new W3c(),
+    new CredentialIssuer(),
     new Sdr(),
   ],
 })

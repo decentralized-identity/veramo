@@ -4,6 +4,8 @@
 
 ## ICreateVerifiableCredentialArgs interface
 
+Encapsulates the parameters required to create a [W3C Verifiable Credential](https://www.w3.org/TR/vc-data-model/#credentials)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export interface ICreateVerifiableCredentialArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [credential](./daf-w3c.icreateverifiablecredentialargs.credential.md) | W3CCredential |  |
-|  [proofFormat](./daf-w3c.icreateverifiablecredentialargs.proofformat.md) | 'jwt' |  |
-|  [save](./daf-w3c.icreateverifiablecredentialargs.save.md) | boolean |  |
+|  [credential](./daf-w3c.icreateverifiablecredentialargs.credential.md) | W3CCredential | The json payload of the Credential according to the [canonical model](https://www.w3.org/TR/vc-data-model/#credentials)<!-- -->The signer of the Credential is chosen based on the <code>issuer.id</code> property of the <code>credential</code> |
+|  [proofFormat](./daf-w3c.icreateverifiablecredentialargs.proofformat.md) | EncodingFormat | The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported |
+|  [save](./daf-w3c.icreateverifiablecredentialargs.save.md) | boolean | If this parameter is true, the resulting VerifiablePresentation is sent to the [storage plugin](./daf-core.idatastore.md) to be saved |
 

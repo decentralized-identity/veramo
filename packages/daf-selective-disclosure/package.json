@@ -14,7 +14,7 @@
     "daf-message-handler": "^7.0.0-beta.15",
     "daf-typeorm": "^7.0.0-beta.15",
     "debug": "^4.1.1",
-    "did-jwt": "^4.3.2"
+    "did-jwt": "4.5.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
