@@ -4,7 +4,7 @@ import {
   createAgent,
   TAgent,
   IIdentityManager,
-  IResolveDid,
+  IResolver,
   IKeyManager,
   IDataStore,
   IMessageHandler,
@@ -44,7 +44,7 @@ const agent = createAgent<
     IKeyManager &
     IDataStore &
     IDataStoreORM &
-    IResolveDid &
+    IResolver &
     IMessageHandler &
     IDIDComm &
     ICredentialIssuer &

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-methods: IResolveDid;
+methods: IResolver;
 ```

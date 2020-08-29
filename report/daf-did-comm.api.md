@@ -12,7 +12,7 @@ import { IKeyManager } from 'daf-core';
 import { IMessage } from 'daf-core';
 import { IMessageHandler } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
-import { IResolveDid } from 'daf-core';
+import { IResolver } from 'daf-core';
 import { Message } from 'daf-message-handler';
 
 // @public (undocumented)
@@ -21,7 +21,7 @@ export class DIDComm implements IAgentPlugin {
     // (undocumented)
     readonly methods: IDIDComm;
     // (undocumented)
-    sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IMessageHandler>): Promise<IMessage>;
+    sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>): Promise<IMessage>;
 }
 
 // @public (undocumented)
@@ -36,7 +36,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
 // @public (undocumented)
 export interface IDIDComm extends IPluginMethodMap {
     // (undocumented)
-    sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IMessageHandler>): Promise<IMessage>;
+    sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>): Promise<IMessage>;
 }
 
 // @public (undocumented)

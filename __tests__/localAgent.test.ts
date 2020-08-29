@@ -2,7 +2,7 @@ import {
   createAgent,
   TAgent,
   IIdentityManager,
-  IResolveDid,
+  IResolver,
   IKeyManager,
   IDataStore,
   IMessageHandler,
@@ -38,7 +38,7 @@ let agent: TAgent<
     IKeyManager &
     IDataStore &
     IDataStoreORM &
-    IResolveDid &
+    IResolver &
     IMessageHandler &
     IDIDComm &
     ICredentialIssuer &
@@ -60,7 +60,7 @@ const setup = async (): Promise<boolean> => {
       IKeyManager &
       IDataStore &
       IDataStoreORM &
-      IResolveDid &
+      IResolver &
       IMessageHandler &
       IDIDComm &
       ICredentialIssuer &

@@ -6,7 +6,7 @@
 
 import { AbstractMessageHandler } from 'daf-message-handler';
 import { IAgentContext } from 'daf-core';
-import { IResolveDid } from 'daf-core';
+import { IResolver } from 'daf-core';
 import { Message } from 'daf-message-handler';
 
 // @public (undocumented)

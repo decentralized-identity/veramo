@@ -1,4 +1,4 @@
-import { IAgentContext, IResolveDid } from 'daf-core'
+import { IAgentContext, IResolver } from 'daf-core'
 import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
@@ -30,7 +30,7 @@ export const MessageTypes = {
  *
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  */
-export type IContext = IAgentContext<IResolveDid>
+export type IContext = IAgentContext<IResolver>
 
 /**
  * An implementation of the {@link daf-message-handler#AbstractMessageHandler}.

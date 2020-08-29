@@ -1,6 +1,6 @@
-import { TAgent, IResolveDid } from 'daf-core'
+import { TAgent, IResolver } from 'daf-core'
 
-type ConfiguredAgent = TAgent<IResolveDid>
+type ConfiguredAgent = TAgent<IResolver>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent

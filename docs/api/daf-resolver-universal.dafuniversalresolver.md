@@ -21,7 +21,7 @@ export declare class DafUniversalResolver implements IAgentPlugin
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [methods](./daf-resolver-universal.dafuniversalresolver.methods.md) |  | [IResolveDid](./daf-core.iresolvedid.md) |  |
+|  [methods](./daf-resolver-universal.dafuniversalresolver.methods.md) |  | [IResolver](./daf-core.iresolver.md) |  |
 
 ## Methods
 

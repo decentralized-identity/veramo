@@ -19,7 +19,7 @@ Configure your agent
 ```typescript
 // agent.ts
 
-import { createAgent, IIdentityManager, IResolveDid, IKeyManager, IDataStore, IHandleMessage} from 'daf-core'
+import { createAgent, IIdentityManager, IResolver, IKeyManager, IDataStore, IHandleMessage} from 'daf-core'
 import { MessageHandler } from 'daf-message-handler'
 import { KeyManager } from 'daf-key-manager'
 import { IdentityManager } from 'daf-identity-manager'
@@ -51,7 +51,7 @@ export const agent = createAgent<
   IKeyManager &
   IDataStore &
   IDataStoreORM &
-  IResolveDid &
+  IResolver &
   IMessageHandler &
   IDIDComm &
   ICredentialIssuer &
@@ -109,7 +109,7 @@ yarn add daf-core@beta daf-rest@beta daf-w3c@beta daf-did-comm@beta daf-selectiv
 
 ```typescript
 // agent.ts
-import { createAgent, IIdentityManager, IResolveDid, IKeyManager, IDataStore, IHandleMessage} from 'daf-core'
+import { createAgent, IIdentityManager, IResolver, IKeyManager, IDataStore, IHandleMessage} from 'daf-core'
 import { ICredentialIssuer } from 'daf-w3c'
 import { IDIDComm } from 'daf-did-comm'
 import { ISdr } from 'daf-selective-disclosure'
@@ -121,7 +121,7 @@ export const agent = createAgent<
   IKeyManager &
   IDataStore &
   IDataStoreORM &
-  IResolveDid &
+  IResolver &
   IMessageHandler &
   IDIDComm &
   ICredentialIssuer &
@@ -146,7 +146,7 @@ export const agent = createAgent<
   IKeyManager &
   IDataStore &
   IDataStoreORM &
-  IResolveDid &
+  IResolver &
   IMessageHandler &
   IDIDComm &
   ICredentialIssuer &

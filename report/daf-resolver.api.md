@@ -6,14 +6,14 @@
 
 import { DIDDocument } from 'did-resolver';
 import { IAgentPlugin } from 'daf-core';
-import { IResolveDid } from 'daf-core';
+import { IResolver } from 'daf-core';
 
 // @public (undocumented)
 export class DafResolver implements IAgentPlugin {
     // Warning: (ae-forgotten-export) The symbol "Options" needs to be exported by the entry point index.d.ts
     constructor(options: Options);
     // (undocumented)
-    methods: IResolveDid;
+    methods: IResolver;
     // (undocumented)
     resolveDid({ didUrl }: {
         didUrl: string;

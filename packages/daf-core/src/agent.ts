@@ -149,10 +149,10 @@ export class Agent implements IAgent {
  *
  * @example
  * ```typescript
- * import { createAgent, IResolveDid, IMessageHandler } from 'daf-core'
+ * import { createAgent, IResolver, IMessageHandler } from 'daf-core'
  * import { AgentRestClient } from 'daf-rest'
  * import { CredentialIssuer, ICredentialIssuer } from 'daf-w3c'
- * const agent = createAgent<IResolveDid & IMessageHandler & ICredentialIssuer>({
+ * const agent = createAgent<IResolver & IMessageHandler & ICredentialIssuer>({
  *   plugins: [
  *     new CredentialIssuer(),
  *     new AgentRestClient({

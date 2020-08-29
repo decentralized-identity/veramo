@@ -299,7 +299,7 @@ export const openApiSchema: OpenAPIV3.Document = {
           "didUrl"
         ],
         "additionalProperties": false,
-        "description": "Input arguments for {@link IResolveDid.resolveDid | resolveDid}"
+        "description": "Input arguments for {@link IResolver.resolveDid | resolveDid}"
       },
       "DIDDocument": {
         "type": "object",

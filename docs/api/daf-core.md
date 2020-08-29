@@ -53,10 +53,10 @@ The core package of DID Agent Framework. Defines default plugin interfaces
 |  [IMetaData](./daf-core.imetadata.md) | Message meta data |
 |  [IPluginMethod](./daf-core.ipluginmethod.md) | Agent plugin method interface |
 |  [IPluginMethodMap](./daf-core.ipluginmethodmap.md) | Plugin method map interface |
-|  [IResolveDid](./daf-core.iresolvedid.md) | DID Resolver interface |
+|  [IResolver](./daf-core.iresolver.md) | DID Resolver interface |
 |  [IService](./daf-core.iservice.md) | Identity service |
 |  [RemoveContext](./daf-core.removecontext.md) | Removes context parameter from plugin method interface |
-|  [ResolveDidArgs](./daf-core.resolvedidargs.md) | Input arguments for [resolveDid](./daf-core.iresolvedid.resolvedid.md) |
+|  [ResolveDidArgs](./daf-core.resolvedidargs.md) | Input arguments for [resolveDid](./daf-core.iresolver.resolvedid.md) |
 
 ## Type Aliases
 

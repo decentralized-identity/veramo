@@ -1,7 +1,7 @@
 import {
   IAgentContext,
   IAgentPlugin,
-  IResolveDid,
+  IResolver,
   IIdentityManager,
   IKeyManager,
   IPluginMethodMap,
@@ -139,7 +139,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  */
 export type IContext = IAgentContext<
-  IResolveDid &
+  IResolver &
     Pick<IIdentityManager, 'identityManagerGetIdentity'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
     Pick<IKeyManager, 'keyManagerSignJWT'>

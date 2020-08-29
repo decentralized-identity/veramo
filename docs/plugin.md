@@ -8,11 +8,11 @@ Plugin methods can depend on other plugin methods. These can be accessed through
 
 ## Writing a plugin
 
-Let's create a plugin with a method that returns a specific service endpoint from a DID Document. We will be depending on [IResolveDid](api/daf-core.iresolvedid.md) plugin.
+Let's create a plugin with a method that returns a specific service endpoint from a DID Document. We will be depending on [IResolver](api/daf-core.IResolver.md) plugin.
 
 ```typescript
 // my-plugin.ts
-import { IAgentPlugin, IPluginMethodMap, IAgentContext, IResolveDid, IService } from 'daf-core'
+import { IAgentPlugin, IPluginMethodMap, IAgentContext, IResolver, IService } from 'daf-core'
 
 export interface IGetServiceArgs {
   didUrl: string
@@ -22,7 +22,7 @@ export interface IGetServiceArgs {
 export interface IMyMethods extends IPluginMethodMap {
   getService(
     args: IGetServiceArgs,              // Method arguments
-    context: IAgentContext<IResolveDid> // Execution context
+    context: IAgentContext<IResolver> // Execution context
   ): Promise<IService>
 }
 
@@ -37,7 +37,7 @@ export class MyPlugin implements IAgentPlugin {
 
   async getService(
     args: IGetServiceArgs,
-    context: IAgentContext<IResolveDid>
+    context: IAgentContext<IResolver>
   ): Promise<IService> {
     // Resolving a DID Document using a method provided by another plugin
     const didDoc = await context.agent.resolveDid({ didUrl: args.didUrl })
@@ -75,11 +75,11 @@ await agent.execute('getService', {
 ### With IDE autocomplete
 
 ```typescript
-import { createAgent, TAgent, IResolveDid } from 'daf-core'
+import { createAgent, TAgent, IResolver } from 'daf-core'
 import { DafResolver } from 'daf-resolver'
 import { MyPlugin, IMyMethods } from './my-plugin'
 
-const agent = createAgent<TAgent<IMyMethods & IResolveDid>>({
+const agent = createAgent<TAgent<IMyMethods & IResolver>>({
   plugins: [
     new MyPlugin(),
     new DafResolver({ infuraProjectId: '5ffc47f65c4042ce847ef66a3fa70d4c' }),

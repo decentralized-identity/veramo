@@ -1,7 +1,7 @@
 import 'cross-fetch/polyfill'
 import {
   IAgentContext,
-  IResolveDid,
+  IResolver,
   IMessage,
   IIdentityManager,
   IKeyManager,
@@ -29,7 +29,7 @@ export interface ISendMessageDIDCommAlpha1Args {
 export interface IDIDComm extends IPluginMethodMap {
   sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IMessageHandler>,
+    context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage>
 }
 
@@ -44,7 +44,7 @@ export class DIDComm implements IAgentPlugin {
 
   async sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdentityManager & IKeyManager & IResolveDid & IMessageHandler>,
+    context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage> {
     const { data, url, save = true } = args
 

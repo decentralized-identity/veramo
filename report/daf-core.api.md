@@ -252,7 +252,7 @@ export interface IPluginMethodMap extends Record<string, IPluginMethod> {
 }
 
 // @public
-export interface IResolveDid extends IPluginMethodMap {
+export interface IResolver extends IPluginMethodMap {
     resolveDid(args: ResolveDidArgs): Promise<DIDDocument>;
 }
 

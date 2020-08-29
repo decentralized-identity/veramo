@@ -4,7 +4,7 @@
 
 ## ResolveDidArgs interface
 
-Input arguments for [resolveDid](./daf-core.iresolvedid.resolvedid.md)
+Input arguments for [resolveDid](./daf-core.iresolver.resolvedid.md)
 
 <b>Signature:</b>
 

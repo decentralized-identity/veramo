@@ -16,7 +16,7 @@ const apiExtractorConfig = require('../api-extractor-base.json')
 const outputFile = 'packages/daf-rest/src/openApiSchema.ts'
 
 const agentPlugins: Record<string, Array<string>> = {
-  'daf-core': ['IIdentityManager', 'IResolveDid', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
+  'daf-core': ['IIdentityManager', 'IResolver', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
   'daf-w3c': ['ICredentialIssuer'],
   'daf-selective-disclosure': ['ISdr'],
   'daf-did-comm': ['IDIDComm'],

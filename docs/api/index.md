@@ -43,7 +43,7 @@
 | [identityManagerImportIdentity](./daf-core.iidentitymanager.identitymanagerimportidentity.md) | Imports identity |
 | [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) | Removes a key from a DID Document |
 | [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) | Removes a service from a DID Document |
-| [resolveDid](./daf-core.iresolvedid.resolvedid.md) | Resolves DID and returns DID Document |
+| [resolveDid](./daf-core.iresolver.resolvedid.md) | Resolves DID and returns DID Document |
 | [handleMessage](./daf-core.imessagehandler.handlemessage.md) | Parses and optionally saves a message |
 | [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) | Saves message to the data store |
 | [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) | Saves verifiable credential to the data store |

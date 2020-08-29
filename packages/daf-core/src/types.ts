@@ -315,7 +315,7 @@ export interface IDataStore extends IPluginMethodMap {
 }
 
 /**
- * Input arguments for {@link IResolveDid.resolveDid | resolveDid}
+ * Input arguments for {@link IResolver.resolveDid | resolveDid}
  * @public
  */
 export interface ResolveDidArgs {
@@ -332,7 +332,7 @@ export interface ResolveDidArgs {
  * DID Resolver interface
  * @public
  */
-export interface IResolveDid extends IPluginMethodMap {
+export interface IResolver extends IPluginMethodMap {
   /**
    * Resolves DID and returns DID Document
    *
