@@ -8,19 +8,22 @@
 
 |  Class | Description |
 |  --- | --- |
-|  [Sdr](./daf-selective-disclosure.sdr.md) |  |
 |  [SdrMessageHandler](./daf-selective-disclosure.sdrmessagehandler.md) |  |
+|  [SelectiveDisclosure](./daf-selective-disclosure.selectivedisclosure.md) |  |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
+|  [ICreateSelectiveDisclosureRequestArgs](./daf-selective-disclosure.icreateselectivedisclosurerequestargs.md) |  |
 |  [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md) |  |
 |  [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md) |  |
+|  [IGetVerifiableCredentialsForSdrArgs](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.md) |  |
 |  [IPresentationValidationResult](./daf-selective-disclosure.ipresentationvalidationresult.md) |  |
-|  [ISdr](./daf-selective-disclosure.isdr.md) |  |
+|  [ISelectiveDisclosure](./daf-selective-disclosure.iselectivedisclosure.md) |  |
 |  [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) |  |
 |  [Issuer](./daf-selective-disclosure.issuer.md) |  |
+|  [IValidatePresentationAgainstSdrArgs](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.md) |  |
 
 ## Variables
 

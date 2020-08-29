@@ -17,6 +17,12 @@ import { VerifiableCredential } from 'daf-core';
 import { VerifiablePresentation } from 'daf-core';
 
 // @public (undocumented)
+export interface ICreateSelectiveDisclosureRequestArgs {
+    // (undocumented)
+    data: ISelectiveDisclosureRequest;
+}
+
+// @public (undocumented)
 export interface ICredentialRequestInput {
     // (undocumented)
     claimType: string;
@@ -41,6 +47,14 @@ export interface ICredentialsForSdr extends ICredentialRequestInput {
 }
 
 // @public (undocumented)
+export interface IGetVerifiableCredentialsForSdrArgs {
+    // (undocumented)
+    did?: string;
+    // (undocumented)
+    sdr: Omit<ISelectiveDisclosureRequest, 'issuer'>;
+}
+
+// @public (undocumented)
 export interface IPresentationValidationResult {
     // (undocumented)
     claims: ICredentialsForSdr[];
@@ -49,17 +63,11 @@ export interface IPresentationValidationResult {
 }
 
 // @public (undocumented)
-export interface ISdr extends IPluginMethodMap {
-    // Warning: (ae-forgotten-export) The symbol "ICreateSelectiveDisclosureRequestArgs" needs to be exported by the entry point index.d.ts
-    //
+export interface ISelectiveDisclosure extends IPluginMethodMap {
     // (undocumented)
     createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IIdentityManager & IKeyManager>): Promise<string>;
-    // Warning: (ae-forgotten-export) The symbol "IGetVerifiableCredentialsForSdrArgs" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getVerifiableCredentialsForSdr(args: IGetVerifiableCredentialsForSdrArgs, context: IAgentContext<IDataStoreORM>): Promise<Array<ICredentialsForSdr>>;
-    // Warning: (ae-forgotten-export) The symbol "IValidatePresentationAgainstSdrArgs" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     validatePresentationAgainstSdr(args: IValidatePresentationAgainstSdrArgs, context: IAgentContext<{}>): Promise<IPresentationValidationResult>;
 }
@@ -89,28 +97,36 @@ export interface Issuer {
 }
 
 // @public (undocumented)
+export interface IValidatePresentationAgainstSdrArgs {
+    // (undocumented)
+    presentation: VerifiablePresentation;
+    // (undocumented)
+    sdr: ISelectiveDisclosureRequest;
+}
+
+// @public (undocumented)
 export const MessageTypes: {
     sdr: string;
 };
-
-// @public (undocumented)
-export class Sdr implements IAgentPlugin {
-    constructor();
-    // (undocumented)
-    createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IIdentityManager & IKeyManager>): Promise<string>;
-    // (undocumented)
-    getVerifiableCredentialsForSdr(args: IGetVerifiableCredentialsForSdrArgs, context: IAgentContext<IDataStoreORM>): Promise<ICredentialsForSdr[]>;
-    // (undocumented)
-    readonly methods: ISdr;
-    // (undocumented)
-    validatePresentationAgainstSdr(args: IValidatePresentationAgainstSdrArgs, context: IAgentContext<{}>): Promise<IPresentationValidationResult>;
-}
 
 // @public (undocumented)
 export class SdrMessageHandler extends AbstractMessageHandler {
     // (undocumented)
     handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message>;
     }
+
+// @public (undocumented)
+export class SelectiveDisclosure implements IAgentPlugin {
+    constructor();
+    // (undocumented)
+    createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IIdentityManager & IKeyManager>): Promise<string>;
+    // (undocumented)
+    getVerifiableCredentialsForSdr(args: IGetVerifiableCredentialsForSdrArgs, context: IAgentContext<IDataStoreORM>): Promise<ICredentialsForSdr[]>;
+    // (undocumented)
+    readonly methods: ISelectiveDisclosure;
+    // (undocumented)
+    validatePresentationAgainstSdr(args: IValidatePresentationAgainstSdrArgs, context: IAgentContext<{}>): Promise<IPresentationValidationResult>;
+}
 
 
 // (No @packageDocumentation comment for this package)

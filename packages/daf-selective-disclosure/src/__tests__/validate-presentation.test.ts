@@ -1,8 +1,8 @@
 import { VerifiableCredential, VerifiablePresentation } from 'daf-core'
 import { ISelectiveDisclosureRequest } from '../types'
-import { Sdr } from '../action-handler'
+import { SelectiveDisclosure } from '../action-handler'
 
-const actionHandler = new Sdr()
+const actionHandler = new SelectiveDisclosure()
 
 const context = {
   agent: {

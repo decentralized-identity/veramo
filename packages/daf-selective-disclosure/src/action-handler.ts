@@ -1,47 +1,18 @@
-import {
-  IAgentContext,
-  IIdentityManager,
-  IKeyManager,
-  IPluginMethodMap,
-  IAgentPlugin,
-  VerifiablePresentation,
-} from 'daf-core'
+import { IAgentContext, IIdentityManager, IKeyManager, IAgentPlugin } from 'daf-core'
 import { IDataStoreORM, TClaimsColumns, FindArgs } from 'daf-typeorm'
-import { ISelectiveDisclosureRequest, ICredentialsForSdr, IPresentationValidationResult } from './types'
+import {
+  ICredentialsForSdr,
+  IPresentationValidationResult,
+  ISelectiveDisclosure,
+  ICreateSelectiveDisclosureRequestArgs,
+  IGetVerifiableCredentialsForSdrArgs,
+  IValidatePresentationAgainstSdrArgs,
+} from './types'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
-export interface ICreateSelectiveDisclosureRequestArgs {
-  data: ISelectiveDisclosureRequest
-}
-
-export interface IGetVerifiableCredentialsForSdrArgs {
-  sdr: Omit<ISelectiveDisclosureRequest, 'issuer'>
-  did?: string
-}
-
-export interface IValidatePresentationAgainstSdrArgs {
-  presentation: VerifiablePresentation
-  sdr: ISelectiveDisclosureRequest
-}
-
-export interface ISdr extends IPluginMethodMap {
-  createSelectiveDisclosureRequest(
-    args: ICreateSelectiveDisclosureRequestArgs,
-    context: IAgentContext<IIdentityManager & IKeyManager>,
-  ): Promise<string>
-  getVerifiableCredentialsForSdr(
-    args: IGetVerifiableCredentialsForSdrArgs,
-    context: IAgentContext<IDataStoreORM>,
-  ): Promise<Array<ICredentialsForSdr>>
-  validatePresentationAgainstSdr(
-    args: IValidatePresentationAgainstSdrArgs,
-    context: IAgentContext<{}>,
-  ): Promise<IPresentationValidationResult>
-}
-
-export class Sdr implements IAgentPlugin {
-  readonly methods: ISdr
+export class SelectiveDisclosure implements IAgentPlugin {
+  readonly methods: ISelectiveDisclosure
 
   constructor() {
     this.methods = {

@@ -58,9 +58,9 @@
 | [keyManagerSignJWT](./daf-core.ikeymanager.keymanagersignjwt.md) | Signs JWT |
 | [createVerifiableCredential](./daf-w3c.icredentialissuer.createverifiablecredential.md) | Creates a Verifiable Credential. The payload, signer and format are chosen based on the  |
 | [createVerifiablePresentation](./daf-w3c.icredentialissuer.createverifiablepresentation.md) | Creates a Verifiable Presentation. The payload, signer and format are chosen based on the  |
-| [createSelectiveDisclosureRequest](./daf-selective-disclosure.isdr.createselectivedisclosurerequest.md) |  |
-| [getVerifiableCredentialsForSdr](./daf-selective-disclosure.isdr.getverifiablecredentialsforsdr.md) |  |
-| [validatePresentationAgainstSdr](./daf-selective-disclosure.isdr.validatepresentationagainstsdr.md) |  |
+| [createSelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosure.createselectivedisclosurerequest.md) |  |
+| [getVerifiableCredentialsForSdr](./daf-selective-disclosure.iselectivedisclosure.getverifiablecredentialsforsdr.md) |  |
+| [validatePresentationAgainstSdr](./daf-selective-disclosure.iselectivedisclosure.validatepresentationagainstsdr.md) |  |
 | [sendMessageDIDCommAlpha1](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) |  |
 | [dataStoreORMGetIdentities](./daf-typeorm.idatastoreorm.datastoreormgetidentities.md) |  |
 | [dataStoreORMGetIdentitiesCount](./daf-typeorm.idatastoreorm.datastoreormgetidentitiescount.md) |  |

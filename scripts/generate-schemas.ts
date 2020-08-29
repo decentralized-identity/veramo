@@ -18,7 +18,7 @@ const outputFile = 'packages/daf-rest/src/openApiSchema.ts'
 const agentPlugins: Record<string, Array<string>> = {
   'daf-core': ['IIdentityManager', 'IResolver', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
   'daf-w3c': ['ICredentialIssuer'],
-  'daf-selective-disclosure': ['ISdr'],
+  'daf-selective-disclosure': ['ISelectiveDisclosure'],
   'daf-did-comm': ['IDIDComm'],
   'daf-typeorm': ['IDataStoreORM'],
 }

@@ -19,7 +19,7 @@ import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from 'daf-w3c'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { WebIdentityProvider } from 'daf-web-did'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
-import { Sdr, ISdr, SdrMessageHandler } from 'daf-selective-disclosure'
+import { SelectiveDisclosure, ISelectiveDisclosure, SdrMessageHandler } from 'daf-selective-disclosure'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { Entities, KeyStore, IdentityStore, IDataStoreORM, DataStore, DataStoreORM } from 'daf-typeorm'
 import express from 'express'
@@ -48,7 +48,7 @@ const agent = createAgent<
     IMessageHandler &
     IDIDComm &
     ICredentialIssuer &
-    ISdr
+    ISelectiveDisclosure
 >({
   plugins: [
     new AgentGraphQLClient({
@@ -107,7 +107,7 @@ const setup = async (): Promise<boolean> => {
       }),
       new DIDComm(),
       new CredentialIssuer(),
-      new Sdr(),
+      new SelectiveDisclosure(),
     ],
   })
 

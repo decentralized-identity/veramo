@@ -1,10 +1,10 @@
 import { TAgent, IIdentityManager, IIdentity, IDataStore, IMessageHandler } from 'daf-core'
 import { ICredentialIssuer } from 'daf-w3c'
-import { ISdr } from 'daf-selective-disclosure'
+import { ISelectiveDisclosure } from 'daf-selective-disclosure'
 import { IDataStoreORM } from 'daf-typeorm'
 
 type ConfiguredAgent = TAgent<
-  IIdentityManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISdr
+  IIdentityManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
 >
 
 export default (testContext: {

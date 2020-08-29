@@ -29,7 +29,7 @@ import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from 'daf-w3c'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { WebIdentityProvider } from 'daf-web-did'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
-import { Sdr, ISdr, SdrMessageHandler } from 'daf-selective-disclosure'
+import { SelectiveDisclosure, ISelectiveDisclosure, SdrMessageHandler } from 'daf-selective-disclosure'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
 import { Entities, KeyStore, IdentityStore, IDataStoreORM, DataStore, DataStoreORM } from 'daf-typeorm'
 import { createConnection } from 'typeorm'
@@ -55,7 +55,7 @@ export const agent = createAgent<
   IMessageHandler &
   IDIDComm &
   ICredentialIssuer &
-  ISdr
+  ISelectiveDisclosure
 >({
   plugins: [
     new KeyManager({
@@ -91,7 +91,7 @@ export const agent = createAgent<
     }),
     new DIDComm(),
     new CredentialIssuer(),
-    new Sdr(),
+    new SelectiveDisclosure(),
   ],
 })
 ```
@@ -112,7 +112,7 @@ yarn add daf-core@beta daf-rest@beta daf-w3c@beta daf-did-comm@beta daf-selectiv
 import { createAgent, IIdentityManager, IResolver, IKeyManager, IDataStore, IHandleMessage} from 'daf-core'
 import { ICredentialIssuer } from 'daf-w3c'
 import { IDIDComm } from 'daf-did-comm'
-import { ISdr } from 'daf-selective-disclosure'
+import { ISelectiveDisclosure } from 'daf-selective-disclosure'
 import { IDataStoreORM } from 'daf-typeorm'
 import { AgentRestClient, supportedMethods } from 'daf-rest'
 
@@ -125,7 +125,7 @@ export const agent = createAgent<
   IMessageHandler &
   IDIDComm &
   ICredentialIssuer &
-  ISdr
+  ISelectiveDisclosure
 >({
   plugins: [
     new AgentRestClient({
@@ -150,7 +150,7 @@ export const agent = createAgent<
   IMessageHandler &
   IDIDComm &
   ICredentialIssuer &
-  ISdr
+  ISelectiveDisclosure
 >({
   plugins: [
     new AgentRestClient({
@@ -193,7 +193,7 @@ export const agent = createAgent<
     }),
     new DIDComm(),
     new CredentialIssuer(),
-    new Sdr(),
+    new SelectiveDisclosure(),
   ],
 })
 ```

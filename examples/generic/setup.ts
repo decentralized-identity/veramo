@@ -12,7 +12,7 @@ import { IdentityManager } from 'daf-identity-manager'
 import { DafResolver } from 'daf-resolver'
 import { JwtMessageHandler } from 'daf-did-jwt'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from 'daf-w3c'
-import { Sdr, ISdr, SdrMessageHandler } from 'daf-selective-disclosure'
+import { SelectiveDisclosure, ISelectiveDisclosure, SdrMessageHandler } from 'daf-selective-disclosure'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
 import { EthrIdentityProvider } from 'daf-ethr-did'
 import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
@@ -39,7 +39,7 @@ export const agent = createAgent<
   IMessageHandler &
   IDIDComm &
   ICredentialIssuer &
-  ISdr
+  ISelectiveDisclosure
 >({
   context: {
     // authenticatedDid: 'did:example:3456'
@@ -77,6 +77,6 @@ export const agent = createAgent<
     }),
     new DIDComm(),
     new CredentialIssuer(),
-    new Sdr(),
+    new SelectiveDisclosure(),
   ],
 })
