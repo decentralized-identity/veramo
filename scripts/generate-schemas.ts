@@ -11,12 +11,14 @@ import {
   ApiMethodSignature,
 } from '@microsoft/api-extractor-model'
 
+import { DocFencedCode } from '@microsoft/tsdoc'
+
 const apiExtractorConfig = require('../api-extractor-base.json')
 
 const outputFile = 'packages/daf-rest/src/openApiSchema.ts'
 
 const agentPlugins: Record<string, Array<string>> = {
-  'daf-core': ['IIdentityManager', 'IResolver', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
+  'daf-core': ['IResolver', 'IIdentityManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
   'daf-w3c': ['ICredentialIssuer'],
   'daf-selective-disclosure': ['ISelectiveDisclosure'],
   'daf-did-comm': ['IDIDComm'],
@@ -28,6 +30,7 @@ interface RestMethod {
   pluginInterfaceName: string
   operationId: string
   description?: string
+  example?: DocFencedCode
   parameters?: string
   response: string
 }
@@ -140,10 +143,13 @@ for (const packageName of Object.keys(agentPlugins)) {
         .replace('Promise<', '')
         .replace('>', '')
 
-      method.description = (member as ApiMethodSignature).tsdocComment?.summarySection
+      const methodSignature = member as ApiMethodSignature
+      method.description = methodSignature.tsdocComment?.summarySection
         ?.getChildNodes()[0]
         //@ts-ignore
         ?.getChildNodes()[0]?.text
+
+      method.example = methodSignature.tsdocComment?.customBlocks[0]?.content?.getChildNodes()[1] as DocFencedCode
 
       method.description = method.description || ''
 
@@ -200,13 +206,26 @@ writeFileSync(
     JSON.stringify(openApi, null, 2),
 )
 
-let summary = '\n\n## Available agent methods\n\n|  Method | Description | \n|  --- | --- |\n'
-for (const method of allMethods) {
-  summary += `| [${method.operationId}](./${
-    method.packageName
-  }.${method.pluginInterfaceName.toLowerCase()}.${method.operationId.toLowerCase()}.md) | ${
-    method.description
-  } |\n`
+let summary = '# Available agent methods\n'
+for (const packageName of Object.keys(agentPlugins)) {
+  // summary += `## [${packageName}](./api/${packageName}.md) \n\n`
+  for (const pluginInterfaceName of agentPlugins[packageName]) {
+    summary += `## [${pluginInterfaceName}](./api/${packageName}.${pluginInterfaceName.toLowerCase()}.md) \n\n`
+
+    for (const method of allMethods.filter(
+      (m) => m.packageName === packageName && m.pluginInterfaceName == pluginInterfaceName,
+    )) {
+      summary += `\n### [${method.operationId}](./api/${
+        method.packageName
+      }.${method.pluginInterfaceName.toLowerCase()}.${method.operationId.toLowerCase()}.md)`
+      summary += `\n\n${method.description}\n\n`
+      if (method.example) {
+        summary += '```' + method.example.language + '\n'
+        summary += method.example.code
+        summary += '```\n'
+      }
+    }
+  }
 }
 
-writeFileSync('docs/api/index.md', summary, { flag: 'a' })
+writeFileSync('docs/methods.md', summary)

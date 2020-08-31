@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-Entities: (typeof Identity | typeof Key | typeof Service | typeof Message | typeof Claim | typeof Credential | typeof Presentation)[]
+Entities: (typeof Credential | typeof Identity | typeof Claim | typeof Presentation | typeof Message | typeof Key | typeof Service)[]
 ```
