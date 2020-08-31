@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import { writeFileSync } from 'fs'
+import { writeFileSync, readFileSync } from 'fs'
 import * as TJS from 'ts-json-schema-generator'
 import { OpenAPIV3 } from 'openapi-types'
 import {
@@ -229,3 +229,16 @@ for (const packageName of Object.keys(agentPlugins)) {
 }
 
 writeFileSync('docs/methods.md', summary)
+
+let tests = ''
+for (const method of allMethods) {
+  if (method.example) {
+    tests += `\nit('${method.packageName}-${method.pluginInterfaceName}-${method.operationId} example', async () => {\n${method.example.code}\n})\n`
+  }
+}
+tests = `DO NOT EDIT MANUALLY START\n ${tests}\n//DO NOT EDIT MANUALLY END`
+
+const testsFile = '__tests__/shared/documentationExamples.ts'
+const source = readFileSync(testsFile).toString()
+const newSource = source.replace(/DO NOT EDIT MANUALLY START(.+?)DO NOT EDIT MANUALLY END/s, tests)
+writeFileSync(testsFile, newSource)

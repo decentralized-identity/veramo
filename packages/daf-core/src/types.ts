@@ -555,7 +555,7 @@ export interface IIdentityManager extends IPluginMethodMap {
    * @example
    * ```typescript
    * const identity = await agent.identityManagerCreateIdentity({
-   *   provider: 'did:ethr',
+   *   provider: 'did:ethr:rinkeby',
    *   kms: 'local'
    * })
    * ```

@@ -49,7 +49,7 @@ Creates and returns a new identity
 
 ```typescript
 const identity = await agent.identityManagerCreateIdentity({
-  provider: 'did:ethr',
+  provider: 'did:ethr:rinkeby',
   kms: 'local'
 })
 ```

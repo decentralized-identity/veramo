@@ -28,7 +28,7 @@ Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;
 
 ```typescript
 const identity = await agent.identityManagerCreateIdentity({
-  provider: 'did:ethr',
+  provider: 'did:ethr:rinkeby',
   kms: 'local'
 })
 
