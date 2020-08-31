@@ -15,7 +15,7 @@ import { IMetaData } from 'daf-core';
 import { VerifiableCredential } from 'daf-core';
 import { VerifiablePresentation } from 'daf-core';
 
-// @public (undocumented)
+// @public
 export abstract class AbstractMessageHandler {
     // (undocumented)
     handle(message: Message, context: IAgentContext<{}>): Promise<Message>;

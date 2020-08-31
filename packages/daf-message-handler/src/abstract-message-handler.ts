@@ -3,6 +3,10 @@ import { Message } from './message'
 
 export const unsupportedMessageTypeError = 'Unsupported message type'
 
+/**
+ * An abstract class for creating {@link daf-message-handler#MessageHandler} plugins
+ * @public
+ */
 export abstract class AbstractMessageHandler {
   public nextMessageHandler?: AbstractMessageHandler
 

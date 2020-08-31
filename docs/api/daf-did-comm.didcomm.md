@@ -4,6 +4,11 @@
 
 ## DIDComm class
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+DID Comm plugin for [Agent](./daf-core.agent.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,17 +20,17 @@ export declare class DIDComm implements IAgentPlugin
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)()](./daf-did-comm.didcomm._constructor_.md) |  | Constructs a new instance of the <code>DIDComm</code> class |
+|  [(constructor)()](./daf-did-comm.didcomm._constructor_.md) |  | <b><i>(BETA)</i></b> Constructs a new instance of the <code>DIDComm</code> class |
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [methods](./daf-did-comm.didcomm.methods.md) |  | [IDIDComm](./daf-did-comm.ididcomm.md) |  |
+|  [methods](./daf-did-comm.didcomm.methods.md) |  | [IDIDComm](./daf-did-comm.ididcomm.md) | <b><i>(BETA)</i></b> Plugin methods |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.didcomm.sendmessagedidcommalpha1.md) |  |  |
+|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.didcomm.sendmessagedidcommalpha1.md) |  | <b><i>(BETA)</i></b> |
 

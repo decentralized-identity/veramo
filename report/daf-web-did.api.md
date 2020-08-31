@@ -11,7 +11,7 @@ import { IKey } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IService } from 'daf-core';
 
-// @public (undocumented)
+// @public
 export class WebIdentityProvider extends AbstractIdentityProvider {
     constructor(options: {
         defaultKms: string;

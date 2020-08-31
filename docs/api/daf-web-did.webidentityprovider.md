@@ -4,6 +4,8 @@
 
 ## WebIdentityProvider class
 
+[IdentityManager](./daf-identity-manager.identitymanager.md) identity provider for `did:web` identities
+
 <b>Signature:</b>
 
 ```typescript

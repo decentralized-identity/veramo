@@ -531,7 +531,7 @@ export interface IIdentityManager extends IPluginMethodMap {
    * Creates and returns a new identity
    *
    * @param args - Required.  Arguments to create the identity
-   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link IKeyManager} methods
+   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -787,7 +787,7 @@ export interface IHandleMessageArgs {
 export interface IMessageHandler extends IPluginMethodMap {
   /**
    * Parses and optionally saves a message
-   * @param context - Execution context. Requires agent with {@link IDataStore} methods
+   * @param context - Execution context. Requires agent with {@link daf-core#IDataStore} methods
    */
   handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<IMessage>
 }

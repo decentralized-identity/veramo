@@ -10,7 +10,7 @@ Provides a [plugin](./daf-identity-manager.identitymanager.md) for the [Agent](.
 
 |  Class | Description |
 |  --- | --- |
-|  [AbstractIdentityProvider](./daf-identity-manager.abstractidentityprovider.md) |  |
-|  [AbstractIdentityStore](./daf-identity-manager.abstractidentitystore.md) |  |
+|  [AbstractIdentityProvider](./daf-identity-manager.abstractidentityprovider.md) | An abstract class for the [IdentityManager](./daf-identity-manager.identitymanager.md) identity providers |
+|  [AbstractIdentityStore](./daf-identity-manager.abstractidentitystore.md) | An abstract class for the [IdentityManager](./daf-identity-manager.identitymanager.md) identity store |
 |  [IdentityManager](./daf-identity-manager.identitymanager.md) | Agent plugin that implements [IIdentityManager](./daf-core.iidentitymanager.md) interface |
 

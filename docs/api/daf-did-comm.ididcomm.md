@@ -4,6 +4,11 @@
 
 ## IDIDComm interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+DID Comm plugin interface for [Agent](./daf-core.agent.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,5 +20,5 @@ export interface IDIDComm extends IPluginMethodMap
 
 |  Method | Description |
 |  --- | --- |
-|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) |  |
+|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) | <b><i>(BETA)</i></b> |
 

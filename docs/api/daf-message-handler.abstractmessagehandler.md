@@ -4,6 +4,8 @@
 
 ## AbstractMessageHandler class
 
+An abstract class for creating [MessageHandler](./daf-message-handler.messagehandler.md) plugins
+
 <b>Signature:</b>
 
 ```typescript

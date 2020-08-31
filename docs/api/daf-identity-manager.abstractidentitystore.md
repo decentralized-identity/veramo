@@ -4,6 +4,8 @@
 
 ## AbstractIdentityStore class
 
+An abstract class for the [IdentityManager](./daf-identity-manager.identitymanager.md) identity store
+
 <b>Signature:</b>
 
 ```typescript

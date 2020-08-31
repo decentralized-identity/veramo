@@ -4,6 +4,11 @@
 
 ## DIDCommMessageHandler class
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+A plugin for the [MessageHandler](./daf-message-handler.messagehandler.md) that decrypts DIDComm messages
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,11 +20,11 @@ export declare class DIDCommMessageHandler extends AbstractMessageHandler
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)()](./daf-did-comm.didcommmessagehandler._constructor_.md) |  | Constructs a new instance of the <code>DIDCommMessageHandler</code> class |
+|  [(constructor)()](./daf-did-comm.didcommmessagehandler._constructor_.md) |  | <b><i>(BETA)</i></b> Constructs a new instance of the <code>DIDCommMessageHandler</code> class |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [handle(message, context)](./daf-did-comm.didcommmessagehandler.handle.md) |  |  |
+|  [handle(message, context)](./daf-did-comm.didcommmessagehandler.handle.md) |  | <b><i>(BETA)</i></b> |
 

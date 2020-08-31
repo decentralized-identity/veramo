@@ -17,7 +17,7 @@ handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Pro
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  args | [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) |  |
-|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStore](./daf-core.idatastore.md)<!-- -->&gt; | Execution context. Requires agent with  methods |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStore](./daf-core.idatastore.md)<!-- -->&gt; | Execution context. Requires agent with [IDataStore](./daf-core.idatastore.md) methods |
 
 <b>Returns:</b>
 

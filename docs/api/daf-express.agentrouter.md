@@ -4,12 +4,10 @@
 
 ## AgentRouter variable
 
+Creates a router that exposes [Agent](./daf-core.agent.md) methods
+
 <b>Signature:</b>
 
 ```typescript
-AgentRouter: (options: {
-    getAgentForRequest: (req: Request) => Promise<IAgent>;
-    exposedMethods: string[];
-    extraMethods?: string[] | undefined;
-}) => Router
+AgentRouter: (options: AgentRouterOptions) => Router
 ```

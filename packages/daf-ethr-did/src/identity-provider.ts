@@ -14,6 +14,10 @@ export function toEthereumAddress(hexPublicKey: string): string {
     .toString('hex')}`
 }
 
+/**
+ * {@link daf-identity-manager#IdentityManager} identity provider for `did:ethr` identities
+ * @public
+ */
 export class EthrIdentityProvider extends AbstractIdentityProvider {
   private defaultKms: string
   private network: string

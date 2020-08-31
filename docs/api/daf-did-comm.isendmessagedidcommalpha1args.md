@@ -4,6 +4,11 @@
 
 ## ISendMessageDIDCommAlpha1Args interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Input arguments for [IDIDComm.sendMessageDIDCommAlpha1()](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md)
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +19,7 @@ export interface ISendMessageDIDCommAlpha1Args
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [data](./daf-did-comm.isendmessagedidcommalpha1args.data.md) | { id?: string; from: string; to: string; type: string; body: any; } |  |
-|  [save](./daf-did-comm.isendmessagedidcommalpha1args.save.md) | boolean |  |
-|  [url](./daf-did-comm.isendmessagedidcommalpha1args.url.md) | string |  |
+|  [data](./daf-did-comm.isendmessagedidcommalpha1args.data.md) | { id?: string; from: string; to: string; type: string; body: any; } | <b><i>(BETA)</i></b> |
+|  [save](./daf-did-comm.isendmessagedidcommalpha1args.save.md) | boolean | <b><i>(BETA)</i></b> |
+|  [url](./daf-did-comm.isendmessagedidcommalpha1args.url.md) | string | <b><i>(BETA)</i></b> |
 

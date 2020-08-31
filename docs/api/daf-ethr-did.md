@@ -10,5 +10,5 @@ Provides `did:ethr` [identity provider](./daf-ethr-did.ethridentityprovider.md) 
 
 |  Class | Description |
 |  --- | --- |
-|  [EthrIdentityProvider](./daf-ethr-did.ethridentityprovider.md) |  |
+|  [EthrIdentityProvider](./daf-ethr-did.ethridentityprovider.md) | [IdentityManager](./daf-identity-manager.identitymanager.md) identity provider for <code>did:ethr</code> identities |
 

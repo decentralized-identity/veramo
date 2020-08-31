@@ -6,6 +6,10 @@ const debug = Debug('daf:web-did:identity-provider')
 
 type IContext = IAgentContext<IKeyManager>
 
+/**
+ * {@link daf-identity-manager#IdentityManager} identity provider for `did:web` identities
+ * @public
+ */
 export class WebIdentityProvider extends AbstractIdentityProvider {
   private defaultKms: string
 

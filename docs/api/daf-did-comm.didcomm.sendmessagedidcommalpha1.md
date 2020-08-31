@@ -4,6 +4,9 @@
 
 ## DIDComm.sendMessageDIDCommAlpha1() method
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,8 +17,8 @@ sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentCon
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [ISendMessageDIDCommAlpha1Args](./daf-did-comm.isendmessagedidcommalpha1args.md) |  |
-|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IIdentityManager](./daf-core.iidentitymanager.md) &amp; [IKeyManager](./daf-core.ikeymanager.md) &amp; [IResolver](./daf-core.iresolver.md) &amp; [IMessageHandler](./daf-core.imessagehandler.md)<!-- -->&gt; |  |
+|  args | [ISendMessageDIDCommAlpha1Args](./daf-did-comm.isendmessagedidcommalpha1args.md) | Arguments necessary for sending a DIDComm message |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IIdentityManager](./daf-core.iidentitymanager.md) &amp; [IKeyManager](./daf-core.ikeymanager.md) &amp; [IResolver](./daf-core.iresolver.md) &amp; [IMessageHandler](./daf-core.imessagehandler.md)<!-- -->&gt; | This reserved param is automatically added and handled by the framework, \*do not override\* |
 
 <b>Returns:</b>
 

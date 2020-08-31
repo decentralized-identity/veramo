@@ -6,6 +6,10 @@ const debug = Debug('daf:did-jwt:message-handler')
 
 export type IContext = IAgentContext<IResolver>
 
+/**
+ * A plugin for {@link daf-message-handler#MessageHandler} that finds and verifies a JWT in a message
+ * @public
+ */
 export class JwtMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {
     if (message.raw) {

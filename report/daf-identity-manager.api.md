@@ -20,7 +20,7 @@ import { IKey } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IService } from 'daf-core';
 
-// @public (undocumented)
+// @public
 export abstract class AbstractIdentityProvider {
     // (undocumented)
     abstract addKey(args: {
@@ -56,7 +56,7 @@ export abstract class AbstractIdentityProvider {
     }, context: IAgentContext<IKeyManager>): Promise<any>;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractIdentityStore {
     // (undocumented)
     abstract delete(args: {

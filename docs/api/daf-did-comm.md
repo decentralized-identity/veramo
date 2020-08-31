@@ -10,13 +10,13 @@ Provides a [plugin](./daf-did-comm.didcomm.md) for the [Agent](./daf-core.agent.
 
 |  Class | Description |
 |  --- | --- |
-|  [DIDComm](./daf-did-comm.didcomm.md) |  |
-|  [DIDCommMessageHandler](./daf-did-comm.didcommmessagehandler.md) |  |
+|  [DIDComm](./daf-did-comm.didcomm.md) | <b><i>(BETA)</i></b> DID Comm plugin for [Agent](./daf-core.agent.md) |
+|  [DIDCommMessageHandler](./daf-did-comm.didcommmessagehandler.md) | <b><i>(BETA)</i></b> A plugin for the [MessageHandler](./daf-message-handler.messagehandler.md) that decrypts DIDComm messages |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
-|  [IDIDComm](./daf-did-comm.ididcomm.md) |  |
-|  [ISendMessageDIDCommAlpha1Args](./daf-did-comm.isendmessagedidcommalpha1args.md) |  |
+|  [IDIDComm](./daf-did-comm.ididcomm.md) | <b><i>(BETA)</i></b> DID Comm plugin interface for [Agent](./daf-core.agent.md) |
+|  [ISendMessageDIDCommAlpha1Args](./daf-did-comm.isendmessagedidcommalpha1args.md) | <b><i>(BETA)</i></b> Input arguments for [IDIDComm.sendMessageDIDCommAlpha1()](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) |
 

@@ -1291,7 +1291,8 @@ export const openApiSchema: OpenAPIV3.Document = {
         "required": [
           "data"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}"
       },
       "FindIdentitiesArgs": {
         "$ref": "#/components/schemas/FindArgs-TIdentitiesColumns"

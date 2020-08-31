@@ -4,6 +4,8 @@
 
 ## EthrIdentityProvider class
 
+[IdentityManager](./daf-identity-manager.identitymanager.md) identity provider for `did:ethr` identities
+
 <b>Signature:</b>
 
 ```typescript

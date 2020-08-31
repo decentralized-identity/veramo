@@ -15,16 +15,15 @@ import { IPluginMethodMap } from 'daf-core';
 import { IResolver } from 'daf-core';
 import { Message } from 'daf-message-handler';
 
-// @public (undocumented)
+// @beta
 export class DIDComm implements IAgentPlugin {
     constructor();
-    // (undocumented)
     readonly methods: IDIDComm;
     // (undocumented)
     sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>): Promise<IMessage>;
 }
 
-// @public (undocumented)
+// @beta
 export class DIDCommMessageHandler extends AbstractMessageHandler {
     constructor();
     // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
@@ -33,13 +32,13 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
     handle(message: Message, context: IContext): Promise<Message>;
 }
 
-// @public (undocumented)
+// @beta
 export interface IDIDComm extends IPluginMethodMap {
     // (undocumented)
     sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>): Promise<IMessage>;
 }
 
-// @public (undocumented)
+// @beta
 export interface ISendMessageDIDCommAlpha1Args {
     // (undocumented)
     data: {

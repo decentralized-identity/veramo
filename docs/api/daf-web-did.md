@@ -10,5 +10,5 @@ Provides `did:web` [identity provider](./daf-web-did.webidentityprovider.md) for
 
 |  Class | Description |
 |  --- | --- |
-|  [WebIdentityProvider](./daf-web-did.webidentityprovider.md) |  |
+|  [WebIdentityProvider](./daf-web-did.webidentityprovider.md) | [IdentityManager](./daf-identity-manager.identitymanager.md) identity provider for <code>did:web</code> identities |
 

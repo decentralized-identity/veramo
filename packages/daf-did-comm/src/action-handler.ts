@@ -14,6 +14,10 @@ import Debug from 'debug'
 
 const debug = Debug('daf:did-comm:action-handler')
 
+/**
+ * Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}
+ * @beta
+ */
 export interface ISendMessageDIDCommAlpha1Args {
   url?: string
   save?: boolean
@@ -26,14 +30,28 @@ export interface ISendMessageDIDCommAlpha1Args {
   }
 }
 
+/**
+ * DID Comm plugin interface for {@link daf-core#Agent}
+ * @beta
+ */
 export interface IDIDComm extends IPluginMethodMap {
+  /**
+   *
+   * @param args - Arguments necessary for sending a DIDComm message
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   */
   sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
     context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage>
 }
 
+/**
+ * DID Comm plugin for {@link daf-core#Agent}
+ * @beta
+ */
 export class DIDComm implements IAgentPlugin {
+  /** Plugin methods */
   readonly methods: IDIDComm
 
   constructor() {
@@ -42,6 +60,7 @@ export class DIDComm implements IAgentPlugin {
     }
   }
 
+  /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
   async sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
     context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>,

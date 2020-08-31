@@ -4,6 +4,8 @@
 
 ## JwtMessageHandler class
 
+A plugin for [MessageHandler](./daf-message-handler.messagehandler.md) that finds and verifies a JWT in a message
+
 <b>Signature:</b>
 
 ```typescript

@@ -25,9 +25,15 @@ app.listen(3002)
 
 ```
 
+## Interfaces
+
+|  Interface | Description |
+|  --- | --- |
+|  [AgentRouterOptions](./daf-express.agentrouteroptions.md) |  |
+
 ## Variables
 
 |  Variable | Description |
 |  --- | --- |
-|  [AgentRouter](./daf-express.agentrouter.md) |  |
+|  [AgentRouter](./daf-express.agentrouter.md) | Creates a router that exposes [Agent](./daf-core.agent.md) methods |
 

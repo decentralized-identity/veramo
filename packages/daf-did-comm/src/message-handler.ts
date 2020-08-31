@@ -5,6 +5,10 @@ const debug = Debug('daf:did-comm:message-handler')
 
 type IContext = IAgentContext<IIdentityManager & IKeyManager>
 
+/**
+ * A plugin for the {@link daf-message-handler#MessageHandler} that decrypts DIDComm messages
+ * @beta
+ */
 export class DIDCommMessageHandler extends AbstractMessageHandler {
   constructor() {
     super()

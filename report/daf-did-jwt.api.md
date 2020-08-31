@@ -9,7 +9,7 @@ import { IAgentContext } from 'daf-core';
 import { IResolver } from 'daf-core';
 import { Message } from 'daf-message-handler';
 
-// @public (undocumented)
+// @public
 export class JwtMessageHandler extends AbstractMessageHandler {
     // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
     //

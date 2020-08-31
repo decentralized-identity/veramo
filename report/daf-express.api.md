@@ -8,12 +8,15 @@ import { IAgent } from 'daf-core';
 import { Request as Request_2 } from 'express';
 import { Router } from 'express';
 
+// @public
+export const AgentRouter: (options: AgentRouterOptions) => Router;
+
 // @public (undocumented)
-export const AgentRouter: (options: {
+export interface AgentRouterOptions {
+    exposedMethods: Array<string>;
+    extraMethods?: Array<string>;
     getAgentForRequest: (req: Request_2) => Promise<IAgent>;
-    exposedMethods: string[];
-    extraMethods?: string[] | undefined;
-}) => Router;
+}
 
 
 ```

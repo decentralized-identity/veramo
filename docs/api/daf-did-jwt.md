@@ -10,5 +10,5 @@ Provides a [plugin](./daf-did-jwt.jwtmessagehandler.md) for the [MessageHandler]
 
 |  Class | Description |
 |  --- | --- |
-|  [JwtMessageHandler](./daf-did-jwt.jwtmessagehandler.md) |  |
+|  [JwtMessageHandler](./daf-did-jwt.jwtmessagehandler.md) | A plugin for [MessageHandler](./daf-message-handler.messagehandler.md) that finds and verifies a JWT in a message |
 

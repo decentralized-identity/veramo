@@ -10,7 +10,7 @@ Provides a [plugin](./daf-message-handler.messagehandler.md) for the [Agent](./d
 
 |  Class | Description |
 |  --- | --- |
-|  [AbstractMessageHandler](./daf-message-handler.abstractmessagehandler.md) |  |
+|  [AbstractMessageHandler](./daf-message-handler.abstractmessagehandler.md) | An abstract class for creating [MessageHandler](./daf-message-handler.messagehandler.md) plugins |
 |  [Message](./daf-message-handler.message.md) |  |
 |  [MessageHandler](./daf-message-handler.messagehandler.md) | Agent plugin that provides [IMessageHandler](./daf-core.imessagehandler.md) methods |
 

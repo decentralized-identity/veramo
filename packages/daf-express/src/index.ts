@@ -29,11 +29,33 @@ interface RequestWithAgent extends Request {
   agent?: IAgent
 }
 
-export const AgentRouter = (options: {
+/**
+ * @public
+ */
+export interface AgentRouterOptions {
+  /**
+   * Function that returns configured agent for specific request
+   */
   getAgentForRequest: (req: Request) => Promise<IAgent>
-  exposedMethods: string[]
+
+  /**
+   * List of exposed methods
+   */
+  exposedMethods: Array<string>
+
+  /**
+   * List of extra methods
+   */
   extraMethods?: Array<string>
-}): Router => {
+}
+
+/**
+ * Creates a router that exposes {@link daf-core#Agent} methods
+ *
+ * @param options - Initialization option
+ * @returns Expressjs router
+ */
+export const AgentRouter = (options: AgentRouterOptions): Router => {
   const router = Router()
   router.use(json())
   router.use(async (req: RequestWithAgent, res, next) => {
