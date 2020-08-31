@@ -4,7 +4,7 @@
 
 ## daf-resolver-universal package
 
-Agent plugin that implements [IResolver](./daf-core.iresolver.md) interface. Uses external "universal" resolver
+Provides a [plugin](./daf-resolver-universal.dafuniversalresolver.md) for the [Agent](./daf-core.agent.md) that implements [IResolver](./daf-core.iresolver.md) interface. Uses external "universal" resolver
 
 ## Classes
 

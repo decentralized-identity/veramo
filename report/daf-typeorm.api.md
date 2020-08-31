@@ -118,7 +118,7 @@ export class DataStoreORM implements IAgentPlugin {
     }
 
 // @public (undocumented)
-export const Entities: (typeof Key | typeof Identity | typeof Message | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Service)[];
+export const Entities: (typeof Identity | typeof Key | typeof Service | typeof Message | typeof Claim | typeof Credential_2 | typeof Presentation)[];
 
 // @public (undocumented)
 export interface FindArgs<TColumns> {

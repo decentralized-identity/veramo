@@ -4,7 +4,7 @@
 
 ## daf-message-handler package
 
-Plugin that implements [IMessageHandler](./daf-core.imessagehandler.md) interface
+Provides a [plugin](./daf-message-handler.messagehandler.md) for the [Agent](./daf-core.agent.md) that implements [IMessageHandler](./daf-core.imessagehandler.md) interface
 
 ## Classes
 

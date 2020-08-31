@@ -129,6 +129,4 @@ export class SelectiveDisclosure implements IAgentPlugin {
 }
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

@@ -4,7 +4,7 @@
 
 ## daf-typeorm package
 
-[TypeORM](https://typeorm.io/) backed plugins: Agent plugin that implements  interface. Defines and implements [IDataStoreORM](./daf-typeorm.idatastoreorm.md) interface. Provides [KeyStore](./daf-typeorm.keystore.md) for `daf-key-manager`<!-- -->. Provides [IdentityStore](./daf-typeorm.identitystore.md) from `daf-identity-manager`
+[TypeORM](https://typeorm.io/) backed plugins. [Agent](./daf-core.agent.md) [plugin](./daf-typeorm.datastore.md) that implements [IDataStore](./daf-core.idatastore.md) interface. [Agent](./daf-core.agent.md) [plugin](./daf-typeorm.datastoreorm.md) that implements [IDataStoreORM](./daf-typeorm.idatastoreorm.md) interface. Provides [KeyStore](./daf-typeorm.keystore.md) for [KeyManager](./daf-key-manager.keymanager.md) and [IdentityStore](./daf-typeorm.identitystore.md) for [IdentityManager](./daf-identity-manager.identitymanager.md)
 
 ## Classes
 

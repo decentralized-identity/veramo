@@ -4,6 +4,8 @@
 
 ## daf-rest package
 
+Provides a [plugin](./daf-rest.agentrestclient.md) for the [Agent](./daf-core.agent.md) that can proxy method execution over HTTPS using [OpenAPI](./daf-rest.openapischema.md)
+
 ## Classes
 
 |  Class | Description |

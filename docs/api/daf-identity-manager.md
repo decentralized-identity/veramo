@@ -4,7 +4,7 @@
 
 ## daf-identity-manager package
 
-Plugin that implements [IIdentityManager](./daf-core.iidentitymanager.md) interface
+Provides a [plugin](./daf-identity-manager.identitymanager.md) for the [Agent](./daf-core.agent.md) that implements [IIdentityManager](./daf-core.iidentitymanager.md) interface
 
 ## Classes
 

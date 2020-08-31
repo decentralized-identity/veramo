@@ -4,7 +4,7 @@
 
 ## daf-core package
 
-The core package of DID Agent Framework. Defines [IResolver](./daf-core.iresolver.md)<!-- -->, [IIdentityManager](./daf-core.iidentitymanager.md)<!-- -->, [IKeyManager](./daf-core.ikeymanager.md)<!-- -->, [IDataStore](./daf-core.idatastore.md) and [IMessageHandler](./daf-core.imessagehandler.md) plugin interfaces
+Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./daf-core.iresolver.md)<!-- -->, [IIdentityManager](./daf-core.iidentitymanager.md)<!-- -->, [IKeyManager](./daf-core.ikeymanager.md)<!-- -->, [IDataStore](./daf-core.idatastore.md)<!-- -->, [IMessageHandler](./daf-core.imessagehandler.md) plugin interfaces
 
 ## Classes
 

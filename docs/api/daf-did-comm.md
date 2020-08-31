@@ -4,7 +4,7 @@
 
 ## daf-did-comm package
 
-DIDComm. Defines and implements [IDIDComm](./daf-did-comm.ididcomm.md) plugin interface. Provides a [plugin](./daf-did-comm.didcommmessagehandler.md) for `daf-message-handler`
+Provides a [plugin](./daf-did-comm.didcomm.md) for the [Agent](./daf-core.agent.md) that implements [IDIDComm](./daf-did-comm.ididcomm.md) interface. Provides a [plugin](./daf-did-comm.didcommmessagehandler.md) for the [MessageHandler](./daf-message-handler.messagehandler.md) that decrypts messages
 
 ## Classes
 

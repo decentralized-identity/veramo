@@ -27,6 +27,4 @@ export const openApiSchema: OpenAPIV3.Document;
 export const supportedMethods: string[];
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

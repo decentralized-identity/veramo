@@ -4,6 +4,8 @@
 
 ## daf-libsodium package
 
+Provides [libsodium](https://github.com/jedisct1/libsodium.js) backed [key management system](./daf-libsodium.keymanagementsystem.md) and [secret box](./daf-libsodium.secretbox.md) for the [KeyManager](./daf-key-manager.keymanager.md)
+
 ## Classes
 
 |  Class | Description |

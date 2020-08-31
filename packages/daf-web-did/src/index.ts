@@ -1,5 +1,5 @@
 /**
- * Provides `did:web` {@link daf-web-did#WebIdentityProvider | identity provider } for `daf-identity-manager`
+ * Provides `did:web` {@link daf-web-did#WebIdentityProvider | identity provider } for the {@link daf-identity-manager#IdentityManager}
  *
  * @packageDocumentation
  */

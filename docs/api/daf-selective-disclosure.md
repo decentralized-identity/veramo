@@ -4,6 +4,8 @@
 
 ## daf-selective-disclosure package
 
+Provides a [plugin](./daf-selective-disclosure.iselectivedisclosure.md) for the [Agent](./daf-core.agent.md) that implements [SelectiveDisclosure](./daf-selective-disclosure.selectivedisclosure.md) interface. Provides a [plugin](./daf-selective-disclosure.sdrmessagehandler.md) for the [MessageHandler](./daf-message-handler.messagehandler.md) that detects Selective Disclosure Request in a message
+
 ## Classes
 
 |  Class | Description |

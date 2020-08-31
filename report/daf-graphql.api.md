@@ -48,6 +48,4 @@ export interface IAgentGraphQLMethod {
 export const supportedMethods: Record<string, IAgentGraphQLMethod>;
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

@@ -4,7 +4,7 @@
 
 ## daf-web-did package
 
-Provides `did:web` [identity provider](./daf-web-did.webidentityprovider.md) for `daf-identity-manager`
+Provides `did:web` [identity provider](./daf-web-did.webidentityprovider.md) for the [IdentityManager](./daf-identity-manager.identitymanager.md)
 
 ## Classes
 

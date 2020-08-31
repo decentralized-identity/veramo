@@ -4,7 +4,7 @@
 
 ## daf-resolver package
 
-Agent plugin that implements [IResolver](./daf-core.iresolver.md) interface
+Provides a [plugin](./daf-resolver.dafresolver.md) for the [Agent](./daf-core.agent.md) that implements [IResolver](./daf-core.iresolver.md) interface
 
 ## Classes
 

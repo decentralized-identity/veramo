@@ -1,5 +1,5 @@
 /**
- * Plugin that implements {@link daf-core#IIdentityManager} interface
+ * Provides a {@link daf-identity-manager#IdentityManager | plugin} for the {@link daf-core#Agent} that implements {@link daf-core#IIdentityManager} interface
  *
  * @packageDocumentation
  */

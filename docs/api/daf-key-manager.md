@@ -4,7 +4,7 @@
 
 ## daf-key-manager package
 
-Plugin that implements [IKeyManager](./daf-core.ikeymanager.md) interface
+Provides a [plugin](./daf-key-manager.keymanager.md) for the [Agent](./daf-core.agent.md) that implements [IKeyManager](./daf-core.ikeymanager.md) interface
 
 ## Classes
 

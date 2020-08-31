@@ -4,6 +4,8 @@
 
 ## daf-graphql package
 
+Provides a [plugin](./daf-graphql.agentgraphqlclient.md) for the [Agent](./daf-core.agent.md) that can proxy method execution over GraphQL
+
 ## Classes
 
 |  Class | Description |

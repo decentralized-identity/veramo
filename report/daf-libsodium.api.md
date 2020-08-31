@@ -54,6 +54,4 @@ export class SecretBox extends AbstractSecretBox {
     }
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

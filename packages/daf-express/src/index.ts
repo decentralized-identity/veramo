@@ -1,5 +1,5 @@
 /**
- * Expressjs router for exposing `daf-rest` OpenAPI schema
+ * {@link https://expressjs.com | Express} router for exposing `daf-rest` OpenAPI schema
  *
  * @example
  * ```typescript

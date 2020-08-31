@@ -4,7 +4,7 @@
 
 ## daf-ethr-did package
 
-Provides `did:ethr` [identity provider](./daf-ethr-did.ethridentityprovider.md) for `daf-identity-manager`
+Provides `did:ethr` [identity provider](./daf-ethr-did.ethridentityprovider.md) for the [IdentityManager](./daf-identity-manager.identitymanager.md)
 
 ## Classes
 

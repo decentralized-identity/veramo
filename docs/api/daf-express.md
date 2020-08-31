@@ -4,7 +4,7 @@
 
 ## daf-express package
 
-Expressjs router for exposing `daf-rest` OpenAPI schema
+[Express](https://expressjs.com) router for exposing `daf-rest` OpenAPI schema
 
 ## Example
 
