@@ -8,23 +8,24 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [daf-core](./daf-core.md) | The core package of DID Agent Framework. Defines default plugin interfaces |
-|  [daf-did-comm](./daf-did-comm.md) |  |
-|  [daf-did-jwt](./daf-did-jwt.md) |  |
-|  [daf-ethr-did](./daf-ethr-did.md) |  |
+|  [daf-core](./daf-core.md) | The core package of DID Agent Framework. Defines [IResolver](./daf-core.iresolver.md)<!-- -->, [IIdentityManager](./daf-core.iidentitymanager.md)<!-- -->, [IKeyManager](./daf-core.ikeymanager.md)<!-- -->, [IDataStore](./daf-core.idatastore.md) and [IMessageHandler](./daf-core.imessagehandler.md) plugin interfaces |
+|  [daf-did-comm](./daf-did-comm.md) | DIDComm. Defines and implements [IDIDComm](./daf-did-comm.ididcomm.md) plugin interface. Provides a [plugin](./daf-did-comm.didcommmessagehandler.md) for <code>daf-message-handler</code> |
+|  [daf-did-jwt](./daf-did-jwt.md) | Provides a [plugin](./daf-did-jwt.jwtmessagehandler.md) for <code>daf-message-handler</code> that finds and verifies a JWT in a message |
+|  [daf-ethr-did](./daf-ethr-did.md) | Provides <code>did:ethr</code> [identity provider](./daf-ethr-did.ethridentityprovider.md) for <code>daf-identity-manager</code> |
 |  [daf-express](./daf-express.md) | Expressjs router for exposing <code>daf-rest</code> OpenAPI schema |
 |  [daf-graphql](./daf-graphql.md) |  |
 |  [daf-identity-manager](./daf-identity-manager.md) | Plugin that implements [IIdentityManager](./daf-core.iidentitymanager.md) interface |
 |  [daf-key-manager](./daf-key-manager.md) | Plugin that implements [IKeyManager](./daf-core.ikeymanager.md) interface |
 |  [daf-libsodium](./daf-libsodium.md) |  |
 |  [daf-message-handler](./daf-message-handler.md) | Plugin that implements [IMessageHandler](./daf-core.imessagehandler.md) interface |
-|  [daf-resolver](./daf-resolver.md) |  |
-|  [daf-resolver-universal](./daf-resolver-universal.md) |  |
+|  [daf-resolver](./daf-resolver.md) | Agent plugin that implements [IResolver](./daf-core.iresolver.md) interface |
+|  [daf-resolver-universal](./daf-resolver-universal.md) | Agent plugin that implements [IResolver](./daf-core.iresolver.md) interface. Uses external "universal" resolver |
 |  [daf-rest](./daf-rest.md) |  |
 |  [daf-selective-disclosure](./daf-selective-disclosure.md) |  |
-|  [daf-typeorm](./daf-typeorm.md) |  |
-|  [daf-url](./daf-url.md) |  |
-|  [daf-w3c](./daf-w3c.md) |  |
+|  [daf-typeorm](./daf-typeorm.md) | [TypeORM](https://typeorm.io/) backed plugins: Agent plugin that implements  interface. Defines and implements [IDataStoreORM](./daf-typeorm.idatastoreorm.md) interface. Provides [KeyStore](./daf-typeorm.keystore.md) for <code>daf-key-manager</code>. Provides [IdentityStore](./daf-typeorm.identitystore.md) from <code>daf-identity-manager</code> |
+|  [daf-url](./daf-url.md) | Provides a [plugin](./daf-url.urlmessagehandler.md) for <code>daf-message-handler</code> that finds a standard URL in a raw message |
+|  [daf-w3c](./daf-w3c.md) | Defines and implements [ICredentialIssuer](./daf-w3c.icredentialissuer.md) plugin interface. Provides a [plugin](./daf-w3c.w3cmessagehandler.md) for <code>daf-message-handler</code> |
+|  [daf-web-did](./daf-web-did.md) | Provides <code>did:web</code> [identity provider](./daf-web-did.webidentityprovider.md) for <code>daf-identity-manager</code> |
 
 
 

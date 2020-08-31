@@ -4,6 +4,8 @@
 
 ## daf-did-comm package
 
+DIDComm. Defines and implements [IDIDComm](./daf-did-comm.ididcomm.md) plugin interface. Provides a [plugin](./daf-did-comm.didcommmessagehandler.md) for `daf-message-handler`
+
 ## Classes
 
 |  Class | Description |

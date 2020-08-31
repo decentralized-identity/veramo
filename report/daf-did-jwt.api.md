@@ -18,6 +18,4 @@ export class JwtMessageHandler extends AbstractMessageHandler {
 }
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

@@ -21,6 +21,4 @@ export class DafUniversalResolver implements IAgentPlugin {
     }
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

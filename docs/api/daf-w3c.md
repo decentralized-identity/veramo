@@ -4,6 +4,8 @@
 
 ## daf-w3c package
 
+Defines and implements [ICredentialIssuer](./daf-w3c.icredentialissuer.md) plugin interface. Provides a [plugin](./daf-w3c.w3cmessagehandler.md) for `daf-message-handler`
+
 ## Classes
 
 |  Class | Description |

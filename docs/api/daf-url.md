@@ -4,6 +4,8 @@
 
 ## daf-url package
 
+Provides a [plugin](./daf-url.urlmessagehandler.md) for `daf-message-handler` that finds a standard URL in a raw message
+
 ## Classes
 
 |  Class | Description |

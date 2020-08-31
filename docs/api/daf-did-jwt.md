@@ -4,6 +4,8 @@
 
 ## daf-did-jwt package
 
+Provides a [plugin](./daf-did-jwt.jwtmessagehandler.md) for `daf-message-handler` that finds and verifies a JWT in a message
+
 ## Classes
 
 |  Class | Description |

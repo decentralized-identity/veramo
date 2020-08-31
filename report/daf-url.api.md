@@ -15,6 +15,4 @@ export class UrlMessageHandler extends AbstractMessageHandler {
 }
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

@@ -66,6 +66,4 @@ export class W3cMessageHandler extends AbstractMessageHandler {
 }
 
 
-// (No @packageDocumentation comment for this package)
-
 ```

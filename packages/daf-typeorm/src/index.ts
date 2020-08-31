@@ -1,3 +1,9 @@
+/**
+ * {@link https://typeorm.io/ | TypeORM } backed plugins: Agent plugin that implements {@link daf-core#DataStore } interface. Defines and implements {@link daf-typeorm#IDataStoreORM} interface. Provides {@link daf-typeorm#KeyStore} for `daf-key-manager`. Provides {@link daf-typeorm#IdentityStore} from `daf-identity-manager`
+ *
+ * @packageDocumentation
+ */
+
 export { IdentityStore } from './identity/identity-store'
 export { KeyStore } from './identity/key-store'
 export { DataStore } from './data-store'

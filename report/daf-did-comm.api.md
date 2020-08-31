@@ -56,6 +56,4 @@ export interface ISendMessageDIDCommAlpha1Args {
 }
 
 
-// (No @packageDocumentation comment for this package)
-
 ```
