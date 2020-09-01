@@ -2,7 +2,7 @@
   "name": "daf",
   "private": true,
   "scripts": {
-    "build": "lerna run build && yarn docs:api && yarn docs:reference && yarn schemas && yarn lerna run --scope daf-rest build && yarn docs:clean-temp",
+    "build": "lerna run build && yarn docs:api && yarn docs:reference && yarn schemas && yarn lerna run --scope daf-rest build && yarn docs:clean-temp && yarn prettier:examples",
     "publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
     "schemas": "ts-node ./scripts/generate-schemas.ts",
@@ -13,6 +13,7 @@
     "test:watch": "jest --config=jest.json --watch --verbose",
     "daf": "./packages/daf-cli/bin/daf.js",
     "prettier": "prettier --write '{packages,__tests__, !build}/**/*.ts'",
+    "prettier:examples": "prettier --write __tests__/shared/documentationExamples.ts",
     "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo && jest --clearCache",
     "publish-beta": "yarn build && npx lerna publish --canary premajor --preid beta --pre-dist-tag beta"
   },
