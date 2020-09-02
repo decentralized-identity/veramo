@@ -79,7 +79,7 @@ import { createAgent, TAgent, IResolver } from 'daf-core'
 import { DafResolver } from 'daf-resolver'
 import { MyPlugin, IMyMethods } from './my-plugin'
 
-const agent = createAgent<TAgent<IMyMethods & IResolver>>({
+const agent = createAgent<IMyMethods & IResolver>({
   plugins: [
     new MyPlugin(),
     new DafResolver({ infuraProjectId: '5ffc47f65c4042ce847ef66a3fa70d4c' }),

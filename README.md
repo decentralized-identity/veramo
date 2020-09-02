@@ -11,16 +11,7 @@
   - [Remote](docs/setup.md#remote)
   - [Mixed](docs/setup.md#mixed)
 - [Available agent methods](docs/methods.md)
-- Extending agent
-  - [Agent plugin](docs/plugin.md)
-  - Identity manager
-    - Identity store
-    - Identity provider
-  - Key Manager
-    - Key store
-    - Key Management System
-    - Secret Box
-  - Message handler
+- [Extending agent functionality](docs/extending.md)
 
 ## Local development
 
