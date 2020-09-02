@@ -1,7 +1,7 @@
 {
   "name": "daf-w3c",
   "description": "DAF W3C verifiable credentials & presentations",
-  "version": "7.0.0-beta.15",
+  "version": "7.0.0-beta.16",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^7.0.0-beta.15",
-    "daf-did-jwt": "^7.0.0-beta.15",
-    "daf-message-handler": "^7.0.0-beta.15",
-    "daf-resolver": "^7.0.0-beta.15",
+    "daf-core": "^7.0.0-beta.16",
+    "daf-did-jwt": "^7.0.0-beta.16",
+    "daf-message-handler": "^7.0.0-beta.16",
+    "daf-resolver": "^7.0.0-beta.16",
     "debug": "^4.1.1",
     "did-jwt-vc": "^1.0.3",
     "did-resolver": "2.1.1"

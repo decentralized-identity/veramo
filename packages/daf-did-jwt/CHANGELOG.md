@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.16](https://github.com/uport-project/daf/compare/v7.0.0-beta.15...v7.0.0-beta.16) (2020-09-02)
+
+
+### Code Refactoring
+
+* Refactor and add inline documentation to daf-w3c package ([91ff4d9](https://github.com/uport-project/daf/commit/91ff4d936d11bf48c56aec6cebc91e268d44f730))
+
+
+### BREAKING CHANGES
+
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 # [7.0.0-beta.15](https://github.com/uport-project/daf/compare/v7.0.0-beta.14...v7.0.0-beta.15) (2020-08-27)
 
 **Note:** Version bump only for package daf-did-jwt
