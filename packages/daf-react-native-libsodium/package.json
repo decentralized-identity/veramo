@@ -1,7 +1,7 @@
 {
   "name": "daf-react-native-libsodium",
   "description": "DAF react native libsodium modules",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "base-58": "^0.0.1",
-    "daf-core": "^6.1.1",
+    "daf-core": "^6.1.2",
     "debug": "^4.1.1",
     "did-jwt": "^4.3.2",
     "elliptic": "^6.5.2",
