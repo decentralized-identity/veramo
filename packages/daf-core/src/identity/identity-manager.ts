@@ -36,8 +36,11 @@ export class IdentityManager {
   }
 
   async getIdentity(did: string): Promise<AbstractIdentity> {
-    const identities = await this.getIdentities()
-    const identity = identities.find(item => item.did === did)
+    let identity: AbstractIdentity
+    for (const identityProvider of this.identityProviders) {
+      const providerIdentity = await identityProvider.getIdentity(did)
+      if (providerIdentity) identity = providerIdentity
+    }
     if (identity) {
       return identity
     } else {
