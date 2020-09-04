@@ -1,6 +1,6 @@
 {
   "name": "daf-react-native-async-storage",
-  "description": "DAF react native async storage modules",
+  "description": "DAF storage plugin using react native async storage API",
   "version": "6.1.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",

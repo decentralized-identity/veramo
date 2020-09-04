@@ -1,6 +1,6 @@
 {
   "name": "daf-local-storage",
-  "description": "DAF File system modules",
+  "description": "DAF storage plugin that uses browser local storage API",
   "version": "6.1.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",

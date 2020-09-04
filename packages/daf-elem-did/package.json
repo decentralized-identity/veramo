@@ -1,6 +1,6 @@
 {
   "name": "daf-elem-did",
-  "description": "DAF element did modules",
+  "description": "DAF plugin for element-DID support",
   "version": "6.1.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",

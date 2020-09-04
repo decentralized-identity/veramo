@@ -1,6 +1,6 @@
 {
   "name": "daf-resolver",
-  "description": "DAF resolver",
+  "description": "DAF resolver plugin using in-process resolver modules",
   "version": "6.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",

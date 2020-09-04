@@ -1,6 +1,6 @@
 {
   "name": "daf-core",
-  "description": "DID Agent Framework Core",
+  "description": "DID Agent Framework Core Logic & Interfaces",
   "version": "6.1.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",
