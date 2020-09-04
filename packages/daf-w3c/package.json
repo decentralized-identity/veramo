@@ -1,6 +1,6 @@
 {
   "name": "daf-w3c",
-  "description": "DAF W3C verifiable credentials & presentations",
+  "description": "DAF plugin for working with W3C verifiable credentials & presentations.",
   "version": "7.0.0-beta.17",
   "main": "build/index.js",
   "types": "build/index.d.ts",

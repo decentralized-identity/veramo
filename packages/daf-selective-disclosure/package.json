@@ -1,6 +1,6 @@
 {
   "name": "daf-selective-disclosure",
-  "description": "DAF selective disclosure",
+  "description": "DAF plugin to enable the uPort selective disclosure protocol with W3C compatibility.",
   "version": "7.0.0-beta.17",
   "main": "build/index.js",
   "types": "build/index.d.ts",

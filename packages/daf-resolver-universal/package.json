@@ -1,6 +1,6 @@
 {
   "name": "daf-resolver-universal",
-  "description": "DAF universal resolver",
+  "description": "DAF resolver plugin using the uniresolver.io API.",
   "version": "7.0.0-beta.17",
   "main": "build/index.js",
   "types": "build/index.d.ts",
