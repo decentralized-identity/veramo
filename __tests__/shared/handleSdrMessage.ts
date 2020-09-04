@@ -17,6 +17,7 @@ export default (testContext: {
     let identity: IIdentity
     const JWT =
       'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1OTM0NTE3MDAsInR5cGUiOiJzZHIiLCJzdWJqZWN0IjoiZGlkOmV0aHI6cmlua2VieToweDM2MjQ2M2NiZTUyMjhjZTUwMGJlOGUwMzVjZGIyMWI3NzQ1ZjZkYjAiLCJ0YWciOiJzZHItb25lIiwiY2xhaW1zIjpbeyJyZWFzb24iOiJXZSBuZWVkIGl0IiwiY2xhaW1UeXBlIjoibmFtZSIsImVzc2VudGlhbCI6dHJ1ZX1dLCJpc3MiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4MTM4NGMxZmNlM2Y3MWQ3NjU5NzcwOGY1NGM0ZDEyOGMyNDFkMDBkMiJ9.L-j-gREAuN7DAxDCe1vXJWtMIdmn88HTuTFp2PasTTo_aqvIdGcFtv-rSfvRHkauNq5C3PkXkQWY01VGqpJ-QwE'
+    let originalRequestSender: string
 
     beforeAll(() => {
       testContext.setup()
@@ -52,6 +53,9 @@ export default (testContext: {
         raw: JWT,
         save: true,
       })
+      if (message.from) {
+        originalRequestSender = message.from
+      }
 
       expect(message.raw).toEqual(JWT)
     })
@@ -100,7 +104,7 @@ export default (testContext: {
 
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
-          verifier: [],
+          verifier: [originalRequestSender],
           holder: identity.did,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
