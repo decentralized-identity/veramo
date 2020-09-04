@@ -1,6 +1,6 @@
 {
   "name": "daf-libsodium",
-  "description": "DAF KMS plugin using libsodium",
+  "description": "DAF KMS plugin using libsodium.",
   "version": "6.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",

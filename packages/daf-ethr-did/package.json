@@ -1,6 +1,6 @@
 {
   "name": "daf-ethr-did",
-  "description": "DAF ehtr-did based identity controller plugin",
+  "description": "DAF ehtr-did based identity controller plugin.",
   "version": "6.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",

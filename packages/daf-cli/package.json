@@ -1,6 +1,6 @@
 {
   "name": "daf-cli",
-  "description": "DAF command line application",
+  "description": "DAF command line application.",
   "version": "6.2.0",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",

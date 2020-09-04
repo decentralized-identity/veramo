@@ -1,6 +1,6 @@
 {
   "name": "daf-react-native-libsodium",
-  "description": "DAF KMS plugin using libsodium for React Native",
+  "description": "DAF KMS plugin using libsodium for React Native.",
   "version": "6.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
