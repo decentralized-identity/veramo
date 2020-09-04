@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/lodash.merge": "^4.6.6",
-    "apollo-server": "^2.9.16",
+    "apollo-server": "^2.14.2",
     "daf-core": "../../../packages/daf-core",
     "daf-did-comm": "../../../packages/daf-did-comm",
     "daf-did-jwt": "../../../packages/daf-did-jwt",
