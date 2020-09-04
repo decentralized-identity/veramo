@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
+
+
+### Bug Fixes
+
+* Sdr helper function types ([4db8a7e](https://github.com/uport-project/daf/commit/4db8a7ec02f876e556819998802d39a6f2877e25))
+
+
+### Code Refactoring
+
+* Refactor and add inline documentation to daf-w3c package ([af2cec1](https://github.com/uport-project/daf/commit/af2cec1e604cff194b2b909f79365138b0b5ba17))
+
+
+### BREAKING CHANGES
+
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 # [7.0.0-beta.16](https://github.com/uport-project/daf/compare/v7.0.0-beta.15...v7.0.0-beta.16) (2020-09-02)
 
 

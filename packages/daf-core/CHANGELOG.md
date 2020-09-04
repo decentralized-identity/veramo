@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
+
+
+### Bug Fixes
+
+* IdentityManager ([24cec29](https://github.com/uport-project/daf/commit/24cec29df17f3fe3c8f363248826bb8c88414e9f))
+* IdentityManager ([66e8592](https://github.com/uport-project/daf/commit/66e8592bc8884b5498eaeea2b68bbffb4efe3977))
+* IHandleMessage interface ([e0aa881](https://github.com/uport-project/daf/commit/e0aa881600d3595e65b0cb3e6999cbabf8277528))
+* IIdentityManager interface ([1b49f15](https://github.com/uport-project/daf/commit/1b49f15fed359351243fb36c27026fffcf3f8c04))
+* IKeyManager arg types ([c7947e9](https://github.com/uport-project/daf/commit/c7947e91d9959fac0804905b21a974ad49d2e82b))
+* KeyManagerSignEthTX ([3b5cd68](https://github.com/uport-project/daf/commit/3b5cd68dcee897699828aff89ba3563c44ffe310))
+* MessageHandler chain ([90caa26](https://github.com/uport-project/daf/commit/90caa26e17f001af2daac253cb28c3581cbe5b09))
+* Removing EcdsaSignature type ([cc3b061](https://github.com/uport-project/daf/commit/cc3b061df333a0d4a43ff47d2bd1054191ad2aae))
+* TAgent definition ([67648c4](https://github.com/uport-project/daf/commit/67648c49d9f554d240609122c721a450e62c50ad))
+* **core:** Improve identity lookup speed ([#230](https://github.com/uport-project/daf/issues/230)) ([b2f6332](https://github.com/uport-project/daf/commit/b2f6332d5b4e6e62235a796fdc43170d58cae63b)), closes [#229](https://github.com/uport-project/daf/issues/229)
+
+
+### Code Refactoring
+
+* Refactor and add inline documentation to daf-w3c package ([af2cec1](https://github.com/uport-project/daf/commit/af2cec1e604cff194b2b909f79365138b0b5ba17))
+
+
+### Features
+
+* Added keyManagerGetKeyManagementSystems ([4dac0dc](https://github.com/uport-project/daf/commit/4dac0dc745bf2235618024d5aff754f4e0d6f608))
+* Authorized agent methods ([96934d4](https://github.com/uport-project/daf/commit/96934d420b30c3a4b81fb9259770f977deebc0ee))
+* Debug agent.execute ([e5af81a](https://github.com/uport-project/daf/commit/e5af81a98b9508fda8dec3e8d2a3fdc244c38a0b))
+* Generating OpenAPI schema (broken) ([4ac5849](https://github.com/uport-project/daf/commit/4ac5849ddcdb11b242c27220ec59e92d5f49f507))
+* Method identityManagerGetOrCreateIdentity ([0b22439](https://github.com/uport-project/daf/commit/0b22439c2a8d790bc33df4e9d0bd89be83a13187))
+
+
+### BREAKING CHANGES
+
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 # [7.0.0-beta.16](https://github.com/uport-project/daf/compare/v7.0.0-beta.15...v7.0.0-beta.16) (2020-09-02)
 
 

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
+
+
+### Bug Fixes
+
+* Types ([1a74c47](https://github.com/uport-project/daf/commit/1a74c47135e7df28f054739a5484d84cf46ba71c))
+
+
+### Features
+
+* Daf-express overrides ([1eec691](https://github.com/uport-project/daf/commit/1eec6910ae6002533d5ea3d63b325cab9440d8cb))
+* Daf-rest & daf-express ([d99784a](https://github.com/uport-project/daf/commit/d99784aa9bcea1ac156456e2b4b721db3aa5fcea))
+* Express router ([b726a62](https://github.com/uport-project/daf/commit/b726a6228682ee96579e91a658652ffd6610d3db))
+* Using OpenAPI schema in rest & express ([730a134](https://github.com/uport-project/daf/commit/730a13483d077aa7f00aff4b4585e252eff38e48))
+
+
+
+
+
 # [7.0.0-beta.16](https://github.com/uport-project/daf/compare/v7.0.0-beta.15...v7.0.0-beta.16) (2020-09-02)
 
 **Note:** Version bump only for package daf-express

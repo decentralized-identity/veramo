@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
+
+
+### Bug Fixes
+
+* Daf REST headers type ([71f7d6d](https://github.com/uport-project/daf/commit/71f7d6d829fac48bf96ae4b83d86d470f5d129a1))
+* Daf-rest overrides ([b265ee3](https://github.com/uport-project/daf/commit/b265ee3ac48fe05e82542c78b503811168b72240))
+* Deps for daf-rest ([4eaf7f2](https://github.com/uport-project/daf/commit/4eaf7f28a72e0d4fea55eec0abe0fbcf78c9de9b))
+* OpenAPI types dep for daf-rest ([7e3ef16](https://github.com/uport-project/daf/commit/7e3ef164f4e195e054b2501db9e369f05cc200ec))
+* Rest client error handling ([68b8394](https://github.com/uport-project/daf/commit/68b8394ee8f0efd2734fd1bdea3867a474337fbe))
+* Valid OpenApi v3 schema ([08813a2](https://github.com/uport-project/daf/commit/08813a27fb952c8258a563f96d8c996c55fed28f))
+
+
+### Code Refactoring
+
+* Refactor and add inline documentation to daf-w3c package ([af2cec1](https://github.com/uport-project/daf/commit/af2cec1e604cff194b2b909f79365138b0b5ba17))
+
+
+### Features
+
+* Added keyManagerGetKeyManagementSystems ([4dac0dc](https://github.com/uport-project/daf/commit/4dac0dc745bf2235618024d5aff754f4e0d6f608))
+* Daf-rest & daf-express ([d99784a](https://github.com/uport-project/daf/commit/d99784aa9bcea1ac156456e2b4b721db3aa5fcea))
+* Method dataStoreORMGetIdentities ([00909b1](https://github.com/uport-project/daf/commit/00909b1aa56402405895e0861519034dc735b6a7))
+* Method identityManagerGetOrCreateIdentity ([0b22439](https://github.com/uport-project/daf/commit/0b22439c2a8d790bc33df4e9d0bd89be83a13187))
+* Using OpenAPI schema in rest & express ([730a134](https://github.com/uport-project/daf/commit/730a13483d077aa7f00aff4b4585e252eff38e48))
+
+
+### BREAKING CHANGES
+
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 # [7.0.0-beta.16](https://github.com/uport-project/daf/compare/v7.0.0-beta.15...v7.0.0-beta.16) (2020-09-02)
 
 

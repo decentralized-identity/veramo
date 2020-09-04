@@ -3,6 +3,77 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
+
+
+### Bug Fixes
+
+* Creating VC ([0c86199](https://github.com/uport-project/daf/commit/0c86199b0c1b5aaa45f442c2e39011eb9a952d03))
+* Daf REST headers type ([71f7d6d](https://github.com/uport-project/daf/commit/71f7d6d829fac48bf96ae4b83d86d470f5d129a1))
+* Daf-libsodium debug ([4d3c540](https://github.com/uport-project/daf/commit/4d3c540f2ee99a18b009b6ab5045acb68cc16f18))
+* Daf-rest overrides ([b265ee3](https://github.com/uport-project/daf/commit/b265ee3ac48fe05e82542c78b503811168b72240))
+* DataStoreORM claim subject ([f8a72b4](https://github.com/uport-project/daf/commit/f8a72b42715443c6e8032bd3415ab2915a2ddcd5))
+* DataStoreORM interface ([030f195](https://github.com/uport-project/daf/commit/030f195b1ae08713435ff206643837809eca3f9e))
+* DataStoreORM saving claims ([25841ab](https://github.com/uport-project/daf/commit/25841ab38163ee09919f4dc7417469d5f1c41862))
+* Deps for daf-rest ([4eaf7f2](https://github.com/uport-project/daf/commit/4eaf7f28a72e0d4fea55eec0abe0fbcf78c9de9b))
+* Ethr-did debug ([98d927e](https://github.com/uport-project/daf/commit/98d927e9b7e3e4d5e80e6ade199abd89697e3ec4))
+* IdentityManager ([24cec29](https://github.com/uport-project/daf/commit/24cec29df17f3fe3c8f363248826bb8c88414e9f))
+* IdentityManager ([66e8592](https://github.com/uport-project/daf/commit/66e8592bc8884b5498eaeea2b68bbffb4efe3977))
+* IdentityProvider WIP ([831af6b](https://github.com/uport-project/daf/commit/831af6b170c60e002d3f3c0d5d72a922ba9b7a15))
+* IdentityStore ([fc445b2](https://github.com/uport-project/daf/commit/fc445b21b2d17f3ce2eec295915a6cb01b708955))
+* IHandleMessage interface ([e0aa881](https://github.com/uport-project/daf/commit/e0aa881600d3595e65b0cb3e6999cbabf8277528))
+* IIdentityManager interface ([1b49f15](https://github.com/uport-project/daf/commit/1b49f15fed359351243fb36c27026fffcf3f8c04))
+* IKeyManager arg types ([c7947e9](https://github.com/uport-project/daf/commit/c7947e91d9959fac0804905b21a974ad49d2e82b))
+* KeyManagerSignEthTX ([3b5cd68](https://github.com/uport-project/daf/commit/3b5cd68dcee897699828aff89ba3563c44ffe310))
+* MessageHandler chain ([90caa26](https://github.com/uport-project/daf/commit/90caa26e17f001af2daac253cb28c3581cbe5b09))
+* OpenAPI types dep for daf-rest ([7e3ef16](https://github.com/uport-project/daf/commit/7e3ef164f4e195e054b2501db9e369f05cc200ec))
+* Removing EcdsaSignature type ([cc3b061](https://github.com/uport-project/daf/commit/cc3b061df333a0d4a43ff47d2bd1054191ad2aae))
+* Resolver tests ([7aaf946](https://github.com/uport-project/daf/commit/7aaf946e375f0aadcee25e9a465a7d50dace5b1e))
+* Rest client error handling ([68b8394](https://github.com/uport-project/daf/commit/68b8394ee8f0efd2734fd1bdea3867a474337fbe))
+* Sdr helper function types ([4db8a7e](https://github.com/uport-project/daf/commit/4db8a7ec02f876e556819998802d39a6f2877e25))
+* TAgent definition ([67648c4](https://github.com/uport-project/daf/commit/67648c49d9f554d240609122c721a450e62c50ad))
+* Test daf-did-jwt ([e97cb4e](https://github.com/uport-project/daf/commit/e97cb4ed389e9f5884410f04992f2bbf29aa6789))
+* Test daf-url ([b103a72](https://github.com/uport-project/daf/commit/b103a72086276282b3f29ad830475ceae40c9d0a))
+* Types ([1a74c47](https://github.com/uport-project/daf/commit/1a74c47135e7df28f054739a5484d84cf46ba71c))
+* Types for IW3c ([9159167](https://github.com/uport-project/daf/commit/91591670a8c2ab61b52e44eabd734c63833f2055))
+* Valid OpenApi v3 schema ([08813a2](https://github.com/uport-project/daf/commit/08813a27fb952c8258a563f96d8c996c55fed28f))
+* W3c tests ([3ed67e5](https://github.com/uport-project/daf/commit/3ed67e545d7428e1e7e9f7c36a8e7974c8209ac2))
+* **core:** Improve identity lookup speed ([#230](https://github.com/uport-project/daf/issues/230)) ([b2f6332](https://github.com/uport-project/daf/commit/b2f6332d5b4e6e62235a796fdc43170d58cae63b)), closes [#229](https://github.com/uport-project/daf/issues/229)
+
+
+### Code Refactoring
+
+* Refactor and add inline documentation to daf-w3c package ([af2cec1](https://github.com/uport-project/daf/commit/af2cec1e604cff194b2b909f79365138b0b5ba17))
+
+
+### Features
+
+* Added keyManagerGetKeyManagementSystems ([4dac0dc](https://github.com/uport-project/daf/commit/4dac0dc745bf2235618024d5aff754f4e0d6f608))
+* Authorized agent methods ([96934d4](https://github.com/uport-project/daf/commit/96934d420b30c3a4b81fb9259770f977deebc0ee))
+* Daf-express overrides ([1eec691](https://github.com/uport-project/daf/commit/1eec6910ae6002533d5ea3d63b325cab9440d8cb))
+* Daf-rest & daf-express ([d99784a](https://github.com/uport-project/daf/commit/d99784aa9bcea1ac156456e2b4b721db3aa5fcea))
+* Debug agent.execute ([e5af81a](https://github.com/uport-project/daf/commit/e5af81a98b9508fda8dec3e8d2a3fdc244c38a0b))
+* Express router ([b726a62](https://github.com/uport-project/daf/commit/b726a6228682ee96579e91a658652ffd6610d3db))
+* Generating OpenAPI schema (broken) ([4ac5849](https://github.com/uport-project/daf/commit/4ac5849ddcdb11b242c27220ec59e92d5f49f507))
+* GraphQL message handler ([b76076a](https://github.com/uport-project/daf/commit/b76076aecbd0950e1484f7964d2f9ff7eb43b57b))
+* GraphQL w3c ([866421e](https://github.com/uport-project/daf/commit/866421e6013eff0a826c9e1bdba6176443d545c4))
+* Method dataStoreORMGetIdentities ([00909b1](https://github.com/uport-project/daf/commit/00909b1aa56402405895e0861519034dc735b6a7))
+* Method identityManagerGetOrCreateIdentity ([0b22439](https://github.com/uport-project/daf/commit/0b22439c2a8d790bc33df4e9d0bd89be83a13187))
+* Remote methods example ([6801e7c](https://github.com/uport-project/daf/commit/6801e7c17ff2fd99cd63afde207f3a8cbe4e9789))
+* Using OpenAPI schema in rest & express ([730a134](https://github.com/uport-project/daf/commit/730a13483d077aa7f00aff4b4585e252eff38e48))
+
+
+### BREAKING CHANGES
+
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 # [7.0.0-beta.16](https://github.com/uport-project/daf/compare/v7.0.0-beta.15...v7.0.0-beta.16) (2020-09-02)
 
 
