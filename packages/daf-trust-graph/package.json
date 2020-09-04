@@ -1,6 +1,6 @@
 {
   "name": "daf-trust-graph",
-  "description": "DAF Trust Graph - DEPRECATED",
+  "description": "DAF Trust Graph - DEPRECATED.",
   "version": "6.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
