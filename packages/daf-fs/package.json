@@ -1,6 +1,6 @@
 {
   "name": "daf-fs",
-  "description": "DAF File system modules",
+  "description": "DAF storage plugin based on simple File system storage",
   "version": "6.1.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",

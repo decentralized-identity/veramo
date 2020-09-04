@@ -1,6 +1,6 @@
 {
   "name": "daf-web-did",
-  "description": "DAF web did modules",
+  "description": "DAF plugin to enable web-did backed identity control",
   "version": "6.1.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",
