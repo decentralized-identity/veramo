@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
+
+
+### Bug Fixes
+
+* **core:** Improve identity lookup speed ([#230](https://github.com/uport-project/daf/issues/230)) ([b2f6332](https://github.com/uport-project/daf/commit/b2f6332d5b4e6e62235a796fdc43170d58cae63b)), closes [#229](https://github.com/uport-project/daf/issues/229)
+
+
+### Features
+
+* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
+* **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
+
+
+
+
+
 # [6.2.0](https://github.com/uport-project/daf/compare/v6.1.2...v6.2.0) (2020-09-04)
 
 
