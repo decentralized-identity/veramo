@@ -165,6 +165,7 @@ export interface IKeyManager extends IPluginMethodMap {
     // @beta
     keyManagerEncryptJWE(args: IKeyManagerEncryptJWEArgs): Promise<string>;
     keyManagerGetKey(args: IKeyManagerGetKeyArgs): Promise<IKey>;
+    keyManagerGetKeyManagementSystems(): Promise<Array<string>>;
     keyManagerImportKey(args: IKey): Promise<boolean>;
     keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>;
     keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<string>;

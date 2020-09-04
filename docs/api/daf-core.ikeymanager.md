@@ -22,6 +22,7 @@ export interface IKeyManager extends IPluginMethodMap
 |  [keyManagerDeleteKey(args)](./daf-core.ikeymanager.keymanagerdeletekey.md) | Deletes a key |
 |  [keyManagerEncryptJWE(args)](./daf-core.ikeymanager.keymanagerencryptjwe.md) | <b><i>(BETA)</i></b> Encrypts data |
 |  [keyManagerGetKey(args)](./daf-core.ikeymanager.keymanagergetkey.md) | Returns an existing key |
+|  [keyManagerGetKeyManagementSystems()](./daf-core.ikeymanager.keymanagergetkeymanagementsystems.md) | Lists available key management systems |
 |  [keyManagerImportKey(args)](./daf-core.ikeymanager.keymanagerimportkey.md) | Imports a created key |
 |  [keyManagerSignEthTX(args)](./daf-core.ikeymanager.keymanagersignethtx.md) | Signs Ethereum transaction |
 |  [keyManagerSignJWT(args)](./daf-core.ikeymanager.keymanagersignjwt.md) | Signs JWT |

@@ -31,6 +31,7 @@ export class KeyManager implements IAgentPlugin {
     this.store = options.store
     this.kms = options.kms
     this.methods = {
+      keyManagerGetKeyManagementSystems: this.keyManagerGetKeyManagementSystems.bind(this),
       keyManagerCreateKey: this.keyManagerCreateKey.bind(this),
       keyManagerGetKey: this.keyManagerGetKey.bind(this),
       keyManagerDeleteKey: this.keyManagerDeleteKey.bind(this),
@@ -46,6 +47,11 @@ export class KeyManager implements IAgentPlugin {
     const kms = this.kms[name]
     if (!kms) throw Error('KMS does not exist: ' + name)
     return kms
+  }
+
+  /** {@inheritDoc daf-core#IKeyManager.keyManagerGetKeyManagementSystems} */
+  async keyManagerGetKeyManagementSystems(): Promise<Array<string>> {
+    return Object.keys(this.kms)
   }
 
   /** {@inheritDoc daf-core#IKeyManager.keyManagerCreateKey} */

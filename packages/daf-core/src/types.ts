@@ -738,6 +738,11 @@ export interface IKeyManagerSignEthTXArgs {
  */
 export interface IKeyManager extends IPluginMethodMap {
   /**
+   * Lists available key management systems
+   */
+  keyManagerGetKeyManagementSystems(): Promise<Array<string>>
+
+  /**
    * Creates and returns a new key
    */
   keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>

@@ -89,6 +89,8 @@ export class KeyManager implements IAgentPlugin {
     // (undocumented)
     keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey>;
     // (undocumented)
+    keyManagerGetKeyManagementSystems(): Promise<Array<string>>;
+    // (undocumented)
     keyManagerImportKey(key: IKey): Promise<boolean>;
     // (undocumented)
     keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string>;

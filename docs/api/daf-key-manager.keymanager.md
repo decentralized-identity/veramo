@@ -34,6 +34,7 @@ export declare class KeyManager implements IAgentPlugin
 |  [keyManagerDeleteKey({ kid })](./daf-key-manager.keymanager.keymanagerdeletekey.md) |  | Deletes a key |
 |  [keyManagerEncryptJWE({ kid, to, data })](./daf-key-manager.keymanager.keymanagerencryptjwe.md) |  | Encrypts data |
 |  [keyManagerGetKey({ kid })](./daf-key-manager.keymanager.keymanagergetkey.md) |  | Returns an existing key |
+|  [keyManagerGetKeyManagementSystems()](./daf-key-manager.keymanager.keymanagergetkeymanagementsystems.md) |  | Lists available key management systems |
 |  [keyManagerImportKey(key)](./daf-key-manager.keymanager.keymanagerimportkey.md) |  | Imports a created key |
 |  [keyManagerSignEthTX({ kid, transaction })](./daf-key-manager.keymanager.keymanagersignethtx.md) |  | Signs Ethereum transaction |
 |  [keyManagerSignJWT({ kid, data })](./daf-key-manager.keymanager.keymanagersignjwt.md) |  | Signs JWT |

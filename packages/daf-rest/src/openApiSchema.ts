@@ -2335,6 +2335,34 @@ export const openApiSchema: OpenAPIV3.Document = {
         }
       }
     },
+    "/keyManagerGetKeyManagementSystems": {
+      "post": {
+        "description": "Lists available key management systems",
+        "operationId": "keyManagerGetKeyManagementSystems",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lists available key management systems",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/keyManagerImportKey": {
       "post": {
         "description": "Imports a created key",
