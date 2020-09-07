@@ -68,7 +68,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
           message.threadId = presentation.tag
         }
 
-        message.createdAt = presentation.createdAt
+        message.createdAt = presentation.issuanceDate
         message.presentations = [presentation]
         message.credentials = credentials
 
@@ -90,7 +90,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
           message.threadId = credential.tag
         }
 
-        message.createdAt = credential.createdAt
+        message.createdAt = credential.issuanceDate
         message.credentials = [credential]
         return message
       } catch (e) {}
