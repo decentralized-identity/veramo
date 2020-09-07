@@ -140,6 +140,8 @@ export class DataStoreORM implements IAgentPlugin {
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.from', 'from')
       .leftJoinAndSelect('message.to', 'to')
+      .leftJoinAndSelect('message.credentials', 'credentials')
+      .leftJoinAndSelect('message.presentations', 'presentations')
       .where(where)
     qb = decorateQB(qb, 'message', args)
     if (context.authenticatedDid) {
@@ -200,6 +202,7 @@ export class DataStoreORM implements IAgentPlugin {
     args: FindArgs<TClaimsColumns>,
     context: IContext,
   ): Promise<VerifiableCredential[]> {
+    // FIXME this breaks if args has order param
     const claims = await (await this.claimsQuery(args, context)).getMany()
     return claims.map((claim) => claim.credential.raw)
   }
