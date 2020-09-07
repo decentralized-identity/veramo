@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build"
+  },
+  "references": [
+    { "path": "../daf-core" },
+    { "path": "../daf-did-comm" },
+    { "path": "../daf-did-jwt" },
+    { "path": "../daf-elem-did" },
+    { "path": "../daf-ethr-did" },
+    { "path": "../daf-fs" },
+    { "path": "../daf-libsodium" },
+    { "path": "../daf-resolver" },
+    { "path": "../daf-resolver-universal" },
+    { "path": "../daf-selective-disclosure" },
+    { "path": "../daf-trust-graph" },
+    { "path": "../daf-url" },
+    { "path": "../daf-web-did" },
+    { "path": "../daf-w3c" }
+  ]
+}
