@@ -1,4 +1,4 @@
-import * as Daf from 'daf-core'
+import { W3CCredential, VerifiableCredential } from 'daf-core'
 import * as W3c from 'daf-w3c'
 import * as DIDComm from 'daf-did-comm'
 import { agent } from './setup'
@@ -12,7 +12,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const identities = await (await agent).identityManager.getIdentities()
+    const identities = await (await agent).identityManagerGetIdentities()
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -21,7 +21,10 @@ program
       {
         type: 'list',
         name: 'iss',
-        choices: identities.map((item) => item.did),
+        choices: identities.map((item) => ({
+          name: `${item.did} ${item.alias}`,
+          value: item.did,
+        })),
         message: 'Issuer DID',
       },
       {
@@ -58,10 +61,11 @@ program
     const type: string = answers.claimType
     credentialSubject[type] = answers.claimValue
 
-    const data = {
-      issuer: answers.iss,
+    const credential: W3CCredential = {
+      issuer: { id: answers.iss },
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiableCredential'],
+      issuanceDate: new Date().toISOString(),
       credentialSubject,
     }
 
@@ -81,33 +85,30 @@ program
         },
       ])
 
-      data['credentialStatus'] = {
+      credential['credentialStatus'] = {
         type: statusAnswers.type,
         id: statusAnswers.id,
       }
     }
 
-    const signAction: W3c.ActionSignW3cVc = {
-      type: W3c.ActionTypes.signCredentialJwt,
+    const verifiableCredential = await (await agent).createVerifiableCredential({
       save: true,
-      data,
-    }
-
-    const credential: Daf.Credential = await (await agent).handleAction(signAction)
+      credential,
+      proofFormat: 'jwt',
+    })
 
     if (cmd.send) {
-      const sendAction: DIDComm.ActionSendDIDComm = {
-        type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
-        data: {
-          from: answers.iss,
-          to: answers.sub,
-          type: 'jwt',
-          body: credential.raw,
-        },
-      }
       try {
-        const message: Daf.Message = await (await agent).handleAction(sendAction)
-        console.log('Sent:', message)
+        const message = await (await agent).sendMessageDIDCommAlpha1({
+          save: true,
+          data: {
+            from: answers.iss,
+            to: answers.sub,
+            type: 'jwt',
+            body: verifiableCredential.proof.jwt,
+          },
+        })
+        console.dir(message, { depth: 10 })
       } catch (e) {
         console.error(e)
       }
@@ -116,7 +117,7 @@ program
     if (cmd.qrcode) {
       qrcode.generate(credential.raw)
     } else {
-      console.log(`jwt: ${credential.raw}`)
+      console.dir(verifiableCredential, { depth: 10 })
     }
   })
 
@@ -126,13 +127,13 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const myIdentities = await (await agent).identityManager.getIdentities()
+    const myIdentities = await (await agent).identityManagerGetIdentities()
     if (myIdentities.length === 0) {
       console.error('No dids')
       process.exit()
     }
 
-    const ids = await Daf.Identity.find()
+    const ids = await (await agent).dataStoreORMGetIdentities()
 
     const identities = [
       {
@@ -140,20 +141,17 @@ program
         value: 'manual',
       },
     ]
-    for (const id of ids) {
-      const name = await id.getLatestClaimValue((await agent).dbConnection, { type: 'name' })
-      identities.push({
-        value: id.did,
-        name: `${id.did} - ${name}`,
-      })
-    }
 
     let aud = null
     const answers = await inquirer.prompt([
       {
         type: 'list',
         name: 'iss',
-        choices: myIdentities.map((item) => item.did),
+        choices: myIdentities.map((item) => ({
+          name: `${item.did} ${item.alias}`,
+          value: item.did,
+        })),
+
         message: 'Issuer DID',
       },
       {
@@ -165,7 +163,7 @@ program
         type: 'list',
         name: 'aud',
         message: 'Audience DID',
-        choices: identities,
+        choices: ids.map((id) => id.did),
       },
     ])
 
@@ -182,21 +180,16 @@ program
       aud = answers.aud
     }
 
-    const credentials = await Daf.Credential.find({
-      where: { subject: answers.iss },
-      relations: ['claims'],
+    const credentials = await (await agent).dataStoreORMGetVerifiableCredentials({
+      where: [{ column: 'subject', value: [answers.iss] }],
     })
+
     const list: any = []
     if (credentials.length > 0) {
       for (const credential of credentials) {
-        const issuer = credential.issuer.shortDid()
-        const claims = []
-        for (const claim of credential.claims) {
-          claims.push(claim.type + ' = ' + claim.value)
-        }
         list.push({
-          name: claims.join(', ') + ' | Issuer: ' + issuer,
-          value: credential.raw,
+          name: JSON.stringify(credential.credentialSubject) + ' | Issuer: ' + credential.issuer.id,
+          value: credential,
         })
       }
 
@@ -225,43 +218,41 @@ program
         addMoreCredentials = answers2.addMore
       }
 
-      const signAction: W3c.ActionSignW3cVp = {
-        type: W3c.ActionTypes.signPresentationJwt,
+      const verifiablePresentation = await (await agent).createVerifiablePresentation({
         save: true,
-        data: {
-          issuer: answers.iss,
-          audience: [aud],
+        presentation: {
+          holder: answers.iss,
+          verifier: [aud],
           tag: answers.tag,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
+          issuanceDate: new Date().toISOString(),
           verifiableCredential,
         },
-      }
-
-      const presentation: Daf.Presentation = await (await agent).handleAction(signAction)
+        proofFormat: 'jwt',
+      })
 
       if (cmd.send) {
-        const sendAction: DIDComm.ActionSendDIDComm = {
-          type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
-          data: {
-            from: answers.iss,
-            to: aud,
-            type: 'jwt',
-            body: presentation.raw,
-          },
-        }
         try {
-          const message: Daf.Message = await (await agent).handleAction(sendAction)
-          console.log('Sent:', message)
+          const message = await (await agent).sendMessageDIDCommAlpha1({
+            save: true,
+            data: {
+              from: answers.iss,
+              to: aud,
+              type: 'jwt',
+              body: verifiablePresentation.proof.jwt,
+            },
+          })
+          console.dir(message, { depth: 10 })
         } catch (e) {
           console.error(e)
         }
       }
 
       if (cmd.qrcode) {
-        qrcode.generate(presentation.raw)
+        qrcode.generate(verifiablePresentation.proof.jwt)
       } else {
-        console.log(`jwt: ${presentation.raw}`)
+        console.dir(verifiablePresentation, { depth: 10 })
       }
     }
   })

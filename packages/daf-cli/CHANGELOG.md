@@ -3,30 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
-
-
-### Features
-
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-* **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
-
-
-
-
-
-# [6.2.0](https://github.com/uport-project/daf/compare/v6.1.2...v6.2.0) (2020-09-04)
-
-
-### Features
-
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-
-
-
-
-
-## [6.1.2](https://github.com/uport-project/daf/compare/v6.1.1...v6.1.2) (2020-09-03)
+## [6.1.6](https://github.com/uport-project/daf/compare/v6.1.5...v6.1.6) (2020-07-20)
 
 **Note:** Version bump only for package daf-cli
 
@@ -34,7 +11,48 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
+## [6.1.5](https://github.com/uport-project/daf/compare/v6.1.4...v6.1.5) (2020-07-15)
+
+
+### Bug Fixes
+
+* **deps:** update dependency console-table-printer to v2 ([#49](https://github.com/uport-project/daf/issues/49)) ([31c926c](https://github.com/uport-project/daf/commit/31c926cb7c6c94abc19b13cdae9d71f7f2af8a2d))
+
+
+
+
+
+## [6.1.4](https://github.com/uport-project/daf/compare/v6.1.3...v6.1.4) (2020-07-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency commander to v5 ([#20](https://github.com/uport-project/daf/issues/20)) ([d67cb78](https://github.com/uport-project/daf/commit/d67cb78982b4251c29c57731c823921a2a385870))
+* **deps:** update dependency graphql to v15 ([#45](https://github.com/uport-project/daf/issues/45)) ([840a39d](https://github.com/uport-project/daf/commit/840a39d4a85e9af668c8f0afb48506bd0fe70c87))
+* **deps:** update dependency graphql-tools to v6 ([#22](https://github.com/uport-project/daf/issues/22)) ([50f3267](https://github.com/uport-project/daf/commit/50f32674e129076eb5dc7d658c265dd0b1d8c70c))
+* **deps:** update dependency sqlite3 to v5 ([#39](https://github.com/uport-project/daf/issues/39)) ([efb3f58](https://github.com/uport-project/daf/commit/efb3f58e847e7857125ca88424c95f187a90b9ae))
+
+
+
+
+
+## [6.1.3](https://github.com/uport-project/daf/compare/v6.1.2...v6.1.3) (2020-06-11)
+
+**Note:** Version bump only for package daf-cli
+
+
+
+
+
+## [6.1.2](https://github.com/uport-project/daf/compare/v6.1.1...v6.1.2) (2020-06-10)
+
+**Note:** Version bump only for package daf-cli
+
+
+
+
+
+## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-06-10)
 
 **Note:** Version bump only for package daf-cli
 

@@ -1,6 +1,6 @@
 import * as Daf from 'daf-core'
 import * as DIDComm from 'daf-did-comm'
-import * as SD from 'daf-selective-disclosure'
+import { ICredentialRequestInput } from 'daf-selective-disclosure'
 import { agent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
@@ -12,7 +12,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const identities = await (await agent).identityManager.getIdentities()
+    const identities = await (await agent).identityManagerGetIdentities()
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -123,7 +123,7 @@ program
         essential: answers2.essential,
         claimType: answers2.claimType,
         reason: answers2.reason,
-      } as SD.CredentialRequestInput)
+      } as ICredentialRequestInput)
       addMoreRequests = answers4.addMore
     }
 
@@ -141,21 +141,16 @@ program
 
     const credentials = []
     if (answers5.addCredentials) {
-      const vcs = await Daf.Credential.find({
-        where: { subject: answers.iss },
-        relations: ['claims'],
+      const vcs = await (await agent).dataStoreORMGetVerifiableCredentials({
+        where: [{ column: 'subject', value: [answers.iss] }],
       })
+
       const list: any = []
       if (vcs.length > 0) {
         for (const credential of vcs) {
-          const issuer = credential.issuer.shortDid()
-          const claims = []
-          for (const claim of credential.claims) {
-            claims.push(claim.type + ' = ' + claim.value)
-          }
           list.push({
-            name: claims.join(', ') + ' | Issuer: ' + issuer,
-            value: credential.raw,
+            name: JSON.stringify(credential.credentialSubject) + ' | Issuer: ' + credential.issuer.id,
+            value: credential.proof.jwt,
           })
         }
 
@@ -185,8 +180,7 @@ program
       }
     }
 
-    const signAction: SD.ActionSignSdr = {
-      type: SD.ActionTypes.signSdr,
+    const jwt = await (await agent).createSelectiveDisclosureRequest({
       data: {
         issuer: answers.iss,
         subject: answers.sub === '' ? undefined : answers.sub,
@@ -194,24 +188,20 @@ program
         claims,
         credentials,
       },
-    }
-
-    const jwt = await (await agent).handleAction(signAction)
+    })
 
     if (!cmd.send) {
-      await (await agent).handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
+      await (await agent).handleMessage({ raw: jwt, metaData: [{ type: 'cli' }], save: true })
     } else if (answers.sub !== '') {
-      const sendAction: DIDComm.ActionSendDIDComm = {
-        type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
-        data: {
-          from: answers.iss,
-          to: answers.sub,
-          type: 'jwt',
-          body: jwt,
-        },
-      }
       try {
-        const result = await (await agent).handleAction(sendAction)
+        const result = await (await agent).sendMessageDIDCommAlpha1({
+          data: {
+            from: answers.iss,
+            to: answers.sub,
+            type: 'jwt',
+            body: jwt,
+          },
+        })
         console.log('Sent:', result)
       } catch (e) {
         console.error(e)

@@ -1,3 +1,4 @@
+import { IIdentityManagerCreateIdentityArgs } from 'daf-core'
 import { agent } from './setup'
 import inquirer from 'inquirer'
 import program from 'commander'
@@ -14,28 +15,23 @@ program
   .option('-i, --import', 'Import identity')
   .option('-s, --service', 'Add service endpoint')
   .option('-p, --publicKey', 'Add public key')
-  .option('--encrypt', 'Encrypt data to a recipient DID')
-  .option('--decrypt', 'Decrypt data')
   .action(async (cmd) => {
     if (cmd.types) {
-      const providers = (await agent).identityManager.getIdentityProviders()
-      const list = providers.map((provider) => ({
-        type: provider.type,
-        description: provider.description,
-      }))
+      const providers = await (await agent).identityManagerGetProviders()
+      const list = providers.map((provider) => ({ provider }))
 
       if (list.length > 0) {
         printTable(list)
       } else {
-        console.log('No controllers')
+        console.log('No identity providers')
       }
     }
 
     if (cmd.list) {
-      const list = await (await agent).identityManager.getIdentities()
+      const list = await (await agent).identityManagerGetIdentities()
 
       if (list.length > 0) {
-        const dids = list.map((item) => ({ type: item.identityProviderType, did: item.did }))
+        const dids = list.map((item) => ({ provider: item.provider, alias: item.alias, did: item.did }))
         printTable(dids)
       } else {
         console.log('No dids')
@@ -44,37 +40,32 @@ program
 
     if (cmd.create) {
       try {
-        const providers = await (await agent).identityManager.getIdentityProviders()
-        let type
-        let options
-        if (providers.length > 1) {
-          const answers = await inquirer.prompt([
-            {
-              type: 'list',
-              name: 'type',
-              choices: providers.map((provider) => ({
-                name: `${provider.type} - ${provider.description}`,
-                value: provider.type,
-              })),
-              message: 'Select identity provider',
-            },
-          ])
+        const providers = await (await agent).identityManagerGetProviders()
+        const kms = await (await agent).keyManagerGetKeyManagementSystems()
+        const args: IIdentityManagerCreateIdentityArgs = {}
 
-          type = answers.type
+        const answers = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'provider',
+            choices: providers,
+            message: 'Select identity provider',
+          },
+          {
+            type: 'list',
+            name: 'kms',
+            choices: kms,
+            message: 'Select key management system',
+          },
+          {
+            type: 'input',
+            name: 'alias',
+            message: 'Enter alias',
+          },
+        ])
 
-          if (type === 'web-did') {
-            const answers2 = await inquirer.prompt([
-              {
-                type: 'input',
-                name: 'domain',
-                message: 'Enter domain',
-              },
-            ])
-            options = { domain: answers2.domain }
-          }
-        }
-        const identity = await (await agent).identityManager.createIdentity(type, options)
-        printTable([{ type: identity.identityProviderType, did: identity.did }])
+        const identity = await (await agent).identityManagerCreateIdentity(answers)
+        printTable([{ provider: identity.provider, alias: identity.alias, did: identity.did }])
       } catch (e) {
         console.error(e.message)
       }
@@ -82,7 +73,7 @@ program
 
     if (cmd.delete) {
       try {
-        const identities = await (await agent).identityManager.getIdentities()
+        const identities = await (await agent).identityManagerGetIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -92,12 +83,10 @@ program
           },
         ])
 
-        const identity = await (await agent).identityManager.getIdentity(answers.did)
+        const result = await (await agent).identityManagerDeleteIdentity({
+          did: answers.did,
+        })
 
-        const result = await (await agent).identityManager.deleteIdentity(
-          identity.identityProviderType,
-          identity.did,
-        )
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
@@ -106,7 +95,7 @@ program
 
     if (cmd.service) {
       try {
-        const identities = await (await agent).identityManager.getIdentities()
+        const identities = await (await agent).identityManagerGetIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -125,14 +114,22 @@ program
             name: 'endpoint',
             message: 'Endpoint',
           },
+          {
+            type: 'text',
+            name: 'id',
+            message: 'ID',
+          },
         ])
 
-        const identity = await (await agent).identityManager.getIdentity(answers.did)
-        const result = await identity.identityController.addService({
-          type: answers.type,
-          serviceEndpoint: answers.endpoint,
-          id: '',
+        const result = await (await agent).identityManagerAddService({
+          did: answers.did,
+          service: {
+            type: answers.type,
+            serviceEndpoint: answers.endpoint,
+            id: answers.id,
+          },
         })
+
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
@@ -141,13 +138,20 @@ program
 
     if (cmd.publicKey) {
       try {
-        const identities = await (await agent).identityManager.getIdentities()
+        const identities = await (await agent).identityManagerGetIdentities()
+        const kms = await (await agent).keyManagerGetKeyManagementSystems()
         const answers = await inquirer.prompt([
           {
             type: 'list',
             name: 'did',
             choices: identities.map((item) => item.did),
             message: 'Select DID',
+          },
+          {
+            type: 'list',
+            name: 'kms',
+            choices: kms,
+            message: 'Select key management system',
           },
           {
             type: 'list',
@@ -157,76 +161,16 @@ program
           },
         ])
 
-        const identity = await (await agent).identityManager.getIdentity(answers.did)
-        const result = await identity.identityController.addPublicKey(answers.type)
-        console.log('Success:', result)
-      } catch (e) {
-        console.error(e)
-      }
-    }
+        const key = await (await agent).keyManagerCreateKey({
+          kms: answers.kms,
+          type: answers.type,
+        })
 
-    if (cmd.encrypt) {
-      try {
-        const identities = await (await agent).identityManager.getIdentities()
-        const answers = await inquirer.prompt([
-          {
-            type: 'list',
-            name: 'did',
-            choices: identities.map((item) => item.did),
-            message: 'Select DID',
-          },
-          {
-            type: 'text',
-            name: 'to',
-            message: 'Recipient DID',
-          },
-          {
-            type: 'text',
-            name: 'message',
-            message: 'Message',
-          },
-        ])
+        const result = await (await agent).identityManagerAddKey({
+          did: answers.did,
+          key,
+        })
 
-        const identity = await (await agent).identityManager.getIdentity(answers.did)
-        const key = await identity.keyByType('Ed25519')
-        const didDoc = await (await agent).didResolver.resolve(answers.to)
-        const publicKey = didDoc?.publicKey.find((item) => item.type == 'Ed25519VerificationKey2018')
-        if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
-
-        const result = await key.encrypt(
-          {
-            type: 'Ed25519',
-            publicKeyHex: publicKey?.publicKeyHex,
-            kid: publicKey?.publicKeyHex,
-          },
-          answers.message,
-        )
-        console.log('Success:', result)
-      } catch (e) {
-        console.error(e)
-      }
-    }
-
-    if (cmd.decrypt) {
-      try {
-        const identities = await (await agent).identityManager.getIdentities()
-        const answers = await inquirer.prompt([
-          {
-            type: 'list',
-            name: 'did',
-            choices: identities.map((item) => item.did),
-            message: 'Select DID',
-          },
-          {
-            type: 'text',
-            name: 'message',
-            message: 'Encrypted message',
-          },
-        ])
-
-        const identity = await (await agent).identityManager.getIdentity(answers.did)
-        const key = await identity.keyByType('Ed25519')
-        const result = await key.decrypt(answers.message)
         console.log('Success:', result)
       } catch (e) {
         console.error(e)
@@ -235,22 +179,22 @@ program
 
     if (cmd.export) {
       try {
-        const identities = await (await agent).identityManager.getIdentities()
+        const identities = await (await agent).identityManagerGetIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
             name: 'did',
-            choices: identities.map((item) => item.did),
+            choices: identities.map((item) => ({
+              name: item.did + ' ' + item.alias,
+              value: item.did,
+            })),
             message: 'Select DID',
           },
         ])
 
-        const identity = await (await agent).identityManager.getIdentity(answers.did)
-        const secret = await (await agent).identityManager.exportIdentity(
-          identity.identityProviderType,
-          identity.did,
-        )
-        console.log(secret)
+        const identity = await (await agent).identityManagerGetIdentity({ did: answers.did })
+
+        console.log(JSON.stringify(identity))
       } catch (e) {
         console.error(e)
       }
@@ -258,23 +202,15 @@ program
 
     if (cmd.import) {
       try {
-        const providers = await (await agent).identityManager.getIdentityProviders()
-
         const answers = await inquirer.prompt([
           {
-            type: 'list',
-            name: 'provider',
-            choices: providers.map((item) => item.type),
-            message: 'Select identity provider',
-          },
-          {
             type: 'text',
-            name: 'secret',
-            message: 'Secret',
+            name: 'identity',
+            message: 'Identity (JSON object)',
           },
         ])
 
-        const identity = await (await agent).identityManager.importIdentity(answers.provider, answers.secret)
+        const identity = await (await agent).identityManagerImportIdentity(JSON.parse(answers.identity))
         console.log(identity)
       } catch (e) {
         console.error(e)

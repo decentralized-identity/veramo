@@ -2,11 +2,11 @@ import { agent } from './setup'
 import program from 'commander'
 
 program
-  .command('resolve <did>')
+  .command('resolve <didUrl>')
   .description('Resolve DID Document')
-  .action(async (did) => {
+  .action(async (didUrl) => {
     try {
-      const ddo = await (await agent).didResolver.resolve(did)
+      const ddo = await (await agent).resolveDid({ didUrl })
       console.log(ddo)
     } catch (e) {
       console.error(e)

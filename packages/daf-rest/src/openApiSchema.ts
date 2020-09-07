@@ -60,6 +60,19 @@ export const openApiSchema: OpenAPIV3.Document = {
           },
           "proof": {
             "$ref": "#/components/schemas/LinkedDataProof"
+          },
+          "keyAgreement": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/PublicKey"
+                }
+              ]
+            }
           }
         },
         "required": [
@@ -78,7 +91,7 @@ export const openApiSchema: OpenAPIV3.Document = {
           "type": {
             "type": "string"
           },
-          "owner": {
+          "controller": {
             "type": "string"
           },
           "ethereumAddress": {
@@ -100,7 +113,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         "required": [
           "id",
           "type",
-          "owner"
+          "controller"
         ],
         "additionalProperties": false
       },
@@ -592,10 +605,7 @@ export const openApiSchema: OpenAPIV3.Document = {
               "id": {
                 "type": "string"
               }
-            },
-            "required": [
-              "id"
-            ]
+            }
           },
           "credentialStatus": {
             "type": "object",
@@ -645,7 +655,8 @@ export const openApiSchema: OpenAPIV3.Document = {
           "issuer",
           "proof",
           "type"
-        ]
+        ],
+        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
       },
       "Proof": {
         "type": "object",
@@ -702,7 +713,8 @@ export const openApiSchema: OpenAPIV3.Document = {
           "type",
           "verifiableCredential",
           "verifier"
-        ]
+        ],
+        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
       },
       "IKeyManagerCreateKeyArgs": {
         "type": "object",
@@ -928,10 +940,7 @@ export const openApiSchema: OpenAPIV3.Document = {
               "id": {
                 "type": "string"
               }
-            },
-            "required": [
-              "id"
-            ]
+            }
           },
           "credentialStatus": {
             "$ref": "#/components/schemas/CredentialStatus"
