@@ -36,6 +36,9 @@ export interface ISendMessageDIDCommAlpha1Args {
  */
 export interface IDIDComm extends IPluginMethodMap {
   /**
+   * This is used to create a message according to the initial {@link https://github.com/decentralized-identity/DIDComm-js | DIDComm-js} implementation.
+   *
+   * @remarks Be advised that this spec is still not final and that this protocol may need to change.
    *
    * @param args - Arguments necessary for sending a DIDComm message
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
@@ -48,6 +51,11 @@ export interface IDIDComm extends IPluginMethodMap {
 
 /**
  * DID Comm plugin for {@link daf-core#Agent}
+ *
+ * This plugin provides a method of creating an encrypted message according to the initial {@link https://github.com/decentralized-identity/DIDComm-js | DIDComm-js} implementation.
+ *
+ * @remarks Be advised that this spec is still not final and that this protocol may need to change.
+ *
  * @beta
  */
 export class DIDComm implements IAgentPlugin {

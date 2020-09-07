@@ -4,6 +4,11 @@
 
 ## SelectiveDisclosure.getVerifiableCredentialsForSdr() method
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Gathers the required credentials necessary to fulfill a Selective Disclosure Request. It uses the [IDataStoreORM](./daf-typeorm.idatastoreorm.md) plugin to query the local database for the required credentials.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,8 +19,8 @@ getVerifiableCredentialsForSdr(args: IGetVerifiableCredentialsForSdrArgs, contex
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [IGetVerifiableCredentialsForSdrArgs](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.md) |  |
-|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStoreORM](./daf-typeorm.idatastoreorm.md)<!-- -->&gt; |  |
+|  args | [IGetVerifiableCredentialsForSdrArgs](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.md) | Contains the Request to be fulfilled and the DID of the subject |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IDataStoreORM](./daf-typeorm.idatastoreorm.md)<!-- -->&gt; | \*RESERVED\* This is filled by the framework when the method is called. |
 
 <b>Returns:</b>
 

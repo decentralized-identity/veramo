@@ -4,6 +4,11 @@
 
 ## ICredentialRequestInput.essential property
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+If it is essential. A response that does not include this credential is not sufficient.
+
 <b>Signature:</b>
 
 ```typescript

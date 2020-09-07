@@ -4,7 +4,9 @@
 
 ## Agent class
 
-Provides a common context for all plugin methods
+Provides a common context for all plugin methods.
+
+This is the main entry point into the API of the DID Agent Framework. When plugins are installed, they extend the API of the agent and the methods they provide can all use the common context so that plugins can build on top of each other and create a richer experience.
 
 <b>Signature:</b>
 
@@ -30,5 +32,5 @@ export declare class Agent implements IAgent
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [availableMethods()](./daf-core.agent.availablemethods.md) |  | Lists available agent method names |
-|  [execute(method, args)](./daf-core.agent.execute.md) |  | Executes a plugin method |
+|  [execute(method, args)](./daf-core.agent.execute.md) |  | Executes a plugin method.<!-- -->Normally, the <code>execute()</code> method need not be called. The agent will expose the plugin methods directly on the agent instance but this can be used when dynamically deciding which methods to call. |
 

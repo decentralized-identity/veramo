@@ -1060,19 +1060,23 @@ export const openApiSchema: OpenAPIV3.Document = {
         "required": [
           "data"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Contains the parameters of a Selective Disclosure Request."
       },
       "ISelectiveDisclosureRequest": {
         "type": "object",
         "properties": {
           "issuer": {
-            "type": "string"
+            "type": "string",
+            "description": "The issuer of the request"
           },
           "subject": {
-            "type": "string"
+            "type": "string",
+            "description": "The target of the request"
           },
           "replyUrl": {
-            "type": "string"
+            "type": "string",
+            "description": "The URL where the response should be sent back"
           },
           "tag": {
             "type": "string"
@@ -1081,69 +1085,83 @@ export const openApiSchema: OpenAPIV3.Document = {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ICredentialRequestInput"
-            }
+            },
+            "description": "A list of claims that are being requested"
           },
           "credentials": {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "A list of issuer credentials that the target will use to establish trust"
           }
         },
         "required": [
           "issuer",
           "claims"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Represents the Selective Disclosure request parameters."
       },
       "ICredentialRequestInput": {
         "type": "object",
         "properties": {
           "reason": {
-            "type": "string"
+            "type": "string",
+            "description": "Motive for requiring this credential."
           },
           "essential": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "If it is essential. A response that does not include this credential is not sufficient."
           },
           "credentialType": {
-            "type": "string"
+            "type": "string",
+            "description": "The credential type. See {@link https://www.w3.org/TR/vc-data-model/#types | W3C Credential Types}"
           },
           "credentialContext": {
-            "type": "string"
+            "type": "string",
+            "description": "The credential context. See {@link https://www.w3.org/TR/vc-data-model/#contexts | W3C Credential Context}"
           },
           "claimType": {
-            "type": "string"
+            "type": "string",
+            "description": "The name of the claim property that the credential should express."
           },
           "claimValue": {
-            "type": "string"
+            "type": "string",
+            "description": "The value of the claim that the credential should express."
           },
           "issuers": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Issuer"
-            }
+            },
+            "description": "A list of accepted Issuers for this credential."
           }
         },
         "required": [
           "claimType"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Describes a particular credential that is being requested"
       },
       "Issuer": {
         "type": "object",
         "properties": {
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "The DID of the issuer of a requested credential."
           },
           "url": {
-            "type": "string"
+            "type": "string",
+            "description": "A URL where a credential of that type can be obtained."
           }
         },
         "required": [
           "did",
           "url"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Used for requesting Credentials using Selective Disclosure.\nRepresents an accepted issuer of a credential."
       },
       "IGetVerifiableCredentialsForSdrArgs": {
         "type": "object",
@@ -1152,10 +1170,12 @@ export const openApiSchema: OpenAPIV3.Document = {
             "type": "object",
             "properties": {
               "subject": {
-                "type": "string"
+                "type": "string",
+                "description": "The target of the request"
               },
               "replyUrl": {
-                "type": "string"
+                "type": "string",
+                "description": "The URL where the response should be sent back"
               },
               "tag": {
                 "type": "string"
@@ -1164,55 +1184,67 @@ export const openApiSchema: OpenAPIV3.Document = {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/ICredentialRequestInput"
-                }
+                },
+                "description": "A list of claims that are being requested"
               },
               "credentials": {
                 "type": "array",
                 "items": {
                   "type": "string"
-                }
+                },
+                "description": "A list of issuer credentials that the target will use to establish trust"
               }
             },
             "required": [
               "claims"
             ],
-            "additionalProperties": false
+            "additionalProperties": false,
+            "description": "The Selective Disclosure Request (issuer is omitted)"
           },
           "did": {
-            "type": "string"
+            "type": "string",
+            "description": "The DID of the subject"
           }
         },
         "required": [
           "sdr"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request."
       },
       "ICredentialsForSdr": {
         "type": "object",
         "properties": {
           "reason": {
-            "type": "string"
+            "type": "string",
+            "description": "Motive for requiring this credential."
           },
           "essential": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "If it is essential. A response that does not include this credential is not sufficient."
           },
           "credentialType": {
-            "type": "string"
+            "type": "string",
+            "description": "The credential type. See {@link https://www.w3.org/TR/vc-data-model/#types | W3C Credential Types}"
           },
           "credentialContext": {
-            "type": "string"
+            "type": "string",
+            "description": "The credential context. See {@link https://www.w3.org/TR/vc-data-model/#contexts | W3C Credential Context}"
           },
           "claimType": {
-            "type": "string"
+            "type": "string",
+            "description": "The name of the claim property that the credential should express."
           },
           "claimValue": {
-            "type": "string"
+            "type": "string",
+            "description": "The value of the claim that the credential should express."
           },
           "issuers": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Issuer"
-            }
+            },
+            "description": "A list of accepted Issuers for this credential."
           },
           "credentials": {
             "type": "array",
@@ -1225,7 +1257,8 @@ export const openApiSchema: OpenAPIV3.Document = {
           "claimType",
           "credentials"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "The credentials that make up a response of a Selective Disclosure"
       },
       "IValidatePresentationAgainstSdrArgs": {
         "type": "object",
@@ -1241,7 +1274,8 @@ export const openApiSchema: OpenAPIV3.Document = {
           "presentation",
           "sdr"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "A tuple used to verify a Selective Disclosure Response.\nEncapsulates the response(`presentation`) and the corresponding request (`sdr`) that made it."
       },
       "IPresentationValidationResult": {
         "type": "object",
@@ -1260,7 +1294,8 @@ export const openApiSchema: OpenAPIV3.Document = {
           "valid",
           "claims"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "The result of a selective disclosure response validation."
       },
       "ISendMessageDIDCommAlpha1Args": {
         "type": "object",
@@ -2593,7 +2628,7 @@ export const openApiSchema: OpenAPIV3.Document = {
     },
     "/sendMessageDIDCommAlpha1": {
       "post": {
-        "description": "",
+        "description": "This is used to create a message according to the initial ",
         "operationId": "sendMessageDIDCommAlpha1",
         "requestBody": {
           "content": {
@@ -2606,7 +2641,7 @@ export const openApiSchema: OpenAPIV3.Document = {
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "This is used to create a message according to the initial ",
             "content": {
               "application/json": {
                 "schema": {

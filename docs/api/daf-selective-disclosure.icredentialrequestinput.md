@@ -4,21 +4,30 @@
 
 ## ICredentialRequestInput interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Describes a particular credential that is being requested
+
 <b>Signature:</b>
 
 ```typescript
 export interface ICredentialRequestInput 
 ```
 
+## Remarks
+
+See [Selective Disclosure Request](https://github.com/uport-project/specs/blob/develop/messages/sharereq.md)
+
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [claimType](./daf-selective-disclosure.icredentialrequestinput.claimtype.md) | string |  |
-|  [claimValue](./daf-selective-disclosure.icredentialrequestinput.claimvalue.md) | string |  |
-|  [credentialContext](./daf-selective-disclosure.icredentialrequestinput.credentialcontext.md) | string |  |
-|  [credentialType](./daf-selective-disclosure.icredentialrequestinput.credentialtype.md) | string |  |
-|  [essential](./daf-selective-disclosure.icredentialrequestinput.essential.md) | boolean |  |
-|  [issuers](./daf-selective-disclosure.icredentialrequestinput.issuers.md) | [Issuer](./daf-selective-disclosure.issuer.md)<!-- -->\[\] |  |
-|  [reason](./daf-selective-disclosure.icredentialrequestinput.reason.md) | string |  |
+|  [claimType](./daf-selective-disclosure.icredentialrequestinput.claimtype.md) | string | <b><i>(BETA)</i></b> The name of the claim property that the credential should express. |
+|  [claimValue](./daf-selective-disclosure.icredentialrequestinput.claimvalue.md) | string | <b><i>(BETA)</i></b> The value of the claim that the credential should express. |
+|  [credentialContext](./daf-selective-disclosure.icredentialrequestinput.credentialcontext.md) | string | <b><i>(BETA)</i></b> The credential context. See [W3C Credential Context](https://www.w3.org/TR/vc-data-model/#contexts) |
+|  [credentialType](./daf-selective-disclosure.icredentialrequestinput.credentialtype.md) | string | <b><i>(BETA)</i></b> The credential type. See [W3C Credential Types](https://www.w3.org/TR/vc-data-model/#types) |
+|  [essential](./daf-selective-disclosure.icredentialrequestinput.essential.md) | boolean | <b><i>(BETA)</i></b> If it is essential. A response that does not include this credential is not sufficient. |
+|  [issuers](./daf-selective-disclosure.icredentialrequestinput.issuers.md) | [Issuer](./daf-selective-disclosure.issuer.md)<!-- -->\[\] | <b><i>(BETA)</i></b> A list of accepted Issuers for this credential. |
+|  [reason](./daf-selective-disclosure.icredentialrequestinput.reason.md) | string | <b><i>(BETA)</i></b> Motive for requiring this credential. |
 

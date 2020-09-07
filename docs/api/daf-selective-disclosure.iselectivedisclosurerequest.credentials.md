@@ -4,6 +4,11 @@
 
 ## ISelectiveDisclosureRequest.credentials property
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+A list of issuer credentials that the target will use to establish trust
+
 <b>Signature:</b>
 
 ```typescript

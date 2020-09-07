@@ -19,7 +19,6 @@ import { Message } from 'daf-message-handler';
 export class DIDComm implements IAgentPlugin {
     constructor();
     readonly methods: IDIDComm;
-    // (undocumented)
     sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>): Promise<IMessage>;
 }
 
@@ -34,7 +33,6 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
 
 // @beta
 export interface IDIDComm extends IPluginMethodMap {
-    // (undocumented)
     sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>): Promise<IMessage>;
 }
 

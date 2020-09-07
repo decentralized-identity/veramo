@@ -24,7 +24,14 @@ const filterUnauthorizedMethods = (
 }
 
 /**
- * Agent configuration options
+ * Agent configuration options.
+ *
+ * This interface is used to describe the constellation of plugins that this agent
+ * will use and provide.
+ *
+ * You will use this to attach plugins, to setup overrides for their methods and to
+ * explicitly set the methods that this agent instance is allowed to call.
+ * This permissioning method is also used for internal calls made by plugin code.
  *
  * @public
  */
@@ -35,7 +42,8 @@ export interface IAgentOptions {
   plugins?: IAgentPlugin[]
 
   /**
-   * The map of plugin methods. Can be used to override methods provided by plugins, or to add additional methods without writing a plugin
+   * The map of plugin methods. Can be used to override methods provided by plugins,
+   * or to add additional methods without writing a plugin
    */
   overrides?: IPluginMethodMap
 
@@ -58,7 +66,12 @@ export interface IAgentOptions {
 }
 
 /**
- * Provides a common context for all plugin methods
+ * Provides a common context for all plugin methods.
+ *
+ * This is the main entry point into the API of the DID Agent Framework.
+ * When plugins are installed, they extend the API of the agent and the methods
+ * they provide can all use the common context so that plugins can build on top
+ * of each other and create a richer experience.
  *
  * @public
  */
@@ -115,7 +128,11 @@ export class Agent implements IAgent {
   }
 
   /**
-   * Executes a plugin method
+   * Executes a plugin method.
+   *
+   * Normally, the `execute()` method need not be called.
+   * The agent will expose the plugin methods directly on the agent instance
+   * but this can be used when dynamically deciding which methods to call.
    *
    * @remarks
    * Plugin method will receive a context object as a second argument.

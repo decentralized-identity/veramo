@@ -4,7 +4,9 @@
 
 ## Agent.execute() method
 
-Executes a plugin method
+Executes a plugin method.
+
+Normally, the `execute()` method need not be called. The agent will expose the plugin methods directly on the agent instance but this can be used when dynamically deciding which methods to call.
 
 <b>Signature:</b>
 

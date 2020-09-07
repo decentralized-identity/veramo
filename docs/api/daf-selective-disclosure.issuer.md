@@ -4,6 +4,11 @@
 
 ## Issuer interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Used for requesting Credentials using Selective Disclosure. Represents an accepted issuer of a credential.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +19,6 @@ export interface Issuer
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [did](./daf-selective-disclosure.issuer.did.md) | string |  |
-|  [url](./daf-selective-disclosure.issuer.url.md) | string |  |
+|  [did](./daf-selective-disclosure.issuer.did.md) | string | <b><i>(BETA)</i></b> The DID of the issuer of a requested credential. |
+|  [url](./daf-selective-disclosure.issuer.url.md) | string | <b><i>(BETA)</i></b> A URL where a credential of that type can be obtained. |
 

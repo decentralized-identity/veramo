@@ -10,7 +10,7 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 
 |  Class | Description |
 |  --- | --- |
-|  [Agent](./daf-core.agent.md) | Provides a common context for all plugin methods |
+|  [Agent](./daf-core.agent.md) | Provides a common context for all plugin methods.<!-- -->This is the main entry point into the API of the DID Agent Framework. When plugins are installed, they extend the API of the agent and the methods they provide can all use the common context so that plugins can build on top of each other and create a richer experience. |
 
 ## Functions
 
@@ -25,7 +25,7 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  [IAgent](./daf-core.iagent.md) | Agent that can execute methods |
 |  [IAgentBase](./daf-core.iagentbase.md) | Agent base interface |
 |  [IAgentContext](./daf-core.iagentcontext.md) | Standard plugin method context interface |
-|  [IAgentOptions](./daf-core.iagentoptions.md) | Agent configuration options |
+|  [IAgentOptions](./daf-core.iagentoptions.md) | Agent configuration options.<!-- -->This interface is used to describe the constellation of plugins that this agent will use and provide.<!-- -->You will use this to attach plugins, to setup overrides for their methods and to explicitly set the methods that this agent instance is allowed to call. This permissioning method is also used for internal calls made by plugin code. |
 |  [IAgentPlugin](./daf-core.iagentplugin.md) | Agent plugin interface |
 |  [IDataStore](./daf-core.idatastore.md) | Basic data store interface |
 |  [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) | Input arguments for [handleMessage](./daf-core.imessagehandler.handlemessage.md) |

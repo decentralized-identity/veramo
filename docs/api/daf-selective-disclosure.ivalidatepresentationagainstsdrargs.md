@@ -4,6 +4,11 @@
 
 ## IValidatePresentationAgainstSdrArgs interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+A tuple used to verify a Selective Disclosure Response. Encapsulates the response(`presentation`<!-- -->) and the corresponding request (`sdr`<!-- -->) that made it.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +19,6 @@ export interface IValidatePresentationAgainstSdrArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [presentation](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.presentation.md) | [VerifiablePresentation](./daf-core.verifiablepresentation.md) |  |
-|  [sdr](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.sdr.md) | [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) |  |
+|  [presentation](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.presentation.md) | [VerifiablePresentation](./daf-core.verifiablepresentation.md) | <b><i>(BETA)</i></b> |
+|  [sdr](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.sdr.md) | [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) | <b><i>(BETA)</i></b> |
 

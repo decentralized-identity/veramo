@@ -4,16 +4,25 @@
 
 ## IGetVerifiableCredentialsForSdrArgs interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request.
+
 <b>Signature:</b>
 
 ```typescript
 export interface IGetVerifiableCredentialsForSdrArgs 
 ```
 
+## Remarks
+
+See [Selective Disclosure Request](https://github.com/uport-project/specs/blob/develop/messages/sharereq.md) specs
+
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [did](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.did.md) | string |  |
-|  [sdr](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.sdr.md) | Omit&lt;[ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md)<!-- -->, 'issuer'&gt; |  |
+|  [did](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.did.md) | string | <b><i>(BETA)</i></b> The DID of the subject |
+|  [sdr](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.sdr.md) | Omit&lt;[ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md)<!-- -->, 'issuer'&gt; | <b><i>(BETA)</i></b> The Selective Disclosure Request (issuer is omitted) |
 

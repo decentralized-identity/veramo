@@ -4,6 +4,11 @@
 
 ## SelectiveDisclosure.validatePresentationAgainstSdr() method
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Validates a [Selective Disclosure response](https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md) encoded as a `Presentation`
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,8 +19,8 @@ validatePresentationAgainstSdr(args: IValidatePresentationAgainstSdrArgs, contex
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [IValidatePresentationAgainstSdrArgs](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.md) |  |
-|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;{}&gt; |  |
+|  args | [IValidatePresentationAgainstSdrArgs](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.md) | Contains the request and the response <code>Presentation</code> that needs to be checked. |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;{}&gt; | \*RESERVED\* This is filled by the framework when the method is called. |
 
 <b>Returns:</b>
 
