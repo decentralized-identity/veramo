@@ -4,15 +4,24 @@
 
 ## ICreateSelectiveDisclosureRequestArgs interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Contains the parameters of a Selective Disclosure Request.
+
 <b>Signature:</b>
 
 ```typescript
 export interface ICreateSelectiveDisclosureRequestArgs 
 ```
 
+## Remarks
+
+See [Selective Disclosure Request](https://github.com/uport-project/specs/blob/develop/messages/sharereq.md) specs
+
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [data](./daf-selective-disclosure.icreateselectivedisclosurerequestargs.data.md) | [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) |  |
+|  [data](./daf-selective-disclosure.icreateselectivedisclosurerequestargs.data.md) | [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) | <b><i>(BETA)</i></b> |
 

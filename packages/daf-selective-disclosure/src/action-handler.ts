@@ -11,6 +11,17 @@ import {
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
+/**
+ * This class adds support for creating
+ * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure} requests
+ * and interpret the responses received.
+ *
+ * This implementation of the uPort protocol uses
+ * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Presentation}
+ * as the response encoding instead of a `shareReq`.
+ *
+ * @beta
+ */
 export class SelectiveDisclosure implements IAgentPlugin {
   readonly methods: ISelectiveDisclosure
 
@@ -22,6 +33,16 @@ export class SelectiveDisclosure implements IAgentPlugin {
     }
   }
 
+  /**
+   * Creates a Selective disclosure request, encoded as a JWT.
+   *
+   * @remarks See {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
+   *
+   * @param args - The param object with the properties necessary to create the request. See {@link ISelectiveDisclosureRequest}
+   * @param context - *RESERVED* This is filled by the framework when the method is called.
+   *
+   * @beta
+   */
   async createSelectiveDisclosureRequest(
     args: ICreateSelectiveDisclosureRequestArgs,
     context: IAgentContext<IIdentityManager & IKeyManager>,
@@ -52,6 +73,16 @@ export class SelectiveDisclosure implements IAgentPlugin {
     }
   }
 
+  /**
+   * Gathers the required credentials necessary to fulfill a Selective Disclosure Request.
+   * It uses the {@link daf-typeorm#IDataStoreORM} plugin to query the local database for
+   * the required credentials.
+   *
+   * @param args - Contains the Request to be fulfilled and the DID of the subject
+   * @param context - *RESERVED* This is filled by the framework when the method is called.
+   *
+   * @beta
+   */
   async getVerifiableCredentialsForSdr(
     args: IGetVerifiableCredentialsForSdrArgs,
     context: IAgentContext<IDataStoreORM>,
@@ -101,6 +132,16 @@ export class SelectiveDisclosure implements IAgentPlugin {
     return result
   }
 
+  /**
+   * Validates a
+   * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure response}
+   * encoded as a `Presentation`
+   *
+   * @param args - Contains the request and the response `Presentation` that needs to be checked.
+   * @param context - *RESERVED* This is filled by the framework when the method is called.
+   *
+   * @beta
+   */
   async validatePresentationAgainstSdr(
     args: IValidatePresentationAgainstSdrArgs,
     context: IAgentContext<{}>,

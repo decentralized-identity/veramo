@@ -4,6 +4,11 @@
 
 ## IPresentationValidationResult interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+The result of a selective disclosure response validation.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +19,6 @@ export interface IPresentationValidationResult
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [claims](./daf-selective-disclosure.ipresentationvalidationresult.claims.md) | [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md)<!-- -->\[\] |  |
-|  [valid](./daf-selective-disclosure.ipresentationvalidationresult.valid.md) | boolean |  |
+|  [claims](./daf-selective-disclosure.ipresentationvalidationresult.claims.md) | [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md)<!-- -->\[\] | <b><i>(BETA)</i></b> |
+|  [valid](./daf-selective-disclosure.ipresentationvalidationresult.valid.md) | boolean | <b><i>(BETA)</i></b> |
 

@@ -10,7 +10,7 @@ Provides a [plugin](./daf-did-comm.didcomm.md) for the [Agent](./daf-core.agent.
 
 |  Class | Description |
 |  --- | --- |
-|  [DIDComm](./daf-did-comm.didcomm.md) | <b><i>(BETA)</i></b> DID Comm plugin for [Agent](./daf-core.agent.md) |
+|  [DIDComm](./daf-did-comm.didcomm.md) | <b><i>(BETA)</i></b> DID Comm plugin for [Agent](./daf-core.agent.md)<!-- -->This plugin provides a method of creating an encrypted message according to the initial [DIDComm-js](https://github.com/decentralized-identity/DIDComm-js) implementation. |
 |  [DIDCommMessageHandler](./daf-did-comm.didcommmessagehandler.md) | <b><i>(BETA)</i></b> A plugin for the [MessageHandler](./daf-message-handler.messagehandler.md) that decrypts DIDComm messages |
 
 ## Interfaces

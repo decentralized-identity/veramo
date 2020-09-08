@@ -5,10 +5,22 @@ import { blake2bHex } from 'blakejs'
 import Debug from 'debug'
 const debug = Debug('daf:daf:selective-disclosure:message-handler')
 
+/**
+ * Identifies a {@link daf-core#Message} that represents a Selective Disclosure Request
+ *
+ * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ * @beta
+ */
 export const MessageTypes = {
   sdr: 'sdr',
 }
 
+/**
+ * A DAF message handler plugin that can decode an incoming Selective Disclosure Response
+ * into the internal Message representation.
+ *
+ * @beta
+ */
 export class SdrMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message> {
     const meta = message.getLastMetaData()

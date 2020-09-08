@@ -9,12 +9,18 @@
 
 DID Comm plugin for [Agent](./daf-core.agent.md)
 
+This plugin provides a method of creating an encrypted message according to the initial [DIDComm-js](https://github.com/decentralized-identity/DIDComm-js) implementation.
+
 <b>Signature:</b>
 
 ```typescript
 export declare class DIDComm implements IAgentPlugin 
 ```
 <b>Implements:</b> [IAgentPlugin](./daf-core.iagentplugin.md)
+
+## Remarks
+
+Be advised that this spec is still not final and that this protocol may need to change.
 
 ## Constructors
 
@@ -32,5 +38,5 @@ export declare class DIDComm implements IAgentPlugin
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.didcomm.sendmessagedidcommalpha1.md) |  | <b><i>(BETA)</i></b> |
+|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.didcomm.sendmessagedidcommalpha1.md) |  | <b><i>(BETA)</i></b> This is used to create a message according to the initial [DIDComm-js](https://github.com/decentralized-identity/DIDComm-js) implementation. |
 

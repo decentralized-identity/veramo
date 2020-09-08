@@ -4,6 +4,11 @@
 
 ## ISelectiveDisclosure interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Describes the interface of a Selective Disclosure plugin.
+
 <b>Signature:</b>
 
 ```typescript
@@ -11,11 +16,15 @@ export interface ISelectiveDisclosure extends IPluginMethodMap
 ```
 <b>Extends:</b> [IPluginMethodMap](./daf-core.ipluginmethodmap.md)
 
+## Remarks
+
+See [Selective Disclosure Request](https://github.com/uport-project/specs/blob/develop/messages/sharereq.md)
+
 ## Methods
 
 |  Method | Description |
 |  --- | --- |
-|  [createSelectiveDisclosureRequest(args, context)](./daf-selective-disclosure.iselectivedisclosure.createselectivedisclosurerequest.md) |  |
-|  [getVerifiableCredentialsForSdr(args, context)](./daf-selective-disclosure.iselectivedisclosure.getverifiablecredentialsforsdr.md) |  |
-|  [validatePresentationAgainstSdr(args, context)](./daf-selective-disclosure.iselectivedisclosure.validatepresentationagainstsdr.md) |  |
+|  [createSelectiveDisclosureRequest(args, context)](./daf-selective-disclosure.iselectivedisclosure.createselectivedisclosurerequest.md) | <b><i>(BETA)</i></b> |
+|  [getVerifiableCredentialsForSdr(args, context)](./daf-selective-disclosure.iselectivedisclosure.getverifiablecredentialsforsdr.md) | <b><i>(BETA)</i></b> |
+|  [validatePresentationAgainstSdr(args, context)](./daf-selective-disclosure.iselectivedisclosure.validatepresentationagainstsdr.md) | <b><i>(BETA)</i></b> |
 

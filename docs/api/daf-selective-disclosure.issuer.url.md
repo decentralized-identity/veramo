@@ -4,6 +4,11 @@
 
 ## Issuer.url property
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+A URL where a credential of that type can be obtained.
+
 <b>Signature:</b>
 
 ```typescript

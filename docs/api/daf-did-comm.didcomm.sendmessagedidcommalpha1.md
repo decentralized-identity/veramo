@@ -7,6 +7,8 @@
 > This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
 > 
 
+This is used to create a message according to the initial [DIDComm-js](https://github.com/decentralized-identity/DIDComm-js) implementation.
+
 <b>Signature:</b>
 
 ```typescript
@@ -23,4 +25,8 @@ sendMessageDIDCommAlpha1(args: ISendMessageDIDCommAlpha1Args, context: IAgentCon
 <b>Returns:</b>
 
 Promise&lt;[IMessage](./daf-core.imessage.md)<!-- -->&gt;
+
+## Remarks
+
+Be advised that this spec is still not final and that this protocol may need to change.
 

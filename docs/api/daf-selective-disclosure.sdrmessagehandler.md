@@ -4,6 +4,11 @@
 
 ## SdrMessageHandler class
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+A DAF message handler plugin that can decode an incoming Selective Disclosure Response into the internal Message representation.
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,5 +20,5 @@ export declare class SdrMessageHandler extends AbstractMessageHandler
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [handle(message, context)](./daf-selective-disclosure.sdrmessagehandler.handle.md) |  |  |
+|  [handle(message, context)](./daf-selective-disclosure.sdrmessagehandler.handle.md) |  | <b><i>(BETA)</i></b> |
 

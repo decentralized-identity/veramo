@@ -4,20 +4,29 @@
 
 ## ISelectiveDisclosureRequest interface
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Represents the Selective Disclosure request parameters.
+
 <b>Signature:</b>
 
 ```typescript
 export interface ISelectiveDisclosureRequest 
 ```
 
+## Remarks
+
+See [Selective Disclosure Request](https://github.com/uport-project/specs/blob/develop/messages/sharereq.md)
+
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [claims](./daf-selective-disclosure.iselectivedisclosurerequest.claims.md) | [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md)<!-- -->\[\] |  |
-|  [credentials](./daf-selective-disclosure.iselectivedisclosurerequest.credentials.md) | string\[\] |  |
-|  [issuer](./daf-selective-disclosure.iselectivedisclosurerequest.issuer.md) | string |  |
-|  [replyUrl](./daf-selective-disclosure.iselectivedisclosurerequest.replyurl.md) | string |  |
-|  [subject](./daf-selective-disclosure.iselectivedisclosurerequest.subject.md) | string |  |
-|  [tag](./daf-selective-disclosure.iselectivedisclosurerequest.tag.md) | string |  |
+|  [claims](./daf-selective-disclosure.iselectivedisclosurerequest.claims.md) | [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md)<!-- -->\[\] | <b><i>(BETA)</i></b> A list of claims that are being requested |
+|  [credentials](./daf-selective-disclosure.iselectivedisclosurerequest.credentials.md) | string\[\] | <b><i>(BETA)</i></b> A list of issuer credentials that the target will use to establish trust |
+|  [issuer](./daf-selective-disclosure.iselectivedisclosurerequest.issuer.md) | string | <b><i>(BETA)</i></b> The issuer of the request |
+|  [replyUrl](./daf-selective-disclosure.iselectivedisclosurerequest.replyurl.md) | string | <b><i>(BETA)</i></b> The URL where the response should be sent back |
+|  [subject](./daf-selective-disclosure.iselectivedisclosurerequest.subject.md) | string | <b><i>(BETA)</i></b> The target of the request |
+|  [tag](./daf-selective-disclosure.iselectivedisclosurerequest.tag.md) | string | <b><i>(BETA)</i></b> |
 

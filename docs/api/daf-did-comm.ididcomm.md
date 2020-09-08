@@ -20,5 +20,5 @@ export interface IDIDComm extends IPluginMethodMap
 
 |  Method | Description |
 |  --- | --- |
-|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) | <b><i>(BETA)</i></b> |
+|  [sendMessageDIDCommAlpha1(args, context)](./daf-did-comm.ididcomm.sendmessagedidcommalpha1.md) | <b><i>(BETA)</i></b> This is used to create a message according to the initial [DIDComm-js](https://github.com/decentralized-identity/DIDComm-js) implementation. |
 

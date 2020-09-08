@@ -8,6 +8,10 @@ const debug = Debug('daf:ethr-did:identity-provider')
 
 type IContext = IAgentContext<IKeyManager>
 
+/**
+ * Helper method that can computes the ethereumAddress corresponding to a secp256k1 public key.
+ * @param hexPublicKey A hex encoded public key, prefixed with `0x`
+ */
 export function toEthereumAddress(hexPublicKey: string): string {
   return `0x${Buffer.from(keccak_256.arrayBuffer(Buffer.from(hexPublicKey.slice(2), 'hex')))
     .slice(-20)

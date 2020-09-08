@@ -16,45 +16,36 @@ import { Message } from 'daf-message-handler';
 import { VerifiableCredential } from 'daf-core';
 import { VerifiablePresentation } from 'daf-core';
 
-// @public (undocumented)
+// @beta
 export interface ICreateSelectiveDisclosureRequestArgs {
     // (undocumented)
     data: ISelectiveDisclosureRequest;
 }
 
-// @public (undocumented)
+// @beta
 export interface ICredentialRequestInput {
-    // (undocumented)
     claimType: string;
-    // (undocumented)
     claimValue?: string;
-    // (undocumented)
     credentialContext?: string;
-    // (undocumented)
     credentialType?: string;
-    // (undocumented)
     essential?: boolean;
-    // (undocumented)
     issuers?: Issuer[];
-    // (undocumented)
     reason?: string;
 }
 
-// @public (undocumented)
+// @beta
 export interface ICredentialsForSdr extends ICredentialRequestInput {
     // (undocumented)
     credentials: VerifiableCredential[];
 }
 
-// @public (undocumented)
+// @beta
 export interface IGetVerifiableCredentialsForSdrArgs {
-    // (undocumented)
     did?: string;
-    // (undocumented)
     sdr: Omit<ISelectiveDisclosureRequest, 'issuer'>;
 }
 
-// @public (undocumented)
+// @beta
 export interface IPresentationValidationResult {
     // (undocumented)
     claims: ICredentialsForSdr[];
@@ -62,7 +53,7 @@ export interface IPresentationValidationResult {
     valid: boolean;
 }
 
-// @public (undocumented)
+// @beta
 export interface ISelectiveDisclosure extends IPluginMethodMap {
     // (undocumented)
     createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IIdentityManager & IKeyManager>): Promise<string>;
@@ -72,31 +63,24 @@ export interface ISelectiveDisclosure extends IPluginMethodMap {
     validatePresentationAgainstSdr(args: IValidatePresentationAgainstSdrArgs, context: IAgentContext<{}>): Promise<IPresentationValidationResult>;
 }
 
-// @public (undocumented)
+// @beta
 export interface ISelectiveDisclosureRequest {
-    // (undocumented)
     claims: ICredentialRequestInput[];
-    // (undocumented)
     credentials?: string[];
-    // (undocumented)
     issuer: string;
-    // (undocumented)
     replyUrl?: string;
-    // (undocumented)
     subject?: string;
     // (undocumented)
     tag?: string;
 }
 
-// @public (undocumented)
+// @beta
 export interface Issuer {
-    // (undocumented)
     did: string;
-    // (undocumented)
     url: string;
 }
 
-// @public (undocumented)
+// @beta
 export interface IValidatePresentationAgainstSdrArgs {
     // (undocumented)
     presentation: VerifiablePresentation;
@@ -104,27 +88,24 @@ export interface IValidatePresentationAgainstSdrArgs {
     sdr: ISelectiveDisclosureRequest;
 }
 
-// @public (undocumented)
+// @beta
 export const MessageTypes: {
     sdr: string;
 };
 
-// @public (undocumented)
+// @beta
 export class SdrMessageHandler extends AbstractMessageHandler {
     // (undocumented)
     handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message>;
     }
 
-// @public (undocumented)
+// @beta
 export class SelectiveDisclosure implements IAgentPlugin {
     constructor();
-    // (undocumented)
     createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IIdentityManager & IKeyManager>): Promise<string>;
-    // (undocumented)
     getVerifiableCredentialsForSdr(args: IGetVerifiableCredentialsForSdrArgs, context: IAgentContext<IDataStoreORM>): Promise<ICredentialsForSdr[]>;
     // (undocumented)
     readonly methods: ISelectiveDisclosure;
-    // (undocumented)
     validatePresentationAgainstSdr(args: IValidatePresentationAgainstSdrArgs, context: IAgentContext<{}>): Promise<IPresentationValidationResult>;
 }
 

@@ -10,26 +10,26 @@ Provides a [plugin](./daf-selective-disclosure.iselectivedisclosure.md) for the 
 
 |  Class | Description |
 |  --- | --- |
-|  [SdrMessageHandler](./daf-selective-disclosure.sdrmessagehandler.md) |  |
-|  [SelectiveDisclosure](./daf-selective-disclosure.selectivedisclosure.md) |  |
+|  [SdrMessageHandler](./daf-selective-disclosure.sdrmessagehandler.md) | <b><i>(BETA)</i></b> A DAF message handler plugin that can decode an incoming Selective Disclosure Response into the internal Message representation. |
+|  [SelectiveDisclosure](./daf-selective-disclosure.selectivedisclosure.md) | <b><i>(BETA)</i></b> This class adds support for creating [Selective Disclosure](https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md) requests and interpret the responses received.<!-- -->This implementation of the uPort protocol uses [W3C Presentation](https://www.w3.org/TR/vc-data-model/#presentations) as the response encoding instead of a <code>shareReq</code>. |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
-|  [ICreateSelectiveDisclosureRequestArgs](./daf-selective-disclosure.icreateselectivedisclosurerequestargs.md) |  |
-|  [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md) |  |
-|  [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md) |  |
-|  [IGetVerifiableCredentialsForSdrArgs](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.md) |  |
-|  [IPresentationValidationResult](./daf-selective-disclosure.ipresentationvalidationresult.md) |  |
-|  [ISelectiveDisclosure](./daf-selective-disclosure.iselectivedisclosure.md) |  |
-|  [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) |  |
-|  [Issuer](./daf-selective-disclosure.issuer.md) |  |
-|  [IValidatePresentationAgainstSdrArgs](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.md) |  |
+|  [ICreateSelectiveDisclosureRequestArgs](./daf-selective-disclosure.icreateselectivedisclosurerequestargs.md) | <b><i>(BETA)</i></b> Contains the parameters of a Selective Disclosure Request. |
+|  [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md) | <b><i>(BETA)</i></b> Describes a particular credential that is being requested |
+|  [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md) | <b><i>(BETA)</i></b> The credentials that make up a response of a Selective Disclosure |
+|  [IGetVerifiableCredentialsForSdrArgs](./daf-selective-disclosure.igetverifiablecredentialsforsdrargs.md) | <b><i>(BETA)</i></b> Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request. |
+|  [IPresentationValidationResult](./daf-selective-disclosure.ipresentationvalidationresult.md) | <b><i>(BETA)</i></b> The result of a selective disclosure response validation. |
+|  [ISelectiveDisclosure](./daf-selective-disclosure.iselectivedisclosure.md) | <b><i>(BETA)</i></b> Describes the interface of a Selective Disclosure plugin. |
+|  [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) | <b><i>(BETA)</i></b> Represents the Selective Disclosure request parameters. |
+|  [Issuer](./daf-selective-disclosure.issuer.md) | <b><i>(BETA)</i></b> Used for requesting Credentials using Selective Disclosure. Represents an accepted issuer of a credential. |
+|  [IValidatePresentationAgainstSdrArgs](./daf-selective-disclosure.ivalidatepresentationagainstsdrargs.md) | <b><i>(BETA)</i></b> A tuple used to verify a Selective Disclosure Response. Encapsulates the response(<code>presentation</code>) and the corresponding request (<code>sdr</code>) that made it. |
 
 ## Variables
 
 |  Variable | Description |
 |  --- | --- |
-|  [MessageTypes](./daf-selective-disclosure.messagetypes.md) |  |
+|  [MessageTypes](./daf-selective-disclosure.messagetypes.md) | <b><i>(BETA)</i></b> Identifies a  that represents a Selective Disclosure Request |
 

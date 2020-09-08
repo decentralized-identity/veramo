@@ -4,6 +4,11 @@
 
 ## SelectiveDisclosure.createSelectiveDisclosureRequest() method
 
+> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
+> 
+
+Creates a Selective disclosure request, encoded as a JWT.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,10 +19,14 @@ createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, co
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [ICreateSelectiveDisclosureRequestArgs](./daf-selective-disclosure.icreateselectivedisclosurerequestargs.md) |  |
-|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IIdentityManager](./daf-core.iidentitymanager.md) &amp; [IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
+|  args | [ICreateSelectiveDisclosureRequestArgs](./daf-selective-disclosure.icreateselectivedisclosurerequestargs.md) | The param object with the properties necessary to create the request. See [ISelectiveDisclosureRequest](./daf-selective-disclosure.iselectivedisclosurerequest.md) |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IIdentityManager](./daf-core.iidentitymanager.md) &amp; [IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; | \*RESERVED\* This is filled by the framework when the method is called. |
 
 <b>Returns:</b>
 
 Promise&lt;string&gt;
+
+## Remarks
+
+See [Selective Disclosure](https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md)
 

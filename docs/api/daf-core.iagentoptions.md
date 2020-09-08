@@ -4,7 +4,11 @@
 
 ## IAgentOptions interface
 
-Agent configuration options
+Agent configuration options.
+
+This interface is used to describe the constellation of plugins that this agent will use and provide.
+
+You will use this to attach plugins, to setup overrides for their methods and to explicitly set the methods that this agent instance is allowed to call. This permissioning method is also used for internal calls made by plugin code.
 
 <b>Signature:</b>
 

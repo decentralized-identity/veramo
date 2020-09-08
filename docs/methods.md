@@ -198,7 +198,7 @@ Creates a Verifiable Presentation. The payload, signer and format are chosen bas
 
 ### [sendMessageDIDCommAlpha1](./api/daf-did-comm.ididcomm.sendmessagedidcommalpha1.md)
 
-
+This is used to create a message according to the initial 
 
 ## [IDataStoreORM](./api/daf-typeorm.idatastoreorm.md) 
 
