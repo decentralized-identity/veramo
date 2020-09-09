@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.18](https://github.com/uport-project/daf/compare/v6.3.0...v7.0.0-beta.18) (2020-09-09)
+
+
+### Bug Fixes
+
+* DataStoreORM claim subject ([e332dcc](https://github.com/uport-project/daf/commit/e332dcc2bfa261bc43a2c4e2a7ab2bbf13b647df))
+* Types ([c35e452](https://github.com/uport-project/daf/commit/c35e452679ce86378d6a37e6dbace855d8583b84))
+
+
+### Features
+
+* GraphQL message handler ([10d31cc](https://github.com/uport-project/daf/commit/10d31cc96b293ca0c2f48fa3e39cb94612146e55))
+* GraphQL w3c ([967b916](https://github.com/uport-project/daf/commit/967b9168536e5c5a2ba484e3f912ba4661952f8f))
+* Method dataStoreORMGetIdentities ([7952fbb](https://github.com/uport-project/daf/commit/7952fbbdc6b2030b7fc004f949908860920f93d4))
+* Method identityManagerGetOrCreateIdentity ([0155389](https://github.com/uport-project/daf/commit/0155389bf8ad3cfe6f4802d1ac5ce655321423c6))
+
+
+
+
+
 # [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
 
 

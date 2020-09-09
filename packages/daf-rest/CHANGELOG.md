@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.18](https://github.com/uport-project/daf/compare/v6.3.0...v7.0.0-beta.18) (2020-09-09)
+
+
+### Bug Fixes
+
+* Daf REST headers type ([b22c540](https://github.com/uport-project/daf/commit/b22c540d20a459ad1b00979be2bd82be90aeb3a4))
+* Daf-rest overrides ([0d6c031](https://github.com/uport-project/daf/commit/0d6c031df77a4c0f0dd3649e3303998323f4bde5))
+* Deps for daf-rest ([564f2ba](https://github.com/uport-project/daf/commit/564f2ba4909636c25cb827706608bcc65b7b54e4))
+* OpenAPI types dep for daf-rest ([63e7565](https://github.com/uport-project/daf/commit/63e7565d3e2d02e8a170effa67838b9a25c13e22))
+* Rest client error handling ([b871a39](https://github.com/uport-project/daf/commit/b871a39fd46930871c6695a4f9e7aa66b886f617))
+* Valid OpenApi v3 schema ([32175c3](https://github.com/uport-project/daf/commit/32175c340df69aea0d8fa91f6d962523fbe2dac4))
+
+
+### Code Refactoring
+
+* Refactor and add inline documentation to daf-w3c package ([f0e2cb9](https://github.com/uport-project/daf/commit/f0e2cb9748dc04b0d46ac1d80bac9a0b7f7546cd))
+
+
+### Features
+
+* Added keyManagerGetKeyManagementSystems ([9741462](https://github.com/uport-project/daf/commit/974146281b400fa9d3108a8428d0d9da09dd2292))
+* CLI upgraded to the latest API ([b440dd1](https://github.com/uport-project/daf/commit/b440dd10badc03d71d59f23eddd80d93a680efe0))
+* Daf-rest & daf-express ([9c9a597](https://github.com/uport-project/daf/commit/9c9a597d40059a11fe64780c459233490cb1a5ef))
+* Method dataStoreORMGetIdentities ([7952fbb](https://github.com/uport-project/daf/commit/7952fbbdc6b2030b7fc004f949908860920f93d4))
+* Method identityManagerGetOrCreateIdentity ([0155389](https://github.com/uport-project/daf/commit/0155389bf8ad3cfe6f4802d1ac5ce655321423c6))
+* Using OpenAPI schema in rest & express ([80d0bad](https://github.com/uport-project/daf/commit/80d0badb6c4ed17ccf2250d4381b71f08ef3da45))
+
+
+### BREAKING CHANGES
+
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 # [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
 
 

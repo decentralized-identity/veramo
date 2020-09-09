@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.18](https://github.com/uport-project/daf/compare/v6.3.0...v7.0.0-beta.18) (2020-09-09)
+
+
+### Bug Fixes
+
+* Daf-libsodium debug ([babbfe6](https://github.com/uport-project/daf/commit/babbfe63b51f4b6430d0dcd75ca2a2e599c184af))
+* IdentityProvider WIP ([feec69e](https://github.com/uport-project/daf/commit/feec69e49f1760884b263feee63fc3e2d833c7e5))
+* Removing EcdsaSignature type ([3e3a684](https://github.com/uport-project/daf/commit/3e3a6843a77cf389be9aa6414a2f77ebe26adc62))
+
+
+### Code Refactoring
+
+* Refactor and add inline documentation to daf-w3c package ([f0e2cb9](https://github.com/uport-project/daf/commit/f0e2cb9748dc04b0d46ac1d80bac9a0b7f7546cd))
+
+
+### BREAKING CHANGES
+
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 # [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "daf-did-comm",
   "description": "DAF DIDComm inspired messaging based on the v1 messaging envelope.",
-  "version": "7.0.0-beta.17",
+  "version": "7.0.0-beta.18",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.5",
-    "daf-core": "^7.0.0-beta.17",
-    "daf-message-handler": "^7.0.0-beta.17",
+    "daf-core": "^7.0.0-beta.18",
+    "daf-message-handler": "^7.0.0-beta.18",
     "debug": "^4.1.1",
     "uuid": "^8.3.0"
   },

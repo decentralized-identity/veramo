@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.18](https://github.com/uport-project/daf/compare/v6.3.0...v7.0.0-beta.18) (2020-09-09)
+
+
+### Features
+
+* CLI upgraded to the latest API ([b440dd1](https://github.com/uport-project/daf/commit/b440dd10badc03d71d59f23eddd80d93a680efe0))
+
+
+
+
+
 ## [6.1.6](https://github.com/uport-project/daf/compare/v6.1.5...v6.1.6) (2020-07-20)
 
 **Note:** Version bump only for package daf-cli

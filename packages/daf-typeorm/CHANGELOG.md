@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.18](https://github.com/uport-project/daf/compare/v6.3.0...v7.0.0-beta.18) (2020-09-09)
+
+
+### Bug Fixes
+
+* DataStoreORM claim subject ([e332dcc](https://github.com/uport-project/daf/commit/e332dcc2bfa261bc43a2c4e2a7ab2bbf13b647df))
+* DataStoreORM interface ([719959a](https://github.com/uport-project/daf/commit/719959a59ac8877523f36254da71609fd5e222eb))
+* DataStoreORM messagesQuery ([be2badb](https://github.com/uport-project/daf/commit/be2badbe359e7a5c470f50472d022a87bd3d4c2b))
+* DataStoreORM saving claims ([281b493](https://github.com/uport-project/daf/commit/281b493374ca3d981a828207f14190dcb95c93a6))
+* IdentityStore ([53eb972](https://github.com/uport-project/daf/commit/53eb9721f2a64d231955a555dc2465adb2c8c668))
+
+
+### Features
+
+* Method dataStoreORMGetIdentities ([7952fbb](https://github.com/uport-project/daf/commit/7952fbbdc6b2030b7fc004f949908860920f93d4))
+* Method identityManagerGetOrCreateIdentity ([0155389](https://github.com/uport-project/daf/commit/0155389bf8ad3cfe6f4802d1ac5ce655321423c6))
+
+
+
+
+
 # [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
 
 
