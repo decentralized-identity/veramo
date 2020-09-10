@@ -2,7 +2,6 @@ import { IMessage } from 'daf-core'
 import { agent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
-import { formatDistanceToNow } from 'date-fns'
 import { printTable } from 'console-table-printer'
 
 program
@@ -12,7 +11,7 @@ program
   .option('-m, --messages', 'List messages')
   .action(async (cmd) => {
     if (cmd.identities) {
-      const ids = await (await agent).identityManagerGetIdentities()
+      const ids = await agent.identityManagerGetIdentities()
       if (ids.length === 0) {
         console.error('No dids')
         process.exit()
@@ -39,14 +38,14 @@ program
       switch (answers.type) {
         case 'Sent Messages':
           showMessageList(
-            await (await agent).dataStoreORMGetMessages({
+            await agent.dataStoreORMGetMessages({
               where: [{ column: 'from', value: [answers.did] }],
             }),
           )
           break
         case 'Received Messages':
           showMessageList(
-            await (await agent).dataStoreORMGetMessages({
+            await agent.dataStoreORMGetMessages({
               where: [{ column: 'to', value: [answers.did] }],
             }),
           )
@@ -58,7 +57,7 @@ program
     }
 
     if (cmd.messages) {
-      showMessageList(await (await agent).dataStoreORMGetMessages())
+      showMessageList(await agent.dataStoreORMGetMessages())
     }
   })
 
@@ -102,7 +101,7 @@ const showMessage = async (message: IMessage) => {
 const showCredentials = async (did: string) => {
   const table = []
 
-  const credentials = await (await agent).dataStoreORMGetVerifiableCredentials({
+  const credentials = await agent.dataStoreORMGetVerifiableCredentials({
     where: [{ column: 'subject', value: [did] }],
   })
 

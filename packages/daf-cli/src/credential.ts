@@ -1,6 +1,4 @@
-import { W3CCredential, VerifiableCredential } from 'daf-core'
-import * as W3c from 'daf-w3c'
-import * as DIDComm from 'daf-did-comm'
+import { W3CCredential } from 'daf-core'
 import { agent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
@@ -12,7 +10,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const identities = await (await agent).identityManagerGetIdentities()
+    const identities = await agent.identityManagerGetIdentities()
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -91,7 +89,7 @@ program
       }
     }
 
-    const verifiableCredential = await (await agent).createVerifiableCredential({
+    const verifiableCredential = await agent.createVerifiableCredential({
       save: true,
       credential,
       proofFormat: 'jwt',
@@ -99,7 +97,7 @@ program
 
     if (cmd.send) {
       try {
-        const message = await (await agent).sendMessageDIDCommAlpha1({
+        const message = await agent.sendMessageDIDCommAlpha1({
           save: true,
           data: {
             from: answers.iss,
@@ -127,13 +125,13 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const myIdentities = await (await agent).identityManagerGetIdentities()
+    const myIdentities = await agent.identityManagerGetIdentities()
     if (myIdentities.length === 0) {
       console.error('No dids')
       process.exit()
     }
 
-    const ids = await (await agent).dataStoreORMGetIdentities()
+    const ids = await agent.dataStoreORMGetIdentities()
 
     const identities = [
       {
@@ -180,7 +178,7 @@ program
       aud = answers.aud
     }
 
-    const credentials = await (await agent).dataStoreORMGetVerifiableCredentials({
+    const credentials = await agent.dataStoreORMGetVerifiableCredentials({
       where: [{ column: 'subject', value: [answers.iss] }],
     })
 
@@ -218,7 +216,7 @@ program
         addMoreCredentials = answers2.addMore
       }
 
-      const verifiablePresentation = await (await agent).createVerifiablePresentation({
+      const verifiablePresentation = await agent.createVerifiablePresentation({
         save: true,
         presentation: {
           holder: answers.iss,
@@ -234,7 +232,7 @@ program
 
       if (cmd.send) {
         try {
-          const message = await (await agent).sendMessageDIDCommAlpha1({
+          const message = await agent.sendMessageDIDCommAlpha1({
             save: true,
             data: {
               from: answers.iss,

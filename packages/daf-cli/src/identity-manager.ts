@@ -17,7 +17,7 @@ program
   .option('-p, --publicKey', 'Add public key')
   .action(async (cmd) => {
     if (cmd.types) {
-      const providers = await (await agent).identityManagerGetProviders()
+      const providers = await agent.identityManagerGetProviders()
       const list = providers.map((provider) => ({ provider }))
 
       if (list.length > 0) {
@@ -28,7 +28,7 @@ program
     }
 
     if (cmd.list) {
-      const list = await (await agent).identityManagerGetIdentities()
+      const list = await agent.identityManagerGetIdentities()
 
       if (list.length > 0) {
         const dids = list.map((item) => ({ provider: item.provider, alias: item.alias, did: item.did }))
@@ -40,8 +40,8 @@ program
 
     if (cmd.create) {
       try {
-        const providers = await (await agent).identityManagerGetProviders()
-        const kms = await (await agent).keyManagerGetKeyManagementSystems()
+        const providers = await agent.identityManagerGetProviders()
+        const kms = await agent.keyManagerGetKeyManagementSystems()
         const args: IIdentityManagerCreateIdentityArgs = {}
 
         const answers = await inquirer.prompt([
@@ -64,7 +64,7 @@ program
           },
         ])
 
-        const identity = await (await agent).identityManagerCreateIdentity(answers)
+        const identity = await agent.identityManagerCreateIdentity(answers)
         printTable([{ provider: identity.provider, alias: identity.alias, did: identity.did }])
       } catch (e) {
         console.error(e.message)
@@ -73,7 +73,7 @@ program
 
     if (cmd.delete) {
       try {
-        const identities = await (await agent).identityManagerGetIdentities()
+        const identities = await agent.identityManagerGetIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -83,7 +83,7 @@ program
           },
         ])
 
-        const result = await (await agent).identityManagerDeleteIdentity({
+        const result = await agent.identityManagerDeleteIdentity({
           did: answers.did,
         })
 
@@ -95,7 +95,7 @@ program
 
     if (cmd.service) {
       try {
-        const identities = await (await agent).identityManagerGetIdentities()
+        const identities = await agent.identityManagerGetIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -121,7 +121,7 @@ program
           },
         ])
 
-        const result = await (await agent).identityManagerAddService({
+        const result = await agent.identityManagerAddService({
           did: answers.did,
           service: {
             type: answers.type,
@@ -138,8 +138,8 @@ program
 
     if (cmd.publicKey) {
       try {
-        const identities = await (await agent).identityManagerGetIdentities()
-        const kms = await (await agent).keyManagerGetKeyManagementSystems()
+        const identities = await agent.identityManagerGetIdentities()
+        const kms = await agent.keyManagerGetKeyManagementSystems()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -161,12 +161,12 @@ program
           },
         ])
 
-        const key = await (await agent).keyManagerCreateKey({
+        const key = await agent.keyManagerCreateKey({
           kms: answers.kms,
           type: answers.type,
         })
 
-        const result = await (await agent).identityManagerAddKey({
+        const result = await agent.identityManagerAddKey({
           did: answers.did,
           key,
         })
@@ -179,7 +179,7 @@ program
 
     if (cmd.export) {
       try {
-        const identities = await (await agent).identityManagerGetIdentities()
+        const identities = await agent.identityManagerGetIdentities()
         const answers = await inquirer.prompt([
           {
             type: 'list',
@@ -192,7 +192,7 @@ program
           },
         ])
 
-        const identity = await (await agent).identityManagerGetIdentity({ did: answers.did })
+        const identity = await agent.identityManagerGetIdentity({ did: answers.did })
 
         console.log(JSON.stringify(identity))
       } catch (e) {
@@ -210,7 +210,7 @@ program
           },
         ])
 
-        const identity = await (await agent).identityManagerImportIdentity(JSON.parse(answers.identity))
+        const identity = await agent.identityManagerImportIdentity(JSON.parse(answers.identity))
         console.log(identity)
       } catch (e) {
         console.error(e)

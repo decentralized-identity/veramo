@@ -1,5 +1,3 @@
-import * as Daf from 'daf-core'
-import * as DIDComm from 'daf-did-comm'
 import { ICredentialRequestInput } from 'daf-selective-disclosure'
 import { agent } from './setup'
 import program from 'commander'
@@ -12,7 +10,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const identities = await (await agent).identityManagerGetIdentities()
+    const identities = await agent.identityManagerGetIdentities()
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -141,7 +139,7 @@ program
 
     const credentials = []
     if (answers5.addCredentials) {
-      const vcs = await (await agent).dataStoreORMGetVerifiableCredentials({
+      const vcs = await agent.dataStoreORMGetVerifiableCredentials({
         where: [{ column: 'subject', value: [answers.iss] }],
       })
 
@@ -180,7 +178,7 @@ program
       }
     }
 
-    const jwt = await (await agent).createSelectiveDisclosureRequest({
+    const jwt = await agent.createSelectiveDisclosureRequest({
       data: {
         issuer: answers.iss,
         subject: answers.sub === '' ? undefined : answers.sub,
@@ -191,10 +189,10 @@ program
     })
 
     if (!cmd.send) {
-      await (await agent).handleMessage({ raw: jwt, metaData: [{ type: 'cli' }], save: true })
+      await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }], save: true })
     } else if (answers.sub !== '') {
       try {
-        const result = await (await agent).sendMessageDIDCommAlpha1({
+        const result = await agent.sendMessageDIDCommAlpha1({
           data: {
             from: answers.iss,
             to: answers.sub,

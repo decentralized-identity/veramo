@@ -6,7 +6,7 @@ program
   .description('Resolve DID Document')
   .action(async (didUrl) => {
     try {
-      const ddo = await (await agent).resolveDid({ didUrl })
+      const ddo = await agent.resolveDid({ didUrl })
       console.log(ddo)
     } catch (e) {
       console.error(e)

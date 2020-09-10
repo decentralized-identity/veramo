@@ -38,12 +38,14 @@
     "graphql": "^15.0.0",
     "graphql-tools": "^6.0.0",
     "inquirer": "^7.0.0",
+    "jsonpointer": "^4.1.0",
     "lodash.merge": "^4.6.2",
     "pg": "^8.2.0",
     "qrcode-terminal": "^0.12.0",
     "sqlite3": "^5.0.0",
     "typeorm": "0.2.24",
-    "ws": "^7.2.0"
+    "ws": "^7.2.0",
+    "yaml": "^1.10.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
