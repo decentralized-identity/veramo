@@ -9,6 +9,6 @@ program
       const ddo = await agent.resolveDid({ didUrl })
       console.log(ddo)
     } catch (e) {
-      console.error(e)
+      console.error(e.message)
     }
   })

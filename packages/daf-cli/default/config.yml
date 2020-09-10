@@ -103,9 +103,9 @@ agent:
                 - name: private
                   rpcUrl: http://localhost:8545/
                   registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
-        # - $require: daf-resolver-universal
+        # - $require: daf-resolver-universal#DafUniversalResolver
         #   $args:
-        #     - url: https://uniresolver.io/1.0/identifiers/
+        #     - url: https://dev.uniresolver.io/1.0/identifiers/
         - $require: daf-typeorm#DataStore
           $args:
             - $ref: /dbConnection
