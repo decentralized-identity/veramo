@@ -148,6 +148,27 @@ export const identityManagerDeleteIdentity: IAgentGraphQLMethod = {
   `,
 }
 
+export const identityManagerAddService: IAgentGraphQLMethod = {
+  type: 'Mutation',
+  query: `
+    mutation identityManagerAddService($did: String, $service: ServiceInput) {
+      identityManagerAddService(did: $did, service: $service) 
+    }
+  `,
+  typeDef: `
+    scalar AddServiceResult
+    input ServiceInput {
+      id: String!
+      type: String!
+      serviceEndpoint: String!
+      description: String
+    }
+    extend type Mutation {
+      identityManagerAddService(did: String, service: ServiceInput): AddServiceResult
+    }
+  `,
+}
+
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerGetProviders,
   identityManagerGetIdentities,
@@ -155,6 +176,7 @@ export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerCreateIdentity,
   identityManagerGetOrCreateIdentity,
   identityManagerDeleteIdentity,
+  identityManagerAddService,
   // TODO identityManagerImportIdentity
 }
 

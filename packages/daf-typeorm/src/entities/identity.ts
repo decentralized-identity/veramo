@@ -46,7 +46,9 @@ export class Identity extends BaseEntity {
   //@ts-ignore
   keys: Key[]
 
-  @OneToMany((type) => Service, (service) => service.identity)
+  @OneToMany((type) => Service, (service) => service.identity, {
+    cascade: ['insert'],
+  })
   //@ts-ignore
   services: Service[]
 

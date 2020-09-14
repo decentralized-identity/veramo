@@ -33,6 +33,23 @@ export default (testContext: {
       serviceIdentityKey = serviceIdentity.keys[0]
     })
 
+    it('should add service endpoint', async () => {
+      const service = {
+        id: 'did:web:example.com#1',
+        type: 'Messaging',
+        description: 'Post any RAW message here',
+        serviceEndpoint: 'https://example.com/messaging',
+      }
+
+      await agent.identityManagerAddService({
+        did: 'did:web:example.com',
+        service,
+      })
+
+      const testIdentity = await agent.identityManagerGetIdentity({ did: 'did:web:example.com' })
+      expect(testIdentity.services[0]).toEqual(service)
+    })
+
     it('should get existing service identity', async () => {
       const testIdentity = await agent.identityManagerGetOrCreateIdentity({
         provider: 'did:web',
