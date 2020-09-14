@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.19](https://github.com/uport-project/daf/compare/v7.0.0-beta.18...v7.0.0-beta.19) (2020-09-14)
+
+
+### Bug Fixes
+
+* Uniresolver config ([8dbdae1](https://github.com/uport-project/daf/commit/8dbdae10a623de7ab5304a62075ebfc9f7572b97))
+
+
+### Features
+
+* Constructing agent from YAML config ([7a2498f](https://github.com/uport-project/daf/commit/7a2498fd8e3a9b4a2591cb644205f5afe62ba776))
+* OpenAPI server in CLI ([ccdd6a7](https://github.com/uport-project/daf/commit/ccdd6a790bc219fbaf5b848d91b1181b0050154c))
+* Using agent created from YAML config ([ce2960c](https://github.com/uport-project/daf/commit/ce2960cfe6114f2e6272d5200419930f7042cf12))
+
+
+
+
+
 # [7.0.0-beta.18](https://github.com/uport-project/daf/compare/v6.3.0...v7.0.0-beta.18) (2020-09-09)
 
 

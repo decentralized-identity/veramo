@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.19](https://github.com/uport-project/daf/compare/v7.0.0-beta.18...v7.0.0-beta.19) (2020-09-14)
+
+
+### Bug Fixes
+
+* IdentityStore saving services ([9a35ee9](https://github.com/uport-project/daf/commit/9a35ee9e7a5866c106961c0f1cc4dc2fd1fad0c3))
+
+
+
+
+
 # [7.0.0-beta.18](https://github.com/uport-project/daf/compare/v6.3.0...v7.0.0-beta.18) (2020-09-09)
 
 
