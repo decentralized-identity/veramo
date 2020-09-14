@@ -11,6 +11,7 @@
   - [Remote](docs/setup.md#remote)
   - [Mixed](docs/setup.md#mixed)
 - [Available agent methods](docs/methods.md)
+- [Storing verifiable data](docs/datastorage.md)
 - [Extending agent functionality](docs/extending.md)
 
 ## Local development
