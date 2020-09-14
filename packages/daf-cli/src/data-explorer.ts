@@ -1,5 +1,5 @@
 import { IMessage } from 'daf-core'
-import { agent } from './setup'
+import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import { printTable } from 'console-table-printer'
@@ -10,6 +10,7 @@ program
   .option('-i, --identities', 'List known identities')
   .option('-m, --messages', 'List messages')
   .action(async (cmd) => {
+    const agent = getAgent(program.config)
     if (cmd.identities) {
       const ids = await agent.identityManagerGetIdentities()
       if (ids.length === 0) {
@@ -99,6 +100,8 @@ const showMessage = async (message: IMessage) => {
 }
 
 const showCredentials = async (did: string) => {
+  const agent = getAgent(program.config)
+
   const table = []
 
   const credentials = await agent.dataStoreORMGetVerifiableCredentials({

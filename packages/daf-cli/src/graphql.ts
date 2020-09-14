@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server'
 import program from 'commander'
 import { createSchema, supportedMethods } from 'daf-graphql'
-import { agent } from './setup'
+import { getAgent } from './setup'
 
 program
   .command('graphql')
@@ -9,6 +9,7 @@ program
   .option('-p, --port <port>', 'Port')
   .option('-i, --interval <seconds>', 'Poll for new messages with interval of <seconds>')
   .action(async (cmd) => {
+    const agent = getAgent(program.config)
     const { typeDefs, resolvers } = createSchema({
       enabledMethods: Object.keys(supportedMethods),
     })

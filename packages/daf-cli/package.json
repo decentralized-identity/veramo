@@ -16,6 +16,7 @@
     "apollo-server": "^2.9.12",
     "commander": "^5.0.0",
     "console-table-printer": "^2.0.0",
+    "cross-fetch": "^3.0.6",
     "daf-core": "^7.0.0-beta.18",
     "daf-did-comm": "^7.0.0-beta.18",
     "daf-did-jwt": "^7.0.0-beta.18",

@@ -1,5 +1,5 @@
 import { W3CCredential } from 'daf-core'
-import { agent } from './setup'
+import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
@@ -10,6 +10,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
+    const agent = getAgent(program.config)
     const identities = await agent.identityManagerGetIdentities()
     if (identities.length === 0) {
       console.error('No dids')
@@ -125,6 +126,7 @@ program
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
+    const agent = getAgent(program.config)
     const myIdentities = await agent.identityManagerGetIdentities()
     if (myIdentities.length === 0) {
       console.error('No dids')

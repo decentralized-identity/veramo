@@ -7,7 +7,7 @@ dbConnection:
     - type: sqlite
       database:
         $ref: /constants/databaseFile
-      synchronize: false
+      synchronize: true
       logging: false
       entities:
         $require: daf-typeorm?t=object#Entities

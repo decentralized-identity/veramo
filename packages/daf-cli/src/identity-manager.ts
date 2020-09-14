@@ -1,5 +1,5 @@
 import { IIdentityManagerCreateIdentityArgs } from 'daf-core'
-import { agent } from './setup'
+import { getAgent } from './setup'
 import inquirer from 'inquirer'
 import program from 'commander'
 import { printTable } from 'console-table-printer'
@@ -16,6 +16,7 @@ program
   .option('-s, --service', 'Add service endpoint')
   .option('-p, --publicKey', 'Add public key')
   .action(async (cmd) => {
+    const agent = getAgent(program.config)
     if (cmd.types) {
       const providers = await agent.identityManagerGetProviders()
       const list = providers.map((provider) => ({ provider }))
