@@ -16,6 +16,7 @@ export interface AgentRouterOptions {
     exposedMethods: Array<string>;
     extraMethods?: Array<string>;
     getAgentForRequest: (req: Request_2) => Promise<IAgent>;
+    serveSchema?: boolean;
 }
 
 

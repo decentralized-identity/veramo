@@ -22,7 +22,7 @@
 
 import { IAgent } from 'daf-core'
 import { Request, Response, NextFunction, Router, json } from 'express'
-import { supportedMethods } from 'daf-rest'
+import { supportedMethods, openApiSchema } from 'daf-rest'
 import Debug from 'debug'
 
 interface RequestWithAgent extends Request {
@@ -47,6 +47,11 @@ export interface AgentRouterOptions {
    * List of extra methods
    */
   extraMethods?: Array<string>
+
+  /**
+   * If set to `true`, router will serve OpenAPI schema JSON on `/` route
+   */
+  serveSchema?: boolean
 }
 
 /**
@@ -65,9 +70,14 @@ export const AgentRouter = (options: AgentRouterOptions): Router => {
 
   const allMethods: Array<string> = supportedMethods.concat(options.extraMethods ? options.extraMethods : [])
 
+  const publicApi = { ...openApiSchema }
+  publicApi.paths = {}
+
   for (const exposedMethod of options.exposedMethods) {
     if (!allMethods.includes(exposedMethod)) throw Error('Method not supported: ' + exposedMethod)
     Debug('daf:express:initializing')(exposedMethod)
+
+    publicApi.paths['/' + exposedMethod] = openApiSchema.paths['/' + exposedMethod]
 
     router.post('/' + exposedMethod, async (req: RequestWithAgent, res: Response, next: NextFunction) => {
       if (!req.agent) throw Error('Agent not available')
@@ -77,6 +87,12 @@ export const AgentRouter = (options: AgentRouterOptions): Router => {
       } catch (e) {
         res.status(500).json({ error: e.message })
       }
+    })
+  }
+
+  if (options.serveSchema) {
+    router.get('/', (req, res) => {
+      res.json(publicApi)
     })
   }
 

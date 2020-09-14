@@ -9,6 +9,7 @@ import './msg'
 import './version'
 import './crypto'
 import './execute'
+import './server'
 import './setup'
 
 if (!process.argv.slice(2).length) {

@@ -7,7 +7,6 @@ program
   .command('graphql')
   .description('GraphQL server')
   .option('-p, --port <port>', 'Port')
-  .option('-i, --interval <seconds>', 'Poll for new messages with interval of <seconds>')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
     const { typeDefs, resolvers } = createSchema({
