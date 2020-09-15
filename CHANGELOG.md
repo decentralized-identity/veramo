@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.20](https://github.com/uport-project/daf/compare/v7.0.0-beta.19...v7.0.0-beta.20) (2020-09-15)
+
+
+### Features
+
+* Ngrok support in CLI ([56c464d](https://github.com/uport-project/daf/commit/56c464db7f6681931fa16928351e349344c36cec))
+
+
+
+
+
 # [7.0.0-beta.19](https://github.com/uport-project/daf/compare/v7.0.0-beta.18...v7.0.0-beta.19) (2020-09-14)
 
 
