@@ -1,0 +1,49 @@
+agent:
+  $require: daf-core#Agent
+  $args:
+    - plugins:
+        - $require: daf-rest#AgentRestClient
+          $args:
+            - url: http://localhost:3332
+              enabledMethods:
+                - keyManagerGetKeyManagementSystems
+                - keyManagerCreateKey
+                - keyManagerGetKey
+                - keyManagerDeleteKey
+                - keyManagerImportKey
+                - keyManagerEncryptJWE
+                - keyManagerDecryptJWE
+                - keyManagerSignJWT
+                - keyManagerSignEthTX
+                - identityManagerGetProviders
+                - identityManagerGetIdentities
+                - identityManagerGetIdentity
+                - identityManagerCreateIdentity
+                - identityManagerGetOrCreateIdentity
+                - identityManagerImportIdentity
+                - identityManagerDeleteIdentity
+                - identityManagerAddKey
+                - identityManagerRemoveKey
+                - identityManagerAddService
+                - identityManagerRemoveService
+                - resolveDid
+                - dataStoreSaveMessage
+                - dataStoreSaveVerifiableCredential
+                - dataStoreSaveVerifiablePresentation
+                - dataStoreORMGetIdentities
+                - dataStoreORMGetIdentitiesCount
+                - dataStoreORMGetMessages
+                - dataStoreORMGetMessagesCount
+                - dataStoreORMGetVerifiableCredentialsByClaims
+                - dataStoreORMGetVerifiableCredentialsByClaimsCount
+                - dataStoreORMGetVerifiableCredentials
+                - dataStoreORMGetVerifiableCredentialsCount
+                - dataStoreORMGetVerifiablePresentations
+                - dataStoreORMGetVerifiablePresentationsCount
+                - handleMessage
+                - sendMessageDIDCommAlpha1
+                - createVerifiablePresentation
+                - createVerifiableCredential
+                - createSelectiveDisclosureRequest
+                - getVerifiableCredentialsForSdr
+                - validatePresentationAgainstSdr

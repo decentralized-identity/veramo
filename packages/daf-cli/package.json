@@ -42,10 +42,12 @@
     "inquirer": "^7.0.0",
     "jsonpointer": "^4.1.0",
     "lodash.merge": "^4.6.2",
+    "ngrok": "^3.3.0",
     "pg": "^8.2.0",
     "qrcode-terminal": "^0.12.0",
     "sqlite3": "^5.0.0",
     "typeorm": "0.2.24",
+    "url-parse": "^1.4.7",
     "ws": "^7.2.0",
     "yaml": "^1.10.0"
   },
