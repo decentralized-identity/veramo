@@ -60,7 +60,7 @@
     "typescript": "^3.8.3"
   },
   "peerDependencies": {
-    "daf-elem-did": "^5.5.0"
+    "daf-elem-did": "^7.0.0-beta.20"
   },
   "files": [
     "bin/**/*",

@@ -83,6 +83,12 @@ agent:
                       rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
                       gas: 10001
                       ttl: 31104001
+                # did:elem:ropsten:
+                #   $require: daf-elem-did#ElemIdentityProvider
+                #   $args:
+                #     - defaultKms: local
+                #       network: ropsten
+                #       apiUrl: https://element-did.com/api/v1/sidetree
                 did:web:
                   $require: daf-web-did#WebIdentityProvider
                   $args:
