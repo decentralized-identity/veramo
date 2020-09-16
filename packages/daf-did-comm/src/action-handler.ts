@@ -19,6 +19,7 @@ export interface ActionSendDIDComm extends Action {
     type: string
     body: any
   }
+  headers?: HeadersInit
 }
 
 export class DIDCommActionHandler extends AbstractActionHandler {
@@ -28,7 +29,7 @@ export class DIDCommActionHandler extends AbstractActionHandler {
 
   public async handleAction(action: Action, agent: Agent) {
     if (action.type === ActionTypes.sendMessageDIDCommAlpha1) {
-      const { data, url, save = true } = action as ActionSendDIDComm
+      const { data, url, headers, save = true } = action as ActionSendDIDComm
 
       debug('Resolving didDoc')
       const didDoc = await agent.didResolver.resolve(data.to)
@@ -66,6 +67,7 @@ export class DIDCommActionHandler extends AbstractActionHandler {
           const res = await fetch(serviceEndpoint, {
             method: 'POST',
             body: postPayload,
+            headers,
           })
           debug('Status', res.status, res.statusText)
 
