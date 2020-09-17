@@ -1,0 +1,39 @@
+{
+  "name": "daf-react-native-libsodium",
+  "description": "DAF KMS plugin using react-native-sodium.",
+  "version": "7.0.0-beta.20",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "base-58": "^0.0.1",
+    "daf-core": "^7.0.0-beta.20",
+    "daf-key-manager": "^7.0.0-beta.20",
+    "debug": "^4.1.1",
+    "did-jwt": "4.5.0",
+    "elliptic": "^6.5.2",
+    "ethjs-signer": "^0.1.1"
+  },
+  "peerDependencies": {
+    "react-native-sodium": "*"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/ethjs-signer": "^0.1.0",
+    "react-native-sodium": "0.3.6",
+    "typescript": "^3.8.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "gitHead": "63dd12da63b2245d32379b435a7a774a56a1f019"
+}
