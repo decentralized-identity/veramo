@@ -16,6 +16,13 @@ program
   .option('--createDefaultIdentity <boolean>', 'Should the agent create default web did', true)
   .option('--messagingServiceEndpoint <path>', 'Path of the messaging service endpoint', '/messaging')
   .option(
+    '--publicProfileServiceEndpoint <path>',
+    'Path of the public profile service endpoint',
+    '/public-profile',
+  )
+  .option('--publicName <string>', 'Public name', 'Service')
+  .option('--publicPicture <string>', 'Public picture', 'https://picsum.photos/200')
+  .option(
     '--exposedMethods <string>',
     'Comma separated list of exposed agent methods (example: "resolveDid,handleMessage")',
   )
@@ -60,31 +67,91 @@ program
         })
         console.log('🆔', serverIdentity.did)
 
-        if (options.messagingServiceEndpoint) {
-          const serviceEndpoint = 'https://' + hostname + options.messagingServiceEndpoint
+        const messagingServiceEndpoint = 'https://' + hostname + options.messagingServiceEndpoint
 
-          await agent.identityManagerAddService({
-            did: serverIdentity.did,
-            service: {
-              id: serverIdentity.did + '#msg',
-              type: 'Messaging',
-              description: 'Handles incoming POST messages',
-              serviceEndpoint,
-            },
-          })
-          console.log('📨 Messaging endpoint', serviceEndpoint)
+        await agent.identityManagerAddService({
+          did: serverIdentity.did,
+          service: {
+            id: serverIdentity.did + '#msg',
+            type: 'Messaging',
+            description: 'Handles incoming POST messages',
+            serviceEndpoint: messagingServiceEndpoint,
+          },
+        })
+        console.log('📨 Messaging endpoint', messagingServiceEndpoint)
 
-          app.post(options.messagingServiceEndpoint, express.text({ type: '*/*' }), async (req, res) => {
-            try {
-              const message = await agent.handleMessage({ raw: req.body, save: true })
-              console.log('Received message', message.type, message.id)
-              res.json({ id: message.id })
-            } catch (e) {
-              console.log(e)
-              res.send(e.message)
-            }
-          })
-        }
+        app.post(options.messagingServiceEndpoint, express.text({ type: '*/*' }), async (req, res) => {
+          try {
+            const message = await agent.handleMessage({ raw: req.body, save: true })
+            console.log('Received message', message.type, message.id)
+            res.json({ id: message.id })
+          } catch (e) {
+            console.log(e)
+            res.send(e.message)
+          }
+        })
+
+        const publicProfileServiceEndpoint = 'https://' + hostname + options.publicProfileServiceEndpoint
+
+        await agent.identityManagerAddService({
+          did: serverIdentity.did,
+          service: {
+            id: serverIdentity.did + '#pub',
+            type: 'PublicProfile',
+            description: 'Public profile verifiable presentation',
+            serviceEndpoint: publicProfileServiceEndpoint,
+          },
+        })
+        console.log('🌍 Public Profile', publicProfileServiceEndpoint)
+
+        app.get(options.publicProfileServiceEndpoint, async (req, res) => {
+          try {
+            const nameCredential = await agent.createVerifiableCredential({
+              credential: {
+                issuer: { id: serverIdentity.did },
+                '@context': ['https://www.w3.org/2018/credentials/v1'],
+                type: ['VerifiableCredential'],
+                issuanceDate: new Date().toISOString(),
+                credentialSubject: {
+                  id: serverIdentity.did,
+                  name: options.publicName,
+                },
+              },
+              proofFormat: 'jwt',
+            })
+
+            const pictureCredential = await agent.createVerifiableCredential({
+              credential: {
+                issuer: { id: serverIdentity.did },
+                '@context': ['https://www.w3.org/2018/credentials/v1'],
+                type: ['VerifiableCredential'],
+                issuanceDate: new Date().toISOString(),
+                credentialSubject: {
+                  id: serverIdentity.did,
+                  picture: options.publicPicture,
+                },
+              },
+              proofFormat: 'jwt',
+            })
+
+            const publicProfile = await agent.createVerifiablePresentation({
+              presentation: {
+                verifier: [],
+                holder: serverIdentity.did,
+                '@context': ['https://www.w3.org/2018/credentials/v1'],
+                type: ['VerifiablePresentation', 'PublicProfile'],
+                issuanceDate: new Date().toISOString(),
+                verifiableCredential: [nameCredential, pictureCredential],
+              },
+              proofFormat: 'jwt',
+            })
+
+            res.json(publicProfile)
+          } catch (e) {
+            console.log(e)
+            res.send(e.message)
+          }
+        })
 
         const didDocEndpoint = '/.well-known/did.json'
         app.get(didDocEndpoint, async (req, res) => {
