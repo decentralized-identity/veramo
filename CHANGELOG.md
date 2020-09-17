@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.21](https://github.com/uport-project/daf/compare/v7.0.0-beta.20...v7.0.0-beta.21) (2020-09-17)
+
+
+### Features
+
+* Beta of daf-elem-did ([fe286e3](https://github.com/uport-project/daf/commit/fe286e347107cfc29a93cfaff085e524f4e2cff5))
+* Daf-react-native-libsodium ([dbec780](https://github.com/uport-project/daf/commit/dbec78036118587e7a86dc1826d5c3c91e534069))
+* PublicProfile VP in CLI server ([6d6b710](https://github.com/uport-project/daf/commit/6d6b7107ed31c78bc7beb309b4a7bce44aeed84f))
+
+
+
+
+
 # [7.0.0-beta.20](https://github.com/uport-project/daf/compare/v7.0.0-beta.19...v7.0.0-beta.20) (2020-09-15)
 
 
