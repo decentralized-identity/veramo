@@ -7,7 +7,7 @@
 > This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
 > 
 
-Identifies a  that represents a Selective Disclosure Request
+Identifies a [IMessage](./daf-core.imessage.md) that represents a Selective Disclosure Request
 
 <b>Signature:</b>
 

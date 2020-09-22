@@ -31,5 +31,5 @@ Provides a [plugin](./daf-selective-disclosure.iselectivedisclosure.md) for the 
 
 |  Variable | Description |
 |  --- | --- |
-|  [MessageTypes](./daf-selective-disclosure.messagetypes.md) | <b><i>(BETA)</i></b> Identifies a  that represents a Selective Disclosure Request |
+|  [MessageTypes](./daf-selective-disclosure.messagetypes.md) | <b><i>(BETA)</i></b> Identifies a [IMessage](./daf-core.imessage.md) that represents a Selective Disclosure Request |
 

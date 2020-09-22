@@ -7,6 +7,7 @@ import {
   ICreateSelectiveDisclosureRequestArgs,
   IGetVerifiableCredentialsForSdrArgs,
   IValidatePresentationAgainstSdrArgs,
+  ISelectiveDisclosureRequest,
 } from './types'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
@@ -47,9 +48,9 @@ export class SelectiveDisclosure implements IAgentPlugin {
     args: ICreateSelectiveDisclosureRequestArgs,
     context: IAgentContext<IIdentityManager & IKeyManager>,
   ): Promise<string> {
-    const { data } = args
     try {
-      const identity = await context.agent.identityManagerGetIdentity({ did: data.issuer })
+      const identity = await context.agent.identityManagerGetIdentity({ did: args.data.issuer })
+      const data: Partial<ISelectiveDisclosureRequest> = args.data
       delete data.issuer
       Debug('daf:selective-disclosure:create-sdr')('Signing SDR with', identity.did)
 

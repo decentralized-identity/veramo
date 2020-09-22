@@ -6,7 +6,7 @@ import Debug from 'debug'
 const debug = Debug('daf:daf:selective-disclosure:message-handler')
 
 /**
- * Identifies a {@link daf-core#Message} that represents a Selective Disclosure Request
+ * Identifies a {@link daf-core#IMessage} that represents a Selective Disclosure Request
  *
  * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
  * @beta
