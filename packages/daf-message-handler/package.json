@@ -1,14 +1,14 @@
 {
   "name": "daf-message-handler",
   "description": "DAF Message Handler",
-  "version": "7.0.0-beta.22",
+  "version": "7.0.0-beta.23",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.22"
+    "daf-core": "^7.0.0-beta.23"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
