@@ -387,11 +387,11 @@ export const openApiSchema: OpenAPIV3.Document = {
           "did": {
             "type": "string",
             "description": "DID"
+          },
+          "alias": {
+            "type": "string"
           }
         },
-        "required": [
-          "did"
-        ],
         "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentity | identityManagerGetIdentity}"
       },

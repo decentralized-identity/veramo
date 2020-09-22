@@ -64,7 +64,8 @@ export abstract class AbstractIdentityStore {
     }): Promise<boolean>;
     // (undocumented)
     abstract get(args: {
-        did: string;
+        did?: string;
+        alias?: string;
     }): Promise<IIdentity>;
     // (undocumented)
     abstract get(args: {
@@ -94,7 +95,7 @@ export class IdentityManager implements IAgentPlugin {
     // (undocumented)
     identityManagerGetIdentities(): Promise<IIdentity[]>;
     // (undocumented)
-    identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
+    identityManagerGetIdentity({ did, alias }: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
     // (undocumented)
     identityManagerGetOrCreateIdentity({ provider, alias, kms, options }: IIdentityManagerGetOrCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
     // (undocumented)

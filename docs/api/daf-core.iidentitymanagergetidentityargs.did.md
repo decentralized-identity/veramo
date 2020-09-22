@@ -9,5 +9,5 @@ DID
 <b>Signature:</b>
 
 ```typescript
-did: string;
+did?: string;
 ```

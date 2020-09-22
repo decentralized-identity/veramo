@@ -121,7 +121,9 @@ export interface IIdentityManagerDeleteIdentityArgs {
 
 // @public
 export interface IIdentityManagerGetIdentityArgs {
-    did: string;
+    // (undocumented)
+    alias?: string;
+    did?: string;
 }
 
 // @public

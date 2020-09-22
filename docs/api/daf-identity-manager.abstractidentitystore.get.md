@@ -8,7 +8,8 @@
 
 ```typescript
 abstract get(args: {
-        did: string;
+        did?: string;
+        alias?: string;
     }): Promise<IIdentity>;
 ```
 
@@ -16,7 +17,7 @@ abstract get(args: {
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | { did: string; } |  |
+|  args | { did?: string; alias?: string; } |  |
 
 <b>Returns:</b>
 

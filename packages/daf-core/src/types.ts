@@ -376,7 +376,9 @@ export interface IIdentityManagerGetIdentityArgs {
   /**
    * DID
    */
-  did: string
+  did?: string
+
+  alias?: string
 }
 
 /**

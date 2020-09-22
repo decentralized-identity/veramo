@@ -71,8 +71,8 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetIdentity} */
-  async identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity> {
-    return this.store.get({ did })
+  async identityManagerGetIdentity({ did, alias }: IIdentityManagerGetIdentityArgs): Promise<IIdentity> {
+    return this.store.get({ did, alias })
   }
 
   /** {@inheritDoc daf-core#IIdentityManager.identityManagerCreateIdentity} */

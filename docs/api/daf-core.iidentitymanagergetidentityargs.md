@@ -16,5 +16,6 @@ export interface IIdentityManagerGetIdentityArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [alias](./daf-core.iidentitymanagergetidentityargs.alias.md) | string |  |
 |  [did](./daf-core.iidentitymanagergetidentityargs.did.md) | string | DID |
 
