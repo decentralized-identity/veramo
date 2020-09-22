@@ -23,6 +23,7 @@
     "daf-did-comm": "^7.0.0-beta.22",
     "daf-did-jwt": "^7.0.0-beta.22",
     "daf-ethr-did": "^7.0.0-beta.22",
+    "daf-express": "^7.0.0-beta.22",
     "daf-graphql": "^7.0.0-beta.22",
     "daf-identity-manager": "^7.0.0-beta.22",
     "daf-key-manager": "^7.0.0-beta.22",
