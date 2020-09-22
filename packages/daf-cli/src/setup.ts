@@ -1,7 +1,7 @@
 import 'cross-fetch/polyfill'
 import yaml from 'yaml'
 import program from 'commander'
-import { IDataStore, IIdentityManager, IMessageHandler, IKeyManager, IResolver } from 'daf-core'
+import { IDataStore, IIdentityManager, IMessageHandler, IKeyManager, IResolver, TAgent } from 'daf-core'
 import { ICredentialIssuer } from 'daf-w3c'
 import { ISelectiveDisclosure } from 'daf-selective-disclosure'
 import { IDIDComm } from 'daf-did-comm'
@@ -28,16 +28,18 @@ const getConfig = (fileName: string): object => {
   return config
 }
 
+export type EnabledInterfaces = IIdentityManager &
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolver &
+  IMessageHandler &
+  IDIDComm &
+  ICredentialIssuer &
+  ISelectiveDisclosure
+
+export type ConfiguredAgent = TAgent<EnabledInterfaces>
+
 export function getAgent(fileName: string) {
-  return createAgentFromConfig<
-    IIdentityManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialIssuer &
-      ISelectiveDisclosure
-  >(getConfig(fileName))
+  return createAgentFromConfig<EnabledInterfaces>(getConfig(fileName))
 }

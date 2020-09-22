@@ -13,8 +13,10 @@
     "update-daf-beta": "yarn add daf-core@beta daf-resolver@beta daf-did-jwt@beta daf-w3c@beta daf-ethr-did@beta daf-web-did@beta daf-did-comm@beta daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta daf-key-manager@beta daf-message-handler@beta daf-identity-manager@beta daf-resolver-universal@beta daf-url@beta daf-graphql@beta"
   },
   "dependencies": {
+    "@types/blessed": "^0.1.17",
     "apollo-server": "^2.9.12",
-    "commander": "^5.0.0",
+    "blessed": "^0.1.81",
+    "commander": "^6.1.0",
     "console-table-printer": "^2.0.0",
     "cross-fetch": "^3.0.6",
     "daf-core": "^7.0.0-beta.21",
@@ -57,7 +59,7 @@
     "@types/lodash.merge": "4.6.6",
     "@types/node-fetch": "2.5.7",
     "@types/ws": "7.2.6",
-    "typescript": "^3.8.3"
+    "typescript": "^4.0.3"
   },
   "peerDependencies": {
     "daf-elem-did": "^7.0.0-beta.20"
