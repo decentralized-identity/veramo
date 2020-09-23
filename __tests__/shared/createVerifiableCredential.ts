@@ -40,5 +40,8 @@ export default (testContext: {
 
       expect(verifiableCredential).toHaveProperty('proof.jwt')
     })
+
+    it.todo('should save verifiable credential to the data store')
+    it.todo('should get verifiable credential from the data store')
   })
 }

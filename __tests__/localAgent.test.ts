@@ -29,6 +29,7 @@ import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
 import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
+import keyManager from './shared/keyManager'
 
 const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -129,4 +130,5 @@ describe('Local integration tests', () => {
   webDidFlow(testContext)
   saveClaims(testContext)
   documentationExamples(testContext)
+  keyManager(testContext)
 })

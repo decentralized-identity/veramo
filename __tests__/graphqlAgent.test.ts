@@ -34,6 +34,7 @@ import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
 import documentationExamples from './shared/documentationExamples'
+import keyManager from './shared/keyManager'
 
 const databaseFile = 'graphql-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -149,4 +150,5 @@ describe('GraphQL integration tests', () => {
   resolveDid(testContext)
   webDidFlow(testContext)
   documentationExamples(testContext)
+  keyManager(testContext)
 })

@@ -58,7 +58,7 @@ export class KeyManager implements IAgentPlugin {
   async keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey> {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
-    const key: IKey = { ...partialKey, kms: args.kms }
+    const key: IKey = { ...partialKey, kms: args.kms, meta: args.meta }
     await this.store.import(key)
     if (key.privateKeyHex) {
       delete key.privateKeyHex
