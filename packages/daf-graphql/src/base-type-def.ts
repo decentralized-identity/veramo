@@ -2,11 +2,15 @@ export const baseTypeDef = `
 type Query
 type Mutation
 
+scalar KeyMeta
+
 type Key {
   kid: String!
   kms: String!
   type: String!
-  publicKeyHex: String
+  publicKeyHex: String!
+  privateKeyHex: String
+  meta: KeyMeta
 }
 
 type Service {
