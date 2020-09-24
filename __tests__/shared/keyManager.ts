@@ -101,9 +101,93 @@ export default (testContext: {
       expect(key2).toHaveProperty('privateKeyHex')
       expect(key2.publicKeyHex).toEqual(key.publicKeyHex)
     })
-    it.todo('should delete key')
-    it.todo('should import key')
-    it.todo('should sign JWT')
-    it.todo('should sign EthTX')
+
+    it('should delete key', async () => {
+      const key = await agent.keyManagerCreateKey({
+        kms: 'local',
+        type: 'Secp256k1',
+      })
+
+      const result = await agent.keyManagerDeleteKey({
+        kid: key.kid,
+      })
+
+      expect(result).toEqual(true)
+
+      await expect(
+        agent.keyManagerGetKey({
+          kid: key.kid,
+        }),
+      ).rejects.toThrow('Key not found')
+
+      await expect(
+        agent.keyManagerDeleteKey({
+          kid: key.kid,
+        }),
+      ).rejects.toThrow('Key not found')
+    })
+
+    it('should import key', async () => {
+      const key = await agent.keyManagerCreateKey({
+        kms: 'local',
+        type: 'Secp256k1',
+        meta: {
+          foo: 'bar',
+        },
+      })
+
+      const fullKey = await agent.keyManagerGetKey({
+        kid: key.kid,
+      })
+
+      await agent.keyManagerDeleteKey({
+        kid: key.kid,
+      })
+
+      const result = await agent.keyManagerImportKey(fullKey)
+      expect(result).toEqual(true)
+
+      const key2 = await agent.keyManagerGetKey({
+        kid: key.kid,
+      })
+
+      expect(key2).toEqual(fullKey)
+    })
+
+    it('should sign JWT', async () => {
+      const key = await agent.keyManagerCreateKey({
+        kms: 'local',
+        type: 'Secp256k1',
+      })
+
+      const signature = await agent.keyManagerSignJWT({
+        kid: key.kid,
+        data: 'test',
+      })
+
+      expect(signature).toHaveProperty('r')
+      expect(signature).toHaveProperty('s')
+      expect(signature).toHaveProperty('recoveryParam')
+    })
+
+    it('should sign EthTX', async () => {
+      const key = await agent.keyManagerCreateKey({
+        kms: 'local',
+        type: 'Secp256k1',
+      })
+
+      const rawTx = await agent.keyManagerSignEthTX({
+        kid: key.kid,
+        transaction: {
+          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+          value: 300000,
+          gas: 43092000,
+          gasPrice: '20000000000',
+          nonce: 1,
+        },
+      })
+
+      expect(typeof rawTx).toEqual('string')
+    })
   })
 }
