@@ -1,7 +1,7 @@
 {
   "name": "daf-rest",
   "description": "DAF REST",
-  "version": "7.0.0-beta.23",
+  "version": "7.0.0-beta.24",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.5",
-    "daf-core": "^7.0.0-beta.23",
+    "daf-core": "^7.0.0-beta.24",
     "debug": "^4.1.1",
     "openapi-types": "^7.0.0"
   },

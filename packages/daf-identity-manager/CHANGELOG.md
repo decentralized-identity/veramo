@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.24](https://github.com/uport-project/daf/compare/v7.0.0-beta.23...v7.0.0-beta.24) (2020-09-25)
+
+
+### Features
+
+* Added identityManagerGetIdentityByAlias ([43d0817](https://github.com/uport-project/daf/commit/43d081761f68015b92554224e458853070f12be2))
+
+
+
+
+
 # [7.0.0-beta.23](https://github.com/uport-project/daf/compare/v7.0.0-beta.22...v7.0.0-beta.23) (2020-09-22)
 
 **Note:** Version bump only for package daf-identity-manager
