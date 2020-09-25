@@ -380,6 +380,22 @@ export interface IIdentityManagerGetIdentityArgs {
 }
 
 /**
+ * Input arguments for {@link IIdentityManager.identityManagerGetIdentityByAlias | identityManagerGetIdentityByAlias}
+ * @public
+ */
+export interface IIdentityManagerGetIdentityByAliasArgs {
+  /**
+   * Alias
+   */
+  alias: string
+
+  /**
+   * Optional provider
+   */
+  provider?: string
+}
+
+/**
  * Input arguments for {@link IIdentityManager.identityManagerDeleteIdentity | identityManagerDeleteIdentity}
  * @public
  */
@@ -547,14 +563,31 @@ export interface IIdentityManager extends IPluginMethodMap {
   identityManagerGetIdentity(args: IIdentityManagerGetIdentityArgs): Promise<IIdentity>
 
   /**
+   * Returns a specific identity by alias
+   *
+   * @param args - Required. Arguments to get the identity
+   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   *
+   * @example
+   * ```typescript
+   * const identity = await agent.identityManagerGetIdentityByAlias({
+   *   alias: 'alice',
+   *   provider: 'did:ethr:rinkeby'
+   * })
+   * ```
+   */
+  identityManagerGetIdentityByAlias(args: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity>
+
+  /**
    * Creates and returns a new identity
    *
-   * @param args - Required.  Arguments to create the identity
+   * @param args - Required. Arguments to create the identity
    * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
    *
    * @example
    * ```typescript
    * const identity = await agent.identityManagerCreateIdentity({
+   *   alias: 'alice',
    *   provider: 'did:ethr:rinkeby',
    *   kms: 'local'
    * })

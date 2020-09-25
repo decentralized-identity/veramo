@@ -30,6 +30,7 @@ import webDidFlow from './shared/webDidFlow'
 import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
+import identityManager from './shared/identityManager'
 
 const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -82,6 +83,13 @@ const setup = async (): Promise<boolean> => {
         store: new IdentityStore(dbConnection),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
+          'did:ethr': new EthrIdentityProvider({
+            defaultKms: 'local',
+            network: 'mainnet',
+            rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
+            gas: 1000001,
+            ttl: 60 * 60 * 24 * 30 * 12 + 1,
+          }),
           'did:ethr:rinkeby': new EthrIdentityProvider({
             defaultKms: 'local',
             network: 'rinkeby',
@@ -131,4 +139,5 @@ describe('Local integration tests', () => {
   saveClaims(testContext)
   documentationExamples(testContext)
   keyManager(testContext)
+  identityManager(testContext)
 })

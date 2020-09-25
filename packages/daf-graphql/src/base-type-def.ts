@@ -24,6 +24,7 @@ type Identity {
   did: String!
   provider: String
   alias: String
+  controllerKeyId: String
   keys: [Key]
   services: [Service]
 }

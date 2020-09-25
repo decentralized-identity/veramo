@@ -181,4 +181,18 @@ describe('daf-core', () => {
     expect(fromDb?.id).toEqual(customId)
     expect(fromDb?.type).toEqual('custom')
   })
+
+  it('enforces unique alias/provider for an identity', async () => {
+    const identity = new Identity()
+    identity.did = 'did:test:123'
+    identity.alias = 'test'
+    identity.provider = 'testProvider'
+    const id1Result = await identity.save()
+
+    const identity2 = new Identity()
+    identity2.did = 'did:test:456'
+    identity2.alias = 'test'
+    identity2.provider = 'testProvider'
+    await expect(identity2.save()).rejects.toThrowError()
+  })
 })

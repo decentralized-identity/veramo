@@ -7,6 +7,7 @@ import {
   ManyToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm'
 import { Key } from './key'
 import { Service } from './service'
@@ -17,6 +18,7 @@ import { Claim } from './claim'
 import { Connection } from 'typeorm'
 
 @Entity()
+@Index(['alias', 'provider'], { unique: true })
 export class Identity extends BaseEntity {
   @PrimaryColumn()
   //@ts-ignore

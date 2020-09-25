@@ -7,6 +7,7 @@ import {
   IKeyManager,
   IIdentityManagerGetIdentityArgs,
   IIdentityManagerCreateIdentityArgs,
+  IIdentityManagerGetIdentityByAliasArgs,
   IIdentityManagerGetOrCreateIdentityArgs,
   IIdentityManagerDeleteIdentityArgs,
   IIdentityManagerAddKeyArgs,
@@ -43,6 +44,7 @@ export class IdentityManager implements IAgentPlugin {
       identityManagerGetProviders: this.identityManagerGetProviders.bind(this),
       identityManagerGetIdentities: this.identityManagerGetIdentities.bind(this),
       identityManagerGetIdentity: this.identityManagerGetIdentity.bind(this),
+      identityManagerGetIdentityByAlias: this.identityManagerGetIdentityByAlias.bind(this),
       identityManagerCreateIdentity: this.identityManagerCreateIdentity.bind(this),
       identityManagerGetOrCreateIdentity: this.identityManagerGetOrCreateIdentity.bind(this),
       identityManagerImportIdentity: this.identityManagerImportIdentity.bind(this),
@@ -75,12 +77,30 @@ export class IdentityManager implements IAgentPlugin {
     return this.store.get({ did })
   }
 
+  /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetIdentityByAlias} */
+  async identityManagerGetIdentityByAlias({
+    alias,
+    provider,
+  }: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity> {
+    const providerName = provider || this.defaultProvider
+    return this.store.get({ alias, provider: providerName })
+  }
+
   /** {@inheritDoc daf-core#IIdentityManager.identityManagerCreateIdentity} */
   async identityManagerCreateIdentity(
     { provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity> {
     const providerName = provider || this.defaultProvider
+    if (alias !== undefined) {
+      let existingIdentity
+      try {
+        existingIdentity = await this.store.get({ alias, provider: providerName })
+      } catch (e) {}
+      if (existingIdentity) {
+        throw Error(`Identity with alias: ${alias}, provider: ${providerName} already exists`)
+      }
+    }
     const identityProvider = this.getProvider(providerName)
     const partialIdentity = await identityProvider.createIdentity({ kms, alias, options }, context)
     const identity: IIdentity = { ...partialIdentity, alias, provider: providerName }
@@ -94,7 +114,8 @@ export class IdentityManager implements IAgentPlugin {
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity> {
     try {
-      const identity = await this.store.get({ alias })
+      const providerName = provider || this.defaultProvider
+      const identity = await this.store.get({ alias, provider: providerName })
       return identity
     } catch {
       return this.identityManagerCreateIdentity({ provider, alias, kms, options }, context)

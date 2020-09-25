@@ -22,6 +22,7 @@ export const identityManagerGetIdentities: IAgentGraphQLMethod = {
         did
         provider
         alias
+        controllerKeyId
         keys {
           kid
           kms
@@ -52,6 +53,7 @@ export const identityManagerGetIdentity: IAgentGraphQLMethod = {
         did
         provider
         alias
+        controllerKeyId
         keys {
           kid
           kms
@@ -69,7 +71,38 @@ export const identityManagerGetIdentity: IAgentGraphQLMethod = {
   `,
   typeDef: `
     extend type Query {
-      identityManagerGetIdentity(did: String!): Identity
+      identityManagerGetIdentity(did: String!): Identity!
+    }
+  `,
+}
+
+export const identityManagerGetIdentityByAlias: IAgentGraphQLMethod = {
+  type: 'Query',
+  query: `
+    query identityManagerGetIdentityByAlias($alias: String!, $provider: String) {
+      identityManagerGetIdentityByAlias(alias: $alias, provider: $provider) {
+        did
+        provider
+        alias
+        controllerKeyId
+        keys {
+          kid
+          kms
+          type
+          publicKeyHex
+        }
+        services {
+          id
+          type
+          serviceEndpoint
+          description
+        }
+      }
+    }
+  `,
+  typeDef: `
+    extend type Query {
+      identityManagerGetIdentityByAlias(alias: String!, provider: String): Identity!
     }
   `,
 }
@@ -82,6 +115,7 @@ export const identityManagerGetOrCreateIdentity: IAgentGraphQLMethod = {
         did
         provider
         alias
+        controllerKeyId
         keys {
           kid
           kms
@@ -112,6 +146,7 @@ export const identityManagerCreateIdentity: IAgentGraphQLMethod = {
         did
         provider
         alias
+        controllerKeyId
         keys {
           kid
           kms
@@ -173,6 +208,7 @@ export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerGetProviders,
   identityManagerGetIdentities,
   identityManagerGetIdentity,
+  identityManagerGetIdentityByAlias,
   identityManagerCreateIdentity,
   identityManagerGetOrCreateIdentity,
   identityManagerDeleteIdentity,

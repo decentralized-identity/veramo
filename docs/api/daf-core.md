@@ -36,6 +36,7 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) | Input arguments for [identityManagerCreateIdentity](./daf-core.iidentitymanager.identitymanagercreateidentity.md) |
 |  [IIdentityManagerDeleteIdentityArgs](./daf-core.iidentitymanagerdeleteidentityargs.md) | Input arguments for [identityManagerDeleteIdentity](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md) |
 |  [IIdentityManagerGetIdentityArgs](./daf-core.iidentitymanagergetidentityargs.md) | Input arguments for [identityManagerGetIdentity](./daf-core.iidentitymanager.identitymanagergetidentity.md) |
+|  [IIdentityManagerGetIdentityByAliasArgs](./daf-core.iidentitymanagergetidentitybyaliasargs.md) | Input arguments for [identityManagerGetIdentityByAlias](./daf-core.iidentitymanager.identitymanagergetidentitybyalias.md) |
 |  [IIdentityManagerGetOrCreateIdentityArgs](./daf-core.iidentitymanagergetorcreateidentityargs.md) | Input arguments for [identityManagerGetOrCreateIdentity](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) |
 |  [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md) | Input arguments for [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) |
 |  [IIdentityManagerRemoveServiceArgs](./daf-core.iidentitymanagerremoveserviceargs.md) | Input arguments for [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) |

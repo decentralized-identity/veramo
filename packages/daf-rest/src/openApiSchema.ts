@@ -395,6 +395,24 @@ export const openApiSchema: OpenAPIV3.Document = {
         "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentity | identityManagerGetIdentity}"
       },
+      "IIdentityManagerGetIdentityByAliasArgs": {
+        "type": "object",
+        "properties": {
+          "alias": {
+            "type": "string",
+            "description": "Alias"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Optional provider"
+          }
+        },
+        "required": [
+          "alias"
+        ],
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentityByAlias | identityManagerGetIdentityByAlias}"
+      },
       "IIdentityManagerGetOrCreateIdentityArgs": {
         "type": "object",
         "properties": {
@@ -1993,6 +2011,33 @@ export const openApiSchema: OpenAPIV3.Document = {
         "responses": {
           "200": {
             "description": "Returns a specific identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IIdentity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/identityManagerGetIdentityByAlias": {
+      "post": {
+        "description": "Returns a specific identity by alias",
+        "operationId": "identityManagerGetIdentityByAlias",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerGetIdentityByAliasArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a specific identity by alias",
             "content": {
               "application/json": {
                 "schema": {

@@ -189,5 +189,36 @@ export default (testContext: {
 
       expect(typeof rawTx).toEqual('string')
     })
+
+    it.todo('Should Encrypt/Decrypt')
+    // it('Should Encrypt/Decrypt', async () => {
+    // const message = 'foo bar'
+
+    // const senderKey = await agent.keyManagerCreateKey({
+    //   kms: 'local',
+    //   type: 'Ed25519',
+    // })
+
+    // const recipientKey = await agent.keyManagerCreateKey({
+    //   kms: 'local',
+    //   type: 'Ed25519',
+    // })
+
+    // const encrypted = await agent.keyManagerEncryptJWE({
+    //   kid: senderKey.kid,
+    //   to: recipientKey,
+    //   data: message
+    // })
+
+    // expect(typeof encrypted).toEqual('string')
+
+    // const decrypted = await agent.keyManagerDecryptJWE({
+    //   kid: recipientKey.kid,
+    //   data: encrypted
+    // })
+
+    // expect(decrypted).toEqual(message)
+
+    // })
   })
 }

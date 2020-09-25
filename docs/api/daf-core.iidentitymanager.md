@@ -23,6 +23,7 @@ export interface IIdentityManager extends IPluginMethodMap
 |  [identityManagerDeleteIdentity(args, context)](./daf-core.iidentitymanager.identitymanagerdeleteidentity.md) | Deletes identity |
 |  [identityManagerGetIdentities()](./daf-core.iidentitymanager.identitymanagergetidentities.md) | Returns a list of managed identities |
 |  [identityManagerGetIdentity(args)](./daf-core.iidentitymanager.identitymanagergetidentity.md) | Returns a specific identity |
+|  [identityManagerGetIdentityByAlias(args)](./daf-core.iidentitymanager.identitymanagergetidentitybyalias.md) | Returns a specific identity by alias |
 |  [identityManagerGetOrCreateIdentity(args, context)](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) | Returns an existing identity or creates a new one for a specific alias |
 |  [identityManagerGetProviders()](./daf-core.iidentitymanager.identitymanagergetproviders.md) | Returns a list of available identity providers |
 |  [identityManagerImportIdentity(args)](./daf-core.iidentitymanager.identitymanagerimportidentity.md) | Imports identity |

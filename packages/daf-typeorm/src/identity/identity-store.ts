@@ -13,14 +13,14 @@ export class IdentityStore extends AbstractIdentityStore {
     super()
   }
 
-  async get({ did, alias }: { did: string; alias: string }): Promise<IIdentity> {
+  async get({ did, alias, provider }: { did: string; alias: string; provider: string }): Promise<IIdentity> {
     let where = {}
     if (did !== undefined && alias === undefined) {
       where = { did }
-    } else if (did === undefined && alias !== undefined) {
-      where = { alias }
+    } else if (did === undefined && alias !== undefined && provider !== undefined) {
+      where = { alias, provider }
     } else {
-      throw Error('[daf:typeorm:identity-store] Get requires did or alias')
+      throw Error('[daf:typeorm:identity-store] Get requires did or (alias and provider)')
     }
 
     const identity = await (await this.dbConnection).getRepository(Identity).findOne({

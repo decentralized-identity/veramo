@@ -7,9 +7,10 @@
 <b>Signature:</b>
 
 ```typescript
-get({ did, alias }: {
+get({ did, alias, provider }: {
         did: string;
         alias: string;
+        provider: string;
     }): Promise<IIdentity>;
 ```
 
@@ -17,7 +18,7 @@ get({ did, alias }: {
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { did, alias } | { did: string; alias: string; } |  |
+|  { did, alias, provider } | { did: string; alias: string; provider: string; } |  |
 
 <b>Returns:</b>
 

@@ -85,6 +85,7 @@ export interface IIdentityManager extends IPluginMethodMap {
     identityManagerDeleteIdentity(args: IIdentityManagerDeleteIdentityArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
     identityManagerGetIdentities(): Promise<Array<IIdentity>>;
     identityManagerGetIdentity(args: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
+    identityManagerGetIdentityByAlias(args: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity>;
     identityManagerGetOrCreateIdentity(args: IIdentityManagerGetOrCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
     identityManagerGetProviders(): Promise<Array<string>>;
     identityManagerImportIdentity(args: IIdentity): Promise<IIdentity>;
@@ -122,6 +123,12 @@ export interface IIdentityManagerDeleteIdentityArgs {
 // @public
 export interface IIdentityManagerGetIdentityArgs {
     did: string;
+}
+
+// @public
+export interface IIdentityManagerGetIdentityByAliasArgs {
+    alias: string;
+    provider?: string;
 }
 
 // @public

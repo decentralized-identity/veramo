@@ -49,6 +49,7 @@ Creates and returns a new identity
 
 ```typescript
 const identity = await agent.identityManagerCreateIdentity({
+  alias: 'alice',
   provider: 'did:ethr:rinkeby',
   kms: 'local'
 })
@@ -68,6 +69,17 @@ Returns a list of managed identities
 
 Returns a specific identity
 
+
+### [identityManagerGetIdentityByAlias](./api/daf-core.iidentitymanager.identitymanagergetidentitybyalias.md)
+
+Returns a specific identity by alias
+
+```typescript
+const identity = await agent.identityManagerGetIdentityByAlias({
+  alias: 'alice',
+  provider: 'did:ethr:rinkeby'
+})
+```
 
 ### [identityManagerGetOrCreateIdentity](./api/daf-core.iidentitymanager.identitymanagergetorcreateidentity.md)
 

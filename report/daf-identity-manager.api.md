@@ -13,6 +13,7 @@ import { IIdentityManagerAddServiceArgs } from 'daf-core';
 import { IIdentityManagerCreateIdentityArgs } from 'daf-core';
 import { IIdentityManagerDeleteIdentityArgs } from 'daf-core';
 import { IIdentityManagerGetIdentityArgs } from 'daf-core';
+import { IIdentityManagerGetIdentityByAliasArgs } from 'daf-core';
 import { IIdentityManagerGetOrCreateIdentityArgs } from 'daf-core';
 import { IIdentityManagerRemoveKeyArgs } from 'daf-core';
 import { IIdentityManagerRemoveServiceArgs } from 'daf-core';
@@ -69,6 +70,7 @@ export abstract class AbstractIdentityStore {
     // (undocumented)
     abstract get(args: {
         alias: string;
+        provider: string;
     }): Promise<IIdentity>;
     // (undocumented)
     abstract import(args: IIdentity): Promise<boolean>;
@@ -95,6 +97,8 @@ export class IdentityManager implements IAgentPlugin {
     identityManagerGetIdentities(): Promise<IIdentity[]>;
     // (undocumented)
     identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
+    // (undocumented)
+    identityManagerGetIdentityByAlias({ alias, provider }: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity>;
     // (undocumented)
     identityManagerGetOrCreateIdentity({ provider, alias, kms, options }: IIdentityManagerGetOrCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
     // (undocumented)
