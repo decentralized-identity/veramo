@@ -118,11 +118,130 @@ export default (testContext: {
       expect(rinkebyIdentities2.length).toEqual(2)
     })
 
+    it('should delete identity', async () => {
+      const allIdentities = await agent.identityManagerGetIdentities()
+      const count = allIdentities.length
+
+      const result = await agent.identityManagerDeleteIdentity({
+        did: allIdentities[0].did,
+      })
+
+      expect(result).toEqual(true)
+
+      const allIdentities2 = await agent.identityManagerGetIdentities()
+      expect(allIdentities2.length).toEqual(count - 1)
+
+      await expect(
+        agent.identityManagerGetIdentity({
+          did: allIdentities[0].did,
+        }),
+      ).rejects.toThrow('Identity not found')
+    })
+
+    it('should add service to identity', async () => {
+      const webIdentity = await agent.identityManagerGetOrCreateIdentity({
+        alias: 'foobar.com',
+        provider: 'did:web',
+      })
+
+      expect(webIdentity.services.length).toEqual(0)
+
+      const result = await agent.identityManagerAddService({
+        did: webIdentity.did,
+        service: {
+          id: 'did:web:foobar.com#msg',
+          type: 'Messaging',
+          serviceEndpoint: 'https://foobar.com/messaging',
+          description: 'Handles incoming messages',
+        },
+      })
+      expect(result).toEqual(true)
+
+      const webIdentity2 = await agent.identityManagerGetOrCreateIdentity({
+        alias: 'foobar.com',
+        provider: 'did:web',
+      })
+
+      expect(webIdentity2.services.length).toEqual(1)
+      expect(webIdentity2.services[0]).toEqual({
+        id: 'did:web:foobar.com#msg',
+        type: 'Messaging',
+        serviceEndpoint: 'https://foobar.com/messaging',
+        description: 'Handles incoming messages',
+      })
+    })
+
+    it('should remove service from identity', async () => {
+      const result = await agent.identityManagerRemoveService({
+        did: 'did:web:foobar.com',
+        id: 'did:web:foobar.com#msg',
+      })
+
+      expect(result).toEqual(true)
+
+      const webIdentity = await agent.identityManagerGetOrCreateIdentity({
+        alias: 'foobar.com',
+        provider: 'did:web',
+      })
+
+      expect(webIdentity.services.length).toEqual(0)
+    })
+
+    it('should add key to identity', async () => {
+      const webIdentity = await agent.identityManagerGetOrCreateIdentity({
+        alias: 'foobar.com',
+        provider: 'did:web',
+      })
+
+      expect(webIdentity.keys.length).toEqual(1)
+
+      const newKey = await agent.keyManagerCreateKey({
+        kms: 'local',
+        type: 'Secp256k1',
+      })
+
+      const result = await agent.identityManagerAddKey({
+        did: webIdentity.did,
+        key: newKey,
+      })
+
+      expect(result).toEqual(true)
+
+      const webIdentity2 = await agent.identityManagerGetOrCreateIdentity({
+        alias: 'foobar.com',
+        provider: 'did:web',
+      })
+
+      expect(webIdentity2.keys.length).toEqual(2)
+    })
+
+    it('should remove key from identity', async () => {
+      const webIdentity = await agent.identityManagerGetIdentity({
+        did: 'did:web:foobar.com',
+      })
+
+      expect(webIdentity.keys.length).toEqual(2)
+
+      const result = await agent.identityManagerRemoveKey({
+        did: 'did:web:foobar.com',
+        kid: webIdentity.keys[1].kid,
+      })
+
+      expect(result).toEqual(true)
+
+      const webIdentity2 = await agent.identityManagerGetIdentity({
+        did: 'did:web:foobar.com',
+      })
+
+      expect(webIdentity2.keys.length).toEqual(1)
+      expect(webIdentity2.keys[0].kid).toEqual(webIdentity.keys[0].kid)
+    })
+
     it.todo('should import identity')
-    it.todo('should delete identity')
-    it.todo('should add key to identity')
-    it.todo('should remove key from identity')
-    it.todo('should add service to identity')
-    it.todo('should remove service from identity')
+
+    it.todo('should add key for did:ethr')
+    it.todo('should remove key for did:ethr')
+    it.todo('should add service for did:ethr')
+    it.todo('should remove service for did:ethr')
   })
 }

@@ -13,7 +13,23 @@ type Key {
   meta: KeyMeta
 }
 
+input KeyInput {
+  kid: String!
+  kms: String!
+  type: String!
+  publicKeyHex: String!
+  privateKeyHex: String
+  meta: KeyMeta
+}
+
 type Service {
+  id: String!
+  type: String!
+  serviceEndpoint: String!
+  description: String
+}
+
+input ServiceInput {
   id: String!
   type: String!
   serviceEndpoint: String!

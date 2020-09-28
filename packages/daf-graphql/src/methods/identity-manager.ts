@@ -173,7 +173,7 @@ export const identityManagerDeleteIdentity: IAgentGraphQLMethod = {
   type: 'Mutation',
   query: `
     mutation identityManagerDeleteIdentity($did: String!) {
-      deleteIdentity(did: $did) 
+      identityManagerDeleteIdentity(did: $did) 
     }
   `,
   typeDef: `
@@ -186,20 +186,61 @@ export const identityManagerDeleteIdentity: IAgentGraphQLMethod = {
 export const identityManagerAddService: IAgentGraphQLMethod = {
   type: 'Mutation',
   query: `
-    mutation identityManagerAddService($did: String, $service: ServiceInput) {
-      identityManagerAddService(did: $did, service: $service) 
+    mutation identityManagerAddService($did: String!, $service: ServiceInput!, $options: AddServiceOptions) {
+      identityManagerAddService(did: $did, service: $service, options: $options) 
     }
   `,
   typeDef: `
     scalar AddServiceResult
-    input ServiceInput {
-      id: String!
-      type: String!
-      serviceEndpoint: String!
-      description: String
-    }
+    scalar AddServiceOptions
     extend type Mutation {
-      identityManagerAddService(did: String, service: ServiceInput): AddServiceResult
+      identityManagerAddService(did: String, service: ServiceInput, options: AddServiceOptions): AddServiceResult
+    }
+  `,
+}
+
+export const identityManagerRemoveService: IAgentGraphQLMethod = {
+  type: 'Mutation',
+  query: `
+    mutation identityManagerRemoveService($did: String!, $id: String!, $options: RemoveServiceOptions) {
+      identityManagerRemoveService(did: $did, id: $id, options: $options) 
+    }
+  `,
+  typeDef: `
+  scalar RemoveServiceOptions
+  extend type Mutation {
+      identityManagerRemoveService(did: String!, id: String!, options: RemoveServiceOptions): Boolean!
+    }
+  `,
+}
+
+export const identityManagerAddKey: IAgentGraphQLMethod = {
+  type: 'Mutation',
+  query: `
+    mutation identityManagerAddKey($did: String!, $key: KeyInput!, $options: AddKeyOptions) {
+      identityManagerAddKey(did: $did, key: $key, options: $options) 
+    }
+  `,
+  typeDef: `
+    scalar AddKeyResult
+    scalar AddKeyOptions
+    extend type Mutation {
+      identityManagerAddKey(did: String!, key: KeyInput!, options: AddKeyOptions): AddKeyResult
+    }
+  `,
+}
+
+export const identityManagerRemoveKey: IAgentGraphQLMethod = {
+  type: 'Mutation',
+  query: `
+    mutation identityManagerRemoveKey($did: String!, $kid: String!, $options: RemoveKeyOptions) {
+      identityManagerRemoveKey(did: $did, kid: $kid, options: $options) 
+    }
+  `,
+  typeDef: `
+    scalar RemoveKeyOptions
+    extend type Mutation {
+      identityManagerRemoveKey(did: String!, kid: String!, options: RemoveKeyOptions): Boolean!
     }
   `,
 }
@@ -213,6 +254,9 @@ export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerGetOrCreateIdentity,
   identityManagerDeleteIdentity,
   identityManagerAddService,
+  identityManagerRemoveService,
+  identityManagerAddKey,
+  identityManagerRemoveKey,
   // TODO identityManagerImportIdentity
 }
 
