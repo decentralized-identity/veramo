@@ -381,6 +381,21 @@ export const openApiSchema: OpenAPIV3.Document = {
         "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerDeleteIdentity | identityManagerDeleteIdentity}"
       },
+      "IIdentityManagerGetIdentitiesArgs": {
+        "type": "object",
+        "properties": {
+          "alias": {
+            "type": "string",
+            "description": "Optional. Alias"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Optional. Provider"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentities | identityManagerGetIdentities}"
+      },
       "IIdentityManagerGetIdentityArgs": {
         "type": "object",
         "properties": {
@@ -1974,7 +1989,9 @@ export const openApiSchema: OpenAPIV3.Document = {
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {}
+              "schema": {
+                "$ref": "#/components/schemas/IIdentityManagerGetIdentitiesArgs"
+              }
             }
           }
         },

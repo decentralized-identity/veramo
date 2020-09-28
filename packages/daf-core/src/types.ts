@@ -380,6 +380,22 @@ export interface IIdentityManagerGetIdentityArgs {
 }
 
 /**
+ * Input arguments for {@link IIdentityManager.identityManagerGetIdentities | identityManagerGetIdentities}
+ * @public
+ */
+export interface IIdentityManagerGetIdentitiesArgs {
+  /**
+   * Optional. Alias
+   */
+  alias?: string
+
+  /**
+   * Optional. Provider
+   */
+  provider?: string
+}
+
+/**
  * Input arguments for {@link IIdentityManager.identityManagerGetIdentityByAlias | identityManagerGetIdentityByAlias}
  * @public
  */
@@ -554,8 +570,22 @@ export interface IIdentityManager extends IPluginMethodMap {
 
   /**
    * Returns a list of managed identities
+   *
+   * @param args - Required. Arguments to get the list of identities
+   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   *
+   * @example
+   * ```typescript
+   * const aliceIdentities = await agent.identityManagerGetIdentities({
+   *   alias: 'alice'
+   * })
+   *
+   * const rinkebyIdentities = await agent.identityManagerGetIdentities({
+   *   provider: 'did:ethr:rinkeby'
+   * })
+   * ```
    */
-  identityManagerGetIdentities(): Promise<Array<IIdentity>>
+  identityManagerGetIdentities(args: IIdentityManagerGetIdentitiesArgs): Promise<Array<IIdentity>>
 
   /**
    * Returns a specific identity

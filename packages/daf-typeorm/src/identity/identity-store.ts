@@ -87,9 +87,13 @@ export class IdentityStore extends AbstractIdentityStore {
     return true
   }
 
-  async list(): Promise<IIdentity[]> {
+  async list(args: { alias?: string; provider?: string }): Promise<IIdentity[]> {
+    const where: any = { provider: args?.provider || Not(IsNull()) }
+    if (args?.alias) {
+      where['alias'] = args.alias
+    }
     const identities = await (await this.dbConnection).getRepository(Identity).find({
-      where: [{ provider: Not(IsNull()) }],
+      where,
       relations: ['keys', 'services'],
     })
     return identities

@@ -7,8 +7,18 @@
 <b>Signature:</b>
 
 ```typescript
-list(): Promise<IIdentity[]>;
+list(args: {
+        alias?: string;
+        provider?: string;
+    }): Promise<IIdentity[]>;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | { alias?: string; provider?: string; } |  |
+
 <b>Returns:</b>
 
 Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->\[\]&gt;

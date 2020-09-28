@@ -56,6 +56,16 @@ export default (testContext: {
       })
     })
 
+    it('daf-core-IIdentityManager-identityManagerGetIdentities example', async () => {
+      const aliceIdentities = await agent.identityManagerGetIdentities({
+        alias: 'alice',
+      })
+
+      const rinkebyIdentities = await agent.identityManagerGetIdentities({
+        provider: 'did:ethr:rinkeby',
+      })
+    })
+
     it('daf-core-IIdentityManager-identityManagerGetIdentityByAlias example', async () => {
       const identity = await agent.identityManagerGetIdentityByAlias({
         alias: 'alice',

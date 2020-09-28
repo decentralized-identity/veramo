@@ -12,6 +12,7 @@ import { IIdentityManagerAddKeyArgs } from 'daf-core';
 import { IIdentityManagerAddServiceArgs } from 'daf-core';
 import { IIdentityManagerCreateIdentityArgs } from 'daf-core';
 import { IIdentityManagerDeleteIdentityArgs } from 'daf-core';
+import { IIdentityManagerGetIdentitiesArgs } from 'daf-core';
 import { IIdentityManagerGetIdentityArgs } from 'daf-core';
 import { IIdentityManagerGetIdentityByAliasArgs } from 'daf-core';
 import { IIdentityManagerGetOrCreateIdentityArgs } from 'daf-core';
@@ -75,7 +76,10 @@ export abstract class AbstractIdentityStore {
     // (undocumented)
     abstract import(args: IIdentity): Promise<boolean>;
     // (undocumented)
-    abstract list(): Promise<IIdentity[]>;
+    abstract list(args: {
+        alias?: string;
+        provider?: string;
+    }): Promise<IIdentity[]>;
 }
 
 // @public
@@ -90,15 +94,15 @@ export class IdentityManager implements IAgentPlugin {
     // (undocumented)
     identityManagerAddService({ did, service, options }: IIdentityManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)
-    identityManagerCreateIdentity({ provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
+    identityManagerCreateIdentity(args: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
     // (undocumented)
     identityManagerDeleteIdentity({ did }: IIdentityManagerDeleteIdentityArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
     // (undocumented)
-    identityManagerGetIdentities(): Promise<IIdentity[]>;
+    identityManagerGetIdentities(args: IIdentityManagerGetIdentitiesArgs): Promise<IIdentity[]>;
     // (undocumented)
     identityManagerGetIdentity({ did }: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
     // (undocumented)
-    identityManagerGetIdentityByAlias({ alias, provider }: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity>;
+    identityManagerGetIdentityByAlias({ alias, provider, }: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity>;
     // (undocumented)
     identityManagerGetOrCreateIdentity({ provider, alias, kms, options }: IIdentityManagerGetOrCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
     // (undocumented)

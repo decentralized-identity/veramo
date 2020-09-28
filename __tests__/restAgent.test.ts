@@ -7,24 +7,35 @@ import {
   IKeyManager,
   IDataStore,
   IMessageHandler,
-} from 'daf-core'
-import { MessageHandler } from 'daf-message-handler'
-import { KeyManager } from 'daf-key-manager'
-import { IdentityManager } from 'daf-identity-manager'
+} from '../packages/daf-core'
+import { MessageHandler } from '../packages/daf-message-handler'
+import { KeyManager } from '../packages/daf-key-manager'
+import { IdentityManager } from '../packages/daf-identity-manager'
 import { createConnection, Connection } from 'typeorm'
-import { DafResolver } from 'daf-resolver'
-import { JwtMessageHandler } from 'daf-did-jwt'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from 'daf-w3c'
-import { EthrIdentityProvider } from 'daf-ethr-did'
-import { WebIdentityProvider } from 'daf-web-did'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from 'daf-did-comm'
-import { SelectiveDisclosure, ISelectiveDisclosure, SdrMessageHandler } from 'daf-selective-disclosure'
-import { KeyManagementSystem, SecretBox } from 'daf-libsodium'
-import { Entities, KeyStore, IdentityStore, IDataStoreORM, DataStore, DataStoreORM } from 'daf-typeorm'
-import { AgentRestClient, supportedMethods } from 'daf-rest'
+import { DafResolver } from '../packages/daf-resolver'
+import { JwtMessageHandler } from '../packages/daf-did-jwt'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c'
+import { EthrIdentityProvider } from '../packages/daf-ethr-did'
+import { WebIdentityProvider } from '../packages/daf-web-did'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/daf-did-comm'
+import {
+  SelectiveDisclosure,
+  ISelectiveDisclosure,
+  SdrMessageHandler,
+} from '../packages/daf-selective-disclosure'
+import { KeyManagementSystem, SecretBox } from '../packages/daf-libsodium'
+import {
+  Entities,
+  KeyStore,
+  IdentityStore,
+  IDataStoreORM,
+  DataStore,
+  DataStoreORM,
+} from '../packages/daf-typeorm'
+import { AgentRestClient, supportedMethods } from '../packages/daf-rest'
 import express from 'express'
 import { Server } from 'http'
-import { AgentRouter } from 'daf-express'
+import { AgentRouter } from '../packages/daf-express'
 import fs from 'fs'
 
 // Shared tests

@@ -20,5 +20,5 @@ export declare abstract class AbstractIdentityStore
 |  [get(args)](./daf-identity-manager.abstractidentitystore.get.md) |  |  |
 |  [get(args)](./daf-identity-manager.abstractidentitystore.get_1.md) |  |  |
 |  [import(args)](./daf-identity-manager.abstractidentitystore.import.md) |  |  |
-|  [list()](./daf-identity-manager.abstractidentitystore.list.md) |  |  |
+|  [list(args)](./daf-identity-manager.abstractidentitystore.list.md) |  |  |
 

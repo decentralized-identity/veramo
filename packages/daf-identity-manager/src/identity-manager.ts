@@ -14,6 +14,7 @@ import {
   IIdentityManagerRemoveKeyArgs,
   IIdentityManagerAddServiceArgs,
   IIdentityManagerRemoveServiceArgs,
+  IIdentityManagerGetIdentitiesArgs,
 } from 'daf-core'
 import { AbstractIdentityStore } from './abstract-identity-store'
 
@@ -68,8 +69,8 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetIdentities} */
-  async identityManagerGetIdentities(): Promise<IIdentity[]> {
-    return this.store.list()
+  async identityManagerGetIdentities(args: IIdentityManagerGetIdentitiesArgs): Promise<IIdentity[]> {
+    return this.store.list(args)
   }
 
   /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetIdentity} */
@@ -88,22 +89,25 @@ export class IdentityManager implements IAgentPlugin {
 
   /** {@inheritDoc daf-core#IIdentityManager.identityManagerCreateIdentity} */
   async identityManagerCreateIdentity(
-    { provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs,
+    args: IIdentityManagerCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity> {
-    const providerName = provider || this.defaultProvider
-    if (alias !== undefined) {
+    const providerName = args?.provider || this.defaultProvider
+    if (args?.alias !== undefined) {
       let existingIdentity
       try {
-        existingIdentity = await this.store.get({ alias, provider: providerName })
+        existingIdentity = await this.store.get({ alias: args.alias, provider: providerName })
       } catch (e) {}
       if (existingIdentity) {
-        throw Error(`Identity with alias: ${alias}, provider: ${providerName} already exists`)
+        throw Error(`Identity with alias: ${args.alias}, provider: ${providerName} already exists`)
       }
     }
     const identityProvider = this.getProvider(providerName)
-    const partialIdentity = await identityProvider.createIdentity({ kms, alias, options }, context)
-    const identity: IIdentity = { ...partialIdentity, alias, provider: providerName }
+    const partialIdentity = await identityProvider.createIdentity(
+      { kms: args?.kms, alias: args?.alias, options: args?.options },
+      context,
+    )
+    const identity: IIdentity = { ...partialIdentity, alias: args?.alias, provider: providerName }
     await this.store.import(identity)
     return identity
   }

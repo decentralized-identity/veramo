@@ -9,14 +9,14 @@ Creates and returns a new identity
 <b>Signature:</b>
 
 ```typescript
-identityManagerCreateIdentity({ provider, alias, kms, options }: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
+identityManagerCreateIdentity(args: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { provider, alias, kms, options } | [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) |  |
+|  args | [IIdentityManagerCreateIdentityArgs](./daf-core.iidentitymanagercreateidentityargs.md) | Required. Arguments to create the identity |
 |  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; | <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires <code>agent</code> that has [IKeyManager](./daf-core.ikeymanager.md) methods |
 
 <b>Returns:</b>

@@ -9,9 +9,30 @@ Returns a list of managed identities
 <b>Signature:</b>
 
 ```typescript
-identityManagerGetIdentities(): Promise<Array<IIdentity>>;
+identityManagerGetIdentities(args: IIdentityManagerGetIdentitiesArgs): Promise<Array<IIdentity>>;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IIdentityManagerGetIdentitiesArgs](./daf-core.iidentitymanagergetidentitiesargs.md) | Required. Arguments to get the list of identities |
+
 <b>Returns:</b>
 
 Promise&lt;Array&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->&gt;&gt;
+
+## Example
+
+
+```typescript
+const aliceIdentities = await agent.identityManagerGetIdentities({
+  alias: 'alice'
+})
+
+const rinkebyIdentities = await agent.identityManagerGetIdentities({
+  provider: 'did:ethr:rinkeby'
+})
+
+```
 

@@ -95,7 +95,29 @@ export default (testContext: {
       expect(identity7).toEqual(identity4)
     })
 
-    it.todo('should get identities')
+    it('should get identities', async () => {
+      const allIdentities = await agent.identityManagerGetIdentities()
+      expect(allIdentities.length).toEqual(3)
+
+      const aliceIdentities = await agent.identityManagerGetIdentities({
+        alias: 'alice',
+      })
+      expect(aliceIdentities.length).toEqual(2)
+
+      const rinkebyIdentities = await agent.identityManagerGetIdentities({
+        provider: 'did:ethr:rinkeby',
+      })
+      expect(rinkebyIdentities.length).toEqual(1)
+
+      // Default provider 'did:ethr:rinkeby'
+      await agent.identityManagerCreateIdentity()
+
+      const rinkebyIdentities2 = await agent.identityManagerGetIdentities({
+        provider: 'did:ethr:rinkeby',
+      })
+      expect(rinkebyIdentities2.length).toEqual(2)
+    })
+
     it.todo('should import identity')
     it.todo('should delete identity')
     it.todo('should add key to identity')

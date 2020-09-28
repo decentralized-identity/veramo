@@ -24,5 +24,5 @@ export declare class IdentityStore extends AbstractIdentityStore
 |  [delete({ did })](./daf-typeorm.identitystore.delete.md) |  |  |
 |  [get({ did, alias, provider })](./daf-typeorm.identitystore.get.md) |  |  |
 |  [import(args)](./daf-typeorm.identitystore.import.md) |  |  |
-|  [list()](./daf-typeorm.identitystore.list.md) |  |  |
+|  [list(args)](./daf-typeorm.identitystore.list.md) |  |  |
 

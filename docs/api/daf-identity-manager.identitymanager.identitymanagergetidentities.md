@@ -9,8 +9,15 @@ Returns a list of managed identities
 <b>Signature:</b>
 
 ```typescript
-identityManagerGetIdentities(): Promise<IIdentity[]>;
+identityManagerGetIdentities(args: IIdentityManagerGetIdentitiesArgs): Promise<IIdentity[]>;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  args | [IIdentityManagerGetIdentitiesArgs](./daf-core.iidentitymanagergetidentitiesargs.md) | Required. Arguments to get the list of identities |
+
 <b>Returns:</b>
 
 Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->\[\]&gt;

@@ -17,8 +17,8 @@ export const identityManagerGetProviders: IAgentGraphQLMethod = {
 export const identityManagerGetIdentities: IAgentGraphQLMethod = {
   type: 'Query',
   query: `
-    query identityManagerGetIdentities {
-      identityManagerGetIdentities{
+    query identityManagerGetIdentities($alias: String, $provider: String) {
+      identityManagerGetIdentities(alias: $alias, provider: $provider){
         did
         provider
         alias
@@ -40,7 +40,7 @@ export const identityManagerGetIdentities: IAgentGraphQLMethod = {
   `,
   typeDef: `
     extend type Query {
-      identityManagerGetIdentities: [Identity]
+      identityManagerGetIdentities(alias: String, provider: String): [Identity]
     }
   `,
 }

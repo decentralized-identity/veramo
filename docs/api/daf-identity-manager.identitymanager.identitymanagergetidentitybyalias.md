@@ -9,14 +9,14 @@ Returns a specific identity by alias
 <b>Signature:</b>
 
 ```typescript
-identityManagerGetIdentityByAlias({ alias, provider }: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity>;
+identityManagerGetIdentityByAlias({ alias, provider, }: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { alias, provider } | [IIdentityManagerGetIdentityByAliasArgs](./daf-core.iidentitymanagergetidentitybyaliasargs.md) |  |
+|  { alias, provider, } | [IIdentityManagerGetIdentityByAliasArgs](./daf-core.iidentitymanagergetidentitybyaliasargs.md) |  |
 
 <b>Returns:</b>
 

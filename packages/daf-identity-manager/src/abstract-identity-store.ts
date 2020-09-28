@@ -9,5 +9,5 @@ export abstract class AbstractIdentityStore {
   abstract get(args: { did: string }): Promise<IIdentity>
   abstract get(args: { alias: string; provider: string }): Promise<IIdentity>
   abstract delete(args: { did: string }): Promise<boolean>
-  abstract list(): Promise<IIdentity[]>
+  abstract list(args: { alias?: string; provider?: string }): Promise<IIdentity[]>
 }

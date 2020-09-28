@@ -64,6 +64,15 @@ Deletes identity
 
 Returns a list of managed identities
 
+```typescript
+const aliceIdentities = await agent.identityManagerGetIdentities({
+  alias: 'alice'
+})
+
+const rinkebyIdentities = await agent.identityManagerGetIdentities({
+  provider: 'did:ethr:rinkeby'
+})
+```
 
 ### [identityManagerGetIdentity](./api/daf-core.iidentitymanager.identitymanagergetidentity.md)
 
