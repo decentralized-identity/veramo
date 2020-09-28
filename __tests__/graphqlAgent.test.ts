@@ -8,23 +8,23 @@ import {
   IKeyManager,
   IDataStore,
   IMessageHandler,
-} from '../packages/daf-core'
-import { MessageHandler } from '../packages/daf-message-handler'
-import { KeyManager } from '../packages/daf-key-manager'
-import { IdentityManager } from '../packages/daf-identity-manager'
+} from '../packages/daf-core/src'
+import { MessageHandler } from '../packages/daf-message-handler/src'
+import { KeyManager } from '../packages/daf-key-manager/src'
+import { IdentityManager } from '../packages/daf-identity-manager/src'
 import { createConnection, Connection } from 'typeorm'
-import { DafResolver } from '../packages/daf-resolver'
-import { JwtMessageHandler } from '../packages/daf-did-jwt'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c'
-import { EthrIdentityProvider } from '../packages/daf-ethr-did'
-import { WebIdentityProvider } from '../packages/daf-web-did'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/daf-did-comm'
+import { DafResolver } from '../packages/daf-resolver/src'
+import { JwtMessageHandler } from '../packages/daf-did-jwt/src'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c/src'
+import { EthrIdentityProvider } from '../packages/daf-ethr-did/src'
+import { WebIdentityProvider } from '../packages/daf-web-did/src'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/daf-did-comm/src'
 import {
   SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
-} from '../packages/daf-selective-disclosure'
-import { KeyManagementSystem, SecretBox } from '../packages/daf-libsodium'
+} from '../packages/daf-selective-disclosure/src'
+import { KeyManagementSystem, SecretBox } from '../packages/daf-libsodium/src'
 import {
   Entities,
   KeyStore,
@@ -32,11 +32,11 @@ import {
   IDataStoreORM,
   DataStore,
   DataStoreORM,
-} from '../packages/daf-typeorm'
+} from '../packages/daf-typeorm/src'
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import { Server } from 'http'
-import { createSchema, AgentGraphQLClient, supportedMethods } from '../packages/daf-graphql'
+import { createSchema, AgentGraphQLClient, supportedMethods } from '../packages/daf-graphql/src'
 import fs from 'fs'
 
 // Shared tests
