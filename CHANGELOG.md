@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.25](https://github.com/uport-project/daf/compare/v7.0.0-beta.24...v7.0.0-beta.25) (2020-09-28)
+
+
+### Features
+
+* Added IIdentityManagerGetIdentitiesArgs ([1e0c9aa](https://github.com/uport-project/daf/commit/1e0c9aa5ca7247007abc930b214c98610578fb71))
+
+
+
+
+
 # [7.0.0-beta.24](https://github.com/uport-project/daf/compare/v7.0.0-beta.23...v7.0.0-beta.24) (2020-09-25)
 
 
