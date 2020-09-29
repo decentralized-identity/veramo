@@ -5,7 +5,7 @@
     "build": "lerna run build && yarn docs:api && yarn docs:reference && yarn schemas && yarn lerna run --scope daf-rest build && yarn docs:clean-temp && yarn prettier:examples",
     "publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
-    "schemas": "ts-node ./scripts/generate-schemas.ts",
+    "schemas": "ts-node --project packages/tsconfig.settings.json ./scripts/generate-schemas.ts",
     "docs:api": "ts-node ./scripts/generate-docs.ts",
     "docs:reference": "api-documenter markdown -i ./temp -o ./docs/api",
     "docs:clean-temp": "rm -rf ./temp",
@@ -27,6 +27,7 @@
     }
   },
   "devDependencies": {
+    "@apidevtools/swagger-parser": "^10.0.2",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@microsoft/api-documenter": "^7.8.56",

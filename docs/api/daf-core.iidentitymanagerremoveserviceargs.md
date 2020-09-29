@@ -18,5 +18,5 @@ export interface IIdentityManagerRemoveServiceArgs
 |  --- | --- | --- |
 |  [did](./daf-core.iidentitymanagerremoveserviceargs.did.md) | string | DID |
 |  [id](./daf-core.iidentitymanagerremoveserviceargs.id.md) | string | Service ID |
-|  [options](./daf-core.iidentitymanagerremoveserviceargs.options.md) | any | Optional. Identity provider specific options |
+|  [options](./daf-core.iidentitymanagerremoveserviceargs.options.md) | object | Optional. Identity provider specific options |
 

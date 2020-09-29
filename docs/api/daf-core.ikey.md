@@ -18,7 +18,7 @@ export interface IKey
 |  --- | --- | --- |
 |  [kid](./daf-core.ikey.kid.md) | string | Key ID |
 |  [kms](./daf-core.ikey.kms.md) | string | Key Management System |
-|  [meta](./daf-core.ikey.meta.md) | Record&lt;string, any&gt; | Optional. Key metadata. Can be used to store auth data to access remote kms |
+|  [meta](./daf-core.ikey.meta.md) | object | Optional. Key metadata. Can be used to store auth data to access remote kms |
 |  [privateKeyHex](./daf-core.ikey.privatekeyhex.md) | string | Optional. Private key |
 |  [publicKeyHex](./daf-core.ikey.publickeyhex.md) | string | Public key |
 |  [type](./daf-core.ikey.type.md) | [TKeyType](./daf-core.tkeytype.md) | Key type |

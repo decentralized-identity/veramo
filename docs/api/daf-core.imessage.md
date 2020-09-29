@@ -18,7 +18,7 @@ export interface IMessage
 |  --- | --- | --- |
 |  [createdAt](./daf-core.imessage.createdat.md) | string | Optional. Creation date (ISO 8601) |
 |  [credentials](./daf-core.imessage.credentials.md) | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\] | Optional. Array of attached verifiable credentials |
-|  [data](./daf-core.imessage.data.md) | any | Optional. Parsed data |
+|  [data](./daf-core.imessage.data.md) | string \| object | Optional. Parsed data |
 |  [expiresAt](./daf-core.imessage.expiresat.md) | string | Optional. Expiration date (ISO 8601) |
 |  [from](./daf-core.imessage.from.md) | string | Optional. Sender DID |
 |  [id](./daf-core.imessage.id.md) | string | Unique message ID |

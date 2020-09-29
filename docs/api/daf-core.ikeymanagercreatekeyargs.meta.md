@@ -9,5 +9,5 @@ Optional. Key meta data
 <b>Signature:</b>
 
 ```typescript
-meta?: Record<string, any>;
+meta?: object;
 ```

@@ -53,7 +53,7 @@ export interface IKey {
   /**
    * Optional. Key metadata. Can be used to store auth data to access remote kms
    */
-  meta?: Record<string, any>
+  meta?: object
 }
 
 /**
@@ -172,7 +172,7 @@ export interface IMessage {
   /**
    * Optional. Parsed data
    */
-  data?: any
+  data?: string | object
 
   /**
    * Optional. List of DIDs to reply to
@@ -445,7 +445,7 @@ export interface IIdentityManagerCreateIdentityArgs {
   /**
    * Optional. Identity provider specific options
    */
-  options?: any
+  options?: object
 }
 
 /**
@@ -471,7 +471,7 @@ export interface IIdentityManagerGetOrCreateIdentityArgs {
   /**
    * Optional. Identity provider specific options
    */
-  options?: any
+  options?: object
 }
 
 /**
@@ -492,7 +492,7 @@ export interface IIdentityManagerAddKeyArgs {
   /**
    * Optional. Identity provider specific options
    */
-  options?: any
+  options?: object
 }
 
 /**
@@ -513,7 +513,7 @@ export interface IIdentityManagerRemoveKeyArgs {
   /**
    * Optional. Identity provider specific options
    */
-  options?: any
+  options?: object
 }
 
 /**
@@ -534,7 +534,7 @@ export interface IIdentityManagerAddServiceArgs {
   /**
    * Optional. Identity provider specific options
    */
-  options?: any
+  options?: object
 }
 
 /**
@@ -555,7 +555,7 @@ export interface IIdentityManagerRemoveServiceArgs {
   /**
    * Optional. Identity provider specific options
    */
-  options?: any
+  options?: object
 }
 
 /**
@@ -701,7 +701,7 @@ export interface IKeyManagerCreateKeyArgs {
   /**
    * Optional. Key meta data
    */
-  meta?: Record<string, any>
+  meta?: object
 }
 
 /**

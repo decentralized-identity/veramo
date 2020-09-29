@@ -18,5 +18,5 @@ export interface IIdentityManagerAddKeyArgs
 |  --- | --- | --- |
 |  [did](./daf-core.iidentitymanageraddkeyargs.did.md) | string | DID |
 |  [key](./daf-core.iidentitymanageraddkeyargs.key.md) | [IKey](./daf-core.ikey.md) | Key object |
-|  [options](./daf-core.iidentitymanageraddkeyargs.options.md) | any | Optional. Identity provider specific options |
+|  [options](./daf-core.iidentitymanageraddkeyargs.options.md) | object | Optional. Identity provider specific options |
 

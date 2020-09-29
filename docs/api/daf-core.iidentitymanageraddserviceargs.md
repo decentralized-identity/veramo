@@ -17,6 +17,6 @@ export interface IIdentityManagerAddServiceArgs
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [did](./daf-core.iidentitymanageraddserviceargs.did.md) | string | DID |
-|  [options](./daf-core.iidentitymanageraddserviceargs.options.md) | any | Optional. Identity provider specific options |
+|  [options](./daf-core.iidentitymanageraddserviceargs.options.md) | object | Optional. Identity provider specific options |
 |  [service](./daf-core.iidentitymanageraddserviceargs.service.md) | [IService](./daf-core.iservice.md) | Service object |
 

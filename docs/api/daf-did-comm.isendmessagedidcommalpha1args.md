@@ -19,7 +19,7 @@ export interface ISendMessageDIDCommAlpha1Args
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [data](./daf-did-comm.isendmessagedidcommalpha1args.data.md) | { id?: string; from: string; to: string; type: string; body: any; } | <b><i>(BETA)</i></b> |
+|  [data](./daf-did-comm.isendmessagedidcommalpha1args.data.md) | { id?: string; from: string; to: string; type: string; body: object \| string; } | <b><i>(BETA)</i></b> |
 |  [save](./daf-did-comm.isendmessagedidcommalpha1args.save.md) | boolean | <b><i>(BETA)</i></b> |
 |  [url](./daf-did-comm.isendmessagedidcommalpha1args.url.md) | string | <b><i>(BETA)</i></b> |
 

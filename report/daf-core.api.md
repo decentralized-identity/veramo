@@ -97,13 +97,13 @@ export interface IIdentityManager extends IPluginMethodMap {
 export interface IIdentityManagerAddKeyArgs {
     did: string;
     key: IKey;
-    options?: any;
+    options?: object;
 }
 
 // @public
 export interface IIdentityManagerAddServiceArgs {
     did: string;
-    options?: any;
+    options?: object;
     service: IService;
 }
 
@@ -111,7 +111,7 @@ export interface IIdentityManagerAddServiceArgs {
 export interface IIdentityManagerCreateIdentityArgs {
     alias?: string;
     kms?: string;
-    options?: any;
+    options?: object;
     provider?: string;
 }
 
@@ -141,7 +141,7 @@ export interface IIdentityManagerGetIdentityByAliasArgs {
 export interface IIdentityManagerGetOrCreateIdentityArgs {
     alias: string;
     kms?: string;
-    options?: any;
+    options?: object;
     provider?: string;
 }
 
@@ -149,21 +149,21 @@ export interface IIdentityManagerGetOrCreateIdentityArgs {
 export interface IIdentityManagerRemoveKeyArgs {
     did: string;
     kid: string;
-    options?: any;
+    options?: object;
 }
 
 // @public
 export interface IIdentityManagerRemoveServiceArgs {
     did: string;
     id: string;
-    options?: any;
+    options?: object;
 }
 
 // @public
 export interface IKey {
     kid: string;
     kms: string;
-    meta?: Record<string, any>;
+    meta?: object;
     privateKeyHex?: string;
     publicKeyHex: string;
     type: TKeyType;
@@ -187,7 +187,7 @@ export interface IKeyManager extends IPluginMethodMap {
 // @public
 export interface IKeyManagerCreateKeyArgs {
     kms: string;
-    meta?: Record<string, any>;
+    meta?: object;
     type: TKeyType;
 }
 
@@ -230,7 +230,7 @@ export interface IKeyManagerSignJWTArgs {
 export interface IMessage {
     createdAt?: string;
     credentials?: VerifiableCredential[];
-    data?: any;
+    data?: string | object;
     expiresAt?: string;
     from?: string;
     id: string;

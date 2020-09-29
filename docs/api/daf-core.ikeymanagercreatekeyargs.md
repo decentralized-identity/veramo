@@ -17,6 +17,6 @@ export interface IKeyManagerCreateKeyArgs
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [kms](./daf-core.ikeymanagercreatekeyargs.kms.md) | string | Key Management System |
-|  [meta](./daf-core.ikeymanagercreatekeyargs.meta.md) | Record&lt;string, any&gt; | Optional. Key meta data |
+|  [meta](./daf-core.ikeymanagercreatekeyargs.meta.md) | object | Optional. Key meta data |
 |  [type](./daf-core.ikeymanagercreatekeyargs.type.md) | [TKeyType](./daf-core.tkeytype.md) | Key type |
 

@@ -15,6 +15,6 @@ data: {
         from: string;
         to: string;
         type: string;
-        body: any;
+        body: object | string;
     };
 ```

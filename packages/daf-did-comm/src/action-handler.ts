@@ -26,7 +26,7 @@ export interface ISendMessageDIDCommAlpha1Args {
     from: string
     to: string
     type: string
-    body: any
+    body: object | string
   }
 }
 
@@ -118,7 +118,7 @@ export class DIDComm implements IAgentPlugin {
 
         if (res.status == 200) {
           return await context.agent.handleMessage({
-            raw: data.body,
+            raw: JSON.stringify(data.body),
             metaData: [{ type: 'DIDComm-sent' }],
             save,
           })

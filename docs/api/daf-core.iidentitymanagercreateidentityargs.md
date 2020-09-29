@@ -18,6 +18,6 @@ export interface IIdentityManagerCreateIdentityArgs
 |  --- | --- | --- |
 |  [alias](./daf-core.iidentitymanagercreateidentityargs.alias.md) | string | Optional. Identity alias. Can be used to reference an object in an external system |
 |  [kms](./daf-core.iidentitymanagercreateidentityargs.kms.md) | string | Optional. Key Management System |
-|  [options](./daf-core.iidentitymanagercreateidentityargs.options.md) | any | Optional. Identity provider specific options |
+|  [options](./daf-core.iidentitymanagercreateidentityargs.options.md) | object | Optional. Identity provider specific options |
 |  [provider](./daf-core.iidentitymanagercreateidentityargs.provider.md) | string | Optional. Identity provider |
 

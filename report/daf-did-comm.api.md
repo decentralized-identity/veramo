@@ -44,7 +44,7 @@ export interface ISendMessageDIDCommAlpha1Args {
         from: string;
         to: string;
         type: string;
-        body: any;
+        body: object | string;
     };
     // (undocumented)
     save?: boolean;

@@ -18,5 +18,5 @@ export interface IIdentityManagerRemoveKeyArgs
 |  --- | --- | --- |
 |  [did](./daf-core.iidentitymanagerremovekeyargs.did.md) | string | DID |
 |  [kid](./daf-core.iidentitymanagerremovekeyargs.kid.md) | string | Key ID |
-|  [options](./daf-core.iidentitymanagerremovekeyargs.options.md) | any | Optional. Identity provider specific options |
+|  [options](./daf-core.iidentitymanagerremovekeyargs.options.md) | object | Optional. Identity provider specific options |
 

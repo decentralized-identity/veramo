@@ -9,5 +9,5 @@ Optional. Identity provider specific options
 <b>Signature:</b>
 
 ```typescript
-options?: any;
+options?: object;
 ```

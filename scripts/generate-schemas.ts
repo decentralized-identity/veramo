@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import { writeFileSync, readFileSync } from 'fs'
 import * as TJS from 'ts-json-schema-generator'
 import { OpenAPIV3 } from 'openapi-types'
+import SwaggerParser from '@apidevtools/swagger-parser'
 import {
   ApiModel,
   ApiPackage,
@@ -78,7 +79,7 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
 
 function getRequestBodySchema(parameters?: string): OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject {
   if (!parameters) {
-    return {}
+    return { type: 'object' }
   } else {
     return {
       $ref: '#/components/schemas/' + parameters,
@@ -100,7 +101,7 @@ function getResponseSchema(response: string): OpenAPIV3.ReferenceObject | OpenAP
     }
   }
   if (response === 'any') {
-    return {}
+    return { type: 'object' }
   }
 
   if (['string', 'number', 'boolean', 'object', 'integer'].includes(response)) {
@@ -154,13 +155,17 @@ for (const packageName of Object.keys(agentPlugins)) {
       method.description = method.description || ''
 
       if (method.parameters) {
+        //@ts-ignore
         openApi.components.schemas = {
+          //@ts-ignore
           ...openApi.components.schemas,
           ...createSchema(generator, method.parameters).components.schemas,
         }
       }
 
+      //@ts-ignore
       openApi.components.schemas = {
+        //@ts-ignore
         ...openApi.components.schemas,
         ...createSchema(generator, method.response).components.schemas,
       }
@@ -185,7 +190,7 @@ for (const packageName of Object.keys(agentPlugins)) {
           },
           responses: {
             200: {
-              description: method.description,
+              description: method.description || '',
               content: {
                 'application/json': {
                   schema: getResponseSchema(method.response),
@@ -199,12 +204,22 @@ for (const packageName of Object.keys(agentPlugins)) {
   }
 }
 
-console.log('Writing ' + outputFile)
-writeFileSync(
-  outputFile,
-  "import { OpenAPIV3 } from 'openapi-types'\nexport const openApiSchema: OpenAPIV3.Document = " +
-    JSON.stringify(openApi, null, 2),
-)
+SwaggerParser.validate(openApi)
+  .then((validatedOpenApi) => {
+    console.log('Writing ' + outputFile)
+    const fixedOpenApi = validatedOpenApi
+    //@ts-ignore
+    fixedOpenApi['components']['schemas'] = {}
+    fixedOpenApi['paths']['/resolveDid']['post']['responses']['200']['content']['application/json']['schema'][
+      'properties'
+    ]['uportProfile'] = { type: 'object' }
+    writeFileSync(
+      outputFile,
+      "import { OpenAPIV3 } from 'openapi-types'\nexport const openApiSchema: OpenAPIV3.Document = " +
+        JSON.stringify(fixedOpenApi, null, 2),
+    )
+  })
+  .catch(console.log)
 
 let summary = '# Available agent methods\n'
 for (const packageName of Object.keys(agentPlugins)) {

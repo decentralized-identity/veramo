@@ -9,5 +9,5 @@ Optional. Parsed data
 <b>Signature:</b>
 
 ```typescript
-data?: any;
+data?: string | object;
 ```
