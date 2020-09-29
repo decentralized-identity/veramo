@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.26](https://github.com/uport-project/daf/compare/v7.0.0-beta.25...v7.0.0-beta.26) (2020-09-29)
+
+
+### Bug Fixes
+
+* OpenAPI schema ([2ef0bc7](https://github.com/uport-project/daf/commit/2ef0bc7ae4a425e29eae4aaad982048314c9ca14))
+
+
+### Features
+
+* Add GraphQL IdentityManager methods ([189a218](https://github.com/uport-project/daf/commit/189a21843feb25a075f693377573f2b031c0de02))
+* Added identityManagerImportIdentity ([ea7ba3a](https://github.com/uport-project/daf/commit/ea7ba3a8e827423748e5e350cdcf4103560fb8f0))
+
+
+
+
+
 # [7.0.0-beta.25](https://github.com/uport-project/daf/compare/v7.0.0-beta.24...v7.0.0-beta.25) (2020-09-28)
 
 

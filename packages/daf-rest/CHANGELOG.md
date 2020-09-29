@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.26](https://github.com/uport-project/daf/compare/v7.0.0-beta.25...v7.0.0-beta.26) (2020-09-29)
+
+
+### Bug Fixes
+
+* OpenAPI schema ([2ef0bc7](https://github.com/uport-project/daf/commit/2ef0bc7ae4a425e29eae4aaad982048314c9ca14))
+
+
+
+
+
 # [7.0.0-beta.25](https://github.com/uport-project/daf/compare/v7.0.0-beta.24...v7.0.0-beta.25) (2020-09-28)
 
 
