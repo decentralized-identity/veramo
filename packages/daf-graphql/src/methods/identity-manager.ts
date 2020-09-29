@@ -245,6 +245,37 @@ export const identityManagerRemoveKey: IAgentGraphQLMethod = {
   `,
 }
 
+export const identityManagerImportIdentity: IAgentGraphQLMethod = {
+  type: 'Mutation',
+  query: `
+    mutation identityManagerImportIdentity($did: String!, $alias: String, $provider: String!, $controllerKeyId: String, $keys: [KeyInput]!, $services: [ServiceInput]!) {
+      identityManagerImportIdentity(did: $did, provider: $provider, alias: $alias, controllerKeyId: $controllerKeyId, keys: $keys, services: $services) {
+        did
+        provider
+        alias
+        controllerKeyId
+        keys {
+          kid
+          kms
+          type
+          publicKeyHex
+        }
+        services {
+          id
+          type
+          serviceEndpoint
+          description
+        }
+      }
+    }
+  `,
+  typeDef: `
+    extend type Mutation {
+      identityManagerImportIdentity(did: String!, provider: String!, alias: String, controllerKeyId: String, keys: [KeyInput]!, services: [ServiceInput]!): Identity!
+    }
+  `,
+}
+
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerGetProviders,
   identityManagerGetIdentities,
@@ -257,7 +288,7 @@ export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerRemoveService,
   identityManagerAddKey,
   identityManagerRemoveKey,
-  // TODO identityManagerImportIdentity
+  identityManagerImportIdentity,
 }
 
 export default supportedMethods

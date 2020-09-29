@@ -9,7 +9,7 @@ Imports identity
 <b>Signature:</b>
 
 ```typescript
-identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity>;
+identityManagerImportIdentity(identity: IIdentity, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
 ```
 
 ## Parameters
@@ -17,6 +17,7 @@ identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity>;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  identity | [IIdentity](./daf-core.iidentity.md) |  |
+|  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;[IKeyManager](./daf-core.ikeymanager.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 

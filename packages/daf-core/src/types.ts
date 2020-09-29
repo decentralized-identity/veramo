@@ -639,7 +639,7 @@ export interface IIdentityManager extends IPluginMethodMap {
   /**
    * Imports identity
    */
-  identityManagerImportIdentity(args: IIdentity): Promise<IIdentity>
+  identityManagerImportIdentity(args: IIdentity, context: IAgentContext<IKeyManager>): Promise<IIdentity>
 
   /**
    * Deletes identity

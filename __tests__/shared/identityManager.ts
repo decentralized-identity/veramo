@@ -237,7 +237,58 @@ export default (testContext: {
       expect(webIdentity2.keys[0].kid).toEqual(webIdentity.keys[0].kid)
     })
 
-    it.todo('should import identity')
+    it('should import identity', async () => {
+      const identity = await agent.identityManagerGetOrCreateIdentity({
+        alias: 'example.org',
+        provider: 'did:web',
+      })
+
+      await agent.identityManagerAddService({
+        did: identity.did,
+        service: {
+          id: 'did:web:example.org#msg',
+          type: 'Messaging',
+          serviceEndpoint: 'https://example.org/messaging',
+          description: 'Handles incoming messages',
+        },
+      })
+
+      const signingKeyFull = await agent.keyManagerGetKey({
+        kid: identity.keys[0].kid,
+      })
+
+      const encryptionKey = await agent.keyManagerCreateKey({
+        kms: 'local',
+        type: 'Ed25519',
+      })
+
+      const encryptionKeyFull = await agent.keyManagerGetKey({
+        kid: encryptionKey.kid,
+      })
+
+      await agent.identityManagerAddKey({
+        did: identity.did,
+        key: encryptionKey,
+      })
+
+      const exportedIdentity = await agent.identityManagerGetIdentity({
+        did: identity.did,
+      })
+
+      await agent.identityManagerDeleteIdentity({
+        did: identity.did,
+      })
+
+      await agent.identityManagerImportIdentity({
+        ...exportedIdentity,
+        keys: [signingKeyFull, encryptionKeyFull],
+      })
+
+      const importedIdentity = await agent.identityManagerGetIdentity({
+        did: identity.did,
+      })
+      expect(importedIdentity).toEqual(exportedIdentity)
+    })
 
     it.todo('should add key for did:ethr')
     it.todo('should remove key for did:ethr')

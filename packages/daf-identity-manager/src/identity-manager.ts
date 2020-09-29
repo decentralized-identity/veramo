@@ -127,7 +127,13 @@ export class IdentityManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc daf-core#IIdentityManager.identityManagerImportIdentity} */
-  async identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity> {
+  async identityManagerImportIdentity(
+    identity: IIdentity,
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentity> {
+    for (const key of identity.keys) {
+      await context.agent.keyManagerImportKey(key)
+    }
     await this.store.import(identity)
     return identity
   }
@@ -140,6 +146,10 @@ export class IdentityManager implements IAgentPlugin {
     const identity = await this.store.get({ did })
     const provider = this.getProvider(identity.provider)
     await provider.deleteIdentity(identity, context)
+    if (identity.services.length > 0) {
+      identity.services = []
+      await this.store.import(identity)
+    }
     return this.store.delete({ did })
   }
 

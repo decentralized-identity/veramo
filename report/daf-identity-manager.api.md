@@ -108,7 +108,7 @@ export class IdentityManager implements IAgentPlugin {
     // (undocumented)
     identityManagerGetProviders(): Promise<string[]>;
     // (undocumented)
-    identityManagerImportIdentity(identity: IIdentity): Promise<IIdentity>;
+    identityManagerImportIdentity(identity: IIdentity, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
     // (undocumented)
     identityManagerRemoveKey({ did, kid, options }: IIdentityManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)

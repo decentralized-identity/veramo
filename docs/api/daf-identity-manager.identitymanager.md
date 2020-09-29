@@ -38,7 +38,7 @@ export declare class IdentityManager implements IAgentPlugin
 |  [identityManagerGetIdentityByAlias({ alias, provider, })](./daf-identity-manager.identitymanager.identitymanagergetidentitybyalias.md) |  | Returns a specific identity by alias |
 |  [identityManagerGetOrCreateIdentity({ provider, alias, kms, options }, context)](./daf-identity-manager.identitymanager.identitymanagergetorcreateidentity.md) |  | Returns an existing identity or creates a new one for a specific alias |
 |  [identityManagerGetProviders()](./daf-identity-manager.identitymanager.identitymanagergetproviders.md) |  | Returns a list of available identity providers |
-|  [identityManagerImportIdentity(identity)](./daf-identity-manager.identitymanager.identitymanagerimportidentity.md) |  | Imports identity |
+|  [identityManagerImportIdentity(identity, context)](./daf-identity-manager.identitymanager.identitymanagerimportidentity.md) |  | Imports identity |
 |  [identityManagerRemoveKey({ did, kid, options }, context)](./daf-identity-manager.identitymanager.identitymanagerremovekey.md) |  | Removes a key from a DID Document |
 |  [identityManagerRemoveService({ did, id, options }, context)](./daf-identity-manager.identitymanager.identitymanagerremoveservice.md) |  | Removes a service from a DID Document |
 
