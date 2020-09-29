@@ -5,6 +5,7 @@
     "packages/**/src/**/*.ts",
     "!**/examples/**",
     "!packages/daf-cli/**",
+    "!packages/daf-react-native-libsodium/**",
     "!**/types/**",
     "!**/build/**",
     "!**/node_modules/**"
