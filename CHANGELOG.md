@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.27](https://github.com/uport-project/daf/compare/v7.0.0-beta.26...v7.0.0-beta.27) (2020-09-30)
+
+
+### Bug Fixes
+
+* MessageHandler ([21a78e3](https://github.com/uport-project/daf/commit/21a78e3a16257d2c9d956acfc46576955688aed4))
+
+
+
+
+
 # [7.0.0-beta.26](https://github.com/uport-project/daf/compare/v7.0.0-beta.25...v7.0.0-beta.26) (2020-09-29)
 
 

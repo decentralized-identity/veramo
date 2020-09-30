@@ -1,14 +1,14 @@
 {
   "name": "daf-key-manager",
   "description": "DAF Key Manager",
-  "version": "7.0.0-beta.26",
+  "version": "7.0.0-beta.27",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.26"
+    "daf-core": "^7.0.0-beta.27"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
