@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import { writeFileSync, readFileSync } from 'fs'
 import * as TJS from 'ts-json-schema-generator'
 import { OpenAPIV3 } from 'openapi-types'
-import SwaggerParser from '@apidevtools/swagger-parser'
+const OasResolver = require('oas-resolver')
 import {
   ApiModel,
   ApiPackage,
@@ -204,19 +204,21 @@ for (const packageName of Object.keys(agentPlugins)) {
   }
 }
 
-SwaggerParser.validate(openApi)
-  .then((validatedOpenApi) => {
+OasResolver.resolve(openApi, null, {
+  resolveInternal: true,
+  patch: true,
+})
+  .then((validatedOpenApi: any) => {
     console.log('Writing ' + outputFile)
     const fixedOpenApi = validatedOpenApi
-    //@ts-ignore
-    fixedOpenApi['components']['schemas'] = {}
-    fixedOpenApi['paths']['/resolveDid']['post']['responses']['200']['content']['application/json']['schema'][
-      'properties'
-    ]['uportProfile'] = { type: 'object' }
+    fixedOpenApi['openapi']['components']['schemas'] = {}
+    fixedOpenApi['openapi']['paths']['/resolveDid']['post']['responses']['200']['content'][
+      'application/json'
+    ]['schema']['properties']['uportProfile'] = { type: 'object' }
     writeFileSync(
       outputFile,
       "import { OpenAPIV3 } from 'openapi-types'\nexport const openApiSchema: OpenAPIV3.Document = " +
-        JSON.stringify(fixedOpenApi, null, 2),
+        JSON.stringify(fixedOpenApi['openapi'], null, 2),
     )
   })
   .catch(console.log)

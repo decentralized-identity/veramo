@@ -244,7 +244,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                     "description": "DID"
                   },
                   "key": {
-                    "description": "Key object",
                     "type": "object",
                     "properties": {
                       "kid": {
@@ -256,12 +255,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                         "description": "Key Management System"
                       },
                       "type": {
-                        "description": "Key type",
                         "type": "string",
                         "enum": [
                           "Ed25519",
                           "Secp256k1"
-                        ]
+                        ],
+                        "description": "Cryptographic key type"
                       },
                       "publicKeyHex": {
                         "type": "string",
@@ -282,7 +281,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "type",
                       "publicKeyHex"
                     ],
-                    "additionalProperties": false
+                    "additionalProperties": false,
+                    "description": "Cryptographic key"
                   },
                   "options": {
                     "type": "object",
@@ -328,7 +328,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                     "description": "DID"
                   },
                   "service": {
-                    "description": "Service object",
                     "type": "object",
                     "properties": {
                       "id": {
@@ -353,7 +352,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "type",
                       "serviceEndpoint"
                     ],
-                    "additionalProperties": false
+                    "additionalProperties": false,
+                    "description": "Identity service"
                   },
                   "options": {
                     "type": "object",
@@ -455,12 +455,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                             "description": "Key Management System"
                           },
                           "type": {
-                            "description": "Key type",
                             "type": "string",
                             "enum": [
                               "Ed25519",
                               "Secp256k1"
-                            ]
+                            ],
+                            "description": "Cryptographic key type"
                           },
                           "publicKeyHex": {
                             "type": "string",
@@ -638,12 +638,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                               "description": "Key Management System"
                             },
                             "type": {
-                              "description": "Key type",
                               "type": "string",
                               "enum": [
                                 "Ed25519",
                                 "Secp256k1"
-                              ]
+                              ],
+                              "description": "Cryptographic key type"
                             },
                             "publicKeyHex": {
                               "type": "string",
@@ -781,12 +781,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                             "description": "Key Management System"
                           },
                           "type": {
-                            "description": "Key type",
                             "type": "string",
                             "enum": [
                               "Ed25519",
                               "Secp256k1"
-                            ]
+                            ],
+                            "description": "Cryptographic key type"
                           },
                           "publicKeyHex": {
                             "type": "string",
@@ -927,12 +927,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                             "description": "Key Management System"
                           },
                           "type": {
-                            "description": "Key type",
                             "type": "string",
                             "enum": [
                               "Ed25519",
                               "Secp256k1"
-                            ]
+                            ],
+                            "description": "Cryptographic key type"
                           },
                           "publicKeyHex": {
                             "type": "string",
@@ -1081,12 +1081,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                             "description": "Key Management System"
                           },
                           "type": {
-                            "description": "Key type",
                             "type": "string",
                             "enum": [
                               "Ed25519",
                               "Secp256k1"
-                            ]
+                            ],
+                            "description": "Cryptographic key type"
                           },
                           "publicKeyHex": {
                             "type": "string",
@@ -1231,12 +1231,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                           "description": "Key Management System"
                         },
                         "type": {
-                          "description": "Key type",
                           "type": "string",
                           "enum": [
                             "Ed25519",
                             "Secp256k1"
-                          ]
+                          ],
+                          "description": "Cryptographic key type"
                         },
                         "publicKeyHex": {
                           "type": "string",
@@ -1346,12 +1346,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                             "description": "Key Management System"
                           },
                           "type": {
-                            "description": "Key type",
                             "type": "string",
                             "enum": [
                               "Ed25519",
                               "Secp256k1"
-                            ]
+                            ],
+                            "description": "Cryptographic key type"
                           },
                           "publicKeyHex": {
                             "type": "string",
@@ -1657,7 +1657,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                     "credentials": {
                       "type": "array",
                       "items": {
-                        "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
@@ -1728,14 +1727,14 @@ export const openApiSchema: OpenAPIV3.Document = {
                           "issuer",
                           "proof",
                           "type"
-                        ]
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                       },
                       "description": "Optional. Array of attached verifiable credentials"
                     },
                     "presentations": {
                       "type": "array",
                       "items": {
-                        "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}",
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
@@ -1783,7 +1782,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                           "type",
                           "verifiableCredential",
                           "verifier"
-                        ]
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                       },
                       "description": "Optional. Array of attached verifiable presentations"
                     }
@@ -1890,7 +1890,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                   "credentials": {
                     "type": "array",
                     "items": {
-                      "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
@@ -1961,14 +1960,14 @@ export const openApiSchema: OpenAPIV3.Document = {
                         "issuer",
                         "proof",
                         "type"
-                      ]
+                      ],
+                      "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                     },
                     "description": "Optional. Array of attached verifiable credentials"
                   },
                   "presentations": {
                     "type": "array",
                     "items": {
-                      "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}",
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
@@ -2016,7 +2015,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                         "type",
                         "verifiableCredential",
                         "verifier"
-                      ]
+                      ],
+                      "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                     },
                     "description": "Optional. Array of attached verifiable presentations"
                   }
@@ -2053,7 +2053,6 @@ export const openApiSchema: OpenAPIV3.Document = {
           "content": {
             "application/json": {
               "schema": {
-                "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
@@ -2124,7 +2123,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                   "issuer",
                   "proof",
                   "type"
-                ]
+                ],
+                "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
               }
             }
           }
@@ -2151,7 +2151,6 @@ export const openApiSchema: OpenAPIV3.Document = {
           "content": {
             "application/json": {
               "schema": {
-                "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}",
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
@@ -2199,7 +2198,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                   "type",
                   "verifiableCredential",
                   "verifier"
-                ]
+                ],
+                "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
               }
             }
           }
@@ -2229,12 +2229,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                 "type": "object",
                 "properties": {
                   "type": {
-                    "description": "Key type",
                     "type": "string",
                     "enum": [
                       "Ed25519",
                       "Secp256k1"
-                    ]
+                    ],
+                    "description": "Cryptographic key type"
                   },
                   "kms": {
                     "type": "string",
@@ -2272,12 +2272,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "description": "Key Management System"
                     },
                     "type": {
-                      "description": "Key type",
                       "type": "string",
                       "enum": [
                         "Ed25519",
                         "Secp256k1"
-                      ]
+                      ],
+                      "description": "Cryptographic key type"
                     },
                     "publicKeyHex": {
                       "type": "string",
@@ -2410,12 +2410,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                         "description": "Key ID"
                       },
                       "type": {
-                        "description": "Key type",
                         "type": "string",
                         "enum": [
                           "Ed25519",
                           "Secp256k1"
-                        ]
+                        ],
+                        "description": "Cryptographic key type"
                       },
                       "publicKeyHex": {
                         "type": "string",
@@ -2509,12 +2509,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "description": "Key Management System"
                     },
                     "type": {
-                      "description": "Key type",
                       "type": "string",
                       "enum": [
                         "Ed25519",
                         "Secp256k1"
-                      ]
+                      ],
+                      "description": "Cryptographic key type"
                     },
                     "publicKeyHex": {
                       "type": "string",
@@ -2593,12 +2593,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                     "description": "Key Management System"
                   },
                   "type": {
-                    "description": "Key type",
                     "type": "string",
                     "enum": [
                       "Ed25519",
                       "Secp256k1"
-                    ]
+                    ],
+                    "description": "Cryptographic key type"
                   },
                   "publicKeyHex": {
                     "type": "string",
@@ -2736,7 +2736,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                 "type": "object",
                 "properties": {
                   "credential": {
-                    "description": "The json payload of the Credential according to the\n{@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}\n\nThe signer of the Credential is chosen based on the `issuer.id` property\nof the `credential`",
                     "type": "object",
                     "properties": {
                       "@context": {
@@ -2802,18 +2801,19 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "issuanceDate",
                       "issuer",
                       "type"
-                    ]
+                    ],
+                    "description": "This data type represents a parsed VerifiableCredential.\nIt is meant to be an unambiguous representation of the properties of a Credential and is usually the result of a transformation method.\n\n`issuer` is always an object with an `id` property and potentially other app specific issuer claims\n`issuanceDate` is an ISO DateTime string\n`expirationDate`, is a nullable ISO DateTime string\n\nAny JWT specific properties are transformed to the broader W3C variant and any app specific properties are left intact"
                   },
                   "save": {
                     "type": "boolean",
                     "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n{@link daf-core#IDataStore | storage plugin} to be saved"
                   },
                   "proofFormat": {
-                    "description": "The desired format for the VerifiablePresentation to be created.\nCurrently, only JWT is supported",
                     "type": "string",
                     "enum": [
                       "jwt"
-                    ]
+                    ],
+                    "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` is supported at the moment."
                   }
                 },
                 "required": [
@@ -2832,7 +2832,6 @@ export const openApiSchema: OpenAPIV3.Document = {
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                   "type": "object",
                   "additionalProperties": false,
                   "properties": {
@@ -2903,7 +2902,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                     "issuer",
                     "proof",
                     "type"
-                  ]
+                  ],
+                  "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                 }
               }
             }
@@ -2922,7 +2922,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                 "type": "object",
                 "properties": {
                   "presentation": {
-                    "description": "The json payload of the Presentation according to the\n{@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.\n\nThe signer of the Presentation is chosen based on the `holder` property\nof the `presentation`",
                     "type": "object",
                     "properties": {
                       "@context": {
@@ -3039,18 +3038,19 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "type",
                       "verifiableCredential",
                       "verifier"
-                    ]
+                    ],
+                    "description": "This data type represents a parsed Presentation payload.\nIt is meant to be an unambiguous representation of the properties of a Presentation and is usually the result of a transformation method.\n\nThe `verifiableCredential` array should contain parsed `Verifiable-Credential` elements.\nAny JWT specific properties are transformed to the broader W3C variant and any other app specific properties are left intact."
                   },
                   "save": {
                     "type": "boolean",
                     "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n{@link daf-core#IDataStore | storage plugin} to be saved"
                   },
                   "proofFormat": {
-                    "description": "The desired format for the VerifiablePresentation to be created.\nCurrently, only JWT is supported",
                     "type": "string",
                     "enum": [
                       "jwt"
-                    ]
+                    ],
+                    "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` is supported at the moment."
                   }
                 },
                 "required": [
@@ -3069,7 +3069,6 @@ export const openApiSchema: OpenAPIV3.Document = {
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}",
                   "type": "object",
                   "additionalProperties": false,
                   "properties": {
@@ -3117,7 +3116,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                     "type",
                     "verifiableCredential",
                     "verifier"
-                  ]
+                  ],
+                  "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                 }
               }
             }
@@ -3426,7 +3426,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "credentials": {
                         "type": "array",
                         "items": {
-                          "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                           "type": "object",
                           "additionalProperties": false,
                           "properties": {
@@ -3497,7 +3496,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                             "issuer",
                             "proof",
                             "type"
-                          ]
+                          ],
+                          "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                         }
                       }
                     },
@@ -3526,7 +3526,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                 "type": "object",
                 "properties": {
                   "presentation": {
-                    "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}",
                     "type": "object",
                     "additionalProperties": false,
                     "properties": {
@@ -3574,7 +3573,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "type",
                       "verifiableCredential",
                       "verifier"
-                    ]
+                    ],
+                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                   },
                   "sdr": {
                     "type": "object",
@@ -3747,7 +3747,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                           "credentials": {
                             "type": "array",
                             "items": {
-                              "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                               "type": "object",
                               "additionalProperties": false,
                               "properties": {
@@ -3818,7 +3817,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                                 "issuer",
                                 "proof",
                                 "type"
-                              ]
+                              ],
+                              "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                             }
                           }
                         },
@@ -3991,7 +3991,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                     "credentials": {
                       "type": "array",
                       "items": {
-                        "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
@@ -4062,14 +4061,14 @@ export const openApiSchema: OpenAPIV3.Document = {
                           "issuer",
                           "proof",
                           "type"
-                        ]
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                       },
                       "description": "Optional. Array of attached verifiable credentials"
                     },
                     "presentations": {
                       "type": "array",
                       "items": {
-                        "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}",
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
@@ -4117,7 +4116,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                           "type",
                           "verifiableCredential",
                           "verifier"
-                        ]
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                       },
                       "description": "Optional. Array of attached verifiable presentations"
                     }
@@ -4269,12 +4269,12 @@ export const openApiSchema: OpenAPIV3.Document = {
                               "description": "Key Management System"
                             },
                             "type": {
-                              "description": "Key type",
                               "type": "string",
                               "enum": [
                                 "Ed25519",
                                 "Secp256k1"
-                              ]
+                              ],
+                              "description": "Cryptographic key type"
                             },
                             "publicKeyHex": {
                               "type": "string",
@@ -4655,7 +4655,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "credentials": {
                         "type": "array",
                         "items": {
-                          "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                           "type": "object",
                           "additionalProperties": false,
                           "properties": {
@@ -4726,14 +4725,14 @@ export const openApiSchema: OpenAPIV3.Document = {
                             "issuer",
                             "proof",
                             "type"
-                          ]
+                          ],
+                          "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                         },
                         "description": "Optional. Array of attached verifiable credentials"
                       },
                       "presentations": {
                         "type": "array",
                         "items": {
-                          "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}",
                           "type": "object",
                           "additionalProperties": false,
                           "properties": {
@@ -4781,7 +4780,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                             "type",
                             "verifiableCredential",
                             "verifier"
-                          ]
+                          ],
+                          "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                         },
                         "description": "Optional. Array of attached verifiable presentations"
                       }
@@ -5032,7 +5032,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                     "type": "object",
                     "additionalProperties": false,
                     "properties": {
@@ -5103,7 +5102,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "issuer",
                       "proof",
                       "type"
-                    ]
+                    ],
+                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                   }
                 }
               }
@@ -5228,7 +5228,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}",
                     "type": "object",
                     "additionalProperties": false,
                     "properties": {
@@ -5299,7 +5298,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "issuer",
                       "proof",
                       "type"
-                    ]
+                    ],
+                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                   }
                 }
               }
@@ -5656,7 +5656,6 @@ export const openApiSchema: OpenAPIV3.Document = {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}",
                     "type": "object",
                     "additionalProperties": false,
                     "properties": {
@@ -5704,7 +5703,8 @@ export const openApiSchema: OpenAPIV3.Document = {
                       "type",
                       "verifiableCredential",
                       "verifier"
-                    ]
+                    ],
+                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                   }
                 }
               }
