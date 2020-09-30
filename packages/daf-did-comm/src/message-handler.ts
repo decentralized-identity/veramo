@@ -64,10 +64,11 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           if (parsed['id']) message.id = parsed['id']
           if (parsed['type']) message.type = parsed['type']
           message.addMetaData({ type: 'DIDComm' })
+          debug('JSON message with id and type', message)
           return super.handle(message, context)
         }
       } catch (e) {
-        // not a JSON string
+        debug('Raw message is not a JSON string')
       }
     }
 

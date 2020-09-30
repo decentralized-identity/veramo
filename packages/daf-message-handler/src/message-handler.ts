@@ -63,11 +63,12 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
       if (save) {
         await context.agent.dataStoreSaveMessage(message)
         debug('Emitting event', EventTypes.savedMessage)
-        // this.emit(EventTypes.savedMessage, message)
+        this.emit(EventTypes.savedMessage, message)
       }
       return message
     } catch (error) {
-      // this.emit(EventTypes.error, error)
+      debug('Error', error)
+      this.emit(EventTypes.error, error)
       return Promise.reject(error)
     }
   }
