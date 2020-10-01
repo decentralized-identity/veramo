@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.28](https://github.com/uport-project/daf/compare/v7.0.0-beta.27...v7.0.0-beta.28) (2020-10-01)
+
+
+### Features
+
+* Added identityManagerSetAlias ([a2bd513](https://github.com/uport-project/daf/commit/a2bd5134e9f6c58a619f63e8f3523e24e27d530e))
+
+
+
+
+
 # [7.0.0-beta.27](https://github.com/uport-project/daf/compare/v7.0.0-beta.26...v7.0.0-beta.27) (2020-09-30)
 
 
