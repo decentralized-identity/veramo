@@ -1520,6 +1520,49 @@ export const openApiSchema: OpenAPIV3.Document = {
         }
       }
     },
+    "/identityManagerSetAlias": {
+      "post": {
+        "description": "Sets identity alias",
+        "operationId": "identityManagerSetAlias",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "did": {
+                    "type": "string",
+                    "description": "Required. DID"
+                  },
+                  "alias": {
+                    "type": "string",
+                    "description": "Required. Identity alias"
+                  }
+                },
+                "required": [
+                  "did",
+                  "alias"
+                ],
+                "additionalProperties": false,
+                "description": "Input arguments for {@link IIdentityManager.identityManagerSetAlias | identityManagerSetAlias}"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sets identity alias",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/handleMessage": {
       "post": {
         "description": "Parses and optionally saves a message",

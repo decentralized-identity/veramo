@@ -41,6 +41,7 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  [IIdentityManagerGetOrCreateIdentityArgs](./daf-core.iidentitymanagergetorcreateidentityargs.md) | Input arguments for [identityManagerGetOrCreateIdentity](./daf-core.iidentitymanager.identitymanagergetorcreateidentity.md) |
 |  [IIdentityManagerRemoveKeyArgs](./daf-core.iidentitymanagerremovekeyargs.md) | Input arguments for [identityManagerRemoveKey](./daf-core.iidentitymanager.identitymanagerremovekey.md) |
 |  [IIdentityManagerRemoveServiceArgs](./daf-core.iidentitymanagerremoveserviceargs.md) | Input arguments for [identityManagerRemoveService](./daf-core.iidentitymanager.identitymanagerremoveservice.md) |
+|  [IIdentityManagerSetAliasArgs](./daf-core.iidentitymanagersetaliasargs.md) | Input arguments for [identityManagerSetAlias](./daf-core.iidentitymanager.identitymanagersetalias.md) |
 |  [IKey](./daf-core.ikey.md) | Cryptographic key |
 |  [IKeyManager](./daf-core.ikeymanager.md) | Key manager interface |
 |  [IKeyManagerCreateKeyArgs](./daf-core.ikeymanagercreatekeyargs.md) | Input arguments for [keyManagerCreateKey](./daf-core.ikeymanager.keymanagercreatekey.md) |

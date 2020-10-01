@@ -276,6 +276,20 @@ export const identityManagerImportIdentity: IAgentGraphQLMethod = {
   `,
 }
 
+export const identityManagerSetAlias: IAgentGraphQLMethod = {
+  type: 'Mutation',
+  query: `
+    mutation identityManagerSetAlias($did: String!, $alias: String!) {
+      identityManagerSetAlias(did: $did, alias: $alias) 
+    }
+  `,
+  typeDef: `
+    extend type Mutation {
+      identityManagerSetAlias(did: String!, alias: String!): Boolean!
+    }
+  `,
+}
+
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerGetProviders,
   identityManagerGetIdentities,
@@ -289,6 +303,7 @@ export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   identityManagerAddKey,
   identityManagerRemoveKey,
   identityManagerImportIdentity,
+  identityManagerSetAlias,
 }
 
 export default supportedMethods

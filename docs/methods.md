@@ -114,6 +114,18 @@ Removes a key from a DID Document
 
 Removes a service from a DID Document
 
+
+### [identityManagerSetAlias](./api/daf-core.iidentitymanager.identitymanagersetalias.md)
+
+Sets identity alias
+
+```typescript
+const identity = await agent.identityManagerCreateIdentity()
+const result = await agent.identityManagerSetAlias({
+  did: identity.did,
+  alias: 'carol',
+})
+```
 ## [IMessageHandler](./api/daf-core.imessagehandler.md) 
 
 

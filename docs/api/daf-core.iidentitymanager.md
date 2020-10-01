@@ -29,4 +29,5 @@ export interface IIdentityManager extends IPluginMethodMap
 |  [identityManagerImportIdentity(args, context)](./daf-core.iidentitymanager.identitymanagerimportidentity.md) | Imports identity |
 |  [identityManagerRemoveKey(args, context)](./daf-core.iidentitymanager.identitymanagerremovekey.md) | Removes a key from a DID Document |
 |  [identityManagerRemoveService(args, context)](./daf-core.iidentitymanager.identitymanagerremoveservice.md) | Removes a service from a DID Document |
+|  [identityManagerSetAlias(args, context)](./daf-core.iidentitymanager.identitymanagersetalias.md) | Sets identity alias |
 

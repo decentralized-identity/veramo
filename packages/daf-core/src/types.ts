@@ -449,6 +449,22 @@ export interface IIdentityManagerCreateIdentityArgs {
 }
 
 /**
+ * Input arguments for {@link IIdentityManager.identityManagerSetAlias | identityManagerSetAlias}
+ * @public
+ */
+export interface IIdentityManagerSetAliasArgs {
+  /**
+   * Required. DID
+   */
+  did: string
+
+  /**
+   * Required. Identity alias
+   */
+  alias: string
+}
+
+/**
  * Input arguments for {@link IIdentityManager.identityManagerGetOrCreateIdentity | identityManagerGetOrCreateIdentity}
  * @public
  */
@@ -627,6 +643,26 @@ export interface IIdentityManager extends IPluginMethodMap {
     args: IIdentityManagerCreateIdentityArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentity>
+
+  /**
+   * Sets identity alias
+   *
+   * @param args - Required. Arguments to set identity alias
+   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   *
+   * @example
+   * ```typescript
+   * const identity = await agent.identityManagerCreateIdentity()
+   * const result = await agent.identityManagerSetAlias({
+   *   did: identity.did,
+   *   alias: 'carol',
+   * })
+   * ```
+   */
+  identityManagerSetAlias(
+    args: IIdentityManagerSetAliasArgs,
+    context: IAgentContext<IKeyManager>,
+  ): Promise<boolean>
 
   /**
    * Returns an existing identity or creates a new one for a specific alias

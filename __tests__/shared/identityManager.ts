@@ -1,4 +1,4 @@
-import { TAgent, IIdentityManager, IKeyManager, IIdentity } from 'daf-core'
+import { TAgent, IIdentityManager, IKeyManager, IIdentity } from '../../packages/daf-core/src'
 
 type ConfiguredAgent = TAgent<IIdentityManager & IKeyManager>
 
@@ -288,6 +288,21 @@ export default (testContext: {
         did: identity.did,
       })
       expect(importedIdentity).toEqual(exportedIdentity)
+    })
+
+    it('should set alias for identity', async () => {
+      const identity = await agent.identityManagerCreateIdentity()
+      const result = await agent.identityManagerSetAlias({
+        did: identity.did,
+        alias: 'carol',
+      })
+      expect(result).toEqual(true)
+
+      const identity2 = await agent.identityManagerGetIdentityByAlias({
+        alias: 'carol',
+      })
+
+      expect(identity2).toEqual({ ...identity, alias: 'carol' })
     })
 
     it.todo('should add key for did:ethr')

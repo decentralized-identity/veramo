@@ -15,6 +15,7 @@ import {
   IIdentityManagerAddServiceArgs,
   IIdentityManagerRemoveServiceArgs,
   IIdentityManagerGetIdentitiesArgs,
+  IIdentityManagerSetAliasArgs,
 } from 'daf-core'
 import { AbstractIdentityStore } from './abstract-identity-store'
 
@@ -47,6 +48,7 @@ export class IdentityManager implements IAgentPlugin {
       identityManagerGetIdentity: this.identityManagerGetIdentity.bind(this),
       identityManagerGetIdentityByAlias: this.identityManagerGetIdentityByAlias.bind(this),
       identityManagerCreateIdentity: this.identityManagerCreateIdentity.bind(this),
+      identityManagerSetAlias: this.identityManagerSetAlias.bind(this),
       identityManagerGetOrCreateIdentity: this.identityManagerGetOrCreateIdentity.bind(this),
       identityManagerImportIdentity: this.identityManagerImportIdentity.bind(this),
       identityManagerDeleteIdentity: this.identityManagerDeleteIdentity.bind(this),
@@ -126,6 +128,15 @@ export class IdentityManager implements IAgentPlugin {
     }
   }
 
+  /** {@inheritDoc daf-core#IIdentityManager.identityManagerSetAlias} */
+  async identityManagerSetAlias(
+    { did, alias }: IIdentityManagerSetAliasArgs,
+    context: IAgentContext<IKeyManager>,
+  ): Promise<boolean> {
+    const identity = await this.store.get({ did })
+    identity.alias = alias
+    return await this.store.import(identity)
+  }
   /** {@inheritDoc daf-core#IIdentityManager.identityManagerImportIdentity} */
   async identityManagerImportIdentity(
     identity: IIdentity,

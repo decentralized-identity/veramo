@@ -18,6 +18,7 @@ import { IIdentityManagerGetIdentityByAliasArgs } from 'daf-core';
 import { IIdentityManagerGetOrCreateIdentityArgs } from 'daf-core';
 import { IIdentityManagerRemoveKeyArgs } from 'daf-core';
 import { IIdentityManagerRemoveServiceArgs } from 'daf-core';
+import { IIdentityManagerSetAliasArgs } from 'daf-core';
 import { IKey } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IService } from 'daf-core';
@@ -113,6 +114,8 @@ export class IdentityManager implements IAgentPlugin {
     identityManagerRemoveKey({ did, kid, options }: IIdentityManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)
     identityManagerRemoveService({ did, id, options }: IIdentityManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    // (undocumented)
+    identityManagerSetAlias({ did, alias }: IIdentityManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
     readonly methods: IIdentityManager;
     }
 
