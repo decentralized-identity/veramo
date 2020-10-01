@@ -1,7 +1,7 @@
-import { TAgent, IIdentityManager, IIdentity, IDataStore, IMessageHandler } from 'daf-core'
-import { ICredentialIssuer } from 'daf-w3c'
-import { ISelectiveDisclosure } from 'daf-selective-disclosure'
-import { IDataStoreORM } from 'daf-typeorm'
+import { TAgent, IIdentityManager, IIdentity, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
+import { ICredentialIssuer } from '../../packages/daf-w3c/src'
+import { ISelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
+import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 
 type ConfiguredAgent = TAgent<
   IIdentityManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure

@@ -1,5 +1,5 @@
-import { TAgent, IIdentityManager, IIdentity } from 'daf-core'
-import { ICredentialIssuer } from 'daf-w3c'
+import { TAgent, IIdentityManager, IIdentity } from '../../packages/daf-core/src'
+import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 
 type ConfiguredAgent = TAgent<IIdentityManager & ICredentialIssuer>
 

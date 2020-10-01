@@ -1,4 +1,4 @@
-import { TAgent, IIdentityManager, IKeyManager } from 'daf-core'
+import { TAgent, IIdentityManager, IKeyManager } from '../../packages/daf-core/src'
 
 type ConfiguredAgent = TAgent<IIdentityManager & IKeyManager>
 

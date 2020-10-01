@@ -1,4 +1,4 @@
-import { TAgent, IResolver } from 'daf-core'
+import { TAgent, IResolver } from '../../packages/daf-core/src'
 
 type ConfiguredAgent = TAgent<IResolver>
 
