@@ -99,7 +99,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
         findArgs.where?.push({ column: 'value', value: [credentialRequest.claimValue] })
       }
 
-      if (credentialRequest.issuers) {
+      if (credentialRequest.issuers && credentialRequest.issuers.length > 0) {
         findArgs.where?.push({ column: 'issuer', value: credentialRequest.issuers.map((i) => i.did) })
       }
 
