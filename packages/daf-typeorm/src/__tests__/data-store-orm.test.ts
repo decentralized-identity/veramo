@@ -102,10 +102,10 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
     credentials: [vc1],
     presentations: [vp2],
   }
-  await agent.dataStoreSaveMessage(m1)
-  await agent.dataStoreSaveMessage(m2)
-  await agent.dataStoreSaveMessage(m3)
-  await agent.dataStoreSaveMessage(m4)
+  await agent.dataStoreSaveMessage({ message: m1 })
+  await agent.dataStoreSaveMessage({ message: m2 })
+  await agent.dataStoreSaveMessage({ message: m3 })
+  await agent.dataStoreSaveMessage({ message: m4 })
 }
 
 describe('daf-typeorm entities', () => {
@@ -256,7 +256,7 @@ describe('daf-typeorm entities', () => {
   test('works with relations', async () => {
     const credentials = await makeAgent().dataStoreORMGetVerifiableCredentialsByClaims({})
     expect(credentials.length).toBe(3)
-    expect(credentials[0].id).toBe('vc1')
+    expect(credentials[0].verifiableCredential.id).toBe('vc1')
     const count = await makeAgent().dataStoreORMGetVerifiableCredentialsByClaimsCount({})
     expect(count).toBe(3)
 
@@ -318,7 +318,7 @@ describe('daf-typeorm entities', () => {
     }
 
     const agent = makeAgent()
-    await agent.dataStoreSaveVerifiableCredential(vc5)
+    await agent.dataStoreSaveVerifiableCredential({ verifiableCredential: vc5 })
 
     const args: FindArgs<TCredentialColumns> = {
       where: [
@@ -331,7 +331,7 @@ describe('daf-typeorm entities', () => {
     }
 
     const credentials = await agent.dataStoreORMGetVerifiableCredentials(args)
-    expect(credentials[0].id).toEqual('vc5')
+    expect(credentials[0].verifiableCredential.id).toEqual('vc5')
     const count = await agent.dataStoreORMGetVerifiableCredentialsCount(args)
     expect(count).toEqual(1)
   })
@@ -370,7 +370,7 @@ describe('daf-typeorm entities', () => {
     }
 
     const agent = makeAgent()
-    await agent.dataStoreSaveVerifiablePresentation(vp6)
+    await agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation: vp6 })
 
     const args: FindArgs<TPresentationColumns> = {
       where: [
@@ -386,7 +386,7 @@ describe('daf-typeorm entities', () => {
     }
 
     const presentations = await agent.dataStoreORMGetVerifiablePresentations(args)
-    expect(presentations[0].verifiableCredential[0].id).toEqual('vc6')
+    expect(presentations[0].verifiablePresentation.verifiableCredential[0].id).toEqual('vc6')
   })
 
   it('should query identities', async () => {

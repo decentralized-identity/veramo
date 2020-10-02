@@ -78,7 +78,10 @@ export const dataStoreORMGetVerifiableCredentials: IAgentGraphQLMethod = {
   type: 'Query',
   query: `
     query dataStoreORMGetVerifiableCredentials($where: [CredentialsWhere], $order: [CredentialsOrder], $take: Int, $skip: Int) {
-      dataStoreORMGetVerifiableCredentials(where: $where, order: $order, take: $take, skip: $skip) 
+      dataStoreORMGetVerifiableCredentials(where: $where, order: $order, take: $take, skip: $skip) {
+        hash
+        verifiableCredential
+      }
     }
   `,
   typeDef: `
@@ -105,8 +108,58 @@ export const dataStoreORMGetVerifiableCredentials: IAgentGraphQLMethod = {
       direction: OrderDirection!
     }
 
+    type UniqueVerifiableCredential {
+      hash: String!
+      verifiableCredential: VerifiableCredential!
+    }
+
     extend type Query {
-      dataStoreORMGetVerifiableCredentials(where: [CredentialsWhere], order: [CredentialsOrder], take: Int, skip: Int): [Credential]
+      dataStoreORMGetVerifiableCredentials(where: [CredentialsWhere], order: [CredentialsOrder], take: Int, skip: Int): [UniqueVerifiableCredential]
+    }
+  `,
+}
+
+export const dataStoreORMGetVerifiablePresentations: IAgentGraphQLMethod = {
+  type: 'Query',
+  query: `
+    query dataStoreORMGetVerifiablePresentations($where: [PresentationsWhere], $order: [PresentationsOrder], $take: Int, $skip: Int) {
+      dataStoreORMGetVerifiablePresentations(where: $where, order: $order, take: $take, skip: $skip) {
+        hash
+        verifiablePresentation
+      }
+    }
+  `,
+  typeDef: `
+
+    enum PresentationsColumns {
+      context
+      type
+      id
+      issuer
+      subject
+      expirationDate
+      issuanceDate
+    }
+
+    input PresentationsWhere {
+      column: PresentationsColumns!
+      value: [String]
+      not: Boolean
+      op: WhereOperation
+    }
+
+    input PresentationsOrder {
+      column: PresentationsColumns!
+      direction: OrderDirection!
+    }
+
+    type UniqueVerifiablePresentation {
+      hash: String!
+      verifiablePresentation: VerifiablePresentation!
+    }
+
+    extend type Query {
+      dataStoreORMGetVerifiablePresentations(where: [PresentationsWhere], order: [PresentationsOrder], take: Int, skip: Int): [UniqueVerifiablePresentation]
     }
   `,
 }
@@ -173,9 +226,40 @@ export const dataStoreORMGetIdentitiesCount: IAgentGraphQLMethod = {
   `,
 }
 
+export const dataStoreORMGetVerifiableCredentialsCount: IAgentGraphQLMethod = {
+  type: 'Query',
+  query: `
+    query dataStoreORMGetVerifiableCredentialsCount($where: [CredentialsWhere], $order: [CredentialsOrder]) {
+      dataStoreORMGetVerifiableCredentialsCount(where: $where, order: $order) 
+    }
+  `,
+  typeDef: `
+    extend type Query {
+      dataStoreORMGetVerifiableCredentialsCount(where: [CredentialsWhere], order: [CredentialsOrder]): Int
+    }
+  `,
+}
+
+export const dataStoreORMGetVerifiablePresentationsCount: IAgentGraphQLMethod = {
+  type: 'Query',
+  query: `
+    query dataStoreORMGetVerifiablePresentationsCount($where: [PresentationsWhere], $order: [PresentationsOrder]) {
+      dataStoreORMGetVerifiablePresentationsCount(where: $where, order: $order) 
+    }
+  `,
+  typeDef: `
+    extend type Query {
+      dataStoreORMGetVerifiablePresentationsCount(where: [PresentationsWhere], order: [PresentationsOrder]): Int
+    }
+  `,
+}
+
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   dataStoreORMGetMessages,
   dataStoreORMGetVerifiableCredentials,
+  dataStoreORMGetVerifiableCredentialsCount,
+  dataStoreORMGetVerifiablePresentations,
+  dataStoreORMGetVerifiablePresentationsCount,
   dataStoreORMGetIdentities,
   dataStoreORMGetIdentitiesCount,
 }

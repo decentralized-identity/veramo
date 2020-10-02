@@ -39,7 +39,7 @@ import { AgentRouter } from '../packages/daf-express/src'
 import fs from 'fs'
 
 // Shared tests
-import createVerifiableCredential from './shared/createVerifiableCredential'
+import verifiableData from './shared/verifiableData'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
@@ -157,7 +157,7 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('REST integration tests', () => {
-  createVerifiableCredential(testContext)
+  verifiableData(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)

@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-dataStoreORMGetVerifiableCredentialsByClaims(args: FindArgs<TClaimsColumns>, context: IContext): Promise<VerifiableCredential[]>;
+dataStoreORMGetVerifiableCredentialsByClaims(args: FindArgs<TClaimsColumns>, context: IContext): Promise<Array<UniqueVerifiableCredential>>;
 ```
 
 ## Parameters
@@ -19,5 +19,5 @@ dataStoreORMGetVerifiableCredentialsByClaims(args: FindArgs<TClaimsColumns>, con
 
 <b>Returns:</b>
 
-Promise&lt;[VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\]&gt;
+Promise&lt;Array&lt;[UniqueVerifiableCredential](./daf-typeorm.uniqueverifiablecredential.md)<!-- -->&gt;&gt;
 

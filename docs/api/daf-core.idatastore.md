@@ -17,6 +17,9 @@ export interface IDataStore extends IPluginMethodMap
 
 |  Method | Description |
 |  --- | --- |
+|  [dataStoreGetMessage(args)](./daf-core.idatastore.datastoregetmessage.md) | Gets message from the data store |
+|  [dataStoreGetVerifiableCredential(args)](./daf-core.idatastore.datastoregetverifiablecredential.md) | Gets verifiable credential from the data store |
+|  [dataStoreGetVerifiablePresentation(args)](./daf-core.idatastore.datastoregetverifiablepresentation.md) | Gets verifiable presentation from the data store |
 |  [dataStoreSaveMessage(args)](./daf-core.idatastore.datastoresavemessage.md) | Saves message to the data store |
 |  [dataStoreSaveVerifiableCredential(args)](./daf-core.idatastore.datastoresaveverifiablecredential.md) | Saves verifiable credential to the data store |
 |  [dataStoreSaveVerifiablePresentation(args)](./daf-core.idatastore.datastoresaveverifiablepresentation.md) | Saves verifiable presentation to the data store |

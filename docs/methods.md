@@ -136,6 +136,21 @@ Parses and optionally saves a message
 ## [IDataStore](./api/daf-core.idatastore.md) 
 
 
+### [dataStoreGetMessage](./api/daf-core.idatastore.datastoregetmessage.md)
+
+Gets message from the data store
+
+
+### [dataStoreGetVerifiableCredential](./api/daf-core.idatastore.datastoregetverifiablecredential.md)
+
+Gets verifiable credential from the data store
+
+
+### [dataStoreGetVerifiablePresentation](./api/daf-core.idatastore.datastoregetverifiablepresentation.md)
+
+Gets verifiable presentation from the data store
+
+
 ### [dataStoreSaveMessage](./api/daf-core.idatastore.datastoresavemessage.md)
 
 Saves message to the data store

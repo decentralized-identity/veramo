@@ -27,6 +27,9 @@ export declare class DataStore implements IAgentPlugin
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
+|  [dataStoreGetMessage(args)](./daf-typeorm.datastore.datastoregetmessage.md) |  |  |
+|  [dataStoreGetVerifiableCredential(args)](./daf-typeorm.datastore.datastoregetverifiablecredential.md) |  |  |
+|  [dataStoreGetVerifiablePresentation(args)](./daf-typeorm.datastore.datastoregetverifiablepresentation.md) |  |  |
 |  [dataStoreSaveMessage(args)](./daf-typeorm.datastore.datastoresavemessage.md) |  |  |
 |  [dataStoreSaveVerifiableCredential(args)](./daf-typeorm.datastore.datastoresaveverifiablecredential.md) |  |  |
 |  [dataStoreSaveVerifiablePresentation(args)](./daf-typeorm.datastore.datastoresaveverifiablepresentation.md) |  |  |

@@ -28,6 +28,12 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  [IAgentOptions](./daf-core.iagentoptions.md) | Agent configuration options.<!-- -->This interface is used to describe the constellation of plugins that this agent will use and provide.<!-- -->You will use this to attach plugins, to setup overrides for their methods and to explicitly set the methods that this agent instance is allowed to call. This permissioning method is also used for internal calls made by plugin code. |
 |  [IAgentPlugin](./daf-core.iagentplugin.md) | Agent plugin interface |
 |  [IDataStore](./daf-core.idatastore.md) | Basic data store interface |
+|  [IDataStoreGetMessageArgs](./daf-core.idatastoregetmessageargs.md) | Input arguments for [dataStoreGetMessage](./daf-core.idatastore.datastoregetmessage.md) |
+|  [IDataStoreGetVerifiableCredentialArgs](./daf-core.idatastoregetverifiablecredentialargs.md) | Input arguments for [dataStoreGetVerifiableCredential](./daf-core.idatastore.datastoregetverifiablecredential.md) |
+|  [IDataStoreGetVerifiablePresentationArgs](./daf-core.idatastoregetverifiablepresentationargs.md) | Input arguments for [dataStoreGetVerifiablePresentation](./daf-core.idatastore.datastoregetverifiablepresentation.md) |
+|  [IDataStoreSaveMessageArgs](./daf-core.idatastoresavemessageargs.md) | Input arguments for [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) |
+|  [IDataStoreSaveVerifiableCredentialArgs](./daf-core.idatastoresaveverifiablecredentialargs.md) | Input arguments for [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) |
+|  [IDataStoreSaveVerifiablePresentationArgs](./daf-core.idatastoresaveverifiablepresentationargs.md) | Input arguments for [dataStoreSaveVerifiablePresentation](./daf-core.idatastore.datastoresaveverifiablepresentation.md) |
 |  [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) | Input arguments for [handleMessage](./daf-core.imessagehandler.handlemessage.md) |
 |  [IIdentity](./daf-core.iidentity.md) | Identity interface |
 |  [IIdentityManager](./daf-core.iidentitymanager.md) | Identity manager interface |

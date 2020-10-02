@@ -9,18 +9,18 @@ Saves message to the data store
 <b>Signature:</b>
 
 ```typescript
-dataStoreSaveMessage(args: IMessage): Promise<boolean>;
+dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [IMessage](./daf-core.imessage.md) | message |
+|  args | [IDataStoreSaveMessageArgs](./daf-core.idatastoresavemessageargs.md) | message |
 
 <b>Returns:</b>
 
-Promise&lt;boolean&gt;
+Promise&lt;string&gt;
 
-`true` if successful
+a promise that resolves to the id of the message
 

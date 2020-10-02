@@ -61,7 +61,7 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
 
       debug('Validated message %o', message)
       if (save) {
-        await context.agent.dataStoreSaveMessage(message)
+        await context.agent.dataStoreSaveMessage({ message })
         debug('Emitting event', EventTypes.savedMessage)
         this.emit(EventTypes.savedMessage, message)
       }

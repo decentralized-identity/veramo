@@ -148,8 +148,11 @@ program
       if (vcs.length > 0) {
         for (const credential of vcs) {
           list.push({
-            name: JSON.stringify(credential.credentialSubject) + ' | Issuer: ' + credential.issuer.id,
-            value: credential.proof.jwt,
+            name:
+              JSON.stringify(credential.verifiableCredential.credentialSubject) +
+              ' | Issuer: ' +
+              credential.verifiableCredential.issuer.id,
+            value: credential.verifiableCredential.proof.jwt,
           })
         }
 

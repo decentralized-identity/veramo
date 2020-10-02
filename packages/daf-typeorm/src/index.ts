@@ -15,6 +15,8 @@ export {
   FindIdentitiesArgs,
   FindMessagesArgs,
   FindPresentationsArgs,
+  UniqueVerifiablePresentation,
+  UniqueVerifiableCredential,
 } from './data-store-orm'
 export * from './types'
 import { Key, KeyType } from './entities/key'

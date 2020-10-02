@@ -55,9 +55,42 @@ export interface IAgentPlugin {
 
 // @public
 export interface IDataStore extends IPluginMethodMap {
-    dataStoreSaveMessage(args: IMessage): Promise<boolean>;
-    dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>;
-    dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean>;
+    dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage>;
+    dataStoreGetVerifiableCredential(args: IDataStoreGetVerifiableCredentialArgs): Promise<VerifiableCredential>;
+    dataStoreGetVerifiablePresentation(args: IDataStoreGetVerifiablePresentationArgs): Promise<VerifiablePresentation>;
+    dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string>;
+    dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string>;
+    dataStoreSaveVerifiablePresentation(args: IDataStoreSaveVerifiablePresentationArgs): Promise<string>;
+}
+
+// @public
+export interface IDataStoreGetMessageArgs {
+    id: string;
+}
+
+// @public
+export interface IDataStoreGetVerifiableCredentialArgs {
+    hash: string;
+}
+
+// @public
+export interface IDataStoreGetVerifiablePresentationArgs {
+    hash: string;
+}
+
+// @public
+export interface IDataStoreSaveMessageArgs {
+    message: IMessage;
+}
+
+// @public
+export interface IDataStoreSaveVerifiableCredentialArgs {
+    verifiableCredential: VerifiableCredential;
+}
+
+// @public
+export interface IDataStoreSaveVerifiablePresentationArgs {
+    verifiablePresentation: VerifiablePresentation;
 }
 
 // @public

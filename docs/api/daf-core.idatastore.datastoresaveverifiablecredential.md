@@ -9,18 +9,18 @@ Saves verifiable credential to the data store
 <b>Signature:</b>
 
 ```typescript
-dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>;
+dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [VerifiableCredential](./daf-core.verifiablecredential.md) | verifiable credential |
+|  args | [IDataStoreSaveVerifiableCredentialArgs](./daf-core.idatastoresaveverifiablecredentialargs.md) | verifiable credential |
 
 <b>Returns:</b>
 
-Promise&lt;boolean&gt;
+Promise&lt;string&gt;
 
-`true` if successful
+a promise that resolves to the hash of the VerifiableCredential
 

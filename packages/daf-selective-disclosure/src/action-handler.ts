@@ -127,7 +127,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
       result.push({
         ...credentialRequest,
-        credentials,
+        credentials: credentials.map((c) => c.verifiableCredential),
       })
     }
     return result

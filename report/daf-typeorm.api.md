@@ -11,6 +11,12 @@ import { BaseEntity } from 'typeorm';
 import { Connection } from 'typeorm';
 import { IAgentPlugin } from 'daf-core';
 import { IDataStore } from 'daf-core';
+import { IDataStoreGetMessageArgs } from 'daf-core';
+import { IDataStoreGetVerifiableCredentialArgs } from 'daf-core';
+import { IDataStoreGetVerifiablePresentationArgs } from 'daf-core';
+import { IDataStoreSaveMessageArgs } from 'daf-core';
+import { IDataStoreSaveVerifiableCredentialArgs } from 'daf-core';
+import { IDataStoreSaveVerifiablePresentationArgs } from 'daf-core';
 import { IIdentity } from 'daf-core';
 import { IKey } from 'daf-core';
 import { IMessage } from 'daf-core';
@@ -79,11 +85,17 @@ export { Credential_2 as Credential }
 export class DataStore implements IAgentPlugin {
     constructor(dbConnection: Promise<Connection>);
     // (undocumented)
-    dataStoreSaveMessage(args: IMessage): Promise<boolean>;
+    dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage>;
     // (undocumented)
-    dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>;
+    dataStoreGetVerifiableCredential(args: IDataStoreGetVerifiableCredentialArgs): Promise<VerifiableCredential>;
     // (undocumented)
-    dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean>;
+    dataStoreGetVerifiablePresentation(args: IDataStoreGetVerifiablePresentationArgs): Promise<VerifiablePresentation>;
+    // (undocumented)
+    dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string>;
+    // (undocumented)
+    dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string>;
+    // (undocumented)
+    dataStoreSaveVerifiablePresentation(args: IDataStoreSaveVerifiablePresentationArgs): Promise<string>;
     // (undocumented)
     readonly methods: IDataStore;
 }
@@ -102,15 +114,15 @@ export class DataStoreORM implements IAgentPlugin {
     // (undocumented)
     dataStoreORMGetMessagesCount(args: FindArgs<TMessageColumns>, context: IContext): Promise<number>;
     // (undocumented)
-    dataStoreORMGetVerifiableCredentials(args: FindArgs<TCredentialColumns>, context: IContext): Promise<VerifiableCredential[]>;
+    dataStoreORMGetVerifiableCredentials(args: FindArgs<TCredentialColumns>, context: IContext): Promise<Array<UniqueVerifiableCredential>>;
     // (undocumented)
-    dataStoreORMGetVerifiableCredentialsByClaims(args: FindArgs<TClaimsColumns>, context: IContext): Promise<VerifiableCredential[]>;
+    dataStoreORMGetVerifiableCredentialsByClaims(args: FindArgs<TClaimsColumns>, context: IContext): Promise<Array<UniqueVerifiableCredential>>;
     // (undocumented)
     dataStoreORMGetVerifiableCredentialsByClaimsCount(args: FindArgs<TClaimsColumns>, context: IContext): Promise<number>;
     // (undocumented)
     dataStoreORMGetVerifiableCredentialsCount(args: FindArgs<TCredentialColumns>, context: IContext): Promise<number>;
     // (undocumented)
-    dataStoreORMGetVerifiablePresentations(args: FindArgs<TPresentationColumns>, context: IContext): Promise<VerifiablePresentation[]>;
+    dataStoreORMGetVerifiablePresentations(args: FindArgs<TPresentationColumns>, context: IContext): Promise<Array<UniqueVerifiablePresentation>>;
     // (undocumented)
     dataStoreORMGetVerifiablePresentationsCount(args: FindArgs<TPresentationColumns>, context: IContext): Promise<number>;
     // (undocumented)
@@ -118,7 +130,7 @@ export class DataStoreORM implements IAgentPlugin {
     }
 
 // @public (undocumented)
-export const Entities: (typeof Credential_2 | typeof Identity | typeof Claim | typeof Presentation | typeof Message | typeof Key | typeof Service)[];
+export const Entities: (typeof Identity | typeof Message | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Key | typeof Service)[];
 
 // @public (undocumented)
 export interface FindArgs<TColumns> {
@@ -158,15 +170,15 @@ export interface IDataStoreORM extends IPluginMethodMap {
     // (undocumented)
     dataStoreORMGetMessagesCount(args: FindMessagesArgs, context: IContext): Promise<number>;
     // (undocumented)
-    dataStoreORMGetVerifiableCredentials(args: FindCredentialsArgs, context: IContext): Promise<Array<VerifiableCredential>>;
+    dataStoreORMGetVerifiableCredentials(args: FindCredentialsArgs, context: IContext): Promise<Array<UniqueVerifiableCredential>>;
     // (undocumented)
-    dataStoreORMGetVerifiableCredentialsByClaims(args: FindClaimsArgs, context: IContext): Promise<Array<VerifiableCredential>>;
+    dataStoreORMGetVerifiableCredentialsByClaims(args: FindClaimsArgs, context: IContext): Promise<Array<UniqueVerifiableCredential>>;
     // (undocumented)
     dataStoreORMGetVerifiableCredentialsByClaimsCount(args: FindClaimsArgs, context: IContext): Promise<number>;
     // (undocumented)
     dataStoreORMGetVerifiableCredentialsCount(args: FindCredentialsArgs, context: IContext): Promise<number>;
     // (undocumented)
-    dataStoreORMGetVerifiablePresentations(args: FindPresentationsArgs, context: IContext): Promise<Array<VerifiablePresentation>>;
+    dataStoreORMGetVerifiablePresentations(args: FindPresentationsArgs, context: IContext): Promise<Array<UniqueVerifiablePresentation>>;
     // (undocumented)
     dataStoreORMGetVerifiablePresentationsCount(args: FindPresentationsArgs, context: IContext): Promise<number>;
 }
@@ -384,6 +396,22 @@ export type TMessageColumns = 'from' | 'to' | 'id' | 'createdAt' | 'expiresAt' |
 
 // @public (undocumented)
 export type TPresentationColumns = 'context' | 'type' | 'id' | 'holder' | 'verifier' | 'expirationDate' | 'issuanceDate';
+
+// @public (undocumented)
+export interface UniqueVerifiableCredential {
+    // (undocumented)
+    hash: string;
+    // (undocumented)
+    verifiableCredential: VerifiableCredential;
+}
+
+// @public (undocumented)
+export interface UniqueVerifiablePresentation {
+    // (undocumented)
+    hash: string;
+    // (undocumented)
+    verifiablePresentation: VerifiablePresentation;
+}
 
 // @public (undocumented)
 export interface Where<TColumns> {

@@ -1844,6 +1844,456 @@ export const openApiSchema: OpenAPIV3.Document = {
         }
       }
     },
+    "/dataStoreGetMessage": {
+      "post": {
+        "description": "Gets message from the data store",
+        "operationId": "dataStoreGetMessage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Required. Message ID"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "additionalProperties": false,
+                "description": "Input arguments for {@link IDataStore.dataStoreGetMessage | dataStoreGetMessage}"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Gets message from the data store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique message ID"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Message type"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": "Optional. Creation date (ISO 8601)"
+                    },
+                    "expiresAt": {
+                      "type": "string",
+                      "description": "Optional. Expiration date (ISO 8601)"
+                    },
+                    "threadId": {
+                      "type": "string",
+                      "description": "Optional. Thread ID"
+                    },
+                    "raw": {
+                      "type": "string",
+                      "description": "Optional. Original message raw data"
+                    },
+                    "data": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object"
+                        }
+                      ],
+                      "description": "Optional. Parsed data"
+                    },
+                    "replyTo": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Optional. List of DIDs to reply to"
+                    },
+                    "replyUrl": {
+                      "type": "string",
+                      "description": "Optional. URL to post a reply message to"
+                    },
+                    "from": {
+                      "type": "string",
+                      "description": "Optional. Sender DID"
+                    },
+                    "to": {
+                      "type": "string",
+                      "description": "Optional. Recipient DID"
+                    },
+                    "metaData": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "description": "Type"
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "Optional. Value"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "additionalProperties": false,
+                        "description": "Message meta data"
+                      },
+                      "description": "Optional. Array of message metadata"
+                    },
+                    "credentials": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "proof": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "credentialSubject": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "credentialStatus": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type"
+                            ]
+                          },
+                          "@context": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "type": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "issuer": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id"
+                            ]
+                          },
+                          "issuanceDate": {
+                            "type": "string"
+                          },
+                          "expirationDate": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@context",
+                          "credentialSubject",
+                          "issuanceDate",
+                          "issuer",
+                          "proof",
+                          "type"
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                      },
+                      "description": "Optional. Array of attached verifiable credentials"
+                    },
+                    "presentations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "proof": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "holder": {
+                            "type": "string"
+                          },
+                          "issuanceDate": {
+                            "type": "string"
+                          },
+                          "expirationDate": {
+                            "type": "string"
+                          },
+                          "@context": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "type": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "verifier": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "verifiableCredential": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        },
+                        "required": [
+                          "@context",
+                          "holder",
+                          "proof",
+                          "type",
+                          "verifiableCredential",
+                          "verifier"
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                      },
+                      "description": "Optional. Array of attached verifiable presentations"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type"
+                  ],
+                  "additionalProperties": false,
+                  "description": "DIDComm message"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dataStoreGetVerifiableCredential": {
+      "post": {
+        "description": "Gets verifiable credential from the data store",
+        "operationId": "dataStoreGetVerifiableCredential",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hash": {
+                    "type": "string",
+                    "description": "Required. VerifiableCredential hash"
+                  }
+                },
+                "required": [
+                  "hash"
+                ],
+                "additionalProperties": false,
+                "description": "Input arguments for {@link IDataStore.dataStoreGetVerifiableCredential | dataStoreGetVerifiableCredential}"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Gets verifiable credential from the data store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "proof": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "credentialSubject": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "credentialStatus": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ]
+                    },
+                    "@context": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "type": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "issuer": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    },
+                    "issuanceDate": {
+                      "type": "string"
+                    },
+                    "expirationDate": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@context",
+                    "credentialSubject",
+                    "issuanceDate",
+                    "issuer",
+                    "proof",
+                    "type"
+                  ],
+                  "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dataStoreGetVerifiablePresentation": {
+      "post": {
+        "description": "Gets verifiable presentation from the data store",
+        "operationId": "dataStoreGetVerifiablePresentation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hash": {
+                    "type": "string",
+                    "description": "Required. VerifiablePresentation hash"
+                  }
+                },
+                "required": [
+                  "hash"
+                ],
+                "additionalProperties": false,
+                "description": "Input arguments for {@link IDataStore.dataStoreGetVerifiablePresentation | dataStoreGetVerifiablePresentation}"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Gets verifiable presentation from the data store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "proof": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "holder": {
+                      "type": "string"
+                    },
+                    "issuanceDate": {
+                      "type": "string"
+                    },
+                    "expirationDate": {
+                      "type": "string"
+                    },
+                    "@context": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "type": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "verifier": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "verifiableCredential": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "@context",
+                    "holder",
+                    "proof",
+                    "type",
+                    "verifiableCredential",
+                    "verifier"
+                  ],
+                  "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/dataStoreSaveMessage": {
       "post": {
         "description": "Saves message to the data store",
@@ -1854,222 +2304,232 @@ export const openApiSchema: OpenAPIV3.Document = {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "Unique message ID"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Message type"
-                  },
-                  "createdAt": {
-                    "type": "string",
-                    "description": "Optional. Creation date (ISO 8601)"
-                  },
-                  "expiresAt": {
-                    "type": "string",
-                    "description": "Optional. Expiration date (ISO 8601)"
-                  },
-                  "threadId": {
-                    "type": "string",
-                    "description": "Optional. Thread ID"
-                  },
-                  "raw": {
-                    "type": "string",
-                    "description": "Optional. Original message raw data"
-                  },
-                  "data": {
-                    "anyOf": [
-                      {
-                        "type": "string"
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique message ID"
                       },
-                      {
-                        "type": "object"
-                      }
-                    ],
-                    "description": "Optional. Parsed data"
-                  },
-                  "replyTo": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "Optional. List of DIDs to reply to"
-                  },
-                  "replyUrl": {
-                    "type": "string",
-                    "description": "Optional. URL to post a reply message to"
-                  },
-                  "from": {
-                    "type": "string",
-                    "description": "Optional. Sender DID"
-                  },
-                  "to": {
-                    "type": "string",
-                    "description": "Optional. Recipient DID"
-                  },
-                  "metaData": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "description": "Type"
+                      "type": {
+                        "type": "string",
+                        "description": "Message type"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "description": "Optional. Creation date (ISO 8601)"
+                      },
+                      "expiresAt": {
+                        "type": "string",
+                        "description": "Optional. Expiration date (ISO 8601)"
+                      },
+                      "threadId": {
+                        "type": "string",
+                        "description": "Optional. Thread ID"
+                      },
+                      "raw": {
+                        "type": "string",
+                        "description": "Optional. Original message raw data"
+                      },
+                      "data": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "object"
+                          }
+                        ],
+                        "description": "Optional. Parsed data"
+                      },
+                      "replyTo": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
                         },
-                        "value": {
-                          "type": "string",
-                          "description": "Optional. Value"
-                        }
+                        "description": "Optional. List of DIDs to reply to"
                       },
-                      "required": [
-                        "type"
-                      ],
-                      "additionalProperties": false,
-                      "description": "Message meta data"
-                    },
-                    "description": "Optional. Array of message metadata"
-                  },
-                  "credentials": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "proof": {
+                      "replyUrl": {
+                        "type": "string",
+                        "description": "Optional. URL to post a reply message to"
+                      },
+                      "from": {
+                        "type": "string",
+                        "description": "Optional. Sender DID"
+                      },
+                      "to": {
+                        "type": "string",
+                        "description": "Optional. Recipient DID"
+                      },
+                      "metaData": {
+                        "type": "array",
+                        "items": {
                           "type": "object",
                           "properties": {
                             "type": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Type"
+                            },
+                            "value": {
+                              "type": "string",
+                              "description": "Optional. Value"
                             }
-                          }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "additionalProperties": false,
+                          "description": "Message meta data"
                         },
-                        "id": {
-                          "type": "string"
-                        },
-                        "credentialSubject": {
+                        "description": "Optional. Array of message metadata"
+                      },
+                      "credentials": {
+                        "type": "array",
+                        "items": {
                           "type": "object",
+                          "additionalProperties": false,
                           "properties": {
-                            "id": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "credentialStatus": {
-                          "type": "object",
-                          "properties": {
+                            "proof": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                }
+                              }
+                            },
                             "id": {
                               "type": "string"
                             },
+                            "credentialSubject": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "credentialStatus": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "type"
+                              ]
+                            },
+                            "@context": {
+                              "type": "object",
+                              "properties": {}
+                            },
                             "type": {
+                              "type": "object",
+                              "properties": {}
+                            },
+                            "issuer": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id"
+                              ]
+                            },
+                            "issuanceDate": {
+                              "type": "string"
+                            },
+                            "expirationDate": {
                               "type": "string"
                             }
                           },
                           "required": [
-                            "id",
+                            "@context",
+                            "credentialSubject",
+                            "issuanceDate",
+                            "issuer",
+                            "proof",
                             "type"
-                          ]
+                          ],
+                          "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                         },
-                        "@context": {
+                        "description": "Optional. Array of attached verifiable credentials"
+                      },
+                      "presentations": {
+                        "type": "array",
+                        "items": {
                           "type": "object",
-                          "properties": {}
-                        },
-                        "type": {
-                          "type": "object",
-                          "properties": {}
-                        },
-                        "issuer": {
-                          "type": "object",
+                          "additionalProperties": false,
                           "properties": {
+                            "proof": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                }
+                              }
+                            },
                             "id": {
                               "type": "string"
+                            },
+                            "holder": {
+                              "type": "string"
+                            },
+                            "issuanceDate": {
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "type": "string"
+                            },
+                            "@context": {
+                              "type": "object",
+                              "properties": {}
+                            },
+                            "type": {
+                              "type": "object",
+                              "properties": {}
+                            },
+                            "verifier": {
+                              "type": "object",
+                              "properties": {}
+                            },
+                            "verifiableCredential": {
+                              "type": "object",
+                              "properties": {}
                             }
                           },
                           "required": [
-                            "id"
-                          ]
+                            "@context",
+                            "holder",
+                            "proof",
+                            "type",
+                            "verifiableCredential",
+                            "verifier"
+                          ],
+                          "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                         },
-                        "issuanceDate": {
-                          "type": "string"
-                        },
-                        "expirationDate": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "@context",
-                        "credentialSubject",
-                        "issuanceDate",
-                        "issuer",
-                        "proof",
-                        "type"
-                      ],
-                      "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                        "description": "Optional. Array of attached verifiable presentations"
+                      }
                     },
-                    "description": "Optional. Array of attached verifiable credentials"
-                  },
-                  "presentations": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "proof": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "holder": {
-                          "type": "string"
-                        },
-                        "issuanceDate": {
-                          "type": "string"
-                        },
-                        "expirationDate": {
-                          "type": "string"
-                        },
-                        "@context": {
-                          "type": "object",
-                          "properties": {}
-                        },
-                        "type": {
-                          "type": "object",
-                          "properties": {}
-                        },
-                        "verifier": {
-                          "type": "object",
-                          "properties": {}
-                        },
-                        "verifiableCredential": {
-                          "type": "object",
-                          "properties": {}
-                        }
-                      },
-                      "required": [
-                        "@context",
-                        "holder",
-                        "proof",
-                        "type",
-                        "verifiableCredential",
-                        "verifier"
-                      ],
-                      "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
-                    },
-                    "description": "Optional. Array of attached verifiable presentations"
+                    "required": [
+                      "id",
+                      "type"
+                    ],
+                    "additionalProperties": false,
+                    "description": "DIDComm message"
                   }
                 },
                 "required": [
-                  "id",
-                  "type"
+                  "message"
                 ],
                 "additionalProperties": false,
-                "description": "DIDComm message"
+                "description": "Input arguments for {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}"
               }
             }
           }
@@ -2080,7 +2540,7 @@ export const openApiSchema: OpenAPIV3.Document = {
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string"
                 }
               }
             }
@@ -2097,77 +2557,87 @@ export const openApiSchema: OpenAPIV3.Document = {
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": false,
                 "properties": {
-                  "proof": {
+                  "verifiableCredential": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
-                      "type": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "id": {
-                    "type": "string"
-                  },
-                  "credentialSubject": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "credentialStatus": {
-                    "type": "object",
-                    "properties": {
+                      "proof": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      },
                       "id": {
                         "type": "string"
                       },
+                      "credentialSubject": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "credentialStatus": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type"
+                        ]
+                      },
+                      "@context": {
+                        "type": "object",
+                        "properties": {}
+                      },
                       "type": {
+                        "type": "object",
+                        "properties": {}
+                      },
+                      "issuer": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id"
+                        ]
+                      },
+                      "issuanceDate": {
+                        "type": "string"
+                      },
+                      "expirationDate": {
                         "type": "string"
                       }
                     },
                     "required": [
-                      "id",
+                      "@context",
+                      "credentialSubject",
+                      "issuanceDate",
+                      "issuer",
+                      "proof",
                       "type"
-                    ]
-                  },
-                  "@context": {
-                    "type": "object",
-                    "properties": {}
-                  },
-                  "type": {
-                    "type": "object",
-                    "properties": {}
-                  },
-                  "issuer": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ]
-                  },
-                  "issuanceDate": {
-                    "type": "string"
-                  },
-                  "expirationDate": {
-                    "type": "string"
+                    ],
+                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                   }
                 },
                 "required": [
-                  "@context",
-                  "credentialSubject",
-                  "issuanceDate",
-                  "issuer",
-                  "proof",
-                  "type"
+                  "verifiableCredential"
                 ],
-                "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                "additionalProperties": false,
+                "description": "Input arguments for {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential}"
               }
             }
           }
@@ -2178,7 +2648,7 @@ export const openApiSchema: OpenAPIV3.Document = {
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string"
                 }
               }
             }
@@ -2195,54 +2665,64 @@ export const openApiSchema: OpenAPIV3.Document = {
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": false,
                 "properties": {
-                  "proof": {
+                  "verifiablePresentation": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
-                      "type": {
+                      "proof": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "id": {
                         "type": "string"
+                      },
+                      "holder": {
+                        "type": "string"
+                      },
+                      "issuanceDate": {
+                        "type": "string"
+                      },
+                      "expirationDate": {
+                        "type": "string"
+                      },
+                      "@context": {
+                        "type": "object",
+                        "properties": {}
+                      },
+                      "type": {
+                        "type": "object",
+                        "properties": {}
+                      },
+                      "verifier": {
+                        "type": "object",
+                        "properties": {}
+                      },
+                      "verifiableCredential": {
+                        "type": "object",
+                        "properties": {}
                       }
-                    }
-                  },
-                  "id": {
-                    "type": "string"
-                  },
-                  "holder": {
-                    "type": "string"
-                  },
-                  "issuanceDate": {
-                    "type": "string"
-                  },
-                  "expirationDate": {
-                    "type": "string"
-                  },
-                  "@context": {
-                    "type": "object",
-                    "properties": {}
-                  },
-                  "type": {
-                    "type": "object",
-                    "properties": {}
-                  },
-                  "verifier": {
-                    "type": "object",
-                    "properties": {}
-                  },
-                  "verifiableCredential": {
-                    "type": "object",
-                    "properties": {}
+                    },
+                    "required": [
+                      "@context",
+                      "holder",
+                      "proof",
+                      "type",
+                      "verifiableCredential",
+                      "verifier"
+                    ],
+                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                   }
                 },
                 "required": [
-                  "@context",
-                  "holder",
-                  "proof",
-                  "type",
-                  "verifiableCredential",
-                  "verifier"
+                  "verifiablePresentation"
                 ],
-                "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                "additionalProperties": false,
+                "description": "Input arguments for {@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation}"
               }
             }
           }
@@ -2253,7 +2733,7 @@ export const openApiSchema: OpenAPIV3.Document = {
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string"
                 }
               }
             }
@@ -5076,77 +5556,90 @@ export const openApiSchema: OpenAPIV3.Document = {
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
-                      "proof": {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      "id": {
+                      "hash": {
                         "type": "string"
                       },
-                      "credentialSubject": {
+                      "verifiableCredential": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
-                          "id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      "credentialStatus": {
-                        "type": "object",
-                        "properties": {
+                          "proof": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              }
+                            }
+                          },
                           "id": {
                             "type": "string"
                           },
+                          "credentialSubject": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "credentialStatus": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type"
+                            ]
+                          },
+                          "@context": {
+                            "type": "object",
+                            "properties": {}
+                          },
                           "type": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "issuer": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id"
+                            ]
+                          },
+                          "issuanceDate": {
+                            "type": "string"
+                          },
+                          "expirationDate": {
                             "type": "string"
                           }
                         },
                         "required": [
-                          "id",
+                          "@context",
+                          "credentialSubject",
+                          "issuanceDate",
+                          "issuer",
+                          "proof",
                           "type"
-                        ]
-                      },
-                      "@context": {
-                        "type": "object",
-                        "properties": {}
-                      },
-                      "type": {
-                        "type": "object",
-                        "properties": {}
-                      },
-                      "issuer": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "id"
-                        ]
-                      },
-                      "issuanceDate": {
-                        "type": "string"
-                      },
-                      "expirationDate": {
-                        "type": "string"
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                       }
                     },
                     "required": [
-                      "@context",
-                      "credentialSubject",
-                      "issuanceDate",
-                      "issuer",
-                      "proof",
-                      "type"
+                      "hash",
+                      "verifiableCredential"
                     ],
-                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                    "additionalProperties": false
                   }
                 }
               }
@@ -5272,77 +5765,90 @@ export const openApiSchema: OpenAPIV3.Document = {
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
-                      "proof": {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      "id": {
+                      "hash": {
                         "type": "string"
                       },
-                      "credentialSubject": {
+                      "verifiableCredential": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
-                          "id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      "credentialStatus": {
-                        "type": "object",
-                        "properties": {
+                          "proof": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              }
+                            }
+                          },
                           "id": {
                             "type": "string"
                           },
+                          "credentialSubject": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "credentialStatus": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type"
+                            ]
+                          },
+                          "@context": {
+                            "type": "object",
+                            "properties": {}
+                          },
                           "type": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "issuer": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id"
+                            ]
+                          },
+                          "issuanceDate": {
+                            "type": "string"
+                          },
+                          "expirationDate": {
                             "type": "string"
                           }
                         },
                         "required": [
-                          "id",
+                          "@context",
+                          "credentialSubject",
+                          "issuanceDate",
+                          "issuer",
+                          "proof",
                           "type"
-                        ]
-                      },
-                      "@context": {
-                        "type": "object",
-                        "properties": {}
-                      },
-                      "type": {
-                        "type": "object",
-                        "properties": {}
-                      },
-                      "issuer": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "id"
-                        ]
-                      },
-                      "issuanceDate": {
-                        "type": "string"
-                      },
-                      "expirationDate": {
-                        "type": "string"
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                       }
                     },
                     "required": [
-                      "@context",
-                      "credentialSubject",
-                      "issuanceDate",
-                      "issuer",
-                      "proof",
-                      "type"
+                      "hash",
+                      "verifiableCredential"
                     ],
-                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                    "additionalProperties": false
                   }
                 }
               }
@@ -5700,54 +6206,67 @@ export const openApiSchema: OpenAPIV3.Document = {
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
-                      "proof": {
+                      "hash": {
+                        "type": "string"
+                      },
+                      "verifiablePresentation": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
-                          "type": {
+                          "proof": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "id": {
                             "type": "string"
+                          },
+                          "holder": {
+                            "type": "string"
+                          },
+                          "issuanceDate": {
+                            "type": "string"
+                          },
+                          "expirationDate": {
+                            "type": "string"
+                          },
+                          "@context": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "type": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "verifier": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "verifiableCredential": {
+                            "type": "object",
+                            "properties": {}
                           }
-                        }
-                      },
-                      "id": {
-                        "type": "string"
-                      },
-                      "holder": {
-                        "type": "string"
-                      },
-                      "issuanceDate": {
-                        "type": "string"
-                      },
-                      "expirationDate": {
-                        "type": "string"
-                      },
-                      "@context": {
-                        "type": "object",
-                        "properties": {}
-                      },
-                      "type": {
-                        "type": "object",
-                        "properties": {}
-                      },
-                      "verifier": {
-                        "type": "object",
-                        "properties": {}
-                      },
-                      "verifiableCredential": {
-                        "type": "object",
-                        "properties": {}
+                        },
+                        "required": [
+                          "@context",
+                          "holder",
+                          "proof",
+                          "type",
+                          "verifiableCredential",
+                          "verifier"
+                        ],
+                        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
                       }
                     },
                     "required": [
-                      "@context",
-                      "holder",
-                      "proof",
-                      "type",
-                      "verifiableCredential",
-                      "verifier"
+                      "hash",
+                      "verifiablePresentation"
                     ],
-                    "description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\nproperty that can be used to verify it."
+                    "additionalProperties": false
                   }
                 }
               }

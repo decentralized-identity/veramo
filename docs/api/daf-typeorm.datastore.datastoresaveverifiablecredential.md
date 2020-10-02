@@ -7,16 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-dataStoreSaveVerifiableCredential(args: VerifiableCredential): Promise<boolean>;
+dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [VerifiableCredential](./daf-core.verifiablecredential.md) |  |
+|  args | [IDataStoreSaveVerifiableCredentialArgs](./daf-core.idatastoresaveverifiablecredentialargs.md) |  |
 
 <b>Returns:</b>
 
-Promise&lt;boolean&gt;
+Promise&lt;string&gt;
 

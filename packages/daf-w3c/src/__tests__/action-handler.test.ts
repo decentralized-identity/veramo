@@ -93,7 +93,9 @@ describe('daf-w3c', () => {
     )
     // TODO Update these after refactoring did-jwt-vc
     expect(context.agent.identityManagerGetIdentity).toBeCalledWith({ did: mockIdentity1.did })
-    expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith('mockCredential')
+    expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
+      verifiableCredential: 'mockCredential',
+    })
     expect(vc).toEqual('mockCredential')
   })
 
@@ -137,7 +139,9 @@ describe('daf-w3c', () => {
     )
 
     expect(context.agent.identityManagerGetIdentity).toBeCalledWith({ did: mockIdentity1.did })
-    expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith('mockPresentation')
+    expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith({
+      verifiablePresentation: 'mockPresentation',
+    })
     expect(vp).toEqual('mockPresentation')
   })
 })

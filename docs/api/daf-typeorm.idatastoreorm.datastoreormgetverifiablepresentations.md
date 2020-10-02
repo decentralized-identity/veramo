@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-dataStoreORMGetVerifiablePresentations(args: FindPresentationsArgs, context: IContext): Promise<Array<VerifiablePresentation>>;
+dataStoreORMGetVerifiablePresentations(args: FindPresentationsArgs, context: IContext): Promise<Array<UniqueVerifiablePresentation>>;
 ```
 
 ## Parameters
@@ -19,5 +19,5 @@ dataStoreORMGetVerifiablePresentations(args: FindPresentationsArgs, context: ICo
 
 <b>Returns:</b>
 
-Promise&lt;Array&lt;[VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->&gt;&gt;
+Promise&lt;Array&lt;[UniqueVerifiablePresentation](./daf-typeorm.uniqueverifiablepresentation.md)<!-- -->&gt;&gt;
 

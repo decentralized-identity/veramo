@@ -41,6 +41,16 @@ interface IContext {
   authenticatedDid?: string
 }
 
+export interface UniqueVerifiableCredential {
+  hash: string
+  verifiableCredential: VerifiableCredential
+}
+
+export interface UniqueVerifiablePresentation {
+  hash: string
+  verifiablePresentation: VerifiablePresentation
+}
+
 export type FindIdentitiesArgs = FindArgs<TIdentitiesColumns>
 export type FindMessagesArgs = FindArgs<TMessageColumns>
 export type FindClaimsArgs = FindArgs<TClaimsColumns>
@@ -55,17 +65,17 @@ export interface IDataStoreORM extends IPluginMethodMap {
   dataStoreORMGetVerifiableCredentialsByClaims(
     args: FindClaimsArgs,
     context: IContext,
-  ): Promise<Array<VerifiableCredential>>
+  ): Promise<Array<UniqueVerifiableCredential>>
   dataStoreORMGetVerifiableCredentialsByClaimsCount(args: FindClaimsArgs, context: IContext): Promise<number>
   dataStoreORMGetVerifiableCredentials(
     args: FindCredentialsArgs,
     context: IContext,
-  ): Promise<Array<VerifiableCredential>>
+  ): Promise<Array<UniqueVerifiableCredential>>
   dataStoreORMGetVerifiableCredentialsCount(args: FindCredentialsArgs, context: IContext): Promise<number>
   dataStoreORMGetVerifiablePresentations(
     args: FindPresentationsArgs,
     context: IContext,
-  ): Promise<Array<VerifiablePresentation>>
+  ): Promise<Array<UniqueVerifiablePresentation>>
   dataStoreORMGetVerifiablePresentationsCount(args: FindPresentationsArgs, context: IContext): Promise<number>
 }
 
@@ -201,10 +211,13 @@ export class DataStoreORM implements IAgentPlugin {
   async dataStoreORMGetVerifiableCredentialsByClaims(
     args: FindArgs<TClaimsColumns>,
     context: IContext,
-  ): Promise<VerifiableCredential[]> {
+  ): Promise<Array<UniqueVerifiableCredential>> {
     // FIXME this breaks if args has order param
     const claims = await (await this.claimsQuery(args, context)).getMany()
-    return claims.map((claim) => claim.credential.raw)
+    return claims.map((claim) => ({
+      hash: claim.credential.hash,
+      verifiableCredential: claim.credential.raw,
+    }))
   }
 
   async dataStoreORMGetVerifiableCredentialsByClaimsCount(
@@ -246,9 +259,12 @@ export class DataStoreORM implements IAgentPlugin {
   async dataStoreORMGetVerifiableCredentials(
     args: FindArgs<TCredentialColumns>,
     context: IContext,
-  ): Promise<VerifiableCredential[]> {
+  ): Promise<Array<UniqueVerifiableCredential>> {
     const credentials = await (await this.credentialsQuery(args, context)).getMany()
-    return credentials.map((vc) => vc.raw)
+    return credentials.map((vc) => ({
+      hash: vc.hash,
+      verifiableCredential: vc.raw,
+    }))
   }
 
   async dataStoreORMGetVerifiableCredentialsCount(
@@ -288,9 +304,12 @@ export class DataStoreORM implements IAgentPlugin {
   async dataStoreORMGetVerifiablePresentations(
     args: FindArgs<TPresentationColumns>,
     context: IContext,
-  ): Promise<VerifiablePresentation[]> {
+  ): Promise<Array<UniqueVerifiablePresentation>> {
     const presentations = await (await this.presentationsQuery(args, context)).getMany()
-    return presentations.map((vp) => vp.raw)
+    return presentations.map((vp) => ({
+      hash: vp.hash,
+      verifiablePresentation: vp.raw,
+    }))
   }
 
   async dataStoreORMGetVerifiablePresentationsCount(
@@ -325,6 +344,9 @@ function opToSQL(item: Where<any>): any[] {
 }
 
 function addVerifierQuery(input: FindArgs<any>, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
+  if (!input) {
+    return qb
+  }
   if (!Array.isArray(input.where)) {
     return qb
   }

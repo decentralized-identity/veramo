@@ -1,5 +1,6 @@
 import blessed, { Widgets } from 'blessed'
 import { VerifiablePresentation } from 'daf-core'
+import { UniqueVerifiablePresentation } from 'daf-typeorm'
 import { shortDate, shortDid } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
@@ -23,7 +24,7 @@ export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widg
   const presentations = await agent.dataStoreORMGetVerifiablePresentations({})
   presentationsTable.setData(
     [['Created', 'Type', 'Holder', 'Verifier']].concat(
-      presentations.map((m) => [
+      presentations.map(({ verifiablePresentation: m }) => [
         shortDate(m.issuanceDate),
         m.type.join(','),
         shortDid(m.holder),
@@ -37,7 +38,7 @@ export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widg
     showPresentation(presentations[i - 1])
   })
 
-  function showPresentation(message: VerifiablePresentation) {
+  function showPresentation(presentation: UniqueVerifiablePresentation) {
     const presentationBox = blessed.box({
       label: 'Presentation',
       top: 'center',
@@ -61,7 +62,7 @@ export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widg
         },
       },
 
-      content: JSON.stringify(message, null, 2),
+      content: JSON.stringify(presentation, null, 2),
     })
     presentationBox.key(['escape'], function (ch, key) {
       presentationBox.destroy()

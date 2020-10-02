@@ -177,11 +177,11 @@ export class CredentialIssuer implements IAgentPlugin {
       const jwt = await createVerifiablePresentationJwt(args.presentation, { did: identity.did, signer })
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
-      const presentation = normalizePresentation(jwt)
+      const verifiablePresentation = normalizePresentation(jwt)
       if (args.save) {
-        await context.agent.dataStoreSaveVerifiablePresentation(presentation)
+        await context.agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation })
       }
-      return presentation
+      return verifiablePresentation
     } catch (error) {
       debug(error)
       return Promise.reject(error)
@@ -206,12 +206,12 @@ export class CredentialIssuer implements IAgentPlugin {
       const jwt = await createVerifiableCredentialJwt(args.credential, { did: identity.did, signer })
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
-      const credential = normalizeCredential(jwt)
+      const verifiableCredential = normalizeCredential(jwt)
       if (args.save) {
-        await context.agent.dataStoreSaveVerifiableCredential(credential)
+        await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
       }
 
-      return credential
+      return verifiableCredential
     } catch (error) {
       debug(error)
       return Promise.reject(error)

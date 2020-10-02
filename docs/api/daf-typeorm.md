@@ -30,6 +30,8 @@
 |  [IDataStoreORM](./daf-typeorm.idatastoreorm.md) |  |
 |  [MetaData](./daf-typeorm.metadata.md) |  |
 |  [Order](./daf-typeorm.order.md) |  |
+|  [UniqueVerifiableCredential](./daf-typeorm.uniqueverifiablecredential.md) |  |
+|  [UniqueVerifiablePresentation](./daf-typeorm.uniqueverifiablepresentation.md) |  |
 |  [Where](./daf-typeorm.where.md) |  |
 
 ## Variables

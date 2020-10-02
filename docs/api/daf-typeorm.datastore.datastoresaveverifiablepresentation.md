@@ -7,16 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean>;
+dataStoreSaveVerifiablePresentation(args: IDataStoreSaveVerifiablePresentationArgs): Promise<string>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [VerifiablePresentation](./daf-core.verifiablepresentation.md) |  |
+|  args | [IDataStoreSaveVerifiablePresentationArgs](./daf-core.idatastoresaveverifiablepresentationargs.md) |  |
 
 <b>Returns:</b>
 
-Promise&lt;boolean&gt;
+Promise&lt;string&gt;
 

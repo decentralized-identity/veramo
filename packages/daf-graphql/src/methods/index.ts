@@ -5,6 +5,7 @@ import messageHandler from './message-handler'
 import w3c from './w3c'
 import sdr from './sdr'
 import dataStoreORM from './data-store-orm'
+import dataStore from './data-store'
 import keyManager from './key-manager'
 
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
@@ -14,5 +15,6 @@ export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   ...w3c,
   ...sdr,
   ...dataStoreORM,
+  ...dataStore,
   ...keyManager,
 }

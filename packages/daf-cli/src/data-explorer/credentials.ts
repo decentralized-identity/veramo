@@ -1,5 +1,6 @@
 import blessed, { Widgets } from 'blessed'
 import { IMessage, VerifiableCredential } from 'daf-core'
+import { UniqueVerifiableCredential } from 'daf-typeorm'
 import { shortDate, shortDid } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
@@ -23,7 +24,7 @@ export const getCredentialsTable = async (agent: ConfiguredAgent, screen: Widget
   const credentials = await agent.dataStoreORMGetVerifiableCredentials()
   credentialsTable.setData(
     [['Created', 'Type', 'From', 'To']].concat(
-      credentials.map((m) => [
+      credentials.map(({ verifiableCredential: m }) => [
         shortDate(m.issuanceDate),
         m.type.join(','),
         shortDid(m.issuer.id),
@@ -37,7 +38,7 @@ export const getCredentialsTable = async (agent: ConfiguredAgent, screen: Widget
     showCredential(credentials[i - 1])
   })
 
-  function showCredential(message: VerifiableCredential) {
+  function showCredential(credential: UniqueVerifiableCredential) {
     const credentialBox = blessed.box({
       label: 'Credential',
       top: 'center',
@@ -61,7 +62,7 @@ export const getCredentialsTable = async (agent: ConfiguredAgent, screen: Widget
         },
       },
 
-      content: JSON.stringify(message, null, 2),
+      content: JSON.stringify(credential, null, 2),
     })
     credentialBox.key(['escape'], function (ch, key) {
       credentialBox.destroy()

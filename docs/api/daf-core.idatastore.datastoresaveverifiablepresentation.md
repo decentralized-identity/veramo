@@ -9,18 +9,18 @@ Saves verifiable presentation to the data store
 <b>Signature:</b>
 
 ```typescript
-dataStoreSaveVerifiablePresentation(args: VerifiablePresentation): Promise<boolean>;
+dataStoreSaveVerifiablePresentation(args: IDataStoreSaveVerifiablePresentationArgs): Promise<string>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [VerifiablePresentation](./daf-core.verifiablepresentation.md) | verifiable presentation |
+|  args | [IDataStoreSaveVerifiablePresentationArgs](./daf-core.idatastoresaveverifiablepresentationargs.md) | verifiable presentation |
 
 <b>Returns:</b>
 
-Promise&lt;boolean&gt;
+Promise&lt;string&gt;
 
-`true` if successful
+a promise that resolves to the hash of the VerifiablePresentation
 

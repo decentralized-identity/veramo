@@ -7,16 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-dataStoreSaveMessage(args: IMessage): Promise<boolean>;
+dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | [IMessage](./daf-core.imessage.md) |  |
+|  args | [IDataStoreSaveMessageArgs](./daf-core.idatastoresavemessageargs.md) |  |
 
 <b>Returns:</b>
 
-Promise&lt;boolean&gt;
+Promise&lt;string&gt;
 

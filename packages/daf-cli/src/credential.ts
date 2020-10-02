@@ -188,7 +188,10 @@ program
     if (credentials.length > 0) {
       for (const credential of credentials) {
         list.push({
-          name: JSON.stringify(credential.credentialSubject) + ' | Issuer: ' + credential.issuer.id,
+          name:
+            JSON.stringify(credential.verifiableCredential.credentialSubject) +
+            ' | Issuer: ' +
+            credential.verifiableCredential.issuer.id,
           value: credential,
         })
       }
