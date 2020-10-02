@@ -91,6 +91,21 @@ export default (testContext: {
       expect(verifiableCredential.proof.jwt).toBeDefined()
     })
 
+    it('should accept empty issuers array', async () => {
+      const credentials = await agent.getVerifiableCredentialsForSdr({
+        sdr: {
+          claims: [
+            {
+              claimType: 'name',
+              issuers: [],
+            },
+          ],
+        },
+      })
+
+      expect(credentials[0].credentials[0]).toHaveProperty('proof.jwt')
+    })
+
     it('should create verifiable presentation', async () => {
       const credentials = await agent.getVerifiableCredentialsForSdr({
         sdr: {
