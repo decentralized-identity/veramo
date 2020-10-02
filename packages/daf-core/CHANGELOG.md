@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.29](https://github.com/uport-project/daf/compare/v7.0.0-beta.28...v7.0.0-beta.29) (2020-10-02)
+
+
+### Features
+
+* Unique (with hash) VC/VP in ORM results ([bcfc3e8](https://github.com/uport-project/daf/commit/bcfc3e843885553abea1e90bc2a833abc6e8e3ec))
+
+
+
+
+
 # [7.0.0-beta.28](https://github.com/uport-project/daf/compare/v7.0.0-beta.27...v7.0.0-beta.28) (2020-10-01)
 
 

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.29](https://github.com/uport-project/daf/compare/v7.0.0-beta.28...v7.0.0-beta.29) (2020-10-02)
+
+**Note:** Version bump only for package daf-elem-did
+
+
+
+
+
 # [7.0.0-beta.28](https://github.com/uport-project/daf/compare/v7.0.0-beta.27...v7.0.0-beta.28) (2020-10-01)
 
 **Note:** Version bump only for package daf-elem-did
