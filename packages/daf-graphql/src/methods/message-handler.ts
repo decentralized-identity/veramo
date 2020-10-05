@@ -16,6 +16,8 @@ export const handleMessage: IAgentGraphQLMethod = {
         replyUrl
         from 
         to 
+        presentations
+        credentials
         metaData {
           type
           value

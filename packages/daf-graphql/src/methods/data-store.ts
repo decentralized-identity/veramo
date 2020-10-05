@@ -32,6 +32,20 @@ export const dataStoreGetMessage: IAgentGraphQLMethod = {
   `,
 }
 
+export const dataStoreSaveMessage: IAgentGraphQLMethod = {
+  type: 'Mutation',
+  query: `
+    mutation dataStoreSaveMessage($message: MessageInput!) {
+      dataStoreSaveMessage(message: $message) 
+    }
+  `,
+  typeDef: `
+    extend type Mutation {
+      dataStoreSaveMessage(message: MessageInput!): String!
+    }
+  `,
+}
+
 export const dataStoreSaveVerifiableCredential: IAgentGraphQLMethod = {
   type: 'Mutation',
   query: `
@@ -90,6 +104,7 @@ export const dataStoreSaveVerifiablePresentation: IAgentGraphQLMethod = {
 
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   dataStoreGetMessage,
+  dataStoreSaveMessage,
   dataStoreSaveVerifiableCredential,
   dataStoreGetVerifiableCredential,
   dataStoreGetVerifiablePresentation,

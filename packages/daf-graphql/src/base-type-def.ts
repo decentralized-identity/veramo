@@ -69,6 +69,23 @@ type Message {
   credentials: [VerifiableCredential]
 }
 
+input MessageInput {
+  id: ID!
+  createdAt: String
+  expiresAt: String
+  threadId: String
+  type: String!
+  raw: String
+  data: Object
+  replyTo: [String]
+  replyUrl: String
+  from: String
+  to: String
+  metaData: [MetaDataInput]
+  presentations: [VerifiablePresentation]
+  credentials: [VerifiableCredential]
+}
+
 type MetaData {
   type: String!
   value: String

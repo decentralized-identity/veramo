@@ -212,6 +212,20 @@ export const dataStoreORMGetIdentities: IAgentGraphQLMethod = {
   `,
 }
 
+export const dataStoreORMGetMessagesCount: IAgentGraphQLMethod = {
+  type: 'Query',
+  query: `
+    query dataStoreORMGetMessagesCount($where: [MessagesWhere], $order: [MessagesOrder]) {
+      dataStoreORMGetMessagesCount(where: $where, order: $order) 
+    }
+  `,
+  typeDef: `
+    extend type Query {
+      dataStoreORMGetMessagesCount(where: [MessagesWhere], order: [MessagesOrder]): Int
+    }
+  `,
+}
+
 export const dataStoreORMGetIdentitiesCount: IAgentGraphQLMethod = {
   type: 'Query',
   query: `
@@ -256,6 +270,7 @@ export const dataStoreORMGetVerifiablePresentationsCount: IAgentGraphQLMethod = 
 
 export const supportedMethods: Record<string, IAgentGraphQLMethod> = {
   dataStoreORMGetMessages,
+  dataStoreORMGetMessagesCount,
   dataStoreORMGetVerifiableCredentials,
   dataStoreORMGetVerifiableCredentialsCount,
   dataStoreORMGetVerifiablePresentations,
