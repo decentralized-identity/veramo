@@ -86,6 +86,10 @@ export default (testContext: {
         where: [{ column: 'type', value: ['topic'] }],
       })
       expect(credentials).toHaveLength(3)
+      const count = await agent.dataStoreORMGetVerifiableCredentialsByClaimsCount({
+        where: [{ column: 'type', value: ['topic'] }],
+      })
+      expect(count).toEqual(credentials.length)
     })
 
     it('should be able to find all the credentials when query by claim type and value', async () => {

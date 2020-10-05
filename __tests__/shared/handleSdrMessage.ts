@@ -1,6 +1,6 @@
 import { TAgent, IIdentityManager, IIdentity, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
-import { ISelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
+import { ISelectiveDisclosure, SelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 
 type ConfiguredAgent = TAgent<
@@ -15,9 +15,9 @@ export default (testContext: {
   describe('handling sdr message', () => {
     let agent: ConfiguredAgent
     let identity: IIdentity
-    const JWT =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1OTM0NTE3MDAsInR5cGUiOiJzZHIiLCJzdWJqZWN0IjoiZGlkOmV0aHI6cmlua2VieToweDM2MjQ2M2NiZTUyMjhjZTUwMGJlOGUwMzVjZGIyMWI3NzQ1ZjZkYjAiLCJ0YWciOiJzZHItb25lIiwiY2xhaW1zIjpbeyJyZWFzb24iOiJXZSBuZWVkIGl0IiwiY2xhaW1UeXBlIjoibmFtZSIsImVzc2VudGlhbCI6dHJ1ZX1dLCJpc3MiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4MTM4NGMxZmNlM2Y3MWQ3NjU5NzcwOGY1NGM0ZDEyOGMyNDFkMDBkMiJ9.L-j-gREAuN7DAxDCe1vXJWtMIdmn88HTuTFp2PasTTo_aqvIdGcFtv-rSfvRHkauNq5C3PkXkQWY01VGqpJ-QwE'
+    let JWT: string
     let originalRequestSender: string
+    let sdr: SelectiveDisclosure
 
     beforeAll(() => {
       testContext.setup()
@@ -49,6 +49,18 @@ export default (testContext: {
     })
 
     it('should save an SDR message', async () => {
+      JWT = await agent.createSelectiveDisclosureRequest({
+        data: {
+          issuer: identity.did,
+          tag: 'sdr-one',
+          claims: [{
+            reason: 'We need it',
+            claimType: 'name',
+            essential: true
+          }]
+        }
+      })
+
       const message = await agent.handleMessage({
         raw: JWT,
         save: true,
@@ -131,6 +143,20 @@ export default (testContext: {
       })
 
       expect(verifiablePresentation).toHaveProperty('proof.jwt')
+
+
+      const validated = await agent.validatePresentationAgainstSdr({
+        presentation: verifiablePresentation,
+        sdr: {
+          issuer: '',
+          claims: [
+            {
+              claimType: 'name',
+            },
+          ],
+        },
+      })
+      expect(validated.valid).toEqual(true)
     })
   })
 }

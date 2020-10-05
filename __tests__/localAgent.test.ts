@@ -42,6 +42,7 @@ import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import identityManager from './shared/identityManager'
+import messageHandler from './shared/messageHandler'
 
 const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -151,4 +152,5 @@ describe('Local integration tests', () => {
   documentationExamples(testContext)
   keyManager(testContext)
   identityManager(testContext)
+  messageHandler(testContext)
 })
