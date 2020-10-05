@@ -41,8 +41,14 @@ export class DataStore implements IAgentPlugin {
   }
 
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
-    const messageEntity = await (await this.dbConnection).getRepository(Message).findOneOrFail(args.id)
-    return createMessage(messageEntity)
+    try {
+      const messageEntity = await (await this.dbConnection).getRepository(Message).findOneOrFail(args.id, {
+        relations: ['credentials', 'presentations']
+      })
+      return createMessage(messageEntity)
+    } catch (e) {
+      throw Error('Message not found')
+    }
   }
 
   async dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string> {
@@ -55,10 +61,14 @@ export class DataStore implements IAgentPlugin {
   async dataStoreGetVerifiableCredential(
     args: IDataStoreGetVerifiableCredentialArgs,
   ): Promise<VerifiableCredential> {
-    const credentialEntity = await (await this.dbConnection)
-      .getRepository(Credential)
-      .findOneOrFail(args.hash)
-    return credentialEntity.raw
+    try {
+      const credentialEntity = await (await this.dbConnection)
+        .getRepository(Credential)
+        .findOneOrFail(args.hash)
+      return credentialEntity.raw
+    } catch (e) {
+      throw Error('Verifiable credential not found')
+    }
   }
 
   async dataStoreSaveVerifiablePresentation(args: IDataStoreSaveVerifiablePresentationArgs): Promise<string> {
@@ -71,9 +81,13 @@ export class DataStore implements IAgentPlugin {
   async dataStoreGetVerifiablePresentation(
     args: IDataStoreGetVerifiablePresentationArgs,
   ): Promise<VerifiablePresentation> {
-    const presentationEntity = await (await this.dbConnection)
-      .getRepository(Presentation)
-      .findOneOrFail(args.hash)
-    return presentationEntity.raw
+    try {
+      const presentationEntity = await (await this.dbConnection)
+        .getRepository(Presentation)
+        .findOneOrFail(args.hash)
+      return presentationEntity.raw
+    } catch (e) {
+      throw Error('Verifiable presentation not found')
+    }
   }
 }

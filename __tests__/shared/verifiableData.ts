@@ -99,5 +99,22 @@ export default (testContext: {
       const presentationCount = await agent.dataStoreORMGetVerifiablePresentationsCount()
       expect(allPresentations.length).toEqual(presentationCount)
     })
+
+    it('should throw error for non existing verifiable credential', async () => {
+      await expect(
+        agent.dataStoreGetVerifiableCredential({
+          hash: 'foobar',
+        }),
+      ).rejects.toThrow('Verifiable credential not found')
+    })
+
+    it('should throw error for non existing verifiable presentation', async () => {
+      await expect(
+        agent.dataStoreGetVerifiablePresentation({
+          hash: 'foobar',
+        }),
+      ).rejects.toThrow('Verifiable presentation not found')
+    })
+
   })
 }
