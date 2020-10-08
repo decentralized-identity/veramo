@@ -37,6 +37,8 @@ import {
   FindArgs,
 } from './types'
 
+import schema from './schemas/IDataStoreORM'
+
 interface IContext {
   authenticatedDid?: string
 }
@@ -81,6 +83,7 @@ export interface IDataStoreORM extends IPluginMethodMap {
 
 export class DataStoreORM implements IAgentPlugin {
   readonly methods: IDataStoreORM
+  readonly schema = schema
   private dbConnection: Promise<Connection>
 
   constructor(dbConnection: Promise<Connection>) {

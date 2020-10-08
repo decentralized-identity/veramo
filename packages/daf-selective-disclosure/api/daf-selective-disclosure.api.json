@@ -1,0 +1,1556 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.9.22",
+    "schemaVersion": 1003,
+    "oldestForwardsCompatibleVersion": 1001
+  },
+  "kind": "Package",
+  "canonicalReference": "daf-selective-disclosure!",
+  "docComment": "/**\n * Provides a {@link daf-selective-disclosure#ISelectiveDisclosure | plugin} for the {@link daf-core#Agent} that implements {@link daf-selective-disclosure#SelectiveDisclosure} interface. Provides a {@link daf-selective-disclosure#SdrMessageHandler | plugin} for the {@link daf-message-handler#MessageHandler} that detects Selective Disclosure Request in a message\n *\n * @packageDocumentation\n */\n",
+  "name": "daf-selective-disclosure",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "daf-selective-disclosure!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!ICreateSelectiveDisclosureRequestArgs:interface",
+          "docComment": "/**\n * Contains the parameters of a Selective Disclosure Request.\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request} specs\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICreateSelectiveDisclosureRequestArgs "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "ICreateSelectiveDisclosureRequestArgs",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICreateSelectiveDisclosureRequestArgs#data:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "data: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ISelectiveDisclosureRequest",
+                  "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "data",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput:interface",
+          "docComment": "/**\n * Describes a particular credential that is being requested\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICredentialRequestInput "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "ICredentialRequestInput",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput#claimType:member",
+              "docComment": "/**\n * The name of the claim property that the credential should express.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "claimType: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "claimType",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput#claimValue:member",
+              "docComment": "/**\n * The value of the claim that the credential should express.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "claimValue?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "claimValue",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput#credentialContext:member",
+              "docComment": "/**\n * The credential context. See {@link https://www.w3.org/TR/vc-data-model/#contexts | W3C Credential Context}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "credentialContext?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "credentialContext",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput#credentialType:member",
+              "docComment": "/**\n * The credential type. See {@link https://www.w3.org/TR/vc-data-model/#types | W3C Credential Types}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "credentialType?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "credentialType",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput#essential:member",
+              "docComment": "/**\n * If it is essential. A response that does not include this credential is not sufficient.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "essential?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "essential",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput#issuers:member",
+              "docComment": "/**\n * A list of accepted Issuers for this credential.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "issuers?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Issuer",
+                  "canonicalReference": "daf-selective-disclosure!Issuer:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "issuers",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput#reason:member",
+              "docComment": "/**\n * Motive for requiring this credential.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "reason?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "reason",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!ICredentialsForSdr:interface",
+          "docComment": "/**\n * The credentials that make up a response of a Selective Disclosure\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICredentialsForSdr extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ICredentialRequestInput",
+              "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "ICredentialsForSdr",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICredentialsForSdr#credentials:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "credentials: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifiableCredential",
+                  "canonicalReference": "daf-core!VerifiableCredential:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "credentials",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!IGetVerifiableCredentialsForSdrArgs:interface",
+          "docComment": "/**\n * Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request.\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request} specs\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IGetVerifiableCredentialsForSdrArgs "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "IGetVerifiableCredentialsForSdrArgs",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!IGetVerifiableCredentialsForSdrArgs#did:member",
+              "docComment": "/**\n * The DID of the subject\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "did?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "did",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!IGetVerifiableCredentialsForSdrArgs#sdr:member",
+              "docComment": "/**\n * The Selective Disclosure Request (issuer is omitted)\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sdr: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Omit",
+                  "canonicalReference": "!Omit:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ISelectiveDisclosureRequest",
+                  "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", 'issuer'>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "sdr",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!IPresentationValidationResult:interface",
+          "docComment": "/**\n * The result of a selective disclosure response validation.\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IPresentationValidationResult "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "IPresentationValidationResult",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!IPresentationValidationResult#claims:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "claims: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICredentialsForSdr",
+                  "canonicalReference": "daf-selective-disclosure!ICredentialsForSdr:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "claims",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!IPresentationValidationResult#valid:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "valid: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "valid",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosure:interface",
+          "docComment": "/**\n * Describes the interface of a Selective Disclosure plugin.\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ISelectiveDisclosure extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "IPluginMethodMap",
+              "canonicalReference": "daf-core!IPluginMethodMap:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "ISelectiveDisclosure",
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosure#createSelectiveDisclosureRequest:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createSelectiveDisclosureRequest(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICreateSelectiveDisclosureRequestArgs",
+                  "canonicalReference": "daf-selective-disclosure!ICreateSelectiveDisclosureRequestArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManager",
+                  "canonicalReference": "daf-core!IIdentityManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 12
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 9
+                  }
+                }
+              ],
+              "name": "createSelectiveDisclosureRequest"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosure#getVerifiableCredentialsForSdr:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getVerifiableCredentialsForSdr(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IGetVerifiableCredentialsForSdrArgs",
+                  "canonicalReference": "daf-selective-disclosure!IGetVerifiableCredentialsForSdrArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IDataStoreORM",
+                  "canonicalReference": "daf-typeorm!IDataStoreORM:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Array",
+                  "canonicalReference": "!Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICredentialsForSdr",
+                  "canonicalReference": "daf-selective-disclosure!ICredentialsForSdr:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 14
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "getVerifiableCredentialsForSdr"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosure#validatePresentationAgainstSdr:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "validatePresentationAgainstSdr(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IValidatePresentationAgainstSdrArgs",
+                  "canonicalReference": "daf-selective-disclosure!IValidatePresentationAgainstSdrArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<{}>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPresentationValidationResult",
+                  "canonicalReference": "daf-selective-disclosure!IPresentationValidationResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 6,
+                "endIndex": 10
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 5
+                  }
+                }
+              ],
+              "name": "validatePresentationAgainstSdr"
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest:interface",
+          "docComment": "/**\n * Represents the Selective Disclosure request parameters.\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ISelectiveDisclosureRequest "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "ISelectiveDisclosureRequest",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest#claims:member",
+              "docComment": "/**\n * A list of claims that are being requested\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "claims: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICredentialRequestInput",
+                  "canonicalReference": "daf-selective-disclosure!ICredentialRequestInput:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "claims",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest#credentials:member",
+              "docComment": "/**\n * A list of issuer credentials that the target will use to establish trust\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "credentials?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "credentials",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest#issuer:member",
+              "docComment": "/**\n * The issuer of the request\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "issuer: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "issuer",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest#replyUrl:member",
+              "docComment": "/**\n * The URL where the response should be sent back\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "replyUrl?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "replyUrl",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest#subject:member",
+              "docComment": "/**\n * The target of the request\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "subject?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "subject",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest#tag:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "tag?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "tag",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!Issuer:interface",
+          "docComment": "/**\n * Used for requesting Credentials using Selective Disclosure. Represents an accepted issuer of a credential.\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface Issuer "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "Issuer",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!Issuer#did:member",
+              "docComment": "/**\n * The DID of the issuer of a requested credential.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "did: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "did",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!Issuer#url:member",
+              "docComment": "/**\n * A URL where a credential of that type can be obtained.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "url: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "url",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!IValidatePresentationAgainstSdrArgs:interface",
+          "docComment": "/**\n * A tuple used to verify a Selective Disclosure Response. Encapsulates the response(`presentation`) and the corresponding request (`sdr`) that made it.\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IValidatePresentationAgainstSdrArgs "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "IValidatePresentationAgainstSdrArgs",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!IValidatePresentationAgainstSdrArgs#presentation:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "presentation: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifiablePresentation",
+                  "canonicalReference": "daf-core!VerifiablePresentation:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "presentation",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!IValidatePresentationAgainstSdrArgs#sdr:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sdr: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ISelectiveDisclosureRequest",
+                  "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosureRequest:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "sdr",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "daf-selective-disclosure!MessageTypes:var",
+          "docComment": "/**\n * Identifies a {@link daf-core#IMessage} that represents a Selective Disclosure Request\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "MessageTypes: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    sdr: string;\n}"
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "MessageTypes",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-selective-disclosure!SdrMessageHandler:class",
+          "docComment": "/**\n * A DAF message handler plugin that can decode an incoming Selective Disclosure Response into the internal Message representation.\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class SdrMessageHandler extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AbstractMessageHandler",
+              "canonicalReference": "daf-message-handler!AbstractMessageHandler:class"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "SdrMessageHandler",
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-selective-disclosure!SdrMessageHandler#handle:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "handle(message: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Message",
+                  "canonicalReference": "daf-message-handler!Message:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IMessageHandler",
+                  "canonicalReference": "daf-core!IMessageHandler:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Message",
+                  "canonicalReference": "daf-message-handler!Message:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 12
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "handle"
+            }
+          ],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure:class",
+          "docComment": "/**\n * This class adds support for creating {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure} requests and interpret the responses received.\n *\n * This implementation of the uPort protocol uses {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Presentation} as the response encoding instead of a `shareReq`.\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class SelectiveDisclosure implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IAgentPlugin",
+              "canonicalReference": "daf-core!IAgentPlugin:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "SelectiveDisclosure",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `SelectiveDisclosure` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor();"
+                }
+              ],
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": []
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure#createSelectiveDisclosureRequest:member(1)",
+              "docComment": "/**\n * Creates a Selective disclosure request, encoded as a JWT.\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}\n *\n * @param args - The param object with the properties necessary to create the request. See {@link ISelectiveDisclosureRequest}\n *\n * @param context - *RESERVED* This is filled by the framework when the method is called.\n *\n * @beta\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createSelectiveDisclosureRequest(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICreateSelectiveDisclosureRequestArgs",
+                  "canonicalReference": "daf-selective-disclosure!ICreateSelectiveDisclosureRequestArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManager",
+                  "canonicalReference": "daf-core!IIdentityManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 12
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 9
+                  }
+                }
+              ],
+              "name": "createSelectiveDisclosureRequest"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure#getVerifiableCredentialsForSdr:member(1)",
+              "docComment": "/**\n * Gathers the required credentials necessary to fulfill a Selective Disclosure Request. It uses the {@link daf-typeorm#IDataStoreORM} plugin to query the local database for the required credentials.\n *\n * @param args - Contains the Request to be fulfilled and the DID of the subject\n *\n * @param context - *RESERVED* This is filled by the framework when the method is called.\n *\n * @beta\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getVerifiableCredentialsForSdr(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IGetVerifiableCredentialsForSdrArgs",
+                  "canonicalReference": "daf-selective-disclosure!IGetVerifiableCredentialsForSdrArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IDataStoreORM",
+                  "canonicalReference": "daf-typeorm!IDataStoreORM:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICredentialsForSdr",
+                  "canonicalReference": "daf-selective-disclosure!ICredentialsForSdr:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 12
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "getVerifiableCredentialsForSdr"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure#methods:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly methods: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ISelectiveDisclosure",
+                  "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosure:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "methods",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure#schema:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly schema: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        components: {\n            schemas: {\n                ICreateSelectiveDisclosureRequestArgs: {\n                    type: string;\n                    properties: {\n                        data: {\n                            $ref: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                ISelectiveDisclosureRequest: {\n                    type: string;\n                    properties: {\n                        issuer: {\n                            type: string;\n                            description: string;\n                        };\n                        subject: {\n                            type: string;\n                            description: string;\n                        };\n                        replyUrl: {\n                            type: string;\n                            description: string;\n                        };\n                        tag: {\n                            type: string;\n                        };\n                        claims: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        credentials: {\n                            type: string;\n                            items: {\n                                type: string;\n                            }; /**\n                             * Creates a Selective disclosure request, encoded as a JWT.\n                             *\n                             * @remarks See {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}\n                             *\n                             * @param args - The param object with the properties necessary to create the request. See {@link ISelectiveDisclosureRequest}\n                             * @param context - *RESERVED* This is filled by the framework when the method is called.\n                             *\n                             * @beta\n                             */\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                ICredentialRequestInput: {\n                    type: string;\n                    properties: {\n                        reason: {\n                            type: string;\n                            description: string;\n                        };\n                        essential: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialType: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialContext: {\n                            type: string;\n                            description: string;\n                        };\n                        claimType: {\n                            type: string;\n                            description: string;\n                        };\n                        claimValue: {\n                            type: string;\n                            description: string;\n                        };\n                        issuers: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                Issuer: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        url: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IGetVerifiableCredentialsForSdrArgs: {\n                    type: string;\n                    properties: {\n                        sdr: {\n                            type: string;\n                            properties: {\n                                subject: {\n                                    type: string;\n                                    description: string;\n                                };\n                                replyUrl: {\n                                    type: string;\n                                    description: string;\n                                };\n                                tag: {\n                                    type: string;\n                                };\n                                claims: {\n                                    type: string;\n                                    items: {\n                                        $ref: string;\n                                    };\n                                    description: string;\n                                };\n                                credentials: {\n                                    type: string;\n                                    items: {\n                                        type: string;\n                                    };\n                                    description: string;\n                                };\n                            };\n                            required: string[];\n                            additionalProperties: boolean;\n                            description: string;\n                        };\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                ICredentialsForSdr: {\n                    type: string;\n                    properties: {\n                        reason: {\n                            type: string;\n                            description: string;\n                        };\n                        essential: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialType: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialContext: {\n                            type: string;\n                            description: string;\n                        };\n                        claimType: {\n                            type: string;\n                            description: string;\n                        };\n                        claimValue: {\n                            type: string;\n                            description: string;\n                        };\n                        issuers: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        credentials: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                VerifiableCredential: {\n                    $ref: string;\n                    description: string;\n                };\n                \"Verifiable-W3CCredential\": {\n                    type: string;\n                    additionalProperties: boolean;\n                    properties: {\n                        proof: {\n                            $ref: string;\n                        };\n                        id: {\n                            type: string;\n                        };\n                        credentialSubject: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                        };\n                        credentialStatus: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                                type: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        \"@context\": {\n                            type: string;\n                            properties: {};\n                        };\n                        type: {\n                            type: string;\n                            properties: {};\n                        };\n                        issuer: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                Proof: {\n                    type: string;\n                    properties: {\n                        type: {\n                            type: string;\n                        };\n                    };\n                };\n                IValidatePresentationAgainstSdrArgs: {\n                    type: string;\n                    properties: {\n                        presentation: {\n                            $ref: string;\n                        };\n                        sdr: {\n                            $ref: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                VerifiablePresentation: {\n                    $ref: string;\n                    description: string;\n                };\n                \"Verifiable-W3CPresentation\": {\n                    type: string;\n                    additionalProperties: boolean;\n                    properties: {\n                        proof: {\n                            $ref: string;\n                        };\n                        id: {\n                            type: string;\n                        };\n                        holder: {\n                            type: string;\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                        \"@context\": {\n                            type: string;\n                            properties: {};\n                        };\n                        type: {\n                            type: string;\n                            properties: {};\n                        };\n                        verifier: {\n                            type: string;\n                            properties: {};\n                        };\n                        verifiableCredential: {\n                            type: string;\n                            properties: {};\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                IPresentationValidationResult: {\n                    type: string;\n                    properties: {\n                        valid: {\n                            type: string;\n                        };\n                        claims: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n            };\n            methods: {\n                createSelectiveDisclosureRequest: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n                getVerifiableCredentialsForSdr: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                        items: {\n                            $ref: string;\n                        };\n                    };\n                };\n                validatePresentationAgainstSdr: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n            };\n        };\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "schema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure#validatePresentationAgainstSdr:member(1)",
+              "docComment": "/**\n * Validates a {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure response} encoded as a `Presentation`\n *\n * @param args - Contains the request and the response `Presentation` that needs to be checked.\n *\n * @param context - *RESERVED* This is filled by the framework when the method is called.\n *\n * @beta\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "validatePresentationAgainstSdr(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IValidatePresentationAgainstSdrArgs",
+                  "canonicalReference": "daf-selective-disclosure!IValidatePresentationAgainstSdrArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<{}>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPresentationValidationResult",
+                  "canonicalReference": "daf-selective-disclosure!IPresentationValidationResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 6,
+                "endIndex": 10
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 5
+                  }
+                }
+              ],
+              "name": "validatePresentationAgainstSdr"
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

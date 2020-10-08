@@ -1,0 +1,586 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.9.22",
+    "schemaVersion": 1003,
+    "oldestForwardsCompatibleVersion": 1001
+  },
+  "kind": "Package",
+  "canonicalReference": "daf-did-comm!",
+  "docComment": "/**\n * Provides a {@link daf-did-comm#DIDComm | plugin} for the {@link daf-core#Agent} that implements {@link daf-did-comm#IDIDComm} interface. Provides a {@link daf-did-comm#DIDCommMessageHandler | plugin} for the {@link daf-message-handler#MessageHandler} that decrypts messages\n *\n * @packageDocumentation\n */\n",
+  "name": "daf-did-comm",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "daf-did-comm!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-did-comm!DIDComm:class",
+          "docComment": "/**\n * DID Comm plugin for {@link daf-core#Agent}\n *\n * This plugin provides a method of creating an encrypted message according to the initial {@link https://github.com/decentralized-identity/DIDComm-js | DIDComm-js} implementation.\n *\n * @remarks\n *\n * Be advised that this spec is still not final and that this protocol may need to change.\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class DIDComm implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IAgentPlugin",
+              "canonicalReference": "daf-core!IAgentPlugin:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "DIDComm",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "daf-did-comm!DIDComm:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `DIDComm` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor();"
+                }
+              ],
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": []
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-did-comm!DIDComm#methods:member",
+              "docComment": "/**\n * Plugin methods\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly methods: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IDIDComm",
+                  "canonicalReference": "daf-did-comm!IDIDComm:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "methods",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-did-comm!DIDComm#schema:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly schema: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        components: {\n            schemas: {\n                ISendMessageDIDCommAlpha1Args: {\n                    type: string;\n                    properties: {\n                        url: {\n                            type: string;\n                        };\n                        save: {\n                            type: string;\n                        };\n                        data: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                                from: {\n                                    type: string;\n                                };\n                                to: {\n                                    type: string;\n                                };\n                                type: {\n                                    type: string;\n                                };\n                                body: {\n                                    anyOf: {\n                                        type: string;\n                                    }[];\n                                };\n                            };\n                            required: string[];\n                            additionalProperties: boolean;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IMessage: {\n                    type: string;\n                    properties: {\n                        id: {\n                            type: string;\n                            description: string;\n                        };\n                        type: {\n                            type: string;\n                            description: string;\n                        };\n                        createdAt: {\n                            type: string;\n                            description: string;\n                        };\n                        expiresAt: {\n                            type: string;\n                            description: string;\n                        };\n                        threadId: {\n                            type: string;\n                            description: string;\n                        };\n                        raw: {\n                            type: string; /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */\n                            description: string;\n                        };\n                        data: {\n                            anyOf: {\n                                type: string;\n                            }[];\n                            description: string;\n                        };\n                        replyTo: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                            description: string;\n                        };\n                        replyUrl: {\n                            type: string;\n                            description: string;\n                        };\n                        from: {\n                            type: string;\n                            description: string;\n                        };\n                        to: {\n                            type: string;\n                            description: string;\n                        };\n                        metaData: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        credentials: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        presentations: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IMetaData: {\n                    type: string;\n                    properties: {\n                        type: {\n                            type: string;\n                            description: string;\n                        };\n                        value: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                VerifiableCredential: {\n                    $ref: string;\n                    description: string;\n                };\n                \"Verifiable-W3CCredential\": {\n                    type: string;\n                    additionalProperties: boolean;\n                    properties: {\n                        proof: {\n                            $ref: string;\n                        };\n                        id: {\n                            type: string;\n                        };\n                        credentialSubject: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                        };\n                        credentialStatus: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                                type: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        \"@context\": {\n                            type: string;\n                            properties: {};\n                        };\n                        type: {\n                            type: string;\n                            properties: {};\n                        };\n                        issuer: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                Proof: {\n                    type: string;\n                    properties: {\n                        type: {\n                            type: string;\n                        };\n                    };\n                };\n                VerifiablePresentation: {\n                    $ref: string;\n                    description: string;\n                };\n                \"Verifiable-W3CPresentation\": {\n                    type: string;\n                    additionalProperties: boolean;\n                    properties: {\n                        proof: {\n                            $ref: string;\n                        };\n                        id: {\n                            type: string;\n                        };\n                        holder: {\n                            type: string;\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                        \"@context\": {\n                            type: string;\n                            properties: {};\n                        };\n                        type: {\n                            type: string;\n                            properties: {};\n                        };\n                        verifier: {\n                            type: string;\n                            properties: {};\n                        };\n                        verifiableCredential: {\n                            type: string;\n                            properties: {};\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n            };\n            methods: {\n                sendMessageDIDCommAlpha1: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n            };\n        };\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "schema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-did-comm!DIDComm#sendMessageDIDCommAlpha1:member(1)",
+              "docComment": "/**\n * This is used to create a message according to the initial {@link https://github.com/decentralized-identity/DIDComm-js | DIDComm-js} implementation.\n *\n * @remarks\n *\n * Be advised that this spec is still not final and that this protocol may need to change.\n *\n * @param args - Arguments necessary for sending a DIDComm message\n *\n * @param context - This reserved param is automatically added and handled by the framework, *do not override*\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sendMessageDIDCommAlpha1(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ISendMessageDIDCommAlpha1Args",
+                  "canonicalReference": "daf-did-comm!ISendMessageDIDCommAlpha1Args:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManager",
+                  "canonicalReference": "daf-core!IIdentityManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IResolver",
+                  "canonicalReference": "daf-core!IResolver:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IMessageHandler",
+                  "canonicalReference": "daf-core!IMessageHandler:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IMessage",
+                  "canonicalReference": "daf-core!IMessage:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 14,
+                "endIndex": 18
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 13
+                  }
+                }
+              ],
+              "name": "sendMessageDIDCommAlpha1"
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-did-comm!DIDCommMessageHandler:class",
+          "docComment": "/**\n * A plugin for the {@link daf-message-handler#MessageHandler} that decrypts DIDComm messages\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class DIDCommMessageHandler extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AbstractMessageHandler",
+              "canonicalReference": "daf-message-handler!AbstractMessageHandler:class"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "DIDCommMessageHandler",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "daf-did-comm!DIDCommMessageHandler:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `DIDCommMessageHandler` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor();"
+                }
+              ],
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": []
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-did-comm!DIDCommMessageHandler#handle:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "handle(message: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Message",
+                  "canonicalReference": "daf-message-handler!Message:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IContext",
+                  "canonicalReference": "daf-did-comm!~IContext:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Message",
+                  "canonicalReference": "daf-message-handler!Message:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "handle"
+            }
+          ],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-did-comm!IDIDComm:interface",
+          "docComment": "/**\n * DID Comm plugin interface for {@link daf-core#Agent}\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IDIDComm extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "IPluginMethodMap",
+              "canonicalReference": "daf-core!IPluginMethodMap:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "IDIDComm",
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "daf-did-comm!IDIDComm#sendMessageDIDCommAlpha1:member(1)",
+              "docComment": "/**\n * This is used to create a message according to the initial {@link https://github.com/decentralized-identity/DIDComm-js | DIDComm-js} implementation.\n *\n * @remarks\n *\n * Be advised that this spec is still not final and that this protocol may need to change.\n *\n * @param args - Arguments necessary for sending a DIDComm message\n *\n * @param context - This reserved param is automatically added and handled by the framework, *do not override*\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sendMessageDIDCommAlpha1(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ISendMessageDIDCommAlpha1Args",
+                  "canonicalReference": "daf-did-comm!ISendMessageDIDCommAlpha1Args:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManager",
+                  "canonicalReference": "daf-core!IIdentityManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IResolver",
+                  "canonicalReference": "daf-core!IResolver:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IMessageHandler",
+                  "canonicalReference": "daf-core!IMessageHandler:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IMessage",
+                  "canonicalReference": "daf-core!IMessage:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 14,
+                "endIndex": 18
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 13
+                  }
+                }
+              ],
+              "name": "sendMessageDIDCommAlpha1"
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-did-comm!ISendMessageDIDCommAlpha1Args:interface",
+          "docComment": "/**\n * Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ISendMessageDIDCommAlpha1Args "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "ISendMessageDIDCommAlpha1Args",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-did-comm!ISendMessageDIDCommAlpha1Args#data:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "data: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        id?: string;\n        from: string;\n        to: string;\n        type: string;\n        body: object | string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "data",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-did-comm!ISendMessageDIDCommAlpha1Args#save:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "save?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "save",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-did-comm!ISendMessageDIDCommAlpha1Args#url:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "url?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "url",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        }
+      ]
+    }
+  ]
+}

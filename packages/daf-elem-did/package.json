@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "extract-api": "daf extractPluginApi -c ./api-extractor.json"
   },
   "dependencies": {
     "@transmute/element-lib": "0.8.4",

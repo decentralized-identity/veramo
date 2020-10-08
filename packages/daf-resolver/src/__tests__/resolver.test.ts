@@ -11,4 +11,5 @@ describe('daf-resolver', () => {
     const resolver = new DafResolver({ infuraProjectId: 'xxx' })
     expect(resolver).toHaveProperty('resolveDid')
   })
+
 })

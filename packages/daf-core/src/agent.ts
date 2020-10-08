@@ -1,4 +1,4 @@
-import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent } from './types'
+import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent } from './types/IAgent'
 import Debug from 'debug'
 
 /**

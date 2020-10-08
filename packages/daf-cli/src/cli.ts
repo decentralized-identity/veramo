@@ -11,6 +11,7 @@ import './crypto'
 import './execute'
 import './server'
 import './setup'
+import './schema'
 
 if (!process.argv.slice(2).length) {
   program.outputHelp()

@@ -5,12 +5,24 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "extract-api": "daf extractPluginApi -c ./api-extractor.json",
+    "generate-schema": "daf generatePluginSchema"
+  },
+  "daf": {
+    "pluginInterfaces": {
+      "IResolver": "./src/types/IResolver.ts",
+      "IKeyManager": "./src/types/IKeyManager.ts",
+      "IIdentityManager": "./src/types/IIdentityManager.ts",
+      "IDataStore": "./src/types/IDataStore.ts",
+      "IMessageHandler": "./src/types/IMessageHandler.ts"
+    }
   },
   "dependencies": {
     "debug": "^4.1.1",
     "did-jwt-vc": "^1.0.3",
-    "events": "^3.0.0"
+    "events": "^3.0.0",
+    "z-schema": "^4.2.3"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",

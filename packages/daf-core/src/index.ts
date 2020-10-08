@@ -4,4 +4,12 @@
  * @packageDocumentation
  */
 export { Agent, createAgent, IAgentOptions } from './agent'
-export * from './types'
+export { validate, ValidationError } from './validator'
+export * from './types/IAgent'
+export * from './types/IDataStore'
+export * from './types/IIdentity'
+export * from './types/IIdentityManager'
+export * from './types/IKeyManager'
+export * from './types/IMessage'
+export * from './types/IMessageHandler'
+export * from './types/IResolver'

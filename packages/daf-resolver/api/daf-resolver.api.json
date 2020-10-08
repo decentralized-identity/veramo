@@ -1,0 +1,193 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.9.22",
+    "schemaVersion": 1003,
+    "oldestForwardsCompatibleVersion": 1001
+  },
+  "kind": "Package",
+  "canonicalReference": "daf-resolver!",
+  "docComment": "/**\n * Provides a {@link daf-resolver#DafResolver | plugin} for the {@link daf-core#Agent} that implements {@link daf-core#IResolver} interface\n *\n * @packageDocumentation\n */\n",
+  "name": "daf-resolver",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "daf-resolver!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-resolver!DafResolver:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class DafResolver implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IAgentPlugin",
+              "canonicalReference": "daf-core!IAgentPlugin:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "DafResolver",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "daf-resolver!DafResolver:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `DafResolver` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Options",
+                  "canonicalReference": "daf-resolver!~Options:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-resolver!DafResolver#methods:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly methods: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IResolver",
+                  "canonicalReference": "daf-core!IResolver:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "methods",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-resolver!DafResolver#resolveDid:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "resolveDid({ didUrl }: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        didUrl: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DIDDocument",
+                  "canonicalReference": "did-resolver!DIDDocument:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ didUrl }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "resolveDid"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-resolver!DafResolver#schema:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly schema: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        components: {\n            schemas: {\n                ResolveDidArgs: {\n                    type: string;\n                    properties: {\n                        didUrl: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                DIDDocument: {\n                    type: string;\n                    properties: {\n                        \"@context\": {\n                            type: string;\n                            const: string;\n                        };\n                        id: {\n                            type: string;\n                        };\n                        publicKey: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                        authentication: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                        uportProfile: {};\n                        service: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                        created: {\n                            type: string;\n                        };\n                        updated: {\n                            type: string;\n                        };\n                        proof: {\n                            $ref: string;\n                        };\n                        keyAgreement: {\n                            type: string;\n                            items: {\n                                anyOf: ({\n                                    type: string;\n                                    $ref?: undefined;\n                                } | {\n                                    $ref: string;\n                                    type?: undefined;\n                                })[];\n                            };\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                };\n                PublicKey: {\n                    type: string;\n                    properties: {\n                        id: {\n                            type: string;\n                        };\n                        type: {\n                            type: string;\n                        };\n                        controller: {\n                            type: string;\n                        };\n                        ethereumAddress: {\n                            type: string;\n                        };\n                        publicKeyBase64: {\n                            type: string;\n                        };\n                        publicKeyBase58: {\n                            type: string;\n                        };\n                        publicKeyHex: {\n                            type: string;\n                        };\n                        publicKeyPem: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                };\n                Authentication: {\n                    type: string;\n                    properties: {\n                        type: {\n                            type: string;\n                        };\n                        publicKey: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                };\n                ServiceEndpoint: {\n                    type: string;\n                    properties: {\n                        id: {\n                            type: string;\n                        };\n                        type: {\n                            type: string;\n                        };\n                        serviceEndpoint: {\n                            type: string;\n                        };\n                        description: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                };\n                LinkedDataProof: {\n                    type: string;\n                    properties: {\n                        type: {\n                            type: string;\n                        };\n                        created: {\n                            type: string;\n                        };\n                        creator: {\n                            type: string;\n                        };\n                        nonce: {\n                            type: string;\n                        };\n                        signatureValue: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                };\n            };\n            methods: {\n                resolveDid: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n            };\n        };\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "schema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

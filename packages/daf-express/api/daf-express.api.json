@@ -1,0 +1,209 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.9.22",
+    "schemaVersion": 1003,
+    "oldestForwardsCompatibleVersion": 1001
+  },
+  "kind": "Package",
+  "canonicalReference": "daf-express!",
+  "docComment": "/**\n * {@link https://expressjs.com | Express} router for exposing `daf-rest` OpenAPI schema\n *\n * @example\n * ```typescript\n * import express from 'express'\n * import { agent } from './agent'\n * import { AgentRouter } from 'daf-express'\n *\n * const agentRouter = AgentRouter({\n *   getAgentForRequest: async req => agent,\n *   exposedMethods: agent.availableMethods()\n * })\n *\n * const app = express()\n * app.use('/agent', agentRouter)\n * app.listen(3002)\n * ```\n *\n * @packageDocumentation\n */\n",
+  "name": "daf-express",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "daf-express!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Variable",
+          "canonicalReference": "daf-express!AgentRouter:var",
+          "docComment": "/**\n * Creates a router that exposes {@link daf-core#Agent} methods\n *\n * @param options - Initialization option\n *\n * @returns Expressjs router\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "AgentRouter: "
+            },
+            {
+              "kind": "Content",
+              "text": "(options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "AgentRouterOptions",
+              "canonicalReference": "daf-express!AgentRouterOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "Router",
+              "canonicalReference": "@types/express!~e.Router:interface"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "AgentRouter",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-express!AgentRouterOptions:interface",
+          "docComment": "/**\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface AgentRouterOptions "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "AgentRouterOptions",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-express!AgentRouterOptions#exposedMethods:member",
+              "docComment": "/**\n * List of exposed methods\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "exposedMethods: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Array",
+                  "canonicalReference": "!Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "exposedMethods",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-express!AgentRouterOptions#extraMethods:member",
+              "docComment": "/**\n * List of extra methods\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "extraMethods?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Array",
+                  "canonicalReference": "!Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "extraMethods",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-express!AgentRouterOptions#getAgentForRequest:member",
+              "docComment": "/**\n * Function that returns configured agent for specific request\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getAgentForRequest: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(req: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Request",
+                  "canonicalReference": "@types/express!~e.Request:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ") => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgent",
+                  "canonicalReference": "daf-core!IAgent:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "getAgentForRequest",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 8
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-express!AgentRouterOptions#serveSchema:member",
+              "docComment": "/**\n * If set to `true`, router will serve OpenAPI schema JSON on `/` route\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "serveSchema?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "serveSchema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        }
+      ]
+    }
+  ]
+}

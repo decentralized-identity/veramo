@@ -1,5 +1,5 @@
 import { Agent } from '../agent'
-import { IAgentPlugin } from '../types'
+import { IAgentPlugin } from '../types/IAgent'
 
 describe('daf-core agent', () => {
   it('should use plugin methods', async () => {

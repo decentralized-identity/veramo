@@ -9,6 +9,7 @@ import {
   IValidatePresentationAgainstSdrArgs,
   ISelectiveDisclosureRequest,
 } from './types'
+import schema from './schemas/ISelectiveDisclosure'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
@@ -25,6 +26,7 @@ import Debug from 'debug'
  */
 export class SelectiveDisclosure implements IAgentPlugin {
   readonly methods: ISelectiveDisclosure
+  readonly schema = schema
 
   constructor() {
     this.methods = {

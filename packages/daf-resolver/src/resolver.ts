@@ -1,4 +1,5 @@
 import { IAgentPlugin, IResolver } from 'daf-core'
+import schema from 'daf-core/build/schemas/IResolver'
 import { Resolver, DIDDocument } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { resolver as naclDidResolver } from 'nacl-did'
@@ -20,7 +21,8 @@ interface Options {
 }
 
 export class DafResolver implements IAgentPlugin {
-  public methods: IResolver
+  readonly methods: IResolver
+  readonly schema = schema
   private didResolver: Resolver
   private networks: NetworkConfig[]
 

@@ -1,0 +1,606 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.9.22",
+    "schemaVersion": 1003,
+    "oldestForwardsCompatibleVersion": 1001
+  },
+  "kind": "Package",
+  "canonicalReference": "daf-react-native-libsodium!",
+  "docComment": "/**\n * Provides {@link https://github.com/jedisct1/libsodium.js | libsodium} backed {@link daf-libsodium#KeyManagementSystem | key management system} and {@link daf-libsodium#SecretBox | secret box} for the {@link daf-key-manager#KeyManager}\n *\n * @packageDocumentation\n */\n",
+  "name": "daf-react-native-libsodium",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "daf-react-native-libsodium!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-react-native-libsodium!KeyManagementSystem:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class KeyManagementSystem extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AbstractKeyManagementSystem",
+              "canonicalReference": "daf-key-manager!AbstractKeyManagementSystem:class"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "KeyManagementSystem",
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!KeyManagementSystem#createKey:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createKey({ type }: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        type: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "TKeyType",
+                  "canonicalReference": "daf-core!TKeyType:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Omit",
+                  "canonicalReference": "!Omit:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKey",
+                  "canonicalReference": "daf-core!IKey:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", 'kms'>>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 11
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ type }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "createKey"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!KeyManagementSystem#decryptJWE:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "decryptJWE({ key, data }: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        key: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKey",
+                  "canonicalReference": "daf-core!IKey:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        data: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ key, data }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "decryptJWE"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!KeyManagementSystem#deleteKey:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "deleteKey(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        kid: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<boolean>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "deleteKey"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!KeyManagementSystem#encryptJWE:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "encryptJWE({ key, to, data }: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        key: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKey",
+                  "canonicalReference": "daf-core!IKey:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        to: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKey",
+                  "canonicalReference": "daf-core!IKey:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        data: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ key, to, data }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "encryptJWE"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!KeyManagementSystem#signEthTX:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "signEthTX({ key, transaction }: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        key: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKey",
+                  "canonicalReference": "daf-core!IKey:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        transaction: object;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ key, transaction }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "signEthTX"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!KeyManagementSystem#signJWT:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "signJWT({ key, data }: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        key: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKey",
+                  "canonicalReference": "daf-core!IKey:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        data: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ key, data }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "signJWT"
+            }
+          ],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-react-native-libsodium!SecretBox:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class SecretBox extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AbstractSecretBox",
+              "canonicalReference": "daf-key-manager!AbstractSecretBox:class"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "SecretBox",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "daf-react-native-libsodium!SecretBox:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `SecretBox` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(secretKey: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "secretKey",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!SecretBox.createSecretKey:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static createSecretKey(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "createSecretKey"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!SecretBox#decrypt:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "decrypt(encryptedMessageHex: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "encryptedMessageHex",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "decrypt"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-react-native-libsodium!SecretBox#encrypt:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "encrypt(message: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "encrypt"
+            }
+          ],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "implementsTokenRanges": []
+        }
+      ]
+    }
+  ]
+}

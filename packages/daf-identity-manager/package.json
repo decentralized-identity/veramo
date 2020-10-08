@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "extract-api": "daf extractPluginApi -c ./api-extractor.json"
   },
   "dependencies": {
     "daf-core": "^7.0.0-beta.29"

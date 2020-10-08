@@ -7,6 +7,7 @@
 import { DIDDocument } from 'did-resolver';
 import { IAgentPlugin } from 'daf-core';
 import { IResolver } from 'daf-core';
+import { ResolveDidArgs } from 'daf-core';
 
 // @public (undocumented)
 export class DafResolver implements IAgentPlugin {
@@ -15,9 +16,7 @@ export class DafResolver implements IAgentPlugin {
     // (undocumented)
     methods: IResolver;
     // (undocumented)
-    resolveDid({ didUrl }: {
-        didUrl: string;
-    }): Promise<DIDDocument>;
+    resolveDid(args: ResolveDidArgs): Promise<DIDDocument>;
 }
 
 

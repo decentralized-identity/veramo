@@ -1,0 +1,736 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.9.22",
+    "schemaVersion": 1003,
+    "oldestForwardsCompatibleVersion": 1001
+  },
+  "kind": "Package",
+  "canonicalReference": "daf-w3c!",
+  "docComment": "/**\n * Provides a {@link daf-w3c#CredentialIssuer | plugin} for the {@link daf-core#Agent} that implements {@link daf-w3c#ICredentialIssuer} interface. Provides a {@link daf-w3c#W3cMessageHandler | plugin} for the {@link daf-message-handler#MessageHandler} that verifies Credentials and Presentations in a message\n *\n * @packageDocumentation\n */\n",
+  "name": "daf-w3c",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "daf-w3c!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-w3c!CredentialIssuer:class",
+          "docComment": "/**\n * A DAF plugin that implements the {@link ICredentialIssuer} methods.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class CredentialIssuer implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IAgentPlugin",
+              "canonicalReference": "daf-core!IAgentPlugin:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "CredentialIssuer",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "daf-w3c!CredentialIssuer:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `CredentialIssuer` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor();"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": []
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-w3c!CredentialIssuer#createVerifiableCredential:member(1)",
+              "docComment": "/**\n * Creates a Verifiable Credential. The payload, signer and format are chosen based on the `args` parameter.\n *\n * @remarks\n *\n * Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}\n *\n * @param args - Arguments necessary to create the Presentation.\n *\n * @param context - This reserved param is automatically added and handled by the framework, *do not override*\n *\n * @returns - a promise that resolves to the {@link daf-core#VerifiableCredential} that was requested or rejects with an error if there was a problem with the input or while getting the key to sign\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createVerifiableCredential(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICreateVerifiableCredentialArgs",
+                  "canonicalReference": "daf-w3c!ICreateVerifiableCredentialArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IContext",
+                  "canonicalReference": "daf-w3c!IContext:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifiableCredential",
+                  "canonicalReference": "daf-core!VerifiableCredential:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "createVerifiableCredential"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-w3c!CredentialIssuer#createVerifiablePresentation:member(1)",
+              "docComment": "/**\n * Creates a Verifiable Presentation. The payload, signer and format are chosen based on the `args` parameter.\n *\n * @remarks\n *\n * Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model}\n *\n * @param args - Arguments necessary to create the Presentation.\n *\n * @param context - This reserved param is automatically added and handled by the framework, *do not override*\n *\n * @returns - a promise that resolves to the {@link daf-core#VerifiablePresentation} that was requested or rejects with an error if there was a problem with the input or while getting the key to sign\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createVerifiablePresentation(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICreateVerifiablePresentationArgs",
+                  "canonicalReference": "daf-w3c!ICreateVerifiablePresentationArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IContext",
+                  "canonicalReference": "daf-w3c!IContext:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifiablePresentation",
+                  "canonicalReference": "daf-core!VerifiablePresentation:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "createVerifiablePresentation"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-w3c!CredentialIssuer#methods:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly methods: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICredentialIssuer",
+                  "canonicalReference": "daf-w3c!ICredentialIssuer:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "methods",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-w3c!CredentialIssuer#schema:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly schema: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        components: {\n            schemas: {\n                ICreateVerifiableCredentialArgs: {\n                    type: string;\n                    properties: {\n                        credential: {\n                            $ref: string;\n                            description: string;\n                        };\n                        save: {\n                            type: string;\n                            description: string;\n                        };\n                        proofFormat: {\n                            $ref: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                W3CCredential: {\n                    type: string;\n                    properties: {\n                        \"@context\": {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        type: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        issuer: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                        id: {\n                            type: string;\n                        };\n                        credentialSubject: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                        };\n                        credentialStatus: {\n                            $ref: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                CredentialStatus: {\n                    type: string;\n                    properties: {\n                        id: {\n                            type: string;\n                        };\n                        type: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                };\n                EncodingFormat: {\n                    type: string;\n                    const: string;\n                    description: string;\n                };\n                VerifiableCredential: {\n                    $ref: string;\n                    description: string;\n                };\n                \"Verifiable-W3CCredential\": {\n                    type: string;\n                    additionalProperties: boolean;\n                    properties: {\n                        proof: {\n                            $ref: string;\n                        };\n                        id: {\n                            type: string;\n                        };\n                        credentialSubject: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                        };\n                        credentialStatus: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                                type: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        \"@context\": {\n                            type: string;\n                            properties: {};\n                        };\n                        type: {\n                            type: string;\n                            properties: {};\n                        };\n                        issuer: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                Proof: {\n                    type: string;\n                    properties: {\n                        type: {\n                            type: string;\n                        };\n                    };\n                };\n                ICreateVerifiablePresentationArgs: {\n                    type: string;\n                    properties: {\n                        presentation: {\n                            $ref: string;\n                            description: string;\n                        };\n                        save: {\n                            type: string;\n                            description: string;\n                        };\n                        proofFormat: {\n                            $ref: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                W3CPresentation: {\n                    type: string;\n                    properties: {\n                        \"@context\": {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        type: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        verifier: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        verifiableCredential: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                        id: {\n                            type: string;\n                        };\n                        holder: {\n                            type: string;\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                VerifiablePresentation: {\n                    $ref: string;\n                    description: string;\n                };\n                \"Verifiable-W3CPresentation\": {\n                    type: string;\n                    additionalProperties: boolean;\n                    properties: {\n                        proof: {\n                            $ref: string;\n                        };\n                        id: {\n                            type: string;\n                        };\n                        holder: {\n                            type: string;\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                        \"@context\": {\n                            type: string;\n                            properties: {};\n                        };\n                        type: {\n                            type: string;\n                            properties: {};\n                        };\n                        verifier: {\n                            type: string;\n                            properties: {};\n                        };\n                        verifiableCredential: {\n                            type: string;\n                            properties: {};\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n            };\n            methods: {\n                createVerifiableCredential: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n                createVerifiablePresentation: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n            };\n        };\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "schema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-w3c!ICreateVerifiableCredentialArgs:interface",
+          "docComment": "/**\n * Encapsulates the parameters required to create a {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICreateVerifiableCredentialArgs "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ICreateVerifiableCredentialArgs",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-w3c!ICreateVerifiableCredentialArgs#credential:member",
+              "docComment": "/**\n * The json payload of the Credential according to the {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}\n *\n * The signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "credential: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "W3CCredential",
+                  "canonicalReference": "did-jwt-vc!W3CCredential:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "credential",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-w3c!ICreateVerifiableCredentialArgs#proofFormat:member",
+              "docComment": "/**\n * The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "proofFormat: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EncodingFormat",
+                  "canonicalReference": "daf-w3c!EncodingFormat:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "proofFormat",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-w3c!ICreateVerifiableCredentialArgs#save:member",
+              "docComment": "/**\n * If this parameter is true, the resulting VerifiablePresentation is sent to the {@link daf-core#IDataStore | storage plugin} to be saved\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "save?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "save",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-w3c!ICreateVerifiablePresentationArgs:interface",
+          "docComment": "/**\n * Encapsulates the parameters required to create a {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICreateVerifiablePresentationArgs "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ICreateVerifiablePresentationArgs",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-w3c!ICreateVerifiablePresentationArgs#presentation:member",
+              "docComment": "/**\n * The json payload of the Presentation according to the {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.\n *\n * The signer of the Presentation is chosen based on the `holder` property of the `presentation`\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "presentation: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "W3CPresentation",
+                  "canonicalReference": "did-jwt-vc!W3CPresentation:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "presentation",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-w3c!ICreateVerifiablePresentationArgs#proofFormat:member",
+              "docComment": "/**\n * The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "proofFormat: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EncodingFormat",
+                  "canonicalReference": "daf-w3c!EncodingFormat:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "proofFormat",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-w3c!ICreateVerifiablePresentationArgs#save:member",
+              "docComment": "/**\n * If this parameter is true, the resulting VerifiablePresentation is sent to the {@link daf-core#IDataStore | storage plugin} to be saved\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "save?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "save",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "daf-w3c!ICredentialIssuer:interface",
+          "docComment": "/**\n * The interface definition for a plugin that can generate Verifiable Credentials and Presentations\n *\n * @remarks\n *\n * Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICredentialIssuer extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "IPluginMethodMap",
+              "canonicalReference": "daf-core!IPluginMethodMap:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ICredentialIssuer",
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "daf-w3c!ICredentialIssuer#createVerifiableCredential:member(1)",
+              "docComment": "/**\n * Creates a Verifiable Credential. The payload, signer and format are chosen based on the `args` parameter.\n *\n * @remarks\n *\n * Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}\n *\n * @param args - Arguments necessary to create the Presentation.\n *\n * @param context - This reserved param is automatically added and handled by the framework, *do not override*\n *\n * @returns - a promise that resolves to the {@link daf-core#VerifiableCredential} that was requested or rejects with an error if there was a problem with the input or while getting the key to sign\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createVerifiableCredential(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICreateVerifiableCredentialArgs",
+                  "canonicalReference": "daf-w3c!ICreateVerifiableCredentialArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IContext",
+                  "canonicalReference": "daf-w3c!IContext:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifiableCredential",
+                  "canonicalReference": "daf-core!VerifiableCredential:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "createVerifiableCredential"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "daf-w3c!ICredentialIssuer#createVerifiablePresentation:member(1)",
+              "docComment": "/**\n * Creates a Verifiable Presentation. The payload, signer and format are chosen based on the `args` parameter.\n *\n * @remarks\n *\n * Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model}\n *\n * @param args - Arguments necessary to create the Presentation.\n *\n * @param context - This reserved param is automatically added and handled by the framework, *do not override*\n *\n * @returns - a promise that resolves to the {@link daf-core#VerifiablePresentation} that was requested or rejects with an error if there was a problem with the input or while getting the key to sign\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createVerifiablePresentation(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICreateVerifiablePresentationArgs",
+                  "canonicalReference": "daf-w3c!ICreateVerifiablePresentationArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IContext",
+                  "canonicalReference": "daf-w3c!IContext:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifiablePresentation",
+                  "canonicalReference": "daf-core!VerifiablePresentation:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "createVerifiablePresentation"
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-w3c!W3cMessageHandler:class",
+          "docComment": "/**\n * An implementation of the {@link daf-message-handler#AbstractMessageHandler}.\n *\n * This plugin can handle incoming W3C Verifiable Credentials and Presentations and prepare them for internal storage as {@link daf-message-handler#Message} types.\n *\n * The current version can only handle `JWT` encoded\n *\n * @remarks\n *\n * {@link daf-core#IDataStore | IDataStore}\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class W3cMessageHandler extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AbstractMessageHandler",
+              "canonicalReference": "daf-message-handler!AbstractMessageHandler:class"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "W3cMessageHandler",
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-w3c!W3cMessageHandler#handle:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "handle(message: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Message",
+                  "canonicalReference": "daf-message-handler!Message:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IContext",
+                  "canonicalReference": "daf-w3c!IContext:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Message",
+                  "canonicalReference": "daf-message-handler!Message:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "handle"
+            }
+          ],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "implementsTokenRanges": []
+        }
+      ]
+    }
+  ]
+}

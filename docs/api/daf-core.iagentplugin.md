@@ -17,4 +17,5 @@ export interface IAgentPlugin
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [methods](./daf-core.iagentplugin.methods.md) | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
+|  [schema](./daf-core.iagentplugin.schema.md) | [IAgentPluginSchema](./daf-core.iagentpluginschema.md) |  |
 

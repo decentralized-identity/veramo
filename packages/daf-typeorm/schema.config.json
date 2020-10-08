@@ -1,0 +1,6 @@
+{
+  "entryPoint": "src/index.ts",
+  "schemasPath": "schemas/",
+  "api": "api/daf-typeorm.api.json",
+  "interfaces": ["IDataStoreORM"]
+}

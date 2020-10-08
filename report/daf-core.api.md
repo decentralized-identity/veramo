@@ -337,6 +337,22 @@ export type TAgent<T extends IPluginMethodMap> = {
 // @public
 export type TKeyType = 'Ed25519' | 'Secp256k1';
 
+// @public (undocumented)
+export const validate: (args: object, schema: object, schemaPath?: string | undefined) => void;
+
+// @public (undocumented)
+export class ValidationError extends Error {
+    constructor(message: string, code: string, path: string, description: string);
+    // (undocumented)
+    code: string;
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    path: string;
+}
+
 // @public
 export type VerifiableCredential = Verifiable<W3CCredential>;
 

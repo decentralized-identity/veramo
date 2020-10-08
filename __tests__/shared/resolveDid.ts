@@ -1,4 +1,4 @@
-import { TAgent, IResolver } from '../../packages/daf-core/src'
+import { TAgent, IResolver, ValidationError } from '../../packages/daf-core/src'
 
 type ConfiguredAgent = TAgent<IResolver>
 
@@ -23,6 +23,18 @@ export default (testContext: {
       expect(didDoc.id).toEqual(didUrl)
     })
 
-    it.todo('should throw an error for unsupported did methods')
+    // it('should throw an error for unsupported did methods', async () => {
+    //   await expect(agent.resolveDid({ didUrl: 'did:foo:bar' })).rejects.toThrow("Unsupported DID method: 'foo'")
+    // })
+
+    // it('should throw validation error', async () => {
+    //   //@ts-ignore
+    //   await expect(agent.resolveDid()).rejects.toHaveProperty('name', 'ValidationError')
+    //   //@ts-ignore
+    //   await expect(agent.resolveDid({})).rejects.toHaveProperty('name', 'ValidationError')
+    //   //@ts-ignore
+    //   await expect(agent.resolveDid({didUrl: 1})).rejects.toHaveProperty('name', 'ValidationError')
+
+    // })
   })
 }

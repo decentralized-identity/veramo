@@ -1,41 +1,41 @@
-import * as path from 'path'
-import { Extractor, ExtractorConfig, ExtractorResult } from '@microsoft/api-extractor'
-
-const configs = [
-  '../packages/daf-core/api-extractor.json',
-  '../packages/daf-did-comm/api-extractor.json',
-  '../packages/daf-did-jwt/api-extractor.json',
-  '../packages/daf-ethr-did/api-extractor.json',
-  '../packages/daf-express/api-extractor.json',
-  '../packages/daf-graphql/api-extractor.json',
-  '../packages/daf-libsodium/api-extractor.json',
-  '../packages/daf-resolver/api-extractor.json',
-  '../packages/daf-resolver-universal/api-extractor.json',
-  '../packages/daf-rest/api-extractor.json',
-  '../packages/daf-selective-disclosure/api-extractor.json',
-  '../packages/daf-typeorm/api-extractor.json',
-  '../packages/daf-url/api-extractor.json',
-  '../packages/daf-w3c/api-extractor.json',
-  '../packages/daf-web-did/api-extractor.json',
-  '../packages/daf-key-manager/api-extractor.json',
-  '../packages/daf-identity-manager/api-extractor.json',
-  '../packages/daf-message-handler/api-extractor.json',
+import { resolve } from 'path'
+import { existsSync, readdirSync, copyFileSync, mkdirSync, unlinkSync } from 'fs'
+const outputFolder = './temp'
+const inputFolders = [
+  'packages/daf-core/api/',
+  'packages/daf-did-comm/api/',
+  'packages/daf-did-jwt/api/',
+  'packages/daf-ethr-did/api/',
+  'packages/daf-express/api/',
+  'packages/daf-graphql/api/',
+  'packages/daf-libsodium/api/',
+  'packages/daf-resolver/api/',
+  'packages/daf-resolver-universal/api/',
+  'packages/daf-rest/api/',
+  'packages/daf-selective-disclosure/api/',
+  'packages/daf-typeorm/api/',
+  'packages/daf-url/api/',
+  'packages/daf-w3c/api/',
+  'packages/daf-web-did/api/',
+  'packages/daf-key-manager/api/',
+  'packages/daf-identity-manager/api/',
+  'packages/daf-message-handler/api/',
 ]
 
-for (const config of configs) {
-  const apiExtractorJsonPath: string = path.join(__dirname, config)
-  const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
-  const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
-    localBuild: true,
-    showVerboseMessages: true,
+console.log('here')
+if (!existsSync(resolve(outputFolder))) {
+  console.log('Creating', outputFolder)
+  mkdirSync(resolve(outputFolder))
+} else {
+  console.log('Removing files in', outputFolder)
+  readdirSync(resolve(outputFolder)).forEach(file => { 
+    unlinkSync(resolve(outputFolder, file))
   })
+}
 
-  if (!extractorResult.succeeded) {
-    console.error(
-      `API Extractor completed with ${extractorResult.errorCount} errors` +
-        ` and ${extractorResult.warningCount} warnings`,
-    )
-    process.exitCode = 1
-    break
-  }
+for (const inputFolder of inputFolders) {
+  readdirSync(resolve(inputFolder)).forEach(file => { 
+    console.log('Copying', resolve(outputFolder, file))
+    copyFileSync(resolve(inputFolder, file), resolve(outputFolder, file))
+  }) 
 }

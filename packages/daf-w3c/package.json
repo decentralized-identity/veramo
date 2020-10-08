@@ -5,7 +5,14 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "extract-api": "daf extractPluginApi -c ./api-extractor.json",
+    "generate-schema": "daf generatePluginSchema"
+  },
+  "daf": {
+    "pluginInterfaces": {
+      "ICredentialIssuer": "./src/action-handler.ts"
+    }
   },
   "dependencies": {
     "blakejs": "^1.1.0",

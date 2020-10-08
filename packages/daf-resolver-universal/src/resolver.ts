@@ -1,5 +1,6 @@
 import 'cross-fetch/polyfill'
 import { IAgentPlugin, IResolver } from 'daf-core'
+import schema from 'daf-core/build/schemas/IResolver'
 import { DIDDocument } from 'did-resolver'
 export { DIDDocument }
 import Debug from 'debug'
@@ -10,7 +11,8 @@ interface Options {
 }
 
 export class DafUniversalResolver implements IAgentPlugin {
-  public methods: IResolver
+  readonly methods: IResolver
+  readonly schema = schema
   private url: string
 
   constructor(options: Options) {

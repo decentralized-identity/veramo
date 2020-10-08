@@ -12,6 +12,7 @@ import {
   IKeyManagerSignJWTArgs,
   IKeyManagerSignEthTXArgs,
 } from 'daf-core'
+import schema from 'daf-core/build/schemas/IKeyManager'
 
 /**
  * Agent plugin that provides {@link daf-core#IKeyManager} methods
@@ -23,6 +24,8 @@ export class KeyManager implements IAgentPlugin {
    * @public
    */
   readonly methods: IKeyManager
+  
+  readonly schema = schema
 
   private store: AbstractKeyStore
   private kms: Record<string, AbstractKeyManagementSystem>

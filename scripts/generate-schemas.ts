@@ -205,16 +205,14 @@ for (const packageName of Object.keys(agentPlugins)) {
 }
 
 OasResolver.resolve(openApi, null, {
-  resolveInternal: true,
+  resolveInternal: false,
   patch: true,
 })
   .then((validatedOpenApi: any) => {
     console.log('Writing ' + outputFile)
     const fixedOpenApi = validatedOpenApi
-    fixedOpenApi['openapi']['components']['schemas'] = {}
-    fixedOpenApi['openapi']['paths']['/resolveDid']['post']['responses']['200']['content'][
-      'application/json'
-    ]['schema']['properties']['uportProfile'] = { type: 'object' }
+    // fixedOpenApi['openapi']['components']['schemas'] = {}
+    fixedOpenApi['openapi']['components']['schemas']['DIDDocument']['properties']['uportProfile'] = { type: 'object' }
     writeFileSync(
       outputFile,
       "import { OpenAPIV3 } from 'openapi-types'\nexport const openApiSchema: OpenAPIV3.Document = " +

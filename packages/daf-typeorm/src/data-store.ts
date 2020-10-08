@@ -11,6 +11,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from 'daf-core'
+import schema from 'daf-core/build/schemas/IDataStore'
 import { Message, createMessageEntity, createMessage } from './entities/message'
 import { Credential, createCredentialEntity } from './entities/credential'
 import { Presentation, createPresentationEntity } from './entities/presentation'
@@ -18,6 +19,7 @@ import { Connection } from 'typeorm'
 
 export class DataStore implements IAgentPlugin {
   readonly methods: IDataStore
+  readonly schema = schema
   private dbConnection: Promise<Connection>
 
   constructor(dbConnection: Promise<Connection>) {

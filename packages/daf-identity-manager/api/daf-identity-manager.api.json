@@ -1,0 +1,1955 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.9.22",
+    "schemaVersion": 1003,
+    "oldestForwardsCompatibleVersion": 1001
+  },
+  "kind": "Package",
+  "canonicalReference": "daf-identity-manager!",
+  "docComment": "/**\n * Provides a {@link daf-identity-manager#IdentityManager | plugin} for the {@link daf-core#Agent} that implements {@link daf-core#IIdentityManager} interface\n *\n * @packageDocumentation\n */\n",
+  "name": "daf-identity-manager",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "daf-identity-manager!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-identity-manager!AbstractIdentityProvider:class",
+          "docComment": "/**\n * An abstract class for the {@link daf-identity-manager#IdentityManager} identity providers\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare abstract class AbstractIdentityProvider "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "AbstractIdentityProvider",
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityProvider#addKey:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract addKey(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        identity: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        key: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKey",
+                  "canonicalReference": "daf-core!IKey:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        options?: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 14
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 6
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 11
+                  }
+                }
+              ],
+              "name": "addKey"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityProvider#addService:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract addService(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        identity: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        service: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IService",
+                  "canonicalReference": "daf-core!IService:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        options?: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 14
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 6
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 11
+                  }
+                }
+              ],
+              "name": "addService"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityProvider#createIdentity:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract createIdentity(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        kms?: string;\n        alias?: string;\n        options?: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Omit",
+                  "canonicalReference": "!Omit:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", 'provider'>>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 14
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "createIdentity"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityProvider#deleteIdentity:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract deleteIdentity(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<boolean>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "deleteIdentity"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityProvider#removeKey:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract removeKey(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        identity: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        kid: string;\n        options?: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 12
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 9
+                  }
+                }
+              ],
+              "name": "removeKey"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityProvider#removeService:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract removeService(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        identity: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        id: string;\n        options?: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 12
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 9
+                  }
+                }
+              ],
+              "name": "removeService"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-identity-manager!AbstractIdentityStore:class",
+          "docComment": "/**\n * An abstract class for the {@link daf-identity-manager#IdentityManager} identity store\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare abstract class AbstractIdentityStore "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "AbstractIdentityStore",
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityStore#delete:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract delete(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        did: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<boolean>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "delete"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityStore#get:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract get(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        did: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "get"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityStore#get:member(2)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract get(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        alias: string;\n        provider: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 2,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "get"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityStore#import:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract import(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<boolean>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "import"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!AbstractIdentityStore#list:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract list(args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        alias?: string;\n        provider?: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "list"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "daf-identity-manager!IdentityManager:class",
+          "docComment": "/**\n * Agent plugin that implements {@link daf-core#IIdentityManager} interface\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class IdentityManager implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IAgentPlugin",
+              "canonicalReference": "daf-core!IAgentPlugin:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "IdentityManager",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "daf-identity-manager!IdentityManager:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `IdentityManager` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(options: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        providers: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string, "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "AbstractIdentityProvider",
+                  "canonicalReference": "daf-identity-manager!AbstractIdentityProvider:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">;\n        defaultProvider: string;\n        store: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "AbstractIdentityStore",
+                  "canonicalReference": "daf-identity-manager!AbstractIdentityStore:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 8
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerAddKey:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerAddKey}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerAddKey({ did, key, options }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerAddKeyArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerAddKeyArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ did, key, options }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerAddKey"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerAddService:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerAddService}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerAddService({ did, service, options }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerAddServiceArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerAddServiceArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ did, service, options }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerAddService"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerCreateIdentity:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerCreateIdentity}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerCreateIdentity(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerCreateIdentityArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerCreateIdentityArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 12
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerCreateIdentity"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerDeleteIdentity:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerDeleteIdentity}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerDeleteIdentity({ did }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerDeleteIdentityArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerDeleteIdentityArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<boolean>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ did }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerDeleteIdentity"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerGetIdentities:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerGetIdentities}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerGetIdentities(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerGetIdentitiesArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerGetIdentitiesArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "identityManagerGetIdentities"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerGetIdentity:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerGetIdentity}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerGetIdentity({ did }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerGetIdentityArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerGetIdentityArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ did }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "identityManagerGetIdentity"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerGetIdentityByAlias:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerGetIdentityByAlias}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerGetIdentityByAlias({ alias, provider, }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerGetIdentityByAliasArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerGetIdentityByAliasArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ alias, provider, }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "identityManagerGetIdentityByAlias"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerGetOrCreateIdentity:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerGetOrCreateIdentity}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerGetOrCreateIdentity({ provider, alias, kms, options }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerGetOrCreateIdentityArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerGetOrCreateIdentityArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 12
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ provider, alias, kms, options }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerGetOrCreateIdentity"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerGetProviders:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerGetProviders}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerGetProviders(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string[]>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "identityManagerGetProviders"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerImportIdentity:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerImportIdentity}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerImportIdentity(identity: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentity",
+                  "canonicalReference": "daf-core!IIdentity:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 12
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "identity",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerImportIdentity"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerRemoveKey:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerRemoveKey}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerRemoveKey({ did, kid, options }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerRemoveKeyArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerRemoveKeyArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ did, kid, options }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerRemoveKey"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerRemoveService:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerRemoveService}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerRemoveService({ did, id, options }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerRemoveServiceArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerRemoveServiceArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ did, id, options }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerRemoveService"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "daf-identity-manager!IdentityManager#identityManagerSetAlias:member(1)",
+              "docComment": "/**\n * {@inheritDoc daf-core#IIdentityManager.identityManagerSetAlias}\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identityManagerSetAlias({ did, alias }: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManagerSetAliasArgs",
+                  "canonicalReference": "daf-core!IIdentityManagerSetAliasArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IKeyManager",
+                  "canonicalReference": "daf-core!IKeyManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<boolean>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ did, alias }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "identityManagerSetAlias"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-identity-manager!IdentityManager#methods:member",
+              "docComment": "/**\n * Plugin methods\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly methods: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManager",
+                  "canonicalReference": "daf-core!IIdentityManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "methods",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-identity-manager!IdentityManager#schema:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly schema: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        components: {\n            schemas: {\n                IIdentityManagerAddKeyArgs: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        key: {\n                            $ref: string;\n                            description: string;\n                        };\n                        options: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string; /**\n                     * Agent plugin that implements {@link daf-core#IIdentityManager} interface\n                     * @public\n                     */\n                };\n                IKey: {\n                    type: string;\n                    properties: {\n                        kid: {\n                            type: string;\n                            description: string;\n                        };\n                        kms: {\n                            type: string;\n                            description: string;\n                        };\n                        type: {\n                            $ref: string;\n                            description: string;\n                        };\n                        publicKeyHex: {\n                            type: string;\n                            description: string;\n                        };\n                        privateKeyHex: {\n                            type: string;\n                            description: string;\n                        };\n                        meta: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                TKeyType: {\n                    type: string;\n                    enum: string[];\n                    description: string;\n                };\n                IIdentityManagerAddServiceArgs: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        service: {\n                            $ref: string;\n                            description: string;\n                        };\n                        options: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IService: {\n                    type: string;\n                    properties: {\n                        id: {\n                            type: string;\n                            description: string;\n                        };\n                        type: {\n                            type: string;\n                            description: string;\n                        };\n                        serviceEndpoint: {\n                            type: string;\n                            description: string;\n                        };\n                        description: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerCreateIdentityArgs: {\n                    type: string;\n                    properties: {\n                        alias: {\n                            type: string;\n                            description: string;\n                        };\n                        provider: {\n                            type: string;\n                            description: string;\n                        };\n                        kms: {\n                            type: string;\n                            description: string;\n                        };\n                        options: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentity: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        alias: {\n                            type: string;\n                            description: string;\n                        };\n                        provider: {\n                            type: string;\n                            description: string;\n                        };\n                        controllerKeyId: {\n                            type: string;\n                            description: string;\n                        };\n                        keys: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        services: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerDeleteIdentityArgs: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerGetIdentitiesArgs: {\n                    type: string;\n                    properties: {\n                        alias: {\n                            type: string;\n                            description: string;\n                        };\n                        provider: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerGetIdentityArgs: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerGetIdentityByAliasArgs: {\n                    type: string;\n                    properties: {\n                        alias: {\n                            type: string;\n                            description: string;\n                        };\n                        provider: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerGetOrCreateIdentityArgs: {\n                    type: string;\n                    properties: {\n                        alias: {\n                            type: string;\n                            description: string;\n                        };\n                        provider: {\n                            type: string;\n                            description: string;\n                        };\n                        kms: {\n                            type: string;\n                            description: string;\n                        };\n                        options: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerRemoveKeyArgs: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        kid: {\n                            type: string;\n                            description: string;\n                        };\n                        options: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerRemoveServiceArgs: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        id: {\n                            type: string;\n                            description: string;\n                        };\n                        options: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n                IIdentityManagerSetAliasArgs: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        alias: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    additionalProperties: boolean;\n                    description: string;\n                };\n            };\n            methods: {\n                identityManagerAddKey: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n                identityManagerAddService: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n                identityManagerCreateIdentity: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n                identityManagerDeleteIdentity: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n                identityManagerGetIdentities: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                        items: {\n                            $ref: string;\n                        };\n                    };\n                };\n                identityManagerGetIdentity: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n                identityManagerGetIdentityByAlias: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n                identityManagerGetOrCreateIdentity: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n                identityManagerGetProviders: {\n                    description: string;\n                    arguments: {\n                        type: string;\n                    };\n                    returnType: {\n                        type: string;\n                        items: {\n                            type: string;\n                        };\n                    };\n                };\n                identityManagerImportIdentity: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n                identityManagerRemoveKey: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n                identityManagerRemoveService: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n                identityManagerSetAlias: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n            };\n        };\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "schema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
