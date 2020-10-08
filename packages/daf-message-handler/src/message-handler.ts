@@ -2,6 +2,7 @@ import { EventEmitter } from 'events'
 import { IDataStore, IAgentPlugin, IAgentContext, IMessageHandler, IHandleMessageArgs } from 'daf-core'
 import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
+import schema from 'daf-core/build/schemas/IMessageHandler'
 
 import Debug from 'debug'
 const debug = Debug('daf:message-handler')
@@ -21,6 +22,7 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
    * @public
    */
   readonly methods: IMessageHandler
+  readonly schema = schema
   private messageHandler?: AbstractMessageHandler
 
   constructor(options: { messageHandlers: AbstractMessageHandler[] }) {

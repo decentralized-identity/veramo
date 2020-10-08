@@ -1,9 +1,32 @@
 import 'cross-fetch/polyfill'
-import { IAgentPlugin, IPluginMethodMap } from 'daf-core'
+import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema } from 'daf-core'
 import { supportedMethods } from './index'
+import IMessageHandler from 'daf-core/build/schemas/IMessageHandler'
+import IDataStore from 'daf-core/build/schemas/IDataStore'
+import IKeyManager from 'daf-core/build/schemas/IKeyManager'
+import IResolver from 'daf-core/build/schemas/IResolver'
+
+const schema: IAgentPluginSchema = {
+  components: {
+    schemas: {
+      ...IMessageHandler.components.schemas,
+      ...IDataStore.components.schemas,
+      ...IKeyManager.components.schemas,
+      ...IResolver.components.schemas,
+    },
+    methods: {
+      ...IMessageHandler.components.methods,
+      ...IDataStore.components.methods,
+      ...IKeyManager.components.methods,
+      ...IResolver.components.methods,
+    },
+  }
+}
+
 
 export class AgentRestClient implements IAgentPlugin {
   readonly methods: IPluginMethodMap = {}
+  readonly schema = schema
   private url: string
 
   constructor(options: {
