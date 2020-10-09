@@ -57,7 +57,9 @@ readonly schema: {
                             description: string;
                         };
                         meta: {
-                            type: string;
+                            anyOf: {
+                                type: string;
+                            }[];
                             description: string;
                         };
                     };
@@ -149,7 +151,7 @@ readonly schema: {
                             description: string;
                         };
                         provider: {
-                            type: string;
+                            type: string; /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetOrCreateIdentity} */
                             description: string;
                         };
                         controllerKeyId: {
@@ -250,7 +252,7 @@ readonly schema: {
                             description: string;
                         };
                     };
-                    required: string[];
+                    required: string[]; /** {@inheritDoc daf-core#IIdentityManager.identityManagerRemoveService} */
                     additionalProperties: boolean;
                     description: string;
                 };

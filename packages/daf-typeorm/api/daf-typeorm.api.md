@@ -209,17 +209,36 @@ export class DataStore implements IAgentPlugin {
                     description: string;
                 };
                 VerifiableCredential: {
-                    $ref: string;
-                    description: string;
-                };
-                "Verifiable-W3CCredential": {
                     type: string;
-                    additionalProperties: boolean;
                     properties: {
-                        proof: {
-                            $ref: string;
+                        "@context": {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
                         };
                         id: {
+                            type: string;
+                        };
+                        type: {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
+                        };
+                        issuer: {
+                            type: string;
+                            properties: {
+                                id: {
+                                    type: string;
+                                };
+                            };
+                            required: string[];
+                        };
+                        issuanceDate: {
+                            type: string;
+                        };
+                        expirationDate: {
                             type: string;
                         };
                         credentialSubject: {
@@ -241,53 +260,23 @@ export class DataStore implements IAgentPlugin {
                                 };
                             };
                             required: string[];
+                            additionalProperties: boolean;
                         };
-                        "@context": {
-                            type: string;
-                            properties: {};
-                        };
-                        type: {
-                            type: string;
-                            properties: {};
-                        };
-                        issuer: {
+                        proof: {
                             type: string;
                             properties: {
-                                id: {
+                                type: {
                                     type: string;
                                 };
                             };
-                            required: string[];
-                        };
-                        issuanceDate: {
-                            type: string;
-                        };
-                        expirationDate: {
-                            type: string;
                         };
                     };
                     required: string[];
                     description: string;
                 };
-                Proof: {
-                    type: string;
-                    properties: {
-                        type: {
-                            type: string;
-                        };
-                    };
-                };
                 VerifiablePresentation: {
-                    $ref: string;
-                    description: string;
-                };
-                "Verifiable-W3CPresentation": {
                     type: string;
-                    additionalProperties: boolean;
                     properties: {
-                        proof: {
-                            $ref: string;
-                        };
                         id: {
                             type: string;
                         };
@@ -302,19 +291,35 @@ export class DataStore implements IAgentPlugin {
                         };
                         "@context": {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         type: {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         verifier: {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         verifiableCredential: {
                             type: string;
-                            properties: {};
+                            items: {
+                                $ref: string;
+                            };
+                        };
+                        proof: {
+                            type: string;
+                            properties: {
+                                type: {
+                                    type: string;
+                                };
+                            };
                         };
                     };
                     required: string[];
@@ -602,7 +607,9 @@ export class DataStoreORM implements IAgentPlugin {
                             description: string;
                         };
                         meta: {
-                            type: string;
+                            anyOf: {
+                                type: string;
+                            }[];
                             description: string;
                         };
                     };
@@ -802,17 +809,36 @@ export class DataStoreORM implements IAgentPlugin {
                     description: string;
                 };
                 VerifiableCredential: {
-                    $ref: string;
-                    description: string;
-                };
-                "Verifiable-W3CCredential": {
                     type: string;
-                    additionalProperties: boolean;
                     properties: {
-                        proof: {
-                            $ref: string;
+                        "@context": {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
                         };
                         id: {
+                            type: string;
+                        };
+                        type: {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
+                        };
+                        issuer: {
+                            type: string;
+                            properties: {
+                                id: {
+                                    type: string;
+                                };
+                            };
+                            required: string[];
+                        };
+                        issuanceDate: {
+                            type: string;
+                        };
+                        expirationDate: {
                             type: string;
                         };
                         credentialSubject: {
@@ -834,53 +860,23 @@ export class DataStoreORM implements IAgentPlugin {
                                 };
                             };
                             required: string[];
+                            additionalProperties: boolean;
                         };
-                        "@context": {
-                            type: string;
-                            properties: {};
-                        };
-                        type: {
-                            type: string;
-                            properties: {};
-                        };
-                        issuer: {
+                        proof: {
                             type: string;
                             properties: {
-                                id: {
+                                type: {
                                     type: string;
                                 };
                             };
-                            required: string[];
-                        };
-                        issuanceDate: {
-                            type: string;
-                        };
-                        expirationDate: {
-                            type: string;
                         };
                     };
                     required: string[];
                     description: string;
                 };
-                Proof: {
-                    type: string;
-                    properties: {
-                        type: {
-                            type: string;
-                        };
-                    };
-                };
                 VerifiablePresentation: {
-                    $ref: string;
-                    description: string;
-                };
-                "Verifiable-W3CPresentation": {
                     type: string;
-                    additionalProperties: boolean;
                     properties: {
-                        proof: {
-                            $ref: string;
-                        };
                         id: {
                             type: string;
                         };
@@ -895,19 +891,35 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                         "@context": {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         type: {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         verifier: {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         verifiableCredential: {
                             type: string;
-                            properties: {};
+                            items: {
+                                $ref: string;
+                            };
+                        };
+                        proof: {
+                            type: string;
+                            properties: {
+                                type: {
+                                    type: string;
+                                };
+                            };
                         };
                     };
                     required: string[];
@@ -1256,7 +1268,7 @@ export class DataStoreORM implements IAgentPlugin {
 }
 
 // @public (undocumented)
-export const Entities: (typeof Identity | typeof Message | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Key | typeof Service)[];
+export const Entities: (typeof Credential_2 | typeof Identity | typeof Claim | typeof Presentation | typeof Message | typeof Key | typeof Service)[];
 
 // @public (undocumented)
 export interface FindArgs<TColumns> {
@@ -1381,7 +1393,7 @@ export class Key extends BaseEntity {
     // (undocumented)
     kms: string;
     // (undocumented)
-    meta?: Record<string, any>;
+    meta?: object | null;
     // (undocumented)
     privateKeyHex?: string;
     // (undocumented)

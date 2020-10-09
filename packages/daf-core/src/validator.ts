@@ -22,7 +22,7 @@ export class ValidationError extends Error{
 }
 
 
-export const validate = (args: object, schema: object, schemaPath?: string) => {
+export const validate = (args: any, schema: object, schemaPath?: string) => {
   const options = schemaPath ? { schemaPath } : {}
   const valid = validator.validate(args, schema, options)
   if (!valid) {

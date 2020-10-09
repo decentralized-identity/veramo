@@ -64,7 +64,7 @@ export default (testContext: {
           //@ts-ignore
           type: 'foobar',
         }),
-      ).rejects.toThrow('Key type not supported: foobar')
+      ).rejects.toThrow('No enum match for: foobar')
     })
 
     it('should create key with meta data', async () => {

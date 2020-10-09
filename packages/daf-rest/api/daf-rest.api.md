@@ -5,6 +5,7 @@
 ```ts
 
 import { IAgentPlugin } from 'daf-core';
+import { IAgentPluginSchema } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
 import { OpenAPIV3 } from 'openapi-types';
 
@@ -18,6 +19,8 @@ export class AgentRestClient implements IAgentPlugin {
     });
     // (undocumented)
     readonly methods: IPluginMethodMap;
+    // (undocumented)
+    readonly schema: IAgentPluginSchema;
     }
 
 // @public (undocumented)

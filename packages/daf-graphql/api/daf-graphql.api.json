@@ -120,6 +120,33 @@
                 "endIndex": 2
               },
               "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-graphql!AgentGraphQLClient#schema:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly schema: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentPluginSchema",
+                  "canonicalReference": "daf-core!IAgentPluginSchema:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "schema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
             }
           ],
           "implementsTokenRanges": [

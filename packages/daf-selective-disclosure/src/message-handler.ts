@@ -37,12 +37,18 @@ export class SdrMessageHandler extends AbstractMessageHandler {
       message.type = MessageTypes.sdr
       message.from = message.data.iss
 
-      message.replyTo = Array.isArray(message.data.replyTo)
+      if (message.data.replyTo) {
+
+        message.replyTo = Array.isArray(message.data.replyTo)
         ? message.data.replyTo
         : message.data.replyTo
         ? [message.data.replyTo]
         : undefined
-      message.replyUrl = message.data.replyUrl
+      }
+      
+      if (message.data.replyUrl) {
+        message.replyUrl = message.data.replyUrl
+      }
 
       if (message.data.subject) {
         message.to = message.data.subject

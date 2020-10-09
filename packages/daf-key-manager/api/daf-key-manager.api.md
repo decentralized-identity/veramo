@@ -150,7 +150,9 @@ export class KeyManager implements IAgentPlugin {
                             description: string;
                         };
                         meta: {
-                            type: string;
+                            anyOf: {
+                                type: string;
+                            }[]; /** {@inheritDoc daf-core#IKeyManager.keyManagerGetKeyManagementSystems} */
                             description: string;
                         };
                     };
@@ -213,7 +215,9 @@ export class KeyManager implements IAgentPlugin {
                                     description: string;
                                 };
                                 meta: {
-                                    type: string;
+                                    anyOf: {
+                                        type: string;
+                                    }[];
                                     description: string;
                                 };
                             };

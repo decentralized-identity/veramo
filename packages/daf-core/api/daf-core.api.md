@@ -5,9 +5,6 @@
 ```ts
 
 import { DIDDocument } from 'did-resolver';
-import { Verifiable } from 'did-jwt-vc';
-import { W3CCredential } from 'did-jwt-vc';
-import { W3CPresentation } from 'did-jwt-vc';
 
 // @public
 export class Agent implements IAgent {
@@ -15,7 +12,9 @@ export class Agent implements IAgent {
     availableMethods(): string[];
     execute<P = any, R = any>(method: string, args: P): Promise<R>;
     readonly methods: IPluginMethodMap;
-    }
+    // (undocumented)
+    readonly schema: IAgentPluginSchema;
+}
 
 // @public
 export function createAgent<T extends IPluginMethodMap>(options: IAgentOptions): TAgent<T>;
@@ -214,7 +213,7 @@ export interface IIdentityManagerSetAliasArgs {
 export interface IKey {
     kid: string;
     kms: string;
-    meta?: object;
+    meta?: object | null;
     privateKeyHex?: string;
     publicKeyHex: string;
     type: TKeyType;
@@ -349,7 +348,7 @@ export type TAgent<T extends IPluginMethodMap> = {
 export type TKeyType = 'Ed25519' | 'Secp256k1';
 
 // @public (undocumented)
-export const validate: (args: object, schema: object, schemaPath?: string | undefined) => void;
+export const validate: (args: any, schema: object, schemaPath?: string | undefined) => void;
 
 // @public (undocumented)
 export class ValidationError extends Error {
@@ -365,14 +364,120 @@ export class ValidationError extends Error {
 }
 
 // @public
-export type VerifiableCredential = Verifiable<W3CCredential>;
+export interface VerifiableCredential {
+    // (undocumented)
+    '@context': string[];
+    // (undocumented)
+    [x: string]: any;
+    // (undocumented)
+    credentialStatus?: {
+        id: string;
+        type: string;
+    };
+    // (undocumented)
+    credentialSubject: {
+        id?: string;
+        [x: string]: any;
+    };
+    // (undocumented)
+    expirationDate?: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    issuanceDate: string;
+    // (undocumented)
+    issuer: {
+        id: string;
+        [x: string]: any;
+    };
+    // (undocumented)
+    proof: {
+        type?: string;
+        [x: string]: any;
+    };
+    // (undocumented)
+    type: string[];
+}
 
 // @public
-export type VerifiablePresentation = Verifiable<W3CPresentation>;
+export interface VerifiablePresentation {
+    // (undocumented)
+    '@context': string[];
+    // (undocumented)
+    [x: string]: any;
+    // (undocumented)
+    expirationDate?: string;
+    // (undocumented)
+    holder: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    issuanceDate?: string;
+    // (undocumented)
+    proof: {
+        type?: string;
+        [x: string]: any;
+    };
+    // (undocumented)
+    type: string[];
+    // (undocumented)
+    verifiableCredential: VerifiableCredential[];
+    // (undocumented)
+    verifier: string[];
+}
 
-export { W3CCredential }
+// @public
+export interface W3CCredential {
+    // (undocumented)
+    '@context': string[];
+    // (undocumented)
+    [x: string]: any;
+    // (undocumented)
+    credentialStatus?: {
+        id: string;
+        type: string;
+    };
+    // (undocumented)
+    credentialSubject: {
+        id?: string;
+        [x: string]: any;
+    };
+    // (undocumented)
+    expirationDate?: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    issuanceDate: string;
+    // (undocumented)
+    issuer: {
+        id: string;
+        [x: string]: any;
+    };
+    // (undocumented)
+    type: string[];
+}
 
-export { W3CPresentation }
+// @public
+export interface W3CPresentation {
+    // (undocumented)
+    '@context': string[];
+    // (undocumented)
+    [x: string]: any;
+    // (undocumented)
+    expirationDate?: string;
+    // (undocumented)
+    holder: string;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    issuanceDate?: string;
+    // (undocumented)
+    type: string[];
+    // (undocumented)
+    verifiableCredential: VerifiableCredential[];
+    // (undocumented)
+    verifier: string[];
+}
 
 
 ```

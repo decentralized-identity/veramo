@@ -168,7 +168,9 @@ export class IdentityManager implements IAgentPlugin {
                             description: string;
                         };
                         meta: {
-                            type: string;
+                            anyOf: {
+                                type: string;
+                            }[];
                             description: string;
                         };
                     };
@@ -260,7 +262,7 @@ export class IdentityManager implements IAgentPlugin {
                             description: string;
                         };
                         provider: {
-                            type: string;
+                            type: string; /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetOrCreateIdentity} */
                             description: string;
                         };
                         controllerKeyId: {
@@ -361,7 +363,7 @@ export class IdentityManager implements IAgentPlugin {
                             description: string;
                         };
                     };
-                    required: string[];
+                    required: string[]; /** {@inheritDoc daf-core#IIdentityManager.identityManagerRemoveService} */
                     additionalProperties: boolean;
                     description: string;
                 };

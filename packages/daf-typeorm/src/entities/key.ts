@@ -25,7 +25,7 @@ export class Key extends BaseEntity {
   privateKeyHex?: string
 
   @Column({ type: 'simple-json', nullable: true })
-  meta?: Record<string, any>
+  meta?: object | null
 
   @ManyToOne((type) => Identity, (identity) => identity.keys)
   //@ts-ignore

@@ -114,7 +114,7 @@ program
     }
 
     if (cmd.qrcode) {
-      qrcode.generate(credential.raw)
+      qrcode.generate(verifiableCredential.proof.jwt)
     } else {
       console.dir(verifiableCredential, { depth: 10 })
     }

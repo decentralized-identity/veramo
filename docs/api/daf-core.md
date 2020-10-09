@@ -68,6 +68,10 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  [IService](./daf-core.iservice.md) | Identity service |
 |  [RemoveContext](./daf-core.removecontext.md) | Removes context parameter from plugin method interface |
 |  [ResolveDidArgs](./daf-core.resolvedidargs.md) | Input arguments for [resolveDid](./daf-core.iresolver.resolvedid.md) |
+|  [VerifiableCredential](./daf-core.verifiablecredential.md) | Verifiable Credential [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
+|  [VerifiablePresentation](./daf-core.verifiablepresentation.md) | Verifiable Presentation [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
+|  [W3CCredential](./daf-core.w3ccredential.md) | W3CCredential [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
+|  [W3CPresentation](./daf-core.w3cpresentation.md) | W3CPresentation [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
 
 ## Variables
 
@@ -81,6 +85,4 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  --- | --- |
 |  [TAgent](./daf-core.tagent.md) | Utility type for constructing agent type that has a list of available methods |
 |  [TKeyType](./daf-core.tkeytype.md) | Cryptographic key type |
-|  [VerifiableCredential](./daf-core.verifiablecredential.md) | Verifiable Credential [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
-|  [VerifiablePresentation](./daf-core.verifiablepresentation.md) | Verifiable Presentation [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
 

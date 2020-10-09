@@ -22,4 +22,5 @@ export declare class AgentGraphQLClient implements IAgentPlugin
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [methods](./daf-graphql.agentgraphqlclient.methods.md) |  | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
+|  [schema](./daf-graphql.agentgraphqlclient.schema.md) |  | [IAgentPluginSchema](./daf-core.iagentpluginschema.md) |  |
 

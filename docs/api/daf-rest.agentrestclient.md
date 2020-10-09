@@ -22,4 +22,5 @@ export declare class AgentRestClient implements IAgentPlugin
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [methods](./daf-rest.agentrestclient.methods.md) |  | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) |  |
+|  [schema](./daf-rest.agentrestclient.schema.md) |  | [IAgentPluginSchema](./daf-core.iagentpluginschema.md) |  |
 

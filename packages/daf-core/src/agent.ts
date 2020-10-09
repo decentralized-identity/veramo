@@ -1,4 +1,5 @@
-import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent } from './types/IAgent'
+import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } from './types/IAgent'
+import { validate } from './validator'
 import Debug from 'debug'
 
 /**
@@ -80,6 +81,7 @@ export class Agent implements IAgent {
    * The map of plugin + override methods
    */
   readonly methods: IPluginMethodMap = {}
+  readonly schema: IAgentPluginSchema
 
   private context?: Record<string, any>
   private protectedMethods = ['execute', 'availableMethods']
@@ -92,6 +94,13 @@ export class Agent implements IAgent {
    */
   constructor(options?: IAgentOptions) {
     this.context = options?.context
+    
+    this.schema = {
+      components: {
+        schemas: {},
+        methods: {}
+      }
+    }
 
     if (options?.plugins) {
       for (const plugin of options.plugins) {
@@ -99,6 +108,21 @@ export class Agent implements IAgent {
           ...this.methods,
           ...filterUnauthorizedMethods(plugin.methods, options.authorizedMethods),
         }
+        if (plugin.schema) {
+          this.schema = {
+            components: {
+              schemas: {
+                ...this.schema.components.schemas,
+                ...plugin.schema.components.schemas,
+              },
+              methods: {
+                ...this.schema.components.methods,
+                ...plugin.schema.components.methods,
+              }
+            }
+          }
+        }
+
       }
     }
 
@@ -152,7 +176,11 @@ export class Agent implements IAgent {
   async execute<P = any, R = any>(method: string, args: P): Promise<R> {
     Debug('daf:agent:' + method)('%o', args)
     if (!this.methods[method]) throw Error('Method not available: ' + method)
-    const result = await this.methods[method](args, { ...this.context, agent: this })
+    const _args = args || {}
+    if (this.schema.components.methods[method]) {
+      validate(_args, this.schema, 'components.methods.' + method + '.arguments')
+    }
+    const result = await this.methods[method](_args, { ...this.context, agent: this })
     Debug('daf:agent:' + method + ':result')('%o', result)
     return result
   }

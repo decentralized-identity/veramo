@@ -26,6 +26,7 @@ export declare class Agent implements IAgent
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [methods](./daf-core.agent.methods.md) |  | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) | The map of plugin + override methods |
+|  [schema](./daf-core.agent.schema.md) |  | [IAgentPluginSchema](./daf-core.iagentpluginschema.md) |  |
 
 ## Methods
 

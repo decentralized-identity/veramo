@@ -59,7 +59,9 @@ readonly schema: {
                             description: string;
                         };
                         meta: {
-                            type: string;
+                            anyOf: {
+                                type: string;
+                            }[]; /** {@inheritDoc daf-core#IKeyManager.keyManagerGetKeyManagementSystems} */
                             description: string;
                         };
                     };
@@ -122,7 +124,9 @@ readonly schema: {
                                     description: string;
                                 };
                                 meta: {
-                                    type: string;
+                                    anyOf: {
+                                        type: string;
+                                    }[];
                                     description: string;
                                 };
                             };

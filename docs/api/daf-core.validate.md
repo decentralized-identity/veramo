@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-validate: (args: object, schema: object, schemaPath?: string | undefined) => void
+validate: (args: any, schema: object, schemaPath?: string | undefined) => void
 ```

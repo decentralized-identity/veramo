@@ -212,17 +212,38 @@ export default {
         "description": "The credentials that make up a response of a Selective Disclosure"
       },
       "VerifiableCredential": {
-        "$ref": "#/components/schemas/Verifiable-W3CCredential",
-        "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
-      },
-      "Verifiable-W3CCredential": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
-          "proof": {
-            "$ref": "#/components/schemas/Proof"
+          "@context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "issuer": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "issuanceDate": {
+            "type": "string"
+          },
+          "expirationDate": {
             "type": "string"
           },
           "credentialSubject": {
@@ -246,51 +267,27 @@ export default {
             "required": [
               "id",
               "type"
-            ]
+            ],
+            "additionalProperties": false
           },
-          "@context": {
-            "type": "object",
-            "properties": {}
-          },
-          "type": {
-            "type": "object",
-            "properties": {}
-          },
-          "issuer": {
+          "proof": {
             "type": "object",
             "properties": {
-              "id": {
+              "type": {
                 "type": "string"
               }
-            },
-            "required": [
-              "id"
-            ]
-          },
-          "issuanceDate": {
-            "type": "string"
-          },
-          "expirationDate": {
-            "type": "string"
+            }
           }
         },
         "required": [
           "@context",
-          "credentialSubject",
-          "issuanceDate",
+          "type",
           "issuer",
-          "proof",
-          "type"
+          "issuanceDate",
+          "credentialSubject",
+          "proof"
         ],
-        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof} property that can be used to verify it."
-      },
-      "Proof": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string"
-          }
-        }
+        "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
       },
       "IValidatePresentationAgainstSdrArgs": {
         "type": "object",
@@ -310,16 +307,8 @@ export default {
         "description": "A tuple used to verify a Selective Disclosure Response. Encapsulates the response(`presentation`) and the corresponding request (`sdr`) that made it."
       },
       "VerifiablePresentation": {
-        "$ref": "#/components/schemas/Verifiable-W3CPresentation",
-        "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}"
-      },
-      "Verifiable-W3CPresentation": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
-          "proof": {
-            "$ref": "#/components/schemas/Proof"
-          },
           "id": {
             "type": "string"
           },
@@ -333,31 +322,47 @@ export default {
             "type": "string"
           },
           "@context": {
-            "type": "object",
-            "properties": {}
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "type": {
-            "type": "object",
-            "properties": {}
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "verifier": {
-            "type": "object",
-            "properties": {}
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "verifiableCredential": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            }
+          },
+          "proof": {
             "type": "object",
-            "properties": {}
+            "properties": {
+              "type": {
+                "type": "string"
+              }
+            }
           }
         },
         "required": [
-          "@context",
           "holder",
-          "proof",
+          "@context",
           "type",
+          "verifier",
           "verifiableCredential",
-          "verifier"
+          "proof"
         ],
-        "description": "Represents a readonly representation of a verifiable object, including the {@link Proof} property that can be used to verify it."
+        "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}"
       },
       "IPresentationValidationResult": {
         "type": "object",

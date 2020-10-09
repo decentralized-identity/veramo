@@ -216,17 +216,36 @@ readonly schema: {
                     description: string;
                 };
                 VerifiableCredential: {
-                    $ref: string;
-                    description: string;
-                };
-                "Verifiable-W3CCredential": {
                     type: string;
-                    additionalProperties: boolean;
                     properties: {
-                        proof: {
-                            $ref: string;
+                        "@context": {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
                         };
                         id: {
+                            type: string;
+                        };
+                        type: {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
+                        };
+                        issuer: {
+                            type: string;
+                            properties: {
+                                id: {
+                                    type: string;
+                                };
+                            };
+                            required: string[];
+                        };
+                        issuanceDate: {
+                            type: string;
+                        };
+                        expirationDate: {
                             type: string;
                         };
                         credentialSubject: {
@@ -248,41 +267,19 @@ readonly schema: {
                                 };
                             };
                             required: string[];
+                            additionalProperties: boolean;
                         };
-                        "@context": {
-                            type: string;
-                            properties: {};
-                        };
-                        type: {
-                            type: string;
-                            properties: {};
-                        };
-                        issuer: {
+                        proof: {
                             type: string;
                             properties: {
-                                id: {
+                                type: {
                                     type: string;
                                 };
                             };
-                            required: string[];
-                        };
-                        issuanceDate: {
-                            type: string;
-                        };
-                        expirationDate: {
-                            type: string;
                         };
                     };
                     required: string[];
                     description: string;
-                };
-                Proof: {
-                    type: string;
-                    properties: {
-                        type: {
-                            type: string;
-                        };
-                    };
                 };
                 IValidatePresentationAgainstSdrArgs: {
                     type: string;
@@ -299,16 +296,8 @@ readonly schema: {
                     description: string;
                 };
                 VerifiablePresentation: {
-                    $ref: string;
-                    description: string;
-                };
-                "Verifiable-W3CPresentation": {
                     type: string;
-                    additionalProperties: boolean;
                     properties: {
-                        proof: {
-                            $ref: string;
-                        };
                         id: {
                             type: string;
                         };
@@ -323,19 +312,35 @@ readonly schema: {
                         };
                         "@context": {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         type: {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         verifier: {
                             type: string;
-                            properties: {};
+                            items: {
+                                type: string;
+                            };
                         };
                         verifiableCredential: {
                             type: string;
-                            properties: {};
+                            items: {
+                                $ref: string;
+                            };
+                        };
+                        proof: {
+                            type: string;
+                            properties: {
+                                type: {
+                                    type: string;
+                                };
+                            };
                         };
                     };
                     required: string[];

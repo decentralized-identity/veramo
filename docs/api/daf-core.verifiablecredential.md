@@ -2,12 +2,27 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [VerifiableCredential](./daf-core.verifiablecredential.md)
 
-## VerifiableCredential type
+## VerifiableCredential interface
 
 Verifiable Credential [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc)
 
 <b>Signature:</b>
 
 ```typescript
-export declare type VerifiableCredential = Verifiable<W3CCredential>;
+export interface VerifiableCredential 
 ```
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  ["@context"](./daf-core.verifiablecredential.__context_.md) | string\[\] |  |
+|  [credentialStatus](./daf-core.verifiablecredential.credentialstatus.md) | { id: string; type: string; } |  |
+|  [credentialSubject](./daf-core.verifiablecredential.credentialsubject.md) | { id?: string; \[x: string\]: any; } |  |
+|  [expirationDate](./daf-core.verifiablecredential.expirationdate.md) | string |  |
+|  [id](./daf-core.verifiablecredential.id.md) | string |  |
+|  [issuanceDate](./daf-core.verifiablecredential.issuancedate.md) | string |  |
+|  [issuer](./daf-core.verifiablecredential.issuer.md) | { id: string; \[x: string\]: any; } |  |
+|  [proof](./daf-core.verifiablecredential.proof.md) | { type?: string; \[x: string\]: any; } |  |
+|  [type](./daf-core.verifiablecredential.type.md) | string\[\] |  |
+

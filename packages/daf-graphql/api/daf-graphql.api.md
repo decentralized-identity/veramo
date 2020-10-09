@@ -5,6 +5,7 @@
 ```ts
 
 import { IAgentPlugin } from 'daf-core';
+import { IAgentPluginSchema } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
 
 // @public (undocumented)
@@ -17,6 +18,8 @@ export class AgentGraphQLClient implements IAgentPlugin {
     });
     // (undocumented)
     readonly methods: IPluginMethodMap;
+    // (undocumented)
+    readonly schema: IAgentPluginSchema;
 }
 
 // @public (undocumented)

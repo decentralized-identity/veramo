@@ -48,7 +48,14 @@ export default {
             "description": "Optional. Private key"
           },
           "meta": {
-            "type": "object",
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Optional. Key metadata. Can be used to store auth data to access remote kms"
           }
         },

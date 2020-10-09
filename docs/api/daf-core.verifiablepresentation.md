@@ -2,12 +2,27 @@
 
 [Home](./index.md) &gt; [daf-core](./daf-core.md) &gt; [VerifiablePresentation](./daf-core.verifiablepresentation.md)
 
-## VerifiablePresentation type
+## VerifiablePresentation interface
 
 Verifiable Presentation [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc)
 
 <b>Signature:</b>
 
 ```typescript
-export declare type VerifiablePresentation = Verifiable<W3CPresentation>;
+export interface VerifiablePresentation 
 ```
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  ["@context"](./daf-core.verifiablepresentation.__context_.md) | string\[\] |  |
+|  [expirationDate](./daf-core.verifiablepresentation.expirationdate.md) | string |  |
+|  [holder](./daf-core.verifiablepresentation.holder.md) | string |  |
+|  [id](./daf-core.verifiablepresentation.id.md) | string |  |
+|  [issuanceDate](./daf-core.verifiablepresentation.issuancedate.md) | string |  |
+|  [proof](./daf-core.verifiablepresentation.proof.md) | { type?: string; \[x: string\]: any; } |  |
+|  [type](./daf-core.verifiablepresentation.type.md) | string\[\] |  |
+|  [verifiableCredential](./daf-core.verifiablepresentation.verifiablecredential.md) | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\] |  |
+|  [verifier](./daf-core.verifiablepresentation.verifier.md) | string\[\] |  |
+

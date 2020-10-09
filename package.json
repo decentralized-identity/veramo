@@ -2,7 +2,7 @@
   "name": "daf",
   "private": true,
   "scripts": {
-    "build": "yarn extract-api && yarn generate-schema && yarn lerna run build && yarn docs:api && yarn docs:reference && yarn docs:clean-temp && yarn prettier:examples",
+    "build": "yarn lerna run build && yarn extract-api && yarn generate-schema && yarn lerna run build && yarn docs:api && yarn docs:reference && yarn docs:clean-temp && yarn prettier:examples",
     "publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
     "extract-api": "lerna run extract-api",

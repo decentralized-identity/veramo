@@ -16,7 +16,7 @@ export interface ICreateVerifiablePresentationArgs
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [presentation](./daf-w3c.icreateverifiablepresentationargs.presentation.md) | W3CPresentation | The json payload of the Presentation according to the [canonical model](https://www.w3.org/TR/vc-data-model/#presentations)<!-- -->.<!-- -->The signer of the Presentation is chosen based on the <code>holder</code> property of the <code>presentation</code> |
+|  [presentation](./daf-w3c.icreateverifiablepresentationargs.presentation.md) | [W3CPresentation](./daf-core.w3cpresentation.md) | The json payload of the Presentation according to the [canonical model](https://www.w3.org/TR/vc-data-model/#presentations)<!-- -->.<!-- -->The signer of the Presentation is chosen based on the <code>holder</code> property of the <code>presentation</code> |
 |  [proofFormat](./daf-w3c.icreateverifiablepresentationargs.proofformat.md) | EncodingFormat | The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported |
 |  [save](./daf-w3c.icreateverifiablepresentationargs.save.md) | boolean | If this parameter is true, the resulting VerifiablePresentation is sent to the [storage plugin](./daf-core.idatastore.md) to be saved |
 

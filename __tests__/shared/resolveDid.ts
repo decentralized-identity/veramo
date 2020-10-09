@@ -23,18 +23,18 @@ export default (testContext: {
       expect(didDoc.id).toEqual(didUrl)
     })
 
-    // it('should throw an error for unsupported did methods', async () => {
-    //   await expect(agent.resolveDid({ didUrl: 'did:foo:bar' })).rejects.toThrow("Unsupported DID method: 'foo'")
-    // })
+    it('should throw an error for unsupported did methods', async () => {
+      await expect(agent.resolveDid({ didUrl: 'did:foo:bar' })).rejects.toThrow("Unsupported DID method: 'foo'")
+    })
 
-    // it('should throw validation error', async () => {
-    //   //@ts-ignore
-    //   await expect(agent.resolveDid()).rejects.toHaveProperty('name', 'ValidationError')
-    //   //@ts-ignore
-    //   await expect(agent.resolveDid({})).rejects.toHaveProperty('name', 'ValidationError')
-    //   //@ts-ignore
-    //   await expect(agent.resolveDid({didUrl: 1})).rejects.toHaveProperty('name', 'ValidationError')
+    it('should throw validation error', async () => {
+      //@ts-ignore
+      await expect(agent.resolveDid()).rejects.toHaveProperty('name', 'ValidationError')
+      //@ts-ignore
+      await expect(agent.resolveDid({})).rejects.toHaveProperty('name', 'ValidationError')
+      //@ts-ignore
+      await expect(agent.resolveDid({didUrl: 1})).rejects.toHaveProperty('name', 'ValidationError')
 
-    // })
+    })
   })
 }

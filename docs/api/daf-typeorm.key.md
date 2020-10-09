@@ -18,7 +18,7 @@ export declare class Key extends BaseEntity
 |  [identity](./daf-typeorm.key.identity.md) |  | [Identity](./daf-typeorm.identity.md) |  |
 |  [kid](./daf-typeorm.key.kid.md) |  | string |  |
 |  [kms](./daf-typeorm.key.kms.md) |  | string |  |
-|  [meta](./daf-typeorm.key.meta.md) |  | Record&lt;string, any&gt; |  |
+|  [meta](./daf-typeorm.key.meta.md) |  | object \| null |  |
 |  [privateKeyHex](./daf-typeorm.key.privatekeyhex.md) |  | string |  |
 |  [publicKeyHex](./daf-typeorm.key.publickeyhex.md) |  | string |  |
 |  [type](./daf-typeorm.key.type.md) |  | KeyType |  |

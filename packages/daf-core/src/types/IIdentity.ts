@@ -73,7 +73,7 @@ export interface IKey {
   /**
    * Optional. Key metadata. Can be used to store auth data to access remote kms
    */
-  meta?: object
+  meta?: object | null
 }
 
 /**
