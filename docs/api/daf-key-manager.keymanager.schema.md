@@ -27,7 +27,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 TKeyType: {
@@ -61,12 +60,11 @@ readonly schema: {
                         meta: {
                             anyOf: {
                                 type: string;
-                            }[]; /** {@inheritDoc daf-core#IKeyManager.keyManagerGetKeyManagementSystems} */
+                            }[];
                             description: string;
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerDecryptJWEArgs: {
@@ -82,7 +80,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerDeleteKeyArgs: {
@@ -94,7 +91,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerEncryptJWEArgs: {
@@ -131,7 +127,6 @@ readonly schema: {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                             description: string;
                         };
                         data: {
@@ -140,7 +135,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerGetKeyArgs: {
@@ -152,7 +146,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerSignEthTXArgs: {
@@ -168,7 +161,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerSignJWTArgs: {
@@ -184,7 +176,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
             };

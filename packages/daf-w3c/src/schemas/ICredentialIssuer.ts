@@ -21,7 +21,6 @@ export default {
           "credential",
           "proofFormat"
         ],
-        "additionalProperties": false,
         "description": "Encapsulates the parameters required to create a {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}"
       },
       "W3CCredential": {
@@ -80,8 +79,7 @@ export default {
             "required": [
               "id",
               "type"
-            ],
-            "additionalProperties": false
+            ]
           }
         },
         "required": [
@@ -154,8 +152,7 @@ export default {
             "required": [
               "id",
               "type"
-            ],
-            "additionalProperties": false
+            ]
           },
           "proof": {
             "type": "object",
@@ -196,7 +193,6 @@ export default {
           "presentation",
           "proofFormat"
         ],
-        "additionalProperties": false,
         "description": "Encapsulates the parameters required to create a {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}"
       },
       "W3CPresentation": {

@@ -111,7 +111,6 @@ export class DataStore implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMessage: {
@@ -189,7 +188,6 @@ export class DataStore implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMetaData: {
@@ -205,7 +203,6 @@ export class DataStore implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiableCredential: {
@@ -260,7 +257,6 @@ export class DataStore implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;
@@ -334,7 +330,6 @@ export class DataStore implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IDataStoreGetVerifiablePresentationArgs: {
@@ -346,7 +341,6 @@ export class DataStore implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IDataStoreSaveMessageArgs: {
@@ -358,7 +352,6 @@ export class DataStore implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IDataStoreSaveVerifiableCredentialArgs: {
@@ -370,7 +363,6 @@ export class DataStore implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IDataStoreSaveVerifiablePresentationArgs: {
@@ -382,7 +374,6 @@ export class DataStore implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
             };
@@ -502,7 +493,6 @@ export class DataStoreORM implements IAgentPlugin {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TIdentitiesColumns": {
                     type: string;
@@ -525,7 +515,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TIdentitiesColumns: {
                     type: string;
@@ -543,7 +532,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 IIdentity: {
                     type: string;
@@ -580,7 +568,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKey: {
@@ -614,7 +601,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 TKeyType: {
@@ -643,7 +629,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 FindMessagesArgs: {
@@ -671,7 +656,6 @@ export class DataStoreORM implements IAgentPlugin {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TMessageColumns": {
                     type: string;
@@ -694,7 +678,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TMessageColumns: {
                     type: string;
@@ -712,7 +695,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 IMessage: {
                     type: string;
@@ -789,7 +771,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMetaData: {
@@ -805,7 +786,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiableCredential: {
@@ -860,7 +840,6 @@ export class DataStoreORM implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;
@@ -950,7 +929,6 @@ export class DataStoreORM implements IAgentPlugin {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TCredentialColumns": {
                     type: string;
@@ -973,7 +951,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TCredentialColumns: {
                     type: string;
@@ -991,7 +968,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 UniqueVerifiableCredential: {
                     type: string;
@@ -1004,7 +980,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 FindClaimsArgs: {
                     $ref: string;
@@ -1031,7 +1006,6 @@ export class DataStoreORM implements IAgentPlugin {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TClaimsColumns": {
                     type: string;
@@ -1054,7 +1028,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TClaimsColumns: {
                     type: string;
@@ -1072,7 +1045,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 FindPresentationsArgs: {
                     $ref: string;
@@ -1099,7 +1071,6 @@ export class DataStoreORM implements IAgentPlugin {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TPresentationColumns": {
                     type: string;
@@ -1122,7 +1093,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TPresentationColumns: {
                     type: string;
@@ -1140,7 +1110,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 UniqueVerifiablePresentation: {
                     type: string;
@@ -1153,7 +1122,6 @@ export class DataStoreORM implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
             };
             methods: {

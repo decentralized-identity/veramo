@@ -31,7 +31,6 @@ export class DafUniversalResolver implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 DIDDocument: {
@@ -86,7 +85,6 @@ export class DafUniversalResolver implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 PublicKey: {
                     type: string;
@@ -117,7 +115,6 @@ export class DafUniversalResolver implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 Authentication: {
                     type: string;
@@ -130,7 +127,6 @@ export class DafUniversalResolver implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 ServiceEndpoint: {
                     type: string;
@@ -149,7 +145,6 @@ export class DafUniversalResolver implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 LinkedDataProof: {
                     type: string;
@@ -171,7 +166,6 @@ export class DafUniversalResolver implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
             };
             methods: {

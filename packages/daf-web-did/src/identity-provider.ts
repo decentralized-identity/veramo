@@ -45,27 +45,27 @@ export class WebIdentityProvider extends AbstractIdentityProvider {
     { identity, key, options }: { identity: IIdentity; key: IKey; options?: any },
     context: IContext,
   ): Promise<any> {
-    return true
+    return { success: true }
   }
 
   async addService(
     { identity, service, options }: { identity: IIdentity; service: IService; options?: any },
     context: IContext,
   ): Promise<any> {
-    return true
+    return { success: true }
   }
 
   async removeKey(
     args: { identity: IIdentity; kid: string; options?: any },
     context: IContext,
   ): Promise<any> {
-    return true
+    return { success: true }
   }
 
   async removeService(
     args: { identity: IIdentity; id: string; options?: any },
     context: IContext,
   ): Promise<any> {
-    return true
+    return { success: true }
   }
 }

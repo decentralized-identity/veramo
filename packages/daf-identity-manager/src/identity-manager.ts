@@ -110,7 +110,10 @@ export class IdentityManager implements IAgentPlugin {
       { kms: args?.kms, alias: args?.alias, options: args?.options },
       context,
     )
-    const identity: IIdentity = { ...partialIdentity, alias: args?.alias, provider: providerName }
+    const identity: IIdentity = { ...partialIdentity, provider: providerName }
+    if (args?.alias) {
+      identity.alias = args.alias
+    }
     await this.store.import(identity)
     return identity
   }

@@ -35,7 +35,6 @@ readonly schema: {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TIdentitiesColumns": {
                     type: string;
@@ -58,7 +57,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TIdentitiesColumns: {
                     type: string;
@@ -76,7 +74,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 IIdentity: {
                     type: string;
@@ -113,7 +110,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKey: {
@@ -147,7 +143,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 TKeyType: {
@@ -176,7 +171,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 FindMessagesArgs: {
@@ -204,7 +198,6 @@ readonly schema: {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TMessageColumns": {
                     type: string;
@@ -227,7 +220,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TMessageColumns: {
                     type: string;
@@ -245,7 +237,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 IMessage: {
                     type: string;
@@ -322,7 +313,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMetaData: {
@@ -338,7 +328,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiableCredential: {
@@ -393,7 +382,6 @@ readonly schema: {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;
@@ -483,7 +471,6 @@ readonly schema: {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TCredentialColumns": {
                     type: string;
@@ -506,7 +493,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TCredentialColumns: {
                     type: string;
@@ -524,7 +510,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 UniqueVerifiableCredential: {
                     type: string;
@@ -537,7 +522,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 FindClaimsArgs: {
                     $ref: string;
@@ -564,7 +548,6 @@ readonly schema: {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TClaimsColumns": {
                     type: string;
@@ -587,7 +570,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TClaimsColumns: {
                     type: string;
@@ -605,7 +587,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 FindPresentationsArgs: {
                     $ref: string;
@@ -632,7 +613,6 @@ readonly schema: {
                             type: string;
                         };
                     };
-                    additionalProperties: boolean;
                 };
                 "Where-TPresentationColumns": {
                     type: string;
@@ -655,7 +635,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 TPresentationColumns: {
                     type: string;
@@ -673,7 +652,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 UniqueVerifiablePresentation: {
                     type: string;
@@ -686,7 +664,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
             };
             methods: {

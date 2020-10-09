@@ -4,6 +4,7 @@
 
 ```ts
 
+import { EcdsaSignature } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { IKey } from 'daf-core';
 import { IKeyManager } from 'daf-core';
@@ -47,7 +48,7 @@ export abstract class AbstractKeyManagementSystem {
     abstract signJWT(args: {
         key: IKey;
         data: string;
-    }): Promise<string>;
+    }): Promise<EcdsaSignature>;
 }
 
 // @public (undocumented)
@@ -95,7 +96,7 @@ export class KeyManager implements IAgentPlugin {
     // (undocumented)
     keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string>;
     // (undocumented)
-    keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string>;
+    keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<EcdsaSignature>;
     readonly methods: IKeyManager;
     // (undocumented)
     readonly schema: {
@@ -118,7 +119,6 @@ export class KeyManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 TKeyType: {
@@ -152,12 +152,11 @@ export class KeyManager implements IAgentPlugin {
                         meta: {
                             anyOf: {
                                 type: string;
-                            }[]; /** {@inheritDoc daf-core#IKeyManager.keyManagerGetKeyManagementSystems} */
+                            }[];
                             description: string;
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerDecryptJWEArgs: {
@@ -173,7 +172,6 @@ export class KeyManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerDeleteKeyArgs: {
@@ -185,7 +183,6 @@ export class KeyManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerEncryptJWEArgs: {
@@ -222,7 +219,6 @@ export class KeyManager implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                             description: string;
                         };
                         data: {
@@ -231,7 +227,6 @@ export class KeyManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerGetKeyArgs: {
@@ -243,7 +238,6 @@ export class KeyManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerSignEthTXArgs: {
@@ -259,7 +253,6 @@ export class KeyManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IKeyManagerSignJWTArgs: {
@@ -275,7 +268,6 @@ export class KeyManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
             };

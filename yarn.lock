@@ -8132,10 +8132,10 @@ ethr-did-resolver@^0.2.0:
     ethjs-query "^0.3.5"
     ethr-did-registry "^0.0.3"
 
-ethr-did-resolver@^2.2.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-2.4.0.tgz#6c933b7855c9b2eab0f91fe6a001178e80ae8807"
-  integrity sha512-k6uWadGRI/pnR+a6talamBsAU5y+uEwDpCe4xnTqyXUwzOlUJi972eBmz2dnZptb6gjTShfbC8GqgKe2U8uvTg==
+ethr-did-resolver@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-3.0.0.tgz#a7a3b8b4407d651007266b3a76463796bb79c0ce"
+  integrity sha512-o400l9p8ee6W09fZLMX2BERcyFRrebE7DCjb46Rzgypb7QzX1rBOzHJ0PorWRINXFqoPMoxR7OeIrD17obIbng==
   dependencies:
     buffer "^5.1.0"
     did-resolver "2.1.1"
@@ -18387,7 +18387,7 @@ wcwidth@^1.0.0:
   dependencies:
     defaults "^1.0.3"
 
-web-did-resolver@^1.3.0:
+web-did-resolver@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-1.3.3.tgz#88f897c4c39851dd5071338dd343ef27169a4225"
   integrity sha512-CL/pBC/vatndMU84eaWA7QHRgwN2Op3hAhxTcBs7VMmqoNGmZXmW1/x3FU0w8kLhRRJae2XFUkkxHQfN1wJtTw==

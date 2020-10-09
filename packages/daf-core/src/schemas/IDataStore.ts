@@ -12,7 +12,6 @@ export default {
         "required": [
           "id"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IDataStore.dataStoreGetMessage | dataStoreGetMessage}"
       },
       "IMessage": {
@@ -98,7 +97,6 @@ export default {
           "id",
           "type"
         ],
-        "additionalProperties": false,
         "description": "DIDComm message"
       },
       "IMetaData": {
@@ -116,7 +114,6 @@ export default {
         "required": [
           "type"
         ],
-        "additionalProperties": false,
         "description": "Message meta data"
       },
       "VerifiableCredential": {
@@ -175,8 +172,7 @@ export default {
             "required": [
               "id",
               "type"
-            ],
-            "additionalProperties": false
+            ]
           },
           "proof": {
             "type": "object",
@@ -266,7 +262,6 @@ export default {
         "required": [
           "hash"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IDataStore.dataStoreGetVerifiableCredential | dataStoreGetVerifiableCredential}"
       },
       "IDataStoreGetVerifiablePresentationArgs": {
@@ -280,7 +275,6 @@ export default {
         "required": [
           "hash"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IDataStore.dataStoreGetVerifiablePresentation | dataStoreGetVerifiablePresentation}"
       },
       "IDataStoreSaveMessageArgs": {
@@ -294,7 +288,6 @@ export default {
         "required": [
           "message"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}"
       },
       "IDataStoreSaveVerifiableCredentialArgs": {
@@ -308,7 +301,6 @@ export default {
         "required": [
           "verifiableCredential"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential}"
       },
       "IDataStoreSaveVerifiablePresentationArgs": {
@@ -322,7 +314,6 @@ export default {
         "required": [
           "verifiablePresentation"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation}"
       }
     },

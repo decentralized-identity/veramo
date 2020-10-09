@@ -44,11 +44,9 @@ readonly schema: {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMessage: {
@@ -71,11 +69,11 @@ readonly schema: {
                             description: string;
                         };
                         threadId: {
-                            type: string;
+                            type: string; /** Plugin methods */
                             description: string;
                         };
                         raw: {
-                            type: string; /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
+                            type: string;
                             description: string;
                         };
                         data: {
@@ -126,7 +124,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMetaData: {
@@ -142,7 +139,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiableCredential: {
@@ -197,7 +193,6 @@ readonly schema: {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;

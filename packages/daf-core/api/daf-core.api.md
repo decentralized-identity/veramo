@@ -21,6 +21,16 @@ export function createAgent<T extends IPluginMethodMap>(options: IAgentOptions):
 
 export { DIDDocument }
 
+// @public (undocumented)
+export interface EcdsaSignature {
+    // (undocumented)
+    r: string;
+    // (undocumented)
+    recoveryParam: 1;
+    // (undocumented)
+    s: string;
+}
+
 // @public
 export interface IAgent extends IAgentBase {
     // (undocumented)
@@ -231,7 +241,7 @@ export interface IKeyManager extends IPluginMethodMap {
     keyManagerGetKeyManagementSystems(): Promise<Array<string>>;
     keyManagerImportKey(args: IKey): Promise<boolean>;
     keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>;
-    keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<string>;
+    keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature>;
 }
 
 // @public

@@ -1,4 +1,4 @@
-import { TKeyType, IKey } from 'daf-core'
+import { TKeyType, IKey, EcdsaSignature } from 'daf-core'
 import { AbstractKeyManagementSystem } from 'daf-key-manager'
 import sodium from 'react-native-sodium'
 import { SimpleSigner } from 'did-jwt'
@@ -72,9 +72,9 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return sign(transaction, '0x' + key.privateKeyHex)
   }
 
-  async signJWT({ key, data }: { key: IKey; data: string }): Promise<string> {
+  async signJWT({ key, data }: { key: IKey; data: string }): Promise<EcdsaSignature> {
     if (!key.privateKeyHex) throw Error('No private key for kid: ' + key.kid)
     const signer = SimpleSigner(key.privateKeyHex)
-    return (signer(data) as any) as string
+    return (signer(data) as any) as EcdsaSignature
   }
 }

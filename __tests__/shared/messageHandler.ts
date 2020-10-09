@@ -38,7 +38,7 @@ export default (testContext: {
 
     it('should get message from db', async () => {
       const message = await agent.dataStoreGetMessage({ id: parsedMessage.id })  
-      expect(message).toEqual({...parsedMessage, ...{replyTo: null, replyUrl: null}})
+      expect(message).toEqual(parsedMessage)
     })
 
     it('should throw error for non existing message', async () => {

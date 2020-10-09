@@ -21,7 +21,6 @@ export default {
           "did",
           "key"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerAddKey | identityManagerAddKey}"
       },
       "IKey": {
@@ -65,7 +64,6 @@ export default {
           "type",
           "publicKeyHex"
         ],
-        "additionalProperties": false,
         "description": "Cryptographic key"
       },
       "TKeyType": {
@@ -96,7 +94,6 @@ export default {
           "did",
           "service"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerAddService | identityManagerAddService}"
       },
       "IService": {
@@ -124,7 +121,6 @@ export default {
           "type",
           "serviceEndpoint"
         ],
-        "additionalProperties": false,
         "description": "Identity service"
       },
       "IIdentityManagerCreateIdentityArgs": {
@@ -147,7 +143,6 @@ export default {
             "description": "Optional. Identity provider specific options"
           }
         },
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerCreateIdentity | identityManagerCreateIdentity}"
       },
       "IIdentity": {
@@ -191,7 +186,6 @@ export default {
           "keys",
           "services"
         ],
-        "additionalProperties": false,
         "description": "Identity interface"
       },
       "IIdentityManagerDeleteIdentityArgs": {
@@ -205,7 +199,6 @@ export default {
         "required": [
           "did"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerDeleteIdentity | identityManagerDeleteIdentity}"
       },
       "IIdentityManagerGetIdentitiesArgs": {
@@ -220,7 +213,6 @@ export default {
             "description": "Optional. Provider"
           }
         },
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentities | identityManagerGetIdentities}"
       },
       "IIdentityManagerGetIdentityArgs": {
@@ -234,7 +226,6 @@ export default {
         "required": [
           "did"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentity | identityManagerGetIdentity}"
       },
       "IIdentityManagerGetIdentityByAliasArgs": {
@@ -252,7 +243,6 @@ export default {
         "required": [
           "alias"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentityByAlias | identityManagerGetIdentityByAlias}"
       },
       "IIdentityManagerGetOrCreateIdentityArgs": {
@@ -278,7 +268,6 @@ export default {
         "required": [
           "alias"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerGetOrCreateIdentity | identityManagerGetOrCreateIdentity}"
       },
       "IIdentityManagerRemoveKeyArgs": {
@@ -301,7 +290,6 @@ export default {
           "did",
           "kid"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerRemoveKey | identityManagerRemoveKey}"
       },
       "IIdentityManagerRemoveServiceArgs": {
@@ -324,7 +312,6 @@ export default {
           "did",
           "id"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerRemoveService | identityManagerRemoveService}"
       },
       "IIdentityManagerSetAliasArgs": {
@@ -343,7 +330,6 @@ export default {
           "did",
           "alias"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IIdentityManager.identityManagerSetAlias | identityManagerSetAlias}"
       }
     },

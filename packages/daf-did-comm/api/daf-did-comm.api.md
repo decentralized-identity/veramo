@@ -54,11 +54,9 @@ export class DIDComm implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMessage: {
@@ -81,11 +79,11 @@ export class DIDComm implements IAgentPlugin {
                             description: string;
                         };
                         threadId: {
-                            type: string;
+                            type: string; /** Plugin methods */
                             description: string;
                         };
                         raw: {
-                            type: string; /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
+                            type: string;
                             description: string;
                         };
                         data: {
@@ -136,7 +134,6 @@ export class DIDComm implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMetaData: {
@@ -152,7 +149,6 @@ export class DIDComm implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiableCredential: {
@@ -207,7 +203,6 @@ export class DIDComm implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;

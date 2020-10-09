@@ -23,7 +23,6 @@ export default {
         "required": [
           "raw"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IMessageHandler.handleMessage | handleMessage}"
       },
       "IMetaData": {
@@ -41,7 +40,6 @@ export default {
         "required": [
           "type"
         ],
-        "additionalProperties": false,
         "description": "Message meta data"
       },
       "IMessage": {
@@ -127,7 +125,6 @@ export default {
           "id",
           "type"
         ],
-        "additionalProperties": false,
         "description": "DIDComm message"
       },
       "VerifiableCredential": {
@@ -186,8 +183,7 @@ export default {
             "required": [
               "id",
               "type"
-            ],
-            "additionalProperties": false
+            ]
           },
           "proof": {
             "type": "object",

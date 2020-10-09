@@ -27,11 +27,7 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
-                    description: string; /**
-                     * Agent plugin that implements {@link daf-core#IIdentityManager} interface
-                     * @public
-                     */
+                    description: string;
                 };
                 IKey: {
                     type: string;
@@ -64,7 +60,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 TKeyType: {
@@ -89,7 +84,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IService: {
@@ -113,7 +107,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerCreateIdentityArgs: {
@@ -136,7 +129,6 @@ readonly schema: {
                             description: string;
                         };
                     };
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentity: {
@@ -151,7 +143,7 @@ readonly schema: {
                             description: string;
                         };
                         provider: {
-                            type: string; /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetOrCreateIdentity} */
+                            type: string;
                             description: string;
                         };
                         controllerKeyId: {
@@ -159,7 +151,7 @@ readonly schema: {
                             description: string;
                         };
                         keys: {
-                            type: string;
+                            type: string; /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetOrCreateIdentity} */
                             items: {
                                 $ref: string;
                             };
@@ -174,7 +166,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerDeleteIdentityArgs: {
@@ -186,7 +177,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerGetIdentitiesArgs: {
@@ -201,7 +191,6 @@ readonly schema: {
                             description: string;
                         };
                     };
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerGetIdentityArgs: {
@@ -213,7 +202,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerGetIdentityByAliasArgs: {
@@ -229,7 +217,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerGetOrCreateIdentityArgs: {
@@ -252,8 +239,7 @@ readonly schema: {
                             description: string;
                         };
                     };
-                    required: string[]; /** {@inheritDoc daf-core#IIdentityManager.identityManagerRemoveService} */
-                    additionalProperties: boolean;
+                    required: string[];
                     description: string;
                 };
                 IIdentityManagerRemoveKeyArgs: {
@@ -273,7 +259,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerRemoveServiceArgs: {
@@ -293,7 +278,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerSetAliasArgs: {
@@ -309,7 +293,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
             };

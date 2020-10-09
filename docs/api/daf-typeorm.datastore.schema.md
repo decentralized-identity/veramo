@@ -19,7 +19,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMessage: {
@@ -97,7 +96,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMetaData: {
@@ -113,7 +111,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiableCredential: {
@@ -168,7 +165,6 @@ readonly schema: {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;
@@ -242,7 +238,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IDataStoreGetVerifiablePresentationArgs: {
@@ -254,7 +249,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IDataStoreSaveMessageArgs: {
@@ -266,7 +260,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IDataStoreSaveVerifiableCredentialArgs: {
@@ -278,7 +271,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IDataStoreSaveVerifiablePresentationArgs: {
@@ -290,7 +282,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
             };

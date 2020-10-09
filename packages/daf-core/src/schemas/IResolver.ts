@@ -12,7 +12,6 @@ export default {
         "required": [
           "didUrl"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IResolver.resolveDid | resolveDid}"
       },
       "DIDDocument": {
@@ -71,8 +70,7 @@ export default {
           "@context",
           "id",
           "publicKey"
-        ],
-        "additionalProperties": false
+        ]
       },
       "PublicKey": {
         "type": "object",
@@ -106,8 +104,7 @@ export default {
           "id",
           "type",
           "controller"
-        ],
-        "additionalProperties": false
+        ]
       },
       "Authentication": {
         "type": "object",
@@ -122,8 +119,7 @@ export default {
         "required": [
           "type",
           "publicKey"
-        ],
-        "additionalProperties": false
+        ]
       },
       "ServiceEndpoint": {
         "type": "object",
@@ -145,8 +141,7 @@ export default {
           "id",
           "type",
           "serviceEndpoint"
-        ],
-        "additionalProperties": false
+        ]
       },
       "LinkedDataProof": {
         "type": "object",
@@ -173,8 +168,7 @@ export default {
           "creator",
           "nonce",
           "signatureValue"
-        ],
-        "additionalProperties": false
+        ]
       }
     },
     "methods": {

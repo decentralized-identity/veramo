@@ -99,7 +99,6 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMetaData: {
@@ -115,7 +114,6 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IMessage: {
@@ -193,7 +191,6 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiableCredential: {
@@ -248,7 +245,6 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;

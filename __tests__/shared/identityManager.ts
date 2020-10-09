@@ -155,7 +155,7 @@ export default (testContext: {
           description: 'Handles incoming messages',
         },
       })
-      expect(result).toEqual(true)
+      expect(result).toEqual({success: true})
 
       const webIdentity2 = await agent.identityManagerGetOrCreateIdentity({
         alias: 'foobar.com',
@@ -177,7 +177,7 @@ export default (testContext: {
         id: 'did:web:foobar.com#msg',
       })
 
-      expect(result).toEqual(true)
+      expect(result).toEqual({success: true})
 
       const webIdentity = await agent.identityManagerGetOrCreateIdentity({
         alias: 'foobar.com',
@@ -205,7 +205,7 @@ export default (testContext: {
         key: newKey,
       })
 
-      expect(result).toEqual(true)
+      expect(result).toEqual({success: true})
 
       const webIdentity2 = await agent.identityManagerGetOrCreateIdentity({
         alias: 'foobar.com',
@@ -227,7 +227,7 @@ export default (testContext: {
         kid: webIdentity.keys[1].kid,
       })
 
-      expect(result).toEqual(true)
+      expect(result).toEqual({success: true})
 
       const webIdentity2 = await agent.identityManagerGetIdentity({
         did: 'did:web:foobar.com',

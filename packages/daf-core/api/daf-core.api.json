@@ -335,6 +335,97 @@
         },
         {
           "kind": "Interface",
+          "canonicalReference": "daf-core!EcdsaSignature:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EcdsaSignature "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EcdsaSignature",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-core!EcdsaSignature#r:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "r: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "r",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-core!EcdsaSignature#recoveryParam:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "recoveryParam: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "1"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "recoveryParam",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-core!EcdsaSignature#s:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "s: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "s",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
           "canonicalReference": "daf-core!IAgent:interface",
           "docComment": "/**\n * Agent that can execute methods\n *\n * @public\n */\n",
           "excerptTokens": [
@@ -4091,7 +4182,16 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<string>"
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EcdsaSignature",
+                  "canonicalReference": "daf-core!EcdsaSignature:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
                 },
                 {
                   "kind": "Content",
@@ -4100,7 +4200,7 @@
               ],
               "returnTypeTokenRange": {
                 "startIndex": 3,
-                "endIndex": 5
+                "endIndex": 7
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
@@ -5305,7 +5405,7 @@
             {
               "kind": "MethodSignature",
               "canonicalReference": "daf-core!IResolver#resolveDid:member(1)",
-              "docComment": "/**\n * Resolves DID and returns DID Document\n *\n * @param args - Input arguments for resolving a DID\n *\n * @example\n * ```typescript\n * const doc = await agent.resolveDid({\n *   didUrl: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'\n * })\n *\n * expect(doc).toEqual({\n *   '@context': 'https://w3id.org/did/v1',\n *   id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',\n *   publicKey: [\n *     {\n *        id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#owner',\n *        type: 'Secp256k1VerificationKey2018',\n *        owner: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',\n *        ethereumAddress: '0xb09b66026ba5909a7cfe99b76875431d2b8d5190'\n *     }\n *   ],\n *   authentication: [\n *     {\n *        type: 'Secp256k1SignatureAuthentication2018',\n *        publicKey: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#owner'\n *     }\n *   ]\n * })\n * ```\n *\n * @public\n */\n",
+              "docComment": "/**\n * Resolves DID and returns DID Document\n *\n * @param args - Input arguments for resolving a DID\n *\n * @example\n * ```typescript\n * const doc = await agent.resolveDid({\n *   didUrl: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'\n * })\n *\n * expect(doc).toEqual({\n *   '@context': 'https://w3id.org/did/v1',\n *   id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',\n *   publicKey: [\n *     {\n *        id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',\n *        type: 'Secp256k1VerificationKey2018',\n *        controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',\n *        ethereumAddress: '0xb09b66026ba5909a7cfe99b76875431d2b8d5190'\n *     }\n *   ],\n *   authentication: [\n *     {\n *        type: 'Secp256k1SignatureAuthentication2018',\n *        publicKey: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'\n *     }\n *   ]\n * })\n * ```\n *\n * @public\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",

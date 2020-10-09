@@ -47,7 +47,6 @@ export class CredentialIssuer implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 W3CCredential: {
@@ -58,7 +57,10 @@ export class CredentialIssuer implements IAgentPlugin {
                             items: {
                                 type: string;
                             };
-                        };
+                        }; /**
+                         * The desired format for the VerifiablePresentation to be created.
+                         * Currently, only JWT is supported
+                         */
                         id: {
                             type: string;
                         };
@@ -72,13 +74,7 @@ export class CredentialIssuer implements IAgentPlugin {
                             type: string;
                             properties: {
                                 id: {
-                                    type: string; /**
-                                     * The json payload of the Credential according to the
-                                     * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-                                     *
-                                     * The signer of the Credential is chosen based on the `issuer.id` property
-                                     * of the `credential`
-                                     */
+                                    type: string;
                                 };
                             };
                             required: string[];
@@ -108,7 +104,6 @@ export class CredentialIssuer implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                     };
                     required: string[];
@@ -171,7 +166,6 @@ export class CredentialIssuer implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;
@@ -202,7 +196,6 @@ export class CredentialIssuer implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 W3CPresentation: {

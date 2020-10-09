@@ -11,6 +11,7 @@ import {
   IKeyManagerDecryptJWEArgs,
   IKeyManagerSignJWTArgs,
   IKeyManagerSignEthTXArgs,
+  EcdsaSignature,
 } from 'daf-core'
 import schema from 'daf-core/build/schemas/IKeyManager'
 
@@ -105,7 +106,7 @@ export class KeyManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc daf-core#IKeyManager.keyManagerSignJWT} */
-  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string> {
+  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<EcdsaSignature> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.signJWT({ key, data })

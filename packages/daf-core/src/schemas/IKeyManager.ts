@@ -21,7 +21,6 @@ export default {
           "type",
           "kms"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IKeyManager.keyManagerCreateKey | keyManagerCreateKey}"
       },
       "TKeyType": {
@@ -73,7 +72,6 @@ export default {
           "type",
           "publicKeyHex"
         ],
-        "additionalProperties": false,
         "description": "Cryptographic key"
       },
       "IKeyManagerDecryptJWEArgs": {
@@ -92,7 +90,6 @@ export default {
           "kid",
           "data"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IKeyManager.keyManagerDecryptJWE | keyManagerDecryptJWE}"
       },
       "IKeyManagerDeleteKeyArgs": {
@@ -106,7 +103,6 @@ export default {
         "required": [
           "kid"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IKeyManager.keyManagerDeleteKey | keyManagerDeleteKey}"
       },
       "IKeyManagerEncryptJWEArgs": {
@@ -152,7 +148,6 @@ export default {
               "type",
               "publicKeyHex"
             ],
-            "additionalProperties": false,
             "description": "Recipient key object"
           },
           "data": {
@@ -165,7 +160,6 @@ export default {
           "to",
           "data"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IKeyManager.keyManagerEncryptJWE | keyManagerEncryptJWE}"
       },
       "IKeyManagerGetKeyArgs": {
@@ -179,7 +173,6 @@ export default {
         "required": [
           "kid"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IKeyManager.keyManagerGetKey | keyManagerGetKey}"
       },
       "IKeyManagerSignEthTXArgs": {
@@ -198,7 +191,6 @@ export default {
           "kid",
           "transaction"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IKeyManager.keyManagerSignEthTX | keyManagerSignEthTX}"
       },
       "IKeyManagerSignJWTArgs": {
@@ -217,8 +209,27 @@ export default {
           "kid",
           "data"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IKeyManager.keyManagerSignJWT | keyManagerSignJWT}"
+      },
+      "EcdsaSignature": {
+        "type": "object",
+        "properties": {
+          "r": {
+            "type": "string"
+          },
+          "s": {
+            "type": "string"
+          },
+          "recoveryParam": {
+            "type": "number",
+            "const": 1
+          }
+        },
+        "required": [
+          "r",
+          "s",
+          "recoveryParam"
+        ]
       }
     },
     "methods": {
@@ -303,7 +314,7 @@ export default {
           "$ref": "#/components/schemas/IKeyManagerSignJWTArgs"
         },
         "returnType": {
-          "type": "string"
+          "$ref": "#/components/schemas/EcdsaSignature"
         }
       }
     }

@@ -34,11 +34,11 @@ export class Message extends BaseEntity {
   //@ts-ignore
   id: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   //@ts-ignore
   saveDate: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   //@ts-ignore
   updateDate: Date
 
@@ -106,9 +106,14 @@ export const createMessageEntity = (args: IMessage): Message => {
   message.type = args.type
   message.raw = args.raw
   message.data = args.data
-  message.replyTo = args.replyTo
-  message.replyUrl = args.replyUrl
   message.metaData = args.metaData
+
+  if (args.replyTo) {
+    message.replyTo = args.replyTo
+  }
+  if (args.replyUrl) {
+    message.replyUrl = args.replyUrl
+  }
 
   if (args.createdAt) {
     message.createdAt = new Date(args.createdAt)
@@ -148,9 +153,15 @@ export const createMessage = (args: Message): IMessage => {
     type: args.type,
     raw: args.raw,
     data: args.data,
-    replyTo: args.replyTo,
-    replyUrl: args.replyUrl,
     metaData: args.metaData,
+  }
+
+  if (args.replyTo) {
+    message.replyTo = args.replyTo
+  }
+
+  if (args.replyTo) {
+    message.replyUrl = args.replyUrl
   }
 
   if (args.createdAt) {

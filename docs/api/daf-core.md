@@ -23,6 +23,7 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 
 |  Interface | Description |
 |  --- | --- |
+|  [EcdsaSignature](./daf-core.ecdsasignature.md) |  |
 |  [IAgent](./daf-core.iagent.md) | Agent that can execute methods |
 |  [IAgentBase](./daf-core.iagentbase.md) | Agent base interface |
 |  [IAgentContext](./daf-core.iagentcontext.md) | Standard plugin method context interface |

@@ -41,14 +41,12 @@ export default {
               "to",
               "type",
               "body"
-            ],
-            "additionalProperties": false
+            ]
           }
         },
         "required": [
           "data"
         ],
-        "additionalProperties": false,
         "description": "Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}"
       },
       "IMessage": {
@@ -134,7 +132,6 @@ export default {
           "id",
           "type"
         ],
-        "additionalProperties": false,
         "description": "DIDComm message"
       },
       "IMetaData": {
@@ -152,7 +149,6 @@ export default {
         "required": [
           "type"
         ],
-        "additionalProperties": false,
         "description": "Message meta data"
       },
       "VerifiableCredential": {
@@ -211,8 +207,7 @@ export default {
             "required": [
               "id",
               "type"
-            ],
-            "additionalProperties": false
+            ]
           },
           "proof": {
             "type": "object",

@@ -6,6 +6,7 @@
 
 import { AbstractKeyManagementSystem } from 'daf-key-manager';
 import { AbstractSecretBox } from 'daf-key-manager';
+import { EcdsaSignature } from 'daf-core';
 import { IKey } from 'daf-core';
 import { TKeyType } from 'daf-core';
 
@@ -39,7 +40,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     signJWT({ key, data }: {
         key: IKey;
         data: string;
-    }): Promise<string>;
+    }): Promise<EcdsaSignature>;
 }
 
 // @public (undocumented)

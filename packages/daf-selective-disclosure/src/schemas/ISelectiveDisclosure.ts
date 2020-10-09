@@ -11,7 +11,6 @@ export default {
         "required": [
           "data"
         ],
-        "additionalProperties": false,
         "description": "Contains the parameters of a Selective Disclosure Request."
       },
       "ISelectiveDisclosureRequest": {
@@ -51,7 +50,6 @@ export default {
           "issuer",
           "claims"
         ],
-        "additionalProperties": false,
         "description": "Represents the Selective Disclosure request parameters."
       },
       "ICredentialRequestInput": {
@@ -92,7 +90,6 @@ export default {
         "required": [
           "claimType"
         ],
-        "additionalProperties": false,
         "description": "Describes a particular credential that is being requested"
       },
       "Issuer": {
@@ -111,7 +108,6 @@ export default {
           "did",
           "url"
         ],
-        "additionalProperties": false,
         "description": "Used for requesting Credentials using Selective Disclosure. Represents an accepted issuer of a credential."
       },
       "IGetVerifiableCredentialsForSdrArgs": {
@@ -149,7 +145,6 @@ export default {
             "required": [
               "claims"
             ],
-            "additionalProperties": false,
             "description": "The Selective Disclosure Request (issuer is omitted)"
           },
           "did": {
@@ -160,7 +155,6 @@ export default {
         "required": [
           "sdr"
         ],
-        "additionalProperties": false,
         "description": "Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request."
       },
       "ICredentialsForSdr": {
@@ -208,7 +202,6 @@ export default {
           "claimType",
           "credentials"
         ],
-        "additionalProperties": false,
         "description": "The credentials that make up a response of a Selective Disclosure"
       },
       "VerifiableCredential": {
@@ -267,8 +260,7 @@ export default {
             "required": [
               "id",
               "type"
-            ],
-            "additionalProperties": false
+            ]
           },
           "proof": {
             "type": "object",
@@ -303,7 +295,6 @@ export default {
           "presentation",
           "sdr"
         ],
-        "additionalProperties": false,
         "description": "A tuple used to verify a Selective Disclosure Response. Encapsulates the response(`presentation`) and the corresponding request (`sdr`) that made it."
       },
       "VerifiablePresentation": {
@@ -381,7 +372,6 @@ export default {
           "valid",
           "claims"
         ],
-        "additionalProperties": false,
         "description": "The result of a selective disclosure response validation."
       }
     },

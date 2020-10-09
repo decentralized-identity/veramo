@@ -19,7 +19,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 DIDDocument: {
@@ -74,7 +73,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 PublicKey: {
                     type: string;
@@ -105,7 +103,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 Authentication: {
                     type: string;
@@ -118,7 +115,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 ServiceEndpoint: {
                     type: string;
@@ -137,7 +133,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
                 LinkedDataProof: {
                     type: string;
@@ -159,7 +154,6 @@ readonly schema: {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                 };
             };
             methods: {

@@ -32,11 +32,11 @@ export class Identity extends BaseEntity {
   //@ts-ignore
   alias?: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   //@ts-ignore
   saveDate: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   //@ts-ignore
   updateDate: Date
 

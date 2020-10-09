@@ -138,11 +138,7 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
-                    description: string; /**
-                     * Agent plugin that implements {@link daf-core#IIdentityManager} interface
-                     * @public
-                     */
+                    description: string;
                 };
                 IKey: {
                     type: string;
@@ -175,7 +171,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 TKeyType: {
@@ -200,7 +195,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IService: {
@@ -224,7 +218,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerCreateIdentityArgs: {
@@ -247,7 +240,6 @@ export class IdentityManager implements IAgentPlugin {
                             description: string;
                         };
                     };
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentity: {
@@ -262,7 +254,7 @@ export class IdentityManager implements IAgentPlugin {
                             description: string;
                         };
                         provider: {
-                            type: string; /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetOrCreateIdentity} */
+                            type: string;
                             description: string;
                         };
                         controllerKeyId: {
@@ -270,7 +262,7 @@ export class IdentityManager implements IAgentPlugin {
                             description: string;
                         };
                         keys: {
-                            type: string;
+                            type: string; /** {@inheritDoc daf-core#IIdentityManager.identityManagerGetOrCreateIdentity} */
                             items: {
                                 $ref: string;
                             };
@@ -285,7 +277,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerDeleteIdentityArgs: {
@@ -297,7 +288,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerGetIdentitiesArgs: {
@@ -312,7 +302,6 @@ export class IdentityManager implements IAgentPlugin {
                             description: string;
                         };
                     };
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerGetIdentityArgs: {
@@ -324,7 +313,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerGetIdentityByAliasArgs: {
@@ -340,7 +328,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerGetOrCreateIdentityArgs: {
@@ -363,8 +350,7 @@ export class IdentityManager implements IAgentPlugin {
                             description: string;
                         };
                     };
-                    required: string[]; /** {@inheritDoc daf-core#IIdentityManager.identityManagerRemoveService} */
-                    additionalProperties: boolean;
+                    required: string[];
                     description: string;
                 };
                 IIdentityManagerRemoveKeyArgs: {
@@ -384,7 +370,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerRemoveServiceArgs: {
@@ -404,7 +389,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IIdentityManagerSetAliasArgs: {
@@ -420,7 +404,6 @@ export class IdentityManager implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
             };

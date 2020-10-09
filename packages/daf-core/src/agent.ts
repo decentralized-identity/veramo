@@ -1,5 +1,5 @@
 import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } from './types/IAgent'
-import { validate } from './validator'
+import { validate, ValidationError } from './validator'
 import Debug from 'debug'
 
 /**
@@ -181,6 +181,9 @@ export class Agent implements IAgent {
       validate(_args, this.schema, 'components.methods.' + method + '.arguments')
     }
     const result = await this.methods[method](_args, { ...this.context, agent: this })
+    if (this.schema.components.methods[method]) {
+      validate(result, this.schema, 'components.methods.' + method + '.returnType')
+    }
     Debug('daf:agent:' + method + ':result')('%o', result)
     return result
   }

@@ -107,6 +107,7 @@ program
       const generator = TJS.createGenerator({
         path: resolve(entryFile),
         encodeRefs: false,
+        additionalProperties: true
       })
 
       const apiModel: ApiModel = new ApiModel()

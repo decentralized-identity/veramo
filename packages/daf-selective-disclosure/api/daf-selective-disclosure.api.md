@@ -118,7 +118,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 ISelectiveDisclosureRequest: {
@@ -150,21 +149,11 @@ export class SelectiveDisclosure implements IAgentPlugin {
                             type: string;
                             items: {
                                 type: string;
-                            }; /**
-                             * Creates a Selective disclosure request, encoded as a JWT.
-                             *
-                             * @remarks See {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
-                             *
-                             * @param args - The param object with the properties necessary to create the request. See {@link ISelectiveDisclosureRequest}
-                             * @param context - *RESERVED* This is filled by the framework when the method is called.
-                             *
-                             * @beta
-                             */
+                            };
                             description: string;
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 ICredentialRequestInput: {
@@ -203,7 +192,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 Issuer: {
@@ -219,7 +207,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 IGetVerifiableCredentialsForSdrArgs: {
@@ -255,7 +242,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                             description: string;
                         };
                         did: {
@@ -264,7 +250,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 ICredentialsForSdr: {
@@ -309,7 +294,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiableCredential: {
@@ -364,7 +348,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                                 };
                             };
                             required: string[];
-                            additionalProperties: boolean;
                         };
                         proof: {
                             type: string;
@@ -389,7 +372,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
                 VerifiablePresentation: {
@@ -457,7 +439,6 @@ export class SelectiveDisclosure implements IAgentPlugin {
                         };
                     };
                     required: string[];
-                    additionalProperties: boolean;
                     description: string;
                 };
             };

@@ -29,10 +29,9 @@ export class IdentityStore extends AbstractIdentityStore {
     })
 
     if (!identity) throw Error('Identity not found')
-    return {
+    const result: IIdentity = {
       did: identity.did,
       controllerKeyId: identity.controllerKeyId,
-      alias: identity.alias,
       provider: identity.provider,
       services: identity.services,
       keys: identity.keys.map((k) => ({
@@ -42,6 +41,10 @@ export class IdentityStore extends AbstractIdentityStore {
         publicKeyHex: k.publicKeyHex,
       })),
     }
+    if (identity.alias) {
+      result.alias = identity.alias
+    }
+    return result
   }
 
   async delete({ did }: { did: string }) {
@@ -58,7 +61,9 @@ export class IdentityStore extends AbstractIdentityStore {
     identity.did = args.did
     identity.controllerKeyId = args.controllerKeyId
     identity.provider = args.provider
-    identity.alias = args.alias
+    if (args.alias) {
+      identity.alias = args.alias
+    }
 
     identity.keys = []
     for (const argsKey of args.keys) {
@@ -96,6 +101,12 @@ export class IdentityStore extends AbstractIdentityStore {
       where,
       relations: ['keys', 'services'],
     })
-    return identities
+    return identities.map( identity => {
+      const i = identity
+      if (i.alias === null) {
+        delete i.alias
+      }
+      return i
+    })
   }
 }

@@ -9,7 +9,7 @@ Signs JWT
 <b>Signature:</b>
 
 ```typescript
-keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<string>;
+keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature>;
 ```
 
 ## Parameters
@@ -20,5 +20,5 @@ keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<string>;
 
 <b>Returns:</b>
 
-Promise&lt;string&gt;
+Promise&lt;[EcdsaSignature](./daf-core.ecdsasignature.md)<!-- -->&gt;
 

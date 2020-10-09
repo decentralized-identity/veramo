@@ -378,7 +378,16 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<string>"
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EcdsaSignature",
+                  "canonicalReference": "daf-core!EcdsaSignature:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
                 },
                 {
                   "kind": "Content",
@@ -388,7 +397,7 @@
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
-                "endIndex": 7
+                "endIndex": 9
               },
               "releaseTag": "Public",
               "overloadIndex": 1,

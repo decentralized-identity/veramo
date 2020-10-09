@@ -25,8 +25,7 @@ export default {
           "skip": {
             "type": "number"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "Where-TIdentitiesColumns": {
         "type": "object",
@@ -61,8 +60,7 @@ export default {
         },
         "required": [
           "column"
-        ],
-        "additionalProperties": false
+        ]
       },
       "TIdentitiesColumns": {
         "type": "string",
@@ -89,8 +87,7 @@ export default {
         "required": [
           "column",
           "direction"
-        ],
-        "additionalProperties": false
+        ]
       },
       "IIdentity": {
         "type": "object",
@@ -133,7 +130,6 @@ export default {
           "keys",
           "services"
         ],
-        "additionalProperties": false,
         "description": "Identity interface"
       },
       "IKey": {
@@ -177,7 +173,6 @@ export default {
           "type",
           "publicKeyHex"
         ],
-        "additionalProperties": false,
         "description": "Cryptographic key"
       },
       "TKeyType": {
@@ -213,7 +208,6 @@ export default {
           "type",
           "serviceEndpoint"
         ],
-        "additionalProperties": false,
         "description": "Identity service"
       },
       "FindMessagesArgs": {
@@ -240,8 +234,7 @@ export default {
           "skip": {
             "type": "number"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "Where-TMessageColumns": {
         "type": "object",
@@ -276,8 +269,7 @@ export default {
         },
         "required": [
           "column"
-        ],
-        "additionalProperties": false
+        ]
       },
       "TMessageColumns": {
         "type": "string",
@@ -311,8 +303,7 @@ export default {
         "required": [
           "column",
           "direction"
-        ],
-        "additionalProperties": false
+        ]
       },
       "IMessage": {
         "type": "object",
@@ -397,7 +388,6 @@ export default {
           "id",
           "type"
         ],
-        "additionalProperties": false,
         "description": "DIDComm message"
       },
       "IMetaData": {
@@ -415,7 +405,6 @@ export default {
         "required": [
           "type"
         ],
-        "additionalProperties": false,
         "description": "Message meta data"
       },
       "VerifiableCredential": {
@@ -474,8 +463,7 @@ export default {
             "required": [
               "id",
               "type"
-            ],
-            "additionalProperties": false
+            ]
           },
           "proof": {
             "type": "object",
@@ -578,8 +566,7 @@ export default {
           "skip": {
             "type": "number"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "Where-TCredentialColumns": {
         "type": "object",
@@ -614,8 +601,7 @@ export default {
         },
         "required": [
           "column"
-        ],
-        "additionalProperties": false
+        ]
       },
       "TCredentialColumns": {
         "type": "string",
@@ -646,8 +632,7 @@ export default {
         "required": [
           "column",
           "direction"
-        ],
-        "additionalProperties": false
+        ]
       },
       "UniqueVerifiableCredential": {
         "type": "object",
@@ -662,8 +647,7 @@ export default {
         "required": [
           "hash",
           "verifiableCredential"
-        ],
-        "additionalProperties": false
+        ]
       },
       "FindClaimsArgs": {
         "$ref": "#/components/schemas/FindArgs-TClaimsColumns"
@@ -689,8 +673,7 @@ export default {
           "skip": {
             "type": "number"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "Where-TClaimsColumns": {
         "type": "object",
@@ -725,8 +708,7 @@ export default {
         },
         "required": [
           "column"
-        ],
-        "additionalProperties": false
+        ]
       },
       "TClaimsColumns": {
         "type": "string",
@@ -760,8 +742,7 @@ export default {
         "required": [
           "column",
           "direction"
-        ],
-        "additionalProperties": false
+        ]
       },
       "FindPresentationsArgs": {
         "$ref": "#/components/schemas/FindArgs-TPresentationColumns"
@@ -787,8 +768,7 @@ export default {
           "skip": {
             "type": "number"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "Where-TPresentationColumns": {
         "type": "object",
@@ -823,8 +803,7 @@ export default {
         },
         "required": [
           "column"
-        ],
-        "additionalProperties": false
+        ]
       },
       "TPresentationColumns": {
         "type": "string",
@@ -855,8 +834,7 @@ export default {
         "required": [
           "column",
           "direction"
-        ],
-        "additionalProperties": false
+        ]
       },
       "UniqueVerifiablePresentation": {
         "type": "object",
@@ -871,8 +849,7 @@ export default {
         "required": [
           "hash",
           "verifiablePresentation"
-        ],
-        "additionalProperties": false
+        ]
       }
     },
     "methods": {
