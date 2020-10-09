@@ -1,18 +1,87 @@
-import { Verifiable, W3CCredential, W3CPresentation } from 'did-jwt-vc'
-export { W3CCredential, W3CPresentation }
 /**
  * Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}
  * @public
  */
-export type VerifiableCredential = Verifiable<W3CCredential>
+export interface VerifiableCredential {
+  '@context': string[]
+  id?: string
+  type: string[]
+  issuer: { id: string; [x: string]: any }
+  issuanceDate: string
+  expirationDate?: string
+  credentialSubject: {
+    id?: string
+    [x: string]: any
+  }
+  credentialStatus?: {
+    id: string
+    type: string
+  }
+  proof: {
+    type?: string
+    [x: string]: any
+  }
+  [x: string]: any
+}
 
 /**
  * Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}
  * @public
  */
-export type VerifiablePresentation = Verifiable<W3CPresentation>
+export interface VerifiablePresentation {
+  id?: string
+  holder: string
+  issuanceDate?: string
+  expirationDate?: string
+  '@context': string[]
+  type: string[]
+  verifier: string[]
+  verifiableCredential: VerifiableCredential[]
+  proof: {
+    type?: string
+    [x: string]: any
+  }
+  [x: string]: any
+}
 
 
+/**
+ * W3CCredential {@link https://github.com/decentralized-identity/did-jwt-vc}
+ * @public
+ */
+export interface W3CCredential {
+  '@context': string[]
+  id?: string
+  type: string[]
+  issuer: { id: string; [x: string]: any }
+  issuanceDate: string
+  expirationDate?: string
+  credentialSubject: {
+    id?: string
+    [x: string]: any
+  }
+  credentialStatus?: {
+    id: string
+    type: string
+  }
+  [x: string]: any
+}
+
+/**
+ * W3CPresentation {@link https://github.com/decentralized-identity/did-jwt-vc}
+ * @public
+ */
+export interface W3CPresentation {
+  id?: string
+  holder: string
+  issuanceDate?: string
+  expirationDate?: string
+  '@context': string[]
+  type: string[]
+  verifier: string[]
+  verifiableCredential: VerifiableCredential[]
+  [x: string]: any
+}
 
 /**
  * Message meta data
