@@ -81,6 +81,8 @@ export class ElemIdentityProvider extends AbstractIdentityProvider {
     { identity, key, options }: { identity: IIdentity; key: IKey; options?: any },
     context: IContext,
   ): Promise<any> {
+    if (!identity.controllerKeyId) throw Error('ControllerKeyId does not exist')
+    
     const primaryKey = await await context.agent.keyManagerGetKey({ kid: identity.controllerKeyId })
 
     debug('Fetching list of previous operations')

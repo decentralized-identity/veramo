@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-dataStoreORMGetIdentities(args: FindArgs<TIdentitiesColumns>, context: IContext): Promise<IIdentity[]>;
+dataStoreORMGetIdentities(args: FindArgs<TIdentitiesColumns>, context: IContext): Promise<PartialIdentity[]>;
 ```
 
 ## Parameters
@@ -19,5 +19,5 @@ dataStoreORMGetIdentities(args: FindArgs<TIdentitiesColumns>, context: IContext)
 
 <b>Returns:</b>
 
-Promise&lt;[IIdentity](./daf-core.iidentity.md)<!-- -->\[\]&gt;
+Promise&lt;PartialIdentity\[\]&gt;
 

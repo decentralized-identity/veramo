@@ -9,5 +9,5 @@ Controller key id
 <b>Signature:</b>
 
 ```typescript
-controllerKeyId: string;
+controllerKeyId?: string;
 ```

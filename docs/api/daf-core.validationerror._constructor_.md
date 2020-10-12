@@ -9,7 +9,7 @@ Constructs a new instance of the `ValidationError` class
 <b>Signature:</b>
 
 ```typescript
-constructor(message: string, code: string, path: string, description: string);
+constructor(message: string, method: string, code: string, path: string, description: string);
 ```
 
 ## Parameters
@@ -17,6 +17,7 @@ constructor(message: string, code: string, path: string, description: string);
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  message | string |  |
+|  method | string |  |
 |  code | string |  |
 |  path | string |  |
 |  description | string |  |

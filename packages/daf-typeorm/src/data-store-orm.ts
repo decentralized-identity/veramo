@@ -58,9 +58,10 @@ export type FindMessagesArgs = FindArgs<TMessageColumns>
 export type FindClaimsArgs = FindArgs<TClaimsColumns>
 export type FindCredentialsArgs = FindArgs<TCredentialColumns>
 export type FindPresentationsArgs = FindArgs<TPresentationColumns>
+export type PartialIdentity = Partial<IIdentity>
 
 export interface IDataStoreORM extends IPluginMethodMap {
-  dataStoreORMGetIdentities(args: FindIdentitiesArgs, context: IContext): Promise<Array<IIdentity>>
+  dataStoreORMGetIdentities(args: FindIdentitiesArgs, context: IContext): Promise<Array<PartialIdentity>>
   dataStoreORMGetIdentitiesCount(args: FindIdentitiesArgs, context: IContext): Promise<number>
   dataStoreORMGetMessages(args: FindMessagesArgs, context: IContext): Promise<Array<IMessage>>
   dataStoreORMGetMessagesCount(args: FindMessagesArgs, context: IContext): Promise<number>
@@ -129,9 +130,21 @@ export class DataStoreORM implements IAgentPlugin {
   async dataStoreORMGetIdentities(
     args: FindArgs<TIdentitiesColumns>,
     context: IContext,
-  ): Promise<IIdentity[]> {
+  ): Promise<PartialIdentity[]> {
     const identities = await (await this.identitiesQuery(args, context)).getMany()
-    return identities
+    return identities.map(i => {
+      const identity: PartialIdentity = i
+      if (identity.controllerKeyId === null) {
+        delete identity.controllerKeyId
+      }
+      if (identity.alias === null) {
+        delete identity.alias
+      }
+      if (identity.provider === null) {
+        delete identity.provider
+      }
+      return identity
+    })
   }
 
   async dataStoreORMGetIdentitiesCount(

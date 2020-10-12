@@ -201,6 +201,35 @@
               "name": "execute"
             },
             {
+              "kind": "Method",
+              "canonicalReference": "daf-core!Agent#getSchema:member(1)",
+              "docComment": "/**\n * Returns agent plugin schema\n *\n * @returns agent plugin schema\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getSchema(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentPluginSchema",
+                  "canonicalReference": "daf-core!IAgentPluginSchema:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "getSchema"
+            },
+            {
               "kind": "Property",
               "canonicalReference": "daf-core!Agent#methods:member",
               "docComment": "/**\n * The map of plugin + override methods\n */\n",
@@ -221,33 +250,6 @@
               ],
               "releaseTag": "Public",
               "name": "methods",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "daf-core!Agent#schema:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly schema: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "IAgentPluginSchema",
-                  "canonicalReference": "daf-core!IAgentPluginSchema:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "schema",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -528,12 +530,16 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "daf-core!IAgentBase#schema:member",
+              "canonicalReference": "daf-core!IAgentBase#getSchema:member",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "readonly schema: "
+                  "text": "getSchema: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "() => "
                 },
                 {
                   "kind": "Reference",
@@ -546,10 +552,10 @@
                 }
               ],
               "releaseTag": "Public",
-              "name": "schema",
+              "name": "getSchema",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 2
+                "endIndex": 3
               }
             }
           ],
@@ -1600,7 +1606,7 @@
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "controllerKeyId: "
+                  "text": "controllerKeyId?: "
                 },
                 {
                   "kind": "Content",
@@ -4805,7 +4811,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "string | object"
+                  "text": "object | null"
                 },
                 {
                   "kind": "Content",
@@ -4910,7 +4916,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "[]"
+                  "text": "[] | null"
                 },
                 {
                   "kind": "Content",
@@ -5828,27 +5834,6 @@
           }
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "daf-core!validate:var",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "validate: "
-            },
-            {
-              "kind": "Content",
-              "text": "(args: any, schema: object, schemaPath?: string | undefined) => void"
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "validate",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
-        },
-        {
           "kind": "Class",
           "canonicalReference": "daf-core!ValidationError:class",
           "docComment": "",
@@ -5878,6 +5863,14 @@
                 {
                   "kind": "Content",
                   "text": "constructor(message: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", method: "
                 },
                 {
                   "kind": "Content",
@@ -5923,24 +5916,31 @@
                   }
                 },
                 {
-                  "parameterName": "code",
+                  "parameterName": "method",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
                   }
                 },
                 {
-                  "parameterName": "path",
+                  "parameterName": "code",
                   "parameterTypeTokenRange": {
                     "startIndex": 5,
                     "endIndex": 6
                   }
                 },
                 {
-                  "parameterName": "description",
+                  "parameterName": "path",
                   "parameterTypeTokenRange": {
                     "startIndex": 7,
                     "endIndex": 8
+                  }
+                },
+                {
+                  "parameterName": "description",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 9,
+                    "endIndex": 10
                   }
                 }
               ]
@@ -6017,6 +6017,32 @@
               ],
               "releaseTag": "Public",
               "name": "message",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "daf-core!ValidationError#method:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "method: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "method",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2

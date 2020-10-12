@@ -59,7 +59,7 @@ export class Message extends BaseEntity {
   raw?: string
 
   @Column('simple-json', { nullable: true })
-  data?: any
+  data?: object | null
 
   // https://github.com/decentralized-identity/didcomm-messaging/blob/41f35f992275dd71d459504d14eb8d70b4185533/jwm.md#jwm-profile
 
@@ -84,7 +84,7 @@ export class Message extends BaseEntity {
   to?: Identity
 
   @Column('simple-json', { nullable: true })
-  metaData?: MetaData[]
+  metaData?: MetaData[] | null
 
   @ManyToMany((type) => Presentation, (presentation) => presentation.messages, {
     cascade: true,
@@ -149,11 +149,14 @@ export const createMessageEntity = (args: IMessage): Message => {
 export const createMessage = (args: Message): IMessage => {
   const message: Partial<IMessage> = {
     id: args.id,
-    threadId: args.threadId,
     type: args.type,
     raw: args.raw,
     data: args.data,
     metaData: args.metaData,
+  }
+
+  if (args.threadId) {
+    message.threadId = args.threadId
   }
 
   if (args.replyTo) {

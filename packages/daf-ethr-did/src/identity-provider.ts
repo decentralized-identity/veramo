@@ -75,6 +75,7 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
 
   private getWeb3Provider({ controllerKeyId }: IIdentity, context: IContext) {
     if (!this.web3Provider && !this.rpcUrl) throw Error('Web3Provider or rpcUrl required')
+    if (!controllerKeyId) throw Error('ControllerKeyId does not exist')
 
     const web3Provider =
       this.web3Provider ||

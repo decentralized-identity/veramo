@@ -15,7 +15,7 @@ export declare class ValidationError extends Error
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(message, code, path, description)](./daf-core.validationerror._constructor_.md) |  | Constructs a new instance of the <code>ValidationError</code> class |
+|  [(constructor)(message, method, code, path, description)](./daf-core.validationerror._constructor_.md) |  | Constructs a new instance of the <code>ValidationError</code> class |
 
 ## Properties
 
@@ -24,5 +24,6 @@ export declare class ValidationError extends Error
 |  [code](./daf-core.validationerror.code.md) |  | string |  |
 |  [description](./daf-core.validationerror.description.md) |  | string |  |
 |  [message](./daf-core.validationerror.message.md) |  | string |  |
+|  [method](./daf-core.validationerror.method.md) |  | string |  |
 |  [path](./daf-core.validationerror.path.md) |  | string |  |
 

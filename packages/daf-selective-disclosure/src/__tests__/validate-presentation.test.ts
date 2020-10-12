@@ -8,6 +8,7 @@ const context = {
   agent: {
     execute: jest.fn(),
     availableMethods: jest.fn(),
+    getSchema: jest.fn(),
   },
 }
 

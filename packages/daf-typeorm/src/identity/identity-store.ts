@@ -59,7 +59,9 @@ export class IdentityStore extends AbstractIdentityStore {
   async import(args: IIdentity) {
     const identity = new Identity()
     identity.did = args.did
-    identity.controllerKeyId = args.controllerKeyId
+    if (args.controllerKeyId) {
+      identity.controllerKeyId = args.controllerKeyId
+    }
     identity.provider = args.provider
     if (args.alias) {
       identity.alias = args.alias

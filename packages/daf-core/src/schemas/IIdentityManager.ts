@@ -182,7 +182,6 @@ export default {
         "required": [
           "did",
           "provider",
-          "controllerKeyId",
           "keys",
           "services"
         ],

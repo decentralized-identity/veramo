@@ -11,10 +11,9 @@ export class Agent implements IAgent {
     constructor(options?: IAgentOptions);
     availableMethods(): string[];
     execute<P = any, R = any>(method: string, args: P): Promise<R>;
+    getSchema(): IAgentPluginSchema;
     readonly methods: IPluginMethodMap;
-    // (undocumented)
-    readonly schema: IAgentPluginSchema;
-}
+    }
 
 // @public
 export function createAgent<T extends IPluginMethodMap>(options: IAgentOptions): TAgent<T>;
@@ -42,7 +41,7 @@ export interface IAgentBase {
     // (undocumented)
     availableMethods: () => string[];
     // (undocumented)
-    readonly schema: IAgentPluginSchema;
+    getSchema: () => IAgentPluginSchema;
 }
 
 // @public
@@ -125,7 +124,7 @@ export interface IHandleMessageArgs {
 // @public
 export interface IIdentity {
     alias?: string;
-    controllerKeyId: string;
+    controllerKeyId?: string;
     did: string;
     keys: IKey[];
     provider: string;
@@ -292,11 +291,11 @@ export interface IKeyManagerSignJWTArgs {
 export interface IMessage {
     createdAt?: string;
     credentials?: VerifiableCredential[];
-    data?: string | object;
+    data?: object | null;
     expiresAt?: string;
     from?: string;
     id: string;
-    metaData?: IMetaData[];
+    metaData?: IMetaData[] | null;
     presentations?: VerifiablePresentation[];
     raw?: string;
     replyTo?: string[];
@@ -360,17 +359,16 @@ export type TAgent<T extends IPluginMethodMap> = {
 export type TKeyType = 'Ed25519' | 'Secp256k1';
 
 // @public (undocumented)
-export const validate: (args: any, schema: object, schemaPath?: string | undefined) => void;
-
-// @public (undocumented)
 export class ValidationError extends Error {
-    constructor(message: string, code: string, path: string, description: string);
+    constructor(message: string, method: string, code: string, path: string, description: string);
     // (undocumented)
     code: string;
     // (undocumented)
     description: string;
     // (undocumented)
     message: string;
+    // (undocumented)
+    method: string;
     // (undocumented)
     path: string;
 }

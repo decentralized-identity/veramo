@@ -10,14 +10,13 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -b --watch",
-    "update-daf-beta": "yarn add daf-core@beta daf-resolver@beta daf-did-jwt@beta daf-w3c@beta daf-ethr-did@beta daf-web-did@beta daf-did-comm@beta daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta daf-key-manager@beta daf-message-handler@beta daf-identity-manager@beta daf-resolver-universal@beta daf-url@beta daf-graphql@beta"
+    "update-daf-beta": "yarn add daf-core@beta daf-resolver@beta daf-did-jwt@beta daf-w3c@beta daf-ethr-did@beta daf-web-did@beta daf-did-comm@beta daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta daf-key-manager@beta daf-message-handler@beta daf-identity-manager@beta daf-resolver-universal@beta daf-url@beta"
   },
   "dependencies": {
     "@microsoft/api-extractor": "7.9.22",
     "@microsoft/api-extractor-model": "7.9.7",
     "@types/blessed": "^0.1.17",
     "@types/swagger-ui-express": "^4.1.2",
-    "apollo-server": "^2.9.12",
     "blessed": "^0.1.81",
     "commander": "^6.1.0",
     "console-table-printer": "^2.0.0",
@@ -27,7 +26,6 @@
     "daf-did-jwt": "^7.0.0-beta.29",
     "daf-ethr-did": "^7.0.0-beta.29",
     "daf-express": "^7.0.0-beta.29",
-    "daf-graphql": "^7.0.0-beta.29",
     "daf-identity-manager": "^7.0.0-beta.29",
     "daf-key-manager": "^7.0.0-beta.29",
     "daf-libsodium": "^7.0.0-beta.29",
@@ -44,12 +42,9 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "graphql": "^15.0.0",
-    "graphql-tools": "^6.0.0",
     "inquirer": "^7.0.0",
     "json-schema": "^0.2.5",
     "jsonpointer": "^4.1.0",
-    "lodash.merge": "^4.6.2",
     "ngrok": "^3.3.0",
     "openapi-types": "^7.0.1",
     "pg": "^8.2.0",
@@ -65,7 +60,6 @@
   "devDependencies": {
     "@types/debug": "4.1.5",
     "@types/inquirer": "7.3.1",
-    "@types/lodash.merge": "4.6.6",
     "@types/node-fetch": "2.5.7",
     "@types/ws": "7.2.6",
     "typescript": "^4.0.3"

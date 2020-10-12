@@ -7,7 +7,6 @@ const inputFolders = [
   'packages/daf-did-jwt/api/',
   'packages/daf-ethr-did/api/',
   'packages/daf-express/api/',
-  'packages/daf-graphql/api/',
   'packages/daf-libsodium/api/',
   'packages/daf-resolver/api/',
   'packages/daf-resolver-universal/api/',

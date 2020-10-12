@@ -13,7 +13,6 @@
 |  [daf-did-jwt](./daf-did-jwt.md) | Provides a [plugin](./daf-did-jwt.jwtmessagehandler.md) for the [MessageHandler](./daf-message-handler.messagehandler.md) that finds and verifies a JWT in a message |
 |  [daf-ethr-did](./daf-ethr-did.md) | Provides <code>did:ethr</code> [identity provider](./daf-ethr-did.ethridentityprovider.md) for the [IdentityManager](./daf-identity-manager.identitymanager.md) |
 |  [daf-express](./daf-express.md) | [Express](https://expressjs.com) router for exposing <code>daf-rest</code> OpenAPI schema |
-|  [daf-graphql](./daf-graphql.md) | Provides a [plugin](./daf-graphql.agentgraphqlclient.md) for the [Agent](./daf-core.agent.md) that can proxy method execution over GraphQL |
 |  [daf-identity-manager](./daf-identity-manager.md) | Provides a [plugin](./daf-identity-manager.identitymanager.md) for the [Agent](./daf-core.agent.md) that implements [IIdentityManager](./daf-core.iidentitymanager.md) interface |
 |  [daf-key-manager](./daf-key-manager.md) | Provides a [plugin](./daf-key-manager.keymanager.md) for the [Agent](./daf-core.agent.md) that implements [IKeyManager](./daf-core.ikeymanager.md) interface |
 |  [daf-libsodium](./daf-libsodium.md) | Provides [libsodium](https://github.com/jedisct1/libsodium.js) backed [key management system](./daf-libsodium.keymanagementsystem.md) and [secret box](./daf-libsodium.secretbox.md) for the [KeyManager](./daf-key-manager.keymanager.md) |

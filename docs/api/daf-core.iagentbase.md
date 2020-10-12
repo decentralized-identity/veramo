@@ -17,5 +17,5 @@ export interface IAgentBase
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [availableMethods](./daf-core.iagentbase.availablemethods.md) | () =&gt; string\[\] |  |
-|  [schema](./daf-core.iagentbase.schema.md) | [IAgentPluginSchema](./daf-core.iagentpluginschema.md) |  |
+|  [getSchema](./daf-core.iagentbase.getschema.md) | () =&gt; [IAgentPluginSchema](./daf-core.iagentpluginschema.md) |  |
 

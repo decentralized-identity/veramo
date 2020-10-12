@@ -102,10 +102,15 @@ readonly schema: {
                             description: string;
                         };
                         metaData: {
-                            type: string;
-                            items: {
-                                $ref: string;
-                            };
+                            anyOf: ({
+                                type: string;
+                                items: {
+                                    $ref: string;
+                                };
+                            } | {
+                                type: string;
+                                items?: undefined;
+                            })[];
                             description: string;
                         };
                         credentials: {

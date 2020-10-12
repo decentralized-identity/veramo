@@ -17,11 +17,11 @@ export declare class Message extends BaseEntity
 |  --- | --- | --- | --- |
 |  [createdAt](./daf-typeorm.message.createdat.md) |  | Date |  |
 |  [credentials](./daf-typeorm.message.credentials.md) |  | Credential\[\] |  |
-|  [data](./daf-typeorm.message.data.md) |  | any |  |
+|  [data](./daf-typeorm.message.data.md) |  | object \| null |  |
 |  [expiresAt](./daf-typeorm.message.expiresat.md) |  | Date |  |
 |  [from](./daf-typeorm.message.from.md) |  | [Identity](./daf-typeorm.identity.md) |  |
 |  [id](./daf-typeorm.message.id.md) |  | string |  |
-|  [metaData](./daf-typeorm.message.metadata.md) |  | [MetaData](./daf-typeorm.metadata.md)<!-- -->\[\] |  |
+|  [metaData](./daf-typeorm.message.metadata.md) |  | [MetaData](./daf-typeorm.metadata.md)<!-- -->\[\] \| null |  |
 |  [presentations](./daf-typeorm.message.presentations.md) |  | [Presentation](./daf-typeorm.presentation.md)<!-- -->\[\] |  |
 |  [raw](./daf-typeorm.message.raw.md) |  | string |  |
 |  [replyTo](./daf-typeorm.message.replyto.md) |  | string\[\] |  |

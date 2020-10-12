@@ -8,7 +8,7 @@ import { OpenAPIV3 } from 'openapi-types'
 export { AgentRestClient } from './client'
 
 export const getOpenApiSchema = (agent: IAgent, basePath: string, exposedMethods: Array<string>): OpenAPIV3.Document => {
-  const agentSchema = agent.schema
+  const agentSchema = agent.getSchema()
 
   const paths: OpenAPIV3.PathsObject = {}
 
@@ -49,7 +49,7 @@ export const getOpenApiSchema = (agent: IAgent, basePath: string, exposedMethods
       version: ""
     },
     components:{
-      schemas: agent.schema.components.schemas
+      schemas: agent.getSchema().components.schemas
     },
     paths
   }

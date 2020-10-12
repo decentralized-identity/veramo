@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-data?: any;
+data?: object | null;
 ```

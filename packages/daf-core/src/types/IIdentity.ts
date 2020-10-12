@@ -21,7 +21,7 @@ export interface IIdentity {
   /**
    * Controller key id
    */
-  controllerKeyId: string
+  controllerKeyId?: string
 
   /**
    * Array of managed keys

@@ -9,5 +9,5 @@ Optional. Array of message metadata
 <b>Signature:</b>
 
 ```typescript
-metaData?: IMetaData[];
+metaData?: IMetaData[] | null;
 ```

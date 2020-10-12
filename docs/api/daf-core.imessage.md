@@ -18,11 +18,11 @@ export interface IMessage
 |  --- | --- | --- |
 |  [createdAt](./daf-core.imessage.createdat.md) | string | Optional. Creation date (ISO 8601) |
 |  [credentials](./daf-core.imessage.credentials.md) | [VerifiableCredential](./daf-core.verifiablecredential.md)<!-- -->\[\] | Optional. Array of attached verifiable credentials |
-|  [data](./daf-core.imessage.data.md) | string \| object | Optional. Parsed data |
+|  [data](./daf-core.imessage.data.md) | object \| null | Optional. Parsed data |
 |  [expiresAt](./daf-core.imessage.expiresat.md) | string | Optional. Expiration date (ISO 8601) |
 |  [from](./daf-core.imessage.from.md) | string | Optional. Sender DID |
 |  [id](./daf-core.imessage.id.md) | string | Unique message ID |
-|  [metaData](./daf-core.imessage.metadata.md) | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] | Optional. Array of message metadata |
+|  [metaData](./daf-core.imessage.metadata.md) | [IMetaData](./daf-core.imetadata.md)<!-- -->\[\] \| null | Optional. Array of message metadata |
 |  [presentations](./daf-core.imessage.presentations.md) | [VerifiablePresentation](./daf-core.verifiablepresentation.md)<!-- -->\[\] | Optional. Array of attached verifiable presentations |
 |  [raw](./daf-core.imessage.raw.md) | string | Optional. Original message raw data |
 |  [replyTo](./daf-core.imessage.replyto.md) | string\[\] | Optional. List of DIDs to reply to |

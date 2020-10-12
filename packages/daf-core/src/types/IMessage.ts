@@ -127,7 +127,7 @@ export interface IMessage {
   /**
    * Optional. Thread ID
    */
-  threadId?: string
+  threadId?: string 
 
   /**
    * Optional. Original message raw data
@@ -137,7 +137,7 @@ export interface IMessage {
   /**
    * Optional. Parsed data
    */
-  data?: string | object
+  data?: object | null
 
   /**
    * Optional. List of DIDs to reply to
@@ -162,7 +162,7 @@ export interface IMessage {
   /**
    * Optional. Array of message metadata
    */
-  metaData?: IMetaData[]
+  metaData?: IMetaData[] | null
 
   /**
    * Optional. Array of attached verifiable credentials

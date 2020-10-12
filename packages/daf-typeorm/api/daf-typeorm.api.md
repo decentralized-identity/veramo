@@ -166,10 +166,15 @@ export class DataStore implements IAgentPlugin {
                             description: string;
                         };
                         metaData: {
-                            type: string;
-                            items: {
-                                $ref: string;
-                            };
+                            anyOf: ({
+                                type: string;
+                                items: {
+                                    $ref: string;
+                                };
+                            } | {
+                                type: string;
+                                items?: undefined;
+                            })[];
                             description: string;
                         };
                         credentials: {
@@ -441,9 +446,10 @@ export class DataStore implements IAgentPlugin {
 export class DataStoreORM implements IAgentPlugin {
     constructor(dbConnection: Promise<Connection>);
     // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PartialIdentity" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    dataStoreORMGetIdentities(args: FindArgs<TIdentitiesColumns>, context: IContext): Promise<IIdentity[]>;
+    dataStoreORMGetIdentities(args: FindArgs<TIdentitiesColumns>, context: IContext): Promise<PartialIdentity[]>;
     // (undocumented)
     dataStoreORMGetIdentitiesCount(args: FindArgs<TIdentitiesColumns>, context: IContext): Promise<number>;
     // (undocumented)
@@ -749,10 +755,15 @@ export class DataStoreORM implements IAgentPlugin {
                             description: string;
                         };
                         metaData: {
-                            type: string;
-                            items: {
-                                $ref: string;
-                            };
+                            anyOf: ({
+                                type: string;
+                                items: {
+                                    $ref: string;
+                                };
+                            } | {
+                                type: string;
+                                items?: undefined;
+                            })[];
                             description: string;
                         };
                         credentials: {
@@ -1236,7 +1247,7 @@ export class DataStoreORM implements IAgentPlugin {
 }
 
 // @public (undocumented)
-export const Entities: (typeof Credential_2 | typeof Identity | typeof Claim | typeof Presentation | typeof Message | typeof Key | typeof Service)[];
+export const Entities: (typeof Identity | typeof Message | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Key | typeof Service)[];
 
 // @public (undocumented)
 export interface FindArgs<TColumns> {
@@ -1268,7 +1279,7 @@ export type FindPresentationsArgs = FindArgs<TPresentationColumns>;
 // @public (undocumented)
 export interface IDataStoreORM extends IPluginMethodMap {
     // (undocumented)
-    dataStoreORMGetIdentities(args: FindIdentitiesArgs, context: IContext): Promise<Array<IIdentity>>;
+    dataStoreORMGetIdentities(args: FindIdentitiesArgs, context: IContext): Promise<Array<PartialIdentity>>;
     // (undocumented)
     dataStoreORMGetIdentitiesCount(args: FindIdentitiesArgs, context: IContext): Promise<number>;
     // (undocumented)
@@ -1397,7 +1408,7 @@ export class Message extends BaseEntity {
     // (undocumented)
     credentials: Credential_2[];
     // (undocumented)
-    data?: any;
+    data?: object | null;
     // (undocumented)
     expiresAt?: Date;
     // (undocumented)
@@ -1405,7 +1416,7 @@ export class Message extends BaseEntity {
     // (undocumented)
     id: string;
     // (undocumented)
-    metaData?: MetaData[];
+    metaData?: MetaData[] | null;
     // (undocumented)
     presentations: Presentation[];
     // (undocumented)

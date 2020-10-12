@@ -1,5 +1,5 @@
 import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } from './types/IAgent'
-import { validate, ValidationError } from './validator'
+import { validateArguments, validateReturnType } from './validator'
 import Debug from 'debug'
 
 /**
@@ -81,8 +81,8 @@ export class Agent implements IAgent {
    * The map of plugin + override methods
    */
   readonly methods: IPluginMethodMap = {}
-  readonly schema: IAgentPluginSchema
-
+  
+  private schema: IAgentPluginSchema
   private context?: Record<string, any>
   private protectedMethods = ['execute', 'availableMethods']
 
@@ -152,6 +152,16 @@ export class Agent implements IAgent {
   }
 
   /**
+   * Returns agent plugin schema
+   *
+   * @returns agent plugin schema
+   * @public
+   */
+  getSchema(): IAgentPluginSchema {
+    return this.schema
+  }
+
+  /**
    * Executes a plugin method.
    *
    * Normally, the `execute()` method need not be called.
@@ -178,11 +188,11 @@ export class Agent implements IAgent {
     if (!this.methods[method]) throw Error('Method not available: ' + method)
     const _args = args || {}
     if (this.schema.components.methods[method]) {
-      validate(_args, this.schema, 'components.methods.' + method + '.arguments')
+      validateArguments(method, _args, this.schema)
     }
     const result = await this.methods[method](_args, { ...this.context, agent: this })
     if (this.schema.components.methods[method]) {
-      validate(result, this.schema, 'components.methods.' + method + '.returnType')
+      validateReturnType(method, result, this.schema)
     }
     Debug('daf:agent:' + method + ':result')('%o', result)
     return result

@@ -74,12 +74,6 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  [W3CCredential](./daf-core.w3ccredential.md) | W3CCredential [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
 |  [W3CPresentation](./daf-core.w3cpresentation.md) | W3CPresentation [https://github.com/decentralized-identity/did-jwt-vc](https://github.com/decentralized-identity/did-jwt-vc) |
 
-## Variables
-
-|  Variable | Description |
-|  --- | --- |
-|  [validate](./daf-core.validate.md) |  |
-
 ## Type Aliases
 
 |  Type Alias | Description |

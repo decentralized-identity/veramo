@@ -72,10 +72,10 @@ export default {
           "data": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "object"
               },
               {
-                "type": "object"
+                "type": "null"
               }
             ],
             "description": "Optional. Parsed data"
@@ -100,10 +100,17 @@ export default {
             "description": "Optional. Recipient DID"
           },
           "metaData": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IMetaData"
-            },
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMetaData"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Optional. Array of message metadata"
           },
           "credentials": {

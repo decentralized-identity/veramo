@@ -59,6 +59,7 @@ describe('daf-w3c', () => {
 
   const context: IContext = {
     agent: {
+      getSchema: jest.fn(),
       execute: jest.fn(),
       availableMethods: jest.fn(),
       resolveDid: async (args?): Promise<DIDDocument> => {

@@ -3,7 +3,7 @@
  * @public
  */
 export interface IAgentBase {
-  readonly schema: IAgentPluginSchema
+  getSchema: () => IAgentPluginSchema
   availableMethods: () => string[]
 }
 
