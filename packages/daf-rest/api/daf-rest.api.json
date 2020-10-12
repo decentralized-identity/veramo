@@ -48,7 +48,16 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "{\n        url: string;\n        enabledMethods: string[];\n        headers?: "
+                  "text": "{\n        url: string;\n        enabledMethods: string[];\n        schema: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentPluginSchema",
+                  "canonicalReference": "daf-core!IAgentPluginSchema:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        headers?: "
                 },
                 {
                   "kind": "Reference",
@@ -57,16 +66,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<string, string>;\n        extraMethods?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Array",
-                  "canonicalReference": "!Array:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<string>;\n    }"
+                  "text": "<string, string>;\n    }"
                 },
                 {
                   "kind": "Content",
@@ -149,12 +149,34 @@
         },
         {
           "kind": "Variable",
-          "canonicalReference": "daf-rest!openApiSchema:var",
+          "canonicalReference": "daf-rest!getOpenApiSchema:var",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "openApiSchema: "
+              "text": "getOpenApiSchema: "
+            },
+            {
+              "kind": "Content",
+              "text": "(agent: "
+            },
+            {
+              "kind": "Reference",
+              "text": "IAgent",
+              "canonicalReference": "daf-core!IAgent:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", basePath: string, exposedMethods: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<string>) => "
             },
             {
               "kind": "Reference",
@@ -163,31 +185,10 @@
             }
           ],
           "releaseTag": "Public",
-          "name": "openApiSchema",
+          "name": "getOpenApiSchema",
           "variableTypeTokenRange": {
             "startIndex": 1,
-            "endIndex": 2
-          }
-        },
-        {
-          "kind": "Variable",
-          "canonicalReference": "daf-rest!supportedMethods:var",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "supportedMethods: "
-            },
-            {
-              "kind": "Content",
-              "text": "string[]"
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "supportedMethods",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
+            "endIndex": 7
           }
         }
       ]

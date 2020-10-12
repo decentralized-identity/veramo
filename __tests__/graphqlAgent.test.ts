@@ -8,6 +8,7 @@ import {
   IKeyManager,
   IDataStore,
   IMessageHandler,
+  IAgentPluginSchema
 } from '../packages/daf-core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
@@ -39,6 +40,43 @@ import { Server } from 'http'
 import { createSchema, AgentGraphQLClient, supportedMethods } from '../packages/daf-graphql/src'
 import fs from 'fs'
 
+import IMessageHandlerSchema from '../packages/daf-core/build/schemas/IMessageHandler'
+import IDataStoreSchema from '../packages/daf-core/build/schemas/IDataStore'
+import IKeyManagerSchema from '../packages/daf-core/build/schemas/IKeyManager'
+import IResolverSchema from '../packages/daf-core/build/schemas/IResolver'
+import IIdentityManagerSchema from '../packages/daf-core/build/schemas/IIdentityManager'
+import ISelectiveDisclosureSchema from '../packages/daf-selective-disclosure/build/schemas/ISelectiveDisclosure'
+import ICredentialIssuerSchema from '../packages/daf-w3c/build/schemas/ICredentialIssuer'
+import IDIDCommSchema from '../packages/daf-did-comm/build/schemas/IDIDComm'
+import IDataStoreORMSchema from '../packages/daf-typeorm/build/schemas/IDataStoreORM'
+
+const schema: IAgentPluginSchema = {
+  components: {
+    schemas: {
+      ...IMessageHandlerSchema.components.schemas,
+      ...IDataStoreSchema.components.schemas,
+      ...IKeyManagerSchema.components.schemas,
+      ...IResolverSchema.components.schemas,
+      ...IIdentityManagerSchema.components.schemas,
+      ...ISelectiveDisclosureSchema.components.schemas,
+      ...ICredentialIssuerSchema.components.schemas,
+      ...IDIDCommSchema.components.schemas,
+      ...IDataStoreORMSchema.components.schemas,
+    },
+    methods: {
+      ...IMessageHandlerSchema.components.methods,
+      ...IDataStoreSchema.components.methods,
+      ...IKeyManagerSchema.components.methods,
+      ...IResolverSchema.components.methods,
+      ...IIdentityManagerSchema.components.methods,
+      ...ISelectiveDisclosureSchema.components.methods,
+      ...ICredentialIssuerSchema.components.methods,
+      ...IDIDCommSchema.components.methods,
+      ...IDataStoreORMSchema.components.methods,
+    },
+  }
+}
+
 // Shared tests
 import verifiableData from './shared/verifiableData'
 import handleSdrMessage from './shared/handleSdrMessage'
@@ -68,7 +106,8 @@ const agent = createAgent<
   plugins: [
     new AgentGraphQLClient({
       url: 'http://localhost:' + port + '/graphql',
-      enabledMethods: Object.keys(supportedMethods),
+      enabledMethods: Object.keys(schema.components.methods),
+      schema
     }),
   ],
 })

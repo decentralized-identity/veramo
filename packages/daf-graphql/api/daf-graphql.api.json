@@ -57,7 +57,16 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "['headers'];\n        overrides?: "
+                  "text": "['headers'];\n        schema: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentPluginSchema",
+                  "canonicalReference": "daf-core!IAgentPluginSchema:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n        overrides?: "
                 },
                 {
                   "kind": "Reference",
@@ -89,7 +98,7 @@
                   "parameterName": "options",
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
-                    "endIndex": 8
+                    "endIndex": 10
                   }
                 }
               ]

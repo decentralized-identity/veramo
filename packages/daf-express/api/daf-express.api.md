@@ -13,8 +13,8 @@ export const AgentRouter: (options: AgentRouterOptions) => Router;
 
 // @public (undocumented)
 export interface AgentRouterOptions {
+    basePath: string;
     exposedMethods: Array<string>;
-    extraMethods?: Array<string>;
     getAgentForRequest: (req: Request_2) => Promise<IAgent>;
     serveSchema?: boolean;
 }

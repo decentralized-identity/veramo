@@ -4,6 +4,7 @@
 
 ```ts
 
+import { IAgent } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { IAgentPluginSchema } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
@@ -14,8 +15,8 @@ export class AgentRestClient implements IAgentPlugin {
     constructor(options: {
         url: string;
         enabledMethods: string[];
+        schema: IAgentPluginSchema;
         headers?: Record<string, string>;
-        extraMethods?: Array<string>;
     });
     // (undocumented)
     readonly methods: IPluginMethodMap;
@@ -24,10 +25,7 @@ export class AgentRestClient implements IAgentPlugin {
     }
 
 // @public (undocumented)
-export const openApiSchema: OpenAPIV3.Document;
-
-// @public (undocumented)
-export const supportedMethods: string[];
+export const getOpenApiSchema: (agent: IAgent, basePath: string, exposedMethods: Array<string>) => OpenAPIV3.Document;
 
 
 ```

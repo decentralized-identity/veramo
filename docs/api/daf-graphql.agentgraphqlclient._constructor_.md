@@ -13,6 +13,7 @@ constructor(options: {
         url: string;
         enabledMethods: string[];
         headers?: Response['headers'];
+        schema: IAgentPluginSchema;
         overrides?: Record<string, IAgentGraphQLMethod>;
     });
 ```
@@ -21,5 +22,5 @@ constructor(options: {
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | { url: string; enabledMethods: string\[\]; headers?: Response\['headers'\]; overrides?: Record&lt;string, [IAgentGraphQLMethod](./daf-graphql.iagentgraphqlmethod.md)<!-- -->&gt;; } |  |
+|  options | { url: string; enabledMethods: string\[\]; headers?: Response\['headers'\]; schema: [IAgentPluginSchema](./daf-core.iagentpluginschema.md)<!-- -->; overrides?: Record&lt;string, [IAgentGraphQLMethod](./daf-graphql.iagentgraphqlmethod.md)<!-- -->&gt;; } |  |
 

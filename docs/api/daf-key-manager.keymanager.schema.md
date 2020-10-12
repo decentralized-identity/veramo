@@ -178,6 +178,22 @@ readonly schema: {
                     required: string[];
                     description: string;
                 };
+                EcdsaSignature: {
+                    type: string;
+                    properties: {
+                        r: {
+                            type: string;
+                        };
+                        s: {
+                            type: string;
+                        };
+                        recoveryParam: {
+                            type: string;
+                            const: number;
+                        };
+                    };
+                    required: string[];
+                };
             };
             methods: {
                 keyManagerCreateKey: {
@@ -261,7 +277,7 @@ readonly schema: {
                         $ref: string;
                     };
                     returnType: {
-                        type: string;
+                        $ref: string;
                     };
                 };
             };

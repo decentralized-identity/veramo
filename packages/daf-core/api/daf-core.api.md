@@ -41,6 +41,8 @@ export interface IAgent extends IAgentBase {
 export interface IAgentBase {
     // (undocumented)
     availableMethods: () => string[];
+    // (undocumented)
+    readonly schema: IAgentPluginSchema;
 }
 
 // @public

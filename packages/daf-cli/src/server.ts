@@ -3,6 +3,8 @@ import program from 'commander'
 import ngrok from 'ngrok'
 import parse from 'url-parse'
 import { AgentRouter } from 'daf-express'
+import { getOpenApiSchema } from 'daf-rest'
+import swaggerUi from "swagger-ui-express";
 import { getAgent } from './setup'
 
 program
@@ -34,13 +36,24 @@ program
       ? options.exposedMethods.split(',')
       : agent.availableMethods()
 
+    const basePath = '/agent'
+
     const agentRouter = AgentRouter({
+      basePath,
       getAgentForRequest: async (req) => agent,
       exposedMethods,
       serveSchema: true,
     })
 
-    app.use('/', agentRouter)
+    app.use(basePath, agentRouter)
+
+    app.use(
+      "/api-docs",
+      swaggerUi.serve,
+      swaggerUi.setup(
+        getOpenApiSchema(agent, basePath, exposedMethods)
+      )
+    );
 
     app.listen(options.port, async () => {
       console.log(`🚀 Agent server ready at http://localhost:${options.port}`)
@@ -166,7 +179,7 @@ program
             publicKey: serverIdentity.keys.map((key) => ({
               id: serverIdentity.did + '#' + key.kid,
               type: key.type === 'Secp256k1' ? 'Secp256k1VerificationKey2018' : 'Ed25519VerificationKey2018',
-              owner: serverIdentity.did,
+              controller: serverIdentity.did,
               publicKeyHex: key.publicKeyHex,
             })),
             authentication: serverIdentity.keys.map((key) => ({

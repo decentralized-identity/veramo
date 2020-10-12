@@ -14,6 +14,7 @@ export class AgentGraphQLClient implements IAgentPlugin {
         url: string;
         enabledMethods: string[];
         headers?: Response['headers'];
+        schema: IAgentPluginSchema;
         overrides?: Record<string, IAgentGraphQLMethod>;
     });
     // (undocumented)

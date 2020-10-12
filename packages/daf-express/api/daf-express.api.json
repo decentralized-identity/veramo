@@ -65,6 +65,31 @@
           "members": [
             {
               "kind": "PropertySignature",
+              "canonicalReference": "daf-express!AgentRouterOptions#basePath:member",
+              "docComment": "/**\n * Base path\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "basePath: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "basePath",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
               "canonicalReference": "daf-express!AgentRouterOptions#exposedMethods:member",
               "docComment": "/**\n * List of exposed methods\n */\n",
               "excerptTokens": [
@@ -88,36 +113,6 @@
               ],
               "releaseTag": "Public",
               "name": "exposedMethods",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 3
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "daf-express!AgentRouterOptions#extraMethods:member",
-              "docComment": "/**\n * List of extra methods\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "extraMethods?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Array",
-                  "canonicalReference": "!Array:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<string>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "extraMethods",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3

@@ -20,6 +20,7 @@
     { "path": "../daf-resolver" },
     { "path": "../daf-rest" },
     { "path": "../daf-express" },
+    { "path": "../daf-rest" },
     { "path": "../daf-selective-disclosure" },
     { "path": "../daf-typeorm" },
     { "path": "../daf-url" },
