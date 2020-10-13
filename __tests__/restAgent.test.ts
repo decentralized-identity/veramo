@@ -1,13 +1,13 @@
 import 'cross-fetch/polyfill'
 import {
   Agent,
+  IAgent,
   createAgent,
   IIdentityManager,
   IResolver,
   IKeyManager,
   IDataStore,
   IMessageHandler,
-  IAgentPluginSchema,
 } from '../packages/daf-core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
@@ -39,44 +39,6 @@ import { Server } from 'http'
 import { AgentRouter } from '../packages/daf-express/src'
 import fs from 'fs'
 
-import IMessageHandlerSchema from '../packages/daf-core/build/schemas/IMessageHandler'
-import IDataStoreSchema from '../packages/daf-core/build/schemas/IDataStore'
-import IKeyManagerSchema from '../packages/daf-core/build/schemas/IKeyManager'
-import IResolverSchema from '../packages/daf-core/build/schemas/IResolver'
-import IIdentityManagerSchema from '../packages/daf-core/build/schemas/IIdentityManager'
-import ISelectiveDisclosureSchema from '../packages/daf-selective-disclosure/build/schemas/ISelectiveDisclosure'
-import ICredentialIssuerSchema from '../packages/daf-w3c/build/schemas/ICredentialIssuer'
-import IDIDCommSchema from '../packages/daf-did-comm/build/schemas/IDIDComm'
-import IDataStoreORMSchema from '../packages/daf-typeorm/build/schemas/IDataStoreORM'
-
-const schema: IAgentPluginSchema = {
-  components: {
-    schemas: {
-      ...IMessageHandlerSchema.components.schemas,
-      ...IDataStoreSchema.components.schemas,
-      ...IKeyManagerSchema.components.schemas,
-      ...IResolverSchema.components.schemas,
-      ...IIdentityManagerSchema.components.schemas,
-      ...ISelectiveDisclosureSchema.components.schemas,
-      ...ICredentialIssuerSchema.components.schemas,
-      ...IDIDCommSchema.components.schemas,
-      ...IDataStoreORMSchema.components.schemas,
-    },
-    methods: {
-      ...IMessageHandlerSchema.components.methods,
-      ...IDataStoreSchema.components.methods,
-      ...IKeyManagerSchema.components.methods,
-      ...IResolverSchema.components.methods,
-      ...IIdentityManagerSchema.components.methods,
-      ...ISelectiveDisclosureSchema.components.methods,
-      ...ICredentialIssuerSchema.components.methods,
-      ...IDIDCommSchema.components.methods,
-      ...IDataStoreORMSchema.components.methods,
-    },
-  }
-}
-
-
 // Shared tests
 import verifiableData from './shared/verifiableData'
 import handleSdrMessage from './shared/handleSdrMessage'
@@ -87,13 +49,17 @@ import keyManager from './shared/keyManager'
 import identityManager from './shared/identityManager'
 import messageHandler from './shared/messageHandler'
 
-
 const databaseFile = 'rest-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 const port = 3002
+const basePath = '/agent'
 
-const agent = createAgent<
+let dbConnection: Promise<Connection>
+let serverAgent: IAgent
+let restServer: Server
+
+const getAgent = () => createAgent<
   IIdentityManager &
     IKeyManager &
     IDataStore &
@@ -106,15 +72,12 @@ const agent = createAgent<
 >({
   plugins: [
     new AgentRestClient({
-      url: 'http://localhost:' + port + '/agent',
-      enabledMethods: Object.keys(schema.components.methods),
-      schema
+      url: 'http://localhost:' + port + basePath,
+      enabledMethods: Object.keys(serverAgent.getSchema().components.methods),
+      schema: serverAgent.getSchema()
     }),
   ],
 })
-
-let dbConnection: Promise<Connection>
-let restServer: Server
 
 const setup = async (): Promise<boolean> => {
   dbConnection = createConnection({
@@ -125,7 +88,7 @@ const setup = async (): Promise<boolean> => {
     entities: Entities,
   })
 
-  const serverAgent = new Agent({
+  serverAgent = new Agent({
     plugins: [
       new KeyManager({
         store: new KeyStore(dbConnection, new SecretBox(secretKey)),
@@ -173,15 +136,13 @@ const setup = async (): Promise<boolean> => {
     ],
   })
 
-  const basePath = '/agent'
-
   const agentRouter = AgentRouter({
     getAgentForRequest: async (req) => serverAgent,
     exposedMethods: serverAgent.availableMethods(),
     basePath
   })
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const app = express()
     app.use(basePath, agentRouter)
     restServer = app.listen(port, () => {
@@ -196,8 +157,6 @@ const tearDown = async (): Promise<boolean> => {
   fs.unlinkSync(databaseFile)
   return true
 }
-
-const getAgent = () => agent
 
 const testContext = { getAgent, setup, tearDown }
 
