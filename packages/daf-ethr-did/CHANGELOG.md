@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.30](https://github.com/uport-project/daf/compare/v7.0.0-beta.29...v7.0.0-beta.30) (2020-10-13)
+
+
+### Features
+
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
+
+
+
+
+
 # [7.0.0-beta.29](https://github.com/uport-project/daf/compare/v7.0.0-beta.28...v7.0.0-beta.29) (2020-10-02)
 
 **Note:** Version bump only for package daf-ethr-did

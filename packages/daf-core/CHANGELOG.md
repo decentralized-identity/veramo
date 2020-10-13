@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.30](https://github.com/uport-project/daf/compare/v7.0.0-beta.29...v7.0.0-beta.30) (2020-10-13)
+
+
+### Bug Fixes
+
+* Local copy of W3C types ([29c6b0e](https://github.com/uport-project/daf/commit/29c6b0efc37f181d40aff560d4d481eb84e0ea9a))
+
+
+### Features
+
+* Dynamic OpenAPI schema ([f12236b](https://github.com/uport-project/daf/commit/f12236beeabd408cbc1d3a47848add82cbd52050))
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
+* Server config ([b3b9639](https://github.com/uport-project/daf/commit/b3b9639e7f1382110b34bdb26073ed0bd97eb982))
+* Validating all plugin method arguments ([2c868f7](https://github.com/uport-project/daf/commit/2c868f77f297d036554ab8b30b77124c57b824da))
+* Validating returnType ([c7d1ef3](https://github.com/uport-project/daf/commit/c7d1ef3bd77dd4a77cf9dcfa32a2ed8b47fe04e0))
+
+
+
+
+
 # [7.0.0-beta.29](https://github.com/uport-project/daf/compare/v7.0.0-beta.28...v7.0.0-beta.29) (2020-10-02)
 
 
