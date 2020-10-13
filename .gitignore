@@ -26,3 +26,5 @@ key-store.json
 .vscode/
 node_modules
 temp
+
+agent.yml
