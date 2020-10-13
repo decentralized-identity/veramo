@@ -1,3 +1,22 @@
+server:
+  hostname: localhost
+  port: 3332
+  schemaPath: /open-api.json
+  apiBasePath: /agent
+  apiDocsPath: /api-docs
+  defaultIdentity:
+    create: true
+    messagingServiceEndpoint: /messaging
+    publicProfileServiceEndpoint: /public-profile
+    publicName: Alice
+    publicPicture: https://picsum.photos/200
+  ngrok:
+    connect: true
+    # subdomain: alice-did
+    # region: eu
+  # exposedMethods:
+  #   - resolveDid
+  #   - dataStoreORMGetIdentities
 constants:
   secretKey: 29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
   databaseFile: ./database.sqlite

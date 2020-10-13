@@ -7,13 +7,13 @@ import { ISelectiveDisclosure } from 'daf-selective-disclosure'
 import { IDIDComm } from 'daf-did-comm'
 import { IDataStoreORM } from 'daf-typeorm'
 const fs = require('fs')
-const { dirname } = require('path')
+const { dirname, resolve } = require('path')
 import { createAgentFromConfig } from './lib/agentCreator'
 
-const defaultConfig = process.env.HOME + '/.daf/config.yml'
+const defaultConfig = './agent.yml'
 program.option('--config <path>', 'Configuration file', defaultConfig)
 
-const getConfig = (fileName: string): object => {
+export const getConfig = (fileName: string): any => {
   if (!fs.existsSync(dirname(fileName))) {
     fs.mkdirSync(dirname(fileName))
   }

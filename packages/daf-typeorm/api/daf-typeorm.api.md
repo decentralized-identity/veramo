@@ -539,7 +539,7 @@ export class DataStoreORM implements IAgentPlugin {
                     };
                     required: string[];
                 };
-                IIdentity: {
+                PartialIdentity: {
                     type: string;
                     properties: {
                         did: {
@@ -573,8 +573,6 @@ export class DataStoreORM implements IAgentPlugin {
                             description: string;
                         };
                     };
-                    required: string[];
-                    description: string;
                 };
                 IKey: {
                     type: string;

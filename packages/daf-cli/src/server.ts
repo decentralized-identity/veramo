@@ -5,55 +5,32 @@ import parse from 'url-parse'
 import { AgentRouter } from 'daf-express'
 import { getOpenApiSchema } from 'daf-rest'
 import swaggerUi from "swagger-ui-express";
-import { getAgent } from './setup'
+import { getAgent, getConfig } from './setup'
 
 program
   .command('server')
   .description('Launch OpenAPI server')
-  .option('--port <port>', 'Port', '3332')
-  .option('--hostname <string>', 'Server hostname', 'localhost')
-  .option('--ngrok', 'Open ngrok tunnel')
-  .option('--ngrokSubdomain <string>', 'ngrok subdomain')
-  .option('--ngrokRegion <string>', 'ngrok region')
-  .option('--createDefaultIdentity <boolean>', 'Should the agent create default web did', true)
-  .option('--messagingServiceEndpoint <path>', 'Path of the messaging service endpoint', '/messaging')
-  .option(
-    '--publicProfileServiceEndpoint <path>',
-    'Path of the public profile service endpoint',
-    '/public-profile',
-  )
-  .option('--publicName <string>', 'Public name', 'Service')
-  .option('--publicPicture <string>', 'Public picture', 'https://picsum.photos/200')
-  .option(
-    '--exposedMethods <string>',
-    'Comma separated list of exposed agent methods (example: "resolveDid,handleMessage")',
-  )
-  .action(async (options) => {
+  .action(async () => {
     const app = express()
     const agent = getAgent(program.config)
+    const { server: options } = getConfig(program.config)
 
     const exposedMethods = options.exposedMethods
-      ? options.exposedMethods.split(',')
+      ? options.exposedMethods
       : agent.availableMethods()
 
-    const basePath = '/agent'
+    const apiBasePath = options.apiBasePath
 
     const agentRouter = AgentRouter({
-      basePath,
+      basePath: apiBasePath,
       getAgentForRequest: async (req) => agent,
       exposedMethods,
       serveSchema: true,
     })
 
-    app.use(basePath, agentRouter)
+    app.use(apiBasePath, agentRouter)
 
-    app.use(
-      "/api-docs",
-      swaggerUi.serve,
-      swaggerUi.setup(
-        getOpenApiSchema(agent, basePath, exposedMethods)
-      )
-    );
+
 
     app.listen(options.port, async () => {
       console.log(`🚀 Agent server ready at http://localhost:${options.port}`)
@@ -64,23 +41,40 @@ program
 
       let baseUrl = 'http://' + hostname + ':' + options.port
 
-      if (options.ngrok) {
+      if (options.ngrok?.connect) {
         baseUrl = await ngrok.connect({
           addr: options.port,
-          subdomain: options.ngrokSubdomain,
-          region: options.ngrokRegion,
+          subdomain: options.ngrok.subdomain,
+          region: options.ngrok.region,
         })
         hostname = parse(baseUrl).hostname
       }
 
-      if (options.createDefaultIdentity) {
+      const openApiSchema = getOpenApiSchema(agent, apiBasePath, exposedMethods)
+      openApiSchema.servers = [
+        { url: baseUrl }
+      ]
+
+      app.use(
+        options.apiDocsPath,
+        swaggerUi.serve,
+        swaggerUi.setup(openApiSchema)
+      )
+      console.log('📖 API Documentation', baseUrl + options.apiDocsPath)
+  
+      app.get(options.schemaPath, (req, res) => { res.json(openApiSchema) })
+  
+
+      console.log('🗺  OpenAPI schema', baseUrl + options.schemaPath)
+
+      if (options.defaultIdentity.create) {
         let serverIdentity = await agent.identityManagerGetOrCreateIdentity({
           provider: 'did:web',
           alias: hostname,
         })
         console.log('🆔', serverIdentity.did)
 
-        const messagingServiceEndpoint = 'https://' + hostname + options.messagingServiceEndpoint
+        const messagingServiceEndpoint = baseUrl + options.defaultIdentity.messagingServiceEndpoint
 
         await agent.identityManagerAddService({
           did: serverIdentity.did,
@@ -93,7 +87,7 @@ program
         })
         console.log('📨 Messaging endpoint', messagingServiceEndpoint)
 
-        app.post(options.messagingServiceEndpoint, express.text({ type: '*/*' }), async (req, res) => {
+        app.post(options.defaultIdentity.messagingServiceEndpoint, express.text({ type: '*/*' }), async (req, res) => {
           try {
             const message = await agent.handleMessage({ raw: req.body, save: true })
             console.log('Received message', message.type, message.id)
@@ -104,7 +98,7 @@ program
           }
         })
 
-        const publicProfileServiceEndpoint = 'https://' + hostname + options.publicProfileServiceEndpoint
+        const publicProfileServiceEndpoint = baseUrl + options.defaultIdentity.publicProfileServiceEndpoint
 
         await agent.identityManagerAddService({
           did: serverIdentity.did,
@@ -117,7 +111,7 @@ program
         })
         console.log('🌍 Public Profile', publicProfileServiceEndpoint)
 
-        app.get(options.publicProfileServiceEndpoint, async (req, res) => {
+        app.get(options.defaultIdentity.publicProfileServiceEndpoint, async (req, res) => {
           try {
             const nameCredential = await agent.createVerifiableCredential({
               credential: {
@@ -127,7 +121,7 @@ program
                 issuanceDate: new Date().toISOString(),
                 credentialSubject: {
                   id: serverIdentity.did,
-                  name: options.publicName,
+                  name: options.defaultIdentity.publicName,
                 },
               },
               proofFormat: 'jwt',
@@ -141,7 +135,7 @@ program
                 issuanceDate: new Date().toISOString(),
                 credentialSubject: {
                   id: serverIdentity.did,
-                  picture: options.publicPicture,
+                  picture: options.defaultIdentity.publicPicture,
                 },
               },
               proofFormat: 'jwt',
@@ -195,6 +189,16 @@ program
           res.json(didDoc)
         })
         console.log('📋 DID Document ' + baseUrl + didDocEndpoint)
+
+        app.get('/', (req, res) => {
+          const links = [
+            { label: "API Docs", url: options.apiDocsPath},
+            { label: "API Schema", url: options.apiBasePath},
+          ]
+            
+          const html = `<html><head><title>DID Agent</title></head><body>${links.map(l=>`<a href="${l.url}">${l.label}</a>`).join('<br/>')}</body></html>`
+          res.send(html)
+        })
       }
     })
   })

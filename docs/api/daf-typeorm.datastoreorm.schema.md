@@ -75,7 +75,7 @@ readonly schema: {
                     };
                     required: string[];
                 };
-                IIdentity: {
+                PartialIdentity: {
                     type: string;
                     properties: {
                         did: {
@@ -109,8 +109,6 @@ readonly schema: {
                             description: string;
                         };
                     };
-                    required: string[];
-                    description: string;
                 };
                 IKey: {
                     type: string;

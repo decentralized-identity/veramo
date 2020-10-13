@@ -7,7 +7,7 @@
   },
   "kind": "Package",
   "canonicalReference": "daf-rest!",
-  "docComment": "/**\n * Provides a {@link daf-rest#AgentRestClient | plugin} for the {@link daf-core#Agent} that can proxy method execution over HTTPS using {@link daf-rest#openApiSchema | OpenAPI}\n *\n * @packageDocumentation\n */\n",
+  "docComment": "/**\n * Provides a {@link daf-rest#AgentRestClient | plugin} for the {@link daf-core#Agent} that can proxy method execution over HTTPS\n *\n * @packageDocumentation\n */\n",
   "name": "daf-rest",
   "members": [
     {

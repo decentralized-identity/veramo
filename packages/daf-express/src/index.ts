@@ -82,6 +82,7 @@ export const AgentRouter = (options: AgentRouterOptions): Router => {
           res.status(400).json({ 
             name: 'ValidationError',
             message: e.message,
+            method: e.method,
             path: e.path,
             code: e.code,
             description: e.description

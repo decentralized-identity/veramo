@@ -1,5 +1,6 @@
 import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } from './types/IAgent'
 import { validateArguments, validateReturnType } from './validator'
+import ValidationErrorSchema from './schemas/ValidationError'
 import Debug from 'debug'
 
 /**
@@ -97,7 +98,9 @@ export class Agent implements IAgent {
     
     this.schema = {
       components: {
-        schemas: {},
+        schemas: {
+          ...ValidationErrorSchema.components.schemas
+        },
         methods: {}
       }
     }
