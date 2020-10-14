@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.31](https://github.com/uport-project/daf/compare/v7.0.0-beta.30...v7.0.0-beta.31) (2020-10-14)
+
+
+### Features
+
+* CLI create-config ([ec96204](https://github.com/uport-project/daf/commit/ec96204c9d175456a8a9ce83991bceedd2a81369))
+
+
+
+
+
 # [7.0.0-beta.30](https://github.com/uport-project/daf/compare/v7.0.0-beta.29...v7.0.0-beta.30) (2020-10-13)
 
 
