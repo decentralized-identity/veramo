@@ -12,6 +12,7 @@ server:
     publicPicture: https://picsum.photos/200
   ngrok:
     connect: true
+    # authtoken: XZY
     # subdomain: alice-did
     # region: eu
   # exposedMethods:

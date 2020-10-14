@@ -4,7 +4,7 @@ import ngrok from 'ngrok'
 import parse from 'url-parse'
 import { AgentRouter } from 'daf-express'
 import { getOpenApiSchema } from 'daf-rest'
-import swaggerUi from "swagger-ui-express";
+import swaggerUi from 'swagger-ui-express'
 import { getAgent, getConfig } from './setup'
 
 program
@@ -15,9 +15,7 @@ program
     const agent = getAgent(program.config)
     const { server: options } = getConfig(program.config)
 
-    const exposedMethods = options.exposedMethods
-      ? options.exposedMethods
-      : agent.availableMethods()
+    const exposedMethods = options.exposedMethods ? options.exposedMethods : agent.availableMethods()
 
     const apiBasePath = options.apiBasePath
 
@@ -29,8 +27,6 @@ program
     })
 
     app.use(apiBasePath, agentRouter)
-
-
 
     app.listen(options.port, async () => {
       console.log(`🚀 Agent server ready at http://localhost:${options.port}`)
@@ -46,24 +42,20 @@ program
           addr: options.port,
           subdomain: options.ngrok.subdomain,
           region: options.ngrok.region,
+          authtoken: options.ngrok.authtoken,
         })
         hostname = parse(baseUrl).hostname
       }
 
       const openApiSchema = getOpenApiSchema(agent, apiBasePath, exposedMethods)
-      openApiSchema.servers = [
-        { url: baseUrl }
-      ]
+      openApiSchema.servers = [{ url: baseUrl }]
 
-      app.use(
-        options.apiDocsPath,
-        swaggerUi.serve,
-        swaggerUi.setup(openApiSchema)
-      )
+      app.use(options.apiDocsPath, swaggerUi.serve, swaggerUi.setup(openApiSchema))
       console.log('📖 API Documentation', baseUrl + options.apiDocsPath)
-  
-      app.get(options.schemaPath, (req, res) => { res.json(openApiSchema) })
-  
+
+      app.get(options.schemaPath, (req, res) => {
+        res.json(openApiSchema)
+      })
 
       console.log('🗺  OpenAPI schema', baseUrl + options.schemaPath)
 
@@ -87,16 +79,20 @@ program
         })
         console.log('📨 Messaging endpoint', messagingServiceEndpoint)
 
-        app.post(options.defaultIdentity.messagingServiceEndpoint, express.text({ type: '*/*' }), async (req, res) => {
-          try {
-            const message = await agent.handleMessage({ raw: req.body, save: true })
-            console.log('Received message', message.type, message.id)
-            res.json({ id: message.id })
-          } catch (e) {
-            console.log(e)
-            res.send(e.message)
-          }
-        })
+        app.post(
+          options.defaultIdentity.messagingServiceEndpoint,
+          express.text({ type: '*/*' }),
+          async (req, res) => {
+            try {
+              const message = await agent.handleMessage({ raw: req.body, save: true })
+              console.log('Received message', message.type, message.id)
+              res.json({ id: message.id })
+            } catch (e) {
+              console.log(e)
+              res.send(e.message)
+            }
+          },
+        )
 
         const publicProfileServiceEndpoint = baseUrl + options.defaultIdentity.publicProfileServiceEndpoint
 
@@ -192,11 +188,13 @@ program
 
         app.get('/', (req, res) => {
           const links = [
-            { label: "API Docs", url: options.apiDocsPath},
-            { label: "API Schema", url: options.apiBasePath},
+            { label: 'API Docs', url: options.apiDocsPath },
+            { label: 'API Schema', url: options.apiBasePath },
           ]
-            
-          const html = `<html><head><title>DID Agent</title></head><body>${links.map(l=>`<a href="${l.url}">${l.label}</a>`).join('<br/>')}</body></html>`
+
+          const html = `<html><head><title>DID Agent</title></head><body>${links
+            .map((l) => `<a href="${l.url}">${l.label}</a>`)
+            .join('<br/>')}</body></html>`
           res.send(html)
         })
       }

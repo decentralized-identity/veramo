@@ -1,3 +1,23 @@
+server:
+  hostname: localhost
+  port: 3332
+  schemaPath: /open-api.json
+  apiBasePath: /agent
+  apiDocsPath: /api-docs
+  defaultIdentity:
+    create: true
+    messagingServiceEndpoint: /messaging
+    publicProfileServiceEndpoint: /public-profile
+    publicName: Alice
+    publicPicture: https://picsum.photos/200
+  ngrok:
+    connect: true
+    # authtoken: XZY
+    # subdomain: alice-did
+    # region: eu
+  # exposedMethods:
+  #   - resolveDid
+  #   - dataStoreORMGetIdentities
 agent:
   $require: daf-core#Agent
   $args:
