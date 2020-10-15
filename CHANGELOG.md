@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.32](https://github.com/uport-project/daf/compare/v7.0.0-beta.31...v7.0.0-beta.32) (2020-10-15)
+
+
+### Bug Fixes
+
+* Saving DIDComm message ([7d0201e](https://github.com/uport-project/daf/commit/7d0201ec584371a6257b651beffbad7776fe5d5c))
+
+
+
+
+
 # [7.0.0-beta.31](https://github.com/uport-project/daf/compare/v7.0.0-beta.30...v7.0.0-beta.31) (2020-10-14)
 
 
