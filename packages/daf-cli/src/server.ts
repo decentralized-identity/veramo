@@ -30,8 +30,8 @@ program
 
     app.listen(options.port, async () => {
       console.log(`🚀 Agent server ready at http://localhost:${options.port}`)
-      console.log('🧩 Available methods', JSON.stringify(agent.availableMethods()))
-      console.log('🛠  Exposed methods', JSON.stringify(exposedMethods))
+      console.log('🧩 Available methods', agent.availableMethods().length)
+      console.log('🛠  Exposed methods', exposedMethods.length)
 
       let hostname = options.hostname
 
