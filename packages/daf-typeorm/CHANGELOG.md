@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.33](https://github.com/uport-project/daf/compare/v7.0.0-beta.32...v7.0.0-beta.33) (2020-10-15)
+
+**Note:** Version bump only for package daf-typeorm
+
+
+
+
+
 # [7.0.0-beta.32](https://github.com/uport-project/daf/compare/v7.0.0-beta.31...v7.0.0-beta.32) (2020-10-15)
 
 **Note:** Version bump only for package daf-typeorm
