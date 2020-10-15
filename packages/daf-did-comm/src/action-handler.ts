@@ -120,7 +120,7 @@ export class DIDComm implements IAgentPlugin {
 
         if (res.status == 200) {
           return await context.agent.handleMessage({
-            raw: JSON.stringify(data.body),
+            raw: JSON.stringify(data),
             metaData: [{ type: 'DIDComm-sent' }],
             save,
           })
