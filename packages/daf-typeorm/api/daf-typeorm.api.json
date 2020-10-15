@@ -313,7 +313,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "string"
+                  "text": "string | null"
                 },
                 {
                   "kind": "Content",
@@ -2176,26 +2176,26 @@
             },
             {
               "kind": "Reference",
+              "text": "Key",
+              "canonicalReference": "daf-typeorm!Key:class"
+            },
+            {
+              "kind": "Content",
+              "text": " | typeof "
+            },
+            {
+              "kind": "Reference",
+              "text": "Service",
+              "canonicalReference": "daf-typeorm!Service:class"
+            },
+            {
+              "kind": "Content",
+              "text": " | typeof "
+            },
+            {
+              "kind": "Reference",
               "text": "Message",
               "canonicalReference": "daf-typeorm!Message:class"
-            },
-            {
-              "kind": "Content",
-              "text": " | typeof "
-            },
-            {
-              "kind": "Reference",
-              "text": "Claim",
-              "canonicalReference": "daf-typeorm!Claim:class"
-            },
-            {
-              "kind": "Content",
-              "text": " | typeof "
-            },
-            {
-              "kind": "Reference",
-              "text": "Credential",
-              "canonicalReference": "daf-typeorm!Credential:class"
             },
             {
               "kind": "Content",
@@ -2212,8 +2212,8 @@
             },
             {
               "kind": "Reference",
-              "text": "Key",
-              "canonicalReference": "daf-typeorm!Key:class"
+              "text": "Credential",
+              "canonicalReference": "daf-typeorm!Credential:class"
             },
             {
               "kind": "Content",
@@ -2221,8 +2221,8 @@
             },
             {
               "kind": "Reference",
-              "text": "Service",
-              "canonicalReference": "daf-typeorm!Service:class"
+              "text": "Claim",
+              "canonicalReference": "daf-typeorm!Claim:class"
             },
             {
               "kind": "Content",
@@ -3486,7 +3486,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<string | undefined>"
+                  "text": "<string | null | undefined>"
                 },
                 {
                   "kind": "Content",

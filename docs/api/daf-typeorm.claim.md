@@ -25,5 +25,5 @@ export declare class Claim extends BaseEntity
 |  [issuer](./daf-typeorm.claim.issuer.md) |  | [Identity](./daf-typeorm.identity.md) |  |
 |  [subject](./daf-typeorm.claim.subject.md) |  | [Identity](./daf-typeorm.identity.md) |  |
 |  [type](./daf-typeorm.claim.type.md) |  | string |  |
-|  [value](./daf-typeorm.claim.value.md) |  | string |  |
+|  [value](./daf-typeorm.claim.value.md) |  | string \| null |  |
 

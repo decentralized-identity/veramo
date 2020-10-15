@@ -43,9 +43,9 @@ export class Claim extends BaseEntity {
   //@ts-ignore
   type: string
 
-  @Column('text')
+  @Column('text', { nullable: true })
   //@ts-ignore
-  value: string
+  value: string | null
 
   @Column()
   //@ts-ignore

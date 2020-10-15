@@ -96,7 +96,7 @@ export class Identity extends BaseEntity {
   async getLatestClaimValue(
     dbConnection: Promise<Connection>,
     where: { type: string },
-  ): Promise<string | undefined> {
+  ): Promise<string | null | undefined> {
     const claim = await (await dbConnection).getRepository(Claim).findOne({
       where: {
         ...where,

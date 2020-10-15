@@ -13,7 +13,7 @@ const name = await identity.getLatestClaimValue(<!-- -->{<!-- -->type: 'name'<!-
 ```typescript
 getLatestClaimValue(dbConnection: Promise<Connection>, where: {
         type: string;
-    }): Promise<string | undefined>;
+    }): Promise<string | null | undefined>;
 ```
 
 ## Parameters
@@ -25,5 +25,5 @@ getLatestClaimValue(dbConnection: Promise<Connection>, where: {
 
 <b>Returns:</b>
 
-Promise&lt;string \| undefined&gt;
+Promise&lt;string \| null \| undefined&gt;
 
