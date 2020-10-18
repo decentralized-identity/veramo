@@ -1,7 +1,7 @@
 {
   "name": "daf-key-manager",
   "description": "DAF Key Manager",
-  "version": "7.0.0-beta.34",
+  "version": "7.0.0-beta.35",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
     "extract-api": "daf extractPluginApi -c ./api-extractor.json"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.34"
+    "daf-core": "^7.0.0-beta.35"
   },
   "devDependencies": {
     "typescript": "^4.0.3"

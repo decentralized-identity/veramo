@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.35](https://github.com/uport-project/daf/compare/v7.0.0-beta.34...v7.0.0-beta.35) (2020-10-18)
+
+
+### Features
+
+* CLI execute uses OpenApi (mvp) ([cb310dd](https://github.com/uport-project/daf/commit/cb310dd194677f42e2d054d27859d99ecae63696))
+
+
+
+
+
 # [7.0.0-beta.34](https://github.com/uport-project/daf/compare/v7.0.0-beta.33...v7.0.0-beta.34) (2020-10-15)
 
 

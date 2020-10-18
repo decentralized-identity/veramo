@@ -1,7 +1,7 @@
 {
   "name": "daf-web-did",
   "description": "DAF plugin to enable web-did backed identity control.",
-  "version": "7.0.0-beta.34",
+  "version": "7.0.0-beta.35",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "extract-api": "daf extractPluginApi -c ./api-extractor.json"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.34",
-    "daf-identity-manager": "^7.0.0-beta.34",
+    "daf-core": "^7.0.0-beta.35",
+    "daf-identity-manager": "^7.0.0-beta.35",
     "debug": "^4.1.1"
   },
   "devDependencies": {
