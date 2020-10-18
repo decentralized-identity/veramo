@@ -1,7 +1,13 @@
+import { input } from 'blessed'
 import program from 'commander'
 import inquirer from 'inquirer'
+import jsonpointer from 'jsonpointer'
 import { getAgent } from './setup'
 const fs = require('fs')
+const OasResolver = require('oas-resolver')
+const fuzzy = require('fuzzy')
+
+inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 program
   .command('execute')
@@ -16,42 +22,86 @@ program
       let method = options.method
       let argsString = options.argsJSON
       let argsFile = options.argsFile
+      let argsObj
 
-      const questions = []
+      const { openapi } = await OasResolver.resolve(agent.getSchema(), null, { resolveInternal: true })
 
       if (!method) {
-        questions.push({
-          type: 'list',
+        const answers = await inquirer.prompt({
+          //@ts-ignore
+          type: 'autocomplete',
           name: 'method',
-          choices: agent.availableMethods(),
+          pageSize: 15,
+          // suggestOnly: true,
+          source: async (answers: any, search: string) => {
+            const res = fuzzy
+              .filter(search, agent.availableMethods())
+              .map((el: any) => (typeof el === 'string' ? el : el.original))
+            return res
+          },
           message: 'Method',
         })
+        method = answers.method
       }
+      const methodApi = openapi.components.methods[method]
 
       if (!argsString && !argsFile) {
-        questions.push({
-          type: 'input',
-          name: 'argsString',
-          message: 'Arguments JSON',
-        })
+        // parse schema, generate options
+
+        const questions = []
+        // console.log(methodApi.arguments.type)
+        if (methodApi.arguments.type === 'object') {
+          for (const property in methodApi.arguments.properties) {
+            const propertySchema = methodApi.arguments.properties[property]
+            // console.log({property, propertySchema})
+            let question: any = {
+              name: property,
+              message: property + ' - ' + propertySchema.description,
+            }
+
+            // TODO handle anyOf
+            switch (propertySchema.type) {
+              case 'string':
+                question.type = 'input'
+                break
+              case 'number':
+                question.type = 'number'
+                break
+              case 'boolean':
+                question.type = 'confirm'
+                break
+              // TODO
+              case 'array':
+              case 'object':
+              default:
+                console.log(`Method argument type ${propertySchema.type} not supported yet`)
+                process.exit(1)
+            }
+
+            if (question.type) {
+              if (propertySchema.enum) {
+                question.type = 'list'
+                question.choices = propertySchema.enum
+              }
+              questions.push(question)
+            }
+          }
+        }
+
+        argsObj = await inquirer.prompt(questions)
+      } else {
+        if (argsFile) {
+          console.log({ argsFile })
+          argsString = fs.readFileSync(argsFile)
+        }
+        argsObj = JSON.parse(argsString)
       }
 
-      if (questions.length > 0) {
-        const answers = await inquirer.prompt(questions)
-        if (!method) {
-          method = answers.method
-        }
-        if (!argsString && answers.argsString) {
-          argsString = answers.argsString
-        }
-      }
-      if (argsFile) {
-        console.log({ argsFile })
-        argsString = fs.readFileSync(argsFile)
-      }
-
-      const argsObj = argsString && argsString.length > 0 ? JSON.parse(argsString) : {}
       const result = await agent.execute(method, argsObj)
+
+      if (methodApi.returnType.description) {
+        console.log(methodApi.returnType.description + '\n')
+      }
       console.log(result)
     } catch (e) {
       console.error(e.message)
