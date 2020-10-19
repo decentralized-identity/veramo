@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.37](https://github.com/uport-project/daf/compare/v7.0.0-beta.36...v7.0.0-beta.37) (2020-10-19)
+
+**Note:** Version bump only for package daf-react-native-libsodium
+
+
+
+
+
 # [7.0.0-beta.36](https://github.com/uport-project/daf/compare/v7.0.0-beta.35...v7.0.0-beta.36) (2020-10-18)
 
 **Note:** Version bump only for package daf-react-native-libsodium
