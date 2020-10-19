@@ -61,6 +61,10 @@ program
 
             // TODO handle anyOf
             switch (propertySchema.type) {
+              case 'object':
+                question.type = 'input'
+                question.filter = (input: string) => JSON.parse(input === '' ? '{}' : input)
+                break
               case 'string':
                 question.type = 'input'
                 break
@@ -72,7 +76,6 @@ program
                 break
               // TODO
               case 'array':
-              case 'object':
               default:
                 console.log(`Method argument type ${propertySchema.type} not supported yet`)
                 process.exit(1)
