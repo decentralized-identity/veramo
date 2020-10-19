@@ -7,6 +7,7 @@ import {
   VerifiablePresentation,
 } from 'daf-core'
 import { IDataStoreORM } from 'daf-typeorm'
+import { ICredentialIssuer } from 'daf-w3c'
 
 /**
  * Used for requesting Credentials using Selective Disclosure.
@@ -169,6 +170,42 @@ export interface IValidatePresentationAgainstSdrArgs {
 }
 
 /**
+ * Profile data
+ *
+ * @beta
+ */
+export interface ICreateProfileCredentialsArgs {
+  /**
+   * Holder DID
+   */
+  holder: string
+  /**
+   * Optional. Verifier DID
+   */
+  verifier?: string
+  /**
+   * Optional. Name
+   */
+  name?: string
+  /**
+   * Optional. Picture URL
+   */
+  picture?: string
+  /**
+   * Optional. URL
+   */
+  url?: string
+  /**
+   * Save presentation
+   */
+  save: boolean
+  /**
+   * Send presentation
+   */
+  send: boolean
+}
+
+/**
  * Describes the interface of a Selective Disclosure plugin.
  *
  * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
@@ -188,4 +225,8 @@ export interface ISelectiveDisclosure extends IPluginMethodMap {
     args: IValidatePresentationAgainstSdrArgs,
     context: IAgentContext<{}>,
   ): Promise<IPresentationValidationResult>
+  createProfilePresentation(
+    args: ICreateProfileCredentialsArgs,
+    context: IAgentContext<ICredentialIssuer & IIdentityManager>,
+  ): Promise<VerifiablePresentation>
 }

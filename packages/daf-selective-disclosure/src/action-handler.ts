@@ -1,5 +1,13 @@
-import { IAgentContext, IIdentityManager, IKeyManager, IAgentPlugin } from 'daf-core'
+import {
+  IAgentContext,
+  IIdentityManager,
+  IKeyManager,
+  IAgentPlugin,
+  VerifiablePresentation,
+  VerifiableCredential,
+} from 'daf-core'
 import { IDataStoreORM, TClaimsColumns, FindArgs } from 'daf-typeorm'
+import { ICredentialIssuer } from 'daf-w3c'
 import {
   ICredentialsForSdr,
   IPresentationValidationResult,
@@ -8,6 +16,7 @@ import {
   IGetVerifiableCredentialsForSdrArgs,
   IValidatePresentationAgainstSdrArgs,
   ISelectiveDisclosureRequest,
+  ICreateProfileCredentialsArgs,
 } from './types'
 import schema from './schemas/ISelectiveDisclosure'
 import { createJWT } from 'did-jwt'
@@ -33,6 +42,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
       createSelectiveDisclosureRequest: this.createSelectiveDisclosureRequest,
       getVerifiableCredentialsForSdr: this.getVerifiableCredentialsForSdr,
       validatePresentationAgainstSdr: this.validatePresentationAgainstSdr,
+      createProfilePresentation: this.createProfilePresentation,
     }
   }
 
@@ -199,5 +209,100 @@ export class SelectiveDisclosure implements IAgentPlugin {
       })
     }
     return { valid, claims }
+  }
+
+  /**
+   * Creates profile credentials
+   *
+   * @beta
+   */
+  async createProfilePresentation(
+    args: ICreateProfileCredentialsArgs,
+    context: IAgentContext<ICredentialIssuer & IIdentityManager>,
+  ): Promise<VerifiablePresentation> {
+    const identity = await context.agent.identityManagerGetIdentity({ did: args.holder })
+
+    const credentials = []
+
+    if (args.name) {
+      const credential = await context.agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: identity.did },
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          type: ['VerifiableCredential', 'Profile'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: identity.did,
+            name: args.name,
+          },
+        },
+        proofFormat: 'jwt',
+      })
+
+      credentials.push(credential)
+    }
+
+    if (args.picture) {
+      const credential = await context.agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: identity.did },
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          type: ['VerifiableCredential', 'Profile'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: identity.did,
+            picture: args.picture,
+          },
+        },
+        proofFormat: 'jwt',
+      })
+
+      credentials.push(credential)
+    }
+
+    if (args.url) {
+      const credential = await context.agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: identity.did },
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          type: ['VerifiableCredential', 'Profile'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: identity.did,
+            url: args.url,
+          },
+        },
+        proofFormat: 'jwt',
+      })
+
+      credentials.push(credential)
+    }
+
+    const profile = await context.agent.createVerifiablePresentation({
+      presentation: {
+        verifier: args.holder ? [args.holder] : [],
+        holder: identity.did,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiablePresentation', 'Profile'],
+        issuanceDate: new Date().toISOString(),
+        verifiableCredential: credentials,
+      },
+      proofFormat: 'jwt',
+      save: args.save,
+    })
+
+    if (args.verifier && args.send) {
+      await context.agent.sendMessageDIDCommAlpha1({
+        save: args.save,
+        data: {
+          from: identity.did,
+          to: args.verifier,
+          type: 'jwt',
+          body: profile.proof.jwt,
+        },
+      })
+    }
+
+    return profile
   }
 }

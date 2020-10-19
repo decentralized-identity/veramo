@@ -13,6 +13,150 @@
 readonly schema: {
         components: {
             schemas: {
+                ICreateProfileCredentialsArgs: {
+                    type: string;
+                    properties: {
+                        holder: {
+                            type: string;
+                        };
+                        verifier: {
+                            type: string;
+                        };
+                        name: {
+                            type: string;
+                        };
+                        picture: {
+                            type: string;
+                        };
+                        url: {
+                            type: string;
+                        };
+                        save: {
+                            type: string;
+                        };
+                        send: {
+                            type: string;
+                        };
+                    };
+                    required: string[];
+                    description: string;
+                };
+                VerifiablePresentation: {
+                    type: string;
+                    properties: {
+                        id: {
+                            type: string;
+                        };
+                        holder: {
+                            type: string;
+                        };
+                        issuanceDate: {
+                            type: string;
+                        };
+                        expirationDate: {
+                            type: string;
+                        };
+                        "@context": {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
+                        };
+                        type: {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
+                        };
+                        verifier: {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
+                        };
+                        verifiableCredential: {
+                            type: string;
+                            items: {
+                                $ref: string;
+                            };
+                        };
+                        proof: {
+                            type: string;
+                            properties: {
+                                type: {
+                                    type: string;
+                                };
+                            };
+                        };
+                    };
+                    required: string[];
+                    description: string;
+                };
+                VerifiableCredential: {
+                    type: string;
+                    properties: {
+                        "@context": {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
+                        };
+                        id: {
+                            type: string;
+                        };
+                        type: {
+                            type: string;
+                            items: {
+                                type: string;
+                            };
+                        };
+                        issuer: {
+                            type: string;
+                            properties: {
+                                id: {
+                                    type: string;
+                                };
+                            };
+                            required: string[];
+                        };
+                        issuanceDate: {
+                            type: string;
+                        };
+                        expirationDate: {
+                            type: string;
+                        };
+                        credentialSubject: {
+                            type: string;
+                            properties: {
+                                id: {
+                                    type: string;
+                                };
+                            };
+                        };
+                        credentialStatus: {
+                            type: string;
+                            properties: {
+                                id: {
+                                    type: string;
+                                };
+                                type: {
+                                    type: string;
+                                };
+                            };
+                            required: string[];
+                        };
+                        proof: {
+                            type: string;
+                            properties: {
+                                type: {
+                                    type: string;
+                                };
+                            };
+                        };
+                    };
+                    required: string[];
+                    description: string;
+                };
                 ICreateSelectiveDisclosureRequestArgs: {
                     type: string;
                     properties: {
@@ -199,71 +343,6 @@ readonly schema: {
                     required: string[];
                     description: string;
                 };
-                VerifiableCredential: {
-                    type: string;
-                    properties: {
-                        "@context": {
-                            type: string;
-                            items: {
-                                type: string;
-                            };
-                        };
-                        id: {
-                            type: string;
-                        };
-                        type: {
-                            type: string;
-                            items: {
-                                type: string;
-                            };
-                        };
-                        issuer: {
-                            type: string;
-                            properties: {
-                                id: {
-                                    type: string;
-                                };
-                            };
-                            required: string[];
-                        };
-                        issuanceDate: {
-                            type: string;
-                        };
-                        expirationDate: {
-                            type: string;
-                        };
-                        credentialSubject: {
-                            type: string;
-                            properties: {
-                                id: {
-                                    type: string;
-                                };
-                            };
-                        };
-                        credentialStatus: {
-                            type: string;
-                            properties: {
-                                id: {
-                                    type: string;
-                                };
-                                type: {
-                                    type: string;
-                                };
-                            };
-                            required: string[];
-                        };
-                        proof: {
-                            type: string;
-                            properties: {
-                                type: {
-                                    type: string;
-                                };
-                            };
-                        };
-                    };
-                    required: string[];
-                    description: string;
-                };
                 IValidatePresentationAgainstSdrArgs: {
                     type: string;
                     properties: {
@@ -272,57 +351,6 @@ readonly schema: {
                         };
                         sdr: {
                             $ref: string;
-                        };
-                    };
-                    required: string[];
-                    description: string;
-                };
-                VerifiablePresentation: {
-                    type: string;
-                    properties: {
-                        id: {
-                            type: string;
-                        };
-                        holder: {
-                            type: string;
-                        };
-                        issuanceDate: {
-                            type: string;
-                        };
-                        expirationDate: {
-                            type: string;
-                        };
-                        "@context": {
-                            type: string;
-                            items: {
-                                type: string;
-                            };
-                        };
-                        type: {
-                            type: string;
-                            items: {
-                                type: string;
-                            };
-                        };
-                        verifier: {
-                            type: string;
-                            items: {
-                                type: string;
-                            };
-                        };
-                        verifiableCredential: {
-                            type: string;
-                            items: {
-                                $ref: string;
-                            };
-                        };
-                        proof: {
-                            type: string;
-                            properties: {
-                                type: {
-                                    type: string;
-                                };
-                            };
                         };
                     };
                     required: string[];
@@ -346,6 +374,15 @@ readonly schema: {
                 };
             };
             methods: {
+                createProfilePresentation: {
+                    description: string;
+                    arguments: {
+                        $ref: string;
+                    };
+                    returnType: {
+                        $ref: string;
+                    };
+                };
                 createSelectiveDisclosureRequest: {
                     description: string;
                     arguments: {

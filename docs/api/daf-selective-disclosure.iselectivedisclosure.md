@@ -24,6 +24,7 @@ See [Selective Disclosure Request](https://github.com/uport-project/specs/blob/d
 
 |  Method | Description |
 |  --- | --- |
+|  [createProfilePresentation(args, context)](./daf-selective-disclosure.iselectivedisclosure.createprofilepresentation.md) | <b><i>(BETA)</i></b> |
 |  [createSelectiveDisclosureRequest(args, context)](./daf-selective-disclosure.iselectivedisclosure.createselectivedisclosurerequest.md) | <b><i>(BETA)</i></b> |
 |  [getVerifiableCredentialsForSdr(args, context)](./daf-selective-disclosure.iselectivedisclosure.getverifiablecredentialsforsdr.md) | <b><i>(BETA)</i></b> |
 |  [validatePresentationAgainstSdr(args, context)](./daf-selective-disclosure.iselectivedisclosure.validatepresentationagainstsdr.md) | <b><i>(BETA)</i></b> |

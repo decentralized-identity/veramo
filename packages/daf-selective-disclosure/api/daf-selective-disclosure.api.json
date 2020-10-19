@@ -17,6 +17,197 @@
       "members": [
         {
           "kind": "Interface",
+          "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs:interface",
+          "docComment": "/**\n * Profile data\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICreateProfileCredentialsArgs "
+            }
+          ],
+          "releaseTag": "Beta",
+          "name": "ICreateProfileCredentialsArgs",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs#holder:member",
+              "docComment": "/**\n * Holder DID\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "holder: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "holder",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs#name:member",
+              "docComment": "/**\n * Optional. Name\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "name?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "name",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs#picture:member",
+              "docComment": "/**\n * Optional. Picture URL\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "picture?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "picture",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs#save:member",
+              "docComment": "/**\n * Save presentation\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "save: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "save",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs#send:member",
+              "docComment": "/**\n * Send presentation\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "send: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "send",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs#url:member",
+              "docComment": "/**\n * Optional. URL\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "url?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "url",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs#verifier:member",
+              "docComment": "/**\n * Optional. Verifier DID\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "verifier?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Beta",
+              "name": "verifier",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
           "canonicalReference": "daf-selective-disclosure!ICreateSelectiveDisclosureRequestArgs:interface",
           "docComment": "/**\n * Contains the parameters of a Selective Disclosure Request.\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request} specs\n *\n * @beta\n */\n",
           "excerptTokens": [
@@ -486,6 +677,102 @@
           "releaseTag": "Beta",
           "name": "ISelectiveDisclosure",
           "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosure#createProfilePresentation:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createProfilePresentation(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICreateProfileCredentialsArgs",
+                  "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICredentialIssuer",
+                  "canonicalReference": "daf-w3c!ICredentialIssuer:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManager",
+                  "canonicalReference": "daf-core!IIdentityManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifiablePresentation",
+                  "canonicalReference": "daf-core!VerifiablePresentation:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 14
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 9
+                  }
+                }
+              ],
+              "name": "createProfilePresentation"
+            },
             {
               "kind": "MethodSignature",
               "canonicalReference": "daf-selective-disclosure!ISelectiveDisclosure#createSelectiveDisclosureRequest:member(1)",
@@ -1236,6 +1523,103 @@
             },
             {
               "kind": "Method",
+              "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure#createProfilePresentation:member(1)",
+              "docComment": "/**\n * Creates profile credentials\n *\n * @beta\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createProfilePresentation(args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICreateProfileCredentialsArgs",
+                  "canonicalReference": "daf-selective-disclosure!ICreateProfileCredentialsArgs:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", context: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAgentContext",
+                  "canonicalReference": "daf-core!IAgentContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICredentialIssuer",
+                  "canonicalReference": "daf-w3c!ICredentialIssuer:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IIdentityManager",
+                  "canonicalReference": "daf-core!IIdentityManager:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifiablePresentation",
+                  "canonicalReference": "daf-core!VerifiablePresentation:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 14
+              },
+              "releaseTag": "Beta",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "context",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 9
+                  }
+                }
+              ],
+              "name": "createProfilePresentation"
+            },
+            {
+              "kind": "Method",
               "canonicalReference": "daf-selective-disclosure!SelectiveDisclosure#createSelectiveDisclosureRequest:member(1)",
               "docComment": "/**\n * Creates a Selective disclosure request, encoded as a JWT.\n *\n * @remarks\n *\n * See {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}\n *\n * @param args - The param object with the properties necessary to create the request. See {@link ISelectiveDisclosureRequest}\n *\n * @param context - *RESERVED* This is filled by the framework when the method is called.\n *\n * @beta\n */\n",
               "excerptTokens": [
@@ -1448,7 +1832,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "{\n        components: {\n            schemas: {\n                ICreateSelectiveDisclosureRequestArgs: {\n                    type: string;\n                    properties: {\n                        data: {\n                            $ref: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                ISelectiveDisclosureRequest: {\n                    type: string;\n                    properties: {\n                        issuer: {\n                            type: string;\n                            description: string;\n                        };\n                        subject: {\n                            type: string;\n                            description: string;\n                        };\n                        replyUrl: {\n                            type: string;\n                            description: string;\n                        };\n                        tag: {\n                            type: string;\n                        };\n                        claims: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        credentials: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                ICredentialRequestInput: {\n                    type: string;\n                    properties: {\n                        reason: {\n                            type: string;\n                            description: string;\n                        };\n                        essential: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialType: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialContext: {\n                            type: string;\n                            description: string;\n                        };\n                        claimType: {\n                            type: string;\n                            description: string;\n                        };\n                        claimValue: {\n                            type: string;\n                            description: string;\n                        };\n                        issuers: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                Issuer: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        url: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                IGetVerifiableCredentialsForSdrArgs: {\n                    type: string;\n                    properties: {\n                        sdr: {\n                            type: string;\n                            properties: {\n                                subject: {\n                                    type: string;\n                                    description: string;\n                                };\n                                replyUrl: {\n                                    type: string;\n                                    description: string;\n                                };\n                                tag: {\n                                    type: string;\n                                };\n                                claims: {\n                                    type: string;\n                                    items: {\n                                        $ref: string;\n                                    };\n                                    description: string;\n                                };\n                                credentials: {\n                                    type: string;\n                                    items: {\n                                        type: string;\n                                    };\n                                    description: string;\n                                };\n                            };\n                            required: string[];\n                            description: string;\n                        };\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                ICredentialsForSdr: {\n                    type: string;\n                    properties: {\n                        reason: {\n                            type: string;\n                            description: string;\n                        };\n                        essential: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialType: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialContext: {\n                            type: string;\n                            description: string;\n                        };\n                        claimType: {\n                            type: string;\n                            description: string;\n                        };\n                        claimValue: {\n                            type: string;\n                            description: string;\n                        };\n                        issuers: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        credentials: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                VerifiableCredential: {\n                    type: string;\n                    properties: {\n                        \"@context\": {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        id: {\n                            type: string;\n                        };\n                        type: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        issuer: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                        credentialSubject: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                        };\n                        credentialStatus: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                                type: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        proof: {\n                            type: string;\n                            properties: {\n                                type: {\n                                    type: string;\n                                };\n                            };\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                IValidatePresentationAgainstSdrArgs: {\n                    type: string;\n                    properties: {\n                        presentation: {\n                            $ref: string;\n                        };\n                        sdr: {\n                            $ref: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                VerifiablePresentation: {\n                    type: string;\n                    properties: {\n                        id: {\n                            type: string;\n                        };\n                        holder: {\n                            type: string;\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                        \"@context\": {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        type: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        verifier: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        verifiableCredential: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                        proof: {\n                            type: string;\n                            properties: {\n                                type: {\n                                    type: string;\n                                };\n                            };\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                IPresentationValidationResult: {\n                    type: string;\n                    properties: {\n                        valid: {\n                            type: string;\n                        };\n                        claims: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n            };\n            methods: {\n                createSelectiveDisclosureRequest: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n                getVerifiableCredentialsForSdr: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                        items: {\n                            $ref: string;\n                        };\n                    };\n                };\n                validatePresentationAgainstSdr: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n            };\n        };\n    }"
+                  "text": "{\n        components: {\n            schemas: {\n                ICreateProfileCredentialsArgs: {\n                    type: string;\n                    properties: {\n                        holder: {\n                            type: string;\n                        };\n                        verifier: {\n                            type: string;\n                        };\n                        name: {\n                            type: string;\n                        };\n                        picture: {\n                            type: string;\n                        };\n                        url: {\n                            type: string;\n                        };\n                        save: {\n                            type: string;\n                        };\n                        send: {\n                            type: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                VerifiablePresentation: {\n                    type: string;\n                    properties: {\n                        id: {\n                            type: string;\n                        };\n                        holder: {\n                            type: string;\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                        \"@context\": {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        type: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        verifier: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        verifiableCredential: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                        proof: {\n                            type: string;\n                            properties: {\n                                type: {\n                                    type: string;\n                                };\n                            };\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                VerifiableCredential: {\n                    type: string;\n                    properties: {\n                        \"@context\": {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        id: {\n                            type: string;\n                        };\n                        type: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                        };\n                        issuer: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        issuanceDate: {\n                            type: string;\n                        };\n                        expirationDate: {\n                            type: string;\n                        };\n                        credentialSubject: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                            };\n                        };\n                        credentialStatus: {\n                            type: string;\n                            properties: {\n                                id: {\n                                    type: string;\n                                };\n                                type: {\n                                    type: string;\n                                };\n                            };\n                            required: string[];\n                        };\n                        proof: {\n                            type: string;\n                            properties: {\n                                type: {\n                                    type: string;\n                                };\n                            };\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                ICreateSelectiveDisclosureRequestArgs: {\n                    type: string;\n                    properties: {\n                        data: {\n                            $ref: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                ISelectiveDisclosureRequest: {\n                    type: string;\n                    properties: {\n                        issuer: {\n                            type: string;\n                            description: string;\n                        };\n                        subject: {\n                            type: string;\n                            description: string;\n                        };\n                        replyUrl: {\n                            type: string;\n                            description: string;\n                        };\n                        tag: {\n                            type: string;\n                        };\n                        claims: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        credentials: {\n                            type: string;\n                            items: {\n                                type: string;\n                            };\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                ICredentialRequestInput: {\n                    type: string;\n                    properties: {\n                        reason: {\n                            type: string;\n                            description: string;\n                        };\n                        essential: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialType: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialContext: {\n                            type: string;\n                            description: string;\n                        };\n                        claimType: {\n                            type: string;\n                            description: string;\n                        };\n                        claimValue: {\n                            type: string;\n                            description: string;\n                        };\n                        issuers: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                Issuer: {\n                    type: string;\n                    properties: {\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                        url: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                IGetVerifiableCredentialsForSdrArgs: {\n                    type: string;\n                    properties: {\n                        sdr: {\n                            type: string;\n                            properties: {\n                                subject: {\n                                    type: string;\n                                    description: string;\n                                };\n                                replyUrl: {\n                                    type: string;\n                                    description: string;\n                                };\n                                tag: {\n                                    type: string;\n                                };\n                                claims: {\n                                    type: string;\n                                    items: {\n                                        $ref: string;\n                                    };\n                                    description: string;\n                                };\n                                credentials: {\n                                    type: string;\n                                    items: {\n                                        type: string;\n                                    };\n                                    description: string;\n                                };\n                            };\n                            required: string[];\n                            description: string;\n                        };\n                        did: {\n                            type: string;\n                            description: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                ICredentialsForSdr: {\n                    type: string;\n                    properties: {\n                        reason: {\n                            type: string;\n                            description: string;\n                        };\n                        essential: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialType: {\n                            type: string;\n                            description: string;\n                        };\n                        credentialContext: {\n                            type: string;\n                            description: string;\n                        };\n                        claimType: {\n                            type: string;\n                            description: string;\n                        };\n                        claimValue: {\n                            type: string;\n                            description: string;\n                        };\n                        issuers: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                            description: string;\n                        };\n                        credentials: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                IValidatePresentationAgainstSdrArgs: {\n                    type: string;\n                    properties: {\n                        presentation: {\n                            $ref: string;\n                        };\n                        sdr: {\n                            $ref: string;\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n                IPresentationValidationResult: {\n                    type: string;\n                    properties: {\n                        valid: {\n                            type: string;\n                        };\n                        claims: {\n                            type: string;\n                            items: {\n                                $ref: string;\n                            };\n                        };\n                    };\n                    required: string[];\n                    description: string;\n                };\n            };\n            methods: {\n                createProfilePresentation: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n                createSelectiveDisclosureRequest: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                    };\n                };\n                getVerifiableCredentialsForSdr: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        type: string;\n                        items: {\n                            $ref: string;\n                        };\n                    };\n                };\n                validatePresentationAgainstSdr: {\n                    description: string;\n                    arguments: {\n                        $ref: string;\n                    };\n                    returnType: {\n                        $ref: string;\n                    };\n                };\n            };\n        };\n    }"
                 },
                 {
                   "kind": "Content",

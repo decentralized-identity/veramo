@@ -17,6 +17,7 @@ Provides a [plugin](./daf-selective-disclosure.iselectivedisclosure.md) for the 
 
 |  Interface | Description |
 |  --- | --- |
+|  [ICreateProfileCredentialsArgs](./daf-selective-disclosure.icreateprofilecredentialsargs.md) | <b><i>(BETA)</i></b> Profile data |
 |  [ICreateSelectiveDisclosureRequestArgs](./daf-selective-disclosure.icreateselectivedisclosurerequestargs.md) | <b><i>(BETA)</i></b> Contains the parameters of a Selective Disclosure Request. |
 |  [ICredentialRequestInput](./daf-selective-disclosure.icredentialrequestinput.md) | <b><i>(BETA)</i></b> Describes a particular credential that is being requested |
 |  [ICredentialsForSdr](./daf-selective-disclosure.icredentialsforsdr.md) | <b><i>(BETA)</i></b> The credentials that make up a response of a Selective Disclosure |
