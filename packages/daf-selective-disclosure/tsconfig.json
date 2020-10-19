@@ -9,6 +9,7 @@
     { "path": "../daf-core" },
     { "path": "../daf-did-jwt" },
     { "path": "../daf-message-handler" },
-    { "path": "../daf-typeorm" }
+    { "path": "../daf-typeorm" },
+    { "path": "../daf-w3c" }
   ]
 }
