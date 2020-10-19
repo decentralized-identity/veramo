@@ -34,6 +34,12 @@ program
       },
       {
         type: 'input',
+        name: 'type',
+        message: 'Credential Type',
+        default: 'VerifiableCredential,Profile',
+      },
+      {
+        type: 'input',
         name: 'claimType',
         message: 'Claim Type',
         default: 'name',
@@ -63,7 +69,7 @@ program
     const credential: W3CCredential = {
       issuer: { id: answers.iss },
       '@context': ['https://www.w3.org/2018/credentials/v1'],
-      type: ['VerifiableCredential'],
+      type: answers.type.split(','),
       issuanceDate: new Date().toISOString(),
       credentialSubject,
     }
@@ -137,9 +143,10 @@ program
 
     const identities = [
       {
-        name: 'Enter manualy',
+        name: 'Enter manually',
         value: 'manual',
       },
+      ...ids.map((id) => id.did),
     ]
 
     let aud = null
@@ -152,18 +159,25 @@ program
           value: item.did,
         })),
 
-        message: 'Issuer DID',
+        message: 'Holder DID',
       },
       {
         type: 'input',
         name: 'tag',
-        message: 'Tag',
+        message: 'Tag (threadId)',
+        default: 'xyz123',
       },
       {
         type: 'list',
         name: 'aud',
-        message: 'Audience DID',
-        choices: ids.map((id) => id.did),
+        message: 'Verifier DID',
+        choices: identities,
+      },
+      {
+        type: 'input',
+        name: 'type',
+        message: 'Presentation type',
+        default: 'VerifiablePresentation,Profile',
       },
     ])
 
@@ -172,7 +186,7 @@ program
         {
           type: 'input',
           name: 'aud',
-          message: 'Enter audience DID',
+          message: 'Enter Verifier DID',
         },
       ])
       aud = audAnswer.aud
@@ -192,7 +206,7 @@ program
             JSON.stringify(credential.verifiableCredential.credentialSubject) +
             ' | Issuer: ' +
             credential.verifiableCredential.issuer.id,
-          value: credential,
+          value: credential.verifiableCredential,
         })
       }
 
@@ -228,7 +242,7 @@ program
           verifier: [aud],
           tag: answers.tag,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiablePresentation'],
+          type: answers.type.split(','),
           issuanceDate: new Date().toISOString(),
           verifiableCredential,
         },

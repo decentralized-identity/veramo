@@ -38,14 +38,13 @@ export class SdrMessageHandler extends AbstractMessageHandler {
       message.from = message.data.iss
 
       if (message.data.replyTo) {
-
         message.replyTo = Array.isArray(message.data.replyTo)
-        ? message.data.replyTo
-        : message.data.replyTo
-        ? [message.data.replyTo]
-        : undefined
+          ? message.data.replyTo
+          : message.data.replyTo
+          ? [message.data.replyTo]
+          : undefined
       }
-      
+
       if (message.data.replyUrl) {
         message.replyUrl = message.data.replyUrl
       }
@@ -54,7 +53,9 @@ export class SdrMessageHandler extends AbstractMessageHandler {
         message.to = message.data.subject
       }
 
-      message.threadId = message.data.tag
+      if (message.data.tag) {
+        message.threadId = message.data.tag
+      }
       message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat).toISOString()
 
       if (

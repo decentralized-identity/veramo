@@ -12,6 +12,17 @@ program
   .action(async (cmd) => {
     const agent = getAgent(program.config)
     const identities = await agent.identityManagerGetIdentities()
+
+    const knownDids = await agent.dataStoreORMGetIdentities()
+
+    const subjects = [
+      {
+        name: 'None',
+        value: '',
+      },
+      ...knownDids.map((id) => id.did),
+    ]
+
     if (identities.length === 0) {
       console.error('No dids')
       process.exit()
@@ -24,14 +35,15 @@ program
         message: 'Issuer DID',
       },
       {
-        type: 'input',
+        type: 'list',
         name: 'sub',
-        message: 'Subject DID (can be empty)',
+        message: 'Subject DID',
+        choices: subjects,
       },
       {
         type: 'input',
         name: 'tag',
-        message: 'Tag',
+        message: 'Tag (threadId)',
       },
     ])
 
@@ -182,14 +194,19 @@ program
       }
     }
 
+    const data: any = {
+      issuer: answers.iss,
+      claims,
+      credentials,
+    }
+    if (answers.tag !== '') {
+      data.tag = answers.tag
+    }
+    if (answers.sub !== '') {
+      data.subject = answers.sub
+    }
     const jwt = await agent.createSelectiveDisclosureRequest({
-      data: {
-        issuer: answers.iss,
-        subject: answers.sub === '' ? undefined : answers.sub,
-        tag: answers.tag === '' ? undefined : answers.tag,
-        claims,
-        credentials,
-      },
+      data,
     })
 
     if (!cmd.send) {
@@ -215,6 +232,7 @@ program
     if (cmd.qrcode) {
       qrcode.generate(jwt)
     } else {
+      console.dir(data, { depth: 10 })
       console.log(`jwt: ${jwt}`)
     }
   })

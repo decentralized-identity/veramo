@@ -7,8 +7,6 @@ const fs = require('fs')
 const OasResolver = require('oas-resolver')
 const fuzzy = require('fuzzy')
 
-inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
-
 program
   .command('execute')
   .description('Executes agent method')
@@ -64,6 +62,7 @@ program
               case 'object':
                 question.type = 'input'
                 question.filter = (input: string) => JSON.parse(input === '' ? '{}' : input)
+                question.transformer = (input: object) => JSON.stringify(input)
                 break
               case 'string':
                 question.type = 'input'
@@ -100,12 +99,16 @@ program
         argsObj = JSON.parse(argsString)
       }
 
+      console.log('\nMethod: ', method)
+      console.log('\nArguments: ', JSON.stringify(argsObj, null, 2))
+
       const result = await agent.execute(method, argsObj)
 
-      if (methodApi.returnType.description) {
-        console.log(methodApi.returnType.description + '\n')
-      }
-      console.log(result)
+      console.log(
+        '\nResult',
+        methodApi.returnType.description ? `(${methodApi.returnType.description}):` : ':',
+        JSON.stringify(result, null, 2),
+      )
     } catch (e) {
       console.error(e.message)
     }
