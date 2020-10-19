@@ -94,68 +94,6 @@ program
           },
         )
 
-        const publicProfileServiceEndpoint = baseUrl + options.defaultIdentity.publicProfileServiceEndpoint
-
-        await agent.identityManagerAddService({
-          did: serverIdentity.did,
-          service: {
-            id: serverIdentity.did + '#pub',
-            type: 'PublicProfile',
-            description: 'Public profile verifiable presentation',
-            serviceEndpoint: publicProfileServiceEndpoint,
-          },
-        })
-        console.log('🌍 Public Profile', publicProfileServiceEndpoint)
-
-        app.get(options.defaultIdentity.publicProfileServiceEndpoint, async (req, res) => {
-          try {
-            const nameCredential = await agent.createVerifiableCredential({
-              credential: {
-                issuer: { id: serverIdentity.did },
-                '@context': ['https://www.w3.org/2018/credentials/v1'],
-                type: ['VerifiableCredential'],
-                issuanceDate: new Date().toISOString(),
-                credentialSubject: {
-                  id: serverIdentity.did,
-                  name: options.defaultIdentity.publicName,
-                },
-              },
-              proofFormat: 'jwt',
-            })
-
-            const pictureCredential = await agent.createVerifiableCredential({
-              credential: {
-                issuer: { id: serverIdentity.did },
-                '@context': ['https://www.w3.org/2018/credentials/v1'],
-                type: ['VerifiableCredential'],
-                issuanceDate: new Date().toISOString(),
-                credentialSubject: {
-                  id: serverIdentity.did,
-                  picture: options.defaultIdentity.publicPicture,
-                },
-              },
-              proofFormat: 'jwt',
-            })
-
-            const publicProfile = await agent.createVerifiablePresentation({
-              presentation: {
-                verifier: [],
-                holder: serverIdentity.did,
-                '@context': ['https://www.w3.org/2018/credentials/v1'],
-                type: ['VerifiablePresentation', 'PublicProfile'],
-                issuanceDate: new Date().toISOString(),
-                verifiableCredential: [nameCredential, pictureCredential],
-              },
-              proofFormat: 'jwt',
-            })
-
-            res.json(publicProfile)
-          } catch (e) {
-            console.log(e)
-            res.send(e.message)
-          }
-        })
-
         const didDocEndpoint = '/.well-known/did.json'
         app.get(didDocEndpoint, async (req, res) => {
           serverIdentity = await agent.identityManagerGetOrCreateIdentity({

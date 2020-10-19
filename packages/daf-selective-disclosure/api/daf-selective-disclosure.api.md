@@ -150,24 +150,31 @@ export class SelectiveDisclosure implements IAgentPlugin {
           properties: {
             holder: {
               type: string
+              description: string
             }
             verifier: {
               type: string
+              description: string
             }
             name: {
               type: string
+              description: string
             }
             picture: {
               type: string
+              description: string
             }
             url: {
               type: string
+              description: string
             }
             save: {
               type: string
+              description: string
             }
             send: {
               type: string
+              description: string
             }
           }
           required: string[]
@@ -199,6 +206,16 @@ export class SelectiveDisclosure implements IAgentPlugin {
               items: {
                 type: string
               }
+              /**
+               * Creates a Selective disclosure request, encoded as a JWT.
+               *
+               * @remarks See {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
+               *
+               * @param args - The param object with the properties necessary to create the request. See {@link ISelectiveDisclosureRequest}
+               * @param context - *RESERVED* This is filled by the framework when the method is called.
+               *
+               * @beta
+               */
             }
             verifier: {
               type: string

@@ -3,9 +3,11 @@ import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
+import { shortDate, shortDid } from './data-explorer/utils'
+import { VerifiableCredential } from 'daf-core'
 
 program
-  .command('sdr')
+  .command('sdr-create')
   .description('Create Selective Disclosure Request')
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
@@ -235,4 +237,98 @@ program
       console.dir(data, { depth: 10 })
       console.log(`jwt: ${jwt}`)
     }
+  })
+
+program
+  .command('sdr-reply')
+  .description('Reply to Selective Disclosure Request')
+  .action(async (cmd) => {
+    const agent = getAgent(program.config)
+    const sdrMessages = await agent.dataStoreORMGetMessages({
+      where: [{ column: 'type', value: ['sdr'] }],
+      order: [{ column: 'createdAt', direction: 'DESC' }],
+    })
+
+    const list = sdrMessages.map((message) => ({
+      //FIXME
+      //@ts-ignore
+      name:
+        shortDate(message.createdAt) +
+        ' ' +
+        shortDid(message.from) +
+        ' asking to share: ' +
+        message.data?.claims?.map((claim) => claim.claimType).join(','),
+      value: message,
+    }))
+
+    const { message } = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'message',
+        choices: list,
+        message: 'Selective disclosure request',
+      },
+    ])
+    const args: any = {
+      sdr: message.data,
+    }
+    if (message.to) {
+      args.did = message.to
+    }
+    const credentialsForSdr = await agent.getVerifiableCredentialsForSdr(args)
+
+    const questions = []
+
+    for (const item of credentialsForSdr) {
+      questions.push({
+        type: 'checkbox',
+        name: item.claimType + ' ' + (item.essential ? '(essential)' : '') + item.reason,
+        choices: item.credentials.map((c) => ({
+          name:
+            c.credentialSubject[item.claimType] +
+            ' (' +
+            c.type.join(',') +
+            ') issued by: ' +
+            c.issuer.id +
+            ' ' +
+            shortDate(c.issuanceDate) +
+            ' ago',
+          value: c,
+        })),
+      })
+    }
+
+    const answers = await inquirer.prompt(questions)
+
+    let selectedCredentials: Array<VerifiableCredential> = []
+
+    for (const questionName of Object.keys(answers)) {
+      selectedCredentials = selectedCredentials.concat(answers[questionName])
+    }
+
+    const verifiablePresentation = await agent.createVerifiablePresentation({
+      save: false,
+      presentation: {
+        holder: message.to,
+        verifier: [message.from],
+        tag: message.tag,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiablePresentation'],
+        issuanceDate: new Date().toISOString(),
+        verifiableCredential: selectedCredentials,
+      },
+      proofFormat: 'jwt',
+    })
+
+    await agent.sendMessageDIDCommAlpha1({
+      save: true,
+      data: {
+        from: message.to,
+        to: message.from,
+        type: 'jwt',
+        body: verifiablePresentation.proof.jwt,
+      },
+    })
+
+    console.dir(verifiablePresentation, { depth: 10 })
   })

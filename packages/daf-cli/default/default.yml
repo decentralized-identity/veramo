@@ -7,9 +7,6 @@ server:
   defaultIdentity:
     create: true
     messagingServiceEndpoint: /messaging
-    publicProfileServiceEndpoint: /public-profile
-    publicName: Alice
-    publicPicture: https://picsum.photos/200
   ngrok:
     connect: true
     # authtoken: XZY
