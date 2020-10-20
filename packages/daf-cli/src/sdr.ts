@@ -251,12 +251,12 @@ program
 
     const list = sdrMessages.map((message) => ({
       //FIXME
-      //@ts-ignore
       name:
         shortDate(message.createdAt) +
         ' ' +
         shortDid(message.from) +
         ' asking to share: ' +
+        //@ts-ignore
         message.data?.claims?.map((claim) => claim.claimType).join(','),
       value: message,
     }))
