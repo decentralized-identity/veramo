@@ -33,9 +33,7 @@ program
       console.log('🧩 Available methods', agent.availableMethods().length)
       console.log('🛠  Exposed methods', exposedMethods.length)
 
-      let hostname = options.hostname
-
-      let baseUrl = 'http://' + hostname + ':' + options.port
+      let baseUrl = options.baseUrl
 
       if (options.ngrok?.connect) {
         baseUrl = await ngrok.connect({
@@ -44,8 +42,8 @@ program
           region: options.ngrok.region,
           authtoken: options.ngrok.authtoken,
         })
-        hostname = parse(baseUrl).hostname
       }
+      const hostname = parse(baseUrl).hostname
 
       const openApiSchema = getOpenApiSchema(agent, apiBasePath, exposedMethods)
       openApiSchema.servers = [{ url: baseUrl }]

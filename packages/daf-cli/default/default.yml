@@ -1,5 +1,5 @@
 server:
-  hostname: localhost
+  baseUrl: http://localhost:3332
   port: 3332
   schemaPath: /open-api.json
   apiBasePath: /agent
