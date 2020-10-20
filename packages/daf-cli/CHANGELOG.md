@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.41](https://github.com/uport-project/daf/compare/v7.0.0-beta.40...v7.0.0-beta.41) (2020-10-20)
+
+
+### Bug Fixes
+
+* Use baseUrl in CLI server ([7b18ac6](https://github.com/uport-project/daf/commit/7b18ac61559e56ee260e3073a8fcc67d3065f243))
+
+
+
+
+
 # [7.0.0-beta.40](https://github.com/uport-project/daf/compare/v7.0.0-beta.39...v7.0.0-beta.40) (2020-10-20)
 
 
