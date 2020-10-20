@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.39](https://github.com/uport-project/daf/compare/v7.0.0-beta.38...v7.0.0-beta.39) (2020-10-20)
+
+
+### Bug Fixes
+
+* CLI ([86b6f9e](https://github.com/uport-project/daf/commit/86b6f9e7a97ce29cbdffaf167dd568c66996c0ff))
+
+
+### Features
+
+* Removing profile service CLI ([dc93089](https://github.com/uport-project/daf/commit/dc93089eed40e69bf99946a60aed8f19d34e091b))
+
+
+
+
+
 # [7.0.0-beta.38](https://github.com/uport-project/daf/compare/v7.0.0-beta.37...v7.0.0-beta.38) (2020-10-19)
 
 **Note:** Version bump only for package daf-cli
