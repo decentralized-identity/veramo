@@ -1,7 +1,7 @@
 {
   "name": "daf-typeorm",
   "description": "DAF TypeORM",
-  "version": "7.0.0-beta.39",
+  "version": "7.0.0-beta.40",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -15,9 +15,9 @@
     }
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.39",
-    "daf-identity-manager": "^7.0.0-beta.39",
-    "daf-key-manager": "^7.0.0-beta.39",
+    "daf-core": "^7.0.0-beta.40",
+    "daf-identity-manager": "^7.0.0-beta.40",
+    "daf-key-manager": "^7.0.0-beta.40",
     "debug": "^4.1.1",
     "typeorm": "0.2.24"
   },
