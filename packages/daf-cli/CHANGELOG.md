@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.42](https://github.com/uport-project/daf/compare/v7.0.0-beta.41...v7.0.0-beta.42) (2020-10-20)
+
+
+### Bug Fixes
+
+* CLI sdr flow ([f630b76](https://github.com/uport-project/daf/commit/f630b76cda60d6a0b16d51eb779dfd533bd30756))
+
+
+
+
+
 # [7.0.0-beta.41](https://github.com/uport-project/daf/compare/v7.0.0-beta.40...v7.0.0-beta.41) (2020-10-20)
 
 
