@@ -5,25 +5,18 @@ import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { shortDate, shortDid } from './data-explorer/utils'
 import { VerifiableCredential } from 'daf-core'
+const fuzzy = require('fuzzy')
 
 program
   .command('sdr-create')
   .description('Create Selective Disclosure Request')
-  .option('-s, --send', 'Send')
-  .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
     const identities = await agent.identityManagerGetIdentities()
 
     const knownDids = await agent.dataStoreORMGetIdentities()
 
-    const subjects = [
-      {
-        name: 'None',
-        value: '',
-      },
-      ...knownDids.map((id) => id.did),
-    ]
+    const subjects = [...knownDids.map((id) => id.did)]
 
     if (identities.length === 0) {
       console.error('No dids')
@@ -37,10 +30,17 @@ program
         message: 'Issuer DID',
       },
       {
-        type: 'list',
         name: 'sub',
         message: 'Subject DID',
-        choices: subjects,
+        type: 'autocomplete',
+        pageSize: 15,
+        suggestOnly: true,
+        source: async (answers: any, search: string) => {
+          const res = fuzzy
+            .filter(search, subjects)
+            .map((el: any) => (typeof el === 'string' ? el : el.original))
+          return res
+        },
       },
       {
         type: 'input',
@@ -211,7 +211,15 @@ program
       data,
     })
 
-    if (!cmd.send) {
+    const { send } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'send',
+        message: 'Send',
+      },
+    ])
+
+    if (!send) {
       await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }], save: true })
     } else if (answers.sub !== '') {
       try {
