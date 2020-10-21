@@ -1,6 +1,10 @@
 server:
   baseUrl: http://localhost:3332
   port: 3332
+  # baseUrl:
+  #   $env: BASE_URL
+  # port:
+  #   $env: PORT
   schemaPath: /open-api.json
   apiBasePath: /agent
   apiDocsPath: /api-docs

@@ -1,7 +1,7 @@
 import { set, get } from 'jsonpointer'
 import parse from 'url-parse'
 
-export function createObjects(config: object, pointers: Record<string, string>): object {
+export function createObjects(config: object, pointers: Record<string, string>): any {
   const objects = {}
 
   function resolveRefs(input: any): any {
@@ -22,6 +22,8 @@ export function createObjects(config: object, pointers: Record<string, string>):
             return objectFromPointer(pointer)
           } else if (property === '$require') {
             return objectFromConfig(input)
+          } else if (property === '$env') {
+            return process.env[input[property]]
           } else {
             resolved[property] = resolveRefs(input[property])
           }
@@ -68,8 +70,10 @@ export function createObjects(config: object, pointers: Record<string, string>):
         let object
         if (objectConfig['$require']) {
           object = objectFromConfig(objectConfig)
+        } else if (objectConfig['$env']) {
+          object = process.env[objectConfig['$env']]
         } else {
-          object = objectConfig
+          object = resolveRefs(objectConfig)
         }
         set(objects, pointer, object)
         return object

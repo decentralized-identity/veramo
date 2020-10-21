@@ -6,6 +6,7 @@ import { AgentRouter } from 'daf-express'
 import { getOpenApiSchema } from 'daf-rest'
 import swaggerUi from 'swagger-ui-express'
 import { getAgent, getConfig } from './setup'
+import { createObjects } from './lib/objectCreator'
 
 program
   .command('server')
@@ -14,7 +15,7 @@ program
   .action(async (cmd) => {
     const app = express()
     const agent = getAgent(program.config)
-    const { server: options } = getConfig(program.config)
+    const { server: options } = createObjects(getConfig(program.config), { server: '/server' })
 
     const exposedMethods = options.exposedMethods ? options.exposedMethods : agent.availableMethods()
 
