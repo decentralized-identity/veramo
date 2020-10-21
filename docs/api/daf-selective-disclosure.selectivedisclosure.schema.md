@@ -63,7 +63,7 @@ readonly schema: {
                         expirationDate: {
                             type: string;
                         };
-                        '@context': {
+                        "@context": {
                             type: string;
                             items: {
                                 type: string;
@@ -73,16 +73,7 @@ readonly schema: {
                             type: string;
                             items: {
                                 type: string;
-                            }; /**
-                             * Creates a Selective disclosure request, encoded as a JWT.
-                             *
-                             * @remarks See {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
-                             *
-                             * @param args - The param object with the properties necessary to create the request. See {@link ISelectiveDisclosureRequest}
-                             * @param context - *RESERVED* This is filled by the framework when the method is called.
-                             *
-                             * @beta
-                             */
+                            };
                         };
                         verifier: {
                             type: string;
@@ -111,7 +102,7 @@ readonly schema: {
                 VerifiableCredential: {
                     type: string;
                     properties: {
-                        '@context': {
+                        "@context": {
                             type: string;
                             items: {
                                 type: string;
