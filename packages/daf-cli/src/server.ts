@@ -128,6 +128,7 @@ program
           const links = [
             { label: 'API Docs', url: options.apiDocsPath },
             { label: 'API Schema', url: options.apiBasePath },
+            { label: 'DID Document', url: '/.well-known/did.json' },
           ]
 
           const html = `<html><head><title>DID Agent</title></head><body>${links
