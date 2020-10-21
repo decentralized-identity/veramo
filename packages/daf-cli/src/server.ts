@@ -10,7 +10,8 @@ import { getAgent, getConfig } from './setup'
 program
   .command('server')
   .description('Launch OpenAPI server')
-  .action(async () => {
+  .option('-p, --port <number>', 'Optionally set port to override config')
+  .action(async (cmd) => {
     const app = express()
     const agent = getAgent(program.config)
     const { server: options } = getConfig(program.config)
@@ -28,8 +29,8 @@ program
 
     app.use(apiBasePath, agentRouter)
 
-    app.listen(options.port, async () => {
-      console.log(`🚀 Agent server ready at http://localhost:${options.port}`)
+    app.listen(cmd.port || options.port, async () => {
+      console.log(`🚀 Agent server ready at http://localhost:${cmd.port || options.port}`)
       console.log('🧩 Available methods', agent.availableMethods().length)
       console.log('🛠  Exposed methods', exposedMethods.length)
 
@@ -37,7 +38,7 @@ program
 
       if (options.ngrok?.connect) {
         baseUrl = await ngrok.connect({
-          addr: options.port,
+          addr: cmd.port || options.port,
           subdomain: options.ngrok.subdomain,
           region: options.ngrok.region,
           authtoken: options.ngrok.authtoken,
