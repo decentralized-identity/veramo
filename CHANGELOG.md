@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.43](https://github.com/uport-project/daf/compare/v7.0.0-beta.42...v7.0.0-beta.43) (2020-10-21)
+
+
+### Features
+
+* Add port option to cli server ([4f66a38](https://github.com/uport-project/daf/commit/4f66a388eaafd3657882569c60e5f3d9edf6b4b3))
+
+
+
+
+
 # [7.0.0-beta.42](https://github.com/uport-project/daf/compare/v7.0.0-beta.41...v7.0.0-beta.42) (2020-10-20)
 
 
