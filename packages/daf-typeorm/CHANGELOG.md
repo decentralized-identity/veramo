@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.45](https://github.com/uport-project/daf/compare/v7.0.0-beta.44...v7.0.0-beta.45) (2020-10-22)
+
+
+### Features
+
+* API key / Bearer token support in CLI ([45e7591](https://github.com/uport-project/daf/commit/45e7591dc70a862e40ac3c8ab3536ad5d80632b7))
+
+
+
+
+
 # [7.0.0-beta.44](https://github.com/uport-project/daf/compare/v7.0.0-beta.43...v7.0.0-beta.44) (2020-10-21)
 
 **Note:** Version bump only for package daf-typeorm
