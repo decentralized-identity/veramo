@@ -12,7 +12,7 @@ Constructs a new instance of the `AgentRestClient` class
 constructor(options: {
         url: string;
         enabledMethods: string[];
-        schema: IAgentPluginSchema;
+        schema?: IAgentPluginSchema;
         headers?: Record<string, string>;
     });
 ```
@@ -21,5 +21,5 @@ constructor(options: {
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | { url: string; enabledMethods: string\[\]; schema: [IAgentPluginSchema](./daf-core.iagentpluginschema.md)<!-- -->; headers?: Record&lt;string, string&gt;; } |  |
+|  options | { url: string; enabledMethods: string\[\]; schema?: [IAgentPluginSchema](./daf-core.iagentpluginschema.md)<!-- -->; headers?: Record&lt;string, string&gt;; } |  |
 

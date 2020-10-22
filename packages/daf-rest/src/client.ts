@@ -3,20 +3,19 @@ import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema } from 'daf-core'
 
 export class AgentRestClient implements IAgentPlugin {
   readonly methods: IPluginMethodMap = {}
-  readonly schema: IAgentPluginSchema
+  readonly schema?: IAgentPluginSchema
   private url: string
 
   constructor(options: {
     url: string
     enabledMethods: string[]
-    schema: IAgentPluginSchema
+    schema?: IAgentPluginSchema
     headers?: Record<string, string>
   }) {
     this.url = options.url
     this.schema = options.schema
 
     for (const method of options.enabledMethods) {
-
       this.methods[method] = async (args: any) => {
         const res = await fetch(this.url + '/' + method, {
           headers: { ...options.headers, 'Content-Type': 'application/json' },
@@ -31,7 +30,6 @@ export class AgentRestClient implements IAgentPlugin {
 
         return json
       }
-
     }
   }
 }
