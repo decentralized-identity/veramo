@@ -1,0 +1,5 @@
+{{#with verifiablePresentation}} {{#each verifiableCredential}} {{toJSON credentialSubject}}
+<hr />
+{{/each}} {{/with}} {{#each links}}
+<a href="{{url}}">{{label}}</a><br />
+{{/each}}
