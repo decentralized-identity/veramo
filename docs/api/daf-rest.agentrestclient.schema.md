@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-readonly schema: IAgentPluginSchema;
+readonly schema?: IAgentPluginSchema;
 ```

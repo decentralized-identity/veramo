@@ -1,15 +1,12 @@
 server:
   hostname: localhost
-  port: 3332
+  port: 3335
   schemaPath: /open-api.json
   apiBasePath: /agent
   apiDocsPath: /api-docs
   defaultIdentity:
     create: true
     messagingServiceEndpoint: /messaging
-    publicProfileServiceEndpoint: /public-profile
-    publicName: Alice
-    publicPicture: https://picsum.photos/200
   ngrok:
     connect: true
     # authtoken: XZY
@@ -25,6 +22,8 @@ agent:
         - $require: daf-rest#AgentRestClient
           $args:
             - url: http://localhost:3332
+              # headers:
+              #   Authorization: Bearer API_KEY
               enabledMethods:
                 - keyManagerGetKeyManagementSystems
                 - keyManagerCreateKey

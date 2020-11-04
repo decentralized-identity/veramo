@@ -2167,8 +2167,8 @@
             },
             {
               "kind": "Reference",
-              "text": "Identity",
-              "canonicalReference": "daf-typeorm!Identity:class"
+              "text": "Key",
+              "canonicalReference": "daf-typeorm!Key:class"
             },
             {
               "kind": "Content",
@@ -2176,8 +2176,8 @@
             },
             {
               "kind": "Reference",
-              "text": "Key",
-              "canonicalReference": "daf-typeorm!Key:class"
+              "text": "Identity",
+              "canonicalReference": "daf-typeorm!Identity:class"
             },
             {
               "kind": "Content",
@@ -2194,17 +2194,8 @@
             },
             {
               "kind": "Reference",
-              "text": "Message",
-              "canonicalReference": "daf-typeorm!Message:class"
-            },
-            {
-              "kind": "Content",
-              "text": " | typeof "
-            },
-            {
-              "kind": "Reference",
-              "text": "Presentation",
-              "canonicalReference": "daf-typeorm!Presentation:class"
+              "text": "Claim",
+              "canonicalReference": "daf-typeorm!Claim:class"
             },
             {
               "kind": "Content",
@@ -2221,8 +2212,17 @@
             },
             {
               "kind": "Reference",
-              "text": "Claim",
-              "canonicalReference": "daf-typeorm!Claim:class"
+              "text": "Presentation",
+              "canonicalReference": "daf-typeorm!Presentation:class"
+            },
+            {
+              "kind": "Content",
+              "text": " | typeof "
+            },
+            {
+              "kind": "Reference",
+              "text": "Message",
+              "canonicalReference": "daf-typeorm!Message:class"
             },
             {
               "kind": "Content",

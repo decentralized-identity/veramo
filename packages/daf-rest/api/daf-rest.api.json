@@ -48,7 +48,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "{\n        url: string;\n        enabledMethods: string[];\n        schema: "
+                  "text": "{\n        url: string;\n        enabledMethods: string[];\n        schema?: "
                 },
                 {
                   "kind": "Reference",
@@ -119,7 +119,7 @@
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "readonly schema: "
+                  "text": "readonly schema?: "
                 },
                 {
                   "kind": "Reference",

@@ -7,6 +7,8 @@ import { getOpenApiSchema } from 'daf-rest'
 import swaggerUi from 'swagger-ui-express'
 import { getAgent, getConfig } from './setup'
 import { createObjects } from './lib/objectCreator'
+import passport from 'passport'
+import Bearer from 'passport-http-bearer'
 
 program
   .command('server')
@@ -17,6 +19,16 @@ program
     const agent = getAgent(program.config)
     const { server: options } = createObjects(getConfig(program.config), { server: '/server' })
 
+    passport.use(
+      new Bearer.Strategy((token, done) => {
+        if (!options.apiKey || options.apiKey === token) {
+          done(null, {}, { scope: 'all' })
+        } else {
+          done(null, false)
+        }
+      }),
+    )
+
     const exposedMethods = options.exposedMethods ? options.exposedMethods : agent.availableMethods()
 
     const apiBasePath = options.apiBasePath
@@ -25,10 +37,10 @@ program
       basePath: apiBasePath,
       getAgentForRequest: async (req) => agent,
       exposedMethods,
-      serveSchema: true,
+      serveSchema: false,
     })
 
-    app.use(apiBasePath, agentRouter)
+    app.use(apiBasePath, passport.authenticate('bearer', { session: false }), agentRouter)
 
     app.listen(cmd.port || options.port, async () => {
       console.log(`🚀 Agent server ready at http://localhost:${cmd.port || options.port}`)
@@ -49,6 +61,13 @@ program
 
       const openApiSchema = getOpenApiSchema(agent, apiBasePath, exposedMethods)
       openApiSchema.servers = [{ url: baseUrl }]
+
+      if (options.apiKey && openApiSchema.components) {
+        openApiSchema.components.securitySchemes = {
+          bearerAuth: { type: 'http', scheme: 'bearer' },
+        }
+        openApiSchema.security = [{ bearerAuth: [] }]
+      }
 
       app.use(options.apiDocsPath, swaggerUi.serve, swaggerUi.setup(openApiSchema))
       console.log('📖 API Documentation', baseUrl + options.apiDocsPath)
@@ -127,7 +146,7 @@ program
         app.get('/', (req, res) => {
           const links = [
             { label: 'API Docs', url: options.apiDocsPath },
-            { label: 'API Schema', url: options.apiBasePath },
+            { label: 'API Schema', url: options.schemaPath },
             { label: 'DID Document', url: '/.well-known/did.json' },
           ]
 
