@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line application.",
-  "version": "6.3.0",
+  "version": "6.3.1",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -21,7 +21,7 @@
     "daf-ethr-did": "^6.3.0",
     "daf-fs": "^6.3.0",
     "daf-libsodium": "^6.3.0",
-    "daf-resolver": "^6.3.0",
+    "daf-resolver": "^6.3.1",
     "daf-resolver-universal": "^6.3.0",
     "daf-selective-disclosure": "^6.3.0",
     "daf-trust-graph": "^6.3.0",

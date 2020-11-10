@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.1](https://github.com/uport-project/daf/compare/v6.3.0...v6.3.1) (2020-11-10)
+
+
+### Bug Fixes
+
+* Import DID support for daf-react-native-libsodium ([#257](https://github.com/uport-project/daf/issues/257)) ([e290482](https://github.com/uport-project/daf/commit/e290482ec342ecbce1fe48b39082c128e073be23))
+* Type error and CORS error in react-app example ([#258](https://github.com/uport-project/daf/issues/258)) ([9f7dac4](https://github.com/uport-project/daf/commit/9f7dac46d8ed247974778df37b7cf6c9f28a6193))
+
+
+
+
+
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
 
