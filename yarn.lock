@@ -5737,6 +5737,11 @@ did-resolver@1.0.0:
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-1.0.0.tgz#892bcffe66352b1360c928a23082a731c83ca7c3"
   integrity sha512-mgJG0oqlkG7jfRzW0yN9qKawp24M4thGFdfIaZI30SAJXhpkkjqbkRxqMZLJNwqXEM0cqFbXaiFDqnd9Q1UUaw==
 
+did-resolver@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/did-resolver/-/did-resolver-2.1.1.tgz#43796f8a3e921644e5fb15a8147684ca87019cfd"
+  integrity sha512-FYLTkNWofjYNDGV1HTQlyVu1OqZiFxR4I8KM+oxGVOkbXva15NfWzbzciqdXUDqOhe6so5aroAdrVip6gSAYSA==
+
 did-resolver@^1.0.0, did-resolver@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-1.1.0.tgz#27a63b6f2aa8dee3d622cd8b8b47360661e24f1e"
@@ -16491,13 +16496,13 @@ wcwidth@^1.0.0:
   dependencies:
     defaults "^1.0.3"
 
-web-did-resolver@^1.2.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-1.2.1.tgz#ef67b4196f47cfc9eef6dcc61dd96f5b8e39f8b1"
-  integrity sha512-BD7L9YBIQELjt0A2IhktCfUR1TtTxFcNDPu/yfEMtMsawO/OO26Sey44omwaBOLUsB1uGmLNOQVnBK5Zn+k8Nw==
+web-did-resolver@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.npmjs.org/web-did-resolver/-/web-did-resolver-1.3.5.tgz#1240a94530fa5194827856b8ff7957d00d11a7d7"
+  integrity sha512-k+32CvrguvAwgvppYH0geMsmKJL1akuyWa3p5ArVON5swYvMb72e1yayM7XuPMwUW/6aZ2Z0HL14QkfvcIJRQw==
   dependencies:
     cross-fetch "^3.0.4"
-    did-resolver "1.0.0"
+    did-resolver "2.1.1"
 
 web3-bzz@1.2.1:
   version "1.2.1"

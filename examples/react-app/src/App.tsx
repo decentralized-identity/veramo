@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import * as W3c from 'daf-w3c'
 import * as TG from 'daf-trust-graph'
+import * as W3c from 'daf-w3c'
+import React, { useEffect, useState } from 'react'
 import { agent } from './setup'
 const {
   BaseStyles,
@@ -26,16 +26,15 @@ declare global {
 const App: React.FC = () => {
   const [isSending, setIsSending] = useState(false)
   const [activeDid, setActiveDid] = useState('')
-  const [receiver, setReceiver] = useState('did:web:uport.me')
+  const [receiver, setReceiver] = useState('did:web:identity.foundation')
   const [claimType, setClaimType] = useState('name')
   const [claimValue, setClaimValue] = useState('Alice')
   const [identityProviders, setIdentityProviders] = useState([{ type: '', description: '' }])
   const [identities, setIdentities] = useState([{ identityProviderType: '', did: '' }])
 
   useEffect(() => {
-    agent.identityManager.getIdentityProviders().then((providers: any) => {
-      setIdentityProviders(providers)
-    })
+    const providers = agent.identityManager.getIdentityProviders()
+    setIdentityProviders(providers)
   }, [])
 
   const updateIdentityList = () => {
@@ -68,7 +67,7 @@ const App: React.FC = () => {
         },
       } as W3c.ActionSignW3cVc)
 
-      console.log(credential)
+      console.log('credential', credential)
 
       // Send credential using TrustGraph
       await agent.handleAction({
