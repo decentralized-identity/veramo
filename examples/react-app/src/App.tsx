@@ -26,7 +26,7 @@ declare global {
 const App: React.FC = () => {
   const [isSending, setIsSending] = useState(false)
   const [activeDid, setActiveDid] = useState('')
-  const [receiver, setReceiver] = useState('did:web:uport.me')
+  const [receiver, setReceiver] = useState('did:web:identity.foundation')
   const [claimType, setClaimType] = useState('name')
   const [claimValue, setClaimValue] = useState('Alice')
   const [identityProviders, setIdentityProviders] = useState([{ type: '', description: '' }])
