@@ -19,7 +19,7 @@ export interface ActionSendDIDComm extends Action {
     type: string
     body: any
   }
-  headers?: HeadersInit
+  headers?: Record<string, string>
 }
 
 export class DIDCommActionHandler extends AbstractActionHandler {
