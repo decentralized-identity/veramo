@@ -1,7 +1,7 @@
 {
   "name": "daf-did-comm",
   "description": "DAF DIDComm inspired messaging based on the v1 messaging envelope.",
-  "version": "6.3.0",
+  "version": "6.4.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

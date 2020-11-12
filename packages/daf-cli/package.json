@@ -1,7 +1,7 @@
 {
   "name": "daf-cli",
   "description": "DAF command line application.",
-  "version": "6.3.1",
+  "version": "6.4.0",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -16,7 +16,7 @@
     "commander": "^4.0.1",
     "console-table-printer": "^1.1.15",
     "daf-core": "^6.3.0",
-    "daf-did-comm": "^6.3.0",
+    "daf-did-comm": "^6.4.0",
     "daf-did-jwt": "^6.3.0",
     "daf-ethr-did": "^6.3.0",
     "daf-fs": "^6.3.0",

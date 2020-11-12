@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.4.0](https://github.com/uport-project/daf/compare/v6.3.1...v6.4.0) (2020-11-12)
+
+
+### Features
+
+* Enable setting headers to DAF DID Comm ([#239](https://github.com/uport-project/daf/issues/239)) ([03f3dbb](https://github.com/uport-project/daf/commit/03f3dbb9c1f8a2b061234cdddf4d70953209c1b3))
+
+
+
+
+
 ## [6.3.1](https://github.com/uport-project/daf/compare/v6.3.0...v6.3.1) (2020-11-10)
 
 
