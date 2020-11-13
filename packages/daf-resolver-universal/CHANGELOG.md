@@ -5,69 +5,38 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-* **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
+- **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
 
 # [6.2.0](https://github.com/uport-project/daf/compare/v6.1.2...v6.2.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
 
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-resolver-universal
 
-
-
-
-
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-resolver-universal
 
-
-
-
-
 # [5.3.0](https://github.com/uport-project/daf/compare/v5.2.0...v5.3.0) (2020-05-06)
-
 
 ### Features
 
-* Universal resolver unit tests ([8b92d1c](https://github.com/uport-project/daf/commit/8b92d1c032b19124271bff7884ceebace6331a4e))
-
-
-
-
+- Universal resolver unit tests ([8b92d1c](https://github.com/uport-project/daf/commit/8b92d1c032b19124271bff7884ceebace6331a4e))
 
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-resolver-universal
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
 
 **Note:** Version bump only for package daf-resolver-universal
-
-
-
-
 
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
 

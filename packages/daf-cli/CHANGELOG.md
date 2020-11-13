@@ -7,354 +7,194 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [6.3.1](https://github.com/uport-project/daf/compare/v6.3.0...v6.3.1) (2020-11-10)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
-
 
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-* **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
+- **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
 
 # [6.2.0](https://github.com/uport-project/daf/compare/v6.1.2...v6.2.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
 
 ## [6.1.2](https://github.com/uport-project/daf/compare/v6.1.1...v6.1.2) (2020-09-03)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
 
 **Note:** Version bump only for package daf-cli
-
-
-
-
 
 # [6.1.0](https://github.com/uport-project/daf/compare/v6.0.1...v6.1.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [6.0.1](https://github.com/uport-project/daf/compare/v6.0.0...v6.0.1) (2020-05-29)
-
 
 ### Bug Fixes
 
-* Missing dependency ([773dbb2](https://github.com/uport-project/daf/commit/773dbb2c890428157ae4c7218b7e29e0853d738c))
-
-
-
-
+- Missing dependency ([773dbb2](https://github.com/uport-project/daf/commit/773dbb2c890428157ae4c7218b7e29e0853d738c))
 
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
-
 
 ### Features
 
-* Identity provider for did:web ([9b20fb1](https://github.com/uport-project/daf/commit/9b20fb13da21865d50f6e0680e0d7da040a3d75c))
-
-
-
-
+- Identity provider for did:web ([9b20fb1](https://github.com/uport-project/daf/commit/9b20fb13da21865d50f6e0680e0d7da040a3d75c))
 
 ## [5.6.7](https://github.com/uport-project/daf/compare/v5.6.6...v5.6.7) (2020-05-29)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-cli
-
-
-
-
 
 ## [5.6.5](https://github.com/uport-project/daf/compare/v5.6.4...v5.6.5) (2020-05-25)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [5.6.3](https://github.com/uport-project/daf/compare/v5.6.2...v5.6.3) (2020-05-15)
-
 
 ### Bug Fixes
 
-* Version takes only two parameters ([5951fe4](https://github.com/uport-project/daf/commit/5951fe416186d295ccd9fc10aa17f75f47e5bbf0))
-
-
-
-
+- Version takes only two parameters ([5951fe4](https://github.com/uport-project/daf/commit/5951fe416186d295ccd9fc10aa17f75f47e5bbf0))
 
 ## [5.6.2](https://github.com/uport-project/daf/compare/v5.6.1...v5.6.2) (2020-05-14)
 
-
 ### Bug Fixes
 
-* CLI graphql typeDefs and resolvers ([88626d3](https://github.com/uport-project/daf/commit/88626d37621929b3383fdef5849dbea795fbe053))
-
-
-
-
+- CLI graphql typeDefs and resolvers ([88626d3](https://github.com/uport-project/daf/commit/88626d37621929b3383fdef5849dbea795fbe053))
 
 ## [5.6.1](https://github.com/uport-project/daf/compare/v5.6.0...v5.6.1) (2020-05-14)
 
-
 ### Bug Fixes
 
-* CLI sqlite and pg deps ([31fc85a](https://github.com/uport-project/daf/commit/31fc85a16c8edc098fac13c0a96faad151fda208))
-
-
-
-
+- CLI sqlite and pg deps ([31fc85a](https://github.com/uport-project/daf/commit/31fc85a16c8edc098fac13c0a96faad151fda208))
 
 # [5.6.0](https://github.com/uport-project/daf/compare/v5.5.2...v5.6.0) (2020-05-14)
 
-
 ### Features
 
-* Docker image and docker-compose example ([84ddcad](https://github.com/uport-project/daf/commit/84ddcad8b54fec0b53297cbfe11275af06922cd6))
-
-
-
-
+- Docker image and docker-compose example ([84ddcad](https://github.com/uport-project/daf/commit/84ddcad8b54fec0b53297cbfe11275af06922cd6))
 
 ## [5.5.2](https://github.com/uport-project/daf/compare/v5.5.1...v5.5.2) (2020-05-14)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 ## [5.5.1](https://github.com/uport-project/daf/compare/v5.5.0...v5.5.1) (2020-05-13)
-
 
 ### Bug Fixes
 
-* Optional dependency of daf-elem-did ([8c733b8](https://github.com/uport-project/daf/commit/8c733b8e06e0ef0a379fa43a534733e37063834b))
-
-
-
-
+- Optional dependency of daf-elem-did ([8c733b8](https://github.com/uport-project/daf/commit/8c733b8e06e0ef0a379fa43a534733e37063834b))
 
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
 
-
 ### Features
 
-* CLI config ([5a3391e](https://github.com/uport-project/daf/commit/5a3391e77790e0b10268c4e189f34c5f20246616))
-
-
-
-
+- CLI config ([5a3391e](https://github.com/uport-project/daf/commit/5a3391e77790e0b10268c4e189f34c5f20246616))
 
 # [5.4.0](https://github.com/uport-project/daf/compare/v5.3.1...v5.4.0) (2020-05-13)
 
-
 ### Features
 
-* daf-elem-did ([62776c2](https://github.com/uport-project/daf/commit/62776c274838b686f954e66482ae99e336bb2e16))
-
-
-
-
+- daf-elem-did ([62776c2](https://github.com/uport-project/daf/commit/62776c274838b686f954e66482ae99e336bb2e16))
 
 ## [5.3.1](https://github.com/uport-project/daf/compare/v5.3.0...v5.3.1) (2020-05-11)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [5.3.0](https://github.com/uport-project/daf/compare/v5.2.0...v5.3.0) (2020-05-06)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [5.2.0](https://github.com/uport-project/daf/compare/v5.1.0...v5.2.0) (2020-05-06)
-
 
 ### Features
 
-* Adding ethr-did gas and ttl config ([d910b14](https://github.com/uport-project/daf/commit/d910b140f78efc69b80adffacd00058b9477fc94))
-
-
-
-
+- Adding ethr-did gas and ttl config ([d910b14](https://github.com/uport-project/daf/commit/d910b140f78efc69b80adffacd00058b9477fc94))
 
 # [5.1.0](https://github.com/uport-project/daf/compare/v5.0.0...v5.1.0) (2020-05-06)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
-
 
 ### Features
 
-* Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
-
+- Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
 
 ### BREAKING CHANGES
 
-* DB Schema change
-
-
-
-
+- DB Schema change
 
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
-
 
 ### Bug Fixes
 
-* DB migrations ([14b578e](https://github.com/uport-project/daf/commit/14b578e87740cd3d19e5ae728791a192cc50bc4c))
-* Failing CI ([1264b99](https://github.com/uport-project/daf/commit/1264b99766d5b062f19e99326ed7cc1f5f19de89))
-* Failing CI ([53b114e](https://github.com/uport-project/daf/commit/53b114e2f0dbb9414317f64af59b15654827e792))
-* Remove postinstall ([2577983](https://github.com/uport-project/daf/commit/257798312edaf4817f906f714e0527bf7c112bc8))
-
+- DB migrations ([14b578e](https://github.com/uport-project/daf/commit/14b578e87740cd3d19e5ae728791a192cc50bc4c))
+- Failing CI ([1264b99](https://github.com/uport-project/daf/commit/1264b99766d5b062f19e99326ed7cc1f5f19de89))
+- Failing CI ([53b114e](https://github.com/uport-project/daf/commit/53b114e2f0dbb9414317f64af59b15654827e792))
+- Remove postinstall ([2577983](https://github.com/uport-project/daf/commit/257798312edaf4817f906f714e0527bf7c112bc8))
 
 ### Features
 
-* Encrypting private keys with SecretBox ([8833931](https://github.com/uport-project/daf/commit/883393192cc830534cfec892b4ce271a09bff99d))
-
-
-
-
+- Encrypting private keys with SecretBox ([8833931](https://github.com/uport-project/daf/commit/883393192cc830534cfec892b4ce271a09bff99d))
 
 # [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
 
-
 ### Bug Fixes
 
-* Changing some copy in CLI ([ed2c044](https://github.com/uport-project/daf/commit/ed2c0447a6973d55a3be8bfa4acb9439ff7c83c9))
-
+- Changing some copy in CLI ([ed2c044](https://github.com/uport-project/daf/commit/ed2c0447a6973d55a3be8bfa4acb9439ff7c83c9))
 
 ### Features
 
-* Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
-* DB Migration CredentialStatus ([44fd36d](https://github.com/uport-project/daf/commit/44fd36d0a97af96bfca74d1a9953293c00003dcc))
-
-
-
-
+- Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
+- DB Migration CredentialStatus ([44fd36d](https://github.com/uport-project/daf/commit/44fd36d0a97af96bfca74d1a9953293c00003dcc))
 
 ## [4.2.1](https://github.com/uport-project/daf/compare/v4.2.0...v4.2.1) (2020-04-24)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
 **Note:** Version bump only for package daf-cli
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
-
 
 ### Features
 
-* Add version cmd to cli ([64069e9](https://github.com/uport-project/daf/commit/64069e9d60008007a801f127280430538b23b553))
-
-
+- Add version cmd to cli ([64069e9](https://github.com/uport-project/daf/commit/64069e9d60008007a801f127280430538b23b553))
 
 ## [3.4.3](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v3.4.3) (2020-04-10)
 
-
-
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
-
-
 
 ## [3.4.1](https://github.com/uport-project/daf/compare/v3.4.0...v3.4.1) (2020-03-20)
 
-
-
-
-
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
+
 ## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
 **Note:** Version bump only for package daf-cli
-
-
-
-
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 

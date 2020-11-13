@@ -5,200 +5,115 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-* **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
+- **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
 
 # [6.2.0](https://github.com/uport-project/daf/compare/v6.1.2...v6.2.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
 
 ## [6.1.2](https://github.com/uport-project/daf/compare/v6.1.1...v6.1.2) (2020-09-03)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 ## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
-
 
 ### Bug Fixes
 
-* export context ([99fd267](https://github.com/uport-project/daf/commit/99fd267c70946e24df5dd8b42f8345aadc9366c2))
-
-
-
-
+- export context ([99fd267](https://github.com/uport-project/daf/commit/99fd267c70946e24df5dd8b42f8345aadc9366c2))
 
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 ## [5.6.5](https://github.com/uport-project/daf/compare/v5.6.4...v5.6.5) (2020-05-25)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 ## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 # [5.1.0](https://github.com/uport-project/daf/compare/v5.0.0...v5.1.0) (2020-05-06)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
-
 
 ### Bug Fixes
 
-* babel running out of memory when running jest ([92e285e](https://github.com/uport-project/daf/commit/92e285e184f56e3ca9441ecbcdc6b287727cb4f9))
-* Remove static Credential.credentialStatus ([f9a06af](https://github.com/uport-project/daf/commit/f9a06afcd01fc9e0452535d10d32158414490ea4))
-* Use the first audience did for message.to ([c71eec7](https://github.com/uport-project/daf/commit/c71eec784526b44f22d76307ac0e83b0e125d965))
-
+- babel running out of memory when running jest ([92e285e](https://github.com/uport-project/daf/commit/92e285e184f56e3ca9441ecbcdc6b287727cb4f9))
+- Remove static Credential.credentialStatus ([f9a06af](https://github.com/uport-project/daf/commit/f9a06afcd01fc9e0452535d10d32158414490ea4))
+- Use the first audience did for message.to ([c71eec7](https://github.com/uport-project/daf/commit/c71eec784526b44f22d76307ac0e83b0e125d965))
 
 ### Features
 
-* Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
-* Reinstate `credentialStatus` as top level attribute ([4b17689](https://github.com/uport-project/daf/commit/4b1768936a173844e8710993a42600eab4051f9c))
-
+- Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
+- Reinstate `credentialStatus` as top level attribute ([4b17689](https://github.com/uport-project/daf/commit/4b1768936a173844e8710993a42600eab4051f9c))
 
 ### BREAKING CHANGES
 
-* DB Schema change
-
-
-
-
+- DB Schema change
 
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
-
 ### Bug Fixes
 
-* Remove static Credential.credentialStatus ([719fddc](https://github.com/uport-project/daf/commit/719fddc558dd7ec2925e3a8d695a5de4c65e91cd))
-
+- Remove static Credential.credentialStatus ([719fddc](https://github.com/uport-project/daf/commit/719fddc558dd7ec2925e3a8d695a5de4c65e91cd))
 
 ### Features
 
-* Reinstate `credentialStatus` as top level attribute ([8347b1f](https://github.com/uport-project/daf/commit/8347b1f5e93840ae6f6548609b87720027dc538e))
-
-
-
-
+- Reinstate `credentialStatus` as top level attribute ([8347b1f](https://github.com/uport-project/daf/commit/8347b1f5e93840ae6f6548609b87720027dc538e))
 
 # [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
-
 
 ### Bug Fixes
 
-* Checking if credentialSubject is array ([2f83192](https://github.com/uport-project/daf/commit/2f83192a47b39369fd1ccad3b0f4a3c70dd4a893))
-* Keeping app specific payload fields ([24ad82a](https://github.com/uport-project/daf/commit/24ad82a9abd1e1a5c3cef91efea7a17637b958c3))
-* Translating issuanceDate to nbf ([51f0eff](https://github.com/uport-project/daf/commit/51f0effa5f911a9432f6d6880d2b23915875001d))
-
+- Checking if credentialSubject is array ([2f83192](https://github.com/uport-project/daf/commit/2f83192a47b39369fd1ccad3b0f4a3c70dd4a893))
+- Keeping app specific payload fields ([24ad82a](https://github.com/uport-project/daf/commit/24ad82a9abd1e1a5c3cef91efea7a17637b958c3))
+- Translating issuanceDate to nbf ([51f0eff](https://github.com/uport-project/daf/commit/51f0effa5f911a9432f6d6880d2b23915875001d))
 
 ### Features
 
-* Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
-
-
-
-
+- Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
 
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
 
-
-
 ## [3.4.3](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v3.4.3) (2020-04-10)
-
-
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
+
 ## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 

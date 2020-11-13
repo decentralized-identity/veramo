@@ -5,172 +5,92 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-* **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
+- **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
 
 # [6.2.0](https://github.com/uport-project/daf/compare/v6.1.2...v6.2.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
 
 ## [6.1.2](https://github.com/uport-project/daf/compare/v6.1.1...v6.1.2) (2020-09-03)
 
 **Note:** Version bump only for package daf-libsodium
 
-
-
-
-
 ## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
 
 **Note:** Version bump only for package daf-libsodium
-
-
-
-
 
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-libsodium
 
-
-
-
-
 # [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-libsodium
-
-
-
-
 
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-libsodium
 
-
-
-
-
 ## [5.6.5](https://github.com/uport-project/daf/compare/v5.6.4...v5.6.5) (2020-05-25)
 
 **Note:** Version bump only for package daf-libsodium
-
-
-
-
 
 ## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
 
 **Note:** Version bump only for package daf-libsodium
 
-
-
-
-
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
 
 **Note:** Version bump only for package daf-libsodium
-
-
-
-
 
 # [5.1.0](https://github.com/uport-project/daf/compare/v5.0.0...v5.1.0) (2020-05-06)
 
 **Note:** Version bump only for package daf-libsodium
 
-
-
-
-
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-libsodium
-
-
-
-
 
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-libsodium
 
-
-
-
-
 # [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
-
 
 ### Features
 
-* Encrypting private keys with SecretBox ([8833931](https://github.com/uport-project/daf/commit/883393192cc830534cfec892b4ce271a09bff99d))
-
-
-
-
+- Encrypting private keys with SecretBox ([8833931](https://github.com/uport-project/daf/commit/883393192cc830534cfec892b4ce271a09bff99d))
 
 # [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
 
 **Note:** Version bump only for package daf-libsodium
 
-
-
-
-
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
 **Note:** Version bump only for package daf-libsodium
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
-
-
 
 ## [3.4.3](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v3.4.3) (2020-04-10)
 
-
 ### Bug Fixes
 
-* **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
-
-
+- **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 
-
-
-
-
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
-## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
+## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
 ### Bug Fixes
 
-* **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
-
-
-
-
+- **deps:** enable verification of ES256K signatures with default did:ethr: docs ([2e1bd33](https://github.com/uport-project/daf/commit/2e1bd331c3fc054f86380d977a78ec2305029a8e))
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 
