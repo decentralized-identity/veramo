@@ -5,110 +5,60 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [6.3.1](https://github.com/uport-project/daf/compare/v6.3.0...v6.3.1) (2020-11-10)
 
-
 ### Bug Fixes
 
-* Type error and CORS error in react-app example ([#258](https://github.com/uport-project/daf/issues/258)) ([9f7dac4](https://github.com/uport-project/daf/commit/9f7dac46d8ed247974778df37b7cf6c9f28a6193))
-
-
-
-
+- Type error and CORS error in react-app example ([#258](https://github.com/uport-project/daf/issues/258)) ([9f7dac4](https://github.com/uport-project/daf/commit/9f7dac46d8ed247974778df37b7cf6c9f28a6193))
 
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-* **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
+- **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
 
 # [6.2.0](https://github.com/uport-project/daf/compare/v6.1.2...v6.2.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
 
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-resolver
 
-
-
-
-
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-resolver
-
-
-
-
 
 ## [5.5.2](https://github.com/uport-project/daf/compare/v5.5.1...v5.5.2) (2020-05-14)
 
 **Note:** Version bump only for package daf-resolver
 
-
-
-
-
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
-
 
 ### Bug Fixes
 
-* Resolver debug info ([5a32a63](https://github.com/uport-project/daf/commit/5a32a630884486934530cdb31b3cf8fb887a44da))
-
-
-
-
+- Resolver debug info ([5a32a63](https://github.com/uport-project/daf/commit/5a32a630884486934530cdb31b3cf8fb887a44da))
 
 ## [5.3.1](https://github.com/uport-project/daf/compare/v5.3.0...v5.3.1) (2020-05-11)
 
-
 ### Bug Fixes
 
-* allow to pass in a custom registry address ([c785167](https://github.com/uport-project/daf/commit/c785167f6b3bf6b51325e431fba80c242204f590)), closes [/github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js#L187](https://github.com//github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js/issues/L187)
-
-
-
-
+- allow to pass in a custom registry address ([c785167](https://github.com/uport-project/daf/commit/c785167f6b3bf6b51325e431fba80c242204f590)), closes [/github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js#L187](https://github.com//github.com/decentralized-identity/ethr-did-resolver/blob/develop/src/ethr-did-resolver.js/issues/L187)
 
 # [5.3.0](https://github.com/uport-project/daf/compare/v5.2.0...v5.3.0) (2020-05-06)
 
-
 ### Features
 
-* Network config for daf-resolver ([5efd82c](https://github.com/uport-project/daf/commit/5efd82c5343dd99dc644a49774210b31bb2a717a))
-
-
-
-
+- Network config for daf-resolver ([5efd82c](https://github.com/uport-project/daf/commit/5efd82c5343dd99dc644a49774210b31bb2a717a))
 
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
 
 **Note:** Version bump only for package daf-resolver
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
 
 **Note:** Version bump only for package daf-resolver
-
-
-
-
 
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
 
