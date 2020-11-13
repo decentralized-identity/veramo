@@ -1,14 +1,14 @@
 {
   "name": "daf-local-storage",
   "description": "DAF storage plugin that uses browser local storage API.",
-  "version": "6.3.0",
+  "version": "6.4.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "daf-core": "^6.3.0",
+    "daf-core": "^6.4.1",
     "debug": "^4.1.1"
   },
   "devDependencies": {

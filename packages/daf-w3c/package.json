@@ -1,7 +1,7 @@
 {
   "name": "daf-w3c",
   "description": "DAF plugin for working with W3C verifiable credentials & presentations.",
-  "version": "6.3.0",
+  "version": "6.4.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^6.3.0",
-    "daf-did-jwt": "^6.3.0",
+    "daf-core": "^6.4.1",
+    "daf-did-jwt": "^6.4.1",
     "debug": "^4.1.1",
     "did-jwt-vc": "0.2.0",
     "did-resolver": "^1.1.0"
