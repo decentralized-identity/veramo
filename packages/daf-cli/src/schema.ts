@@ -1,10 +1,10 @@
 import { getAgent } from './setup'
 import program from 'commander'
 const fs = require('fs')
-import { resolve, dirname } from "path"
+import { resolve, dirname } from 'path'
 import { writeFileSync, readFileSync } from 'fs'
-import * as TJS from "ts-json-schema-generator"
-import { JSONSchema7 } from "json-schema"
+import * as TJS from 'ts-json-schema-generator'
+import { JSONSchema7 } from 'json-schema'
 import { OpenAPIV3 } from 'openapi-types'
 import { Extractor, ExtractorConfig, ExtractorResult } from '@microsoft/api-extractor'
 import {
@@ -15,6 +15,7 @@ import {
   ApiReturnTypeMixin,
   ApiMethodSignature,
 } from '@microsoft/api-extractor-model'
+import { IIdentity } from 'daf-core'
 
 interface Method {
   packageName: string
@@ -85,17 +86,39 @@ function getReference(response: string): OpenAPIV3.ReferenceObject | OpenAPIV3.S
 program
   .command('generatePluginSchema')
   .description('Generate DAF plugin schema')
-  .option('-p, --packageConfig <string>', 'package.json file containing DAF plugin interface config', './package.json')
-  .option('-o, --outputFolder <string>', 'Generated schema typescript file', './src/schemas')
+  .option('-c, --extractorConfig <string>', 'API Extractor config file', './api-extractor.json')
+  .option(
+    '-p, --packageConfig <string>',
+    'package.json file containing DAF plugin interface config',
+    './package.json',
+  )
+  .option('-i, --issuer <string>', 'Schema credential issuer')
 
   .action(async (options) => {
+    const agent = getAgent(program.config)
+
+    const apiExtractorJsonPath: string = resolve(options.extractorConfig)
+    const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
+
+    const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
+      localBuild: true,
+      showVerboseMessages: true,
+    })
+
+    if (!extractorResult.succeeded) {
+      console.error(
+        `API Extractor completed with ${extractorResult.errorCount} errors` +
+          ` and ${extractorResult.warningCount} warnings`,
+      )
+      process.exitCode = 1
+    }
 
     const packageConfig = require(resolve(options.packageConfig))
+    const credentialSubject: any = {
+      interfaces: {},
+    }
 
     for (const pluginInterfaceName in packageConfig.daf.pluginInterfaces) {
-      const outputFile = resolve(options.outputFolder, pluginInterfaceName + '.ts')
-      console.log('Writing', outputFile)
-
       const entryFile = packageConfig.daf.pluginInterfaces[pluginInterfaceName]
       const api = {
         components: {
@@ -107,12 +130,12 @@ program
       const generator = TJS.createGenerator({
         path: resolve(entryFile),
         encodeRefs: false,
-        additionalProperties: true
+        additionalProperties: true,
       })
 
       const apiModel: ApiModel = new ApiModel()
-      const apiPackage = apiModel.loadPackage(resolve('./api', packageConfig.name + '.api.json'))
-    
+      const apiPackage = apiModel.loadPackage(extractorConfig.apiJsonFilePath)
+
       const entry = apiPackage.entryPoints[0]
 
       const pluginInterface = entry.findMembersByName(pluginInterfaceName)[0]
@@ -133,7 +156,6 @@ program
           //@ts-ignore
           ?.getChildNodes()[0]?.text
 
-
         method.description = method.description || ''
 
         if (method.parameters) {
@@ -144,56 +166,48 @@ program
             ...createSchema(generator, method.parameters).components.schemas,
           }
         }
-  
+
         //@ts-ignore
         api.components.schemas = {
           //@ts-ignore
           ...api.components.schemas,
           ...createSchema(generator, method.response).components.schemas,
         }
-        
+
         //@ts-ignore
         api.components.methods[method.operationId] = {
           description: method.description,
           arguments: getReference(method.parameters),
-          returnType: getReference(method.response)
+          returnType: getReference(method.response),
         }
-        
       }
 
-      if (!fs.existsSync(resolve(options.outputFolder))) {
-        fs.mkdirSync(resolve(options.outputFolder))
-      }
-      writeFileSync(outputFile, 'export default ' + JSON.stringify(api, null, 2))
-
+      credentialSubject.interfaces[pluginInterfaceName] = api
     }
 
+    let issuer: IIdentity
+    if (options.did) {
+      issuer = await agent.identityManagerGetIdentity({ did: options.did })
+      if (!issuer) {
+        throw Error('DID not found ' + options.did)
+      }
+    } else {
+      issuer = await agent.identityManagerGetOrCreateIdentity({
+        alias: 'default',
+      })
+    }
 
-
-  })
-
-
-  program
-  .command('extractPluginApi')
-  .description('Extract DAF plugin api ')
-  .option('-c, --extractorConfig <string>', 'API Extractor config file')
-
-  .action(async (options) => {
-
-    const apiExtractorJsonPath: string = resolve(options.extractorConfig)
-    const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
-    const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
-      localBuild: true,
-      showVerboseMessages: true,
+    const verifiableCredential = await agent.createVerifiableCredential({
+      credential: {
+        issuer: { id: issuer.did },
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential', 'AgentPluginSchema'],
+        issuanceDate: new Date().toISOString(),
+        credentialSubject,
+      },
+      proofFormat: 'jwt',
+      save: true,
     })
 
-    if (!extractorResult.succeeded) {
-      console.error(
-        `API Extractor completed with ${extractorResult.errorCount} errors` +
-          ` and ${extractorResult.warningCount} warnings`,
-      )
-      process.exitCode = 1
-    }
-
-
+    writeFileSync(resolve('./agent-plugin-schema.json'), JSON.stringify(verifiableCredential, null, 2))
   })
