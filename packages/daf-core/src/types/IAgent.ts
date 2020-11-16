@@ -1,3 +1,5 @@
+import { IEventListener } from './IEventListener'
+
 /**
  * Agent base interface
  * @public
@@ -13,6 +15,7 @@ export interface IAgentBase {
  */
 export interface IAgent extends IAgentBase {
   execute: <A = any, R = any>(method: string, args: A) => Promise<R>
+  emit: (eventType: string, data: any) => Promise<void>
 }
 
 /**
@@ -40,13 +43,12 @@ export interface IAgentPluginSchema {
   }
 }
 
-
 /**
  * Agent plugin interface
  * @public
  */
-export interface IAgentPlugin {
-  readonly methods: IPluginMethodMap
+export interface IAgentPlugin extends IEventListener {
+  readonly methods?: IPluginMethodMap
   readonly schema?: IAgentPluginSchema
 }
 
@@ -88,4 +90,3 @@ export interface IAgentContext<T extends IPluginMethodMap> {
    */
   agent: TAgent<T>
 }
-

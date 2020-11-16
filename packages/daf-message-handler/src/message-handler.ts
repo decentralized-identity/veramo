@@ -16,7 +16,7 @@ export const EventTypes = {
 /**
  * Agent plugin that provides {@link daf-core#IMessageHandler} methods
  */
-export class MessageHandler extends EventEmitter implements IAgentPlugin {
+export class MessageHandler implements IAgentPlugin {
   /**
    * Plugin methods
    * @public
@@ -26,8 +26,6 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
   private messageHandler?: AbstractMessageHandler
 
   constructor(options: { messageHandlers: AbstractMessageHandler[] }) {
-    super()
-
     for (const messageHandler of options.messageHandlers) {
       if (!this.messageHandler) {
         this.messageHandler = messageHandler
@@ -58,19 +56,19 @@ export class MessageHandler extends EventEmitter implements IAgentPlugin {
       const message = await this.messageHandler.handle(new Message({ raw, metaData }), context)
       if (message.isValid()) {
         debug('Emitting event', EventTypes.validatedMessage)
-        this.emit(EventTypes.validatedMessage, message)
+        context.agent.emit(EventTypes.validatedMessage, message)
       }
 
       debug('Validated message %o', message)
       if (save) {
         await context.agent.dataStoreSaveMessage({ message })
         debug('Emitting event', EventTypes.savedMessage)
-        this.emit(EventTypes.savedMessage, message)
+        context.agent.emit(EventTypes.savedMessage, message)
       }
       return message
     } catch (error) {
       debug('Error', error)
-      this.emit(EventTypes.error, error)
+      context.agent.emit(EventTypes.error, error)
       return Promise.reject(error)
     }
   }

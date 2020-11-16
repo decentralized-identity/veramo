@@ -2,6 +2,8 @@ import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } fr
 import { validateArguments, validateReturnType } from './validator'
 import ValidationErrorSchema from './schemas/ValidationError'
 import Debug from 'debug'
+import { EventEmitter } from 'events'
+import { EventEmitterError, EventListenerError } from './types/IEventListener'
 
 /**
  * Filters unauthorized methods. By default all methods are authorized
@@ -82,10 +84,11 @@ export class Agent implements IAgent {
    * The map of plugin + override methods
    */
   readonly methods: IPluginMethodMap = {}
-  
+
   private schema: IAgentPluginSchema
   private context?: Record<string, any>
-  private protectedMethods = ['execute', 'availableMethods']
+  private readonly eventBus: EventEmitter = new EventEmitter()
+  private protectedMethods = ['execute', 'availableMethods', 'emit']
 
   /**
    * Constructs a new instance of the `Agent` class
@@ -95,21 +98,21 @@ export class Agent implements IAgent {
    */
   constructor(options?: IAgentOptions) {
     this.context = options?.context
-    
+
     this.schema = {
       components: {
         schemas: {
-          ...ValidationErrorSchema.components.schemas
+          ...ValidationErrorSchema.components.schemas,
         },
-        methods: {}
-      }
+        methods: {},
+      },
     }
 
     if (options?.plugins) {
       for (const plugin of options.plugins) {
         this.methods = {
           ...this.methods,
-          ...filterUnauthorizedMethods(plugin.methods, options.authorizedMethods),
+          ...filterUnauthorizedMethods(plugin.methods || {}, options.authorizedMethods),
         }
         if (plugin.schema) {
           this.schema = {
@@ -121,11 +124,24 @@ export class Agent implements IAgent {
               methods: {
                 ...this.schema.components.methods,
                 ...plugin.schema.components.methods,
-              }
-            }
+              },
+            },
           }
         }
-
+        if (plugin?.eventTypes && plugin?.onEvent) {
+          for (const eventType of plugin.eventTypes) {
+            this.eventBus.on(eventType, async (args) => {
+              try {
+                await plugin?.onEvent?.({ type: eventType, data: args }, { ...this.context, agent: this })
+              } catch (e) {
+                await this.eventBus.emit(
+                  'error',
+                  new EventListenerError(`type=${eventType}, data=${args}, err=${e}`),
+                )
+              }
+            })
+          }
+        }
       }
     }
 
@@ -199,6 +215,29 @@ export class Agent implements IAgent {
     }
     Debug('daf:agent:' + method + ':result')('%o', result)
     return result
+  }
+
+  /**
+   * Broadcasts an `Event` to potential listeners.
+   *
+   * Listeners are `IAgentPlugin` instances that declare `eventTypes`
+   * and implement an `onEvent()` method.
+   *
+   * During creation, the agent automatically registers listener plugins
+   * to the `eventTypes` that they declare.
+   *
+   * @param eventType - the type of event being emitted
+   * @param data - event payload.
+   *     Use the same `data` type for events of a particular `eventType`.
+   *
+   * @public
+   */
+  async emit(eventType: string, data: any): Promise<void> {
+    try {
+      await this.eventBus.emit(eventType, data)
+    } catch (e) {
+      this.eventBus.emit('error', new EventEmitterError(`type=${eventType}, data=${data}, err=${e}`))
+    }
   }
 }
 

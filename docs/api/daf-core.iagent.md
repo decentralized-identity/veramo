@@ -17,5 +17,6 @@ export interface IAgent extends IAgentBase
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [emit](./daf-core.iagent.emit.md) | (eventType: string, data: any) =&gt; Promise&lt;void&gt; |  |
 |  [execute](./daf-core.iagent.execute.md) | &lt;A = any, R = any&gt;(method: string, args: A) =&gt; Promise&lt;R&gt; |  |
 

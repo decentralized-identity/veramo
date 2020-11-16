@@ -9,8 +9,9 @@ Agent plugin interface
 <b>Signature:</b>
 
 ```typescript
-export interface IAgentPlugin 
+export interface IAgentPlugin extends IEventSubscriber 
 ```
+<b>Extends:</b> IEventSubscriber
 
 ## Properties
 

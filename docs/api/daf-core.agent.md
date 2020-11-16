@@ -32,6 +32,7 @@ export declare class Agent implements IAgent
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [availableMethods()](./daf-core.agent.availablemethods.md) |  | Lists available agent method names |
+|  [emit(eventType, data)](./daf-core.agent.emit.md) |  |  |
 |  [execute(method, args)](./daf-core.agent.execute.md) |  | Executes a plugin method.<!-- -->Normally, the <code>execute()</code> method need not be called. The agent will expose the plugin methods directly on the agent instance but this can be used when dynamically deciding which methods to call. |
 |  [getSchema()](./daf-core.agent.getschema.md) |  | Returns agent plugin schema |
 

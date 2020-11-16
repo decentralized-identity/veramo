@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-readonly methods: IPluginMethodMap;
+readonly methods?: IPluginMethodMap;
 ```
