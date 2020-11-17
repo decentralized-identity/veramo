@@ -89,7 +89,8 @@ describe('daf-core agent', () => {
   //   await expect(secondListener).toBeCalledWith({ baz: 'bam' })
   // })
 
-  it('handles errors thrown in listeners... TODO: I am not sure if it is a good pattern to await emit() events!!!', async () => {
+  it('handles errors thrown in listeners', async () => {
+    expect.assertions(1)
     const plugin: IEventListener = {
       eventTypes: ['foo'],
       onEvent: async () => {
@@ -104,8 +105,8 @@ describe('daf-core agent', () => {
       plugins: [plugin, errorHandler],
     })
 
-    //TODO: this smells
-    await agent.emit('foo', 'bar')
+    agent.emit('foo', 'bar')
+    await sleep(1)
 
     expect(errorHandler.onEvent).toBeCalledWith(
       {
@@ -116,7 +117,9 @@ describe('daf-core agent', () => {
     )
   })
 
-  it('logs errors thrown in listeners', async () => {
+  it('handles errors thrown in listeners', async (done) => {
+    expect.assertions(1)
+
     const plugin: IEventListener = {
       eventTypes: ['foo'],
       onEvent: async () => {
@@ -128,7 +131,8 @@ describe('daf-core agent', () => {
       eventTypes: ['error'],
       onEvent: async ({ type, data }, context) => {
         const err = data as Error
-        console.log(err.name)
+        expect(err.name).toEqual('EventListenerError')
+        done()
       },
     }
     const agent = new Agent({
