@@ -9,6 +9,7 @@ const context = {
     execute: jest.fn(),
     availableMethods: jest.fn(),
     getSchema: jest.fn(),
+    emit: jest.fn(),
   },
 }
 

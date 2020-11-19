@@ -62,6 +62,7 @@ describe('daf-w3c', () => {
       getSchema: jest.fn(),
       execute: jest.fn(),
       availableMethods: jest.fn(),
+      emit: jest.fn(),
       resolveDid: async (args?): Promise<DIDDocument> => {
         if (!args?.didUrl) throw Error('DID required')
 

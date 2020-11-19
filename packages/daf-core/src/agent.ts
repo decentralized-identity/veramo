@@ -2,6 +2,7 @@ import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } fr
 import { validateArguments, validateReturnType } from './validator'
 import ValidationErrorSchema from './schemas/ValidationError'
 import Debug from 'debug'
+import { EventEmitter } from 'events'
 
 /**
  * Filters unauthorized methods. By default all methods are authorized
@@ -82,10 +83,13 @@ export class Agent implements IAgent {
    * The map of plugin + override methods
    */
   readonly methods: IPluginMethodMap = {}
-  
+
   private schema: IAgentPluginSchema
   private context?: Record<string, any>
-  private protectedMethods = ['execute', 'availableMethods']
+  private protectedMethods = ['execute', 'availableMethods', 'emit']
+
+  private readonly eventBus: EventEmitter = new EventEmitter()
+  private readonly eventQueue: (Promise<any> | undefined)[] = []
 
   /**
    * Constructs a new instance of the `Agent` class
@@ -95,21 +99,21 @@ export class Agent implements IAgent {
    */
   constructor(options?: IAgentOptions) {
     this.context = options?.context
-    
+
     this.schema = {
       components: {
         schemas: {
-          ...ValidationErrorSchema.components.schemas
+          ...ValidationErrorSchema.components.schemas,
         },
-        methods: {}
-      }
+        methods: {},
+      },
     }
 
     if (options?.plugins) {
       for (const plugin of options.plugins) {
         this.methods = {
           ...this.methods,
-          ...filterUnauthorizedMethods(plugin.methods, options.authorizedMethods),
+          ...filterUnauthorizedMethods(plugin.methods || {}, options.authorizedMethods),
         }
         if (plugin.schema) {
           this.schema = {
@@ -121,11 +125,32 @@ export class Agent implements IAgent {
               methods: {
                 ...this.schema.components.methods,
                 ...plugin.schema.components.methods,
-              }
-            }
+              },
+            },
           }
         }
-
+        if (plugin?.eventTypes && plugin?.onEvent) {
+          for (const eventType of plugin.eventTypes) {
+            this.eventBus.on(eventType, (args) => {
+              const promise = plugin?.onEvent?.(
+                { type: eventType, data: args },
+                { ...this.context, agent: this },
+              )
+              this.eventQueue.push(promise)
+              promise?.catch((rejection) => {
+                if (eventType !== 'error') {
+                  this.eventBus.emit('error', rejection)
+                } else {
+                  this.eventQueue.push(
+                    Promise.reject(
+                      new Error('ErrorEventHandlerError: throwing an error in an error handler should crash'),
+                    ),
+                  )
+                }
+              })
+            })
+          }
+        }
       }
     }
 
@@ -199,6 +224,49 @@ export class Agent implements IAgent {
     }
     Debug('daf:agent:' + method + ':result')('%o', result)
     return result
+  }
+
+  /**
+   * Broadcasts an `Event` to potential listeners.
+   *
+   * Listeners are `IEventListener` instances that declare `eventTypes`
+   * and implement an `async onEvent({type, data}, context)` method.
+   * Note that `IAgentPlugin` is also an `IEventListener` so plugins can be listeners for events.
+   *
+   * During creation, the agent automatically registers listener plugins
+   * to the `eventTypes` that they declare.
+   *
+   * Events are processed asynchronously, so the general pattern to be used is fire-and-forget.
+   * Ex: `agent.emit('foo', {eventData})`
+   *
+   * In situations where you need to make sure that all events in the queue have been exhausted,
+   * the `Promise` returned by `emit` can be awaited.
+   * Ex: `await agent.emit('foo', {eventData})`
+   *
+   * In case an error is thrown while processing an event, the error is re-emitted as an event
+   * of type `error` with a `EventListenerError` as payload.
+   *
+   * Note that `await agent.emit()` will NOT throw an error. To process errors, use a listener
+   * with `eventTypes: ["error"]` in the definition.
+   *
+   * @param eventType - the type of event being emitted
+   * @param data - event payload.
+   *     Use the same `data` type for events of a particular `eventType`.
+   *
+   * @public
+   */
+  async emit(eventType: string, data: any): Promise<void> {
+    this.eventBus.emit(eventType, data)
+    while (this.eventQueue.length > 0) {
+      try {
+        await this.eventQueue.shift()
+      } catch (e) {
+        //nop
+        if (e.message.startsWith('ErrorEventHandlerError')) {
+          throw e
+        }
+      }
+    }
   }
 }
 

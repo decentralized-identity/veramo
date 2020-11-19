@@ -53,6 +53,7 @@ const context: IContext = {
     execute: jest.fn(),
     availableMethods: jest.fn(),
     resolveDid: jest.fn(),
+    emit: jest.fn(),
     identityManagerGetIdentity: jest
       .fn()
       .mockImplementation(async (args): Promise<IIdentity> => mockIdentity1),

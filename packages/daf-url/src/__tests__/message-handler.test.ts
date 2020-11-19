@@ -1,6 +1,7 @@
 import { Message } from 'daf-message-handler'
 import { UrlMessageHandler } from '../index'
 import fetchMock from 'jest-fetch-mock'
+import { IAgent } from 'daf-core/src/types/IAgent'
 fetchMock.enableMocks()
 
 const context = {
@@ -8,6 +9,7 @@ const context = {
     execute: jest.fn(),
     availableMethods: jest.fn(),
     getSchema: jest.fn(),
+    emit: jest.fn(),
   },
 }
 

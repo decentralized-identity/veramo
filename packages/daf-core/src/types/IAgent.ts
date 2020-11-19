@@ -13,6 +13,7 @@ export interface IAgentBase {
  */
 export interface IAgent extends IAgentBase {
   execute: <A = any, R = any>(method: string, args: A) => Promise<R>
+  emit: (eventType: string, data: any) => Promise<void>
 }
 
 /**
@@ -40,13 +41,32 @@ export interface IAgentPluginSchema {
   }
 }
 
+/**
+ * Describes a listener interface that needs to be implemented by components interested
+ * in listening to events emitted by an agent.
+ *
+ * @public
+ */
+export interface IEventListener {
+  /**
+   * Declares the event types that this listener is interested in.
+   * @public
+   */
+  readonly eventTypes?: string[]
+  /**
+   * Processes an event emitted by the agent.
+   * @param context - Execution context. Requires agent with {@link daf-core#IDataStore} methods
+   * @public
+   */
+  onEvent?(event: { type: string; data: any }, context: IAgentContext<{}>): Promise<void>
+}
 
 /**
  * Agent plugin interface
  * @public
  */
-export interface IAgentPlugin {
-  readonly methods: IPluginMethodMap
+export interface IAgentPlugin extends IEventListener {
+  readonly methods?: IPluginMethodMap
   readonly schema?: IAgentPluginSchema
 }
 
@@ -88,4 +108,3 @@ export interface IAgentContext<T extends IPluginMethodMap> {
    */
   agent: TAgent<T>
 }
-
