@@ -31,16 +31,6 @@ export interface EcdsaSignature {
 }
 
 // @public
-interface Event_2 {
-  // (undocumented)
-  data: any
-  // (undocumented)
-  type: string
-}
-
-export { Event_2 as Event }
-
-// @public
 export interface IAgent extends IAgentBase {
   // (undocumented)
   emit: (eventType: string, data: any) => Promise<void>
@@ -131,7 +121,13 @@ export interface IDataStoreSaveVerifiablePresentationArgs {
 // @public
 export interface IEventListener {
   readonly eventTypes?: string[]
-  onEvent?(event: Event_2, context: IAgentContext<{}>): Promise<void>
+  onEvent?(
+    event: {
+      type: string
+      data: any
+    },
+    context: IAgentContext<{}>,
+  ): Promise<void>
 }
 
 // @public

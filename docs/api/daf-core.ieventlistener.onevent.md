@@ -9,14 +9,17 @@ Processes an event emitted by the agent.
 <b>Signature:</b>
 
 ```typescript
-onEvent?(event: Event, context: IAgentContext<{}>): Promise<void>;
+onEvent?(event: {
+        type: string;
+        data: any;
+    }, context: IAgentContext<{}>): Promise<void>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  event | Event |  |
+|  event | { type: string; data: any; } |  |
 |  context | [IAgentContext](./daf-core.iagentcontext.md)<!-- -->&lt;{}&gt; | Execution context. Requires agent with [IDataStore](./daf-core.idatastore.md) methods |
 
 <b>Returns:</b>
