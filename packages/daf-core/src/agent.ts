@@ -3,7 +3,6 @@ import { validateArguments, validateReturnType } from './validator'
 import ValidationErrorSchema from './schemas/ValidationError'
 import Debug from 'debug'
 import { EventEmitter } from 'events'
-import { EventEmitterError, EventListenerError } from './types/IEventListener'
 
 /**
  * Filters unauthorized methods. By default all methods are authorized
@@ -87,8 +86,10 @@ export class Agent implements IAgent {
 
   private schema: IAgentPluginSchema
   private context?: Record<string, any>
-  private readonly eventBus: EventEmitter = new EventEmitter()
   private protectedMethods = ['execute', 'availableMethods', 'emit']
+
+  private readonly eventBus: EventEmitter = new EventEmitter()
+  private readonly eventQueue: (Promise<any> | undefined)[] = []
 
   /**
    * Constructs a new instance of the `Agent` class
@@ -130,15 +131,23 @@ export class Agent implements IAgent {
         }
         if (plugin?.eventTypes && plugin?.onEvent) {
           for (const eventType of plugin.eventTypes) {
-            this.eventBus.on(eventType, async (args) => {
-              try {
-                await plugin?.onEvent?.({ type: eventType, data: args }, { ...this.context, agent: this })
-              } catch (e) {
-                await this.eventBus.emit(
-                  'error',
-                  new EventListenerError(`type=${eventType}, data=${args}, err=${e}`),
-                )
-              }
+            this.eventBus.on(eventType, (args) => {
+              const promise = plugin?.onEvent?.(
+                { type: eventType, data: args },
+                { ...this.context, agent: this },
+              )
+              this.eventQueue.push(promise)
+              promise?.catch((rejection) => {
+                if (eventType !== 'error') {
+                  this.eventBus.emit('error', rejection)
+                } else {
+                  this.eventQueue.push(
+                    Promise.reject(
+                      new Error('ErrorEventHandlerError: throwing an error in an error handler should crash'),
+                    ),
+                  )
+                }
+              })
             })
           }
         }
@@ -220,11 +229,25 @@ export class Agent implements IAgent {
   /**
    * Broadcasts an `Event` to potential listeners.
    *
-   * Listeners are `IAgentPlugin` instances that declare `eventTypes`
-   * and implement an `onEvent()` method.
+   * Listeners are `IEventListener` instances that declare `eventTypes`
+   * and implement an `async onEvent({type, data}, context)` method.
+   * Note that `IAgentPlugin` is also an `IEventListener` so plugins can be listeners for events.
    *
    * During creation, the agent automatically registers listener plugins
    * to the `eventTypes` that they declare.
+   *
+   * Events are processed asynchronously, so the general pattern to be used is fire-and-forget.
+   * Ex: `agent.emit('foo', {eventData})`
+   *
+   * In situations where you need to make sure that all events in the queue have been exhausted,
+   * the `Promise` returned by `emit` can be awaited.
+   * Ex: `await agent.emit('foo', {eventData})`
+   *
+   * In case an error is thrown while processing an event, the error is re-emitted as an event
+   * of type `error` with a `EventListenerError` as payload.
+   *
+   * Note that `await agent.emit()` will NOT throw an error. To process errors, use a listener
+   * with `eventTypes: ["error"]` in the definition.
    *
    * @param eventType - the type of event being emitted
    * @param data - event payload.
@@ -233,10 +256,16 @@ export class Agent implements IAgent {
    * @public
    */
   async emit(eventType: string, data: any): Promise<void> {
-    try {
-      await this.eventBus.emit(eventType, data)
-    } catch (e) {
-      this.eventBus.emit('error', new EventEmitterError(`type=${eventType}, data=${data}, err=${e}`))
+    this.eventBus.emit(eventType, data)
+    while (this.eventQueue.length > 0) {
+      try {
+        await this.eventQueue.shift()
+      } catch (e) {
+        //nop
+        if (e.message.startsWith('ErrorEventHandlerError')) {
+          throw e
+        }
+      }
     }
   }
 }

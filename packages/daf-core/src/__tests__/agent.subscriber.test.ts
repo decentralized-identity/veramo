@@ -1,6 +1,5 @@
 import { Agent } from '../agent'
-import { IAgentPlugin } from '../types/IAgent'
-import { EventListenerError, IEventListener } from '../types/IEventListener'
+import { IEventListener } from '../types/IAgent'
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -50,6 +49,7 @@ describe('daf-core agent', () => {
   })
 
   it('handles event chain', async () => {
+    expect.assertions(1)
     const firstPlugin: IEventListener = {
       eventTypes: ['foo'],
       onEvent: async (event, context) => {
@@ -66,30 +66,10 @@ describe('daf-core agent', () => {
 
     agent.emit('foo', {})
 
-    await expect(secondPlugin.onEvent).toBeCalled()
+    expect(secondPlugin.onEvent).toBeCalled()
   })
 
-  // it('handles listener registered directly on agent.. not sure if it is safe to expose the agent as EventEmitter directly', async () => {
-  //   const plugin: IEventListener = {
-  //     eventTypes: ['foo'],
-  //     onEvent: async (event, context) => {
-  //       context.agent.emit('bar', { baz: 'bam' })
-  //     },
-  //   }
-
-  //   const agent = new Agent({
-  //     plugins: [plugin],
-  //   })
-
-  //   const secondListener = jest.fn()
-  //   agent.on('bar', secondListener)
-
-  //   agent.emit('foo')
-
-  //   await expect(secondListener).toBeCalledWith({ baz: 'bam' })
-  // })
-
-  it('handles errors thrown in listeners... TODO: I am not sure if it is a good pattern to await emit() events!!!', async () => {
+  it('handles errors thrown in listeners', async () => {
     const plugin: IEventListener = {
       eventTypes: ['foo'],
       onEvent: async () => {
@@ -104,37 +84,108 @@ describe('daf-core agent', () => {
       plugins: [plugin, errorHandler],
     })
 
-    //TODO: this smells
     await agent.emit('foo', 'bar')
 
     expect(errorHandler.onEvent).toBeCalledWith(
       {
         type: 'error',
-        data: new EventListenerError("type=foo, data=bar, err=Error: I can't handle it!!!!"),
+        data: new Error("I can't handle it!!!!"),
       },
       { agent: agent },
     )
   })
 
-  it('logs errors thrown in listeners', async () => {
+  it('re emits errors thrown in listeners', async () => {
+    expect.assertions(2)
     const plugin: IEventListener = {
       eventTypes: ['foo'],
       onEvent: async () => {
         await sleep(1500)
-        throw new Error("I can't handle it!!!!")
+        throw new Error("I can't handle it after waiting so long!!!!")
       },
     }
     const errorHandler: IEventListener = {
       eventTypes: ['error'],
       onEvent: async ({ type, data }, context) => {
+        expect(type).toBe('error')
         const err = data as Error
-        console.log(err.name)
+        expect(err.message).toMatch("I can't handle it after waiting so long!!!!")
       },
     }
     const agent = new Agent({
       plugins: [plugin, errorHandler],
     })
 
+    await agent.emit('foo', {})
+  })
+
+  it('handles events asynchronously', async () => {
+    let trackRecord = ''
+    const pluginFoo: IEventListener = {
+      eventTypes: ['foo'],
+      onEvent: async () => {
+        await sleep(0)
+        trackRecord += 'foo'
+      },
+    }
+    const pluginBar: IEventListener = {
+      eventTypes: ['foo'],
+      onEvent: async () => {
+        await sleep(0)
+        trackRecord += 'bar'
+      },
+    }
+    const agent = new Agent({
+      plugins: [pluginFoo, pluginBar],
+    })
+
+    //fire and forget
     agent.emit('foo', {})
+    trackRecord += 'baz'
+
+    expect(trackRecord).toEqual('baz')
+
+    //wait for state changes
+    await agent.emit('null', {})
+    expect(trackRecord).toEqual('bazfoobar')
+  })
+
+  //FIXME: do we impose that a plugin only be registered once?
+  it.skip('can NOT register plugin multiple times', async () => {
+    let trackRecord = ''
+    const plugin: IEventListener = {
+      eventTypes: ['foo'],
+      onEvent: async () => {
+        trackRecord += 'foo'
+      },
+    }
+    const agent = new Agent({
+      plugins: [plugin, plugin, plugin],
+    })
+
+    await agent.emit('foo', {})
+
+    expect(trackRecord).toEqual('foo')
+  })
+
+  it("throwing in an error listener doesn't go into an endless loop", async () => {
+    const plugin: IEventListener = {
+      eventTypes: ['foo'],
+      onEvent: async () => {
+        throw new Error('fooError')
+      },
+    }
+    const errorHandler: IEventListener = {
+      eventTypes: ['error'],
+      onEvent: async () => {
+        console.log('throwing error in error handler')
+        throw new Error('barError')
+      },
+    }
+    const agent = new Agent({
+      plugins: [plugin, errorHandler],
+    })
+
+    await expect(agent.emit('foo', {})).rejects.toThrowError('ErrorEventHandlerError')
   })
 })

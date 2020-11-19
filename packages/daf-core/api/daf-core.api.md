@@ -9,7 +9,6 @@ import { DIDDocument } from 'did-resolver'
 export class Agent implements IAgent {
   constructor(options?: IAgentOptions)
   availableMethods(): string[]
-  // (undocumented)
   emit(eventType: string, data: any): Promise<void>
   execute<P = any, R = any>(method: string, args: P): Promise<R>
   getSchema(): IAgentPluginSchema
@@ -30,6 +29,16 @@ export interface EcdsaSignature {
   // (undocumented)
   s: string
 }
+
+// @public
+interface Event_2 {
+  // (undocumented)
+  data: any
+  // (undocumented)
+  type: string
+}
+
+export { Event_2 as Event }
 
 // @public
 export interface IAgent extends IAgentBase {
@@ -60,10 +69,8 @@ export interface IAgentOptions {
   plugins?: IAgentPlugin[]
 }
 
-// Warning: (ae-forgotten-export) The symbol "IEventSubscriber" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface IAgentPlugin extends IEventSubscriber {
+export interface IAgentPlugin extends IEventListener {
   // (undocumented)
   readonly methods?: IPluginMethodMap
   // (undocumented)
@@ -119,6 +126,12 @@ export interface IDataStoreSaveVerifiableCredentialArgs {
 // @public
 export interface IDataStoreSaveVerifiablePresentationArgs {
   verifiablePresentation: VerifiablePresentation
+}
+
+// @public
+export interface IEventListener {
+  readonly eventTypes?: string[]
+  onEvent?(event: Event_2, context: IAgentContext<{}>): Promise<void>
 }
 
 // @public

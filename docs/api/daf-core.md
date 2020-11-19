@@ -24,6 +24,7 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  Interface | Description |
 |  --- | --- |
 |  [EcdsaSignature](./daf-core.ecdsasignature.md) |  |
+|  [Event\_2](./daf-core.event_2.md) | Describes an event that can be emitted by agent plugins. <code>agent.emit(type, data)</code> |
 |  [IAgent](./daf-core.iagent.md) | Agent that can execute methods |
 |  [IAgentBase](./daf-core.iagentbase.md) | Agent base interface |
 |  [IAgentContext](./daf-core.iagentcontext.md) | Standard plugin method context interface |
@@ -37,6 +38,7 @@ Provides [Agent](./daf-core.agent.md) implementation and defines [IResolver](./d
 |  [IDataStoreSaveMessageArgs](./daf-core.idatastoresavemessageargs.md) | Input arguments for [dataStoreSaveMessage](./daf-core.idatastore.datastoresavemessage.md) |
 |  [IDataStoreSaveVerifiableCredentialArgs](./daf-core.idatastoresaveverifiablecredentialargs.md) | Input arguments for [dataStoreSaveVerifiableCredential](./daf-core.idatastore.datastoresaveverifiablecredential.md) |
 |  [IDataStoreSaveVerifiablePresentationArgs](./daf-core.idatastoresaveverifiablepresentationargs.md) | Input arguments for [dataStoreSaveVerifiablePresentation](./daf-core.idatastore.datastoresaveverifiablepresentation.md) |
+|  [IEventListener](./daf-core.ieventlistener.md) | Describes a listener interface that needs to be implemented by components interested in listening to events emitted by an agent. |
 |  [IHandleMessageArgs](./daf-core.ihandlemessageargs.md) | Input arguments for [handleMessage](./daf-core.imessagehandler.handlemessage.md) |
 |  [IIdentity](./daf-core.iidentity.md) | Identity interface |
 |  [IIdentityManager](./daf-core.iidentitymanager.md) | Identity manager interface |
