@@ -1,7 +1,7 @@
 {
   "name": "daf-resolver-universal",
   "description": "DAF resolver plugin using the uniresolver.io API.",
-  "version": "7.0.0-beta.45",
+  "version": "7.0.0-beta.46",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.5",
-    "daf-core": "^7.0.0-beta.45",
+    "daf-core": "^7.0.0-beta.46",
     "debug": "^4.1.1",
     "did-resolver": "2.1.1"
   },

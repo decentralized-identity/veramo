@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.46](https://github.com/uport-project/daf/compare/v7.0.0-beta.45...v7.0.0-beta.46) (2020-11-19)
+
+
+### Features
+
+* Add event system to agent ([#262](https://github.com/uport-project/daf/issues/262)) ([9a6747e](https://github.com/uport-project/daf/commit/9a6747e84037613d396e14a6f68cb2de8275ddca))
+* CLI server homepage template ([ac9cf52](https://github.com/uport-project/daf/commit/ac9cf526bbbc210de15e933970b5eac3ab646c17))
+* Provide link to DID document ([1578c1c](https://github.com/uport-project/daf/commit/1578c1c4f7cafffe2ca5b40643a3213dd0ac5c4d))
+
+
+
+
+
 # [7.0.0-beta.45](https://github.com/uport-project/daf/compare/v7.0.0-beta.44...v7.0.0-beta.45) (2020-10-22)
 
 
