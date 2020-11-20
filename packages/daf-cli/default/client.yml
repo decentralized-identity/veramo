@@ -18,7 +18,8 @@ server:
 agent:
   $require: daf-core#Agent
   $args:
-    - plugins:
+    - schemaValidation: false
+      plugins:
         - $require: daf-rest#AgentRestClient
           $args:
             - url: http://localhost:3332

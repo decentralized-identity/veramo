@@ -6,6 +6,7 @@ import {
   IKeyManager,
   IDataStore,
   IMessageHandler,
+  IAgentOptions,
 } from '../packages/daf-core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
@@ -61,7 +62,7 @@ let agent: TAgent<
 >
 let dbConnection: Promise<Connection>
 
-const setup = async (): Promise<boolean> => {
+const setup = async (options?: IAgentOptions): Promise<boolean> => {
   dbConnection = createConnection({
     type: 'sqlite',
     database: databaseFile,
@@ -81,6 +82,7 @@ const setup = async (): Promise<boolean> => {
       ICredentialIssuer &
       ISelectiveDisclosure
   >({
+    ...options,
     context: {
       // authenticatedDid: 'did:example:3456'
     },

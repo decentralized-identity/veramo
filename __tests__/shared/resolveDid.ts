@@ -1,10 +1,10 @@
-import { TAgent, IResolver, ValidationError } from '../../packages/daf-core/src'
+import { TAgent, IResolver, ValidationError, IAgentOptions } from '../../packages/daf-core/src'
 
 type ConfiguredAgent = TAgent<IResolver>
 
 export default (testContext: {
-  getAgent: () => ConfiguredAgent
-  setup: () => Promise<boolean>
+  getAgent: (options?: IAgentOptions) => ConfiguredAgent
+  setup: (options?: IAgentOptions) => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
   describe('resolving didUrl', () => {
@@ -24,8 +24,30 @@ export default (testContext: {
     })
 
     it('should throw an error for unsupported did methods', async () => {
-      await expect(agent.resolveDid({ didUrl: 'did:foo:bar' })).rejects.toThrow("Unsupported DID method: 'foo'")
+      await expect(agent.resolveDid({ didUrl: 'did:foo:bar' })).rejects.toThrow(
+        "Unsupported DID method: 'foo'",
+      )
     })
+
+    it('should throw error when resolving garbage', async () => {
+      //@ts-ignore
+      await expect(agent.resolveDid()).rejects.toHaveProperty('name', 'Error')
+      //@ts-ignore
+      await expect(agent.resolveDid({})).rejects.toHaveProperty('name', 'Error')
+      //@ts-ignore
+      await expect(agent.resolveDid({ didUrl: 1 })).rejects.toThrow()
+    })
+  })
+
+  describe('resolving didUrl with validation', () => {
+    let agent: ConfiguredAgent
+
+    beforeAll(async () => {
+      await testContext.setup({ schemaValidation: true })
+      agent = testContext.getAgent({ schemaValidation: true })
+      return true
+    })
+    afterAll(testContext.tearDown)
 
     it('should throw validation error', async () => {
       //@ts-ignore
@@ -33,8 +55,7 @@ export default (testContext: {
       //@ts-ignore
       await expect(agent.resolveDid({})).rejects.toHaveProperty('name', 'ValidationError')
       //@ts-ignore
-      await expect(agent.resolveDid({didUrl: 1})).rejects.toHaveProperty('name', 'ValidationError')
-
+      await expect(agent.resolveDid({ didUrl: 1 })).rejects.toHaveProperty('name', 'ValidationError')
     })
   })
 }

@@ -1,10 +1,10 @@
-import { TAgent, IIdentityManager, IKeyManager } from '../../packages/daf-core/src'
+import { TAgent, IIdentityManager, IKeyManager, IAgentOptions } from '../../packages/daf-core/src'
 
 type ConfiguredAgent = TAgent<IIdentityManager & IKeyManager>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
-  setup: () => Promise<boolean>
+  setup: (options?: IAgentOptions) => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
   describe('key manager', () => {
@@ -64,7 +64,7 @@ export default (testContext: {
           //@ts-ignore
           type: 'foobar',
         }),
-      ).rejects.toThrow('No enum match for: foobar')
+      ).rejects.toThrow('Key type not supported: foobar')
     })
 
     it('should create key with meta data', async () => {

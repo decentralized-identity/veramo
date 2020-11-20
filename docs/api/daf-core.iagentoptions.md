@@ -24,4 +24,5 @@ export interface IAgentOptions
 |  [context](./daf-core.iagentoptions.context.md) | Record&lt;string, any&gt; | The context object that will be available to the plugin methods |
 |  [overrides](./daf-core.iagentoptions.overrides.md) | [IPluginMethodMap](./daf-core.ipluginmethodmap.md) | The map of plugin methods. Can be used to override methods provided by plugins, or to add additional methods without writing a plugin |
 |  [plugins](./daf-core.iagentoptions.plugins.md) | [IAgentPlugin](./daf-core.iagentplugin.md)<!-- -->\[\] | The array of agent plugins |
+|  [schemaValidation](./daf-core.iagentoptions.schemavalidation.md) | boolean | Flag that enables schema validation for plugin methods. false |
 

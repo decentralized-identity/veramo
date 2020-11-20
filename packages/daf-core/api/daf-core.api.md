@@ -57,6 +57,7 @@ export interface IAgentOptions {
   context?: Record<string, any>
   overrides?: IPluginMethodMap
   plugins?: IAgentPlugin[]
+  schemaValidation?: boolean
 }
 
 // @public
