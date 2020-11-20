@@ -376,6 +376,9 @@ export interface IService {
   type: string
 }
 
+// @public (undocumented)
+export const pluginCredential: any
+
 // @public
 export interface RemoveContext<T extends IPluginMethod> {
   // (undocumented)

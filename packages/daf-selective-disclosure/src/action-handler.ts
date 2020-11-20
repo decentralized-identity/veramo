@@ -18,7 +18,7 @@ import {
   ISelectiveDisclosureRequest,
   ICreateProfileCredentialsArgs,
 } from './types'
-import schema from './schemas/ISelectiveDisclosure'
+import { pluginCredential } from './'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 
@@ -35,7 +35,7 @@ import Debug from 'debug'
  */
 export class SelectiveDisclosure implements IAgentPlugin {
   readonly methods: ISelectiveDisclosure
-  readonly schema = schema
+  readonly schema = pluginCredential.credentialSubject.interfaces.ISelectiveDisclosure
 
   constructor() {
     this.methods = {

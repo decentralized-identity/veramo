@@ -37,7 +37,7 @@ import {
   FindArgs,
 } from './types'
 
-import schema from './schemas/IDataStoreORM'
+import { pluginCredential } from './'
 
 interface IContext {
   authenticatedDid?: string
@@ -84,7 +84,7 @@ export interface IDataStoreORM extends IPluginMethodMap {
 
 export class DataStoreORM implements IAgentPlugin {
   readonly methods: IDataStoreORM
-  readonly schema = schema
+  readonly schema = pluginCredential.credentialSubject.interfaces.IDataStoreORM
   private dbConnection: Promise<Connection>
 
   constructor(dbConnection: Promise<Connection>) {
@@ -132,7 +132,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: IContext,
   ): Promise<PartialIdentity[]> {
     const identities = await (await this.identitiesQuery(args, context)).getMany()
-    return identities.map(i => {
+    return identities.map((i) => {
       const identity: PartialIdentity = i
       if (identity.controllerKeyId === null) {
         delete identity.controllerKeyId

@@ -6,8 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "daf extractPluginApi -c ./api-extractor.json",
-    "generate-schema": "daf generatePluginSchema"
+    "create-plugin-credential": "yarn daf create-plugin-credential --config=../../agent.yml"
   },
   "daf": {
     "pluginInterfaces": {
@@ -29,6 +28,7 @@
   "files": [
     "build/**/*",
     "src/**/*",
+    "plugin.credential.json",
     "README.md",
     "LICENSE"
   ],

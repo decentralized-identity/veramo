@@ -10,3 +10,5 @@ export {
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,
 } from './action-handler'
+const pluginCredential = require('../plugin.credential.json')
+export { pluginCredential }

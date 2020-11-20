@@ -9,7 +9,7 @@ import {
   IPluginMethodMap,
   IAgentPlugin,
 } from 'daf-core'
-import schema from './schemas/IDIDComm'
+import { pluginCredential } from './'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
 
@@ -62,7 +62,7 @@ export interface IDIDComm extends IPluginMethodMap {
 export class DIDComm implements IAgentPlugin {
   /** Plugin methods */
   readonly methods: IDIDComm
-  readonly schema = schema
+  readonly schema = pluginCredential.credentialSubject.interfaces.IDIDComm
 
   constructor() {
     this.methods = {

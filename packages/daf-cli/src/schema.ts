@@ -84,8 +84,8 @@ function getReference(response: string): OpenAPIV3.ReferenceObject | OpenAPIV3.S
 }
 
 program
-  .command('generatePluginSchema')
-  .description('Generate DAF plugin schema')
+  .command('create-plugin-credential')
+  .description('Create plugin credential')
   .option('-c, --extractorConfig <string>', 'API Extractor config file', './api-extractor.json')
   .option(
     '-p, --packageConfig <string>',
@@ -209,5 +209,27 @@ program
       save: true,
     })
 
-    writeFileSync(resolve('./agent-plugin-schema.json'), JSON.stringify(verifiableCredential, null, 2))
+    writeFileSync(resolve('./plugin.credential.json'), JSON.stringify(verifiableCredential, null, 2))
+  })
+
+program
+  .command('extract-api')
+  .description('Extract API')
+  .option('-c, --extractorConfig <string>', 'API Extractor config file', './api-extractor.json')
+  .action(async (options) => {
+    const apiExtractorJsonPath: string = resolve(options.extractorConfig)
+    const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
+
+    const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
+      localBuild: true,
+      showVerboseMessages: true,
+    })
+
+    if (!extractorResult.succeeded) {
+      console.error(
+        `API Extractor completed with ${extractorResult.errorCount} errors` +
+          ` and ${extractorResult.warningCount} warnings`,
+      )
+      process.exitCode = 1
+    }
   })
