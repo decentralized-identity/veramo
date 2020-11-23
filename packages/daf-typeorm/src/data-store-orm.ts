@@ -37,7 +37,7 @@ import {
   FindArgs,
 } from './types'
 
-import { pluginCredential } from './'
+import { schema } from './'
 
 interface IContext {
   authenticatedDid?: string
@@ -84,7 +84,7 @@ export interface IDataStoreORM extends IPluginMethodMap {
 
 export class DataStoreORM implements IAgentPlugin {
   readonly methods: IDataStoreORM
-  readonly schema = pluginCredential.credentialSubject.interfaces.IDataStoreORM
+  readonly schema = schema.IDataStoreORM
   private dbConnection: Promise<Connection>
 
   constructor(dbConnection: Promise<Connection>) {

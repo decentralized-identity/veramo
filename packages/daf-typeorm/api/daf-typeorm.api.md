@@ -347,9 +347,6 @@ export interface Order<TColumns> {
 }
 
 // @public (undocumented)
-export const pluginCredential: any;
-
-// @public (undocumented)
 export class Presentation extends BaseEntity {
     // (undocumented)
     context: string[];
@@ -375,6 +372,9 @@ export class Presentation extends BaseEntity {
     // (undocumented)
     verifier?: Identity[];
 }
+
+// @public (undocumented)
+export const schema: any;
 
 // @public (undocumented)
 export class Service extends BaseEntity {

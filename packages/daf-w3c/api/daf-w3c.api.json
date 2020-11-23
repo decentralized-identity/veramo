@@ -628,12 +628,12 @@
         },
         {
           "kind": "Variable",
-          "canonicalReference": "daf-w3c!pluginCredential:var",
+          "canonicalReference": "daf-w3c!schema:var",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "pluginCredential: "
+              "text": "schema: "
             },
             {
               "kind": "Content",
@@ -641,7 +641,7 @@
             }
           ],
           "releaseTag": "Public",
-          "name": "pluginCredential",
+          "name": "schema",
           "variableTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 2

@@ -1370,12 +1370,12 @@
         },
         {
           "kind": "Variable",
-          "canonicalReference": "daf-selective-disclosure!pluginCredential:var",
+          "canonicalReference": "daf-selective-disclosure!schema:var",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "pluginCredential: "
+              "text": "schema: "
             },
             {
               "kind": "Content",
@@ -1383,7 +1383,7 @@
             }
           ],
           "releaseTag": "Public",
-          "name": "pluginCredential",
+          "name": "schema",
           "variableTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 2

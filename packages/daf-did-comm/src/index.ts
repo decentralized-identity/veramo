@@ -5,5 +5,5 @@
  */
 export { DIDComm, IDIDComm, ISendMessageDIDCommAlpha1Args } from './action-handler'
 export { DIDCommMessageHandler } from './message-handler'
-const pluginCredential = require('../plugin.credential.json')
-export { pluginCredential }
+const schema = require('../plugin.schema.json')
+export { schema }

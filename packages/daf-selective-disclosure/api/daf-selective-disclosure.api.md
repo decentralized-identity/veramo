@@ -108,7 +108,7 @@ export const MessageTypes: {
 };
 
 // @public (undocumented)
-export const pluginCredential: any;
+export const schema: any;
 
 // @beta
 export class SdrMessageHandler extends AbstractMessageHandler {

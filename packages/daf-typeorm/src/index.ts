@@ -29,5 +29,5 @@ import { Message, MetaData } from './entities/message'
 export const Entities = [Key, Identity, Message, Claim, Credential, Presentation, Service]
 export { KeyType, Key, Identity, Message, Claim, Credential, Presentation, MetaData, Service }
 export { migrations } from './migrations'
-const pluginCredential = require('../plugin.credential.json')
-export { pluginCredential }
+const schema = require('../plugin.schema.json')
+export { schema }

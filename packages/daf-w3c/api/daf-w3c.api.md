@@ -60,7 +60,7 @@ export const MessageTypes: {
 };
 
 // @public (undocumented)
-export const pluginCredential: any;
+export const schema: any;
 
 // @public
 export class W3cMessageHandler extends AbstractMessageHandler {

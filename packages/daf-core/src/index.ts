@@ -13,5 +13,5 @@ export * from './types/IKeyManager'
 export * from './types/IMessage'
 export * from './types/IMessageHandler'
 export * from './types/IResolver'
-const pluginCredential = require('../plugin.credential.json')
-export { pluginCredential }
+const schema = require('../plugin.schema.json')
+export { schema }

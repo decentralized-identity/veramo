@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import { IAgentPlugin, IResolver, pluginCredential } from 'daf-core'
+import { IAgentPlugin, IResolver, schema } from 'daf-core'
 import { DIDDocument } from 'did-resolver'
 export { DIDDocument }
 import Debug from 'debug'
@@ -11,7 +11,7 @@ interface Options {
 
 export class DafUniversalResolver implements IAgentPlugin {
   readonly methods: IResolver
-  readonly schema = pluginCredential.credentialSubject.interfaces.IResolver
+  readonly schema = schema.IResolver
   private url: string
 
   constructor(options: Options) {

@@ -12,7 +12,7 @@ import {
   IKeyManagerSignJWTArgs,
   IKeyManagerSignEthTXArgs,
   EcdsaSignature,
-  pluginCredential,
+  schema,
 } from 'daf-core'
 
 /**
@@ -26,7 +26,7 @@ export class KeyManager implements IAgentPlugin {
    */
   readonly methods: IKeyManager
 
-  readonly schema = pluginCredential.credentialSubject.interfaces.IKeyManager
+  readonly schema = schema.IKeyManager
 
   private store: AbstractKeyStore
   private kms: Record<string, AbstractKeyManagementSystem>

@@ -55,7 +55,7 @@ export interface ISendMessageDIDCommAlpha1Args {
 }
 
 // @public (undocumented)
-export const pluginCredential: any;
+export const schema: any;
 
 
 ```

@@ -352,9 +352,6 @@ export interface IService {
     type: string;
 }
 
-// @public (undocumented)
-export const pluginCredential: any;
-
 // @public
 export interface RemoveContext<T extends IPluginMethod> {
     // (undocumented)
@@ -365,6 +362,9 @@ export interface RemoveContext<T extends IPluginMethod> {
 export interface ResolveDidArgs {
     didUrl: string;
 }
+
+// @public (undocumented)
+export const schema: any;
 
 // @public
 export type TAgent<T extends IPluginMethodMap> = {

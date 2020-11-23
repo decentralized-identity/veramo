@@ -84,19 +84,16 @@ function getReference(response: string): OpenAPIV3.ReferenceObject | OpenAPIV3.S
 }
 
 program
-  .command('create-plugin-credential')
-  .description('Create plugin credential')
+  .command('generate-plugin-schema')
+  .description('Generate plugin schema')
   .option('-c, --extractorConfig <string>', 'API Extractor config file', './api-extractor.json')
   .option(
     '-p, --packageConfig <string>',
     'package.json file containing DAF plugin interface config',
     './package.json',
   )
-  .option('-i, --issuer <string>', 'Schema credential issuer')
 
   .action(async (options) => {
-    const agent = getAgent(program.config)
-
     const apiExtractorJsonPath: string = resolve(options.extractorConfig)
     const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
 
@@ -114,9 +111,7 @@ program
     }
 
     const packageConfig = require(resolve(options.packageConfig))
-    const credentialSubject: any = {
-      interfaces: {},
-    }
+    const interfaces: any = {}
 
     for (const pluginInterfaceName in packageConfig.daf.pluginInterfaces) {
       const entryFile = packageConfig.daf.pluginInterfaces[pluginInterfaceName]
@@ -182,34 +177,10 @@ program
         }
       }
 
-      credentialSubject.interfaces[pluginInterfaceName] = api
+      interfaces[pluginInterfaceName] = api
     }
 
-    let issuer: IIdentity
-    if (options.did) {
-      issuer = await agent.identityManagerGetIdentity({ did: options.did })
-      if (!issuer) {
-        throw Error('DID not found ' + options.did)
-      }
-    } else {
-      issuer = await agent.identityManagerGetOrCreateIdentity({
-        alias: 'default',
-      })
-    }
-
-    const verifiableCredential = await agent.createVerifiableCredential({
-      credential: {
-        issuer: { id: issuer.did },
-        '@context': ['https://www.w3.org/2018/credentials/v1'],
-        type: ['VerifiableCredential', 'AgentPluginSchema'],
-        issuanceDate: new Date().toISOString(),
-        credentialSubject,
-      },
-      proofFormat: 'jwt',
-      save: true,
-    })
-
-    writeFileSync(resolve('./plugin.credential.json'), JSON.stringify(verifiableCredential, null, 2))
+    writeFileSync(resolve('./plugin.schema.json'), JSON.stringify(interfaces, null, 2))
   })
 
 program

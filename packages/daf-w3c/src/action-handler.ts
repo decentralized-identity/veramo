@@ -19,7 +19,7 @@ import {
   normalizePresentation,
 } from 'did-jwt-vc'
 
-import { pluginCredential } from './'
+import { schema } from './'
 
 import Debug from 'debug'
 const debug = Debug('daf:w3c:action-handler')
@@ -154,7 +154,7 @@ export type IContext = IAgentContext<
  */
 export class CredentialIssuer implements IAgentPlugin {
   readonly methods: ICredentialIssuer
-  readonly schema = pluginCredential.credentialSubject.interfaces.ICredentialIssuer
+  readonly schema = schema.ICredentialIssuer
 
   constructor() {
     this.methods = {

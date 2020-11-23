@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "create-plugin-credential": "yarn daf create-plugin-credential --config=../../agent.yml"
+    "generate-plugin-schema": "yarn daf generate-plugin-schema"
   },
   "daf": {
     "pluginInterfaces": {
@@ -31,7 +31,7 @@
   "files": [
     "build/**/*",
     "src/**/*",
-    "plugin.credential.json",
+    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

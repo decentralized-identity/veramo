@@ -16,7 +16,7 @@ import {
   IIdentityManagerRemoveServiceArgs,
   IIdentityManagerGetIdentitiesArgs,
   IIdentityManagerSetAliasArgs,
-  pluginCredential,
+  schema,
 } from 'daf-core'
 import { AbstractIdentityStore } from './abstract-identity-store'
 
@@ -30,7 +30,7 @@ export class IdentityManager implements IAgentPlugin {
    * @public
    */
   readonly methods: IIdentityManager
-  readonly schema = pluginCredential.credentialSubject.interfaces.IIdentityManager
+  readonly schema = schema.IIdentityManager
 
   private providers: Record<string, AbstractIdentityProvider>
   private defaultProvider: string

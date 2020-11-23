@@ -10,7 +10,7 @@ import {
   IMessage,
   VerifiableCredential,
   VerifiablePresentation,
-  pluginCredential,
+  schema,
 } from 'daf-core'
 import { Message, createMessageEntity, createMessage } from './entities/message'
 import { Credential, createCredentialEntity } from './entities/credential'
@@ -19,7 +19,7 @@ import { Connection } from 'typeorm'
 
 export class DataStore implements IAgentPlugin {
   readonly methods: IDataStore
-  readonly schema = pluginCredential.credentialSubject.interfaces.IDataStore
+  readonly schema = schema.IDataStore
   private dbConnection: Promise<Connection>
 
   constructor(dbConnection: Promise<Connection>) {

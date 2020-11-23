@@ -1,4 +1,4 @@
-import { IAgentPlugin, IResolver, pluginCredential } from 'daf-core'
+import { IAgentPlugin, IResolver, schema } from 'daf-core'
 import { Resolver, DIDDocument } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { resolver as naclDidResolver } from 'nacl-did'
@@ -21,7 +21,7 @@ interface Options {
 
 export class DafResolver implements IAgentPlugin {
   readonly methods: IResolver
-  readonly schema = pluginCredential.credentialSubject.interfaces.IResolver
+  readonly schema = schema.IResolver
   private didResolver: Resolver
   private networks: NetworkConfig[]
 

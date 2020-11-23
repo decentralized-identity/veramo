@@ -582,12 +582,12 @@
         },
         {
           "kind": "Variable",
-          "canonicalReference": "daf-did-comm!pluginCredential:var",
+          "canonicalReference": "daf-did-comm!schema:var",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "pluginCredential: "
+              "text": "schema: "
             },
             {
               "kind": "Content",
@@ -595,7 +595,7 @@
             }
           ],
           "releaseTag": "Public",
-          "name": "pluginCredential",
+          "name": "schema",
           "variableTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 2

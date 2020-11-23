@@ -4,7 +4,7 @@ import {
   IAgentContext,
   IMessageHandler,
   IHandleMessageArgs,
-  pluginCredential,
+  schema,
 } from 'daf-core'
 import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
@@ -27,7 +27,7 @@ export class MessageHandler implements IAgentPlugin {
    * @public
    */
   readonly methods: IMessageHandler
-  readonly schema = pluginCredential.credentialSubject.interfaces.IMessageHandler
+  readonly schema = schema.IMessageHandler
   private messageHandler?: AbstractMessageHandler
 
   constructor(options: { messageHandlers: AbstractMessageHandler[] }) {

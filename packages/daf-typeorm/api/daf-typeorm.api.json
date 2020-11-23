@@ -5380,27 +5380,6 @@
           "extendsTokenRanges": []
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "daf-typeorm!pluginCredential:var",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "pluginCredential: "
-            },
-            {
-              "kind": "Content",
-              "text": "any"
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "pluginCredential",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
-        },
-        {
           "kind": "Class",
           "canonicalReference": "daf-typeorm!Presentation:class",
           "docComment": "",
@@ -5747,6 +5726,27 @@
             "endIndex": 3
           },
           "implementsTokenRanges": []
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "daf-typeorm!schema:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "schema: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "schema",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
         },
         {
           "kind": "Class",
