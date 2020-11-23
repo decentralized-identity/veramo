@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.47](https://github.com/uport-project/daf/compare/v7.0.0-beta.46...v7.0.0-beta.47) (2020-11-23)
+
+
+### Bug Fixes
+
+* Disable schema validation by default ([#278](https://github.com/uport-project/daf/issues/278)) ([7bb77cd](https://github.com/uport-project/daf/commit/7bb77cde56415e8e909cabc235c62188d8147d0e)), closes [#255](https://github.com/uport-project/daf/issues/255) [#275](https://github.com/uport-project/daf/issues/275)
+
+
+
+
+
 # [7.0.0-beta.46](https://github.com/uport-project/daf/compare/v7.0.0-beta.45...v7.0.0-beta.46) (2020-11-19)
 
 
