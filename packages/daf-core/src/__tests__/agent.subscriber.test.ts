@@ -178,7 +178,6 @@ describe('daf-core agent', () => {
     const errorHandler: IEventListener = {
       eventTypes: ['error'],
       onEvent: async () => {
-        console.log('throwing error in error handler')
         throw new Error('barError')
       },
     }
@@ -186,6 +185,6 @@ describe('daf-core agent', () => {
       plugins: [plugin, errorHandler],
     })
 
-    await expect(agent.emit('foo', {})).rejects.toThrowError('ErrorEventHandlerError')
+    await expect(agent.emit('foo', {})).rejects.toThrow('ErrorEventHandlerError')
   })
 })

@@ -66,6 +66,13 @@ export interface IAgentOptions {
    * ```
    */
   context?: Record<string, any>
+
+  /**
+   * Flag that enables schema validation for plugin methods.
+   *
+   * @default false
+   */
+  schemaValidation?: boolean
 }
 
 /**
@@ -85,6 +92,7 @@ export class Agent implements IAgent {
   readonly methods: IPluginMethodMap = {}
 
   private schema: IAgentPluginSchema
+  private schemaValidation: boolean
   private context?: Record<string, any>
   private protectedMethods = ['execute', 'availableMethods', 'emit']
 
@@ -167,6 +175,8 @@ export class Agent implements IAgent {
         this[method] = async (args: any) => this.execute(method, args)
       }
     }
+
+    this.schemaValidation = options?.schemaValidation || false
   }
 
   /**
@@ -215,11 +225,11 @@ export class Agent implements IAgent {
     Debug('daf:agent:' + method)('%o', args)
     if (!this.methods[method]) throw Error('Method not available: ' + method)
     const _args = args || {}
-    if (this.schema.components.methods[method]) {
+    if (this.schemaValidation && this.schema.components.methods[method]) {
       validateArguments(method, _args, this.schema)
     }
     const result = await this.methods[method](_args, { ...this.context, agent: this })
-    if (this.schema.components.methods[method]) {
+    if (this.schemaValidation && this.schema.components.methods[method]) {
       validateReturnType(method, result, this.schema)
     }
     Debug('daf:agent:' + method + ':result')('%o', result)

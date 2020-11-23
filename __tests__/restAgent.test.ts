@@ -8,6 +8,7 @@ import {
   IKeyManager,
   IDataStore,
   IMessageHandler,
+  IAgentOptions,
 } from '../packages/daf-core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
@@ -59,27 +60,29 @@ let dbConnection: Promise<Connection>
 let serverAgent: IAgent
 let restServer: Server
 
-const getAgent = () => createAgent<
-  IIdentityManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialIssuer &
-    ISelectiveDisclosure
->({
-  plugins: [
-    new AgentRestClient({
-      url: 'http://localhost:' + port + basePath,
-      enabledMethods: Object.keys(serverAgent.getSchema().components.methods),
-      schema: serverAgent.getSchema()
-    }),
-  ],
-})
+const getAgent = (options?: IAgentOptions) =>
+  createAgent<
+    IIdentityManager &
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolver &
+      IMessageHandler &
+      IDIDComm &
+      ICredentialIssuer &
+      ISelectiveDisclosure
+  >({
+    ...options,
+    plugins: [
+      new AgentRestClient({
+        url: 'http://localhost:' + port + basePath,
+        enabledMethods: Object.keys(serverAgent.getSchema().components.methods),
+        schema: serverAgent.getSchema(),
+      }),
+    ],
+  })
 
-const setup = async (): Promise<boolean> => {
+const setup = async (options?: IAgentOptions): Promise<boolean> => {
   dbConnection = createConnection({
     type: 'sqlite',
     database: databaseFile,
@@ -89,6 +92,7 @@ const setup = async (): Promise<boolean> => {
   })
 
   serverAgent = new Agent({
+    ...options,
     plugins: [
       new KeyManager({
         store: new KeyStore(dbConnection, new SecretBox(secretKey)),
@@ -139,7 +143,7 @@ const setup = async (): Promise<boolean> => {
   const agentRouter = AgentRouter({
     getAgentForRequest: async (req) => serverAgent,
     exposedMethods: serverAgent.availableMethods(),
-    basePath
+    basePath,
   })
 
   return new Promise((resolve) => {
