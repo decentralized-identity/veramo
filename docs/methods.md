@@ -16,16 +16,16 @@ expect(doc).toEqual({
   id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
   publicKey: [
     {
-       id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#owner',
+       id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
        type: 'Secp256k1VerificationKey2018',
-       owner: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+       controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
        ethereumAddress: '0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
     }
   ],
   authentication: [
     {
        type: 'Secp256k1SignatureAuthentication2018',
-       publicKey: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#owner'
+       publicKey: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'
     }
   ]
 })
@@ -225,6 +225,11 @@ Creates a Verifiable Credential. The payload, signer and format are chosen based
 Creates a Verifiable Presentation. The payload, signer and format are chosen based on the 
 
 ## [ISelectiveDisclosure](./api/daf-selective-disclosure.iselectivedisclosure.md) 
+
+
+### [createProfilePresentation](./api/daf-selective-disclosure.iselectivedisclosure.createprofilepresentation.md)
+
+
 
 
 ### [createSelectiveDisclosureRequest](./api/daf-selective-disclosure.iselectivedisclosure.createselectivedisclosurerequest.md)
