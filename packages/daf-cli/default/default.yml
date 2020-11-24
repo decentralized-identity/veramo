@@ -46,7 +46,7 @@ messageHandler:
 agent:
   $require: daf-core#Agent
   $args:
-    - schemaValidation: true
+    - schemaValidation: false
       plugins:
         - $require: daf-key-manager#KeyManager
           $args:
