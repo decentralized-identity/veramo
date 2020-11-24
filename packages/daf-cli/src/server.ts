@@ -2,8 +2,7 @@ import express from 'express'
 import program from 'commander'
 import ngrok from 'ngrok'
 import parse from 'url-parse'
-import { AgentRouter } from 'daf-express'
-import { getOpenApiSchema } from 'daf-rest'
+import { AgentRouter, AgentApiSchemaRouter, AgentDidDocRouter, didDocEndpoint } from 'daf-express'
 import swaggerUi from 'swagger-ui-express'
 import { getAgent, getConfig } from './setup'
 import { createObjects } from './lib/objectCreator'
@@ -27,28 +26,49 @@ program
     const agent = getAgent(program.config)
     const { server: options } = createObjects(getConfig(program.config), { server: '/server' })
 
-    passport.use(
-      new Bearer.Strategy((token, done) => {
-        if (!options.apiKey || options.apiKey === token) {
-          done(null, {}, { scope: 'all' })
-        } else {
-          done(null, false)
-        }
+    const exposedMethods = options.exposedMethods ? options.exposedMethods : agent.availableMethods()
+
+    let authMiddleware = (req: any, res: any, next: any) => {
+      next()
+    }
+    let securityScheme
+    if (options.apiKey) {
+      passport.use(
+        new Bearer.Strategy((token, done) => {
+          if (!options.apiKey || options.apiKey === token) {
+            done(null, {}, { scope: 'all' })
+          } else {
+            done(null, false)
+          }
+        }),
+      )
+
+      authMiddleware = passport.authenticate('bearer', { session: false })
+      securityScheme = 'bearer'
+    }
+
+    const getAgentForRequest = async (req: express.Request) => agent
+
+    app.use(
+      options.apiBasePath,
+      authMiddleware,
+      AgentRouter({
+        getAgentForRequest,
+        exposedMethods,
       }),
     )
 
-    const exposedMethods = options.exposedMethods ? options.exposedMethods : agent.availableMethods()
+    app.use(
+      options.schemaPath,
+      AgentApiSchemaRouter({
+        basePath: options.apiBasePath,
+        getAgentForRequest,
+        exposedMethods,
+        securityScheme,
+      }),
+    )
 
-    const apiBasePath = options.apiBasePath
-
-    const agentRouter = AgentRouter({
-      basePath: apiBasePath,
-      getAgentForRequest: async (req) => agent,
-      exposedMethods,
-      serveSchema: false,
-    })
-
-    app.use(apiBasePath, passport.authenticate('bearer', { session: false }), agentRouter)
+    app.use(AgentDidDocRouter({ getAgentForRequest }))
 
     app.listen(cmd.port || options.port, async () => {
       console.log(`🚀 Agent server ready at http://localhost:${cmd.port || options.port}`)
@@ -64,26 +84,20 @@ program
           region: options.ngrok.region,
           authtoken: options.ngrok.authtoken,
         })
+        app.set('trust proxy', 'loopback')
       }
       const hostname = parse(baseUrl).hostname
 
-      const openApiSchema = getOpenApiSchema(agent, apiBasePath, exposedMethods)
-      openApiSchema.servers = [{ url: baseUrl }]
-
-      if (options.apiKey && openApiSchema.components) {
-        openApiSchema.components.securitySchemes = {
-          bearerAuth: { type: 'http', scheme: 'bearer' },
-        }
-        openApiSchema.security = [{ bearerAuth: [] }]
-      }
-
-      app.use(options.apiDocsPath, swaggerUi.serve, swaggerUi.setup(openApiSchema))
+      app.use(
+        options.apiDocsPath,
+        swaggerUi.serve,
+        swaggerUi.setup(undefined, {
+          swaggerOptions: {
+            url: baseUrl + options.schemaPath,
+          },
+        }),
+      )
       console.log('📖 API Documentation', baseUrl + options.apiDocsPath)
-
-      app.get(options.schemaPath, (req, res) => {
-        res.json(openApiSchema)
-      })
-
       console.log('🗺  OpenAPI schema', baseUrl + options.schemaPath)
 
       if (options.defaultIdentity.create) {
@@ -121,41 +135,13 @@ program
           },
         )
 
-        const didDocEndpoint = '/.well-known/did.json'
-        app.get(didDocEndpoint, async (req, res) => {
-          serverIdentity = await agent.identityManagerGetOrCreateIdentity({
-            provider: 'did:web',
-            alias: hostname,
-          })
-
-          const didDoc = {
-            '@context': 'https://w3id.org/did/v1',
-            id: serverIdentity.did,
-            publicKey: serverIdentity.keys.map((key) => ({
-              id: serverIdentity.did + '#' + key.kid,
-              type: key.type === 'Secp256k1' ? 'Secp256k1VerificationKey2018' : 'Ed25519VerificationKey2018',
-              controller: serverIdentity.did,
-              publicKeyHex: key.publicKeyHex,
-            })),
-            authentication: serverIdentity.keys.map((key) => ({
-              type:
-                key.type === 'Secp256k1'
-                  ? 'Secp256k1SignatureAuthentication2018'
-                  : 'Ed25519SignatureAuthentication2018',
-              publicKey: serverIdentity.did + '#' + key.kid,
-            })),
-            service: serverIdentity.services,
-          }
-
-          res.json(didDoc)
-        })
         console.log('📋 DID Document ' + baseUrl + didDocEndpoint)
 
         app.get('/', async (req, res) => {
           const links = [
             { label: 'API Docs', url: options.apiDocsPath },
             { label: 'API Schema', url: options.schemaPath },
-            { label: 'DID Document', url: '/.well-known/did.json' },
+            { label: 'DID Document', url: didDocEndpoint },
           ]
 
           const presentations = await agent.dataStoreORMGetVerifiablePresentations({
