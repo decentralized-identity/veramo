@@ -1,7 +1,7 @@
 {
   "name": "daf-express",
   "description": "DAF express",
-  "version": "7.0.0-beta.47",
+  "version": "7.0.0-beta.48",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "extract-api": "daf extractPluginApi -c ./api-extractor.json"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.47",
-    "daf-rest": "^7.0.0-beta.47",
+    "daf-core": "^7.0.0-beta.48",
+    "daf-rest": "^7.0.0-beta.48",
     "debug": "^4.1.1"
   },
   "devDependencies": {
