@@ -5,7 +5,7 @@
     "build": "lerna run build && yarn build:schema-api",
     "bootstrap": "lerna bootstrap",
     "build:schema-api":"lerna run extract-api && lerna run generate-plugin-schema",
-    "test:integration-build": "rm -rf ./temp && yarn build:schema-api && yarn test:integration-prepare && yarn test:integration-pretty",
+    "test:integration-build": "yarn test:integration-prepare && yarn test:integration-pretty",
     "test:integration-prepare": "ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
     "test:integration-pretty":"prettier --write __tests__/shared/documentationExamples.ts",
     "test:integration": "yarn test:integration-build && yarn test",
