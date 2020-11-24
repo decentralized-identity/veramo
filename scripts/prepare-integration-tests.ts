@@ -1,6 +1,8 @@
 import { resolve } from 'path'
 import { writeFileSync, readFileSync } from 'fs'
 import * as TJS from 'ts-json-schema-generator'
+import { existsSync, readdirSync, copyFileSync, mkdirSync, unlinkSync } from 'fs'
+import { DocFencedCode } from '@microsoft/tsdoc'
 import {
   ApiModel,
   ApiPackage,
@@ -10,7 +12,31 @@ import {
   ApiMethodSignature,
 } from '@microsoft/api-extractor-model'
 
-import { DocFencedCode } from '@microsoft/tsdoc'
+const outputFolder = './temp'
+const inputFolders = [
+  'packages/daf-core/api/',
+  'packages/daf-w3c/api/',
+  'packages/daf-selective-disclosure/api/',
+  'packages/daf-did-comm/api/',
+  'packages/daf-typeorm/api/',
+]
+
+if (!existsSync(resolve(outputFolder))) {
+  console.log('Creating', outputFolder)
+  mkdirSync(resolve(outputFolder))
+} else {
+  console.log('Removing files in', outputFolder)
+  readdirSync(resolve(outputFolder)).forEach((file) => {
+    unlinkSync(resolve(outputFolder, file))
+  })
+}
+
+for (const inputFolder of inputFolders) {
+  readdirSync(resolve(inputFolder)).forEach((file) => {
+    console.log('Copying', resolve(outputFolder, file))
+    copyFileSync(resolve(inputFolder, file), resolve(outputFolder, file))
+  })
+}
 
 const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 

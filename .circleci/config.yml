@@ -43,7 +43,7 @@ jobs:
       - run: *bootstrap-packages
       - run: *build-packages
       - save_cache: *save-node-cache
-      - run: yarn test
+      - run: yarn test:integration
       - run:
           name: Upload coverage report
           command: npx codecov
