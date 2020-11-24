@@ -5,7 +5,8 @@
 *~
 /examples/*/node_modules/
 /examples/*/build/
-
+/docs
+/report
 /node_modules
 website/node_modules
 
