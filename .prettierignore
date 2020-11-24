@@ -3,7 +3,5 @@ examples
 build/**/*
 docs
 report
-packages/daf-rest/src/openApiSchema.ts
-.vscode/settings.json
-lerna.json
-CHANGELOG.md
+*.json
+*.md

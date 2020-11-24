@@ -6,3 +6,5 @@
 export { SdrMessageHandler, MessageTypes } from './message-handler'
 export { SelectiveDisclosure } from './action-handler'
 export * from './types'
+const schema = require('../plugin.schema.json')
+export { schema }

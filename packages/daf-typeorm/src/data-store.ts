@@ -10,8 +10,8 @@ import {
   IMessage,
   VerifiableCredential,
   VerifiablePresentation,
+  schema,
 } from 'daf-core'
-import schema from 'daf-core/build/schemas/IDataStore'
 import { Message, createMessageEntity, createMessage } from './entities/message'
 import { Credential, createCredentialEntity } from './entities/credential'
 import { Presentation, createPresentationEntity } from './entities/presentation'
@@ -19,7 +19,7 @@ import { Connection } from 'typeorm'
 
 export class DataStore implements IAgentPlugin {
   readonly methods: IDataStore
-  readonly schema = schema
+  readonly schema = schema.IDataStore
   private dbConnection: Promise<Connection>
 
   constructor(dbConnection: Promise<Connection>) {
@@ -45,7 +45,7 @@ export class DataStore implements IAgentPlugin {
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
     try {
       const messageEntity = await (await this.dbConnection).getRepository(Message).findOneOrFail(args.id, {
-        relations: ['credentials', 'presentations']
+        relations: ['credentials', 'presentations'],
       })
       return createMessage(messageEntity)
     } catch (e) {

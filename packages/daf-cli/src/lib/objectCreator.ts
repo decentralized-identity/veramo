@@ -1,5 +1,6 @@
 import { set, get } from 'jsonpointer'
 import parse from 'url-parse'
+const { resolve } = require('path')
 
 export function createObjects(config: object, pointers: Record<string, string>): any {
   const objects = {}
@@ -39,11 +40,15 @@ export function createObjects(config: object, pointers: Record<string, string>):
     let object
     // console.log('Requiring', objectConfig['$require'])
     const parsed = parse(objectConfig['$require'], {}, true)
-    const module = parsed.pathname
+    let module = parsed.pathname
     const member = parsed.hash.length > 1 ? parsed.hash.slice(1) : 'default'
     const type = parsed.query['t'] || 'class'
     const args = objectConfig['$args']
     // console.log({module, member, type, query: parsed.query})
+
+    if (module.slice(0, 2) === './') {
+      module = resolve(module)
+    }
 
     const resolvedArgs = args !== undefined ? resolveRefs(args) : []
     let required = require(module)[member]

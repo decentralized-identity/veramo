@@ -16,9 +16,10 @@ import {
   IIdentityManagerRemoveServiceArgs,
   IIdentityManagerGetIdentitiesArgs,
   IIdentityManagerSetAliasArgs,
+  schema,
 } from 'daf-core'
 import { AbstractIdentityStore } from './abstract-identity-store'
-import schema from 'daf-core/build/schemas/IIdentityManager'
+
 /**
  * Agent plugin that implements {@link daf-core#IIdentityManager} interface
  * @public
@@ -29,7 +30,7 @@ export class IdentityManager implements IAgentPlugin {
    * @public
    */
   readonly methods: IIdentityManager
-  readonly schema = schema
+  readonly schema = schema.IIdentityManager
 
   private providers: Record<string, AbstractIdentityProvider>
   private defaultProvider: string

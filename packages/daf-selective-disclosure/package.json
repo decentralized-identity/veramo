@@ -6,8 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "daf extractPluginApi -c ./api-extractor.json",
-    "generate-schema": "daf generatePluginSchema"
+    "generate-plugin-schema": "yarn daf generate-plugin-schema"
   },
   "daf": {
     "pluginInterfaces": {
@@ -31,6 +30,7 @@
   "files": [
     "build/**/*",
     "src/**/*",
+    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

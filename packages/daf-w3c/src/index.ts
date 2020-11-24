@@ -10,3 +10,5 @@ export {
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,
 } from './action-handler'
+const schema = require('../plugin.schema.json')
+export { schema }

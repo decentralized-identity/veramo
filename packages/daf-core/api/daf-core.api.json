@@ -5994,6 +5994,27 @@
           "extendsTokenRanges": []
         },
         {
+          "kind": "Variable",
+          "canonicalReference": "daf-core!schema:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "schema: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "schema",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
           "kind": "TypeAlias",
           "canonicalReference": "daf-core!TAgent:type",
           "docComment": "/**\n * Utility type for constructing agent type that has a list of available methods\n *\n * @public\n */\n",
