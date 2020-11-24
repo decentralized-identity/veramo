@@ -12,7 +12,7 @@ import {
 
 import { DocFencedCode } from '@microsoft/tsdoc'
 
-const apiExtractorConfig = require('../api-extractor-base.json')
+const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
   'daf-core': ['IResolver', 'IIdentityManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
@@ -41,9 +41,7 @@ for (const packageName of Object.keys(agentPlugins)) {
   })
 
   const apiModel: ApiModel = new ApiModel()
-  const apiPackage = apiModel.loadPackage(
-    (apiExtractorConfig.docModel.apiJsonFilePath as string).replace('<unscopedPackageName>', packageName),
-  )
+  const apiPackage = apiModel.loadPackage(apiJsonFilePath.replace('<unscopedPackageName>', packageName))
 
   const entry = apiPackage.entryPoints[0]
 
