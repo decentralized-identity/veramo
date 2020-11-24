@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.49](https://github.com/uport-project/daf/compare/v7.0.0-beta.48...v7.0.0-beta.49) (2020-11-24)
+
+**Note:** Version bump only for package daf-w3c
+
+
+
+
+
 # [7.0.0-beta.48](https://github.com/uport-project/daf/compare/v7.0.0-beta.47...v7.0.0-beta.48) (2020-11-24)
 
 **Note:** Version bump only for package daf-w3c
