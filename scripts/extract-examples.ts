@@ -79,30 +79,6 @@ for (const packageName of Object.keys(agentPlugins)) {
   }
 }
 
-let summary = '# Available agent methods\n'
-for (const packageName of Object.keys(agentPlugins)) {
-  // summary += `## [${packageName}](./api/${packageName}.md) \n\n`
-  for (const pluginInterfaceName of agentPlugins[packageName]) {
-    summary += `## [${pluginInterfaceName}](./api/${packageName}.${pluginInterfaceName.toLowerCase()}.md) \n\n`
-
-    for (const method of allMethods.filter(
-      (m) => m.packageName === packageName && m.pluginInterfaceName == pluginInterfaceName,
-    )) {
-      summary += `\n### [${method.operationId}](./api/${
-        method.packageName
-      }.${method.pluginInterfaceName.toLowerCase()}.${method.operationId.toLowerCase()}.md)`
-      summary += `\n\n${method.description}\n\n`
-      if (method.example) {
-        summary += '```' + method.example.language + '\n'
-        summary += method.example.code
-        summary += '```\n'
-      }
-    }
-  }
-}
-
-writeFileSync('docs/methods.md', summary)
-
 let tests = ''
 for (const method of allMethods) {
   if (method.example) {
