@@ -2,9 +2,10 @@
   "name": "daf",
   "private": true,
   "scripts": {
-    "build": "yarn lerna run build && yarn generate-plugin-schema",
+    "build": "lerna run build && yarn extract-api && yarn generate-plugin-schema && yarn docs:examples && yarn prettier:examples",
     "publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
+    "extract-api": "lerna run extract-api",
     "generate-plugin-schema": "lerna run generate-plugin-schema",
     "docs:examples": "ts-node --project packages/tsconfig.settings.json ./scripts/extract-examples.ts",
     "docs:api": "ts-node ./scripts/generate-docs.ts",
