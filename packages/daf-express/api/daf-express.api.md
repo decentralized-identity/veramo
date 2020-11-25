@@ -5,18 +5,40 @@
 ```ts
 
 import { IAgent } from 'daf-core';
+import { IIdentityManager } from 'daf-core';
 import { Request as Request_2 } from 'express';
 import { Router } from 'express';
+import { TAgent } from 'daf-core';
 
 // @public
 export const AgentRouter: (options: AgentRouterOptions) => Router;
 
 // @public (undocumented)
 export interface AgentRouterOptions {
+    exposedMethods: Array<string>;
+    getAgentForRequest: (req: Request_2) => Promise<IAgent>;
+}
+
+// @public
+export const ApiSchemaRouter: (options: ApiSchemaRouterOptions) => Router;
+
+// @public (undocumented)
+export interface ApiSchemaRouterOptions {
     basePath: string;
     exposedMethods: Array<string>;
     getAgentForRequest: (req: Request_2) => Promise<IAgent>;
-    serveSchema?: boolean;
+    securityScheme?: string;
+}
+
+// @public (undocumented)
+export const didDocEndpoint = "/.well-known/did.json";
+
+// @public
+export const DidDocRouter: (options: DidDocRouterOptions) => Router;
+
+// @public (undocumented)
+export interface DidDocRouterOptions {
+    getAgentForRequest: (req: Request_2) => Promise<TAgent<IIdentityManager>>;
 }
 
 
