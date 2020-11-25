@@ -34,6 +34,8 @@ import {
 } from '../packages/daf-typeorm/src'
 import fs from 'fs'
 
+jest.setTimeout(30000)
+
 // Shared tests
 import verifiableData from './shared/verifiableData'
 import handleSdrMessage from './shared/handleSdrMessage'

@@ -40,6 +40,8 @@ import { Server } from 'http'
 import { AgentRouter } from '../packages/daf-express/src'
 import fs from 'fs'
 
+jest.setTimeout(30000)
+
 // Shared tests
 import verifiableData from './shared/verifiableData'
 import handleSdrMessage from './shared/handleSdrMessage'
