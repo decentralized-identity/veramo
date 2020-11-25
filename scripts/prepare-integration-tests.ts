@@ -1,6 +1,8 @@
 import { resolve } from 'path'
 import { writeFileSync, readFileSync } from 'fs'
 import * as TJS from 'ts-json-schema-generator'
+import { existsSync, readdirSync, copyFileSync, mkdirSync, unlinkSync } from 'fs'
+import { DocFencedCode } from '@microsoft/tsdoc'
 import {
   ApiModel,
   ApiPackage,
@@ -10,9 +12,33 @@ import {
   ApiMethodSignature,
 } from '@microsoft/api-extractor-model'
 
-import { DocFencedCode } from '@microsoft/tsdoc'
+const outputFolder = './temp'
+const inputFolders = [
+  'packages/daf-core/api/',
+  'packages/daf-w3c/api/',
+  'packages/daf-selective-disclosure/api/',
+  'packages/daf-did-comm/api/',
+  'packages/daf-typeorm/api/',
+]
 
-const apiExtractorConfig = require('../api-extractor-base.json')
+if (!existsSync(resolve(outputFolder))) {
+  console.log('Creating', outputFolder)
+  mkdirSync(resolve(outputFolder))
+} else {
+  console.log('Removing files in', outputFolder)
+  readdirSync(resolve(outputFolder)).forEach((file) => {
+    unlinkSync(resolve(outputFolder, file))
+  })
+}
+
+for (const inputFolder of inputFolders) {
+  readdirSync(resolve(inputFolder)).forEach((file) => {
+    console.log('Copying', resolve(outputFolder, file))
+    copyFileSync(resolve(inputFolder, file), resolve(outputFolder, file))
+  })
+}
+
+const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
   'daf-core': ['IResolver', 'IIdentityManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
@@ -41,9 +67,7 @@ for (const packageName of Object.keys(agentPlugins)) {
   })
 
   const apiModel: ApiModel = new ApiModel()
-  const apiPackage = apiModel.loadPackage(
-    (apiExtractorConfig.docModel.apiJsonFilePath as string).replace('<unscopedPackageName>', packageName),
-  )
+  const apiPackage = apiModel.loadPackage(apiJsonFilePath.replace('<unscopedPackageName>', packageName))
 
   const entry = apiPackage.entryPoints[0]
 
@@ -80,30 +104,6 @@ for (const packageName of Object.keys(agentPlugins)) {
     allMethods = allMethods.concat(methods)
   }
 }
-
-let summary = '# Available agent methods\n'
-for (const packageName of Object.keys(agentPlugins)) {
-  // summary += `## [${packageName}](./api/${packageName}.md) \n\n`
-  for (const pluginInterfaceName of agentPlugins[packageName]) {
-    summary += `## [${pluginInterfaceName}](./api/${packageName}.${pluginInterfaceName.toLowerCase()}.md) \n\n`
-
-    for (const method of allMethods.filter(
-      (m) => m.packageName === packageName && m.pluginInterfaceName == pluginInterfaceName,
-    )) {
-      summary += `\n### [${method.operationId}](./api/${
-        method.packageName
-      }.${method.pluginInterfaceName.toLowerCase()}.${method.operationId.toLowerCase()}.md)`
-      summary += `\n\n${method.description}\n\n`
-      if (method.example) {
-        summary += '```' + method.example.language + '\n'
-        summary += method.example.code
-        summary += '```\n'
-      }
-    }
-  }
-}
-
-writeFileSync('docs/methods.md', summary)
 
 let tests = ''
 for (const method of allMethods) {

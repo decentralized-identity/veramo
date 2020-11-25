@@ -222,7 +222,7 @@ export interface IIdentityManager extends IPluginMethodMap {
    * Returns a list of managed identities
    *
    * @param args - Required. Arguments to get the list of identities
-   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -246,7 +246,7 @@ export interface IIdentityManager extends IPluginMethodMap {
    * Returns a specific identity by alias
    *
    * @param args - Required. Arguments to get the identity
-   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -262,7 +262,7 @@ export interface IIdentityManager extends IPluginMethodMap {
    * Creates and returns a new identity
    *
    * @param args - Required. Arguments to create the identity
-   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -282,7 +282,7 @@ export interface IIdentityManager extends IPluginMethodMap {
    * Sets identity alias
    *
    * @param args - Required. Arguments to set identity alias
-   * @param context - <a href="../plugin.md#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
    *
    * @example
    * ```typescript
