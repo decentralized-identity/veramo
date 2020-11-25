@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.50](https://github.com/uport-project/daf/compare/v7.0.0-beta.49...v7.0.0-beta.50) (2020-11-25)
+
+
+### Features
+
+* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
+
+
+
+
+
 # [7.0.0-beta.49](https://github.com/uport-project/daf/compare/v7.0.0-beta.48...v7.0.0-beta.49) (2020-11-24)
 
 **Note:** Version bump only for package daf-resolver
