@@ -85,8 +85,6 @@ program
      * Exposing OpenAPI schema
      */
     console.log('🗺  OpenAPI schema', baseUrl + options.schemaPath)
-    console.log('🧩 Available methods', agent.availableMethods().length)
-    console.log('🛠  Exposed methods', exposedMethods.length)
     app.use(
       options.schemaPath,
       ApiSchemaRouter({
@@ -96,13 +94,6 @@ program
         securityScheme,
       }),
     )
-
-    /**
-     * Handling 'did:web' requests ('/.well-known/did.json' and '/^\/(.+)\/did.json$/')
-     * warning: 'did:web' method requires HTTPS (that is one of the reasons to use ngrok for development)
-     */
-    console.log('📋 DID Document ' + baseUrl + didDocEndpoint)
-    app.use(WebDidDocRouter({ getAgentForRequest }))
 
     console.log('📖 API Documentation', baseUrl + options.apiDocsPath)
     app.use(
@@ -114,6 +105,10 @@ program
         },
       }),
     )
+
+    console.log('🧩 Available methods', agent.availableMethods().length)
+    console.log('🛠  Exposed methods', exposedMethods.length)
+
 
     /**
      * Creating server identity and configuring messaging service endpoint
@@ -156,6 +151,14 @@ program
     }
 
     /**
+     * Handling 'did:web' requests ('/.well-known/did.json' and '/^\/(.+)\/did.json$/')
+     * warning: 'did:web' method requires HTTPS (that is one of the reasons to use ngrok for development)
+     */
+    console.log('📋 DID Document ' + baseUrl + didDocEndpoint)
+    console.log('📋 DID Documents ' + baseUrl + '/(.+)/did.json')
+    app.use(WebDidDocRouter({ getAgentForRequest }))
+
+    /**
      * Serving homepage
      */
     app.get('/', async (req, res) => {
@@ -165,29 +168,8 @@ program
         { label: 'DID Document', url: didDocEndpoint },
       ]
 
-      /**
-       * This is experimental feature. You can create a verifiable presentation containing 
-       * public profile verifiable credentials. 
-       * 
-       * `verifier` of this VP should be set as 
-       * url of your home page, ex: https://bob-did.eu.ngrok.io
-       * 
-       */
-      let verifiablePresentation
-      if (serverIdentity) {
-        const presentations = await agent.dataStoreORMGetVerifiablePresentations({
-          where: [
-            { column: 'holder', value: [serverIdentity.did] },
-            { column: 'verifier', value: [baseUrl] },
-          ],
-        })
-
-        verifiablePresentation =
-          presentations.length > 0 ? presentations[presentations.length - 1].verifiablePresentation : null
-      }
-
       const template = options.homePageTemplate || __dirname + '/../views/home.html'
-      const rendered = await hbs.render(template, { verifiablePresentation, links })
+      const rendered = await hbs.render(template, { links })
       res.send(rendered)
     })
 

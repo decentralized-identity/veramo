@@ -34,10 +34,10 @@ export interface ApiSchemaRouterOptions {
 export const didDocEndpoint = "/.well-known/did.json";
 
 // @public
-export const DidDocRouter: (options: DidDocRouterOptions) => Router;
+export const WebDidDocRouter: (options: WebDidDocRouterOptions) => Router;
 
 // @public (undocumented)
-export interface DidDocRouterOptions {
+export interface WebDidDocRouterOptions {
     getAgentForRequest: (req: Request_2) => Promise<TAgent<IIdentityManager>>;
 }
 
