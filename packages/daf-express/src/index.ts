@@ -5,7 +5,7 @@
  * ```typescript
  * import express from 'express'
  * import { agent } from './agent'
- * import { AgentRouter, ApiSchemaRouter, DidDocRouter } from 'daf-express'
+ * import { AgentRouter, ApiSchemaRouter, WebDidDocRouter } from 'daf-express'
  *
  * const getAgentForRequest = async (req: express.Request) => agent
  * const exposedMethods = agent.availableMethods()
@@ -23,7 +23,7 @@
  *  exposedMethods,
  * })
  *
- * const didDocRouter = DidDocRouter({
+ * const didDocRouter = WebDidDocRouter({
  *   getAgentForRequest
  * })
  *
@@ -39,4 +39,4 @@
 
 export { AgentRouter, AgentRouterOptions } from './agent-router'
 export { ApiSchemaRouter, ApiSchemaRouterOptions } from './api-schema-router'
-export { DidDocRouter, DidDocRouterOptions, didDocEndpoint } from './did-doc-router'
+export { WebDidDocRouter, WebDidDocRouterOptions, didDocEndpoint } from './web-did-doc-router'

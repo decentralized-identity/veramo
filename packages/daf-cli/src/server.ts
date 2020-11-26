@@ -2,7 +2,7 @@ import express from 'express'
 import program from 'commander'
 import ngrok from 'ngrok'
 import parse from 'url-parse'
-import { AgentRouter, ApiSchemaRouter, DidDocRouter, didDocEndpoint } from 'daf-express'
+import { AgentRouter, ApiSchemaRouter, WebDidDocRouter, didDocEndpoint } from 'daf-express'
 import swaggerUi from 'swagger-ui-express'
 import { getAgent, getConfig } from './setup'
 import { createObjects } from './lib/objectCreator'
@@ -99,9 +99,10 @@ program
 
     /**
      * Handling 'did:web' requests ('/.well-known/did.json' and '/^\/(.+)\/did.json$/')
+     * warning: 'did:web' method requires HTTPS (that is one of the reasons to use ngrok for development)
      */
     console.log('📋 DID Document ' + baseUrl + didDocEndpoint)
-    app.use(DidDocRouter({ getAgentForRequest }))
+    app.use(WebDidDocRouter({ getAgentForRequest }))
 
     console.log('📖 API Documentation', baseUrl + options.apiDocsPath)
     app.use(
@@ -164,6 +165,14 @@ program
         { label: 'DID Document', url: didDocEndpoint },
       ]
 
+      /**
+       * This is experimental feature. You can create a verifiable presentation containing 
+       * public profile verifiable credentials. 
+       * 
+       * `verifier` of this VP should be set as 
+       * url of your home page, ex: https://bob-did.eu.ngrok.io
+       * 
+       */
       let verifiablePresentation
       if (serverIdentity) {
         const presentations = await agent.dataStoreORMGetVerifiablePresentations({

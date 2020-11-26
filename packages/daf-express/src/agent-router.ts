@@ -1,6 +1,5 @@
-import { IAgent, IIdentity, IIdentityManager, TAgent } from 'daf-core'
+import { IAgent } from 'daf-core'
 import { Request, Response, NextFunction, Router, json } from 'express'
-import { getOpenApiSchema } from 'daf-rest'
 import Debug from 'debug'
 
 interface RequestWithAgent extends Request {

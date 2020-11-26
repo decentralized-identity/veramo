@@ -1,7 +1,5 @@
 import { IAgent, IIdentity, IIdentityManager, TAgent } from 'daf-core'
-import { Request, Response, NextFunction, Router, json } from 'express'
-import { getOpenApiSchema } from 'daf-rest'
-import Debug from 'debug'
+import { Request, Router } from 'express'
 
 interface RequestWithAgentIdentityManager extends Request {
   agent?: TAgent<IIdentityManager>
@@ -15,7 +13,7 @@ export const didDocEndpoint = '/.well-known/did.json'
 /**
  * @public
  */
-export interface DidDocRouterOptions {
+export interface WebDidDocRouterOptions {
   /**
    * Function that returns configured agent for specific request
    */
@@ -27,7 +25,7 @@ export interface DidDocRouterOptions {
  * @param options - Initialization option
  * @returns Expressjs router
  */
-export const DidDocRouter = (options: DidDocRouterOptions): Router => {
+export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
   const router = Router()
   router.use(async (req: RequestWithAgent, res, next) => {
     req.agent = await options.getAgentForRequest(req)
