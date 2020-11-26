@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.51](https://github.com/uport-project/daf/compare/v7.0.0-beta.50...v7.0.0-beta.51) (2020-11-26)
+
+
+### Features
+
+* Web DID path (multi user) support  ([#282](https://github.com/uport-project/daf/issues/282)) ([08996bd](https://github.com/uport-project/daf/commit/08996bdc72481df8a7b701b8cd0a4f2eceaa21a0))
+
+
+
+
+
 # [7.0.0-beta.50](https://github.com/uport-project/daf/compare/v7.0.0-beta.49...v7.0.0-beta.50) (2020-11-25)
 
 

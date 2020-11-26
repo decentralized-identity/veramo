@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.51](https://github.com/uport-project/daf/compare/v7.0.0-beta.50...v7.0.0-beta.51) (2020-11-26)
+
+**Note:** Version bump only for package daf-libsodium
+
+
+
+
+
 # [7.0.0-beta.50](https://github.com/uport-project/daf/compare/v7.0.0-beta.49...v7.0.0-beta.50) (2020-11-25)
 
 
