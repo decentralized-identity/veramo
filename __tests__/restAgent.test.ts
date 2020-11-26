@@ -145,7 +145,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   const agentRouter = AgentRouter({
     getAgentForRequest: async (req) => serverAgent,
     exposedMethods: serverAgent.availableMethods(),
-    basePath,
   })
 
   return new Promise((resolve) => {
