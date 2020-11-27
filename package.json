@@ -5,6 +5,7 @@
     "build": "lerna run build && yarn build:schema-api",
     "bootstrap": "lerna bootstrap",
     "build:schema-api":"lerna run extract-api && lerna run generate-plugin-schema",
+    "lint": "echo \"linting not yet enabled\"",
     "test:integration-build": "yarn test:integration-prepare && yarn test:integration-pretty",
     "test:integration-prepare": "ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
     "test:integration-pretty":"prettier --write __tests__/shared/documentationExamples.ts",
@@ -15,8 +16,8 @@
     "daf": "./packages/daf-cli/bin/daf.js",
     "prettier": "prettier --write '{packages,__tests__, !build}/**/*.{ts,js,json,md,yml}'",
     "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo && jest --clearCache",
-    "publish": "lerna publish",
-    "publish-beta": "yarn build && npx lerna publish --canary premajor --preid beta --pre-dist-tag beta"
+    "publish:latest": "lerna publish --conventional-commits --include-merged-tags --create-release github --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
+    "publish:next": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}"
   },
   "workspaces": [
     "packages/*"
