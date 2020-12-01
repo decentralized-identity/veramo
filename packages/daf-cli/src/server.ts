@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import program from 'commander'
 import ngrok from 'ngrok'
 import parse from 'url-parse'
@@ -24,6 +25,7 @@ program
   .option('-p, --port <number>', 'Optionally set port to override config')
   .action(async (cmd) => {
     const app = express()
+    app.use(cors())
     const agent = getAgent(program.config)
     const { server: options } = createObjects(getConfig(program.config), { server: '/server' })
 
