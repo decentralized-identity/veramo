@@ -20,6 +20,7 @@
     "blessed": "^0.1.81",
     "commander": "^6.1.0",
     "console-table-printer": "^2.0.0",
+    "cors": "^2.8.5",
     "cross-fetch": "^3.0.6",
     "daf-core": "^7.0.0-beta.51",
     "daf-did-comm": "^7.0.0-beta.51",
