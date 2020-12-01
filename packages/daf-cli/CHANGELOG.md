@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.52](https://github.com/uport-project/daf/compare/v7.0.0-beta.51...v7.0.0-beta.52) (2020-12-01)
+
+
+### Features
+
+* enable CORS in daf-cli server by default ([#284](https://github.com/uport-project/daf/issues/284)) ([aca46b3](https://github.com/uport-project/daf/commit/aca46b3fdf4e9ca4af620fbd7938aeb87c1f9e95))
+
+
+
+
+
 # [7.0.0-beta.51](https://github.com/uport-project/daf/compare/v7.0.0-beta.50...v7.0.0-beta.51) (2020-11-26)
 
 
