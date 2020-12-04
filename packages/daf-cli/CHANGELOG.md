@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.53](https://github.com/uport-project/daf/compare/v7.0.0-beta.52...v7.0.0-beta.53) (2020-12-04)
+
+
+### Features
+
+* CLI handling ngrok errors ([eed46d4](https://github.com/uport-project/daf/commit/eed46d4b21ae7aebd94f515e27bfb67dc3bd9efa))
+
+
+
+
+
 # [7.0.0-beta.52](https://github.com/uport-project/daf/compare/v7.0.0-beta.51...v7.0.0-beta.52) (2020-12-01)
 
 
