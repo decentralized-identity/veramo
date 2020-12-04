@@ -34,12 +34,21 @@ program
      */
     let baseUrl = options.baseUrl
     if (options.ngrok?.connect) {
-      baseUrl = await ngrok.connect({
-        addr: cmd.port || options.port,
-        subdomain: options.ngrok.subdomain,
-        region: options.ngrok.region,
-        authtoken: options.ngrok.authtoken,
-      })
+      try {
+        baseUrl = await ngrok.connect({
+          addr: cmd.port || options.port,
+          subdomain: options.ngrok.subdomain,
+          region: options.ngrok.region,
+          authtoken: options.ngrok.authtoken,
+        })
+      } catch (e) {
+        console.error(e)
+        process.exit()
+      }
+      process.on('SIGINT', function(code) {
+        console.log('Killing ngrok')
+        ngrok.kill()
+      });
       app.set('trust proxy', 'loopback')
     }
     const hostname = parse(baseUrl).hostname
