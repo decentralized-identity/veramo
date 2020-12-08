@@ -13,7 +13,7 @@
     "daf-core": "^7.0.0-beta.54",
     "daf-key-manager": "^7.0.0-beta.54",
     "debug": "^4.1.1",
-    "did-jwt": "4.5.0",
+    "did-jwt": "4.7.1",
     "elliptic": "^6.5.2",
     "ethjs-signer": "^0.1.1",
     "libsodium-wrappers": "^0.7.6"
