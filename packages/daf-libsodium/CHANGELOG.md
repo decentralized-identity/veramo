@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.55](https://github.com/uport-project/daf/compare/v7.0.0-beta.54...v7.0.0-beta.55) (2020-12-08)
+
+
+### Bug Fixes
+
+* **daf-did-jwt:** Fix verification of EdDSA JWTs ([#289](https://github.com/uport-project/daf/issues/289)) ([b97f2a3](https://github.com/uport-project/daf/commit/b97f2a3bc6bfc5f9df143e7e79840e568d6a9606)), closes [#288](https://github.com/uport-project/daf/issues/288)
+
+
+
+
+
 # [7.0.0-beta.54](https://github.com/uport-project/daf/compare/v7.0.0-beta.53...v7.0.0-beta.54) (2020-12-08)
 
 **Note:** Version bump only for package daf-libsodium

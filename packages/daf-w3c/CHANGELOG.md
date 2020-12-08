@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.55](https://github.com/uport-project/daf/compare/v7.0.0-beta.54...v7.0.0-beta.55) (2020-12-08)
+
+
+### Bug Fixes
+
+* JSON schema for W3CCredential ([#287](https://github.com/uport-project/daf/issues/287)) ([543615f](https://github.com/uport-project/daf/commit/543615f33eecb2aa7472e9f3a63514392d12a4e0))
+
+
+
+
+
 # [7.0.0-beta.54](https://github.com/uport-project/daf/compare/v7.0.0-beta.53...v7.0.0-beta.54) (2020-12-08)
 
 **Note:** Version bump only for package daf-w3c
