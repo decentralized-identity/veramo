@@ -65,7 +65,8 @@
                 "id": {
                   "type": "string"
                 }
-              }
+              },
+              "additionalProperties": true
             },
             "credentialStatus": {
               "type": "object",
