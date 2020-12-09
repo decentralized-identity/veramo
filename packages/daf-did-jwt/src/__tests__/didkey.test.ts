@@ -65,7 +65,7 @@ describe('daf-did-jwt', () => {
             type: ['VerifiableCredential', 'DomainLinkageCredential'],
           },
         },
-        metaData: [{ type: 'test' }, { type: undefined, value: 'EdDSA' }],
+        metaData: [{ type: 'test' }, { type: 'JWT', value: 'EdDSA' }],
       }),
       context,
     )
