@@ -19,7 +19,7 @@ export class JwtMessageHandler extends AbstractMessageHandler {
         const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) }
         const verified = await verifyJWT(message.raw, { resolver, audience })
         debug('Message.raw is a valid JWT')
-        message.addMetaData({ type: decoded.header.typ, value: decoded.header.alg })
+        message.addMetaData({ type: decoded.header.typ || 'JWT', value: decoded.header.alg })
         message.data = verified.payload
       } catch (e) {
         debug(e.message)

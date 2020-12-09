@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "did-resolver": "2.1.1",
+    "did-resolver": "2.1.2",
     "typescript": "^4.0.3"
   },
   "files": [
