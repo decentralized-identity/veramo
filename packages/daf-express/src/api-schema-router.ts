@@ -51,7 +51,7 @@ export const ApiSchemaRouter = (options: ApiSchemaRouterOptions): Router => {
   router.get('/', (req: RequestWithAgent, res) => {
     if (req.agent) {
       const openApiSchema = getOpenApiSchema(req.agent, '', options.exposedMethods)
-      const url = req.protocol + '://' + req.hostname + options.basePath
+      const url = (req.headers['x-forwarded-proto'] || req.protocol) + '://' + req.hostname + options.basePath
       openApiSchema.servers = [{ url }]
 
       if (options.securityScheme && openApiSchema.components) {
