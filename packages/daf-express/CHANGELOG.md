@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.56](https://github.com/uport-project/daf/compare/v7.0.0-beta.55...v7.0.0-beta.56) (2020-12-09)
+
+
+### Bug Fixes
+
+* **daf-express:** Fix behavior of CLI HTTPS server behind proxy ([#292](https://github.com/uport-project/daf/issues/292)) ([3c39484](https://github.com/uport-project/daf/commit/3c394844236fe78d7d9499c35861345dcff5212a))
+
+
+
+
+
 # [7.0.0-beta.55](https://github.com/uport-project/daf/compare/v7.0.0-beta.54...v7.0.0-beta.55) (2020-12-08)
 
 **Note:** Version bump only for package daf-express

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.56](https://github.com/uport-project/daf/compare/v7.0.0-beta.55...v7.0.0-beta.56) (2020-12-09)
+
+
+### Bug Fixes
+
+* **daf-did-jwt:** Fix parsing of JWT with missing `typ` in header ([#293](https://github.com/uport-project/daf/issues/293)) ([48e4c60](https://github.com/uport-project/daf/commit/48e4c607f78ac19be2ba83291cb68f414edb5b6b)), closes [#291](https://github.com/uport-project/daf/issues/291)
+
+
+
+
+
 # [7.0.0-beta.55](https://github.com/uport-project/daf/compare/v7.0.0-beta.54...v7.0.0-beta.55) (2020-12-08)
 
 **Note:** Version bump only for package daf-core

@@ -1,7 +1,7 @@
 {
   "name": "daf-identity-manager",
   "description": "DAF Identity Manager",
-  "version": "7.0.0-beta.55",
+  "version": "7.0.0-beta.56",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
     "extract-api": "yarn daf extract-api"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.55"
+    "daf-core": "^7.0.0-beta.56"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
