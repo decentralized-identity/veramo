@@ -196,11 +196,7 @@
             },
             "credentialSubject": {
               "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              }
+              "additionalProperties": true
             },
             "credentialStatus": {
               "type": "object",

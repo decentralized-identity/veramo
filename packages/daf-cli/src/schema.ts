@@ -35,10 +35,20 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
   let fixedSymbol = symbol.replace('Array<', '').replace('>', '')
 
   const schema = generator.createSchema(fixedSymbol)
-  
-  if (fixedSymbol === 'ICreateVerifiableCredentialArgs') {
+
+  if (schema.definitions?.['VerifiableCredential']) {
+    //@ts-ignore
+    schema.definitions['VerifiableCredential']['properties']['credentialSubject'][
+      'additionalProperties'
+    ] = true
+    //@ts-ignore
+    delete schema.definitions['VerifiableCredential']['properties']['credentialSubject']['properties']
+  }
+  if (schema.definitions?.['W3CCredential']) {
     //@ts-ignore
     schema.definitions['W3CCredential']['properties']['credentialSubject']['additionalProperties'] = true
+    //@ts-ignore
+    delete schema.definitions['W3CCredential']['properties']['credentialSubject']['properties']
   }
   // console.dir({ fixedSymbol, schema }, {depth: 10})
 
