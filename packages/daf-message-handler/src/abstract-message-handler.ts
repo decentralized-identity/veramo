@@ -1,7 +1,7 @@
 import { IAgentContext } from 'daf-core'
 import { Message } from './message'
 
-export const unsupportedMessageTypeError = 'Unsupported message type'
+export const unsupportedMessageTypeError = new Error('Unsupported message type')
 
 /**
  * An abstract class for creating {@link daf-message-handler#MessageHandler} plugins

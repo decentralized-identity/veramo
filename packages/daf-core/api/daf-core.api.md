@@ -17,6 +17,12 @@ export class Agent implements IAgent {
     }
 
 // @public
+export const CoreEvents: {
+    error: string;
+    warning: string;
+};
+
+// @public
 export function createAgent<T extends IPluginMethodMap>(options: IAgentOptions): TAgent<T>;
 
 export { DIDDocument }

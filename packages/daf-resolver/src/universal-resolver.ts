@@ -16,10 +16,10 @@ export class UniversalResolver {
         const ddo = await result.json()
         return ddo.didDocument
       } catch (e) {
-        return Promise.reject(e.message)
+        return Promise.reject(e)
       }
-    } 
-    
+    }
+
     return resolve
   }
 }

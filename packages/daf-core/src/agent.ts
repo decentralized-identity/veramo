@@ -3,6 +3,7 @@ import { validateArguments, validateReturnType } from './validator'
 import ValidationErrorSchema from './schemas/ValidationError'
 import Debug from 'debug'
 import { EventEmitter } from 'events'
+import { CoreEvents } from './coreEvents'
 
 /**
  * Filters unauthorized methods. By default all methods are authorized
@@ -146,8 +147,8 @@ export class Agent implements IAgent {
               )
               this.eventQueue.push(promise)
               promise?.catch((rejection) => {
-                if (eventType !== 'error') {
-                  this.eventBus.emit('error', rejection)
+                if (eventType !== CoreEvents.error) {
+                  this.eventBus.emit(CoreEvents.error, rejection)
                 } else {
                   this.eventQueue.push(
                     Promise.reject(
@@ -254,10 +255,10 @@ export class Agent implements IAgent {
    * Ex: `await agent.emit('foo', {eventData})`
    *
    * In case an error is thrown while processing an event, the error is re-emitted as an event
-   * of type `error` with a `EventListenerError` as payload.
+   * of type `CoreEvents.error` with a `EventListenerError` as payload.
    *
    * Note that `await agent.emit()` will NOT throw an error. To process errors, use a listener
-   * with `eventTypes: ["error"]` in the definition.
+   * with `eventTypes: [ CoreEvents.error ]` in the definition.
    *
    * @param eventType - the type of event being emitted
    * @param data - event payload.

@@ -5,6 +5,7 @@
  */
 export { Agent, createAgent, IAgentOptions } from './agent'
 export { ValidationError } from './validator'
+export { CoreEvents } from './coreEvents'
 export * from './types/IAgent'
 export * from './types/IDataStore'
 export * from './types/IIdentity'

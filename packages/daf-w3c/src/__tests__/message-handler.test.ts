@@ -90,7 +90,7 @@ describe('daf-w3c', () => {
 
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(handler.handle(message, context)).rejects.toEqual('Unsupported message type')
+    await expect(handler.handle(message, context)).rejects.toThrow('Unsupported message type')
   })
 
   it('should return handled VC message', async () => {

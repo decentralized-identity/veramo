@@ -126,13 +126,13 @@ export class DIDComm implements IAgentPlugin {
           })
         }
 
-        return Promise.reject('Message not sent')
+        return Promise.reject(new Error('Message not sent'))
       } catch (e) {
         return Promise.reject(e)
       }
     } else {
       debug('No Messaging service in didDoc')
-      return Promise.reject('No service endpoint')
+      return Promise.reject(new Error('No service endpoint'))
     }
   }
 }
