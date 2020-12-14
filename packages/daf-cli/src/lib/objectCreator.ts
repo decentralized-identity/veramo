@@ -43,6 +43,7 @@ export function createObjects(config: object, pointers: Record<string, string>):
     let module = parsed.pathname
     const member = parsed.hash.length > 1 ? parsed.hash.slice(1) : 'default'
     const type = parsed.query['t'] || 'class'
+    const pointer = parsed.query['p']
     const args = objectConfig['$args']
     // console.log({module, member, type, query: parsed.query})
 
@@ -58,6 +59,9 @@ export function createObjects(config: object, pointers: Record<string, string>):
       object = required(...resolvedArgs)
     } else if (type === 'object') {
       object = required
+    }
+    if (pointer) {
+      return get(object, pointer)
     }
     return object
   }

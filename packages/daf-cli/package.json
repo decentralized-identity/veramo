@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -b --watch",
-    "update-daf-beta": "yarn add daf-core@beta daf-resolver@beta daf-did-jwt@beta daf-w3c@beta daf-ethr-did@beta daf-web-did@beta daf-did-comm@beta daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta daf-key-manager@beta daf-message-handler@beta daf-identity-manager@beta daf-resolver-universal@beta daf-url@beta"
+    "update-daf-beta": "yarn add daf-core@beta daf-resolver@beta daf-did-jwt@beta daf-w3c@beta daf-ethr-did@beta daf-web-did@beta daf-did-comm@beta daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta daf-key-manager@beta daf-message-handler@beta daf-identity-manager@beta daf-url@beta"
   },
   "dependencies": {
     "@microsoft/api-extractor": "7.9.22",
@@ -32,7 +32,6 @@
     "daf-libsodium": "^7.0.0-beta.56",
     "daf-message-handler": "^7.0.0-beta.56",
     "daf-resolver": "^7.0.0-beta.56",
-    "daf-resolver-universal": "^7.0.0-beta.56",
     "daf-rest": "^7.0.0-beta.56",
     "daf-selective-disclosure": "^7.0.0-beta.56",
     "daf-typeorm": "^7.0.0-beta.56",
@@ -41,7 +40,9 @@
     "daf-web-did": "^7.0.0-beta.56",
     "date-fns": "^2.8.1",
     "debug": "^4.1.1",
+    "did-resolver": "^2.1.2",
     "dotenv": "^8.2.0",
+    "ethr-did-resolver": "^3.0.2",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "fuzzy": "^0.1.3",
@@ -62,6 +63,7 @@
     "ts-json-schema-generator": "^0.80.0",
     "typeorm": "0.2.24",
     "url-parse": "^1.4.7",
+    "web-did-resolver": "^1.3.5",
     "ws": "^7.2.0",
     "yaml": "^1.10.0"
   },

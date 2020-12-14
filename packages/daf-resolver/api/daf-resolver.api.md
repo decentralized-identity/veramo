@@ -7,6 +7,7 @@
 import { DIDDocument } from 'did-resolver';
 import { IAgentPlugin } from 'daf-core';
 import { IResolver } from 'daf-core';
+import { Resolver } from 'did-resolver';
 
 // @public (undocumented)
 export class DafResolver implements IAgentPlugin {
@@ -20,6 +21,12 @@ export class DafResolver implements IAgentPlugin {
     }): Promise<DIDDocument>;
     // (undocumented)
     readonly schema: any;
+}
+
+// @public (undocumented)
+export class UniversalResolver {
+    // Warning: (ae-forgotten-export) The symbol "Options" needs to be exported by the entry point index.d.ts
+    constructor(options: Options_2);
 }
 
 

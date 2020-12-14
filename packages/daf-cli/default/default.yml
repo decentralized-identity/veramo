@@ -25,6 +25,7 @@ server:
 constants:
   secretKey: 29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
   databaseFile: ./database.sqlite
+
 dbConnection:
   $require: typeorm?t=function#createConnection
   $args:
@@ -35,6 +36,7 @@ dbConnection:
       logging: false
       entities:
         $require: daf-typeorm?t=object#Entities
+
 messageHandler:
   $require: daf-message-handler#MessageHandler
   $args:
@@ -43,6 +45,43 @@ messageHandler:
         - $require: daf-did-jwt#JwtMessageHandler
         - $require: daf-w3c#W3cMessageHandler
         - $require: daf-selective-disclosure#SdrMessageHandler
+
+ethr-did-resolver:
+  $require: ethr-did-resolver?t=function&p=/ethr#getResolver
+  $args:
+    - networks:
+      - name: mainnet
+        rpcUrl: https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+      - name: rinkeby
+        rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+      - name: ropsten
+        rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+      - name: kovan
+        rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+      - name: goerli
+        rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+      - name: private
+        rpcUrl: http://localhost:8545/
+        registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
+
+web-did-resolver:
+  $require: web-did-resolver?t=function&p=/web#getResolver
+
+universal-resolver:
+  $require: daf-resolver#UniversalResolver
+  $args:
+    - url: https://dev.uniresolver.io/1.0/identifiers/
+
+resolver:
+  $require: did-resolver#Resolver
+  $args:
+    - ethr: 
+        $ref: /ethr-did-resolver
+      web: 
+        $ref: /web-did-resolver
+      io: 
+        $ref: /universal-resolver
+
 agent:
   $require: daf-core#Agent
   $args:
@@ -120,23 +159,8 @@ agent:
                     - defaultKms: local
         - $require: daf-resolver#DafResolver
           $args:
-            - networks:
-                - name: mainnet
-                  rpcUrl: https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                - name: rinkeby
-                  rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                - name: ropsten
-                  rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                - name: kovan
-                  rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                - name: goerli
-                  rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                - name: private
-                  rpcUrl: http://localhost:8545/
-                  registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
-        # - $require: daf-resolver-universal#DafUniversalResolver
-        #   $args:
-        #     - url: https://dev.uniresolver.io/1.0/identifiers/
+            - resolver:
+                $ref: /resolver
         - $require: daf-typeorm#DataStore
           $args:
             - $ref: /dbConnection

@@ -4,3 +4,4 @@
  * @packageDocumentation
  */
 export { DafResolver } from './resolver'
+export { UniversalResolver } from './universal-resolver'
