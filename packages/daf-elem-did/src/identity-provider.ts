@@ -56,7 +56,7 @@ export class ElemIdentityProvider extends AbstractIdentityProvider {
     })
 
     if (response.status !== 200) {
-      return Promise.reject(response.statusText)
+      return Promise.reject(new Error(response.statusText))
     }
 
     const identity: Omit<IIdentity, 'provider'> = {
@@ -82,7 +82,7 @@ export class ElemIdentityProvider extends AbstractIdentityProvider {
     context: IContext,
   ): Promise<any> {
     if (!identity.controllerKeyId) throw Error('ControllerKeyId does not exist')
-    
+
     const primaryKey = await await context.agent.keyManagerGetKey({ kid: identity.controllerKeyId })
 
     debug('Fetching list of previous operations')
@@ -91,7 +91,7 @@ export class ElemIdentityProvider extends AbstractIdentityProvider {
 
     debug('Operations count:', operations.length)
     if (operations.length === 0) {
-      return Promise.reject('There should be at least one operation')
+      return Promise.reject(new Error('There should be at least one operation'))
     }
 
     const lastOperation = operations.pop()
@@ -120,7 +120,7 @@ export class ElemIdentityProvider extends AbstractIdentityProvider {
 
     if (response2.status !== 200) {
       debug(response2.statusText)
-      return Promise.reject(response2.statusText)
+      return Promise.reject(new Error(response2.statusText))
     }
 
     debug('Success. New publicKey:', key.publicKeyHex)

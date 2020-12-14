@@ -5,6 +5,7 @@ import {
   IMessageHandler,
   IHandleMessageArgs,
   schema,
+  CoreEvents,
 } from 'daf-core'
 import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
@@ -15,7 +16,7 @@ const debug = Debug('daf:message-handler')
 export const EventTypes = {
   validatedMessage: 'validatedMessage',
   savedMessage: 'savedMessage',
-  error: 'error',
+  error: CoreEvents.error,
 }
 
 /**
@@ -54,7 +55,7 @@ export class MessageHandler implements IAgentPlugin {
     const { raw, metaData, save } = args
     debug('%o', { raw, metaData, save })
     if (!this.messageHandler) {
-      return Promise.reject('Message handler not provided')
+      return Promise.reject(new Error('Message handler not provided'))
     }
 
     try {

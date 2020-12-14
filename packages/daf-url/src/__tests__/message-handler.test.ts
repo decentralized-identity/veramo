@@ -18,7 +18,7 @@ describe('daf-url', () => {
 
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(messageHandler.handle(message, context)).rejects.toEqual('Unsupported message type')
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
   })
 
   it('should transform message after standard URL', async () => {
@@ -32,7 +32,7 @@ describe('daf-url', () => {
         },
       ],
     })
-    expect(messageHandler.handle(message, context)).rejects.toEqual('Unsupported message type')
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
     expect(message.raw).toEqual(JWT)
   })
 
@@ -40,11 +40,8 @@ describe('daf-url', () => {
     const message = new Message({ raw: 'https://example.com/public-profile.jwt' })
     fetchMock.mockResponse('mockbody')
     expect.assertions(2)
-    try {
-      await messageHandler.handle(message, context)
-    } catch (e) {
-      expect(e).toMatch('Unsupported message type')
-    }
+
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
 
     expect(message.raw).toEqual('mockbody')
   })

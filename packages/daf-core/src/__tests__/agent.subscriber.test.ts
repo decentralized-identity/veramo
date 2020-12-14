@@ -1,4 +1,5 @@
 import { Agent } from '../agent'
+import { CoreEvents } from '../coreEvents'
 import { IEventListener } from '../types/IAgent'
 
 function sleep(ms: number) {
@@ -77,7 +78,7 @@ describe('daf-core agent', () => {
       },
     }
     const errorHandler: IEventListener = {
-      eventTypes: ['error'],
+      eventTypes: [CoreEvents.error],
       onEvent: jest.fn(),
     }
     const agent = new Agent({
@@ -88,7 +89,7 @@ describe('daf-core agent', () => {
 
     expect(errorHandler.onEvent).toBeCalledWith(
       {
-        type: 'error',
+        type: CoreEvents.error,
         data: new Error("I can't handle it!!!!"),
       },
       { agent: agent },
@@ -105,9 +106,9 @@ describe('daf-core agent', () => {
       },
     }
     const errorHandler: IEventListener = {
-      eventTypes: ['error'],
+      eventTypes: [CoreEvents.error],
       onEvent: async ({ type, data }, context) => {
-        expect(type).toBe('error')
+        expect(type).toBe(CoreEvents.error)
         const err = data as Error
         expect(err.message).toMatch("I can't handle it after waiting so long!!!!")
       },
@@ -176,7 +177,7 @@ describe('daf-core agent', () => {
       },
     }
     const errorHandler: IEventListener = {
-      eventTypes: ['error'],
+      eventTypes: [CoreEvents.error],
       onEvent: async () => {
         throw new Error('barError')
       },

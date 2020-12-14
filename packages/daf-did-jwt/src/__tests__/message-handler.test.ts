@@ -87,12 +87,12 @@ describe('daf-did-jwt', () => {
   it('should reject unknown message type', async () => {
     const mockNextHandler = {
       setNext: jest.fn(),
-      handle: jest.fn().mockRejectedValue('Unsupported message type'),
+      handle: jest.fn().mockRejectedValue(new Error('Unsupported message type')),
     }
     const handler = new JwtMessageHandler()
     handler.setNext(mockNextHandler)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(handler.handle(message, context)).rejects.toEqual('Unsupported message type')
+    await expect(handler.handle(message, context)).rejects.toThrow('Unsupported message type')
   })
 
   it('should set data field for VC jwt', async () => {
