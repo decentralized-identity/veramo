@@ -15,7 +15,6 @@
     { "path": "../daf-key-manager" },
     { "path": "../daf-libsodium" },
     { "path": "../daf-message-handler" },
-    { "path": "../daf-resolver-universal" },
     { "path": "../daf-resolver" },
     { "path": "../daf-rest" },
     { "path": "../daf-express" },

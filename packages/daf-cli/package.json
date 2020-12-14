@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -b --watch",
-    "update-daf-beta": "yarn add daf-core@beta daf-resolver@beta daf-did-jwt@beta daf-w3c@beta daf-ethr-did@beta daf-web-did@beta daf-did-comm@beta daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta daf-key-manager@beta daf-message-handler@beta daf-identity-manager@beta daf-resolver-universal@beta daf-url@beta"
+    "update-daf-beta": "yarn add daf-core@beta daf-resolver@beta daf-did-jwt@beta daf-w3c@beta daf-ethr-did@beta daf-web-did@beta daf-did-comm@beta daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta daf-key-manager@beta daf-message-handler@beta daf-identity-manager@beta daf-url@beta"
   },
   "dependencies": {
     "@microsoft/api-extractor": "7.9.22",
@@ -32,7 +32,6 @@
     "daf-libsodium": "^7.0.0-beta.56",
     "daf-message-handler": "^7.0.0-beta.56",
     "daf-resolver": "^7.0.0-beta.56",
-    "daf-resolver-universal": "^7.0.0-beta.56",
     "daf-rest": "^7.0.0-beta.56",
     "daf-selective-disclosure": "^7.0.0-beta.56",
     "daf-typeorm": "^7.0.0-beta.56",

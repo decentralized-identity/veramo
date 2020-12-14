@@ -12,7 +12,6 @@
     { "path": "daf-libsodium" },
     { "path": "daf-message-handler" },
     { "path": "daf-resolver" },
-    { "path": "daf-resolver-universal" },
     { "path": "daf-rest" },
     { "path": "daf-selective-disclosure" },
     { "path": "daf-url" },
