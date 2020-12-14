@@ -6077,11 +6077,6 @@ did-resolver@2.1.2, did-resolver@^2.1.2:
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-2.1.2.tgz#f1194fdbc087161809ce545e13c11a596f4a3928"
   integrity sha512-n4YGS1CzbX48U/ChLRY3SdgiV5N3B/+yh0ToS5t+Sx4QjhVZN6ZyijUSSYbFGvz+I4qImeSZOdo6RX8JaieN7A==
 
-did-resolver@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-1.1.0.tgz#27a63b6f2aa8dee3d622cd8b8b47360661e24f1e"
-  integrity sha512-Q02Sc5VuQnJzzR8fQ/DzyCHiYb31WpQdocOsxppI66wwT4XalYRDeCr3a48mL6sYPQo76AkBh0mxte9ZBuQzxA==
-
 diff-sequences@^25.2.6:
   version "25.2.6"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-25.2.6.tgz#5f467c00edd35352b7bca46d7927d60e687a76dd"
@@ -6272,13 +6267,6 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
-
-ed2curve-esm@^0.3.0-alpha-1:
-  version "0.3.0-alpha-1"
-  resolved "https://registry.yarnpkg.com/ed2curve-esm/-/ed2curve-esm-0.3.0-alpha-1.tgz#67a5722ea97976c3310aeaf0990a2b58ee383aef"
-  integrity sha512-Ydrqcf0NwKUBT4gL0Nnxp8/O5NG8iatN+/zbEgs/7eMGjgSVbgfE1YfWld2qYnoNIxOQvSWOFy5uBoaL3jCanw==
-  dependencies:
-    tweetnacl "^1.0.1"
 
 editor@~1.0.0:
   version "1.0.0"
@@ -7193,13 +7181,13 @@ ethr-did-resolver@^0.2.0:
     ethjs-query "^0.3.5"
     ethr-did-registry "^0.0.3"
 
-ethr-did-resolver@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-3.0.0.tgz#a7a3b8b4407d651007266b3a76463796bb79c0ce"
-  integrity sha512-o400l9p8ee6W09fZLMX2BERcyFRrebE7DCjb46Rzgypb7QzX1rBOzHJ0PorWRINXFqoPMoxR7OeIrD17obIbng==
+ethr-did-resolver@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-3.0.2.tgz#9fd39f73d7ecf62781cd8eec0b2397f8ad68981d"
+  integrity sha512-dCsK5RWhnpDuV0TM8VL9LxY+RxdN9LxTud2sdaY4oT9WULP74uO/pQO8eWn9IQFz2c796ckzaKwDbeaOo+sogw==
   dependencies:
     buffer "^5.1.0"
-    did-resolver "2.1.1"
+    did-resolver "2.1.2"
     elliptic "^6.5.3"
     ethjs-abi "^0.2.1"
     ethjs-contract "^0.2.0"
@@ -12053,16 +12041,6 @@ mz@^2.4.0, mz@^2.5.0:
     any-promise "^1.0.0"
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
-
-nacl-did@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/nacl-did/-/nacl-did-1.0.1.tgz#94a253430343038c8fee3ff0ecf394b1d34fe4b2"
-  integrity sha512-eGFtGk8v04QaYYQe0Y+suC0iLarPJh4NC5z/f1+JTQh7nRvA/+5ZT4eh/dtP/JGPtUkh2TdpdeiFtMJ0DEyIKQ==
-  dependencies:
-    did-resolver "^1.0.0"
-    ed2curve-esm "^0.3.0-alpha-1"
-    tweetnacl "^1.0.1"
-    tweetnacl-util "^0.15.0"
 
 nan@^2.11.1, nan@^2.12.1, nan@^2.14.0, nan@^2.14.1:
   version "2.14.1"
@@ -17192,10 +17170,10 @@ wcwidth@^1.0.0:
   dependencies:
     defaults "^1.0.3"
 
-web-did-resolver@^1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-1.3.3.tgz#88f897c4c39851dd5071338dd343ef27169a4225"
-  integrity sha512-CL/pBC/vatndMU84eaWA7QHRgwN2Op3hAhxTcBs7VMmqoNGmZXmW1/x3FU0w8kLhRRJae2XFUkkxHQfN1wJtTw==
+web-did-resolver@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-1.3.5.tgz#1240a94530fa5194827856b8ff7957d00d11a7d7"
+  integrity sha512-k+32CvrguvAwgvppYH0geMsmKJL1akuyWa3p5ArVON5swYvMb72e1yayM7XuPMwUW/6aZ2Z0HL14QkfvcIJRQw==
   dependencies:
     cross-fetch "^3.0.4"
     did-resolver "2.1.1"

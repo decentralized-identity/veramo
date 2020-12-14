@@ -32,6 +32,9 @@ import {
   DataStore,
   DataStoreORM,
 } from '../packages/daf-typeorm/src'
+import { Resolver } from 'did-resolver'
+import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { getResolver as webDidResolver } from 'web-did-resolver'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -118,7 +121,20 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           }),
         },
       }),
-      new DafResolver({ infuraProjectId }),
+      new DafResolver({ 
+        resolver: new Resolver({
+          ethr: ethrDidResolver({
+            networks: [
+              { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId },
+              { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId },
+              { name: 'ropsten', rpcUrl: 'https://ropsten.infura.io/v3/' + infuraProjectId },
+              { name: 'kovan', rpcUrl: 'https://kovan.infura.io/v3/' + infuraProjectId },
+              { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId },
+            ]
+          }).ethr,
+          web: webDidResolver().web
+        })
+      }),
       new DataStore(dbConnection),
       new DataStoreORM(dbConnection),
       new MessageHandler({
