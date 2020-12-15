@@ -1,7 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types'
 import { IAgent } from 'daf-core'
 
-export const getOpenApiSchema = (agent: IAgent, basePath: string, exposedMethods: Array<string>): OpenAPIV3.Document => {
+export const getOpenApiSchema = (agent: IAgent, basePath: string, exposedMethods: Array<string>, name?: string, version?: string): OpenAPIV3.Document => {
   const agentSchema = agent.getSchema()
 
   const paths: OpenAPIV3.PathsObject = {}
@@ -47,13 +47,18 @@ export const getOpenApiSchema = (agent: IAgent, basePath: string, exposedMethods
   const openApi: OpenAPIV3.Document = {
     openapi: "3.0.0",
     info: {
-      title: "DID Agent",
-      version: ""
+      title: name || "DID Agent",
+      version: version || ""
     },
     components:{
-      schemas: agent.getSchema().components.schemas
+      schemas: agent.getSchema().components.schemas,
     },
     paths
+  }
+
+  if (openApi.components?.schemas) {
+    //@ts-ignore
+    openApi['x-methods'] = agent.getSchema().components.methods
   }
 
   return openApi

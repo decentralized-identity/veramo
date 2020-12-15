@@ -9,6 +9,8 @@ server:
   #   $env: API_KEY
   schemaPath: /open-api.json
   # homePageTemplate: ./homepage.html
+  apiName: Agent
+  apiVersion: 1.0.0
   apiBasePath: /agent
   apiDocsPath: /api-docs
   defaultIdentity:
