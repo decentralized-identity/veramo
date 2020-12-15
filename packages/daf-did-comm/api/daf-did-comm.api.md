@@ -49,6 +49,8 @@ export interface ISendMessageDIDCommAlpha1Args {
         body: object | string;
     };
     // (undocumented)
+    headers?: Record<string, string>;
+    // (undocumented)
     save?: boolean;
     // (undocumented)
     url?: string;

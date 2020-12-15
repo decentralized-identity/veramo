@@ -13,7 +13,7 @@
     "test": "jest --config=jest.json --coverage=false",
     "test:watch": "yarn test --watch --verbose",
     "daf": "./packages/daf-cli/bin/daf.js",
-    "prettier": "prettier --write '{packages,__tests__, !build}/**/*.ts'",
+    "prettier": "prettier --write '{packages,__tests__, !build}/**/*.{ts,js,json,md,yml}'",
     "build-clean": "rimraf ./packages/*/build ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo && jest --clearCache",
     "publish": "lerna publish",
     "publish-beta": "yarn build && npx lerna publish --canary premajor --preid beta --pre-dist-tag beta"

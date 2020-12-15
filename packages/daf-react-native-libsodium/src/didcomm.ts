@@ -15,7 +15,7 @@ interface JWSUnpacked {
 }
 
 export class DIDComm {
-  public readonly ready: Promise<undefined>
+  public readonly ready: Promise<void>
   private sodium: any
 
   /**

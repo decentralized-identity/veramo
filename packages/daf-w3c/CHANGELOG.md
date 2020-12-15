@@ -3,703 +3,125 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [7.0.0-beta.57](https://github.com/uport-project/daf/compare/v7.0.0-beta.56...v7.0.0-beta.57) (2020-12-15)
-
-
-### Bug Fixes
-
-* **message-handler:** Rewire promise rejections as `Error` objects ([#300](https://github.com/uport-project/daf/issues/300)) ([04446d4](https://github.com/uport-project/daf/commit/04446d4e2d2dba8ff2ae5695014686ef49891804)), closes [#294](https://github.com/uport-project/daf/issues/294)
-
-
-
-
-
-# [7.0.0-beta.56](https://github.com/uport-project/daf/compare/v7.0.0-beta.55...v7.0.0-beta.56) (2020-12-09)
-
-
-### Bug Fixes
-
-* **daf-did-jwt:** Fix parsing of JWT with missing `typ` in header ([#293](https://github.com/uport-project/daf/issues/293)) ([48e4c60](https://github.com/uport-project/daf/commit/48e4c607f78ac19be2ba83291cb68f414edb5b6b)), closes [#291](https://github.com/uport-project/daf/issues/291)
-
-
-
-
-
-# [7.0.0-beta.55](https://github.com/uport-project/daf/compare/v7.0.0-beta.54...v7.0.0-beta.55) (2020-12-08)
-
-
-### Bug Fixes
-
-* JSON schema for W3CCredential ([#287](https://github.com/uport-project/daf/issues/287)) ([543615f](https://github.com/uport-project/daf/commit/543615f33eecb2aa7472e9f3a63514392d12a4e0))
-
-
-
-
-
-# [7.0.0-beta.54](https://github.com/uport-project/daf/compare/v7.0.0-beta.53...v7.0.0-beta.54) (2020-12-08)
+## [6.4.1](https://github.com/uport-project/daf/compare/v6.4.0...v6.4.1) (2020-11-13)
 
 **Note:** Version bump only for package daf-w3c
 
 
 
 
-
-# [7.0.0-beta.53](https://github.com/uport-project/daf/compare/v7.0.0-beta.52...v7.0.0-beta.53) (2020-12-04)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.52](https://github.com/uport-project/daf/compare/v7.0.0-beta.51...v7.0.0-beta.52) (2020-12-01)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.51](https://github.com/uport-project/daf/compare/v7.0.0-beta.50...v7.0.0-beta.51) (2020-11-26)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.50](https://github.com/uport-project/daf/compare/v7.0.0-beta.49...v7.0.0-beta.50) (2020-11-25)
-
-
-### Features
-
-* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
-
-
-
-
-
-# [7.0.0-beta.49](https://github.com/uport-project/daf/compare/v7.0.0-beta.48...v7.0.0-beta.49) (2020-11-24)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.48](https://github.com/uport-project/daf/compare/v7.0.0-beta.47...v7.0.0-beta.48) (2020-11-24)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.47](https://github.com/uport-project/daf/compare/v7.0.0-beta.46...v7.0.0-beta.47) (2020-11-23)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.46](https://github.com/uport-project/daf/compare/v7.0.0-beta.45...v7.0.0-beta.46) (2020-11-19)
-
-
-### Features
-
-* Add event system to agent ([#262](https://github.com/uport-project/daf/issues/262)) ([9a6747e](https://github.com/uport-project/daf/commit/9a6747e84037613d396e14a6f68cb2de8275ddca))
-
-
-
-
-
-# [7.0.0-beta.45](https://github.com/uport-project/daf/compare/v7.0.0-beta.44...v7.0.0-beta.45) (2020-10-22)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.44](https://github.com/uport-project/daf/compare/v7.0.0-beta.43...v7.0.0-beta.44) (2020-10-21)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.43](https://github.com/uport-project/daf/compare/v7.0.0-beta.42...v7.0.0-beta.43) (2020-10-21)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.42](https://github.com/uport-project/daf/compare/v7.0.0-beta.41...v7.0.0-beta.42) (2020-10-20)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.41](https://github.com/uport-project/daf/compare/v7.0.0-beta.40...v7.0.0-beta.41) (2020-10-20)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.40](https://github.com/uport-project/daf/compare/v7.0.0-beta.39...v7.0.0-beta.40) (2020-10-20)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.39](https://github.com/uport-project/daf/compare/v7.0.0-beta.38...v7.0.0-beta.39) (2020-10-20)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.38](https://github.com/uport-project/daf/compare/v7.0.0-beta.37...v7.0.0-beta.38) (2020-10-19)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.37](https://github.com/uport-project/daf/compare/v7.0.0-beta.36...v7.0.0-beta.37) (2020-10-19)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.36](https://github.com/uport-project/daf/compare/v7.0.0-beta.35...v7.0.0-beta.36) (2020-10-18)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.35](https://github.com/uport-project/daf/compare/v7.0.0-beta.34...v7.0.0-beta.35) (2020-10-18)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.34](https://github.com/uport-project/daf/compare/v7.0.0-beta.33...v7.0.0-beta.34) (2020-10-15)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.33](https://github.com/uport-project/daf/compare/v7.0.0-beta.32...v7.0.0-beta.33) (2020-10-15)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.32](https://github.com/uport-project/daf/compare/v7.0.0-beta.31...v7.0.0-beta.32) (2020-10-15)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.31](https://github.com/uport-project/daf/compare/v7.0.0-beta.30...v7.0.0-beta.31) (2020-10-14)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.30](https://github.com/uport-project/daf/compare/v7.0.0-beta.29...v7.0.0-beta.30) (2020-10-13)
-
-
-### Bug Fixes
-
-* Local copy of W3C types ([29c6b0e](https://github.com/uport-project/daf/commit/29c6b0efc37f181d40aff560d4d481eb84e0ea9a))
-
-
-### Features
-
-* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
-* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
-* Validating returnType ([c7d1ef3](https://github.com/uport-project/daf/commit/c7d1ef3bd77dd4a77cf9dcfa32a2ed8b47fe04e0))
-
-
-
-
-
-# [7.0.0-beta.29](https://github.com/uport-project/daf/compare/v7.0.0-beta.28...v7.0.0-beta.29) (2020-10-02)
-
-
-### Features
-
-* Unique (with hash) VC/VP in ORM results ([bcfc3e8](https://github.com/uport-project/daf/commit/bcfc3e843885553abea1e90bc2a833abc6e8e3ec))
-
-
-
-
-
-# [7.0.0-beta.28](https://github.com/uport-project/daf/compare/v7.0.0-beta.27...v7.0.0-beta.28) (2020-10-01)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.27](https://github.com/uport-project/daf/compare/v7.0.0-beta.26...v7.0.0-beta.27) (2020-09-30)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.26](https://github.com/uport-project/daf/compare/v7.0.0-beta.25...v7.0.0-beta.26) (2020-09-29)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.25](https://github.com/uport-project/daf/compare/v7.0.0-beta.24...v7.0.0-beta.25) (2020-09-28)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.24](https://github.com/uport-project/daf/compare/v7.0.0-beta.23...v7.0.0-beta.24) (2020-09-25)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.23](https://github.com/uport-project/daf/compare/v7.0.0-beta.22...v7.0.0-beta.23) (2020-09-22)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.22](https://github.com/uport-project/daf/compare/v7.0.0-beta.21...v7.0.0-beta.22) (2020-09-22)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.21](https://github.com/uport-project/daf/compare/v7.0.0-beta.20...v7.0.0-beta.21) (2020-09-17)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.20](https://github.com/uport-project/daf/compare/v7.0.0-beta.19...v7.0.0-beta.20) (2020-09-15)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.19](https://github.com/uport-project/daf/compare/v7.0.0-beta.18...v7.0.0-beta.19) (2020-09-14)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.18](https://github.com/uport-project/daf/compare/v6.3.0...v7.0.0-beta.18) (2020-09-09)
-
-
-### Bug Fixes
-
-* Creating VC ([f8caa6a](https://github.com/uport-project/daf/commit/f8caa6a859fdf6838daa489e9f30d74154b41dc7))
-* Types for IW3c ([56cf141](https://github.com/uport-project/daf/commit/56cf1412e9811f0fec675d9210e82614a6b15ea0))
-* W3c message createdAt ([59656f8](https://github.com/uport-project/daf/commit/59656f8d1aee9479f195dd949712032b75c1dd04))
-* W3c tests ([2bc4084](https://github.com/uport-project/daf/commit/2bc40847e61786b981a6c61afdb66213beaa8496))
-
-
-### Code Refactoring
-
-* Refactor and add inline documentation to daf-w3c package ([f0e2cb9](https://github.com/uport-project/daf/commit/f0e2cb9748dc04b0d46ac1d80bac9a0b7f7546cd))
-
-
-### BREAKING CHANGES
-
-* the `IW3c` type and `W3c` class have been renamed to
-`ICredentialIssuer` and `CredentialIssuer`
-
-fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
-
-
-
-
-
-# [7.0.0-beta.17](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.17) (2020-09-04)
-
-
-### Bug Fixes
-
-* Creating VC ([0c86199](https://github.com/uport-project/daf/commit/0c86199b0c1b5aaa45f442c2e39011eb9a952d03))
-* Types for IW3c ([9159167](https://github.com/uport-project/daf/commit/91591670a8c2ab61b52e44eabd734c63833f2055))
-* W3c tests ([3ed67e5](https://github.com/uport-project/daf/commit/3ed67e545d7428e1e7e9f7c36a8e7974c8209ac2))
-
-
-### Code Refactoring
-
-* Refactor and add inline documentation to daf-w3c package ([af2cec1](https://github.com/uport-project/daf/commit/af2cec1e604cff194b2b909f79365138b0b5ba17))
-
-
-### BREAKING CHANGES
-
-* the `IW3c` type and `W3c` class have been renamed to
-`ICredentialIssuer` and `CredentialIssuer`
-
-fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
-
-
-
-
-
-# [7.0.0-beta.16](https://github.com/uport-project/daf/compare/v7.0.0-beta.15...v7.0.0-beta.16) (2020-09-02)
-
-
-### Code Refactoring
-
-* Refactor and add inline documentation to daf-w3c package ([91ff4d9](https://github.com/uport-project/daf/commit/91ff4d936d11bf48c56aec6cebc91e268d44f730))
-
-
-### BREAKING CHANGES
-
-* the `IW3c` type and `W3c` class have been renamed to
-`ICredentialIssuer` and `CredentialIssuer`
-
-fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
-
-
-
-
-
-# [7.0.0-beta.15](https://github.com/uport-project/daf/compare/v7.0.0-beta.14...v7.0.0-beta.15) (2020-08-27)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.14](https://github.com/uport-project/daf/compare/v7.0.0-beta.13...v7.0.0-beta.14) (2020-08-26)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.13](https://github.com/uport-project/daf/compare/v7.0.0-beta.12...v7.0.0-beta.13) (2020-08-26)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.12](https://github.com/uport-project/daf/compare/v7.0.0-beta.11...v7.0.0-beta.12) (2020-08-26)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.11](https://github.com/uport-project/daf/compare/v7.0.0-beta.10...v7.0.0-beta.11) (2020-08-17)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.10](https://github.com/uport-project/daf/compare/v7.0.0-beta.9...v7.0.0-beta.10) (2020-08-17)
-
-**Note:** Version bump only for package daf-w3c
-
-
-
-
-
-# [7.0.0-beta.9](https://github.com/uport-project/daf/compare/v7.0.0-beta.8...v7.0.0-beta.9) (2020-08-14)
-
-### Bug Fixes
-
-- Types for IW3c ([7b82729](https://github.com/uport-project/daf/commit/7b82729e6d0a396abde5222ef39dd4ab4c2a5312))
-
-# [7.0.0-beta.8](https://github.com/uport-project/daf/compare/v7.0.0-beta.7...v7.0.0-beta.8) (2020-07-14)
-
-**Note:** Version bump only for package daf-w3c
-
-# [7.0.0-beta.7](https://github.com/uport-project/daf/compare/v7.0.0-beta.6...v7.0.0-beta.7) (2020-07-10)
-
-**Note:** Version bump only for package daf-w3c
-
-# [7.0.0-beta.6](https://github.com/uport-project/daf/compare/v7.0.0-beta.5...v7.0.0-beta.6) (2020-07-10)
-
-**Note:** Version bump only for package daf-w3c
-
-# [7.0.0-beta.5](https://github.com/uport-project/daf/compare/v7.0.0-beta.4...v7.0.0-beta.5) (2020-07-10)
-
-**Note:** Version bump only for package daf-w3c
-
-# [7.0.0-beta.4](https://github.com/uport-project/daf/compare/v7.0.0-beta.3...v7.0.0-beta.4) (2020-07-09)
-
-**Note:** Version bump only for package daf-w3c
-
-# [7.0.0-beta.3](https://github.com/uport-project/daf/compare/v7.0.0-beta.2...v7.0.0-beta.3) (2020-07-09)
-
-**Note:** Version bump only for package daf-w3c
-
-# [7.0.0-beta.2](https://github.com/uport-project/daf/compare/v7.0.0-beta.1...v7.0.0-beta.2) (2020-07-07)
-
-**Note:** Version bump only for package daf-w3c
-
-# [7.0.0-beta.1](https://github.com/uport-project/daf/compare/v6.1.1...v7.0.0-beta.1) (2020-07-07)
-
-### Bug Fixes
-
-- Creating VC ([df40d7e](https://github.com/uport-project/daf/commit/df40d7e12750b7016c693f1a3f86c83bda4a0e89))
-- W3c tests ([8505631](https://github.com/uport-project/daf/commit/8505631078ed0bad6f5fbfedd675c2e43a04a974))
 
 # [6.3.0](https://github.com/uport-project/daf/compare/v6.1.1...v6.3.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-* **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
+- **release:** Trigger a new minor release ([#234](https://github.com/uport-project/daf/issues/234)) ([7c905e1](https://github.com/uport-project/daf/commit/7c905e1ea7c4851f7f06e87e06efe34d4eac7b0f))
 
 # [6.2.0](https://github.com/uport-project/daf/compare/v6.1.2...v6.2.0) (2020-09-04)
 
-
 ### Features
 
-* **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
-
-
-
-
+- **release:** Fix package descriptions and trigger new minor release ([#233](https://github.com/uport-project/daf/issues/233)) ([e67f4da](https://github.com/uport-project/daf/commit/e67f4da055d1f0b1b0ba4205726b79979d234a06))
 
 ## [6.1.2](https://github.com/uport-project/daf/compare/v6.1.1...v6.1.2) (2020-09-03)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 ## [6.1.1](https://github.com/uport-project/daf/compare/v6.1.0...v6.1.1) (2020-07-06)
-
 
 ### Bug Fixes
 
-* export context ([99fd267](https://github.com/uport-project/daf/commit/99fd267c70946e24df5dd8b42f8345aadc9366c2))
-
-
-
-
+- export context ([99fd267](https://github.com/uport-project/daf/commit/99fd267c70946e24df5dd8b42f8345aadc9366c2))
 
 # [6.0.0](https://github.com/uport-project/daf/compare/v5.7.0...v6.0.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [5.7.0](https://github.com/uport-project/daf/compare/v5.6.7...v5.7.0) (2020-05-29)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 ## [5.6.6](https://github.com/uport-project/daf/compare/v5.6.5...v5.6.6) (2020-05-26)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 ## [5.6.5](https://github.com/uport-project/daf/compare/v5.6.4...v5.6.5) (2020-05-25)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 ## [5.6.4](https://github.com/uport-project/daf/compare/v5.6.3...v5.6.4) (2020-05-22)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [5.5.0](https://github.com/uport-project/daf/compare/v5.4.0...v5.5.0) (2020-05-13)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 # [5.1.0](https://github.com/uport-project/daf/compare/v5.0.0...v5.1.0) (2020-05-06)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [5.0.0](https://github.com/uport-project/daf/compare/v4.5.0...v5.0.0) (2020-05-05)
-
 
 ### Bug Fixes
 
-* babel running out of memory when running jest ([92e285e](https://github.com/uport-project/daf/commit/92e285e184f56e3ca9441ecbcdc6b287727cb4f9))
-* Remove static Credential.credentialStatus ([f9a06af](https://github.com/uport-project/daf/commit/f9a06afcd01fc9e0452535d10d32158414490ea4))
-* Use the first audience did for message.to ([c71eec7](https://github.com/uport-project/daf/commit/c71eec784526b44f22d76307ac0e83b0e125d965))
-
+- babel running out of memory when running jest ([92e285e](https://github.com/uport-project/daf/commit/92e285e184f56e3ca9441ecbcdc6b287727cb4f9))
+- Remove static Credential.credentialStatus ([f9a06af](https://github.com/uport-project/daf/commit/f9a06afcd01fc9e0452535d10d32158414490ea4))
+- Use the first audience did for message.to ([c71eec7](https://github.com/uport-project/daf/commit/c71eec784526b44f22d76307ac0e83b0e125d965))
 
 ### Features
 
-* Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
-* Reinstate `credentialStatus` as top level attribute ([4b17689](https://github.com/uport-project/daf/commit/4b1768936a173844e8710993a42600eab4051f9c))
-
+- Multiple audience dids ([eaa1a40](https://github.com/uport-project/daf/commit/eaa1a40d9d3728533be63660ad4cdef6bdbdeded))
+- Reinstate `credentialStatus` as top level attribute ([4b17689](https://github.com/uport-project/daf/commit/4b1768936a173844e8710993a42600eab4051f9c))
 
 ### BREAKING CHANGES
 
-* DB Schema change
-
-
-
-
+- DB Schema change
 
 # [4.5.0](https://github.com/uport-project/daf/compare/v4.4.0...v4.5.0) (2020-05-05)
 
-
 ### Bug Fixes
 
-* Remove static Credential.credentialStatus ([719fddc](https://github.com/uport-project/daf/commit/719fddc558dd7ec2925e3a8d695a5de4c65e91cd))
-
+- Remove static Credential.credentialStatus ([719fddc](https://github.com/uport-project/daf/commit/719fddc558dd7ec2925e3a8d695a5de4c65e91cd))
 
 ### Features
 
-* Reinstate `credentialStatus` as top level attribute ([8347b1f](https://github.com/uport-project/daf/commit/8347b1f5e93840ae6f6548609b87720027dc538e))
-
-
-
-
+- Reinstate `credentialStatus` as top level attribute ([8347b1f](https://github.com/uport-project/daf/commit/8347b1f5e93840ae6f6548609b87720027dc538e))
 
 # [4.4.0](https://github.com/uport-project/daf/compare/v4.3.0...v4.4.0) (2020-04-29)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [4.3.0](https://github.com/uport-project/daf/compare/v4.2.1...v4.3.0) (2020-04-28)
-
 
 ### Bug Fixes
 
-* Checking if credentialSubject is array ([2f83192](https://github.com/uport-project/daf/commit/2f83192a47b39369fd1ccad3b0f4a3c70dd4a893))
-* Keeping app specific payload fields ([24ad82a](https://github.com/uport-project/daf/commit/24ad82a9abd1e1a5c3cef91efea7a17637b958c3))
-* Translating issuanceDate to nbf ([51f0eff](https://github.com/uport-project/daf/commit/51f0effa5f911a9432f6d6880d2b23915875001d))
-
+- Checking if credentialSubject is array ([2f83192](https://github.com/uport-project/daf/commit/2f83192a47b39369fd1ccad3b0f4a3c70dd4a893))
+- Keeping app specific payload fields ([24ad82a](https://github.com/uport-project/daf/commit/24ad82a9abd1e1a5c3cef91efea7a17637b958c3))
+- Translating issuanceDate to nbf ([51f0eff](https://github.com/uport-project/daf/commit/51f0effa5f911a9432f6d6880d2b23915875001d))
 
 ### Features
 
-* Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
-
-
-
-
+- Credential Status in data model ([24e2d5d](https://github.com/uport-project/daf/commit/24e2d5d1e46a33dde96e7a519b171c0453d34401))
 
 # [4.2.0](https://github.com/uport-project/daf/compare/v4.1.0...v4.2.0) (2020-04-24)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [4.1.0](https://github.com/uport-project/daf/compare/v4.0.0...v4.1.0) (2020-04-23)
 
-
-
 ## [3.4.3](https://github.com/uport-project/daf/compare/v4.0.0-beta.42...v3.4.3) (2020-04-10)
-
-
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 
 **Note:** Version bump only for package daf-w3c
 
-
-
-
-
 # [4.0.0](https://github.com/uport-project/daf/compare/v4.0.0-beta.48...v4.0.0) (2020-04-22)
+
 ## [3.4.3](https://github.com/uport-project/daf/compare/v3.4.2...v3.4.3) (2020-04-10)
 
 **Note:** Version bump only for package daf-w3c
-
-
-
-
 
 ## [3.4.2](https://github.com/uport-project/daf/compare/v3.4.1...v3.4.2) (2020-03-23)
 

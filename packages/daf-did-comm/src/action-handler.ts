@@ -29,6 +29,7 @@ export interface ISendMessageDIDCommAlpha1Args {
     type: string
     body: object | string
   }
+  headers?: Record<string, string>
 }
 
 /**
@@ -75,7 +76,7 @@ export class DIDComm implements IAgentPlugin {
     args: ISendMessageDIDCommAlpha1Args,
     context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage> {
-    const { data, url, save = true } = args
+    const { data, url, headers, save = true } = args
 
     debug('Resolving didDoc')
     const didDoc = await context.agent.resolveDid({ didUrl: data.to })
@@ -115,6 +116,7 @@ export class DIDComm implements IAgentPlugin {
         const res = await fetch(serviceEndpoint, {
           method: 'POST',
           body: postPayload,
+          headers,
         })
         debug('Status', res.status, res.statusText)
 
