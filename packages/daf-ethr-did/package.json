@@ -1,7 +1,7 @@
 {
   "name": "daf-ethr-did",
   "description": "DAF ehtr-did based identity controller plugin.",
-  "version": "7.0.0-beta.56",
+  "version": "7.0.0-beta.57",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "extract-api": "yarn daf extract-api"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.56",
-    "daf-identity-manager": "^7.0.0-beta.56",
+    "daf-core": "^7.0.0-beta.57",
+    "daf-identity-manager": "^7.0.0-beta.57",
     "debug": "^4.1.1",
     "ethjs-provider-signer": "^0.1.4",
     "ethr-did": "^1.1.0",

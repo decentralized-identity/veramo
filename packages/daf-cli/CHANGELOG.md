@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.57](https://github.com/uport-project/daf/compare/v7.0.0-beta.56...v7.0.0-beta.57) (2020-12-15)
+
+
+### Bug Fixes
+
+* OpenAPI name, version and x-methods ([#301](https://github.com/uport-project/daf/issues/301)) ([cbad7c0](https://github.com/uport-project/daf/commit/cbad7c0558f4ba515cad995374a4e11d2afdc2e0))
+* **daf-resolver:** Fixed daf-resolver configuration ([#298](https://github.com/uport-project/daf/issues/298)) ([dfcf32a](https://github.com/uport-project/daf/commit/dfcf32a88bfe8353270a567d40bcfab25ddbffe9)), closes [#205](https://github.com/uport-project/daf/issues/205)
+
+
+### BREAKING CHANGES
+
+* **daf-resolver:** The configuration for daf-resolver has changed to be less opinionated. It requires a `did-resolver#Resolver` that can be configured with whichever DID methods your agent needs.
+
+Co-authored-by: Mircea Nistor <mirceanis@gmail.com>
+
+
+
+
+
 # [7.0.0-beta.56](https://github.com/uport-project/daf/compare/v7.0.0-beta.55...v7.0.0-beta.56) (2020-12-09)
 
 **Note:** Version bump only for package daf-cli

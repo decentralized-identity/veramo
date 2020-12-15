@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0-beta.57](https://github.com/uport-project/daf/compare/v7.0.0-beta.56...v7.0.0-beta.57) (2020-12-15)
+
+
+### Bug Fixes
+
+* **message-handler:** Rewire promise rejections as `Error` objects ([#300](https://github.com/uport-project/daf/issues/300)) ([04446d4](https://github.com/uport-project/daf/commit/04446d4e2d2dba8ff2ae5695014686ef49891804)), closes [#294](https://github.com/uport-project/daf/issues/294)
+
+
+
+
+
 # [7.0.0-beta.56](https://github.com/uport-project/daf/compare/v7.0.0-beta.55...v7.0.0-beta.56) (2020-12-09)
 
 **Note:** Version bump only for package daf-message-handler
