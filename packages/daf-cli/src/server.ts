@@ -45,10 +45,6 @@ program
         console.error(e)
         process.exit()
       }
-      process.on('SIGINT', function(code) {
-        console.log('Killing ngrok')
-        ngrok.kill()
-      });
       app.set('trust proxy', 'loopback')
     }
     const hostname = parse(baseUrl).hostname
@@ -103,6 +99,8 @@ program
         getAgentForRequest,
         exposedMethods,
         securityScheme,
+        apiName: options.apiName,
+        apiVersion: options.apiVersion,
       }),
     )
 

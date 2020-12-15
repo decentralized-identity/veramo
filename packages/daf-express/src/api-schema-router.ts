@@ -33,6 +33,16 @@ export interface ApiSchemaRouterOptions {
    * ```
    */
   securityScheme?: string
+
+  /**
+   * Name used in OpenAPI schema
+   */
+  apiName?: string
+
+  /**
+   * Version used in OpenAPI schema
+   */
+  apiVersion?: string
 }
 
 /**
@@ -50,7 +60,7 @@ export const ApiSchemaRouter = (options: ApiSchemaRouterOptions): Router => {
 
   router.get('/', (req: RequestWithAgent, res) => {
     if (req.agent) {
-      const openApiSchema = getOpenApiSchema(req.agent, '', options.exposedMethods)
+      const openApiSchema = getOpenApiSchema(req.agent, '', options.exposedMethods, options.apiName, options.apiVersion)
       const url = (req.headers['x-forwarded-proto'] || req.protocol) + '://' + req.hostname + options.basePath
       openApiSchema.servers = [{ url }]
 

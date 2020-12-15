@@ -24,6 +24,8 @@ export const ApiSchemaRouter: (options: ApiSchemaRouterOptions) => Router;
 
 // @public (undocumented)
 export interface ApiSchemaRouterOptions {
+    apiName?: string;
+    apiVersion?: string;
     basePath: string;
     exposedMethods: Array<string>;
     getAgentForRequest: (req: Request_2) => Promise<IAgent>;
