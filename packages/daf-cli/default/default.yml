@@ -1,3 +1,4 @@
+version: 1.0
 server:
   baseUrl: http://localhost:3332
   port: 3332
