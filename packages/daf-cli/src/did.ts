@@ -23,7 +23,7 @@ did
   })
 
 did
-  .command('list')
+  .command('list', { isDefault: true })
   .description('list managed identities')
   .action(async (cmd) => {
     const agent = getAgent(program.config)

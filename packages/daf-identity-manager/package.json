@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn daf extract-api"
+    "extract-api": "yarn daf dev extract-api"
   },
   "dependencies": {
     "daf-core": "^7.0.0-beta.57"

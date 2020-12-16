@@ -10,12 +10,11 @@ import './explore'
 import './sdr'
 import './message'
 import './version'
-import './crypto'
 import './execute'
 import './server'
 import './setup'
 import './config'
-import './schema'
+import './dev'
 
 if (!process.argv.slice(2).length) {
   program.outputHelp()
