@@ -3,7 +3,7 @@ import inquirer from 'inquirer'
 
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
-import './identity-manager'
+import './did'
 import './did-resolver'
 import './credential'
 import './data-explorer'
