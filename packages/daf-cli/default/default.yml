@@ -52,19 +52,19 @@ ethr-did-resolver:
   $require: ethr-did-resolver?t=function&p=/ethr#getResolver
   $args:
     - networks:
-      - name: mainnet
-        rpcUrl: https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-      - name: rinkeby
-        rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-      - name: ropsten
-        rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-      - name: kovan
-        rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-      - name: goerli
-        rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-      - name: private
-        rpcUrl: http://localhost:8545/
-        registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
+        - name: mainnet
+          rpcUrl: https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: rinkeby
+          rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: ropsten
+          rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: kovan
+          rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: goerli
+          rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: private
+          rpcUrl: http://localhost:8545/
+          registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
 
 web-did-resolver:
   $require: web-did-resolver?t=function&p=/web#getResolver
@@ -77,11 +77,11 @@ universal-resolver:
 resolver:
   $require: did-resolver#Resolver
   $args:
-    - ethr: 
+    - ethr:
         $ref: /ethr-did-resolver
-      web: 
+      web:
         $ref: /web-did-resolver
-      io: 
+      io:
         $ref: /universal-resolver
 
 agent:
@@ -149,12 +149,6 @@ agent:
                       rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
                       gas: 10001
                       ttl: 31104001
-                # did:elem:ropsten:
-                #   $require: daf-elem-did#ElemIdentityProvider
-                #   $args:
-                #     - defaultKms: local
-                #       network: ropsten
-                #       apiUrl: https://element-did.com/api/v1/sidetree
                 did:web:
                   $require: daf-web-did#WebIdentityProvider
                   $args:
