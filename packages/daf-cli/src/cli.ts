@@ -6,7 +6,7 @@ inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 import './did'
 import './credential'
 import './presentation'
-import './data-explorer'
+import './explore'
 import './sdr'
 import './message'
 import './version'

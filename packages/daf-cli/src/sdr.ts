@@ -3,7 +3,7 @@ import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
-import { shortDate, shortDid } from './data-explorer/utils'
+import { shortDate, shortDid } from './explore/utils'
 import { VerifiableCredential } from 'daf-core'
 const fuzzy = require('fuzzy')
 
