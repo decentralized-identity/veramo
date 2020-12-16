@@ -1,4 +1,5 @@
-import { DIDDocument } from 'did-resolver'
+import { DIDDocument, ParsedDID, Resolver } from 'did-resolver'
+import fetch from 'cross-fetch'
 
 interface Options {
   url: string
