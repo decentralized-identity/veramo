@@ -4,7 +4,6 @@ import inquirer from 'inquirer'
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 import './did'
-import './did-resolver'
 import './credential'
 import './data-explorer'
 import './sdr'
