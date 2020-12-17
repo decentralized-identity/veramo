@@ -9,7 +9,6 @@
     { "path": "../daf-did-comm" },
     { "path": "../daf-did-jwt" },
     { "path": "../daf-ethr-did" },
-    { "path": "../daf-elem-did" },
     { "path": "../daf-express" },
     { "path": "../daf-identity-manager" },
     { "path": "../daf-key-manager" },
