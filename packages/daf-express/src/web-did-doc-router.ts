@@ -1,8 +1,8 @@
-import { IAgent, IIdentity, IIdentityManager, TAgent } from 'daf-core'
+import { IAgent, IIdentifier, IDIDManager, TAgent } from 'daf-core'
 import { Request, Router } from 'express'
 
-interface RequestWithAgentIdentityManager extends Request {
-  agent?: TAgent<IIdentityManager>
+interface RequestWithAgentDIDManager extends Request {
+  agent?: TAgent<IDIDManager>
 }
 
 interface RequestWithAgent extends Request {
@@ -17,7 +17,7 @@ export interface WebDidDocRouterOptions {
   /**
    * Function that returns configured agent for specific request
    */
-  getAgentForRequest: (req: Request) => Promise<TAgent<IIdentityManager>>
+  getAgentForRequest: (req: Request) => Promise<TAgent<IDIDManager>>
 }
 /**
  * Creates a router that serves `did:web` DID Documents
@@ -32,36 +32,36 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
     next()
   })
 
-  const didDocForIdentity = (identity: IIdentity) => {
+  const didDocForIdentifier = (identifier: IIdentifier) => {
     const didDoc = {
       '@context': 'https://w3id.org/did/v1',
-      id: identity.did,
-      publicKey: identity.keys.map((key) => ({
-        id: identity.did + '#' + key.kid,
+      id: identifier.did,
+      publicKey: identifier.keys.map((key) => ({
+        id: identifier.did + '#' + key.kid,
         type: key.type === 'Secp256k1' ? 'Secp256k1VerificationKey2018' : 'Ed25519VerificationKey2018',
-        controller: identity.did,
+        controller: identifier.did,
         publicKeyHex: key.publicKeyHex,
       })),
-      authentication: identity.keys.map((key) => ({
+      authentication: identifier.keys.map((key) => ({
         type:
           key.type === 'Secp256k1'
             ? 'Secp256k1SignatureAuthentication2018'
             : 'Ed25519SignatureAuthentication2018',
-        publicKey: identity.did + '#' + key.kid,
+        publicKey: identifier.did + '#' + key.kid,
       })),
-      service: identity.services,
+      service: identifier.services,
     }
 
     return didDoc
   }
 
-  router.get(didDocEndpoint, async (req: RequestWithAgentIdentityManager, res) => {
+  router.get(didDocEndpoint, async (req: RequestWithAgentDIDManager, res) => {
     if (req.agent) {
       try {
-        const serverIdentity = await req.agent.identityManagerGetIdentity({
+        const serverIdentifier = await req.agent.didManagerGet({
           did: 'did:web:' + req.hostname,
         })
-        const didDoc = didDocForIdentity(serverIdentity)
+        const didDoc = didDocForIdentifier(serverIdentifier)
         res.json(didDoc)
       } catch (e) {
         res.status(404).send(e)
@@ -69,13 +69,13 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
     }
   })
 
-  router.get(/^\/(.+)\/did.json$/, async (req: RequestWithAgentIdentityManager, res) => {
+  router.get(/^\/(.+)\/did.json$/, async (req: RequestWithAgentDIDManager, res) => {
     if (req.agent) {
       try {
-        const identity = await req.agent.identityManagerGetIdentity({
+        const identifier = await req.agent.didManagerGet({
           did: 'did:web:' + req.hostname + ':' + req.params[0].replace('/', ':'),
         })
-        const didDoc = didDocForIdentity(identity)
+        const didDoc = didDocForIdentifier(identifier)
         res.json(didDoc)
       } catch (e) {
         res.status(404).send(e)

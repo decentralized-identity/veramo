@@ -91,7 +91,7 @@
             "issuanceDate",
             "credentialSubject"
           ],
-          "description": "W3CCredential {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "W3CCredential {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         },
         "EncodingFormat": {
           "type": "string",
@@ -173,7 +173,7 @@
             "credentialSubject",
             "proof"
           ],
-          "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "Verifiable Credential {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         },
         "ICreateVerifiablePresentationArgs": {
           "type": "object",
@@ -244,7 +244,7 @@
             "verifier",
             "verifiableCredential"
           ],
-          "description": "W3CPresentation {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "W3CPresentation {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -302,7 +302,7 @@
             "verifiableCredential",
             "proof"
           ],
-          "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "Verifiable Presentation {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         }
       },
       "methods": {

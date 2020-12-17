@@ -41,7 +41,7 @@ for (const inputFolder of inputFolders) {
 const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
-  'daf-core': ['IResolver', 'IIdentityManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
+  'daf-core': ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
   'daf-w3c': ['ICredentialIssuer'],
   'daf-selective-disclosure': ['ISelectiveDisclosure'],
   'daf-did-comm': ['IDIDComm'],

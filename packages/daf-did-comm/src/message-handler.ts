@@ -1,9 +1,9 @@
-import { IAgentContext, IIdentityManager, IKeyManager } from 'daf-core'
+import { IAgentContext, IDIDManager, IKeyManager } from 'daf-core'
 import { AbstractMessageHandler, Message } from 'daf-message-handler'
 import Debug from 'debug'
 const debug = Debug('daf:did-comm:message-handler')
 
-type IContext = IAgentContext<IIdentityManager & IKeyManager>
+type IContext = IAgentContext<IDIDManager & IKeyManager>
 
 /**
  * A plugin for the {@link daf-message-handler#MessageHandler} that decrypts DIDComm messages
@@ -19,16 +19,16 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
       try {
         const parsed = JSON.parse(message.raw)
         if (parsed.ciphertext && parsed.protected) {
-          const identities = await context.agent.identityManagerGetIdentities()
-          for (const identity of identities) {
+          const identifiers = await context.agent.didManagerFind()
+          for (const identifier of identifiers) {
             let decrypted
             try {
-              const key = identity.keys.find((k) => k.type === 'Ed25519')
+              const key = identifier.keys.find((k) => k.type === 'Ed25519')
               if (!key) throw Error('No encryption keys')
               decrypted = await context.agent.keyManagerDecryptJWE({ kid: key.kid, data: message.raw })
             } catch (e) {}
             if (decrypted) {
-              debug('Decrypted for %s', identity.did)
+              debug('Decrypted for %s', identifier.did)
               debug('Message:', decrypted)
 
               try {

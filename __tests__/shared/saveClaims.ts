@@ -1,10 +1,10 @@
-import { TAgent, IIdentityManager, IIdentity, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
+import { TAgent, IDIDManager, IIdentifier, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 
 type ConfiguredAgent = TAgent<
-  IIdentityManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
+  IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
 >
 
 export default (testContext: {
@@ -14,7 +14,7 @@ export default (testContext: {
 }) => {
   describe('Save credentials and query by claim type', () => {
     let agent: ConfiguredAgent
-    let identity: IIdentity
+    let identifier: IIdentifier
 
     beforeAll(() => {
       testContext.setup()
@@ -22,9 +22,9 @@ export default (testContext: {
     })
     afterAll(testContext.tearDown)
 
-    it('should create identity', async () => {
-      identity = await agent.identityManagerCreateIdentity({ kms: 'local' })
-      expect(identity).toHaveProperty('did')
+    it('should create identifier', async () => {
+      identifier = await agent.didManagerCreate({ kms: 'local' })
+      expect(identifier).toHaveProperty('did')
     })
 
     it('should create verifiable credentials', async () => {
@@ -32,12 +32,12 @@ export default (testContext: {
 
       await agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
-            id: identity.did,
+            id: identifier.did,
             topic: 'math',
           },
         },
@@ -47,12 +47,12 @@ export default (testContext: {
 
       await agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
-            id: identity.did,
+            id: identifier.did,
             topic: 'science',
           },
         },
@@ -62,12 +62,12 @@ export default (testContext: {
 
       await agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
-            id: identity.did,
+            id: identifier.did,
             topic: 'art',
           },
         },

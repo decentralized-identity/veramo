@@ -5,7 +5,7 @@ server:
   schemaPath: /open-api.json
   apiBasePath: /agent
   apiDocsPath: /api-docs
-  defaultIdentity:
+  defaultDID:
     create: true
     messagingServiceEndpoint: /messaging
   ngrok:
@@ -15,7 +15,7 @@ server:
     # region: eu
   # exposedMethods:
   #   - resolveDid
-  #   - dataStoreORMGetIdentities
+  #   - dataStoreORMGetIdentifiers
 agent:
   $require: daf-core#Agent
   $args:
@@ -28,31 +28,31 @@ agent:
               #   Authorization: Bearer API_KEY
               enabledMethods:
                 - keyManagerGetKeyManagementSystems
-                - keyManagerCreateKey
-                - keyManagerGetKey
-                - keyManagerDeleteKey
-                - keyManagerImportKey
+                - keyManagerCreate
+                - keyManagerGet
+                - keyManagerDelete
+                - keyManagerImport
                 - keyManagerEncryptJWE
                 - keyManagerDecryptJWE
                 - keyManagerSignJWT
                 - keyManagerSignEthTX
-                - identityManagerGetProviders
-                - identityManagerGetIdentities
-                - identityManagerGetIdentity
-                - identityManagerCreateIdentity
-                - identityManagerGetOrCreateIdentity
-                - identityManagerImportIdentity
-                - identityManagerDeleteIdentity
-                - identityManagerAddKey
-                - identityManagerRemoveKey
-                - identityManagerAddService
-                - identityManagerRemoveService
+                - didManagerGetProviders
+                - didManagerFind
+                - didManagerGet
+                - didManagerCreate
+                - didManagerGetOrCreate
+                - didManagerImport
+                - didManagerDelete
+                - didManagerAddKey
+                - didManagerRemoveKey
+                - didManagerAddService
+                - didManagerRemoveService
                 - resolveDid
                 - dataStoreSaveMessage
                 - dataStoreSaveVerifiableCredential
                 - dataStoreSaveVerifiablePresentation
-                - dataStoreORMGetIdentities
-                - dataStoreORMGetIdentitiesCount
+                - dataStoreORMGetIdentifiers
+                - dataStoreORMGetIdentifiersCount
                 - dataStoreORMGetMessages
                 - dataStoreORMGetMessagesCount
                 - dataStoreORMGetVerifiableCredentialsByClaims

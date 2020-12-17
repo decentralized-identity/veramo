@@ -10,7 +10,7 @@ import {
   BeforeInsert,
   ManyToMany,
 } from 'typeorm'
-import { Identity } from './identity'
+import { Identifier } from './identifier'
 import { Message } from './message'
 import { Credential, createCredentialEntity } from './credential'
 
@@ -33,21 +33,21 @@ export class Presentation extends BaseEntity {
     return this._raw
   }
 
-  @ManyToOne((type) => Identity, (identity) => identity.issuedPresentations, {
+  @ManyToOne((type) => Identifier, (identifier) => identifier.issuedPresentations, {
     cascade: ['insert'],
     eager: true,
   })
   //@ts-ignore
-  holder: Identity
+  holder: Identifier
 
-  @ManyToMany((type) => Identity, (identity) => identity.receivedPresentations, {
+  @ManyToMany((type) => Identifier, (identifier) => identifier.receivedPresentations, {
     cascade: ['insert'],
     eager: true,
     nullable: true,
   })
   @JoinTable()
   //@ts-ignore
-  verifier?: Identity[]
+  verifier?: Identifier[]
 
   @Column({ nullable: true })
   id?: String
@@ -93,12 +93,12 @@ export const createPresentationEntity = (vp: VerifiablePresentation): Presentati
     presentation.expirationDate = new Date(vp.expirationDate)
   }
 
-  const holder = new Identity()
+  const holder = new Identifier()
   holder.did = vp.holder
   presentation.holder = holder
 
   presentation.verifier = vp.verifier?.map((verifierDid) => {
-    const id = new Identity()
+    const id = new Identifier()
     id.did = verifierDid
     return id
   })

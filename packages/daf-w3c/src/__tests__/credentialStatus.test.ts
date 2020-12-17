@@ -18,8 +18,8 @@ describe('daf-did-comm', () => {
 // const mockDid: string = `did:ethr:${signerAddress}`
 
 // const mockAgent = {
-//   identityManager: {
-//     getIdentity: async (did: string) => ({
+//   didManager: {
+//     getIdentifier: async (did: string) => ({
 //       did: mockDid,
 //       keyByType: async (type: string) => ({
 //         signer: () => {

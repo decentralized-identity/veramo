@@ -14,7 +14,7 @@ server:
   apiVersion: 1.0.0
   apiBasePath: /agent
   apiDocsPath: /api-docs
-  defaultIdentity:
+  defaultDID:
     create: true
     messagingServiceEndpoint: /messaging
   ngrok:
@@ -102,16 +102,16 @@ agent:
               kms:
                 local:
                   $require: daf-libsodium#KeyManagementSystem
-        - $require: daf-identity-manager#IdentityManager
+        - $require: daf-identity-manager#DIDManager
           $args:
             - store:
-                $require: daf-typeorm#IdentityStore
+                $require: daf-typeorm#DIDStore
                 $args:
                   - $ref: /dbConnection
               defaultProvider: did:ethr:rinkeby
               providers:
                 did:ethr:
-                  $require: daf-ethr-did#EthrIdentityProvider
+                  $require: daf-ethr-did#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: mainnet
@@ -119,7 +119,7 @@ agent:
                       gas: 10001
                       ttl: 31104001
                 did:ethr:rinkeby:
-                  $require: daf-ethr-did#EthrIdentityProvider
+                  $require: daf-ethr-did#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: rinkeby
@@ -127,7 +127,7 @@ agent:
                       gas: 10001
                       ttl: 31104001
                 did:ethr:ropsten:
-                  $require: daf-ethr-did#EthrIdentityProvider
+                  $require: daf-ethr-did#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: ropsten
@@ -135,7 +135,7 @@ agent:
                       gas: 10001
                       ttl: 31104001
                 did:ethr:kovan:
-                  $require: daf-ethr-did#EthrIdentityProvider
+                  $require: daf-ethr-did#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: kovan
@@ -143,7 +143,7 @@ agent:
                       gas: 10001
                       ttl: 31104001
                 did:ethr:goerli:
-                  $require: daf-ethr-did#EthrIdentityProvider
+                  $require: daf-ethr-did#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: goerli
@@ -151,7 +151,7 @@ agent:
                       gas: 10001
                       ttl: 31104001
                 did:web:
-                  $require: daf-web-did#WebIdentityProvider
+                  $require: daf-web-did#WebDIDProvider
                   $args:
                     - defaultKms: local
         - $require: daf-resolver#DafResolver

@@ -27,7 +27,7 @@ export interface FindArgs<TColumns> {
   skip?: number
 }
 
-export type TIdentitiesColumns = 'did' | 'alias' | 'provider'
+export type TIdentifiersColumns = 'did' | 'alias' | 'provider'
 
 export type TMessageColumns =
   | 'from'

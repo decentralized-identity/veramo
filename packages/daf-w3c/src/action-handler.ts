@@ -2,7 +2,7 @@ import {
   IAgentContext,
   IAgentPlugin,
   IResolver,
-  IIdentityManager,
+  IDIDManager,
   IKeyManager,
   IPluginMethodMap,
   W3CCredential,
@@ -142,7 +142,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IContext = IAgentContext<
   IResolver &
-    Pick<IIdentityManager, 'identityManagerGetIdentity'> &
+    Pick<IDIDManager, 'didManagerGet'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
     Pick<IKeyManager, 'keyManagerSignJWT'>
 >
@@ -169,15 +169,15 @@ export class CredentialIssuer implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiablePresentation> {
     try {
-      //FIXME: if the identity is not found, the error message should reflect that.
-      const identity = await context.agent.identityManagerGetIdentity({ did: args.presentation.holder })
+      //FIXME: if the identifier is not found, the error message should reflect that.
+      const identifier = await context.agent.didManagerGet({ did: args.presentation.holder })
       //FIXME: `args` should allow picking a key or key type
-      const key = identity.keys.find((k) => k.type === 'Secp256k1')
-      if (!key) throw Error('No signing key for ' + identity.did)
+      const key = identifier.keys.find((k) => k.type === 'Secp256k1')
+      if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
-      debug('Signing VP with', identity.did)
-      const jwt = await createVerifiablePresentationJwt(args.presentation, { did: identity.did, signer })
+      debug('Signing VP with', identifier.did)
+      const jwt = await createVerifiablePresentationJwt(args.presentation, { did: identifier.did, signer })
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
       const verifiablePresentation = normalizePresentation(jwt)
@@ -197,16 +197,16 @@ export class CredentialIssuer implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiableCredential> {
     try {
-      //FIXME: if the identity is not found, the error message should reflect that.
-      const identity = await context.agent.identityManagerGetIdentity({ did: args.credential.issuer.id })
+      //FIXME: if the identifier is not found, the error message should reflect that.
+      const identifier = await context.agent.didManagerGet({ did: args.credential.issuer.id })
       //FIXME: `args` should allow picking a key or key type
-      const key = identity.keys.find((k) => k.type === 'Secp256k1')
-      if (!key) throw Error('No signing key for ' + identity.did)
+      const key = identifier.keys.find((k) => k.type === 'Secp256k1')
+      if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
 
-      debug('Signing VC with', identity.did)
-      const jwt = await createVerifiableCredentialJwt(args.credential, { did: identity.did, signer })
+      debug('Signing VC with', identifier.did)
+      const jwt = await createVerifiableCredentialJwt(args.credential, { did: identifier.did, signer })
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
       const verifiableCredential = normalizeCredential(jwt)

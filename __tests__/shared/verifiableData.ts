@@ -1,8 +1,8 @@
-import { TAgent, IIdentityManager, IIdentity, IDataStore } from '../../packages/daf-core/src'
+import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/daf-core/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 
-type ConfiguredAgent = TAgent<IIdentityManager & ICredentialIssuer & IDataStore & IDataStoreORM>
+type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -11,7 +11,7 @@ export default (testContext: {
 }) => {
   describe('creating Verifiable Credentials', () => {
     let agent: ConfiguredAgent
-    let identity: IIdentity
+    let identifier: IIdentifier
 
     beforeAll(() => {
       testContext.setup()
@@ -19,15 +19,15 @@ export default (testContext: {
     })
     afterAll(testContext.tearDown)
 
-    it('should create identity', async () => {
-      identity = await agent.identityManagerCreateIdentity({ kms: 'local' })
-      expect(identity).toHaveProperty('did')
+    it('should create identifier', async () => {
+      identifier = await agent.didManagerCreate({ kms: 'local' })
+      expect(identifier).toHaveProperty('did')
     })
 
     it('should create verifiable credential', async () => {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential'],
           issuanceDate: new Date().toISOString(),
@@ -51,7 +51,7 @@ export default (testContext: {
     it('should create verifiable presentation', async () => {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential'],
           issuanceDate: new Date().toISOString(),
@@ -65,7 +65,7 @@ export default (testContext: {
 
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
-          holder: identity.did,
+          holder: identifier.did,
           verifier: [],
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
@@ -115,6 +115,5 @@ export default (testContext: {
         }),
       ).rejects.toThrow('Verifiable presentation not found')
     })
-
   })
 }

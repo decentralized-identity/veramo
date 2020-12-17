@@ -12,7 +12,7 @@ import {
 } from 'typeorm'
 import { blake2bHex } from 'blakejs'
 import { IMessage } from 'daf-core'
-import { Identity } from './identity'
+import { Identifier } from './identifier'
 import { Presentation, createPresentationEntity } from './presentation'
 import { Credential, createCredentialEntity } from './credential'
 
@@ -61,7 +61,7 @@ export class Message extends BaseEntity {
   @Column('simple-json', { nullable: true })
   data?: object | null
 
-  // https://github.com/decentralized-identity/didcomm-messaging/blob/41f35f992275dd71d459504d14eb8d70b4185533/jwm.md#jwm-profile
+  // https://github.com/decentralized-identifier/didcomm-messaging/blob/41f35f992275dd71d459504d14eb8d70b4185533/jwm.md#jwm-profile
 
   @Column('simple-array', { nullable: true })
   replyTo?: string[]
@@ -69,19 +69,19 @@ export class Message extends BaseEntity {
   @Column({ nullable: true })
   replyUrl?: string
 
-  @ManyToOne((type) => Identity, (identity) => identity.sentMessages, {
+  @ManyToOne((type) => Identifier, (identifier) => identifier.sentMessages, {
     nullable: true,
     cascade: ['insert'],
     eager: true,
   })
-  from?: Identity
+  from?: Identifier
 
-  @ManyToOne((type) => Identity, (identity) => identity.receivedMessages, {
+  @ManyToOne((type) => Identifier, (identifier) => identifier.receivedMessages, {
     nullable: true,
     cascade: ['insert'],
     eager: true,
   })
-  to?: Identity
+  to?: Identifier
 
   @Column('simple-json', { nullable: true })
   metaData?: MetaData[] | null
@@ -124,13 +124,13 @@ export const createMessageEntity = (args: IMessage): Message => {
   }
 
   if (args.from) {
-    const from = new Identity()
+    const from = new Identifier()
     from.did = args.from
     message.from = from
   }
 
   if (args.to) {
-    const to = new Identity()
+    const to = new Identifier()
     to.did = args.to
     message.to = to
   }

@@ -1,4 +1,4 @@
-import { IIdentityManagerCreateIdentityArgs } from 'daf-core'
+import { IDIDManagerCreateArgs } from 'daf-core'
 import { getAgent } from './setup'
 import inquirer from 'inquirer'
 import program from 'commander'
@@ -12,23 +12,23 @@ did
   .action(async (cmd) => {
     const agent = getAgent(program.config)
 
-    const providers = await agent.identityManagerGetProviders()
+    const providers = await agent.didManagerGetProviders()
     const list = providers.map((provider) => ({ provider }))
 
     if (list.length > 0) {
       printTable(list)
     } else {
-      console.log('No identity providers')
+      console.log('No identifier providers')
     }
   })
 
 did
   .command('list', { isDefault: true })
-  .description('list managed identities')
+  .description('list managed identifiers')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
 
-    const list = await agent.identityManagerGetIdentities()
+    const list = await agent.didManagerFind()
 
     if (list.length > 0) {
       const dids = list.map((item) => ({ provider: item.provider, alias: item.alias, did: item.did }))
@@ -45,16 +45,16 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const providers = await agent.identityManagerGetProviders()
+      const providers = await agent.didManagerGetProviders()
       const kms = await agent.keyManagerGetKeyManagementSystems()
-      const args: IIdentityManagerCreateIdentityArgs = {}
+      const args: IDIDManagerCreateArgs = {}
 
       const answers = await inquirer.prompt([
         {
           type: 'list',
           name: 'provider',
           choices: providers,
-          message: 'Select identity provider',
+          message: 'Select identifier provider',
         },
         {
           type: 'list',
@@ -69,8 +69,8 @@ did
         },
       ])
 
-      const identity = await agent.identityManagerCreateIdentity(answers)
-      printTable([{ provider: identity.provider, alias: identity.alias, did: identity.did }])
+      const identifier = await agent.didManagerCreate(answers)
+      printTable([{ provider: identifier.provider, alias: identifier.alias, did: identifier.did }])
     } catch (e) {
       console.error(e.message)
     }
@@ -83,17 +83,17 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identities = await agent.identityManagerGetIdentities()
+      const identifiers = await agent.didManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',
           name: 'did',
-          choices: identities.map((item) => item.did),
+          choices: identifiers.map((item) => item.did),
           message: 'Delete DID',
         },
       ])
 
-      const result = await agent.identityManagerDeleteIdentity({
+      const result = await agent.didManagerDelete({
         did: answers.did,
       })
 
@@ -110,12 +110,12 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identities = await agent.identityManagerGetIdentities()
+      const identifiers = await agent.didManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',
           name: 'did',
-          choices: identities.map((item) => item.did),
+          choices: identifiers.map((item) => item.did),
           message: 'Select DID',
         },
         {
@@ -136,7 +136,7 @@ did
         },
       ])
 
-      const result = await agent.identityManagerAddService({
+      const result = await agent.didManagerAddService({
         did: answers.did,
         service: {
           type: answers.type,
@@ -158,13 +158,13 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identities = await agent.identityManagerGetIdentities()
+      const identifiers = await agent.didManagerFind()
       const kms = await agent.keyManagerGetKeyManagementSystems()
       const answers = await inquirer.prompt([
         {
           type: 'list',
           name: 'did',
-          choices: identities.map((item) => item.did),
+          choices: identifiers.map((item) => item.did),
           message: 'Select DID',
         },
         {
@@ -181,12 +181,12 @@ did
         },
       ])
 
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: answers.kms,
         type: answers.type,
       })
 
-      const result = await agent.identityManagerAddKey({
+      const result = await agent.didManagerAddKey({
         did: answers.did,
         key,
       })
@@ -204,12 +204,12 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identities = await agent.identityManagerGetIdentities()
+      const identifiers = await agent.didManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',
           name: 'did',
-          choices: identities.map((item) => ({
+          choices: identifiers.map((item) => ({
             name: item.did + ' ' + item.alias,
             value: item.did,
           })),
@@ -217,9 +217,9 @@ did
         },
       ])
 
-      const identity = await agent.identityManagerGetIdentity({ did: answers.did })
+      const identifier = await agent.didManagerGet({ did: answers.did })
 
-      console.log(JSON.stringify(identity))
+      console.log(JSON.stringify(identifier))
     } catch (e) {
       console.error(e)
     }
@@ -235,13 +235,13 @@ did
       const answers = await inquirer.prompt([
         {
           type: 'text',
-          name: 'identity',
-          message: 'Identity (JSON object)',
+          name: 'identifier',
+          message: 'Identifier (JSON object)',
         },
       ])
 
-      const identity = await agent.identityManagerImportIdentity(JSON.parse(answers.identity))
-      console.log(identity)
+      const identifier = await agent.didManagerImport(JSON.parse(answers.identifier))
+      console.log(identifier)
     } catch (e) {
       console.error(e)
     }

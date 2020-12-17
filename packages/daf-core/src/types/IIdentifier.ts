@@ -1,20 +1,20 @@
 /**
- * Identity interface
+ * Identifier interface
  * @public
  */
-export interface IIdentity {
+export interface IIdentifier {
   /**
    * Decentralized identifier
    */
   did: string
 
   /**
-   * Optional. Identity alias. Can be used to reference an object in an external system
+   * Optional. Identifier alias. Can be used to reference an object in an external system
    */
   alias?: string
 
   /**
-   * Identity provider name
+   * Identifier provider name
    */
   provider: string
 
@@ -77,7 +77,7 @@ export interface IKey {
 }
 
 /**
- * Identity service
+ * Identifier service
  * @public
  */
 export interface IService {
@@ -101,4 +101,3 @@ export interface IService {
    */
   description?: string
 }
-

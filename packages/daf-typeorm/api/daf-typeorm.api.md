@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbstractIdentityStore } from 'daf-identity-manager';
+import { AbstractDIDStore } from 'daf-identity-manager';
 import { AbstractKeyStore } from 'daf-key-manager';
 import { AbstractSecretBox } from 'daf-key-manager';
 import { BaseEntity } from 'typeorm';
@@ -17,7 +17,7 @@ import { IDataStoreGetVerifiablePresentationArgs } from 'daf-core';
 import { IDataStoreSaveMessageArgs } from 'daf-core';
 import { IDataStoreSaveVerifiableCredentialArgs } from 'daf-core';
 import { IDataStoreSaveVerifiablePresentationArgs } from 'daf-core';
-import { IIdentity } from 'daf-core';
+import { IIdentifier } from 'daf-core';
 import { IKey } from 'daf-core';
 import { IMessage } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
@@ -41,9 +41,9 @@ export class Claim extends BaseEntity {
     // (undocumented)
     issuanceDate: Date;
     // (undocumented)
-    issuer: Identity;
+    issuer: Identifier;
     // (undocumented)
-    subject?: Identity;
+    subject?: Identifier;
     // (undocumented)
     type: string;
     // (undocumented)
@@ -65,7 +65,7 @@ class Credential_2 extends BaseEntity {
     // (undocumented)
     issuanceDate: Date;
     // (undocumented)
-    issuer: Identity;
+    issuer: Identifier;
     // (undocumented)
     messages: Message[];
     // (undocumented)
@@ -74,7 +74,7 @@ class Credential_2 extends BaseEntity {
     // (undocumented)
     get raw(): VerifiableCredential;
     // (undocumented)
-    subject?: Identity;
+    subject?: Identifier;
     // (undocumented)
     type: string[];
 }
@@ -106,12 +106,12 @@ export class DataStore implements IAgentPlugin {
 export class DataStoreORM implements IAgentPlugin {
     constructor(dbConnection: Promise<Connection>);
     // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "PartialIdentity" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PartialIdentifier" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    dataStoreORMGetIdentities(args: FindArgs<TIdentitiesColumns>, context: IContext): Promise<PartialIdentity[]>;
+    dataStoreORMGetIdentifiers(args: FindArgs<TIdentifiersColumns>, context: IContext): Promise<PartialIdentifier[]>;
     // (undocumented)
-    dataStoreORMGetIdentitiesCount(args: FindArgs<TIdentitiesColumns>, context: IContext): Promise<number>;
+    dataStoreORMGetIdentifiersCount(args: FindArgs<TIdentifiersColumns>, context: IContext): Promise<number>;
     // (undocumented)
     dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Promise<IMessage[]>;
     // (undocumented)
@@ -135,7 +135,29 @@ export class DataStoreORM implements IAgentPlugin {
 }
 
 // @public (undocumented)
-export const Entities: (typeof Key | typeof Identity | typeof Service | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Message)[];
+export class DIDStore extends AbstractDIDStore {
+    constructor(dbConnection: Promise<Connection>);
+    // (undocumented)
+    delete({ did }: {
+        did: string;
+    }): Promise<boolean>;
+    // (undocumented)
+    get({ did, alias, provider, }: {
+        did: string;
+        alias: string;
+        provider: string;
+    }): Promise<IIdentifier>;
+    // (undocumented)
+    import(args: IIdentifier): Promise<boolean>;
+    // (undocumented)
+    list(args: {
+        alias?: string;
+        provider?: string;
+    }): Promise<IIdentifier[]>;
+}
+
+// @public (undocumented)
+export const Entities: (typeof Key | typeof Identifier | typeof Service | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Message)[];
 
 // @public (undocumented)
 export interface FindArgs<TColumns> {
@@ -156,7 +178,7 @@ export type FindClaimsArgs = FindArgs<TClaimsColumns>;
 export type FindCredentialsArgs = FindArgs<TCredentialColumns>;
 
 // @public (undocumented)
-export type FindIdentitiesArgs = FindArgs<TIdentitiesColumns>;
+export type FindIdentifiersArgs = FindArgs<TIdentifiersColumns>;
 
 // @public (undocumented)
 export type FindMessagesArgs = FindArgs<TMessageColumns>;
@@ -167,9 +189,9 @@ export type FindPresentationsArgs = FindArgs<TPresentationColumns>;
 // @public (undocumented)
 export interface IDataStoreORM extends IPluginMethodMap {
     // (undocumented)
-    dataStoreORMGetIdentities(args: FindIdentitiesArgs, context: IContext): Promise<Array<PartialIdentity>>;
+    dataStoreORMGetIdentifiers(args: FindIdentifiersArgs, context: IContext): Promise<Array<PartialIdentifier>>;
     // (undocumented)
-    dataStoreORMGetIdentitiesCount(args: FindIdentitiesArgs, context: IContext): Promise<number>;
+    dataStoreORMGetIdentifiersCount(args: FindIdentifiersArgs, context: IContext): Promise<number>;
     // (undocumented)
     dataStoreORMGetMessages(args: FindMessagesArgs, context: IContext): Promise<Array<IMessage>>;
     // (undocumented)
@@ -189,7 +211,7 @@ export interface IDataStoreORM extends IPluginMethodMap {
 }
 
 // @public (undocumented)
-export class Identity extends BaseEntity {
+export class Identifier extends BaseEntity {
     // (undocumented)
     alias?: string;
     // (undocumented)
@@ -230,31 +252,9 @@ export class Identity extends BaseEntity {
 }
 
 // @public (undocumented)
-export class IdentityStore extends AbstractIdentityStore {
-    constructor(dbConnection: Promise<Connection>);
-    // (undocumented)
-    delete({ did }: {
-        did: string;
-    }): Promise<boolean>;
-    // (undocumented)
-    get({ did, alias, provider }: {
-        did: string;
-        alias: string;
-        provider: string;
-    }): Promise<IIdentity>;
-    // (undocumented)
-    import(args: IIdentity): Promise<boolean>;
-    // (undocumented)
-    list(args: {
-        alias?: string;
-        provider?: string;
-    }): Promise<IIdentity[]>;
-}
-
-// @public (undocumented)
 export class Key extends BaseEntity {
     // (undocumented)
-    identity: Identity;
+    identifier: Identifier;
     // (undocumented)
     kid: string;
     // (undocumented)
@@ -300,7 +300,7 @@ export class Message extends BaseEntity {
     // (undocumented)
     expiresAt?: Date;
     // (undocumented)
-    from?: Identity;
+    from?: Identifier;
     // (undocumented)
     id: string;
     // (undocumented)
@@ -320,7 +320,7 @@ export class Message extends BaseEntity {
     // (undocumented)
     threadId?: string;
     // (undocumented)
-    to?: Identity;
+    to?: Identifier;
     // (undocumented)
     type: string;
     // (undocumented)
@@ -357,7 +357,7 @@ export class Presentation extends BaseEntity {
     // (undocumented)
     hash: string;
     // (undocumented)
-    holder: Identity;
+    holder: Identifier;
     // (undocumented)
     id?: String;
     // (undocumented)
@@ -370,7 +370,7 @@ export class Presentation extends BaseEntity {
     // (undocumented)
     type: string[];
     // (undocumented)
-    verifier?: Identity[];
+    verifier?: Identifier[];
 }
 
 // @public (undocumented)
@@ -383,7 +383,7 @@ export class Service extends BaseEntity {
     // (undocumented)
     id: string;
     // (undocumented)
-    identity: Identity;
+    identifier: Identifier;
     // (undocumented)
     serviceEndpoint: string;
     // (undocumented)
@@ -397,7 +397,7 @@ export type TClaimsColumns = 'context' | 'credentialType' | 'type' | 'value' | '
 export type TCredentialColumns = 'context' | 'type' | 'id' | 'issuer' | 'subject' | 'expirationDate' | 'issuanceDate';
 
 // @public (undocumented)
-export type TIdentitiesColumns = 'did' | 'alias' | 'provider';
+export type TIdentifiersColumns = 'did' | 'alias' | 'provider';
 
 // @public (undocumented)
 export type TMessageColumns = 'from' | 'to' | 'id' | 'createdAt' | 'expiresAt' | 'threadId' | 'type' | 'raw' | 'replyTo' | 'replyUrl';

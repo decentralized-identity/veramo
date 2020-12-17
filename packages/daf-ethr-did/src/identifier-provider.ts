@@ -1,10 +1,10 @@
-import { IIdentity, IKey, IService, IAgentContext, IKeyManager } from 'daf-core'
-import { AbstractIdentityProvider } from 'daf-identity-manager'
+import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from 'daf-core'
+import { AbstractIdentifierProvider } from 'daf-identity-manager'
 import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'
 const EthrDID = require('ethr-did')
 const SignerProvider = require('ethjs-provider-signer')
-const debug = Debug('daf:ethr-did:identity-provider')
+const debug = Debug('daf:ethr-did:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
 
@@ -19,10 +19,10 @@ export function toEthereumAddress(hexPublicKey: string): string {
 }
 
 /**
- * {@link daf-identity-manager#IdentityManager} identity provider for `did:ethr` identities
+ * {@link daf-identity-manager#DIDManager} identifier provider for `did:ethr` identifiers
  * @public
  */
-export class EthrIdentityProvider extends AbstractIdentityProvider {
+export class EthrDIDProvider extends AbstractIdentifierProvider {
   private defaultKms: string
   private network: string
   private web3Provider?: any
@@ -50,30 +50,30 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
     this.registry = options.registry
   }
 
-  async createIdentity(
+  async createIdentifier(
     { kms, options }: { kms?: string; options?: any },
     context: IContext,
-  ): Promise<Omit<IIdentity, 'provider'>> {
-    const key = await context.agent.keyManagerCreateKey({ kms: kms || this.defaultKms, type: 'Secp256k1' })
+  ): Promise<Omit<IIdentifier, 'provider'>> {
+    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
     const address = toEthereumAddress(key.publicKeyHex)
-    const identity: Omit<IIdentity, 'provider'> = {
+    const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:ethr:' + (this.network !== 'mainnet' ? this.network + ':' : '') + address,
       controllerKeyId: key.kid,
       keys: [key],
       services: [],
     }
-    debug('Created', identity.did)
-    return identity
+    debug('Created', identifier.did)
+    return identifier
   }
 
-  async deleteIdentity(identity: IIdentity, context: IContext): Promise<boolean> {
-    for (const { kid } of identity.keys) {
-      await context.agent.keyManagerDeleteKey({ kid })
+  async deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean> {
+    for (const { kid } of identifier.keys) {
+      await context.agent.keyManagerDelete({ kid })
     }
     return true
   }
 
-  private getWeb3Provider({ controllerKeyId }: IIdentity, context: IContext) {
+  private getWeb3Provider({ controllerKeyId }: IIdentifier, context: IContext) {
     if (!this.web3Provider && !this.rpcUrl) throw Error('Web3Provider or rpcUrl required')
     if (!controllerKeyId) throw Error('ControllerKeyId does not exist')
 
@@ -94,13 +94,13 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
   }
 
   async addKey(
-    { identity, key, options }: { identity: IIdentity; key: IKey; options?: any },
+    { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext,
   ): Promise<any> {
-    const address = identity.did.split(':').pop()
+    const address = identifier.did.split(':').pop()
     const ethrDid = new EthrDID({
       address,
-      provider: this.getWeb3Provider(identity, context),
+      provider: this.getWeb3Provider(identifier, context),
       registry: this.registry,
     })
 
@@ -118,12 +118,12 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
   }
 
   async addService(
-    { identity, service, options }: { identity: IIdentity; service: IService; options?: any },
+    { identifier, service, options }: { identifier: IIdentifier; service: IService; options?: any },
     context: IContext,
   ): Promise<any> {
     const ethrDid = new EthrDID({
-      address: identity.did.split(':').pop(),
-      provider: this.getWeb3Provider(identity, context),
+      address: identifier.did.split(':').pop(),
+      provider: this.getWeb3Provider(identifier, context),
       registry: this.registry,
     })
 
@@ -140,14 +140,14 @@ export class EthrIdentityProvider extends AbstractIdentityProvider {
   }
 
   async removeKey(
-    args: { identity: IIdentity; kid: string; options?: any },
+    args: { identifier: IIdentifier; kid: string; options?: any },
     context: IContext,
   ): Promise<any> {
     throw Error('Not implemented')
   }
 
   async removeService(
-    args: { identity: IIdentity; id: string; options?: any },
+    args: { identifier: IIdentifier; id: string; options?: any },
     context: IContext,
   ): Promise<any> {
     throw Error('Not implemented')

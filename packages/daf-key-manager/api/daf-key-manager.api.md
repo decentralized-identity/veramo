@@ -8,11 +8,11 @@ import { EcdsaSignature } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { IKey } from 'daf-core';
 import { IKeyManager } from 'daf-core';
-import { IKeyManagerCreateKeyArgs } from 'daf-core';
+import { IKeyManagerCreateArgs } from 'daf-core';
 import { IKeyManagerDecryptJWEArgs } from 'daf-core';
-import { IKeyManagerDeleteKeyArgs } from 'daf-core';
+import { IKeyManagerDeleteArgs } from 'daf-core';
 import { IKeyManagerEncryptJWEArgs } from 'daf-core';
-import { IKeyManagerGetKeyArgs } from 'daf-core';
+import { IKeyManagerGetArgs } from 'daf-core';
 import { IKeyManagerSignEthTXArgs } from 'daf-core';
 import { IKeyManagerSignJWTArgs } from 'daf-core';
 import { TKeyType } from 'daf-core';
@@ -80,19 +80,19 @@ export class KeyManager implements IAgentPlugin {
         kms: Record<string, AbstractKeyManagementSystem>;
     });
     // (undocumented)
-    keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
+    keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey>;
     // (undocumented)
     keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string>;
     // (undocumented)
-    keyManagerDeleteKey({ kid }: IKeyManagerDeleteKeyArgs): Promise<boolean>;
+    keyManagerDelete({ kid }: IKeyManagerDeleteArgs): Promise<boolean>;
     // (undocumented)
     keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<string>;
     // (undocumented)
-    keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey>;
+    keyManagerGet({ kid }: IKeyManagerGetArgs): Promise<IKey>;
     // (undocumented)
     keyManagerGetKeyManagementSystems(): Promise<Array<string>>;
     // (undocumented)
-    keyManagerImportKey(key: IKey): Promise<boolean>;
+    keyManagerImport(key: IKey): Promise<boolean>;
     // (undocumented)
     keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string>;
     // (undocumented)

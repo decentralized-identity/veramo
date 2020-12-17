@@ -1,6 +1,6 @@
 import {
   IAgentContext,
-  IIdentityManager,
+  IDIDManager,
   IKeyManager,
   IAgentPlugin,
   VerifiablePresentation,
@@ -58,15 +58,15 @@ export class SelectiveDisclosure implements IAgentPlugin {
    */
   async createSelectiveDisclosureRequest(
     args: ICreateSelectiveDisclosureRequestArgs,
-    context: IAgentContext<IIdentityManager & IKeyManager>,
+    context: IAgentContext<IDIDManager & IKeyManager>,
   ): Promise<string> {
     try {
-      const identity = await context.agent.identityManagerGetIdentity({ did: args.data.issuer })
+      const identifier = await context.agent.didManagerGet({ did: args.data.issuer })
       const data: Partial<ISelectiveDisclosureRequest> = args.data
       delete data.issuer
-      Debug('daf:selective-disclosure:create-sdr')('Signing SDR with', identity.did)
+      Debug('daf:selective-disclosure:create-sdr')('Signing SDR with', identifier.did)
 
-      const key = identity.keys.find((k) => k.type === 'Secp256k1')
+      const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('Signing key not found')
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       const jwt = await createJWT(
@@ -77,7 +77,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
         {
           signer,
           alg: 'ES256K-R',
-          issuer: identity.did,
+          issuer: identifier.did,
         },
       )
       return jwt
@@ -218,21 +218,21 @@ export class SelectiveDisclosure implements IAgentPlugin {
    */
   async createProfilePresentation(
     args: ICreateProfileCredentialsArgs,
-    context: IAgentContext<ICredentialIssuer & IIdentityManager>,
+    context: IAgentContext<ICredentialIssuer & IDIDManager>,
   ): Promise<VerifiablePresentation> {
-    const identity = await context.agent.identityManagerGetIdentity({ did: args.holder })
+    const identifier = await context.agent.didManagerGet({ did: args.holder })
 
     const credentials = []
 
     if (args.name) {
       const credential = await context.agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential', 'Profile'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
-            id: identity.did,
+            id: identifier.did,
             name: args.name,
           },
         },
@@ -245,12 +245,12 @@ export class SelectiveDisclosure implements IAgentPlugin {
     if (args.picture) {
       const credential = await context.agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential', 'Profile'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
-            id: identity.did,
+            id: identifier.did,
             picture: args.picture,
           },
         },
@@ -263,12 +263,12 @@ export class SelectiveDisclosure implements IAgentPlugin {
     if (args.url) {
       const credential = await context.agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential', 'Profile'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
-            id: identity.did,
+            id: identifier.did,
             url: args.url,
           },
         },
@@ -281,7 +281,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
     const profile = await context.agent.createVerifiablePresentation({
       presentation: {
         verifier: args.holder ? [args.holder] : [],
-        holder: identity.did,
+        holder: identifier.did,
         '@context': ['https://www.w3.org/2018/credentials/v1'],
         type: ['VerifiablePresentation', 'Profile'],
         issuanceDate: new Date().toISOString(),
@@ -295,7 +295,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
       await context.agent.sendMessageDIDCommAlpha1({
         save: args.save,
         data: {
-          from: identity.did,
+          from: identifier.did,
           to: args.verifier,
           type: 'jwt',
           body: profile.proof.jwt,

@@ -1,6 +1,6 @@
 /**
- * Provides `did:ethr` {@link daf-ethr-did#EthrIdentityProvider | identity provider } for the {@link daf-identity-manager#IdentityManager}
+ * Provides `did:ethr` {@link daf-ethr-did#EthrDIDProvider | identifier provider } for the {@link daf-identity-manager#DIDManager}
  *
  * @packageDocumentation
  */
-export { EthrIdentityProvider } from './identity-provider'
+export { EthrDIDProvider } from './identifier-provider'

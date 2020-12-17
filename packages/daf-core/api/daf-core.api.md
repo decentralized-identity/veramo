@@ -125,6 +125,95 @@ export interface IDataStoreSaveVerifiablePresentationArgs {
 }
 
 // @public
+export interface IDIDManager extends IPluginMethodMap {
+    didManagerAddKey(args: IDIDManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerAddService(args: IDIDManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerCreate(args: IDIDManagerCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerDelete(args: IDIDManagerDeleteArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
+    didManagerFind(args: IDIDManagerFindArgs): Promise<Array<IIdentifier>>;
+    didManagerGet(args: IDIDManagerGetArgs): Promise<IIdentifier>;
+    didManagerGetByAlias(args: IDIDManagerGetByAliasArgs): Promise<IIdentifier>;
+    didManagerGetOrCreate(args: IDIDManagerGetOrCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerGetProviders(): Promise<Array<string>>;
+    didManagerImport(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerRemoveKey(args: IDIDManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerRemoveService(args: IDIDManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerSetAlias(args: IDIDManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
+}
+
+// @public
+export interface IDIDManagerAddKeyArgs {
+    did: string;
+    key: IKey;
+    options?: object;
+}
+
+// @public
+export interface IDIDManagerAddServiceArgs {
+    did: string;
+    options?: object;
+    service: IService;
+}
+
+// @public
+export interface IDIDManagerCreateArgs {
+    alias?: string;
+    kms?: string;
+    options?: object;
+    provider?: string;
+}
+
+// @public
+export interface IDIDManagerDeleteArgs {
+    did: string;
+}
+
+// @public
+export interface IDIDManagerFindArgs {
+    alias?: string;
+    provider?: string;
+}
+
+// @public
+export interface IDIDManagerGetArgs {
+    did: string;
+}
+
+// @public
+export interface IDIDManagerGetByAliasArgs {
+    alias: string;
+    provider?: string;
+}
+
+// @public
+export interface IDIDManagerGetOrCreateArgs {
+    alias: string;
+    kms?: string;
+    options?: object;
+    provider?: string;
+}
+
+// @public
+export interface IDIDManagerRemoveKeyArgs {
+    did: string;
+    kid: string;
+    options?: object;
+}
+
+// @public
+export interface IDIDManagerRemoveServiceArgs {
+    did: string;
+    id: string;
+    options?: object;
+}
+
+// @public
+export interface IDIDManagerSetAliasArgs {
+    alias: string;
+    did: string;
+}
+
+// @public
 export interface IEventListener {
     readonly eventTypes?: string[];
     onEvent?(event: {
@@ -141,102 +230,13 @@ export interface IHandleMessageArgs {
 }
 
 // @public
-export interface IIdentity {
+export interface IIdentifier {
     alias?: string;
     controllerKeyId?: string;
     did: string;
     keys: IKey[];
     provider: string;
     services: IService[];
-}
-
-// @public
-export interface IIdentityManager extends IPluginMethodMap {
-    identityManagerAddKey(args: IIdentityManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    identityManagerAddService(args: IIdentityManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    identityManagerCreateIdentity(args: IIdentityManagerCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    identityManagerDeleteIdentity(args: IIdentityManagerDeleteIdentityArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
-    identityManagerGetIdentities(args: IIdentityManagerGetIdentitiesArgs): Promise<Array<IIdentity>>;
-    identityManagerGetIdentity(args: IIdentityManagerGetIdentityArgs): Promise<IIdentity>;
-    identityManagerGetIdentityByAlias(args: IIdentityManagerGetIdentityByAliasArgs): Promise<IIdentity>;
-    identityManagerGetOrCreateIdentity(args: IIdentityManagerGetOrCreateIdentityArgs, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    identityManagerGetProviders(): Promise<Array<string>>;
-    identityManagerImportIdentity(args: IIdentity, context: IAgentContext<IKeyManager>): Promise<IIdentity>;
-    identityManagerRemoveKey(args: IIdentityManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    identityManagerRemoveService(args: IIdentityManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    identityManagerSetAlias(args: IIdentityManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
-}
-
-// @public
-export interface IIdentityManagerAddKeyArgs {
-    did: string;
-    key: IKey;
-    options?: object;
-}
-
-// @public
-export interface IIdentityManagerAddServiceArgs {
-    did: string;
-    options?: object;
-    service: IService;
-}
-
-// @public
-export interface IIdentityManagerCreateIdentityArgs {
-    alias?: string;
-    kms?: string;
-    options?: object;
-    provider?: string;
-}
-
-// @public
-export interface IIdentityManagerDeleteIdentityArgs {
-    did: string;
-}
-
-// @public
-export interface IIdentityManagerGetIdentitiesArgs {
-    alias?: string;
-    provider?: string;
-}
-
-// @public
-export interface IIdentityManagerGetIdentityArgs {
-    did: string;
-}
-
-// @public
-export interface IIdentityManagerGetIdentityByAliasArgs {
-    alias: string;
-    provider?: string;
-}
-
-// @public
-export interface IIdentityManagerGetOrCreateIdentityArgs {
-    alias: string;
-    kms?: string;
-    options?: object;
-    provider?: string;
-}
-
-// @public
-export interface IIdentityManagerRemoveKeyArgs {
-    did: string;
-    kid: string;
-    options?: object;
-}
-
-// @public
-export interface IIdentityManagerRemoveServiceArgs {
-    did: string;
-    id: string;
-    options?: object;
-}
-
-// @public
-export interface IIdentityManagerSetAliasArgs {
-    alias: string;
-    did: string;
 }
 
 // @public
@@ -251,21 +251,21 @@ export interface IKey {
 
 // @public
 export interface IKeyManager extends IPluginMethodMap {
-    keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
+    keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey>;
     // @beta
     keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>;
-    keyManagerDeleteKey(args: IKeyManagerDeleteKeyArgs): Promise<boolean>;
+    keyManagerDelete(args: IKeyManagerDeleteArgs): Promise<boolean>;
     // @beta
     keyManagerEncryptJWE(args: IKeyManagerEncryptJWEArgs): Promise<string>;
-    keyManagerGetKey(args: IKeyManagerGetKeyArgs): Promise<IKey>;
+    keyManagerGet(args: IKeyManagerGetArgs): Promise<IKey>;
     keyManagerGetKeyManagementSystems(): Promise<Array<string>>;
-    keyManagerImportKey(args: IKey): Promise<boolean>;
+    keyManagerImport(args: IKey): Promise<boolean>;
     keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>;
     keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature>;
 }
 
 // @public
-export interface IKeyManagerCreateKeyArgs {
+export interface IKeyManagerCreateArgs {
     kms: string;
     meta?: object;
     type: TKeyType;
@@ -278,7 +278,7 @@ export interface IKeyManagerDecryptJWEArgs {
 }
 
 // @public
-export interface IKeyManagerDeleteKeyArgs {
+export interface IKeyManagerDeleteArgs {
     kid: string;
 }
 
@@ -290,7 +290,7 @@ export interface IKeyManagerEncryptJWEArgs {
 }
 
 // @public
-export interface IKeyManagerGetKeyArgs {
+export interface IKeyManagerGetArgs {
     kid: string;
 }
 

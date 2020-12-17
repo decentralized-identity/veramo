@@ -1,6 +1,6 @@
 import 'cross-fetch/polyfill'
 import yaml from 'yaml'
-import { IDataStore, IIdentityManager, IMessageHandler, IKeyManager, IResolver, TAgent } from 'daf-core'
+import { IDataStore, IDIDManager, IMessageHandler, IKeyManager, IResolver, TAgent } from 'daf-core'
 import { ICredentialIssuer } from 'daf-w3c'
 import { ISelectiveDisclosure } from 'daf-selective-disclosure'
 import { IDIDComm } from 'daf-did-comm'
@@ -19,7 +19,7 @@ export const getConfig = (fileName: string): any => {
   return config
 }
 
-export type EnabledInterfaces = IIdentityManager &
+export type EnabledInterfaces = IDIDManager &
   IKeyManager &
   IDataStore &
   IDataStoreORM &

@@ -13,15 +13,15 @@ presentation
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
-    const myIdentities = await agent.identityManagerGetIdentities()
-    if (myIdentities.length === 0) {
+    const myIdentifiers = await agent.didManagerFind()
+    if (myIdentifiers.length === 0) {
       console.error('No dids')
       process.exit()
     }
 
-    const ids = await agent.dataStoreORMGetIdentities()
+    const ids = await agent.dataStoreORMGetIdentifiers()
 
-    const identities = [
+    const identifiers = [
       {
         name: 'Enter manually',
         value: 'manual',
@@ -34,7 +34,7 @@ presentation
       {
         type: 'list',
         name: 'iss',
-        choices: myIdentities.map((item) => ({
+        choices: myIdentifiers.map((item) => ({
           name: `${item.did} ${item.alias}`,
           value: item.did,
         })),
@@ -51,7 +51,7 @@ presentation
         type: 'list',
         name: 'aud',
         message: 'Verifier DID',
-        choices: identities,
+        choices: identifiers,
       },
       {
         type: 'input',

@@ -14,13 +14,13 @@ sdr
   .description('create Selective Disclosure Request')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
-    const identities = await agent.identityManagerGetIdentities()
+    const identifiers = await agent.didManagerFind()
 
-    const knownDids = await agent.dataStoreORMGetIdentities()
+    const knownDids = await agent.dataStoreORMGetIdentifiers()
 
     const subjects = [...knownDids.map((id) => id.did)]
 
-    if (identities.length === 0) {
+    if (identifiers.length === 0) {
       console.error('No dids')
       process.exit()
     }
@@ -28,7 +28,7 @@ sdr
       {
         type: 'list',
         name: 'iss',
-        choices: identities.map((item) => item.did),
+        choices: identifiers.map((item) => item.did),
         message: 'Issuer DID',
       },
       {

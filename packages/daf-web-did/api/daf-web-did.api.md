@@ -4,48 +4,48 @@
 
 ```ts
 
-import { AbstractIdentityProvider } from 'daf-identity-manager';
+import { AbstractIdentifierProvider } from 'daf-identity-manager';
 import { IAgentContext } from 'daf-core';
-import { IIdentity } from 'daf-core';
+import { IIdentifier } from 'daf-core';
 import { IKey } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IService } from 'daf-core';
 
 // @public
-export class WebIdentityProvider extends AbstractIdentityProvider {
+export class WebDIDProvider extends AbstractIdentifierProvider {
     constructor(options: {
         defaultKms: string;
     });
     // (undocumented)
-    addKey({ identity, key, options }: {
-        identity: IIdentity;
+    addKey({ identifier, key, options }: {
+        identifier: IIdentifier;
         key: IKey;
         options?: any;
     }, context: IContext): Promise<any>;
     // (undocumented)
-    addService({ identity, service, options }: {
-        identity: IIdentity;
+    addService({ identifier, service, options }: {
+        identifier: IIdentifier;
         service: IService;
         options?: any;
     }, context: IContext): Promise<any>;
     // Warning: (ae-forgotten-export) The symbol "IContext" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    createIdentity({ kms, alias }: {
+    createIdentifier({ kms, alias }: {
         kms?: string;
         alias?: string;
-    }, context: IContext): Promise<Omit<IIdentity, 'provider'>>;
+    }, context: IContext): Promise<Omit<IIdentifier, 'provider'>>;
     // (undocumented)
-    deleteIdentity(identity: IIdentity, context: IContext): Promise<boolean>;
+    deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean>;
     // (undocumented)
     removeKey(args: {
-        identity: IIdentity;
+        identifier: IIdentifier;
         kid: string;
         options?: any;
     }, context: IContext): Promise<any>;
     // (undocumented)
     removeService(args: {
-        identity: IIdentity;
+        identifier: IIdentifier;
         id: string;
         options?: any;
     }, context: IContext): Promise<any>;

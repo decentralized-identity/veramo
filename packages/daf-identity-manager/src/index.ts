@@ -1,8 +1,8 @@
 /**
- * Provides a {@link daf-identity-manager#IdentityManager | plugin} for the {@link daf-core#Agent} that implements {@link daf-core#IIdentityManager} interface
+ * Provides a {@link daf-identity-manager#DIDManager | plugin} for the {@link daf-core#Agent} that implements {@link daf-core#IDIDManager} interface
  *
  * @packageDocumentation
  */
-export { IdentityManager } from './identity-manager'
-export { AbstractIdentityProvider } from './abstract-identity-provider'
-export { AbstractIdentityStore } from './abstract-identity-store'
+export { DIDManager } from './id-manager'
+export { AbstractIdentifierProvider } from './abstract-identifier-provider'
+export { AbstractDIDStore } from './abstract-identifier-store'
