@@ -152,6 +152,39 @@ did
   })
 
 did
+  .command('remove-service')
+  .description('remove a service endpoint from did document')
+  .action(async (cmd) => {
+    const agent = getAgent(program.config)
+
+    try {
+      const identifiers = await agent.didManagerFind()
+      const answers = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'did',
+          choices: identifiers.map((item) => item.did),
+          message: 'Select DID',
+        },
+        {
+          type: 'text',
+          name: 'id',
+          message: 'ID',
+        },
+      ])
+
+      const result = await agent.didManagerRemoveService({
+        did: answers.did,
+        id: answers.id,
+      })
+
+      console.log('Success:', result)
+    } catch (e) {
+      console.error(e)
+    }
+  })
+
+did
   .command('add-key')
   .description('create and add a public key to did document')
   .action(async (cmd) => {
@@ -189,6 +222,39 @@ did
       const result = await agent.didManagerAddKey({
         did: answers.did,
         key,
+      })
+
+      console.log('Success:', result)
+    } catch (e) {
+      console.error(e)
+    }
+  })
+
+did
+  .command('remove-key')
+  .description('remove a key from did document')
+  .action(async (cmd) => {
+    const agent = getAgent(program.config)
+
+    try {
+      const identifiers = await agent.didManagerFind()
+      const answers = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'did',
+          choices: identifiers.map((item) => item.did),
+          message: 'Select DID',
+        },
+        {
+          type: 'text',
+          name: 'id',
+          message: 'ID',
+        },
+      ])
+
+      const result = await agent.didManagerRemoveKey({
+        did: answers.did,
+        kid: answers.id,
       })
 
       console.log('Success:', result)

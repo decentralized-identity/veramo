@@ -116,7 +116,7 @@ agent:
                     - defaultKms: local
                       network: mainnet
                       rpcUrl: https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                      gas: 10001
+                      gas: 1000001
                       ttl: 31104001
                 did:ethr:rinkeby:
                   $require: daf-ethr-did#EthrDIDProvider
@@ -124,7 +124,7 @@ agent:
                     - defaultKms: local
                       network: rinkeby
                       rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                      gas: 10001
+                      gas: 1000001
                       ttl: 31104001
                 did:ethr:ropsten:
                   $require: daf-ethr-did#EthrDIDProvider
@@ -132,7 +132,7 @@ agent:
                     - defaultKms: local
                       network: ropsten
                       rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                      gas: 10001
+                      gas: 1000001
                       ttl: 31104001
                 did:ethr:kovan:
                   $require: daf-ethr-did#EthrDIDProvider
@@ -140,7 +140,7 @@ agent:
                     - defaultKms: local
                       network: kovan
                       rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                      gas: 10001
+                      gas: 1000001
                       ttl: 31104001
                 did:ethr:goerli:
                   $require: daf-ethr-did#EthrDIDProvider
@@ -148,7 +148,7 @@ agent:
                     - defaultKms: local
                       network: goerli
                       rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                      gas: 10001
+                      gas: 1000001
                       ttl: 31104001
                 did:web:
                   $require: daf-web-did#WebDIDProvider

@@ -2,7 +2,7 @@ import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from 'daf-cor
 import { AbstractIdentifierProvider } from 'daf-identity-manager'
 import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'
-const EthrDID = require('ethr-did')
+import EthrDID from 'ethr-did'
 const SignerProvider = require('ethjs-provider-signer')
 const debug = Debug('daf:ethr-did:identifier-provider')
 
@@ -97,7 +97,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext,
   ): Promise<any> {
-    const address = identifier.did.split(':').pop()
+    const address = identifier.did.split(':').pop() as string
     const ethrDid = new EthrDID({
       address,
       provider: this.getWeb3Provider(identifier, context),
@@ -122,7 +122,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     const ethrDid = new EthrDID({
-      address: identifier.did.split(':').pop(),
+      address: identifier.did.split(':').pop() as string,
       provider: this.getWeb3Provider(identifier, context),
       registry: this.registry,
     })
@@ -143,13 +143,45 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     args: { identifier: IIdentifier; kid: string; options?: any },
     context: IContext,
   ): Promise<any> {
-    throw Error('Not implemented')
+    const address = args.identifier.did.split(':').pop() as string
+    const ethrDid = new EthrDID({
+      address,
+      provider: this.getWeb3Provider(args.identifier, context),
+      registry: this.registry,
+    })
+
+    const key = args.identifier.keys.find((k) => k.kid === args.kid)
+    if (!key) throw Error('Key not found')
+
+    const usg = 'veriKey'
+    const attribute = 'did/pub/' + key.type + '/' + usg + '/hex'
+    const value = '0x' + key.publicKeyHex
+    const gas = args.options?.gas || this.gas
+
+    debug('ethrDid.revokeAttribute', { attribute, value, gas })
+    const txHash = await ethrDid.revokeAttribute(attribute, value, gas)
+    return txHash
   }
 
   async removeService(
     args: { identifier: IIdentifier; id: string; options?: any },
     context: IContext,
   ): Promise<any> {
-    throw Error('Not implemented')
+    const ethrDid = new EthrDID({
+      address: args.identifier.did.split(':').pop() as string,
+      provider: this.getWeb3Provider(args.identifier, context),
+      registry: this.registry,
+    })
+
+    const service = args.identifier.services.find((s) => s.id === args.id)
+    if (!service) throw Error('Service not found')
+
+    const attribute = 'did/svc/' + service.type
+    const value = service.serviceEndpoint
+    const gas = args.options?.gas || this.gas
+
+    debug('ethrDid.revokeAttribute', { attribute, value, gas })
+    const txHash = await ethrDid.revokeAttribute(attribute, value, gas)
+    return txHash
   }
 }
