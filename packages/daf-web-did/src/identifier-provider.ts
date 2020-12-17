@@ -10,7 +10,7 @@ type IContext = IAgentContext<IKeyManager>
  * {@link daf-identity-manager#IdManager} identifier provider for `did:web` identifiers
  * @public
  */
-export class WebIdentifierProvider extends AbstractIdentifierProvider {
+export class WebDIDProvider extends AbstractIdentifierProvider {
   private defaultKms: string
 
   constructor(options: { defaultKms: string }) {

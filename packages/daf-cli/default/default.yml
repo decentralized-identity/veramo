@@ -151,7 +151,7 @@ agent:
                       gas: 10001
                       ttl: 31104001
                 did:web:
-                  $require: daf-web-did#WebIdentifierProvider
+                  $require: daf-web-did#WebDIDProvider
                   $args:
                     - defaultKms: local
         - $require: daf-resolver#DafResolver

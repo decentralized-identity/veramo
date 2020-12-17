@@ -12,7 +12,7 @@ import { IKeyManager } from 'daf-core';
 import { IService } from 'daf-core';
 
 // @public
-export class WebIdentifierProvider extends AbstractIdentifierProvider {
+export class WebDIDProvider extends AbstractIdentifierProvider {
     constructor(options: {
         defaultKms: string;
     });

@@ -16,7 +16,7 @@ import { DafResolver } from '../packages/daf-resolver/src'
 import { JwtMessageHandler } from '../packages/daf-did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c/src'
 import { EthrIdentifierProvider } from '../packages/daf-ethr-did/src'
-import { WebIdentifierProvider } from '../packages/daf-web-did/src'
+import { WebDIDProvider } from '../packages/daf-web-did/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/daf-did-comm/src'
 import {
   SelectiveDisclosure,
@@ -116,7 +116,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
           }),
-          'did:web': new WebIdentifierProvider({
+          'did:web': new WebDIDProvider({
             defaultKms: 'local',
           }),
         },
