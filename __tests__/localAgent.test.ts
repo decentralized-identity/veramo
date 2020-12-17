@@ -123,7 +123,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DafResolver({
         resolver: new Resolver({
-          ethr: ethrDidResolver({
+          ...ethrDidResolver({
             networks: [
               { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId },
               { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId },
@@ -131,8 +131,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
               { name: 'kovan', rpcUrl: 'https://kovan.infura.io/v3/' + infuraProjectId },
               { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId },
             ],
-          }).ethr,
-          web: webDidResolver().web,
+          }),
+          ...webDidResolver(),
         }),
       }),
       new DataStore(dbConnection),
