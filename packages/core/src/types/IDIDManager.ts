@@ -222,7 +222,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * Returns a list of managed identifiers
    *
    * @param args - Required. Arguments to get the list of identifiers
-   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link @veramo/core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -246,7 +246,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * Returns a specific identifier by alias
    *
    * @param args - Required. Arguments to get the identifier
-   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link @veramo/core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -262,7 +262,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * Creates and returns a new identifier
    *
    * @param args - Required. Arguments to create the identifier
-   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link @veramo/core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -279,7 +279,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * Sets identifier alias
    *
    * @param args - Required. Arguments to set identifier alias
-   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link daf-core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link @veramo/core#IKeyManager} methods
    *
    * @example
    * ```typescript

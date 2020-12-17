@@ -5,7 +5,7 @@
 ```ts
 
 import { AbstractMessageHandler } from 'daf-message-handler';
-import { IAgentContext } from 'daf-core';
+import { IAgentContext } from '@veramo/core';
 import { Message } from 'daf-message-handler';
 
 // @public (undocumented)

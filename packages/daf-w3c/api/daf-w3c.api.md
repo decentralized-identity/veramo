@@ -5,16 +5,16 @@
 ```ts
 
 import { AbstractMessageHandler } from 'daf-message-handler';
-import { IAgentContext } from 'daf-core';
-import { IAgentPlugin } from 'daf-core';
-import { IDataStore } from 'daf-core';
-import { IDIDManager } from 'daf-core';
-import { IKeyManager } from 'daf-core';
-import { IPluginMethodMap } from 'daf-core';
-import { IResolver } from 'daf-core';
+import { IAgentContext } from '@veramo/core';
+import { IAgentPlugin } from '@veramo/core';
+import { IDataStore } from '@veramo/core';
+import { IDIDManager } from '@veramo/core';
+import { IKeyManager } from '@veramo/core';
+import { IPluginMethodMap } from '@veramo/core';
+import { IResolver } from '@veramo/core';
 import { Message } from 'daf-message-handler';
-import { VerifiableCredential } from 'daf-core';
-import { VerifiablePresentation } from 'daf-core';
+import { VerifiableCredential } from '@veramo/core';
+import { VerifiablePresentation } from '@veramo/core';
 
 // @public
 export class CredentialIssuer implements IAgentPlugin {

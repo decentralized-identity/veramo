@@ -1,4 +1,4 @@
-import { TAgent, IDIDManager, IIdentifier, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
+import { TAgent, IDIDManager, IIdentifier, IDataStore, IMessageHandler } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'

@@ -6,7 +6,7 @@
     "declarationDir": "build"
   },
   "references": [
-    { "path": "../daf-core" },
+    { "path": "../core" },
     { "path": "../daf-did-jwt" },
     { "path": "../daf-message-handler" }
   ]

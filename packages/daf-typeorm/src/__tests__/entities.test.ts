@@ -1,4 +1,4 @@
-import { VerifiableCredential, VerifiablePresentation } from 'daf-core'
+import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 import { Credential, createCredentialEntity } from '../entities/credential'
 import { Presentation, createPresentationEntity } from '../entities/presentation'
 import { createConnection, Connection, In, Raw, FindConditions } from 'typeorm'
@@ -7,7 +7,7 @@ import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import fs from 'fs'
 
-describe('daf-core', () => {
+describe('veramo core', () => {
   let connection: Connection
   const databaseFile = './test-db.sqlite'
 

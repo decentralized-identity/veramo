@@ -5,7 +5,7 @@ import {
   VerifiablePresentation,
   IPluginMethodMap,
   IIdentifier,
-} from 'daf-core'
+} from '@veramo/core'
 import { Message, createMessage } from './entities/message'
 import { Claim } from './entities/claim'
 import { Credential } from './entities/credential'

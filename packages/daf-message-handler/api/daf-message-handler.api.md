@@ -4,15 +4,15 @@
 
 ```ts
 
-import { IAgentContext } from 'daf-core';
-import { IAgentPlugin } from 'daf-core';
-import { IDataStore } from 'daf-core';
-import { IHandleMessageArgs } from 'daf-core';
-import { IMessage } from 'daf-core';
-import { IMessageHandler } from 'daf-core';
-import { IMetaData } from 'daf-core';
-import { VerifiableCredential } from 'daf-core';
-import { VerifiablePresentation } from 'daf-core';
+import { IAgentContext } from '@veramo/core';
+import { IAgentPlugin } from '@veramo/core';
+import { IDataStore } from '@veramo/core';
+import { IHandleMessageArgs } from '@veramo/core';
+import { IMessage } from '@veramo/core';
+import { IMessageHandler } from '@veramo/core';
+import { IMetaData } from '@veramo/core';
+import { VerifiableCredential } from '@veramo/core';
+import { VerifiablePresentation } from '@veramo/core';
 
 // @public
 export abstract class AbstractMessageHandler {

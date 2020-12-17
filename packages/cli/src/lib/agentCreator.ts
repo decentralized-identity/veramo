@@ -1,4 +1,4 @@
-import { TAgent, IPluginMethodMap } from 'daf-core'
+import { TAgent, IPluginMethodMap } from '@veramo/core'
 import { createObjects } from './objectCreator'
 
 export function createAgentFromConfig<T extends IPluginMethodMap>(config: object): TAgent<T> {

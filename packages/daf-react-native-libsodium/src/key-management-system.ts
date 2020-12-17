@@ -1,4 +1,4 @@
-import { TKeyType, IKey, EcdsaSignature } from 'daf-core'
+import { TKeyType, IKey, EcdsaSignature } from '@veramo/core'
 import { AbstractKeyManagementSystem } from 'daf-key-manager'
 import sodium from 'react-native-sodium'
 import { SimpleSigner } from 'did-jwt'

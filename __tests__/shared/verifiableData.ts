@@ -1,4 +1,4 @@
-import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/daf-core/src'
+import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 

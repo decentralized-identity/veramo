@@ -1,4 +1,11 @@
-import { Agent, VerifiableCredential, VerifiablePresentation, IMessage, IDataStore, TAgent } from 'daf-core'
+import {
+  Agent,
+  VerifiableCredential,
+  VerifiablePresentation,
+  IMessage,
+  IDataStore,
+  TAgent,
+} from '@veramo/core'
 import { createConnection, Connection } from 'typeorm'
 import { DataStoreORM, IDataStoreORM } from '../data-store-orm'
 import {

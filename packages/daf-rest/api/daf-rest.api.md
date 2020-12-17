@@ -4,10 +4,10 @@
 
 ```ts
 
-import { IAgent } from 'daf-core';
-import { IAgentPlugin } from 'daf-core';
-import { IAgentPluginSchema } from 'daf-core';
-import { IPluginMethodMap } from 'daf-core';
+import { IAgent } from '@veramo/core';
+import { IAgentPlugin } from '@veramo/core';
+import { IAgentPluginSchema } from '@veramo/core';
+import { IPluginMethodMap } from '@veramo/core';
 import { OpenAPIV3 } from 'openapi-types';
 
 // @public (undocumented)

@@ -1,4 +1,4 @@
-import { IAgentContext } from 'daf-core'
+import { IAgentContext } from '@veramo/core'
 import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import parse = require('url-parse')
 

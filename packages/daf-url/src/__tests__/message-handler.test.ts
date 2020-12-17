@@ -1,7 +1,7 @@
 import { Message } from 'daf-message-handler'
 import { UrlMessageHandler } from '../index'
 import fetchMock from 'jest-fetch-mock'
-import { IAgent } from 'daf-core/src/types/IAgent'
+import { IAgent } from '@veramo/core'
 fetchMock.enableMocks()
 
 const context = {

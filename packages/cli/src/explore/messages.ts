@@ -1,5 +1,5 @@
 import blessed, { Widgets } from 'blessed'
-import { IMessage } from 'daf-core'
+import { IMessage } from '@veramo/core'
 import { shortDate, shortDid } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'

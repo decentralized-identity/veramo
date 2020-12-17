@@ -8,7 +8,7 @@ import {
   IMessageHandler,
   IPluginMethodMap,
   IAgentPlugin,
-} from 'daf-core'
+} from '@veramo/core'
 import { schema } from './'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
@@ -33,7 +33,7 @@ export interface ISendMessageDIDCommAlpha1Args {
 }
 
 /**
- * DID Comm plugin interface for {@link daf-core#Agent}
+ * DID Comm plugin interface for {@link @veramo/core#Agent}
  * @beta
  */
 export interface IDIDComm extends IPluginMethodMap {
@@ -52,7 +52,7 @@ export interface IDIDComm extends IPluginMethodMap {
 }
 
 /**
- * DID Comm plugin for {@link daf-core#Agent}
+ * DID Comm plugin for {@link @veramo/core#Agent}
  *
  * This plugin provides a method of creating an encrypted message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
  *

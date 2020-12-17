@@ -1,4 +1,4 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from 'daf-core'
+import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
 
 /**
  * An abstract class for the {@link daf-identity-manager#DIDManager} identifier providers

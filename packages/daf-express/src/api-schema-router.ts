@@ -1,4 +1,4 @@
-import { IAgent } from 'daf-core'
+import { IAgent } from '@veramo/core'
 import { Request, Router } from 'express'
 import { getOpenApiSchema } from 'daf-rest'
 
@@ -46,7 +46,7 @@ export interface ApiSchemaRouterOptions {
 }
 
 /**
- * Creates a router that exposes {@link daf-core#Agent} OpenAPI schema
+ * Creates a router that exposes {@link @veramo/core#Agent} OpenAPI schema
  *
  * @param options - Initialization option
  * @returns Expressjs router
@@ -60,7 +60,13 @@ export const ApiSchemaRouter = (options: ApiSchemaRouterOptions): Router => {
 
   router.get('/', (req: RequestWithAgent, res) => {
     if (req.agent) {
-      const openApiSchema = getOpenApiSchema(req.agent, '', options.exposedMethods, options.apiName, options.apiVersion)
+      const openApiSchema = getOpenApiSchema(
+        req.agent,
+        '',
+        options.exposedMethods,
+        options.apiName,
+        options.apiVersion,
+      )
       const url = (req.headers['x-forwarded-proto'] || req.protocol) + '://' + req.hostname + options.basePath
       openApiSchema.servers = [{ url }]
 

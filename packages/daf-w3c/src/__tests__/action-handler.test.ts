@@ -4,7 +4,7 @@ import {
   IIdentifier,
   W3CPresentation,
   VerifiablePresentation,
-} from 'daf-core'
+} from '@veramo/core'
 
 const mockDidJwtVc = {
   createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),

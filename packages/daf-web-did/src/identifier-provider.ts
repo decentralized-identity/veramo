@@ -1,4 +1,4 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from 'daf-core'
+import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
 import { AbstractIdentifierProvider } from 'daf-identity-manager'
 
 import Debug from 'debug'

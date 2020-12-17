@@ -1,6 +1,6 @@
 import 'cross-fetch/polyfill'
 import yaml from 'yaml'
-import { IDataStore, IDIDManager, IMessageHandler, IKeyManager, IResolver, TAgent } from 'daf-core'
+import { IDataStore, IDIDManager, IMessageHandler, IKeyManager, IResolver, TAgent } from '@veramo/core'
 import { ICredentialIssuer } from 'daf-w3c'
 import { ISelectiveDisclosure } from 'daf-selective-disclosure'
 import { IDIDComm } from 'daf-did-comm'

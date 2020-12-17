@@ -1,7 +1,13 @@
 import { OpenAPIV3 } from 'openapi-types'
-import { IAgent } from 'daf-core'
+import { IAgent } from '@veramo/core'
 
-export const getOpenApiSchema = (agent: IAgent, basePath: string, exposedMethods: Array<string>, name?: string, version?: string): OpenAPIV3.Document => {
+export const getOpenApiSchema = (
+  agent: IAgent,
+  basePath: string,
+  exposedMethods: Array<string>,
+  name?: string,
+  version?: string,
+): OpenAPIV3.Document => {
   const agentSchema = agent.getSchema()
 
   const paths: OpenAPIV3.PathsObject = {}
@@ -16,9 +22,9 @@ export const getOpenApiSchema = (agent: IAgent, basePath: string, exposedMethods
         requestBody: {
           content: {
             'application/json': {
-              schema: agentSchema.components.methods[method].arguments
-            }
-          }
+              schema: agentSchema.components.methods[method].arguments,
+            },
+          },
         },
         responses: {
           200: {
@@ -26,34 +32,34 @@ export const getOpenApiSchema = (agent: IAgent, basePath: string, exposedMethods
             description: agentSchema.components.methods[method].description,
             content: {
               'application/json; charset=utf-8': {
-                schema: agentSchema.components.methods[method].returnType
-              }
-            }
+                schema: agentSchema.components.methods[method].returnType,
+              },
+            },
           },
           400: {
-            description: "Validation error",
+            description: 'Validation error',
             content: {
               'application/json; charset=utf-8': {
-                schema: agentSchema.components.schemas.ValidationError
-              }
-            }
-          }
-        }
-      }
+                schema: agentSchema.components.schemas.ValidationError,
+              },
+            },
+          },
+        },
+      },
     }
     paths[basePath + '/' + method] = pathItemObject
   }
 
   const openApi: OpenAPIV3.Document = {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     info: {
-      title: name || "DID Agent",
-      version: version || ""
+      title: name || 'DID Agent',
+      version: version || '',
     },
-    components:{
+    components: {
       schemas: agent.getSchema().components.schemas,
     },
-    paths
+    paths,
   }
 
   if (openApi.components?.schemas) {

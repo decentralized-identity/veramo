@@ -11,7 +11,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   schema,
-} from 'daf-core'
+} from '@veramo/core'
 import { Message, createMessageEntity, createMessage } from './entities/message'
 import { Credential, createCredentialEntity } from './entities/credential'
 import { Presentation, createPresentationEntity } from './entities/presentation'

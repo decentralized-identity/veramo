@@ -86,7 +86,7 @@ resolver:
         $ref: /universal-resolver
 
 agent:
-  $require: daf-core#Agent
+  $require: @veramo/core#Agent
   $args:
     - schemaValidation: false
       plugins:

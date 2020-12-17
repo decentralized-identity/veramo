@@ -67,7 +67,6 @@ export interface IDataStoreGetVerifiablePresentationArgs {
   hash: string
 }
 
-
 /**
  * Basic data store interface
  * @public
@@ -117,4 +116,3 @@ export interface IDataStore extends IPluginMethodMap {
     args: IDataStoreGetVerifiablePresentationArgs,
   ): Promise<VerifiablePresentation>
 }
-

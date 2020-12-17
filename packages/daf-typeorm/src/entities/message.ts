@@ -11,7 +11,7 @@ import {
   BeforeInsert,
 } from 'typeorm'
 import { blake2bHex } from 'blakejs'
-import { IMessage } from 'daf-core'
+import { IMessage } from '@veramo/core'
 import { Identifier } from './identifier'
 import { Presentation, createPresentationEntity } from './presentation'
 import { Credential, createCredentialEntity } from './credential'

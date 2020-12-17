@@ -9,20 +9,20 @@ import { AbstractKeyStore } from 'daf-key-manager';
 import { AbstractSecretBox } from 'daf-key-manager';
 import { BaseEntity } from 'typeorm';
 import { Connection } from 'typeorm';
-import { IAgentPlugin } from 'daf-core';
-import { IDataStore } from 'daf-core';
-import { IDataStoreGetMessageArgs } from 'daf-core';
-import { IDataStoreGetVerifiableCredentialArgs } from 'daf-core';
-import { IDataStoreGetVerifiablePresentationArgs } from 'daf-core';
-import { IDataStoreSaveMessageArgs } from 'daf-core';
-import { IDataStoreSaveVerifiableCredentialArgs } from 'daf-core';
-import { IDataStoreSaveVerifiablePresentationArgs } from 'daf-core';
-import { IIdentifier } from 'daf-core';
-import { IKey } from 'daf-core';
-import { IMessage } from 'daf-core';
-import { IPluginMethodMap } from 'daf-core';
-import { VerifiableCredential } from 'daf-core';
-import { VerifiablePresentation } from 'daf-core';
+import { IAgentPlugin } from '@veramo/core';
+import { IDataStore } from '@veramo/core';
+import { IDataStoreGetMessageArgs } from '@veramo/core';
+import { IDataStoreGetVerifiableCredentialArgs } from '@veramo/core';
+import { IDataStoreGetVerifiablePresentationArgs } from '@veramo/core';
+import { IDataStoreSaveMessageArgs } from '@veramo/core';
+import { IDataStoreSaveVerifiableCredentialArgs } from '@veramo/core';
+import { IDataStoreSaveVerifiablePresentationArgs } from '@veramo/core';
+import { IIdentifier } from '@veramo/core';
+import { IKey } from '@veramo/core';
+import { IMessage } from '@veramo/core';
+import { IPluginMethodMap } from '@veramo/core';
+import { VerifiableCredential } from '@veramo/core';
+import { VerifiablePresentation } from '@veramo/core';
 
 // @public (undocumented)
 export class Claim extends BaseEntity {

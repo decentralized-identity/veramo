@@ -1,5 +1,5 @@
 /**
- * Provides a {@link daf-rest#AgentRestClient | plugin} for the {@link daf-core#Agent} that can proxy method execution over HTTPS
+ * Provides a {@link daf-rest#AgentRestClient | plugin} for the {@link @veramo/core#Agent} that can proxy method execution over HTTPS
  *
  * @packageDocumentation
  */

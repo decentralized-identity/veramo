@@ -1,5 +1,5 @@
 import blessed, { Widgets } from 'blessed'
-import { IIdentifier } from 'daf-core'
+import { IIdentifier } from '@veramo/core'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
 

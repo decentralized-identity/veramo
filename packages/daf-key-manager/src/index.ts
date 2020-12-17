@@ -1,5 +1,5 @@
 /**
- * Provides a {@link daf-key-manager#KeyManager | plugin} for the {@link daf-core#Agent} that implements {@link daf-core#IKeyManager} interface
+ * Provides a {@link daf-key-manager#KeyManager | plugin} for the {@link @veramo/core#Agent} that implements {@link @veramo/core#IKeyManager} interface
  *
  * @packageDocumentation
  */

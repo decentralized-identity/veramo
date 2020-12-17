@@ -6,9 +6,9 @@
 
 import { AbstractKeyManagementSystem } from 'daf-key-manager';
 import { AbstractSecretBox } from 'daf-key-manager';
-import { EcdsaSignature } from 'daf-core';
-import { IKey } from 'daf-core';
-import { TKeyType } from 'daf-core';
+import { EcdsaSignature } from '@veramo/core';
+import { IKey } from '@veramo/core';
+import { TKeyType } from '@veramo/core';
 
 // @public (undocumented)
 export class KeyManagementSystem extends AbstractKeyManagementSystem {

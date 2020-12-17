@@ -5,8 +5,8 @@
 ```ts
 
 import { DIDDocument } from 'did-resolver';
-import { IAgentPlugin } from 'daf-core';
-import { IResolver } from 'daf-core';
+import { IAgentPlugin } from '@veramo/core';
+import { IResolver } from '@veramo/core';
 import { Resolver } from 'did-resolver';
 
 // @public (undocumented)

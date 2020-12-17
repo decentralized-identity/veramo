@@ -4,24 +4,24 @@
 
 ```ts
 
-import { IAgentContext } from 'daf-core';
-import { IAgentPlugin } from 'daf-core';
-import { IDIDManager } from 'daf-core';
-import { IDIDManagerAddKeyArgs } from 'daf-core';
-import { IDIDManagerAddServiceArgs } from 'daf-core';
-import { IDIDManagerCreateArgs } from 'daf-core';
-import { IDIDManagerDeleteArgs } from 'daf-core';
-import { IDIDManagerFindArgs } from 'daf-core';
-import { IDIDManagerGetArgs } from 'daf-core';
-import { IDIDManagerGetByAliasArgs } from 'daf-core';
-import { IDIDManagerGetOrCreateArgs } from 'daf-core';
-import { IDIDManagerRemoveKeyArgs } from 'daf-core';
-import { IDIDManagerRemoveServiceArgs } from 'daf-core';
-import { IDIDManagerSetAliasArgs } from 'daf-core';
-import { IIdentifier } from 'daf-core';
-import { IKey } from 'daf-core';
-import { IKeyManager } from 'daf-core';
-import { IService } from 'daf-core';
+import { IAgentContext } from '@veramo/core';
+import { IAgentPlugin } from '@veramo/core';
+import { IDIDManager } from '@veramo/core';
+import { IDIDManagerAddKeyArgs } from '@veramo/core';
+import { IDIDManagerAddServiceArgs } from '@veramo/core';
+import { IDIDManagerCreateArgs } from '@veramo/core';
+import { IDIDManagerDeleteArgs } from '@veramo/core';
+import { IDIDManagerFindArgs } from '@veramo/core';
+import { IDIDManagerGetArgs } from '@veramo/core';
+import { IDIDManagerGetByAliasArgs } from '@veramo/core';
+import { IDIDManagerGetOrCreateArgs } from '@veramo/core';
+import { IDIDManagerRemoveKeyArgs } from '@veramo/core';
+import { IDIDManagerRemoveServiceArgs } from '@veramo/core';
+import { IDIDManagerSetAliasArgs } from '@veramo/core';
+import { IIdentifier } from '@veramo/core';
+import { IKey } from '@veramo/core';
+import { IKeyManager } from '@veramo/core';
+import { IService } from '@veramo/core';
 
 // @public
 export abstract class AbstractDIDStore {

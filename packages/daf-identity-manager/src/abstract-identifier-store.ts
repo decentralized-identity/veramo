@@ -1,4 +1,4 @@
-import { IIdentifier } from 'daf-core'
+import { IIdentifier } from '@veramo/core'
 
 /**
  * An abstract class for the {@link daf-identity-manager#DIDManager} identifier store

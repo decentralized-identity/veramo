@@ -1,4 +1,4 @@
-import { IAgent, IIdentifier, IDIDManager, TAgent } from 'daf-core'
+import { IAgent, IIdentifier, IDIDManager, TAgent } from '@veramo/core'
 import { Request, Router } from 'express'
 
 interface RequestWithAgentDIDManager extends Request {

@@ -7,7 +7,7 @@ import {
   IDataStore,
   IMessageHandler,
   IAgentOptions,
-} from '../packages/daf-core/src'
+} from '../packages/core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
 import { DIDManager } from '../packages/daf-identity-manager/src'

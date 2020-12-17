@@ -1,4 +1,4 @@
-import { VerifiablePresentation } from 'daf-core'
+import { VerifiablePresentation } from '@veramo/core'
 import { blake2bHex } from 'blakejs'
 import {
   Entity,

@@ -1,4 +1,4 @@
-import { IAgentPlugin, IResolver, schema } from 'daf-core'
+import { IAgentPlugin, IResolver, schema } from '@veramo/core'
 import { Resolver, DIDDocument } from 'did-resolver'
 export { DIDDocument }
 import Debug from 'debug'

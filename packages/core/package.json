@@ -1,7 +1,7 @@
 {
-  "name": "daf-core",
-  "description": "DID Agent Framework Core Logic & Interfaces.",
-  "version": "7.0.0",
+  "name": "@veramo/core",
+  "description": "Veramo Core Logic & Interfaces.",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -35,8 +35,17 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": "git@github.com:uport-project/daf.git",
   "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
   "license": "Apache-2.0",
   "keywords": [],
   "gitHead": "63dd12da63b2245d32379b435a7a774a56a1f019"

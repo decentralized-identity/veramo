@@ -1,4 +1,4 @@
-import { createAgent, IAgentContext, IMessageHandler } from 'daf-core/src'
+import { createAgent, IAgentContext, IMessageHandler } from '@veramo/core'
 import { MessageHandler } from '..'
 import { AbstractMessageHandler, Message } from '../../build'
 

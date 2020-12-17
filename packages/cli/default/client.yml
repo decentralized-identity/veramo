@@ -17,7 +17,7 @@ server:
   #   - resolveDid
   #   - dataStoreORMGetIdentifiers
 agent:
-  $require: daf-core#Agent
+  $require: @veramo/core#Agent
   $args:
     - schemaValidation: false
       plugins:

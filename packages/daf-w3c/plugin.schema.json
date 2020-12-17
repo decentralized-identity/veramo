@@ -11,7 +11,7 @@
             },
             "save": {
               "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the {@link daf-core#IDataStore | storage plugin} to be saved"
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the {@link @veramo/core#IDataStore | storage plugin} to be saved"
             },
             "proofFormat": {
               "$ref": "#/components/schemas/EncodingFormat",
@@ -184,7 +184,7 @@
             },
             "save": {
               "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the {@link daf-core#IDataStore | storage plugin} to be saved"
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the {@link @veramo/core#IDataStore | storage plugin} to be saved"
             },
             "proofFormat": {
               "$ref": "#/components/schemas/EncodingFormat",

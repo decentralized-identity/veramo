@@ -1,4 +1,4 @@
-import { IAgentContext, IDIDManager, IKeyManager } from 'daf-core'
+import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core'
 import { AbstractMessageHandler, Message } from 'daf-message-handler'
 import Debug from 'debug'
 const debug = Debug('daf:did-comm:message-handler')

@@ -1,4 +1,4 @@
-import { DIDDocument } from 'daf-core'
+import { DIDDocument } from '@veramo/core'
 import { Message } from 'daf-message-handler'
 import { JwtMessageHandler, IContext } from '../message-handler'
 

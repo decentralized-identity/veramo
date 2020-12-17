@@ -1,5 +1,5 @@
 import { AbstractKeyStore } from '../abstract-key-store'
-import { IKey } from 'daf-core'
+import { IKey } from '@veramo/core'
 
 class MockKeyStore extends AbstractKeyStore {
   async get({ kid }: { kid: string }): Promise<IKey> {
@@ -20,6 +20,6 @@ class MockKeyStore extends AbstractKeyStore {
   }
 }
 
-describe('daf-core AbstractKeyStore compile time error checking', () => {
+describe('core AbstractKeyStore compile time error checking', () => {
   it.todo('call mock methods')
 })

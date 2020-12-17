@@ -6,7 +6,7 @@ import {
   IHandleMessageArgs,
   schema,
   CoreEvents,
-} from 'daf-core'
+} from '@veramo/core'
 import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
 
@@ -20,7 +20,7 @@ export const EventTypes = {
 }
 
 /**
- * Agent plugin that provides {@link daf-core#IMessageHandler} methods
+ * Agent plugin that provides {@link @veramo/core#IMessageHandler} methods
  */
 export class MessageHandler implements IAgentPlugin {
   /**
@@ -50,7 +50,7 @@ export class MessageHandler implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc daf-core#IMessageHandler.handleMessage} */
+  /** {@inheritDoc @veramo/core#IMessageHandler.handleMessage} */
   public async handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<Message> {
     const { raw, metaData, save } = args
     debug('%o', { raw, metaData, save })

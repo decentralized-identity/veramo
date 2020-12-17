@@ -1,4 +1,4 @@
-import { IMessage, IMetaData, VerifiableCredential, VerifiablePresentation } from 'daf-core'
+import { IMessage, IMetaData, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 
 export class Message implements IMessage {
   constructor(data?: { raw: string; metaData?: IMetaData[] }) {

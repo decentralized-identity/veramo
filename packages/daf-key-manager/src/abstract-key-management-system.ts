@@ -1,4 +1,4 @@
-import { IKey, TKeyType, EcdsaSignature } from 'daf-core'
+import { IKey, TKeyType, EcdsaSignature } from '@veramo/core'
 
 export abstract class AbstractKeyManagementSystem {
   abstract createKey(args: { type: TKeyType; meta?: any }): Promise<Omit<IKey, 'kms'>>

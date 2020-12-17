@@ -4,18 +4,18 @@
 
 ```ts
 
-import { EcdsaSignature } from 'daf-core';
-import { IAgentPlugin } from 'daf-core';
-import { IKey } from 'daf-core';
-import { IKeyManager } from 'daf-core';
-import { IKeyManagerCreateArgs } from 'daf-core';
-import { IKeyManagerDecryptJWEArgs } from 'daf-core';
-import { IKeyManagerDeleteArgs } from 'daf-core';
-import { IKeyManagerEncryptJWEArgs } from 'daf-core';
-import { IKeyManagerGetArgs } from 'daf-core';
-import { IKeyManagerSignEthTXArgs } from 'daf-core';
-import { IKeyManagerSignJWTArgs } from 'daf-core';
-import { TKeyType } from 'daf-core';
+import { EcdsaSignature } from '@veramo/core';
+import { IAgentPlugin } from '@veramo/core';
+import { IKey } from '@veramo/core';
+import { IKeyManager } from '@veramo/core';
+import { IKeyManagerCreateArgs } from '@veramo/core';
+import { IKeyManagerDecryptJWEArgs } from '@veramo/core';
+import { IKeyManagerDeleteArgs } from '@veramo/core';
+import { IKeyManagerEncryptJWEArgs } from '@veramo/core';
+import { IKeyManagerGetArgs } from '@veramo/core';
+import { IKeyManagerSignEthTXArgs } from '@veramo/core';
+import { IKeyManagerSignJWTArgs } from '@veramo/core';
+import { TKeyType } from '@veramo/core';
 
 // @public (undocumented)
 export abstract class AbstractKeyManagementSystem {

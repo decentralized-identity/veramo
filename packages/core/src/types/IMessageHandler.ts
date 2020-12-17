@@ -30,7 +30,7 @@ export interface IHandleMessageArgs {
 export interface IMessageHandler extends IPluginMethodMap {
   /**
    * Parses and optionally saves a message
-   * @param context - Execution context. Requires agent with {@link daf-core#IDataStore} methods
+   * @param context - Execution context. Requires agent with {@link @veramo/core#IDataStore} methods
    */
   handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<IMessage>
 }

@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema } from 'daf-core'
+import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema } from '@veramo/core'
 
 export class AgentRestClient implements IAgentPlugin {
   readonly methods: IPluginMethodMap = {}

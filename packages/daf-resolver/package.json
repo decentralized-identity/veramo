@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.6",
-    "daf-core": "^7.0.0",
+    "@veramo/core": "^1.0.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {

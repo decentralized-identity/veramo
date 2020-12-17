@@ -1,4 +1,4 @@
-import { VerifiableCredential } from 'daf-core'
+import { VerifiableCredential } from '@veramo/core'
 import { blake2bHex } from 'blakejs'
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToMany, ManyToMany } from 'typeorm'
 import { Identifier } from './identifier'

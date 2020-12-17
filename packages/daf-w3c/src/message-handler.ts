@@ -1,4 +1,4 @@
-import { IAgentContext, IResolver } from 'daf-core'
+import { IAgentContext, IResolver } from '@veramo/core'
 import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
@@ -40,7 +40,7 @@ export type IContext = IAgentContext<IResolver>
  *
  * The current version can only handle `JWT` encoded
  *
- * @remarks {@link daf-core#IDataStore | IDataStore }
+ * @remarks {@link @veramo/core#IDataStore | IDataStore }
  *
  * @public
  */

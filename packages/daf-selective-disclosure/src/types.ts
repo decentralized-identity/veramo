@@ -5,7 +5,7 @@ import {
   IPluginMethodMap,
   VerifiableCredential,
   VerifiablePresentation,
-} from 'daf-core'
+} from '@veramo/core'
 import { IDataStoreORM } from 'daf-typeorm'
 import { ICredentialIssuer } from 'daf-w3c'
 

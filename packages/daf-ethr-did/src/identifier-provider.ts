@@ -1,4 +1,4 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from 'daf-core'
+import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
 import { AbstractIdentifierProvider } from 'daf-identity-manager'
 import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'

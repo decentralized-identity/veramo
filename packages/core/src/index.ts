@@ -1,5 +1,5 @@
 /**
- * Provides {@link daf-core#Agent} implementation and defines {@link daf-core#IResolver}, {@link daf-core#IDIDManager}, {@link daf-core#IKeyManager}, {@link daf-core#IDataStore}, {@link daf-core#IMessageHandler} plugin interfaces
+ * Provides {@link @veramo/core#Agent} implementation and defines {@link @veramo/core#IResolver}, {@link @veramo/core#IDIDManager}, {@link @veramo/core#IKeyManager}, {@link @veramo/core#IDataStore}, {@link @veramo/core#IMessageHandler} plugin interfaces
  *
  * @packageDocumentation
  */

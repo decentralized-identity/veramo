@@ -13,10 +13,10 @@ import {
   IKeyManagerSignEthTXArgs,
   EcdsaSignature,
   schema,
-} from 'daf-core'
+} from '@veramo/core'
 
 /**
- * Agent plugin that provides {@link daf-core#IKeyManager} methods
+ * Agent plugin that provides {@link @veramo/core#IKeyManager} methods
  * @public
  */
 export class KeyManager implements IAgentPlugin {
@@ -53,12 +53,12 @@ export class KeyManager implements IAgentPlugin {
     return kms
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerGetKeyManagementSystems} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerGetKeyManagementSystems} */
   async keyManagerGetKeyManagementSystems(): Promise<Array<string>> {
     return Object.keys(this.kms)
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerCreate} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerCreate} */
   async keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey> {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
@@ -73,12 +73,12 @@ export class KeyManager implements IAgentPlugin {
     return key
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerGet} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerGet} */
   async keyManagerGet({ kid }: IKeyManagerGetArgs): Promise<IKey> {
     return this.store.get({ kid })
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerDelete} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerDelete} */
   async keyManagerDelete({ kid }: IKeyManagerDeleteArgs): Promise<boolean> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
@@ -86,33 +86,33 @@ export class KeyManager implements IAgentPlugin {
     return this.store.delete({ kid })
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerImport} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerImport} */
   async keyManagerImport(key: IKey): Promise<boolean> {
     return this.store.import(key)
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerEncryptJWE} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerEncryptJWE} */
   async keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.encryptJWE({ key, to, data })
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerDecryptJWE} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerDecryptJWE} */
   async keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.decryptJWE({ key, data })
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerSignJWT} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignJWT} */
   async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<EcdsaSignature> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.signJWT({ key, data })
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerSignEthTX} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignEthTX} */
   async keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)

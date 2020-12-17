@@ -1,4 +1,4 @@
-import { TKeyType, IKey, EcdsaSignature } from 'daf-core'
+import { TKeyType, IKey, EcdsaSignature } from '@veramo/core'
 import { AbstractKeyManagementSystem } from 'daf-key-manager'
 import sodium from 'libsodium-wrappers'
 import { SimpleSigner } from 'did-jwt'
@@ -75,6 +75,6 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   async signJWT({ key, data }: { key: IKey; data: string }): Promise<EcdsaSignature> {
     if (!key.privateKeyHex) throw Error('No private key for kid: ' + key.kid)
     const signer = SimpleSigner(key.privateKeyHex)
-    return signer(data) as any as EcdsaSignature
+    return (signer(data) as any) as EcdsaSignature
   }
 }

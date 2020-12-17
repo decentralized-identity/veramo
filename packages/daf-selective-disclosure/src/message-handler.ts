@@ -1,4 +1,4 @@
-import { IAgentContext, IMessageHandler } from 'daf-core'
+import { IAgentContext, IMessageHandler } from '@veramo/core'
 import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
@@ -6,7 +6,7 @@ import Debug from 'debug'
 const debug = Debug('daf:daf:selective-disclosure:message-handler')
 
 /**
- * Identifies a {@link daf-core#IMessage} that represents a Selective Disclosure Request
+ * Identifies a {@link @veramo/core#IMessage} that represents a Selective Disclosure Request
  *
  * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
  * @beta

@@ -5,11 +5,11 @@
 ```ts
 
 import { AbstractIdentifierProvider } from 'daf-identity-manager';
-import { IAgentContext } from 'daf-core';
-import { IIdentifier } from 'daf-core';
-import { IKey } from 'daf-core';
-import { IKeyManager } from 'daf-core';
-import { IService } from 'daf-core';
+import { IAgentContext } from '@veramo/core';
+import { IIdentifier } from '@veramo/core';
+import { IKey } from '@veramo/core';
+import { IKeyManager } from '@veramo/core';
+import { IService } from '@veramo/core';
 
 // @public
 export class EthrDIDProvider extends AbstractIdentifierProvider {

@@ -4,7 +4,7 @@ import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { shortDate, shortDid } from './explore/utils'
-import { VerifiableCredential } from 'daf-core'
+import { VerifiableCredential } from '@veramo/core'
 const fuzzy = require('fuzzy')
 
 const sdr = program.command('sdr').description('Selective Disclosure Request')

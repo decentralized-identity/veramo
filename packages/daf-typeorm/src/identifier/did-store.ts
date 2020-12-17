@@ -1,4 +1,4 @@
-import { IIdentifier } from 'daf-core'
+import { IIdentifier } from '@veramo/core'
 import { AbstractDIDStore } from 'daf-identity-manager'
 import { Identifier } from '../entities/identifier'
 import { Key } from '../entities/key'

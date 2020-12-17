@@ -10,7 +10,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   IDataStore,
-} from 'daf-core'
+} from '@veramo/core'
 
 import {
   createVerifiableCredentialJwt,
@@ -63,7 +63,7 @@ export interface ICreateVerifiablePresentationArgs {
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
-   * {@link daf-core#IDataStore | storage plugin} to be saved
+   * {@link @veramo/core#IDataStore | storage plugin} to be saved
    */
   save?: boolean
 
@@ -110,7 +110,7 @@ export interface ICreateVerifiableCredentialArgs {
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
-   * {@link daf-core#IDataStore | storage plugin} to be saved
+   * {@link @veramo/core#IDataStore | storage plugin} to be saved
    */
   save?: boolean
 
@@ -136,7 +136,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link daf-core#VerifiablePresentation} that was requested or rejects with an error
+   * @returns - a promise that resolves to the {@link @veramo/core#VerifiablePresentation} that was requested or rejects with an error
    * if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
@@ -153,7 +153,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link daf-core#VerifiableCredential} that was requested or rejects with an error
+   * @returns - a promise that resolves to the {@link @veramo/core#VerifiableCredential} that was requested or rejects with an error
    * if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}

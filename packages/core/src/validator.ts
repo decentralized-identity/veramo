@@ -2,10 +2,10 @@ const ZSchema = require('z-schema')
 
 const validator = new ZSchema({})
 validator.setRemoteReference('http://json-schema.org/draft-07/schema#', {
-  type: ['array', 'boolean', 'integer', 'number', 'object', 'string']
+  type: ['array', 'boolean', 'integer', 'number', 'object', 'string'],
 })
 
-export class ValidationError extends Error{
+export class ValidationError extends Error {
   public method: string
   public code: string
   public message: string
@@ -14,7 +14,7 @@ export class ValidationError extends Error{
   constructor(message: string, method: string, code: string, path: string, description: string) {
     super(message)
     this.name = 'ValidationError'
-    this.message = message + '; ' + method + '; ' + path + '; ' + code + '; ' + description  
+    this.message = message + '; ' + method + '; ' + path + '; ' + code + '; ' + description
     this.method = method
     this.description = description
     this.path = path
@@ -23,7 +23,7 @@ export class ValidationError extends Error{
   }
 }
 
-export class PluginReturnTypeError extends Error{
+export class PluginReturnTypeError extends Error {
   public method: string
   public code: string
   public message: string
@@ -32,7 +32,7 @@ export class PluginReturnTypeError extends Error{
   constructor(message: string, method: string, code: string, path: string, description: string) {
     super(message)
     this.name = 'PluginReturnTypeError'
-    this.message = message + '; ' + method + '; ' + path + '; ' + code + '; ' + description  
+    this.message = message + '; ' + method + '; ' + path + '; ' + code + '; ' + description
     this.method = method
     this.description = description
     this.path = path
@@ -42,17 +42,33 @@ export class PluginReturnTypeError extends Error{
 }
 
 export const validateArguments = (method: string, args: any, schema: object) => {
-  const valid = validator.validate(args, schema, { schemaPath: 'components.methods.' + method + '.arguments' })
+  const valid = validator.validate(args, schema, {
+    schemaPath: 'components.methods.' + method + '.arguments',
+  })
   if (!valid) {
     const errors = validator.getLastErrors()
-    throw new ValidationError(errors[0].message, method, errors[0].code, errors[0].path, errors[0].description)
+    throw new ValidationError(
+      errors[0].message,
+      method,
+      errors[0].code,
+      errors[0].path,
+      errors[0].description,
+    )
   }
 }
 
 export const validateReturnType = (method: string, args: any, schema: object) => {
-  const valid = validator.validate(args, schema, { schemaPath: 'components.methods.' + method + '.returnType' })
+  const valid = validator.validate(args, schema, {
+    schemaPath: 'components.methods.' + method + '.returnType',
+  })
   if (!valid) {
     const errors = validator.getLastErrors()
-    throw new PluginReturnTypeError(errors[0].message, method, errors[0].code, errors[0].path, errors[0].description)
+    throw new PluginReturnTypeError(
+      errors[0].message,
+      method,
+      errors[0].code,
+      errors[0].path,
+      errors[0].description,
+    )
   }
 }

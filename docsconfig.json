@@ -1,6 +1,6 @@
 {
     "documentPackages": [
-        "daf-core",
+        "core",
         "daf-did-comm",
         "daf-did-jwt",
         "daf-ethr-did",

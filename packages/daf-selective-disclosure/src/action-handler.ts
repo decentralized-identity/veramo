@@ -5,7 +5,7 @@ import {
   IAgentPlugin,
   VerifiablePresentation,
   VerifiableCredential,
-} from 'daf-core'
+} from '@veramo/core'
 import { IDataStoreORM, TClaimsColumns, FindArgs } from 'daf-typeorm'
 import { ICredentialIssuer } from 'daf-w3c'
 import {

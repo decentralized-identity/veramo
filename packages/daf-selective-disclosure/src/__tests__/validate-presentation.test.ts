@@ -1,4 +1,4 @@
-import { VerifiableCredential, VerifiablePresentation } from 'daf-core'
+import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 import { ISelectiveDisclosureRequest } from '../types'
 import { SelectiveDisclosure } from '../action-handler'
 

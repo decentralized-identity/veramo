@@ -15,7 +15,7 @@ import {
   ApiReturnTypeMixin,
   ApiMethodSignature,
 } from '@microsoft/api-extractor-model'
-import { IIdentifier } from 'daf-core'
+import { IIdentifier } from '@veramo/core'
 
 interface Method {
   packageName: string

@@ -6,7 +6,7 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-describe('daf-core agent', () => {
+describe('core agent', () => {
   it('calls listener with object data', async () => {
     const plugin: IEventListener = {
       eventTypes: ['foo'],

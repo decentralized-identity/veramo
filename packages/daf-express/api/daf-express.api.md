@@ -4,11 +4,11 @@
 
 ```ts
 
-import { IAgent } from 'daf-core';
-import { IDIDManager } from 'daf-core';
+import { IAgent } from '@veramo/core';
+import { IDIDManager } from '@veramo/core';
 import { Request as Request_2 } from 'express';
 import { Router } from 'express';
-import { TAgent } from 'daf-core';
+import { TAgent } from '@veramo/core';
 
 // @public
 export const AgentRouter: (options: AgentRouterOptions) => Router;

@@ -1,4 +1,4 @@
-import { W3CCredential } from 'daf-core'
+import { W3CCredential } from '@veramo/core'
 import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'

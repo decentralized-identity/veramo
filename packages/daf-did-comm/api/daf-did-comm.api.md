@@ -5,14 +5,14 @@
 ```ts
 
 import { AbstractMessageHandler } from 'daf-message-handler';
-import { IAgentContext } from 'daf-core';
-import { IAgentPlugin } from 'daf-core';
-import { IDIDManager } from 'daf-core';
-import { IKeyManager } from 'daf-core';
-import { IMessage } from 'daf-core';
-import { IMessageHandler } from 'daf-core';
-import { IPluginMethodMap } from 'daf-core';
-import { IResolver } from 'daf-core';
+import { IAgentContext } from '@veramo/core';
+import { IAgentPlugin } from '@veramo/core';
+import { IDIDManager } from '@veramo/core';
+import { IKeyManager } from '@veramo/core';
+import { IMessage } from '@veramo/core';
+import { IMessageHandler } from '@veramo/core';
+import { IPluginMethodMap } from '@veramo/core';
+import { IResolver } from '@veramo/core';
 import { Message } from 'daf-message-handler';
 
 // @beta

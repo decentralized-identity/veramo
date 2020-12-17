@@ -1,4 +1,4 @@
-import { IAgentContext } from 'daf-core'
+import { IAgentContext } from '@veramo/core'
 import { Message } from './message'
 
 export const unsupportedMessageTypeError = new Error('Unsupported message type')

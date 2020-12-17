@@ -1,4 +1,4 @@
-import { IKey } from 'daf-core'
+import { IKey } from '@veramo/core'
 import { AbstractKeyStore, AbstractSecretBox } from 'daf-key-manager'
 import { Connection } from 'typeorm'
 

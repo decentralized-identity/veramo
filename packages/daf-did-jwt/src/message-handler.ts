@@ -1,4 +1,4 @@
-import { IAgentContext, IResolver } from 'daf-core'
+import { IAgentContext, IResolver } from '@veramo/core'
 import { AbstractMessageHandler, Message } from 'daf-message-handler'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'

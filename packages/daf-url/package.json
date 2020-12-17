@@ -9,7 +9,7 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "daf-core": "^7.0.0",
+    "@veramo/core": "^1.0.0",
     "daf-message-handler": "^7.0.0",
     "debug": "^4.1.1",
     "url-parse": "^1.4.7"

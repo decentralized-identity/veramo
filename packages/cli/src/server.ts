@@ -9,7 +9,7 @@ import { getAgent, getConfig } from './setup'
 import { createObjects } from './lib/objectCreator'
 import passport from 'passport'
 import Bearer from 'passport-http-bearer'
-import { IIdentifier } from 'daf-core'
+import { IIdentifier } from '@veramo/core'
 const exphbs = require('express-handlebars')
 const hbs = exphbs.create({
   helpers: {

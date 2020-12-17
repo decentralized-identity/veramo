@@ -17,11 +17,11 @@ import {
   IDIDManagerFindArgs,
   IDIDManagerSetAliasArgs,
   schema,
-} from 'daf-core'
+} from '@veramo/core'
 import { AbstractDIDStore } from './abstract-identifier-store'
 
 /**
- * Agent plugin that implements {@link daf-core#IDIDManager} interface
+ * Agent plugin that implements {@link @veramo/core#IDIDManager} interface
  * @public
  */
 export class DIDManager implements IAgentPlugin {
@@ -67,28 +67,28 @@ export class DIDManager implements IAgentPlugin {
     return provider
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerGetProviders} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerGetProviders} */
   async didManagerGetProviders(): Promise<string[]> {
     return Object.keys(this.providers)
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerFind} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerFind} */
   async didManagerFind(args: IDIDManagerFindArgs): Promise<IIdentifier[]> {
     return this.store.list(args)
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerGet} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerGet} */
   async didManagerGet({ did }: IDIDManagerGetArgs): Promise<IIdentifier> {
     return this.store.get({ did })
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerGetByAlias} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerGetByAlias} */
   async didManagerGetByAlias({ alias, provider }: IDIDManagerGetByAliasArgs): Promise<IIdentifier> {
     const providerName = provider || this.defaultProvider
     return this.store.get({ alias, provider: providerName })
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerCreate} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerCreate} */
   async didManagerCreate(
     args: IDIDManagerCreateArgs,
     context: IAgentContext<IKeyManager>,
@@ -116,7 +116,7 @@ export class DIDManager implements IAgentPlugin {
     return identifier
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerGetOrCreate} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerGetOrCreate} */
   async didManagerGetOrCreate(
     { provider, alias, kms, options }: IDIDManagerGetOrCreateArgs,
     context: IAgentContext<IKeyManager>,
@@ -130,7 +130,7 @@ export class DIDManager implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerSetAlias} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerSetAlias} */
   async didManagerSetAlias(
     { did, alias }: IDIDManagerSetAliasArgs,
     context: IAgentContext<IKeyManager>,
@@ -139,7 +139,7 @@ export class DIDManager implements IAgentPlugin {
     identifier.alias = alias
     return await this.store.import(identifier)
   }
-  /** {@inheritDoc daf-core#IDIDManager.didManagerImport} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerImport} */
   async didManagerImport(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
     for (const key of identifier.keys) {
       await context.agent.keyManagerImport(key)
@@ -148,7 +148,7 @@ export class DIDManager implements IAgentPlugin {
     return identifier
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerDelete} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerDelete} */
   async didManagerDelete(
     { did }: IDIDManagerDeleteArgs,
     context: IAgentContext<IKeyManager>,
@@ -163,7 +163,7 @@ export class DIDManager implements IAgentPlugin {
     return this.store.delete({ did })
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerAddKey} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerAddKey} */
   async didManagerAddKey(
     { did, key, options }: IDIDManagerAddKeyArgs,
     context: IAgentContext<IKeyManager>,
@@ -176,7 +176,7 @@ export class DIDManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerRemoveKey} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerRemoveKey} */
   async didManagerRemoveKey(
     { did, kid, options }: IDIDManagerRemoveKeyArgs,
     context: IAgentContext<IKeyManager>,
@@ -189,7 +189,7 @@ export class DIDManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerAddService} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerAddService} */
   async didManagerAddService(
     { did, service, options }: IDIDManagerAddServiceArgs,
     context: IAgentContext<IKeyManager>,
@@ -202,7 +202,7 @@ export class DIDManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc daf-core#IDIDManager.didManagerRemoveService} */
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerRemoveService} */
   async didManagerRemoveService(
     { did, id, options }: IDIDManagerRemoveServiceArgs,
     context: IAgentContext<IKeyManager>,

@@ -1,4 +1,4 @@
-import { IAgent } from 'daf-core'
+import { IAgent } from '@veramo/core'
 import { Request, Response, NextFunction, Router, json } from 'express'
 import Debug from 'debug'
 
@@ -22,7 +22,7 @@ export interface AgentRouterOptions {
 }
 
 /**
- * Creates a router that exposes {@link daf-core#Agent} methods
+ * Creates a router that exposes {@link @veramo/core#Agent} methods
  *
  * @param options - Initialization option
  * @returns Expressjs router
