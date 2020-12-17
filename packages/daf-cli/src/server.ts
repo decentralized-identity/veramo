@@ -122,14 +122,14 @@ program
      * Creating server identifier and configuring messaging service endpoint
      */
     let serverIdentifier: IIdentifier
-    if (options.defaultIdentifier.create) {
+    if (options.defaultDID.create) {
       serverIdentifier = await agent.didManagerGetOrCreate({
         provider: 'did:web',
         alias: hostname,
       })
       console.log('🆔', serverIdentifier.did)
 
-      const messagingServiceEndpoint = baseUrl + options.defaultIdentifier.messagingServiceEndpoint
+      const messagingServiceEndpoint = baseUrl + options.defaultDID.messagingServiceEndpoint
 
       console.log('📨 Messaging endpoint', messagingServiceEndpoint)
       await agent.didManagerAddService({
@@ -143,7 +143,7 @@ program
       })
 
       app.post(
-        options.defaultIdentifier.messagingServiceEndpoint,
+        options.defaultDID.messagingServiceEndpoint,
         express.text({ type: '*/*' }),
         async (req, res) => {
           try {

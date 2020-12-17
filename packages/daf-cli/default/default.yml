@@ -14,7 +14,7 @@ server:
   apiVersion: 1.0.0
   apiBasePath: /agent
   apiDocsPath: /api-docs
-  defaultIdentifier:
+  defaultDID:
     create: true
     messagingServiceEndpoint: /messaging
   ngrok:
