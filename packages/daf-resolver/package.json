@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn daf dev extract-api"
+    "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
     "cross-fetch": "^3.0.6",
