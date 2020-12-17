@@ -1,27 +1,37 @@
 {
   "name": "daf-core",
   "description": "DID Agent Framework Core Logic & Interfaces.",
-  "version": "6.4.1",
+  "version": "7.0.0-beta.57",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "generate-plugin-schema": "yarn daf dev generate-plugin-schema"
+  },
+  "daf": {
+    "pluginInterfaces": {
+      "IResolver": "./src/types/IResolver.ts",
+      "IKeyManager": "./src/types/IKeyManager.ts",
+      "IDIDManager": "./src/types/IDIDManager.ts",
+      "IDataStore": "./src/types/IDataStore.ts",
+      "IMessageHandler": "./src/types/IMessageHandler.ts"
+    }
   },
   "dependencies": {
-    "blakejs": "^1.1.0",
     "debug": "^4.1.1",
+    "did-jwt-vc": "^1.0.3",
     "events": "^3.0.0",
-    "typeorm": "^0.2.24",
-    "uuid": "^7.0.2"
+    "z-schema": "^4.2.3"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "did-resolver": "^1.1.0",
-    "typescript": "^3.8.3"
+    "did-resolver": "2.1.2",
+    "typescript": "^4.0.3"
   },
   "files": [
     "build/**/*",
     "src/**/*",
+    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

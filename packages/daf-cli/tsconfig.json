@@ -8,16 +8,20 @@
     { "path": "../daf-core" },
     { "path": "../daf-did-comm" },
     { "path": "../daf-did-jwt" },
-    { "path": "../daf-elem-did" },
     { "path": "../daf-ethr-did" },
-    { "path": "../daf-fs" },
+    { "path": "../daf-express" },
+    { "path": "../daf-identity-manager" },
+    { "path": "../daf-key-manager" },
     { "path": "../daf-libsodium" },
+    { "path": "../daf-message-handler" },
     { "path": "../daf-resolver" },
-    { "path": "../daf-resolver-universal" },
+    { "path": "../daf-rest" },
+    { "path": "../daf-express" },
+    { "path": "../daf-rest" },
     { "path": "../daf-selective-disclosure" },
-    { "path": "../daf-trust-graph" },
+    { "path": "../daf-typeorm" },
     { "path": "../daf-url" },
-    { "path": "../daf-web-did" },
-    { "path": "../daf-w3c" }
+    { "path": "../daf-w3c" },
+    { "path": "../daf-web-did" }
   ]
 }

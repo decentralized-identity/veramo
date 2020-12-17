@@ -1,43 +1,49 @@
-import { ConnectionOptions } from 'typeorm'
+import 'cross-fetch/polyfill'
+import program from 'commander'
+import { SecretBox } from 'daf-libsodium'
 const fs = require('fs')
+const { dirname } = require('path')
 
-export interface Configuration {
-  identityProviders: {
-    package: 'daf-ethr-did' | 'daf-elem-did' | 'daf-web-did'
-    network: string
-    rpcUrl?: string
-    apiUrl?: string
-    gas?: number
-    ttl?: number
-    registry?: string
-  }[]
-  ethrDidNetworks: {
-    name: string
-    rpcUrl: string
-    registry?: string
-  }[]
-  database: ConnectionOptions
-  graphql: {
-    apiKey?: string
-    resolvers: {
-      IdentityManager: boolean
-      TrustGraph: boolean
-      DIDComm: boolean
-      W3c: boolean
-      Sdr: boolean
+program.option('--config <path>', 'Configuration file', './agent.yml')
+
+const config = program.command('config').description('Agent configuration')
+
+config
+  .command('create', { isDefault: true })
+  .description('Create default agent config')
+  .option('--filename <string>', 'Config file name', './agent.yml')
+  .option('--template <string>', 'Use template (default,client)', 'default')
+
+  .action(async (options) => {
+    const { filename, template } = options
+
+    const templateFile = __dirname + '/../default/' + template + '.yml'
+    if (!fs.existsSync(templateFile)) {
+      console.log('Template not available: ' + template)
+      process.exit(1)
     }
-  }
-}
 
-const defaultPath = process.env.HOME + '/.daf/'
-const configFile = process.env.DAF_CONFIG || defaultPath + 'config.js'
+    if (!fs.existsSync(dirname(filename))) {
+      fs.mkdirSync(dirname(filename))
+    }
 
-export const getConfiguration = (): Configuration => {
-  if (!fs.existsSync(configFile)) {
-    console.log('Config file does not exist. Creating: ' + configFile)
-    const contents = fs.readFileSync(__dirname + '/../default/config.js')
-    fs.writeFileSync(configFile, contents)
-  }
-  const configuration: Configuration = require(configFile)
-  return configuration
-}
+    if (!fs.existsSync(filename)) {
+      console.log('Creating: ' + filename)
+      const contents = fs.readFileSync(templateFile)
+      fs.writeFileSync(filename, contents)
+    } else {
+      console.log('File already exists: ' + filename)
+    }
+  })
+
+config
+  .command('create-secret-key')
+  .description('generate secret key')
+  .action(async (raw) => {
+    try {
+      const secretKey = await SecretBox.createSecretKey()
+      console.log(secretKey)
+    } catch (e) {
+      console.error(e.message)
+    }
+  })

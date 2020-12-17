@@ -1,19 +1,26 @@
-import * as Daf from 'daf-core'
-import * as DIDComm from 'daf-did-comm'
-import * as SD from 'daf-selective-disclosure'
-import { agent } from './setup'
+import { ICredentialRequestInput } from 'daf-selective-disclosure'
+import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
+import { shortDate, shortDid } from './explore/utils'
+import { VerifiableCredential } from 'daf-core'
+const fuzzy = require('fuzzy')
 
-program
-  .command('sdr')
-  .description('Create Selective Disclosure Request')
-  .option('-s, --send', 'Send')
-  .option('-q, --qrcode', 'Show qrcode')
-  .action(async cmd => {
-    const identities = await (await agent).identityManager.getIdentities()
-    if (identities.length === 0) {
+const sdr = program.command('sdr').description('Selective Disclosure Request')
+
+sdr
+  .command('create', { isDefault: true })
+  .description('create Selective Disclosure Request')
+  .action(async (cmd) => {
+    const agent = getAgent(program.config)
+    const identifiers = await agent.didManagerFind()
+
+    const knownDids = await agent.dataStoreORMGetIdentifiers()
+
+    const subjects = [...knownDids.map((id) => id.did)]
+
+    if (identifiers.length === 0) {
       console.error('No dids')
       process.exit()
     }
@@ -21,18 +28,26 @@ program
       {
         type: 'list',
         name: 'iss',
-        choices: identities.map(item => item.did),
+        choices: identifiers.map((item) => item.did),
         message: 'Issuer DID',
       },
       {
-        type: 'input',
         name: 'sub',
-        message: 'Subject DID (can be empty)',
+        message: 'Subject DID',
+        type: 'autocomplete',
+        pageSize: 15,
+        suggestOnly: true,
+        source: async (answers: any, search: string) => {
+          const res = fuzzy
+            .filter(search, subjects)
+            .map((el: any) => (typeof el === 'string' ? el : el.original))
+          return res
+        },
       },
       {
         type: 'input',
         name: 'tag',
-        message: 'Tag',
+        message: 'Tag (threadId)',
       },
     ])
 
@@ -123,7 +138,7 @@ program
         essential: answers2.essential,
         claimType: answers2.claimType,
         reason: answers2.reason,
-      } as SD.CredentialRequestInput)
+      } as ICredentialRequestInput)
       addMoreRequests = answers4.addMore
     }
 
@@ -141,21 +156,19 @@ program
 
     const credentials = []
     if (answers5.addCredentials) {
-      const vcs = await Daf.Credential.find({
-        where: { subject: answers.iss },
-        relations: ['claims'],
+      const vcs = await agent.dataStoreORMGetVerifiableCredentials({
+        where: [{ column: 'subject', value: [answers.iss] }],
       })
+
       const list: any = []
       if (vcs.length > 0) {
         for (const credential of vcs) {
-          const issuer = credential.issuer.shortDid()
-          const claims = []
-          for (const claim of credential.claims) {
-            claims.push(claim.type + ' = ' + claim.value)
-          }
           list.push({
-            name: claims.join(', ') + ' | Issuer: ' + issuer,
-            value: credential.raw,
+            name:
+              JSON.stringify(credential.verifiableCredential.credentialSubject) +
+              ' | Issuer: ' +
+              credential.verifiableCredential.issuer.id,
+            value: credential.verifiableCredential.proof.jwt,
           })
         }
 
@@ -185,33 +198,41 @@ program
       }
     }
 
-    const signAction: SD.ActionSignSdr = {
-      type: SD.ActionTypes.signSdr,
-      data: {
-        issuer: answers.iss,
-        subject: answers.sub === '' ? undefined : answers.sub,
-        tag: answers.tag === '' ? undefined : answers.tag,
-        claims,
-        credentials,
-      },
+    const data: any = {
+      issuer: answers.iss,
+      claims,
+      credentials,
     }
+    if (answers.tag !== '') {
+      data.tag = answers.tag
+    }
+    if (answers.sub !== '') {
+      data.subject = answers.sub
+    }
+    const jwt = await agent.createSelectiveDisclosureRequest({
+      data,
+    })
 
-    const jwt = await (await agent).handleAction(signAction)
+    const { send } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'send',
+        message: 'Send',
+      },
+    ])
 
-    if (!cmd.send) {
-      await (await agent).handleMessage({ raw: jwt, metaData: [{ type: 'cli' }] })
+    if (!send) {
+      await agent.handleMessage({ raw: jwt, metaData: [{ type: 'cli' }], save: true })
     } else if (answers.sub !== '') {
-      const sendAction: DIDComm.ActionSendDIDComm = {
-        type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
-        data: {
-          from: answers.iss,
-          to: answers.sub,
-          type: 'jwt',
-          body: jwt,
-        },
-      }
       try {
-        const result = await (await agent).handleAction(sendAction)
+        const result = await agent.sendMessageDIDCommAlpha1({
+          data: {
+            from: answers.iss,
+            to: answers.sub,
+            type: 'jwt',
+            body: jwt,
+          },
+        })
         console.log('Sent:', result)
       } catch (e) {
         console.error(e)
@@ -223,6 +244,101 @@ program
     if (cmd.qrcode) {
       qrcode.generate(jwt)
     } else {
+      console.dir(data, { depth: 10 })
       console.log(`jwt: ${jwt}`)
     }
+  })
+
+sdr
+  .command('respond')
+  .description('respond to Selective Disclosure Request')
+  .action(async (cmd) => {
+    const agent = getAgent(program.config)
+    const sdrMessages = await agent.dataStoreORMGetMessages({
+      where: [{ column: 'type', value: ['sdr'] }],
+      order: [{ column: 'createdAt', direction: 'DESC' }],
+    })
+
+    const list = sdrMessages.map((message) => ({
+      //FIXME
+      name:
+        shortDate(message.createdAt) +
+        ' ' +
+        shortDid(message.from) +
+        ' asking to share: ' +
+        //@ts-ignore
+        message.data?.claims?.map((claim) => claim.claimType).join(','),
+      value: message,
+    }))
+
+    const { message } = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'message',
+        choices: list,
+        message: 'Selective disclosure request',
+      },
+    ])
+    const args: any = {
+      sdr: message.data,
+    }
+    if (message.to) {
+      args.did = message.to
+    }
+    const credentialsForSdr = await agent.getVerifiableCredentialsForSdr(args)
+
+    const questions = []
+
+    for (const item of credentialsForSdr) {
+      questions.push({
+        type: 'checkbox',
+        name: item.claimType + ' ' + (item.essential ? '(essential)' : '') + item.reason,
+        choices: item.credentials.map((c) => ({
+          name:
+            c.credentialSubject[item.claimType] +
+            ' (' +
+            c.type.join(',') +
+            ') issued by: ' +
+            c.issuer.id +
+            ' ' +
+            shortDate(c.issuanceDate) +
+            ' ago',
+          value: c,
+        })),
+      })
+    }
+
+    const answers = await inquirer.prompt(questions)
+
+    let selectedCredentials: Array<VerifiableCredential> = []
+
+    for (const questionName of Object.keys(answers)) {
+      selectedCredentials = selectedCredentials.concat(answers[questionName])
+    }
+
+    const verifiablePresentation = await agent.createVerifiablePresentation({
+      save: false,
+      presentation: {
+        holder: message.to,
+        verifier: [message.from],
+        tag: message.tag,
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiablePresentation'],
+        issuanceDate: new Date().toISOString(),
+        verifiableCredential: selectedCredentials,
+      },
+      proofFormat: 'jwt',
+    })
+
+    await agent.sendMessageDIDCommAlpha1({
+      save: true,
+      data: {
+        from: message.to,
+        to: message.from,
+        type: 'jwt',
+        body: verifiablePresentation.proof.jwt,
+      },
+    })
+
+    console.dir(verifiablePresentation, { depth: 10 })
   })

@@ -1,135 +1,315 @@
-import { EventEmitter } from 'events'
-import { DIDDocument } from 'did-resolver'
-import { IdentityManager } from './identity/identity-manager'
-import { AbstractIdentityProvider } from './identity/abstract-identity-provider'
-import { ServiceManager, LastMessageTimestampForInstance, ServiceEventTypes } from './service/service-manager'
-import { ServiceControllerDerived } from './service/abstract-service-controller'
-import { MessageHandler } from './message/abstract-message-handler'
-import { ActionHandler } from './action/action-handler'
-import { Action } from './types'
-import { Message, MetaData } from './entities/message'
-import { Connection } from 'typeorm'
-
+import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } from './types/IAgent'
+import { validateArguments, validateReturnType } from './validator'
+import ValidationErrorSchema from './schemas/ValidationError'
 import Debug from 'debug'
-const debug = Debug('daf:agent')
+import { EventEmitter } from 'events'
+import { CoreEvents } from './coreEvents'
 
-export const EventTypes = {
-  validatedMessage: 'validatedMessage',
-  savedMessage: 'savedMessage',
-  error: 'error',
+/**
+ * Filters unauthorized methods. By default all methods are authorized
+ * @internal
+ */
+const filterUnauthorizedMethods = (
+  methods: IPluginMethodMap,
+  authorizedMethods?: string[],
+): IPluginMethodMap => {
+  if (!authorizedMethods) {
+    return methods
+  }
+
+  const result: IPluginMethodMap = {}
+  for (const methodName of Object.keys(methods)) {
+    if (authorizedMethods.includes(methodName)) {
+      result[methodName] = methods[methodName]
+    }
+  }
+
+  return result
 }
 
-export interface Resolver {
-  resolve(did: string): Promise<DIDDocument | null>
+/**
+ * Agent configuration options.
+ *
+ * This interface is used to describe the constellation of plugins that this agent
+ * will use and provide.
+ *
+ * You will use this to attach plugins, to setup overrides for their methods and to
+ * explicitly set the methods that this agent instance is allowed to call.
+ * This permissioning method is also used for internal calls made by plugin code.
+ *
+ * @public
+ */
+export interface IAgentOptions {
+  /**
+   * The array of agent plugins
+   */
+  plugins?: IAgentPlugin[]
+
+  /**
+   * The map of plugin methods. Can be used to override methods provided by plugins,
+   * or to add additional methods without writing a plugin
+   */
+  overrides?: IPluginMethodMap
+
+  /**
+   * The array of method names that will be exposed by the agent
+   */
+  authorizedMethods?: string[]
+
+  /**
+   * The context object that will be available to the plugin methods
+   *
+   * @example
+   * ```typescript
+   * {
+   *   authorizedDid: 'did:example:123'
+   * }
+   * ```
+   */
+  context?: Record<string, any>
+
+  /**
+   * Flag that enables schema validation for plugin methods.
+   *
+   * @default false
+   */
+  schemaValidation?: boolean
 }
 
-interface Config {
-  dbConnection?: Promise<Connection>
-  didResolver: Resolver
-  identityProviders: AbstractIdentityProvider[]
-  serviceControllers?: ServiceControllerDerived[]
-  messageHandler?: MessageHandler
-  actionHandler?: ActionHandler
-}
+/**
+ * Provides a common context for all plugin methods.
+ *
+ * This is the main entry point into the API of the DID Agent Framework.
+ * When plugins are installed, they extend the API of the agent and the methods
+ * they provide can all use the common context so that plugins can build on top
+ * of each other and create a richer experience.
+ *
+ * @public
+ */
+export class Agent implements IAgent {
+  /**
+   * The map of plugin + override methods
+   */
+  readonly methods: IPluginMethodMap = {}
 
-export class Agent extends EventEmitter {
-  readonly dbConnection: Promise<Connection>
-  public identityManager: IdentityManager
-  public didResolver: Resolver
-  private serviceManager: ServiceManager
-  private messageHandler?: MessageHandler
-  private actionHandler?: ActionHandler
+  private schema: IAgentPluginSchema
+  private schemaValidation: boolean
+  private context?: Record<string, any>
+  private protectedMethods = ['execute', 'availableMethods', 'emit']
 
-  constructor(config: Config) {
-    super()
-    this.dbConnection = config.dbConnection || null
+  private readonly eventBus: EventEmitter = new EventEmitter()
+  private readonly eventQueue: (Promise<any> | undefined)[] = []
 
-    this.identityManager = new IdentityManager({
-      identityProviders: config.identityProviders,
-    })
+  /**
+   * Constructs a new instance of the `Agent` class
+   *
+   * @param options - Configuration options
+   * @public
+   */
+  constructor(options?: IAgentOptions) {
+    this.context = options?.context
 
-    this.didResolver = config.didResolver
-
-    this.serviceManager = new ServiceManager({
-      controllers: config.serviceControllers || [],
-      didResolver: this.didResolver,
-    })
-
-    this.messageHandler = config.messageHandler
-
-    this.actionHandler = config.actionHandler
-  }
-
-  async setupServices() {
-    const identities = await this.identityManager.getIdentities()
-    await this.serviceManager.setupServices(identities)
-  }
-
-  async listen() {
-    debug('Listening for new messages')
-    this.serviceManager.on(ServiceEventTypes.NewMessages, this.handleServiceMessages.bind(this))
-    this.serviceManager.listen()
-  }
-
-  async getMessagesSince(ts: LastMessageTimestampForInstance[]): Promise<Message[]> {
-    const rawMessages = await this.serviceManager.getMessagesSince(ts)
-    return this.handleServiceMessages(rawMessages)
-  }
-
-  private async handleServiceMessages(messages: Message[]): Promise<Message[]> {
-    const result: Message[] = []
-    for (const message of messages) {
-      try {
-        const validMessage = await this.handleMessage({
-          raw: message.raw,
-          metaData: message.metaData,
-        })
-        result.push(validMessage)
-      } catch (e) {}
+    this.schema = {
+      components: {
+        schemas: {
+          ...ValidationErrorSchema.components.schemas,
+        },
+        methods: {},
+      },
     }
 
+    if (options?.plugins) {
+      for (const plugin of options.plugins) {
+        this.methods = {
+          ...this.methods,
+          ...filterUnauthorizedMethods(plugin.methods || {}, options.authorizedMethods),
+        }
+        if (plugin.schema) {
+          this.schema = {
+            components: {
+              schemas: {
+                ...this.schema.components.schemas,
+                ...plugin.schema.components.schemas,
+              },
+              methods: {
+                ...this.schema.components.methods,
+                ...plugin.schema.components.methods,
+              },
+            },
+          }
+        }
+        if (plugin?.eventTypes && plugin?.onEvent) {
+          for (const eventType of plugin.eventTypes) {
+            this.eventBus.on(eventType, (args) => {
+              const promise = plugin?.onEvent?.(
+                { type: eventType, data: args },
+                { ...this.context, agent: this },
+              )
+              this.eventQueue.push(promise)
+              promise?.catch((rejection) => {
+                if (eventType !== CoreEvents.error) {
+                  this.eventBus.emit(CoreEvents.error, rejection)
+                } else {
+                  this.eventQueue.push(
+                    Promise.reject(
+                      new Error('ErrorEventHandlerError: throwing an error in an error handler should crash'),
+                    ),
+                  )
+                }
+              })
+            })
+          }
+        }
+      }
+    }
+
+    if (options?.overrides) {
+      this.methods = {
+        ...this.methods,
+        ...filterUnauthorizedMethods(options.overrides, options.authorizedMethods),
+      }
+    }
+
+    for (const method of Object.keys(this.methods)) {
+      if (!this.protectedMethods.includes(method)) {
+        //@ts-ignore
+        this[method] = async (args: any) => this.execute(method, args)
+      }
+    }
+
+    this.schemaValidation = options?.schemaValidation || false
+  }
+
+  /**
+   * Lists available agent method names
+   *
+   * @returns a list of available methods
+   * @public
+   */
+  availableMethods(): string[] {
+    return Object.keys(this.methods)
+  }
+
+  /**
+   * Returns agent plugin schema
+   *
+   * @returns agent plugin schema
+   * @public
+   */
+  getSchema(): IAgentPluginSchema {
+    return this.schema
+  }
+
+  /**
+   * Executes a plugin method.
+   *
+   * Normally, the `execute()` method need not be called.
+   * The agent will expose the plugin methods directly on the agent instance
+   * but this can be used when dynamically deciding which methods to call.
+   *
+   * @remarks
+   * Plugin method will receive a context object as a second argument.
+   * Context object always has `agent` property that is the `Agent` instance that is executing said method
+   *
+   * @param method - method name
+   * @param args - arguments object
+   * @example
+   * ```typescript
+   * await agent.execute('foo', { bar: 'baz' })
+   *
+   * // is equivalent to:
+   * await agent.foo({ bar: 'baz' })
+   * ```
+   * @public
+   */
+  async execute<P = any, R = any>(method: string, args: P): Promise<R> {
+    Debug('daf:agent:' + method)('%o', args)
+    if (!this.methods[method]) throw Error('Method not available: ' + method)
+    const _args = args || {}
+    if (this.schemaValidation && this.schema.components.methods[method]) {
+      validateArguments(method, _args, this.schema)
+    }
+    const result = await this.methods[method](_args, { ...this.context, agent: this })
+    if (this.schemaValidation && this.schema.components.methods[method]) {
+      validateReturnType(method, result, this.schema)
+    }
+    Debug('daf:agent:' + method + ':result')('%o', result)
     return result
   }
 
-  public async handleMessage({
-    raw,
-    metaData,
-    save = true,
-  }: {
-    raw: string
-    metaData?: MetaData[]
-    save?: boolean
-  }): Promise<Message> {
-    debug('Handle message %o', { raw, metaData, save })
-    if (!this.messageHandler) {
-      return Promise.reject('Message handler not provided')
-    }
-
-    try {
-      const message = await this.messageHandler.handle(new Message({ raw, metaData }), this)
-      if (message.isValid()) {
-        debug('Emitting event', EventTypes.validatedMessage)
-        this.emit(EventTypes.validatedMessage, message)
+  /**
+   * Broadcasts an `Event` to potential listeners.
+   *
+   * Listeners are `IEventListener` instances that declare `eventTypes`
+   * and implement an `async onEvent({type, data}, context)` method.
+   * Note that `IAgentPlugin` is also an `IEventListener` so plugins can be listeners for events.
+   *
+   * During creation, the agent automatically registers listener plugins
+   * to the `eventTypes` that they declare.
+   *
+   * Events are processed asynchronously, so the general pattern to be used is fire-and-forget.
+   * Ex: `agent.emit('foo', {eventData})`
+   *
+   * In situations where you need to make sure that all events in the queue have been exhausted,
+   * the `Promise` returned by `emit` can be awaited.
+   * Ex: `await agent.emit('foo', {eventData})`
+   *
+   * In case an error is thrown while processing an event, the error is re-emitted as an event
+   * of type `CoreEvents.error` with a `EventListenerError` as payload.
+   *
+   * Note that `await agent.emit()` will NOT throw an error. To process errors, use a listener
+   * with `eventTypes: [ CoreEvents.error ]` in the definition.
+   *
+   * @param eventType - the type of event being emitted
+   * @param data - event payload.
+   *     Use the same `data` type for events of a particular `eventType`.
+   *
+   * @public
+   */
+  async emit(eventType: string, data: any): Promise<void> {
+    this.eventBus.emit(eventType, data)
+    while (this.eventQueue.length > 0) {
+      try {
+        await this.eventQueue.shift()
+      } catch (e) {
+        //nop
+        if (e.message.startsWith('ErrorEventHandlerError')) {
+          throw e
+        }
       }
-
-      debug('Validated message %o', message)
-      if (save) {
-        await (await this.dbConnection).getRepository(Message).save(message)
-        debug('Emitting event', EventTypes.savedMessage)
-        this.emit(EventTypes.savedMessage, message)
-      }
-      return message
-    } catch (error) {
-      this.emit(EventTypes.error, error)
-      return Promise.reject(error)
     }
   }
+}
 
-  public async handleAction(action: Action): Promise<any> {
-    if (!this.actionHandler) {
-      return Promise.reject('Action handler not provided')
-    }
-    debug('Handle action %o', action)
-    return this.actionHandler.handleAction(action, this)
-  }
+/**
+ * Helper function to create a new instance of the {@link Agent} class with correct type
+ *
+ * @remarks
+ * Use {@link TAgent} to configure agent type (list of available methods) for autocomplete in IDE
+ *
+ * @example
+ * ```typescript
+ * import { createAgent, IResolver, IMessageHandler } from 'daf-core'
+ * import { AgentRestClient } from 'daf-rest'
+ * import { CredentialIssuer, ICredentialIssuer } from 'daf-w3c'
+ * const agent = createAgent<IResolver & IMessageHandler & ICredentialIssuer>({
+ *   plugins: [
+ *     new CredentialIssuer(),
+ *     new AgentRestClient({
+ *       url: 'http://localhost:3002/agent',
+ *       enabledMethods: [
+ *         'resolveDid',
+ *         'handleMessage',
+ *       ],
+ *     }),
+ *   ],
+ * })
+ * ```
+ * @param options - Agent configuration options
+ * @returns configured agent
+ * @public
+ */
+export function createAgent<T extends IPluginMethodMap>(options: IAgentOptions): TAgent<T> {
+  //@ts-ignore
+  return new Agent(options)
 }

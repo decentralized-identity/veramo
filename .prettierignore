@@ -1,0 +1,7 @@
+coverage
+examples
+build/**/*
+docs
+report
+*.json
+*.md

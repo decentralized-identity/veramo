@@ -1,196 +1,269 @@
-import { Agent, AbstractActionHandler, Action, Credential, Presentation } from 'daf-core'
 import {
-  createVerifiableCredential,
-  createPresentation as createVerifiablePresentation,
-  PresentationPayload,
-  VerifiableCredentialPayload,
-  verifyCredential,
-} from 'did-jwt-vc'
-import { decodeJWT } from 'did-jwt'
+  IAgentContext,
+  IAgentPlugin,
+  IResolver,
+  IDIDManager,
+  IKeyManager,
+  IPluginMethodMap,
+  W3CCredential,
+  W3CPresentation,
+  VerifiableCredential,
+  VerifiablePresentation,
+  IDataStore,
+} from 'daf-core'
 
-import { createCredential, createPresentation } from './message-handler'
+import {
+  createVerifiableCredentialJwt,
+  createVerifiablePresentationJwt,
+  normalizeCredential,
+  normalizePresentation,
+} from 'did-jwt-vc'
+
+import { schema } from './'
 
 import Debug from 'debug'
 const debug = Debug('daf:w3c:action-handler')
 
-export const ActionTypes = {
-  signCredentialJwt: 'sign.w3c.vc.jwt',
-  signPresentationJwt: 'sign.w3c.vp.jwt',
-}
+/**
+ * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
+ *
+ * Only `jwt` is supported at the moment.
+ *
+ * @public
+ */
+export type EncodingFormat = 'jwt' // | "json" | "json-ld"
 
-export interface ActionSignW3cVp extends Action {
-  data: PresentationInput
+/**
+ * Encapsulates the parameters required to create a
+ * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
+ *
+ * @public
+ */
+export interface ICreateVerifiablePresentationArgs {
+  /**
+   * The json payload of the Presentation according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
+   *
+   * The signer of the Presentation is chosen based on the `holder` property
+   * of the `presentation`
+   *
+   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
+   */
+  presentation: {
+    id?: string
+    holder: string
+    issuanceDate?: string
+    expirationDate?: string
+    '@context'?: string[]
+    type?: string[]
+    verifier: string[]
+    verifiableCredential: VerifiableCredential[]
+    [x: string]: any
+  }
+
+  /**
+   * If this parameter is true, the resulting VerifiablePresentation is sent to the
+   * {@link daf-core#IDataStore | storage plugin} to be saved
+   */
   save?: boolean
+
+  /**
+   * The desired format for the VerifiablePresentation to be created.
+   * Currently, only JWT is supported
+   */
+  proofFormat: EncodingFormat
 }
 
-export interface ActionSignW3cVc extends Action {
-  data: CredentialInput
+/**
+ * Encapsulates the parameters required to create a
+ * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
+ *
+ * @public
+ */
+export interface ICreateVerifiableCredentialArgs {
+  /**
+   * The json payload of the Credential according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
+   *
+   * The signer of the Credential is chosen based on the `issuer.id` property
+   * of the `credential`
+   *
+   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
+   */
+  credential: {
+    '@context'?: string[]
+    id?: string
+    type?: string[]
+    issuer: { id: string; [x: string]: any }
+    issuanceDate?: string
+    expirationDate?: string
+    credentialSubject: {
+      id?: string
+      [x: string]: any
+    }
+    credentialStatus?: {
+      id: string
+      type: string
+    }
+    [x: string]: any
+  }
+
+  /**
+   * If this parameter is true, the resulting VerifiablePresentation is sent to the
+   * {@link daf-core#IDataStore | storage plugin} to be saved
+   */
   save?: boolean
+
+  /**
+   * The desired format for the VerifiablePresentation to be created.
+   * Currently, only JWT is supported
+   */
+  proofFormat: EncodingFormat
 }
 
-export class W3cActionHandler extends AbstractActionHandler {
-  public async handleAction(action: Action, agent: Agent) {
-    if (action.type === ActionTypes.signPresentationJwt) {
-      const { data, save } = action as ActionSignW3cVp
-      try {
-        const payload = transformPresentationInput(data)
-        const identity = await agent.identityManager.getIdentity(data.issuer)
-        const key = await identity.keyByType('Secp256k1')
-        debug('Signing VP with', identity.did)
-        // Removing duplicate JWT
-        payload.vp.verifiableCredential = Array.from(new Set(payload.vp.verifiableCredential))
-        const jwt = await createVerifiablePresentation(payload, { did: identity.did, signer: key.signer() })
+/**
+ * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
+ *
+ * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
+ *
+ * @public
+ */
+export interface ICredentialIssuer extends IPluginMethodMap {
+  /**
+   * Creates a Verifiable Presentation.
+   * The payload, signer and format are chosen based on the `args` parameter.
+   *
+   * @param args - Arguments necessary to create the Presentation.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the {@link daf-core#VerifiablePresentation} that was requested or rejects with an error
+   * if there was a problem with the input or while getting the key to sign
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
+   */
+  createVerifiablePresentation(
+    args: ICreateVerifiablePresentationArgs,
+    context: IContext,
+  ): Promise<VerifiablePresentation>
 
-        const credentials: Credential[] = []
-        for (const credentialJwt of payload.vp.verifiableCredential) {
-          const verified = await verifyCredential(credentialJwt, agent.didResolver)
-          credentials.push(createCredential(verified.payload, credentialJwt))
-        }
+  /**
+   * Creates a Verifiable Credential.
+   * The payload, signer and format are chosen based on the `args` parameter.
+   *
+   * @param args - Arguments necessary to create the Presentation.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the {@link daf-core#VerifiableCredential} that was requested or rejects with an error
+   * if there was a problem with the input or while getting the key to sign
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
+   */
+  createVerifiableCredential(
+    args: ICreateVerifiableCredentialArgs,
+    context: IContext,
+  ): Promise<VerifiableCredential>
+}
 
-        debug(jwt)
-        const decoded = decodeJWT(jwt)
-        const presentation = createPresentation(decoded.payload as PresentationPayload, jwt, credentials)
-        if (save) {
-          await (await agent.dbConnection).getRepository(Presentation).save(presentation)
-        }
-        return presentation
-      } catch (error) {
-        debug(error)
-        return Promise.reject(error)
+/**
+ * Represents the requirements that this plugin has.
+ * The agent that is using this plugin is expected to provide these methods.
+ *
+ * This interface can be used for static type checks, to make sure your application is properly initialized.
+ */
+export type IContext = IAgentContext<
+  IResolver &
+    Pick<IDIDManager, 'didManagerGet'> &
+    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+    Pick<IKeyManager, 'keyManagerSignJWT'>
+>
+
+/**
+ * A DAF plugin that implements the {@link ICredentialIssuer} methods.
+ *
+ * @public
+ */
+export class CredentialIssuer implements IAgentPlugin {
+  readonly methods: ICredentialIssuer
+  readonly schema = schema.ICredentialIssuer
+
+  constructor() {
+    this.methods = {
+      createVerifiablePresentation: this.createVerifiablePresentation,
+      createVerifiableCredential: this.createVerifiableCredential,
+    }
+  }
+
+  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentation} */
+  async createVerifiablePresentation(
+    args: ICreateVerifiablePresentationArgs,
+    context: IContext,
+  ): Promise<VerifiablePresentation> {
+    try {
+      const presentation: W3CPresentation = {
+        ...args.presentation,
+        '@context': args.presentation['@context'] || ['https://www.w3.org/2018/credentials/v1'],
+        //FIXME: make sure 'VerifiablePresentation' is the first element in this array:
+        type: args.presentation.type || ['VerifiablePresentation'],
+        issuanceDate: args.presentation.issuanceDate || new Date().toISOString(),
       }
-    }
 
-    if (action.type === ActionTypes.signCredentialJwt) {
-      const { data, save } = action as ActionSignW3cVc
-      try {
-        const payload = transformCredentialInput(data)
-        const identity = await agent.identityManager.getIdentity(data.issuer)
-        const key = await identity.keyByType('Secp256k1')
-        debug('Signing VC with', identity.did)
-        const jwt = await createVerifiableCredential(payload, { did: identity.did, signer: key.signer() })
-        debug(jwt)
-        const decoded = decodeJWT(jwt)
-        const credential = createCredential(decoded.payload as VerifiableCredentialPayload, jwt)
-        if (save) {
-          await (await agent.dbConnection).getRepository(Credential).save(credential)
-        }
-        return credential
-      } catch (error) {
-        debug(error)
-        return Promise.reject(error)
+      //FIXME: if the identifier is not found, the error message should reflect that.
+      const identifier = await context.agent.didManagerGet({ did: presentation.holder })
+      //FIXME: `args` should allow picking a key or key type
+      const key = identifier.keys.find((k) => k.type === 'Secp256k1')
+      if (!key) throw Error('No signing key for ' + identifier.did)
+      //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
+      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
+      debug('Signing VP with', identifier.did)
+      const jwt = await createVerifiablePresentationJwt(presentation, { did: identifier.did, signer })
+      //FIXME: flagging this as a potential privacy leak.
+      debug(jwt)
+      const verifiablePresentation = normalizePresentation(jwt)
+      if (args.save) {
+        await context.agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation })
       }
-    }
-
-    return super.handleAction(action, agent)
-  }
-}
-
-export interface CredentialSubjectInput {
-  id: string
-  [x: string]: any
-}
-export interface CredentialInput {
-  '@context'?: string[]
-  context?: string[]
-  type: string[]
-  id?: string
-  issuer: string
-  expirationDate?: string
-  credentialSubject: CredentialSubjectInput
-  credentialStatus?: {
-    id: string
-    type: string
-  }
-  [x: string]: any
-}
-
-export interface PresentationInput {
-  '@context'?: string[]
-  context?: string[]
-  type: string[]
-  id?: string
-  issuer: string
-  audience: string[]
-  tag?: string
-  expirationDate?: string
-  verifiableCredential: string[]
-  [x: string]: any
-}
-
-const transformCredentialInput = (input: CredentialInput): VerifiableCredentialPayload => {
-  if (Array.isArray(input.credentialSubject)) throw Error('credentialSubject of type array not supported')
-
-  const result = { vc: {} }
-
-  for (const key in input) {
-    switch (key) {
-      case 'credentialSubject':
-        result['sub'] = input[key].id
-        const credentialSubject = { ...input.credentialSubject }
-        delete credentialSubject.id
-        result['vc']['credentialSubject'] = credentialSubject
-        break
-      case '@context':
-      case 'context':
-        result['vc']['@context'] = input[key]
-        break
-      case 'type':
-        result['vc']['type'] = input[key]
-        break
-      case 'issuanceDate':
-        result['nbf'] = Date.parse(input[key]) / 1000
-        break
-      case 'expirationDate':
-        result['exp'] = Date.parse(input[key]) / 1000
-        break
-      case 'id':
-        result['jti'] = input[key]
-        break
-      case 'issuer':
-        // remove issuer
-        break
-      default:
-        result[key] = input[key]
+      return verifiablePresentation
+    } catch (error) {
+      debug(error)
+      return Promise.reject(error)
     }
   }
 
-  return result as VerifiableCredentialPayload
-}
+  /** {@inheritdoc ICredentialIssuer.createVerifiableCredential} */
+  async createVerifiableCredential(
+    args: ICreateVerifiableCredentialArgs,
+    context: IContext,
+  ): Promise<VerifiableCredential> {
+    try {
+      const credential: W3CCredential = {
+        ...args.credential,
+        '@context': args.credential['@context'] || ['https://www.w3.org/2018/credentials/v1'],
+        //FIXME: make sure 'VerifiableCredential' is the first element in this array:
+        type: args.credential.type || ['VerifiableCredential'],
+        issuanceDate: args.credential.issuanceDate || new Date().toISOString(),
+      }
 
-const transformPresentationInput = (input: PresentationInput): PresentationPayload => {
-  const result = { vp: {} }
+      //FIXME: if the identifier is not found, the error message should reflect that.
+      const identifier = await context.agent.didManagerGet({ did: credential.issuer.id })
+      //FIXME: `args` should allow picking a key or key type
+      const key = identifier.keys.find((k) => k.type === 'Secp256k1')
+      if (!key) throw Error('No signing key for ' + identifier.did)
+      //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
+      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
 
-  for (const key in input) {
-    switch (key) {
-      case '@context':
-      case 'context':
-        result['vp']['@context'] = input[key]
-        break
-      case 'type':
-        result['vp']['type'] = input[key]
-        break
-      case 'issuanceDate':
-        result['nbf'] = Date.parse(input[key]) / 1000
-        break
-      case 'expirationDate':
-        result['exp'] = Date.parse(input[key]) / 1000
-        break
-      case 'id':
-        result['jti'] = input[key]
-        break
-      case 'audience':
-        result['aud'] = input[key]
-        break
-      case 'verifiableCredential':
-        result['vp']['verifiableCredential'] = input[key]
-        break
-      case 'issuer':
-        // remove issuer
-        break
-      default:
-        result[key] = input[key]
+      debug('Signing VC with', identifier.did)
+      const jwt = await createVerifiableCredentialJwt(credential, { did: identifier.did, signer })
+      //FIXME: flagging this as a potential privacy leak.
+      debug(jwt)
+      const verifiableCredential = normalizeCredential(jwt)
+      if (args.save) {
+        await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
+      }
+
+      return verifiableCredential
+    } catch (error) {
+      debug(error)
+      return Promise.reject(error)
     }
   }
-
-  return result as PresentationPayload
 }

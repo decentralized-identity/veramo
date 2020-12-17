@@ -1,162 +1,101 @@
-import { Agent, AbstractMessageHandler, Message, Identity, Credential, Presentation } from 'daf-core'
+import { IAgentContext, IResolver } from 'daf-core'
+import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
 import {
-  verifyCredential,
-  validateVerifiableCredentialAttributes,
-  validatePresentationAttributes,
-  VerifiableCredentialPayload,
-  PresentationPayload,
+  validateJwtCredentialPayload,
+  validateJwtPresentationPayload,
+  normalizePresentation,
+  normalizeCredential,
 } from 'did-jwt-vc'
 
 import Debug from 'debug'
 const debug = Debug('daf:w3c:message-handler')
 
+/**
+ * These types are used by the DAF data store when storing Verifiable Credentials and Presentations
+ *
+ * @internal
+ */
 export const MessageTypes = {
+  /** Represents a Verifiable Credential */
   vc: 'w3c.vc',
+  /** Represents a Verifiable Presentation */
   vp: 'w3c.vp',
 }
 
+/**
+ * Represents the requirements that this plugin has.
+ * The agent that is using this plugin is expected to provide these methods.
+ *
+ * This interface can be used for static type checks, to make sure your application is properly initialized.
+ */
+export type IContext = IAgentContext<IResolver>
+
+/**
+ * An implementation of the {@link daf-message-handler#AbstractMessageHandler}.
+ *
+ * This plugin can handle incoming W3C Verifiable Credentials and Presentations and prepare them
+ * for internal storage as {@link daf-message-handler#Message} types.
+ *
+ * The current version can only handle `JWT` encoded
+ *
+ * @remarks {@link daf-core#IDataStore | IDataStore }
+ *
+ * @public
+ */
 export class W3cMessageHandler extends AbstractMessageHandler {
-  async handle(message: Message, agent: Agent): Promise<Message> {
+  async handle(message: Message, context: IContext): Promise<Message> {
     const meta = message.getLastMetaData()
 
-    if (meta?.type === 'JWT') {
+    if (meta?.type === 'JWT' && message.raw) {
       const { data } = message
 
       try {
-        validatePresentationAttributes(data)
+        validateJwtPresentationPayload(data)
 
+        //FIXME: flagging this for potential privacy leaks
         debug('JWT is', MessageTypes.vp)
-        const credentials: Credential[] = []
-        for (const jwt of data.vp.verifiableCredential) {
-          const verified = await verifyCredential(jwt, agent.didResolver)
-          credentials.push(createCredential(verified.payload, jwt))
-        }
+        const presentation = normalizePresentation(message.raw)
+        const credentials = presentation.verifiableCredential
 
         message.id = blake2bHex(message.raw)
         message.type = MessageTypes.vp
+        message.from = presentation.holder
+        message.to = presentation.verifier?.[0]
 
-        message.from = new Identity()
-        message.from.did = message.data.iss
-
-        message.to = new Identity()
-        const audArray = Array.isArray(message.data.aud) ? (message.data.aud as string[]) : [message.data.aud]
-        message.to.did = audArray[0]
-
-        if (message.data.tag) {
-          message.threadId = message.data.tag
+        if (presentation.tag) {
+          message.threadId = presentation.tag
         }
 
-        message.createdAt = timestampToDate(message.data.nbf || message.data.iat)
-        message.presentations = [createPresentation(data, message.raw, credentials)]
+        message.createdAt = presentation.issuanceDate
+        message.presentations = [presentation]
         message.credentials = credentials
 
         return message
       } catch (e) {}
 
       try {
-        validateVerifiableCredentialAttributes(message.data)
+        validateJwtCredentialPayload(data)
+        //FIXME: flagging this for potential privacy leaks
         debug('JWT is', MessageTypes.vc)
+        const credential = normalizeCredential(message.raw)
 
         message.id = blake2bHex(message.raw)
         message.type = MessageTypes.vc
+        message.from = credential.issuer.id
+        message.to = credential.credentialSubject.id
 
-        message.from = new Identity()
-        message.from.did = message.data.iss
-
-        message.to = new Identity()
-        message.to.did = message.data.sub
-
-        if (message.data.tag) {
-          message.threadId = message.data.tag
+        if (credential.tag) {
+          message.threadId = credential.tag
         }
 
-        message.createdAt = timestampToDate(message.data.nbf || message.data.iat)
-        message.credentials = [createCredential(message.data, message.raw)]
+        message.createdAt = credential.issuanceDate
+        message.credentials = [credential]
         return message
       } catch (e) {}
     }
 
-    return super.handle(message, agent)
+    return super.handle(message, context)
   }
-}
-
-export function createCredential(payload: VerifiableCredentialPayload, jwt: string): Credential {
-  const vc = new Credential()
-
-  vc.issuer = new Identity()
-  vc.issuer.did = payload.iss
-
-  if (payload.sub) {
-    vc.subject = new Identity()
-    vc.subject.did = payload.sub
-  }
-
-  vc.raw = jwt
-
-  if (payload.jti) {
-    vc.id = payload.jti
-  }
-
-  if (payload.nbf || payload.iat) {
-    vc.issuanceDate = timestampToDate(payload.nbf || payload.iat)
-  }
-
-  if (payload.exp) {
-    vc.expirationDate = timestampToDate(payload.exp)
-  }
-
-  vc.context = payload.vc['@context']
-  vc.type = payload.vc.type
-
-  vc.credentialSubject = payload.vc.credentialSubject
-
-  return vc
-}
-
-export function createPresentation(
-  payload: PresentationPayload,
-  jwt: string,
-  credentials: Credential[],
-): Presentation {
-  const vp = new Presentation()
-
-  vp.issuer = new Identity()
-  vp.issuer.did = payload.iss
-
-  const audArray = Array.isArray(payload.aud) ? (payload.aud as string[]) : [payload.aud]
-
-  vp.audience = audArray.map((did: string) => {
-    const id = new Identity()
-    id.did = did
-    return id
-  })
-
-  vp.raw = jwt
-
-  if (payload.jti) {
-    vp.id = payload.jti
-  }
-
-  if (payload.nbf || payload.iat) {
-    vp.issuanceDate = timestampToDate(payload.nbf || payload.iat)
-  }
-
-  if (payload.exp) {
-    vp.expirationDate = timestampToDate(payload.exp)
-  }
-
-  vp.context = payload.vp['@context']
-  vp.type = payload.vp.type
-
-  vp.credentials = credentials
-
-  return vp
-}
-
-function timestampToDate(timestamp: number): Date {
-  const date = new Date(0)
-  date.setUTCSeconds(timestamp)
-  return date
 }

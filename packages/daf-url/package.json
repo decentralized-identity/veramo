@@ -1,21 +1,23 @@
 {
   "name": "daf-url",
   "description": "DAF plugin able to decode URL message validator.",
-  "version": "6.4.1",
+  "version": "7.0.0-beta.57",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "extract-api": "yarn daf dev extract-api"
   },
   "dependencies": {
-    "daf-core": "^6.4.1",
+    "daf-core": "^7.0.0-beta.57",
+    "daf-message-handler": "^7.0.0-beta.57",
     "debug": "^4.1.1",
     "url-parse": "^1.4.7"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
     "@types/url-parse": "^1.4.3",
-    "typescript": "^3.8.3"
+    "typescript": "^4.0.3"
   },
   "files": [
     "build/**/*",

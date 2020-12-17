@@ -1,5 +1,7 @@
-import { Message, Agent } from 'daf-core'
+import { DIDDocument } from 'daf-core'
+import { Message } from 'daf-message-handler'
 import { W3cMessageHandler, MessageTypes } from '../index'
+import { IContext } from '../message-handler'
 import { blake2bHex } from 'blakejs'
 
 describe('daf-w3c', () => {
@@ -55,36 +57,40 @@ describe('daf-w3c', () => {
 
   const handler = new W3cMessageHandler()
 
-  const agent = new Agent({
-    identityProviders: [],
-    serviceControllers: [],
-    messageHandler: handler,
-    didResolver: {
-      //"did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61"
-      resolve: async (did: string) => ({
-        '@context': 'https://w3id.org/did/v1',
-        id: did,
-        publicKey: [
-          {
-            id: `${did}#owner`,
-            type: 'Secp256k1VerificationKey2018',
-            owner: did,
-            ethereumAddress: '0x3c357ba458933a19c1df1c7f6b473b3302bbbe61',
-          },
-        ],
-        authentication: [
-          {
-            type: 'Secp256k1SignatureAuthentication2018',
-            publicKey: `${did}#owner`,
-          },
-        ],
-      }),
+  const context: IContext = {
+    agent: {
+      getSchema: jest.fn(),
+      execute: jest.fn(),
+      availableMethods: jest.fn(),
+      emit: jest.fn(),
+      resolveDid: async (args?): Promise<DIDDocument> => {
+        if (!args?.didUrl) throw Error('DID required')
+
+        return {
+          '@context': 'https://w3id.org/did/v1',
+          id: args?.didUrl,
+          publicKey: [
+            {
+              id: `${args?.didUrl}#owner`,
+              type: 'Secp256k1VerificationKey2018',
+              controller: args?.didUrl,
+              ethereumAddress: args?.didUrl.slice(-42),
+            },
+          ],
+          authentication: [
+            {
+              type: 'Secp256k1SignatureAuthentication2018',
+              publicKey: `${args?.didUrl}#owner`,
+            },
+          ],
+        }
+      },
     },
-  })
+  }
 
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(handler.handle(message, agent)).rejects.toEqual('Unsupported message type')
+    await expect(handler.handle(message, context)).rejects.toThrow('Unsupported message type')
   })
 
   it('should return handled VC message', async () => {
@@ -92,13 +98,13 @@ describe('daf-w3c', () => {
     // This would be done by 'daf-did-jwt':
     message.data = vcPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
-    const handled = await handler.handle(message, agent)
+    const handled = await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vcJwt))
     expect(handled.raw).toEqual(vcJwt)
     expect(handled.type).toEqual(MessageTypes.vc)
-    expect(handled.from.did).toEqual(vcPayload.iss)
-    expect(handled.to.did).toEqual(vcPayload.sub)
+    expect(handled.from).toEqual(vcPayload.iss)
+    expect(handled.to).toEqual(vcPayload.sub)
     // expect(handled.timestamp).toEqual(vcPayload.iat)
   })
 
@@ -108,13 +114,13 @@ describe('daf-w3c', () => {
     message.data = vpPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
-    const handled = await handler.handle(message, agent)
+    const handled = await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpJwt))
     expect(handled.raw).toEqual(vpJwt)
     expect(handled.type).toEqual(MessageTypes.vp)
-    expect(handled.from.did).toEqual(vpPayload.iss)
-    expect(handled.to.did).toEqual(vpPayload.aud)
+    expect(handled.from).toEqual(vpPayload.iss)
+    expect(handled.to).toEqual(vpPayload.aud)
     expect(handled.threadId).toEqual(vpPayload.tag)
     // expect(handled.timestamp).toEqual(vpPayload.iat)
   })
@@ -125,13 +131,13 @@ describe('daf-w3c', () => {
     message.data = vpMultiAudPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
-    const handled = await handler.handle(message, agent)
+    const handled = await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpMultiAudJwt))
     expect(handled.raw).toEqual(vpMultiAudJwt)
     expect(handled.type).toEqual(MessageTypes.vp)
-    expect(handled.from.did).toEqual(vpMultiAudPayload.iss)
-    expect(handled.to.did).toEqual(vpMultiAudPayload.aud[0])
+    expect(handled.from).toEqual(vpMultiAudPayload.iss)
+    expect(handled.to).toEqual(vpMultiAudPayload.aud[0])
     expect(handled.threadId).toEqual(vpMultiAudPayload.tag)
   })
 
@@ -161,13 +167,13 @@ describe('daf-w3c', () => {
     }
     message.addMetaData({ type: 'JWT', value: 'ES256K' })
 
-    const handled = await handler.handle(message, agent)
+    const handled = await handler.handle(message, context)
 
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(token))
     expect(handled.raw).toEqual(token)
     expect(handled.type).toEqual(MessageTypes.vc)
-    expect(handled.from.did).toEqual('did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e')
-    expect(handled.to.did).toEqual('did:web:uport.me')
+    expect(handled.from).toEqual('did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e')
+    expect(handled.to).toEqual('did:web:uport.me')
   })
 })

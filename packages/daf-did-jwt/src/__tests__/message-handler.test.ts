@@ -1,6 +1,6 @@
-import { Message, Agent } from 'daf-core'
-import { JwtMessageHandler } from '../index'
-import { blake2bHex } from 'blakejs'
+import { DIDDocument } from 'daf-core'
+import { Message } from 'daf-message-handler'
+import { JwtMessageHandler, IContext } from '../message-handler'
 
 describe('daf-did-jwt', () => {
   const vcJwt =
@@ -53,44 +53,46 @@ describe('daf-did-jwt', () => {
     iss: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
   }
 
-  const agent = new Agent({
-    identityProviders: [],
-    serviceControllers: [],
-    messageHandler: {
-      setNext: jest.fn(),
-      handle: jest.fn().mockResolvedValue(true),
+  const context: IContext = {
+    agent: {
+      getSchema: jest.fn(),
+      execute: jest.fn(),
+      availableMethods: jest.fn(),
+      emit: jest.fn(),
+      resolveDid: async (args?): Promise<DIDDocument> => {
+        if (!args?.didUrl) throw Error('DID required')
+
+        return {
+          '@context': 'https://w3id.org/did/v1',
+          id: args?.didUrl,
+          publicKey: [
+            {
+              id: `${args?.didUrl}#owner`,
+              type: 'Secp256k1VerificationKey2018',
+              controller: args?.didUrl,
+              ethereumAddress: args?.didUrl.slice(-42),
+            },
+          ],
+          authentication: [
+            {
+              type: 'Secp256k1SignatureAuthentication2018',
+              publicKey: `${args?.didUrl}#owner`,
+            },
+          ],
+        }
+      },
     },
-    didResolver: {
-      resolve: async (did: string) => ({
-        '@context': 'https://w3id.org/did/v1',
-        id: did,
-        publicKey: [
-          {
-            id: `${did}#owner`,
-            type: 'Secp256k1VerificationKey2018',
-            owner: did,
-            ethereumAddress: did.slice(-42),
-          },
-        ],
-        authentication: [
-          {
-            type: 'Secp256k1SignatureAuthentication2018',
-            publicKey: `${did}#owner`,
-          },
-        ],
-      }),
-    },
-  })
+  }
 
   it('should reject unknown message type', async () => {
     const mockNextHandler = {
       setNext: jest.fn(),
-      handle: jest.fn().mockRejectedValue('Unsupported message type'),
+      handle: jest.fn().mockRejectedValue(new Error('Unsupported message type')),
     }
     const handler = new JwtMessageHandler()
     handler.setNext(mockNextHandler)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    expect(handler.handle(message, agent)).rejects.toEqual('Unsupported message type')
+    await expect(handler.handle(message, context)).rejects.toThrow('Unsupported message type')
   })
 
   it('should set data field for VC jwt', async () => {
@@ -102,14 +104,14 @@ describe('daf-did-jwt', () => {
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
-    await handler.handle(message, agent)
+    await handler.handle(message, context)
     expect(mockNextHandler.handle).toBeCalledWith(
       expect.objectContaining({
         raw: vcJwt,
         data: vcPayload,
         metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
       }),
-      agent,
+      context,
     )
   })
 
@@ -122,14 +124,14 @@ describe('daf-did-jwt', () => {
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
-    await handler.handle(message, agent)
+    await handler.handle(message, context)
     expect(mockNextHandler.handle).toBeCalledWith(
       expect.objectContaining({
         raw: vpJwt,
         data: vpPayload,
         metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
       }),
-      agent,
+      context,
     )
   })
 
@@ -142,14 +144,14 @@ describe('daf-did-jwt', () => {
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vpMultiAudJwt, metaData: [{ type: 'test' }] })
-    await handler.handle(message, agent)
+    await handler.handle(message, context)
     expect(mockNextHandler.handle).toBeCalledWith(
       expect.objectContaining({
         raw: vpMultiAudJwt,
         data: vpMultiAudPayload,
         metaData: [{ type: 'test' }, { type: 'JWT', value: 'ES256K-R' }],
       }),
-      agent,
+      context,
     )
   })
 })

@@ -1,0 +1,170 @@
+version: 1.0
+server:
+  baseUrl: http://localhost:3332
+  port: 3332
+  # baseUrl:
+  #   $env: BASE_URL
+  # port:
+  #   $env: PORT
+  # apiKey:
+  #   $env: API_KEY
+  schemaPath: /open-api.json
+  # homePageTemplate: ./homepage.html
+  apiName: Agent
+  apiVersion: 1.0.0
+  apiBasePath: /agent
+  apiDocsPath: /api-docs
+  defaultDID:
+    create: true
+    messagingServiceEndpoint: /messaging
+  ngrok:
+    connect: true
+    # authtoken: XZY
+    # subdomain: alice-did
+    # region: eu
+  # exposedMethods:
+  #   - resolveDid
+  #   - dataStoreORMGetIdentities
+constants:
+  secretKey: 29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
+  databaseFile: ./database.sqlite
+
+dbConnection:
+  $require: typeorm?t=function#createConnection
+  $args:
+    - type: sqlite
+      database:
+        $ref: /constants/databaseFile
+      synchronize: true
+      logging: false
+      entities:
+        $require: daf-typeorm?t=object#Entities
+
+messageHandler:
+  $require: daf-message-handler#MessageHandler
+  $args:
+    - messageHandlers:
+        - $require: daf-did-comm#DIDCommMessageHandler
+        - $require: daf-did-jwt#JwtMessageHandler
+        - $require: daf-w3c#W3cMessageHandler
+        - $require: daf-selective-disclosure#SdrMessageHandler
+
+ethr-did-resolver:
+  $require: ethr-did-resolver?t=function&p=/ethr#getResolver
+  $args:
+    - networks:
+        - name: mainnet
+          rpcUrl: https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: rinkeby
+          rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: ropsten
+          rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: kovan
+          rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: goerli
+          rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+        - name: private
+          rpcUrl: http://localhost:8545/
+          registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
+
+web-did-resolver:
+  $require: web-did-resolver?t=function&p=/web#getResolver
+
+universal-resolver:
+  $require: daf-resolver#UniversalResolver
+  $args:
+    - url: https://dev.uniresolver.io/1.0/identifiers/
+
+resolver:
+  $require: did-resolver#Resolver
+  $args:
+    - ethr:
+        $ref: /ethr-did-resolver
+      web:
+        $ref: /web-did-resolver
+      io:
+        $ref: /universal-resolver
+
+agent:
+  $require: daf-core#Agent
+  $args:
+    - schemaValidation: false
+      plugins:
+        - $require: daf-key-manager#KeyManager
+          $args:
+            - store:
+                $require: daf-typeorm#KeyStore
+                $args:
+                  - $ref: /dbConnection
+                  - $require: daf-libsodium#SecretBox
+                    $args:
+                      - $ref: /constants/secretKey
+              kms:
+                local:
+                  $require: daf-libsodium#KeyManagementSystem
+        - $require: daf-identity-manager#DIDManager
+          $args:
+            - store:
+                $require: daf-typeorm#DIDStore
+                $args:
+                  - $ref: /dbConnection
+              defaultProvider: did:ethr:rinkeby
+              providers:
+                did:ethr:
+                  $require: daf-ethr-did#EthrDIDProvider
+                  $args:
+                    - defaultKms: local
+                      network: mainnet
+                      rpcUrl: https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+                      gas: 1000001
+                      ttl: 31104001
+                did:ethr:rinkeby:
+                  $require: daf-ethr-did#EthrDIDProvider
+                  $args:
+                    - defaultKms: local
+                      network: rinkeby
+                      rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+                      gas: 1000001
+                      ttl: 31104001
+                did:ethr:ropsten:
+                  $require: daf-ethr-did#EthrDIDProvider
+                  $args:
+                    - defaultKms: local
+                      network: ropsten
+                      rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+                      gas: 1000001
+                      ttl: 31104001
+                did:ethr:kovan:
+                  $require: daf-ethr-did#EthrDIDProvider
+                  $args:
+                    - defaultKms: local
+                      network: kovan
+                      rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+                      gas: 1000001
+                      ttl: 31104001
+                did:ethr:goerli:
+                  $require: daf-ethr-did#EthrDIDProvider
+                  $args:
+                    - defaultKms: local
+                      network: goerli
+                      rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+                      gas: 1000001
+                      ttl: 31104001
+                did:web:
+                  $require: daf-web-did#WebDIDProvider
+                  $args:
+                    - defaultKms: local
+        - $require: daf-resolver#DafResolver
+          $args:
+            - resolver:
+                $ref: /resolver
+        - $require: daf-typeorm#DataStore
+          $args:
+            - $ref: /dbConnection
+        - $require: daf-typeorm#DataStoreORM
+          $args:
+            - $ref: /dbConnection
+        - $ref: /messageHandler
+        - $require: daf-did-comm#DIDComm
+        - $require: daf-w3c#CredentialIssuer
+        - $require: daf-selective-disclosure#SelectiveDisclosure

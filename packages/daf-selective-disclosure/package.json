@@ -1,19 +1,27 @@
 {
   "name": "daf-selective-disclosure",
   "description": "DAF plugin to enable the uPort selective disclosure protocol with W3C compatibility.",
-  "version": "6.4.1",
+  "version": "7.0.0-beta.57",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "generate-plugin-schema": "yarn daf dev generate-plugin-schema"
+  },
+  "daf": {
+    "pluginInterfaces": {
+      "ISelectiveDisclosure": "./src/types.ts"
+    }
   },
   "dependencies": {
     "blakejs": "^1.1.0",
-    "daf-core": "^6.4.1",
-    "daf-did-jwt": "^6.4.1",
+    "daf-core": "^7.0.0-beta.57",
+    "daf-did-jwt": "^7.0.0-beta.57",
+    "daf-message-handler": "^7.0.0-beta.57",
+    "daf-typeorm": "^7.0.0-beta.57",
+    "daf-w3c": "^7.0.0-beta.57",
     "debug": "^4.1.1",
-    "did-jwt": "^4.3.2",
-    "typeorm": "^0.2.24"
+    "did-jwt": "4.8.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
@@ -22,6 +30,7 @@
   "files": [
     "build/**/*",
     "src/**/*",
+    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

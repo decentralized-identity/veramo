@@ -1,1 +1,1 @@
-# DAF libsodium modules
+# DAF react native sodium modules

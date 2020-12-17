@@ -1,22 +1,20 @@
 {
   "files": [],
   "references": [
-    { "path": "daf-cli" },
     { "path": "daf-core" },
     { "path": "daf-did-comm" },
     { "path": "daf-did-jwt" },
     { "path": "daf-ethr-did" },
-    { "path": "daf-elem-did" },
-    { "path": "daf-fs" },
+    { "path": "daf-express" },
+    { "path": "daf-identity-manager" },
+    { "path": "daf-key-manager" },
     { "path": "daf-libsodium" },
-    { "path": "daf-local-storage" },
-    { "path": "daf-react-native-async-storage" },
-    { "path": "daf-react-native-libsodium" },
+    { "path": "daf-message-handler" },
     { "path": "daf-resolver" },
-    { "path": "daf-resolver-universal" },
+    { "path": "daf-rest" },
     { "path": "daf-selective-disclosure" },
-    { "path": "daf-trust-graph" },
     { "path": "daf-url" },
+    { "path": "daf-typeorm" },
     { "path": "daf-web-did" },
     { "path": "daf-w3c" }
   ]

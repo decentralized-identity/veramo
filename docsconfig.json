@@ -1,0 +1,20 @@
+{
+    "documentPackages": [
+        "daf-core",
+        "daf-did-comm",
+        "daf-did-jwt",
+        "daf-ethr-did",
+        "daf-express",
+        "daf-libsodium",
+        "daf-resolver",
+        "daf-rest",
+        "daf-selective-disclosure",
+        "daf-typeorm",
+        "daf-url",
+        "daf-w3c",
+        "daf-web-did",
+        "daf-key-manager",
+        "daf-identity-manager",
+        "daf-message-handler"
+    ]
+}

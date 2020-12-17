@@ -1,15 +1,17 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
-import { Key } from 'daf-core'
+import { Key } from 'daf-typeorm'
 import { SecretBox } from 'daf-libsodium'
 
 export class SecretBox1588075773000 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {
     const exists = await queryRunner.hasTable('key')
-    if (exists) {
+    if (exists && process.env.DAF_SECRET_KEY) {
       const secretBox = new SecretBox(process.env.DAF_SECRET_KEY)
       const keys = await queryRunner.connection.getRepository(Key).find()
       for (const key of keys) {
-        key.privateKeyHex = await secretBox.encrypt(key.privateKeyHex)
+        if (key.privateKeyHex) {
+          key.privateKeyHex = await secretBox.encrypt(key.privateKeyHex)
+        }
         await key.save()
       }
     }
@@ -17,11 +19,13 @@ export class SecretBox1588075773000 implements MigrationInterface {
 
   async down(queryRunner: QueryRunner): Promise<void> {
     const exists = await queryRunner.hasTable('key')
-    if (exists) {
+    if (exists && process.env.DAF_SECRET_KEY) {
       const secretBox = new SecretBox(process.env.DAF_SECRET_KEY)
       const keys = await queryRunner.connection.getRepository(Key).find()
       for (const key of keys) {
-        key.privateKeyHex = await secretBox.decrypt(key.privateKeyHex)
+        if (key.privateKeyHex) {
+          key.privateKeyHex = await secretBox.decrypt(key.privateKeyHex)
+        }
         await key.save()
       }
     }

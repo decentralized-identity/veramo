@@ -5,11 +5,13 @@
 *~
 /examples/*/node_modules/
 /examples/*/build/
-
+/docs
+/report
 /node_modules
 website/node_modules
 
 /packages/*/build/
+/packages/*/api/*.api.json
 /packages/*/coverage/
 /packages/*/node_modules/
 coverage
@@ -24,3 +26,8 @@ key-store.json
 *.sqlite
 
 .vscode/
+node_modules
+temp
+
+agent.yml
+data

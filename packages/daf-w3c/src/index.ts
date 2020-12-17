@@ -1,4 +1,15 @@
+/**
+ * Provides a {@link daf-w3c#CredentialIssuer | plugin} for the {@link daf-core#Agent} that implements {@link daf-w3c#ICredentialIssuer} interface. Provides a {@link daf-w3c#W3cMessageHandler | plugin} for the {@link daf-message-handler#MessageHandler} that verifies Credentials and Presentations in a message
+ *
+ * @packageDocumentation
+ */
 export { W3cMessageHandler, MessageTypes } from './message-handler'
-export { W3cActionHandler, ActionTypes, ActionSignW3cVp, ActionSignW3cVc } from './action-handler'
-import W3cGql from './graphql'
-export { W3cGql }
+export {
+  CredentialIssuer,
+  ICredentialIssuer,
+  ICreateVerifiableCredentialArgs,
+  ICreateVerifiablePresentationArgs,
+  EncodingFormat,
+} from './action-handler'
+const schema = require('../plugin.schema.json')
+export { schema }

@@ -1,26 +1,34 @@
 {
   "name": "daf-did-comm",
   "description": "DAF DIDComm inspired messaging based on the v1 messaging envelope.",
-  "version": "6.4.1",
+  "version": "7.0.0-beta.57",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "generate-plugin-schema": "yarn daf dev generate-plugin-schema"
+  },
+  "daf": {
+    "pluginInterfaces": {
+      "IDIDComm": "./src/action-handler.ts"
+    }
   },
   "dependencies": {
-    "cross-fetch": "^3.0.4",
-    "daf-core": "^6.4.1",
+    "cross-fetch": "^3.0.5",
+    "daf-core": "^7.0.0-beta.57",
+    "daf-message-handler": "^7.0.0-beta.57",
     "debug": "^4.1.1",
-    "uuid": "^3.3.3"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "@types/uuid": "^3.4.6",
-    "typescript": "^3.8.3"
+    "@types/uuid": "^8.3.0",
+    "typescript": "^4.0.3"
   },
   "files": [
     "build/**/*",
     "src/**/*",
+    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

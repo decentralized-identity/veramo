@@ -1,6 +1,0 @@
-# Client
-
-```
-yarn
-yarn start
-```

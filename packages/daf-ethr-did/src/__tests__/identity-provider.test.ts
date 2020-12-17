@@ -1,7 +1,7 @@
 // import SignerProvider from 'ethjs-provider-signer'
 // import { DafResolver } from 'daf-resolver'
-// import { IdentityProvider } from '../identity-provider'
-// import { Identity } from '../identity'
+// import { IdentifierProvider } from '../identifier-provider'
+// import { Identifier } from '../identifier'
 // import { createJWT, decodeJWT, verifyJWT } from 'did-jwt'
 // const fs = require('fs')
 
@@ -31,7 +31,7 @@ describe('dummy', () => {
 
 // const fileName = './store.json'
 // const network = 'rinkeby'
-// const identityProvider = new IdentityProvider({
+// const identifierProvider = new IdentifierProvider({
 //   fileName,
 //   network,
 //   resolver,
@@ -42,32 +42,32 @@ describe('dummy', () => {
 //   fs.unlinkSync(fileName)
 // })
 
-// it('should create identity', async () => {
-//   const identity = await identityProvider.createIdentity()
-//   expect(identity).toBeInstanceOf(Identity)
+// it('should create identifier', async () => {
+//   const identifier = await identifierProvider.createIdentifier()
+//   expect(identifier).toBeInstanceOf(Identifier)
 // })
 
-// it('identity signs jwt', async () => {
-//   const identity = await identityProvider.createIdentity()
+// it('identifier signs jwt', async () => {
+//   const identifier = await identifierProvider.createIdentifier()
 
 //   const jwt = await createJWT(
 //     { a: 'b' },
 //     {
 //       alg: 'ES256K-R',
-//       issuer: identity.did,
-//       signer: identity.signer(),
+//       issuer: identifier.did,
+//       signer: identifier.signer(),
 //     },
 //   )
 
 //   const decoded = await verifyJWT(jwt, { resolver })
-//   expect(decoded.payload.iss).toEqual(identity.did)
+//   expect(decoded.payload.iss).toEqual(identifier.did)
 // })
 
-// it('imported identity adds serviceEndpoint', async () => {
+// it('imported identifier adds serviceEndpoint', async () => {
 
-//   const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
+//   const identifier = await identifierProvider.importIdentifier(JSON.stringify(serialized))
 
-//   const result = await identityProvider.addService(identity.did, {
+//   const result = await identifierProvider.addService(identifier.did, {
 //     id: 'srvc5',
 //     type: 'Messaging',
 //     serviceEndpoint: 'https://localhos/msg/6789',
@@ -77,21 +77,21 @@ describe('dummy', () => {
 //   expect(result).toBeTruthy()
 // })
 
-// it('imported identity adds Secp256k1 publicKey', async () => {
+// it('imported identifier adds Secp256k1 publicKey', async () => {
 
-//   const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
+//   const identifier = await identifierProvider.importIdentifier(JSON.stringify(serialized))
 
-//   const result = await identityProvider.addPublicKey(identity.did, 'Secp256k1')
+//   const result = await identifierProvider.addPublicKey(identifier.did, 'Secp256k1')
 //   console.log(result)
 
 //   expect(result).toBeTruthy()
 // })
 
-// it('imported identity adds Ed25519 publicKey', async () => {
+// it('imported identifier adds Ed25519 publicKey', async () => {
 
-//   const identity = await identityProvider.importIdentity(JSON.stringify(serialized))
+//   const identifier = await identifierProvider.importIdentifier(JSON.stringify(serialized))
 
-//   const result = await identityProvider.addPublicKey(identity.did, 'Ed25519')
+//   const result = await identifierProvider.addPublicKey(identifier.did, 'Ed25519')
 //   console.log(result)
 
 //   expect(result).toBeTruthy()

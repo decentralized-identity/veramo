@@ -1,0 +1,28 @@
+{
+  "name": "daf-key-manager",
+  "description": "DAF Key Manager",
+  "version": "7.0.0-beta.57",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn daf dev extract-api"
+  },
+  "dependencies": {
+    "daf-core": "^7.0.0-beta.57"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "gitHead": "63dd12da63b2245d32379b435a7a774a56a1f019"
+}

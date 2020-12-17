@@ -1,15 +1,28 @@
-import { Agent, AbstractMessageHandler, Message, Identity } from 'daf-core'
+import { IAgentContext, IMessageHandler } from 'daf-core'
+import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'
 const debug = Debug('daf:daf:selective-disclosure:message-handler')
 
+/**
+ * Identifies a {@link daf-core#IMessage} that represents a Selective Disclosure Request
+ *
+ * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ * @beta
+ */
 export const MessageTypes = {
   sdr: 'sdr',
 }
 
+/**
+ * A DAF message handler plugin that can decode an incoming Selective Disclosure Response
+ * into the internal Message representation.
+ *
+ * @beta
+ */
 export class SdrMessageHandler extends AbstractMessageHandler {
-  async handle(message: Message, agent: Agent): Promise<Message> {
+  async handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message> {
     const meta = message.getLastMetaData()
 
     if (
@@ -22,20 +35,28 @@ export class SdrMessageHandler extends AbstractMessageHandler {
 
       message.id = blake2bHex(message.raw)
       message.type = MessageTypes.sdr
-      message.from = new Identity()
-      message.from.did = message.data.iss
+      message.from = message.data.iss
 
-      message.replyTo = Array.isArray(message.data.replyTo) ? message.data.replyTo : [message.data.replyTo]
-      message.replyUrl = message.data.replyUrl
-
-      if (message.data.subject) {
-        const to = new Identity()
-        to.did = message.data.subject
-        message.to = to
+      if (message.data.replyTo) {
+        message.replyTo = Array.isArray(message.data.replyTo)
+          ? message.data.replyTo
+          : message.data.replyTo
+          ? [message.data.replyTo]
+          : undefined
       }
 
-      message.threadId = message.data.tag
-      message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat)
+      if (message.data.replyUrl) {
+        message.replyUrl = message.data.replyUrl
+      }
+
+      if (message.data.subject) {
+        message.to = message.data.subject
+      }
+
+      if (message.data.tag) {
+        message.threadId = message.data.tag
+      }
+      message.createdAt = this.timestampToDate(message.data.nbf || message.data.iat).toISOString()
 
       if (
         message.data.credentials &&
@@ -43,23 +64,24 @@ export class SdrMessageHandler extends AbstractMessageHandler {
         message.data.credentials.length > 0
       ) {
         debug('Verifying included credentials')
-        message.credentials = []
-        for (const raw of message.data.credentials) {
-          try {
-            const tmpMessage = await agent.handleMessage({ raw, save: false })
-            if (tmpMessage.credentials) {
-              message.credentials = [...message.credentials, ...tmpMessage.credentials]
-            }
-          } catch (e) {
-            // Unsupported message type, or some other error
-            debug(e)
-          }
-        }
+        // FIXME
+        // message.credentials = []
+        // for (const raw of message.data.credentials) {
+        //   try {
+        //     const tmpMessage = await context.agent.handleMessage({ raw, save: false })
+        //     if (tmpMessage.credentials) {
+        //       message.credentials = [...message.credentials, ...tmpMessage.credentials]
+        //     }
+        //   } catch (e) {
+        //     // Unsupported message type, or some other error
+        //     debug(e)
+        //   }
+        // }
       }
       return message
     }
 
-    return super.handle(message, agent)
+    return super.handle(message, context)
   }
 
   private timestampToDate(timestamp: number): Date {

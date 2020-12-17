@@ -1,19 +1,20 @@
-import * as Daf from 'daf-core'
-import * as W3c from 'daf-w3c'
-import * as DIDComm from 'daf-did-comm'
-import { agent } from './setup'
+import { W3CCredential } from 'daf-core'
+import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 
-program
-  .command('credential')
+const credential = program.command('credential').description('W3C Verifiable Credential')
+
+credential
+  .command('create', { isDefault: true })
   .description('Create W3C Verifiable Credential')
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
-  .action(async cmd => {
-    const identities = await (await agent).identityManager.getIdentities()
-    if (identities.length === 0) {
+  .action(async (cmd) => {
+    const agent = getAgent(program.config)
+    const identifiers = await agent.didManagerFind()
+    if (identifiers.length === 0) {
       console.error('No dids')
       process.exit()
     }
@@ -21,14 +22,23 @@ program
       {
         type: 'list',
         name: 'iss',
-        choices: identities.map(item => item.did),
+        choices: identifiers.map((item) => ({
+          name: `${item.did} ${item.alias}`,
+          value: item.did,
+        })),
         message: 'Issuer DID',
       },
       {
         type: 'input',
         name: 'sub',
         message: 'Subject DID',
-        default: identities[0].did,
+        default: identifiers[0].did,
+      },
+      {
+        type: 'input',
+        name: 'type',
+        message: 'Credential Type',
+        default: 'VerifiableCredential,Profile',
       },
       {
         type: 'input',
@@ -58,10 +68,11 @@ program
     const type: string = answers.claimType
     credentialSubject[type] = answers.claimValue
 
-    const data = {
-      issuer: answers.iss,
+    const credential: W3CCredential = {
+      issuer: { id: answers.iss },
       '@context': ['https://www.w3.org/2018/credentials/v1'],
-      type: ['VerifiableCredential'],
+      type: answers.type.split(','),
+      issuanceDate: new Date().toISOString(),
       credentialSubject,
     }
 
@@ -81,187 +92,38 @@ program
         },
       ])
 
-      data['credentialStatus'] = {
+      credential['credentialStatus'] = {
         type: statusAnswers.type,
         id: statusAnswers.id,
       }
     }
 
-    const signAction: W3c.ActionSignW3cVc = {
-      type: W3c.ActionTypes.signCredentialJwt,
+    const verifiableCredential = await agent.createVerifiableCredential({
       save: true,
-      data,
-    }
-
-    const credential: Daf.Credential = await (await agent).handleAction(signAction)
+      credential,
+      proofFormat: 'jwt',
+    })
 
     if (cmd.send) {
-      const sendAction: DIDComm.ActionSendDIDComm = {
-        type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
-        data: {
-          from: answers.iss,
-          to: answers.sub,
-          type: 'jwt',
-          body: credential.raw,
-        },
-      }
       try {
-        const message: Daf.Message = await (await agent).handleAction(sendAction)
-        console.log('Sent:', message)
+        const message = await agent.sendMessageDIDCommAlpha1({
+          save: true,
+          data: {
+            from: answers.iss,
+            to: answers.sub,
+            type: 'jwt',
+            body: verifiableCredential.proof.jwt,
+          },
+        })
+        console.dir(message, { depth: 10 })
       } catch (e) {
         console.error(e)
       }
     }
 
     if (cmd.qrcode) {
-      qrcode.generate(credential.raw)
+      qrcode.generate(verifiableCredential.proof.jwt)
     } else {
-      console.log(`jwt: ${credential.raw}`)
-    }
-  })
-
-program
-  .command('presentation')
-  .description('Create W3C Verifiable Presentation')
-  .option('-s, --send', 'Send')
-  .option('-q, --qrcode', 'Show qrcode')
-  .action(async cmd => {
-    const myIdentities = await (await agent).identityManager.getIdentities()
-    if (myIdentities.length === 0) {
-      console.error('No dids')
-      process.exit()
-    }
-
-    const ids = await Daf.Identity.find()
-
-    const identities = [
-      {
-        name: 'Enter manualy',
-        value: 'manual',
-      },
-    ]
-    for (const id of ids) {
-      const name = await id.getLatestClaimValue((await agent).dbConnection, { type: 'name' })
-      identities.push({
-        value: id.did,
-        name: `${id.did} - ${name}`,
-      })
-    }
-
-    let aud = null
-    const answers = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'iss',
-        choices: myIdentities.map(item => item.did),
-        message: 'Issuer DID',
-      },
-      {
-        type: 'input',
-        name: 'tag',
-        message: 'Tag',
-      },
-      {
-        type: 'list',
-        name: 'aud',
-        message: 'Audience DID',
-        choices: identities,
-      },
-    ])
-
-    if (answers.aud === 'manual') {
-      const audAnswer = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'aud',
-          message: 'Enter audience DID',
-        },
-      ])
-      aud = audAnswer.aud
-    } else {
-      aud = answers.aud
-    }
-
-    const credentials = await Daf.Credential.find({
-      where: { subject: answers.iss },
-      relations: ['claims'],
-    })
-    const list: any = []
-    if (credentials.length > 0) {
-      for (const credential of credentials) {
-        const issuer = credential.issuer.shortDid()
-        const claims = []
-        for (const claim of credential.claims) {
-          claims.push(claim.type + ' = ' + claim.value)
-        }
-        list.push({
-          name: claims.join(', ') + ' | Issuer: ' + issuer,
-          value: credential.raw,
-        })
-      }
-
-      let addMoreCredentials = true
-      const verifiableCredential = []
-
-      while (addMoreCredentials) {
-        const answers2 = await inquirer.prompt([
-          {
-            type: 'list',
-            name: 'credential',
-            choices: list,
-            message: 'Select credential',
-          },
-          {
-            type: 'list',
-            name: 'addMore',
-            message: 'Add another credential?',
-            choices: [
-              { name: 'Yes', value: true },
-              { name: 'No', value: false },
-            ],
-          },
-        ])
-        verifiableCredential.push(answers2.credential)
-        addMoreCredentials = answers2.addMore
-      }
-
-      const signAction: W3c.ActionSignW3cVp = {
-        type: W3c.ActionTypes.signPresentationJwt,
-        save: true,
-        data: {
-          issuer: answers.iss,
-          audience: [aud],
-          tag: answers.tag,
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiablePresentation'],
-          verifiableCredential,
-        },
-      }
-
-      const presentation: Daf.Presentation = await (await agent).handleAction(signAction)
-
-      if (cmd.send) {
-        const sendAction: DIDComm.ActionSendDIDComm = {
-          type: DIDComm.ActionTypes.sendMessageDIDCommAlpha1,
-          data: {
-            from: answers.iss,
-            to: aud,
-            type: 'jwt',
-            body: presentation.raw,
-          },
-        }
-        try {
-          const message: Daf.Message = await (await agent).handleAction(sendAction)
-          console.log('Sent:', message)
-        } catch (e) {
-          console.error(e)
-        }
-      }
-
-      if (cmd.qrcode) {
-        qrcode.generate(presentation.raw)
-      } else {
-        console.log(`jwt: ${presentation.raw}`)
-      }
+      console.dir(verifiableCredential, { depth: 10 })
     }
   })

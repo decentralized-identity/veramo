@@ -1,0 +1,964 @@
+{
+  "IDataStoreORM": {
+    "components": {
+      "schemas": {
+        "FindIdentifiersArgs": {
+          "$ref": "#/components/schemas/FindArgs-TIdentifiersColumns"
+        },
+        "FindArgs-TIdentifiersColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TIdentifiersColumns"
+              }
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TIdentifiersColumns"
+              }
+            },
+            "take": {
+              "type": "number"
+            },
+            "skip": {
+              "type": "number"
+            }
+          }
+        },
+        "Where-TIdentifiersColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TIdentifiersColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ]
+        },
+        "TIdentifiersColumns": {
+          "type": "string",
+          "enum": [
+            "did",
+            "alias",
+            "provider"
+          ]
+        },
+        "Order-TIdentifiersColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TIdentifiersColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ]
+        },
+        "PartialIdentifier": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Decentralized identifier"
+            },
+            "alias": {
+              "type": "string",
+              "description": "Optional. Identifier alias. Can be used to reference an object in an external system"
+            },
+            "provider": {
+              "type": "string",
+              "description": "Identifier provider name"
+            },
+            "controllerKeyId": {
+              "type": "string",
+              "description": "Controller key id"
+            },
+            "keys": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IKey"
+              },
+              "description": "Array of managed keys"
+            },
+            "services": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IService"
+              },
+              "description": "Array of services"
+            }
+          }
+        },
+        "IKey": {
+          "type": "object",
+          "properties": {
+            "kid": {
+              "type": "string",
+              "description": "Key ID"
+            },
+            "kms": {
+              "type": "string",
+              "description": "Key Management System"
+            },
+            "type": {
+              "$ref": "#/components/schemas/TKeyType",
+              "description": "Key type"
+            },
+            "publicKeyHex": {
+              "type": "string",
+              "description": "Public key"
+            },
+            "privateKeyHex": {
+              "type": "string",
+              "description": "Optional. Private key"
+            },
+            "meta": {
+              "anyOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Key metadata. Can be used to store auth data to access remote kms"
+            }
+          },
+          "required": [
+            "kid",
+            "kms",
+            "type",
+            "publicKeyHex"
+          ],
+          "description": "Cryptographic key"
+        },
+        "TKeyType": {
+          "type": "string",
+          "enum": [
+            "Ed25519",
+            "Secp256k1"
+          ],
+          "description": "Cryptographic key type"
+        },
+        "IService": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "ID"
+            },
+            "type": {
+              "type": "string",
+              "description": "Service type"
+            },
+            "serviceEndpoint": {
+              "type": "string",
+              "description": "Endpoint URL"
+            },
+            "description": {
+              "type": "string",
+              "description": "Optional. Description"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "serviceEndpoint"
+          ],
+          "description": "Identifier service"
+        },
+        "FindMessagesArgs": {
+          "$ref": "#/components/schemas/FindArgs-TMessageColumns"
+        },
+        "FindArgs-TMessageColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TMessageColumns"
+              }
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TMessageColumns"
+              }
+            },
+            "take": {
+              "type": "number"
+            },
+            "skip": {
+              "type": "number"
+            }
+          }
+        },
+        "Where-TMessageColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TMessageColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ]
+        },
+        "TMessageColumns": {
+          "type": "string",
+          "enum": [
+            "from",
+            "to",
+            "id",
+            "createdAt",
+            "expiresAt",
+            "threadId",
+            "type",
+            "raw",
+            "replyTo",
+            "replyUrl"
+          ]
+        },
+        "Order-TMessageColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TMessageColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ]
+        },
+        "IMessage": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique message ID"
+            },
+            "type": {
+              "type": "string",
+              "description": "Message type"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Optional. Creation date (ISO 8601)"
+            },
+            "expiresAt": {
+              "type": "string",
+              "description": "Optional. Expiration date (ISO 8601)"
+            },
+            "threadId": {
+              "type": "string",
+              "description": "Optional. Thread ID"
+            },
+            "raw": {
+              "type": "string",
+              "description": "Optional. Original message raw data"
+            },
+            "data": {
+              "anyOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Parsed data"
+            },
+            "replyTo": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Optional. List of DIDs to reply to"
+            },
+            "replyUrl": {
+              "type": "string",
+              "description": "Optional. URL to post a reply message to"
+            },
+            "from": {
+              "type": "string",
+              "description": "Optional. Sender DID"
+            },
+            "to": {
+              "type": "string",
+              "description": "Optional. Recipient DID"
+            },
+            "metaData": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMetaData"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Array of message metadata"
+            },
+            "credentials": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              },
+              "description": "Optional. Array of attached verifiable credentials"
+            },
+            "presentations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiablePresentation"
+              },
+              "description": "Optional. Array of attached verifiable presentations"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "description": "DIDComm message"
+        },
+        "IMetaData": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Type"
+            },
+            "value": {
+              "type": "string",
+              "description": "Optional. Value"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "description": "Message meta data"
+        },
+        "VerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuer": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "credentialSubject": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            },
+            "credentialStatus": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "type"
+              ]
+            },
+            "proof": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "@context",
+            "type",
+            "issuer",
+            "issuanceDate",
+            "credentialSubject",
+            "proof"
+          ],
+          "description": "Verifiable Credential {@link https://github.com/decentralized-identifier/did-jwt-vc}"
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "holder": {
+              "type": "string"
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verifier": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              }
+            },
+            "proof": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "holder",
+            "@context",
+            "type",
+            "verifier",
+            "verifiableCredential",
+            "proof"
+          ],
+          "description": "Verifiable Presentation {@link https://github.com/decentralized-identifier/did-jwt-vc}"
+        },
+        "FindCredentialsArgs": {
+          "$ref": "#/components/schemas/FindArgs-TCredentialColumns"
+        },
+        "FindArgs-TCredentialColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TCredentialColumns"
+              }
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TCredentialColumns"
+              }
+            },
+            "take": {
+              "type": "number"
+            },
+            "skip": {
+              "type": "number"
+            }
+          }
+        },
+        "Where-TCredentialColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TCredentialColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ]
+        },
+        "TCredentialColumns": {
+          "type": "string",
+          "enum": [
+            "context",
+            "type",
+            "id",
+            "issuer",
+            "subject",
+            "expirationDate",
+            "issuanceDate"
+          ]
+        },
+        "Order-TCredentialColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TCredentialColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ]
+        },
+        "UniqueVerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "verifiableCredential": {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            }
+          },
+          "required": [
+            "hash",
+            "verifiableCredential"
+          ]
+        },
+        "FindClaimsArgs": {
+          "$ref": "#/components/schemas/FindArgs-TClaimsColumns"
+        },
+        "FindArgs-TClaimsColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TClaimsColumns"
+              }
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TClaimsColumns"
+              }
+            },
+            "take": {
+              "type": "number"
+            },
+            "skip": {
+              "type": "number"
+            }
+          }
+        },
+        "Where-TClaimsColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TClaimsColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ]
+        },
+        "TClaimsColumns": {
+          "type": "string",
+          "enum": [
+            "context",
+            "credentialType",
+            "type",
+            "value",
+            "isObj",
+            "id",
+            "issuer",
+            "subject",
+            "expirationDate",
+            "issuanceDate"
+          ]
+        },
+        "Order-TClaimsColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TClaimsColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ]
+        },
+        "FindPresentationsArgs": {
+          "$ref": "#/components/schemas/FindArgs-TPresentationColumns"
+        },
+        "FindArgs-TPresentationColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TPresentationColumns"
+              }
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TPresentationColumns"
+              }
+            },
+            "take": {
+              "type": "number"
+            },
+            "skip": {
+              "type": "number"
+            }
+          }
+        },
+        "Where-TPresentationColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TPresentationColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ]
+        },
+        "TPresentationColumns": {
+          "type": "string",
+          "enum": [
+            "context",
+            "type",
+            "id",
+            "holder",
+            "verifier",
+            "expirationDate",
+            "issuanceDate"
+          ]
+        },
+        "Order-TPresentationColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TPresentationColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ]
+        },
+        "UniqueVerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "verifiablePresentation": {
+              "$ref": "#/components/schemas/VerifiablePresentation"
+            }
+          },
+          "required": [
+            "hash",
+            "verifiablePresentation"
+          ]
+        }
+      },
+      "methods": {
+        "dataStoreORMGetIdentifiers": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindIdentifiersArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartialIdentifier"
+            }
+          }
+        },
+        "dataStoreORMGetIdentifiersCount": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindIdentifiersArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        },
+        "dataStoreORMGetMessages": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindMessagesArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMessage"
+            }
+          }
+        },
+        "dataStoreORMGetMessagesCount": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindMessagesArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        },
+        "dataStoreORMGetVerifiableCredentials": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindCredentialsArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UniqueVerifiableCredential"
+            }
+          }
+        },
+        "dataStoreORMGetVerifiableCredentialsByClaims": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindClaimsArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UniqueVerifiableCredential"
+            }
+          }
+        },
+        "dataStoreORMGetVerifiableCredentialsByClaimsCount": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindClaimsArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        },
+        "dataStoreORMGetVerifiableCredentialsCount": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindCredentialsArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        },
+        "dataStoreORMGetVerifiablePresentations": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindPresentationsArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UniqueVerifiablePresentation"
+            }
+          }
+        },
+        "dataStoreORMGetVerifiablePresentationsCount": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/FindPresentationsArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}
