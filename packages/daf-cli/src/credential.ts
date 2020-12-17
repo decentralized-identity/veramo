@@ -13,8 +13,8 @@ credential
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
-    const identities = await agent.identityManagerGetIdentities()
-    if (identities.length === 0) {
+    const identifiers = await agent.idManagerGetIdentifiers()
+    if (identifiers.length === 0) {
       console.error('No dids')
       process.exit()
     }
@@ -22,7 +22,7 @@ credential
       {
         type: 'list',
         name: 'iss',
-        choices: identities.map((item) => ({
+        choices: identifiers.map((item) => ({
           name: `${item.did} ${item.alias}`,
           value: item.did,
         })),
@@ -32,7 +32,7 @@ credential
         type: 'input',
         name: 'sub',
         message: 'Subject DID',
-        default: identities[0].did,
+        default: identifiers[0].did,
       },
       {
         type: 'input',

@@ -19,7 +19,7 @@ import { Connection } from 'typeorm'
 
 @Entity()
 @Index(['alias', 'provider'], { unique: true })
-export class Identity extends BaseEntity {
+export class Identifier extends BaseEntity {
   @PrimaryColumn()
   //@ts-ignore
   did: string
@@ -44,11 +44,11 @@ export class Identity extends BaseEntity {
   //@ts-ignore
   controllerKeyId: string
 
-  @OneToMany((type) => Key, (key) => key.identity)
+  @OneToMany((type) => Key, (key) => key.identifier)
   //@ts-ignore
   keys: Key[]
 
-  @OneToMany((type) => Service, (service) => service.identity, {
+  @OneToMany((type) => Service, (service) => service.identifier, {
     cascade: true,
   })
   //@ts-ignore
@@ -89,7 +89,7 @@ export class Identity extends BaseEntity {
   /**
    * Convenience method
    *
-   * const name = await identity.getLatestClaimValue({type: 'name'})
+   * const name = await identifier.getLatestClaimValue({type: 'name'})
    *
    * @param where
    */

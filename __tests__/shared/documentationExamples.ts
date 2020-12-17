@@ -1,10 +1,10 @@
-import { TAgent, IIdentityManager, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
+import { TAgent, IIdManager, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 
 type ConfiguredAgent = TAgent<
-  IIdentityManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
+  IIdManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
 >
 
 export default (testContext: {
@@ -48,35 +48,35 @@ export default (testContext: {
       })
     })
 
-    it('daf-core-IIdentityManager-identityManagerCreateIdentity example', async () => {
-      const identity = await agent.identityManagerCreateIdentity({
+    it('daf-core-IIdManager-idManagerCreateIdentifier example', async () => {
+      const identifier = await agent.idManagerCreateIdentifier({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
         kms: 'local',
       })
     })
 
-    it('daf-core-IIdentityManager-identityManagerGetIdentities example', async () => {
-      const aliceIdentities = await agent.identityManagerGetIdentities({
+    it('daf-core-IIdManager-idManagerGetIdentifiers example', async () => {
+      const aliceIdentifiers = await agent.idManagerGetIdentifiers({
         alias: 'alice',
       })
 
-      const rinkebyIdentities = await agent.identityManagerGetIdentities({
+      const rinkebyIdentifiers = await agent.idManagerGetIdentifiers({
         provider: 'did:ethr:rinkeby',
       })
     })
 
-    it('daf-core-IIdentityManager-identityManagerGetIdentityByAlias example', async () => {
-      const identity = await agent.identityManagerGetIdentityByAlias({
+    it('daf-core-IIdManager-idManagerGetIdentifierByAlias example', async () => {
+      const identifier = await agent.idManagerGetIdentifierByAlias({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
       })
     })
 
-    it('daf-core-IIdentityManager-identityManagerSetAlias example', async () => {
-      const identity = await agent.identityManagerCreateIdentity()
-      const result = await agent.identityManagerSetAlias({
-        did: identity.did,
+    it('daf-core-IIdManager-idManagerSetAlias example', async () => {
+      const identifier = await agent.idManagerCreateIdentifier()
+      const result = await agent.idManagerSetAlias({
+        did: identifier.did,
         alias: 'carol',
       })
     })

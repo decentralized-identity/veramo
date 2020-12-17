@@ -2,22 +2,22 @@
   "IDataStoreORM": {
     "components": {
       "schemas": {
-        "FindIdentitiesArgs": {
-          "$ref": "#/components/schemas/FindArgs-TIdentitiesColumns"
+        "FindIdentifiersArgs": {
+          "$ref": "#/components/schemas/FindArgs-TIdentifiersColumns"
         },
-        "FindArgs-TIdentitiesColumns": {
+        "FindArgs-TIdentifiersColumns": {
           "type": "object",
           "properties": {
             "where": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/Where-TIdentitiesColumns"
+                "$ref": "#/components/schemas/Where-TIdentifiersColumns"
               }
             },
             "order": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/Order-TIdentitiesColumns"
+                "$ref": "#/components/schemas/Order-TIdentifiersColumns"
               }
             },
             "take": {
@@ -28,11 +28,11 @@
             }
           }
         },
-        "Where-TIdentitiesColumns": {
+        "Where-TIdentifiersColumns": {
           "type": "object",
           "properties": {
             "column": {
-              "$ref": "#/components/schemas/TIdentitiesColumns"
+              "$ref": "#/components/schemas/TIdentifiersColumns"
             },
             "value": {
               "type": "array",
@@ -63,7 +63,7 @@
             "column"
           ]
         },
-        "TIdentitiesColumns": {
+        "TIdentifiersColumns": {
           "type": "string",
           "enum": [
             "did",
@@ -71,11 +71,11 @@
             "provider"
           ]
         },
-        "Order-TIdentitiesColumns": {
+        "Order-TIdentifiersColumns": {
           "type": "object",
           "properties": {
             "column": {
-              "$ref": "#/components/schemas/TIdentitiesColumns"
+              "$ref": "#/components/schemas/TIdentifiersColumns"
             },
             "direction": {
               "type": "string",
@@ -90,7 +90,7 @@
             "direction"
           ]
         },
-        "PartialIdentity": {
+        "PartialIdentifier": {
           "type": "object",
           "properties": {
             "did": {
@@ -99,11 +99,11 @@
             },
             "alias": {
               "type": "string",
-              "description": "Optional. Identity alias. Can be used to reference an object in an external system"
+              "description": "Optional. Identifier alias. Can be used to reference an object in an external system"
             },
             "provider": {
               "type": "string",
-              "description": "Identity provider name"
+              "description": "Identifier provider name"
             },
             "controllerKeyId": {
               "type": "string",
@@ -201,7 +201,7 @@
             "type",
             "serviceEndpoint"
           ],
-          "description": "Identity service"
+          "description": "Identifier service"
         },
         "FindMessagesArgs": {
           "$ref": "#/components/schemas/FindArgs-TMessageColumns"
@@ -482,7 +482,7 @@
             "credentialSubject",
             "proof"
           ],
-          "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "Verifiable Credential {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -540,7 +540,7 @@
             "verifiableCredential",
             "proof"
           ],
-          "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "Verifiable Presentation {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         },
         "FindCredentialsArgs": {
           "$ref": "#/components/schemas/FindArgs-TCredentialColumns"
@@ -853,22 +853,22 @@
         }
       },
       "methods": {
-        "dataStoreORMGetIdentities": {
+        "dataStoreORMGetIdentifiers": {
           "description": "",
           "arguments": {
-            "$ref": "#/components/schemas/FindIdentitiesArgs"
+            "$ref": "#/components/schemas/FindIdentifiersArgs"
           },
           "returnType": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PartialIdentity"
+              "$ref": "#/components/schemas/PartialIdentifier"
             }
           }
         },
-        "dataStoreORMGetIdentitiesCount": {
+        "dataStoreORMGetIdentifiersCount": {
           "description": "",
           "arguments": {
-            "$ref": "#/components/schemas/FindIdentitiesArgs"
+            "$ref": "#/components/schemas/FindIdentifiersArgs"
           },
           "returnType": {
             "type": "number"

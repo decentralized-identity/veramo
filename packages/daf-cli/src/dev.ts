@@ -15,7 +15,7 @@ import {
   ApiReturnTypeMixin,
   ApiMethodSignature,
 } from '@microsoft/api-extractor-model'
-import { IIdentity } from 'daf-core'
+import { IIdentifier } from 'daf-core'
 
 interface Method {
   packageName: string

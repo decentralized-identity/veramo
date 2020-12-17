@@ -9,7 +9,7 @@ import { getAgent, getConfig } from './setup'
 import { createObjects } from './lib/objectCreator'
 import passport from 'passport'
 import Bearer from 'passport-http-bearer'
-import { IIdentity } from 'daf-core'
+import { IIdentifier } from 'daf-core'
 const exphbs = require('express-handlebars')
 const hbs = exphbs.create({
   helpers: {
@@ -118,25 +118,24 @@ program
     console.log('🧩 Available methods', agent.availableMethods().length)
     console.log('🛠  Exposed methods', exposedMethods.length)
 
-
     /**
-     * Creating server identity and configuring messaging service endpoint
+     * Creating server identifier and configuring messaging service endpoint
      */
-    let serverIdentity: IIdentity
-    if (options.defaultIdentity.create) {
-      serverIdentity = await agent.identityManagerGetOrCreateIdentity({
+    let serverIdentifier: IIdentifier
+    if (options.defaultIdentifier.create) {
+      serverIdentifier = await agent.idManagerGetOrCreateIdentifier({
         provider: 'did:web',
         alias: hostname,
       })
-      console.log('🆔', serverIdentity.did)
+      console.log('🆔', serverIdentifier.did)
 
-      const messagingServiceEndpoint = baseUrl + options.defaultIdentity.messagingServiceEndpoint
+      const messagingServiceEndpoint = baseUrl + options.defaultIdentifier.messagingServiceEndpoint
 
       console.log('📨 Messaging endpoint', messagingServiceEndpoint)
-      await agent.identityManagerAddService({
-        did: serverIdentity.did,
+      await agent.idManagerAddService({
+        did: serverIdentifier.did,
         service: {
-          id: serverIdentity.did + '#msg',
+          id: serverIdentifier.did + '#msg',
           type: 'Messaging',
           description: 'Handles incoming POST messages',
           serviceEndpoint: messagingServiceEndpoint,
@@ -144,7 +143,7 @@ program
       })
 
       app.post(
-        options.defaultIdentity.messagingServiceEndpoint,
+        options.defaultIdentifier.messagingServiceEndpoint,
         express.text({ type: '*/*' }),
         async (req, res) => {
           try {

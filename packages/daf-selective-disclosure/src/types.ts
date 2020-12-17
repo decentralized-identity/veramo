@@ -1,6 +1,6 @@
 import {
   IAgentContext,
-  IIdentityManager,
+  IIdManager,
   IKeyManager,
   IPluginMethodMap,
   VerifiableCredential,
@@ -215,7 +215,7 @@ export interface ICreateProfileCredentialsArgs {
 export interface ISelectiveDisclosure extends IPluginMethodMap {
   createSelectiveDisclosureRequest(
     args: ICreateSelectiveDisclosureRequestArgs,
-    context: IAgentContext<IIdentityManager & IKeyManager>,
+    context: IAgentContext<IIdManager & IKeyManager>,
   ): Promise<string>
   getVerifiableCredentialsForSdr(
     args: IGetVerifiableCredentialsForSdrArgs,
@@ -227,6 +227,6 @@ export interface ISelectiveDisclosure extends IPluginMethodMap {
   ): Promise<IPresentationValidationResult>
   createProfilePresentation(
     args: ICreateProfileCredentialsArgs,
-    context: IAgentContext<ICredentialIssuer & IIdentityManager>,
+    context: IAgentContext<ICredentialIssuer & IIdManager>,
   ): Promise<VerifiablePresentation>
 }

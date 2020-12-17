@@ -1,5 +1,5 @@
 /**
- * Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}
+ * Verifiable Credential {@link https://github.com/decentralized-identifier/did-jwt-vc}
  * @public
  */
 export interface VerifiableCredential {
@@ -25,7 +25,7 @@ export interface VerifiableCredential {
 }
 
 /**
- * Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}
+ * Verifiable Presentation {@link https://github.com/decentralized-identifier/did-jwt-vc}
  * @public
  */
 export interface VerifiablePresentation {
@@ -44,9 +44,8 @@ export interface VerifiablePresentation {
   [x: string]: any
 }
 
-
 /**
- * W3CCredential {@link https://github.com/decentralized-identity/did-jwt-vc}
+ * W3CCredential {@link https://github.com/decentralized-identifier/did-jwt-vc}
  * @public
  */
 export interface W3CCredential {
@@ -68,7 +67,7 @@ export interface W3CCredential {
 }
 
 /**
- * W3CPresentation {@link https://github.com/decentralized-identity/did-jwt-vc}
+ * W3CPresentation {@link https://github.com/decentralized-identifier/did-jwt-vc}
  * @public
  */
 export interface W3CPresentation {
@@ -127,7 +126,7 @@ export interface IMessage {
   /**
    * Optional. Thread ID
    */
-  threadId?: string 
+  threadId?: string
 
   /**
    * Optional. Original message raw data

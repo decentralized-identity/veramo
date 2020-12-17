@@ -1,10 +1,10 @@
-import { TAgent, IIdentityManager, IIdentity, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
+import { TAgent, IIdManager, IIdentifier, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 import { ISelectiveDisclosure, SelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 
 type ConfiguredAgent = TAgent<
-  IIdentityManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
+  IIdManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
 >
 
 export default (testContext: {
@@ -14,7 +14,7 @@ export default (testContext: {
 }) => {
   describe('handling sdr message', () => {
     let agent: ConfiguredAgent
-    let identity: IIdentity
+    let identifier: IIdentifier
     let JWT: string
     let originalRequestSender: string
     let sdr: SelectiveDisclosure
@@ -25,15 +25,15 @@ export default (testContext: {
     })
     afterAll(testContext.tearDown)
 
-    it('should create identity', async () => {
-      identity = await agent.identityManagerCreateIdentity({ kms: 'local' })
-      expect(identity).toHaveProperty('did')
+    it('should create identifier', async () => {
+      identifier = await agent.idManagerCreateIdentifier({ kms: 'local' })
+      expect(identifier).toHaveProperty('did')
     })
 
     it('should create verifiable credential', async () => {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential'],
           issuanceDate: new Date().toISOString(),
@@ -51,14 +51,16 @@ export default (testContext: {
     it('should save an SDR message', async () => {
       JWT = await agent.createSelectiveDisclosureRequest({
         data: {
-          issuer: identity.did,
+          issuer: identifier.did,
           tag: 'sdr-one',
-          claims: [{
-            reason: 'We need it',
-            claimType: 'name',
-            essential: true
-          }]
-        }
+          claims: [
+            {
+              reason: 'We need it',
+              claimType: 'name',
+              essential: true,
+            },
+          ],
+        },
       })
 
       const message = await agent.handleMessage({
@@ -80,14 +82,14 @@ export default (testContext: {
     })
 
     it('should be able to sign a credential after saving a message', async () => {
-      const identities = await agent.identityManagerGetIdentities()
-      const identity = identities[0]
+      const identifiers = await agent.idManagerGetIdentifiers()
+      const identifier = identifiers[0]
 
-      expect(identities[0].did).toBeDefined()
+      expect(identifiers[0].did).toBeDefined()
 
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
-          issuer: { id: identity.did },
+          issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential'],
           issuanceDate: new Date().toISOString(),
@@ -132,7 +134,7 @@ export default (testContext: {
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
           verifier: [originalRequestSender],
-          holder: identity.did,
+          holder: identifier.did,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
           issuanceDate: new Date().toISOString(),
@@ -143,7 +145,6 @@ export default (testContext: {
       })
 
       expect(verifiablePresentation).toHaveProperty('proof.jwt')
-
 
       const validated = await agent.validatePresentationAgainstSdr({
         presentation: verifiablePresentation,

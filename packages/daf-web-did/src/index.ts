@@ -1,6 +1,6 @@
 /**
- * Provides `did:web` {@link daf-web-did#WebIdentityProvider | identity provider } for the {@link daf-identity-manager#IdentityManager}
+ * Provides `did:web` {@link daf-web-did#WebIdentifierProvider | identifier provider } for the {@link daf-identity-manager#IdManager}
  *
  * @packageDocumentation
  */
-export { WebIdentityProvider } from './identity-provider'
+export { WebIdentifierProvider } from './identifier-provider'

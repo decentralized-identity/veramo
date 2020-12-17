@@ -12,7 +12,7 @@
     "pluginInterfaces": {
       "IResolver": "./src/types/IResolver.ts",
       "IKeyManager": "./src/types/IKeyManager.ts",
-      "IIdentityManager": "./src/types/IIdentityManager.ts",
+      "IdManager": "./src/types/IdManager.ts",
       "IDataStore": "./src/types/IDataStore.ts",
       "IMessageHandler": "./src/types/IMessageHandler.ts"
     }

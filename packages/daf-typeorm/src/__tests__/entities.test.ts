@@ -2,7 +2,7 @@ import { VerifiableCredential, VerifiablePresentation } from 'daf-core'
 import { Credential, createCredentialEntity } from '../entities/credential'
 import { Presentation, createPresentationEntity } from '../entities/presentation'
 import { createConnection, Connection, In, Raw, FindConditions } from 'typeorm'
-import { Identity, Key, Message, Claim } from '../index'
+import { Identifier, Key, Message, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import fs from 'fs'
@@ -30,13 +30,13 @@ describe('daf-core', () => {
     fs.unlinkSync(databaseFile)
   })
 
-  it('Saves identity to DB', async () => {
-    const identity = new Identity()
-    identity.did = 'did:test:123'
-    await identity.save()
+  it('Saves identifier to DB', async () => {
+    const identifier = new Identifier()
+    identifier.did = 'did:test:123'
+    await identifier.save()
 
-    const fromDb = await Identity.findOne(identity.did)
-    expect(fromDb?.did).toEqual(identity.did)
+    const fromDb = await Identifier.findOne(identifier.did)
+    expect(fromDb?.did).toEqual(identifier.did)
   })
 
   it('Saves credential with claims', async () => {
@@ -124,9 +124,9 @@ describe('daf-core', () => {
     await vp2.save()
 
     const m = new Message()
-    m.from = new Identity()
+    m.from = new Identifier()
     m.from.did = did1
-    m.to = new Identity()
+    m.to = new Identifier()
     m.to.did = did2
     m.type = 'mock'
     m.raw = 'mock'
@@ -182,17 +182,17 @@ describe('daf-core', () => {
     expect(fromDb?.type).toEqual('custom')
   })
 
-  it('enforces unique alias/provider for an identity', async () => {
-    const identity = new Identity()
-    identity.did = 'did:test:123'
-    identity.alias = 'test'
-    identity.provider = 'testProvider'
-    const id1Result = await identity.save()
+  it('enforces unique alias/provider for an identifier', async () => {
+    const identifier = new Identifier()
+    identifier.did = 'did:test:123'
+    identifier.alias = 'test'
+    identifier.provider = 'testProvider'
+    const id1Result = await identifier.save()
 
-    const identity2 = new Identity()
-    identity2.did = 'did:test:456'
-    identity2.alias = 'test'
-    identity2.provider = 'testProvider'
-    await expect(identity2.save()).rejects.toThrowError()
+    const identifier2 = new Identifier()
+    identifier2.did = 'did:test:456'
+    identifier2.alias = 'test'
+    identifier2.provider = 'testProvider'
+    await expect(identifier2.save()).rejects.toThrowError()
   })
 })

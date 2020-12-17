@@ -3,7 +3,7 @@ import { IMessage } from 'daf-core'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
 
-import { getManagedIdentitiesTable } from './managed-identities'
+import { getManagedIdentifiersTable } from './managed-identifiers'
 import { getMessagesTable } from './messages'
 import { getCredentialsTable } from './credentials'
 import { getPresentationsTable } from './presentations'
@@ -19,7 +19,7 @@ export const renderMainScreen = async (agent: ConfiguredAgent) => {
   screen.title = defaultScreenTitle
 
   const mainMenuItems = [
-    { title: 'Managed identities', getComponent: getManagedIdentitiesTable },
+    { title: 'Managed identifiers', getComponent: getManagedIdentifiersTable },
     { title: 'Messages', getComponent: getMessagesTable },
     { title: 'Credentials', getComponent: getCredentialsTable },
     { title: 'Presentations', getComponent: getPresentationsTable },

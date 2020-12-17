@@ -1,5 +1,5 @@
 import { IPluginMethodMap } from './IAgent'
-import { TKeyType, IKey } from './IIdentity'
+import { TKeyType, IKey } from './IIdentifier'
 
 /**
  * Input arguments for {@link IKeyManager.keyManagerCreateKey | keyManagerCreateKey}

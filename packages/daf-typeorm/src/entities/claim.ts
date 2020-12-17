@@ -1,5 +1,5 @@
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn } from 'typeorm'
-import { Identity } from './identity'
+import { Identifier } from './identifier'
 import { Credential } from './credential'
 
 @Entity()
@@ -8,17 +8,17 @@ export class Claim extends BaseEntity {
   //@ts-ignore
   hash: string
 
-  @ManyToOne((type) => Identity, (identity) => identity.issuedClaims, {
+  @ManyToOne((type) => Identifier, (identifier) => identifier.issuedClaims, {
     eager: true,
   })
   //@ts-ignore
-  issuer: Identity
+  issuer: Identifier
 
-  @ManyToOne((type) => Identity, (identity) => identity.receivedClaims, {
+  @ManyToOne((type) => Identifier, (identifier) => identifier.receivedClaims, {
     eager: true,
     nullable: true,
   })
-  subject?: Identity
+  subject?: Identifier
 
   @ManyToOne((type) => Credential, (credential) => credential.claims)
   //@ts-ignore

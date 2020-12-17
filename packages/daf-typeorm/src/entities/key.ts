@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne } from 'typeorm'
-import { Identity } from './identity'
+import { Identifier } from './identifier'
 
 export type KeyType = 'Ed25519' | 'Secp256k1'
 
@@ -27,7 +27,7 @@ export class Key extends BaseEntity {
   @Column({ type: 'simple-json', nullable: true })
   meta?: object | null
 
-  @ManyToOne((type) => Identity, (identity) => identity.keys)
+  @ManyToOne((type) => Identifier, (identifier) => identifier.keys)
   //@ts-ignore
-  identity: Identity
+  identifier: Identifier
 }

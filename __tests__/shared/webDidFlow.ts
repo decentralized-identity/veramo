@@ -1,7 +1,7 @@
-import { TAgent, IIdentityManager, IIdentity, IKey } from '../../packages/daf-core/src'
+import { TAgent, IIdManager, IIdentifier, IKey } from '../../packages/daf-core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 
-type ConfiguredAgent = TAgent<IIdentityManager & ICredentialIssuer>
+type ConfiguredAgent = TAgent<IIdManager & ICredentialIssuer>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -10,10 +10,10 @@ export default (testContext: {
 }) => {
   describe('web did flow', () => {
     let agent: ConfiguredAgent
-    let serviceIdentity: IIdentity
-    let serviceIdentityKey: IKey
-    let alice: IIdentity
-    let bob: IIdentity
+    let serviceIdentifier: IIdentifier
+    let serviceIdentifierKey: IKey
+    let alice: IIdentifier
+    let bob: IIdentifier
 
     beforeAll(() => {
       testContext.setup()
@@ -21,16 +21,16 @@ export default (testContext: {
     })
     afterAll(testContext.tearDown)
 
-    it('should create service identity', async () => {
-      serviceIdentity = await agent.identityManagerGetOrCreateIdentity({
+    it('should create service identifier', async () => {
+      serviceIdentifier = await agent.idManagerGetOrCreateIdentifier({
         provider: 'did:web',
         alias: 'example.com',
       })
 
-      expect(serviceIdentity.provider).toEqual('did:web')
-      expect(serviceIdentity.alias).toEqual('example.com')
-      expect(serviceIdentity.did).toEqual('did:web:example.com')
-      serviceIdentityKey = serviceIdentity.keys[0]
+      expect(serviceIdentifier.provider).toEqual('did:web')
+      expect(serviceIdentifier.alias).toEqual('example.com')
+      expect(serviceIdentifier.did).toEqual('did:web:example.com')
+      serviceIdentifierKey = serviceIdentifier.keys[0]
     })
 
     it('should add service endpoint', async () => {
@@ -41,29 +41,29 @@ export default (testContext: {
         serviceEndpoint: 'https://example.com/messaging',
       }
 
-      await agent.identityManagerAddService({
+      await agent.idManagerAddService({
         did: 'did:web:example.com',
         service,
       })
 
-      const testIdentity = await agent.identityManagerGetIdentity({ did: 'did:web:example.com' })
-      expect(testIdentity.services[0]).toEqual(service)
+      const testIdentifier = await agent.idManagerGetIdentifier({ did: 'did:web:example.com' })
+      expect(testIdentifier.services[0]).toEqual(service)
     })
 
-    it('should get existing service identity', async () => {
-      const testIdentity = await agent.identityManagerGetOrCreateIdentity({
+    it('should get existing service identifier', async () => {
+      const testIdentifier = await agent.idManagerGetOrCreateIdentifier({
         provider: 'did:web',
         alias: 'example.com',
       })
 
-      expect(testIdentity.keys[0]).toEqual(serviceIdentityKey)
-      expect(testIdentity.provider).toEqual('did:web')
-      expect(testIdentity.alias).toEqual('example.com')
-      expect(testIdentity.did).toEqual('did:web:example.com')
+      expect(testIdentifier.keys[0]).toEqual(serviceIdentifierKey)
+      expect(testIdentifier.provider).toEqual('did:web')
+      expect(testIdentifier.alias).toEqual('example.com')
+      expect(testIdentifier.did).toEqual('did:web:example.com')
     })
 
-    it('should create identity with alias: alice', async () => {
-      alice = await agent.identityManagerGetOrCreateIdentity({
+    it('should create identifier with alias: alice', async () => {
+      alice = await agent.idManagerGetOrCreateIdentifier({
         alias: 'alice',
       })
 
@@ -72,8 +72,8 @@ export default (testContext: {
       expect(alice.did).toBeDefined()
     })
 
-    it('should create identity with alias: bob', async () => {
-      bob = await agent.identityManagerGetOrCreateIdentity({
+    it('should create identifier with alias: bob', async () => {
+      bob = await agent.idManagerGetOrCreateIdentifier({
         alias: 'bob',
       })
 
@@ -82,19 +82,19 @@ export default (testContext: {
       expect(bob.did).toBeDefined()
     })
 
-    it('should query identities', async () => {
-      const identities = await agent.dataStoreORMGetIdentities()
-      expect(identities.length).toEqual(3)
-      const count = await agent.dataStoreORMGetIdentitiesCount()
+    it('should query identifiers', async () => {
+      const identifiers = await agent.dataStoreORMGetIdentifiers()
+      expect(identifiers.length).toEqual(3)
+      const count = await agent.dataStoreORMGetIdentifiersCount()
       expect(count).toEqual(3)
     })
 
     describe('should create verifiable credential', () => {
-      it('issuer: serviceIdentity', async () => {
+      it('issuer: serviceIdentifier', async () => {
         const verifiableCredential = await agent.createVerifiableCredential({
           save: true,
           credential: {
-            issuer: { id: serviceIdentity.did },
+            issuer: { id: serviceIdentifier.did },
             '@context': ['https://www.w3.org/2018/credentials/v1'],
             type: ['VerifiableCredential', 'Profile'],
             issuanceDate: new Date().toISOString(),
@@ -106,17 +106,17 @@ export default (testContext: {
           proofFormat: 'jwt',
         })
 
-        expect(verifiableCredential.issuer).toEqual({ id: serviceIdentity.did })
+        expect(verifiableCredential.issuer).toEqual({ id: serviceIdentifier.did })
         expect(verifiableCredential.credentialSubject).toEqual({ id: alice.did, name: 'Alice' })
         expect(verifiableCredential).toHaveProperty('proof.jwt')
       })
 
       it('issuer - Alice, subject - Bob', async () => {
-        const a = await agent.identityManagerGetOrCreateIdentity({
+        const a = await agent.idManagerGetOrCreateIdentifier({
           alias: 'alice',
         })
 
-        const b = await agent.identityManagerGetOrCreateIdentity({
+        const b = await agent.idManagerGetOrCreateIdentifier({
           alias: 'bob',
         })
 

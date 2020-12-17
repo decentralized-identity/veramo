@@ -1,6 +1,6 @@
-import { TAgent, IIdentityManager, IKeyManager, IAgentOptions } from '../../packages/daf-core/src'
+import { TAgent, IIdManager, IKeyManager, IAgentOptions } from '../../packages/daf-core/src'
 
-type ConfiguredAgent = TAgent<IIdentityManager & IKeyManager>
+type ConfiguredAgent = TAgent<IIdManager & IKeyManager>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent

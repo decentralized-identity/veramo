@@ -1,7 +1,7 @@
 import { VerifiableCredential } from 'daf-core'
 import { blake2bHex } from 'blakejs'
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToMany, ManyToMany } from 'typeorm'
-import { Identity } from './identity'
+import { Identifier } from './identifier'
 import { Message } from './message'
 import { Presentation } from './presentation'
 import { Claim } from './claim'
@@ -25,20 +25,20 @@ export class Credential extends BaseEntity {
     return this._raw
   }
 
-  @ManyToOne((type) => Identity, (identity) => identity.issuedCredentials, {
+  @ManyToOne((type) => Identifier, (identifier) => identifier.issuedCredentials, {
     cascade: ['insert'],
     eager: true,
   })
   //@ts-ignore
-  issuer: Identity
+  issuer: Identifier
 
   // Subject can be null https://w3c.github.io/vc-data-model/#credential-uniquely-identifies-a-subject
-  @ManyToOne((type) => Identity, (identity) => identity.receivedCredentials, {
+  @ManyToOne((type) => Identifier, (identifier) => identifier.receivedCredentials, {
     cascade: ['insert'],
     eager: true,
     nullable: true,
   })
-  subject?: Identity
+  subject?: Identifier
 
   @Column({ nullable: true })
   id?: string
@@ -87,12 +87,12 @@ export const createCredentialEntity = (vc: VerifiableCredential): Credential => 
     credential.expirationDate = new Date(vc.expirationDate)
   }
 
-  const issuer = new Identity()
+  const issuer = new Identifier()
   issuer.did = vc.issuer.id
   credential.issuer = issuer
 
   if (vc.credentialSubject.id) {
-    const subject = new Identity()
+    const subject = new Identifier()
     subject.did = vc.credentialSubject.id
     credential.subject = subject
   }

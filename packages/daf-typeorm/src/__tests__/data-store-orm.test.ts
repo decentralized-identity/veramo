@@ -7,7 +7,7 @@ import {
   TCredentialColumns,
   TMessageColumns,
   TPresentationColumns,
-  TIdentitiesColumns,
+  TIdentifiersColumns,
 } from '../types'
 import { DataStore } from '../data-store'
 import { Entities } from '../index'
@@ -190,7 +190,7 @@ describe('daf-typeorm entities', () => {
     expect(count).toBe(4)
   })
 
-  test('with auth it only gets messages for the authorized identity', async () => {
+  test('with auth it only gets messages for the authorized identifier', async () => {
     const args: FindArgs<TMessageColumns> = {
       where: [
         {
@@ -389,12 +389,12 @@ describe('daf-typeorm entities', () => {
     expect(presentations[0].verifiablePresentation.verifiableCredential[0].id).toEqual('vc6')
   })
 
-  it('should query identities', async () => {
+  it('should query identifiers', async () => {
     const agent = makeAgent()
-    const identities = await agent.dataStoreORMGetIdentities()
-    expect(identities.length).toEqual(4)
+    const identifiers = await agent.dataStoreORMGetIdentifiers()
+    expect(identifiers.length).toEqual(4)
 
-    const count = await agent.dataStoreORMGetIdentitiesCount()
+    const count = await agent.dataStoreORMGetIdentifiersCount()
     expect(count).toEqual(4)
   })
 })

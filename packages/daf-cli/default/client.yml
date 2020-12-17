@@ -5,7 +5,7 @@ server:
   schemaPath: /open-api.json
   apiBasePath: /agent
   apiDocsPath: /api-docs
-  defaultIdentity:
+  defaultIdentifier:
     create: true
     messagingServiceEndpoint: /messaging
   ngrok:
@@ -15,7 +15,7 @@ server:
     # region: eu
   # exposedMethods:
   #   - resolveDid
-  #   - dataStoreORMGetIdentities
+  #   - dataStoreORMGetIdentifiers
 agent:
   $require: daf-core#Agent
   $args:
@@ -36,23 +36,23 @@ agent:
                 - keyManagerDecryptJWE
                 - keyManagerSignJWT
                 - keyManagerSignEthTX
-                - identityManagerGetProviders
-                - identityManagerGetIdentities
-                - identityManagerGetIdentity
-                - identityManagerCreateIdentity
-                - identityManagerGetOrCreateIdentity
-                - identityManagerImportIdentity
-                - identityManagerDeleteIdentity
-                - identityManagerAddKey
-                - identityManagerRemoveKey
-                - identityManagerAddService
-                - identityManagerRemoveService
+                - idManagerGetProviders
+                - idManagerGetIdentifiers
+                - idManagerGetIdentifier
+                - idManagerCreateIdentifier
+                - idManagerGetOrCreateIdentifier
+                - idManagerImportIdentifier
+                - idManagerDeleteIdentifier
+                - idManagerAddKey
+                - idManagerRemoveKey
+                - idManagerAddService
+                - idManagerRemoveService
                 - resolveDid
                 - dataStoreSaveMessage
                 - dataStoreSaveVerifiableCredential
                 - dataStoreSaveVerifiablePresentation
-                - dataStoreORMGetIdentities
-                - dataStoreORMGetIdentitiesCount
+                - dataStoreORMGetIdentifiers
+                - dataStoreORMGetIdentifiersCount
                 - dataStoreORMGetMessages
                 - dataStoreORMGetMessagesCount
                 - dataStoreORMGetVerifiableCredentialsByClaims

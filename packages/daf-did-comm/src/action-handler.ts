@@ -3,7 +3,7 @@ import {
   IAgentContext,
   IResolver,
   IMessage,
-  IIdentityManager,
+  IIdManager,
   IKeyManager,
   IMessageHandler,
   IPluginMethodMap,
@@ -38,7 +38,7 @@ export interface ISendMessageDIDCommAlpha1Args {
  */
 export interface IDIDComm extends IPluginMethodMap {
   /**
-   * This is used to create a message according to the initial {@link https://github.com/decentralized-identity/DIDComm-js | DIDComm-js} implementation.
+   * This is used to create a message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
    *
    * @remarks Be advised that this spec is still not final and that this protocol may need to change.
    *
@@ -47,14 +47,14 @@ export interface IDIDComm extends IPluginMethodMap {
    */
   sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>,
+    context: IAgentContext<IIdManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage>
 }
 
 /**
  * DID Comm plugin for {@link daf-core#Agent}
  *
- * This plugin provides a method of creating an encrypted message according to the initial {@link https://github.com/decentralized-identity/DIDComm-js | DIDComm-js} implementation.
+ * This plugin provides a method of creating an encrypted message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
  *
  * @remarks Be advised that this spec is still not final and that this protocol may need to change.
  *
@@ -74,7 +74,7 @@ export class DIDComm implements IAgentPlugin {
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
   async sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdentityManager & IKeyManager & IResolver & IMessageHandler>,
+    context: IAgentContext<IIdManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage> {
     const { data, url, headers, save = true } = args
 
@@ -93,8 +93,8 @@ export class DIDComm implements IAgentPlugin {
         data.id = data.id || uuidv4()
         let postPayload = JSON.stringify(data)
         try {
-          const identity = await context.agent.identityManagerGetIdentity({ did: data.from })
-          const key = identity.keys.find((k) => k.type === 'Ed25519')
+          const identifier = await context.agent.idManagerGetIdentifier({ did: data.from })
+          const key = identifier.keys.find((k) => k.type === 'Ed25519')
           if (!key) throw Error('No encryption key')
           const publicKey = didDoc?.publicKey.find((item) => item.type == 'Ed25519VerificationKey2018')
           if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')

@@ -1,7 +1,7 @@
 import {
   createAgent,
   TAgent,
-  IIdentityManager,
+  IIdManager,
   IResolver,
   IKeyManager,
   IDataStore,
@@ -10,13 +10,13 @@ import {
 } from '../packages/daf-core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
-import { IdentityManager } from '../packages/daf-identity-manager/src'
+import { IdManager } from '../packages/daf-identity-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from '../packages/daf-resolver/src'
 import { JwtMessageHandler } from '../packages/daf-did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c/src'
-import { EthrIdentityProvider } from '../packages/daf-ethr-did/src'
-import { WebIdentityProvider } from '../packages/daf-web-did/src'
+import { EthrIdentifierProvider } from '../packages/daf-ethr-did/src'
+import { WebIdentifierProvider } from '../packages/daf-web-did/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/daf-did-comm/src'
 import {
   SelectiveDisclosure,
@@ -27,7 +27,7 @@ import { KeyManagementSystem, SecretBox } from '../packages/daf-libsodium/src'
 import {
   Entities,
   KeyStore,
-  IdentityStore,
+  IdentifierStore,
   IDataStoreORM,
   DataStore,
   DataStoreORM,
@@ -47,7 +47,7 @@ import webDidFlow from './shared/webDidFlow'
 import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
-import identityManager from './shared/identityManager'
+import idManager from './shared/idManager'
 import messageHandler from './shared/messageHandler'
 
 const databaseFile = 'local-database.sqlite'
@@ -55,7 +55,7 @@ const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 let agent: TAgent<
-  IIdentityManager &
+  IIdManager &
     IKeyManager &
     IDataStore &
     IDataStoreORM &
@@ -77,7 +77,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   })
 
   agent = createAgent<
-    IIdentityManager &
+    IIdManager &
       IKeyManager &
       IDataStore &
       IDataStoreORM &
@@ -98,30 +98,30 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           local: new KeyManagementSystem(),
         },
       }),
-      new IdentityManager({
-        store: new IdentityStore(dbConnection),
+      new IdManager({
+        store: new IdentifierStore(dbConnection),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
-          'did:ethr': new EthrIdentityProvider({
+          'did:ethr': new EthrIdentifierProvider({
             defaultKms: 'local',
             network: 'mainnet',
             rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
             gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
           }),
-          'did:ethr:rinkeby': new EthrIdentityProvider({
+          'did:ethr:rinkeby': new EthrIdentifierProvider({
             defaultKms: 'local',
             network: 'rinkeby',
             rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
             gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
           }),
-          'did:web': new WebIdentityProvider({
+          'did:web': new WebIdentifierProvider({
             defaultKms: 'local',
           }),
         },
       }),
-      new DafResolver({ 
+      new DafResolver({
         resolver: new Resolver({
           ethr: ethrDidResolver({
             networks: [
@@ -130,10 +130,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
               { name: 'ropsten', rpcUrl: 'https://ropsten.infura.io/v3/' + infuraProjectId },
               { name: 'kovan', rpcUrl: 'https://kovan.infura.io/v3/' + infuraProjectId },
               { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId },
-            ]
+            ],
           }).ethr,
-          web: webDidResolver().web
-        })
+          web: webDidResolver().web,
+        }),
       }),
       new DataStore(dbConnection),
       new DataStoreORM(dbConnection),
@@ -171,6 +171,6 @@ describe('Local integration tests', () => {
   saveClaims(testContext)
   documentationExamples(testContext)
   keyManager(testContext)
-  identityManager(testContext)
+  idManager(testContext)
   messageHandler(testContext)
 })

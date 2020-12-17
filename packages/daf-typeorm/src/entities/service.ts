@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne } from 'typeorm'
-import { Identity } from './identity'
+import { Identifier } from './identifier'
 
 @Entity()
 export class Service extends BaseEntity {
@@ -18,7 +18,7 @@ export class Service extends BaseEntity {
   @Column({ nullable: true })
   description?: string
 
-  @ManyToOne((type) => Identity, (identity) => identity.services)
+  @ManyToOne((type) => Identifier, (identifier) => identifier.services)
   //@ts-ignore
-  identity: Identity
+  identifier: Identifier
 }
