@@ -3,7 +3,7 @@
   "references": [
     { "path": "core" },
     { "path": "did-comm" },
-    { "path": "daf-did-jwt" },
+    { "path": "did-jwt" },
     { "path": "daf-ethr-did" },
     { "path": "daf-express" },
     { "path": "daf-identity-manager" },

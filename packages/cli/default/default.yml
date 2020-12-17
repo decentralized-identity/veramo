@@ -45,7 +45,7 @@ messageHandler:
   $args:
     - messageHandlers:
         - $require: @veramo/did-comm#DIDCommMessageHandler
-        - $require: daf-did-jwt#JwtMessageHandler
+        - $require: @veramo/did-jwt#JwtMessageHandler
         - $require: daf-w3c#W3cMessageHandler
         - $require: daf-selective-disclosure#SdrMessageHandler
 

@@ -2,7 +2,7 @@
     "documentPackages": [
         "core",
         "did-comm",
-        "daf-did-jwt",
+        "did-jwt",
         "daf-ethr-did",
         "daf-express",
         "daf-libsodium",

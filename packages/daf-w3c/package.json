@@ -16,7 +16,7 @@
   "dependencies": {
     "blakejs": "^1.1.0",
     "@veramo/core": "^1.0.0",
-    "daf-did-jwt": "^7.0.0",
+    "@veramo/did-jwt": "^1.0.0",
     "daf-message-handler": "^7.0.0",
     "daf-resolver": "^7.0.0",
     "debug": "^4.1.1",

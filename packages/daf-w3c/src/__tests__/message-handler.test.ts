@@ -95,7 +95,7 @@ describe('daf-w3c', () => {
 
   it('should return handled VC message', async () => {
     const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
-    // This would be done by 'daf-did-jwt':
+    // This would be done by '@veramo/did-jwt':
     message.data = vcPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
     const handled = await handler.handle(message, context)
@@ -110,7 +110,7 @@ describe('daf-w3c', () => {
 
   it('should return handled VP message', async () => {
     const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
-    // This would be done by 'daf-did-jwt':
+    // This would be done by '@veramo/did-jwt':
     message.data = vpPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
@@ -127,7 +127,7 @@ describe('daf-w3c', () => {
 
   it('should use the first audience did as a message.to field', async () => {
     const message = new Message({ raw: vpMultiAudJwt, metaData: [{ type: 'test' }] })
-    // This would be done by 'daf-did-jwt':
+    // This would be done by '@veramo/did-jwt':
     message.data = vpMultiAudPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
@@ -148,7 +148,7 @@ describe('daf-w3c', () => {
       raw: token,
       metaData: [{ type: 'test' }],
     })
-    // This would be done by 'daf-did-jwt':
+    // This would be done by '@veramo/did-jwt':
     message.data = {
       iat: 1588249258,
       sub: 'did:web:uport.me',

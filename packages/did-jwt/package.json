@@ -1,7 +1,7 @@
 {
-  "name": "daf-did-jwt",
-  "description": "DAF message validator plugin for decoding JWT payloads.",
-  "version": "7.0.0",
+  "name": "@veramo/did-jwt",
+  "description": "Veramo message validator plugin for decoding and verifying JWT payloads.",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
