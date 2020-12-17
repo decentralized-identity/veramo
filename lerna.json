@@ -12,7 +12,8 @@
     "publish": {
       "allowBranch": [
         "main",
-        "next"
+        "next",
+        "master"
       ],
       "conventionalCommits": true,
       "gitRemote": "origin",
