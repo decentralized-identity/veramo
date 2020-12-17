@@ -66,8 +66,8 @@ export default (testContext: {
       })
     })
 
-    it('daf-core-IDidManager-didManagerGetIdentifierByAlias example', async () => {
-      const identifier = await agent.didManagerGetIdentifierByAlias({
+    it('daf-core-IDidManager-didManagerGetByAlias example', async () => {
+      const identifier = await agent.didManagerGetByAlias({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
       })

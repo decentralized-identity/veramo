@@ -3,10 +3,10 @@ import { IIdentifier, IService, IKey } from './IIdentifier'
 import { IKeyManager } from './IKeyManager'
 
 /**
- * Input arguments for {@link IDidManager.didManagerGetIdentifier | didManagerGetIdentifier}
+ * Input arguments for {@link IDidManager.didManagerGet | didManagerGet}
  * @public
  */
-export interface IDidManagerGetIdentifierArgs {
+export interface IDidManagerGetArgs {
   /**
    * DID
    */
@@ -30,10 +30,10 @@ export interface IDidManagerFindArgs {
 }
 
 /**
- * Input arguments for {@link IDidManager.didManagerGetIdentifierByAlias | didManagerGetIdentifierByAlias}
+ * Input arguments for {@link IDidManager.didManagerGetByAlias | didManagerGetByAlias}
  * @public
  */
-export interface IDidManagerGetIdentifierByAliasArgs {
+export interface IDidManagerGetByAliasArgs {
   /**
    * Alias
    */
@@ -240,7 +240,7 @@ export interface IDidManager extends IPluginMethodMap {
   /**
    * Returns a specific identifier
    */
-  didManagerGetIdentifier(args: IDidManagerGetIdentifierArgs): Promise<IIdentifier>
+  didManagerGet(args: IDidManagerGetArgs): Promise<IIdentifier>
 
   /**
    * Returns a specific identifier by alias
@@ -250,13 +250,13 @@ export interface IDidManager extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const identifier = await agent.didManagerGetIdentifierByAlias({
+   * const identifier = await agent.didManagerGetByAlias({
    *   alias: 'alice',
    *   provider: 'did:ethr:rinkeby'
    * })
    * ```
    */
-  didManagerGetIdentifierByAlias(args: IDidManagerGetIdentifierByAliasArgs): Promise<IIdentifier>
+  didManagerGetByAlias(args: IDidManagerGetByAliasArgs): Promise<IIdentifier>
 
   /**
    * Creates and returns a new identifier

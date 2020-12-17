@@ -93,7 +93,7 @@ export class DIDComm implements IAgentPlugin {
         data.id = data.id || uuidv4()
         let postPayload = JSON.stringify(data)
         try {
-          const identifier = await context.agent.didManagerGetIdentifier({ did: data.from })
+          const identifier = await context.agent.didManagerGet({ did: data.from })
           const key = identifier.keys.find((k) => k.type === 'Ed25519')
           if (!key) throw Error('No encryption key')
           const publicKey = didDoc?.publicKey.find((item) => item.type == 'Ed25519VerificationKey2018')

@@ -46,7 +46,7 @@ export default (testContext: {
     })
 
     it('should get identifier', async () => {
-      const identifier2 = await agent.didManagerGetIdentifier({
+      const identifier2 = await agent.didManagerGet({
         did: identifier.did,
       })
       expect(identifier2.did).toEqual(identifier.did)
@@ -54,7 +54,7 @@ export default (testContext: {
 
     it('should throw error for non existing did', async () => {
       await expect(
-        agent.didManagerGetIdentifier({
+        agent.didManagerGet({
           did: 'did:web:foobar',
         }),
       ).rejects.toThrow('Identifier not found')
@@ -80,14 +80,14 @@ export default (testContext: {
 
       expect(identifier5).not.toEqual(identifier4)
 
-      const identifier6 = await agent.didManagerGetIdentifierByAlias({
+      const identifier6 = await agent.didManagerGetByAlias({
         alias: 'alice',
         provider: 'did:ethr',
       })
 
       expect(identifier6).toEqual(identifier5)
 
-      const identifier7 = await agent.didManagerGetIdentifierByAlias({
+      const identifier7 = await agent.didManagerGetByAlias({
         alias: 'alice',
         // default provider is 'did:ethr:rinkeby'
       })
@@ -132,7 +132,7 @@ export default (testContext: {
       expect(allIdentifiers2.length).toEqual(count - 1)
 
       await expect(
-        agent.didManagerGetIdentifier({
+        agent.didManagerGet({
           did: allIdentifiers[0].did,
         }),
       ).rejects.toThrow('Identifier not found')
@@ -216,7 +216,7 @@ export default (testContext: {
     })
 
     it('should remove key from identifier', async () => {
-      const webIdentifier = await agent.didManagerGetIdentifier({
+      const webIdentifier = await agent.didManagerGet({
         did: 'did:web:foobar.com',
       })
 
@@ -229,7 +229,7 @@ export default (testContext: {
 
       expect(result).toEqual({ success: true })
 
-      const webIdentifier2 = await agent.didManagerGetIdentifier({
+      const webIdentifier2 = await agent.didManagerGet({
         did: 'did:web:foobar.com',
       })
 
@@ -271,7 +271,7 @@ export default (testContext: {
         key: encryptionKey,
       })
 
-      const exportedIdentifier = await agent.didManagerGetIdentifier({
+      const exportedIdentifier = await agent.didManagerGet({
         did: identifier.did,
       })
 
@@ -284,7 +284,7 @@ export default (testContext: {
         keys: [signingKeyFull, encryptionKeyFull],
       })
 
-      const importedIdentifier = await agent.didManagerGetIdentifier({
+      const importedIdentifier = await agent.didManagerGet({
         did: identifier.did,
       })
       expect(importedIdentifier).toEqual(exportedIdentifier)
@@ -298,7 +298,7 @@ export default (testContext: {
       })
       expect(result).toEqual(true)
 
-      const identifier2 = await agent.didManagerGetIdentifierByAlias({
+      const identifier2 = await agent.didManagerGetByAlias({
         alias: 'carol',
       })
 

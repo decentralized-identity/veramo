@@ -38,7 +38,7 @@ agent:
                 - keyManagerSignEthTX
                 - didManagerGetProviders
                 - didManagerFind
-                - didManagerGetIdentifier
+                - didManagerGet
                 - didManagerCreateIdentifier
                 - didManagerGetOrCreateIdentifier
                 - didManagerImportIdentifier

@@ -46,7 +46,7 @@ export default (testContext: {
         service,
       })
 
-      const testIdentifier = await agent.didManagerGetIdentifier({ did: 'did:web:example.com' })
+      const testIdentifier = await agent.didManagerGet({ did: 'did:web:example.com' })
       expect(testIdentifier.services[0]).toEqual(service)
     })
 

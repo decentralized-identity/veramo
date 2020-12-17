@@ -61,7 +61,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
     context: IAgentContext<IDidManager & IKeyManager>,
   ): Promise<string> {
     try {
-      const identifier = await context.agent.didManagerGetIdentifier({ did: args.data.issuer })
+      const identifier = await context.agent.didManagerGet({ did: args.data.issuer })
       const data: Partial<ISelectiveDisclosureRequest> = args.data
       delete data.issuer
       Debug('daf:selective-disclosure:create-sdr')('Signing SDR with', identifier.did)
@@ -220,7 +220,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
     args: ICreateProfileCredentialsArgs,
     context: IAgentContext<ICredentialIssuer & IDidManager>,
   ): Promise<VerifiablePresentation> {
-    const identifier = await context.agent.didManagerGetIdentifier({ did: args.holder })
+    const identifier = await context.agent.didManagerGet({ did: args.holder })
 
     const credentials = []
 

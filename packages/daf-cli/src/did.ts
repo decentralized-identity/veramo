@@ -217,7 +217,7 @@ did
         },
       ])
 
-      const identifier = await agent.didManagerGetIdentifier({ did: answers.did })
+      const identifier = await agent.didManagerGet({ did: answers.did })
 
       console.log(JSON.stringify(identifier))
     } catch (e) {
