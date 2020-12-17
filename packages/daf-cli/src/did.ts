@@ -1,4 +1,4 @@
-import { IDidManagerCreateIdentifierArgs } from 'daf-core'
+import { IDidManagerCreateArgs } from 'daf-core'
 import { getAgent } from './setup'
 import inquirer from 'inquirer'
 import program from 'commander'
@@ -47,7 +47,7 @@ did
     try {
       const providers = await agent.didManagerGetProviders()
       const kms = await agent.keyManagerGetKeyManagementSystems()
-      const args: IDidManagerCreateIdentifierArgs = {}
+      const args: IDidManagerCreateArgs = {}
 
       const answers = await inquirer.prompt([
         {
@@ -69,7 +69,7 @@ did
         },
       ])
 
-      const identifier = await agent.didManagerCreateIdentifier(answers)
+      const identifier = await agent.didManagerCreate(answers)
       printTable([{ provider: identifier.provider, alias: identifier.alias, did: identifier.did }])
     } catch (e) {
       console.error(e.message)

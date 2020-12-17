@@ -6,7 +6,7 @@ import {
   IDidManager,
   IKeyManager,
   IDidManagerGetArgs,
-  IDidManagerCreateIdentifierArgs,
+  IDidManagerCreateArgs,
   IDidManagerGetByAliasArgs,
   IDidManagerGetOrCreateIdentifierArgs,
   IDidManagerDeleteIdentifierArgs,
@@ -49,7 +49,7 @@ export class DidManager implements IAgentPlugin {
       didManagerFind: this.didManagerFind.bind(this),
       didManagerGet: this.didManagerGet.bind(this),
       didManagerGetByAlias: this.didManagerGetByAlias.bind(this),
-      didManagerCreateIdentifier: this.didManagerCreateIdentifier.bind(this),
+      didManagerCreate: this.didManagerCreate.bind(this),
       didManagerSetAlias: this.didManagerSetAlias.bind(this),
       didManagerGetOrCreateIdentifier: this.didManagerGetOrCreateIdentifier.bind(this),
       didManagerImportIdentifier: this.didManagerImportIdentifier.bind(this),
@@ -88,9 +88,9 @@ export class DidManager implements IAgentPlugin {
     return this.store.get({ alias, provider: providerName })
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerCreateIdentifier} */
-  async didManagerCreateIdentifier(
-    args: IDidManagerCreateIdentifierArgs,
+  /** {@inheritDoc daf-core#IDidManager.didManagerCreate} */
+  async didManagerCreate(
+    args: IDidManagerCreateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier> {
     const providerName = args?.provider || this.defaultProvider
@@ -126,7 +126,7 @@ export class DidManager implements IAgentPlugin {
       const identifier = await this.store.get({ alias, provider: providerName })
       return identifier
     } catch {
-      return this.didManagerCreateIdentifier({ provider, alias, kms, options }, context)
+      return this.didManagerCreate({ provider, alias, kms, options }, context)
     }
   }
 

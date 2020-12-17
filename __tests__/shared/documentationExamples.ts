@@ -48,8 +48,8 @@ export default (testContext: {
       })
     })
 
-    it('daf-core-IDidManager-didManagerCreateIdentifier example', async () => {
-      const identifier = await agent.didManagerCreateIdentifier({
+    it('daf-core-IDidManager-didManagerCreate example', async () => {
+      const identifier = await agent.didManagerCreate({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
         kms: 'local',
@@ -74,7 +74,7 @@ export default (testContext: {
     })
 
     it('daf-core-IDidManager-didManagerSetAlias example', async () => {
-      const identifier = await agent.didManagerCreateIdentifier()
+      const identifier = await agent.didManagerCreate()
       const result = await agent.didManagerSetAlias({
         did: identifier.did,
         alias: 'carol',

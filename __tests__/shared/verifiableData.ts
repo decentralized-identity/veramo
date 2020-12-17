@@ -20,7 +20,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should create identifier', async () => {
-      identifier = await agent.didManagerCreateIdentifier({ kms: 'local' })
+      identifier = await agent.didManagerCreate({ kms: 'local' })
       expect(identifier).toHaveProperty('did')
     })
 

@@ -57,10 +57,10 @@ export interface IDidManagerDeleteIdentifierArgs {
 }
 
 /**
- * Input arguments for {@link IDidManager.didManagerCreateIdentifier | didManagerCreateIdentifier}
+ * Input arguments for {@link IDidManager.didManagerCreate | didManagerCreate}
  * @public
  */
-export interface IDidManagerCreateIdentifierArgs {
+export interface IDidManagerCreateArgs {
   /**
    * Optional. Identifier alias. Can be used to reference an object in an external system
    */
@@ -266,17 +266,14 @@ export interface IDidManager extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const identifier = await agent.didManagerCreateIdentifier({
+   * const identifier = await agent.didManagerCreate({
    *   alias: 'alice',
    *   provider: 'did:ethr:rinkeby',
    *   kms: 'local'
    * })
    * ```
    */
-  didManagerCreateIdentifier(
-    args: IDidManagerCreateIdentifierArgs,
-    context: IAgentContext<IKeyManager>,
-  ): Promise<IIdentifier>
+  didManagerCreate(args: IDidManagerCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 
   /**
    * Sets identifier alias
@@ -286,7 +283,7 @@ export interface IDidManager extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const identifier = await agent.didManagerCreateIdentifier()
+   * const identifier = await agent.didManagerCreate()
    * const result = await agent.didManagerSetAlias({
    *   did: identifier.did,
    *   alias: 'carol',

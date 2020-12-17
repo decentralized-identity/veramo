@@ -10,7 +10,7 @@ import { IIdentifier } from 'daf-core';
 import { IDidManager } from 'daf-core';
 import { IDidManagerAddKeyArgs } from 'daf-core';
 import { IDidManagerAddServiceArgs } from 'daf-core';
-import { IDidManagerCreateIdentifierArgs } from 'daf-core';
+import { IDidManagerCreateArgs } from 'daf-core';
 import { IDidManagerDeleteIdentifierArgs } from 'daf-core';
 import { IDidManagerGetArgs } from 'daf-core';
 import { IDidManagerGetByAliasArgs } from 'daf-core';
@@ -95,7 +95,7 @@ export class DidManager implements IAgentPlugin {
     // (undocumented)
     didManagerAddService({ did, service, options }: IDidManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)
-    didManagerCreateIdentifier(args: IDidManagerCreateIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerCreate(args: IDidManagerCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     // (undocumented)
     didManagerDeleteIdentifier({ did }: IDidManagerDeleteIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
     // (undocumented)

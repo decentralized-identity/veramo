@@ -154,7 +154,7 @@ export interface IIdentifier {
 export interface IDidManager extends IPluginMethodMap {
     didManagerAddKey(args: IDidManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     didManagerAddService(args: IDidManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    didManagerCreateIdentifier(args: IDidManagerCreateIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerCreate(args: IDidManagerCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     didManagerDeleteIdentifier(args: IDidManagerDeleteIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
     didManagerGet(args: IDidManagerGetArgs): Promise<IIdentifier>;
     didManagerGetByAlias(args: IDidManagerGetByAliasArgs): Promise<IIdentifier>;
@@ -182,7 +182,7 @@ export interface IDidManagerAddServiceArgs {
 }
 
 // @public
-export interface IDidManagerCreateIdentifierArgs {
+export interface IDidManagerCreateArgs {
     alias?: string;
     kms?: string;
     options?: object;

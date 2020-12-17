@@ -24,7 +24,7 @@ export default (testContext: {
 
     let identifier: IIdentifier
     it('should create identifier', async () => {
-      identifier = await agent.didManagerCreateIdentifier({
+      identifier = await agent.didManagerCreate({
         provider: 'did:web',
         alias: 'example.com',
       })
@@ -38,7 +38,7 @@ export default (testContext: {
 
     it('should throw error for existing alias provider combo', async () => {
       await expect(
-        agent.didManagerCreateIdentifier({
+        agent.didManagerCreate({
           provider: 'did:web',
           alias: 'example.com',
         }),
@@ -110,7 +110,7 @@ export default (testContext: {
       expect(rinkebyIdentifiers.length).toEqual(1)
 
       // Default provider 'did:ethr:rinkeby'
-      await agent.didManagerCreateIdentifier()
+      await agent.didManagerCreate()
 
       const rinkebyIdentifiers2 = await agent.didManagerFind({
         provider: 'did:ethr:rinkeby',
@@ -291,7 +291,7 @@ export default (testContext: {
     })
 
     it('should set alias for identifier', async () => {
-      const identifier = await agent.didManagerCreateIdentifier()
+      const identifier = await agent.didManagerCreate()
       const result = await agent.didManagerSetAlias({
         did: identifier.did,
         alias: 'carol',

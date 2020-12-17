@@ -39,7 +39,7 @@ agent:
                 - didManagerGetProviders
                 - didManagerFind
                 - didManagerGet
-                - didManagerCreateIdentifier
+                - didManagerCreate
                 - didManagerGetOrCreateIdentifier
                 - didManagerImportIdentifier
                 - didManagerDeleteIdentifier
