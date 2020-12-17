@@ -15,7 +15,7 @@ import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from '../packages/daf-resolver/src'
 import { JwtMessageHandler } from '../packages/daf-did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c/src'
-import { EthrIdentifierProvider } from '../packages/daf-ethr-did/src'
+import { EthrDIDProvider } from '../packages/daf-ethr-did/src'
 import { WebDIDProvider } from '../packages/daf-web-did/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/daf-did-comm/src'
 import {
@@ -102,14 +102,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new IdentifierStore(dbConnection),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
-          'did:ethr': new EthrIdentifierProvider({
+          'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
             network: 'mainnet',
             rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
             gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
           }),
-          'did:ethr:rinkeby': new EthrIdentifierProvider({
+          'did:ethr:rinkeby': new EthrDIDProvider({
             defaultKms: 'local',
             network: 'rinkeby',
             rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,

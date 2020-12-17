@@ -12,7 +12,7 @@ import { IKeyManager } from 'daf-core';
 import { IService } from 'daf-core';
 
 // @public
-export class EthrIdentifierProvider extends AbstractIdentifierProvider {
+export class EthrDIDProvider extends AbstractIdentifierProvider {
     constructor(options: {
         defaultKms: string;
         network: string;

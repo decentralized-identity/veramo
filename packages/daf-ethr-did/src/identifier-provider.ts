@@ -22,7 +22,7 @@ export function toEthereumAddress(hexPublicKey: string): string {
  * {@link daf-identity-manager#IdManager} identifier provider for `did:ethr` identifiers
  * @public
  */
-export class EthrIdentifierProvider extends AbstractIdentifierProvider {
+export class EthrDIDProvider extends AbstractIdentifierProvider {
   private defaultKms: string
   private network: string
   private web3Provider?: any
