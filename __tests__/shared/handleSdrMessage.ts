@@ -82,7 +82,7 @@ export default (testContext: {
     })
 
     it('should be able to sign a credential after saving a message', async () => {
-      const identifiers = await agent.ddidManagerFind()
+      const identifiers = await agent.didManagerFind()
       const identifier = identifiers[0]
 
       expect(identifiers[0].did).toBeDefined()

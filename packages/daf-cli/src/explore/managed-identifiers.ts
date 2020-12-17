@@ -19,7 +19,7 @@ export const getManagedIdentifiersTable = async (agent: ConfiguredAgent, screen:
     style: styles.listtable,
   })
 
-  const identifiers = await agent.ddidManagerFind()
+  const identifiers = await agent.didManagerFind()
   managedIdentifiersTable.setData([['DID', 'Alias']].concat(identifiers.map((i) => [i.did, i.alias || ''])))
 
   managedIdentifiersTable.on('select', async function (data) {

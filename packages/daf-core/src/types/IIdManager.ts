@@ -14,10 +14,10 @@ export interface IDidManagerGetIdentifierArgs {
 }
 
 /**
- * Input arguments for {@link IDidManager.ddidManagerFind | ddidManagerFind}
+ * Input arguments for {@link IDidManager.didManagerFind | didManagerFind}
  * @public
  */
-export interface IDdidManagerFindArgs {
+export interface IDidManagerFindArgs {
   /**
    * Optional. Alias
    */
@@ -226,16 +226,16 @@ export interface IDidManager extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const aliceIdentifiers = await agent.ddidManagerFind({
+   * const aliceIdentifiers = await agent.didManagerFind({
    *   alias: 'alice'
    * })
    *
-   * const rinkebyIdentifiers = await agent.ddidManagerFind({
+   * const rinkebyIdentifiers = await agent.didManagerFind({
    *   provider: 'did:ethr:rinkeby'
    * })
    * ```
    */
-  ddidManagerFind(args: IDdidManagerFindArgs): Promise<Array<IIdentifier>>
+  didManagerFind(args: IDidManagerFindArgs): Promise<Array<IIdentifier>>
 
   /**
    * Returns a specific identifier

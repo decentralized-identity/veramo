@@ -14,7 +14,7 @@ sdr
   .description('create Selective Disclosure Request')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
-    const identifiers = await agent.ddidManagerFind()
+    const identifiers = await agent.didManagerFind()
 
     const knownDids = await agent.dataStoreORMGetIdentifiers()
 

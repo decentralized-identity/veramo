@@ -56,12 +56,12 @@ export default (testContext: {
       })
     })
 
-    it('daf-core-IDidManager-ddidManagerFind example', async () => {
-      const aliceIdentifiers = await agent.ddidManagerFind({
+    it('daf-core-IDidManager-didManagerFind example', async () => {
+      const aliceIdentifiers = await agent.didManagerFind({
         alias: 'alice',
       })
 
-      const rinkebyIdentifiers = await agent.ddidManagerFind({
+      const rinkebyIdentifiers = await agent.didManagerFind({
         provider: 'did:ethr:rinkeby',
       })
     })

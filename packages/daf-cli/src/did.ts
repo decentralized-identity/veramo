@@ -28,7 +28,7 @@ did
   .action(async (cmd) => {
     const agent = getAgent(program.config)
 
-    const list = await agent.ddidManagerFind()
+    const list = await agent.didManagerFind()
 
     if (list.length > 0) {
       const dids = list.map((item) => ({ provider: item.provider, alias: item.alias, did: item.did }))
@@ -83,7 +83,7 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identifiers = await agent.ddidManagerFind()
+      const identifiers = await agent.didManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',
@@ -110,7 +110,7 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identifiers = await agent.ddidManagerFind()
+      const identifiers = await agent.didManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',
@@ -158,7 +158,7 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identifiers = await agent.ddidManagerFind()
+      const identifiers = await agent.didManagerFind()
       const kms = await agent.keyManagerGetKeyManagementSystems()
       const answers = await inquirer.prompt([
         {
@@ -204,7 +204,7 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identifiers = await agent.ddidManagerFind()
+      const identifiers = await agent.didManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',

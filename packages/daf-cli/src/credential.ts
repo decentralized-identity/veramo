@@ -13,7 +13,7 @@ credential
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
-    const identifiers = await agent.ddidManagerFind()
+    const identifiers = await agent.didManagerFind()
     if (identifiers.length === 0) {
       console.error('No dids')
       process.exit()

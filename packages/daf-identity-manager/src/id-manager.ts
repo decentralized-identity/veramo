@@ -14,7 +14,7 @@ import {
   IDidManagerRemoveKeyArgs,
   IDidManagerAddServiceArgs,
   IDidManagerRemoveServiceArgs,
-  IDdidManagerFindArgs,
+  IDidManagerFindArgs,
   IDidManagerSetAliasArgs,
   schema,
 } from 'daf-core'
@@ -46,7 +46,7 @@ export class DidManager implements IAgentPlugin {
     this.store = options.store
     this.methods = {
       didManagerGetProviders: this.didManagerGetProviders.bind(this),
-      ddidManagerFind: this.ddidManagerFind.bind(this),
+      didManagerFind: this.didManagerFind.bind(this),
       didManagerGetIdentifier: this.didManagerGetIdentifier.bind(this),
       didManagerGetIdentifierByAlias: this.didManagerGetIdentifierByAlias.bind(this),
       didManagerCreateIdentifier: this.didManagerCreateIdentifier.bind(this),
@@ -72,8 +72,8 @@ export class DidManager implements IAgentPlugin {
     return Object.keys(this.providers)
   }
 
-  /** {@inheritDoc daf-core#IDidManager.ddidManagerFind} */
-  async ddidManagerFind(args: IDdidManagerFindArgs): Promise<IIdentifier[]> {
+  /** {@inheritDoc daf-core#IDidManager.didManagerFind} */
+  async didManagerFind(args: IDidManagerFindArgs): Promise<IIdentifier[]> {
     return this.store.list(args)
   }
 

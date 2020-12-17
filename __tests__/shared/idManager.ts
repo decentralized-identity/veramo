@@ -96,15 +96,15 @@ export default (testContext: {
     })
 
     it('should get identifiers', async () => {
-      const allIdentifiers = await agent.ddidManagerFind()
+      const allIdentifiers = await agent.didManagerFind()
       expect(allIdentifiers.length).toEqual(3)
 
-      const aliceIdentifiers = await agent.ddidManagerFind({
+      const aliceIdentifiers = await agent.didManagerFind({
         alias: 'alice',
       })
       expect(aliceIdentifiers.length).toEqual(2)
 
-      const rinkebyIdentifiers = await agent.ddidManagerFind({
+      const rinkebyIdentifiers = await agent.didManagerFind({
         provider: 'did:ethr:rinkeby',
       })
       expect(rinkebyIdentifiers.length).toEqual(1)
@@ -112,14 +112,14 @@ export default (testContext: {
       // Default provider 'did:ethr:rinkeby'
       await agent.didManagerCreateIdentifier()
 
-      const rinkebyIdentifiers2 = await agent.ddidManagerFind({
+      const rinkebyIdentifiers2 = await agent.didManagerFind({
         provider: 'did:ethr:rinkeby',
       })
       expect(rinkebyIdentifiers2.length).toEqual(2)
     })
 
     it('should delete identifier', async () => {
-      const allIdentifiers = await agent.ddidManagerFind()
+      const allIdentifiers = await agent.didManagerFind()
       const count = allIdentifiers.length
 
       const result = await agent.didManagerDeleteIdentifier({
@@ -128,7 +128,7 @@ export default (testContext: {
 
       expect(result).toEqual(true)
 
-      const allIdentifiers2 = await agent.ddidManagerFind()
+      const allIdentifiers2 = await agent.didManagerFind()
       expect(allIdentifiers2.length).toEqual(count - 1)
 
       await expect(

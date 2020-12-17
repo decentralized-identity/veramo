@@ -19,7 +19,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
       try {
         const parsed = JSON.parse(message.raw)
         if (parsed.ciphertext && parsed.protected) {
-          const identifiers = await context.agent.ddidManagerFind()
+          const identifiers = await context.agent.didManagerFind()
           for (const identifier of identifiers) {
             let decrypted
             try {
