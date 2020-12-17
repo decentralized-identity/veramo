@@ -9,7 +9,7 @@ import { IAgentContext } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { ICredentialIssuer } from 'daf-w3c';
 import { IDataStoreORM } from 'daf-typeorm';
-import { IDidManager } from 'daf-core';
+import { IDIDManager } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IMessageHandler } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
@@ -68,9 +68,9 @@ export interface IPresentationValidationResult {
 // @beta
 export interface ISelectiveDisclosure extends IPluginMethodMap {
     // (undocumented)
-    createProfilePresentation(args: ICreateProfileCredentialsArgs, context: IAgentContext<ICredentialIssuer & IDidManager>): Promise<VerifiablePresentation>;
+    createProfilePresentation(args: ICreateProfileCredentialsArgs, context: IAgentContext<ICredentialIssuer & IDIDManager>): Promise<VerifiablePresentation>;
     // (undocumented)
-    createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IDidManager & IKeyManager>): Promise<string>;
+    createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IDIDManager & IKeyManager>): Promise<string>;
     // (undocumented)
     getVerifiableCredentialsForSdr(args: IGetVerifiableCredentialsForSdrArgs, context: IAgentContext<IDataStoreORM>): Promise<Array<ICredentialsForSdr>>;
     // (undocumented)
@@ -119,8 +119,8 @@ export class SdrMessageHandler extends AbstractMessageHandler {
 // @beta
 export class SelectiveDisclosure implements IAgentPlugin {
     constructor();
-    createProfilePresentation(args: ICreateProfileCredentialsArgs, context: IAgentContext<ICredentialIssuer & IDidManager>): Promise<VerifiablePresentation>;
-    createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IDidManager & IKeyManager>): Promise<string>;
+    createProfilePresentation(args: ICreateProfileCredentialsArgs, context: IAgentContext<ICredentialIssuer & IDIDManager>): Promise<VerifiablePresentation>;
+    createSelectiveDisclosureRequest(args: ICreateSelectiveDisclosureRequestArgs, context: IAgentContext<IDIDManager & IKeyManager>): Promise<string>;
     getVerifiableCredentialsForSdr(args: IGetVerifiableCredentialsForSdrArgs, context: IAgentContext<IDataStoreORM>): Promise<ICredentialsForSdr[]>;
     // (undocumented)
     readonly methods: ISelectiveDisclosure;

@@ -1,7 +1,7 @@
 import {
   createAgent,
   TAgent,
-  IDidManager,
+  IDIDManager,
   IResolver,
   IKeyManager,
   IDataStore,
@@ -10,7 +10,7 @@ import {
 } from '../packages/daf-core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
-import { DidManager } from '../packages/daf-identity-manager/src'
+import { DIDManager } from '../packages/daf-identity-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from '../packages/daf-resolver/src'
 import { JwtMessageHandler } from '../packages/daf-did-jwt/src'
@@ -55,7 +55,7 @@ const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 let agent: TAgent<
-  IDidManager &
+  IDIDManager &
     IKeyManager &
     IDataStore &
     IDataStoreORM &
@@ -77,7 +77,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   })
 
   agent = createAgent<
-    IDidManager &
+    IDIDManager &
       IKeyManager &
       IDataStore &
       IDataStoreORM &
@@ -98,7 +98,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           local: new KeyManagementSystem(),
         },
       }),
-      new DidManager({
+      new DIDManager({
         store: new DIDStore(dbConnection),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {

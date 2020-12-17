@@ -1,6 +1,6 @@
 import {
   IAgentContext,
-  IDidManager,
+  IDIDManager,
   IKeyManager,
   IAgentPlugin,
   VerifiablePresentation,
@@ -58,7 +58,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
    */
   async createSelectiveDisclosureRequest(
     args: ICreateSelectiveDisclosureRequestArgs,
-    context: IAgentContext<IDidManager & IKeyManager>,
+    context: IAgentContext<IDIDManager & IKeyManager>,
   ): Promise<string> {
     try {
       const identifier = await context.agent.didManagerGet({ did: args.data.issuer })
@@ -218,7 +218,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
    */
   async createProfilePresentation(
     args: ICreateProfileCredentialsArgs,
-    context: IAgentContext<ICredentialIssuer & IDidManager>,
+    context: IAgentContext<ICredentialIssuer & IDIDManager>,
   ): Promise<VerifiablePresentation> {
     const identifier = await context.agent.didManagerGet({ did: args.holder })
 

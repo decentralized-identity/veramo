@@ -1,9 +1,9 @@
-import { IAgentContext, IDidManager, IKeyManager } from 'daf-core'
+import { IAgentContext, IDIDManager, IKeyManager } from 'daf-core'
 import { AbstractMessageHandler, Message } from 'daf-message-handler'
 import Debug from 'debug'
 const debug = Debug('daf:did-comm:message-handler')
 
-type IContext = IAgentContext<IDidManager & IKeyManager>
+type IContext = IAgentContext<IDIDManager & IKeyManager>
 
 /**
  * A plugin for the {@link daf-message-handler#MessageHandler} that decrypts DIDComm messages

@@ -151,38 +151,38 @@ export interface IIdentifier {
 }
 
 // @public
-export interface IDidManager extends IPluginMethodMap {
-    didManagerAddKey(args: IDidManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    didManagerAddService(args: IDidManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    didManagerCreate(args: IDidManagerCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
-    didManagerDelete(args: IDidManagerDeleteArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
-    didManagerGet(args: IDidManagerGetArgs): Promise<IIdentifier>;
-    didManagerGetByAlias(args: IDidManagerGetByAliasArgs): Promise<IIdentifier>;
-    didManagerFind(args: IDidManagerFindArgs): Promise<Array<IIdentifier>>;
-    didManagerGetOrCreate(args: IDidManagerGetOrCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+export interface IDIDManager extends IPluginMethodMap {
+    didManagerAddKey(args: IDIDManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerAddService(args: IDIDManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerCreate(args: IDIDManagerCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerDelete(args: IDIDManagerDeleteArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
+    didManagerGet(args: IDIDManagerGetArgs): Promise<IIdentifier>;
+    didManagerGetByAlias(args: IDIDManagerGetByAliasArgs): Promise<IIdentifier>;
+    didManagerFind(args: IDIDManagerFindArgs): Promise<Array<IIdentifier>>;
+    didManagerGetOrCreate(args: IDIDManagerGetOrCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     didManagerGetProviders(): Promise<Array<string>>;
     didManagerImport(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
-    didManagerRemoveKey(args: IDidManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    didManagerRemoveService(args: IDidManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
-    didManagerSetAlias(args: IDidManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
+    didManagerRemoveKey(args: IDIDManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerRemoveService(args: IDIDManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerSetAlias(args: IDIDManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
 }
 
 // @public
-export interface IDidManagerAddKeyArgs {
+export interface IDIDManagerAddKeyArgs {
     did: string;
     key: IKey;
     options?: object;
 }
 
 // @public
-export interface IDidManagerAddServiceArgs {
+export interface IDIDManagerAddServiceArgs {
     did: string;
     options?: object;
     service: IService;
 }
 
 // @public
-export interface IDidManagerCreateArgs {
+export interface IDIDManagerCreateArgs {
     alias?: string;
     kms?: string;
     options?: object;
@@ -190,29 +190,29 @@ export interface IDidManagerCreateArgs {
 }
 
 // @public
-export interface IDidManagerDeleteArgs {
+export interface IDIDManagerDeleteArgs {
     did: string;
 }
 
 // @public
-export interface IDidManagerGetArgs {
+export interface IDIDManagerGetArgs {
     did: string;
 }
 
 // @public
-export interface IDidManagerGetByAliasArgs {
+export interface IDIDManagerGetByAliasArgs {
     alias: string;
     provider?: string;
 }
 
 // @public
-export interface IDidManagerFindArgs {
+export interface IDIDManagerFindArgs {
     alias?: string;
     provider?: string;
 }
 
 // @public
-export interface IDidManagerGetOrCreateArgs {
+export interface IDIDManagerGetOrCreateArgs {
     alias: string;
     kms?: string;
     options?: object;
@@ -220,21 +220,21 @@ export interface IDidManagerGetOrCreateArgs {
 }
 
 // @public
-export interface IDidManagerRemoveKeyArgs {
+export interface IDIDManagerRemoveKeyArgs {
     did: string;
     kid: string;
     options?: object;
 }
 
 // @public
-export interface IDidManagerRemoveServiceArgs {
+export interface IDIDManagerRemoveServiceArgs {
     did: string;
     id: string;
     options?: object;
 }
 
 // @public
-export interface IDidManagerSetAliasArgs {
+export interface IDIDManagerSetAliasArgs {
     alias: string;
     did: string;
 }

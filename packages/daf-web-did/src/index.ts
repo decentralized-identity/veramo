@@ -1,5 +1,5 @@
 /**
- * Provides `did:web` {@link daf-web-did#WebDIDProvider | identifier provider } for the {@link daf-identity-manager#DidManager}
+ * Provides `did:web` {@link daf-web-did#WebDIDProvider | identifier provider } for the {@link daf-identity-manager#DIDManager}
  *
  * @packageDocumentation
  */

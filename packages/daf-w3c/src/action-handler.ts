@@ -2,7 +2,7 @@ import {
   IAgentContext,
   IAgentPlugin,
   IResolver,
-  IDidManager,
+  IDIDManager,
   IKeyManager,
   IPluginMethodMap,
   W3CCredential,
@@ -142,7 +142,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IContext = IAgentContext<
   IResolver &
-    Pick<IDidManager, 'didManagerGet'> &
+    Pick<IDIDManager, 'didManagerGet'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
     Pick<IKeyManager, 'keyManagerSignJWT'>
 >

@@ -1,13 +1,13 @@
-import { TAgent, IDidManager, IKeyManager, IIdentifier } from '../../packages/daf-core/src'
+import { TAgent, IDIDManager, IKeyManager, IIdentifier } from '../../packages/daf-core/src'
 
-type ConfiguredAgent = TAgent<IDidManager & IKeyManager>
+type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
   setup: () => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
-  describe('identifier manager', () => {
+  describe('DID manager', () => {
     let agent: ConfiguredAgent
 
     beforeAll(async () => {

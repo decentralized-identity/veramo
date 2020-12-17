@@ -1,10 +1,10 @@
-import { TAgent, IDidManager, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
+import { TAgent, IDIDManager, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 
 type ConfiguredAgent = TAgent<
-  IDidManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
+  IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
 >
 
 export default (testContext: {
@@ -48,7 +48,7 @@ export default (testContext: {
       })
     })
 
-    it('daf-core-IDidManager-didManagerCreate example', async () => {
+    it('daf-core-IDIDManager-didManagerCreate example', async () => {
       const identifier = await agent.didManagerCreate({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
@@ -56,7 +56,7 @@ export default (testContext: {
       })
     })
 
-    it('daf-core-IDidManager-didManagerFind example', async () => {
+    it('daf-core-IDIDManager-didManagerFind example', async () => {
       const aliceIdentifiers = await agent.didManagerFind({
         alias: 'alice',
       })
@@ -66,14 +66,14 @@ export default (testContext: {
       })
     })
 
-    it('daf-core-IDidManager-didManagerGetByAlias example', async () => {
+    it('daf-core-IDIDManager-didManagerGetByAlias example', async () => {
       const identifier = await agent.didManagerGetByAlias({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
       })
     })
 
-    it('daf-core-IDidManager-didManagerSetAlias example', async () => {
+    it('daf-core-IDIDManager-didManagerSetAlias example', async () => {
       const identifier = await agent.didManagerCreate()
       const result = await agent.didManagerSetAlias({
         did: identifier.did,

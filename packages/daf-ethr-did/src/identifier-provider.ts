@@ -19,7 +19,7 @@ export function toEthereumAddress(hexPublicKey: string): string {
 }
 
 /**
- * {@link daf-identity-manager#DidManager} identifier provider for `did:ethr` identifiers
+ * {@link daf-identity-manager#DIDManager} identifier provider for `did:ethr` identifiers
  * @public
  */
 export class EthrDIDProvider extends AbstractIdentifierProvider {

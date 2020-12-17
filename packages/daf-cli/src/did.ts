@@ -1,4 +1,4 @@
-import { IDidManagerCreateArgs } from 'daf-core'
+import { IDIDManagerCreateArgs } from 'daf-core'
 import { getAgent } from './setup'
 import inquirer from 'inquirer'
 import program from 'commander'
@@ -47,7 +47,7 @@ did
     try {
       const providers = await agent.didManagerGetProviders()
       const kms = await agent.keyManagerGetKeyManagementSystems()
-      const args: IDidManagerCreateArgs = {}
+      const args: IDIDManagerCreateArgs = {}
 
       const answers = await inquirer.prompt([
         {

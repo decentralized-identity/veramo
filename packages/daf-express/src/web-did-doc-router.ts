@@ -1,8 +1,8 @@
-import { IAgent, IIdentifier, IDidManager, TAgent } from 'daf-core'
+import { IAgent, IIdentifier, IDIDManager, TAgent } from 'daf-core'
 import { Request, Router } from 'express'
 
-interface RequestWithAgentDidManager extends Request {
-  agent?: TAgent<IDidManager>
+interface RequestWithAgentDIDManager extends Request {
+  agent?: TAgent<IDIDManager>
 }
 
 interface RequestWithAgent extends Request {
@@ -17,7 +17,7 @@ export interface WebDidDocRouterOptions {
   /**
    * Function that returns configured agent for specific request
    */
-  getAgentForRequest: (req: Request) => Promise<TAgent<IDidManager>>
+  getAgentForRequest: (req: Request) => Promise<TAgent<IDIDManager>>
 }
 /**
  * Creates a router that serves `did:web` DID Documents
@@ -55,7 +55,7 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
     return didDoc
   }
 
-  router.get(didDocEndpoint, async (req: RequestWithAgentDidManager, res) => {
+  router.get(didDocEndpoint, async (req: RequestWithAgentDIDManager, res) => {
     if (req.agent) {
       try {
         const serverIdentifier = await req.agent.didManagerGet({
@@ -69,7 +69,7 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
     }
   })
 
-  router.get(/^\/(.+)\/did.json$/, async (req: RequestWithAgentDidManager, res) => {
+  router.get(/^\/(.+)\/did.json$/, async (req: RequestWithAgentDIDManager, res) => {
     if (req.agent) {
       try {
         const identifier = await req.agent.didManagerGet({

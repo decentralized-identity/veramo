@@ -1,7 +1,7 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from 'daf-core'
 
 /**
- * An abstract class for the {@link daf-identity-manager#DidManager} identifier providers
+ * An abstract class for the {@link daf-identity-manager#DIDManager} identifier providers
  * @public
  */
 export abstract class AbstractIdentifierProvider {

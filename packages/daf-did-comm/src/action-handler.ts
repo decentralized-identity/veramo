@@ -3,7 +3,7 @@ import {
   IAgentContext,
   IResolver,
   IMessage,
-  IDidManager,
+  IDIDManager,
   IKeyManager,
   IMessageHandler,
   IPluginMethodMap,
@@ -47,7 +47,7 @@ export interface IDIDComm extends IPluginMethodMap {
    */
   sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IDidManager & IKeyManager & IResolver & IMessageHandler>,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage>
 }
 
@@ -74,7 +74,7 @@ export class DIDComm implements IAgentPlugin {
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
   async sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IDidManager & IKeyManager & IResolver & IMessageHandler>,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage> {
     const { data, url, headers, save = true } = args
 

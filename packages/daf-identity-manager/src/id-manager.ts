@@ -3,34 +3,34 @@ import {
   IAgentPlugin,
   IIdentifier,
   IAgentContext,
-  IDidManager,
+  IDIDManager,
   IKeyManager,
-  IDidManagerGetArgs,
-  IDidManagerCreateArgs,
-  IDidManagerGetByAliasArgs,
-  IDidManagerGetOrCreateArgs,
-  IDidManagerDeleteArgs,
-  IDidManagerAddKeyArgs,
-  IDidManagerRemoveKeyArgs,
-  IDidManagerAddServiceArgs,
-  IDidManagerRemoveServiceArgs,
-  IDidManagerFindArgs,
-  IDidManagerSetAliasArgs,
+  IDIDManagerGetArgs,
+  IDIDManagerCreateArgs,
+  IDIDManagerGetByAliasArgs,
+  IDIDManagerGetOrCreateArgs,
+  IDIDManagerDeleteArgs,
+  IDIDManagerAddKeyArgs,
+  IDIDManagerRemoveKeyArgs,
+  IDIDManagerAddServiceArgs,
+  IDIDManagerRemoveServiceArgs,
+  IDIDManagerFindArgs,
+  IDIDManagerSetAliasArgs,
   schema,
 } from 'daf-core'
 import { AbstractDIDStore } from './abstract-identifier-store'
 
 /**
- * Agent plugin that implements {@link daf-core#IDidManager} interface
+ * Agent plugin that implements {@link daf-core#IDIDManager} interface
  * @public
  */
-export class DidManager implements IAgentPlugin {
+export class DIDManager implements IAgentPlugin {
   /**
    * Plugin methods
    * @public
    */
-  readonly methods: IDidManager
-  readonly schema = schema.IDidManager
+  readonly methods: IDIDManager
+  readonly schema = schema.IDIDManager
 
   private providers: Record<string, AbstractIdentifierProvider>
   private defaultProvider: string
@@ -67,30 +67,30 @@ export class DidManager implements IAgentPlugin {
     return provider
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerGetProviders} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerGetProviders} */
   async didManagerGetProviders(): Promise<string[]> {
     return Object.keys(this.providers)
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerFind} */
-  async didManagerFind(args: IDidManagerFindArgs): Promise<IIdentifier[]> {
+  /** {@inheritDoc daf-core#IDIDManager.didManagerFind} */
+  async didManagerFind(args: IDIDManagerFindArgs): Promise<IIdentifier[]> {
     return this.store.list(args)
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerGet} */
-  async didManagerGet({ did }: IDidManagerGetArgs): Promise<IIdentifier> {
+  /** {@inheritDoc daf-core#IDIDManager.didManagerGet} */
+  async didManagerGet({ did }: IDIDManagerGetArgs): Promise<IIdentifier> {
     return this.store.get({ did })
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerGetByAlias} */
-  async didManagerGetByAlias({ alias, provider }: IDidManagerGetByAliasArgs): Promise<IIdentifier> {
+  /** {@inheritDoc daf-core#IDIDManager.didManagerGetByAlias} */
+  async didManagerGetByAlias({ alias, provider }: IDIDManagerGetByAliasArgs): Promise<IIdentifier> {
     const providerName = provider || this.defaultProvider
     return this.store.get({ alias, provider: providerName })
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerCreate} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerCreate} */
   async didManagerCreate(
-    args: IDidManagerCreateArgs,
+    args: IDIDManagerCreateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier> {
     const providerName = args?.provider || this.defaultProvider
@@ -116,9 +116,9 @@ export class DidManager implements IAgentPlugin {
     return identifier
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerGetOrCreate} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerGetOrCreate} */
   async didManagerGetOrCreate(
-    { provider, alias, kms, options }: IDidManagerGetOrCreateArgs,
+    { provider, alias, kms, options }: IDIDManagerGetOrCreateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier> {
     try {
@@ -130,16 +130,16 @@ export class DidManager implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerSetAlias} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerSetAlias} */
   async didManagerSetAlias(
-    { did, alias }: IDidManagerSetAliasArgs,
+    { did, alias }: IDIDManagerSetAliasArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<boolean> {
     const identifier = await this.store.get({ did })
     identifier.alias = alias
     return await this.store.import(identifier)
   }
-  /** {@inheritDoc daf-core#IDidManager.didManagerImport} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerImport} */
   async didManagerImport(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
     for (const key of identifier.keys) {
       await context.agent.keyManagerImport(key)
@@ -148,9 +148,9 @@ export class DidManager implements IAgentPlugin {
     return identifier
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerDelete} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerDelete} */
   async didManagerDelete(
-    { did }: IDidManagerDeleteArgs,
+    { did }: IDIDManagerDeleteArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<boolean> {
     const identifier = await this.store.get({ did })
@@ -163,9 +163,9 @@ export class DidManager implements IAgentPlugin {
     return this.store.delete({ did })
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerAddKey} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerAddKey} */
   async didManagerAddKey(
-    { did, key, options }: IDidManagerAddKeyArgs,
+    { did, key, options }: IDIDManagerAddKeyArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identifier = await this.store.get({ did })
@@ -176,9 +176,9 @@ export class DidManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerRemoveKey} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerRemoveKey} */
   async didManagerRemoveKey(
-    { did, kid, options }: IDidManagerRemoveKeyArgs,
+    { did, kid, options }: IDIDManagerRemoveKeyArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identifier = await this.store.get({ did })
@@ -189,9 +189,9 @@ export class DidManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerAddService} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerAddService} */
   async didManagerAddService(
-    { did, service, options }: IDidManagerAddServiceArgs,
+    { did, service, options }: IDIDManagerAddServiceArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identifier = await this.store.get({ did })
@@ -202,9 +202,9 @@ export class DidManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerRemoveService} */
+  /** {@inheritDoc daf-core#IDIDManager.didManagerRemoveService} */
   async didManagerRemoveService(
-    { did, id, options }: IDidManagerRemoveServiceArgs,
+    { did, id, options }: IDIDManagerRemoveServiceArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
     const identifier = await this.store.get({ did })

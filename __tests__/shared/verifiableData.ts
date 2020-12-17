@@ -1,8 +1,8 @@
-import { TAgent, IDidManager, IIdentifier, IDataStore } from '../../packages/daf-core/src'
+import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/daf-core/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 
-type ConfiguredAgent = TAgent<IDidManager & ICredentialIssuer & IDataStore & IDataStoreORM>
+type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent

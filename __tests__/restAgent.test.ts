@@ -3,7 +3,7 @@ import {
   Agent,
   IAgent,
   createAgent,
-  IDidManager,
+  IDIDManager,
   IResolver,
   IKeyManager,
   IDataStore,
@@ -12,7 +12,7 @@ import {
 } from '../packages/daf-core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
-import { DidManager } from '../packages/daf-identity-manager/src'
+import { DIDManager } from '../packages/daf-identity-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from '../packages/daf-resolver/src'
 import { JwtMessageHandler } from '../packages/daf-did-jwt/src'
@@ -67,7 +67,7 @@ let restServer: Server
 
 const getAgent = (options?: IAgentOptions) =>
   createAgent<
-    IDidManager &
+    IDIDManager &
       IKeyManager &
       IDataStore &
       IDataStoreORM &
@@ -105,7 +105,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           local: new KeyManagementSystem(),
         },
       }),
-      new DidManager({
+      new DIDManager({
         store: new DIDStore(dbConnection),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
