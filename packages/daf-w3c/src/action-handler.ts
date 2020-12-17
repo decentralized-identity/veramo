@@ -46,8 +46,20 @@ export interface ICreateVerifiablePresentationArgs {
    *
    * The signer of the Presentation is chosen based on the `holder` property
    * of the `presentation`
+   *
+   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
    */
-  presentation: W3CPresentation
+  presentation: {
+    id?: string
+    holder: string
+    issuanceDate?: string
+    expirationDate?: string
+    '@context'?: string[]
+    type?: string[]
+    verifier: string[]
+    verifiableCredential: VerifiableCredential[]
+    [x: string]: any
+  }
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
@@ -75,8 +87,26 @@ export interface ICreateVerifiableCredentialArgs {
    *
    * The signer of the Credential is chosen based on the `issuer.id` property
    * of the `credential`
+   *
+   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
    */
-  credential: W3CCredential
+  credential: {
+    '@context'?: string[]
+    id?: string
+    type?: string[]
+    issuer: { id: string; [x: string]: any }
+    issuanceDate?: string
+    expirationDate?: string
+    credentialSubject: {
+      id?: string
+      [x: string]: any
+    }
+    credentialStatus?: {
+      id: string
+      type: string
+    }
+    [x: string]: any
+  }
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
@@ -169,15 +199,23 @@ export class CredentialIssuer implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiablePresentation> {
     try {
+      const presentation: W3CPresentation = {
+        ...args.presentation,
+        '@context': args.presentation['@context'] || ['https://www.w3.org/2018/credentials/v1'],
+        //FIXME: make sure 'VerifiablePresentation' is the first element in this array:
+        type: args.presentation.type || ['VerifiablePresentation'],
+        issuanceDate: args.presentation.issuanceDate || new Date().toISOString(),
+      }
+
       //FIXME: if the identifier is not found, the error message should reflect that.
-      const identifier = await context.agent.didManagerGet({ did: args.presentation.holder })
+      const identifier = await context.agent.didManagerGet({ did: presentation.holder })
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       debug('Signing VP with', identifier.did)
-      const jwt = await createVerifiablePresentationJwt(args.presentation, { did: identifier.did, signer })
+      const jwt = await createVerifiablePresentationJwt(presentation, { did: identifier.did, signer })
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
       const verifiablePresentation = normalizePresentation(jwt)
@@ -197,8 +235,16 @@ export class CredentialIssuer implements IAgentPlugin {
     context: IContext,
   ): Promise<VerifiableCredential> {
     try {
+      const credential: W3CCredential = {
+        ...args.credential,
+        '@context': args.credential['@context'] || ['https://www.w3.org/2018/credentials/v1'],
+        //FIXME: make sure 'VerifiableCredential' is the first element in this array:
+        type: args.credential.type || ['VerifiableCredential'],
+        issuanceDate: args.credential.issuanceDate || new Date().toISOString(),
+      }
+
       //FIXME: if the identifier is not found, the error message should reflect that.
-      const identifier = await context.agent.didManagerGet({ did: args.credential.issuer.id })
+      const identifier = await context.agent.didManagerGet({ did: credential.issuer.id })
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('No signing key for ' + identifier.did)
@@ -206,7 +252,7 @@ export class CredentialIssuer implements IAgentPlugin {
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
 
       debug('Signing VC with', identifier.did)
-      const jwt = await createVerifiableCredentialJwt(args.credential, { did: identifier.did, signer })
+      const jwt = await createVerifiableCredentialJwt(credential, { did: identifier.did, signer })
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
       const verifiableCredential = normalizeCredential(jwt)

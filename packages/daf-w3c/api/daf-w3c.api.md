@@ -15,8 +15,6 @@ import { IResolver } from 'daf-core';
 import { Message } from 'daf-message-handler';
 import { VerifiableCredential } from 'daf-core';
 import { VerifiablePresentation } from 'daf-core';
-import { W3CCredential } from 'daf-core';
-import { W3CPresentation } from 'daf-core';
 
 // @public
 export class CredentialIssuer implements IAgentPlugin {
@@ -31,16 +29,47 @@ export class CredentialIssuer implements IAgentPlugin {
 }
 
 // @public
+export type EncodingFormat = 'jwt';
+
+// @public
 export interface ICreateVerifiableCredentialArgs {
-    credential: W3CCredential;
-    // Warning: (ae-forgotten-export) The symbol "EncodingFormat" needs to be exported by the entry point index.d.ts
+    credential: {
+        '@context'?: string[];
+        id?: string;
+        type?: string[];
+        issuer: {
+            id: string;
+            [x: string]: any;
+        };
+        issuanceDate?: string;
+        expirationDate?: string;
+        credentialSubject: {
+            id?: string;
+            [x: string]: any;
+        };
+        credentialStatus?: {
+            id: string;
+            type: string;
+        };
+        [x: string]: any;
+    };
     proofFormat: EncodingFormat;
     save?: boolean;
 }
 
 // @public
 export interface ICreateVerifiablePresentationArgs {
-    presentation: W3CPresentation;
+    presentation: {
+        id?: string;
+        holder: string;
+        issuanceDate?: string;
+        expirationDate?: string;
+        '@context'?: string[];
+        type?: string[];
+        verifier: string[];
+        verifiableCredential: VerifiableCredential[];
+        [x: string]: any;
+    };
     proofFormat: EncodingFormat;
     save?: boolean;
 }
