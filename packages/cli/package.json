@@ -26,7 +26,7 @@
     "@veramo/did-comm": "^1.0.0",
     "@veramo/did-jwt": "^1.0.0",
     "@veramo/ethr-did": "^1.0.0",
-    "daf-express": "^7.0.0",
+    "@veramo/express": "^1.0.0",
     "daf-identity-manager": "^7.0.0",
     "daf-key-manager": "^7.0.0",
     "daf-libsodium": "^7.0.0",

@@ -1,7 +1,7 @@
 {
-  "name": "daf-express",
-  "description": "DAF express",
-  "version": "7.0.0",
+  "name": "@veramo/express",
+  "description": "Express.js module that can expose some agent methods and messaging endpoints",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

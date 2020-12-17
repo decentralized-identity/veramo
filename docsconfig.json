@@ -4,7 +4,7 @@
         "did-comm",
         "did-jwt",
         "ethr-did",
-        "daf-express",
+        "express",
         "daf-libsodium",
         "daf-resolver",
         "daf-rest",

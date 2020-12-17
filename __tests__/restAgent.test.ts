@@ -37,7 +37,7 @@ import {
 import { AgentRestClient } from '../packages/daf-rest/src'
 import express from 'express'
 import { Server } from 'http'
-import { AgentRouter } from '../packages/daf-express/src'
+import { AgentRouter } from '../packages/express/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
