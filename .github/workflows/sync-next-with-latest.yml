@@ -1,0 +1,17 @@
+name: Sync @next with @latest
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+jobs:
+  merge-branch:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: everlytic/branch-merge@1.1.0
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          source_ref: ${{ github.ref }}
+          target_branch: 'next'
+          commit_message_template: 'chore(ci): merge main into next'

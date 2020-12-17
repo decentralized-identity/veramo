@@ -11,20 +11,12 @@
   "command": {
     "publish": {
       "allowBranch": [
-        "master",
-        "beta"
+        "main",
+        "next"
       ],
       "conventionalCommits": true,
       "gitRemote": "origin",
-      "message": "chore(release): %s"
-    },
-    "version": {
-      "allowBranch": [
-        "beta"
-      ],
-      "conventionalCommits": true,
-      "gitRemote": "origin",
-      "message": "chore(beta-release): %s"
+      "message": "chore(release): %s [skip ci]"
     }
   },
   "useWorkspaces": true
