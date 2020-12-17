@@ -279,7 +279,7 @@ export default (testContext: {
         did: identifier.did,
       })
 
-      await agent.didManagerImportIdentifier({
+      await agent.didManagerImport({
         ...exportedIdentifier,
         keys: [signingKeyFull, encryptionKeyFull],
       })

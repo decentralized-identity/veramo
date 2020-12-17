@@ -109,7 +109,7 @@ export class DidManager implements IAgentPlugin {
     // (undocumented)
     didManagerGetProviders(): Promise<string[]>;
     // (undocumented)
-    didManagerImportIdentifier(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerImport(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     // (undocumented)
     didManagerRemoveKey({ did, kid, options }: IDidManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)

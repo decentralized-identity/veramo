@@ -41,7 +41,7 @@ agent:
                 - didManagerGet
                 - didManagerCreate
                 - didManagerGetOrCreate
-                - didManagerImportIdentifier
+                - didManagerImport
                 - didManagerDeleteIdentifier
                 - didManagerAddKey
                 - didManagerRemoveKey

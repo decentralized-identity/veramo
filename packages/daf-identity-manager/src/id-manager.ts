@@ -52,7 +52,7 @@ export class DidManager implements IAgentPlugin {
       didManagerCreate: this.didManagerCreate.bind(this),
       didManagerSetAlias: this.didManagerSetAlias.bind(this),
       didManagerGetOrCreate: this.didManagerGetOrCreate.bind(this),
-      didManagerImportIdentifier: this.didManagerImportIdentifier.bind(this),
+      didManagerImport: this.didManagerImport.bind(this),
       didManagerDeleteIdentifier: this.didManagerDeleteIdentifier.bind(this),
       didManagerAddKey: this.didManagerAddKey.bind(this),
       didManagerRemoveKey: this.didManagerRemoveKey.bind(this),
@@ -139,11 +139,8 @@ export class DidManager implements IAgentPlugin {
     identifier.alias = alias
     return await this.store.import(identifier)
   }
-  /** {@inheritDoc daf-core#IDidManager.didManagerImportIdentifier} */
-  async didManagerImportIdentifier(
-    identifier: IIdentifier,
-    context: IAgentContext<IKeyManager>,
-  ): Promise<IIdentifier> {
+  /** {@inheritDoc daf-core#IDidManager.didManagerImport} */
+  async didManagerImport(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
     for (const key of identifier.keys) {
       await context.agent.keyManagerImportKey(key)
     }

@@ -240,7 +240,7 @@ did
         },
       ])
 
-      const identifier = await agent.didManagerImportIdentifier(JSON.parse(answers.identifier))
+      const identifier = await agent.didManagerImport(JSON.parse(answers.identifier))
       console.log(identifier)
     } catch (e) {
       console.error(e)
