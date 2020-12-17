@@ -42,7 +42,7 @@ agent:
                 - didManagerCreate
                 - didManagerGetOrCreate
                 - didManagerImport
-                - didManagerDeleteIdentifier
+                - didManagerDelete
                 - didManagerAddKey
                 - didManagerRemoveKey
                 - didManagerAddService

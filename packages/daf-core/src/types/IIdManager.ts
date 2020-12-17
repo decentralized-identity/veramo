@@ -46,10 +46,10 @@ export interface IDidManagerGetByAliasArgs {
 }
 
 /**
- * Input arguments for {@link IDidManager.didManagerDeleteIdentifier | didManagerDeleteIdentifier}
+ * Input arguments for {@link IDidManager.didManagerDelete | didManagerDelete}
  * @public
  */
-export interface IDidManagerDeleteIdentifierArgs {
+export interface IDidManagerDeleteArgs {
   /**
    * DID
    */
@@ -308,10 +308,7 @@ export interface IDidManager extends IPluginMethodMap {
   /**
    * Deletes identifier
    */
-  didManagerDeleteIdentifier(
-    args: IDidManagerDeleteIdentifierArgs,
-    context: IAgentContext<IKeyManager>,
-  ): Promise<boolean>
+  didManagerDelete(args: IDidManagerDeleteArgs, context: IAgentContext<IKeyManager>): Promise<boolean>
 
   /**
    * Adds a key to a DID Document

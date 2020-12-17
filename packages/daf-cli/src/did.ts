@@ -93,7 +93,7 @@ did
         },
       ])
 
-      const result = await agent.didManagerDeleteIdentifier({
+      const result = await agent.didManagerDelete({
         did: answers.did,
       })
 

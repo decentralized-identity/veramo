@@ -122,7 +122,7 @@ export default (testContext: {
       const allIdentifiers = await agent.didManagerFind()
       const count = allIdentifiers.length
 
-      const result = await agent.didManagerDeleteIdentifier({
+      const result = await agent.didManagerDelete({
         did: allIdentifiers[0].did,
       })
 
@@ -275,7 +275,7 @@ export default (testContext: {
         did: identifier.did,
       })
 
-      await agent.didManagerDeleteIdentifier({
+      await agent.didManagerDelete({
         did: identifier.did,
       })
 

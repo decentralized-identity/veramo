@@ -9,7 +9,7 @@ import {
   IDidManagerCreateArgs,
   IDidManagerGetByAliasArgs,
   IDidManagerGetOrCreateArgs,
-  IDidManagerDeleteIdentifierArgs,
+  IDidManagerDeleteArgs,
   IDidManagerAddKeyArgs,
   IDidManagerRemoveKeyArgs,
   IDidManagerAddServiceArgs,
@@ -53,7 +53,7 @@ export class DidManager implements IAgentPlugin {
       didManagerSetAlias: this.didManagerSetAlias.bind(this),
       didManagerGetOrCreate: this.didManagerGetOrCreate.bind(this),
       didManagerImport: this.didManagerImport.bind(this),
-      didManagerDeleteIdentifier: this.didManagerDeleteIdentifier.bind(this),
+      didManagerDelete: this.didManagerDelete.bind(this),
       didManagerAddKey: this.didManagerAddKey.bind(this),
       didManagerRemoveKey: this.didManagerRemoveKey.bind(this),
       didManagerAddService: this.didManagerAddService.bind(this),
@@ -148,9 +148,9 @@ export class DidManager implements IAgentPlugin {
     return identifier
   }
 
-  /** {@inheritDoc daf-core#IDidManager.didManagerDeleteIdentifier} */
-  async didManagerDeleteIdentifier(
-    { did }: IDidManagerDeleteIdentifierArgs,
+  /** {@inheritDoc daf-core#IDidManager.didManagerDelete} */
+  async didManagerDelete(
+    { did }: IDidManagerDeleteArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<boolean> {
     const identifier = await this.store.get({ did })
