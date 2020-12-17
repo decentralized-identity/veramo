@@ -2,8 +2,10 @@ import { getAgent } from './setup'
 import program from 'commander'
 const fs = require('fs')
 
-program
-  .command('msg')
+const message = program.command('message').description('Messages')
+
+message
+  .command('handle', { isDefault: true })
   .description('Handle raw message ')
   .option('-r, --raw <string>', 'String containing raw message')
   .option('-f, --file <string>', 'Path to a file containing raw message')

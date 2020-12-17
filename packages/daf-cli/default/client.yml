@@ -1,3 +1,4 @@
+version: 1.0
 server:
   hostname: localhost
   port: 3335

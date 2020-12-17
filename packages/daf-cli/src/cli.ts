@@ -3,18 +3,18 @@ import inquirer from 'inquirer'
 
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
-import './identity-manager'
-import './did-resolver'
+import './did'
 import './credential'
-import './data-explorer'
+import './presentation'
+import './explore'
 import './sdr'
-import './msg'
+import './message'
 import './version'
-import './crypto'
 import './execute'
 import './server'
 import './setup'
-import './schema'
+import './config'
+import './dev'
 
 if (!process.argv.slice(2).length) {
   program.outputHelp()

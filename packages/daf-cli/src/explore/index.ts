@@ -3,8 +3,8 @@ import program from 'commander'
 import { renderMainScreen } from './main'
 
 program
-  .command('data-explorer')
-  .description('Data explorer')
+  .command('explore')
+  .description('launch Verifiable Data explorer')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
     await renderMainScreen(agent)

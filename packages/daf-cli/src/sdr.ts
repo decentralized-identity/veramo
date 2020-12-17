@@ -3,13 +3,15 @@ import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
-import { shortDate, shortDid } from './data-explorer/utils'
+import { shortDate, shortDid } from './explore/utils'
 import { VerifiableCredential } from 'daf-core'
 const fuzzy = require('fuzzy')
 
-program
-  .command('sdr-create')
-  .description('Create Selective Disclosure Request')
+const sdr = program.command('sdr').description('Selective Disclosure Request')
+
+sdr
+  .command('create', { isDefault: true })
+  .description('create Selective Disclosure Request')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
     const identities = await agent.identityManagerGetIdentities()
@@ -247,9 +249,9 @@ program
     }
   })
 
-program
-  .command('sdr-reply')
-  .description('Reply to Selective Disclosure Request')
+sdr
+  .command('respond')
+  .description('respond to Selective Disclosure Request')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
     const sdrMessages = await agent.dataStoreORMGetMessages({

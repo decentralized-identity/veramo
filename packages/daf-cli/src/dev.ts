@@ -35,7 +35,7 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
   let fixedSymbol = symbol.replace('Array<', '').replace('>', '')
 
   const schema = generator.createSchema(fixedSymbol)
-  
+
   if (fixedSymbol === 'ICreateVerifiableCredentialArgs') {
     //@ts-ignore
     schema.definitions['W3CCredential']['properties']['credentialSubject']['additionalProperties'] = true
@@ -88,9 +88,11 @@ function getReference(response: string): OpenAPIV3.ReferenceObject | OpenAPIV3.S
   }
 }
 
-program
+const dev = program.command('dev').description('Plugin developer tools')
+
+dev
   .command('generate-plugin-schema')
-  .description('Generate plugin schema')
+  .description('generate plugin schema')
   .option('-c, --extractorConfig <string>', 'API Extractor config file', './api-extractor.json')
   .option(
     '-p, --packageConfig <string>',
@@ -188,7 +190,7 @@ program
     writeFileSync(resolve('./plugin.schema.json'), JSON.stringify(interfaces, null, 2))
   })
 
-program
+dev
   .command('extract-api')
   .description('Extract API')
   .option('-c, --extractorConfig <string>', 'API Extractor config file', './api-extractor.json')
