@@ -6,22 +6,46 @@
 
 import { IAgentContext } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
-import { IIdentifier } from 'daf-core';
 import { IDIDManager } from 'daf-core';
 import { IDIDManagerAddKeyArgs } from 'daf-core';
 import { IDIDManagerAddServiceArgs } from 'daf-core';
 import { IDIDManagerCreateArgs } from 'daf-core';
 import { IDIDManagerDeleteArgs } from 'daf-core';
+import { IDIDManagerFindArgs } from 'daf-core';
 import { IDIDManagerGetArgs } from 'daf-core';
 import { IDIDManagerGetByAliasArgs } from 'daf-core';
-import { IDIDManagerFindArgs } from 'daf-core';
 import { IDIDManagerGetOrCreateArgs } from 'daf-core';
 import { IDIDManagerRemoveKeyArgs } from 'daf-core';
 import { IDIDManagerRemoveServiceArgs } from 'daf-core';
 import { IDIDManagerSetAliasArgs } from 'daf-core';
+import { IIdentifier } from 'daf-core';
 import { IKey } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IService } from 'daf-core';
+
+// @public
+export abstract class AbstractDIDStore {
+    // (undocumented)
+    abstract delete(args: {
+        did: string;
+    }): Promise<boolean>;
+    // (undocumented)
+    abstract get(args: {
+        did: string;
+    }): Promise<IIdentifier>;
+    // (undocumented)
+    abstract get(args: {
+        alias: string;
+        provider: string;
+    }): Promise<IIdentifier>;
+    // (undocumented)
+    abstract import(args: IIdentifier): Promise<boolean>;
+    // (undocumented)
+    abstract list(args: {
+        alias?: string;
+        provider?: string;
+    }): Promise<IIdentifier[]>;
+}
 
 // @public
 export abstract class AbstractIdentifierProvider {
@@ -60,30 +84,6 @@ export abstract class AbstractIdentifierProvider {
 }
 
 // @public
-export abstract class AbstractDIDStore {
-    // (undocumented)
-    abstract delete(args: {
-        did: string;
-    }): Promise<boolean>;
-    // (undocumented)
-    abstract get(args: {
-        did: string;
-    }): Promise<IIdentifier>;
-    // (undocumented)
-    abstract get(args: {
-        alias: string;
-        provider: string;
-    }): Promise<IIdentifier>;
-    // (undocumented)
-    abstract import(args: IIdentifier): Promise<boolean>;
-    // (undocumented)
-    abstract list(args: {
-        alias?: string;
-        provider?: string;
-    }): Promise<IIdentifier[]>;
-}
-
-// @public
 export class DIDManager implements IAgentPlugin {
     constructor(options: {
         providers: Record<string, AbstractIdentifierProvider>;
@@ -99,11 +99,11 @@ export class DIDManager implements IAgentPlugin {
     // (undocumented)
     didManagerDelete({ did }: IDIDManagerDeleteArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
     // (undocumented)
+    didManagerFind(args: IDIDManagerFindArgs): Promise<IIdentifier[]>;
+    // (undocumented)
     didManagerGet({ did }: IDIDManagerGetArgs): Promise<IIdentifier>;
     // (undocumented)
-    didManagerGetByAlias({ alias, provider, }: IDIDManagerGetByAliasArgs): Promise<IIdentifier>;
-    // (undocumented)
-    didManagerFind(args: IDIDManagerFindArgs): Promise<IIdentifier[]>;
+    didManagerGetByAlias({ alias, provider }: IDIDManagerGetByAliasArgs): Promise<IIdentifier>;
     // (undocumented)
     didManagerGetOrCreate({ provider, alias, kms, options }: IDIDManagerGetOrCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     // (undocumented)

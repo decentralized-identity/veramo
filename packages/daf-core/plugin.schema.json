@@ -530,10 +530,10 @@
       }
     }
   },
-  "IIdentityManager": {
+  "IDIDManager": {
     "components": {
       "schemas": {
-        "IIdentityManagerAddKeyArgs": {
+        "IDIDManagerAddKeyArgs": {
           "type": "object",
           "properties": {
             "did": {
@@ -546,14 +546,14 @@
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identity provider specific options"
+              "description": "Optional. Identifier provider specific options"
             }
           },
           "required": [
             "did",
             "key"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerAddKey | identityManagerAddKey}"
+          "description": "Input arguments for {@link IDIDManager.didManagerAddKey | didManagerAddKey}"
         },
         "IKey": {
           "type": "object",
@@ -606,7 +606,7 @@
           ],
           "description": "Cryptographic key type"
         },
-        "IIdentityManagerAddServiceArgs": {
+        "IDIDManagerAddServiceArgs": {
           "type": "object",
           "properties": {
             "did": {
@@ -619,14 +619,14 @@
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identity provider specific options"
+              "description": "Optional. Identifier provider specific options"
             }
           },
           "required": [
             "did",
             "service"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerAddService | identityManagerAddService}"
+          "description": "Input arguments for {@link IDIDManager.didManagerAddService | didManagerAddService}"
         },
         "IService": {
           "type": "object",
@@ -653,18 +653,18 @@
             "type",
             "serviceEndpoint"
           ],
-          "description": "Identity service"
+          "description": "Identifier service"
         },
-        "IIdentityManagerCreateIdentityArgs": {
+        "IDIDManagerCreateArgs": {
           "type": "object",
           "properties": {
             "alias": {
               "type": "string",
-              "description": "Optional. Identity alias. Can be used to reference an object in an external system"
+              "description": "Optional. Identifier alias. Can be used to reference an object in an external system"
             },
             "provider": {
               "type": "string",
-              "description": "Optional. Identity provider"
+              "description": "Optional. Identifier provider"
             },
             "kms": {
               "type": "string",
@@ -672,12 +672,12 @@
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identity provider specific options"
+              "description": "Optional. Identifier provider specific options"
             }
           },
-          "description": "Input arguments for {@link IIdentityManager.identityManagerCreateIdentity | identityManagerCreateIdentity}"
+          "description": "Input arguments for {@link IDIDManager.didManagerCreate | didManagerCreate}"
         },
-        "IIdentity": {
+        "IIdentifier": {
           "type": "object",
           "properties": {
             "did": {
@@ -686,11 +686,11 @@
             },
             "alias": {
               "type": "string",
-              "description": "Optional. Identity alias. Can be used to reference an object in an external system"
+              "description": "Optional. Identifier alias. Can be used to reference an object in an external system"
             },
             "provider": {
               "type": "string",
-              "description": "Identity provider name"
+              "description": "Identifier provider name"
             },
             "controllerKeyId": {
               "type": "string",
@@ -717,9 +717,9 @@
             "keys",
             "services"
           ],
-          "description": "Identity interface"
+          "description": "Identifier interface"
         },
-        "IIdentityManagerDeleteIdentityArgs": {
+        "IDIDManagerDeleteArgs": {
           "type": "object",
           "properties": {
             "did": {
@@ -730,9 +730,9 @@
           "required": [
             "did"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerDeleteIdentity | identityManagerDeleteIdentity}"
+          "description": "Input arguments for {@link IDIDManager.didManagerDelete | didManagerDelete}"
         },
-        "IIdentityManagerGetIdentitiesArgs": {
+        "IDIDManagerFindArgs": {
           "type": "object",
           "properties": {
             "alias": {
@@ -744,9 +744,9 @@
               "description": "Optional. Provider"
             }
           },
-          "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentities | identityManagerGetIdentities}"
+          "description": "Input arguments for {@link IDIDManager.didManagerFind | didManagerFind}"
         },
-        "IIdentityManagerGetIdentityArgs": {
+        "IDIDManagerGetArgs": {
           "type": "object",
           "properties": {
             "did": {
@@ -757,9 +757,9 @@
           "required": [
             "did"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentity | identityManagerGetIdentity}"
+          "description": "Input arguments for {@link IDIDManager.didManagerGet | didManagerGet}"
         },
-        "IIdentityManagerGetIdentityByAliasArgs": {
+        "IDIDManagerGetByAliasArgs": {
           "type": "object",
           "properties": {
             "alias": {
@@ -774,18 +774,18 @@
           "required": [
             "alias"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerGetIdentityByAlias | identityManagerGetIdentityByAlias}"
+          "description": "Input arguments for {@link IDIDManager.didManagerGetByAlias | didManagerGetByAlias}"
         },
-        "IIdentityManagerGetOrCreateIdentityArgs": {
+        "IDIDManagerGetOrCreateArgs": {
           "type": "object",
           "properties": {
             "alias": {
               "type": "string",
-              "description": "Identity alias. Can be used to reference an object in an external system"
+              "description": "Identifier alias. Can be used to reference an object in an external system"
             },
             "provider": {
               "type": "string",
-              "description": "Optional. Identity provider"
+              "description": "Optional. Identifier provider"
             },
             "kms": {
               "type": "string",
@@ -793,15 +793,15 @@
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identity provider specific options"
+              "description": "Optional. Identifier provider specific options"
             }
           },
           "required": [
             "alias"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerGetOrCreateIdentity | identityManagerGetOrCreateIdentity}"
+          "description": "Input arguments for {@link IDIDManager.didManagerGetOrCreate | didManagerGetOrCreate}"
         },
-        "IIdentityManagerRemoveKeyArgs": {
+        "IDIDManagerRemoveKeyArgs": {
           "type": "object",
           "properties": {
             "did": {
@@ -814,16 +814,16 @@
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identity provider specific options"
+              "description": "Optional. Identifier provider specific options"
             }
           },
           "required": [
             "did",
             "kid"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerRemoveKey | identityManagerRemoveKey}"
+          "description": "Input arguments for {@link IDIDManager.didManagerRemoveKey | didManagerRemoveKey}"
         },
-        "IIdentityManagerRemoveServiceArgs": {
+        "IDIDManagerRemoveServiceArgs": {
           "type": "object",
           "properties": {
             "did": {
@@ -836,16 +836,16 @@
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identity provider specific options"
+              "description": "Optional. Identifier provider specific options"
             }
           },
           "required": [
             "did",
             "id"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerRemoveService | identityManagerRemoveService}"
+          "description": "Input arguments for {@link IDIDManager.didManagerRemoveService | didManagerRemoveService}"
         },
-        "IIdentityManagerSetAliasArgs": {
+        "IDIDManagerSetAliasArgs": {
           "type": "object",
           "properties": {
             "did": {
@@ -854,94 +854,94 @@
             },
             "alias": {
               "type": "string",
-              "description": "Required. Identity alias"
+              "description": "Required. Identifier alias"
             }
           },
           "required": [
             "did",
             "alias"
           ],
-          "description": "Input arguments for {@link IIdentityManager.identityManagerSetAlias | identityManagerSetAlias}"
+          "description": "Input arguments for {@link IDIDManager.didManagerSetAlias | didManagerSetAlias}"
         }
       },
       "methods": {
-        "identityManagerAddKey": {
+        "didManagerAddKey": {
           "description": "Adds a key to a DID Document",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerAddKeyArgs"
+            "$ref": "#/components/schemas/IDIDManagerAddKeyArgs"
           },
           "returnType": {
             "type": "object"
           }
         },
-        "identityManagerAddService": {
+        "didManagerAddService": {
           "description": "Adds a service to a DID Document",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerAddServiceArgs"
+            "$ref": "#/components/schemas/IDIDManagerAddServiceArgs"
           },
           "returnType": {
             "type": "object"
           }
         },
-        "identityManagerCreateIdentity": {
-          "description": "Creates and returns a new identity",
+        "didManagerCreate": {
+          "description": "Creates and returns a new identifier",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerCreateIdentityArgs"
+            "$ref": "#/components/schemas/IDIDManagerCreateArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IIdentity"
+            "$ref": "#/components/schemas/IIdentifier"
           }
         },
-        "identityManagerDeleteIdentity": {
-          "description": "Deletes identity",
+        "didManagerDelete": {
+          "description": "Deletes identifier",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerDeleteIdentityArgs"
+            "$ref": "#/components/schemas/IDIDManagerDeleteArgs"
           },
           "returnType": {
             "type": "boolean"
           }
         },
-        "identityManagerGetIdentities": {
-          "description": "Returns a list of managed identities",
+        "didManagerFind": {
+          "description": "Returns a list of managed identifiers",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerGetIdentitiesArgs"
+            "$ref": "#/components/schemas/IDIDManagerFindArgs"
           },
           "returnType": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IIdentity"
+              "$ref": "#/components/schemas/IIdentifier"
             }
           }
         },
-        "identityManagerGetIdentity": {
-          "description": "Returns a specific identity",
+        "didManagerGet": {
+          "description": "Returns a specific identifier",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerGetIdentityArgs"
+            "$ref": "#/components/schemas/IDIDManagerGetArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IIdentity"
+            "$ref": "#/components/schemas/IIdentifier"
           }
         },
-        "identityManagerGetIdentityByAlias": {
-          "description": "Returns a specific identity by alias",
+        "didManagerGetByAlias": {
+          "description": "Returns a specific identifier by alias",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerGetIdentityByAliasArgs"
+            "$ref": "#/components/schemas/IDIDManagerGetByAliasArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IIdentity"
+            "$ref": "#/components/schemas/IIdentifier"
           }
         },
-        "identityManagerGetOrCreateIdentity": {
-          "description": "Returns an existing identity or creates a new one for a specific alias",
+        "didManagerGetOrCreate": {
+          "description": "Returns an existing identifier or creates a new one for a specific alias",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerGetOrCreateIdentityArgs"
+            "$ref": "#/components/schemas/IDIDManagerGetOrCreateArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IIdentity"
+            "$ref": "#/components/schemas/IIdentifier"
           }
         },
-        "identityManagerGetProviders": {
-          "description": "Returns a list of available identity providers",
+        "didManagerGetProviders": {
+          "description": "Returns a list of available identifier providers",
           "arguments": {
             "type": "object"
           },
@@ -952,37 +952,37 @@
             }
           }
         },
-        "identityManagerImportIdentity": {
-          "description": "Imports identity",
+        "didManagerImport": {
+          "description": "Imports identifier",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentity"
+            "$ref": "#/components/schemas/IIdentifier"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IIdentity"
+            "$ref": "#/components/schemas/IIdentifier"
           }
         },
-        "identityManagerRemoveKey": {
+        "didManagerRemoveKey": {
           "description": "Removes a key from a DID Document",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerRemoveKeyArgs"
+            "$ref": "#/components/schemas/IDIDManagerRemoveKeyArgs"
           },
           "returnType": {
             "type": "object"
           }
         },
-        "identityManagerRemoveService": {
+        "didManagerRemoveService": {
           "description": "Removes a service from a DID Document",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerRemoveServiceArgs"
+            "$ref": "#/components/schemas/IDIDManagerRemoveServiceArgs"
           },
           "returnType": {
             "type": "object"
           }
         },
-        "identityManagerSetAlias": {
-          "description": "Sets identity alias",
+        "didManagerSetAlias": {
+          "description": "Sets identifier alias",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentityManagerSetAliasArgs"
+            "$ref": "#/components/schemas/IDIDManagerSetAliasArgs"
           },
           "returnType": {
             "type": "boolean"
@@ -1191,7 +1191,7 @@
             "credentialSubject",
             "proof"
           ],
-          "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "Verifiable Credential {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -1249,7 +1249,7 @@
             "verifiableCredential",
             "proof"
           ],
-          "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "Verifiable Presentation {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         },
         "IDataStoreGetVerifiableCredentialArgs": {
           "type": "object",
@@ -1586,7 +1586,7 @@
             "credentialSubject",
             "proof"
           ],
-          "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "Verifiable Credential {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -1644,7 +1644,7 @@
             "verifiableCredential",
             "proof"
           ],
-          "description": "Verifiable Presentation {@link https://github.com/decentralized-identity/did-jwt-vc}"
+          "description": "Verifiable Presentation {@link https://github.com/decentralized-identifier/did-jwt-vc}"
         }
       },
       "methods": {

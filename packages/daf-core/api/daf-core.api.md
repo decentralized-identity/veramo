@@ -125,40 +125,14 @@ export interface IDataStoreSaveVerifiablePresentationArgs {
 }
 
 // @public
-export interface IEventListener {
-    readonly eventTypes?: string[];
-    onEvent?(event: {
-        type: string;
-        data: any;
-    }, context: IAgentContext<{}>): Promise<void>;
-}
-
-// @public
-export interface IHandleMessageArgs {
-    metaData?: IMetaData[];
-    raw: string;
-    save?: boolean;
-}
-
-// @public
-export interface IIdentifier {
-    alias?: string;
-    controllerKeyId?: string;
-    did: string;
-    keys: IKey[];
-    provider: string;
-    services: IService[];
-}
-
-// @public
 export interface IDIDManager extends IPluginMethodMap {
     didManagerAddKey(args: IDIDManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     didManagerAddService(args: IDIDManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     didManagerCreate(args: IDIDManagerCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     didManagerDelete(args: IDIDManagerDeleteArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
+    didManagerFind(args: IDIDManagerFindArgs): Promise<Array<IIdentifier>>;
     didManagerGet(args: IDIDManagerGetArgs): Promise<IIdentifier>;
     didManagerGetByAlias(args: IDIDManagerGetByAliasArgs): Promise<IIdentifier>;
-    didManagerFind(args: IDIDManagerFindArgs): Promise<Array<IIdentifier>>;
     didManagerGetOrCreate(args: IDIDManagerGetOrCreateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     didManagerGetProviders(): Promise<Array<string>>;
     didManagerImport(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
@@ -195,6 +169,12 @@ export interface IDIDManagerDeleteArgs {
 }
 
 // @public
+export interface IDIDManagerFindArgs {
+    alias?: string;
+    provider?: string;
+}
+
+// @public
 export interface IDIDManagerGetArgs {
     did: string;
 }
@@ -202,12 +182,6 @@ export interface IDIDManagerGetArgs {
 // @public
 export interface IDIDManagerGetByAliasArgs {
     alias: string;
-    provider?: string;
-}
-
-// @public
-export interface IDIDManagerFindArgs {
-    alias?: string;
     provider?: string;
 }
 
@@ -237,6 +211,32 @@ export interface IDIDManagerRemoveServiceArgs {
 export interface IDIDManagerSetAliasArgs {
     alias: string;
     did: string;
+}
+
+// @public
+export interface IEventListener {
+    readonly eventTypes?: string[];
+    onEvent?(event: {
+        type: string;
+        data: any;
+    }, context: IAgentContext<{}>): Promise<void>;
+}
+
+// @public
+export interface IHandleMessageArgs {
+    metaData?: IMetaData[];
+    raw: string;
+    save?: boolean;
+}
+
+// @public
+export interface IIdentifier {
+    alias?: string;
+    controllerKeyId?: string;
+    did: string;
+    keys: IKey[];
+    provider: string;
+    services: IService[];
 }
 
 // @public

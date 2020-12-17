@@ -135,6 +135,28 @@ export class DataStoreORM implements IAgentPlugin {
 }
 
 // @public (undocumented)
+export class DIDStore extends AbstractDIDStore {
+    constructor(dbConnection: Promise<Connection>);
+    // (undocumented)
+    delete({ did }: {
+        did: string;
+    }): Promise<boolean>;
+    // (undocumented)
+    get({ did, alias, provider, }: {
+        did: string;
+        alias: string;
+        provider: string;
+    }): Promise<IIdentifier>;
+    // (undocumented)
+    import(args: IIdentifier): Promise<boolean>;
+    // (undocumented)
+    list(args: {
+        alias?: string;
+        provider?: string;
+    }): Promise<IIdentifier[]>;
+}
+
+// @public (undocumented)
 export const Entities: (typeof Key | typeof Identifier | typeof Service | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Message)[];
 
 // @public (undocumented)
@@ -227,28 +249,6 @@ export class Identifier extends BaseEntity {
     shortDid(): string;
     // (undocumented)
     updateDate: Date;
-}
-
-// @public (undocumented)
-export class DIDStore extends AbstractDIDStore {
-    constructor(dbConnection: Promise<Connection>);
-    // (undocumented)
-    delete({ did }: {
-        did: string;
-    }): Promise<boolean>;
-    // (undocumented)
-    get({ did, alias, provider }: {
-        did: string;
-        alias: string;
-        provider: string;
-    }): Promise<IIdentifier>;
-    // (undocumented)
-    import(args: IIdentifier): Promise<boolean>;
-    // (undocumented)
-    list(args: {
-        alias?: string;
-        provider?: string;
-    }): Promise<IIdentifier[]>;
 }
 
 // @public (undocumented)
