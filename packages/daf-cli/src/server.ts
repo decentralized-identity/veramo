@@ -123,7 +123,7 @@ program
      */
     let serverIdentifier: IIdentifier
     if (options.defaultIdentifier.create) {
-      serverIdentifier = await agent.didManagerGetOrCreateIdentifier({
+      serverIdentifier = await agent.didManagerGetOrCreate({
         provider: 'did:web',
         alias: hostname,
       })

@@ -61,19 +61,19 @@ export default (testContext: {
     })
 
     it('should get or create identifier', async () => {
-      const identifier3 = await agent.didManagerGetOrCreateIdentifier({
+      const identifier3 = await agent.didManagerGetOrCreate({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
       })
 
-      const identifier4 = await agent.didManagerGetOrCreateIdentifier({
+      const identifier4 = await agent.didManagerGetOrCreate({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
       })
 
       expect(identifier3).toEqual(identifier4)
 
-      const identifier5 = await agent.didManagerGetOrCreateIdentifier({
+      const identifier5 = await agent.didManagerGetOrCreate({
         alias: 'alice',
         provider: 'did:ethr',
       })
@@ -139,7 +139,7 @@ export default (testContext: {
     })
 
     it('should add service to identifier', async () => {
-      const webIdentifier = await agent.didManagerGetOrCreateIdentifier({
+      const webIdentifier = await agent.didManagerGetOrCreate({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -157,7 +157,7 @@ export default (testContext: {
       })
       expect(result).toEqual({ success: true })
 
-      const webIdentifier2 = await agent.didManagerGetOrCreateIdentifier({
+      const webIdentifier2 = await agent.didManagerGetOrCreate({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -179,7 +179,7 @@ export default (testContext: {
 
       expect(result).toEqual({ success: true })
 
-      const webIdentifier = await agent.didManagerGetOrCreateIdentifier({
+      const webIdentifier = await agent.didManagerGetOrCreate({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -188,7 +188,7 @@ export default (testContext: {
     })
 
     it('should add key to identifier', async () => {
-      const webIdentifier = await agent.didManagerGetOrCreateIdentifier({
+      const webIdentifier = await agent.didManagerGetOrCreate({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -207,7 +207,7 @@ export default (testContext: {
 
       expect(result).toEqual({ success: true })
 
-      const webIdentifier2 = await agent.didManagerGetOrCreateIdentifier({
+      const webIdentifier2 = await agent.didManagerGetOrCreate({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -238,7 +238,7 @@ export default (testContext: {
     })
 
     it('should import identifier', async () => {
-      const identifier = await agent.didManagerGetOrCreateIdentifier({
+      const identifier = await agent.didManagerGetOrCreate({
         alias: 'example.org',
         provider: 'did:web',
       })

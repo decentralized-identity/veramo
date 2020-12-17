@@ -22,7 +22,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should create service identifier', async () => {
-      serviceIdentifier = await agent.didManagerGetOrCreateIdentifier({
+      serviceIdentifier = await agent.didManagerGetOrCreate({
         provider: 'did:web',
         alias: 'example.com',
       })
@@ -51,7 +51,7 @@ export default (testContext: {
     })
 
     it('should get existing service identifier', async () => {
-      const testIdentifier = await agent.didManagerGetOrCreateIdentifier({
+      const testIdentifier = await agent.didManagerGetOrCreate({
         provider: 'did:web',
         alias: 'example.com',
       })
@@ -63,7 +63,7 @@ export default (testContext: {
     })
 
     it('should create identifier with alias: alice', async () => {
-      alice = await agent.didManagerGetOrCreateIdentifier({
+      alice = await agent.didManagerGetOrCreate({
         alias: 'alice',
       })
 
@@ -73,7 +73,7 @@ export default (testContext: {
     })
 
     it('should create identifier with alias: bob', async () => {
-      bob = await agent.didManagerGetOrCreateIdentifier({
+      bob = await agent.didManagerGetOrCreate({
         alias: 'bob',
       })
 
@@ -112,11 +112,11 @@ export default (testContext: {
       })
 
       it('issuer - Alice, subject - Bob', async () => {
-        const a = await agent.didManagerGetOrCreateIdentifier({
+        const a = await agent.didManagerGetOrCreate({
           alias: 'alice',
         })
 
-        const b = await agent.didManagerGetOrCreateIdentifier({
+        const b = await agent.didManagerGetOrCreate({
           alias: 'bob',
         })
 

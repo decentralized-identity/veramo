@@ -99,10 +99,10 @@ export interface IDidManagerSetAliasArgs {
 }
 
 /**
- * Input arguments for {@link IDidManager.didManagerGetOrCreateIdentifier | didManagerGetOrCreateIdentifier}
+ * Input arguments for {@link IDidManager.didManagerGetOrCreate | didManagerGetOrCreate}
  * @public
  */
-export interface IDidManagerGetOrCreateIdentifierArgs {
+export interface IDidManagerGetOrCreateArgs {
   /**
    * Identifier alias. Can be used to reference an object in an external system
    */
@@ -295,8 +295,8 @@ export interface IDidManager extends IPluginMethodMap {
   /**
    * Returns an existing identifier or creates a new one for a specific alias
    */
-  didManagerGetOrCreateIdentifier(
-    args: IDidManagerGetOrCreateIdentifierArgs,
+  didManagerGetOrCreate(
+    args: IDidManagerGetOrCreateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier>
 

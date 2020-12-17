@@ -40,7 +40,7 @@ agent:
                 - didManagerFind
                 - didManagerGet
                 - didManagerCreate
-                - didManagerGetOrCreateIdentifier
+                - didManagerGetOrCreate
                 - didManagerImportIdentifier
                 - didManagerDeleteIdentifier
                 - didManagerAddKey
