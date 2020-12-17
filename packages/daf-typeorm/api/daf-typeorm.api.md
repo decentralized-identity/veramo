@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbstractIdentifierStore } from 'daf-identity-manager';
+import { AbstractDIDStore } from 'daf-identity-manager';
 import { AbstractKeyStore } from 'daf-key-manager';
 import { AbstractSecretBox } from 'daf-key-manager';
 import { BaseEntity } from 'typeorm';
@@ -230,7 +230,7 @@ export class Identifier extends BaseEntity {
 }
 
 // @public (undocumented)
-export class IdentifierStore extends AbstractIdentifierStore {
+export class DIDStore extends AbstractDIDStore {
     constructor(dbConnection: Promise<Connection>);
     // (undocumented)
     delete({ did }: {

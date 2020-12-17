@@ -18,7 +18,7 @@ import {
   IIdManagerSetAliasArgs,
   schema,
 } from 'daf-core'
-import { AbstractIdentifierStore } from './abstract-identifier-store'
+import { AbstractDIDStore } from './abstract-identifier-store'
 
 /**
  * Agent plugin that implements {@link daf-core#IIdManager} interface
@@ -34,12 +34,12 @@ export class IdManager implements IAgentPlugin {
 
   private providers: Record<string, AbstractIdentifierProvider>
   private defaultProvider: string
-  private store: AbstractIdentifierStore
+  private store: AbstractDIDStore
 
   constructor(options: {
     providers: Record<string, AbstractIdentifierProvider>
     defaultProvider: string
-    store: AbstractIdentifierStore
+    store: AbstractDIDStore
   }) {
     this.providers = options.providers
     this.defaultProvider = options.defaultProvider

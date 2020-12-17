@@ -5,4 +5,4 @@
  */
 export { IdManager } from './id-manager'
 export { AbstractIdentifierProvider } from './abstract-identifier-provider'
-export { AbstractIdentifierStore } from './abstract-identifier-store'
+export { AbstractDIDStore } from './abstract-identifier-store'

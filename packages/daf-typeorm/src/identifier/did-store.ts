@@ -1,5 +1,5 @@
 import { IIdentifier } from 'daf-core'
-import { AbstractIdentifierStore } from 'daf-identity-manager'
+import { AbstractDIDStore } from 'daf-identity-manager'
 import { Identifier } from '../entities/identifier'
 import { Key } from '../entities/key'
 import { Service } from '../entities/service'
@@ -8,7 +8,7 @@ import { Connection, IsNull, Not } from 'typeorm'
 import Debug from 'debug'
 const debug = Debug('daf:typeorm:identifier-store')
 
-export class IdentifierStore extends AbstractIdentifierStore {
+export class DIDStore extends AbstractDIDStore {
   constructor(private dbConnection: Promise<Connection>) {
     super()
   }

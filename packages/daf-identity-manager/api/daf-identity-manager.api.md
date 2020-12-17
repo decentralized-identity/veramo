@@ -60,7 +60,7 @@ export abstract class AbstractIdentifierProvider {
 }
 
 // @public
-export abstract class AbstractIdentifierStore {
+export abstract class AbstractDIDStore {
     // (undocumented)
     abstract delete(args: {
         did: string;
@@ -88,7 +88,7 @@ export class IdManager implements IAgentPlugin {
     constructor(options: {
         providers: Record<string, AbstractIdentifierProvider>;
         defaultProvider: string;
-        store: AbstractIdentifierStore;
+        store: AbstractDIDStore;
     });
     // (undocumented)
     idManagerAddKey({ did, key, options }: IIdManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;

@@ -1,10 +1,10 @@
 /**
- * {@link https://typeorm.io/ | TypeORM } backed plugins. {@link daf-core#Agent} {@link daf-typeorm#DataStore | plugin} that implements {@link daf-core#IDataStore } interface. {@link daf-core#Agent} {@link daf-typeorm#DataStoreORM | plugin} that implements {@link daf-typeorm#IDataStoreORM} interface. Provides {@link daf-typeorm#KeyStore} for {@link daf-key-manager#KeyManager} and {@link daf-typeorm#IdentifierStore} for {@link daf-identity-manager#IdManager}
+ * {@link https://typeorm.io/ | TypeORM } backed plugins. {@link daf-core#Agent} {@link daf-typeorm#DataStore | plugin} that implements {@link daf-core#IDataStore } interface. {@link daf-core#Agent} {@link daf-typeorm#DataStoreORM | plugin} that implements {@link daf-typeorm#IDataStoreORM} interface. Provides {@link daf-typeorm#KeyStore} for {@link daf-key-manager#KeyManager} and {@link daf-typeorm#DIDStore} for {@link daf-identity-manager#IdManager}
  *
  * @packageDocumentation
  */
 
-export { IdentifierStore } from './identifier/identifier-store'
+export { DIDStore } from './identifier/did-store'
 export { KeyStore } from './identifier/key-store'
 export { DataStore } from './data-store'
 export {

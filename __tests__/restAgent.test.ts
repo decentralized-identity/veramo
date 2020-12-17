@@ -29,7 +29,7 @@ import { KeyManagementSystem, SecretBox } from '../packages/daf-libsodium/src'
 import {
   Entities,
   KeyStore,
-  IdentifierStore,
+  DIDStore,
   IDataStoreORM,
   DataStore,
   DataStoreORM,
@@ -106,7 +106,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         },
       }),
       new IdManager({
-        store: new IdentifierStore(dbConnection),
+        store: new DIDStore(dbConnection),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
           'did:ethr': new EthrDIDProvider({
