@@ -1,7 +1,7 @@
 {
-  "name": "daf-ethr-did",
-  "description": "DAF ehtr-did based identity controller plugin.",
-  "version": "7.0.0",
+  "name": "@veramo/ethr-did",
+  "description": "Veramo ehtr-did based identity controller plugin.",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

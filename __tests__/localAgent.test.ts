@@ -15,7 +15,7 @@ import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from '../packages/daf-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c/src'
-import { EthrDIDProvider } from '../packages/daf-ethr-did/src'
+import { EthrDIDProvider } from '../packages/ethr-did/src'
 import { WebDIDProvider } from '../packages/daf-web-did/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {

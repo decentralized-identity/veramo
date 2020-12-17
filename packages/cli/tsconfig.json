@@ -8,7 +8,7 @@
     { "path": "../core" },
     { "path": "../did-comm" },
     { "path": "../did-jwt" },
-    { "path": "../daf-ethr-did" },
+    { "path": "../ethr-did" },
     { "path": "../daf-express" },
     { "path": "../daf-identity-manager" },
     { "path": "../daf-key-manager" },

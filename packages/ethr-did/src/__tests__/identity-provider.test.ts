@@ -12,7 +12,7 @@ describe('dummy', () => {
   })
 })
 
-// describe('daf-ethr-did-fs', () => {
+// describe('@veramo/ethr-did', () => {
 // const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 // const rpcUrl = 'https://rinkeby.infura.io/v3/' + infuraProjectId
 // const resolver = new DafResolver({ infuraProjectId })

@@ -3,7 +3,7 @@
         "core",
         "did-comm",
         "did-jwt",
-        "daf-ethr-did",
+        "ethr-did",
         "daf-express",
         "daf-libsodium",
         "daf-resolver",
