@@ -6,7 +6,7 @@
     { "path": "did-jwt" },
     { "path": "ethr-did" },
     { "path": "express" },
-    { "path": "daf-identity-manager" },
+    { "path": "did-manager" },
     { "path": "daf-key-manager" },
     { "path": "daf-libsodium" },
     { "path": "daf-message-handler" },

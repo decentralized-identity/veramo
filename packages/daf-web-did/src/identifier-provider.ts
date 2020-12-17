@@ -1,5 +1,5 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
-import { AbstractIdentifierProvider } from 'daf-identity-manager'
+import { AbstractIdentifierProvider } from '@veramo/did-manager'
 
 import Debug from 'debug'
 const debug = Debug('veramo:web-did:identifier-provider')
@@ -7,7 +7,7 @@ const debug = Debug('veramo:web-did:identifier-provider')
 type IContext = IAgentContext<IKeyManager>
 
 /**
- * {@link daf-identity-manager#DIDManager} identifier provider for `did:web` identifiers
+ * {@link @veramo/did-manager#DIDManager} identifier provider for `did:web` identifiers
  * @public
  */
 export class WebDIDProvider extends AbstractIdentifierProvider {

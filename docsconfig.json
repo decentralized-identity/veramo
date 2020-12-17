@@ -14,7 +14,7 @@
         "daf-w3c",
         "daf-web-did",
         "daf-key-manager",
-        "daf-identity-manager",
+        "did-manager",
         "daf-message-handler"
     ]
 }

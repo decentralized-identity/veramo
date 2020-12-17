@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbstractIdentifierProvider } from 'daf-identity-manager';
+import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import { IAgentContext } from '@veramo/core';
 import { IIdentifier } from '@veramo/core';
 import { IKey } from '@veramo/core';

@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@veramo/core": "^1.0.0",
-    "daf-identity-manager": "^7.0.0",
+    "@veramo/did-manager": "^1.0.0",
     "daf-key-manager": "^7.0.0",
     "debug": "^4.1.1",
     "typeorm": "0.2.24"

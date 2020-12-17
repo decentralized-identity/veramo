@@ -1,7 +1,7 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
 
 /**
- * An abstract class for the {@link daf-identity-manager#DIDManager} identifier providers
+ * An abstract class for the {@link @veramo/did-manager#DIDManager} identifier providers
  * @public
  */
 export abstract class AbstractIdentifierProvider {

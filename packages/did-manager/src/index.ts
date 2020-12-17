@@ -1,5 +1,6 @@
 /**
- * Provides a {@link daf-identity-manager#DIDManager | plugin} for the {@link @veramo/core#Agent} that implements {@link @veramo/core#IDIDManager} interface
+ * Provides a {@link @veramo/did-manager#DIDManager | plugin} for the
+ * {@link @veramo/core#Agent} that implements {@link @veramo/core#IDIDManager} interface.
  *
  * @packageDocumentation
  */

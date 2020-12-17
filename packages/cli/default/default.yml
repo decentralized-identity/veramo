@@ -102,7 +102,7 @@ agent:
               kms:
                 local:
                   $require: daf-libsodium#KeyManagementSystem
-        - $require: daf-identity-manager#DIDManager
+        - $require: @veramo/did-manager#DIDManager
           $args:
             - store:
                 $require: daf-typeorm#DIDStore

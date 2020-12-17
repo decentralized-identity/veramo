@@ -1,5 +1,5 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
-import { AbstractIdentifierProvider } from 'daf-identity-manager'
+import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'
 import EthrDID from 'ethr-did'
@@ -19,7 +19,7 @@ export function toEthereumAddress(hexPublicKey: string): string {
 }
 
 /**
- * {@link daf-identity-manager#DIDManager} identifier provider for `did:ethr` identifiers
+ * {@link @veramo/did-manager#DIDManager} identifier provider for `did:ethr` identifiers
  * @public
  */
 export class EthrDIDProvider extends AbstractIdentifierProvider {

@@ -1,5 +1,5 @@
 import { IIdentifier } from '@veramo/core'
-import { AbstractDIDStore } from 'daf-identity-manager'
+import { AbstractDIDStore } from '@veramo/did-manager'
 import { Identifier } from '../entities/identifier'
 import { Key } from '../entities/key'
 import { Service } from '../entities/service'
