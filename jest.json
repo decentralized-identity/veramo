@@ -4,7 +4,7 @@
   "collectCoverageFrom": [
     "packages/**/src/**/*.ts",
     "!**/examples/**",
-    "!packages/daf-cli/**",
+    "!packages/cli/**",
     "!packages/daf-react-native-libsodium/**",
     "!**/types/**",
     "!**/build/**",

@@ -4,4 +4,4 @@ COPY . .
 RUN yarn
 RUN yarn bootstrap
 RUN yarn build
-ENTRYPOINT ["./packages/daf-cli/bin/daf.js"]
+ENTRYPOINT ["./packages/cli/bin/veramo.js"]
