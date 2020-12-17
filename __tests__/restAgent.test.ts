@@ -3,7 +3,7 @@ import {
   Agent,
   IAgent,
   createAgent,
-  IIdManager,
+  IDidManager,
   IResolver,
   IKeyManager,
   IDataStore,
@@ -12,7 +12,7 @@ import {
 } from '../packages/daf-core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
 import { KeyManager } from '../packages/daf-key-manager/src'
-import { IdManager } from '../packages/daf-identity-manager/src'
+import { DidManager } from '../packages/daf-identity-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from '../packages/daf-resolver/src'
 import { JwtMessageHandler } from '../packages/daf-did-jwt/src'
@@ -52,7 +52,7 @@ import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
-import idManager from './shared/idManager'
+import didManager from './shared/didManager'
 import messageHandler from './shared/messageHandler'
 
 const databaseFile = 'rest-database.sqlite'
@@ -67,7 +67,7 @@ let restServer: Server
 
 const getAgent = (options?: IAgentOptions) =>
   createAgent<
-    IIdManager &
+    IDidManager &
       IKeyManager &
       IDataStore &
       IDataStoreORM &
@@ -105,7 +105,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           local: new KeyManagementSystem(),
         },
       }),
-      new IdManager({
+      new DidManager({
         store: new DIDStore(dbConnection),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
@@ -188,6 +188,6 @@ describe('REST integration tests', () => {
   webDidFlow(testContext)
   documentationExamples(testContext)
   keyManager(testContext)
-  idManager(testContext)
+  didManager(testContext)
   messageHandler(testContext)
 })

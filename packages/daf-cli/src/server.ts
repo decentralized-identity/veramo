@@ -123,7 +123,7 @@ program
      */
     let serverIdentifier: IIdentifier
     if (options.defaultIdentifier.create) {
-      serverIdentifier = await agent.idManagerGetOrCreateIdentifier({
+      serverIdentifier = await agent.didManagerGetOrCreateIdentifier({
         provider: 'did:web',
         alias: hostname,
       })
@@ -132,7 +132,7 @@ program
       const messagingServiceEndpoint = baseUrl + options.defaultIdentifier.messagingServiceEndpoint
 
       console.log('📨 Messaging endpoint', messagingServiceEndpoint)
-      await agent.idManagerAddService({
+      await agent.didManagerAddService({
         did: serverIdentifier.did,
         service: {
           id: serverIdentifier.did + '#msg',

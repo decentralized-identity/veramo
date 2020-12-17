@@ -8,7 +8,7 @@ import { AbstractMessageHandler } from 'daf-message-handler';
 import { IAgentContext } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { IDataStore } from 'daf-core';
-import { IIdManager } from 'daf-core';
+import { IDidManager } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IPluginMethodMap } from 'daf-core';
 import { IResolver } from 'daf-core';

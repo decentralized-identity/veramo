@@ -3,10 +3,10 @@ import { IIdentifier, IService, IKey } from './IIdentifier'
 import { IKeyManager } from './IKeyManager'
 
 /**
- * Input arguments for {@link IIdManager.idManagerGetIdentifier | idManagerGetIdentifier}
+ * Input arguments for {@link IDidManager.didManagerGetIdentifier | didManagerGetIdentifier}
  * @public
  */
-export interface IIdManagerGetIdentifierArgs {
+export interface IDidManagerGetIdentifierArgs {
   /**
    * DID
    */
@@ -14,10 +14,10 @@ export interface IIdManagerGetIdentifierArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerGetIdentifiers | idManagerGetIdentifiers}
+ * Input arguments for {@link IDidManager.ddidManagerFind | ddidManagerFind}
  * @public
  */
-export interface IIdManagerGetIdentifiersArgs {
+export interface IDdidManagerFindArgs {
   /**
    * Optional. Alias
    */
@@ -30,10 +30,10 @@ export interface IIdManagerGetIdentifiersArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerGetIdentifierByAlias | idManagerGetIdentifierByAlias}
+ * Input arguments for {@link IDidManager.didManagerGetIdentifierByAlias | didManagerGetIdentifierByAlias}
  * @public
  */
-export interface IIdManagerGetIdentifierByAliasArgs {
+export interface IDidManagerGetIdentifierByAliasArgs {
   /**
    * Alias
    */
@@ -46,10 +46,10 @@ export interface IIdManagerGetIdentifierByAliasArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerDeleteIdentifier | idManagerDeleteIdentifier}
+ * Input arguments for {@link IDidManager.didManagerDeleteIdentifier | didManagerDeleteIdentifier}
  * @public
  */
-export interface IIdManagerDeleteIdentifierArgs {
+export interface IDidManagerDeleteIdentifierArgs {
   /**
    * DID
    */
@@ -57,10 +57,10 @@ export interface IIdManagerDeleteIdentifierArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerCreateIdentifier | idManagerCreateIdentifier}
+ * Input arguments for {@link IDidManager.didManagerCreateIdentifier | didManagerCreateIdentifier}
  * @public
  */
-export interface IIdManagerCreateIdentifierArgs {
+export interface IDidManagerCreateIdentifierArgs {
   /**
    * Optional. Identifier alias. Can be used to reference an object in an external system
    */
@@ -83,10 +83,10 @@ export interface IIdManagerCreateIdentifierArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerSetAlias | idManagerSetAlias}
+ * Input arguments for {@link IDidManager.didManagerSetAlias | didManagerSetAlias}
  * @public
  */
-export interface IIdManagerSetAliasArgs {
+export interface IDidManagerSetAliasArgs {
   /**
    * Required. DID
    */
@@ -99,10 +99,10 @@ export interface IIdManagerSetAliasArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerGetOrCreateIdentifier | idManagerGetOrCreateIdentifier}
+ * Input arguments for {@link IDidManager.didManagerGetOrCreateIdentifier | didManagerGetOrCreateIdentifier}
  * @public
  */
-export interface IIdManagerGetOrCreateIdentifierArgs {
+export interface IDidManagerGetOrCreateIdentifierArgs {
   /**
    * Identifier alias. Can be used to reference an object in an external system
    */
@@ -125,10 +125,10 @@ export interface IIdManagerGetOrCreateIdentifierArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerAddKey | idManagerAddKey}
+ * Input arguments for {@link IDidManager.didManagerAddKey | didManagerAddKey}
  * @public
  */
-export interface IIdManagerAddKeyArgs {
+export interface IDidManagerAddKeyArgs {
   /**
    * DID
    */
@@ -146,10 +146,10 @@ export interface IIdManagerAddKeyArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerRemoveKey | idManagerRemoveKey}
+ * Input arguments for {@link IDidManager.didManagerRemoveKey | didManagerRemoveKey}
  * @public
  */
-export interface IIdManagerRemoveKeyArgs {
+export interface IDidManagerRemoveKeyArgs {
   /**
    * DID
    */
@@ -167,10 +167,10 @@ export interface IIdManagerRemoveKeyArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerAddService | idManagerAddService}
+ * Input arguments for {@link IDidManager.didManagerAddService | didManagerAddService}
  * @public
  */
-export interface IIdManagerAddServiceArgs {
+export interface IDidManagerAddServiceArgs {
   /**
    * DID
    */
@@ -188,10 +188,10 @@ export interface IIdManagerAddServiceArgs {
 }
 
 /**
- * Input arguments for {@link IIdManager.idManagerRemoveService | idManagerRemoveService}
+ * Input arguments for {@link IDidManager.didManagerRemoveService | didManagerRemoveService}
  * @public
  */
-export interface IIdManagerRemoveServiceArgs {
+export interface IDidManagerRemoveServiceArgs {
   /**
    * DID
    */
@@ -212,11 +212,11 @@ export interface IIdManagerRemoveServiceArgs {
  * Identifier manager interface
  * @public
  */
-export interface IIdManager extends IPluginMethodMap {
+export interface IDidManager extends IPluginMethodMap {
   /**
    * Returns a list of available identifier providers
    */
-  idManagerGetProviders(): Promise<Array<string>>
+  didManagerGetProviders(): Promise<Array<string>>
 
   /**
    * Returns a list of managed identifiers
@@ -226,21 +226,21 @@ export interface IIdManager extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const aliceIdentifiers = await agent.idManagerGetIdentifiers({
+   * const aliceIdentifiers = await agent.ddidManagerFind({
    *   alias: 'alice'
    * })
    *
-   * const rinkebyIdentifiers = await agent.idManagerGetIdentifiers({
+   * const rinkebyIdentifiers = await agent.ddidManagerFind({
    *   provider: 'did:ethr:rinkeby'
    * })
    * ```
    */
-  idManagerGetIdentifiers(args: IIdManagerGetIdentifiersArgs): Promise<Array<IIdentifier>>
+  ddidManagerFind(args: IDdidManagerFindArgs): Promise<Array<IIdentifier>>
 
   /**
    * Returns a specific identifier
    */
-  idManagerGetIdentifier(args: IIdManagerGetIdentifierArgs): Promise<IIdentifier>
+  didManagerGetIdentifier(args: IDidManagerGetIdentifierArgs): Promise<IIdentifier>
 
   /**
    * Returns a specific identifier by alias
@@ -250,13 +250,13 @@ export interface IIdManager extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const identifier = await agent.idManagerGetIdentifierByAlias({
+   * const identifier = await agent.didManagerGetIdentifierByAlias({
    *   alias: 'alice',
    *   provider: 'did:ethr:rinkeby'
    * })
    * ```
    */
-  idManagerGetIdentifierByAlias(args: IIdManagerGetIdentifierByAliasArgs): Promise<IIdentifier>
+  didManagerGetIdentifierByAlias(args: IDidManagerGetIdentifierByAliasArgs): Promise<IIdentifier>
 
   /**
    * Creates and returns a new identifier
@@ -266,15 +266,15 @@ export interface IIdManager extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const identifier = await agent.idManagerCreateIdentifier({
+   * const identifier = await agent.didManagerCreateIdentifier({
    *   alias: 'alice',
    *   provider: 'did:ethr:rinkeby',
    *   kms: 'local'
    * })
    * ```
    */
-  idManagerCreateIdentifier(
-    args: IIdManagerCreateIdentifierArgs,
+  didManagerCreateIdentifier(
+    args: IDidManagerCreateIdentifierArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier>
 
@@ -286,33 +286,33 @@ export interface IIdManager extends IPluginMethodMap {
    *
    * @example
    * ```typescript
-   * const identifier = await agent.idManagerCreateIdentifier()
-   * const result = await agent.idManagerSetAlias({
+   * const identifier = await agent.didManagerCreateIdentifier()
+   * const result = await agent.didManagerSetAlias({
    *   did: identifier.did,
    *   alias: 'carol',
    * })
    * ```
    */
-  idManagerSetAlias(args: IIdManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>
+  didManagerSetAlias(args: IDidManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>
 
   /**
    * Returns an existing identifier or creates a new one for a specific alias
    */
-  idManagerGetOrCreateIdentifier(
-    args: IIdManagerGetOrCreateIdentifierArgs,
+  didManagerGetOrCreateIdentifier(
+    args: IDidManagerGetOrCreateIdentifierArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier>
 
   /**
    * Imports identifier
    */
-  idManagerImportIdentifier(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
+  didManagerImportIdentifier(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 
   /**
    * Deletes identifier
    */
-  idManagerDeleteIdentifier(
-    args: IIdManagerDeleteIdentifierArgs,
+  didManagerDeleteIdentifier(
+    args: IDidManagerDeleteIdentifierArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<boolean>
 
@@ -320,23 +320,26 @@ export interface IIdManager extends IPluginMethodMap {
    * Adds a key to a DID Document
    * @returns identifier provider specific response. Can be txHash, etc,
    */
-  idManagerAddKey(args: IIdManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>
+  didManagerAddKey(args: IDidManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>
 
   /**
    * Removes a key from a DID Document
    * @returns identifier provider specific response. Can be txHash, etc,
    */
-  idManagerRemoveKey(args: IIdManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any> // txHash?
+  didManagerRemoveKey(args: IDidManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any> // txHash?
 
   /**
    * Adds a service to a DID Document
    * @returns identifier provider specific response. Can be txHash, etc,
    */
-  idManagerAddService(args: IIdManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any> //txHash?
+  didManagerAddService(args: IDidManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any> //txHash?
 
   /**
    * Removes a service from a DID Document
    * @returns identifier provider specific response. Can be txHash, etc,
    */
-  idManagerRemoveService(args: IIdManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any> //txHash?
+  didManagerRemoveService(
+    args: IDidManagerRemoveServiceArgs,
+    context: IAgentContext<IKeyManager>,
+  ): Promise<any> //txHash?
 }

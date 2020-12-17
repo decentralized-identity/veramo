@@ -1,7 +1,7 @@
-import { TAgent, IIdManager, IIdentifier, IKey } from '../../packages/daf-core/src'
+import { TAgent, IDidManager, IIdentifier, IKey } from '../../packages/daf-core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 
-type ConfiguredAgent = TAgent<IIdManager & ICredentialIssuer>
+type ConfiguredAgent = TAgent<IDidManager & ICredentialIssuer>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -22,7 +22,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should create service identifier', async () => {
-      serviceIdentifier = await agent.idManagerGetOrCreateIdentifier({
+      serviceIdentifier = await agent.didManagerGetOrCreateIdentifier({
         provider: 'did:web',
         alias: 'example.com',
       })
@@ -41,17 +41,17 @@ export default (testContext: {
         serviceEndpoint: 'https://example.com/messaging',
       }
 
-      await agent.idManagerAddService({
+      await agent.didManagerAddService({
         did: 'did:web:example.com',
         service,
       })
 
-      const testIdentifier = await agent.idManagerGetIdentifier({ did: 'did:web:example.com' })
+      const testIdentifier = await agent.didManagerGetIdentifier({ did: 'did:web:example.com' })
       expect(testIdentifier.services[0]).toEqual(service)
     })
 
     it('should get existing service identifier', async () => {
-      const testIdentifier = await agent.idManagerGetOrCreateIdentifier({
+      const testIdentifier = await agent.didManagerGetOrCreateIdentifier({
         provider: 'did:web',
         alias: 'example.com',
       })
@@ -63,7 +63,7 @@ export default (testContext: {
     })
 
     it('should create identifier with alias: alice', async () => {
-      alice = await agent.idManagerGetOrCreateIdentifier({
+      alice = await agent.didManagerGetOrCreateIdentifier({
         alias: 'alice',
       })
 
@@ -73,7 +73,7 @@ export default (testContext: {
     })
 
     it('should create identifier with alias: bob', async () => {
-      bob = await agent.idManagerGetOrCreateIdentifier({
+      bob = await agent.didManagerGetOrCreateIdentifier({
         alias: 'bob',
       })
 
@@ -112,11 +112,11 @@ export default (testContext: {
       })
 
       it('issuer - Alice, subject - Bob', async () => {
-        const a = await agent.idManagerGetOrCreateIdentifier({
+        const a = await agent.didManagerGetOrCreateIdentifier({
           alias: 'alice',
         })
 
-        const b = await agent.idManagerGetOrCreateIdentifier({
+        const b = await agent.didManagerGetOrCreateIdentifier({
           alias: 'bob',
         })
 

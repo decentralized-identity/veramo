@@ -36,17 +36,17 @@ agent:
                 - keyManagerDecryptJWE
                 - keyManagerSignJWT
                 - keyManagerSignEthTX
-                - idManagerGetProviders
-                - idManagerGetIdentifiers
-                - idManagerGetIdentifier
-                - idManagerCreateIdentifier
-                - idManagerGetOrCreateIdentifier
-                - idManagerImportIdentifier
-                - idManagerDeleteIdentifier
-                - idManagerAddKey
-                - idManagerRemoveKey
-                - idManagerAddService
-                - idManagerRemoveService
+                - didManagerGetProviders
+                - ddidManagerFind
+                - didManagerGetIdentifier
+                - didManagerCreateIdentifier
+                - didManagerGetOrCreateIdentifier
+                - didManagerImportIdentifier
+                - didManagerDeleteIdentifier
+                - didManagerAddKey
+                - didManagerRemoveKey
+                - didManagerAddService
+                - didManagerRemoveService
                 - resolveDid
                 - dataStoreSaveMessage
                 - dataStoreSaveVerifiableCredential

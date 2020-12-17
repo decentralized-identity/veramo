@@ -3,7 +3,7 @@ import {
   IAgentContext,
   IResolver,
   IMessage,
-  IIdManager,
+  IDidManager,
   IKeyManager,
   IMessageHandler,
   IPluginMethodMap,
@@ -47,7 +47,7 @@ export interface IDIDComm extends IPluginMethodMap {
    */
   sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdManager & IKeyManager & IResolver & IMessageHandler>,
+    context: IAgentContext<IDidManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage>
 }
 
@@ -74,7 +74,7 @@ export class DIDComm implements IAgentPlugin {
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
   async sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IIdManager & IKeyManager & IResolver & IMessageHandler>,
+    context: IAgentContext<IDidManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IMessage> {
     const { data, url, headers, save = true } = args
 
@@ -93,7 +93,7 @@ export class DIDComm implements IAgentPlugin {
         data.id = data.id || uuidv4()
         let postPayload = JSON.stringify(data)
         try {
-          const identifier = await context.agent.idManagerGetIdentifier({ did: data.from })
+          const identifier = await context.agent.didManagerGetIdentifier({ did: data.from })
           const key = identifier.keys.find((k) => k.type === 'Ed25519')
           if (!key) throw Error('No encryption key')
           const publicKey = didDoc?.publicKey.find((item) => item.type == 'Ed25519VerificationKey2018')

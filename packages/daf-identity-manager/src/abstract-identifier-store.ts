@@ -1,7 +1,7 @@
 import { IIdentifier } from 'daf-core'
 
 /**
- * An abstract class for the {@link daf-identity-manager#IdManager} identifier store
+ * An abstract class for the {@link daf-identity-manager#DidManager} identifier store
  * @public
  */
 export abstract class AbstractDIDStore {

@@ -54,7 +54,7 @@ const context: IContext = {
     availableMethods: jest.fn(),
     resolveDid: jest.fn(),
     emit: jest.fn(),
-    idManagerGetIdentifier: jest
+    didManagerGetIdentifier: jest
       .fn()
       .mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier1),
     keyManagerSignJWT: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
@@ -94,7 +94,7 @@ describe('daf-w3c', () => {
       context,
     )
     // TODO Update these after refactoring did-jwt-vc
-    expect(context.agent.idManagerGetIdentifier).toBeCalledWith({ did: mockIdentifier1.did })
+    expect(context.agent.didManagerGetIdentifier).toBeCalledWith({ did: mockIdentifier1.did })
     expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
       verifiableCredential: 'mockCredential',
     })
@@ -140,7 +140,7 @@ describe('daf-w3c', () => {
       context,
     )
 
-    expect(context.agent.idManagerGetIdentifier).toBeCalledWith({ did: mockIdentifier1.did })
+    expect(context.agent.didManagerGetIdentifier).toBeCalledWith({ did: mockIdentifier1.did })
     expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith({
       verifiablePresentation: 'mockPresentation',
     })

@@ -5,7 +5,7 @@
 ```ts
 
 import { IAgent } from 'daf-core';
-import { IIdManager } from 'daf-core';
+import { IDidManager } from 'daf-core';
 import { Request as Request_2 } from 'express';
 import { Router } from 'express';
 import { TAgent } from 'daf-core';
@@ -40,7 +40,7 @@ export const WebDidDocRouter: (options: WebDidDocRouterOptions) => Router;
 
 // @public (undocumented)
 export interface WebDidDocRouterOptions {
-    getAgentForRequest: (req: Request_2) => Promise<TAgent<IIdManager>>;
+    getAgentForRequest: (req: Request_2) => Promise<TAgent<IDidManager>>;
 }
 
 

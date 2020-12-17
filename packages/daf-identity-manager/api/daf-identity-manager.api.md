@@ -7,18 +7,18 @@
 import { IAgentContext } from 'daf-core';
 import { IAgentPlugin } from 'daf-core';
 import { IIdentifier } from 'daf-core';
-import { IIdManager } from 'daf-core';
-import { IIdManagerAddKeyArgs } from 'daf-core';
-import { IIdManagerAddServiceArgs } from 'daf-core';
-import { IIdManagerCreateIdentifierArgs } from 'daf-core';
-import { IIdManagerDeleteIdentifierArgs } from 'daf-core';
-import { IIdManagerGetIdentifierArgs } from 'daf-core';
-import { IIdManagerGetIdentifierByAliasArgs } from 'daf-core';
-import { IIdManagerGetIdentifiersArgs } from 'daf-core';
-import { IIdManagerGetOrCreateIdentifierArgs } from 'daf-core';
-import { IIdManagerRemoveKeyArgs } from 'daf-core';
-import { IIdManagerRemoveServiceArgs } from 'daf-core';
-import { IIdManagerSetAliasArgs } from 'daf-core';
+import { IDidManager } from 'daf-core';
+import { IDidManagerAddKeyArgs } from 'daf-core';
+import { IDidManagerAddServiceArgs } from 'daf-core';
+import { IDidManagerCreateIdentifierArgs } from 'daf-core';
+import { IDidManagerDeleteIdentifierArgs } from 'daf-core';
+import { IDidManagerGetIdentifierArgs } from 'daf-core';
+import { IDidManagerGetIdentifierByAliasArgs } from 'daf-core';
+import { IDdidManagerFindArgs } from 'daf-core';
+import { IDidManagerGetOrCreateIdentifierArgs } from 'daf-core';
+import { IDidManagerRemoveKeyArgs } from 'daf-core';
+import { IDidManagerRemoveServiceArgs } from 'daf-core';
+import { IDidManagerSetAliasArgs } from 'daf-core';
 import { IKey } from 'daf-core';
 import { IKeyManager } from 'daf-core';
 import { IService } from 'daf-core';
@@ -84,39 +84,39 @@ export abstract class AbstractDIDStore {
 }
 
 // @public
-export class IdManager implements IAgentPlugin {
+export class DidManager implements IAgentPlugin {
     constructor(options: {
         providers: Record<string, AbstractIdentifierProvider>;
         defaultProvider: string;
         store: AbstractDIDStore;
     });
     // (undocumented)
-    idManagerAddKey({ did, key, options }: IIdManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerAddKey({ did, key, options }: IDidManagerAddKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)
-    idManagerAddService({ did, service, options }: IIdManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerAddService({ did, service, options }: IDidManagerAddServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)
-    idManagerCreateIdentifier(args: IIdManagerCreateIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerCreateIdentifier(args: IDidManagerCreateIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     // (undocumented)
-    idManagerDeleteIdentifier({ did }: IIdManagerDeleteIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
+    didManagerDeleteIdentifier({ did }: IDidManagerDeleteIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
     // (undocumented)
-    idManagerGetIdentifier({ did }: IIdManagerGetIdentifierArgs): Promise<IIdentifier>;
+    didManagerGetIdentifier({ did }: IDidManagerGetIdentifierArgs): Promise<IIdentifier>;
     // (undocumented)
-    idManagerGetIdentifierByAlias({ alias, provider, }: IIdManagerGetIdentifierByAliasArgs): Promise<IIdentifier>;
+    didManagerGetIdentifierByAlias({ alias, provider, }: IDidManagerGetIdentifierByAliasArgs): Promise<IIdentifier>;
     // (undocumented)
-    idManagerGetIdentifiers(args: IIdManagerGetIdentifiersArgs): Promise<IIdentifier[]>;
+    ddidManagerFind(args: IDdidManagerFindArgs): Promise<IIdentifier[]>;
     // (undocumented)
-    idManagerGetOrCreateIdentifier({ provider, alias, kms, options }: IIdManagerGetOrCreateIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerGetOrCreateIdentifier({ provider, alias, kms, options }: IDidManagerGetOrCreateIdentifierArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     // (undocumented)
-    idManagerGetProviders(): Promise<string[]>;
+    didManagerGetProviders(): Promise<string[]>;
     // (undocumented)
-    idManagerImportIdentifier(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
+    didManagerImportIdentifier(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>;
     // (undocumented)
-    idManagerRemoveKey({ did, kid, options }: IIdManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerRemoveKey({ did, kid, options }: IDidManagerRemoveKeyArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)
-    idManagerRemoveService({ did, id, options }: IIdManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
+    didManagerRemoveService({ did, id, options }: IDidManagerRemoveServiceArgs, context: IAgentContext<IKeyManager>): Promise<any>;
     // (undocumented)
-    idManagerSetAlias({ did, alias }: IIdManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
-    readonly methods: IIdManager;
+    didManagerSetAlias({ did, alias }: IDidManagerSetAliasArgs, context: IAgentContext<IKeyManager>): Promise<boolean>;
+    readonly methods: IDidManager;
     // (undocumented)
     readonly schema: any;
     }

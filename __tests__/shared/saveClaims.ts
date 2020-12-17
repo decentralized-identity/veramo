@@ -1,10 +1,10 @@
-import { TAgent, IIdManager, IIdentifier, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
+import { TAgent, IDidManager, IIdentifier, IDataStore, IMessageHandler } from '../../packages/daf-core/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/daf-selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 
 type ConfiguredAgent = TAgent<
-  IIdManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
+  IDidManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
 >
 
 export default (testContext: {
@@ -23,7 +23,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should create identifier', async () => {
-      identifier = await agent.idManagerCreateIdentifier({ kms: 'local' })
+      identifier = await agent.didManagerCreateIdentifier({ kms: 'local' })
       expect(identifier).toHaveProperty('did')
     })
 

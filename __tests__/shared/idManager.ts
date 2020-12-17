@@ -1,6 +1,6 @@
-import { TAgent, IIdManager, IKeyManager, IIdentifier } from '../../packages/daf-core/src'
+import { TAgent, IDidManager, IKeyManager, IIdentifier } from '../../packages/daf-core/src'
 
-type ConfiguredAgent = TAgent<IIdManager & IKeyManager>
+type ConfiguredAgent = TAgent<IDidManager & IKeyManager>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -18,13 +18,13 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should get providers', async () => {
-      const providers = await agent.idManagerGetProviders()
+      const providers = await agent.didManagerGetProviders()
       expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:web'])
     })
 
     let identifier: IIdentifier
     it('should create identifier', async () => {
-      identifier = await agent.idManagerCreateIdentifier({
+      identifier = await agent.didManagerCreateIdentifier({
         provider: 'did:web',
         alias: 'example.com',
       })
@@ -38,7 +38,7 @@ export default (testContext: {
 
     it('should throw error for existing alias provider combo', async () => {
       await expect(
-        agent.idManagerCreateIdentifier({
+        agent.didManagerCreateIdentifier({
           provider: 'did:web',
           alias: 'example.com',
         }),
@@ -46,7 +46,7 @@ export default (testContext: {
     })
 
     it('should get identifier', async () => {
-      const identifier2 = await agent.idManagerGetIdentifier({
+      const identifier2 = await agent.didManagerGetIdentifier({
         did: identifier.did,
       })
       expect(identifier2.did).toEqual(identifier.did)
@@ -54,40 +54,40 @@ export default (testContext: {
 
     it('should throw error for non existing did', async () => {
       await expect(
-        agent.idManagerGetIdentifier({
+        agent.didManagerGetIdentifier({
           did: 'did:web:foobar',
         }),
       ).rejects.toThrow('Identifier not found')
     })
 
     it('should get or create identifier', async () => {
-      const identifier3 = await agent.idManagerGetOrCreateIdentifier({
+      const identifier3 = await agent.didManagerGetOrCreateIdentifier({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
       })
 
-      const identifier4 = await agent.idManagerGetOrCreateIdentifier({
+      const identifier4 = await agent.didManagerGetOrCreateIdentifier({
         alias: 'alice',
         provider: 'did:ethr:rinkeby',
       })
 
       expect(identifier3).toEqual(identifier4)
 
-      const identifier5 = await agent.idManagerGetOrCreateIdentifier({
+      const identifier5 = await agent.didManagerGetOrCreateIdentifier({
         alias: 'alice',
         provider: 'did:ethr',
       })
 
       expect(identifier5).not.toEqual(identifier4)
 
-      const identifier6 = await agent.idManagerGetIdentifierByAlias({
+      const identifier6 = await agent.didManagerGetIdentifierByAlias({
         alias: 'alice',
         provider: 'did:ethr',
       })
 
       expect(identifier6).toEqual(identifier5)
 
-      const identifier7 = await agent.idManagerGetIdentifierByAlias({
+      const identifier7 = await agent.didManagerGetIdentifierByAlias({
         alias: 'alice',
         // default provider is 'did:ethr:rinkeby'
       })
@@ -96,57 +96,57 @@ export default (testContext: {
     })
 
     it('should get identifiers', async () => {
-      const allIdentifiers = await agent.idManagerGetIdentifiers()
+      const allIdentifiers = await agent.ddidManagerFind()
       expect(allIdentifiers.length).toEqual(3)
 
-      const aliceIdentifiers = await agent.idManagerGetIdentifiers({
+      const aliceIdentifiers = await agent.ddidManagerFind({
         alias: 'alice',
       })
       expect(aliceIdentifiers.length).toEqual(2)
 
-      const rinkebyIdentifiers = await agent.idManagerGetIdentifiers({
+      const rinkebyIdentifiers = await agent.ddidManagerFind({
         provider: 'did:ethr:rinkeby',
       })
       expect(rinkebyIdentifiers.length).toEqual(1)
 
       // Default provider 'did:ethr:rinkeby'
-      await agent.idManagerCreateIdentifier()
+      await agent.didManagerCreateIdentifier()
 
-      const rinkebyIdentifiers2 = await agent.idManagerGetIdentifiers({
+      const rinkebyIdentifiers2 = await agent.ddidManagerFind({
         provider: 'did:ethr:rinkeby',
       })
       expect(rinkebyIdentifiers2.length).toEqual(2)
     })
 
     it('should delete identifier', async () => {
-      const allIdentifiers = await agent.idManagerGetIdentifiers()
+      const allIdentifiers = await agent.ddidManagerFind()
       const count = allIdentifiers.length
 
-      const result = await agent.idManagerDeleteIdentifier({
+      const result = await agent.didManagerDeleteIdentifier({
         did: allIdentifiers[0].did,
       })
 
       expect(result).toEqual(true)
 
-      const allIdentifiers2 = await agent.idManagerGetIdentifiers()
+      const allIdentifiers2 = await agent.ddidManagerFind()
       expect(allIdentifiers2.length).toEqual(count - 1)
 
       await expect(
-        agent.idManagerGetIdentifier({
+        agent.didManagerGetIdentifier({
           did: allIdentifiers[0].did,
         }),
       ).rejects.toThrow('Identifier not found')
     })
 
     it('should add service to identifier', async () => {
-      const webIdentifier = await agent.idManagerGetOrCreateIdentifier({
+      const webIdentifier = await agent.didManagerGetOrCreateIdentifier({
         alias: 'foobar.com',
         provider: 'did:web',
       })
 
       expect(webIdentifier.services.length).toEqual(0)
 
-      const result = await agent.idManagerAddService({
+      const result = await agent.didManagerAddService({
         did: webIdentifier.did,
         service: {
           id: 'did:web:foobar.com#msg',
@@ -157,7 +157,7 @@ export default (testContext: {
       })
       expect(result).toEqual({ success: true })
 
-      const webIdentifier2 = await agent.idManagerGetOrCreateIdentifier({
+      const webIdentifier2 = await agent.didManagerGetOrCreateIdentifier({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -172,14 +172,14 @@ export default (testContext: {
     })
 
     it('should remove service from identifier', async () => {
-      const result = await agent.idManagerRemoveService({
+      const result = await agent.didManagerRemoveService({
         did: 'did:web:foobar.com',
         id: 'did:web:foobar.com#msg',
       })
 
       expect(result).toEqual({ success: true })
 
-      const webIdentifier = await agent.idManagerGetOrCreateIdentifier({
+      const webIdentifier = await agent.didManagerGetOrCreateIdentifier({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -188,7 +188,7 @@ export default (testContext: {
     })
 
     it('should add key to identifier', async () => {
-      const webIdentifier = await agent.idManagerGetOrCreateIdentifier({
+      const webIdentifier = await agent.didManagerGetOrCreateIdentifier({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -200,14 +200,14 @@ export default (testContext: {
         type: 'Secp256k1',
       })
 
-      const result = await agent.idManagerAddKey({
+      const result = await agent.didManagerAddKey({
         did: webIdentifier.did,
         key: newKey,
       })
 
       expect(result).toEqual({ success: true })
 
-      const webIdentifier2 = await agent.idManagerGetOrCreateIdentifier({
+      const webIdentifier2 = await agent.didManagerGetOrCreateIdentifier({
         alias: 'foobar.com',
         provider: 'did:web',
       })
@@ -216,20 +216,20 @@ export default (testContext: {
     })
 
     it('should remove key from identifier', async () => {
-      const webIdentifier = await agent.idManagerGetIdentifier({
+      const webIdentifier = await agent.didManagerGetIdentifier({
         did: 'did:web:foobar.com',
       })
 
       expect(webIdentifier.keys.length).toEqual(2)
 
-      const result = await agent.idManagerRemoveKey({
+      const result = await agent.didManagerRemoveKey({
         did: 'did:web:foobar.com',
         kid: webIdentifier.keys[1].kid,
       })
 
       expect(result).toEqual({ success: true })
 
-      const webIdentifier2 = await agent.idManagerGetIdentifier({
+      const webIdentifier2 = await agent.didManagerGetIdentifier({
         did: 'did:web:foobar.com',
       })
 
@@ -238,12 +238,12 @@ export default (testContext: {
     })
 
     it('should import identifier', async () => {
-      const identifier = await agent.idManagerGetOrCreateIdentifier({
+      const identifier = await agent.didManagerGetOrCreateIdentifier({
         alias: 'example.org',
         provider: 'did:web',
       })
 
-      await agent.idManagerAddService({
+      await agent.didManagerAddService({
         did: identifier.did,
         service: {
           id: 'did:web:example.org#msg',
@@ -266,39 +266,39 @@ export default (testContext: {
         kid: encryptionKey.kid,
       })
 
-      await agent.idManagerAddKey({
+      await agent.didManagerAddKey({
         did: identifier.did,
         key: encryptionKey,
       })
 
-      const exportedIdentifier = await agent.idManagerGetIdentifier({
+      const exportedIdentifier = await agent.didManagerGetIdentifier({
         did: identifier.did,
       })
 
-      await agent.idManagerDeleteIdentifier({
+      await agent.didManagerDeleteIdentifier({
         did: identifier.did,
       })
 
-      await agent.idManagerImportIdentifier({
+      await agent.didManagerImportIdentifier({
         ...exportedIdentifier,
         keys: [signingKeyFull, encryptionKeyFull],
       })
 
-      const importedIdentifier = await agent.idManagerGetIdentifier({
+      const importedIdentifier = await agent.didManagerGetIdentifier({
         did: identifier.did,
       })
       expect(importedIdentifier).toEqual(exportedIdentifier)
     })
 
     it('should set alias for identifier', async () => {
-      const identifier = await agent.idManagerCreateIdentifier()
-      const result = await agent.idManagerSetAlias({
+      const identifier = await agent.didManagerCreateIdentifier()
+      const result = await agent.didManagerSetAlias({
         did: identifier.did,
         alias: 'carol',
       })
       expect(result).toEqual(true)
 
-      const identifier2 = await agent.idManagerGetIdentifierByAlias({
+      const identifier2 = await agent.didManagerGetIdentifierByAlias({
         alias: 'carol',
       })
 

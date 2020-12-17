@@ -2,7 +2,7 @@ import {
   IAgentContext,
   IAgentPlugin,
   IResolver,
-  IIdManager,
+  IDidManager,
   IKeyManager,
   IPluginMethodMap,
   W3CCredential,
@@ -142,7 +142,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IContext = IAgentContext<
   IResolver &
-    Pick<IIdManager, 'idManagerGetIdentifier'> &
+    Pick<IDidManager, 'didManagerGetIdentifier'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
     Pick<IKeyManager, 'keyManagerSignJWT'>
 >
@@ -170,7 +170,7 @@ export class CredentialIssuer implements IAgentPlugin {
   ): Promise<VerifiablePresentation> {
     try {
       //FIXME: if the identifier is not found, the error message should reflect that.
-      const identifier = await context.agent.idManagerGetIdentifier({ did: args.presentation.holder })
+      const identifier = await context.agent.didManagerGetIdentifier({ did: args.presentation.holder })
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('No signing key for ' + identifier.did)
@@ -198,7 +198,7 @@ export class CredentialIssuer implements IAgentPlugin {
   ): Promise<VerifiableCredential> {
     try {
       //FIXME: if the identifier is not found, the error message should reflect that.
-      const identifier = await context.agent.idManagerGetIdentifier({ did: args.credential.issuer.id })
+      const identifier = await context.agent.didManagerGetIdentifier({ did: args.credential.issuer.id })
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('No signing key for ' + identifier.did)

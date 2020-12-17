@@ -1,4 +1,4 @@
-import { IIdManagerCreateIdentifierArgs } from 'daf-core'
+import { IDidManagerCreateIdentifierArgs } from 'daf-core'
 import { getAgent } from './setup'
 import inquirer from 'inquirer'
 import program from 'commander'
@@ -12,7 +12,7 @@ did
   .action(async (cmd) => {
     const agent = getAgent(program.config)
 
-    const providers = await agent.idManagerGetProviders()
+    const providers = await agent.didManagerGetProviders()
     const list = providers.map((provider) => ({ provider }))
 
     if (list.length > 0) {
@@ -28,7 +28,7 @@ did
   .action(async (cmd) => {
     const agent = getAgent(program.config)
 
-    const list = await agent.idManagerGetIdentifiers()
+    const list = await agent.ddidManagerFind()
 
     if (list.length > 0) {
       const dids = list.map((item) => ({ provider: item.provider, alias: item.alias, did: item.did }))
@@ -45,9 +45,9 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const providers = await agent.idManagerGetProviders()
+      const providers = await agent.didManagerGetProviders()
       const kms = await agent.keyManagerGetKeyManagementSystems()
-      const args: IIdManagerCreateIdentifierArgs = {}
+      const args: IDidManagerCreateIdentifierArgs = {}
 
       const answers = await inquirer.prompt([
         {
@@ -69,7 +69,7 @@ did
         },
       ])
 
-      const identifier = await agent.idManagerCreateIdentifier(answers)
+      const identifier = await agent.didManagerCreateIdentifier(answers)
       printTable([{ provider: identifier.provider, alias: identifier.alias, did: identifier.did }])
     } catch (e) {
       console.error(e.message)
@@ -83,7 +83,7 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identifiers = await agent.idManagerGetIdentifiers()
+      const identifiers = await agent.ddidManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',
@@ -93,7 +93,7 @@ did
         },
       ])
 
-      const result = await agent.idManagerDeleteIdentifier({
+      const result = await agent.didManagerDeleteIdentifier({
         did: answers.did,
       })
 
@@ -110,7 +110,7 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identifiers = await agent.idManagerGetIdentifiers()
+      const identifiers = await agent.ddidManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',
@@ -136,7 +136,7 @@ did
         },
       ])
 
-      const result = await agent.idManagerAddService({
+      const result = await agent.didManagerAddService({
         did: answers.did,
         service: {
           type: answers.type,
@@ -158,7 +158,7 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identifiers = await agent.idManagerGetIdentifiers()
+      const identifiers = await agent.ddidManagerFind()
       const kms = await agent.keyManagerGetKeyManagementSystems()
       const answers = await inquirer.prompt([
         {
@@ -186,7 +186,7 @@ did
         type: answers.type,
       })
 
-      const result = await agent.idManagerAddKey({
+      const result = await agent.didManagerAddKey({
         did: answers.did,
         key,
       })
@@ -204,7 +204,7 @@ did
     const agent = getAgent(program.config)
 
     try {
-      const identifiers = await agent.idManagerGetIdentifiers()
+      const identifiers = await agent.ddidManagerFind()
       const answers = await inquirer.prompt([
         {
           type: 'list',
@@ -217,7 +217,7 @@ did
         },
       ])
 
-      const identifier = await agent.idManagerGetIdentifier({ did: answers.did })
+      const identifier = await agent.didManagerGetIdentifier({ did: answers.did })
 
       console.log(JSON.stringify(identifier))
     } catch (e) {
@@ -240,7 +240,7 @@ did
         },
       ])
 
-      const identifier = await agent.idManagerImportIdentifier(JSON.parse(answers.identifier))
+      const identifier = await agent.didManagerImportIdentifier(JSON.parse(answers.identifier))
       console.log(identifier)
     } catch (e) {
       console.error(e)

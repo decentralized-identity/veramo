@@ -102,7 +102,7 @@ agent:
               kms:
                 local:
                   $require: daf-libsodium#KeyManagementSystem
-        - $require: daf-identity-manager#IdManager
+        - $require: daf-identity-manager#DidManager
           $args:
             - store:
                 $require: daf-typeorm#DIDStore

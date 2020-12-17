@@ -13,7 +13,7 @@ presentation
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
     const agent = getAgent(program.config)
-    const myIdentifiers = await agent.idManagerGetIdentifiers()
+    const myIdentifiers = await agent.ddidManagerFind()
     if (myIdentifiers.length === 0) {
       console.error('No dids')
       process.exit()

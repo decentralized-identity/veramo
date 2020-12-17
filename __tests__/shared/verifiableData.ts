@@ -1,8 +1,8 @@
-import { TAgent, IIdManager, IIdentifier, IDataStore } from '../../packages/daf-core/src'
+import { TAgent, IDidManager, IIdentifier, IDataStore } from '../../packages/daf-core/src'
 import { IDataStoreORM } from '../../packages/daf-typeorm/src'
 import { ICredentialIssuer } from '../../packages/daf-w3c/src'
 
-type ConfiguredAgent = TAgent<IIdManager & ICredentialIssuer & IDataStore & IDataStoreORM>
+type ConfiguredAgent = TAgent<IDidManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -20,7 +20,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should create identifier', async () => {
-      identifier = await agent.idManagerCreateIdentifier({ kms: 'local' })
+      identifier = await agent.didManagerCreateIdentifier({ kms: 'local' })
       expect(identifier).toHaveProperty('did')
     })
 
