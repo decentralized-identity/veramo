@@ -64,7 +64,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
       const identifier = await context.agent.didManagerGet({ did: args.data.issuer })
       const data: Partial<ISelectiveDisclosureRequest> = args.data
       delete data.issuer
-      Debug('daf:selective-disclosure:create-sdr')('Signing SDR with', identifier.did)
+      Debug('veramo:selective-disclosure:create-sdr')('Signing SDR with', identifier.did)
 
       const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('Signing key not found')

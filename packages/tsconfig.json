@@ -2,7 +2,7 @@
   "files": [],
   "references": [
     { "path": "core" },
-    { "path": "daf-did-comm" },
+    { "path": "did-comm" },
     { "path": "daf-did-jwt" },
     { "path": "daf-ethr-did" },
     { "path": "daf-express" },

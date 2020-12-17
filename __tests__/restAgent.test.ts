@@ -19,7 +19,7 @@ import { JwtMessageHandler } from '../packages/daf-did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c/src'
 import { EthrDIDProvider } from '../packages/daf-ethr-did/src'
 import { WebDIDProvider } from '../packages/daf-web-did/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/daf-did-comm/src'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   SelectiveDisclosure,
   ISelectiveDisclosure,

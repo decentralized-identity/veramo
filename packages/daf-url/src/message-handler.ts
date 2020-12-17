@@ -3,7 +3,7 @@ import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import parse = require('url-parse')
 
 import Debug from 'debug'
-const debug = Debug('daf:url:message-handler')
+const debug = Debug('veramo:url:message-handler')
 
 export class UrlMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<{}>): Promise<Message> {

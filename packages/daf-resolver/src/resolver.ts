@@ -2,7 +2,7 @@ import { IAgentPlugin, IResolver, schema } from '@veramo/core'
 import { Resolver, DIDDocument } from 'did-resolver'
 export { DIDDocument }
 import Debug from 'debug'
-const debug = Debug('daf:resolver')
+const debug = Debug('veramo:resolver')
 
 interface Options {
   resolver: Resolver

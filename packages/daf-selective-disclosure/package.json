@@ -34,9 +34,17 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": "git@github.com:uport-project/daf.git",
-  "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
   "license": "Apache-2.0",
-  "keywords": [],
-  "gitHead": "b77c5c740ac96a2bb5fb2ca17348f0ffdedc5d9a"
+  "keywords": []
 }

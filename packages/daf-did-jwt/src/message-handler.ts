@@ -2,7 +2,7 @@ import { IAgentContext, IResolver } from '@veramo/core'
 import { AbstractMessageHandler, Message } from 'daf-message-handler'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
-const debug = Debug('daf:did-jwt:message-handler')
+const debug = Debug('veramo:did-jwt:message-handler')
 
 export type IContext = IAgentContext<IResolver>
 

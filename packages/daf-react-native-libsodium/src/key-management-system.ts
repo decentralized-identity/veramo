@@ -8,7 +8,7 @@ import { DIDComm } from './didcomm'
 const didcomm = new DIDComm()
 import { sign } from 'ethjs-signer'
 import Debug from 'debug'
-const debug = Debug('daf:react-native-libsodium:kms')
+const debug = Debug('veramo:react-native-libsodium:kms')
 
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
   async createKey({ type }: { type: TKeyType }): Promise<Omit<IKey, 'kms'>> {

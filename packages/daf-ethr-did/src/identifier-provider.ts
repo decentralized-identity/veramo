@@ -4,7 +4,7 @@ import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'
 import EthrDID from 'ethr-did'
 const SignerProvider = require('ethjs-provider-signer')
-const debug = Debug('daf:ethr-did:identifier-provider')
+const debug = Debug('veramo:ethr-did:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
 

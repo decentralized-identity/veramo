@@ -44,7 +44,7 @@ messageHandler:
   $require: daf-message-handler#MessageHandler
   $args:
     - messageHandlers:
-        - $require: daf-did-comm#DIDCommMessageHandler
+        - $require: @veramo/did-comm#DIDCommMessageHandler
         - $require: daf-did-jwt#JwtMessageHandler
         - $require: daf-w3c#W3cMessageHandler
         - $require: daf-selective-disclosure#SdrMessageHandler
@@ -165,6 +165,6 @@ agent:
           $args:
             - $ref: /dbConnection
         - $ref: /messageHandler
-        - $require: daf-did-comm#DIDComm
+        - $require: @veramo/did-comm#DIDComm
         - $require: daf-w3c#CredentialIssuer
         - $require: daf-selective-disclosure#SelectiveDisclosure

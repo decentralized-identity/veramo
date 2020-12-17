@@ -2,7 +2,7 @@ import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo
 import { AbstractIdentifierProvider } from 'daf-identity-manager'
 
 import Debug from 'debug'
-const debug = Debug('daf:web-did:identifier-provider')
+const debug = Debug('veramo:web-did:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
 

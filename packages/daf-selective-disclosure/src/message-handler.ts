@@ -3,7 +3,7 @@ import { Message, AbstractMessageHandler } from 'daf-message-handler'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'
-const debug = Debug('daf:daf:selective-disclosure:message-handler')
+const debug = Debug('veramo:selective-disclosure:message-handler')
 
 /**
  * Identifies a {@link @veramo/core#IMessage} that represents a Selective Disclosure Request

@@ -10,7 +10,7 @@ import {
 } from 'did-jwt-vc'
 
 import Debug from 'debug'
-const debug = Debug('daf:w3c:message-handler')
+const debug = Debug('veramo:w3c:message-handler')
 
 /**
  * These types are used by the DAF data store when storing Verifiable Credentials and Presentations

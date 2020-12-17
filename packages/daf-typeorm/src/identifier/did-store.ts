@@ -6,7 +6,7 @@ import { Service } from '../entities/service'
 import { Connection, IsNull, Not } from 'typeorm'
 
 import Debug from 'debug'
-const debug = Debug('daf:typeorm:identifier-store')
+const debug = Debug('veramo:typeorm:identifier-store')
 
 export class DIDStore extends AbstractDIDStore {
   constructor(private dbConnection: Promise<Connection>) {

@@ -11,7 +11,7 @@ import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
 
 import Debug from 'debug'
-const debug = Debug('daf:message-handler')
+const debug = Debug('veramo:message-handler')
 
 export const EventTypes = {
   validatedMessage: 'validatedMessage',

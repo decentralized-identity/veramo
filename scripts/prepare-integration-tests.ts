@@ -17,7 +17,7 @@ const inputFolders = [
   'packages/core/api/',
   'packages/daf-w3c/api/',
   'packages/daf-selective-disclosure/api/',
-  'packages/daf-did-comm/api/',
+  'packages/did-comm/api/',
   'packages/daf-typeorm/api/',
 ]
 
@@ -44,7 +44,7 @@ const agentPlugins: Record<string, Array<string>> = {
   core: ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
   'daf-w3c': ['ICredentialIssuer'],
   'daf-selective-disclosure': ['ISelectiveDisclosure'],
-  'daf-did-comm': ['IDIDComm'],
+  'did-comm': ['IDIDComm'],
   'daf-typeorm': ['IDataStoreORM'],
 }
 

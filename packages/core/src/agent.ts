@@ -223,7 +223,7 @@ export class Agent implements IAgent {
    * @public
    */
   async execute<P = any, R = any>(method: string, args: P): Promise<R> {
-    Debug('daf:agent:' + method)('%o', args)
+    Debug('veramo:agent:' + method)('%o', args)
     if (!this.methods[method]) throw Error('Method not available: ' + method)
     const _args = args || {}
     if (this.schemaValidation && this.schema.components.methods[method]) {
@@ -233,7 +233,7 @@ export class Agent implements IAgent {
     if (this.schemaValidation && this.schema.components.methods[method]) {
       validateReturnType(method, result, this.schema)
     }
-    Debug('daf:agent:' + method + ':result')('%o', result)
+    Debug('veramo:agent:' + method + ':result')('%o', result)
     return result
   }
 

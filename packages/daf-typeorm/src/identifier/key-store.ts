@@ -5,7 +5,7 @@ import { Connection } from 'typeorm'
 import { Key } from '../entities/key'
 
 import Debug from 'debug'
-const debug = Debug('daf:typeorm:key-store')
+const debug = Debug('veramo:typeorm:key-store')
 
 export class KeyStore extends AbstractKeyStore {
   constructor(private dbConnection: Promise<Connection>, private secretBox?: AbstractSecretBox) {

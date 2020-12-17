@@ -13,7 +13,7 @@ import { schema } from './'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
 
-const debug = Debug('daf:did-comm:action-handler')
+const debug = Debug('veramo:did-comm:action-handler')
 
 /**
  * Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}

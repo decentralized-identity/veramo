@@ -8,7 +8,7 @@ import { DIDComm } from './didcomm'
 const didcomm = new DIDComm()
 import { sign } from 'ethjs-signer'
 import Debug from 'debug'
-const debug = Debug('daf:sodium:kms')
+const debug = Debug('veramo:sodium:kms')
 
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
   async createKey({ type }: { type: TKeyType }): Promise<Omit<IKey, 'kms'>> {

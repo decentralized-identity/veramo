@@ -39,7 +39,7 @@
     "access": "public"
   },
   "repository": "git@github.com:uport-project/daf.git",
-  "author": "Simonas Karuzas <simonas.karuzas@consensys.net>",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
   "contributors": [
     {
       "name": "Mircea Nistor",
@@ -47,6 +47,5 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": [],
-  "gitHead": "63dd12da63b2245d32379b435a7a774a56a1f019"
+  "keywords": []
 }

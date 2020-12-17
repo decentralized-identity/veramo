@@ -22,7 +22,7 @@ import {
 import { schema } from './'
 
 import Debug from 'debug'
-const debug = Debug('daf:w3c:action-handler')
+const debug = Debug('veramo:w3c:action-handler')
 
 /**
  * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
