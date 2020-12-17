@@ -1,7 +1,7 @@
 {
   "name": "daf-resolver",
   "description": "DAF resolver plugin using in-process resolver modules.",
-  "version": "7.0.0-beta.57",
+  "version": "7.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.6",
-    "daf-core": "^7.0.0-beta.57",
+    "daf-core": "^7.0.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {

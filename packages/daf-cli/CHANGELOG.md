@@ -3,6 +3,96 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/uport-project/daf/compare/v6.4.1...v7.0.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* OpenAPI name, version and x-methods ([#301](https://github.com/uport-project/daf/issues/301)) ([cbad7c0](https://github.com/uport-project/daf/commit/cbad7c0558f4ba515cad995374a4e11d2afdc2e0))
+* **daf-resolver:** Fixed daf-resolver configuration ([#298](https://github.com/uport-project/daf/issues/298)) ([dfcf32a](https://github.com/uport-project/daf/commit/dfcf32a88bfe8353270a567d40bcfab25ddbffe9)), closes [#205](https://github.com/uport-project/daf/issues/205)
+* CLI ([86b6f9e](https://github.com/uport-project/daf/commit/86b6f9e7a97ce29cbdffaf167dd568c66996c0ff))
+* CLI sdr flow ([f630b76](https://github.com/uport-project/daf/commit/f630b76cda60d6a0b16d51eb779dfd533bd30756))
+* CLI SDR flow ([eb31f43](https://github.com/uport-project/daf/commit/eb31f434a2cbb7571e8f4d5b6667f08373dfaff2))
+* Disable schema validation by default ([#278](https://github.com/uport-project/daf/issues/278)) ([7bb77cd](https://github.com/uport-project/daf/commit/7bb77cde56415e8e909cabc235c62188d8147d0e)), closes [#255](https://github.com/uport-project/daf/issues/255) [#275](https://github.com/uport-project/daf/issues/275)
+* Disable schemaValidation in CLI default config ([#280](https://github.com/uport-project/daf/issues/280)) ([8785a5b](https://github.com/uport-project/daf/commit/8785a5b0193adae6738c23a49eda64c7b2a2a335)), closes [#278](https://github.com/uport-project/daf/issues/278) [#275](https://github.com/uport-project/daf/issues/275) [#255](https://github.com/uport-project/daf/issues/255)
+* JSON schema for W3CCredential ([#287](https://github.com/uport-project/daf/issues/287)) ([543615f](https://github.com/uport-project/daf/commit/543615f33eecb2aa7472e9f3a63514392d12a4e0))
+* MessageHandler ([21a78e3](https://github.com/uport-project/daf/commit/21a78e3a16257d2c9d956acfc46576955688aed4))
+* Uniresolver config ([8dbdae1](https://github.com/uport-project/daf/commit/8dbdae10a623de7ab5304a62075ebfc9f7572b97))
+* Use baseUrl in CLI server ([7b18ac6](https://github.com/uport-project/daf/commit/7b18ac61559e56ee260e3073a8fcc67d3065f243))
+
+
+### Code Refactoring
+
+* Rename Identity to Identifier ([#308](https://github.com/uport-project/daf/issues/308)) ([7812e51](https://github.com/uport-project/daf/commit/7812e51ee250265bcc308e7fd4db1ee8b2e408a4))
+* **daf-cli:** Refactor CLI command palette ([#304](https://github.com/uport-project/daf/issues/304)) ([a5a0670](https://github.com/uport-project/daf/commit/a5a0670f5162e3f8753fa338ed00e64397c8acc0)), closes [#264](https://github.com/uport-project/daf/issues/264)
+
+
+### Features
+
+* Add port option to cli server ([4f66a38](https://github.com/uport-project/daf/commit/4f66a388eaafd3657882569c60e5f3d9edf6b4b3))
+* add removeKey, removeService methods to ethr-did-provider ([#310](https://github.com/uport-project/daf/issues/310)) ([faccca6](https://github.com/uport-project/daf/commit/faccca6abd5edfda633414daba6694a78bc80ec2)), closes [#144](https://github.com/uport-project/daf/issues/144)
+* API key / Bearer token support in CLI ([45e7591](https://github.com/uport-project/daf/commit/45e7591dc70a862e40ac3c8ab3536ad5d80632b7))
+* Beta of daf-elem-did ([fe286e3](https://github.com/uport-project/daf/commit/fe286e347107cfc29a93cfaff085e524f4e2cff5))
+* CLI create-config ([ec96204](https://github.com/uport-project/daf/commit/ec96204c9d175456a8a9ce83991bceedd2a81369))
+* CLI Data explorer ([fb7d155](https://github.com/uport-project/daf/commit/fb7d1554794860e71a941cdcb8e991b18609e608))
+* CLI execute object type ([e04b0ee](https://github.com/uport-project/daf/commit/e04b0ee97a0796c9b24d1d378d4f1e8da8b1028b))
+* CLI execute uses OpenApi (mvp) ([cb310dd](https://github.com/uport-project/daf/commit/cb310dd194677f42e2d054d27859d99ecae63696))
+* CLI handling ngrok errors ([eed46d4](https://github.com/uport-project/daf/commit/eed46d4b21ae7aebd94f515e27bfb67dc3bd9efa))
+* CLI server homepage template ([ac9cf52](https://github.com/uport-project/daf/commit/ac9cf526bbbc210de15e933970b5eac3ab646c17))
+* CLI upgraded to the latest API ([b440dd1](https://github.com/uport-project/daf/commit/b440dd10badc03d71d59f23eddd80d93a680efe0))
+* Constructing agent from YAML config ([7a2498f](https://github.com/uport-project/daf/commit/7a2498fd8e3a9b4a2591cb644205f5afe62ba776))
+* Dynamic OpenAPI schema ([f12236b](https://github.com/uport-project/daf/commit/f12236beeabd408cbc1d3a47848add82cbd52050))
+* enable CORS in daf-cli server by default ([#284](https://github.com/uport-project/daf/issues/284)) ([aca46b3](https://github.com/uport-project/daf/commit/aca46b3fdf4e9ca4af620fbd7938aeb87c1f9e95))
+* ENV support in yml config ([1dee7b2](https://github.com/uport-project/daf/commit/1dee7b2b45716b9d2f5e0560228166ab59ce8f60))
+* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* Ngrok support in CLI ([56c464d](https://github.com/uport-project/daf/commit/56c464db7f6681931fa16928351e349344c36cec))
+* OpenAPI server in CLI ([ccdd6a7](https://github.com/uport-project/daf/commit/ccdd6a790bc219fbaf5b848d91b1181b0050154c))
+* Provide link to DID document ([1578c1c](https://github.com/uport-project/daf/commit/1578c1c4f7cafffe2ca5b40643a3213dd0ac5c4d))
+* PublicProfile VP in CLI server ([6d6b710](https://github.com/uport-project/daf/commit/6d6b7107ed31c78bc7beb309b4a7bce44aeed84f))
+* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
+* Removing profile service CLI ([dc93089](https://github.com/uport-project/daf/commit/dc93089eed40e69bf99946a60aed8f19d34e091b))
+* Server config ([b3b9639](https://github.com/uport-project/daf/commit/b3b9639e7f1382110b34bdb26073ed0bd97eb982))
+* Unique (with hash) VC/VP in ORM results ([bcfc3e8](https://github.com/uport-project/daf/commit/bcfc3e843885553abea1e90bc2a833abc6e8e3ec))
+* Using agent created from YAML config ([ce2960c](https://github.com/uport-project/daf/commit/ce2960cfe6114f2e6272d5200419930f7042cf12))
+* Validating all plugin method arguments ([2c868f7](https://github.com/uport-project/daf/commit/2c868f77f297d036554ab8b30b77124c57b824da))
+* Validating returnType ([c7d1ef3](https://github.com/uport-project/daf/commit/c7d1ef3bd77dd4a77cf9dcfa32a2ed8b47fe04e0))
+* Web DID path (multi user) support  ([#282](https://github.com/uport-project/daf/issues/282)) ([08996bd](https://github.com/uport-project/daf/commit/08996bdc72481df8a7b701b8cd0a4f2eceaa21a0))
+
+
+### BREAKING CHANGES
+
+* This rename affects almost all the Identity management API
+Please look for `IDIDManager.ts` in `daf-core/src/types` to see the new method names.
+Functionality is the same but some renaming is required if already in use.
+
+* refactor: Rename Identity to Identifier
+* fix: Integration tests
+* refactor: WebDIDProvider
+* refactor: EthrDIDProvider
+* refactor: DIDStore
+* refactor: Resolver
+* refactor: DidManagerFind
+* refactor: DidManagerFind
+* refactor: DidManagerGet
+* refactor: DidManagerCreate
+* refactor: DidManagerGetOrCreate
+* refactor: DidManagerImport
+* refactor: DidManagerDelete
+* refactor: KeyManager
+* refactor: DefaultDID
+* refactor: IDIDManager
+* refactor: IDIDManager.ts
+* **daf-cli:** This refactor changes the CLI list of commands. Run `daf --help` to get the latest options.
+The same actions are possible, but under different (simpler) names and subcommands.
+* **daf-resolver:** The configuration for daf-resolver has changed to be less opinionated. It requires a `did-resolver#Resolver` that can be configured with whichever DID methods your agent needs.
+
+Co-authored-by: Mircea Nistor <mirceanis@gmail.com>
+
+
+
+
+
 ## [6.4.1](https://github.com/uport-project/daf/compare/v6.4.0...v6.4.1) (2020-11-13)
 
 **Note:** Version bump only for package daf-cli

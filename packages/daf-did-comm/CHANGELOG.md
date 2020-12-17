@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/uport-project/daf/compare/v6.4.1...v7.0.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* **message-handler:** Rewire promise rejections as `Error` objects ([#300](https://github.com/uport-project/daf/issues/300)) ([04446d4](https://github.com/uport-project/daf/commit/04446d4e2d2dba8ff2ae5695014686ef49891804)), closes [#294](https://github.com/uport-project/daf/issues/294)
+* MessageHandler ([21a78e3](https://github.com/uport-project/daf/commit/21a78e3a16257d2c9d956acfc46576955688aed4))
+* OpenAPI schema ([2ef0bc7](https://github.com/uport-project/daf/commit/2ef0bc7ae4a425e29eae4aaad982048314c9ca14))
+* Saving DIDComm message ([7d0201e](https://github.com/uport-project/daf/commit/7d0201ec584371a6257b651beffbad7776fe5d5c))
+
+
+### Code Refactoring
+
+* Rename Identity to Identifier ([#308](https://github.com/uport-project/daf/issues/308)) ([7812e51](https://github.com/uport-project/daf/commit/7812e51ee250265bcc308e7fd4db1ee8b2e408a4))
+* **daf-cli:** Refactor CLI command palette ([#304](https://github.com/uport-project/daf/issues/304)) ([a5a0670](https://github.com/uport-project/daf/commit/a5a0670f5162e3f8753fa338ed00e64397c8acc0)), closes [#264](https://github.com/uport-project/daf/issues/264)
+
+
+### Features
+
+* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
+* Validating all plugin method arguments ([2c868f7](https://github.com/uport-project/daf/commit/2c868f77f297d036554ab8b30b77124c57b824da))
+* Validating returnType ([c7d1ef3](https://github.com/uport-project/daf/commit/c7d1ef3bd77dd4a77cf9dcfa32a2ed8b47fe04e0))
+
+
+### BREAKING CHANGES
+
+* This rename affects almost all the Identity management API
+Please look for `IDIDManager.ts` in `daf-core/src/types` to see the new method names.
+Functionality is the same but some renaming is required if already in use.
+
+* refactor: Rename Identity to Identifier
+* fix: Integration tests
+* refactor: WebDIDProvider
+* refactor: EthrDIDProvider
+* refactor: DIDStore
+* refactor: Resolver
+* refactor: DidManagerFind
+* refactor: DidManagerFind
+* refactor: DidManagerGet
+* refactor: DidManagerCreate
+* refactor: DidManagerGetOrCreate
+* refactor: DidManagerImport
+* refactor: DidManagerDelete
+* refactor: KeyManager
+* refactor: DefaultDID
+* refactor: IDIDManager
+* refactor: IDIDManager.ts
+* **daf-cli:** This refactor changes the CLI list of commands. Run `daf --help` to get the latest options.
+The same actions are possible, but under different (simpler) names and subcommands.
+
+
+
+
+
 ## [6.4.1](https://github.com/uport-project/daf/compare/v6.4.0...v6.4.1) (2020-11-13)
 
 **Note:** Version bump only for package daf-did-comm

@@ -3,6 +3,73 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/uport-project/daf/compare/v6.4.1...v7.0.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* **daf-did-jwt:** Fix parsing of JWT with missing `typ` in header ([#293](https://github.com/uport-project/daf/issues/293)) ([48e4c60](https://github.com/uport-project/daf/commit/48e4c607f78ac19be2ba83291cb68f414edb5b6b)), closes [#291](https://github.com/uport-project/daf/issues/291)
+* **message-handler:** Rewire promise rejections as `Error` objects ([#300](https://github.com/uport-project/daf/issues/300)) ([04446d4](https://github.com/uport-project/daf/commit/04446d4e2d2dba8ff2ae5695014686ef49891804)), closes [#294](https://github.com/uport-project/daf/issues/294)
+* Creating VC ([f8caa6a](https://github.com/uport-project/daf/commit/f8caa6a859fdf6838daa489e9f30d74154b41dc7))
+* JSON schema for W3CCredential ([#287](https://github.com/uport-project/daf/issues/287)) ([543615f](https://github.com/uport-project/daf/commit/543615f33eecb2aa7472e9f3a63514392d12a4e0))
+* Local copy of W3C types ([29c6b0e](https://github.com/uport-project/daf/commit/29c6b0efc37f181d40aff560d4d481eb84e0ea9a))
+* Types for IW3c ([56cf141](https://github.com/uport-project/daf/commit/56cf1412e9811f0fec675d9210e82614a6b15ea0))
+* W3c message createdAt ([59656f8](https://github.com/uport-project/daf/commit/59656f8d1aee9479f195dd949712032b75c1dd04))
+* W3c tests ([2bc4084](https://github.com/uport-project/daf/commit/2bc40847e61786b981a6c61afdb66213beaa8496))
+
+
+### Code Refactoring
+
+* Rename Identity to Identifier ([#308](https://github.com/uport-project/daf/issues/308)) ([7812e51](https://github.com/uport-project/daf/commit/7812e51ee250265bcc308e7fd4db1ee8b2e408a4))
+* **daf-cli:** Refactor CLI command palette ([#304](https://github.com/uport-project/daf/issues/304)) ([a5a0670](https://github.com/uport-project/daf/commit/a5a0670f5162e3f8753fa338ed00e64397c8acc0)), closes [#264](https://github.com/uport-project/daf/issues/264)
+* Refactor and add inline documentation to daf-w3c package ([f0e2cb9](https://github.com/uport-project/daf/commit/f0e2cb9748dc04b0d46ac1d80bac9a0b7f7546cd))
+
+
+### Features
+
+* Add event system to agent ([#262](https://github.com/uport-project/daf/issues/262)) ([9a6747e](https://github.com/uport-project/daf/commit/9a6747e84037613d396e14a6f68cb2de8275ddca))
+* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
+* Simpler create VC/VP ([#309](https://github.com/uport-project/daf/issues/309)) ([172c908](https://github.com/uport-project/daf/commit/172c9088fae4b758b79436d9ae11c8c1f1785341))
+* Unique (with hash) VC/VP in ORM results ([bcfc3e8](https://github.com/uport-project/daf/commit/bcfc3e843885553abea1e90bc2a833abc6e8e3ec))
+* Validating returnType ([c7d1ef3](https://github.com/uport-project/daf/commit/c7d1ef3bd77dd4a77cf9dcfa32a2ed8b47fe04e0))
+
+
+### BREAKING CHANGES
+
+* This rename affects almost all the Identity management API
+Please look for `IDIDManager.ts` in `daf-core/src/types` to see the new method names.
+Functionality is the same but some renaming is required if already in use.
+
+* refactor: Rename Identity to Identifier
+* fix: Integration tests
+* refactor: WebDIDProvider
+* refactor: EthrDIDProvider
+* refactor: DIDStore
+* refactor: Resolver
+* refactor: DidManagerFind
+* refactor: DidManagerFind
+* refactor: DidManagerGet
+* refactor: DidManagerCreate
+* refactor: DidManagerGetOrCreate
+* refactor: DidManagerImport
+* refactor: DidManagerDelete
+* refactor: KeyManager
+* refactor: DefaultDID
+* refactor: IDIDManager
+* refactor: IDIDManager.ts
+* **daf-cli:** This refactor changes the CLI list of commands. Run `daf --help` to get the latest options.
+The same actions are possible, but under different (simpler) names and subcommands.
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 ## [6.4.1](https://github.com/uport-project/daf/compare/v6.4.0...v6.4.1) (2020-11-13)
 
 **Note:** Version bump only for package daf-w3c

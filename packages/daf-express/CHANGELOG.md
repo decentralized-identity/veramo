@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/uport-project/daf/compare/v6.4.1...v7.0.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* OpenAPI name, version and x-methods ([#301](https://github.com/uport-project/daf/issues/301)) ([cbad7c0](https://github.com/uport-project/daf/commit/cbad7c0558f4ba515cad995374a4e11d2afdc2e0))
+* **daf-express:** Fix behavior of CLI HTTPS server behind proxy ([#292](https://github.com/uport-project/daf/issues/292)) ([3c39484](https://github.com/uport-project/daf/commit/3c394844236fe78d7d9499c35861345dcff5212a))
+* Types ([c35e452](https://github.com/uport-project/daf/commit/c35e452679ce86378d6a37e6dbace855d8583b84))
+
+
+### Code Refactoring
+
+* Rename Identity to Identifier ([#308](https://github.com/uport-project/daf/issues/308)) ([7812e51](https://github.com/uport-project/daf/commit/7812e51ee250265bcc308e7fd4db1ee8b2e408a4))
+* **daf-cli:** Refactor CLI command palette ([#304](https://github.com/uport-project/daf/issues/304)) ([a5a0670](https://github.com/uport-project/daf/commit/a5a0670f5162e3f8753fa338ed00e64397c8acc0)), closes [#264](https://github.com/uport-project/daf/issues/264)
+
+
+### Features
+
+* Daf-express overrides ([31a0970](https://github.com/uport-project/daf/commit/31a09708000f2c505c4d2a71201d3739da2f713e))
+* Daf-rest & daf-express ([9c9a597](https://github.com/uport-project/daf/commit/9c9a597d40059a11fe64780c459233490cb1a5ef))
+* Dynamic OpenAPI schema ([f12236b](https://github.com/uport-project/daf/commit/f12236beeabd408cbc1d3a47848add82cbd52050))
+* Express router ([4b8c3d6](https://github.com/uport-project/daf/commit/4b8c3d6747a6797500468ba907a37a231fd929a4))
+* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* OpenAPI server in CLI ([ccdd6a7](https://github.com/uport-project/daf/commit/ccdd6a790bc219fbaf5b848d91b1181b0050154c))
+* Server config ([b3b9639](https://github.com/uport-project/daf/commit/b3b9639e7f1382110b34bdb26073ed0bd97eb982))
+* Using OpenAPI schema in rest & express ([80d0bad](https://github.com/uport-project/daf/commit/80d0badb6c4ed17ccf2250d4381b71f08ef3da45))
+* Web DID path (multi user) support  ([#282](https://github.com/uport-project/daf/issues/282)) ([08996bd](https://github.com/uport-project/daf/commit/08996bdc72481df8a7b701b8cd0a4f2eceaa21a0))
+
+
+### BREAKING CHANGES
+
+* This rename affects almost all the Identity management API
+Please look for `IDIDManager.ts` in `daf-core/src/types` to see the new method names.
+Functionality is the same but some renaming is required if already in use.
+
+* refactor: Rename Identity to Identifier
+* fix: Integration tests
+* refactor: WebDIDProvider
+* refactor: EthrDIDProvider
+* refactor: DIDStore
+* refactor: Resolver
+* refactor: DidManagerFind
+* refactor: DidManagerFind
+* refactor: DidManagerGet
+* refactor: DidManagerCreate
+* refactor: DidManagerGetOrCreate
+* refactor: DidManagerImport
+* refactor: DidManagerDelete
+* refactor: KeyManager
+* refactor: DefaultDID
+* refactor: IDIDManager
+* refactor: IDIDManager.ts
+* **daf-cli:** This refactor changes the CLI list of commands. Run `daf --help` to get the latest options.
+The same actions are possible, but under different (simpler) names and subcommands.
+
+
+
+
+
 # [7.0.0-beta.57](https://github.com/uport-project/daf/compare/v7.0.0-beta.56...v7.0.0-beta.57) (2020-12-15)
 
 

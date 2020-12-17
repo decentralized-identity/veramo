@@ -1,7 +1,7 @@
 {
   "name": "daf-did-jwt",
   "description": "DAF message validator plugin for decoding JWT payloads.",
-  "version": "7.0.0-beta.57",
+  "version": "7.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "extract-api": "yarn daf dev extract-api"
   },
   "dependencies": {
-    "daf-core": "^7.0.0-beta.57",
-    "daf-message-handler": "^7.0.0-beta.57",
+    "daf-core": "^7.0.0",
+    "daf-message-handler": "^7.0.0",
     "debug": "^4.1.1",
     "did-jwt": "4.8.0",
     "did-resolver": "2.1.2"

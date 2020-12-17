@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/uport-project/daf/compare/v6.4.1...v7.0.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* **daf-resolver:** Fixed daf-resolver configuration ([#298](https://github.com/uport-project/daf/issues/298)) ([dfcf32a](https://github.com/uport-project/daf/commit/dfcf32a88bfe8353270a567d40bcfab25ddbffe9)), closes [#205](https://github.com/uport-project/daf/issues/205)
+* **message-handler:** Rewire promise rejections as `Error` objects ([#300](https://github.com/uport-project/daf/issues/300)) ([04446d4](https://github.com/uport-project/daf/commit/04446d4e2d2dba8ff2ae5695014686ef49891804)), closes [#294](https://github.com/uport-project/daf/issues/294)
+* Claim value nullable ([4cb85b2](https://github.com/uport-project/daf/commit/4cb85b2aa677eab5c39011f0e32bb7ebc86d7b84))
+* DataStoreORM claim subject ([e332dcc](https://github.com/uport-project/daf/commit/e332dcc2bfa261bc43a2c4e2a7ab2bbf13b647df))
+* DataStoreORM interface ([719959a](https://github.com/uport-project/daf/commit/719959a59ac8877523f36254da71609fd5e222eb))
+* DataStoreORM messagesQuery ([be2badb](https://github.com/uport-project/daf/commit/be2badbe359e7a5c470f50472d022a87bd3d4c2b))
+* DataStoreORM saving claims ([281b493](https://github.com/uport-project/daf/commit/281b493374ca3d981a828207f14190dcb95c93a6))
+* IdentityStore ([53eb972](https://github.com/uport-project/daf/commit/53eb9721f2a64d231955a555dc2465adb2c8c668))
+* IdentityStore saving services ([9a35ee9](https://github.com/uport-project/daf/commit/9a35ee9e7a5866c106961c0f1cc4dc2fd1fad0c3))
+* Throwing errors for non existing entities ([a48e7ef](https://github.com/uport-project/daf/commit/a48e7ef0afe4e44070a85867eb86bf039a7ae3c8))
+
+
+### Code Refactoring
+
+* Rename Identity to Identifier ([#308](https://github.com/uport-project/daf/issues/308)) ([7812e51](https://github.com/uport-project/daf/commit/7812e51ee250265bcc308e7fd4db1ee8b2e408a4))
+* **daf-cli:** Refactor CLI command palette ([#304](https://github.com/uport-project/daf/issues/304)) ([a5a0670](https://github.com/uport-project/daf/commit/a5a0670f5162e3f8753fa338ed00e64397c8acc0)), closes [#264](https://github.com/uport-project/daf/issues/264)
+
+
+### Features
+
+* Add event system to agent ([#262](https://github.com/uport-project/daf/issues/262)) ([9a6747e](https://github.com/uport-project/daf/commit/9a6747e84037613d396e14a6f68cb2de8275ddca))
+* Added identityManagerGetIdentityByAlias ([43d0817](https://github.com/uport-project/daf/commit/43d081761f68015b92554224e458853070f12be2))
+* Added identityManagerImportIdentity ([ea7ba3a](https://github.com/uport-project/daf/commit/ea7ba3a8e827423748e5e350cdcf4103560fb8f0))
+* Added IIdentityManagerGetIdentitiesArgs ([1e0c9aa](https://github.com/uport-project/daf/commit/1e0c9aa5ca7247007abc930b214c98610578fb71))
+* API key / Bearer token support in CLI ([45e7591](https://github.com/uport-project/daf/commit/45e7591dc70a862e40ac3c8ab3536ad5d80632b7))
+* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* Method dataStoreORMGetIdentities ([7952fbb](https://github.com/uport-project/daf/commit/7952fbbdc6b2030b7fc004f949908860920f93d4))
+* Method identityManagerGetOrCreateIdentity ([0155389](https://github.com/uport-project/daf/commit/0155389bf8ad3cfe6f4802d1ac5ce655321423c6))
+* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
+* Server config ([b3b9639](https://github.com/uport-project/daf/commit/b3b9639e7f1382110b34bdb26073ed0bd97eb982))
+* Unique (with hash) VC/VP in ORM results ([bcfc3e8](https://github.com/uport-project/daf/commit/bcfc3e843885553abea1e90bc2a833abc6e8e3ec))
+* Validating all plugin method arguments ([2c868f7](https://github.com/uport-project/daf/commit/2c868f77f297d036554ab8b30b77124c57b824da))
+* Validating returnType ([c7d1ef3](https://github.com/uport-project/daf/commit/c7d1ef3bd77dd4a77cf9dcfa32a2ed8b47fe04e0))
+
+
+### BREAKING CHANGES
+
+* This rename affects almost all the Identity management API
+Please look for `IDIDManager.ts` in `daf-core/src/types` to see the new method names.
+Functionality is the same but some renaming is required if already in use.
+
+* refactor: Rename Identity to Identifier
+* fix: Integration tests
+* refactor: WebDIDProvider
+* refactor: EthrDIDProvider
+* refactor: DIDStore
+* refactor: Resolver
+* refactor: DidManagerFind
+* refactor: DidManagerFind
+* refactor: DidManagerGet
+* refactor: DidManagerCreate
+* refactor: DidManagerGetOrCreate
+* refactor: DidManagerImport
+* refactor: DidManagerDelete
+* refactor: KeyManager
+* refactor: DefaultDID
+* refactor: IDIDManager
+* refactor: IDIDManager.ts
+* **daf-cli:** This refactor changes the CLI list of commands. Run `daf --help` to get the latest options.
+The same actions are possible, but under different (simpler) names and subcommands.
+* **daf-resolver:** The configuration for daf-resolver has changed to be less opinionated. It requires a `did-resolver#Resolver` that can be configured with whichever DID methods your agent needs.
+
+Co-authored-by: Mircea Nistor <mirceanis@gmail.com>
+
+
+
+
+
 # [7.0.0-beta.57](https://github.com/uport-project/daf/compare/v7.0.0-beta.56...v7.0.0-beta.57) (2020-12-15)
 
 

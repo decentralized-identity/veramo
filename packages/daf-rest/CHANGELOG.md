@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/uport-project/daf/compare/v6.4.1...v7.0.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* Daf REST headers type ([b22c540](https://github.com/uport-project/daf/commit/b22c540d20a459ad1b00979be2bd82be90aeb3a4))
+* Daf-rest overrides ([0d6c031](https://github.com/uport-project/daf/commit/0d6c031df77a4c0f0dd3649e3303998323f4bde5))
+* Deps for daf-rest ([564f2ba](https://github.com/uport-project/daf/commit/564f2ba4909636c25cb827706608bcc65b7b54e4))
+* OpenAPI name, version and x-methods ([#301](https://github.com/uport-project/daf/issues/301)) ([cbad7c0](https://github.com/uport-project/daf/commit/cbad7c0558f4ba515cad995374a4e11d2afdc2e0))
+* OpenAPI schema ([2ef0bc7](https://github.com/uport-project/daf/commit/2ef0bc7ae4a425e29eae4aaad982048314c9ca14))
+* OpenAPI types dep for daf-rest ([63e7565](https://github.com/uport-project/daf/commit/63e7565d3e2d02e8a170effa67838b9a25c13e22))
+* Plugin schemas ([1fedaa5](https://github.com/uport-project/daf/commit/1fedaa5ed378be30cdcd76a8d241444bd2306af7))
+* Rest client error handling ([b871a39](https://github.com/uport-project/daf/commit/b871a39fd46930871c6695a4f9e7aa66b886f617))
+* Valid OpenApi v3 schema ([32175c3](https://github.com/uport-project/daf/commit/32175c340df69aea0d8fa91f6d962523fbe2dac4))
+
+
+### Code Refactoring
+
+* **daf-cli:** Refactor CLI command palette ([#304](https://github.com/uport-project/daf/issues/304)) ([a5a0670](https://github.com/uport-project/daf/commit/a5a0670f5162e3f8753fa338ed00e64397c8acc0)), closes [#264](https://github.com/uport-project/daf/issues/264)
+* Refactor and add inline documentation to daf-w3c package ([f0e2cb9](https://github.com/uport-project/daf/commit/f0e2cb9748dc04b0d46ac1d80bac9a0b7f7546cd))
+
+
+### Features
+
+* Added identityManagerGetIdentityByAlias ([43d0817](https://github.com/uport-project/daf/commit/43d081761f68015b92554224e458853070f12be2))
+* Added identityManagerSetAlias ([a2bd513](https://github.com/uport-project/daf/commit/a2bd5134e9f6c58a619f63e8f3523e24e27d530e))
+* Added IIdentityManagerGetIdentitiesArgs ([1e0c9aa](https://github.com/uport-project/daf/commit/1e0c9aa5ca7247007abc930b214c98610578fb71))
+* Added keyManagerGetKeyManagementSystems ([9741462](https://github.com/uport-project/daf/commit/974146281b400fa9d3108a8428d0d9da09dd2292))
+* API key / Bearer token support in CLI ([45e7591](https://github.com/uport-project/daf/commit/45e7591dc70a862e40ac3c8ab3536ad5d80632b7))
+* CLI upgraded to the latest API ([b440dd1](https://github.com/uport-project/daf/commit/b440dd10badc03d71d59f23eddd80d93a680efe0))
+* Daf-rest & daf-express ([9c9a597](https://github.com/uport-project/daf/commit/9c9a597d40059a11fe64780c459233490cb1a5ef))
+* Dynamic OpenAPI schema ([f12236b](https://github.com/uport-project/daf/commit/f12236beeabd408cbc1d3a47848add82cbd52050))
+* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* Method dataStoreORMGetIdentities ([7952fbb](https://github.com/uport-project/daf/commit/7952fbbdc6b2030b7fc004f949908860920f93d4))
+* Method identityManagerGetOrCreateIdentity ([0155389](https://github.com/uport-project/daf/commit/0155389bf8ad3cfe6f4802d1ac5ce655321423c6))
+* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
+* Server config ([b3b9639](https://github.com/uport-project/daf/commit/b3b9639e7f1382110b34bdb26073ed0bd97eb982))
+* Unique (with hash) VC/VP in ORM results ([bcfc3e8](https://github.com/uport-project/daf/commit/bcfc3e843885553abea1e90bc2a833abc6e8e3ec))
+* Using OpenAPI schema in rest & express ([80d0bad](https://github.com/uport-project/daf/commit/80d0badb6c4ed17ccf2250d4381b71f08ef3da45))
+* Validating all plugin method arguments ([2c868f7](https://github.com/uport-project/daf/commit/2c868f77f297d036554ab8b30b77124c57b824da))
+
+
+### BREAKING CHANGES
+
+* **daf-cli:** This refactor changes the CLI list of commands. Run `daf --help` to get the latest options.
+The same actions are possible, but under different (simpler) names and subcommands.
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 # [7.0.0-beta.57](https://github.com/uport-project/daf/compare/v7.0.0-beta.56...v7.0.0-beta.57) (2020-12-15)
 
 

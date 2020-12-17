@@ -3,6 +3,90 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/uport-project/daf/compare/v6.4.1...v7.0.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* **daf-did-jwt:** Fix parsing of JWT with missing `typ` in header ([#293](https://github.com/uport-project/daf/issues/293)) ([48e4c60](https://github.com/uport-project/daf/commit/48e4c607f78ac19be2ba83291cb68f414edb5b6b)), closes [#291](https://github.com/uport-project/daf/issues/291)
+* **message-handler:** Rewire promise rejections as `Error` objects ([#300](https://github.com/uport-project/daf/issues/300)) ([04446d4](https://github.com/uport-project/daf/commit/04446d4e2d2dba8ff2ae5695014686ef49891804)), closes [#294](https://github.com/uport-project/daf/issues/294)
+* Disable schema validation by default ([#278](https://github.com/uport-project/daf/issues/278)) ([7bb77cd](https://github.com/uport-project/daf/commit/7bb77cde56415e8e909cabc235c62188d8147d0e)), closes [#255](https://github.com/uport-project/daf/issues/255) [#275](https://github.com/uport-project/daf/issues/275)
+* IdentityManager ([1f2da11](https://github.com/uport-project/daf/commit/1f2da1150d4895db3f21711bb1d11f619961a321))
+* IdentityManager ([32a1c03](https://github.com/uport-project/daf/commit/32a1c0335bb66b6055efe851c2e2ac72348b54a3))
+* IHandleMessage interface ([0ab68fd](https://github.com/uport-project/daf/commit/0ab68fd945e719dc375757650c52752bba3338a7))
+* IIdentityManager interface ([b6d1e36](https://github.com/uport-project/daf/commit/b6d1e36252b74c9decd95a46bb371df092fa6479))
+* IKeyManager arg types ([f79967e](https://github.com/uport-project/daf/commit/f79967e1d9fbed7abbd1648d3f1f259c8f3cd92e))
+* KeyManagerSignEthTX ([c936a00](https://github.com/uport-project/daf/commit/c936a001a270086378e26cf7fa5054dbc8d7d94e))
+* Local copy of W3C types ([29c6b0e](https://github.com/uport-project/daf/commit/29c6b0efc37f181d40aff560d4d481eb84e0ea9a))
+* MessageHandler chain ([198a33a](https://github.com/uport-project/daf/commit/198a33a0000181ba83be1c9848f035e1a69c2cd1))
+* OpenAPI schema ([2ef0bc7](https://github.com/uport-project/daf/commit/2ef0bc7ae4a425e29eae4aaad982048314c9ca14))
+* Removing EcdsaSignature type ([3e3a684](https://github.com/uport-project/daf/commit/3e3a6843a77cf389be9aa6414a2f77ebe26adc62))
+* TAgent definition ([ce1af94](https://github.com/uport-project/daf/commit/ce1af94c639b4b98ad54212608d850d2a1833580))
+
+
+### Code Refactoring
+
+* Rename Identity to Identifier ([#308](https://github.com/uport-project/daf/issues/308)) ([7812e51](https://github.com/uport-project/daf/commit/7812e51ee250265bcc308e7fd4db1ee8b2e408a4))
+* **daf-cli:** Refactor CLI command palette ([#304](https://github.com/uport-project/daf/issues/304)) ([a5a0670](https://github.com/uport-project/daf/commit/a5a0670f5162e3f8753fa338ed00e64397c8acc0)), closes [#264](https://github.com/uport-project/daf/issues/264)
+* Refactor and add inline documentation to daf-w3c package ([f0e2cb9](https://github.com/uport-project/daf/commit/f0e2cb9748dc04b0d46ac1d80bac9a0b7f7546cd))
+
+
+### Features
+
+* Add event system to agent ([#262](https://github.com/uport-project/daf/issues/262)) ([9a6747e](https://github.com/uport-project/daf/commit/9a6747e84037613d396e14a6f68cb2de8275ddca))
+* Added identityManagerGetIdentityByAlias ([43d0817](https://github.com/uport-project/daf/commit/43d081761f68015b92554224e458853070f12be2))
+* Added identityManagerImportIdentity ([ea7ba3a](https://github.com/uport-project/daf/commit/ea7ba3a8e827423748e5e350cdcf4103560fb8f0))
+* Added identityManagerSetAlias ([a2bd513](https://github.com/uport-project/daf/commit/a2bd5134e9f6c58a619f63e8f3523e24e27d530e))
+* Added IIdentityManagerGetIdentitiesArgs ([1e0c9aa](https://github.com/uport-project/daf/commit/1e0c9aa5ca7247007abc930b214c98610578fb71))
+* Added keyManagerGetKeyManagementSystems ([9741462](https://github.com/uport-project/daf/commit/974146281b400fa9d3108a8428d0d9da09dd2292))
+* Authorized agent methods ([53f9454](https://github.com/uport-project/daf/commit/53f9454b6ec7495d2cfc0e2e9f34ccb0845c8a39))
+* Debug agent.execute ([fb58ddc](https://github.com/uport-project/daf/commit/fb58ddce18cb99e4aeb1f7eb7604e4a65fa293f3))
+* Dynamic OpenAPI schema ([f12236b](https://github.com/uport-project/daf/commit/f12236beeabd408cbc1d3a47848add82cbd52050))
+* Generate plugin schema ([#277](https://github.com/uport-project/daf/issues/277)) ([c90473a](https://github.com/uport-project/daf/commit/c90473a67731eb0cfcaf545afe0d64dfee77809c))
+* Generating OpenAPI schema (broken) ([e319c41](https://github.com/uport-project/daf/commit/e319c41d3d9a5f4beb8dfdd17221fb9ef5dc04ef))
+* Generating plugin schemas ([d4450cd](https://github.com/uport-project/daf/commit/d4450cd30e27ebc8bf961400b871757662e202c3))
+* Method identityManagerGetOrCreateIdentity ([0155389](https://github.com/uport-project/daf/commit/0155389bf8ad3cfe6f4802d1ac5ce655321423c6))
+* Removing GraphQL support ([3646aab](https://github.com/uport-project/daf/commit/3646aaba6bc72db933ceb7ddb4250bf4457902e3))
+* Server config ([b3b9639](https://github.com/uport-project/daf/commit/b3b9639e7f1382110b34bdb26073ed0bd97eb982))
+* Unique (with hash) VC/VP in ORM results ([bcfc3e8](https://github.com/uport-project/daf/commit/bcfc3e843885553abea1e90bc2a833abc6e8e3ec))
+* Validating all plugin method arguments ([2c868f7](https://github.com/uport-project/daf/commit/2c868f77f297d036554ab8b30b77124c57b824da))
+* Validating returnType ([c7d1ef3](https://github.com/uport-project/daf/commit/c7d1ef3bd77dd4a77cf9dcfa32a2ed8b47fe04e0))
+
+
+### BREAKING CHANGES
+
+* This rename affects almost all the Identity management API
+Please look for `IDIDManager.ts` in `daf-core/src/types` to see the new method names.
+Functionality is the same but some renaming is required if already in use.
+
+* refactor: Rename Identity to Identifier
+* fix: Integration tests
+* refactor: WebDIDProvider
+* refactor: EthrDIDProvider
+* refactor: DIDStore
+* refactor: Resolver
+* refactor: DidManagerFind
+* refactor: DidManagerFind
+* refactor: DidManagerGet
+* refactor: DidManagerCreate
+* refactor: DidManagerGetOrCreate
+* refactor: DidManagerImport
+* refactor: DidManagerDelete
+* refactor: KeyManager
+* refactor: DefaultDID
+* refactor: IDIDManager
+* refactor: IDIDManager.ts
+* **daf-cli:** This refactor changes the CLI list of commands. Run `daf --help` to get the latest options.
+The same actions are possible, but under different (simpler) names and subcommands.
+* the `IW3c` type and `W3c` class have been renamed to
+`ICredentialIssuer` and `CredentialIssuer`
+
+fix(deps): update `did-resolver` and `did-jwt` libs for all packages to maintain type consistency
+
+
+
+
+
 ## [6.4.1](https://github.com/uport-project/daf/compare/v6.4.0...v6.4.1) (2020-11-13)
 
 **Note:** Version bump only for package daf-core
