@@ -195,7 +195,7 @@ export default (testContext: {
 
       expect(webIdentifier.keys.length).toEqual(1)
 
-      const newKey = await agent.keyManagerCreateKey({
+      const newKey = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
       })
@@ -253,16 +253,16 @@ export default (testContext: {
         },
       })
 
-      const signingKeyFull = await agent.keyManagerGetKey({
+      const signingKeyFull = await agent.keyManagerGet({
         kid: identifier.keys[0].kid,
       })
 
-      const encryptionKey = await agent.keyManagerCreateKey({
+      const encryptionKey = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Ed25519',
       })
 
-      const encryptionKeyFull = await agent.keyManagerGetKey({
+      const encryptionKeyFull = await agent.keyManagerGet({
         kid: encryptionKey.kid,
       })
 

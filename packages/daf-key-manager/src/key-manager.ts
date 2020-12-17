@@ -4,9 +4,9 @@ import {
   IKey,
   IKeyManager,
   IAgentPlugin,
-  IKeyManagerCreateKeyArgs,
-  IKeyManagerGetKeyArgs,
-  IKeyManagerDeleteKeyArgs,
+  IKeyManagerCreateArgs,
+  IKeyManagerGetArgs,
+  IKeyManagerDeleteArgs,
   IKeyManagerEncryptJWEArgs,
   IKeyManagerDecryptJWEArgs,
   IKeyManagerSignJWTArgs,
@@ -36,10 +36,10 @@ export class KeyManager implements IAgentPlugin {
     this.kms = options.kms
     this.methods = {
       keyManagerGetKeyManagementSystems: this.keyManagerGetKeyManagementSystems.bind(this),
-      keyManagerCreateKey: this.keyManagerCreateKey.bind(this),
-      keyManagerGetKey: this.keyManagerGetKey.bind(this),
-      keyManagerDeleteKey: this.keyManagerDeleteKey.bind(this),
-      keyManagerImportKey: this.keyManagerImportKey.bind(this),
+      keyManagerCreate: this.keyManagerCreate.bind(this),
+      keyManagerGet: this.keyManagerGet.bind(this),
+      keyManagerDelete: this.keyManagerDelete.bind(this),
+      keyManagerImport: this.keyManagerImport.bind(this),
       keyManagerEncryptJWE: this.keyManagerDecryptJWE.bind(this),
       keyManagerDecryptJWE: this.keyManagerDecryptJWE.bind(this),
       keyManagerSignJWT: this.keyManagerSignJWT.bind(this),
@@ -58,8 +58,8 @@ export class KeyManager implements IAgentPlugin {
     return Object.keys(this.kms)
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerCreateKey} */
-  async keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey> {
+  /** {@inheritDoc daf-core#IKeyManager.keyManagerCreate} */
+  async keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey> {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
     const key: IKey = { ...partialKey, kms: args.kms }
@@ -73,21 +73,21 @@ export class KeyManager implements IAgentPlugin {
     return key
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerGetKey} */
-  async keyManagerGetKey({ kid }: IKeyManagerGetKeyArgs): Promise<IKey> {
+  /** {@inheritDoc daf-core#IKeyManager.keyManagerGet} */
+  async keyManagerGet({ kid }: IKeyManagerGetArgs): Promise<IKey> {
     return this.store.get({ kid })
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerDeleteKey} */
-  async keyManagerDeleteKey({ kid }: IKeyManagerDeleteKeyArgs): Promise<boolean> {
+  /** {@inheritDoc daf-core#IKeyManager.keyManagerDelete} */
+  async keyManagerDelete({ kid }: IKeyManagerDeleteArgs): Promise<boolean> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     await kms.deleteKey({ kid })
     return this.store.delete({ kid })
   }
 
-  /** {@inheritDoc daf-core#IKeyManager.keyManagerImportKey} */
-  async keyManagerImportKey(key: IKey): Promise<boolean> {
+  /** {@inheritDoc daf-core#IKeyManager.keyManagerImport} */
+  async keyManagerImport(key: IKey): Promise<boolean> {
     return this.store.import(key)
   }
 

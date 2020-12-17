@@ -54,7 +54,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: any },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreateKey({ kms: kms || this.defaultKms, type: 'Secp256k1' })
+    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
     const address = toEthereumAddress(key.publicKeyHex)
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:ethr:' + (this.network !== 'mainnet' ? this.network + ':' : '') + address,
@@ -68,7 +68,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
 
   async deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean> {
     for (const { kid } of identifier.keys) {
-      await context.agent.keyManagerDeleteKey({ kid })
+      await context.agent.keyManagerDelete({ kid })
     }
     return true
   }

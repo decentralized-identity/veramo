@@ -23,7 +23,7 @@ export default (testContext: {
     })
 
     it('should create Secp256k1 key', async () => {
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
       })
@@ -36,7 +36,7 @@ export default (testContext: {
     })
 
     it('should create Ed25519 key', async () => {
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Ed25519',
       })
@@ -50,7 +50,7 @@ export default (testContext: {
 
     it('should throw an error for unsupported kms', async () => {
       await expect(
-        agent.keyManagerCreateKey({
+        agent.keyManagerCreate({
           kms: 'foobar',
           type: 'Secp256k1',
         }),
@@ -59,7 +59,7 @@ export default (testContext: {
 
     it('should throw an error for unsupported key type', async () => {
       await expect(
-        agent.keyManagerCreateKey({
+        agent.keyManagerCreate({
           kms: 'local',
           //@ts-ignore
           type: 'foobar',
@@ -68,7 +68,7 @@ export default (testContext: {
     })
 
     it('should create key with meta data', async () => {
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
         meta: {
@@ -89,12 +89,12 @@ export default (testContext: {
     })
 
     it('should get key by key id', async () => {
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
       })
 
-      const key2 = await agent.keyManagerGetKey({
+      const key2 = await agent.keyManagerGet({
         kid: key.kid,
       })
 
@@ -103,32 +103,32 @@ export default (testContext: {
     })
 
     it('should delete key', async () => {
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
       })
 
-      const result = await agent.keyManagerDeleteKey({
+      const result = await agent.keyManagerDelete({
         kid: key.kid,
       })
 
       expect(result).toEqual(true)
 
       await expect(
-        agent.keyManagerGetKey({
+        agent.keyManagerGet({
           kid: key.kid,
         }),
       ).rejects.toThrow('Key not found')
 
       await expect(
-        agent.keyManagerDeleteKey({
+        agent.keyManagerDelete({
           kid: key.kid,
         }),
       ).rejects.toThrow('Key not found')
     })
 
     it('should import key', async () => {
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
         meta: {
@@ -136,18 +136,18 @@ export default (testContext: {
         },
       })
 
-      const fullKey = await agent.keyManagerGetKey({
+      const fullKey = await agent.keyManagerGet({
         kid: key.kid,
       })
 
-      await agent.keyManagerDeleteKey({
+      await agent.keyManagerDelete({
         kid: key.kid,
       })
 
-      const result = await agent.keyManagerImportKey(fullKey)
+      const result = await agent.keyManagerImport(fullKey)
       expect(result).toEqual(true)
 
-      const key2 = await agent.keyManagerGetKey({
+      const key2 = await agent.keyManagerGet({
         kid: key.kid,
       })
 
@@ -155,7 +155,7 @@ export default (testContext: {
     })
 
     it('should sign JWT', async () => {
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
       })
@@ -171,7 +171,7 @@ export default (testContext: {
     })
 
     it('should sign EthTX', async () => {
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
       })
@@ -194,12 +194,12 @@ export default (testContext: {
     // it('Should Encrypt/Decrypt', async () => {
     // const message = 'foo bar'
 
-    // const senderKey = await agent.keyManagerCreateKey({
+    // const senderKey = await agent.keyManagerCreate({
     //   kms: 'local',
     //   type: 'Ed25519',
     // })
 
-    // const recipientKey = await agent.keyManagerCreateKey({
+    // const recipientKey = await agent.keyManagerCreate({
     //   kms: 'local',
     //   type: 'Ed25519',
     // })

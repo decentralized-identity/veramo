@@ -181,7 +181,7 @@ did
         },
       ])
 
-      const key = await agent.keyManagerCreateKey({
+      const key = await agent.keyManagerCreate({
         kms: answers.kms,
         type: answers.type,
       })

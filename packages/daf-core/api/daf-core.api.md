@@ -251,21 +251,21 @@ export interface IKey {
 
 // @public
 export interface IKeyManager extends IPluginMethodMap {
-    keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>;
+    keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey>;
     // @beta
     keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>;
-    keyManagerDeleteKey(args: IKeyManagerDeleteKeyArgs): Promise<boolean>;
+    keyManagerDelete(args: IKeyManagerDeleteArgs): Promise<boolean>;
     // @beta
     keyManagerEncryptJWE(args: IKeyManagerEncryptJWEArgs): Promise<string>;
-    keyManagerGetKey(args: IKeyManagerGetKeyArgs): Promise<IKey>;
+    keyManagerGet(args: IKeyManagerGetArgs): Promise<IKey>;
     keyManagerGetKeyManagementSystems(): Promise<Array<string>>;
-    keyManagerImportKey(args: IKey): Promise<boolean>;
+    keyManagerImport(args: IKey): Promise<boolean>;
     keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>;
     keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature>;
 }
 
 // @public
-export interface IKeyManagerCreateKeyArgs {
+export interface IKeyManagerCreateArgs {
     kms: string;
     meta?: object;
     type: TKeyType;
@@ -278,7 +278,7 @@ export interface IKeyManagerDecryptJWEArgs {
 }
 
 // @public
-export interface IKeyManagerDeleteKeyArgs {
+export interface IKeyManagerDeleteArgs {
     kid: string;
 }
 
@@ -290,7 +290,7 @@ export interface IKeyManagerEncryptJWEArgs {
 }
 
 // @public
-export interface IKeyManagerGetKeyArgs {
+export interface IKeyManagerGetArgs {
     kid: string;
 }
 

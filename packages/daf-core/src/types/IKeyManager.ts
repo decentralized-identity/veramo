@@ -2,10 +2,10 @@ import { IPluginMethodMap } from './IAgent'
 import { TKeyType, IKey } from './IIdentifier'
 
 /**
- * Input arguments for {@link IKeyManager.keyManagerCreateKey | keyManagerCreateKey}
+ * Input arguments for {@link IKeyManager.keyManagerCreate | keyManagerCreate}
  * @public
  */
-export interface IKeyManagerCreateKeyArgs {
+export interface IKeyManagerCreateArgs {
   /**
    * Key type
    */
@@ -23,10 +23,10 @@ export interface IKeyManagerCreateKeyArgs {
 }
 
 /**
- * Input arguments for {@link IKeyManager.keyManagerGetKey | keyManagerGetKey}
+ * Input arguments for {@link IKeyManager.keyManagerGet | keyManagerGet}
  * @public
  */
-export interface IKeyManagerGetKeyArgs {
+export interface IKeyManagerGetArgs {
   /**
    * Key ID
    */
@@ -34,10 +34,10 @@ export interface IKeyManagerGetKeyArgs {
 }
 
 /**
- * Input arguments for {@link IKeyManager.keyManagerDeleteKey | keyManagerDeleteKey}
+ * Input arguments for {@link IKeyManager.keyManagerDelete | keyManagerDelete}
  * @public
  */
-export interface IKeyManagerDeleteKeyArgs {
+export interface IKeyManagerDeleteArgs {
   /**
    * Key ID
    */
@@ -132,22 +132,22 @@ export interface IKeyManager extends IPluginMethodMap {
   /**
    * Creates and returns a new key
    */
-  keyManagerCreateKey(args: IKeyManagerCreateKeyArgs): Promise<IKey>
+  keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey>
 
   /**
    * Returns an existing key
    */
-  keyManagerGetKey(args: IKeyManagerGetKeyArgs): Promise<IKey>
+  keyManagerGet(args: IKeyManagerGetArgs): Promise<IKey>
 
   /**
    * Deletes a key
    */
-  keyManagerDeleteKey(args: IKeyManagerDeleteKeyArgs): Promise<boolean>
+  keyManagerDelete(args: IKeyManagerDeleteArgs): Promise<boolean>
 
   /**
    * Imports a created key
    */
-  keyManagerImportKey(args: IKey): Promise<boolean>
+  keyManagerImport(args: IKey): Promise<boolean>
 
   /**
    * Encrypts data

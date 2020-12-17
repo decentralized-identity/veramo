@@ -211,7 +211,7 @@
   "IKeyManager": {
     "components": {
       "schemas": {
-        "IKeyManagerCreateKeyArgs": {
+        "IKeyManagerCreateArgs": {
           "type": "object",
           "properties": {
             "type": {
@@ -231,7 +231,7 @@
             "type",
             "kms"
           ],
-          "description": "Input arguments for {@link IKeyManager.keyManagerCreateKey | keyManagerCreateKey}"
+          "description": "Input arguments for {@link IKeyManager.keyManagerCreate | keyManagerCreate}"
         },
         "TKeyType": {
           "type": "string",
@@ -302,7 +302,7 @@
           ],
           "description": "Input arguments for {@link IKeyManager.keyManagerDecryptJWE | keyManagerDecryptJWE}"
         },
-        "IKeyManagerDeleteKeyArgs": {
+        "IKeyManagerDeleteArgs": {
           "type": "object",
           "properties": {
             "kid": {
@@ -313,7 +313,7 @@
           "required": [
             "kid"
           ],
-          "description": "Input arguments for {@link IKeyManager.keyManagerDeleteKey | keyManagerDeleteKey}"
+          "description": "Input arguments for {@link IKeyManager.keyManagerDelete | keyManagerDelete}"
         },
         "IKeyManagerEncryptJWEArgs": {
           "type": "object",
@@ -372,7 +372,7 @@
           ],
           "description": "Input arguments for {@link IKeyManager.keyManagerEncryptJWE | keyManagerEncryptJWE}"
         },
-        "IKeyManagerGetKeyArgs": {
+        "IKeyManagerGetArgs": {
           "type": "object",
           "properties": {
             "kid": {
@@ -383,7 +383,7 @@
           "required": [
             "kid"
           ],
-          "description": "Input arguments for {@link IKeyManager.keyManagerGetKey | keyManagerGetKey}"
+          "description": "Input arguments for {@link IKeyManager.keyManagerGet | keyManagerGet}"
         },
         "IKeyManagerSignEthTXArgs": {
           "type": "object",
@@ -443,10 +443,10 @@
         }
       },
       "methods": {
-        "keyManagerCreateKey": {
+        "keyManagerCreate": {
           "description": "Creates and returns a new key",
           "arguments": {
-            "$ref": "#/components/schemas/IKeyManagerCreateKeyArgs"
+            "$ref": "#/components/schemas/IKeyManagerCreateArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/IKey"
@@ -461,10 +461,10 @@
             "type": "string"
           }
         },
-        "keyManagerDeleteKey": {
+        "keyManagerDelete": {
           "description": "Deletes a key",
           "arguments": {
-            "$ref": "#/components/schemas/IKeyManagerDeleteKeyArgs"
+            "$ref": "#/components/schemas/IKeyManagerDeleteArgs"
           },
           "returnType": {
             "type": "boolean"
@@ -479,10 +479,10 @@
             "type": "string"
           }
         },
-        "keyManagerGetKey": {
+        "keyManagerGet": {
           "description": "Returns an existing key",
           "arguments": {
-            "$ref": "#/components/schemas/IKeyManagerGetKeyArgs"
+            "$ref": "#/components/schemas/IKeyManagerGetArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/IKey"
@@ -500,7 +500,7 @@
             }
           }
         },
-        "keyManagerImportKey": {
+        "keyManagerImport": {
           "description": "Imports a created key",
           "arguments": {
             "$ref": "#/components/schemas/IKey"

@@ -142,7 +142,7 @@ export class DidManager implements IAgentPlugin {
   /** {@inheritDoc daf-core#IDidManager.didManagerImport} */
   async didManagerImport(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
     for (const key of identifier.keys) {
-      await context.agent.keyManagerImportKey(key)
+      await context.agent.keyManagerImport(key)
     }
     await this.store.import(identifier)
     return identifier

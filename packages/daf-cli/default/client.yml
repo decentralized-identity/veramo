@@ -28,10 +28,10 @@ agent:
               #   Authorization: Bearer API_KEY
               enabledMethods:
                 - keyManagerGetKeyManagementSystems
-                - keyManagerCreateKey
-                - keyManagerGetKey
-                - keyManagerDeleteKey
-                - keyManagerImportKey
+                - keyManagerCreate
+                - keyManagerGet
+                - keyManagerDelete
+                - keyManagerImport
                 - keyManagerEncryptJWE
                 - keyManagerDecryptJWE
                 - keyManagerSignJWT
