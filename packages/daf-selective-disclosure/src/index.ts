@@ -1,5 +1,9 @@
 /**
- * Provides a {@link daf-selective-disclosure#ISelectiveDisclosure | plugin} for the {@link @veramo/core#Agent} that implements {@link daf-selective-disclosure#SelectiveDisclosure} interface. Provides a {@link daf-selective-disclosure#SdrMessageHandler | plugin} for the {@link daf-message-handler#MessageHandler} that detects Selective Disclosure Request in a message
+ * Provides a {@link daf-selective-disclosure#ISelectiveDisclosure | plugin} for the {@link @veramo/core#Agent}
+ * that implements {@link daf-selective-disclosure#SelectiveDisclosure} interface.
+ *
+ * Provides a {@link daf-selective-disclosure#SdrMessageHandler | plugin} for the
+ * {@link @veramo/message-handler#MessageHandler} that detects Selective Disclosure Request in a message
  *
  * @packageDocumentation
  */

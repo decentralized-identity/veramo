@@ -10,7 +10,7 @@ import {
   IMessageHandler,
   IAgentOptions,
 } from '../packages/core/src'
-import { MessageHandler } from '../packages/daf-message-handler/src'
+import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'

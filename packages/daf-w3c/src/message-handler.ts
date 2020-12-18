@@ -1,5 +1,5 @@
 import { IAgentContext, IResolver } from '@veramo/core'
-import { Message, AbstractMessageHandler } from 'daf-message-handler'
+import { Message, AbstractMessageHandler } from '@veramo/message-handler'
 import { blake2bHex } from 'blakejs'
 
 import {
@@ -33,10 +33,10 @@ export const MessageTypes = {
 export type IContext = IAgentContext<IResolver>
 
 /**
- * An implementation of the {@link daf-message-handler#AbstractMessageHandler}.
+ * An implementation of the {@link @veramo/message-handler#AbstractMessageHandler}.
  *
  * This plugin can handle incoming W3C Verifiable Credentials and Presentations and prepare them
- * for internal storage as {@link daf-message-handler#Message} types.
+ * for internal storage as {@link @veramo/message-handler#Message} types.
  *
  * The current version can only handle `JWT` encoded
  *

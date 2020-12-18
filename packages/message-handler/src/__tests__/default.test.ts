@@ -10,7 +10,7 @@ class DummyHandler extends AbstractMessageHandler {
   }
 }
 
-describe('daf-message-handler', () => {
+describe('@veramo/message-handler', () => {
   const a = 100
   it('should run a dummy test', () => {
     expect(a).toEqual(100)

@@ -1,5 +1,5 @@
 import { DIDDocument } from '@veramo/core'
-import { Message } from 'daf-message-handler'
+import { Message } from '@veramo/message-handler'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { IContext } from '../message-handler'
 import { blake2bHex } from 'blakejs'

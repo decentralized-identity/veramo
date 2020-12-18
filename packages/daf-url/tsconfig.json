@@ -5,5 +5,5 @@
     "outDir": "build",
     "declarationDir": "build"
   },
-  "references": [{ "path": "../core" }, { "path": "../daf-message-handler" }]
+  "references": [{ "path": "../core" }, { "path": "../message-handler" }]
 }

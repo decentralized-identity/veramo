@@ -15,6 +15,6 @@
         "daf-web-did",
         "key-manager",
         "did-manager",
-        "daf-message-handler"
+        "message-handler"
     ]
 }

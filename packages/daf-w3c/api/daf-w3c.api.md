@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbstractMessageHandler } from 'daf-message-handler';
+import { AbstractMessageHandler } from '@veramo/message-handler';
 import { IAgentContext } from '@veramo/core';
 import { IAgentPlugin } from '@veramo/core';
 import { IDataStore } from '@veramo/core';
@@ -12,7 +12,7 @@ import { IDIDManager } from '@veramo/core';
 import { IKeyManager } from '@veramo/core';
 import { IPluginMethodMap } from '@veramo/core';
 import { IResolver } from '@veramo/core';
-import { Message } from 'daf-message-handler';
+import { Message } from '@veramo/message-handler';
 import { VerifiableCredential } from '@veramo/core';
 import { VerifiablePresentation } from '@veramo/core';
 

@@ -41,7 +41,7 @@ dbConnection:
         $require: daf-typeorm?t=object#Entities
 
 messageHandler:
-  $require: daf-message-handler#MessageHandler
+  $require: @veramo/message-handler#MessageHandler
   $args:
     - messageHandlers:
         - $require: @veramo/did-comm#DIDCommMessageHandler

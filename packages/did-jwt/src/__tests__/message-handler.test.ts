@@ -1,5 +1,5 @@
 import { DIDDocument } from '@veramo/core'
-import { Message } from 'daf-message-handler'
+import { Message } from '@veramo/message-handler'
 import { JwtMessageHandler, IContext } from '../message-handler'
 
 describe('@veramo/did-jwt', () => {

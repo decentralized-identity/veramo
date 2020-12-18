@@ -1,5 +1,5 @@
 import { IAgentContext, IResolver } from '@veramo/core'
-import { AbstractMessageHandler, Message } from 'daf-message-handler'
+import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'
 const debug = Debug('veramo:did-jwt:message-handler')
@@ -7,7 +7,7 @@ const debug = Debug('veramo:did-jwt:message-handler')
 export type IContext = IAgentContext<IResolver>
 
 /**
- * A plugin for {@link daf-message-handler#MessageHandler} that finds and verifies a JWT in a message
+ * A plugin for {@link @veramo/message-handler#MessageHandler} that finds and verifies a JWT in a message.
  * @public
  */
 export class JwtMessageHandler extends AbstractMessageHandler {

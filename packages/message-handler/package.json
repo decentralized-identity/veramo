@@ -1,7 +1,7 @@
 {
-  "name": "daf-message-handler",
-  "description": "DAF Message Handler",
-  "version": "7.0.0",
+  "name": "@veramo/message-handler",
+  "description": "Message Handler plugin for Veramo",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

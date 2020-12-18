@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbstractMessageHandler } from 'daf-message-handler';
+import { AbstractMessageHandler } from '@veramo/message-handler';
 import { IAgentContext } from '@veramo/core';
 import { IAgentPlugin } from '@veramo/core';
 import { IDIDManager } from '@veramo/core';
@@ -13,7 +13,7 @@ import { IMessage } from '@veramo/core';
 import { IMessageHandler } from '@veramo/core';
 import { IPluginMethodMap } from '@veramo/core';
 import { IResolver } from '@veramo/core';
-import { Message } from 'daf-message-handler';
+import { Message } from '@veramo/message-handler';
 
 // @beta
 export class DIDComm implements IAgentPlugin {

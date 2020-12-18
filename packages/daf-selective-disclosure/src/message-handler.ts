@@ -1,5 +1,5 @@
 import { IAgentContext, IMessageHandler } from '@veramo/core'
-import { Message, AbstractMessageHandler } from 'daf-message-handler'
+import { Message, AbstractMessageHandler } from '@veramo/message-handler'
 import { blake2bHex } from 'blakejs'
 
 import Debug from 'debug'

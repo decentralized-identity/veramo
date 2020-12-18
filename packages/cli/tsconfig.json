@@ -13,7 +13,7 @@
     { "path": "../did-manager" },
     { "path": "../key-manager" },
     { "path": "../kms-local" },
-    { "path": "../daf-message-handler" },
+    { "path": "../message-handler" },
     { "path": "../daf-resolver" },
     { "path": "../daf-rest" },
     { "path": "../daf-selective-disclosure" },

@@ -8,6 +8,6 @@
   "references": [
     { "path": "../core" },
     { "path": "../daf-resolver" },
-    { "path": "../daf-message-handler" }
+    { "path": "../message-handler" }
   ]
 }

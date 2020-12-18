@@ -1,4 +1,4 @@
-import { Message } from 'daf-message-handler'
+import { Message } from '@veramo/message-handler'
 import { UrlMessageHandler } from '../index'
 import fetchMock from 'jest-fetch-mock'
 import { IAgent } from '@veramo/core'

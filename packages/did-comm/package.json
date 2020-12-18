@@ -16,7 +16,7 @@
   "dependencies": {
     "cross-fetch": "^3.0.5",
     "@veramo/core": "^1.0.0",
-    "daf-message-handler": "^7.0.0",
+    "@veramo/message-handler": "^1.0.0",
     "debug": "^4.1.1",
     "uuid": "^8.3.0"
   },

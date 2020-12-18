@@ -8,7 +8,7 @@
   "references": [
     { "path": "../core" },
     { "path": "../did-jwt" },
-    { "path": "../daf-message-handler" },
+    { "path": "../message-handler" },
     { "path": "../daf-typeorm" },
     { "path": "../daf-w3c" }
   ]

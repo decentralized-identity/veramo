@@ -1,12 +1,12 @@
 import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core'
-import { AbstractMessageHandler, Message } from 'daf-message-handler'
+import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 const debug = Debug('veramo:did-comm:message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager>
 
 /**
- * A plugin for the {@link daf-message-handler#MessageHandler} that decrypts DIDComm messages
+ * A plugin for the {@link @veramo/message-handler#MessageHandler} that decrypts DIDComm messages.
  * @beta
  */
 export class DIDCommMessageHandler extends AbstractMessageHandler {

@@ -4,7 +4,7 @@ import { Message } from './message'
 export const unsupportedMessageTypeError = new Error('Unsupported message type')
 
 /**
- * An abstract class for creating {@link daf-message-handler#MessageHandler} plugins
+ * An abstract class for creating {@link @veramo/message-handler#MessageHandler} plugins
  * @public
  */
 export abstract class AbstractMessageHandler {
