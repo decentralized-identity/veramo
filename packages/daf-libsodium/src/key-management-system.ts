@@ -1,5 +1,5 @@
 import { TKeyType, IKey, EcdsaSignature } from '@veramo/core'
-import { AbstractKeyManagementSystem } from 'daf-key-manager'
+import { AbstractKeyManagementSystem } from '@veramo/key-manager'
 import sodium from 'libsodium-wrappers'
 import { SimpleSigner } from 'did-jwt'
 const EC = require('elliptic').ec

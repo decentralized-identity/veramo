@@ -5,8 +5,8 @@
 ```ts
 
 import { AbstractDIDStore } from '@veramo/did-manager';
-import { AbstractKeyStore } from 'daf-key-manager';
-import { AbstractSecretBox } from 'daf-key-manager';
+import { AbstractKeyStore } from '@veramo/key-manager';
+import { AbstractSecretBox } from '@veramo/key-manager';
 import { BaseEntity } from 'typeorm';
 import { Connection } from 'typeorm';
 import { IAgentPlugin } from '@veramo/core';
@@ -157,7 +157,7 @@ export class DIDStore extends AbstractDIDStore {
 }
 
 // @public (undocumented)
-export const Entities: (typeof Identifier | typeof Key | typeof Service | typeof Message | typeof Claim | typeof Credential_2 | typeof Presentation)[];
+export const Entities: (typeof Key | typeof Identifier | typeof Message | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Service)[];
 
 // @public (undocumented)
 export interface FindArgs<TColumns> {

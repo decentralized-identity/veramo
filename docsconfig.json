@@ -13,7 +13,7 @@
         "daf-url",
         "daf-w3c",
         "daf-web-did",
-        "daf-key-manager",
+        "key-manager",
         "did-manager",
         "daf-message-handler"
     ]

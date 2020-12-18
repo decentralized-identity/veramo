@@ -90,7 +90,7 @@ agent:
   $args:
     - schemaValidation: false
       plugins:
-        - $require: daf-key-manager#KeyManager
+        - $require: @veramo/key-manager#KeyManager
           $args:
             - store:
                 $require: daf-typeorm#KeyStore

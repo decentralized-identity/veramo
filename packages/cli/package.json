@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -b --watch",
-    "update-daf-beta": "yarn add @veramo/core@next daf-resolver@beta @veramo/did-jwt@next daf-w3c@beta @veramo/ethr-did@next daf-web-did@beta @veramo/did-comm@next daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta daf-key-manager@beta daf-message-handler@beta @veramo/did-manager@next daf-url@beta"
+    "update-daf-beta": "yarn add @veramo/core@next daf-resolver@beta @veramo/did-jwt@next daf-w3c@beta @veramo/ethr-did@next daf-web-did@beta @veramo/did-comm@next daf-libsodium@beta daf-selective-disclosure@beta daf-typeorm@beta @veramo/key-manager@next daf-message-handler@beta @veramo/did-manager@next daf-url@beta"
   },
   "dependencies": {
     "@microsoft/api-extractor": "7.12.1",
@@ -28,7 +28,7 @@
     "@veramo/ethr-did": "^1.0.0",
     "@veramo/express": "^1.0.0",
     "@veramo/did-manager": "^1.0.0",
-    "daf-key-manager": "^7.0.0",
+    "@veramo/key-manager": "^1.0.0",
     "daf-libsodium": "^7.0.0",
     "daf-message-handler": "^7.0.0",
     "daf-resolver": "^7.0.0",

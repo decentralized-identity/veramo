@@ -9,7 +9,7 @@ import {
   IAgentOptions,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/daf-message-handler/src'
-import { KeyManager } from '../packages/daf-key-manager/src'
+import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DafResolver } from '../packages/daf-resolver/src'

@@ -11,7 +11,7 @@
     { "path": "../ethr-did" },
     { "path": "../express" },
     { "path": "../did-manager" },
-    { "path": "../daf-key-manager" },
+    { "path": "../key-manager" },
     { "path": "../daf-libsodium" },
     { "path": "../daf-message-handler" },
     { "path": "../daf-resolver" },

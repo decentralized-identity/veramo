@@ -7,6 +7,6 @@
   "references": [
     { "path": "../core" },
     { "path": "../did-manager" },
-    { "path": "../daf-key-manager" }
+    { "path": "../key-manager" }
   ]
 }

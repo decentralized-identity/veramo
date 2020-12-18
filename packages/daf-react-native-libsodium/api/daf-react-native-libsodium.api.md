@@ -4,8 +4,8 @@
 
 ```ts
 
-import { AbstractKeyManagementSystem } from 'daf-key-manager';
-import { AbstractSecretBox } from 'daf-key-manager';
+import { AbstractKeyManagementSystem } from '@veramo/key-manager';
+import { AbstractSecretBox } from '@veramo/key-manager';
 import { EcdsaSignature } from '@veramo/core';
 import { IKey } from '@veramo/core';
 import { TKeyType } from '@veramo/core';

@@ -3,7 +3,7 @@
  * {@link daf-typeorm#DataStore | plugin} that implements {@link @veramo/core#IDataStore } interface.
  * {@link @veramo/core#Agent} {@link daf-typeorm#DataStoreORM | plugin} that implements
  * {@link daf-typeorm#IDataStoreORM} interface. Provides {@link daf-typeorm#KeyStore} for
- * {@link daf-key-manager#KeyManager} and {@link daf-typeorm#DIDStore} for {@link @veramo/did-manager#DIDManager}
+ * {@link @veramo/key-manager#KeyManager} and {@link daf-typeorm#DIDStore} for {@link @veramo/did-manager#DIDManager}
  *
  * @packageDocumentation
  */
