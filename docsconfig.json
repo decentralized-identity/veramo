@@ -10,7 +10,7 @@
         "remote-client",
         "selective-disclosure",
         "data-store",
-        "daf-url",
+        "url-handler",
         "daf-w3c",
         "daf-web-did",
         "key-manager",

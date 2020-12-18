@@ -19,7 +19,7 @@
   "testMatch": ["**/__tests__/**/*.test.*"],
   "globals": {
     "ts-jest": {
-      "tsConfig": "./packages/tsconfig.settings.json"
+      "tsconfig": "./packages/tsconfig.settings.json"
     }
   },
   "testEnvironment": "node",

@@ -1,7 +1,7 @@
 {
-  "name": "daf-url",
-  "description": "DAF plugin able to decode URL message validator.",
-  "version": "7.0.0",
+  "name": "@veramo/url-handler",
+  "description": "Veramo message handler plugin to decode URL messages.",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

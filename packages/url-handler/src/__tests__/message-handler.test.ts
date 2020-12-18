@@ -13,7 +13,7 @@ const context = {
   },
 }
 
-describe('daf-url', () => {
+describe('@veramo/url-handler', () => {
   const messageHandler = new UrlMessageHandler()
 
   it('should reject unknown message type', async () => {

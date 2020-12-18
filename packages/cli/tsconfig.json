@@ -18,7 +18,7 @@
     { "path": "../remote-client" },
     { "path": "../selective-disclosure" },
     { "path": "../data-store" },
-    { "path": "../daf-url" },
+    { "path": "../url-handler" },
     { "path": "../daf-w3c" },
     { "path": "../daf-web-did" }
   ]

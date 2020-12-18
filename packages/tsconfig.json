@@ -13,7 +13,7 @@
     { "path": "did-resolver" },
     { "path": "remote-client" },
     { "path": "selective-disclosure" },
-    { "path": "daf-url" },
+    { "path": "url-handler" },
     { "path": "data-store" },
     { "path": "daf-web-did" },
     { "path": "daf-w3c" }
