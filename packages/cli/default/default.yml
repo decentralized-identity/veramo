@@ -38,16 +38,16 @@ dbConnection:
       synchronize: true
       logging: false
       entities:
-        $require: @veramo/data-store?t=object#Entities
+        $require: '@veramo/data-store?t=object#Entities'
 
 messageHandler:
-  $require: @veramo/message-handler#MessageHandler
+  $require: '@veramo/message-handler#MessageHandler'
   $args:
     - messageHandlers:
-        - $require: @veramo/did-comm#DIDCommMessageHandler
-        - $require: @veramo/did-jwt#JwtMessageHandler
-        - $require: @veramo/credential-w3c#W3cMessageHandler
-        - $require: @veramo/selective-disclosure#SdrMessageHandler
+        - $require: '@veramo/did-comm#DIDCommMessageHandler'
+        - $require: '@veramo/did-jwt#JwtMessageHandler'
+        - $require: '@veramo/credential-w3c#W3cMessageHandler'
+        - $require: '@veramo/selective-disclosure#SdrMessageHandler'
 
 ethr-did-resolver:
   $require: ethr-did-resolver?t=function&p=/ethr#getResolver
@@ -71,7 +71,7 @@ web-did-resolver:
   $require: web-did-resolver?t=function&p=/web#getResolver
 
 universal-resolver:
-  $require: @veramo/did-resolver#UniversalResolver
+  $require: '@veramo/did-resolver#UniversalResolver'
   $args:
     - url: https://dev.uniresolver.io/1.0/identifiers/
 
@@ -86,32 +86,32 @@ resolver:
         $ref: /universal-resolver
 
 agent:
-  $require: @veramo/core#Agent
+  $require: '@veramo/core#Agent'
   $args:
     - schemaValidation: false
       plugins:
-        - $require: @veramo/key-manager#KeyManager
+        - $require: '@veramo/key-manager#KeyManager'
           $args:
             - store:
-                $require: @veramo/data-store#KeyStore
+                $require: '@veramo/data-store#KeyStore'
                 $args:
                   - $ref: /dbConnection
-                  - $require: @veramo/kms-local#SecretBox
+                  - $require: '@veramo/kms-local#SecretBox'
                     $args:
                       - $ref: /constants/secretKey
               kms:
                 local:
-                  $require: @veramo/kms-local#KeyManagementSystem
-        - $require: @veramo/did-manager#DIDManager
+                  $require: '@veramo/kms-local#KeyManagementSystem'
+        - $require: '@veramo/did-manager#DIDManager'
           $args:
             - store:
-                $require: @veramo/data-store#DIDStore
+                $require: '@veramo/data-store#DIDStore'
                 $args:
                   - $ref: /dbConnection
               defaultProvider: did:ethr:rinkeby
               providers:
                 did:ethr:
-                  $require: @veramo/did-provider-ethr#EthrDIDProvider
+                  $require: '@veramo/did-provider-ethr#EthrDIDProvider'
                   $args:
                     - defaultKms: local
                       network: mainnet
@@ -119,7 +119,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:ethr:rinkeby:
-                  $require: @veramo/did-provider-ethr#EthrDIDProvider
+                  $require: '@veramo/did-provider-ethr#EthrDIDProvider'
                   $args:
                     - defaultKms: local
                       network: rinkeby
@@ -127,7 +127,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:ethr:ropsten:
-                  $require: @veramo/did-provider-ethr#EthrDIDProvider
+                  $require: '@veramo/did-provider-ethr#EthrDIDProvider'
                   $args:
                     - defaultKms: local
                       network: ropsten
@@ -135,7 +135,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:ethr:kovan:
-                  $require: @veramo/did-provider-ethr#EthrDIDProvider
+                  $require: '@veramo/did-provider-ethr#EthrDIDProvider'
                   $args:
                     - defaultKms: local
                       network: kovan
@@ -143,7 +143,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:ethr:goerli:
-                  $require: @veramo/did-provider-ethr#EthrDIDProvider
+                  $require: '@veramo/did-provider-ethr#EthrDIDProvider'
                   $args:
                     - defaultKms: local
                       network: goerli
@@ -151,20 +151,20 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:web:
-                  $require: @veramo/did-provider-web#WebDIDProvider
+                  $require: '@veramo/did-provider-web#WebDIDProvider'
                   $args:
                     - defaultKms: local
-        - $require: @veramo/did-resolver#DIDResolverPlugin
+        - $require: '@veramo/did-resolver#DIDResolverPlugin'
           $args:
             - resolver:
                 $ref: /resolver
-        - $require: @veramo/data-store#DataStore
+        - $require: '@veramo/data-store#DataStore'
           $args:
             - $ref: /dbConnection
-        - $require: @veramo/data-store#DataStoreORM
+        - $require: '@veramo/data-store#DataStoreORM'
           $args:
             - $ref: /dbConnection
         - $ref: /messageHandler
-        - $require: @veramo/did-comm#DIDComm
-        - $require: @veramo/credential-w3c#CredentialIssuer
-        - $require: @veramo/selective-disclosure#SelectiveDisclosure
+        - $require: '@veramo/did-comm#DIDComm'
+        - $require: '@veramo/credential-w3c#CredentialIssuer'
+        - $require: '@veramo/selective-disclosure#SelectiveDisclosure'
