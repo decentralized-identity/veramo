@@ -14,7 +14,7 @@ import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'
-import { DafResolver } from '../packages/daf-resolver/src'
+import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c/src'
 import { EthrDIDProvider } from '../packages/ethr-did/src'
@@ -128,7 +128,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           }),
         },
       }),
-      new DafResolver({
+      new DIDResolverPlugin({
         resolver: new Resolver({
           ethr: ethrDidResolver({
             networks: [

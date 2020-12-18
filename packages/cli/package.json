@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -b --watch",
-    "update-daf-beta": "yarn add @veramo/core@next daf-resolver@beta @veramo/did-jwt@next daf-w3c@beta @veramo/ethr-did@next daf-web-did@beta @veramo/did-comm@next @veramo/kms-local@next daf-selective-disclosure@beta daf-typeorm@beta @veramo/key-manager@next @veramo/message-handler@next @veramo/did-manager@next daf-url@beta"
+    "update-daf-beta": "yarn add @veramo/core@next @veramo/did-resolver@next @veramo/did-jwt@next daf-w3c@beta @veramo/ethr-did@next daf-web-did@beta @veramo/did-comm@next @veramo/kms-local@next daf-selective-disclosure@beta daf-typeorm@beta @veramo/key-manager@next @veramo/message-handler@next @veramo/did-manager@next daf-url@beta"
   },
   "dependencies": {
     "@microsoft/api-extractor": "7.12.1",
@@ -31,7 +31,7 @@
     "@veramo/key-manager": "^1.0.0",
     "@veramo/kms-local": "^1.0.0",
     "@veramo/message-handler": "^1.0.0",
-    "daf-resolver": "^7.0.0",
+    "@veramo/did-resolver": "^1.0.0",
     "daf-rest": "^7.0.0",
     "daf-selective-disclosure": "^7.0.0",
     "daf-typeorm": "^7.0.0",

@@ -1,10 +1,10 @@
-import { DafResolver } from '../resolver'
+import { DIDResolverPlugin } from '../resolver'
 import { Resolver } from 'did-resolver'
 
-describe('daf-resolver', () => {
+describe('@veramo/did-resolver', () => {
   it('should throw error when misconfigured', () => {
     expect(() => {
-      new DafResolver({
+      new DIDResolverPlugin({
         //@ts-ignore
         resolver: undefined,
       })
@@ -12,7 +12,7 @@ describe('daf-resolver', () => {
   })
 
   it('should have resolve method', () => {
-    const resolver = new DafResolver({ resolver: new Resolver() })
+    const resolver = new DIDResolverPlugin({ resolver: new Resolver() })
     expect(resolver).toHaveProperty('resolveDid')
   })
 })

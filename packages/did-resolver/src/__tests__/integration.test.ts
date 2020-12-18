@@ -1,4 +1,4 @@
-import { DafResolver } from '../resolver'
+import { DIDResolverPlugin } from '../resolver'
 import { Resolver } from 'did-resolver'
 import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
@@ -26,9 +26,9 @@ let resolver: Resolver = new Resolver({
   elem: uniResolver,
 })
 
-let resolverPlugin: DafResolver = new DafResolver({ resolver })
+let resolverPlugin: DIDResolverPlugin = new DIDResolverPlugin({ resolver })
 
-describe('daf-resolver', () => {
+describe('@veramo/did-resolver', () => {
   beforeAll(() => {})
 
   it('should resolve web DID', async () => {

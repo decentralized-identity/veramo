@@ -7,7 +7,7 @@
   },
   "references": [
     { "path": "../core" },
-    { "path": "../daf-resolver" },
+    { "path": "../did-resolver" },
     { "path": "../message-handler" }
   ]
 }

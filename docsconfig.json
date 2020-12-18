@@ -6,7 +6,7 @@
         "ethr-did",
         "express",
         "kms-local",
-        "daf-resolver",
+        "did-resolver",
         "daf-rest",
         "daf-selective-disclosure",
         "daf-typeorm",

@@ -8,7 +8,7 @@ interface Options {
   resolver: Resolver
 }
 
-export class DafResolver implements IAgentPlugin {
+export class DIDResolverPlugin implements IAgentPlugin {
   readonly methods: IResolver
   readonly schema = schema.IResolver
   private didResolver: Resolver

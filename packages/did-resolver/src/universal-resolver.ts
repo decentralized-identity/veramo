@@ -8,7 +8,7 @@ interface Options {
 export class UniversalResolver {
   constructor(options: Options) {
     if (!options.url) {
-      throw Error('[daf-resolver] Universal: url required')
+      throw Error('[did-resolver] Universal: url required')
     }
 
     const resolve = async (didUrl: string): Promise<DIDDocument> => {

@@ -1,5 +1,5 @@
 // import SignerProvider from 'ethjs-provider-signer'
-// import { DafResolver } from 'daf-resolver'
+// import { DIDResolverPlugin } from '@veramo/did-resolver'
 // import { IdentifierProvider } from '../identifier-provider'
 // import { Identifier } from '../identifier'
 // import { createJWT, decodeJWT, verifyJWT } from 'did-jwt'
@@ -15,7 +15,7 @@ describe('dummy', () => {
 // describe('@veramo/ethr-did', () => {
 // const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 // const rpcUrl = 'https://rinkeby.infura.io/v3/' + infuraProjectId
-// const resolver = new DafResolver({ infuraProjectId })
+// const resolver = new DIDResolverPlugin({ infuraProjectId })
 // const key = {
 //   privateKey: 'da1ed1d75b6e3d28d306af4dcab9b893189cf248e52fe526e264b39b5e587ccf',
 //   publicKey: '',

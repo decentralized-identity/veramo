@@ -1,7 +1,7 @@
 {
-  "name": "daf-resolver",
-  "description": "DAF resolver plugin using in-process resolver modules.",
-  "version": "7.0.0",
+  "name": "@veramo/did-resolver",
+  "description": "A DID resolver plugin for Veramo",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

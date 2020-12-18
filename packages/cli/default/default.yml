@@ -71,7 +71,7 @@ web-did-resolver:
   $require: web-did-resolver?t=function&p=/web#getResolver
 
 universal-resolver:
-  $require: daf-resolver#UniversalResolver
+  $require: @veramo/did-resolver#UniversalResolver
   $args:
     - url: https://dev.uniresolver.io/1.0/identifiers/
 
@@ -154,7 +154,7 @@ agent:
                   $require: daf-web-did#WebDIDProvider
                   $args:
                     - defaultKms: local
-        - $require: daf-resolver#DafResolver
+        - $require: @veramo/did-resolver#DIDResolverPlugin
           $args:
             - resolver:
                 $ref: /resolver
