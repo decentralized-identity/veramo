@@ -1,0 +1,48 @@
+{
+  "name": "@veramo/data-store",
+  "description": "Veramo date storage based on TypeORM",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "IDataStoreORM": "./src/data-store-orm.ts"
+    }
+  },
+  "dependencies": {
+    "@veramo/core": "^1.0.0",
+    "@veramo/did-manager": "^1.0.0",
+    "@veramo/key-manager": "^1.0.0",
+    "debug": "^4.1.1",
+    "typeorm": "0.2.24"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "sqlite3": "^4.2.0",
+    "typescript": "^4.0.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "plugin.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}

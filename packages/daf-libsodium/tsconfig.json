@@ -1,9 +1,0 @@
-{
-  "extends": "../tsconfig.settings.json",
-  "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "build",
-    "declarationDir": "build"
-  },
-  "references": [{ "path": "../daf-core" }, { "path": "../daf-key-manager" }]
-}

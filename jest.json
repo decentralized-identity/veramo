@@ -4,8 +4,8 @@
   "collectCoverageFrom": [
     "packages/**/src/**/*.ts",
     "!**/examples/**",
-    "!packages/daf-cli/**",
-    "!packages/daf-react-native-libsodium/**",
+    "!packages/cli/**",
+    "!packages/kms-local-react-native/**",
     "!**/types/**",
     "!**/build/**",
     "!**/node_modules/**"
@@ -19,7 +19,7 @@
   "testMatch": ["**/__tests__/**/*.test.*"],
   "globals": {
     "ts-jest": {
-      "tsConfig": "./packages/tsconfig.settings.json"
+      "tsconfig": "./packages/tsconfig.settings.json"
     }
   },
   "testEnvironment": "node",

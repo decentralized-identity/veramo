@@ -1,4 +1,4 @@
-import { TAgent, IResolver, ValidationError, IAgentOptions } from '../../packages/daf-core/src'
+import { TAgent, IResolver, ValidationError, IAgentOptions } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IResolver>
 

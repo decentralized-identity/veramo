@@ -1,0 +1,70 @@
+version: 1.0
+server:
+  hostname: localhost
+  port: 3335
+  schemaPath: /open-api.json
+  apiBasePath: /agent
+  apiDocsPath: /api-docs
+  defaultDID:
+    create: true
+    messagingServiceEndpoint: /messaging
+  ngrok:
+    connect: true
+    # authtoken: XZY
+    # subdomain: alice-did
+    # region: eu
+  # exposedMethods:
+  #   - resolveDid
+  #   - dataStoreORMGetIdentifiers
+agent:
+  $require: '@veramo/core#Agent'
+  $args:
+    - schemaValidation: false
+      plugins:
+        - $require: '@veramo/remote-client#AgentRestClient'
+          $args:
+            - url: http://localhost:3332
+              # headers:
+              #   Authorization: Bearer API_KEY
+              enabledMethods:
+                - keyManagerGetKeyManagementSystems
+                - keyManagerCreate
+                - keyManagerGet
+                - keyManagerDelete
+                - keyManagerImport
+                - keyManagerEncryptJWE
+                - keyManagerDecryptJWE
+                - keyManagerSignJWT
+                - keyManagerSignEthTX
+                - didManagerGetProviders
+                - didManagerFind
+                - didManagerGet
+                - didManagerCreate
+                - didManagerGetOrCreate
+                - didManagerImport
+                - didManagerDelete
+                - didManagerAddKey
+                - didManagerRemoveKey
+                - didManagerAddService
+                - didManagerRemoveService
+                - resolveDid
+                - dataStoreSaveMessage
+                - dataStoreSaveVerifiableCredential
+                - dataStoreSaveVerifiablePresentation
+                - dataStoreORMGetIdentifiers
+                - dataStoreORMGetIdentifiersCount
+                - dataStoreORMGetMessages
+                - dataStoreORMGetMessagesCount
+                - dataStoreORMGetVerifiableCredentialsByClaims
+                - dataStoreORMGetVerifiableCredentialsByClaimsCount
+                - dataStoreORMGetVerifiableCredentials
+                - dataStoreORMGetVerifiableCredentialsCount
+                - dataStoreORMGetVerifiablePresentations
+                - dataStoreORMGetVerifiablePresentationsCount
+                - handleMessage
+                - sendMessageDIDCommAlpha1
+                - createVerifiablePresentation
+                - createVerifiableCredential
+                - createSelectiveDisclosureRequest
+                - getVerifiableCredentialsForSdr
+                - validatePresentationAgainstSdr

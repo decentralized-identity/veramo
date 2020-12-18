@@ -1,0 +1,40 @@
+{
+  "name": "@veramo/remote-client",
+  "description": "A remote client plugin for Veramo",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.5",
+    "@veramo/core": "^1.0.0",
+    "debug": "^4.1.1",
+    "openapi-types": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "typescript": "^4.0.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}
