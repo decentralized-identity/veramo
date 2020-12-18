@@ -30,7 +30,7 @@ import { Entities, KeyStore, DIDStore, IDataStoreORM, DataStore, DataStoreORM } 
 import { AgentRestClient } from '../packages/remote-client'
 import express from 'express'
 import { Server } from 'http'
-import { AgentRouter } from '../packages/express'
+import { AgentRouter } from '../packages/remote-server'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'

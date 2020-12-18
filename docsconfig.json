@@ -4,7 +4,7 @@
         "did-comm",
         "did-jwt",
         "ethr-did",
-        "express",
+        "remote-server",
         "kms-local",
         "did-resolver",
         "remote-client",

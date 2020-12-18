@@ -5,7 +5,7 @@
     { "path": "did-comm" },
     { "path": "did-jwt" },
     { "path": "ethr-did" },
-    { "path": "express" },
+    { "path": "remote-server" },
     { "path": "did-manager" },
     { "path": "key-manager" },
     { "path": "kms-local" },

@@ -5,7 +5,7 @@
  * ```typescript
  * import express from 'express'
  * import { agent } from './agent'
- * import { AgentRouter, ApiSchemaRouter, WebDidDocRouter } from '@veramo/express'
+ * import { AgentRouter, ApiSchemaRouter, WebDidDocRouter } from '@veramo/remote-server'
  *
  * const getAgentForRequest = async (req: express.Request) => agent
  * const exposedMethods = agent.availableMethods()

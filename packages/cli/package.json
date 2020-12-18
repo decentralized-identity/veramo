@@ -26,7 +26,7 @@
     "@veramo/did-comm": "^1.0.0",
     "@veramo/did-jwt": "^1.0.0",
     "@veramo/ethr-did": "^1.0.0",
-    "@veramo/express": "^1.0.0",
+    "@veramo/remote-server": "^1.0.0",
     "@veramo/did-manager": "^1.0.0",
     "@veramo/key-manager": "^1.0.0",
     "@veramo/kms-local": "^1.0.0",

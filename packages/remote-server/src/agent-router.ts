@@ -36,7 +36,7 @@ export const AgentRouter = (options: AgentRouterOptions): Router => {
   })
 
   for (const exposedMethod of options.exposedMethods) {
-    Debug('veramo:express:initializing')(exposedMethod)
+    Debug('veramo:remote-server:initializing')(exposedMethod)
 
     router.post('/' + exposedMethod, async (req: RequestWithAgent, res: Response, next: NextFunction) => {
       if (!req.agent) throw Error('Agent not available')
