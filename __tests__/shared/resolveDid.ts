@@ -1,4 +1,4 @@
-import { TAgent, IResolver, ValidationError, IAgentOptions } from '../../packages/core'
+import { TAgent, IResolver, ValidationError, IAgentOptions } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IResolver>
 

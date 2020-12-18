@@ -1,6 +1,6 @@
-import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/core'
-import { IDataStoreORM } from '../../packages/data-store'
-import { ICredentialIssuer } from '../../packages/credential-w3c'
+import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/core/src'
+import { IDataStoreORM } from '../../packages/data-store/src'
+import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 
