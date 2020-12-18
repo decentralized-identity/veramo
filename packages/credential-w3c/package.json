@@ -24,8 +24,8 @@
     "did-resolver": "2.1.2"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.5",
-    "typescript": "^4.0.3"
+    "@types/debug": "4.1.5",
+    "typescript": "4.1.3"
   },
   "files": [
     "build/**/*",
