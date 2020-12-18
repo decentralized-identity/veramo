@@ -9,7 +9,7 @@
     { "path": "../core" },
     { "path": "../did-jwt" },
     { "path": "../message-handler" },
-    { "path": "../daf-typeorm" },
+    { "path": "../data-store" },
     { "path": "../daf-w3c" }
   ]
 }

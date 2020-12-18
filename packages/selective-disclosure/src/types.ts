@@ -6,7 +6,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
-import { IDataStoreORM } from 'daf-typeorm'
+import { IDataStoreORM } from '@veramo/data-store'
 import { ICredentialIssuer } from 'daf-w3c'
 
 /**

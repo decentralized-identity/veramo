@@ -18,7 +18,7 @@ const inputFolders = [
   'packages/daf-w3c/api/',
   'packages/selective-disclosure/api/',
   'packages/did-comm/api/',
-  'packages/daf-typeorm/api/',
+  'packages/data-store/api/',
 ]
 
 if (!existsSync(resolve(outputFolder))) {
@@ -45,7 +45,7 @@ const agentPlugins: Record<string, Array<string>> = {
   'daf-w3c': ['ICredentialIssuer'],
   'selective-disclosure': ['ISelectiveDisclosure'],
   'did-comm': ['IDIDComm'],
-  'daf-typeorm': ['IDataStoreORM'],
+  'data-store': ['IDataStoreORM'],
 }
 
 interface RestMethod {

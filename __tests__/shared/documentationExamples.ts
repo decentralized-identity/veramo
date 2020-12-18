@@ -1,7 +1,7 @@
 import { TAgent, IDIDManager, IDataStore, IMessageHandler } from '../../packages/core'
 import { ICredentialIssuer } from '../../packages/daf-w3c'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure'
-import { IDataStoreORM } from '../../packages/daf-typeorm'
+import { IDataStoreORM } from '../../packages/data-store'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure

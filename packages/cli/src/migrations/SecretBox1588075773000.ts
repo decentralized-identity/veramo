@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
-import { Key } from 'daf-typeorm'
+import { Key } from '@veramo/data-store'
 import { SecretBox } from '@veramo/kms-local'
 
 export class SecretBox1588075773000 implements MigrationInterface {

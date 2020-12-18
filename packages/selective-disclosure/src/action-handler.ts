@@ -6,7 +6,7 @@ import {
   VerifiablePresentation,
   VerifiableCredential,
 } from '@veramo/core'
-import { IDataStoreORM, TClaimsColumns, FindArgs } from 'daf-typeorm'
+import { IDataStoreORM, TClaimsColumns, FindArgs } from '@veramo/data-store'
 import { ICredentialIssuer } from 'daf-w3c'
 import {
   ICredentialsForSdr,
@@ -88,7 +88,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
   /**
    * Gathers the required credentials necessary to fulfill a Selective Disclosure Request.
-   * It uses the {@link daf-typeorm#IDataStoreORM} plugin to query the local database for
+   * It uses the {@link @veramo/data-store#IDataStoreORM} plugin to query the local database for
    * the required credentials.
    *
    * @param args - Contains the Request to be fulfilled and the DID of the subject

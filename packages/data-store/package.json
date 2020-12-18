@@ -1,7 +1,7 @@
 {
-  "name": "daf-typeorm",
-  "description": "DAF TypeORM",
-  "version": "7.0.0",
+  "name": "@veramo/data-store",
+  "description": "Veramo date storage based on TypeORM",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

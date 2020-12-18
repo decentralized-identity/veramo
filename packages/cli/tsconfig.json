@@ -17,7 +17,7 @@
     { "path": "../did-resolver" },
     { "path": "../daf-rest" },
     { "path": "../selective-disclosure" },
-    { "path": "../daf-typeorm" },
+    { "path": "../data-store" },
     { "path": "../daf-url" },
     { "path": "../daf-w3c" },
     { "path": "../daf-web-did" }

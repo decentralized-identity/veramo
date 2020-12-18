@@ -1,5 +1,5 @@
 import { TAgent, IDataStore, IMessageHandler, IMessage } from '../../packages/core'
-import { IDataStoreORM } from '../../packages/daf-typeorm'
+import { IDataStoreORM } from '../../packages/data-store'
 
 type ConfiguredAgent = TAgent<IDataStore & IMessageHandler & IDataStoreORM>
 

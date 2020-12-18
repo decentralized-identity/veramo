@@ -115,7 +115,7 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
   await agent.dataStoreSaveMessage({ message: m4 })
 }
 
-describe('daf-typeorm entities', () => {
+describe('@veramo/data-store entities', () => {
   let dbConnection: Promise<Connection>
   const databaseFile = './test-db2.sqlite'
 

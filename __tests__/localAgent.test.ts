@@ -24,7 +24,7 @@ import {
   SdrMessageHandler,
 } from '../packages/selective-disclosure'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
-import { Entities, KeyStore, DIDStore, IDataStoreORM, DataStore, DataStoreORM } from '../packages/daf-typeorm'
+import { Entities, KeyStore, DIDStore, IDataStoreORM, DataStore, DataStoreORM } from '../packages/data-store'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'

@@ -14,7 +14,7 @@
     { "path": "daf-rest" },
     { "path": "selective-disclosure" },
     { "path": "daf-url" },
-    { "path": "daf-typeorm" },
+    { "path": "data-store" },
     { "path": "daf-web-did" },
     { "path": "daf-w3c" }
   ]

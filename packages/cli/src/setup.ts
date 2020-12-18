@@ -4,7 +4,7 @@ import { IDataStore, IDIDManager, IMessageHandler, IKeyManager, IResolver, TAgen
 import { ICredentialIssuer } from 'daf-w3c'
 import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
-import { IDataStoreORM } from 'daf-typeorm'
+import { IDataStoreORM } from '@veramo/data-store'
 const fs = require('fs')
 import { createAgentFromConfig } from './lib/agentCreator'
 

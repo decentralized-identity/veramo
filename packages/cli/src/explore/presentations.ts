@@ -1,6 +1,6 @@
 import blessed, { Widgets } from 'blessed'
 import { VerifiablePresentation } from '@veramo/core'
-import { UniqueVerifiablePresentation } from 'daf-typeorm'
+import { UniqueVerifiablePresentation } from '@veramo/data-store'
 import { shortDate, shortDid } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'

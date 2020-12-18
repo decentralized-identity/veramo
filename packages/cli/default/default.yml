@@ -38,7 +38,7 @@ dbConnection:
       synchronize: true
       logging: false
       entities:
-        $require: daf-typeorm?t=object#Entities
+        $require: @veramo/data-store?t=object#Entities
 
 messageHandler:
   $require: @veramo/message-handler#MessageHandler
@@ -93,7 +93,7 @@ agent:
         - $require: @veramo/key-manager#KeyManager
           $args:
             - store:
-                $require: daf-typeorm#KeyStore
+                $require: @veramo/data-store#KeyStore
                 $args:
                   - $ref: /dbConnection
                   - $require: @veramo/kms-local#SecretBox
@@ -105,7 +105,7 @@ agent:
         - $require: @veramo/did-manager#DIDManager
           $args:
             - store:
-                $require: daf-typeorm#DIDStore
+                $require: @veramo/data-store#DIDStore
                 $args:
                   - $ref: /dbConnection
               defaultProvider: did:ethr:rinkeby
@@ -158,10 +158,10 @@ agent:
           $args:
             - resolver:
                 $ref: /resolver
-        - $require: daf-typeorm#DataStore
+        - $require: @veramo/data-store#DataStore
           $args:
             - $ref: /dbConnection
-        - $require: daf-typeorm#DataStoreORM
+        - $require: @veramo/data-store#DataStoreORM
           $args:
             - $ref: /dbConnection
         - $ref: /messageHandler

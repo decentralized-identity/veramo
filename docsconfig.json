@@ -9,7 +9,7 @@
         "did-resolver",
         "daf-rest",
         "selective-disclosure",
-        "daf-typeorm",
+        "data-store",
         "daf-url",
         "daf-w3c",
         "daf-web-did",
