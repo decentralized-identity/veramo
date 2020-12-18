@@ -16,6 +16,8 @@ website/node_modules
 /packages/*/node_modules/
 coverage
 
+.npmrc
+
 npm-debug.log
 npm-debug.log*
 lerna-debug.log
