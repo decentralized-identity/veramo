@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -b --watch",
-    "update-daf-beta": "yarn add @veramo/core@next @veramo/did-resolver@next @veramo/did-jwt@next @veramo/credential-w3c@next @veramo/did-provider-ethr@next @veramo/did-provider-web@next @veramo/did-comm@next @veramo/kms-local@next @veramo/selective-disclosure@next @veramo/data-store@next @veramo/key-manager@next @veramo/message-handler@next @veramo/did-manager@next @veramo/url-handler@next"
+    "update-veramo-next": "yarn add @veramo/core@next @veramo/did-resolver@next @veramo/did-jwt@next @veramo/credential-w3c@next @veramo/did-provider-ethr@next @veramo/did-provider-web@next @veramo/did-comm@next @veramo/kms-local@next @veramo/selective-disclosure@next @veramo/data-store@next @veramo/key-manager@next @veramo/message-handler@next @veramo/did-manager@next @veramo/url-handler@next",
+    "update-veramo-latest": "yarn add @veramo/core@latest @veramo/did-resolver@latest @veramo/did-jwt@latest @veramo/credential-w3c@latest @veramo/did-provider-ethr@latest @veramo/did-provider-web@latest @veramo/did-comm@latest @veramo/kms-local@latest @veramo/selective-disclosure@latest @veramo/data-store@latest @veramo/key-manager@latest @veramo/message-handler@latest @veramo/did-manager@latest @veramo/url-handler@latest"
   },
   "dependencies": {
     "@microsoft/api-extractor": "7.12.1",

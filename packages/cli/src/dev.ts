@@ -120,8 +120,8 @@ dev
     const packageConfig = require(resolve(options.packageConfig))
     const interfaces: any = {}
 
-    for (const pluginInterfaceName in packageConfig.daf.pluginInterfaces) {
-      const entryFile = packageConfig.daf.pluginInterfaces[pluginInterfaceName]
+    for (const pluginInterfaceName in packageConfig.veramo.pluginInterfaces) {
+      const entryFile = packageConfig.veramo.pluginInterfaces[pluginInterfaceName]
       const api = {
         components: {
           schemas: {},

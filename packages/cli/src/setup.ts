@@ -11,7 +11,7 @@ import { createAgentFromConfig } from './lib/agentCreator'
 export const getConfig = (fileName: string): any => {
   if (!fs.existsSync(fileName)) {
     console.log('Config file not found: ' + fileName)
-    console.log('Use "daf create-config" to create one')
+    console.log('Use "veramo config create" to create one')
     process.exit(1)
   }
 

@@ -28,7 +28,7 @@ export class DIDStore extends AbstractDIDStore {
     } else if (did === undefined && alias !== undefined && provider !== undefined) {
       where = { alias, provider }
     } else {
-      throw Error('[daf:typeorm:identifier-store] Get requires did or (alias and provider)')
+      throw Error('[veramo:data-store:identifier-store] Get requires did or (alias and provider)')
     }
 
     const identifier = await (await this.dbConnection).getRepository(Identifier).findOne({

@@ -84,6 +84,14 @@ resolver:
         $ref: /web-did-resolver
       io:
         $ref: /universal-resolver
+      elem:
+        $ref: /universal-resolver
+      key:
+        $ref: /universal-resolver
+      ion:
+        $ref: /universal-resolver
+      sov:
+        $ref: /universal-resolver
 
 agent:
   $require: '@veramo/core#Agent'

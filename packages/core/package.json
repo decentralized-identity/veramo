@@ -8,7 +8,7 @@
     "build": "tsc",
     "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
   },
-  "daf": {
+  "veramo": {
     "pluginInterfaces": {
       "IResolver": "./src/types/IResolver.ts",
       "IKeyManager": "./src/types/IKeyManager.ts",
