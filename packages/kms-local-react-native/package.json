@@ -1,7 +1,7 @@
 {
   "name": "@veramo/kms-local-react-native",
   "description": "Veramo KMS implementation that provides Ed25519 and secp256k1 crypto for react-native env",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,9 +9,9 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
+    "@veramo/core": "^1.0.1",
+    "@veramo/key-manager": "^1.0.1",
     "base-58": "^0.0.1",
-    "@veramo/core": "^1.0.0",
-    "@veramo/key-manager": "^1.0.0",
     "debug": "^4.1.1",
     "did-jwt": "4.8.0",
     "elliptic": "^6.5.2",

@@ -1,7 +1,7 @@
 {
   "name": "@veramo/remote-client",
   "description": "A remote client plugin for Veramo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
+    "@veramo/core": "^1.0.1",
     "cross-fetch": "^3.0.5",
-    "@veramo/core": "^1.0.0",
     "debug": "^4.1.1",
     "openapi-types": "^7.0.0"
   },
