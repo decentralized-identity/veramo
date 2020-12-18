@@ -1389,15 +1389,15 @@
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
-"@microsoft/api-documenter@7.8.56":
-  version "7.8.56"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.8.56.tgz#501677ba556128667528dac9c9d5c9c541c83ec5"
-  integrity sha512-nf2hRScOib5O6kAi+gbnixWdmrpcpNxaiyzGh3P+hts6BpW1F2dgRSFpLT6cMZlCNjw6NrHA58XaLqc36QUltg==
+"@microsoft/api-documenter@7.12.1":
+  version "7.12.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.12.1.tgz#97a4eee87cbe775f363f7a1f46c57c57ae0bf6fd"
+  integrity sha512-biX5s/UX6KbqBW5GHEykJ0LM3sfb177lH/2nMp4C1pytqRKz4mmPkqWrHpvx7gpzOyDGj2qvzipDH5xK6LIJVg==
   dependencies:
-    "@microsoft/api-extractor-model" "7.9.7"
-    "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.33.6"
-    "@rushstack/ts-command-line" "4.6.10"
+    "@microsoft/api-extractor-model" "7.12.1"
+    "@microsoft/tsdoc" "0.12.24"
+    "@rushstack/node-core-library" "3.35.2"
+    "@rushstack/ts-command-line" "4.7.8"
     colors "~1.2.1"
     js-yaml "~3.13.1"
     resolve "~1.17.0"
