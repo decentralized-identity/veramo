@@ -12,7 +12,7 @@
     { "path": "../express" },
     { "path": "../did-manager" },
     { "path": "../key-manager" },
-    { "path": "../daf-libsodium" },
+    { "path": "../kms-local" },
     { "path": "../daf-message-handler" },
     { "path": "../daf-resolver" },
     { "path": "../daf-rest" },

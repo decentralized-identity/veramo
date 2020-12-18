@@ -96,12 +96,12 @@ agent:
                 $require: daf-typeorm#KeyStore
                 $args:
                   - $ref: /dbConnection
-                  - $require: daf-libsodium#SecretBox
+                  - $require: @veramo/kms-local#SecretBox
                     $args:
                       - $ref: /constants/secretKey
               kms:
                 local:
-                  $require: daf-libsodium#KeyManagementSystem
+                  $require: @veramo/kms-local#KeyManagementSystem
         - $require: @veramo/did-manager#DIDManager
           $args:
             - store:

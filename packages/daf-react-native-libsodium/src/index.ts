@@ -1,5 +1,7 @@
 /**
- * Provides {@link https://github.com/jedisct1/libsodium.js | libsodium} backed {@link daf-libsodium#KeyManagementSystem | key management system } and {@link daf-libsodium#SecretBox | secret box } for the {@link @veramo/key-manager#KeyManager}
+ * Provides {@link https://github.com/jedisct1/libsodium.js | libsodium} backed
+ * {@link @veramo/kms-local#KeyManagementSystem | key management system }
+ * and {@link @veramo/kms-local#SecretBox | secret box } for the {@link @veramo/key-manager#KeyManager}
  *
  * @packageDocumentation
  */

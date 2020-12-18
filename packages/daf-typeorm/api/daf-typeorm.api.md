@@ -157,7 +157,7 @@ export class DIDStore extends AbstractDIDStore {
 }
 
 // @public (undocumented)
-export const Entities: (typeof Key | typeof Identifier | typeof Message | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Service)[];
+export const Entities: (typeof Key | typeof Identifier | typeof Service | typeof Claim | typeof Credential_2 | typeof Presentation | typeof Message)[];
 
 // @public (undocumented)
 export interface FindArgs<TColumns> {

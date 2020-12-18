@@ -1,6 +1,6 @@
 import 'cross-fetch/polyfill'
 import program from 'commander'
-import { SecretBox } from 'daf-libsodium'
+import { SecretBox } from '@veramo/kms-local'
 const fs = require('fs')
 const { dirname } = require('path')
 

@@ -1,7 +1,7 @@
 {
-  "name": "daf-libsodium",
-  "description": "DAF KMS plugin using libsodium.",
-  "version": "7.0.0",
+  "name": "@veramo/kms-local",
+  "description": "Veramo KMS implementation that provides Ed25519 and secp256k1 crypto",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

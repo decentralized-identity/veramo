@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 import { Key } from 'daf-typeorm'
-import { SecretBox } from 'daf-libsodium'
+import { SecretBox } from '@veramo/kms-local'
 
 export class SecretBox1588075773000 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {

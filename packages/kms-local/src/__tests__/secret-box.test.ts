@@ -1,6 +1,6 @@
 import { SecretBox } from '../secret-box'
 
-describe('daf-libsodium', () => {
+describe('@veramo/kms-local', () => {
   it('should encrypt and decrypt', async () => {
     const secretKey = await SecretBox.createSecretKey()
     const box = new SecretBox(secretKey)

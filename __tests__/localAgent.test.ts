@@ -23,7 +23,7 @@ import {
   ISelectiveDisclosure,
   SdrMessageHandler,
 } from '../packages/daf-selective-disclosure/src'
-import { KeyManagementSystem, SecretBox } from '../packages/daf-libsodium/src'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import {
   Entities,
   KeyStore,
