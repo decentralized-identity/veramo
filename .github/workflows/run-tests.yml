@@ -38,7 +38,7 @@ jobs:
 
       - name: setup git coordinates
         run: |
-          git remote set-url origin https://uport-project:$GH_TOKEN@github.com/uport-project/daf.git
+          git remote set-url origin https://uport-project:$GH_TOKEN@github.com/uport-project/veramo.git
           git config user.name $GH_USER
           git config user.email $GH_EMAIL
 
