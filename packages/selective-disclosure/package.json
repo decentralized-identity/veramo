@@ -19,7 +19,7 @@
     "@veramo/did-jwt": "^1.0.0",
     "@veramo/message-handler": "^1.0.0",
     "@veramo/data-store": "^1.0.0",
-    "daf-w3c": "^7.0.0",
+    "@veramo/credential-w3c": "^1.0.0",
     "debug": "^4.1.1",
     "did-jwt": "4.8.0"
   },

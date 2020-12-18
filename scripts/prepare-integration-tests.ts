@@ -15,7 +15,7 @@ import {
 const outputFolder = './temp'
 const inputFolders = [
   'packages/core/api/',
-  'packages/daf-w3c/api/',
+  'packages/credential-w3c/api/',
   'packages/selective-disclosure/api/',
   'packages/did-comm/api/',
   'packages/data-store/api/',
@@ -42,7 +42,7 @@ const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
   core: ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
-  'daf-w3c': ['ICredentialIssuer'],
+  'credential-w3c': ['ICredentialIssuer'],
   'selective-disclosure': ['ISelectiveDisclosure'],
   'did-comm': ['IDIDComm'],
   'data-store': ['IDataStoreORM'],

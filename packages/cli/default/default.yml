@@ -46,7 +46,7 @@ messageHandler:
     - messageHandlers:
         - $require: @veramo/did-comm#DIDCommMessageHandler
         - $require: @veramo/did-jwt#JwtMessageHandler
-        - $require: daf-w3c#W3cMessageHandler
+        - $require: @veramo/credential-w3c#W3cMessageHandler
         - $require: @veramo/selective-disclosure#SdrMessageHandler
 
 ethr-did-resolver:
@@ -166,5 +166,5 @@ agent:
             - $ref: /dbConnection
         - $ref: /messageHandler
         - $require: @veramo/did-comm#DIDComm
-        - $require: daf-w3c#CredentialIssuer
+        - $require: @veramo/credential-w3c#CredentialIssuer
         - $require: @veramo/selective-disclosure#SelectiveDisclosure

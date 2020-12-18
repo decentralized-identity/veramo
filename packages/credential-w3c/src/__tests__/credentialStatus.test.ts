@@ -52,7 +52,7 @@ describe('did-comm', () => {
 //   },
 // }
 
-// describe('daf-w3c', () => {
+// describe('@veramo/credential-w3c', () => {
 //   // it('handles signing a presentation with credentialStatus', async () => {
 //   //   expect.assertions(1)
 

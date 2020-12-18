@@ -7,7 +7,7 @@ import {
   VerifiablePresentation,
 } from '@veramo/core'
 import { IDataStoreORM } from '@veramo/data-store'
-import { ICredentialIssuer } from 'daf-w3c'
+import { ICredentialIssuer } from '@veramo/credential-w3c'
 
 /**
  * Used for requesting Credentials using Selective Disclosure.

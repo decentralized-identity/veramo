@@ -2,20 +2,20 @@
   "files": [],
   "references": [
     { "path": "core" },
+    { "path": "credential-w3c" },
+    { "path": "data-store" },
     { "path": "did-comm" },
     { "path": "did-jwt" },
-    { "path": "did-provider-ethr" },
-    { "path": "remote-server" },
     { "path": "did-manager" },
+    { "path": "did-provider-ethr" },
+    { "path": "did-provider-web" },
+    { "path": "did-resolver" },
     { "path": "key-manager" },
     { "path": "kms-local" },
     { "path": "message-handler" },
-    { "path": "did-resolver" },
     { "path": "remote-client" },
+    { "path": "remote-server" },
     { "path": "selective-disclosure" },
-    { "path": "url-handler" },
-    { "path": "data-store" },
-    { "path": "did-provider-web" },
-    { "path": "daf-w3c" }
+    { "path": "url-handler" }
   ]
 }

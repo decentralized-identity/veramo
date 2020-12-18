@@ -1,20 +1,20 @@
 {
     "documentPackages": [
         "core",
+        "credential-w3c",
+        "data-store",
         "did-comm",
         "did-jwt",
-        "did-provider-ethr",
-        "remote-server",
-        "kms-local",
-        "did-resolver",
-        "remote-client",
-        "selective-disclosure",
-        "data-store",
-        "url-handler",
-        "daf-w3c",
-        "did-provider-web",
-        "key-manager",
         "did-manager",
-        "message-handler"
+        "did-provider-ethr",
+        "did-provider-web",
+        "did-resolver",
+        "key-manager",
+        "kms-local",
+        "message-handler",
+        "remote-client",
+        "remote-server",
+        "selective-disclosure",
+        "url-handler"
     ]
 }

@@ -7,7 +7,7 @@ import {
   VerifiableCredential,
 } from '@veramo/core'
 import { IDataStoreORM, TClaimsColumns, FindArgs } from '@veramo/data-store'
-import { ICredentialIssuer } from 'daf-w3c'
+import { ICredentialIssuer } from '@veramo/credential-w3c'
 import {
   ICredentialsForSdr,
   IPresentationValidationResult,

@@ -7,9 +7,9 @@
   },
   "references": [
     { "path": "../core" },
-    { "path": "../did-jwt" },
-    { "path": "../message-handler" },
+    { "path": "../credential-w3c" },
     { "path": "../data-store" },
-    { "path": "../daf-w3c" }
+    { "path": "../did-jwt" },
+    { "path": "../message-handler" }
   ]
 }

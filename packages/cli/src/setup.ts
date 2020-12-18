@@ -1,7 +1,7 @@
 import 'cross-fetch/polyfill'
 import yaml from 'yaml'
 import { IDataStore, IDIDManager, IMessageHandler, IKeyManager, IResolver, TAgent } from '@veramo/core'
-import { ICredentialIssuer } from 'daf-w3c'
+import { ICredentialIssuer } from '@veramo/credential-w3c'
 import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
 import { IDataStoreORM } from '@veramo/data-store'

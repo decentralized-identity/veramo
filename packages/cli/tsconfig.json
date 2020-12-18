@@ -19,7 +19,7 @@
     { "path": "../selective-disclosure" },
     { "path": "../data-store" },
     { "path": "../url-handler" },
-    { "path": "../daf-w3c" },
+    { "path": "../credential-w3c" },
     { "path": "../did-provider-web" }
   ]
 }

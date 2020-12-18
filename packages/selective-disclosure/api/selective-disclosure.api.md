@@ -7,7 +7,7 @@
 import { AbstractMessageHandler } from '@veramo/message-handler';
 import { IAgentContext } from '@veramo/core';
 import { IAgentPlugin } from '@veramo/core';
-import { ICredentialIssuer } from 'daf-w3c';
+import { ICredentialIssuer } from '@veramo/credential-w3c';
 import { IDataStoreORM } from '@veramo/data-store';
 import { IDIDManager } from '@veramo/core';
 import { IKeyManager } from '@veramo/core';

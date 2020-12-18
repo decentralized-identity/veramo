@@ -64,7 +64,7 @@ const context: IContext = {
 
 const w3c = new CredentialIssuer()
 
-describe('daf-w3c', () => {
+describe('@veramo/credential-w3c', () => {
   it('handles createVerifiableCredential', async () => {
     const credential: W3CCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
