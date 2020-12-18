@@ -5,7 +5,7 @@
     "packages/**/src/**/*.ts",
     "!**/examples/**",
     "!packages/cli/**",
-    "!packages/daf-react-native-libsodium/**",
+    "!packages/kms-local-react-native/**",
     "!**/types/**",
     "!**/build/**",
     "!**/node_modules/**"

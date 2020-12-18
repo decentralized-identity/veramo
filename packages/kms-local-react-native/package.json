@@ -1,7 +1,7 @@
 {
-  "name": "daf-react-native-libsodium",
-  "description": "DAF KMS plugin using react-native-sodium.",
-  "version": "7.0.0",
+  "name": "@veramo/kms-local-react-native",
+  "description": "Veramo KMS implementation that provides Ed25519 and secp256k1 crypto for react-native env",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
