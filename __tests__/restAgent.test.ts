@@ -9,28 +9,35 @@ import {
   IDataStore,
   IMessageHandler,
   IAgentOptions,
-} from '../packages/core'
-import { MessageHandler } from '../packages/message-handler'
-import { KeyManager } from '../packages/key-manager'
-import { DIDManager } from '../packages/did-manager'
+} from '../packages/core/src'
+import { MessageHandler } from '../packages/message-handler/src'
+import { KeyManager } from '../packages/key-manager/src'
+import { DIDManager } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'
-import { DIDResolverPlugin } from '../packages/did-resolver'
-import { JwtMessageHandler } from '../packages/did-jwt'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c'
-import { EthrDIDProvider } from '../packages/did-provider-ethr'
-import { WebDIDProvider } from '../packages/did-provider-web'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm'
+import { DIDResolverPlugin } from '../packages/did-resolver/src'
+import { JwtMessageHandler } from '../packages/did-jwt/src'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
+import { WebDIDProvider } from '../packages/did-provider-web/src'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
-} from '../packages/selective-disclosure'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
-import { Entities, KeyStore, DIDStore, IDataStoreORM, DataStore, DataStoreORM } from '../packages/data-store'
-import { AgentRestClient } from '../packages/remote-client'
+} from '../packages/selective-disclosure/src'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+import {
+  Entities,
+  KeyStore,
+  DIDStore,
+  IDataStoreORM,
+  DataStore,
+  DataStoreORM,
+} from '../packages/data-store/src'
+import { AgentRestClient } from '../packages/remote-client/src'
 import express from 'express'
 import { Server } from 'http'
-import { AgentRouter } from '../packages/remote-server'
+import { AgentRouter } from '../packages/remote-server/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
