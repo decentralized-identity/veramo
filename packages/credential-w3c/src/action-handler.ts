@@ -178,7 +178,7 @@ export type IContext = IAgentContext<
 >
 
 /**
- * A DAF plugin that implements the {@link ICredentialIssuer} methods.
+ * A Veramo plugin that implements the {@link ICredentialIssuer} methods.
  *
  * @public
  */

@@ -16,7 +16,7 @@ export const MessageTypes = {
 }
 
 /**
- * A DAF message handler plugin that can decode an incoming Selective Disclosure Response
+ * A Veramo message handler plugin that can decode an incoming Selective Disclosure Response
  * into the internal Message representation.
  *
  * @beta

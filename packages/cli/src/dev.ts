@@ -96,7 +96,7 @@ dev
   .option('-c, --extractorConfig <string>', 'API Extractor config file', './api-extractor.json')
   .option(
     '-p, --packageConfig <string>',
-    'package.json file containing DAF plugin interface config',
+    'package.json file containing a Veramo plugin interface config',
     './package.json',
   )
 

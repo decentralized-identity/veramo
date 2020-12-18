@@ -5,8 +5,8 @@ import { SecretBox } from '@veramo/kms-local'
 export class SecretBox1588075773000 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {
     const exists = await queryRunner.hasTable('key')
-    if (exists && process.env.DAF_SECRET_KEY) {
-      const secretBox = new SecretBox(process.env.DAF_SECRET_KEY)
+    if (exists && process.env.VERAMO_SECRET_KEY) {
+      const secretBox = new SecretBox(process.env.VERAMO_SECRET_KEY)
       const keys = await queryRunner.connection.getRepository(Key).find()
       for (const key of keys) {
         if (key.privateKeyHex) {
@@ -19,8 +19,8 @@ export class SecretBox1588075773000 implements MigrationInterface {
 
   async down(queryRunner: QueryRunner): Promise<void> {
     const exists = await queryRunner.hasTable('key')
-    if (exists && process.env.DAF_SECRET_KEY) {
-      const secretBox = new SecretBox(process.env.DAF_SECRET_KEY)
+    if (exists && process.env.VERAMO_SECRET_KEY) {
+      const secretBox = new SecretBox(process.env.VERAMO_SECRET_KEY)
       const keys = await queryRunner.connection.getRepository(Key).find()
       for (const key of keys) {
         if (key.privateKeyHex) {

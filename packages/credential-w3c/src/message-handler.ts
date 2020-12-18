@@ -13,7 +13,7 @@ import Debug from 'debug'
 const debug = Debug('veramo:w3c:message-handler')
 
 /**
- * These types are used by the DAF data store when storing Verifiable Credentials and Presentations
+ * These types are used by `@veramo/data-store` when storing Verifiable Credentials and Presentations
  *
  * @internal
  */
