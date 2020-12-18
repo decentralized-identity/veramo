@@ -27,7 +27,7 @@ import {
 } from '../packages/selective-disclosure'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
 import { Entities, KeyStore, DIDStore, IDataStoreORM, DataStore, DataStoreORM } from '../packages/data-store'
-import { AgentRestClient } from '../packages/daf-rest'
+import { AgentRestClient } from '../packages/remote-client'
 import express from 'express'
 import { Server } from 'http'
 import { AgentRouter } from '../packages/express'

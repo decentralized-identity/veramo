@@ -1,7 +1,7 @@
 {
-  "name": "daf-rest",
-  "description": "DAF REST",
-  "version": "7.0.0",
+  "name": "@veramo/remote-client",
+  "description": "A remote client plugin for Veramo",
+  "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

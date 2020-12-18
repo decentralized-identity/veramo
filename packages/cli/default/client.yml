@@ -21,7 +21,7 @@ agent:
   $args:
     - schemaValidation: false
       plugins:
-        - $require: daf-rest#AgentRestClient
+        - $require: @veramo/remote-client#AgentRestClient
           $args:
             - url: http://localhost:3332
               # headers:

@@ -1,6 +1,6 @@
 import { IAgent } from '@veramo/core'
 import { Request, Router } from 'express'
-import { getOpenApiSchema } from 'daf-rest'
+import { getOpenApiSchema } from '@veramo/remote-client'
 
 interface RequestWithAgent extends Request {
   agent?: IAgent

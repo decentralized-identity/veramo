@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@veramo/core": "^1.0.0",
-    "daf-rest": "^7.0.0",
+    "@veramo/remote-client": "^1.0.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {

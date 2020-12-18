@@ -15,7 +15,7 @@
     { "path": "../kms-local" },
     { "path": "../message-handler" },
     { "path": "../did-resolver" },
-    { "path": "../daf-rest" },
+    { "path": "../remote-client" },
     { "path": "../selective-disclosure" },
     { "path": "../data-store" },
     { "path": "../daf-url" },

@@ -290,7 +290,7 @@ export class Agent implements IAgent {
  * @example
  * ```typescript
  * import { createAgent, IResolver, IMessageHandler } from '@veramo/core'
- * import { AgentRestClient } from 'daf-rest'
+ * import { AgentRestClient } from '@veramo/remote-client'
  * import { CredentialIssuer, ICredentialIssuer } from 'daf-w3c'
  * const agent = createAgent<IResolver & IMessageHandler & ICredentialIssuer>({
  *   plugins: [

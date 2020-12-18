@@ -32,7 +32,7 @@
     "@veramo/kms-local": "^1.0.0",
     "@veramo/message-handler": "^1.0.0",
     "@veramo/did-resolver": "^1.0.0",
-    "daf-rest": "^7.0.0",
+    "@veramo/remote-client": "^1.0.0",
     "@veramo/selective-disclosure": "^1.0.0",
     "@veramo/data-store": "^1.0.0",
     "daf-url": "^7.0.0",

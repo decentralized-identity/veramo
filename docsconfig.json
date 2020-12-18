@@ -7,7 +7,7 @@
         "express",
         "kms-local",
         "did-resolver",
-        "daf-rest",
+        "remote-client",
         "selective-disclosure",
         "data-store",
         "daf-url",
