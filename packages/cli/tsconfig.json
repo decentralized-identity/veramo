@@ -6,20 +6,20 @@
   },
   "references": [
     { "path": "../core" },
+    { "path": "../credential-w3c" },
+    { "path": "../data-store" },
     { "path": "../did-comm" },
     { "path": "../did-jwt" },
-    { "path": "../did-provider-ethr" },
-    { "path": "../remote-server" },
     { "path": "../did-manager" },
+    { "path": "../did-provider-ethr" },
+    { "path": "../did-provider-web" },
+    { "path": "../did-resolver" },
     { "path": "../key-manager" },
     { "path": "../kms-local" },
     { "path": "../message-handler" },
-    { "path": "../did-resolver" },
+    { "path": "../remote-server" },
     { "path": "../remote-client" },
     { "path": "../selective-disclosure" },
-    { "path": "../data-store" },
-    { "path": "../url-handler" },
-    { "path": "../credential-w3c" },
-    { "path": "../did-provider-web" }
+    { "path": "../url-handler" }
   ]
 }
