@@ -7,31 +7,24 @@ import {
   IDataStore,
   IMessageHandler,
   IAgentOptions,
-} from '../packages/core/src'
-import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager } from '../packages/did-manager/src'
+} from '../packages/core'
+import { MessageHandler } from '../packages/message-handler'
+import { KeyManager } from '../packages/key-manager'
+import { DIDManager } from '../packages/did-manager'
 import { createConnection, Connection } from 'typeorm'
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c/src'
-import { EthrDIDProvider } from '../packages/ethr-did/src'
-import { WebDIDProvider } from '../packages/daf-web-did/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDResolverPlugin } from '../packages/did-resolver'
+import { JwtMessageHandler } from '../packages/did-jwt'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c'
+import { EthrDIDProvider } from '../packages/ethr-did'
+import { WebDIDProvider } from '../packages/daf-web-did'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm'
 import {
   SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
-} from '../packages/daf-selective-disclosure/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import {
-  Entities,
-  KeyStore,
-  DIDStore,
-  IDataStoreORM,
-  DataStore,
-  DataStoreORM,
-} from '../packages/daf-typeorm/src'
+} from '../packages/selective-disclosure'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
+import { Entities, KeyStore, DIDStore, IDataStoreORM, DataStore, DataStoreORM } from '../packages/daf-typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'

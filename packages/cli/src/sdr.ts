@@ -1,4 +1,4 @@
-import { ICredentialRequestInput } from 'daf-selective-disclosure'
+import { ICredentialRequestInput } from '@veramo/selective-disclosure'
 import { getAgent } from './setup'
 import program from 'commander'
 import inquirer from 'inquirer'

@@ -1,6 +1,6 @@
-import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/core/src'
-import { IDataStoreORM } from '../../packages/daf-typeorm/src'
-import { ICredentialIssuer } from '../../packages/daf-w3c/src'
+import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/core'
+import { IDataStoreORM } from '../../packages/daf-typeorm'
+import { ICredentialIssuer } from '../../packages/daf-w3c'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 

@@ -13,7 +13,7 @@ const context = {
   },
 }
 
-describe('daf-selective-disclosure-helper', () => {
+describe('@veramo/selective-disclosure-helper', () => {
   it('should validate presentation for sdr', async () => {
     const sdr: ISelectiveDisclosureRequest = {
       issuer: 'did:example:123',

@@ -2,7 +2,7 @@ import 'cross-fetch/polyfill'
 import yaml from 'yaml'
 import { IDataStore, IDIDManager, IMessageHandler, IKeyManager, IResolver, TAgent } from '@veramo/core'
 import { ICredentialIssuer } from 'daf-w3c'
-import { ISelectiveDisclosure } from 'daf-selective-disclosure'
+import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
 import { IDataStoreORM } from 'daf-typeorm'
 const fs = require('fs')

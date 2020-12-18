@@ -8,7 +8,7 @@
         "kms-local",
         "did-resolver",
         "daf-rest",
-        "daf-selective-disclosure",
+        "selective-disclosure",
         "daf-typeorm",
         "daf-url",
         "daf-w3c",

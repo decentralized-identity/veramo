@@ -16,7 +16,7 @@
     { "path": "../message-handler" },
     { "path": "../did-resolver" },
     { "path": "../daf-rest" },
-    { "path": "../daf-selective-disclosure" },
+    { "path": "../selective-disclosure" },
     { "path": "../daf-typeorm" },
     { "path": "../daf-url" },
     { "path": "../daf-w3c" },
