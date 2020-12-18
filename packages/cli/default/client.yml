@@ -17,11 +17,11 @@ server:
   #   - resolveDid
   #   - dataStoreORMGetIdentifiers
 agent:
-  $require: @veramo/core#Agent
+  $require: '@veramo/core#Agent'
   $args:
     - schemaValidation: false
       plugins:
-        - $require: @veramo/remote-client#AgentRestClient
+        - $require: '@veramo/remote-client#AgentRestClient'
           $args:
             - url: http://localhost:3332
               # headers:
