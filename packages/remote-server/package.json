@@ -1,0 +1,41 @@
+{
+  "name": "@veramo/remote-server",
+  "description": "Express.js module that can expose some agent methods and messaging endpoints",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
+  },
+  "dependencies": {
+    "@veramo/core": "^1.0.0",
+    "@veramo/remote-client": "^1.0.0",
+    "debug": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/express": "^4.17.6",
+    "express": "^4.17.1",
+    "typescript": "^4.0.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}

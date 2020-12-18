@@ -14,11 +14,11 @@ import {
 
 const outputFolder = './temp'
 const inputFolders = [
-  'packages/daf-core/api/',
-  'packages/daf-w3c/api/',
-  'packages/daf-selective-disclosure/api/',
-  'packages/daf-did-comm/api/',
-  'packages/daf-typeorm/api/',
+  'packages/core/api/',
+  'packages/credential-w3c/api/',
+  'packages/selective-disclosure/api/',
+  'packages/did-comm/api/',
+  'packages/data-store/api/',
 ]
 
 if (!existsSync(resolve(outputFolder))) {
@@ -41,11 +41,11 @@ for (const inputFolder of inputFolders) {
 const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
-  'daf-core': ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
-  'daf-w3c': ['ICredentialIssuer'],
-  'daf-selective-disclosure': ['ISelectiveDisclosure'],
-  'daf-did-comm': ['IDIDComm'],
-  'daf-typeorm': ['IDataStoreORM'],
+  core: ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
+  'credential-w3c': ['ICredentialIssuer'],
+  'selective-disclosure': ['ISelectiveDisclosure'],
+  'did-comm': ['IDIDComm'],
+  'data-store': ['IDataStoreORM'],
 }
 
 interface RestMethod {

@@ -1,0 +1,48 @@
+{
+  "name": "@veramo/did-comm",
+  "description": "Veramo DIDComm inspired messaging based on the v1 messaging envelope.",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "IDIDComm": "./src/action-handler.ts"
+    }
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.5",
+    "@veramo/core": "^1.0.0",
+    "@veramo/message-handler": "^1.0.0",
+    "debug": "^4.1.1",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/uuid": "^8.3.0",
+    "typescript": "^4.0.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "plugin.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}

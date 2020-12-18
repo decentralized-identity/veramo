@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "declarationDir": "build"
+  },
+  "references": [
+    { "path": "../core" },
+    { "path": "../credential-w3c" },
+    { "path": "../data-store" },
+    { "path": "../did-jwt" },
+    { "path": "../message-handler" }
+  ]
+}

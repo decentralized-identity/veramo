@@ -1,1 +1,0 @@
-# DAF DID Document resolver

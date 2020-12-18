@@ -1,20 +1,20 @@
 {
     "documentPackages": [
-        "daf-core",
-        "daf-did-comm",
-        "daf-did-jwt",
-        "daf-ethr-did",
-        "daf-express",
-        "daf-libsodium",
-        "daf-resolver",
-        "daf-rest",
-        "daf-selective-disclosure",
-        "daf-typeorm",
-        "daf-url",
-        "daf-w3c",
-        "daf-web-did",
-        "daf-key-manager",
-        "daf-identity-manager",
-        "daf-message-handler"
+        "core",
+        "credential-w3c",
+        "data-store",
+        "did-comm",
+        "did-jwt",
+        "did-manager",
+        "did-provider-ethr",
+        "did-provider-web",
+        "did-resolver",
+        "key-manager",
+        "kms-local",
+        "message-handler",
+        "remote-client",
+        "remote-server",
+        "selective-disclosure",
+        "url-handler"
     ]
 }

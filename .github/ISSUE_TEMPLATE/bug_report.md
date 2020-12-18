@@ -20,17 +20,19 @@ Steps to reproduce the behaviour:
 3. ...
 4. ...
 
+**Observed behaviour**
+A clear and concise description of what you observe.
+   
 **Expected behaviour**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Details**
+If applicable, add screenshots, error messages or stack traces to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.
 
 **Versions (please complete the following information):**
- - Daf: [e.g. 5.3]
+ - Veramo: [e.g. 1.3]
  - Browser [e.g. chrome, safari]
  - Node Version [e.g. 10]
- - Daf Mobile Version (if applicable)[e.g. 1.23.1]

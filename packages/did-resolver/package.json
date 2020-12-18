@@ -1,0 +1,42 @@
+{
+  "name": "@veramo/did-resolver",
+  "description": "A DID resolver plugin for Veramo",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.6",
+    "@veramo/core": "^1.0.0",
+    "debug": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "did-resolver": "^2.1.2",
+    "ethr-did-resolver": "^3.0.2",
+    "typescript": "^4.0.3",
+    "web-did-resolver": "^1.3.5"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}

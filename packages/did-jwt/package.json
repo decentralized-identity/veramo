@@ -1,0 +1,41 @@
+{
+  "name": "@veramo/did-jwt",
+  "description": "Veramo message validator plugin for decoding and verifying JWT payloads.",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
+  },
+  "dependencies": {
+    "@veramo/core": "^1.0.0",
+    "@veramo/message-handler": "^1.0.0",
+    "debug": "^4.1.1",
+    "did-jwt": "4.8.0",
+    "did-resolver": "2.1.2"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "typescript": "^4.0.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}

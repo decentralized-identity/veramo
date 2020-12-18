@@ -1,0 +1,51 @@
+{
+  "name": "@veramo/core",
+  "description": "Veramo Core Logic & Interfaces.",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "IResolver": "./src/types/IResolver.ts",
+      "IKeyManager": "./src/types/IKeyManager.ts",
+      "IDIDManager": "./src/types/IDIDManager.ts",
+      "IDataStore": "./src/types/IDataStore.ts",
+      "IMessageHandler": "./src/types/IMessageHandler.ts"
+    }
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "did-jwt-vc": "^1.0.3",
+    "events": "^3.0.0",
+    "z-schema": "^4.2.3"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "did-resolver": "2.1.2",
+    "typescript": "^4.0.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "plugin.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/daf.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}
