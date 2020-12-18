@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -b --watch",
-    "update-daf-beta": "yarn add @veramo/core@next @veramo/did-resolver@next @veramo/did-jwt@next daf-w3c@beta @veramo/ethr-did@next daf-web-did@beta @veramo/did-comm@next @veramo/kms-local@next @veramo/selective-disclosure@next @veramo/data-store@next @veramo/key-manager@next @veramo/message-handler@next @veramo/did-manager@next @veramo/url-handler@next"
+    "update-daf-beta": "yarn add @veramo/core@next @veramo/did-resolver@next @veramo/did-jwt@next daf-w3c@beta @veramo/did-provider-ethr@next @veramo/did-provider-web@next @veramo/did-comm@next @veramo/kms-local@next @veramo/selective-disclosure@next @veramo/data-store@next @veramo/key-manager@next @veramo/message-handler@next @veramo/did-manager@next @veramo/url-handler@next"
   },
   "dependencies": {
     "@microsoft/api-extractor": "7.12.1",
@@ -25,7 +25,7 @@
     "@veramo/core": "^1.0.0",
     "@veramo/did-comm": "^1.0.0",
     "@veramo/did-jwt": "^1.0.0",
-    "@veramo/ethr-did": "^1.0.0",
+    "@veramo/did-provider-ethr": "^1.0.0",
     "@veramo/remote-server": "^1.0.0",
     "@veramo/did-manager": "^1.0.0",
     "@veramo/key-manager": "^1.0.0",
@@ -37,7 +37,7 @@
     "@veramo/data-store": "^1.0.0",
     "@veramo/url-handler": "^1.0.0",
     "daf-w3c": "^7.0.0",
-    "daf-web-did": "^7.0.0",
+    "@veramo/did-provider-web": "^1.0.0",
     "date-fns": "^2.8.1",
     "debug": "^4.1.1",
     "did-resolver": "^2.1.2",

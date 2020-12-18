@@ -3,7 +3,7 @@
         "core",
         "did-comm",
         "did-jwt",
-        "ethr-did",
+        "did-provider-ethr",
         "remote-server",
         "kms-local",
         "did-resolver",
@@ -12,7 +12,7 @@
         "data-store",
         "url-handler",
         "daf-w3c",
-        "daf-web-did",
+        "did-provider-web",
         "key-manager",
         "did-manager",
         "message-handler"

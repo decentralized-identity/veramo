@@ -15,8 +15,8 @@ import { createConnection, Connection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver'
 import { JwtMessageHandler } from '../packages/did-jwt'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/daf-w3c'
-import { EthrDIDProvider } from '../packages/ethr-did'
-import { WebDIDProvider } from '../packages/daf-web-did'
+import { EthrDIDProvider } from '../packages/did-provider-ethr'
+import { WebDIDProvider } from '../packages/did-provider-web'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm'
 import {
   SelectiveDisclosure,

@@ -4,7 +4,7 @@
     { "path": "core" },
     { "path": "did-comm" },
     { "path": "did-jwt" },
-    { "path": "ethr-did" },
+    { "path": "did-provider-ethr" },
     { "path": "remote-server" },
     { "path": "did-manager" },
     { "path": "key-manager" },
@@ -15,7 +15,7 @@
     { "path": "selective-disclosure" },
     { "path": "url-handler" },
     { "path": "data-store" },
-    { "path": "daf-web-did" },
+    { "path": "did-provider-web" },
     { "path": "daf-w3c" }
   ]
 }

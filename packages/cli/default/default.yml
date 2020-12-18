@@ -111,7 +111,7 @@ agent:
               defaultProvider: did:ethr:rinkeby
               providers:
                 did:ethr:
-                  $require: @veramo/ethr-did#EthrDIDProvider
+                  $require: @veramo/did-provider-ethr#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: mainnet
@@ -119,7 +119,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:ethr:rinkeby:
-                  $require: @veramo/ethr-did#EthrDIDProvider
+                  $require: @veramo/did-provider-ethr#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: rinkeby
@@ -127,7 +127,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:ethr:ropsten:
-                  $require: @veramo/ethr-did#EthrDIDProvider
+                  $require: @veramo/did-provider-ethr#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: ropsten
@@ -135,7 +135,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:ethr:kovan:
-                  $require: @veramo/ethr-did#EthrDIDProvider
+                  $require: @veramo/did-provider-ethr#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: kovan
@@ -143,7 +143,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:ethr:goerli:
-                  $require: @veramo/ethr-did#EthrDIDProvider
+                  $require: @veramo/did-provider-ethr#EthrDIDProvider
                   $args:
                     - defaultKms: local
                       network: goerli
@@ -151,7 +151,7 @@ agent:
                       gas: 1000001
                       ttl: 31104001
                 did:web:
-                  $require: daf-web-did#WebDIDProvider
+                  $require: @veramo/did-provider-web#WebDIDProvider
                   $args:
                     - defaultKms: local
         - $require: @veramo/did-resolver#DIDResolverPlugin
