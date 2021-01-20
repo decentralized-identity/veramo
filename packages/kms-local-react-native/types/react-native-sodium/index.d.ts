@@ -89,15 +89,15 @@ declare module 'react-native-sodium' {
   export const crypto_aead_xchacha20poly1305_ietf_MESSAGEBYTES_MAX: number
   export const crypto_aead_xchacha20poly1305_ietf_NPUBBYTES: number
   export const crypto_aead_xchacha20poly1305_ietf_NSECBYTES: number
-  export const crypto_auth_BYTES: number
-  export const crypto_auth_KEYBYTES: number
+  // export const crypto_auth_BYTES: number
+  // export const crypto_auth_KEYBYTES: number
   export const crypto_box_BEFORENMBYTES: number
-  export const crypto_box_MACBYTES: number
+  // export const crypto_box_MACBYTES: number
   export const crypto_box_MESSAGEBYTES_MAX: number
-  export const crypto_box_NONCEBYTES: number
-  export const crypto_box_PUBLICKEYBYTES: number
-  export const crypto_box_SEALBYTES: number
-  export const crypto_box_SECRETKEYBYTES: number
+  // export const crypto_box_NONCEBYTES: number
+  // export const crypto_box_PUBLICKEYBYTES: number
+  // export const crypto_box_SEALBYTES: number
+  // export const crypto_box_SECRETKEYBYTES: number
   export const crypto_box_SEEDBYTES: number
   export const crypto_generichash_BYTES_MAX: number
   export const crypto_generichash_BYTES_MIN: number
@@ -114,33 +114,33 @@ declare module 'react-native-sodium' {
   export const crypto_kx_SECRETKEYBYTES: number
   export const crypto_kx_SEEDBYTES: number
   export const crypto_kx_SESSIONKEYBYTES: number
-  export const crypto_pwhash_ALG_ARGON2I13: number
-  export const crypto_pwhash_ALG_ARGON2ID13: number
-  export const crypto_pwhash_ALG_DEFAULT: number
+  // export const crypto_pwhash_ALG_ARGON2I13: number
+  // export const crypto_pwhash_ALG_ARGON2ID13: number
+  // export const crypto_pwhash_ALG_DEFAULT: number
   export const crypto_pwhash_BYTES_MAX: number
   export const crypto_pwhash_BYTES_MIN: number
   export const crypto_pwhash_MEMLIMIT_INTERACTIVE: number
-  export const crypto_pwhash_MEMLIMIT_MAX: number
-  export const crypto_pwhash_MEMLIMIT_MIN: number
-  export const crypto_pwhash_MEMLIMIT_MODERATE: number
+  // export const crypto_pwhash_MEMLIMIT_MAX: number
+  // export const crypto_pwhash_MEMLIMIT_MIN: number
+  // export const crypto_pwhash_MEMLIMIT_MODERATE: number
   export const crypto_pwhash_MEMLIMIT_SENSITIVE: number
   export const crypto_pwhash_OPSLIMIT_INTERACTIVE: number
-  export const crypto_pwhash_OPSLIMIT_MAX: number
-  export const crypto_pwhash_OPSLIMIT_MIN: number
-  export const crypto_pwhash_OPSLIMIT_MODERATE: number
+  // export const crypto_pwhash_OPSLIMIT_MAX: number
+  // export const crypto_pwhash_OPSLIMIT_MIN: number
+  // export const crypto_pwhash_OPSLIMIT_MODERATE: number
   export const crypto_pwhash_OPSLIMIT_SENSITIVE: number
   export const crypto_pwhash_PASSWD_MAX: number
   export const crypto_pwhash_PASSWD_MIN: number
-  export const crypto_pwhash_SALTBYTES: number
+  // export const crypto_pwhash_SALTBYTES: number
   export const crypto_pwhash_STR_VERIFY: number
   export const crypto_pwhash_STRBYTES: number
   export const crypto_pwhash_STRPREFIX: string
   export const crypto_scalarmult_BYTES: number
   export const crypto_scalarmult_SCALARBYTES: number
-  export const crypto_secretbox_KEYBYTES: number
-  export const crypto_secretbox_MACBYTES: number
+  // export const crypto_secretbox_KEYBYTES: number
+  // export const crypto_secretbox_MACBYTES: number
   export const crypto_secretbox_MESSAGEBYTES_MAX: number
-  export const crypto_secretbox_NONCEBYTES: number
+  // export const crypto_secretbox_NONCEBYTES: number
   export const crypto_secretstream_xchacha20poly1305_ABYTES: number
   export const crypto_secretstream_xchacha20poly1305_HEADERBYTES: number
   export const crypto_secretstream_xchacha20poly1305_KEYBYTES: number
@@ -151,11 +151,11 @@ declare module 'react-native-sodium' {
   export const crypto_secretstream_xchacha20poly1305_TAG_REKEY: number
   export const crypto_shorthash_BYTES: number
   export const crypto_shorthash_KEYBYTES: number
-  export const crypto_sign_BYTES: number
+  // export const crypto_sign_BYTES: number
   export const crypto_sign_MESSAGEBYTES_MAX: number
-  export const crypto_sign_PUBLICKEYBYTES: number
-  export const crypto_sign_SECRETKEYBYTES: number
-  export const crypto_sign_SEEDBYTES: number
+  // export const crypto_sign_PUBLICKEYBYTES: number
+  // export const crypto_sign_SECRETKEYBYTES: number
+  // export const crypto_sign_SEEDBYTES: number
   export const randombytes_SEEDBYTES: number
   export const SODIUM_LIBRARY_VERSION_MAJOR: number
   export const SODIUM_LIBRARY_VERSION_MINOR: number
