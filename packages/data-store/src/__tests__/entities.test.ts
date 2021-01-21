@@ -1,8 +1,7 @@
-import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 import { Credential, createCredentialEntity } from '../entities/credential'
-import { Presentation, createPresentationEntity } from '../entities/presentation'
-import { createConnection, Connection, In, Raw, FindConditions } from 'typeorm'
-import { Identifier, Key, Message, Claim } from '../index'
+import { createPresentationEntity } from '../entities/presentation'
+import { createConnection, Connection, In } from 'typeorm'
+import { Identifier, Message, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import fs from 'fs'
@@ -152,15 +151,13 @@ describe('veramo core', () => {
     expect(message?.presentations.length).toEqual(1)
     expect(message?.presentations[0].credentials.length).toEqual(1)
 
-    let where: FindConditions<Claim> = {}
-
-    where['issuer'] = In([did1])
-    where['subject'] = In([did2])
-    where['type'] = 'name'
-
     const claims = await Claim.find({
       relations: ['credential', 'credential.issuer', 'credential.subject'],
-      where,
+      where: {
+        issuer: In([did1]),
+        subject: In([did2]),
+        type: 'name'
+      },
     })
 
     expect(claims[0].type).toEqual('name')
