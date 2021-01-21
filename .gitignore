@@ -12,6 +12,7 @@ website/node_modules
 
 /packages/*/build/
 /packages/*/api/*.api.json
+/packages/*/api/*.api.md
 /packages/*/coverage/
 /packages/*/node_modules/
 coverage
