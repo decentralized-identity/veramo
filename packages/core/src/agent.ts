@@ -94,7 +94,7 @@ export class Agent implements IAgent {
 
   private schema: IAgentPluginSchema
   private schemaValidation: boolean
-  private context?: Record<string, any>
+  public readonly context?: Record<string, any>
   private protectedMethods = ['execute', 'availableMethods', 'emit']
 
   private readonly eventBus: EventEmitter = new EventEmitter()
