@@ -43,7 +43,7 @@
     "json-schema": "0.3.0",
     "lerna": "3.22.1",
     "lerna-changelog": "1.0.1",
-    "oas-resolver": "2.5.3",
+    "oas-resolver": "2.5.4",
     "openapi-types": "7.2.3",
     "prettier": "2.2.1",
     "pretty-quick": "3.1.0",
