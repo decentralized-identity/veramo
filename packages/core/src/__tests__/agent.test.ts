@@ -112,8 +112,8 @@ describe('core agent', () => {
       },
     })
 
-    expect(agent.context.name).toEqual('Agent name')
-    expect(agent.context.authorizedDid).toEqual('did:example:123')
+    expect(agent.context?.name).toEqual('Agent name')
+    expect(agent.context?.authorizedDid).toEqual('did:example:123')
   })
 
   it('context type should be optional', () => {
@@ -124,8 +124,8 @@ describe('core agent', () => {
       },
     })
 
-    expect(agent.context.name).toEqual('Agent name')
-    expect(agent.context.authorizedDid).toEqual('did:example:123')
+    expect(agent.context?.name).toEqual('Agent name')
+    expect(agent.context?.authorizedDid).toEqual('did:example:123')
   })
 
   it.todo('createAgent should return instance of Agent')

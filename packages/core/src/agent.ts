@@ -310,8 +310,8 @@ export class Agent implements IAgent {
  * @public
  */
 export function createAgent<T extends IPluginMethodMap, C = Record<string, any>>(
-  options: IAgentOptions & { context: C },
-): TAgent<T> & { context: C } {
+  options: IAgentOptions & { context?: C },
+): TAgent<T> & { context?: C } {
   //@ts-ignore
   return new Agent(options)
 }
