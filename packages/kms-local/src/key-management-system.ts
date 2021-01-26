@@ -1,7 +1,7 @@
 import { TKeyType, IKey, EcdsaSignature } from '@veramo/core'
 import { AbstractKeyManagementSystem } from '@veramo/key-manager'
 import sodium from 'libsodium-wrappers'
-import { SimpleSigner } from 'did-jwt'
+import { NaclSigner, SimpleSigner } from 'did-jwt'
 const EC = require('elliptic').ec
 const secp256k1 = new EC('secp256k1')
 import { DIDComm } from './didcomm'
@@ -72,9 +72,17 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return sign(transaction, '0x' + key.privateKeyHex)
   }
 
-  async signJWT({ key, data }: { key: IKey; data: string }): Promise<EcdsaSignature> {
+  async signJWT({ key, data }: { key: IKey; data: string }): Promise<EcdsaSignature | string> {
     if (!key.privateKeyHex) throw Error('No private key for kid: ' + key.kid)
-    const signer = SimpleSigner(key.privateKeyHex)
-    return (signer(data) as any) as EcdsaSignature
+
+    if (key.type === 'Ed25519') {
+      const signer = NaclSigner(key.privateKeyHex)
+      return (signer(data) as any) as string
+    } else if (key.type === 'Secp256k1') {
+      const signer = SimpleSigner(key.privateKeyHex)
+      return (signer(data) as any) as EcdsaSignature
+    } else {
+      throw Error('Cannot sign JWT with key of type ' + key.type)
+    }
   }
 }

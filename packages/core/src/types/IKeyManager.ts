@@ -164,7 +164,7 @@ export interface IKeyManager extends IPluginMethodMap {
   /**
    * Signs JWT
    */
-  keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature>
+  keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string>
 
   /** Signs Ethereum transaction */
   keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>

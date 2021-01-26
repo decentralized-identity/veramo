@@ -5,6 +5,6 @@ export abstract class AbstractKeyManagementSystem {
   abstract deleteKey(args: { kid: string }): Promise<boolean>
   abstract encryptJWE(args: { key: IKey; to: Omit<IKey, 'kms'>; data: string }): Promise<string>
   abstract decryptJWE(args: { key: IKey; data: string }): Promise<string>
-  abstract signJWT(args: { key: IKey; data: string }): Promise<EcdsaSignature>
+  abstract signJWT(args: { key: IKey; data: string }): Promise<EcdsaSignature | string>
   abstract signEthTX(args: { key: IKey; transaction: object }): Promise<string>
 }

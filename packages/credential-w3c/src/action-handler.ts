@@ -210,7 +210,7 @@ export class CredentialIssuer implements IAgentPlugin {
       //FIXME: if the identifier is not found, the error message should reflect that.
       const identifier = await context.agent.didManagerGet({ did: presentation.holder })
       //FIXME: `args` should allow picking a key or key type
-      const key = identifier.keys.find((k) => k.type === 'Secp256k1')
+      const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
@@ -246,13 +246,18 @@ export class CredentialIssuer implements IAgentPlugin {
       //FIXME: if the identifier is not found, the error message should reflect that.
       const identifier = await context.agent.didManagerGet({ did: credential.issuer.id })
       //FIXME: `args` should allow picking a key or key type
-      const key = identifier.keys.find((k) => k.type === 'Secp256k1')
+      const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
 
       debug('Signing VC with', identifier.did)
-      const jwt = await createVerifiableCredentialJwt(credential, { did: identifier.did, signer })
+      let alg = 'ES256K'
+      if (key.type === 'Ed25519') {
+        alg = 'EdDSA'
+      }
+
+      const jwt = await createVerifiableCredentialJwt(credential, { did: identifier.did, signer, alg })
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
       const verifiableCredential = normalizeCredential(jwt)

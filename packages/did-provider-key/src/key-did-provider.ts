@@ -23,11 +23,14 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: any },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-
     const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Ed25519' })
 
-    const methodSpecificId = Buffer.from(Multibase.encode('base58btc', 
-      Multicodec.addPrefix('ed25519-pub', Buffer.from(key.publicKeyHex, 'hex')))).toString()
+    const methodSpecificId = Buffer.from(
+      Multibase.encode(
+        'base58btc',
+        Multicodec.addPrefix('ed25519-pub', Buffer.from(key.publicKeyHex, 'hex')),
+      ),
+    ).toString()
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:key:' + methodSpecificId,
@@ -36,7 +39,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       services: [],
     }
     debug('Created', identifier.did)
-    return identifier    
+    return identifier
   }
 
   async deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean> {
@@ -51,6 +54,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider deleteIdentity not supported')
+    return { success: true }
   }
 
   async addService(
@@ -58,6 +62,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider addService not supported')
+    return { success: true }
   }
 
   async removeKey(
@@ -65,6 +70,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider removeKey not supported')
+    return { success: true }
   }
 
   async removeService(
@@ -72,5 +78,6 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider removeService not supported')
+    return { success: true }
   }
 }

@@ -106,7 +106,7 @@ export class KeyManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignJWT} */
-  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<EcdsaSignature> {
+  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.signJWT({ key, data })
