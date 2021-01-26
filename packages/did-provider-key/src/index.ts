@@ -1,5 +1,5 @@
 /**
- * Provides `did:web` {@link @veramo/did-provider-key#KeyDIDProvider | identifier provider } for the
+ * Provides `did:key` {@link @veramo/did-provider-key#KeyDIDProvider | identifier provider } for the
  * {@link @veramo/did-manager#DIDManager}
  *
  * @packageDocumentation
