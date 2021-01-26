@@ -1,5 +1,6 @@
-import { Agent } from '../agent'
+import { Agent, createAgent } from '../agent'
 import { IAgentPlugin } from '../types/IAgent'
+import { IResolver } from '../types/IResolver'
 
 describe('core agent', () => {
   it('should use plugin methods', async () => {
@@ -97,8 +98,22 @@ describe('core agent', () => {
       { foo: 'bar' },
       { agent, authorizedDid: 'did:example:123' },
     )
+  })
 
-    expect(agent.context?.authorizedDid).toEqual('did:example:123')
+  it('should be possible to define context type', () => {
+    interface IContext {
+      name: string
+      authorizedDid: string
+    }
+    const agent = createAgent<IResolver, IContext>({
+      context: {
+        name: 'Agent name',
+        authorizedDid: 'did:example:123',
+      },
+    })
+
+    expect(agent.context.name).toEqual('Agent name')
+    expect(agent.context.authorizedDid).toEqual('did:example:123')
   })
 
   it.todo('createAgent should return instance of Agent')
