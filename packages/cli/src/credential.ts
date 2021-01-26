@@ -12,7 +12,7 @@ credential
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const agent = getAgent(program.config)
+    const agent = getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
     if (identifiers.length === 0) {
       console.error('No dids')

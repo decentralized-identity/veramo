@@ -13,7 +13,7 @@ sdr
   .command('create', { isDefault: true })
   .description('create Selective Disclosure Request')
   .action(async (cmd) => {
-    const agent = getAgent(program.config)
+    const agent = getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
 
     const knownDids = await agent.dataStoreORMGetIdentifiers()
@@ -253,7 +253,7 @@ sdr
   .command('respond')
   .description('respond to Selective Disclosure Request')
   .action(async (cmd) => {
-    const agent = getAgent(program.config)
+    const agent = getAgent(program.opts().config)
     const sdrMessages = await agent.dataStoreORMGetMessages({
       where: [{ column: 'type', value: ['sdr'] }],
       order: [{ column: 'createdAt', direction: 'DESC' }],

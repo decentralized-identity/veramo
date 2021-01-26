@@ -97,6 +97,8 @@ describe('core agent', () => {
       { foo: 'bar' },
       { agent, authorizedDid: 'did:example:123' },
     )
+
+    expect(agent.context?.authorizedDid).toEqual('did:example:123')
   })
 
   it.todo('createAgent should return instance of Agent')

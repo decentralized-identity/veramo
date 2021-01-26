@@ -12,7 +12,7 @@ message
   .option('--save <boolean>', 'Save message', true)
 
   .action(async (options) => {
-    const agent = getAgent(program.config)
+    const agent = getAgent(program.opts().config)
     try {
       let raw
 

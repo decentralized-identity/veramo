@@ -1,0 +1,34 @@
+{
+  "extends": [
+    "config:base",
+    "group:allNonMajor"
+  ],
+  "labels": ["maintenance"],
+  "packageRules": [
+    {
+      "packagePatterns": [ "jest", "sinon", "codecov", "lint", "jsdoc", "bundle", "prettier", "webpack", "typescript", "@microsoft" ],
+      "groupName": "builders-and-testers",
+      "automerge": true,
+      "automergeType": "branch",
+      "schedule": ["before 5am"]
+    },
+    {
+      "packagePatterns": [ "semantic", "commitlint", "lerna" ],
+      "groupName": "automation",
+      "automerge": true,
+      "automergeType": "branch",
+      "schedule": ["before 5am"]
+    },
+    {
+      "depTypeList": ["devDependencies"],
+      "groupName": "devDeps",
+      "automerge": true,
+      "automergeType": "branch",
+      "schedule": ["before 5am"]
+    },
+    {
+      "updateTypes": ["minor", "patch"],
+      "automerge": true
+    }
+  ]
+}

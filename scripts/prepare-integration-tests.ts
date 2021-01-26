@@ -94,7 +94,7 @@ for (const packageName of Object.keys(agentPlugins)) {
         //@ts-ignore
         ?.getChildNodes()[0]?.text
 
-      method.example = methodSignature.tsdocComment?.customBlocks[0]?.content?.getChildNodes()[1] as DocFencedCode
+      method.example = (methodSignature.tsdocComment?.customBlocks[0]?.content?.getChildNodes()[1] as unknown) as DocFencedCode
 
       method.description = method.description || ''
 

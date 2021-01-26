@@ -26,8 +26,8 @@ program
   .action(async (cmd) => {
     const app = express()
     app.use(cors())
-    const agent = getAgent(program.config)
-    const { server: options } = createObjects(getConfig(program.config), { server: '/server' })
+    const agent = getAgent(program.opts().config)
+    const { server: options } = createObjects(getConfig(program.opts().config), { server: '/server' })
 
     /**
      * Ngrok configuration
