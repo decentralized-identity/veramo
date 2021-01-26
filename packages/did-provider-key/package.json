@@ -1,0 +1,36 @@
+{
+  "name": "@veramo/did-provider-key",
+  "description": "Veramo plugin that can enable creation and control of did:key identifiers.",
+  "version": "1.0.1",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
+  },
+  "dependencies": {
+    "@veramo/core": "^1.0.1",
+    "@veramo/did-manager": "^1.0.1",
+    "debug": "^4.1.1",
+    "multibase": "^3.1.1",
+    "multicodec": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.5",
+    "typescript": "4.1.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Oliver Terbu <oliver.terbu@mesh.xyz>",
+  "contributors": [],
+  "license": "Apache-2.0",
+  "keywords": []
+}
