@@ -116,6 +116,18 @@ describe('core agent', () => {
     expect(agent.context.authorizedDid).toEqual('did:example:123')
   })
 
+  it('context type should be optional', () => {
+    const agent = createAgent<IResolver>({
+      context: {
+        name: 'Agent name',
+        authorizedDid: 'did:example:123',
+      },
+    })
+
+    expect(agent.context.name).toEqual('Agent name')
+    expect(agent.context.authorizedDid).toEqual('did:example:123')
+  })
+
   it.todo('createAgent should return instance of Agent')
   it.todo('should throw an error on method exception')
   it.todo('should throw an error on invalid types of constructor params')
