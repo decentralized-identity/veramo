@@ -76,7 +76,11 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     if (!key.privateKeyHex) throw Error('No private key for kid: ' + key.kid)
 
     if (key.type === 'Ed25519') {
-      const signer = NaclSigner(key.privateKeyHex)
+      const b64Key = sodium.to_base64(
+        Uint8Array.from(Buffer.from(key.privateKeyHex, 'hex')),
+        sodium.base64_variants.ORIGINAL,
+      )
+      const signer = NaclSigner(b64Key)
       return (signer(data) as any) as string
     } else if (key.type === 'Secp256k1') {
       const signer = SimpleSigner(key.privateKeyHex)
