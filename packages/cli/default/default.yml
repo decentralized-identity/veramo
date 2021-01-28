@@ -162,6 +162,10 @@ agent:
                   $require: '@veramo/did-provider-web#WebDIDProvider'
                   $args:
                     - defaultKms: local
+                did:key:
+                  $require: '@veramo/did-provider-key#KeyDIDProvider'
+                  $args:
+                    - defaultKms: local
         - $require: '@veramo/did-resolver#DIDResolverPlugin'
           $args:
             - resolver:
