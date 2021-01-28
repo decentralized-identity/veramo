@@ -26,7 +26,6 @@
     "@veramo/did-manager": "^1.1.0",
     "@veramo/did-provider-ethr": "^1.1.0",
     "@veramo/did-provider-web": "^1.1.0",
-    "@veramo/did-provider-key": "^1.1.0",
     "@veramo/did-resolver": "^1.1.0",
     "@veramo/key-manager": "^1.1.0",
     "@veramo/kms-local": "^1.1.0",
