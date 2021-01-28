@@ -9,6 +9,8 @@ const debug = Debug('veramo:did-key:identifier-provider')
 type IContext = IAgentContext<IKeyManager>
 
 /**
+ * {@link @veramo/did-manager#DIDManager} identifier provider for `did:key` identifiers
+ *
  * @alpha
  */
 export class KeyDIDProvider extends AbstractIdentifierProvider {
@@ -54,7 +56,6 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider deleteIdentity not supported')
-    return { success: true }
   }
 
   async addService(
@@ -62,7 +63,6 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider addService not supported')
-    return { success: true }
   }
 
   async removeKey(
@@ -70,7 +70,6 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider removeKey not supported')
-    return { success: true }
   }
 
   async removeService(
@@ -78,6 +77,5 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider removeService not supported')
-    return { success: true }
   }
 }
