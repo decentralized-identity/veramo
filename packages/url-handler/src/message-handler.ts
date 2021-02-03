@@ -18,8 +18,20 @@ export class UrlMessageHandler extends AbstractMessageHandler {
           const url = message.raw
           debug('Fetching URL', url)
           const response = await fetch(url)
-          message.raw = await response.text()
-          message.addMetaData({ type: 'URL', value: url })
+          if (response?.url && response.url !== url) {
+            debug('Detected redirect URL')
+            const parsed2 = parse(response.url, {}, true)
+            if (parsed2 && parsed2.query && parsed2.query.c_i) {
+              message.raw = parsed2.query.c_i
+              message.addMetaData({ type: 'URL', value: parsed2.origin + parsed2.pathname })
+            } else {
+              message.raw = await response.text()
+              message.addMetaData({ type: 'URL', value: url })
+            }
+          } else {
+            message.raw = await response.text()
+            message.addMetaData({ type: 'URL', value: url })
+          }
         } catch (e) {
           console.log(e)
           debug(e.message)
