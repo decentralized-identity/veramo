@@ -51,7 +51,7 @@ describe('@veramo/url-handler', () => {
     fetchMock.mockResponse('mockbody', {
       counter: 1,
       url: 'https://some.other.site.example.com?c_i=asdf',
-    })
+    } as MockParams)
     expect.assertions(2)
 
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
