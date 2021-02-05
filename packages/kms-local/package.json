@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/debug": "4.1.5",
     "@types/ethjs-signer": "0.1.0",
-    "@types/libsodium-wrappers": "0.7.8",
+    "@types/libsodium-wrappers": "0.7.9",
     "typescript": "4.1.3"
   },
   "files": [
