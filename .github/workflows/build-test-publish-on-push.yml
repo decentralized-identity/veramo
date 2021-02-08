@@ -1,5 +1,11 @@
 name: Build, Test and Publish
-on: [push, workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+      - 'next'
+
 jobs:
   build-test-publish:
     env:
@@ -33,8 +39,6 @@ jobs:
       - run: yarn bootstrap
       - run: yarn build
       - run: yarn test:integration
-      - run: yarn lint
-      - run: npx codecov
 
       - name: setup git coordinates
         run: |
