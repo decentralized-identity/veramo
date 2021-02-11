@@ -40,3 +40,6 @@
 export { AgentRouter, AgentRouterOptions } from './agent-router'
 export { ApiSchemaRouter, ApiSchemaRouterOptions } from './api-schema-router'
 export { WebDidDocRouter, WebDidDocRouterOptions, didDocEndpoint } from './web-did-doc-router'
+export { getAgentForRequest } from './get-agent-for-request'
+export { apiKeyAuth } from './api-key-auth'
+export { RequestWithAgentRouter } from './request-agent-router'

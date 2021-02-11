@@ -11,7 +11,9 @@
   "dependencies": {
     "@veramo/core": "^1.1.0",
     "@veramo/remote-client": "^1.1.0",
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "passport": "^0.4.1",
+    "passport-http-bearer": "^1.0.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
