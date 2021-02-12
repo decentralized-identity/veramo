@@ -1,23 +1,7 @@
 import express from 'express'
-var cors = require('cors')
-import program, { addOption } from 'commander'
-import ngrok from 'ngrok'
-import parse from 'url-parse'
-import { AgentRouter, ApiSchemaRouter, WebDidDocRouter, didDocEndpoint } from '@veramo/remote-server'
-import swaggerUi from 'swagger-ui-express'
-import { getAgent, getConfig } from './setup'
+import program from 'commander'
+import { getConfig } from './setup'
 import { createObjects } from './lib/objectCreator'
-import passport from 'passport'
-import Bearer from 'passport-http-bearer'
-import { IIdentifier } from '@veramo/core'
-const exphbs = require('express-handlebars')
-const hbs = exphbs.create({
-  helpers: {
-    toJSON: function (obj: object) {
-      return JSON.stringify(obj, null, 2)
-    },
-  },
-})
 
 program
   .command('server')
@@ -30,7 +14,6 @@ program
 
     try {
       const config = createObjects(getConfig(program.opts().config), { server: '/server' })
-
       server = config.server
     } catch (e) {
       console.log(e.message)

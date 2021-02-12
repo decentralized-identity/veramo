@@ -10,9 +10,14 @@ export interface RequestWithAgent extends Request {
  */
 export interface RequestWithAgentRouterOptions {
   /**
-   * Function that returns configured agent for specific request
+   * Optional. Pre-configured agent
    */
-  getAgentForRequest: (req: Request) => Promise<IAgent>
+  agent?: IAgent
+
+  /**
+   * Optional. Function that returns a Promise that resolves to a configured agent for specific request
+   */
+  getAgentForRequest?: (req: Request) => Promise<IAgent>
 }
 
 /**
@@ -24,7 +29,13 @@ export interface RequestWithAgentRouterOptions {
 export const RequestWithAgentRouter = (options: RequestWithAgentRouterOptions): Router => {
   const router = Router()
   router.use(async (req: RequestWithAgent, res, next) => {
-    req.agent = await options.getAgentForRequest(req)
+    if (options.agent) {
+      req.agent = options.agent
+    } else if (options.getAgentForRequest) {
+      req.agent = await options.getAgentForRequest(req)
+    } else {
+      throw Error('[RequestWithAgentRouter] agent or getAgentForRequest is required')
+    }
     next()
   })
 

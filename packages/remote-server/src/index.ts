@@ -43,3 +43,4 @@ export { WebDidDocRouter, WebDidDocRouterOptions, didDocEndpoint } from './web-d
 export { getAgentForRequest } from './get-agent-for-request'
 export { apiKeyAuth } from './api-key-auth'
 export { RequestWithAgentRouter } from './request-agent-router'
+export { MessagingRouter } from './messaging-router'
