@@ -37,7 +37,7 @@ import {
 import { AgentRestClient } from '../packages/remote-client/src'
 import express from 'express'
 import { Server } from 'http'
-import { AgentRouter } from '../packages/remote-server/src'
+import { AgentRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -159,13 +159,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   })
 
   const agentRouter = AgentRouter({
-    getAgentForRequest: async (req) => serverAgent,
     exposedMethods: serverAgent.availableMethods(),
+  })
+
+  const requestWithAgent = RequestWithAgentRouter({
+    agent: serverAgent,
   })
 
   return new Promise((resolve) => {
     const app = express()
-    app.use(basePath, agentRouter)
+    app.use(basePath, requestWithAgent, agentRouter)
     restServer = app.listen(port, () => {
       resolve(true)
     })

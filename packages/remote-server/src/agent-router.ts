@@ -11,11 +11,6 @@ interface RequestWithAgent extends Request {
  */
 export interface AgentRouterOptions {
   /**
-   * Function that returns configured agent for specific request
-   */
-  getAgentForRequest: (req: Request) => Promise<IAgent>
-
-  /**
    * List of exposed methods
    */
   exposedMethods: Array<string>
