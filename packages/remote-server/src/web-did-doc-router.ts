@@ -55,11 +55,15 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
     return didDoc
   }
 
+  const getAliasForRequest = async (req: Request) => {
+    return encodeURIComponent(req.get('host') || req.hostname)
+  }
+
   router.get(didDocEndpoint, async (req: RequestWithAgentDIDManager, res) => {
     if (req.agent) {
       try {
         const serverIdentifier = await req.agent.didManagerGet({
-          did: 'did:web:' + req.hostname,
+          did: 'did:web:' + getAliasForRequest(req),
         })
         const didDoc = didDocForIdentifier(serverIdentifier)
         res.json(didDoc)
@@ -73,7 +77,7 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
     if (req.agent) {
       try {
         const identifier = await req.agent.didManagerGet({
-          did: 'did:web:' + req.hostname + ':' + req.params[0].replace('/', ':'),
+          did: 'did:web:' + getAliasForRequest(req) + ':' + req.params[0].replace('/', ':'),
         })
         const didDoc = didDocForIdentifier(identifier)
         res.json(didDoc)
