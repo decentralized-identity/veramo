@@ -6,22 +6,14 @@ interface RequestWithAgentDIDManager extends Request {
 }
 
 export const didDocEndpoint = '/.well-known/did.json'
-/**
- * @public
- */
-export interface WebDidDocRouterOptions {
-  /**
-   * Function that returns configured agent for specific request
-   */
-  getAgentForRequest: (req: Request) => Promise<TAgent<IDIDManager>>
-}
+
 /**
  * Creates a router that serves `did:web` DID Documents
  *
  * @param options - Initialization option
  * @returns Expressjs router
  */
-export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
+export const WebDidDocRouter = (): Router => {
   const router = Router()
 
   const didDocForIdentifier = (identifier: IIdentifier) => {

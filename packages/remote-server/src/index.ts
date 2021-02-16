@@ -39,8 +39,8 @@
 
 export { AgentRouter, AgentRouterOptions } from './agent-router'
 export { ApiSchemaRouter, ApiSchemaRouterOptions } from './api-schema-router'
-export { WebDidDocRouter, WebDidDocRouterOptions, didDocEndpoint } from './web-did-doc-router'
-export { getAgentForRequest } from './get-agent-for-request'
+export { WebDidDocRouter, didDocEndpoint } from './web-did-doc-router'
 export { apiKeyAuth } from './api-key-auth'
 export { RequestWithAgentRouter } from './request-agent-router'
 export { MessagingRouter } from './messaging-router'
+export { createDefaultDid } from './default-did'
