@@ -24,15 +24,6 @@ program
   .description('Launch OpenAPI server')
   .option('-p, --port <number>', 'Optionally set port to override config')
   .action(async (cmd) => {
-    const { version } = createObjects(getConfig(program.opts().config), {
-      version: '/version',
-    })
-
-    if (version !== 1) {
-      console.log('Unsupported configuration file version:', version)
-      process.exit(1)
-    }
-
     const app = express()
     app.use(cors())
     const agent = getAgent(program.opts().config)
