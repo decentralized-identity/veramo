@@ -1,4 +1,4 @@
-import { DIDDocument } from '@veramo/core'
+import { DIDDocument, DIDResolutionResult } from '@veramo/core'
 import { Message } from '@veramo/message-handler'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { IContext } from '../message-handler'
@@ -63,26 +63,25 @@ describe('@veramo/credential-w3c', () => {
       execute: jest.fn(),
       availableMethods: jest.fn(),
       emit: jest.fn(),
-      resolveDid: async (args?): Promise<DIDDocument> => {
+      resolveDid: async (args?): Promise<DIDResolutionResult> => {
         if (!args?.didUrl) throw Error('DID required')
 
         return {
-          '@context': 'https://w3id.org/did/v1',
-          id: args?.didUrl,
-          publicKey: [
-            {
-              id: `${args?.didUrl}#owner`,
-              type: 'Secp256k1VerificationKey2018',
-              controller: args?.didUrl,
-              ethereumAddress: args?.didUrl.slice(-42),
-            },
-          ],
-          authentication: [
-            {
-              type: 'Secp256k1SignatureAuthentication2018',
-              publicKey: `${args?.didUrl}#owner`,
-            },
-          ],
+          didResolutionMetadata: {},
+          didDocumentMetadata: {},
+          didDocument: {
+            '@context': 'https://w3id.org/did/v1',
+            id: args?.didUrl,
+            verificationMethod: [
+              {
+                id: `${args?.didUrl}#owner`,
+                type: 'EcdsaSecp256k1RecoveryMethod2020',
+                controller: args?.didUrl,
+                blockchainAccountId: `${args?.didUrl.slice(-42)}@eip155:1`,
+              },
+            ],
+            authentication: [`${args?.didUrl}#owner`],
+          },
         }
       },
     },

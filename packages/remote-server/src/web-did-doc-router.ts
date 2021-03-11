@@ -1,4 +1,4 @@
-import { IAgent, IIdentifier, IDIDManager, TAgent } from '@veramo/core'
+import { IIdentifier, IDIDManager, TAgent } from '@veramo/core'
 import { Request, Router } from 'express'
 
 interface RequestWithAgentDIDManager extends Request {
@@ -20,19 +20,13 @@ export const WebDidDocRouter = (): Router => {
     const didDoc = {
       '@context': 'https://w3id.org/did/v1',
       id: identifier.did,
-      publicKey: identifier.keys.map((key) => ({
+      verificationMethod: identifier.keys.map((key) => ({
         id: identifier.did + '#' + key.kid,
-        type: key.type === 'Secp256k1' ? 'Secp256k1VerificationKey2018' : 'Ed25519VerificationKey2018',
+        type: key.type === 'Secp256k1' ? 'EcdsaSecp256k1VerificationKey2019' : 'Ed25519VerificationKey2018',
         controller: identifier.did,
         publicKeyHex: key.publicKeyHex,
       })),
-      authentication: identifier.keys.map((key) => ({
-        type:
-          key.type === 'Secp256k1'
-            ? 'Secp256k1SignatureAuthentication2018'
-            : 'Ed25519SignatureAuthentication2018',
-        publicKey: identifier.did + '#' + key.kid,
-      })),
+      authentication: identifier.keys.map((key) => `${identifier.did}#${key.kid}`),
       service: identifier.services,
     }
 

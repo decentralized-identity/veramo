@@ -36,7 +36,7 @@ describe('did-comm', () => {
 //         publicKey: [
 //           {
 //             id: 'did:ethr:rinkeby:0x42ba71c59a22a037e54f8d5b13d7b3721daa18c3#owner',
-//             type: 'Secp256k1VerificationKey2018',
+//             type: 'EcdsaSecp256k1VerificationKey2019',
 //             owner: 'did:ethr:rinkeby:0x42ba71c59a22a037e54f8d5b13d7b3721daa18c3',
 //             ethereumAddress: '0x42ba71c59a22a037e54f8d5b13d7b3721daa18c3',
 //           },

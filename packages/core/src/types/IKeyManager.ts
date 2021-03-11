@@ -94,13 +94,7 @@ export interface IKeyManagerSignJWTArgs {
   /**
    * Data to sign
    */
-  data: string
-}
-
-export interface EcdsaSignature {
-  r: string
-  s: string
-  recoveryParam: 1
+  data: string | Uint8Array
 }
 
 /**
@@ -164,7 +158,7 @@ export interface IKeyManager extends IPluginMethodMap {
   /**
    * Signs JWT
    */
-  keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<EcdsaSignature | string>
+  keyManagerSignJWT(args: IKeyManagerSignJWTArgs): Promise<string>
 
   /** Signs Ethereum transaction */
   keyManagerSignEthTX(args: IKeyManagerSignEthTXArgs): Promise<string>

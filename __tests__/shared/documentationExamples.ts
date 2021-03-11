@@ -27,24 +27,21 @@ export default (testContext: {
       const doc = await agent.resolveDid({
         didUrl: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
       })
-
-      expect(doc).toEqual({
-        '@context': 'https://w3id.org/did/v1',
+      expect(doc.didDocument).toEqual({
+        '@context': [
+          'https://www.w3.org/ns/did/v1',
+          'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+        ],
         id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
-        publicKey: [
+        verificationMethod: [
           {
             id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
-            type: 'Secp256k1VerificationKey2018',
+            type: 'EcdsaSecp256k1RecoveryMethod2020',
             controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
-            ethereumAddress: '0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+            blockchainAccountId: '0xb09B66026bA5909A7CFE99b76875431D2b8D5190@eip155:4',
           },
         ],
-        authentication: [
-          {
-            type: 'Secp256k1SignatureAuthentication2018',
-            publicKey: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
-          },
-        ],
+        authentication: ['did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'],
       })
     })
 
