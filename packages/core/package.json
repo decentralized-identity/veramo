@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "did-jwt-vc": "^1.0.3",
+    "did-jwt-vc": "^2.0.0",
     "events": "^3.0.0",
     "z-schema": "^5.0.0"
   },

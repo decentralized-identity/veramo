@@ -4034,12 +4034,12 @@ dezalgo@^1.0.0, dezalgo@~1.0.3:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@^1.0.3:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-1.0.6.tgz#92a86ff2ce20e8aeb6e7ec044c75ae89c82f37b1"
-  integrity sha512-k0pYUfT9ivn8yBBayuSeHm0tRG7pRGRnYwrCSVWciFcxnfQK94QUoax9g7HQtvgyxqAWP0DQUTDK75zp1/wZ0g==
+did-jwt-vc@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.0.0.tgz#4ae18434d7673c14294f499d425e73f13d143355"
+  integrity sha512-LhwbNdgmsBLkraJJT8xmvavgK28bipLpo7Rkxnr1otMBLv6ZU3qf9eCG5ckXMzujJq3+LFKsYa6ZjzGOnTZSew==
   dependencies:
-    did-jwt "^4.4.2"
+    did-jwt "^5.0.1"
 
 did-jwt@4.8.1:
   version "4.8.1"
@@ -4057,7 +4057,7 @@ did-jwt@4.8.1:
     js-sha3 "^0.8.0"
     uint8arrays "^2.0.0"
 
-did-jwt@^4.4.2, did-jwt@^4.8.0:
+did-jwt@^4.8.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-4.8.0.tgz#b5d7727d264be52f5d576c6da38bee2cdc282199"
   integrity sha512-7Vwv+E6st0lETniq8ygr3BFv0Af7YOATw31aIiHP3TxIJf79DHLeplI5aHQI36leh7S+cusdWlNxTxTdAPr9/A==
@@ -4073,6 +4073,22 @@ did-jwt@^4.4.2, did-jwt@^4.8.0:
     js-sha3 "^0.8.0"
     uint8arrays "^1.1.0"
 
+did-jwt@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.0.1.tgz#4bdd4f500c3bcf70bc1f0e6252fb55ab88c87ab7"
+  integrity sha512-lGpAUUguGx5LSvCMkhXh8WKUprD9xMkKeo2ZPg91Eu7YLrf6W/U8nUqmjtQFHDPFN9rkpUcroFgIl5epiC/RoA==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@stablelib/ed25519" "^1.0.1"
+    "@stablelib/random" "^1.0.0"
+    "@stablelib/sha256" "^1.0.0"
+    "@stablelib/x25519" "^1.0.0"
+    "@stablelib/xchacha20poly1305" "^1.0.0"
+    did-resolver "^3.0.1"
+    elliptic "^6.5.3"
+    js-sha3 "^0.8.0"
+    uint8arrays "^2.0.0"
+
 did-resolver@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-2.1.1.tgz#43796f8a3e921644e5fb15a8147684ca87019cfd"
@@ -4082,6 +4098,11 @@ did-resolver@2.1.2, did-resolver@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-2.1.2.tgz#f1194fdbc087161809ce545e13c11a596f4a3928"
   integrity sha512-n4YGS1CzbX48U/ChLRY3SdgiV5N3B/+yh0ToS5t+Sx4QjhVZN6ZyijUSSYbFGvz+I4qImeSZOdo6RX8JaieN7A==
+
+did-resolver@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.0.1.tgz#b5e2b6ca9cced0790e7866101d58e72a96452585"
+  integrity sha512-Z81nHoCVgUqE3oV7ULVtaFawUC+4RKSfS/rbJYuAmWDyi2/2wXEJBmg21aZAd5/1xAeE7vwAdGfn3mXuRzCXEA==
 
 diff-sequences@^26.6.2:
   version "26.6.2"
