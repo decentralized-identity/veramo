@@ -4083,6 +4083,11 @@ did-resolver@2.1.2, did-resolver@^2.1.2:
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-2.1.2.tgz#f1194fdbc087161809ce545e13c11a596f4a3928"
   integrity sha512-n4YGS1CzbX48U/ChLRY3SdgiV5N3B/+yh0ToS5t+Sx4QjhVZN6ZyijUSSYbFGvz+I4qImeSZOdo6RX8JaieN7A==
 
+did-resolver@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.0.2.tgz#c44750b1b6536d8ea30298d1cfb3fba9eb97e5a9"
+  integrity sha512-1RpCnyjHrCNuUuMwJusuKtl9K7DX61uP3PHZ1qyKWflCBA9Tec+wrTDhJsCA3wQyWNRVfRn0tlhEn3z6tS53lg==
+
 diff-sequences@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-26.6.2.tgz#48ba99157de1923412eed41db6b6d4aa9ca7c0b1"
@@ -11356,13 +11361,21 @@ wcwidth@^1.0.0:
   dependencies:
     defaults "^1.0.3"
 
-web-did-resolver@1.3.5, web-did-resolver@^1.3.5:
+web-did-resolver@1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-1.3.5.tgz#1240a94530fa5194827856b8ff7957d00d11a7d7"
   integrity sha512-k+32CvrguvAwgvppYH0geMsmKJL1akuyWa3p5ArVON5swYvMb72e1yayM7XuPMwUW/6aZ2Z0HL14QkfvcIJRQw==
   dependencies:
     cross-fetch "^3.0.4"
     did-resolver "2.1.1"
+
+web-did-resolver@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.2.tgz#e9cab853a12e3c56ef64781ca08d639c24f66bb2"
+  integrity sha512-KBbvIBiLXUl5snf9UKLoUhhRpY3vCvy7xTyBGk9NZewBnxKN1LAikfCVufUY3aOWKZZY+8yW5bJEA6hHFkOpcw==
+  dependencies:
+    cross-fetch "^3.0.6"
+    did-resolver "^3.0.2"
 
 web-encoding@^1.0.2, web-encoding@^1.0.4:
   version "1.0.4"
