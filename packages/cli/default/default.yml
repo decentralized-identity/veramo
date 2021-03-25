@@ -176,9 +176,6 @@ ethr-did-resolver:
           rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
         - name: goerli
           rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-        - name: private
-          rpcUrl: http://localhost:8545/
-          registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
 
 web-did-resolver:
   $require: web-did-resolver?t=function&p=/web#getResolver
