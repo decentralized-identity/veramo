@@ -104,7 +104,7 @@ server:
     - - /open-api.json
       - $require: '@veramo/remote-server?t=function#ApiSchemaRouter'
         $args:
-          - basePath: /agent
+          - basePath: :3332/agent
             securityScheme: bearer
             apiName: Agent
             apiVersion: '1.0.0'
