@@ -8,12 +8,61 @@
             "didUrl": {
               "type": "string",
               "description": "DID URL"
+            },
+            "options": {
+              "$ref": "#/components/schemas/DIDResolutionOptions",
+              "description": "DID resolution options that will be passed to the method specific resolver. See: https://w3c.github.io/did-spec-registries/#did-resolution-input-metadata See: https://www.w3.org/TR/did-core/#did-resolution-options"
             }
           },
           "required": [
             "didUrl"
           ],
           "description": "Input arguments for {@link IResolver.resolveDid | resolveDid}"
+        },
+        "DIDResolutionOptions": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string"
+            }
+          }
+        },
+        "DIDResolutionResult": {
+          "type": "object",
+          "properties": {
+            "didResolutionMetadata": {
+              "$ref": "#/components/schemas/DIDResolutionMetadata"
+            },
+            "didDocument": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/DIDDocument"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "didDocumentMetadata": {
+              "$ref": "#/components/schemas/DIDDocumentMetadata"
+            }
+          },
+          "required": [
+            "didResolutionMetadata",
+            "didDocument",
+            "didDocumentMetadata"
+          ]
+        },
+        "DIDResolutionMetadata": {
+          "type": "object",
+          "properties": {
+            "contentType": {
+              "type": "string"
+            },
+            "error": {
+              "type": "string"
+            }
+          }
         },
         "DIDDocument": {
           "type": "object",
@@ -22,7 +71,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "const": "https://w3id.org/did/v1"
+                  "const": "https://www.w3.org/ns/did/v1"
                 },
                 {
                   "type": "string"
@@ -38,10 +87,29 @@
             "id": {
               "type": "string"
             },
-            "publicKey": {
+            "alsoKnownAs": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/PublicKey"
+                "type": "string"
+              }
+            },
+            "controller": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "verificationMethod": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerificationMethod"
               }
             },
             "authentication": {
@@ -52,29 +120,23 @@
                     "type": "string"
                   },
                   {
-                    "$ref": "#/components/schemas/PublicKey"
-                  },
-                  {
-                    "$ref": "#/components/schemas/Authentication"
+                    "$ref": "#/components/schemas/VerificationMethod"
                   }
                 ]
               }
             },
-            "uportProfile": {},
-            "service": {
+            "assertionMethod": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/ServiceEndpoint"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VerificationMethod"
+                  }
+                ]
               }
-            },
-            "created": {
-              "type": "string"
-            },
-            "updated": {
-              "type": "string"
-            },
-            "proof": {
-              "$ref": "#/components/schemas/LinkedDataProof"
             },
             "keyAgreement": {
               "type": "array",
@@ -84,19 +146,55 @@
                     "type": "string"
                   },
                   {
-                    "$ref": "#/components/schemas/PublicKey"
+                    "$ref": "#/components/schemas/VerificationMethod"
                   }
                 ]
+              }
+            },
+            "capabilityInvocation": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VerificationMethod"
+                  }
+                ]
+              }
+            },
+            "capabilityDelegation": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VerificationMethod"
+                  }
+                ]
+              }
+            },
+            "service": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ServiceEndpoint"
+              }
+            },
+            "publicKey": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerificationMethod"
               }
             }
           },
           "required": [
-            "@context",
-            "id",
-            "publicKey"
+            "id"
           ]
         },
-        "PublicKey": {
+        "VerificationMethod": {
           "type": "object",
           "properties": {
             "id": {
@@ -108,19 +206,60 @@
             "controller": {
               "type": "string"
             },
-            "ethereumAddress": {
-              "type": "string"
-            },
-            "publicKeyBase64": {
-              "type": "string"
-            },
             "publicKeyBase58": {
               "type": "string"
+            },
+            "publicKeyJwk": {
+              "type": "object",
+              "properties": {
+                "alg": {
+                  "type": "string"
+                },
+                "crv": {
+                  "type": "string"
+                },
+                "e": {
+                  "type": "string"
+                },
+                "ext": {
+                  "type": "boolean"
+                },
+                "key_ops": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "kid": {
+                  "type": "string"
+                },
+                "kty": {
+                  "type": "string"
+                },
+                "n": {
+                  "type": "string"
+                },
+                "use": {
+                  "type": "string"
+                },
+                "x": {
+                  "type": "string"
+                },
+                "y": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kty"
+              ]
             },
             "publicKeyHex": {
               "type": "string"
             },
-            "publicKeyPem": {
+            "blockchainAccountId": {
+              "type": "string"
+            },
+            "ethereumAddress": {
               "type": "string"
             }
           },
@@ -128,21 +267,6 @@
             "id",
             "type",
             "controller"
-          ]
-        },
-        "Authentication": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string"
-            },
-            "publicKey": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "publicKey"
           ]
         },
         "ServiceEndpoint": {
@@ -167,32 +291,34 @@
             "serviceEndpoint"
           ]
         },
-        "LinkedDataProof": {
+        "DIDDocumentMetadata": {
           "type": "object",
           "properties": {
-            "type": {
-              "type": "string"
-            },
             "created": {
               "type": "string"
             },
-            "creator": {
+            "updated": {
               "type": "string"
             },
-            "nonce": {
+            "deactivated": {
+              "type": "boolean"
+            },
+            "versionId": {
               "type": "string"
             },
-            "signatureValue": {
+            "nextUpdate": {
+              "type": "string"
+            },
+            "nextVersionId": {
+              "type": "string"
+            },
+            "equivalentId": {
+              "type": "string"
+            },
+            "canonicalId": {
               "type": "string"
             }
-          },
-          "required": [
-            "type",
-            "created",
-            "creator",
-            "nonce",
-            "signatureValue"
-          ]
+          }
         }
       },
       "methods": {
@@ -202,7 +328,7 @@
             "$ref": "#/components/schemas/ResolveDidArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/DIDDocument"
+            "$ref": "#/components/schemas/DIDResolutionResult"
           }
         }
       }
@@ -411,7 +537,54 @@
               "description": "Key ID"
             },
             "data": {
-              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "BYTES_PER_ELEMENT": {
+                      "type": "number"
+                    },
+                    "buffer": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "byteLength": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "byteLength"
+                          ]
+                        },
+                        {}
+                      ]
+                    },
+                    "byteLength": {
+                      "type": "number"
+                    },
+                    "byteOffset": {
+                      "type": "number"
+                    },
+                    "length": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "BYTES_PER_ELEMENT",
+                    "buffer",
+                    "byteLength",
+                    "byteOffset",
+                    "length"
+                  ],
+                  "additionalProperties": {
+                    "type": "number"
+                  }
+                }
+              ],
               "description": "Data to sign"
             }
           },
@@ -420,26 +593,6 @@
             "data"
           ],
           "description": "Input arguments for {@link IKeyManager.keyManagerSignJWT | keyManagerSignJWT}"
-        },
-        "EcdsaSignature": {
-          "type": "object",
-          "properties": {
-            "r": {
-              "type": "string"
-            },
-            "s": {
-              "type": "string"
-            },
-            "recoveryParam": {
-              "type": "number",
-              "const": 1
-            }
-          },
-          "required": [
-            "r",
-            "s",
-            "recoveryParam"
-          ]
         }
       },
       "methods": {
@@ -524,7 +677,7 @@
             "$ref": "#/components/schemas/IKeyManagerSignJWTArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/EcdsaSignature"
+            "type": "string"
           }
         }
       }

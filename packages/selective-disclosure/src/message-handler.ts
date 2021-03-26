@@ -26,12 +26,10 @@ export class SdrMessageHandler extends AbstractMessageHandler {
     const meta = message.getLastMetaData()
 
     if (
-      meta?.type === 'JWT' &&
-      meta?.value === 'ES256K-R' &&
       message.data.type == MessageTypes.sdr &&
       message.data.claims
     ) {
-      debug('JWT type is', MessageTypes.sdr)
+      debug('Message type is', MessageTypes.sdr)
 
       message.id = blake2bHex(message.raw)
       message.type = MessageTypes.sdr

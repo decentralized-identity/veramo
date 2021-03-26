@@ -79,7 +79,7 @@ export class DIDComm implements IAgentPlugin {
     const { data, url, headers, save = true } = args
 
     debug('Resolving didDoc')
-    const didDoc = await context.agent.resolveDid({ didUrl: data.to })
+    const didDoc = (await context.agent.resolveDid({ didUrl: data.to })).didDocument
     let serviceEndpoint
     if (url) {
       serviceEndpoint = url
@@ -96,7 +96,7 @@ export class DIDComm implements IAgentPlugin {
           const identifier = await context.agent.didManagerGet({ did: data.from })
           const key = identifier.keys.find((k) => k.type === 'Ed25519')
           if (!key) throw Error('No encryption key')
-          const publicKey = didDoc?.publicKey.find((item) => item.type == 'Ed25519VerificationKey2018')
+          const publicKey = didDoc?.publicKey?.find((item) => item.type == 'Ed25519VerificationKey2018')
           if (!publicKey?.publicKeyHex) throw Error('Recipient does not have encryption publicKey')
 
           postPayload = await context.agent.keyManagerEncryptJWE({

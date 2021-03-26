@@ -4,7 +4,6 @@ import {
   IKeyManager,
   IAgentPlugin,
   VerifiablePresentation,
-  VerifiableCredential,
 } from '@veramo/core'
 import { IDataStoreORM, TClaimsColumns, FindArgs } from '@veramo/data-store'
 import { ICredentialIssuer } from '@veramo/credential-w3c'
@@ -68,7 +67,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
       const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('Signing key not found')
-      const signer = (data: string) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
+      const signer = (data: string | Uint8Array) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       const jwt = await createJWT(
         {
           type: 'sdr',
@@ -76,7 +75,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
         },
         {
           signer,
-          alg: 'ES256K-R',
+          alg: 'ES256K',
           issuer: identifier.did,
         },
       )

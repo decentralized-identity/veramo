@@ -1,4 +1,4 @@
-import { DIDDocument } from '@veramo/core'
+import { DIDResolutionResult } from '@veramo/core'
 import { Message } from '@veramo/message-handler'
 import { JwtMessageHandler, IContext } from '../message-handler'
 
@@ -12,21 +12,25 @@ describe('@veramo/did-jwt', () => {
       execute: jest.fn(),
       availableMethods: jest.fn(),
       emit: jest.fn(),
-      resolveDid: async (args?): Promise<DIDDocument> => {
+      resolveDid: async (args?): Promise<DIDResolutionResult> => {
         if (!args?.didUrl) throw Error('DID required')
 
         return {
-          '@context': 'https://w3id.org/did/v1',
-          id: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
-          publicKey: [
-            {
-              id:
-                'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM#z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
-              type: 'Ed25519VerificationKey2018',
-              controller: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
-              publicKeyBase58: 'A12q688RGRdqshXhL9TW8QXQaX9H82ejU9DnqztLaAgy',
-            },
-          ],
+          didDocumentMetadata: {},
+          didResolutionMetadata: {},
+          didDocument: {
+            '@context': 'https://w3id.org/did/v1',
+            id: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
+            publicKey: [
+              {
+                id:
+                  'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM#z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
+                type: 'Ed25519VerificationKey2018',
+                controller: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
+                publicKeyBase58: 'A12q688RGRdqshXhL9TW8QXQaX9H82ejU9DnqztLaAgy',
+              },
+            ],
+          },
         }
       },
     },

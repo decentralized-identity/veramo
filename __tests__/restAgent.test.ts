@@ -130,16 +130,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ethr: ethrDidResolver({
-            networks: [
-              { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId },
-              { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId },
-              { name: 'ropsten', rpcUrl: 'https://ropsten.infura.io/v3/' + infuraProjectId },
-              { name: 'kovan', rpcUrl: 'https://kovan.infura.io/v3/' + infuraProjectId },
-              { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId },
-            ],
-          }).ethr,
-          web: webDidResolver().web,
+          ...ethrDidResolver({ infuraProjectId }),
+          ...webDidResolver(),
         }),
       }),
       new DataStore(dbConnection),

@@ -151,11 +151,11 @@ didResolver:
               $ref: /ethr-did-resolver
             web:
               $ref: /web-did-resolver
-            io:
+            key:
               $ref: /universal-resolver
             elem:
               $ref: /universal-resolver
-            key:
+            io:
               $ref: /universal-resolver
             ion:
               $ref: /universal-resolver

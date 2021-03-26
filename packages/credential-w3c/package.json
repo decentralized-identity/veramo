@@ -20,8 +20,8 @@
     "@veramo/message-handler": "^1.1.0",
     "blakejs": "^1.1.0",
     "debug": "^4.1.1",
-    "did-jwt-vc": "^1.0.3",
-    "did-resolver": "2.1.2"
+    "did-jwt-vc": "2.0.2",
+    "did-resolver": "3.1.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
