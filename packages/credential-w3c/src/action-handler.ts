@@ -72,6 +72,12 @@ export interface ICreateVerifiablePresentationArgs {
    * Currently, only JWT is supported
    */
   proofFormat: EncodingFormat
+
+  /**
+   * Remove payload members during JWT-JSON transformation. Defaults to `true`.
+   * See https://www.w3.org/TR/vc-data-model/#jwt-encoding
+   */
+  removeOriginalFields?: boolean
 }
 
 /**
@@ -119,6 +125,12 @@ export interface ICreateVerifiableCredentialArgs {
    * Currently, only JWT is supported
    */
   proofFormat: EncodingFormat
+
+  /**
+   * Remove payload members during JWT-JSON transformation. Defaults to `true`.
+   * See https://www.w3.org/TR/vc-data-model/#jwt-encoding
+   */
+  removeOriginalFields?: boolean
 }
 
 /**
@@ -215,7 +227,11 @@ export class CredentialIssuer implements IAgentPlugin {
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       const signer = (data: string | Uint8Array) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       debug('Signing VP with', identifier.did)
-      const jwt = await createVerifiablePresentationJwt(presentation, { did: identifier.did, signer })
+      const jwt = await createVerifiablePresentationJwt(
+        presentation,
+        { did: identifier.did, signer },
+        { removeOriginalFields: args.removeOriginalFields },
+      )
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
       const verifiablePresentation = normalizePresentation(jwt)
@@ -256,8 +272,11 @@ export class CredentialIssuer implements IAgentPlugin {
       if (key.type === 'Ed25519') {
         alg = 'EdDSA'
       }
-
-      const jwt = await createVerifiableCredentialJwt(credential, { did: identifier.did, signer, alg })
+      const jwt = await createVerifiableCredentialJwt(
+        credential,
+        { did: identifier.did, signer, alg },
+        { removeOriginalFields: args.removeOriginalFields },
+      )
       //FIXME: flagging this as a potential privacy leak.
       debug(jwt)
       const verifiableCredential = normalizeCredential(jwt)
