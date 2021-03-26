@@ -13,7 +13,7 @@
     "@veramo/did-manager": "^1.0.1",
     "debug": "^4.1.1",
     "multibase": "^4.0.0",
-    "multicodec": "^2.1.0"
+    "multicodec": "^3.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
