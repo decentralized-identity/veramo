@@ -62,6 +62,8 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       keys: [key],
       services: [],
     }
+
+    console.log(`Created (long version): ${ await did.getURI() }`)
     debug('Created', identifier.did)
     return identifier
   }
