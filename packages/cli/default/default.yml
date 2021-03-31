@@ -257,6 +257,10 @@ didManager:
           $require: '@veramo/did-provider-web#WebDIDProvider'
           $args:
             - defaultKms: local
+        did:ion:
+          $require: '@veramo/did-provider-ion#IonDIDProvider'
+          $args:
+            - defaultKms: local
 
 # Agent
 agent:
