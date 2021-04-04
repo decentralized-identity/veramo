@@ -52,7 +52,7 @@
     "inquirer-autocomplete-prompt": "^1.2.0",
     "json-schema": "^0.3.0",
     "jsonpointer": "^4.1.0",
-    "ngrok": "^3.3.0",
+    "ngrok": "^4.0.0",
     "oas-resolver": "^2.5.2",
     "openapi-types": "^7.0.1",
     "passport": "^0.4.1",
