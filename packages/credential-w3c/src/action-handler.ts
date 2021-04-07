@@ -21,6 +21,10 @@ import {
   PresentationPayload,
 } from 'did-jwt-vc'
 
+import * as jsigs from 'jsonld-signatures'
+import * as ed25519 from '@stablelib/ed25519'
+import documentLoaders from 'jsonld'
+
 import { schema } from './'
 
 import Debug from 'debug'
@@ -29,11 +33,11 @@ const debug = Debug('veramo:w3c:action-handler')
 /**
  * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
  *
- * Only `jwt` is supported at the moment.
+ * Only `jwt` and `lds` is supported at the moment.
  *
  * @public
  */
-export type EncodingFormat = 'jwt' // | "json" | "json-ld"
+export type ProofFormat = 'jwt' | 'lds'
 
 /**
  * Encapsulates the parameters required to create a
@@ -63,7 +67,7 @@ export interface ICreateVerifiablePresentationArgs {
    * The desired format for the VerifiablePresentation to be created.
    * Currently, only JWT is supported
    */
-  proofFormat: EncodingFormat
+  proofFormat: ProofFormat
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -100,7 +104,7 @@ export interface ICreateVerifiableCredentialArgs {
    * The desired format for the VerifiablePresentation to be created.
    * Currently, only JWT is supported
    */
-  proofFormat: EncodingFormat
+  proofFormat: ProofFormat
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -162,8 +166,46 @@ export type IContext = IAgentContext<
   IResolver &
     Pick<IDIDManager, 'didManagerGet'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerSign'>
+    Pick<IKeyManager, 'keyManagerSign' | 'keyManagerGet'>
 >
+
+
+//------------------------- BEGIN JSON_LD HELPER / DELEGATING STUFF
+
+const createSigner = (function (key: IKey) {
+  if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
+
+  debug(key)
+
+  const privateKeyBytes = Uint8Array.from(Buffer.from(key.privateKeyHex, 'hex'))
+  const getSignatureBytes = function({ data }: any) {
+    const signature = ed25519.sign(privateKeyBytes, Uint8Array.from(Buffer.from(data, 'utf8')))
+    return signature
+  };
+  return { sign: getSignatureBytes }
+});
+
+const signLdDocEd25519Sig = async (doc: W3CCredential, key: IKey): Promise<VerifiableCredential> => {
+  if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
+  console.log('PrivateKey: ' + key.privateKeyHex)
+
+  const { node: documentLoader } = documentLoaders;
+
+  return await jsigs.sign(doc, {
+    documentLoader,
+    suite: new jsigs.suites.Ed25519Signature2018({
+      verificationMethod: key.kid, // TODO: change kid.
+      signer: createSigner(key),
+    }),
+    purpose: new jsigs.purposes.AuthenticationProofPurpose({
+      challenge: "abc",
+      domain: "example.com",
+    }),
+  })
+}
+
+//------------------------- END JSON_LD HELPER / DELEGATING STUFF
+
 
 /**
  * A Veramo plugin that implements the {@link ICredentialIssuer} methods.
@@ -263,6 +305,18 @@ export class CredentialIssuer implements IAgentPlugin {
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
+
+      //------------------------- BEGIN JSON_LD INSERT
+
+      if (args.proofFormat === 'lds') {
+        const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
+        if (keyPayload.type !== 'Ed25519') throw Error('LDS signing only with Ed25519!' + identifier.did)
+        const resultVC = signLdDocEd25519Sig(credential, keyPayload)
+        return resultVC
+      }
+
+      //------------------------- END JSON_LD INSERT
+
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       debug('Signing VC with', identifier.did)
       let alg = 'ES256K'
