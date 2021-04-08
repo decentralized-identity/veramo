@@ -83,10 +83,8 @@ export default (testContext: {
     })
 
     it('should query identifiers', async () => {
-      const identifiers = await agent.dataStoreORMGetIdentifiers()
+      const identifiers = await agent.didManagerFind()
       expect(identifiers.length).toEqual(3)
-      const count = await agent.dataStoreORMGetIdentifiersCount()
-      expect(count).toEqual(3)
     })
 
     describe('should create verifiable credential', () => {
