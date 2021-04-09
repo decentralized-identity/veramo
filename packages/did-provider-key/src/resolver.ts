@@ -9,12 +9,8 @@ const resolve: DIDResolver = async (
   options: DIDResolutionOptions,
 ): Promise<DIDResolutionResult> => {
   try {
-    const didDocument = (await resolver.resolve(didUrl, options)) as DIDDocument
-    return {
-      didDocumentMetadata: {},
-      didResolutionMetadata: { contentType: 'application/did+ld+json' },
-      didDocument,
-    }
+    const didResolution = (await resolver.resolve(didUrl, options)) as DIDResolutionResult
+    return didResolution
   } catch (err) {
     return {
       didDocumentMetadata: {},
