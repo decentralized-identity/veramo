@@ -9,6 +9,7 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
+    "@transmute/did-key.js": "^0.2.1-unstable.35",
     "@veramo/core": "^1.0.1",
     "@veramo/did-manager": "^1.0.1",
     "debug": "^4.1.1",

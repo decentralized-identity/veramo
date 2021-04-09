@@ -5,3 +5,4 @@
  * @packageDocumentation
  */
 export { KeyDIDProvider } from './key-did-provider'
+export { getDidKeyResolver } from './resolver'
