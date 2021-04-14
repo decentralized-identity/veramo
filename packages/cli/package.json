@@ -14,8 +14,8 @@
     "update-veramo-latest": "yarn add @veramo/core@latest @veramo/did-resolver@latest @veramo/did-jwt@latest @veramo/credential-w3c@latest @veramo/did-provider-ethr@latest @veramo/did-provider-web@latest @veramo/did-comm@latest @veramo/kms-local@latest @veramo/selective-disclosure@latest @veramo/data-store@latest @veramo/key-manager@latest @veramo/message-handler@latest @veramo/did-manager@latest @veramo/url-handler@latest"
   },
   "dependencies": {
-    "@microsoft/api-extractor": "7.13.4",
-    "@microsoft/api-extractor-model": "7.12.4",
+    "@microsoft/api-extractor": "7.13.5",
+    "@microsoft/api-extractor-model": "7.12.5",
     "@types/blessed": "^0.1.17",
     "@types/swagger-ui-express": "^4.1.2",
     "@veramo/core": "^1.1.0",
@@ -43,7 +43,7 @@
     "debug": "^4.1.1",
     "did-resolver": "3.1.0",
     "dotenv": "^8.2.0",
-    "ethr-did-resolver": "4.0.1",
+    "ethr-did-resolver": "4.1.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "fuzzy": "^0.1.3",
