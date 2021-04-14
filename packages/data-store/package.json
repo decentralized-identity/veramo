@@ -18,12 +18,12 @@
     "@veramo/did-manager": "^1.1.0",
     "@veramo/key-manager": "^1.1.0",
     "debug": "^4.1.1",
-    "typeorm": "0.2.31"
+    "typeorm": "0.2.32"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
     "sqlite3": "5.0.2",
-    "typescript": "4.2.3"
+    "typescript": "4.2.4"
   },
   "files": [
     "build/**/*",
