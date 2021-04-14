@@ -61,7 +61,7 @@
     "qrcode-terminal": "^0.12.0",
     "sqlite3": "^5.0.0",
     "swagger-ui-express": "^4.1.4",
-    "ts-json-schema-generator": "^0.89.0",
+    "ts-json-schema-generator": "^0.90.0",
     "typeorm": "0.2.32",
     "url-parse": "^1.4.7",
     "web-did-resolver": "2.0.4",
