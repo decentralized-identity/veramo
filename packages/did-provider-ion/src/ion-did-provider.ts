@@ -34,10 +34,11 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     console.log(`KeyID: ${key.kid}`)
     const did = new ION.DID({
       content: {
+        // TODO: why is this called publicKeys?
         publicKeys: [
           {
             // TODO: ION restricts this to 50 chars atm
-            id: key.kid.substr(0, 50),
+            id: key.kid.substr(0, 50), // "DID#key-1".
             // TODO: This is currently imported
             type: verificationMethodTypes.EcdsaSecp256k1VerificationKey2019,
             publicKeyJwk: publicJwk,
@@ -63,6 +64,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       services: [],
     }
 
+    // TODO: Long version DID is not conformant to "initial value" definition.
     console.log(`Created (long version): ${ await did.getURI() }`)
     debug('Created', identifier.did)
     return identifier
