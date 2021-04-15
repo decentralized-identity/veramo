@@ -3,7 +3,7 @@ import {
   VerifiableCredential,
   IIdentifier,
   W3CPresentation,
-  VerifiablePresentation,
+  VerifiablePresentation, IKey,
 } from '@veramo/core'
 
 const mockDidJwtVc = {
@@ -56,6 +56,12 @@ const context: IContext = {
     emit: jest.fn(),
     didManagerGet: jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier1),
     keyManagerSignJWT: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
+    keyManagerGet: jest.fn().mockImplementation(async (args): Promise<IKey> => ({
+      kid: '',
+      kms: '',
+      type: 'Ed25519',
+      publicKeyHex: '',
+    })),
     dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
     dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
     getSchema: jest.fn(),
