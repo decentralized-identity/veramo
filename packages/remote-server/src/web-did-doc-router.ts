@@ -33,7 +33,7 @@ export const WebDidDocRouter = (): Router => {
     return didDoc
   }
 
-  const getAliasForRequest = async (req: Request) => {
+  const getAliasForRequest = (req: Request) => {
     return encodeURIComponent(req.get('host') || req.hostname)
   }
 
