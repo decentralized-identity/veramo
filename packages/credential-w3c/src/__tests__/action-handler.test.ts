@@ -1,4 +1,10 @@
-import { W3CCredential, VerifiableCredential, IIdentifier, W3CPresentation } from '@veramo/core'
+import {
+  W3CCredential,
+  VerifiableCredential,
+  IIdentifier,
+  W3CPresentation,
+  VerifiablePresentation, IKey,
+} from '@veramo/core'
 
 const mockDidJwtVc = {
   createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
@@ -66,9 +72,15 @@ let agent = {
   getDIDComponentById: jest.fn(),
   emit: jest.fn(),
   keyManagerSign: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
-  dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
-  dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
-  getSchema: jest.fn(),
+  keyManagerGet: jest.fn().mockImplementation(async (args): Promise<IKey> => ({
+      kid: '',
+      kms: '',
+      type: 'Ed25519',
+      publicKeyHex: '',
+    })),
+    dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
+    dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
+    getSchema: jest.fn(),
   didManagerGet: jest.fn(),
 }
 
