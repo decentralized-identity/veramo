@@ -21,9 +21,13 @@ import {
   PresentationPayload,
 } from 'did-jwt-vc'
 
-import * as jsigs from 'jsonld-signatures'
-import * as ed25519 from '@stablelib/ed25519'
 import documentLoaders from 'jsonld'
+const vc = require('vc-js');
+const {Ed25519KeyPair, suites: {Ed25519Signature2018}} =
+  require('jsonld-signatures');
+const EcdsaSepc256k1Signature2019 = require('ecdsa-secp256k1-signature-2019');
+const Secp256k1KeyPair = require('secp256k1-key-pair');
+const Base58 = require('base-58')
 
 import { schema } from './'
 
@@ -172,36 +176,46 @@ export type IContext = IAgentContext<
 
 //------------------------- BEGIN JSON_LD HELPER / DELEGATING STUFF
 
-const createSigner = (function (key: IKey) {
-  if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
+// const createSigner = (function (key: IKey) {
+//   if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
+//
+//   debug(key)
+//
+//   const privateKeyBytes = Uint8Array.from(Buffer.from(key.privateKeyHex, 'hex'))
+//   const getSignatureBytes = function({ data }: any) {
+//     const signature = ed25519.sign(privateKeyBytes, Uint8Array.from(Buffer.from(data, 'utf8')))
+//     return signature
+//   };
+//   return { sign: getSignatureBytes }
+// });
 
-  debug(key)
-
-  const privateKeyBytes = Uint8Array.from(Buffer.from(key.privateKeyHex, 'hex'))
-  const getSignatureBytes = function({ data }: any) {
-    const signature = ed25519.sign(privateKeyBytes, Uint8Array.from(Buffer.from(data, 'utf8')))
-    return signature
-  };
-  return { sign: getSignatureBytes }
-});
-
-const signLdDocEd25519Sig = async (doc: W3CCredential, key: IKey): Promise<VerifiableCredential> => {
+const signLdDoc = async (credential: W3CCredential, key: IKey): Promise<VerifiableCredential> => {
   if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
   console.log('PrivateKey: ' + key.privateKeyHex)
 
   const { node: documentLoader } = documentLoaders;
+  let suite
+  const keyDocOptions = {
+    publicKeyBase58: Base58.encode(Buffer.from(key.privateKeyHex, 'hex')),
+    privateKeyBase58: Base58.encode(Buffer.from(key.privateKeyHex, 'hex'))
+  }
+  switch(key.type) {
+    case 'Secp256k1':
+      suite = new EcdsaSepc256k1Signature2019(
+        {key: new Secp256k1KeyPair(keyDocOptions)});
+      break;
+    case 'Ed25519':
+      suite = new Ed25519Signature2018({key: new Ed25519KeyPair(keyDocOptions)});
+      break;
+    default:
+      throw new Error(`Unknown key type ${key.type}.`);
+  }
 
-  return await jsigs.sign(doc, {
+  return await vc.issue({
+    credential,
+    suite,
     documentLoader,
-    suite: new jsigs.suites.Ed25519Signature2018({
-      verificationMethod: key.kid, // TODO: change kid.
-      signer: createSigner(key),
-    }),
-    purpose: new jsigs.purposes.AuthenticationProofPurpose({
-      challenge: "abc",
-      domain: "example.com",
-    }),
-  })
+  });
 }
 
 //------------------------- END JSON_LD HELPER / DELEGATING STUFF
@@ -310,9 +324,7 @@ export class CredentialIssuer implements IAgentPlugin {
 
       if (args.proofFormat === 'lds') {
         const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
-        if (keyPayload.type !== 'Ed25519') throw Error('LDS signing only with Ed25519!' + identifier.did)
-        const resultVC = signLdDocEd25519Sig(credential, keyPayload)
-        return resultVC
+        return signLdDoc(credential, keyPayload)
       }
 
       //------------------------- END JSON_LD INSERT
