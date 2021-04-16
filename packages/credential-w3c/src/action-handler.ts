@@ -21,16 +21,19 @@ import {
   PresentationPayload,
 } from 'did-jwt-vc'
 
-import documentLoaders from 'jsonld'
+// Start LOAD LD Libraries
 const vc = require('vc-js');
-const {Ed25519KeyPair, suites: {Ed25519Signature2018}} =
+const { defaultDocumentLoader } = vc;
+const {Ed25519KeyPair, extendContextLoader, suites: {Ed25519Signature2018}} =
   require('jsonld-signatures');
 const EcdsaSepc256k1Signature2019 = require('ecdsa-secp256k1-signature-2019');
 const Secp256k1KeyPair = require('secp256k1-key-pair');
 const Base58 = require('base-58')
+// Start END LD Libraries
+
 
 import { schema } from './'
-
+import localContexts from './contexts'
 import Debug from 'debug'
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -118,6 +121,45 @@ export interface ICreateVerifiableCredentialArgs {
 }
 
 /**
+ * Encapsulates the parameters required to verify a
+ * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
+ *
+ * @public
+ */
+export interface IVerifyVerifiableCredentialArgs {
+  /**
+   * The json payload of the Credential according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
+   *
+   * The signer of the Credential is chosen based on the `issuer.id` property
+   * of the `credential`
+   *
+   */
+  credential: {
+    '@context'?: string[]
+    id?: string
+    type?: string[]
+    issuer: { id: string; [x: string]: any }
+    issuanceDate?: string
+    expirationDate?: string
+    credentialSubject: {
+      id?: string
+      [x: string]: any
+    }
+    credentialStatus?: {
+      id: string
+      type: string
+    }
+    proof: {
+      type: string
+      jwt?: string
+      [x: string]: any
+    }
+    [x: string]: any
+  }
+}
+
+/**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
  *
  * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
@@ -158,6 +200,24 @@ export interface ICredentialIssuer extends IPluginMethodMap {
     args: ICreateVerifiableCredentialArgs,
     context: IContext,
   ): Promise<VerifiableCredential>
+
+
+  /**
+   * Verifies a Verifiable Credential JWT or LDS Format.
+   * The payload, signer and format are chosen based on the `args` parameter.
+   *
+   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the {@link @veramo/core#???} that was requested or rejects with an error
+   * if there was a problem with the input or while getting the key to signs
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
+   */
+  verifyVerifiableCredential(
+    args: IVerifyVerifiableCredentialArgs,
+    context: IContext,
+  ): Promise<boolean>
 }
 
 /**
@@ -193,16 +253,17 @@ const signLdDoc = async (credential: W3CCredential, key: IKey): Promise<Verifiab
   if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
   console.log('PrivateKey: ' + key.privateKeyHex)
 
-  const { node: documentLoader } = documentLoaders;
   let suite
   const keyDocOptions = {
-    publicKeyBase58: Base58.encode(Buffer.from(key.privateKeyHex, 'hex')),
+    publicKeyBase58: Base58.encode(Buffer.from(key.publicKeyHex, 'hex')),
     privateKeyBase58: Base58.encode(Buffer.from(key.privateKeyHex, 'hex'))
   }
   switch(key.type) {
     case 'Secp256k1':
-      suite = new EcdsaSepc256k1Signature2019(
-        {key: new Secp256k1KeyPair(keyDocOptions)});
+      suite = new EcdsaSepc256k1Signature2019({
+        key: new Secp256k1KeyPair(keyDocOptions),
+        verificationMethod: key.kid
+      });
       break;
     case 'Ed25519':
       suite = new Ed25519Signature2018({key: new Ed25519KeyPair(keyDocOptions)});
@@ -210,6 +271,21 @@ const signLdDoc = async (credential: W3CCredential, key: IKey): Promise<Verifiab
     default:
       throw new Error(`Unknown key type ${key.type}.`);
   }
+
+  const documentLoader = extendContextLoader(async (url: string) => {
+    console.log(`resolving context for: ${url}`)
+
+    if (localContexts.has(url)) {
+      console.log(`Returning local context for: ${url}`)
+      return {
+        contextUrl: null,
+        documentUrl: url,
+        document: localContexts.get(url)
+      };
+    }
+
+    return defaultDocumentLoader(url);
+  });
 
   return await vc.issue({
     credential,
@@ -234,6 +310,7 @@ export class CredentialIssuer implements IAgentPlugin {
     this.methods = {
       createVerifiablePresentation: this.createVerifiablePresentation,
       createVerifiableCredential: this.createVerifiableCredential,
+      verifyVerifiableCredential: this.verifyVerifiableCredential,
     }
   }
 
@@ -353,6 +430,22 @@ export class CredentialIssuer implements IAgentPlugin {
       debug(error)
       return Promise.reject(error)
     }
+  }
+
+  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentation} */
+  async verifyVerifiableCredential(
+    args: IVerifyVerifiableCredentialArgs,
+    context: IContext,
+  ): Promise<boolean> {
+    const credential = args.credential
+    // JWT
+    if (credential.proof.jwt) {
+
+    }
+
+    // EcdsaSecp256k1Signature2019
+    //
+    return false
   }
 }
 
