@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'next'
+      - 'experimental'
 
 jobs:
   build-test-publish:
@@ -60,3 +61,7 @@ jobs:
       - name: publish @next when on next
         if: github.ref == 'refs/heads/next'
         run: yarn publish:next
+      
+      - name: publish @experimental when on experimental
+        if: github.ref == 'refs/heads/experimental'
+        run: yarn publish:experimental
