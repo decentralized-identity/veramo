@@ -23,16 +23,12 @@ import {
   ISelectiveDisclosure,
   SdrMessageHandler,
 } from '../packages/selective-disclosure/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import {
-  Entities,
-  IDataStoreORM,
-  DataStore,
-  DataStoreORM,
-} from '../packages/data-store/src'
+import { KeyManagementSystem } from '../packages/kms-local/src'
+import { Entities, IDataStoreORM, DataStore, DataStoreORM } from '../packages/data-store/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+import { getDidKeyResolver } from '../packages/did-provider-key'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -123,6 +119,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
+          ...getDidKeyResolver(),
         }),
       }),
       new DataStore(dbConnection),

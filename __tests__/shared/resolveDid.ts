@@ -23,6 +23,13 @@ export default (testContext: {
       expect(didDoc?.id).toEqual(didUrl)
     })
 
+    it('should resolve did:key', async () => {
+      const didUrl = 'did:key:z6Mkk7yqnGF3YwTrLpqrW6PGsKci7dNqh1CjnvMbzrMerSeL'
+      const result = await agent.resolveDid({ didUrl })
+      const didDoc = result.didDocument
+      expect(didDoc?.id).toEqual(didUrl)
+    })
+
     it('should return an error for unsupported did methods', async () => {
       expect.assertions(1)
       await expect(agent.resolveDid({ didUrl: 'did:foo:bar' })).resolves.toEqual({
@@ -46,7 +53,7 @@ export default (testContext: {
         didResolutionMetadata: { error: 'invalidDid' },
       })
       //@ts-ignore
-      await expect(agent.resolveDid({ didUrl: "garbage" })).resolves.toEqual({
+      await expect(agent.resolveDid({ didUrl: 'garbage' })).resolves.toEqual({
         didDocument: null,
         didDocumentMetadata: {},
         didResolutionMetadata: { error: 'invalidDid' },
