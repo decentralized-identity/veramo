@@ -1,4 +1,4 @@
-import { TAgent, IDIDManager, IDataStore } from '../../packages/core/src'
+import { TAgent, IDIDManager, IDataStore, IIdentifier } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 
@@ -9,11 +9,49 @@ export default (testContext: {
   setup: () => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
-  describe('dummyTest', () => {
+  describe('creating Verifiable Credentials in LD', () => {
+    let agent: ConfiguredAgent
+    let identifier: IIdentifier
+
+    beforeAll(() => {
+      testContext.setup()
+      agent = testContext.getAgent()
+    })
+    afterAll(testContext.tearDown)
 
     it('should create identifier', async () => {
-      const a = 3 + 7
-      expect(a).toEqual(10)
+      identifier = await agent.didManagerCreate({ kms: 'local' })
+      expect(identifier).toHaveProperty('did')
     })
+
+    it('should create verifiable credential in LD', async () => {
+      const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: identifier.did },
+          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
+          type: ['VerifiableCredential', 'Custom'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: 'did:web:example.com',
+            you: 'Rock',
+          },
+        },
+        proofFormat: 'lds',
+      })
+
+      expect(verifiableCredential).toHaveProperty('proof.jwt')
+      expect(verifiableCredential['@context']).toEqual([
+        'https://www.w3.org/2018/credentials/v1',
+        'https://example.com/1/2/3',
+      ])
+      expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'Custom'])
+
+      const hash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
+      expect(typeof hash).toEqual('string')
+
+      const verifiableCredential2 = await agent.dataStoreGetVerifiableCredential({ hash })
+      expect(verifiableCredential).toEqual(verifiableCredential2)
+    })
+
   })
 }
