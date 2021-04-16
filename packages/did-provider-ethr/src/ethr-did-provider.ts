@@ -2,7 +2,8 @@ import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { keccak_256 } from 'js-sha3'
 import Debug from 'debug'
-import EthrDID from 'ethr-did'
+import { EthrDID } from 'ethr-did'
+import { computePublicKey } from '@ethersproject/signing-key'
 const SignerProvider = require('ethjs-provider-signer')
 const debug = Debug('veramo:did-provider-ethr')
 
@@ -55,9 +56,9 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
     const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
-    const address = toEthereumAddress(key.publicKeyHex)
+    const compressedPublicKey = computePublicKey(`0x${key.publicKeyHex}`, true)
     const identifier: Omit<IIdentifier, 'provider'> = {
-      did: 'did:ethr:' + (this.network !== 'mainnet' ? this.network + ':' : '') + address,
+      did: 'did:ethr:' + (this.network !== 'mainnet' ? this.network + ':' : '') + compressedPublicKey,
       controllerKeyId: key.kid,
       keys: [key],
       services: [],
@@ -97,9 +98,8 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext,
   ): Promise<any> {
-    const address = identifier.did.split(':').pop() as string
     const ethrDid = new EthrDID({
-      address,
+      identifier: identifier.did,
       provider: this.getWeb3Provider(identifier, context),
       registry: this.registry,
     })
@@ -122,7 +122,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     const ethrDid = new EthrDID({
-      address: identifier.did.split(':').pop() as string,
+      identifier: identifier.did,
       provider: this.getWeb3Provider(identifier, context),
       registry: this.registry,
     })
@@ -143,9 +143,8 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     args: { identifier: IIdentifier; kid: string; options?: any },
     context: IContext,
   ): Promise<any> {
-    const address = args.identifier.did.split(':').pop() as string
     const ethrDid = new EthrDID({
-      address,
+      identifier: args.identifier.did,
       provider: this.getWeb3Provider(args.identifier, context),
       registry: this.registry,
     })
@@ -168,7 +167,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     const ethrDid = new EthrDID({
-      address: args.identifier.did.split(':').pop() as string,
+      identifier: args.identifier.did,
       provider: this.getWeb3Provider(args.identifier, context),
       registry: this.registry,
     })
