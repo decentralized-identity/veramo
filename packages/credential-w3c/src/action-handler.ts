@@ -9,9 +9,7 @@ import {
   W3CPresentation,
   VerifiableCredential,
   VerifiablePresentation,
-  IDataStore,
-  IKey,
-  IIdentifier,
+  IDataStore, IKey, IIdentifier,
 } from '@veramo/core'
 
 import {
@@ -22,16 +20,13 @@ import {
 } from 'did-jwt-vc'
 
 // Start LOAD LD Libraries
-import { purposes } from 'jsonld-signatures'
-import vc from 'vc-js'
-const { defaultDocumentLoader } = vc
-import { extendContextLoader } from 'jsonld-signatures'
-import {
-  EcdsaSecp256k1RecoveryMethod2020,
-  EcdsaSecp256k1RecoverySignature2020,
-} from 'EcdsaSecp256k1RecoverySignature2020'
-import { Ed25519Signature2020, Ed25519KeyPair2020 } from '@transmute/ed25519-signature-2020'
-import Base58 from 'base-58'
+const { purposes: { AssertionProofPurpose }} = require("jsonld-signatures");
+const vc = require('vc-js');
+const { defaultDocumentLoader } = vc;
+const {extendContextLoader} = require('jsonld-signatures');
+const {EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020} = require('EcdsaSecp256k1RecoverySignature2020')
+import {Ed25519Signature2020, Ed25519KeyPair2020} from '@transmute/ed25519-signature-2020'
+const Base58 = require('base-58');
 // Start END LD Libraries
 
 import { schema } from './'
@@ -559,11 +554,12 @@ export class CredentialIssuer implements IAgentPlugin {
       credential,
       suite: [new EcdsaSecp256k1RecoverySignature2020(), new Ed25519Signature2020()],
       documentLoader: getDocumentLoader(context),
-      purpose: new purposes.AssertionProofPurpose(),
-      compactProof: false,
-    })
+      purpose: new AssertionProofPurpose(),
+      compactProof: false
+    });
 
-    if (result.verified) return true
+    if (result.verified)
+      return true
 
     // NOT verified.
 
