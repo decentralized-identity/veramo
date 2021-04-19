@@ -50,6 +50,7 @@ import { AgentRestClient } from '../packages/remote-client/src'
 import { AgentRouter, RequestWithAgentRouter, MessagingRouter } from '../packages/remote-server/src'
 import { getDidKeyResolver } from '../packages/did-provider-key/src'
 import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
+import { KeyDIDProvider } from '../packages/did-provider-key/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import { Resolver } from 'did-resolver'
@@ -154,6 +155,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
           }),
           'did:web': new WebDIDProvider({
+            defaultKms: 'local',
+          }),
+          'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
           'did:key': new KeyDIDProvider({

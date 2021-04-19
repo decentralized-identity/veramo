@@ -53,6 +53,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
+import { KeyDIDProvider } from '@veramo/did-provider-key'
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
@@ -129,6 +130,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
           }),
           'did:web': new WebDIDProvider({
+            defaultKms: 'local',
+          }),
+          'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
           'did:key': new KeyDIDProvider({

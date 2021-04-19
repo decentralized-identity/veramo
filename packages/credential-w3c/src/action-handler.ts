@@ -212,8 +212,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#???} that was requested or rejects with an error
-   * if there was a problem with the input or while getting the key to signs
+   * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    */
@@ -229,10 +228,9 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#???} that was requested or rejects with an error
-   * if there was a problem with the input or while getting the key to signs
+   * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
    *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
   verifyVerifiablePresentation(
     args: IVerifyVerifiablePresentationArgs,
@@ -257,7 +255,7 @@ export type IContext = IAgentContext<
 //------------------------- BEGIN JSON_LD HELPER / DELEGATING STUFF
 /**
  * TODO: General Implementation Notes
- * - EcdsaSecp256k1Signature2019 (Signature) and EcdsaSecp256k1VerificationKey2019 (Key)
+ * - (SOLVED) EcdsaSecp256k1Signature2019 (Signature) and EcdsaSecp256k1VerificationKey2019 (Key)
  * are not useable right now, since they are not able to work with blockChainId and ECRecover.
  * - DID Fragement Resolution.
  * - Key Manager and Verification Methods: Veramo currently implements no link between those.
@@ -267,25 +265,29 @@ const getDocumentLoader = (context: IContext) => extendContextLoader(async (url:
   console.log(`resolving context for: ${url}`)
 
   // did resolution
-  if (url.startsWith('did:')) {
+  if (url.toLowerCase().startsWith('did:')) {
     const didDoc = await context.agent.resolveDid({ didUrl: url })
     let returnDocument = didDoc.didDocument
 
     if (!returnDocument) return
 
+    // specific resolution modifications
+    // did:ethr
+    if (url.toLowerCase().startsWith('did:ethr')) {
+      returnDocument.assertionMethod = []
+      // TODO: EcdsaSecp256k1RecoveryMethod2020 does not support blockchainAccountId
+      // blockchainAccountId to ethereumAddress
+      returnDocument.verificationMethod?.forEach(x => {
+        if (x.blockchainAccountId) {
+          x.ethereumAddress = x.blockchainAccountId.substring(0, x.blockchainAccountId.lastIndexOf("@"))
+        }
 
-    returnDocument.assertionMethod = []
-    // TODO: EcdsaSecp256k1RecoveryMethod2020 does not support blockchainAccountId
-    // blockchainAccountId to ethereumAddress
-    returnDocument.verificationMethod?.forEach(x => {
-      if (x.blockchainAccountId) {
-        x.ethereumAddress = x.blockchainAccountId.substring(0, x.blockchainAccountId.lastIndexOf("@"))
-      }
+        // TODO: Verification method \"did:ethr:rinkeby:0x99b5bcc24ac2701d763aac0a8466ac51a189501b#controller\" not authorized by controller for proof purpose \"assertionMethod\"."
+        // @ts-ignore
+        returnDocument.assertionMethod.push(x.id)
+      })
+    }
 
-      // TODO: Verification method \"did:ethr:rinkeby:0x99b5bcc24ac2701d763aac0a8466ac51a189501b#controller\" not authorized by controller for proof purpose \"assertionMethod\"."
-      // @ts-ignore
-      returnDocument.assertionMethod.push(x.id)
-    })
 
     console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
     return {
@@ -534,7 +536,7 @@ export class CredentialIssuer implements IAgentPlugin {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentation} */
+  /** {@inheritdoc ICredentialIssuer.verifyVerifiableCredential} */
   async verifyVerifiableCredential(
     args: IVerifyVerifiableCredentialArgs,
     context: IContext,
@@ -565,6 +567,7 @@ export class CredentialIssuer implements IAgentPlugin {
     throw Error('Error verifying LD Verifiable Credential')
   }
 
+  /** {@inheritdoc ICredentialIssuer.verifyVerifiablePresentation} */
   async verifyVerifiablePresentation(
     args: IVerifyVerifiablePresentationArgs,
     context: IContext,

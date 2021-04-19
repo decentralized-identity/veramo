@@ -166,6 +166,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:key': new KeyDIDProvider({
+            defaultKms: 'local',
+          }),
           'did:fake': new FakeDidProvider(),
         },
       }),
