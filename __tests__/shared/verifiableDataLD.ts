@@ -37,11 +37,12 @@ export default (testContext: {
           issuer: { id: identifier.did },
           '@context': [
             'https://www.w3.org/2018/credentials/v1',
-            'https://veramo.io/contexts/socialmedia/v1'
+            'https://veramo.io/contexts/kyc/v1'
           ],
-          type: ['VerifiableCredential', 'VerifableSocialMediaPosting'],
+          type: ['VerifiableCredential', 'VerifiableKyc'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
+            name: "Martin, the great"
             // id: 'did:web:example.com',
             // you: 'Rock',
           },
