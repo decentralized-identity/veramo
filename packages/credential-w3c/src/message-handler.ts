@@ -45,6 +45,8 @@ export type IContext = IAgentContext<IResolver>
  * @public
  */
 export class W3cMessageHandler extends AbstractMessageHandler {
+
+
   async handle(message: Message, context: IContext): Promise<Message> {
     const meta = message.getLastMetaData()
 
