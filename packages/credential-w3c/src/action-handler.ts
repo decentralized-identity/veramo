@@ -7,9 +7,7 @@ import {
   IPluginMethodMap,
   VerifiableCredential,
   VerifiablePresentation,
-  IDataStore,
-  IKey,
-  IIdentifier,
+  IDataStore, IKey, IIdentifier,
 } from '@veramo/core'
 
 import {
@@ -30,7 +28,6 @@ const {EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020} = 
 import {Ed25519Signature2020, Ed25519KeyPair2020} from '@transmute/ed25519-signature-2020'
 const Base58 = require('base-58');
 // Start END LD Libraries
-
 
 import { schema } from './'
 import localContexts from './contexts'
@@ -69,6 +66,11 @@ export interface ICreateVerifiablePresentationArgs {
    * {@link @veramo/core#IDataStore | storage plugin} to be saved
    */
   save?: boolean
+
+  /**
+   * Optional string challenge parameter to add to the verifiable presentation.
+   */
+  challenge?: string
 
   /**
    * The desired format for the VerifiablePresentation to be created.
@@ -135,27 +137,30 @@ export interface IVerifyVerifiableCredentialArgs {
    * of the `credential`
    *
    */
-  credential: {
-    '@context'?: string[]
-    id?: string
-    type?: string[]
-    issuer: { id: string; [x: string]: any }
-    issuanceDate?: string
-    expirationDate?: string
-    credentialSubject: {
-      id?: string
-      [x: string]: any
-    }
-    credentialStatus?: {
-      id: string
-      type: string
-    }
-    proof: {
-      type?: string
-      [x: string]: any
-    }
-    [x: string]: any
-  }
+  credential: VerifiableCredential
+}
+
+/**
+ * Encapsulates the parameters required to verify a
+ * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
+ *
+ * @public
+ */
+export interface IVerifyVerifiablePresentationArgs {
+  /**
+   * The json payload of the Credential according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
+   *
+   * The signer of the Credential is chosen based on the `issuer.id` property
+   * of the `credential`
+   *
+   */
+  presentation: VerifiablePresentation
+
+  /**
+   * Optional string challenge parameter to verify the verifiable presentation against
+   */
+  challenge?: string
 }
 
 /**
@@ -203,7 +208,6 @@ export interface ICredentialIssuer extends IPluginMethodMap {
 
   /**
    * Verifies a Verifiable Credential JWT or LDS Format.
-   * The payload, signer and format are chosen based on the `args` parameter.
    *
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
@@ -215,6 +219,23 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    */
   verifyVerifiableCredential(
     args: IVerifyVerifiableCredentialArgs,
+    context: IContext,
+  ): Promise<boolean>
+
+
+  /**
+   * Verifies a Verifiable Presentation JWT or LDS Format.
+   *
+   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the {@link @veramo/core#???} that was requested or rejects with an error
+   * if there was a problem with the input or while getting the key to signs
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
+   */
+  verifyVerifiablePresentation(
+    args: IVerifyVerifiablePresentationArgs,
     context: IContext,
   ): Promise<boolean>
 }
@@ -241,20 +262,6 @@ export type IContext = IAgentContext<
  * - DID Fragement Resolution.
  * - Key Manager and Verification Methods: Veramo currently implements no link between those.
  */
-
-
-// const createSigner = (function (key: IKey) {
-//   if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
-//
-//   debug(key)
-//
-//   const privateKeyBytes = Uint8Array.from(Buffer.from(key.privateKeyHex, 'hex'))
-//   const getSignatureBytes = function({ data }: any) {
-//     const signature = ed25519.sign(privateKeyBytes, Uint8Array.from(Buffer.from(data, 'utf8')))
-//     return signature
-//   };
-//   return { sign: getSignatureBytes }
-// });
 
 const getDocumentLoader = (context: IContext) => extendContextLoader(async (url: string) => {
   console.log(`resolving context for: ${url}`)
@@ -300,15 +307,13 @@ const getDocumentLoader = (context: IContext) => extendContextLoader(async (url:
   return defaultDocumentLoader(url);
 });
 
-const signLdDoc = async (
-  credential: W3CCredential,
-  key: IKey,
-  controller: string,
-  context: any): Promise<VerifiableCredential> => {
-  if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
-  console.log('PrivateKey: ' + key.privateKeyHex)
-
+const getLDSigningSuite = (key: IKey, identifier: IIdentifier) => {
   let suite
+  const controller = identifier.did
+
+  if (!key.privateKeyHex) {
+    throw Error('No private Key for LD Signing available.')
+  }
 
   switch(key.type) {
     case 'Secp256k1':
@@ -336,12 +341,42 @@ const signLdDoc = async (
       throw new Error(`Unknown key type ${key.type}.`);
   }
 
+  return suite
+}
+
+const issueLDVerifiableCredential = async (
+  credential: W3CCredential,
+  key: IKey,
+  identifier: IIdentifier,
+  context: IContext): Promise<VerifiableCredential> => {
+
+  const suite = getLDSigningSuite(key, identifier)
+  const documentLoader = getDocumentLoader(context)
+
   return await vc.issue({
     credential,
     suite,
-    documentLoader: getDocumentLoader(context),
+    documentLoader,
     compactProof: false
   });
+}
+
+const signLDVerifiablePresentation = async (
+  presentation: W3CPresentation,
+  key: IKey,
+  challenge: string | undefined,
+  identifier: IIdentifier,
+  context: IContext
+): Promise<VerifiablePresentation> => {
+
+  const suite = getLDSigningSuite(key, identifier)
+  const documentLoader = getDocumentLoader(context)
+  return await vc.signPresentation({
+    presentation,
+    suite,
+    challenge,
+    documentLoader
+  })
 }
 
 //------------------------- END JSON_LD HELPER / DELEGATING STUFF
@@ -361,6 +396,7 @@ export class CredentialIssuer implements IAgentPlugin {
       createVerifiablePresentation: this.createVerifiablePresentation,
       createVerifiableCredential: this.createVerifiableCredential,
       verifyVerifiableCredential: this.verifyVerifiableCredential,
+      verifyVerifiablePresentation: this.verifyVerifiablePresentation,
     }
   }
 
@@ -391,6 +427,19 @@ export class CredentialIssuer implements IAgentPlugin {
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
+
+      //------------------------- BEGIN JSON_LD INSERT
+      if (args.proofFormat === 'lds') {
+        // LDS ONLY works on `controllerKeyId` because it's uniquely resolvable as a verificationMethod
+        if (key.kid != identifier.controllerKeyId) {
+          throw new Error('Trying to use a non-controller key for an LD-Proof is not supported')
+        }
+
+        const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
+        return signLDVerifiablePresentation(presentation, keyPayload, args.challenge, identifier, context)
+      }
+      //------------------------- END JSON_LD INSERT
+
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       debug('Signing VP with', identifier.did)
       let alg = 'ES256K'
@@ -448,7 +497,6 @@ export class CredentialIssuer implements IAgentPlugin {
       if (!key) throw Error('No signing key for ' + identifier.did)
 
       //------------------------- BEGIN JSON_LD INSERT
-
       if (args.proofFormat === 'lds') {
         // LDS ONLY works on `controllerKeyId` because it's uniquely resolvable as a verificationMethod
         if (key.kid != identifier.controllerKeyId) {
@@ -456,9 +504,8 @@ export class CredentialIssuer implements IAgentPlugin {
         }
 
         const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
-        return signLdDoc(credential, keyPayload, identifier.did, context)
+        return issueLDVerifiableCredential(credential, keyPayload, identifier, context)
       }
-
       //------------------------- END JSON_LD INSERT
 
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
@@ -513,9 +560,40 @@ export class CredentialIssuer implements IAgentPlugin {
     // NOT verified.
 
     // result can include raw Error
-    console.log(`Error verifying LD Credential`)
+    console.log(`Error verifying LD Verifiable Credential`)
     console.log(JSON.stringify(result, null, 2));
-    throw Error('Error verifying credential')
+    throw Error('Error verifying LD Verifiable Credential')
+  }
+
+  async verifyVerifiablePresentation(
+    args: IVerifyVerifiablePresentationArgs,
+    context: IContext,
+  ): Promise<boolean> {
+    const presentation = args.presentation
+    // JWT
+    if (presentation.proof.jwt) {
+      // Not implemented yet.
+      throw Error('verifyVerifiablePresentation currently does not the verification of VC-JWT credentials.')
+    }
+
+    const result = await vc.verify({
+      presentation,
+      suite: [new EcdsaSecp256k1RecoverySignature2020(), new Ed25519Signature2020()],
+      documentLoader: getDocumentLoader(context),
+      challenge: args.challenge,
+      purpose: new AssertionProofPurpose(),
+      compactProof: false
+    });
+
+    if (result.verified)
+      return true
+
+    // NOT verified.
+
+    // result can include raw Error
+    console.log(`Error verifying LD Verifiable Presentation`)
+    console.log(JSON.stringify(result, null, 2));
+    throw Error('Error verifying LD Verifiable Presentation')
   }
 }
 
