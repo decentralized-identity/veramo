@@ -56,6 +56,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import messageHandler from './shared/messageHandler'
 import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
+import { KeyDIDProvider } from '@veramo/did-provider-key'
 
 const databaseFile = 'rest-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -126,6 +127,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
           }),
           'did:web': new WebDIDProvider({
+            defaultKms: 'local',
+          }),
+          'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
         },

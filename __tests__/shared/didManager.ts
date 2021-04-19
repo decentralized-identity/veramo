@@ -19,7 +19,7 @@ export default (testContext: {
 
     it('should get providers', async () => {
       const providers = await agent.didManagerGetProviders()
-      expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:web'])
+      expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:web', 'did:key'])
     })
 
     let identifier: IIdentifier
