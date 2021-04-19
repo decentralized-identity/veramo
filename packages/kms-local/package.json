@@ -16,7 +16,7 @@
     "did-jwt": "5.1.2",
     "elliptic": "6.5.4",
     "ethjs-signer": "^0.1.1",
-    "libsodium-wrappers": "^0.7.6"
+    "libsodium-wrappers": "^0.7.8"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
