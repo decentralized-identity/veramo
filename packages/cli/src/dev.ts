@@ -38,7 +38,7 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
 
   if (fixedSymbol === 'ICreateVerifiableCredentialArgs') {
     //@ts-ignore
-    schema.definitions['W3CCredential']['properties']['credentialSubject']['additionalProperties'] = true
+    schema?.definitions?.['W3CCredential']?.['properties']?.['credentialSubject']?.['additionalProperties'] = true
   }
   // console.dir({ fixedSymbol, schema }, {depth: 10})
 
@@ -133,6 +133,8 @@ dev
         path: resolve(entryFile),
         encodeRefs: false,
         additionalProperties: true,
+        // https://github.com/transmute-industries/vc.js/issues/60
+        skipTypeCheck: true
       })
 
       const apiModel: ApiModel = new ApiModel()
