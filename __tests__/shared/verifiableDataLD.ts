@@ -24,6 +24,13 @@ export default (testContext: {
       expect(identifier).toHaveProperty('did')
     })
 
+    it('should resolve identifier', async () => {
+      const didDoc = (await agent.resolveDid({ didUrl: identifier.did })).didDocument
+      console.log(JSON.stringify(didDoc, null, 2));
+      expect(didDoc).toHaveProperty('verificationMethod')
+    })
+
+
     it('should create verifiable credential in LD', async () => {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
@@ -42,7 +49,16 @@ export default (testContext: {
         proofFormat: 'lds',
       })
 
-      console.log(verifiableCredential)
+      console.log(JSON.stringify(verifiableCredential, null, 2))
+      console.log(`JWS: ${verifiableCredential.proof.jws}`)
+      // check that verification works
+
+      const result = await agent.verifyVerifiableCredential({
+        credential: verifiableCredential
+      })
+
+      expect(result).toEqual(true)
+
       // expect(verifiableCredential).toHaveProperty('proof.jwt')
       // expect(verifiableCredential['@context']).toEqual([
       //   'https://www.w3.org/2018/credentials/v1',
