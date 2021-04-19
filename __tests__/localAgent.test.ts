@@ -35,6 +35,7 @@ import {
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+import { getDidKeyResolver } from '../packages/did-provider-key'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -126,6 +127,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
+          ...getDidKeyResolver(),
         }),
       }),
       new DataStore(dbConnection),

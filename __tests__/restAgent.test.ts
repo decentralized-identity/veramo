@@ -55,6 +55,7 @@ import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import messageHandler from './shared/messageHandler'
+import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
 
 const databaseFile = 'rest-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -133,6 +134,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
+          key: getUniversalResolver(), // resolve using remote resolver
         }),
       }),
       new DataStore(dbConnection),
