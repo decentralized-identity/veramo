@@ -22,13 +22,13 @@ import {
 } from 'did-jwt-vc'
 
 // Start LOAD LD Libraries
+const { purposes: { AssertionProofPurpose }} = require("jsonld-signatures");
 const vc = require('vc-js');
 const { defaultDocumentLoader } = vc;
-const {Ed25519KeyPair, extendContextLoader, suites: {Ed25519Signature2018}} =
-  require('jsonld-signatures');
-const EcdsaSepc256k1Signature2019 = require('ecdsa-secp256k1-signature-2019');
-const Secp256k1KeyPair = require('secp256k1-key-pair');
-const Base58 = require('base-58')
+const {extendContextLoader} = require('jsonld-signatures');
+const {EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020} = require('EcdsaSecp256k1RecoverySignature2020')
+import {Ed25519Signature2020, Ed25519KeyPair2020} from '@transmute/ed25519-signature-2020'
+const Base58 = require('base-58');
 // Start END LD Libraries
 
 
@@ -151,8 +151,7 @@ export interface IVerifyVerifiableCredentialArgs {
       type: string
     }
     proof: {
-      type: string
-      jwt?: string
+      type?: string
       [x: string]: any
     }
     [x: string]: any
@@ -235,6 +234,14 @@ export type IContext = IAgentContext<
 
 
 //------------------------- BEGIN JSON_LD HELPER / DELEGATING STUFF
+/**
+ * TODO: General Implementation Notes
+ * - EcdsaSecp256k1Signature2019 (Signature) and EcdsaSecp256k1VerificationKey2019 (Key)
+ * are not useable right now, since they are not able to work with blockChainId and ECRecover.
+ * - DID Fragement Resolution.
+ * - Key Manager and Verification Methods: Veramo currently implements no link between those.
+ */
+
 
 // const createSigner = (function (key: IKey) {
 //   if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
@@ -249,48 +256,91 @@ export type IContext = IAgentContext<
 //   return { sign: getSignatureBytes }
 // });
 
-const signLdDoc = async (credential: W3CCredential, key: IKey): Promise<VerifiableCredential> => {
+const getDocumentLoader = (context: IContext) => extendContextLoader(async (url: string) => {
+  console.log(`resolving context for: ${url}`)
+
+  // did resolution
+  if (url.startsWith('did:')) {
+    const didDoc = await context.agent.resolveDid({ didUrl: url })
+    let returnDocument = didDoc.didDocument
+
+    if (!returnDocument) return
+
+
+    returnDocument.assertionMethod = []
+    // TODO: EcdsaSecp256k1RecoveryMethod2020 does not support blockchainAccountId
+    // blockchainAccountId to ethereumAddress
+    returnDocument.verificationMethod?.forEach(x => {
+      if (x.blockchainAccountId) {
+        x.ethereumAddress = x.blockchainAccountId.substring(0, x.blockchainAccountId.lastIndexOf("@"))
+      }
+
+      // TODO: Verification method \"did:ethr:rinkeby:0x99b5bcc24ac2701d763aac0a8466ac51a189501b#controller\" not authorized by controller for proof purpose \"assertionMethod\"."
+      // @ts-ignore
+      returnDocument.assertionMethod.push(x.id)
+    })
+
+    console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
+    return {
+      contextUrl: null,
+      documentUrl: url,
+      document: returnDocument
+    };
+  }
+
+  if (localContexts.has(url)) {
+    console.log(`Returning local context for: ${url}`)
+    return {
+      contextUrl: null,
+      documentUrl: url,
+      document: localContexts.get(url)
+    };
+  }
+
+  return defaultDocumentLoader(url);
+});
+
+const signLdDoc = async (
+  credential: W3CCredential,
+  key: IKey,
+  controller: string,
+  context: any): Promise<VerifiableCredential> => {
   if (!key.privateKeyHex) throw Error('Key does not expose private Key: ' + key.kid)
   console.log('PrivateKey: ' + key.privateKeyHex)
 
   let suite
-  const keyDocOptions = {
-    publicKeyBase58: Base58.encode(Buffer.from(key.publicKeyHex, 'hex')),
-    privateKeyBase58: Base58.encode(Buffer.from(key.privateKeyHex, 'hex'))
-  }
+
   switch(key.type) {
     case 'Secp256k1':
-      suite = new EcdsaSepc256k1Signature2019({
-        key: new Secp256k1KeyPair(keyDocOptions),
-        verificationMethod: key.kid
+      suite = new EcdsaSecp256k1RecoverySignature2020({
+        key: new EcdsaSecp256k1RecoveryMethod2020({
+          publicKeyHex: key.publicKeyHex,
+          privateKeyHex: key.privateKeyHex,
+          type: 'EcdsaSecp256k1RecoveryMethod2020', // A little verbose?
+          controller,
+          id: `${controller}#controller` // TODO: Only default controller verificationMethod supported
+        }),
       });
       break;
     case 'Ed25519':
-      suite = new Ed25519Signature2018({key: new Ed25519KeyPair(keyDocOptions)});
+      suite = new Ed25519Signature2020({
+        key: new Ed25519KeyPair2020({
+          id: `${controller}#controller`,
+          controller,
+          publicKeyBase58: Base58.encode(Buffer.from(key.publicKeyHex, 'hex')),
+          privateKeyBase58: Base58.encode(Buffer.from(key.privateKeyHex, 'hex')),
+        })
+      });
       break;
     default:
       throw new Error(`Unknown key type ${key.type}.`);
   }
 
-  const documentLoader = extendContextLoader(async (url: string) => {
-    console.log(`resolving context for: ${url}`)
-
-    if (localContexts.has(url)) {
-      console.log(`Returning local context for: ${url}`)
-      return {
-        contextUrl: null,
-        documentUrl: url,
-        document: localContexts.get(url)
-      };
-    }
-
-    return defaultDocumentLoader(url);
-  });
-
   return await vc.issue({
     credential,
     suite,
-    documentLoader,
+    documentLoader: getDocumentLoader(context),
+    compactProof: false
   });
 }
 
@@ -400,8 +450,13 @@ export class CredentialIssuer implements IAgentPlugin {
       //------------------------- BEGIN JSON_LD INSERT
 
       if (args.proofFormat === 'lds') {
+        // LDS ONLY works on `controllerKeyId` because it's uniquely resolvable as a verificationMethod
+        if (key.kid != identifier.controllerKeyId) {
+          throw new Error('Trying to use a non-controller key for an LD-Proof is not supported')
+        }
+
         const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
-        return signLdDoc(credential, keyPayload)
+        return signLdDoc(credential, keyPayload, identifier.did, context)
       }
 
       //------------------------- END JSON_LD INSERT
@@ -440,12 +495,27 @@ export class CredentialIssuer implements IAgentPlugin {
     const credential = args.credential
     // JWT
     if (credential.proof.jwt) {
-
+      // Not implemented yet.
+      throw Error('verifyVerifiableCredential currently does not the verification of VC-JWT credentials.')
     }
 
-    // EcdsaSecp256k1Signature2019
-    //
-    return false
+    const result = await vc.verifyCredential({
+      credential,
+      suite: [new EcdsaSecp256k1RecoverySignature2020(), new Ed25519Signature2020()],
+      documentLoader: getDocumentLoader(context),
+      purpose: new AssertionProofPurpose(),
+      compactProof: false
+    });
+
+    if (result.verified)
+      return true
+
+    // NOT verified.
+
+    // result can include raw Error
+    console.log(`Error verifying LD Credential`)
+    console.log(JSON.stringify(result, null, 2));
+    throw Error('Error verifying credential')
   }
 }
 
