@@ -9,7 +9,7 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@decentralized-identity/ion-tools": "^0.0.4",
+    "@decentralized-identity/ion-tools": "git://github.com/rado0x54/ion-tools.git",
     "@veramo/core": "^1.1.0",
     "@veramo/did-manager": "^1.1.0",
     "debug": "^4.1.1"

@@ -58,14 +58,14 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
 
 
     const identifier: Omit<IIdentifier, 'provider'> = {
-      did: await did.getURI('short'),
+      did: await did.getURI(),
       controllerKeyId: key.kid,
       keys: [key],
       services: [],
     }
 
     // TODO: Long version DID is not conformant to "initial value" definition.
-    console.log(`Created (long version): ${ await did.getURI() }`)
+    console.log(`Created (short version): ${ await did.getURI('short') }`)
     debug('Created', identifier.did)
     return identifier
   }
