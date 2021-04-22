@@ -286,7 +286,7 @@ export type IContext = IAgentContext<
  */
 
 const getDocumentLoader = (context: IContext) => extendContextLoader(async (url: string) => {
-  console.log(`resolving context for: ${url}`)
+  // console.log(`resolving context for: ${url}`)
 
   // did resolution
   if (url.toLowerCase().startsWith('did:')) {
@@ -313,7 +313,7 @@ const getDocumentLoader = (context: IContext) => extendContextLoader(async (url:
     }
 
 
-    console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
+    // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
     return {
       contextUrl: null,
       documentUrl: url,
@@ -322,7 +322,7 @@ const getDocumentLoader = (context: IContext) => extendContextLoader(async (url:
   }
 
   if (localContexts.has(url)) {
-    console.log(`Returning local context for: ${url}`)
+    // console.log(`Returning local context for: ${url}`)
     return {
       contextUrl: null,
       documentUrl: url,
@@ -382,7 +382,7 @@ const issueLDVerifiableCredential = async (
   // some suites are misssisng the right contexts
   switch (suite.type) {
     case "EcdsaSecp256k1RecoverySignature2020":
-      console.log(`Adding context to credential ${suite.type}`)
+      // console.log(`Adding context to credential ${suite.type}`)
       credential['@context'].push('https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld')
       break
     default:
@@ -484,7 +484,7 @@ export class CredentialIssuer implements IAgentPlugin {
         }
 
         const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
-        return signLDVerifiablePresentation(presentation,
+        return await signLDVerifiablePresentation(presentation,
           keyPayload, args.challenge, args.domain, identifier, context)
       }
       //------------------------- END JSON_LD INSERT
@@ -550,6 +550,7 @@ export class CredentialIssuer implements IAgentPlugin {
       if (!key) throw Error('No signing key for ' + identifier.did)
 
       //------------------------- BEGIN JSON_LD INSERT
+      let verifiableCredential;
       if (args.proofFormat === 'lds') {
         // LDS ONLY works on `controllerKeyId` because it's uniquely resolvable as a verificationMethod
         if (key.kid != identifier.controllerKeyId) {
@@ -557,25 +558,26 @@ export class CredentialIssuer implements IAgentPlugin {
         }
 
         const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
-        return issueLDVerifiableCredential(credential, keyPayload, identifier, context)
-      }
-      //------------------------- END JSON_LD INSERT
+        verifiableCredential = await issueLDVerifiableCredential(credential, keyPayload, identifier, context)
+      } else {
+        //------------------------- END JSON_LD INSERT
+        //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
 
-      //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
-      debug('Signing VC with', identifier.did)
-      let alg = 'ES256K'
-      if (key.type === 'Ed25519') {
-        alg = 'EdDSA'
+
+        debug('Signing VC with', identifier.did)
+        let alg = 'ES256K'
+        if (key.type === 'Ed25519') {
+          alg = 'EdDSA'
+        }const signer = wrapSigner(context, key, alg)
+        const jwt = await createVerifiableCredentialJwt(
+          credentialas CredentialPayload,
+          { did: identifier.did, signer, alg },
+          { removeOriginalFields: args.removeOriginalFields },
+        )
+        //FIXME: flagging this as a potential privacy leak.
+        debug(jwt)
+        verifiableCredential = normalizeCredential(jwt)
       }
-      const signer = wrapSigner(context, key, alg)
-      const jwt = await createVerifiableCredentialJwt(
-        credential as CredentialPayload,
-        { did: identifier.did, signer, alg },
-        { removeOriginalFields: args.removeOriginalFields },
-      )
-      //FIXME: flagging this as a potential privacy leak.
-      debug(jwt)
-      const verifiableCredential = normalizeCredential(jwt)
       if (args.save) {
         await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
       }
