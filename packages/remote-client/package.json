@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "@veramo/core": "^1.1.0",
-    "cross-fetch": "^3.0.5",
+    "cross-fetch": "^3.1.4",
     "debug": "^4.1.1",
-    "openapi-types": "^7.0.0"
+    "openapi-types": "^8.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
-    "typescript": "4.2.3"
+    "typescript": "4.2.4"
   },
   "files": [
     "build/**/*",

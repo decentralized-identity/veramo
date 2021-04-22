@@ -152,7 +152,7 @@ didResolver:
             web:
               $ref: /web-did-resolver
             key:
-              $ref: /universal-resolver
+              $ref: /did-key-resolver
             elem:
               $ref: /universal-resolver
             io:
@@ -190,6 +190,9 @@ universal-resolver:
   $require: '@veramo/did-resolver#UniversalResolver'
   $args:
     - url: https://dev.uniresolver.io/1.0/identifiers/
+
+did-key-resolver:
+  $require: '@veramo/did-provider-key?t=function&p=/key#getDidKeyResolver'
 
 # Key Manager
 keyManager:

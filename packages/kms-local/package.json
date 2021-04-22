@@ -16,13 +16,13 @@
     "did-jwt": "5.1.2",
     "elliptic": "6.5.4",
     "ethjs-signer": "^0.1.1",
-    "libsodium-wrappers": "^0.7.6"
+    "libsodium-wrappers": "^0.7.8"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
     "@types/ethjs-signer": "0.1.0",
     "@types/libsodium-wrappers": "0.7.9",
-    "typescript": "4.2.3"
+    "typescript": "4.2.4"
   },
   "files": [
     "build/**/*",

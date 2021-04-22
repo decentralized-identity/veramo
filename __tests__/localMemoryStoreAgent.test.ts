@@ -9,8 +9,8 @@ import {
   IAgentOptions,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager } from '../packages/did-manager/src'
+import { KeyManager, MemoryKeyStore } from '../packages/key-manager/src'
+import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
@@ -23,15 +23,8 @@ import {
   ISelectiveDisclosure,
   SdrMessageHandler,
 } from '../packages/selective-disclosure/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import {
-  Entities,
-  KeyStore,
-  DIDStore,
-  IDataStoreORM,
-  DataStore,
-  DataStoreORM,
-} from '../packages/data-store/src'
+import { KeyManagementSystem } from '../packages/kms-local/src'
+import { Entities, IDataStoreORM, DataStore, DataStoreORM } from '../packages/data-store/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -51,7 +44,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import messageHandler from './shared/messageHandler'
 
-const databaseFile = 'local-database.sqlite'
+const databaseFile = 'local-database2.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
@@ -94,13 +87,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     },
     plugins: [
       new KeyManager({
-        store: new KeyStore(dbConnection, new SecretBox(secretKey)),
+        store: new MemoryKeyStore(),
         kms: {
           local: new KeyManagementSystem(),
         },
       }),
       new DIDManager({
-        store: new DIDStore(dbConnection),
+        store: new MemoryDIDStore(),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
           'did:ethr': new EthrDIDProvider({
@@ -157,7 +150,7 @@ const getAgent = () => agent
 
 const testContext = { getAgent, setup, tearDown }
 
-describe('Local integration tests', () => {
+describe('Local in-memory integration tests', () => {
   verifiableData(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
