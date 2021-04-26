@@ -31,10 +31,10 @@
   "devDependencies": {
     "@commitlint/cli": "12.1.1",
     "@commitlint/config-conventional": "12.1.1",
-    "@microsoft/api-documenter": "7.12.22",
-    "@microsoft/api-extractor": "7.13.5",
-    "@microsoft/api-extractor-model": "7.12.5",
-    "@types/jest": "26.0.22",
+    "@microsoft/api-documenter": "7.13.3",
+    "@microsoft/api-extractor": "7.14.0",
+    "@microsoft/api-extractor-model": "7.13.0",
+    "@types/jest": "26.0.23",
     "codecov": "3.8.1",
     "cross-fetch": "3.1.4",
     "husky": "6.0.0",
@@ -50,7 +50,7 @@
     "rimraf": "3.0.2",
     "semantic-release": "17.4.2",
     "ts-jest": "26.5.5",
-    "ts-json-schema-generator": "0.90.0",
+    "ts-json-schema-generator": "0.91.0",
     "ts-node": "9.1.1",
     "typescript": "4.2.4"
   },

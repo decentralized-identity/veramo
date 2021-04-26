@@ -13,7 +13,7 @@
     "@veramo/key-manager": "^1.1.0",
     "base-58": "^0.0.1",
     "debug": "^4.1.1",
-    "did-jwt": "5.1.2",
+    "did-jwt": "5.2.0",
     "elliptic": "6.5.4",
     "ethjs-signer": "^0.1.1",
     "libsodium-wrappers": "^0.7.8"
