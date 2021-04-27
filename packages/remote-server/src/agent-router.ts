@@ -11,11 +11,6 @@ interface RequestWithAgent extends Request {
  */
 export interface AgentRouterOptions {
   /**
-   * Function that returns configured agent for specific request
-   */
-  getAgentForRequest: (req: Request) => Promise<IAgent>
-
-  /**
    * List of exposed methods
    */
   exposedMethods: Array<string>
@@ -30,10 +25,6 @@ export interface AgentRouterOptions {
 export const AgentRouter = (options: AgentRouterOptions): Router => {
   const router = Router()
   router.use(json())
-  router.use(async (req: RequestWithAgent, res, next) => {
-    req.agent = await options.getAgentForRequest(req)
-    next()
-  })
 
   for (const exposedMethod of options.exposedMethods) {
     Debug('veramo:remote-server:initializing')(exposedMethod)

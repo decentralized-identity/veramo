@@ -1,5 +1,5 @@
 import { IAgentPlugin, IResolver, schema } from '@veramo/core'
-import { Resolver, DIDDocument } from 'did-resolver'
+import { Resolver, DIDDocument, DIDResolutionResult, DIDResolutionOptions } from 'did-resolver'
 export { DIDDocument }
 import Debug from 'debug'
 const debug = Debug('veramo:resolver')
@@ -24,8 +24,8 @@ export class DIDResolverPlugin implements IAgentPlugin {
     }
   }
 
-  async resolveDid({ didUrl }: { didUrl: string }): Promise<DIDDocument> {
+  async resolveDid({ didUrl, options }: { didUrl: string, options?: DIDResolutionOptions }): Promise<DIDResolutionResult> {
     debug('Resolving %s', didUrl)
-    return this.didResolver.resolve(didUrl)
+    return this.didResolver.resolve(didUrl, options)
   }
 }

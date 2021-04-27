@@ -35,6 +35,7 @@ import {
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+import { getDidKeyResolver } from '../packages/did-provider-key'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -123,16 +124,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({
-            networks: [
-              { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId },
-              { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId },
-              { name: 'ropsten', rpcUrl: 'https://ropsten.infura.io/v3/' + infuraProjectId },
-              { name: 'kovan', rpcUrl: 'https://kovan.infura.io/v3/' + infuraProjectId },
-              { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId },
-            ],
-          }),
+          ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
+          ...getDidKeyResolver(),
         }),
       }),
       new DataStore(dbConnection),

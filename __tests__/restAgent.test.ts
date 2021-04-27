@@ -37,7 +37,7 @@ import {
 import { AgentRestClient } from '../packages/remote-client/src'
 import express from 'express'
 import { Server } from 'http'
-import { AgentRouter } from '../packages/remote-server/src'
+import { AgentRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -54,6 +54,7 @@ import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import messageHandler from './shared/messageHandler'
+import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
 
 const databaseFile = 'rest-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -130,16 +131,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ethr: ethrDidResolver({
-            networks: [
-              { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId },
-              { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId },
-              { name: 'ropsten', rpcUrl: 'https://ropsten.infura.io/v3/' + infuraProjectId },
-              { name: 'kovan', rpcUrl: 'https://kovan.infura.io/v3/' + infuraProjectId },
-              { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId },
-            ],
-          }).ethr,
-          web: webDidResolver().web,
+          ...ethrDidResolver({ infuraProjectId }),
+          ...webDidResolver(),
+          key: getUniversalResolver(), // resolve using remote resolver
         }),
       }),
       new DataStore(dbConnection),
@@ -159,13 +153,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   })
 
   const agentRouter = AgentRouter({
-    getAgentForRequest: async (req) => serverAgent,
     exposedMethods: serverAgent.availableMethods(),
+  })
+
+  const requestWithAgent = RequestWithAgentRouter({
+    agent: serverAgent,
   })
 
   return new Promise((resolve) => {
     const app = express()
-    app.use(basePath, agentRouter)
+    app.use(basePath, requestWithAgent, agentRouter)
     restServer = app.listen(port, () => {
       resolve(true)
     })

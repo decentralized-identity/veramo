@@ -41,7 +41,7 @@ export function createObjects(config: object, pointers: Record<string, string>):
     // console.log('Requiring', objectConfig['$require'])
     const parsed = parse(objectConfig['$require'], {}, true)
     let module = parsed.pathname
-    const member = parsed.hash.length > 1 ? parsed.hash.slice(1) : 'default'
+    const member = parsed.hash.length > 1 ? parsed.hash.slice(1) : undefined
     const type = parsed.query['t'] || 'class'
     const pointer = parsed.query['p']
     const args = objectConfig['$args']
@@ -52,13 +52,17 @@ export function createObjects(config: object, pointers: Record<string, string>):
     }
 
     const resolvedArgs = args !== undefined ? resolveRefs(args) : []
-    let required = require(module)[member]
-    if (type === 'class') {
-      object = new required(...resolvedArgs)
-    } else if (type === 'function') {
-      object = required(...resolvedArgs)
-    } else if (type === 'object') {
-      object = required
+    try {
+      let required = member ? require(module)[member] : require(module)
+      if (type === 'class') {
+        object = new required(...resolvedArgs)
+      } else if (type === 'function') {
+        object = required(...resolvedArgs)
+      } else if (type === 'object') {
+        object = required
+      }
+    } catch (e) {
+      throw new Error(`Error creating ${module}['${member}']: ${e.message}`)
     }
     if (pointer) {
       return get(object, pointer)

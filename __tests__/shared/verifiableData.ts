@@ -1,6 +1,7 @@
 import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+import { decodeJWT } from 'did-jwt'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 
@@ -69,6 +70,34 @@ export default (testContext: {
       expect(verifiableCredential).toHaveProperty('issuanceDate')
       expect(verifiableCredential['@context']).toEqual(['https://www.w3.org/2018/credentials/v1'])
       expect(verifiableCredential['type']).toEqual(['VerifiableCredential'])
+
+      const token = verifiableCredential.proof.jwt
+      const { payload } = decodeJWT(token)
+      expect(payload.vc.credentialSubject.id).not.toBeDefined()
+    })
+
+    it('should create verifiable credential keeping original fields', async () => {
+      expect.assertions(5)
+      const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: identifier.did },
+          credentialSubject: {
+            id: 'did:web:example.com',
+            you: 'Rock',
+          },
+        },
+        proofFormat: 'jwt',
+        removeOriginalFields: false,
+      })
+
+      expect(verifiableCredential).toHaveProperty('proof.jwt')
+      expect(verifiableCredential).toHaveProperty('issuanceDate')
+      expect(verifiableCredential['@context']).toEqual(['https://www.w3.org/2018/credentials/v1'])
+      expect(verifiableCredential['type']).toEqual(['VerifiableCredential'])
+
+      const token = verifiableCredential.proof.jwt
+      const { payload } = decodeJWT(token)
+      expect(payload.vc.credentialSubject.id).toEqual('did:web:example.com')
     })
 
     it('should create verifiable presentation', async () => {
@@ -142,6 +171,41 @@ export default (testContext: {
 
       const verifiablePresentation2 = await agent.dataStoreGetVerifiablePresentation({ hash })
       expect(verifiablePresentation).toEqual(verifiablePresentation2)
+
+      const token = verifiablePresentation.proof.jwt
+      const { payload } = decodeJWT(token)
+      expect(payload.holder).not.toBeDefined()
+    })
+
+    it('should create verifiable presentation (simple) keeping original fields', async () => {
+      const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: identifier.did },
+          credentialSubject: {
+            id: 'did:web:example.com',
+            you: 'Rock',
+          },
+        },
+        proofFormat: 'jwt',
+      })
+
+      const verifiablePresentation = await agent.createVerifiablePresentation({
+        presentation: {
+          holder: identifier.did,
+          verifier: [],
+          verifiableCredential: [verifiableCredential],
+        },
+        proofFormat: 'jwt',
+        removeOriginalFields: false,
+      })
+
+      expect(verifiablePresentation).toHaveProperty('proof.jwt')
+      expect(verifiablePresentation['@context']).toEqual(['https://www.w3.org/2018/credentials/v1'])
+      expect(verifiablePresentation['type']).toEqual(['VerifiablePresentation'])
+
+      const token = verifiablePresentation.proof.jwt
+      const { payload } = decodeJWT(token)
+      expect(payload.holder).toEqual(identifier.did)
     })
 
     it('should query for credentials', async () => {

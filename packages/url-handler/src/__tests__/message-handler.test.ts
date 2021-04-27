@@ -1,6 +1,6 @@
 import { Message } from '@veramo/message-handler'
 import { UrlMessageHandler } from '../index'
-import fetchMock from 'jest-fetch-mock'
+import fetchMock, { MockParams } from 'jest-fetch-mock'
 import { IAgent } from '@veramo/core'
 fetchMock.enableMocks()
 
@@ -44,5 +44,31 @@ describe('@veramo/url-handler', () => {
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
 
     expect(message.raw).toEqual('mockbody')
+  })
+
+  it('should try to load data from redirected URL query', async () => {
+    const message = new Message({ raw: 'https://example.com/public-profile.jwt' })
+    fetchMock.mockResponse('mockbody', {
+      counter: 1,
+      url: 'https://some.other.site.example.com?c_i=asdf',
+    } as MockParams)
+    expect.assertions(2)
+
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
+
+    expect(message.raw).toEqual('asdf')
+  })
+
+  it('should try to load data from redirected URL body', async () => {
+    const message = new Message({ raw: 'https://example.com/public-profile.jwt' })
+    fetchMock.mockResponse('otherbody', {
+      counter: 1,
+      url: 'https://some.other.example.com/cred.jwt',
+    } as MockParams)
+    expect.assertions(2)
+
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
+
+    expect(message.raw).toEqual('otherbody')
   })
 })

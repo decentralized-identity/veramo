@@ -17,7 +17,7 @@ export const getConfig = (fileName: string): any => {
 
   const config = yaml.parse(fs.readFileSync(fileName).toString())
 
-  if (config?.version != 1) {
+  if (config?.version != 2) {
     console.log('Unsupported configuration file version:', config.version)
     process.exit(1)
   }

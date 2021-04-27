@@ -2,7 +2,7 @@ import { DIDResolverPlugin } from '../resolver'
 import { Resolver } from 'did-resolver'
 import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
-import { UniversalResolver } from '../universal-resolver'
+import { getUniversalResolverFor } from '../universal-resolver'
 
 const providerConfig = {
   networks: [
@@ -13,8 +13,6 @@ const providerConfig = {
   ],
 }
 
-const uniResolver = new UniversalResolver({ url: 'https://dev.uniresolver.io/1.0/identifiers/' })
-
 /** This creates a resolver that supports the [ethr, web, key, elem] DID methods */
 let resolver: Resolver = new Resolver({
   //resolve did:ethr using the embedded ethr-did-resolver
@@ -22,8 +20,7 @@ let resolver: Resolver = new Resolver({
   //resolve did:web using the embedded web-did-resolver
   ...getWebDidResolver(),
   //resolve some other DID methods using the centralized `uniresolver.io` service
-  key: uniResolver,
-  elem: uniResolver,
+  ...getUniversalResolverFor(['key', 'elem']),
 })
 
 let resolverPlugin: DIDResolverPlugin = new DIDResolverPlugin({ resolver })
@@ -33,29 +30,33 @@ describe('@veramo/did-resolver', () => {
 
   it('should resolve web DID', async () => {
     expect.assertions(1)
-    await expect(resolverPlugin.resolveDid({ didUrl: 'did:web:did.actor:alice' })).resolves.toMatchObject({
-      '@context': 'https://w3id.org/did/v0.11',
-      id: 'did:web:did.actor:alice',
-      publicKey: [
-        {
-          id: 'did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN',
-          controller: 'did:web:did.actor:alice',
-          type: 'Ed25519VerificationKey2018',
-          publicKeyBase58: 'DK7uJiq9PnPnj7AmNZqVBFoLuwTjT1hFPrk6LSjZ2JRz',
-        },
-      ],
-      authentication: ['did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN'],
-      assertionMethod: ['did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN'],
-      capabilityDelegation: ['did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN'],
-      capabilityInvocation: ['did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN'],
-      keyAgreement: [
-        {
-          id: 'did:web:did.actor:alice#zC8GybikEfyNaausDA4mkT4egP7SNLx2T1d1kujLQbcP6h',
-          type: 'X25519KeyAgreementKey2019',
-          controller: 'did:web:did.actor:alice',
-          publicKeyBase58: 'CaSHXEvLKS6SfN9aBfkVGBpp15jSnaHazqHgLHp8KZ3Y',
-        },
-      ],
+    await expect(resolverPlugin.resolveDid({ didUrl: 'did:web:did.actor:alice' })).resolves.toEqual({
+      didDocument: {
+        '@context': 'https://w3id.org/did/v0.11',
+        id: 'did:web:did.actor:alice',
+        publicKey: [
+          {
+            id: 'did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN',
+            controller: 'did:web:did.actor:alice',
+            type: 'Ed25519VerificationKey2018',
+            publicKeyBase58: 'DK7uJiq9PnPnj7AmNZqVBFoLuwTjT1hFPrk6LSjZ2JRz',
+          },
+        ],
+        authentication: ['did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN'],
+        assertionMethod: ['did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN'],
+        capabilityDelegation: ['did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN'],
+        capabilityInvocation: ['did:web:did.actor:alice#z6MkrmNwty5ajKtFqc1U48oL2MMLjWjartwc5sf2AihZwXDN'],
+        keyAgreement: [
+          {
+            id: 'did:web:did.actor:alice#zC8GybikEfyNaausDA4mkT4egP7SNLx2T1d1kujLQbcP6h',
+            type: 'X25519KeyAgreementKey2019',
+            controller: 'did:web:did.actor:alice',
+            publicKeyBase58: 'CaSHXEvLKS6SfN9aBfkVGBpp15jSnaHazqHgLHp8KZ3Y',
+          },
+        ],
+      },
+      didDocumentMetadata: {},
+      didResolutionMetadata: { contentType: 'application/did+ld+json' },
     })
   })
 
@@ -63,31 +64,35 @@ describe('@veramo/did-resolver', () => {
     expect.assertions(1)
     await expect(
       resolverPlugin.resolveDid({ didUrl: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6' }),
-    ).resolves.toMatchObject({
-      '@context': 'https://w3id.org/did/v1',
-      id: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
-      publicKey: [
-        {
-          id: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller',
-          type: 'Secp256k1VerificationKey2018',
-          controller: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
-          ethereumAddress: '0xe6fe788d8ca214a080b0f6ac7f48480b2aefa9a6',
-        },
-      ],
-      authentication: [
-        {
-          type: 'Secp256k1SignatureAuthentication2018',
-          publicKey: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller',
-        },
-      ],
+    ).resolves.toEqual({
+      didDocument: {
+        '@context': [
+          'https://www.w3.org/ns/did/v1',
+          'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+        ],
+        id: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+        verificationMethod: [
+          {
+            id: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller',
+            type: 'EcdsaSecp256k1RecoveryMethod2020',
+            controller: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+            blockchainAccountId: '0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6@eip155:4',
+          },
+        ],
+        authentication: ['did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
+        assertionMethod: ['did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
+      },
+      didDocumentMetadata: {},
+      didResolutionMetadata: { contentType: 'application/did+ld+json' },
     })
   })
 
   it('should resolve did:key using uniresolver', async () => {
     expect.assertions(1)
-    await expect(
-      resolverPlugin.resolveDid({ didUrl: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6' }),
-    ).resolves.toMatchObject({
+    const { didDocument } = await resolverPlugin.resolveDid({
+      didUrl: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+    })
+    expect(didDocument).toEqual({
       '@context': ['https://w3id.org/did/v0.11'],
       id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
       publicKey: [
@@ -125,9 +130,11 @@ describe('@veramo/did-resolver', () => {
 
   it('should fail predictably when unsupported method is resolved', async () => {
     expect.assertions(1)
-    await expect(resolverPlugin.resolveDid({ didUrl: 'did:unsupported:lorem.ipsum' })).rejects.toThrowError(
-      "Unsupported DID method: 'unsupported'",
-    )
+    await expect(resolverPlugin.resolveDid({ didUrl: 'did:unsupported:lorem.ipsum' })).resolves.toEqual({
+      didDocument: null,
+      didDocumentMetadata: {},
+      didResolutionMetadata: { error: 'unsupportedDidMethod' },
+    })
   })
 
   it.todo('should resolve ethr-did with custom web3 provider')

@@ -1,21 +1,5 @@
-version: 1.0
-server:
-  hostname: localhost
-  port: 3335
-  schemaPath: /open-api.json
-  apiBasePath: /agent
-  apiDocsPath: /api-docs
-  defaultDID:
-    create: true
-    messagingServiceEndpoint: /messaging
-  ngrok:
-    connect: true
-    # authtoken: XZY
-    # subdomain: alice-did
-    # region: eu
-  # exposedMethods:
-  #   - resolveDid
-  #   - dataStoreORMGetIdentifiers
+version: 2.0
+
 agent:
   $require: '@veramo/core#Agent'
   $args:
@@ -48,8 +32,11 @@ agent:
                 - didManagerAddService
                 - didManagerRemoveService
                 - resolveDid
+                - dataStoreGetMessage
                 - dataStoreSaveMessage
+                - dataStoreGetVerifiableCredential
                 - dataStoreSaveVerifiableCredential
+                - dataStoreGetVerifiablePresentation
                 - dataStoreSaveVerifiablePresentation
                 - dataStoreORMGetIdentifiers
                 - dataStoreORMGetIdentifiersCount

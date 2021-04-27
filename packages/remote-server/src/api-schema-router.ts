@@ -1,24 +1,16 @@
 import { IAgent } from '@veramo/core'
 import { Request, Router } from 'express'
 import { getOpenApiSchema } from '@veramo/remote-client'
-
-interface RequestWithAgent extends Request {
-  agent?: IAgent
-}
+import { RequestWithAgent } from './request-agent-router'
 
 /**
  * @public
  */
 export interface ApiSchemaRouterOptions {
   /**
-   * Function that returns configured agent for specific request
-   */
-  getAgentForRequest: (req: Request) => Promise<IAgent>
-
-  /**
    * List of exposed methods
    */
-  exposedMethods: Array<string>
+  exposedMethods?: Array<string>
 
   /**
    * Base path
@@ -53,17 +45,13 @@ export interface ApiSchemaRouterOptions {
  */
 export const ApiSchemaRouter = (options: ApiSchemaRouterOptions): Router => {
   const router = Router()
-  router.use(async (req: RequestWithAgent, res, next) => {
-    req.agent = await options.getAgentForRequest(req)
-    next()
-  })
 
   router.get('/', (req: RequestWithAgent, res) => {
     if (req.agent) {
       const openApiSchema = getOpenApiSchema(
         req.agent,
         '',
-        options.exposedMethods,
+        options.exposedMethods || req.agent?.availableMethods(),
         options.apiName,
         options.apiVersion,
       )

@@ -165,9 +165,7 @@ export default (testContext: {
         data: 'test',
       })
 
-      expect(signature).toHaveProperty('r')
-      expect(signature).toHaveProperty('s')
-      expect(signature).toHaveProperty('recoveryParam')
+      expect(signature).toBeDefined()
     })
 
     it('should sign EthTX', async () => {
