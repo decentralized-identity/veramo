@@ -25,10 +25,7 @@
     "@veramo/did-jwt": "^1.2.0",
     "@veramo/did-manager": "^1.2.0",
     "@veramo/did-provider-ethr": "^1.2.0",
-<<<<<<< HEAD
-=======
     "@veramo/did-provider-key": "^1.2.0",
->>>>>>> ecdc6594 (fix: integration tests and CLI config for did:key)
     "@veramo/did-provider-web": "^1.2.0",
     "@veramo/did-resolver": "^1.2.0",
     "@veramo/key-manager": "^1.2.0",
