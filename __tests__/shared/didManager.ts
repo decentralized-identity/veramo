@@ -19,7 +19,7 @@ export default (testContext: {
 
     it('should get providers', async () => {
       const providers = await agent.didManagerGetProviders()
-      expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:web'])
+      expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:web', 'did:key'])
     })
 
     let identifier: IIdentifier
@@ -73,6 +73,18 @@ export default (testContext: {
 
       expect(identifier3).toEqual(identifier4)
 
+      const identifierKey1 = await agent.didManagerGetOrCreate({
+        alias: 'carol',
+        provider: 'did:key',
+      })
+
+      const identifierKey2 = await agent.didManagerGetOrCreate({
+        alias: 'carol',
+        provider: 'did:key',
+      })
+
+      expect(identifierKey1).toEqual(identifierKey2)
+
       const identifier5 = await agent.didManagerGetOrCreate({
         alias: 'alice',
         provider: 'did:ethr',
@@ -97,7 +109,7 @@ export default (testContext: {
 
     it('should get identifiers', async () => {
       const allIdentifiers = await agent.didManagerFind()
-      expect(allIdentifiers.length).toEqual(3)
+      expect(allIdentifiers.length).toEqual(4)
 
       const aliceIdentifiers = await agent.didManagerFind({
         alias: 'alice',
