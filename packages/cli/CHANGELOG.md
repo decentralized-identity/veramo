@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/uport-project/veramo/compare/v1.2.0...v1.2.1) (2021-05-03)
+
+
+### Bug Fixes
+
+* integration tests and CLI config for did:key ([#498](https://github.com/uport-project/veramo/issues/498)) ([2ec0687](https://github.com/uport-project/veramo/commit/2ec068715d9fd4f2917c05f67755e226713cda1d))
+
+
+
+
+
 # [1.2.0](https://github.com/uport-project/veramo/compare/v1.1.2...v1.2.0) (2021-04-27)
 
 
