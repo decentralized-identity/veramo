@@ -17,6 +17,7 @@ import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
+import { KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   SelectiveDisclosure,
@@ -118,6 +119,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
           }),
           'did:web': new WebDIDProvider({
+            defaultKms: 'local',
+          }),
+          'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
         },

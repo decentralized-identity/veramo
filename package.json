@@ -31,8 +31,8 @@
   "devDependencies": {
     "@commitlint/cli": "12.1.1",
     "@commitlint/config-conventional": "12.1.1",
-    "@microsoft/api-documenter": "7.13.3",
-    "@microsoft/api-extractor": "7.14.0",
+    "@microsoft/api-documenter": "7.13.5",
+    "@microsoft/api-extractor": "7.15.0",
     "@microsoft/api-extractor-model": "7.13.0",
     "@types/jest": "26.0.23",
     "codecov": "3.8.1",
