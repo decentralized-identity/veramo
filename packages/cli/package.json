@@ -43,7 +43,7 @@
     "date-fns": "^2.16.1",
     "debug": "^4.1.1",
     "did-resolver": "3.1.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^9.0.0",
     "ethr-did-resolver": "4.3.3",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
