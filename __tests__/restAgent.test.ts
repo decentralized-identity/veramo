@@ -65,6 +65,7 @@ import didComm from './shared/didcomm'
 import didCommRemote from './shared/didcommRemote'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
+import ceramic from './shared/ceramic'
 
 const databaseFile = 'rest-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -218,4 +219,5 @@ describe('REST integration tests', () => {
   didComm(testContext)
   didCommRemote(testContext)
   didDiscovery(testContext)
+  ceramic(testContext)
 })

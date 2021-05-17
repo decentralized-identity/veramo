@@ -46,6 +46,7 @@ import didManager from './shared/didManager'
 import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import ceramic from './shared/ceramic'
 
 const databaseFile = 'local-database2.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -169,4 +170,5 @@ describe('Local in-memory integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didComm(testContext)
+  ceramic(testContext)
 })

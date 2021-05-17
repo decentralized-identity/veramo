@@ -57,6 +57,7 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
+import ceramic from './shared/ceramic'
 
 const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -187,4 +188,5 @@ describe('Local integration tests', () => {
   messageHandler(testContext)
   didComm(testContext)
   didDiscovery(testContext)
+  ceramic(testContext)
 })
