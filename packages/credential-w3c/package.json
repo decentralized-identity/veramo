@@ -16,6 +16,7 @@
   "dependencies": {
     "@transmute/did-key-ed25519": "^0.2.1-unstable.41",
     "@transmute/ed25519-signature-2020": "^0.2.1-unstable.10",
+    "@transmute/ed25519-signature-2018": "^0.6.1-unstable.28",
     "@veramo/core": "^3.1.0",
     "@veramo/did-jwt": "^3.1.0",
     "@veramo/did-resolver": "^3.1.0",

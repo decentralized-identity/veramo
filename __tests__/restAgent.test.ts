@@ -51,6 +51,7 @@ import { AgentRouter, RequestWithAgentRouter, MessagingRouter } from '../package
 import { getDidKeyResolver } from '../packages/did-provider-key/src'
 import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
 import { KeyDIDProvider } from '../packages/did-provider-key/src'
+import { getUniversalResolver } from '../packages/did-resolver/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import { Resolver } from 'did-resolver'
