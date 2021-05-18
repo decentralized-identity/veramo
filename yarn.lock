@@ -428,9 +428,10 @@
     randombytes "2.1.0"
     uri-js "4.4.0"
 
-"@decentralized-identity/ion-tools@git://github.com/rado0x54/ion-tools.git":
+"@decentralized-identity/ion-tools@^0.0.8":
   version "0.0.8"
-  resolved "git://github.com/rado0x54/ion-tools.git#94c7d85da1c32a6e2b0dbebad6ff53009b5d15b9"
+  resolved "https://registry.yarnpkg.com/@decentralized-identity/ion-tools/-/ion-tools-0.0.8.tgz#a1bbe82e7477e21c3759333e61d1bf508dc1ce6d"
+  integrity sha512-FLOKzbf2Bq215NfuBSDDzVIQrGAx+G9Yyrqj51qNxWgf1pYv8WlK171b8tam0+6uLuivnpIT9vTwi41Luzvsng==
   dependencies:
     "@decentralized-identity/ion-sdk" "0.4.2"
     "@transmute/did-key-bls12381" "^0.2.1-unstable.35"
