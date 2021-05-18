@@ -4756,21 +4756,6 @@ did-jwt@5.4.0, did-jwt@^5.4.0:
     js-sha3 "^0.8.0"
     uint8arrays "^2.1.3"
 
-did-jwt@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.2.0.tgz#c8c662334663eeb53f7a6d241237c1e8633cd37d"
-  integrity sha512-5cyFUWdF/B7b7dJzih7XiPWavCUtThgzs00BXDzV8OemBHFlnXpZN7phq5aqy+k8vWWqp+ijxqVLQHRfgc609Q==
-  dependencies:
-    "@stablelib/ed25519" "^1.0.1"
-    "@stablelib/random" "^1.0.0"
-    "@stablelib/sha256" "^1.0.0"
-    "@stablelib/x25519" "^1.0.0"
-    "@stablelib/xchacha20poly1305" "^1.0.0"
-    did-resolver "^3.1.0"
-    elliptic "^6.5.4"
-    js-sha3 "^0.8.0"
-    uint8arrays "^2.1.3"
-
 did-resolver@3.1.0, did-resolver@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.0.tgz#84f0e3d16abe9711dc04c34a5a0e2f63868c9611"
@@ -5151,10 +5136,10 @@ ethr-did-resolver@4.3.3, ethr-did-resolver@^4.3.3:
     ethr-did-registry "^0.0.3"
     querystring "^0.2.1"
 
-ethr-did@2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/ethr-did/-/ethr-did-2.1.3.tgz#56e6da08c2cfa751dbad94f4eca19415ea9505fb"
-  integrity sha512-wOSevWyGfS62MvwCVAmqDlxZT/zfol7cIxI9pFz7cQaXLFyyjw0Dclm7xpQOnxdmm/PxHCmJYm+8F63VZuLDuQ==
+ethr-did@2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/ethr-did/-/ethr-did-2.1.4.tgz#62fec99511cb6c35c4fa5f9fd2daf84ac9700911"
+  integrity sha512-k+Fc+Ko1UrFslElhkztDOcNfD2nHO2CX2TJXpFNDcfyPO06AV4bUNOqDjciXUNr2qAMfDJefA5pER6N/9bkH6A==
   dependencies:
     "@ethersproject/abstract-signer" "^5.1.0"
     "@ethersproject/base64" "^5.1.0"
@@ -5165,7 +5150,7 @@ ethr-did@2.1.3:
     "@ethersproject/strings" "^5.1.0"
     "@ethersproject/transactions" "^5.1.1"
     "@ethersproject/wallet" "^5.1.0"
-    did-jwt "^5.2.0"
+    did-jwt "^5.4.0"
     did-resolver "^3.1.0"
     ethr-did-resolver "^4.3.3"
 
