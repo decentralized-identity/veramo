@@ -67,7 +67,17 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
       const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('Signing key not found')
-      const signer = (data: string | Uint8Array) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
+      const signer = (data: string | Uint8Array) => {
+        let dataString, enc: 'base16' | undefined
+        if (typeof(data) === 'string') {
+          dataString = data
+          enc = undefined
+        } else {
+          dataString = Buffer.from(data).toString("hex"),
+          enc = 'base16'
+        }
+        return context.agent.keyManagerSign({ kid: key.kid, data: dataString, enc })
+      }
       const jwt = await createJWT(
         {
           type: 'sdr',

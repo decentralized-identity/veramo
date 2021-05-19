@@ -180,8 +180,8 @@ export default (testContext: {
         transaction: {
           to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
           value: 300000,
-          gas: 43092000,
-          gasPrice: '20000000000',
+          gasLimit: 43092000,
+          gasPrice: 20000000000,
           nonce: 1,
         },
       })

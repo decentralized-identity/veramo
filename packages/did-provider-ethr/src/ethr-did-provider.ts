@@ -108,11 +108,11 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const attribute = 'did/pub/' + key.type + '/' + usg + '/hex'
     const value = '0x' + key.publicKeyHex
     const ttl = options?.ttl || this.ttl
-    const gas = options?.gas || this.gas
+    const gasLimit = options?.gas || this.gas
 
-    debug('ethrDid.setAttribute %o', { attribute, value, ttl, gas })
+    debug('ethrDid.setAttribute %o', { attribute, value, ttl, gas: gasLimit })
 
-    const txHash = await ethrDid.setAttribute(attribute, value, ttl, gas)
+    const txHash = await ethrDid.setAttribute(attribute, value, ttl, gasLimit)
     debug({ txHash })
     return txHash
   }

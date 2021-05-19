@@ -2727,13 +2727,6 @@
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
   integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
 
-"@types/ethjs-signer@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@types/ethjs-signer/-/ethjs-signer-0.1.0.tgz#0960ba391a254d51dbef83f423dc7efa1cd081c4"
-  integrity sha512-Bom/6SlljFQexWsxYnMLcR18kQxUcqqfXWct7c1ZMNXYzyNNsF5RP60x7cdAhURnlYEmiTGCTO58YEhe063YbA==
-  dependencies:
-    "@types/node" "*"
-
 "@types/express-serve-static-core@*":
   version "4.17.16"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.16.tgz#56626e2f60bdd9a5193bc84a1042a506eeb69da7"
@@ -3650,7 +3643,7 @@ braces@^3.0.1:
   dependencies:
     fill-range "^7.0.1"
 
-brorand@^1.0.1, brorand@^1.1.0:
+brorand@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
@@ -5036,21 +5029,6 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-electron-to-chromium@^1.3.723:
-  version "1.3.741"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.741.tgz#dc1024b19b31e27fb2c8c0a1f120cb05fc6ca695"
-  integrity sha512-4i3T0cwnHo1O4Mnp9JniEco8bZiXoqbm3PhW5hv7uu8YLg35iajYrRnNyKFaN8/8SSTskU2hYqVTeYVPceSpUA==
-
-elliptic@6.3.2:
-  version "6.3.2"
-  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.3.2.tgz#e4c81e0829cf0a65ab70e998b8232723b5c1bc48"
-  integrity sha1-5MgeCCnPCmWrcOmYuCMnI7XBvEg=
-  dependencies:
-    bn.js "^4.4.0"
-    brorand "^1.0.1"
-    hash.js "^1.0.0"
-    inherits "^2.0.1"
-
 elliptic@6.5.4, elliptic@^6.5.2, elliptic@^6.5.4:
   version "6.5.4"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.4.tgz#da37cebd31e79a1367e941b592ed1fbebd58abbb"
@@ -5269,17 +5247,6 @@ ethjs-schema@0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/ethjs-schema/-/ethjs-schema-0.1.4.tgz#0323a16333b1ace9a8f1d696a6ee63448fdd455f"
   integrity sha1-AyOhYzOxrOmo8daWpu5jRI/dRV8=
-
-ethjs-signer@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/ethjs-signer/-/ethjs-signer-0.1.1.tgz#0af77961e29ee458603aabd3660b8868d3386441"
-  integrity sha1-Cvd5YeKe5FhgOqvTZguIaNM4ZEE=
-  dependencies:
-    elliptic "6.3.2"
-    js-sha3 "0.5.5"
-    number-to-bn "1.1.0"
-    rlp "2.0.0"
-    strip-hex-prefix "1.0.0"
 
 ethjs-util@0.1.3:
   version "0.1.3"
@@ -7400,11 +7367,6 @@ jju@~1.4.0:
   resolved "https://registry.yarnpkg.com/jju/-/jju-1.4.0.tgz#a3abe2718af241a2b2904f84a625970f389ae32a"
   integrity sha1-o6vicYryQaKykE+EpiWXDzia4yo=
 
-js-sha3@0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.5.5.tgz#baf0c0e8c54ad5903447df96ade7a4a1bca79a4a"
-  integrity sha1-uvDA6MVK1ZA0R9+Wreekobynmko=
-
 js-sha3@0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.5.7.tgz#0d4ffd8002d5333aabaf4a23eed2f6374c9f28e7"
@@ -9212,15 +9174,6 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-number-to-bn@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/number-to-bn/-/number-to-bn-1.1.0.tgz#51a3387c5bc68035ab4058c626132f767d9d08bf"
-  integrity sha1-UaM4fFvGgDWrQFjGJhMvdn2dCL8=
-  dependencies:
-    bn.js "4.11.6"
-    is-hex-prefixed "1.0.0"
-    strip-hex-prefix "1.0.0"
-
 number-to-bn@1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/number-to-bn/-/number-to-bn-1.7.0.tgz#bb3623592f7e5f9e0030b1977bd41a0c53fe1ea0"
@@ -10630,11 +10583,6 @@ rimraf@3.0.2, rimraf@^3.0.0, rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
-rlp@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/rlp/-/rlp-2.0.0.tgz#9db384ff4b89a8f61563d92395d8625b18f3afb0"
-  integrity sha1-nbOE/0uJqPYVY9kjldhiWxjzr7A=
-
 rsvp@^3.5.0:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
@@ -11933,6 +11881,13 @@ uint8arrays@^2.1.3:
   dependencies:
     multibase "^4.0.1"
     web-encoding "^1.1.0"
+
+uint8arrays@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/uint8arrays/-/uint8arrays-2.1.5.tgz#9e6e6377a9463d5eba4620a3f0450f7eb389a351"
+  integrity sha512-CSR7AO+4AHUeSOnZ/NBNCElDeWfRh9bXtOck27083kc7SznmmHIhNEkEOCQOn0wvrIMjS3IH0TNLR16vuc46mA==
+  dependencies:
+    multibase "^4.0.1"
 
 umask@^1.1.0, umask@~1.1.0:
   version "1.1.0"

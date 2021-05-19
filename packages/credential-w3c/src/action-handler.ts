@@ -225,7 +225,7 @@ export class CredentialIssuer implements IAgentPlugin {
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
-      const signer = (data: string | Uint8Array) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
+      const signer = (data: string | Uint8Array) => context.agent.keyManagerSign({ kid: key.kid, data })
       debug('Signing VP with', identifier.did)
       let alg = 'ES256K'
       if (key.type === 'Ed25519') {
@@ -270,7 +270,7 @@ export class CredentialIssuer implements IAgentPlugin {
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
-      const signer = (data: string | Uint8Array) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
+      const signer = (data: string | Uint8Array) => context.agent.keyManagerSign({ kid: key.kid, data })
 
       debug('Signing VC with', identifier.did)
       let alg = 'ES256K'

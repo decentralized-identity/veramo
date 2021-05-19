@@ -12,7 +12,9 @@ import {
   IKeyManagerSignJWTArgs,
   IKeyManagerSignEthTXArgs,
   schema,
+  IKeyManagerSignArgs,
 } from '@veramo/core'
+import * as u8a from 'uint8arrays'
 
 /**
  * Agent plugin that provides {@link @veramo/core#IKeyManager} methods
@@ -43,6 +45,7 @@ export class KeyManager implements IAgentPlugin {
       keyManagerDecryptJWE: this.keyManagerDecryptJWE.bind(this),
       keyManagerSignJWT: this.keyManagerSignJWT.bind(this),
       keyManagerSignEthTX: this.keyManagerSignEthTX.bind(this),
+      keyManagerSign: this.keyManagerSign.bind(this),
     }
   }
 
@@ -105,10 +108,25 @@ export class KeyManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignJWT} */
-  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise< string> {
+  async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string> {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.signJWT({ key, data })
+  }
+
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSign} */
+  async keyManagerSign(args: IKeyManagerSignArgs): Promise<string> {
+    const { kid, data, alg, enc, extras } = args
+    const key = await this.store.get({ kid })
+    let dataBytes
+    const encoding = enc || 'utf-8'
+    if (typeof data === 'string') {
+      dataBytes = u8a.fromString(data, encoding)
+    } else {
+      dataBytes = data
+    }
+    const kms = this.getKms(key.kms)
+    return kms.sign({ key, alg, data: dataBytes, ...extras })
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignEthTX} */

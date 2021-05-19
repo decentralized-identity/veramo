@@ -2,11 +2,15 @@ import { TKeyType, IKey } from '@veramo/core'
 import { AbstractKeyManagementSystem } from '@veramo/key-manager'
 import sodium from 'libsodium-wrappers'
 import { EdDSASigner, ES256KSigner } from 'did-jwt'
-const EC = require('elliptic').ec
-const secp256k1 = new EC('secp256k1')
+import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
+import { TransactionRequest } from '@ethersproject/abstract-provider'
+import { arrayify } from '@ethersproject/bytes'
+import { toUtf8String } from '@ethersproject/strings'
+import { serialize, parse } from '@ethersproject/transactions'
+import { Wallet } from '@ethersproject/wallet'
+import * as u8a from 'uint8arrays'
 import { DIDComm } from './didcomm'
 const didcomm = new DIDComm()
-import { sign } from 'ethjs-signer'
 import Debug from 'debug'
 const debug = Debug('veramo:sodium:kms')
 
@@ -23,15 +27,23 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           kid: Buffer.from(keyPairEd25519.publicKey).toString('hex'),
           publicKeyHex: Buffer.from(keyPairEd25519.publicKey).toString('hex'),
           privateKeyHex: Buffer.from(keyPairEd25519.privateKey).toString('hex'),
+          meta: {
+            algorithms: ['Ed25519', 'EdDSA'],
+          },
         }
         break
       case 'Secp256k1':
-        const keyPairSecp256k1 = secp256k1.genKeyPair()
+        const keyPair = Wallet.createRandom()._signingKey()
+        const publicKeyHex = keyPair.publicKey.substring(2)
+        const privateKeyHex = keyPair.privateKey.substring(2)
         key = {
           type,
-          kid: keyPairSecp256k1.getPublic('hex'),
-          publicKeyHex: keyPairSecp256k1.getPublic('hex'),
-          privateKeyHex: keyPairSecp256k1.getPrivate('hex'),
+          kid: publicKeyHex,
+          publicKeyHex,
+          privateKeyHex,
+          meta: {
+            algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage'],
+          },
         }
         break
       default:
@@ -68,21 +80,86 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return unpackMessage.message
   }
 
+  /**@deprecated please use `sign({key, alg: 'eth_signTransaction', data: arrayify(serialize(transaction))})` instead */
   async signEthTX({ key, transaction }: { key: IKey; transaction: object }): Promise<string> {
-    return sign(transaction, '0x' + key.privateKeyHex)
+    const data = arrayify(serialize(transaction))
+    const alg = 'eth_signTransaction'
+    return this.sign({ key, data, alg })
   }
 
+  /**@deprecated please use sign() instead */
   async signJWT({ key, data }: { key: IKey; data: string | Uint8Array }): Promise<string> {
+    let dataBytes: Uint8Array
+    if (typeof data === 'string') {
+      try {
+        dataBytes = arrayify(data, { allowMissingPrefix: true })
+      } catch (e) {
+        dataBytes = u8a.fromString(data, 'utf-8')
+      }
+    } else {
+      dataBytes = data
+    }
+    return this.sign({ key, data: dataBytes })
+  }
+
+  async sign({
+    key,
+    alg,
+    data,
+    extras,
+  }: {
+    key: IKey
+    alg?: string
+    data: Uint8Array
+    extras?: KMSSignerExtras
+  }): Promise<string> {
+    //FIXME: KMS implementation should not rely on private keys being provided, but rather manage their own keys
     if (!key.privateKeyHex) throw Error('No private key for kid: ' + key.kid)
 
-    if (key.type === 'Ed25519') {
+    if (key.type === 'Ed25519' && (typeof alg === 'undefined' || ['Ed25519', 'EdDSA'].includes(alg))) {
       const signer = EdDSASigner(key.privateKeyHex)
-      return (signer(data) as any) as string
+      const signature = await signer(data)
+      return signature as string
     } else if (key.type === 'Secp256k1') {
-      const signer = ES256KSigner(key.privateKeyHex)
-      return (signer(data) as any) as string
-    } else {
-      throw Error('Cannot sign JWT with key of type ' + key.type)
+      if (typeof alg === 'undefined' || ['ES256K', 'ES256K-R'].includes(alg)) {
+        const signer = ES256KSigner(key.privateKeyHex, alg === 'ES256K-R')
+        const signature = await signer(data)
+        return signature as string
+      } else if (['eth_signTransaction', 'signTransaction', 'signTx'].includes(alg)) {
+        const tx = parse(data)
+        const wallet = new Wallet(key.privateKeyHex)
+        const signature = await wallet.signTransaction(tx as any)
+        return signature
+      } else if (alg === 'eth_signMessage') {
+        const wallet = new Wallet(key.privateKeyHex)
+        const signature = await wallet.signMessage(data)
+        return signature
+      } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(alg)) {
+        let msg, msgDomain, msgTypes
+        const serializedData = toUtf8String(data)
+        let jsonData = JSON.parse(serializedData)
+        if (typeof jsonData.domain === 'object' && typeof jsonData.types === 'object') {
+          const { domain = undefined, types = undefined, message = undefined } = { ...extras, ...jsonData }
+          msg = message || jsonData
+          msgDomain = domain
+          msgTypes = types
+        }
+        if (typeof msgDomain !== 'object' || typeof msgTypes !== 'object') {
+          throw Error(`invalid_arguments: Cannot sign typed data. 'domain' and 'types' must be provided`)
+        }
+        const wallet = new Wallet(key.privateKeyHex)
+
+        const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
+        return signature
+      }
     }
+    throw Error(`not_supported: Cannot sign ${alg} using key of type ${key.type}`)
   }
+}
+
+interface KMSSignerExtras {
+  domain?: TypedDataDomain
+  types?: Record<string, TypedDataField[]>
+  transaction?: TransactionRequest
+  [x: string]: any
 }

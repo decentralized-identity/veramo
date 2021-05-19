@@ -1,5 +1,5 @@
 import { IPluginMethodMap } from './IAgent'
-import { TKeyType, IKey } from './IIdentifier'
+import { TKeyType, IKey, KeyMetadata } from './IIdentifier'
 
 /**
  * Input arguments for {@link IKeyManager.keyManagerCreate | keyManagerCreate}
@@ -19,7 +19,7 @@ export interface IKeyManagerCreateArgs {
   /**
    * Optional. Key meta data
    */
-  meta?: object
+  meta?: KeyMetadata
 }
 
 /**
@@ -79,6 +79,35 @@ export interface IKeyManagerDecryptJWEArgs {
    * Encrypted data
    */
   data: string
+}
+
+/**
+ * Input arguments for {@link IKeyManager.keyManagerSign | keyManagerSign}
+ * @public
+ */
+export interface IKeyManagerSignArgs {
+  /**
+   * Key ID
+   */
+  kid: string
+
+  /**
+   * The algorithm to use for signing.
+   * This must be one of the algorithms supported by the KMS for this key type.
+   */
+  alg?: string
+
+  /**
+   * Data to sign
+   */
+  data: string
+
+  /**
+   * If the data is a "string" then you can specify which encoding is used. Default is "utf-8"
+   */
+  enc?: 'utf-8' | 'base16' | 'base64'
+
+  [x: string]: any
 }
 
 /**
@@ -142,6 +171,13 @@ export interface IKeyManager extends IPluginMethodMap {
    * Imports a created key
    */
   keyManagerImport(args: IKey): Promise<boolean>
+
+  /**
+   * Generates a signature according to the algorithm specified.
+   * @throws `Error("not_supported")` if the KMS does not support the operation or if the key does not match the algorithm.
+   * @param args
+   */
+  keyManagerSign(args: IKeyManagerSignArgs): Promise<string>
 
   /**
    * Encrypts data

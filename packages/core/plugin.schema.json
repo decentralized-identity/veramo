@@ -349,7 +349,7 @@
               "description": "Key Management System"
             },
             "meta": {
-              "type": "object",
+              "$ref": "#/components/schemas/KeyMetadata",
               "description": "Optional. Key meta data"
             }
           },
@@ -366,6 +366,17 @@
             "Secp256k1"
           ],
           "description": "Cryptographic key type"
+        },
+        "KeyMetadata": {
+          "type": "object",
+          "properties": {
+            "algorithms": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         },
         "IKey": {
           "type": "object",
@@ -393,13 +404,13 @@
             "meta": {
               "anyOf": [
                 {
-                  "type": "object"
+                  "$ref": "#/components/schemas/KeyMetadata"
                 },
                 {
                   "type": "null"
                 }
               ],
-              "description": "Optional. Key metadata. Can be used to store auth data to access remote kms"
+              "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
             }
           },
           "required": [
@@ -470,13 +481,13 @@
                 "meta": {
                   "anyOf": [
                     {
-                      "type": "object"
+                      "$ref": "#/components/schemas/KeyMetadata"
                     },
                     {
                       "type": "null"
                     }
                   ],
-                  "description": "Optional. Key metadata. Can be used to store auth data to access remote kms"
+                  "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
                 }
               },
               "required": [
@@ -510,6 +521,37 @@
             "kid"
           ],
           "description": "Input arguments for {@link IKeyManager.keyManagerGet | keyManagerGet}"
+        },
+        "IKeyManagerSignArgs": {
+          "type": "object",
+          "properties": {
+            "kid": {
+              "type": "string",
+              "description": "Key ID"
+            },
+            "alg": {
+              "type": "string",
+              "description": "The algorithm to use for signing. This must be one of the algorithms supported by the KMS for this key type."
+            },
+            "data": {
+              "type": "string",
+              "description": "Data to sign"
+            },
+            "enc": {
+              "type": "string",
+              "enum": [
+                "utf-8",
+                "base16",
+                "base64"
+              ],
+              "description": "If the data is a \"string\" then you can specify which encoding is used. Default is \"utf-8\""
+            }
+          },
+          "required": [
+            "kid",
+            "data"
+          ],
+          "description": "Input arguments for {@link IKeyManager.keyManagerSign | keyManagerSign}"
         },
         "IKeyManagerSignEthTXArgs": {
           "type": "object",
@@ -662,6 +704,15 @@
             "type": "boolean"
           }
         },
+        "keyManagerSign": {
+          "description": "Generates a signature according to the algorithm specified.",
+          "arguments": {
+            "$ref": "#/components/schemas/IKeyManagerSignArgs"
+          },
+          "returnType": {
+            "type": "string"
+          }
+        },
         "keyManagerSignEthTX": {
           "description": "Signs Ethereum transaction",
           "arguments": {
@@ -734,13 +785,13 @@
             "meta": {
               "anyOf": [
                 {
-                  "type": "object"
+                  "$ref": "#/components/schemas/KeyMetadata"
                 },
                 {
                   "type": "null"
                 }
               ],
-              "description": "Optional. Key metadata. Can be used to store auth data to access remote kms"
+              "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
             }
           },
           "required": [
@@ -758,6 +809,17 @@
             "Secp256k1"
           ],
           "description": "Cryptographic key type"
+        },
+        "KeyMetadata": {
+          "type": "object",
+          "properties": {
+            "algorithms": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         },
         "IDIDManagerAddServiceArgs": {
           "type": "object",

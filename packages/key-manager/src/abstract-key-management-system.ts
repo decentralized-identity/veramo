@@ -7,4 +7,6 @@ export abstract class AbstractKeyManagementSystem {
   abstract decryptJWE(args: { key: IKey; data: string }): Promise<string>
   abstract signJWT(args: { key: IKey; data: string | Uint8Array }): Promise<string>
   abstract signEthTX(args: { key: IKey; transaction: object }): Promise<string>
+
+  abstract sign(args: { key: IKey; alg?: string; data: Uint8Array; [x: string]: any }): Promise<string>
 }
