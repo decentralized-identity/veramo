@@ -105,7 +105,7 @@ export interface IKeyManagerSignArgs {
   /**
    * If the data is a "string" then you can specify which encoding is used. Default is "utf-8"
    */
-  enc?: 'utf-8' | 'base16' | 'base64'
+  enc?: 'utf-8' | 'base16' | 'base64' | 'hex'
 
   [x: string]: any
 }

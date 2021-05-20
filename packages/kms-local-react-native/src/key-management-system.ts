@@ -6,7 +6,7 @@ import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { arrayify } from '@ethersproject/bytes'
 import { toUtf8String } from '@ethersproject/strings'
-import { serialize, parse } from '@ethersproject/transactions'
+import { serialize, parse, Transaction } from '@ethersproject/transactions'
 import { Wallet } from '@ethersproject/wallet'
 import * as u8a from 'uint8arrays'
 import { DIDComm } from './didcomm'
@@ -82,7 +82,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
 
   /**@deprecated please use `sign({key, alg: 'eth_signTransaction', data: arrayify(serialize(transaction))})` instead */
   async signEthTX({ key, transaction }: { key: IKey; transaction: object }): Promise<string> {
-    const data = arrayify(serialize(transaction))
+    const {v, r, s, type, ...tx} = <Transaction>transaction
+    const data = arrayify(serialize(tx))
     const alg = 'eth_signTransaction'
     return this.sign({ key, data, alg })
   }
@@ -119,20 +120,24 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     if (key.type === 'Ed25519' && (typeof alg === 'undefined' || ['Ed25519', 'EdDSA'].includes(alg))) {
       const signer = EdDSASigner(key.privateKeyHex)
       const signature = await signer(data)
+      //base64url encoded string
       return signature as string
     } else if (key.type === 'Secp256k1') {
       if (typeof alg === 'undefined' || ['ES256K', 'ES256K-R'].includes(alg)) {
         const signer = ES256KSigner(key.privateKeyHex, alg === 'ES256K-R')
         const signature = await signer(data)
+        //base64url encoded string
         return signature as string
       } else if (['eth_signTransaction', 'signTransaction', 'signTx'].includes(alg)) {
-        const tx = parse(data)
+        const {v, r, s, type, ...tx} = parse(data)
         const wallet = new Wallet(key.privateKeyHex)
-        const signature = await wallet.signTransaction(tx as any)
-        return signature
+        const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
+        //HEX encoded string, 0x prefixed
+        return signedRawTransaction
       } else if (alg === 'eth_signMessage') {
         const wallet = new Wallet(key.privateKeyHex)
         const signature = await wallet.signMessage(data)
+        //HEX encoded string, 0x prefixed
         return signature
       } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(alg)) {
         let msg, msgDomain, msgTypes
@@ -150,6 +155,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const wallet = new Wallet(key.privateKeyHex)
 
         const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
+        //HEX encoded string
         return signature
       }
     }

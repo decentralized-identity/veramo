@@ -14,11 +14,13 @@ import { IKey } from '@veramo/core'
 export class KmsEthereumSigner extends Signer {
   private context: IRequiredContext
   private controllerKey: IKey
+  readonly provider?: Provider
 
-  constructor(controllerKey: IKey, context: IRequiredContext) {
+  constructor(controllerKey: IKey, context: IRequiredContext, provider?: Provider) {
     super()
     this.controllerKey = controllerKey
     this.context = context
+    this.provider = provider
   }
 
   async getAddress(): Promise<string> {
@@ -40,7 +42,7 @@ export class KmsEthereumSigner extends Signer {
       alg: 'eth_signTransaction',
       enc: 'base16',
     })
-    return serialize(<UnsignedTransaction>tx, signature)
+    return signature
   }
 
   signMessage(message: string | Bytes): Promise<string> {
@@ -48,6 +50,6 @@ export class KmsEthereumSigner extends Signer {
   }
 
   connect(provider: Provider): Signer {
-    throw new Error('not_implemented: connect() Method not implemented by KmsEthereumSigner.')
+    return new KmsEthereumSigner(this.controllerKey, this.context, provider)
   }
 }

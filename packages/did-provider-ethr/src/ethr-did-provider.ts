@@ -91,7 +91,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       chainNameOrId: this.network,
       rpcUrl: this.rpcUrl,
       registry: this.registry,
-      txSigner: new KmsEthereumSigner(controllerKey, context),
+      txSigner: new KmsEthereumSigner(controllerKey, context, this.web3Provider),
     })
   }
 

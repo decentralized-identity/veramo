@@ -121,7 +121,12 @@ export class KeyManager implements IAgentPlugin {
     let dataBytes
     const encoding = enc || 'utf-8'
     if (typeof data === 'string') {
-      dataBytes = u8a.fromString(data, encoding)
+      if (encoding === 'base16' || encoding === 'hex') {
+        const preData = data.startsWith('0x') ? data.substring(2) : data
+        dataBytes = u8a.fromString(preData, 'base16')
+      } else {
+        dataBytes = u8a.fromString(data, encoding)
+      }
     } else {
       dataBytes = data
     }
