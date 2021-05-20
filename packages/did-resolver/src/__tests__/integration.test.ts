@@ -32,7 +32,7 @@ describe('@veramo/did-resolver', () => {
     expect.assertions(1)
     await expect(resolverPlugin.resolveDid({ didUrl: 'did:web:did.actor:alice' })).resolves.toEqual({
       didDocument: {
-        '@context': 'https://w3id.org/did/v0.11',
+        '@context': ["https://w3.org/ns/did/v1", "https://w3id.org/security/suites/ed25519-2018/v1"],
         id: 'did:web:did.actor:alice',
         publicKey: [
           {
