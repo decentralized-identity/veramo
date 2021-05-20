@@ -119,20 +119,24 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     if (key.type === 'Ed25519' && (typeof alg === 'undefined' || ['Ed25519', 'EdDSA'].includes(alg))) {
       const signer = EdDSASigner(key.privateKeyHex)
       const signature = await signer(data)
+      //base64url encoded string
       return signature as string
     } else if (key.type === 'Secp256k1') {
       if (typeof alg === 'undefined' || ['ES256K', 'ES256K-R'].includes(alg)) {
         const signer = ES256KSigner(key.privateKeyHex, alg === 'ES256K-R')
         const signature = await signer(data)
+        //base64url encoded string
         return signature as string
       } else if (['eth_signTransaction', 'signTransaction', 'signTx'].includes(alg)) {
         const tx = parse(data)
         const wallet = new Wallet(key.privateKeyHex)
         const signature = await wallet.signTransaction(tx as any)
+        //HEX encoded string
         return signature
       } else if (alg === 'eth_signMessage') {
         const wallet = new Wallet(key.privateKeyHex)
         const signature = await wallet.signMessage(data)
+        //HEX encoded string
         return signature
       } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(alg)) {
         let msg, msgDomain, msgTypes
@@ -150,6 +154,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const wallet = new Wallet(key.privateKeyHex)
 
         const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
+        //HEX encoded string
         return signature
       }
     }
