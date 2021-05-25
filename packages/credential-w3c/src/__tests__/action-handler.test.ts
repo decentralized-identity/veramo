@@ -63,27 +63,30 @@ const mockIdentifiers: IIdentifier[] = [
   }
 ]
 
+const w3c = new CredentialIssuer()
+
+let agent = {
+  execute: jest.fn(),
+  availableMethods: jest.fn(),
+  resolveDid: jest.fn(),
+  emit: jest.fn(),
+  keyManagerSignJWT: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
+  dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
+  dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
+  getSchema: jest.fn(),
+  didManagerGet: jest.fn()
+}
+
 describe('@veramo/credential-w3c', () => {
-
-  const w3c = new CredentialIssuer()
-  const context: IContext = {
-    agent: {
-      execute: jest.fn(),
-      availableMethods: jest.fn(),
-      resolveDid: jest.fn(),
-      emit: jest.fn(),
-      didManagerGet: undefined,
-      keyManagerSignJWT: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
-      dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
-      dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
-      getSchema: jest.fn()
-    }
-  }
-
+  
   test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
-    context.agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
+    expect.assertions(3*mockIdentifiers.length)
+    
+    agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
+    const context: IContext = { agent: agent }
+    
+    for (let otherMockIdentifier of mockIdentifiers) {
 
-    mockIdentifiers.forEach(async (otherMockIdentifier) => {
       const credential: W3CCredential = {
         '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
         type: ['VerifiableCredential', 'PublicProfile'],
@@ -114,12 +117,15 @@ describe('@veramo/credential-w3c', () => {
       expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
         verifiableCredential: 'mockCredential',
       })
-      expect(vc).toEqual('mockCredential')
-    })
+      expect(vc).toEqual('mockCredential')      
+    }
   })
 
   test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
-    context.agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
+    expect.assertions(3*mockIdentifiers.length)
+    
+    agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
+    const context: IContext = { agent: agent }
 
     mockIdentifiers.forEach(async (otherMockIdentifier) => {
       const credential: VerifiableCredential = {
@@ -164,7 +170,7 @@ describe('@veramo/credential-w3c', () => {
       expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith({
         verifiablePresentation: 'mockPresentation',
       })
-      expect(vp).toEqual('mockPresentation')      
+      expect(vp).toEqual('mockPresentation')
     })
   })
 })
