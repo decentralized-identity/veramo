@@ -4,11 +4,9 @@ import sodium from 'libsodium-wrappers'
 import { EdDSASigner, ES256KSigner } from 'did-jwt'
 import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { arrayify } from '@ethersproject/bytes'
 import { toUtf8String } from '@ethersproject/strings'
-import { serialize, parse, Transaction } from '@ethersproject/transactions'
+import { parse } from '@ethersproject/transactions'
 import { Wallet } from '@ethersproject/wallet'
-import * as u8a from 'uint8arrays'
 import { DIDComm } from './didcomm'
 const didcomm = new DIDComm()
 import Debug from 'debug'
@@ -80,29 +78,6 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return unpackMessage.message
   }
 
-  /**@deprecated please use `sign({key, alg: 'eth_signTransaction', data: arrayify(serialize(transaction))})` instead */
-  async signEthTX({ key, transaction }: { key: IKey; transaction: object }): Promise<string> {
-    const {v, r, s, type, ...tx} = <Transaction>transaction
-    const data = arrayify(serialize(tx))
-    const alg = 'eth_signTransaction'
-    return this.sign({ key, data, alg })
-  }
-
-  /**@deprecated please use `sign({key, data})` instead, with `Uint8Array` data */
-  async signJWT({ key, data }: { key: IKey; data: string | Uint8Array }): Promise<string> {
-    let dataBytes: Uint8Array
-    if (typeof data === 'string') {
-      try {
-        dataBytes = arrayify(data, { allowMissingPrefix: true })
-      } catch (e) {
-        dataBytes = u8a.fromString(data, 'utf-8')
-      }
-    } else {
-      dataBytes = data
-    }
-    return this.sign({ key, data: dataBytes })
-  }
-
   async sign({
     key,
     alg,
@@ -129,7 +104,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         //base64url encoded string
         return signature as string
       } else if (['eth_signTransaction', 'signTransaction', 'signTx'].includes(alg)) {
-        const {v, r, s, type, ...tx} = parse(data)
+        const { v, r, s, type, ...tx } = parse(data)
         const wallet = new Wallet(key.privateKeyHex)
         const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
         //HEX encoded string, 0x prefixed
