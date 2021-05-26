@@ -1,4 +1,6 @@
-import { TAgent, IDIDManager, IKeyManager, IAgentOptions, TKeyType } from '../../packages/core/src'
+import { TKeyType } from '@veramo/core'
+import { TAgent, IDIDManager, IKeyManager, IAgentOptions } from '../../packages/core/src'
+import { ICredentialIssuer } from '@veramo/credential-w3c/src'
 import { serialize } from '@ethersproject/transactions'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
@@ -260,6 +262,39 @@ export default (testContext: {
           '0xf869018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e0801ba0f16e2206290181c3feaa04051dad19089105c24339dbdf0d80147b48a59fa152a0770e8751ec77ccc78e8b207023f168444f7cfb67055c55c70ef75234458a3d51',
         )
       })
+
+      it('should sign JWT using generic signer', async () => {
+        const signature = await agent.keyManagerSign({
+          kid: importedKey.kid,
+          data: 'bla.bla',
+          alg: 'ES256K',
+          enc: 'utf-8',
+        })
+        expect(signature).toEqual(
+          'pNAFkgmuKhqMbb_6Km--ZmY7UCkWunWUuNajSfF6rv5lEa5nNXCU7cnZBZVptU7u8h150qetqkqUaahAf-Cepw',
+        )
+      })
+
+      it('should sign EthTX using generic signer', async () => {
+        const txData = serialize({
+          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+          value: 300000,
+          gasLimit: 43092000,
+          gasPrice: 20000000000,
+          nonce: 1,
+        })
+
+        const rawTx = await agent.keyManagerSign({
+          alg: 'eth_signTransaction',
+          data: txData,
+          enc: 'hex',
+          kid: importedKey.kid,
+        })
+
+        expect(rawTx).toEqual(
+          '0xf869018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e0801ba0f16e2206290181c3feaa04051dad19089105c24339dbdf0d80147b48a59fa152a0770e8751ec77ccc78e8b207023f168444f7cfb67055c55c70ef75234458a3d51',
+        )
+      })
     })
 
     describe('using Ed25519 testvectors', () => {
@@ -280,6 +315,18 @@ export default (testContext: {
         const signature = await agent.keyManagerSignJWT({
           kid: importedKey.kid,
           data: 'bla.bla',
+        })
+        expect(signature).toEqual(
+          '_2P0iukN2CPH1nQ6LeBm1zQHHp3U4wSYDrpeWTWkp7yuzJex6O60Z4OhdfD5I9WPHV734US8n5vyD2VDbT1UCg',
+        )
+      })
+
+      it('should sign JWT using generic signer', async () => {
+        const signature = await agent.keyManagerSign({
+          kid: importedKey.kid,
+          data: 'bla.bla',
+          alg: 'EdDSA',
+          enc: 'utf-8',
         })
         expect(signature).toEqual(
           '_2P0iukN2CPH1nQ6LeBm1zQHHp3U4wSYDrpeWTWkp7yuzJex6O60Z4OhdfD5I9WPHV734US8n5vyD2VDbT1UCg',
