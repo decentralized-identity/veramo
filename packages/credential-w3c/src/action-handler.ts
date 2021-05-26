@@ -227,9 +227,14 @@ export class CredentialIssuer implements IAgentPlugin {
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
       const signer = (data: string | Uint8Array) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       debug('Signing VP with', identifier.did)
+      let alg = 'ES256K'
+      if (key.type === 'Ed25519') {
+        alg = 'EdDSA'
+      }
+
       const jwt = await createVerifiablePresentationJwt(
         presentation,
-        { did: identifier.did, signer },
+        { did: identifier.did, signer, alg },
         { removeOriginalFields: args.removeOriginalFields },
       )
       //FIXME: flagging this as a potential privacy leak.
