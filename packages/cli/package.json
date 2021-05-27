@@ -62,7 +62,7 @@
     "qrcode-terminal": "^0.12.0",
     "sqlite3": "^5.0.0",
     "swagger-ui-express": "^4.1.5",
-    "ts-json-schema-generator": "^0.92.0",
+    "ts-json-schema-generator": "^0.93.0",
     "typeorm": "0.2.32",
     "url-parse": "^1.5.1",
     "web-did-resolver": "2.0.4",
@@ -75,7 +75,7 @@
     "@types/node-fetch": "2.5.10",
     "@types/passport-http-bearer": "1.0.36",
     "@types/ws": "7.4.4",
-    "typescript": "4.2.4"
+    "typescript": "4.3.2"
   },
   "files": [
     "bin/**/*",
