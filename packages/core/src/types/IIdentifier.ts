@@ -38,7 +38,7 @@ export interface IIdentifier {
  * Cryptographic key type
  * @public
  */
-export type TKeyType = 'Ed25519' | 'Secp256k1'
+export type TKeyType = 'Ed25519' | 'Secp256k1' | 'X25519'
 
 /**
  * Cryptographic key

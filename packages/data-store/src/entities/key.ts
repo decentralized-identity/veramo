@@ -1,8 +1,8 @@
-import { KeyMetadata } from '@veramo/core'
+import { KeyMetadata, TKeyType } from '@veramo/core'
 import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne } from 'typeorm'
 import { Identifier } from './identifier'
 
-export type KeyType = 'Ed25519' | 'Secp256k1'
+export type KeyType = TKeyType
 
 @Entity('key')
 export class Key extends BaseEntity {

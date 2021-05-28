@@ -1,6 +1,5 @@
-import { TKeyType } from '@veramo/core'
+import { IKey, TKeyType } from '@veramo/core'
 import { TAgent, IDIDManager, IKeyManager, IAgentOptions } from '../../packages/core/src'
-import { ICredentialIssuer } from '@veramo/credential-w3c/src'
 import { serialize } from '@ethersproject/transactions'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
@@ -51,7 +50,21 @@ export default (testContext: {
       expect(key.type).toEqual('Ed25519')
     })
 
+    it('should create X25519 key', async () => {
+      const key = await agent.keyManagerCreate({
+        kms: 'local',
+        type: 'X25519',
+      })
+
+      expect(key).toHaveProperty('kid')
+      expect(key).toHaveProperty('publicKeyHex')
+      expect(key).not.toHaveProperty('privateKeyHex')
+      expect(key.kms).toEqual('local')
+      expect(key.type).toEqual('X25519')
+    })
+
     it('should throw an error for unsupported kms', async () => {
+      expect.assertions(1)
       await expect(
         agent.keyManagerCreate({
           kms: 'foobar',
@@ -61,6 +74,7 @@ export default (testContext: {
     })
 
     it('should throw an error for unsupported key type', async () => {
+      expect.assertions(1)
       await expect(
         agent.keyManagerCreate({
           kms: 'local',
@@ -88,6 +102,7 @@ export default (testContext: {
       expect(key.meta).toEqual({
         foo: 'bar',
         bar: 'baz',
+        algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage'],
       })
     })
 
@@ -131,27 +146,21 @@ export default (testContext: {
     })
 
     it('should import key', async () => {
-      const key = await agent.keyManagerCreate({
+      const fullKey: IKey = {
+        kid: '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
         kms: 'local',
         type: 'Secp256k1',
-        meta: {
-          foo: 'bar',
-        },
-      })
-
-      const fullKey = await agent.keyManagerGet({
-        kid: key.kid,
-      })
-
-      await agent.keyManagerDelete({
-        kid: key.kid,
-      })
+        publicKeyHex:
+          '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
+        privateKeyHex: 'e63886b5ba367dc2aff9acea6d955ee7c39115f12eaf2aa6b1a2eaa852036668',
+        meta: { foo: 'bar' },
+      }
 
       const result = await agent.keyManagerImport(fullKey)
       expect(result).toEqual(true)
 
       const key2 = await agent.keyManagerGet({
-        kid: key.kid,
+        kid: fullKey.kid,
       })
 
       expect(key2).toEqual(fullKey)
@@ -191,41 +200,39 @@ export default (testContext: {
       expect(typeof rawTx).toEqual('string')
     })
 
-    it.todo('Should Encrypt/Decrypt')
-    // it('Should Encrypt/Decrypt', async () => {
-    // const message = 'foo bar'
+    // it.todo('Should Encrypt/Decrypt')
+    it('Should Encrypt/Decrypt', async () => {
+      const message = 'foo bar'
 
-    // const senderKey = await agent.keyManagerCreate({
-    //   kms: 'local',
-    //   type: 'Ed25519',
-    // })
+      const senderKey = await agent.keyManagerCreate({
+        kms: 'local',
+        type: 'Ed25519',
+      })
 
-    // const recipientKey = await agent.keyManagerCreate({
-    //   kms: 'local',
-    //   type: 'Ed25519',
-    // })
+      const recipientKey = await agent.keyManagerCreate({
+        kms: 'local',
+        type: 'Ed25519',
+      })
 
-    // const encrypted = await agent.keyManagerEncryptJWE({
-    //   kid: senderKey.kid,
-    //   to: recipientKey,
-    //   data: message
-    // })
+      const encrypted = await agent.keyManagerEncryptJWE({
+        kid: senderKey.kid,
+        to: recipientKey,
+        data: message,
+      })
 
-    // expect(typeof encrypted).toEqual('string')
+      expect(typeof encrypted).toEqual('string')
 
-    // const decrypted = await agent.keyManagerDecryptJWE({
-    //   kid: recipientKey.kid,
-    //   data: encrypted
-    // })
+      const decrypted = await agent.keyManagerDecryptJWE({
+        kid: recipientKey.kid,
+        data: encrypted,
+      })
 
-    // expect(decrypted).toEqual(message)
-
-    // })
+      expect(decrypted).toEqual(message)
+    })
 
     describe('using Secp256k1 testvectors', () => {
       const importedKey = {
-        kid:
-          '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
+        kid: '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
         kms: 'local',
         type: <TKeyType>'Secp256k1',
         publicKeyHex:
