@@ -1879,10 +1879,10 @@
     neon-cli "0.4.0"
     node-pre-gyp "0.14.0"
 
-"@microsoft/api-documenter@7.13.12":
-  version "7.13.12"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.13.12.tgz#f0b8b0051fccaaca730a5040e0181f8db1fed4e5"
-  integrity sha512-5Awe7ciU6ISfnx9sJxGwtRPypvBOIWE9rK5N/aKFFaHDt+YI7hahntT4d5B1kQMe/x0hceS6FdfB9/9+Adg0Ww==
+"@microsoft/api-documenter@7.13.13":
+  version "7.13.13"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.13.13.tgz#5e7821d929bb5c86822dd49bcacf5c65c131b69a"
+  integrity sha512-40htvFSY7hyJEtmJVoV+yvAz+2Vr6noYkbf0Yu9wMIVKoT5V/XqoubadKYrP8yxtFLaCC0Y/427gbpWEcz8L6A==
   dependencies:
     "@microsoft/api-extractor-model" "7.13.2"
     "@microsoft/tsdoc" "0.13.2"
@@ -9330,10 +9330,10 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-openapi-types@9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-9.0.0.tgz#12b4971f9d0109bbce842daeb1d55e502c5cb834"
-  integrity sha512-SGHObF+3VuynO2P1i8zom0xxggpFk5SeCvaFsIzmQBxJ0juWWhVqOgJ6mZs5aZDLkdx00DjYLwM2Q5mZxVzFlA==
+openapi-types@9.0.3:
+  version "9.0.3"
+  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-9.0.3.tgz#4f1fcf956165692f710ac7823b89a6b7d36b0fbb"
+  integrity sha512-c4C1xAKZOvOxeSWvRY0d2XsoaZoF8M7rifxfZZCIH2mqPEQxOz8qfFx4oEpLFaE+DfDGe08HcIA/p1Bu93keLQ==
 
 openapi-types@^8.0.0:
   version "8.0.0"
@@ -11878,10 +11878,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeorm@0.2.32:
-  version "0.2.32"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.32.tgz#544dbfdfe0cd0887548d9bcbd28527ea4f4b3c9b"
-  integrity sha512-LOBZKZ9As3f8KRMPCUT2H0JZbZfWfkcUnO3w/1BFAbL/X9+cADTF6bczDGGaKVENJ3P8SaKheKmBgpt5h1x+EQ==
+typeorm@0.2.33:
+  version "0.2.33"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.33.tgz#0ed0253bc0d5bbe3575bd53672d83d8e8fec0bca"
+  integrity sha512-JjF8Y5gZxbLL1A4ARENgn+GegM4EyqUmQ7VKD7cBcQU0g3snGcOfUnFh7X5pS9I6KfBhRlvwamvjK1zlLg8+ug==
   dependencies:
     "@sqltools/formatter" "^1.2.2"
     app-root-path "^3.0.0"
