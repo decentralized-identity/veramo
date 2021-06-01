@@ -31,7 +31,7 @@
   "devDependencies": {
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-conventional": "12.1.4",
-    "@microsoft/api-documenter": "7.13.12",
+    "@microsoft/api-documenter": "7.13.13",
     "@microsoft/api-extractor": "7.15.2",
     "@microsoft/api-extractor-model": "7.13.2",
     "@types/jest": "26.0.23",
@@ -44,7 +44,7 @@
     "lerna": "4.0.0",
     "lerna-changelog": "1.0.1",
     "oas-resolver": "2.5.5",
-    "openapi-types": "9.0.0",
+    "openapi-types": "9.0.3",
     "prettier": "2.3.0",
     "pretty-quick": "3.1.0",
     "rimraf": "3.0.2",
