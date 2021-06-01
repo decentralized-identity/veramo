@@ -54,7 +54,7 @@
           "required": [
             "data"
           ],
-          "description": "Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}"
+          "description": "Input arguments for  {@link  IDIDComm.sendMessageDIDCommAlpha1 }"
         },
         "IMessage": {
           "type": "object",
@@ -240,7 +240,7 @@
             "credentialSubject",
             "proof"
           ],
-          "description": "Verifiable Credential {@link https://github.com/decentralized-identifier/did-jwt-vc}"
+          "description": "Verifiable Credential  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -298,7 +298,7 @@
             "verifiableCredential",
             "proof"
           ],
-          "description": "Verifiable Presentation {@link https://github.com/decentralized-identifier/did-jwt-vc}"
+          "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
         }
       },
       "methods": {

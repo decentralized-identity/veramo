@@ -1,10 +1,4 @@
-import {
-  W3CCredential,
-  VerifiableCredential,
-  IIdentifier,
-  W3CPresentation,
-  VerifiablePresentation,
-} from '@veramo/core'
+import { W3CCredential, VerifiableCredential, IIdentifier, W3CPresentation } from '@veramo/core'
 
 const mockDidJwtVc = {
   createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
@@ -28,10 +22,10 @@ const mockIdentifiers: IIdentifier[] = [
         kid: 'kid1',
         publicKeyHex: 'pub',
         type: 'Secp256k1',
-        kms: 'mock'
-      }
+        kms: 'mock',
+      },
     ],
-    services: []
+    services: [],
   },
   {
     did: 'did:example:222',
@@ -42,11 +36,11 @@ const mockIdentifiers: IIdentifier[] = [
         kid: 'kid2',
         publicKeyHex: 'pub',
         type: 'Secp256k1',
-        kms: 'mock'
-      }
+        kms: 'mock',
+      },
     ],
-    services: []
-  },  
+    services: [],
+  },
   {
     did: 'did:example:333',
     provider: 'mock',
@@ -56,11 +50,11 @@ const mockIdentifiers: IIdentifier[] = [
         kid: 'kid3',
         publicKeyHex: 'pub',
         type: 'Ed25519',
-        kms: 'mock'
-      }
+        kms: 'mock',
+      },
     ],
-    services: []    
-  }
+    services: [],
+  },
 ]
 
 const w3c = new CredentialIssuer()
@@ -70,23 +64,21 @@ let agent = {
   availableMethods: jest.fn(),
   resolveDid: jest.fn(),
   emit: jest.fn(),
-  keyManagerSignJWT: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
+  keyManagerSign: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
   dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
   dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
   getSchema: jest.fn(),
-  didManagerGet: jest.fn()
+  didManagerGet: jest.fn(),
 }
 
 describe('@veramo/credential-w3c', () => {
-  
   test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
-    expect.assertions(3*mockIdentifiers.length)
-    
+    expect.assertions(3 * mockIdentifiers.length)
+
     agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
     const context: IContext = { agent: agent }
-    
-    for (let otherMockIdentifier of mockIdentifiers) {
 
+    for (let otherMockIdentifier of mockIdentifiers) {
       const credential: W3CCredential = {
         '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
         type: ['VerifiableCredential', 'PublicProfile'],
@@ -117,13 +109,13 @@ describe('@veramo/credential-w3c', () => {
       expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
         verifiableCredential: 'mockCredential',
       })
-      expect(vc).toEqual('mockCredential')      
+      expect(vc).toEqual('mockCredential')
     }
   })
 
   test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
-    expect.assertions(3*mockIdentifiers.length)
-    
+    expect.assertions(3 * mockIdentifiers.length)
+
     agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
     const context: IContext = { agent: agent }
 
@@ -147,7 +139,7 @@ describe('@veramo/credential-w3c', () => {
           jwt: 'mockJWT',
         },
       }
-  
+
       const presentation: W3CPresentation = {
         '@context': ['https://www.w3.org/2018/credentials/v1'],
         type: ['VerifiablePresentation'],
@@ -156,7 +148,7 @@ describe('@veramo/credential-w3c', () => {
         issuanceDate: new Date().toISOString(),
         verifiableCredential: [credential],
       }
-  
+
       const vp = await w3c.createVerifiablePresentation(
         {
           presentation,
@@ -165,7 +157,7 @@ describe('@veramo/credential-w3c', () => {
         },
         context,
       )
-  
+
       expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
       expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith({
         verifiablePresentation: 'mockPresentation',

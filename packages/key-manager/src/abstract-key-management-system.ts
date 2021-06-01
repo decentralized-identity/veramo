@@ -13,8 +13,9 @@ export abstract class AbstractKeyManagementSystem {
   async signEthTX({ key, transaction }: { key: IKey; transaction: object }): Promise<string> {
     const { v, r, s, type, ...tx } = <Transaction>transaction
     const data = arrayify(serialize(tx))
-    const alg = 'eth_signTransaction'
-    return this.sign({ key, data, alg })
+    const algorithm = 'eth_signTransaction'
+    const signedTxHexString = this.sign({ key, data, algorithm })
+    return signedTxHexString
   }
 
   /**@deprecated please use `sign({key, data})` instead, with `Uint8Array` data */
@@ -32,5 +33,5 @@ export abstract class AbstractKeyManagementSystem {
     return this.sign({ key, data: dataBytes })
   }
 
-  abstract sign(args: { key: IKey; alg?: string; data: Uint8Array; [x: string]: any }): Promise<string>
+  abstract sign(args: { key: IKey; algorithm?: string; data: Uint8Array; [x: string]: any }): Promise<string>
 }

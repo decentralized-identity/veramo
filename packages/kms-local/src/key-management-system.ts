@@ -45,7 +45,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         }
         break
       default:
-        throw Error('Key type not supported: ' + type)
+        throw Error('not_supported: Key type not supported: ' + type)
     }
 
     debug('Created key', type, key.publicKeyHex)
@@ -78,69 +78,106 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return unpackMessage.message
   }
 
-  async sign({
-    key,
-    alg,
-    data,
-    extras,
-  }: {
-    key: IKey
-    alg?: string
-    data: Uint8Array
-    extras?: KMSSignerExtras
-  }): Promise<string> {
+  async sign({ key, algorithm, data }: { key: IKey; algorithm?: string; data: Uint8Array }): Promise<string> {
     //FIXME: KMS implementation should not rely on private keys being provided, but rather manage their own keys
     if (!key.privateKeyHex) throw Error('No private key for kid: ' + key.kid)
 
-    if (key.type === 'Ed25519' && (typeof alg === 'undefined' || ['Ed25519', 'EdDSA'].includes(alg))) {
-      const signer = EdDSASigner(key.privateKeyHex)
-      const signature = await signer(data)
-      //base64url encoded string
-      return signature as string
+    if (key.type === 'Ed25519' && (typeof algorithm === 'undefined' || ['Ed25519', 'EdDSA'].includes(algorithm))) {
+      return await this.signEdDSA(key.privateKeyHex, data)
     } else if (key.type === 'Secp256k1') {
-      if (typeof alg === 'undefined' || ['ES256K', 'ES256K-R'].includes(alg)) {
-        const signer = ES256KSigner(key.privateKeyHex, alg === 'ES256K-R')
-        const signature = await signer(data)
-        //base64url encoded string
-        return signature as string
-      } else if (['eth_signTransaction', 'signTransaction', 'signTx'].includes(alg)) {
-        const {v, r, s, type, ...tx} = parse(data)
-        const wallet = new Wallet(key.privateKeyHex)
-        const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
-        //HEX encoded string, 0x prefixed
-        return signedRawTransaction
-      } else if (alg === 'eth_signMessage') {
-        const wallet = new Wallet(key.privateKeyHex)
-        const signature = await wallet.signMessage(data)
-        //HEX encoded string, 0x prefixed
-        return signature
-      } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(alg)) {
-        let msg, msgDomain, msgTypes
-        const serializedData = toUtf8String(data)
-        let jsonData = JSON.parse(serializedData)
-        if (typeof jsonData.domain === 'object' && typeof jsonData.types === 'object') {
-          const { domain = undefined, types = undefined, message = undefined } = { ...extras, ...jsonData }
-          msg = message || jsonData
-          msgDomain = domain
-          msgTypes = types
-        }
-        if (typeof msgDomain !== 'object' || typeof msgTypes !== 'object') {
-          throw Error(`invalid_arguments: Cannot sign typed data. 'domain' and 'types' must be provided`)
-        }
-        const wallet = new Wallet(key.privateKeyHex)
-
-        const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
-        //HEX encoded string
-        return signature
+      if (typeof algorithm === 'undefined' || ['ES256K', 'ES256K-R'].includes(algorithm)) {
+        return await this.signES256K(key.privateKeyHex, algorithm, data)
+      } else if (['eth_signTransaction', 'signTransaction', 'signTx'].includes(algorithm)) {
+        return await this.eth_signTransaction(key.privateKeyHex, data)
+      } else if (algorithm === 'eth_signMessage') {
+        return await this.eth_signMessage(key.privateKeyHex, data)
+      } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)) {
+        return await this.eth_signTypedData(key.privateKeyHex, data)
       }
     }
-    throw Error(`not_supported: Cannot sign ${alg} using key of type ${key.type}`)
+    throw Error(`not_supported: Cannot sign ${algorithm} using key of type ${key.type}`)
+  }
+
+  /**
+   * @returns a `0x` prefixed hex string representing the signed EIP712 data
+   */
+  private async eth_signTypedData(privateKeyHex: string, data: Uint8Array) {
+    let msg, msgDomain, msgTypes
+    const serializedData = toUtf8String(data)
+    try {
+      let jsonData = <Eip712Payload>JSON.parse(serializedData)
+      if (typeof jsonData.domain === 'object' && typeof jsonData.types === 'object') {
+        const { domain, types, message } = jsonData
+        msg = message
+        msgDomain = domain
+        msgTypes = types
+      } else {
+        // next check will throw since the data couldn't be parsed
+      }
+    } catch (e) {
+      // next check will throw since the data couldn't be parsed
+    }
+    if (typeof msgDomain !== 'object' || typeof msgTypes !== 'object' || typeof msg !== 'object') {
+      throw Error(
+        `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
+      )
+    }
+    const wallet = new Wallet(privateKeyHex)
+
+    const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
+    //HEX encoded string
+    return signature
+  }
+
+  /**
+   * @returns a `0x` prefixed hex string representing the signed message
+   */
+  private async eth_signMessage(privateKeyHex: string, rawMessageBytes: Uint8Array) {
+    const wallet = new Wallet(privateKeyHex)
+    const signature = await wallet.signMessage(rawMessageBytes)
+    //HEX encoded string, 0x prefixed
+    return signature
+  }
+
+  /**
+   * @returns a `0x` prefixed hex string representing the signed raw transaction
+   */
+  private async eth_signTransaction(privateKeyHex: string, rlpTransaction: Uint8Array) {
+    const { v, r, s, type, ...tx } = parse(rlpTransaction)
+    const wallet = new Wallet(privateKeyHex)
+    const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
+    //HEX encoded string, 0x prefixed
+    return signedRawTransaction
+  }
+
+  /**
+   * @returns a base64url encoded signature for the `EdDSA` alg
+   */
+  private async signEdDSA(key: string, data: Uint8Array): Promise<string> {
+    const signer = EdDSASigner(key)
+    const signature = await signer(data)
+    //base64url encoded string
+    return signature as string
+  }
+
+  /**
+   * @returns a base64url encoded signature for the `ES256K` or `ES256K-R` alg
+   */
+  private async signES256K(
+    privateKeyHex: string,
+    alg: string | undefined,
+    data: Uint8Array,
+  ): Promise<string> {
+    const signer = ES256KSigner(privateKeyHex, alg === 'ES256K-R')
+    const signature = await signer(data)
+    //base64url encoded string
+    return signature as string
   }
 }
 
-interface KMSSignerExtras {
-  domain?: TypedDataDomain
-  types?: Record<string, TypedDataField[]>
-  transaction?: TransactionRequest
-  [x: string]: any
+type Eip712Payload = {
+  domain: TypedDataDomain
+  types: Record<string, TypedDataField[]>
+  primaryType: string
+  message: Record<string, any>
 }

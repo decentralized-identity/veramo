@@ -265,10 +265,10 @@ export default (testContext: {
 
       it('should sign JWT using generic signer', async () => {
         const signature = await agent.keyManagerSign({
-          kid: importedKey.kid,
+          algorithm: 'ES256K',
           data: 'bla.bla',
-          alg: 'ES256K',
-          enc: 'utf-8',
+          encoding: 'utf-8',
+          keyRef: importedKey.kid,
         })
         expect(signature).toEqual(
           'pNAFkgmuKhqMbb_6Km--ZmY7UCkWunWUuNajSfF6rv5lEa5nNXCU7cnZBZVptU7u8h150qetqkqUaahAf-Cepw',
@@ -285,10 +285,10 @@ export default (testContext: {
         })
 
         const rawTx = await agent.keyManagerSign({
-          alg: 'eth_signTransaction',
+          algorithm: 'eth_signTransaction',
           data: txData,
-          enc: 'hex',
-          kid: importedKey.kid,
+          encoding: 'hex',
+          keyRef: importedKey.kid,
         })
 
         expect(rawTx).toEqual(
@@ -323,10 +323,10 @@ export default (testContext: {
 
       it('should sign JWT using generic signer', async () => {
         const signature = await agent.keyManagerSign({
-          kid: importedKey.kid,
+          keyRef: importedKey.kid,
           data: 'bla.bla',
-          alg: 'EdDSA',
-          enc: 'utf-8',
+          algorithm: 'EdDSA',
+          encoding: 'utf-8',
         })
         expect(signature).toEqual(
           '_2P0iukN2CPH1nQ6LeBm1zQHHp3U4wSYDrpeWTWkp7yuzJex6O60Z4OhdfD5I9WPHV734US8n5vyD2VDbT1UCg',

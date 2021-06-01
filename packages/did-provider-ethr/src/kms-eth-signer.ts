@@ -37,10 +37,10 @@ export class KmsEthereumSigner extends Signer {
       delete tx.from
     }
     const signature = await this.context.agent.keyManagerSign({
-      kid: this.controllerKey.kid,
+      keyRef: this.controllerKey.kid,
       data: serialize(<UnsignedTransaction>tx),
-      alg: 'eth_signTransaction',
-      enc: 'base16',
+      algorithm: 'eth_signTransaction',
+      encoding: 'base16',
     })
     return signature
   }

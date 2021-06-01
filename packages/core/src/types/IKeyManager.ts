@@ -87,15 +87,17 @@ export interface IKeyManagerDecryptJWEArgs {
  */
 export interface IKeyManagerSignArgs {
   /**
-   * Key ID
+   * The key handle, as returned during `keyManagerCreateKey`
    */
-  kid: string
+  keyRef: string
 
   /**
    * The algorithm to use for signing.
    * This must be one of the algorithms supported by the KMS for this key type.
+   * 
+   * The algorithm used here should match one of the names listed in `IKey.meta.algorithms`
    */
-  alg?: string
+  algorithm?: string
 
   /**
    * Data to sign
@@ -105,7 +107,7 @@ export interface IKeyManagerSignArgs {
   /**
    * If the data is a "string" then you can specify which encoding is used. Default is "utf-8"
    */
-  enc?: 'utf-8' | 'base16' | 'base64' | 'hex'
+  encoding?: 'utf-8' | 'base16' | 'base64' | 'hex'
 
   [x: string]: any
 }

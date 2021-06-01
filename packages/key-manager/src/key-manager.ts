@@ -116,22 +116,21 @@ export class KeyManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSign} */
   async keyManagerSign(args: IKeyManagerSignArgs): Promise<string> {
-    const { kid, data, alg, enc, extras } = args
-    const key = await this.store.get({ kid })
+    const { keyRef, data, algorithm, encoding, ...extras } = { encoding: 'utf-8', ...args }
+    const key = await this.store.get({ kid: keyRef })
     let dataBytes
-    const encoding = enc || 'utf-8'
     if (typeof data === 'string') {
       if (encoding === 'base16' || encoding === 'hex') {
         const preData = data.startsWith('0x') ? data.substring(2) : data
         dataBytes = u8a.fromString(preData, 'base16')
       } else {
-        dataBytes = u8a.fromString(data, encoding)
+        dataBytes = u8a.fromString(data, <'utf-8'>encoding)
       }
     } else {
       dataBytes = data
     }
     const kms = this.getKms(key.kms)
-    return kms.sign({ key, alg, data: dataBytes, ...extras })
+    return kms.sign({ key, algorithm, data: dataBytes, ...extras })
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignEthTX} */
