@@ -4889,10 +4889,10 @@ did-jwt-vc@2.1.2:
     did-jwt "^5.4.0"
     did-resolver "^3.1.0"
 
-did-jwt@5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.5.0.tgz#6b83c44f302502c700bb3f30d62c0dd0545ae0b8"
-  integrity sha512-014r+WdE4D/GGuhZ0B/BTXJkYMi5r6232uHTfVrdkcjbykXZwDiBf+oxKnBQOcAyjVHM+HKMMXXdQsC7S/O+mw==
+did-jwt@5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.5.2.tgz#d35f4968ddd158ddd9594a8fd8c3988ca2c98756"
+  integrity sha512-G7N5noSZwDExvhrjqzPC18M3Yo8oqTQWKaUQgtsXw2o4wwntRTgUn2HD3DQ44KIhVnqUt1E98j9bHTpqDfqT8w==
   dependencies:
     "@stablelib/ed25519" "^1.0.1"
     "@stablelib/random" "^1.0.0"
