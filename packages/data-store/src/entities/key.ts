@@ -1,3 +1,4 @@
+import { KeyMetadata } from '@veramo/core'
 import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne } from 'typeorm'
 import { Identifier } from './identifier'
 
@@ -24,8 +25,19 @@ export class Key extends BaseEntity {
   @Column({ nullable: true })
   privateKeyHex?: string
 
-  @Column({ type: 'simple-json', nullable: true })
-  meta?: object | null
+  @Column({
+    type: 'simple-json',
+    nullable: true,
+    transformer: {
+      to: (value: any): KeyMetadata | null => {
+        return value
+      },
+      from: (value: KeyMetadata | null): object | null => {
+        return value
+      },
+    },
+  })
+  meta?: KeyMetadata | null
 
   @ManyToOne((type) => Identifier, (identifier) => identifier.keys)
   //@ts-ignore

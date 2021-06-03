@@ -1,4 +1,7 @@
+import { TKeyType } from '@veramo/core'
 import { TAgent, IDIDManager, IKeyManager, IAgentOptions } from '../../packages/core/src'
+import { ICredentialIssuer } from '@veramo/credential-w3c/src'
+import { serialize } from '@ethersproject/transactions'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
 
@@ -179,8 +182,8 @@ export default (testContext: {
         transaction: {
           to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
           value: 300000,
-          gas: 43092000,
-          gasPrice: '20000000000',
+          gasLimit: 43092000,
+          gasPrice: 20000000000,
           nonce: 1,
         },
       })
@@ -218,5 +221,117 @@ export default (testContext: {
     // expect(decrypted).toEqual(message)
 
     // })
+
+    describe('using Secp256k1 testvectors', () => {
+      const importedKey = {
+        kid:
+          '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
+        kms: 'local',
+        type: <TKeyType>'Secp256k1',
+        publicKeyHex:
+          '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
+        privateKeyHex: '31d1ec15ff8110442012fef0d1af918c0e09b2e2ab821bba52ecc85f8655ec63',
+      }
+
+      beforeAll(async () => {
+        const imported = await agent.keyManagerImport(importedKey)
+      })
+
+      it('should sign JWT using legacy method', async () => {
+        const signature = await agent.keyManagerSignJWT({
+          kid: importedKey.kid,
+          data: 'bla.bla',
+        })
+        expect(signature).toEqual(
+          'pNAFkgmuKhqMbb_6Km--ZmY7UCkWunWUuNajSfF6rv5lEa5nNXCU7cnZBZVptU7u8h150qetqkqUaahAf-Cepw',
+        )
+      })
+
+      it('should sign EthTX using legacy method', async () => {
+        const rawTx = await agent.keyManagerSignEthTX({
+          kid: importedKey.kid,
+          transaction: {
+            to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+            value: 300000,
+            gasLimit: 43092000,
+            gasPrice: 20000000000,
+            nonce: 1,
+          },
+        })
+        expect(rawTx).toEqual(
+          '0xf869018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e0801ba0f16e2206290181c3feaa04051dad19089105c24339dbdf0d80147b48a59fa152a0770e8751ec77ccc78e8b207023f168444f7cfb67055c55c70ef75234458a3d51',
+        )
+      })
+
+      it('should sign JWT using generic signer', async () => {
+        const signature = await agent.keyManagerSign({
+          algorithm: 'ES256K',
+          data: 'bla.bla',
+          encoding: 'utf-8',
+          keyRef: importedKey.kid,
+        })
+        expect(signature).toEqual(
+          'pNAFkgmuKhqMbb_6Km--ZmY7UCkWunWUuNajSfF6rv5lEa5nNXCU7cnZBZVptU7u8h150qetqkqUaahAf-Cepw',
+        )
+      })
+
+      it('should sign EthTX using generic signer', async () => {
+        const txData = serialize({
+          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+          value: 300000,
+          gasLimit: 43092000,
+          gasPrice: 20000000000,
+          nonce: 1,
+        })
+
+        const rawTx = await agent.keyManagerSign({
+          algorithm: 'eth_signTransaction',
+          data: txData,
+          encoding: 'hex',
+          keyRef: importedKey.kid,
+        })
+
+        expect(rawTx).toEqual(
+          '0xf869018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e0801ba0f16e2206290181c3feaa04051dad19089105c24339dbdf0d80147b48a59fa152a0770e8751ec77ccc78e8b207023f168444f7cfb67055c55c70ef75234458a3d51',
+        )
+      })
+    })
+
+    describe('using Ed25519 testvectors', () => {
+      const importedKey = {
+        kid: 'ea75250531f6834328ac210618253288e4c54632962a9708ca82e4a399f79000',
+        kms: 'local',
+        type: <TKeyType>'Ed25519',
+        publicKeyHex: 'ea75250531f6834328ac210618253288e4c54632962a9708ca82e4a399f79000',
+        privateKeyHex:
+          '65f341541643070564bb48d9fc10556f2dec246fa056e436a8ec1cdef8c74766ea75250531f6834328ac210618253288e4c54632962a9708ca82e4a399f79000',
+      }
+
+      beforeAll(async () => {
+        const imported = await agent.keyManagerImport(importedKey)
+      })
+
+      it('should sign JWT using legacy method', async () => {
+        const signature = await agent.keyManagerSignJWT({
+          kid: importedKey.kid,
+          data: 'bla.bla',
+        })
+        expect(signature).toEqual(
+          '_2P0iukN2CPH1nQ6LeBm1zQHHp3U4wSYDrpeWTWkp7yuzJex6O60Z4OhdfD5I9WPHV734US8n5vyD2VDbT1UCg',
+        )
+      })
+
+      it('should sign JWT using generic signer', async () => {
+        const signature = await agent.keyManagerSign({
+          keyRef: importedKey.kid,
+          data: 'bla.bla',
+          algorithm: 'EdDSA',
+          encoding: 'utf-8',
+        })
+        expect(signature).toEqual(
+          '_2P0iukN2CPH1nQ6LeBm1zQHHp3U4wSYDrpeWTWkp7yuzJex6O60Z4OhdfD5I9WPHV734US8n5vyD2VDbT1UCg',
+        )
+      })
+    })
   })
 }

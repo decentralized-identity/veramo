@@ -13,6 +13,7 @@ constants:
     - keyManagerImport
     - keyManagerEncryptJWE
     - keyManagerDecryptJWE
+    - keyManagerSign
     - keyManagerSignJWT
     - keyManagerSignEthTX
     - didManagerGetProviders
