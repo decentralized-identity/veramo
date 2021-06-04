@@ -12,6 +12,8 @@
     "@ethersproject/abstract-provider": "^5.1.0",
     "@ethersproject/abstract-signer": "^5.1.0",
     "@ethersproject/bytes": "^5.1.0",
+    "@ethersproject/random": "^5.3.0",
+    "@ethersproject/signing-key": "^5.3.0",
     "@ethersproject/strings": "^5.1.0",
     "@ethersproject/transactions": "^5.1.1",
     "@ethersproject/wallet": "^5.1.0",
