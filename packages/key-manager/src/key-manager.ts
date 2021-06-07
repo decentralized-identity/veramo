@@ -41,7 +41,7 @@ export class KeyManager implements IAgentPlugin {
       keyManagerGet: this.keyManagerGet.bind(this),
       keyManagerDelete: this.keyManagerDelete.bind(this),
       keyManagerImport: this.keyManagerImport.bind(this),
-      keyManagerEncryptJWE: this.keyManagerDecryptJWE.bind(this),
+      keyManagerEncryptJWE: this.keyManagerEncryptJWE.bind(this),
       keyManagerDecryptJWE: this.keyManagerDecryptJWE.bind(this),
       keyManagerSignJWT: this.keyManagerSignJWT.bind(this),
       keyManagerSignEthTX: this.keyManagerSignEthTX.bind(this),
@@ -65,8 +65,8 @@ export class KeyManager implements IAgentPlugin {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
     const key: IKey = { ...partialKey, kms: args.kms }
-    if (args.meta) {
-      key.meta = args.meta
+    if (args.meta || key.meta) {
+      key.meta = {...args.meta, ...key.meta}
     }
     await this.store.import(key)
     if (key.privateKeyHex) {
@@ -90,6 +90,7 @@ export class KeyManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerImport} */
   async keyManagerImport(key: IKey): Promise<boolean> {
+    //FIXME: check proper key properties and ask the actual KMS to import and fill in the missing meta data
     return this.store.import(key)
   }
 

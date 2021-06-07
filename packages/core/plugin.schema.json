@@ -363,7 +363,8 @@
           "type": "string",
           "enum": [
             "Ed25519",
-            "Secp256k1"
+            "Secp256k1",
+            "X25519"
           ],
           "description": "Cryptographic key type"
         },
@@ -807,7 +808,8 @@
           "type": "string",
           "enum": [
             "Ed25519",
-            "Secp256k1"
+            "Secp256k1",
+            "X25519"
           ],
           "description": "Cryptographic key type"
         },
