@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'next'
+      - 'unstable'
 
 jobs:
   build-test-publish:
@@ -58,3 +59,7 @@ jobs:
       - name: publish @next when on next
         if: github.ref == 'refs/heads/next'
         run: yarn publish:next
+
+      - name: publish @unstable when on unstable branch
+        if: github.ref == 'refs/heads/unstable'
+        run: yarn publish:unstable
