@@ -16,6 +16,8 @@ import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { toUtf8Bytes, toUtf8String } from '@ethersproject/strings'
 import { parse } from '@ethersproject/transactions'
 import { Wallet } from '@ethersproject/wallet'
+import { SigningKey } from '@ethersproject/signing-key'
+import { randomBytes } from "@ethersproject/random";
 import Debug from 'debug'
 import { arrayify } from '@ethersproject/bytes'
 const debug = Debug('veramo:kms:local')
@@ -39,7 +41,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         break
       }
       case 'Secp256k1': {
-        const keyPair = Wallet.createRandom()._signingKey()
+        const privateBytes = randomBytes(32)
+        const keyPair = new SigningKey(privateBytes)
         const publicKeyHex = keyPair.publicKey.substring(2)
         const privateKeyHex = keyPair.privateKey.substring(2)
         key = {
