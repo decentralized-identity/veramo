@@ -10,16 +10,16 @@ import {
   JWE,
 } from 'did-jwt'
 import { generateKeyPair, convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
-import { generateKeyPair as generateEncryptionKeypair } from '@stablelib/x25519'
+import { generateKeyPair as generateEncryptionKeypair, sharedKey } from '@stablelib/x25519'
 import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { toUtf8Bytes, toUtf8String } from '@ethersproject/strings'
 import { parse } from '@ethersproject/transactions'
 import { Wallet } from '@ethersproject/wallet'
 import { SigningKey } from '@ethersproject/signing-key'
-import { randomBytes } from "@ethersproject/random";
+import { randomBytes } from '@ethersproject/random'
 import Debug from 'debug'
-import { arrayify } from '@ethersproject/bytes'
+import { arrayify, hexlify } from '@ethersproject/bytes'
 const debug = Debug('veramo:kms:local')
 
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
@@ -143,6 +143,24 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
       }
     }
     throw Error(`not_supported: Cannot sign ${algorithm} using key of type ${key.type}`)
+  }
+
+  async sharedSecret(args: { myKey: IKey; theirKey: Pick<IKey, 'type' | 'publicKeyHex'> }): Promise<string> {
+    const { myKey, theirKey } = args
+    let myKeyBytes = arrayify('0x' + myKey.privateKeyHex)
+    if (myKey.type === 'Ed25519') {
+      myKeyBytes = convertSecretKeyToX25519(myKeyBytes)
+    } else if (myKey.type !== 'X25519') {
+      throw new Error(`not_supported: can't compute shared key for type=${myKey.type}`)
+    }
+    let theirKeyBytes = arrayify('0x' + theirKey.publicKeyHex)
+    if (theirKey.type === 'Ed25519') {
+      theirKeyBytes = convertPublicKeyToX25519(theirKeyBytes)
+    } else if (theirKey.type !== 'X25519') {
+      throw new Error(`not_supported: can't compute shared key for type=${theirKey.type}`)
+    }
+    const shared = sharedKey(myKeyBytes, theirKeyBytes)
+    return hexlify(shared).substring(2)
   }
 
   /**

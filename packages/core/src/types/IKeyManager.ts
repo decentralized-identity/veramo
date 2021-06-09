@@ -94,7 +94,7 @@ export interface IKeyManagerSignArgs {
   /**
    * The algorithm to use for signing.
    * This must be one of the algorithms supported by the KMS for this key type.
-   * 
+   *
    * The algorithm used here should match one of the names listed in `IKey.meta.algorithms`
    */
   algorithm?: string
@@ -110,6 +110,24 @@ export interface IKeyManagerSignArgs {
   encoding?: 'utf-8' | 'base16' | 'base64' | 'hex'
 
   [x: string]: any
+}
+
+/**
+ * Input arguments for {@link IKeyManager.keyManagerSharedSecret | keyManagerSharedSecret}
+ * @public
+ */
+export interface IKeyManagerSharedSecretArgs {
+  /**
+   * The secret key handle (`kid`)
+   * as returned by {@link IKeyManager.keyManagerCreate | keyManagerCreate}
+   */
+  secretKeyRef: string,
+
+  /**
+   * The public key of the other party.
+   * The `type` of key MUST be compatible with the type referenced by `secretKeyRef`
+   */
+  publicKey: Pick<IKey, 'publicKeyHex' | 'type'>
 }
 
 /**
@@ -180,6 +198,17 @@ export interface IKeyManager extends IPluginMethodMap {
    * @param args
    */
   keyManagerSign(args: IKeyManagerSignArgs): Promise<string>
+
+  /**
+   * Compute a shared secret with the public key of another party.
+   * 
+   * This computes the raw shared key (the result of a Diffie-Hellman computation )
+   * To use this for symmetric encryption you MUST apply a KDF on the result.
+   * 
+   * @param args {@link IKeyManagerSharedKeyArgs} 
+   * @returns a `Promise` that resolves to a hex encoded shared key
+   */
+  keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string>
 
   /**
    * Encrypts data

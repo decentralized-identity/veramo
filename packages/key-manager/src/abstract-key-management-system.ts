@@ -34,4 +34,6 @@ export abstract class AbstractKeyManagementSystem {
   }
 
   abstract sign(args: { key: IKey; algorithm?: string; data: Uint8Array; [x: string]: any }): Promise<string>
+
+  abstract sharedSecret(args: { myKey: IKey; theirKey: Pick<IKey, 'publicKeyHex' | 'type'> }): Promise<string>
 }

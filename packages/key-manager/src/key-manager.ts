@@ -13,6 +13,7 @@ import {
   IKeyManagerSignEthTXArgs,
   schema,
   IKeyManagerSignArgs,
+  IKeyManagerSharedSecretArgs,
 } from '@veramo/core'
 import * as u8a from 'uint8arrays'
 
@@ -46,6 +47,7 @@ export class KeyManager implements IAgentPlugin {
       keyManagerSignJWT: this.keyManagerSignJWT.bind(this),
       keyManagerSignEthTX: this.keyManagerSignEthTX.bind(this),
       keyManagerSign: this.keyManagerSign.bind(this),
+      keyManagerSharedSecret: this.keyManagerSharedSecret.bind(this),
     }
   }
 
@@ -66,7 +68,7 @@ export class KeyManager implements IAgentPlugin {
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
     const key: IKey = { ...partialKey, kms: args.kms }
     if (args.meta || key.meta) {
-      key.meta = {...args.meta, ...key.meta}
+      key.meta = { ...args.meta, ...key.meta }
     }
     await this.store.import(key)
     if (key.privateKeyHex) {
@@ -139,5 +141,21 @@ export class KeyManager implements IAgentPlugin {
     const key = await this.store.get({ kid })
     const kms = this.getKms(key.kms)
     return kms.signEthTX({ key, transaction })
+  }
+
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSharedKey} */
+  async keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string> {
+    const { secretKeyRef, publicKey } = args
+    const myKey = await this.store.get({ kid: secretKeyRef })
+    const theirKey = publicKey
+    if (
+      myKey.type === theirKey.type ||
+      (['Ed25519', 'X25519'].includes(myKey.type) && ['Ed25519', 'X25519'].includes(theirKey.type))
+    ) {
+    } else {
+      throw new Error('invalid_argument: the key types have to match to be able to compute a shared key')
+    }
+    const kms = this.getKms(myKey.kms)
+    return kms.sharedSecret({ myKey, theirKey })
   }
 }
