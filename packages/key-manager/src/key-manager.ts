@@ -153,7 +153,7 @@ export class KeyManager implements IAgentPlugin {
       (['Ed25519', 'X25519'].includes(myKey.type) && ['Ed25519', 'X25519'].includes(theirKey.type))
     ) {
     } else {
-      throw new Error('invalid_argument: the key types have to match to be able to compute a shared key')
+      throw new Error('invalid_argument: the key types have to match to be able to compute a shared secret')
     }
     const kms = this.getKms(myKey.kms)
     return kms.sharedSecret({ myKey, theirKey })

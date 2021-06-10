@@ -151,13 +151,13 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     if (myKey.type === 'Ed25519') {
       myKeyBytes = convertSecretKeyToX25519(myKeyBytes)
     } else if (myKey.type !== 'X25519') {
-      throw new Error(`not_supported: can't compute shared key for type=${myKey.type}`)
+      throw new Error(`not_supported: can't compute shared secret for type=${myKey.type}`)
     }
     let theirKeyBytes = arrayify('0x' + theirKey.publicKeyHex)
     if (theirKey.type === 'Ed25519') {
       theirKeyBytes = convertPublicKeyToX25519(theirKeyBytes)
     } else if (theirKey.type !== 'X25519') {
-      throw new Error(`not_supported: can't compute shared key for type=${theirKey.type}`)
+      throw new Error(`not_supported: can't compute shared secret for type=${theirKey.type}`)
     }
     const shared = sharedKey(myKeyBytes, theirKeyBytes)
     return hexlify(shared).substring(2)
