@@ -8,7 +8,15 @@ import {
   IMessageHandler,
   IPluginMethodMap,
   IAgentPlugin,
+  Agent,
 } from '@veramo/core'
+import {
+  createAnonDecrypter,
+  createAnonEncrypter,
+  createAuthDecrypter,
+  createAuthEncrypter,
+  x25519Decrypter
+} from 'did-jwt'
 import { schema } from './'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
@@ -32,12 +40,107 @@ export interface ISendMessageDIDCommAlpha1Args {
   headers?: Record<string, string>
 }
 
+// interface types
+
+export interface IDIDCommMessage {
+  type: string
+  from?: string
+  to: string
+  thread_id?: string
+  id: string
+  expired_time?: string
+  created_time?: string
+  next?: string
+  from_prior?: string
+  body: any
+}
+
+export enum IDIDCommMessageMediaType {
+  DIDCOMM_PLAIN = 'application/didcomm-plain+json',
+  DIDCOMM_JWS = 'application/didcomm-jws+json',
+  DIDCOMM_JWE = 'application/didcomm-encrypted+json'
+}
+
+export interface IDIDCommMessagePackingType {
+  authenticated: 'jws' | 'authcrypt' | 'none'
+  encrypted: 'anoncrypt' | 'authcrypt' | 'none'
+}
+
+export interface IDIDCommMessageMetaData {
+  packing: IDIDCommMessagePackingType
+  // from_prior, reuse transport etc.
+}
+
+export interface IUnpackedDIDCommMessage {
+  metaData: IDIDCommMessageMetaData
+  message: IDIDCommMessage
+}
+
+export interface IPackedDIDCommMessage {
+  message: string
+}
+
+// interface arguments
+export interface IUnpackDIDCommMessageArgs {
+  mediaType: IDIDCommMessageMediaType
+  message: string
+}
+
+export interface IPackDIDCommMessageArgs {
+  packing: IDIDCommMessagePackingType
+  message: IDIDCommMessage  
+}
+
+export interface IGetDIDCommMessageMediaTypeArgs {
+  message: string
+}
+
+export interface ICreateDIDCommMessageArgs {
+
+}
+
+export interface IDIDCommTransport {
+  id: string
+  // FIXME: TODO: other potential stuff
+
+  // sendRawMessage(args: xyz, context: xyz)
+}
+
+export interface ISendDIDCommMessageArgs {
+  packedMessage: IPackedDIDCommMessage  
+  returnTransport?: IDIDCommTransport
+  recipientDID: string
+}
+
+export interface ISendDIDCommMessageResult {  
+  sent?: boolean
+  error?: string
+}
+
 /**
  * DID Comm plugin interface for {@link @veramo/core#Agent}
  * @beta
  */
 export interface IDIDComm extends IPluginMethodMap {
+
+  createDIDCommMessage(args: ICreateDIDCommMessageArgs, 
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IDIDCommMessage>
+
+  unpackDIDCommMessage(args: IUnpackDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IUnpackedDIDCommMessage>
+
+  getDIDCommMessageMediaType(args: IGetDIDCommMessageMediaTypeArgs) : Promise<IDIDCommMessageMediaType>
+
+  packDIDCommMessage(args: IPackDIDCommMessageArgs, 
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IPackedDIDCommMessage>
+
+  sendDIDCommMessage(args: ISendDIDCommMessageArgs, 
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<ISendDIDCommMessageResult>
+  
   /**
+   * 
+   * @deprecated TBD
+   * 
    * This is used to create a message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
    *
    * @remarks Be advised that this spec is still not final and that this protocol may need to change.
@@ -68,7 +171,84 @@ export class DIDComm implements IAgentPlugin {
   constructor() {
     this.methods = {
       sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1,
+      unpackDIDCommMessage: this.unpackDIDCommMessage,
+      getDIDCommMessageMediaType: this.getDIDCommMessageMediaType,
+      createDIDCommMessage: this.createDIDCommMessage,
+      packDIDCommMessage: this.packDIDCommMessage,
+      sendDIDCommMessage: this.sendDIDCommMessage
     }
+  }
+
+  async createDIDCommMessage(args: ICreateDIDCommMessageArgs, 
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IDIDCommMessage> {
+    throw Error('FIXME: TODO: createDIDCommMessage not implemented yet')
+  }
+
+  async packDIDCommMessage(args: IPackDIDCommMessageArgs, 
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IPackedDIDCommMessage> {
+    throw Error('FIXME: TODO: packDIDCommMessage not implemented yet')
+  }
+
+  async getDIDCommMessageMediaType(args: IGetDIDCommMessageMediaTypeArgs) : Promise<IDIDCommMessageMediaType> {
+    // FIXME: TODO: implement this
+
+    // if jwe.cty === didcomm/
+    // if jws.cty === ...
+    // if plain.cty === 
+
+    return IDIDCommMessageMediaType.DIDCOMM_JWE
+  }
+
+  async unpackDIDCommMessageJWE(
+    args: IUnpackDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>
+  ): Promise<IUnpackedDIDCommMessage> {
+
+    // 1. check whether kid is one of my DID URIs
+    // 2. get internal IKey instance for kid
+    // 2. if isAuthcrypted?
+    //    resolve skid to DID
+    // 
+    // if decrypter is authcrypt then, decrypter.decrypt()
+
+    throw Error('FIXME: TODO: unpackDIDCommMessageJWE not implemented yet')
+  }
+
+  async unpackDIDCommMessage(args: IUnpackDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>)
+    : Promise<IUnpackedDIDCommMessage> {
+
+    if (args.mediaType === IDIDCommMessageMediaType.DIDCOMM_JWS) {
+      throw Error('FIXME: TODO: unpacking JWS is not supported yet')
+    } else if (args.mediaType === IDIDCommMessageMediaType.DIDCOMM_PLAIN) {
+      throw Error('FIXME: TODO: unpacking plain message is not supported yet')
+    } else if (args.mediaType === IDIDCommMessageMediaType.DIDCOMM_JWE) {
+      return this.unpackDIDCommMessageJWE(args, context)
+    } else {
+      throw Error('not_supported: ' + args.mediaType)
+    }
+  }
+
+  async sendDIDCommMessage(args: ISendDIDCommMessageArgs, 
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<ISendDIDCommMessageResult> {
+
+      const { packedMessage, returnTransport, recipientDID } = args
+      // let transport: IDIDCommTransport
+      if (returnTransport) {
+        // FIXME: TODO: transport handling
+        // check if previous message was ok with reusing transport?
+        // if so, retrieve transport from transportmanager      
+        // transport = this.transports.get(returnTransport.id)
+      } else {
+        // FIXME: TODO: get transport for recipientDID
+        // resolve(recipientDID)
+        // get service block
+        // get transport for service block
+      }
+
+      // transport.sendRawMessage(...)
+
+      throw Error('FIXME: TODO: sendDIDCommMessage not implemented yet')
   }
 
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */

@@ -2,6 +2,158 @@
   "IDIDComm": {
     "components": {
       "schemas": {
+        "ICreateDIDCommMessageArgs": {
+          "type": "object"
+        },
+        "IDIDCommMessage": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "from": {
+              "type": "string"
+            },
+            "to": {
+              "type": "string"
+            },
+            "thread_id": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "expired_time": {
+              "type": "string"
+            },
+            "created_time": {
+              "type": "string"
+            },
+            "next": {
+              "type": "string"
+            },
+            "from_prior": {
+              "type": "string"
+            },
+            "body": {}
+          },
+          "required": [
+            "type",
+            "to",
+            "id",
+            "body"
+          ]
+        },
+        "IGetDIDCommMessageMediaTypeArgs": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ]
+        },
+        "IDIDCommMessageMediaType": {
+          "type": "string",
+          "enum": [
+            "application/didcomm-plain+json",
+            "application/didcomm-jws+json",
+            "application/didcomm-encrypted+json"
+          ]
+        },
+        "IPackDIDCommMessageArgs": {
+          "type": "object",
+          "properties": {
+            "packing": {
+              "$ref": "#/components/schemas/IDIDCommMessagePackingType"
+            },
+            "message": {
+              "$ref": "#/components/schemas/IDIDCommMessage"
+            }
+          },
+          "required": [
+            "packing",
+            "message"
+          ]
+        },
+        "IDIDCommMessagePackingType": {
+          "type": "object",
+          "properties": {
+            "authenticated": {
+              "type": "string",
+              "enum": [
+                "jws",
+                "authcrypt",
+                "none"
+              ]
+            },
+            "encrypted": {
+              "type": "string",
+              "enum": [
+                "anoncrypt",
+                "authcrypt",
+                "none"
+              ]
+            }
+          },
+          "required": [
+            "authenticated",
+            "encrypted"
+          ]
+        },
+        "IPackedDIDCommMessage": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ]
+        },
+        "ISendDIDCommMessageArgs": {
+          "type": "object",
+          "properties": {
+            "packedMessage": {
+              "$ref": "#/components/schemas/IPackedDIDCommMessage"
+            },
+            "returnTransport": {
+              "$ref": "#/components/schemas/IDIDCommTransport"
+            },
+            "recipientDID": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "packedMessage",
+            "recipientDID"
+          ]
+        },
+        "IDIDCommTransport": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "ISendDIDCommMessageResult": {
+          "type": "object",
+          "properties": {
+            "sent": {
+              "type": "boolean"
+            },
+            "error": {
+              "type": "string"
+            }
+          }
+        },
         "ISendMessageDIDCommAlpha1Args": {
           "type": "object",
           "properties": {
@@ -299,16 +451,102 @@
             "proof"
           ],
           "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+        },
+        "IUnpackDIDCommMessageArgs": {
+          "type": "object",
+          "properties": {
+            "mediaType": {
+              "$ref": "#/components/schemas/IDIDCommMessageMediaType"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "mediaType",
+            "message"
+          ]
+        },
+        "IUnpackedDIDCommMessage": {
+          "type": "object",
+          "properties": {
+            "metaData": {
+              "$ref": "#/components/schemas/IDIDCommMessageMetaData"
+            },
+            "message": {
+              "$ref": "#/components/schemas/IDIDCommMessage"
+            }
+          },
+          "required": [
+            "metaData",
+            "message"
+          ]
+        },
+        "IDIDCommMessageMetaData": {
+          "type": "object",
+          "properties": {
+            "packing": {
+              "$ref": "#/components/schemas/IDIDCommMessagePackingType"
+            }
+          },
+          "required": [
+            "packing"
+          ]
         }
       },
       "methods": {
+        "createDIDCommMessage": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/ICreateDIDCommMessageArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IDIDCommMessage"
+          }
+        },
+        "getDIDCommMessageMediaType": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IGetDIDCommMessageMediaTypeArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IDIDCommMessageMediaType"
+          }
+        },
+        "packDIDCommMessage": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IPackDIDCommMessageArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IPackedDIDCommMessage"
+          }
+        },
+        "sendDIDCommMessage": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/ISendDIDCommMessageArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/ISendDIDCommMessageResult"
+          }
+        },
         "sendMessageDIDCommAlpha1": {
-          "description": "This is used to create a message according to the initial ",
+          "description": "",
           "arguments": {
             "$ref": "#/components/schemas/ISendMessageDIDCommAlpha1Args"
           },
           "returnType": {
             "$ref": "#/components/schemas/IMessage"
+          }
+        },
+        "unpackDIDCommMessage": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IUnpackDIDCommMessageArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IUnpackedDIDCommMessage"
           }
         }
       }
