@@ -523,6 +523,38 @@
           ],
           "description": "Input arguments for  {@link  IKeyManager.keyManagerGet | keyManagerGet }"
         },
+        "IKeyManagerSharedSecretArgs": {
+          "type": "object",
+          "properties": {
+            "secretKeyRef": {
+              "type": "string",
+              "description": "The secret key handle (`kid`) as returned by  {@link  IKeyManager.keyManagerCreate | keyManagerCreate }"
+            },
+            "publicKey": {
+              "type": "object",
+              "properties": {
+                "publicKeyHex": {
+                  "type": "string",
+                  "description": "Public key"
+                },
+                "type": {
+                  "$ref": "#/components/schemas/TKeyType",
+                  "description": "Key type"
+                }
+              },
+              "required": [
+                "publicKeyHex",
+                "type"
+              ],
+              "description": "The public key of the other party. The `type` of key MUST be compatible with the type referenced by `secretKeyRef`"
+            }
+          },
+          "required": [
+            "secretKeyRef",
+            "publicKey"
+          ],
+          "description": "Input arguments for  {@link  IKeyManager.keyManagerSharedSecret | keyManagerSharedSecret }"
+        },
         "IKeyManagerSignArgs": {
           "type": "object",
           "properties": {
@@ -704,6 +736,15 @@
           },
           "returnType": {
             "type": "boolean"
+          }
+        },
+        "keyManagerSharedSecret": {
+          "description": "Compute a shared secret with the public key of another party.",
+          "arguments": {
+            "$ref": "#/components/schemas/IKeyManagerSharedSecretArgs"
+          },
+          "returnType": {
+            "type": "string"
           }
         },
         "keyManagerSign": {

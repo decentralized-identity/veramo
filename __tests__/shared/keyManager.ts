@@ -200,37 +200,48 @@ export default (testContext: {
       expect(typeof rawTx).toEqual('string')
     })
 
-    // it.todo('Should Encrypt/Decrypt')
     it('Should Encrypt/Decrypt', async () => {
       const message = 'foo bar'
-
       const senderKey = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Ed25519',
       })
-
       const recipientKey = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Ed25519',
       })
-
       const encrypted = await agent.keyManagerEncryptJWE({
         kid: senderKey.kid,
         to: recipientKey,
         data: message,
       })
-
       expect(typeof encrypted).toEqual('string')
-
       const decrypted = await agent.keyManagerDecryptJWE({
         kid: recipientKey.kid,
         data: encrypted,
       })
-
       expect(decrypted).toEqual(message)
     })
 
-    describe('using Secp256k1 testvectors', () => {
+    it('Should compute sharedSecret', async () => {
+      const kmsArray = await agent.keyManagerGetKeyManagementSystems()
+      const kms = kmsArray[0] || 'local'
+      await agent.keyManagerImport({
+        type: 'X25519',
+        kid: 'senderKey1',
+        publicKeyHex: 'c4f35b52cc5309e70a1954b00e757d2b134f3cde9beb8179312b5ce4198a1379',
+        privateKeyHex: 'c796444e0ee9ec8e1c57ae1334a5900c287426fa5177aa093ed9199573e34aca',
+        kms,
+      })
+      const receiverKey = {
+        type: <TKeyType>'X25519',
+        publicKeyHex: 'c1d9ca35bd2c86ad0d61f682c30b24c73045a96773d82ff3b21ebadf85c39244',
+      }
+      const secret = await agent.keyManagerSharedSecret({ secretKeyRef: 'senderKey1', publicKey: receiverKey })
+      expect(secret).toEqual('ee94c7fcf5298291029a3c3d59a8a05367a1806f36668a1f67f5ea8149097476')
+    })
+
+    describe('using Secp256k1 test vectors', () => {
       const importedKey = {
         kid: '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
         kms: 'local',
@@ -304,7 +315,7 @@ export default (testContext: {
       })
     })
 
-    describe('using Ed25519 testvectors', () => {
+    describe('using Ed25519 test vectors', () => {
       const importedKey = {
         kid: 'ea75250531f6834328ac210618253288e4c54632962a9708ca82e4a399f79000',
         kms: 'local',
