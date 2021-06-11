@@ -9,17 +9,24 @@ import {
   IPluginMethodMap,
   IAgentPlugin,
   Agent,
+  IIdentifier,
+  IKey,
 } from '@veramo/core'
 import {
   createAnonDecrypter,
   createAnonEncrypter,
   createAuthDecrypter,
   createAuthEncrypter,
-  x25519Decrypter
+  JWE,
+  resolveX25519Encrypters,
+  x25519Decrypter,
 } from 'did-jwt'
+import { parse as parseDidUri, VerificationMethod } from 'did-resolver'
 import { schema } from './'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
+import { doc } from 'prettier'
+import * as u8a from 'uint8arrays'
 
 const debug = Debug('veramo:did-comm:action-handler')
 
@@ -58,7 +65,7 @@ export interface IDIDCommMessage {
 export enum IDIDCommMessageMediaType {
   DIDCOMM_PLAIN = 'application/didcomm-plain+json',
   DIDCOMM_JWS = 'application/didcomm-jws+json',
-  DIDCOMM_JWE = 'application/didcomm-encrypted+json'
+  DIDCOMM_JWE = 'application/didcomm-encrypted+json',
 }
 
 export interface IDIDCommMessagePackingType {
@@ -88,16 +95,14 @@ export interface IUnpackDIDCommMessageArgs {
 
 export interface IPackDIDCommMessageArgs {
   packing: IDIDCommMessagePackingType
-  message: IDIDCommMessage  
+  message: IDIDCommMessage
 }
 
 export interface IGetDIDCommMessageMediaTypeArgs {
   message: string
 }
 
-export interface ICreateDIDCommMessageArgs {
-
-}
+export interface ICreateDIDCommMessageArgs {}
 
 export interface IDIDCommTransport {
   id: string
@@ -107,12 +112,12 @@ export interface IDIDCommTransport {
 }
 
 export interface ISendDIDCommMessageArgs {
-  packedMessage: IPackedDIDCommMessage  
+  packedMessage: IPackedDIDCommMessage
   returnTransport?: IDIDCommTransport
   recipientDID: string
 }
 
-export interface ISendDIDCommMessageResult {  
+export interface ISendDIDCommMessageResult {
   sent?: boolean
   error?: string
 }
@@ -122,25 +127,32 @@ export interface ISendDIDCommMessageResult {
  * @beta
  */
 export interface IDIDComm extends IPluginMethodMap {
+  createDIDCommMessage(
+    args: ICreateDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<IDIDCommMessage>
 
-  createDIDCommMessage(args: ICreateDIDCommMessageArgs, 
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IDIDCommMessage>
+  unpackDIDCommMessage(
+    args: IUnpackDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<IUnpackedDIDCommMessage>
 
-  unpackDIDCommMessage(args: IUnpackDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IUnpackedDIDCommMessage>
+  getDIDCommMessageMediaType(args: IGetDIDCommMessageMediaTypeArgs): Promise<IDIDCommMessageMediaType>
 
-  getDIDCommMessageMediaType(args: IGetDIDCommMessageMediaTypeArgs) : Promise<IDIDCommMessageMediaType>
+  packDIDCommMessage(
+    args: IPackDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<IPackedDIDCommMessage>
 
-  packDIDCommMessage(args: IPackDIDCommMessageArgs, 
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IPackedDIDCommMessage>
+  sendDIDCommMessage(
+    args: ISendDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<ISendDIDCommMessageResult>
 
-  sendDIDCommMessage(args: ISendDIDCommMessageArgs, 
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<ISendDIDCommMessageResult>
-  
   /**
-   * 
+   *
    * @deprecated TBD
-   * 
+   *
    * This is used to create a message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
    *
    * @remarks Be advised that this spec is still not final and that this protocol may need to change.
@@ -175,49 +187,143 @@ export class DIDComm implements IAgentPlugin {
       getDIDCommMessageMediaType: this.getDIDCommMessageMediaType,
       createDIDCommMessage: this.createDIDCommMessage,
       packDIDCommMessage: this.packDIDCommMessage,
-      sendDIDCommMessage: this.sendDIDCommMessage
+      sendDIDCommMessage: this.sendDIDCommMessage,
     }
   }
 
-  async createDIDCommMessage(args: ICreateDIDCommMessageArgs, 
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IDIDCommMessage> {
+  async createDIDCommMessage(
+    args: ICreateDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<IDIDCommMessage> {
     throw Error('FIXME: TODO: createDIDCommMessage not implemented yet')
   }
 
-  async packDIDCommMessage(args: IPackDIDCommMessageArgs, 
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<IPackedDIDCommMessage> {
+  async packDIDCommMessage(
+    args: IPackDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<IPackedDIDCommMessage> {
     throw Error('FIXME: TODO: packDIDCommMessage not implemented yet')
   }
 
-  async getDIDCommMessageMediaType(args: IGetDIDCommMessageMediaTypeArgs) : Promise<IDIDCommMessageMediaType> {
+  async getDIDCommMessageMediaType(args: IGetDIDCommMessageMediaTypeArgs): Promise<IDIDCommMessageMediaType> {
     // FIXME: TODO: implement this
 
     // if jwe.cty === didcomm/
     // if jws.cty === ...
-    // if plain.cty === 
+    // if plain.cty ===
 
     return IDIDCommMessageMediaType.DIDCOMM_JWE
   }
 
   async unpackDIDCommMessageJWE(
     args: IUnpackDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IUnpackedDIDCommMessage> {
 
+    const jwe: JWE = JSON.parse(args.message)
     // 1. check whether kid is one of my DID URIs
-    // 2. get internal IKey instance for kid
-    // 2. if isAuthcrypted?
-    //    resolve skid to DID
-    // 
-    // if decrypter is authcrypt then, decrypter.decrypt()
+    //   - get recipient DID URIs
+    //   - extract DIDs from recipient DID URIs
+    //   - match DIDs against locally managed DIDs
+    let managedKeys = await this.extractManagedRecipients(jwe, context)
+
+    // 2. get internal IKey instance for each recipient.kid
+    //   - resolve locally managed DIDs that match recipients
+    //   - filter to the keyAgreementKeys that match the recipient.kid
+    //   - match identifier.keys.publicKeyHex to (verificationMethod.publicKey*)
+    //   - return a list of `IKey`
+    const localKeys: IKey[] = await this.mapRecipientsToLocalKeys(managedKeys, context)
+
+    // 3. if isAuthcrypted?
+    //   - resolve skid to DID doc
+    //   - find skid in DID doc and convert to {type: 'X25519', publicKeyHex: string}
+    //   - construct auth decrypter(s)
+    // 4. decryptJWE(jwe, [decrypter])
 
     throw Error('FIXME: TODO: unpackDIDCommMessageJWE not implemented yet')
   }
 
-  async unpackDIDCommMessage(args: IUnpackDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>)
-    : Promise<IUnpackedDIDCommMessage> {
+  private async extractManagedRecipients(
+    jwe: JWE,
+    context: IAgentContext<IDIDManager>,
+  ): Promise<{ kid: string; identifier: IIdentifier }[]> {
+    const kids: string[] = (jwe.recipients || [])
+      .map((recipient) => recipient?.header?.kid)
+      .filter((kid) => typeof kid !== 'undefined') as string[]
 
+    const dids: { kid: string; did: string }[] = kids
+      .map((kid) => {
+        return { kid, did: parseDidUri(kid || '')?.did as string }
+      })
+      .filter(({ kid, did }) => typeof did !== 'undefined')
+    let managedRecipients = (
+      await Promise.all(
+        dids.map(async ({ kid, did }) => {
+          try {
+            const identifier = await context.agent.didManagerGet({ did: <string>did })
+            return { kid, identifier }
+          } catch (e) {
+            // identifier not found, skip it
+            return null
+          }
+        }),
+      )
+    ).filter((managed) => typeof managed !== 'undefined') as unknown as {
+      kid: string
+      identifier: IIdentifier
+    }[]
+    return managedRecipients
+  }
+
+  private async mapRecipientsToLocalKeys(managedKeys: { kid: string; identifier: IIdentifier }[], context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) {
+    const potentialKeys: (IKey | null)[] = await Promise.all(
+      managedKeys.map(async ({ kid, identifier }) => {
+        let keyAgreementKey: ExtendedVerificationMethod
+        const didDocument = (await context.agent.resolveDid({ didUrl: `${identifier.did};cache` }))?.didDocument
+        if (!didDocument) {
+          return null
+        }
+        try {
+          keyAgreementKey = (await context.agent.resolveDidFragment({
+            didDocument,
+            didURI: kid,
+            section: 'keyAgreement',
+          })) as VerificationMethod
+        } catch (e) {
+          return null
+        }
+        const publicKeyHex = this.convertToPublicKeyHex(keyAgreementKey)
+        const localKey = identifier.keys.find((key) => {
+          key.publicKeyHex === publicKeyHex
+        })
+        if (localKey) {
+          localKey.meta = { ...localKey.meta, didURI: kid }
+          return localKey
+        } else {
+          return null
+        }
+      })
+    )
+    const localKeys: IKey[] = potentialKeys.filter((key) => typeof key !== 'undefined') as IKey[]
+    return localKeys
+  }
+
+  private convertToPublicKeyHex(pk: ExtendedVerificationMethod): string {
+    let keyBytes: Uint8Array
+    if (pk.publicKeyHex) {
+      keyBytes = u8a.fromString(pk.publicKeyHex, 'base16')
+    } else if (pk.publicKeyBase58) {
+      keyBytes = u8a.fromString(pk.publicKeyBase58, 'base58btc')
+    } else if (pk.publicKeyBase64) {
+      keyBytes = u8a.fromString(pk.publicKeyBase64, 'base64pad')
+    } else return ''
+    return u8a.toString(keyBytes, 'base16')
+  }
+
+  async unpackDIDCommMessage(
+    args: IUnpackDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<IUnpackedDIDCommMessage> {
     if (args.mediaType === IDIDCommMessageMediaType.DIDCOMM_JWS) {
       throw Error('FIXME: TODO: unpacking JWS is not supported yet')
     } else if (args.mediaType === IDIDCommMessageMediaType.DIDCOMM_PLAIN) {
@@ -229,26 +335,27 @@ export class DIDComm implements IAgentPlugin {
     }
   }
 
-  async sendDIDCommMessage(args: ISendDIDCommMessageArgs, 
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) : Promise<ISendDIDCommMessageResult> {
+  async sendDIDCommMessage(
+    args: ISendDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<ISendDIDCommMessageResult> {
+    const { packedMessage, returnTransport, recipientDID } = args
+    // let transport: IDIDCommTransport
+    if (returnTransport) {
+      // FIXME: TODO: transport handling
+      // check if previous message was ok with reusing transport?
+      // if so, retrieve transport from transportmanager
+      // transport = this.transports.get(returnTransport.id)
+    } else {
+      // FIXME: TODO: get transport for recipientDID
+      // resolve(recipientDID)
+      // get service block
+      // get transport for service block
+    }
 
-      const { packedMessage, returnTransport, recipientDID } = args
-      // let transport: IDIDCommTransport
-      if (returnTransport) {
-        // FIXME: TODO: transport handling
-        // check if previous message was ok with reusing transport?
-        // if so, retrieve transport from transportmanager      
-        // transport = this.transports.get(returnTransport.id)
-      } else {
-        // FIXME: TODO: get transport for recipientDID
-        // resolve(recipientDID)
-        // get service block
-        // get transport for service block
-      }
+    // transport.sendRawMessage(...)
 
-      // transport.sendRawMessage(...)
-
-      throw Error('FIXME: TODO: sendDIDCommMessage not implemented yet')
+    throw Error('FIXME: TODO: sendDIDCommMessage not implemented yet')
   }
 
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
@@ -317,4 +424,8 @@ export class DIDComm implements IAgentPlugin {
       return Promise.reject(new Error('No service endpoint'))
     }
   }
+}
+
+interface ExtendedVerificationMethod extends VerificationMethod {
+  publicKeyBase64?: string
 }
