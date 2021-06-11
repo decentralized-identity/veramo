@@ -201,11 +201,11 @@ export interface IKeyManager extends IPluginMethodMap {
 
   /**
    * Compute a shared secret with the public key of another party.
-   * 
+   *
    * This computes the raw shared secret (the result of a Diffie-Hellman computation)
    * To use this for symmetric encryption you MUST apply a KDF on the result.
-   * 
-   * @param args {@link IKeyManagerSharedKeyArgs} 
+   *
+   * @param args {@link IKeyManagerSharedKeyArgs}
    * @returns a `Promise` that resolves to a hex encoded shared secret
    */
   keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string>

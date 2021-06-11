@@ -1,19 +1,11 @@
 import { TKeyType, IKey } from '@veramo/core'
 import { AbstractKeyManagementSystem } from '@veramo/key-manager'
-import {
-  createAnonDecrypter,
-  createAnonEncrypter,
-  createJWE,
-  decryptJWE,
-  EdDSASigner,
-  ES256KSigner,
-  JWE,
-} from 'did-jwt'
+import { EdDSASigner, ES256KSigner } from 'did-jwt'
 import { generateKeyPair, convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
 import { generateKeyPair as generateEncryptionKeypair, sharedKey } from '@stablelib/x25519'
 import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { toUtf8Bytes, toUtf8String } from '@ethersproject/strings'
+import { toUtf8String } from '@ethersproject/strings'
 import { parse } from '@ethersproject/transactions'
 import { Wallet } from '@ethersproject/wallet'
 import { SigningKey } from '@ethersproject/signing-key'
@@ -81,45 +73,6 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   async deleteKey(args: { kid: string }) {
     // this kms doesn't need to delete keys
     return true
-  }
-
-  async encryptJWE({ key, to, data }: { key: IKey; to: IKey; data: string }): Promise<string> {
-    let recipientPublicKey: Uint8Array
-    if (to.type === 'Ed25519') {
-      recipientPublicKey = arrayify('0x' + to.publicKeyHex)
-      recipientPublicKey = convertPublicKeyToX25519(recipientPublicKey)
-    } else if (to.type === 'X25519') {
-      recipientPublicKey = arrayify('0x' + to.publicKeyHex)
-    } else {
-      throw new Error('not_supported: The recipient public key type is not supported')
-    }
-
-    const dataBytes = toUtf8Bytes(data)
-    const encrypter = createAnonEncrypter(recipientPublicKey)
-    const result: JWE = await createJWE(dataBytes, [encrypter])
-
-    return JSON.stringify(result)
-  }
-
-  async decryptJWE({ key, data }: { key: IKey; data: string }): Promise<string> {
-    if (!key.privateKeyHex) throw Error('No private key')
-
-    let secretKey: Uint8Array
-    if (key.type === 'Ed25519') {
-      secretKey = arrayify('0x' + key.privateKeyHex)
-      secretKey = convertSecretKeyToX25519(secretKey)
-    } else if (key.type === 'X25519') {
-      secretKey = arrayify('0x' + key.privateKeyHex)
-    } else {
-      throw new Error('not_supported: The recipient public key type is not supported')
-    }
-
-    const jwe: JWE = JSON.parse(data)
-    const decrypter = createAnonDecrypter(secretKey)
-
-    const decrypted = await decryptJWE(jwe, decrypter)
-    const result = toUtf8String(decrypted)
-    return result
   }
 
   async sign({ key, algorithm, data }: { key: IKey; algorithm?: string; data: Uint8Array }): Promise<string> {

@@ -14,8 +14,13 @@ import {
   schema,
   IKeyManagerSignArgs,
   IKeyManagerSharedSecretArgs,
+  TKeyType,
 } from '@veramo/core'
 import * as u8a from 'uint8arrays'
+import { JWE, createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, ECDH } from 'did-jwt'
+import { arrayify, hexlify } from '@ethersproject/bytes'
+import { toUtf8String, toUtf8Bytes } from '@ethersproject/strings'
+import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
 
 /**
  * Agent plugin that provides {@link @veramo/core#IKeyManager} methods
@@ -98,16 +103,37 @@ export class KeyManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerEncryptJWE} */
   async keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<string> {
-    const key = await this.store.get({ kid })
-    const kms = this.getKms(key.kms)
-    return kms.encryptJWE({ key, to, data })
+    // TODO: if a sender `key` is provided, then it should be used to create an authenticated encrypter
+    // const key = await this.store.get({ kid })
+
+    let recipientPublicKey: Uint8Array
+    if (to.type === 'Ed25519') {
+      recipientPublicKey = arrayify('0x' + to.publicKeyHex)
+      recipientPublicKey = convertPublicKeyToX25519(recipientPublicKey)
+    } else if (to.type === 'X25519') {
+      recipientPublicKey = arrayify('0x' + to.publicKeyHex)
+    } else {
+      throw new Error('not_supported: The recipient public key type is not supported')
+    }
+
+    const dataBytes = toUtf8Bytes(data)
+    const encrypter = createAnonEncrypter(recipientPublicKey)
+    const result: JWE = await createJWE(dataBytes, [encrypter])
+
+    return JSON.stringify(result)
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerDecryptJWE} */
   async keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string> {
-    const key = await this.store.get({ kid })
-    const kms = this.getKms(key.kms)
-    return kms.decryptJWE({ key, data })
+    const jwe: JWE = JSON.parse(data)
+    const ecdh = this.createX25519ECDH(kid)
+
+    // TODO: figure out if the JWE is anon or not to determine the type of decrypter to use
+    const decrypter = createAnonDecrypter(ecdh)
+
+    const decrypted = await decryptJWE(jwe, decrypter)
+    const result = toUtf8String(decrypted)
+    return result
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignJWT} */
@@ -157,5 +183,16 @@ export class KeyManager implements IAgentPlugin {
     }
     const kms = this.getKms(myKey.kms)
     return kms.sharedSecret({ myKey, theirKey })
+  }
+
+  createX25519ECDH(secretKeyRef: string): ECDH {
+    return async (theirPublicKey: Uint8Array): Promise<Uint8Array> => {
+      if (theirPublicKey.length !== 32) {
+        throw new Error('invalid_argument: incorrect publicKey key length for X25519')
+      }
+      const publicKey = { type: <TKeyType>'X25519', publicKeyHex: hexlify(theirPublicKey).substring(2) }
+      const shared = await this.keyManagerSharedSecret({ secretKeyRef, publicKey })
+      return arrayify('0x' + shared)
+    }
   }
 }

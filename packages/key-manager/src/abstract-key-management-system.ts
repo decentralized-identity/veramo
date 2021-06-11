@@ -1,13 +1,11 @@
 import { IKey, TKeyType } from '@veramo/core'
-import { arrayify } from '@ethersproject/bytes'
+import { arrayify, hexlify } from '@ethersproject/bytes'
 import { serialize, Transaction } from '@ethersproject/transactions'
 import * as u8a from 'uint8arrays'
 
 export abstract class AbstractKeyManagementSystem {
   abstract createKey(args: { type: TKeyType; meta?: any }): Promise<Omit<IKey, 'kms'>>
   abstract deleteKey(args: { kid: string }): Promise<boolean>
-  abstract encryptJWE(args: { key: IKey; to: Omit<IKey, 'kms'>; data: string }): Promise<string>
-  abstract decryptJWE(args: { key: IKey; data: string }): Promise<string>
 
   /**@deprecated please use `sign({key, alg: 'eth_signTransaction', data: arrayify(serialize(transaction))})` instead */
   async signEthTX({ key, transaction }: { key: IKey; transaction: object }): Promise<string> {
