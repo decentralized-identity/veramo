@@ -8,25 +8,23 @@ import {
   IMessageHandler,
   IPluginMethodMap,
   IAgentPlugin,
-  Agent,
   IIdentifier,
-  IKey,
+  TKeyType,
 } from '@veramo/core'
 import {
   createAnonDecrypter,
-  createAnonEncrypter,
   createAuthDecrypter,
-  createAuthEncrypter,
+  Decrypter,
+  decryptJWE,
   JWE,
-  resolveX25519Encrypters,
-  x25519Decrypter,
+  ECDH,
 } from 'did-jwt'
-import { parse as parseDidUri, VerificationMethod } from 'did-resolver'
+import { DIDDocument, parse as parseDidUri, VerificationMethod } from 'did-resolver'
 import { schema } from './'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
-import { doc } from 'prettier'
 import * as u8a from 'uint8arrays'
+import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
 
 const debug = Debug('veramo:did-comm:action-handler')
 
@@ -182,12 +180,12 @@ export class DIDComm implements IAgentPlugin {
 
   constructor() {
     this.methods = {
-      sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1,
-      unpackDIDCommMessage: this.unpackDIDCommMessage,
-      getDIDCommMessageMediaType: this.getDIDCommMessageMediaType,
-      createDIDCommMessage: this.createDIDCommMessage,
-      packDIDCommMessage: this.packDIDCommMessage,
-      sendDIDCommMessage: this.sendDIDCommMessage,
+      sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1.bind(this),
+      unpackDIDCommMessage: this.unpackDIDCommMessage.bind(this),
+      getDIDCommMessageMediaType: this.getDIDCommMessageMediaType.bind(this),
+      createDIDCommMessage: this.createDIDCommMessage.bind(this),
+      packDIDCommMessage: this.packDIDCommMessage.bind(this),
+      sendDIDCommMessage: this.sendDIDCommMessage.bind(this),
     }
   }
 
@@ -217,69 +215,139 @@ export class DIDComm implements IAgentPlugin {
 
   async unpackDIDCommMessageJWE(
     args: IUnpackDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
   ): Promise<IUnpackedDIDCommMessage> {
-
     const jwe: JWE = JSON.parse(args.message)
+
+    // 0 resolve skid to DID doc
+    //   - find skid in DID doc and convert to 'X25519' byte array (if type matches)
+    let senderKeyBytes: Uint8Array | null = await this.extractSenderKey(jwe, context)
+
     // 1. check whether kid is one of my DID URIs
     //   - get recipient DID URIs
     //   - extract DIDs from recipient DID URIs
     //   - match DIDs against locally managed DIDs
-    let managedKeys = await this.extractManagedRecipients(jwe, context)
+    let managedRecipients = await this.extractManagedRecipients(jwe, context)
 
     // 2. get internal IKey instance for each recipient.kid
     //   - resolve locally managed DIDs that match recipients
     //   - filter to the keyAgreementKeys that match the recipient.kid
     //   - match identifier.keys.publicKeyHex to (verificationMethod.publicKey*)
     //   - return a list of `IKey`
-    const localKeys: IKey[] = await this.mapRecipientsToLocalKeys(managedKeys, context)
+    const localKeys = await this.mapRecipientsToLocalKeys(managedRecipients, context)
 
-    // 3. if isAuthcrypted?
-    //   - resolve skid to DID doc
-    //   - find skid in DID doc and convert to {type: 'X25519', publicKeyHex: string}
-    //   - construct auth decrypter(s)
-    // 4. decryptJWE(jwe, [decrypter])
+    // 3. for each recipient
+    //  if isAuthcrypted? (if senderKey != null)
+    //   - construct auth decrypter
+    //  else
+    //   - construct anon decrypter
+    // 4. decryptJWE(jwe, decrypter)
+    for (const localKey of localKeys) {
+      let decrypter: Decrypter
+      const recipientECDH: ECDH = this.createRecipientECDH(localKey.localKeyRef, context)
+      // TODO: here's where more algorithms should be supported
+      if (senderKeyBytes && localKey.recipient?.header?.alg?.contains('ECDH-1PU')) {
+        decrypter = createAuthDecrypter(recipientECDH, senderKeyBytes)
+      } else {
+        decrypter = createAnonDecrypter(recipientECDH)
+      }
+      try {
+        const decryptedBytes = await decryptJWE(jwe, decrypter)
+        const decryptedMsg = u8a.toString(decryptedBytes, 'utf-8')
+        return JSON.parse(decryptedMsg) as IUnpackedDIDCommMessage
+      } catch (e) {
+        debug(
+          `unable to decrypt DIDComm msg using ${localKey.localKeyRef} (${localKey.recipient.header.kid})`,
+        )
+      }
+    }
 
-    throw Error('FIXME: TODO: unpackDIDCommMessageJWE not implemented yet')
+    throw new Error('unable to decrypt DIDComm message with any of the locally managed keys')
+  }
+
+  private createRecipientECDH(secretKeyRef: string, context: IAgentContext<IKeyManager>): ECDH {
+    return async (theirPublicKey: Uint8Array): Promise<Uint8Array> => {
+      if (theirPublicKey.length !== 32) {
+        throw new Error('invalid_argument: incorrect publicKey key length for X25519')
+      }
+      const publicKey = { type: <TKeyType>'X25519', publicKeyHex: u8a.toString(theirPublicKey, 'base16') }
+      const shared = await context.agent.keyManagerSharedSecret({ secretKeyRef, publicKey })
+      return u8a.fromString(shared, 'base16')
+    }
+  }
+
+  private async extractSenderKey(jwe: JWE, context: IAgentContext<IResolver>): Promise<Uint8Array | null> {
+    let senderKey: Uint8Array | null = null
+    const sender = JSON.parse(jwe.protected)
+    if (typeof sender.skid === 'string') {
+      const senderDIDResult = await context.agent.resolveDid({ didUrl: `${sender.skid};cache` })
+      const err = senderDIDResult.didResolutionMetadata.error
+      const msg = senderDIDResult.didResolutionMetadata.message
+      const senderDoc = senderDIDResult.didDocument
+      if (!senderDoc || err) {
+        throw new Error(`not_found: skid was provided but could not be resolved: ${err} ${msg}`)
+      }
+      const sKey = (await context.agent.resolveDidFragment({
+        didDocument: senderDoc,
+        didURI: sender.skid,
+        section: 'keyAgreement',
+      })) as VerificationMethod
+      if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019', 'Ed25519', 'X25519'].includes(sKey.type)) {
+        throw new Error(`not_supported: sender key of type ${sKey.type} is not supported`)
+      }
+      let publicKeyHex = this.convertToPublicKeyHex(sKey)
+      senderKey = u8a.fromString(publicKeyHex, 'base16')
+      if (['Ed25519VerificationKey2018', 'Ed25519'].includes(sKey.type)) {
+        senderKey = convertPublicKeyToX25519(senderKey)
+      }
+    }
+    return senderKey
   }
 
   private async extractManagedRecipients(
     jwe: JWE,
     context: IAgentContext<IDIDManager>,
-  ): Promise<{ kid: string; identifier: IIdentifier }[]> {
+  ): Promise<{ recipient: any; kid: string; identifier: IIdentifier }[]> {
     const kids: string[] = (jwe.recipients || [])
       .map((recipient) => recipient?.header?.kid)
       .filter((kid) => typeof kid !== 'undefined') as string[]
 
-    const dids: { kid: string; did: string }[] = kids
-      .map((kid) => {
-        return { kid, did: parseDidUri(kid || '')?.did as string }
+    const parsedDIDs = (jwe.recipients || [])
+      .map((recipient) => {
+        const kid = recipient?.header?.kid
+        return { recipient, kid, did: parseDidUri(kid || '')?.did as string }
       })
-      .filter(({ kid, did }) => typeof did !== 'undefined')
+      .filter(({ recipient, kid, did }) => isDefined(did))
+
     let managedRecipients = (
       await Promise.all(
-        dids.map(async ({ kid, did }) => {
+        parsedDIDs.map(async ({ recipient, kid, did }) => {
           try {
             const identifier = await context.agent.didManagerGet({ did: <string>did })
-            return { kid, identifier }
+            return { recipient, kid, identifier }
           } catch (e) {
             // identifier not found, skip it
             return null
           }
         }),
       )
-    ).filter((managed) => typeof managed !== 'undefined') as unknown as {
+    ).filter(isDefined)
+    return managedRecipients as {
+      recipient: any
       kid: string
       identifier: IIdentifier
     }[]
-    return managedRecipients
   }
 
-  private async mapRecipientsToLocalKeys(managedKeys: { kid: string; identifier: IIdentifier }[], context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>) {
-    const potentialKeys: (IKey | null)[] = await Promise.all(
-      managedKeys.map(async ({ kid, identifier }) => {
+  private async mapRecipientsToLocalKeys(
+    managedKeys: { recipient: any; kid: string; identifier: IIdentifier }[],
+    context: IAgentContext<IResolver>,
+  ) {
+    const potentialKeys = await Promise.all(
+      managedKeys.map(async ({ recipient, kid, identifier }) => {
         let keyAgreementKey: ExtendedVerificationMethod
-        const didDocument = (await context.agent.resolveDid({ didUrl: `${identifier.did};cache` }))?.didDocument
+        const didDocument = (await context.agent.resolveDid({ didUrl: `${identifier.did};cache` }))
+          ?.didDocument
         if (!didDocument) {
           return null
         }
@@ -297,14 +365,16 @@ export class DIDComm implements IAgentPlugin {
           key.publicKeyHex === publicKeyHex
         })
         if (localKey) {
-          localKey.meta = { ...localKey.meta, didURI: kid }
-          return localKey
+          return { localKeyRef: localKey.kid, recipient }
         } else {
           return null
         }
-      })
+      }),
     )
-    const localKeys: IKey[] = potentialKeys.filter((key) => typeof key !== 'undefined') as IKey[]
+    const localKeys = potentialKeys.filter((key) => typeof key !== 'undefined') as {
+      localKeyRef: string
+      recipient: any
+    }[]
     return localKeys
   }
 
@@ -428,4 +498,8 @@ export class DIDComm implements IAgentPlugin {
 
 interface ExtendedVerificationMethod extends VerificationMethod {
   publicKeyBase64?: string
+}
+
+function isDefined<T>(arg: T): arg is Exclude<T, null | undefined> {
+  return typeof arg !== 'undefined'
 }

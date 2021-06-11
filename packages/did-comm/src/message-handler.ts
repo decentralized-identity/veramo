@@ -6,7 +6,6 @@ const debug = Debug('veramo:did-comm:message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm>
 
-
 /**
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that decrypts DIDComm messages.
  * @beta
@@ -81,10 +80,9 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
    * Handles a new packed DIDCommV2 Message (also Alpha support but soon deprecated).
    * - Tests whether raw message is a DIDCommV2 message
    * - Unpacks raw message (JWM/JWE/JWS, or plain JSON).
-   * - 
+   * -
    */
   async handle(message: Message, context: IContext): Promise<Message> {
-
     const rawMessage = message.raw
     if (rawMessage) {
       // check whether message is DIDCommV2
@@ -92,32 +90,43 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
       if (didCommMessageType) {
         try {
           const unpackedMessage = await context.agent.unpackDIDCommMessage({
-            mediaType: didCommMessageType, message: rawMessage})
+            mediaType: didCommMessageType,
+            message: rawMessage,
+          })
 
-          // FIXME: TODO: map unpackedMessage.message -> message
-          // FIXME: TODO: add unpackedMessage.metaData -> message.meta
+          const {
+            type,
+            to,
+            from,
+            id,
+            thread_id: threadId,
+            created_time: createdAt,
+            expired_time: expiresAt,
+            body: data,
+          } = unpackedMessage.message
+          message = {
+            ...message,
+            type,
+            to,
+            from,
+            id,
+            threadId,
+            createdAt,
+            expiresAt,
+            data,
+          } as Message
 
-          message.from = unpackedMessage.message.from        
-          message.type = unpackedMessage.message.type
-          message.to = unpackedMessage.message.to
-          message.threadId = unpackedMessage.message.thread_id
-          message.id = unpackedMessage.message.id
-          message.expiresAt = unpackedMessage.message.expired_time
-          message.createdAt = unpackedMessage.message.created_time
-          message.data = unpackedMessage.message.body
-
-          message.addMetaData({type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData)})
+          message.addMetaData({ type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData) })
           context.agent.emit('DIDCommV2Message', unpackedMessage)
 
           return message
-
         } catch (e) {
           // FIXME: TODO: do something
           console.debug('FIXME: TODO: handle error')
         }
       }
     }
-    
+
     return this.handleDIDCommAlpha(message, context)
   }
 }
