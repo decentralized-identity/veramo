@@ -46,6 +46,21 @@ export default (testContext: {
       })
     })
 
+    it('core-IResolver-resolveDidFragment example', async () => {
+      const did = 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
+      const didFragment = `${did}#controller`
+      const fragment = await agent.resolveDidFragment({
+        didURI: didFragment,
+        didDocument: (await agent.resolveDid({ didUrl: did }))?.didDocument,
+      })
+      expect(fragment).toEqual({
+        id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
+        type: 'EcdsaSecp256k1RecoveryMethod2020',
+        controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+        blockchainAccountId: '0xb09B66026bA5909A7CFE99b76875431D2b8D5190@eip155:4',
+      })
+    })
+
     it('core-IDIDManager-didManagerCreate example', async () => {
       const identifier = await agent.didManagerCreate({
         alias: 'alice',
