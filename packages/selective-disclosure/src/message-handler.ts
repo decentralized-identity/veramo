@@ -26,8 +26,8 @@ export class SdrMessageHandler extends AbstractMessageHandler {
     const meta = message.getLastMetaData()
 
     if (
-      message.data.type == MessageTypes.sdr &&
-      message.data.claims
+      message?.data?.type == MessageTypes.sdr &&
+      message?.data?.claims
     ) {
       debug('Message type is', MessageTypes.sdr)
 
