@@ -54,7 +54,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     section?: DIDDocumentSection
   }): Promise<VerificationMethod | ServiceEndpoint> {
     debug('Resolving %s', didURI)
-    const did = parseDID(didURI)?.did
+    const did = parseDID(didURI)?.did || didDocument.id
     const doc = didDocument
     const mainSections = [...(doc.verificationMethod || []), ...(doc.publicKey || []), ...(doc.service || [])]
     const subsection = section ? [...(doc[section] || [])] : mainSections
@@ -72,6 +72,9 @@ export class DIDResolverPlugin implements IAgentPlugin {
     
     if (!result) {
       throw new Error(`not_found: DID document fragment (${didURI}) could not be located.`)
+    } else if (result.id.startsWith('#')) {
+      // fix did documents that use only the fragment part as key ID
+      result.id = `${did}${result.id}`
     }
     return result
   }

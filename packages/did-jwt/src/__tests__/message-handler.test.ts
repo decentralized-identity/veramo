@@ -80,6 +80,7 @@ describe('@veramo/did-jwt', () => {
           },
         }
       },
+      resolveDidFragment: jest.fn()
     },
   }
 

@@ -43,6 +43,7 @@ import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
+import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
 
 const databaseFile = 'local-database2.sqlite'
@@ -163,5 +164,6 @@ describe('Local in-memory integration tests', () => {
   documentationExamples(testContext)
   keyManager(testContext)
   didManager(testContext)
+  didComm(testContext)
   messageHandler(testContext)
 })

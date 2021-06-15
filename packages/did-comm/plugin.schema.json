@@ -79,28 +79,12 @@
           ]
         },
         "IDIDCommMessagePackingType": {
-          "type": "object",
-          "properties": {
-            "authenticated": {
-              "type": "string",
-              "enum": [
-                "jws",
-                "authcrypt",
-                "none"
-              ]
-            },
-            "encrypted": {
-              "type": "string",
-              "enum": [
-                "anoncrypt",
-                "authcrypt",
-                "none"
-              ]
-            }
-          },
-          "required": [
-            "authenticated",
-            "encrypted"
+          "type": "string",
+          "enum": [
+            "authcrypt",
+            "anoncrypt",
+            "jws",
+            "none"
           ]
         },
         "IPackedDIDCommMessage": {

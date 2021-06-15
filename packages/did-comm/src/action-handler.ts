@@ -30,7 +30,7 @@ import { schema } from './'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
 import * as u8a from 'uint8arrays'
-import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
+import { convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
 
 const debug = Debug('veramo:did-comm:action-handler')
 
@@ -367,14 +367,16 @@ export class DIDComm implements IAgentPlugin {
 
   private async extractSenderKey(jwe: JWE, context: IAgentContext<IResolver>): Promise<Uint8Array | null> {
     let senderKey: Uint8Array | null = null
-    const protectedHeader = JSON.parse(jwe.protected)
+    const protectedHeader = JSON.parse(u8a.toString(u8a.fromString(jwe.protected, 'base64url'), 'utf-8'))
     if (typeof protectedHeader.skid === 'string') {
       const senderDIDResult = await context.agent.resolveDid({ didUrl: `${protectedHeader.skid};cache` })
       const err = senderDIDResult.didResolutionMetadata.error
       const msg = senderDIDResult.didResolutionMetadata.message
       const senderDoc = senderDIDResult.didDocument
       if (!senderDoc || err) {
-        throw new Error(`not_found: skid was provided but could not be resolved ${protectedHeader.skid}: ${err} ${msg}`)
+        throw new Error(
+          `not_found: skid was provided but could not be resolved ${protectedHeader.skid}: ${err} ${msg}`,
+        )
       }
       const sKey = (await context.agent.resolveDidFragment({
         didDocument: senderDoc,
@@ -410,6 +412,23 @@ export class DIDComm implements IAgentPlugin {
         parsedDIDs.map(async ({ recipient, kid, did }) => {
           try {
             const identifier = await context.agent.didManagerGet({ did: <string>did })
+            // filter for supported key types
+            identifier.keys = identifier.keys
+              .map((key) => {
+                if (key.type === 'Ed25519') {
+                  const publicBytes = u8a.fromString(key.publicKeyHex, 'base16')
+                  key.publicKeyHex = u8a.toString(convertPublicKeyToX25519(publicBytes), 'base16')
+                  if (key.privateKeyHex) {
+                    const privateBytes = u8a.fromString(key.privateKeyHex)
+                    key.privateKeyHex = u8a.toString(convertSecretKeyToX25519(privateBytes), 'base16')
+                  }
+                  key.type = 'X25519'
+                } else if (key.type !== 'X25519') {
+                  return null
+                }
+                return key
+              })
+              .filter(isDefined)
             return { recipient, kid, identifier }
           } catch (e) {
             // identifier not found, skip it
@@ -433,7 +452,7 @@ export class DIDComm implements IAgentPlugin {
       managedKeys.map(async ({ recipient, kid, identifier }) => {
         // TODO: use caching, since all recipients are supposed to belong to the same identifier
         const identifierKeys = await this.mapIdentifierKeyAgreementKeys(identifier, context)
-        const localKey = identifierKeys.find(key => key.meta.verificationMethod.id === kid)
+        const localKey = identifierKeys.find((key) => key.meta.verificationMethod.id === kid)
         if (localKey) {
           return { localKeyRef: localKey.kid, recipient }
         } else {
@@ -466,9 +485,9 @@ export class DIDComm implements IAgentPlugin {
     // finally map the didDocument keys to the identifier keys by comparing `publicKeyHex`
     const extendedKeys: ExtendedIKey[] = keyAgreementKeys
       .map((verificationMethod) => {
-        const localKey = identifier.keys.find((localKey) => {
-          localKey.publicKeyHex === verificationMethod.publicKeyHex
-        })
+        const localKey = identifier.keys.find(
+          (localKey) => localKey.publicKeyHex === verificationMethod.publicKeyHex,
+        )
         if (localKey) {
           const { meta, ...localProps } = localKey
           return { ...localProps, meta: { ...meta, verificationMethod } }
