@@ -1918,10 +1918,10 @@
     neon-cli "0.4.0"
     node-pre-gyp "0.14.0"
 
-"@microsoft/api-documenter@7.13.16":
-  version "7.13.16"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.13.16.tgz#67e2f10d5a1a877f5477ca94c00bedba5441c33d"
-  integrity sha512-y1dSp4udGAeZG6SU7eElai9pl/hz/CNv6b+GbLUrtFID5RKsFy9SyROQ7s5luN7wXF3DasdNthW5XJjOwK6vZw==
+"@microsoft/api-documenter@7.13.21":
+  version "7.13.21"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.13.21.tgz#42513e9a2548af62d42c4c9b4c3150a8aeee47c9"
+  integrity sha512-rJ6+OW71OEVir4JQVLqUax+vGEpnbwMyFi9AtTC2rVKKNX5f7I0DosR4MtRICQJz8mOxf4Nk5900+CrQWUr7jw==
   dependencies:
     "@microsoft/api-extractor-model" "7.13.3"
     "@microsoft/tsdoc" "0.13.2"
@@ -5014,18 +5014,18 @@ dezalgo@^1.0.0, dezalgo@~1.0.3:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.2.tgz#379e4abc0461ec1bb59f086934ed6d958cdea044"
-  integrity sha512-9T8RxGfhuGgLEwxa5qlVTIKNUVvPNSY+mBUptQNP35k2OpIQL27grKpKnJMRT8yLJjmQkHkkfldVpAvdW3VxjA==
+did-jwt-vc@2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.3.tgz#cb8139e38eca874657e907300bf86d624cd848dd"
+  integrity sha512-bzrkeNCJmz5TlR4VBHRiKKWI3fItOnzHHe6ecTlHnuyPUPUHb0ogygGdkCwA6xb01HB68pytnfvqHW1GMle/sw==
   dependencies:
     did-jwt "^5.4.0"
     did-resolver "^3.1.0"
 
-did-jwt@5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.6.0.tgz#aff04b19550c3b5175044f3f893a33da36777a9a"
-  integrity sha512-w4pvegvyOicfW2gvjUWyf0ggJV8v6NQw2OJgKNW3U3QG5ruEi3Xmv4gERRpzgGBqcCwnDuraV3NsQfTUW+kAfw==
+did-jwt@5.6.1:
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.6.1.tgz#229b63cfa82c80bf96704b96e32b2ad79b63b157"
+  integrity sha512-p2IpvJmfc+2o23BD1e5LHGnNb9ZMd3rUTAjetmoPfZgMWpo+CgZzsz6Y9r5MCb3PQjUs/OOO+MiP2xGr0DyggQ==
   dependencies:
     "@stablelib/ed25519" "^1.0.1"
     "@stablelib/random" "^1.0.0"
@@ -10747,10 +10747,10 @@ secp256k1@^4.0.1:
     node-addon-api "^2.0.0"
     node-gyp-build "^4.2.0"
 
-semantic-release@17.4.3:
-  version "17.4.3"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.4.3.tgz#e01b2d0c0adaf5a6cc427359f1df755d1e908927"
-  integrity sha512-lTOUSrkbaQ+TRs3+BmtJhLtPSyiO7iTGmh5SyuEFqNO8HQbQ4nzXg4UlPrDQasO/C0eFK/V0eCbOzJdjtKBOYw==
+semantic-release@17.4.4:
+  version "17.4.4"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.4.4.tgz#650dd50ecb520a5a2bc6811305bc9d4d5c3128b1"
+  integrity sha512-fQIA0lw2Sy/9+TcoM/BxyzKCSwdUd8EPRwGoOuBLgxKigPCY6kaKs8TOsgUVy6QrlTYwni2yzbMb5Q2107P9eA==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
