@@ -61,13 +61,13 @@ export class DIDResolverPlugin implements IAgentPlugin {
 
     let result = subsection.find((item) => {
       if (typeof item === 'string') {
-        return item === didURI || `${did}#${item}` === didURI
+        return item === didURI || `${did}${item}` === didURI
       } else {
-        return item.id === didURI || `${did}#${item.id}` === didURI
+        return item.id === didURI || `${did}${item.id}` === didURI
       }
     })
     if (typeof result === 'string') {
-      result = mainSections.find((item) => item.id === didURI || `${did}#${item.id}` === didURI)
+      result = mainSections.find((item) => item.id === didURI || `${did}${item.id}` === didURI)
     }
     
     if (!result) {

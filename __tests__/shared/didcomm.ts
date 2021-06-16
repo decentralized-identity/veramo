@@ -17,23 +17,71 @@ export default (testContext: {
       await testContext.setup()
       agent = testContext.getAgent()
 
-      sender = await agent.didManagerGetOrCreate({
-        kms: 'local',
+      sender = await agent.didManagerImport({
+        did: 'did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+        controllerKeyId: '1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+        keys: [
+          {
+            type: 'Ed25519',
+            kid: '1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+            publicKeyHex: '1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+            privateKeyHex:
+              'b57103882f7c66512dc96777cbafbeb2d48eca1e7a867f5a17a84e9a6740f7dc1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+            meta: { algorithms: ['Ed25519', 'EdDSA'] },
+            kms: 'local',
+          },
+        ],
+        services: [],
         provider: 'did:key',
         alias: 'sender',
       })
 
-      receiver = await agent.didManagerGetOrCreate({
-        kms: 'local',
+      receiver = await agent.didManagerImport({
+        did: 'did:key:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
+        controllerKeyId: 'b162e405b6485eff8a57932429b192ec4de13c06813e9028a7cdadf0e2703636',
+        keys: [
+          {
+            type: 'Ed25519',
+            kid: 'b162e405b6485eff8a57932429b192ec4de13c06813e9028a7cdadf0e2703636',
+            publicKeyHex: 'b162e405b6485eff8a57932429b192ec4de13c06813e9028a7cdadf0e2703636',
+            privateKeyHex:
+              '19ed9b6949cfd0f9a57e30f0927839a985fa699491886ebcdda6a954d869732ab162e405b6485eff8a57932429b192ec4de13c06813e9028a7cdadf0e2703636',
+            meta: { algorithms: ['Ed25519', 'EdDSA'] },
+            kms: 'local',
+          },
+        ],
+        services: [],
         provider: 'did:key',
-        alias: 'sender',
+        alias: 'receiver',
       })
-
       return true
     })
     afterAll(testContext.tearDown)
 
+    it('should pack a plaintext message', async () => {
+      expect.assertions(1)
+      const message = {
+        type: 'test',
+        to: receiver.did,
+        id: 'test',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'none',
+        message,
+      })
+      const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
+      expect(unpackedMessage).toEqual({
+        message: {
+          ...message,
+          typ: 'application/didcomm-plain+json',
+        },
+        metaData: { packing: 'none' },
+      })
+    })
+
     it('should pack an anonymous encrypted message', async () => {
+      expect.assertions(2)
       const message = {
         type: 'test',
         to: receiver.did,
@@ -44,35 +92,27 @@ export default (testContext: {
         packing: 'anoncrypt',
         message,
       })
+      const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
+      expect(unpackedMessage.message).toEqual(message)
+      expect(unpackedMessage.metaData).toEqual({ packing: 'anoncrypt' })
+    })
 
-      console.log(packedMessage)
-
-      const unpackedMessage = await agent.unpackDIDCommMessage({
-        mediaType: IDIDCommMessageMediaType.DIDCOMM_JWE,
-        ...packedMessage,
+    it('should pack an authcrypted message', async () => {
+      expect.assertions(2)
+      const message = {
+        type: 'test',
+        to: receiver.did,
+        from: sender.did,
+        id: 'test',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message,
       })
-
-      expect(unpackedMessage).toEqual(message)
+      const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
+      expect(unpackedMessage.message).toEqual(message)
+      expect(unpackedMessage.metaData).toEqual({ packing: 'authcrypt' })
     })
   })
-}
-
-const packed = {
-  protected: 'eyJlbmMiOiJYQzIwUCJ9',
-  iv: 'sHQLXzGfAbFgte9-EYeu0O2c8S8pkMFu',
-  ciphertext:
-    'lMEt7DO_QtxpCBridyjVbyqqce5yD4J6fwpJo88hQOmPYu6RO8Uj8-Q1xONEafdCgUQadHhq5QuiO9UIGJUczdCHCVtv-HR9Q8HifpBvCxC5R4DdFD42O4ONDeUfOjRbYiuBbmtpbohGcjbZ1qCVfpoXQbU',
-  tag: 'uVHwTY8RCeSfyVFP9DTr-Q',
-  recipients: [
-    {
-      encrypted_key: 'XigXj53YEUU6OIjciCuHw8XorDskAKDtIiNoZ_M7D_4',
-      header: {
-        alg: 'ECDH-ES+XC20PKW',
-        iv: '66VLiS4L7JG27sbTeJPRmnXs8I6wIx6l',
-        tag: 'cJefilGTSKChzVXNN3xFbA',
-        epk: { kty: 'OKP', crv: 'X25519', x: 'CjHXsPG8GhqlVJndaApQkm9nxRzA2gQRc0LMCNARzm4' },
-        kid: '#z6LSogMxqn5NePSAtbgtgTfRr1Qb5qtXzPdcN1yfWuzhViwe',
-      },
-    },
-  ],
 }

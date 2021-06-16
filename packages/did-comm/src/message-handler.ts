@@ -90,7 +90,6 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
       if (didCommMessageType) {
         try {
           const unpackedMessage = await context.agent.unpackDIDCommMessage({
-            mediaType: didCommMessageType,
             message: rawMessage,
           })
 
