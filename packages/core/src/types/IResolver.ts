@@ -67,15 +67,16 @@ export interface IResolver extends IPluginMethodMap {
   resolveDid(args: ResolveDidArgs): Promise<DIDResolutionResult>
 
   /**
-   * Resolves DID URI and returns the corresponding fragment
+   * Dereference a DID URI fragment and return the corresponding DID document entry.
    *
    * @example
    * ```typescript
    * const did = 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
    * const didFragment = `${did}#controller`
-   * const fragment = await agent.resolveDidFragment({
+   * const fragment = await agent.dereferenceDidUri({
+   *   didDocument: (await agent.resolveDid({didUrl: did}))?.didDocument,
    *   didURI: didFragment,
-   *   didDocument: (await agent.resolveDid({didUrl: did}))?.didDocument
+   *   section: 'authentication'
    * })
    * expect(fragment).toEqual({
    *       id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
@@ -97,7 +98,7 @@ export interface IResolver extends IPluginMethodMap {
    *
    * @beta
    */
-  resolveDidFragment(args: {
+  dereferenceDidUri(args: {
     /**
      * the DID document from which to extract the fragment. This MUST be the document resolved by {@link resolveDid}
      */

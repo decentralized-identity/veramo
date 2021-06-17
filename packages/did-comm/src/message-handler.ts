@@ -100,7 +100,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
             id,
             thread_id: threadId,
             created_time: createdAt,
-            expired_time: expiresAt,
+            expires_time: expiresAt,
             body: data,
           } = unpackedMessage.message
           message = {

@@ -33,7 +33,7 @@ describe('@veramo/did-jwt', () => {
           },
         }
       },
-      resolveDidFragment: jest.fn()
+      dereferenceDidUri: jest.fn()
     },
   }
 

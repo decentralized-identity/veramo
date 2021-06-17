@@ -63,7 +63,7 @@ let agent = {
   execute: jest.fn(),
   availableMethods: jest.fn(),
   resolveDid: jest.fn(),
-  resolveDidFragment: jest.fn(),
+  dereferenceDidUri: jest.fn(),
   emit: jest.fn(),
   keyManagerSign: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
   dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),

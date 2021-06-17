@@ -5,11 +5,15 @@
  *
  * @packageDocumentation
  */
-export { DIDComm, IDIDComm, 
-    ISendMessageDIDCommAlpha1Args, 
-    IDIDCommMessage, IDIDCommMessageMediaType,
-    IUnpackDIDCommMessageArgs, IUnpackedDIDCommMessage,
-    IGetDIDCommMessageMediaTypeArgs } from './action-handler'
+export {
+  DIDComm,
+  IDIDComm,
+  ISendMessageDIDCommAlpha1Args,
+  IDIDCommMessage,
+  DIDCommMessageMediaType,
+  IUnpackDIDCommMessageArgs,
+  IUnpackedDIDCommMessage,
+} from './action-handler'
 export { DIDCommMessageHandler } from './message-handler'
 const schema = require('../plugin.schema.json')
 export { schema }

@@ -27,7 +27,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
 
     this.methods = {
       resolveDid: this.resolveDid.bind(this),
-      resolveDidFragment: this.resolveDidFragment.bind(this),
+      dereferenceDidUri: this.dereferenceDidUri.bind(this),
     }
   }
 
@@ -43,8 +43,8 @@ export class DIDResolverPlugin implements IAgentPlugin {
     return this.didResolver.resolve(didUrl, options)
   }
 
-  /** {@inheritDoc @veramo/core#IResolver.resolveDidFragment} */
-  async resolveDidFragment({
+  /** {@inheritDoc @veramo/core#IResolver.dereferenceDidUri} */
+  async dereferenceDidUri({
     didDocument,
     didURI,
     section,
@@ -58,7 +58,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     const doc = didDocument
     const mainSections = [...(doc.verificationMethod || []), ...(doc.publicKey || []), ...(doc.service || [])]
     const subsection = section ? [...(doc[section] || [])] : mainSections
-
+    
     let result = subsection.find((item) => {
       if (typeof item === 'string') {
         return item === didURI || `${did}${item}` === didURI
@@ -71,7 +71,9 @@ export class DIDResolverPlugin implements IAgentPlugin {
     }
     
     if (!result) {
-      throw new Error(`not_found: DID document fragment (${didURI}) could not be located.`)
+      const err = `not_found: DID document fragment (${didURI}) could not be located.`
+      debug(err)
+      throw new Error(err)
     } else if (result.id.startsWith('#')) {
       // fix did documents that use only the fragment part as key ID
       result.id = `${did}${result.id}`
