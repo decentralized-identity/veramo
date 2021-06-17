@@ -12,6 +12,7 @@ import {
   TKeyType,
   IKey,
   KeyMetadata,
+  DIDDocumentSection,
 } from '@veramo/core'
 import {
   createAnonDecrypter,
@@ -24,6 +25,8 @@ import {
   createJWE,
   createAuthEncrypter,
   Encrypter,
+  JWTHeader,
+  verifyJWS,
 } from 'did-jwt'
 import { DIDDocument, parse as parseDidUri, VerificationMethod } from 'did-resolver'
 import { schema } from './'
@@ -31,7 +34,6 @@ import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
 import * as u8a from 'uint8arrays'
 import { convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
-import { ProtectedHeader } from 'did-jwt/lib/JWE'
 
 const debug = Debug('veramo:did-comm:action-handler')
 
@@ -119,6 +121,7 @@ export interface IUnpackDIDCommMessageArgs {
 export interface IPackDIDCommMessageArgs {
   packing: IDIDCommMessagePackingType
   message: IDIDCommMessage
+  keyRef?: string
 }
 
 export interface IGetDIDCommMessageMediaTypeArgs {
@@ -232,7 +235,65 @@ export class DIDComm implements IAgentPlugin {
     args: IPackDIDCommMessageArgs,
     context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IPackedDIDCommMessage> {
-    throw new Error('not_implemented: ')
+    const message = args.message
+    let keyRef: string | undefined = args.keyRef
+    let kid: string
+    // check that the message has from field that is managed
+    let managedSender: IIdentifier | undefined
+    try {
+      managedSender = await context.agent.didManagerGet({ did: message.from || '' })
+    } catch (e) {
+      debug(`message.from(${message.from}) is not managed by this agent`)
+    }
+    if (!message.from || !isDefined(managedSender)) {
+      throw new Error('invalid_argument: `from` field must be a DID managed by this agent')
+    }
+
+    // obtain sender signing key(s) from authentication section
+    const senderKeys = await this.mapIdentifierKeysToDoc(managedSender, 'authentication', context)
+    // try to find a managed signing key that matches keyRef
+    let signingKey = null
+    if (isDefined(keyRef)) {
+      signingKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)
+    }
+    // otherwise use the first available one.
+    signingKey = signingKey ? signingKey : senderKeys[0]
+
+    if (!signingKey) {
+      throw new Error(`key_not_found: could not locate a suitable signing key for ${message.from}`)
+    } else {
+      kid = signingKey.meta.verificationMethod.id
+    }
+    let alg: string
+    if (signingKey.type === 'Ed25519') {
+      alg = 'EdDSA'
+    } else if (signingKey.type === 'Secp256k1') {
+      alg = 'ES256K'
+    } else {
+      throw new Error(
+        `not_supported: key of type ${signingKey.type} is not supported for JWS didcomm message`,
+      )
+    }
+    // construct the protected header with alg, typ and kid
+    const headerObj = { alg, kid, typ: IDIDCommMessageMediaType.DIDCOMM_JWS }
+    const header = u8a.toString(u8a.fromString(JSON.stringify(headerObj), 'utf-8'), 'base64url')
+    const payload = u8a.toString(u8a.fromString(JSON.stringify(args.message), 'utf-8'), 'base64url')
+    // construct signing input and obtain signature
+    const signingInput = header + '.' + payload
+    const signature: string = await context.agent.keyManagerSign({
+      data: signingInput,
+      encoding: 'utf-8',
+      keyRef: signingKey.kid,
+      algorithm: alg,
+    })
+    // create flattened JWS
+    const packedMessage = {
+      protected: header,
+      payload,
+      signature,
+    }
+    // serialize flattened JWS JSON and return
+    return { message: JSON.stringify(packedMessage) }
   }
 
   async packDIDCommMessageJWE(
@@ -241,6 +302,7 @@ export class DIDComm implements IAgentPlugin {
   ): Promise<IPackedDIDCommMessage> {
     // 1. check if args.packing requires authentication and map sender key to skid
     let senderECDH: ECDH | null = null
+    let keyRef: string | undefined = args.keyRef
     let protectedHeader: {
       skid?: string
       typ: string
@@ -254,16 +316,16 @@ export class DIDComm implements IAgentPlugin {
           `invalid_argument: cannot create authenticated did-comm message without a 'from' field`,
         )
       }
-      //    1.1 resolve args.message.from DID doc
-      const senderDocResult = await context.agent.resolveDid({ didUrl: args?.message?.from })
-      if (senderDocResult.didResolutionMetadata.error || !isDefined(senderDocResult.didDocument)) {
-        throw new Error(`bad_document: unable to resolve sender DID document for ${args?.message?.from}`)
-      }
+      //    1.1 check that args.message.from is a managed DID
       const sender: IIdentifier = await context.agent.didManagerGet({ did: args?.message?.from })
       //    1.2 match key agreement keys from DID to managed keys
-      const extendedKeys: ExtendedIKey[] = await this.mapIdentifierKeyAgreementKeys(sender, context)
-      // TODO: allow user to specify their own sender key instead of picking the first matching one
-      const senderKey = extendedKeys.find((key) => ['Ed25519', 'X25519'].includes(key.type))
+      const senderKeys: ExtendedIKey[] = await this.mapIdentifierKeysToDoc(sender, 'keyAgreement', context)
+      // try to find a sender key by keyRef, otherwise pick the first one
+      let senderKey
+      if (isDefined(keyRef)) {
+        senderKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)
+      }
+      senderKey = senderKey || senderKeys[0]
       //    1.3 use kid from DID doc(skid) + local IKey to bundle a sender key
       if (senderKey) {
         senderECDH = this.createEcdhWrapper(senderKey.kid, context)
@@ -274,15 +336,12 @@ export class DIDComm implements IAgentPlugin {
     }
 
     // 2. resolve DID for args.message.to
-    const recipientDocResult = await context.agent.resolveDid({ didUrl: args?.message?.to })
-    if (recipientDocResult.didResolutionMetadata.error || recipientDocResult.didDocument === null) {
-      throw new Error(`bad_document: unable to resolve recipient DID document ${args?.message?.to}`)
-    }
-    const didDocument: DIDDocument = recipientDocResult.didDocument
+    const didDocument: DIDDocument = await this.resolveDidOrThrow(args?.message?.to, context)
 
     // 2.1 extract all recipient key agreement keys and normalize them
-    const keyAgreementKeys: NormalizedVerificationMethod[] = await this.dereferenceKeyAgreementKeys(
+    const keyAgreementKeys: NormalizedVerificationMethod[] = await this.dereferenceDidKeys(
       didDocument,
+      'keyAgreement',
       context,
     )
 
@@ -331,40 +390,56 @@ export class DIDComm implements IAgentPlugin {
     }
   }
 
-  private decodeMessageAndMediaType(message: string): {
-    msgObj: IDIDCommPlainMessage | JWE | IDIDCommJWSMessage
-    mediaType: IDIDCommMessageMediaType
-  } {
-    let msgObj
-    if (typeof message === 'string') {
-      try {
-        msgObj = JSON.parse(message)
-      } catch (e) {
-        throw new Error('invalid_argument: unable to parse message as JSON')
-        // TODO: try to interpret as compact serialized JWS / JWM?
-      }
+  async unpackDIDCommMessage(
+    args: IUnpackDIDCommMessageArgs,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<IUnpackedDIDCommMessage> {
+    const { msgObj, mediaType } = this.decodeMessageAndMediaType(args.message)
+    if (mediaType === IDIDCommMessageMediaType.DIDCOMM_JWS) {
+      return this.unpackDIDCommMessageJWS(msgObj as IDIDCommJWSMessage, context)
+    } else if (mediaType === IDIDCommMessageMediaType.DIDCOMM_PLAIN) {
+      return { message: <IDIDCommMessage>msgObj, metaData: { packing: 'none' } }
+    } else if (mediaType === IDIDCommMessageMediaType.DIDCOMM_JWE) {
+      return this.unpackDIDCommMessageJWE({ jwe: msgObj as JWE }, context)
     } else {
-      msgObj = message
+      throw Error('not_supported: ' + mediaType)
     }
-    let mediaType: IDIDCommMessageMediaType | null = null
-    if ((<IDIDCommPlainMessage>msgObj).typ === IDIDCommMessageMediaType.DIDCOMM_PLAIN) {
-      mediaType = IDIDCommMessageMediaType.DIDCOMM_PLAIN
-    } else if ((<FlattenedJWS | IDIDCommJWEMessage>msgObj).protected) {
-      const protectedBytes = u8a.fromString((<IDIDCommJWEMessage>msgObj).protected, 'base64url')
-      const protectedHeader = <ProtectedHeader>JSON.parse(u8a.toString(protectedBytes, 'utf-8'))
-      if (protectedHeader.typ === IDIDCommMessageMediaType.DIDCOMM_JWS) {
-        mediaType = IDIDCommMessageMediaType.DIDCOMM_JWS
-      } else if (protectedHeader.typ === IDIDCommMessageMediaType.DIDCOMM_JWE) {
-        mediaType = IDIDCommMessageMediaType.DIDCOMM_JWE
-      } else {
-        throw new Error('invalid_argument: unable to determine message type')
-      }
-    } else if ((<GenericJWS>msgObj).signatures) {
-      mediaType = IDIDCommMessageMediaType.DIDCOMM_JWS
+  }
+
+  async unpackDIDCommMessageJWS(
+    jws: IDIDCommJWSMessage,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
+  ): Promise<IUnpackedDIDCommMessage> {
+    // TODO: currently only supporting one signature
+    const signatureEncoded: string = isDefined((<FlattenedJWS>jws).signature)
+      ? (<FlattenedJWS>jws).signature
+      : (<GenericJWS>jws).signatures[0]?.signature
+    const headerEncoded = isDefined((<FlattenedJWS>jws).protected)
+      ? (<FlattenedJWS>jws).protected
+      : (<GenericJWS>jws).signatures[0]?.protected
+    if (!isDefined(headerEncoded) || !isDefined(signatureEncoded)) {
+      throw new Error('invalid_argument: could not interpret message as JWS')
+    }
+    const message = <IDIDCommMessage>(
+      JSON.parse(u8a.toString(u8a.fromString(jws.payload, 'base64url'), 'utf8'))
+    )
+    const header = JSON.parse(u8a.toString(u8a.fromString(headerEncoded, 'base64url'), 'utf8'))
+    const sender = parseDidUri(header.kid)?.did
+    if (!isDefined(sender) || sender !== message.from) {
+      throw new Error('invalid_jws: sender is not a DID or does not match the `kid`')
+    }
+    const senderDoc = await this.resolveDidOrThrow(sender, context)
+    const senderKey = (await context.agent.resolveDidFragment({
+      didDocument: senderDoc,
+      didURI: header.kid,
+      section: 'authentication',
+    })) as VerificationMethod
+    const verifiedSenderKey = verifyJWS(`${headerEncoded}.${jws.payload}.${signatureEncoded}`, senderKey)
+    if (isDefined(verifiedSenderKey)) {
+      return { message, metaData: { packing: 'jws' } }
     } else {
-      throw new Error('invalid_argument: unable to determine message type')
+      throw new Error('invalid_jws: sender `kid` could not be validated as the signer of the message')
     }
-    return { msgObj, mediaType }
   }
 
   async unpackDIDCommMessageJWE(
@@ -373,7 +448,7 @@ export class DIDComm implements IAgentPlugin {
   ): Promise<IUnpackedDIDCommMessage> {
     // 0 resolve skid to DID doc
     //   - find skid in DID doc and convert to 'X25519' byte array (if type matches)
-    let senderKeyBytes: Uint8Array | null = await this.extractSenderKey(jwe, context)
+    let senderKeyBytes: Uint8Array | null = await this.extractSenderEncryptionKey(jwe, context)
 
     // 1. check whether kid is one of my DID URIs
     //   - get recipient DID URIs
@@ -421,6 +496,41 @@ export class DIDComm implements IAgentPlugin {
     throw new Error('unable to decrypt DIDComm message with any of the locally managed keys')
   }
 
+  private decodeMessageAndMediaType(message: string): {
+    msgObj: IDIDCommPlainMessage | JWE | IDIDCommJWSMessage
+    mediaType: IDIDCommMessageMediaType
+  } {
+    let msgObj
+    if (typeof message === 'string') {
+      try {
+        msgObj = JSON.parse(message)
+      } catch (e) {
+        throw new Error('invalid_argument: unable to parse message as JSON')
+        // TODO: try to interpret as compact serialized JWS / JWM?
+      }
+    } else {
+      msgObj = message
+    }
+    let mediaType: IDIDCommMessageMediaType | null = null
+    if ((<IDIDCommPlainMessage>msgObj).typ === IDIDCommMessageMediaType.DIDCOMM_PLAIN) {
+      mediaType = IDIDCommMessageMediaType.DIDCOMM_PLAIN
+    } else if ((<FlattenedJWS | IDIDCommJWEMessage>msgObj).protected) {
+      const protectedHeader = JSON.parse(u8a.toString(u8a.fromString(msgObj.protected, 'base64url'), 'utf-8'))
+      if (protectedHeader.typ === IDIDCommMessageMediaType.DIDCOMM_JWS) {
+        mediaType = IDIDCommMessageMediaType.DIDCOMM_JWS
+      } else if (protectedHeader.typ === IDIDCommMessageMediaType.DIDCOMM_JWE) {
+        mediaType = IDIDCommMessageMediaType.DIDCOMM_JWE
+      } else {
+        throw new Error('invalid_argument: unable to determine message type')
+      }
+    } else if ((<GenericJWS>msgObj).signatures) {
+      mediaType = IDIDCommMessageMediaType.DIDCOMM_JWS
+    } else {
+      throw new Error('invalid_argument: unable to determine message type')
+    }
+    return { msgObj, mediaType }
+  }
+
   private createEcdhWrapper(secretKeyRef: string, context: IAgentContext<IKeyManager>): ECDH {
     return async (theirPublicKey: Uint8Array): Promise<Uint8Array> => {
       if (theirPublicKey.length !== 32) {
@@ -432,19 +542,14 @@ export class DIDComm implements IAgentPlugin {
     }
   }
 
-  private async extractSenderKey(jwe: JWE, context: IAgentContext<IResolver>): Promise<Uint8Array | null> {
+  private async extractSenderEncryptionKey(
+    jwe: JWE,
+    context: IAgentContext<IResolver>,
+  ): Promise<Uint8Array | null> {
     let senderKey: Uint8Array | null = null
     const protectedHeader = JSON.parse(u8a.toString(u8a.fromString(jwe.protected, 'base64url'), 'utf-8'))
     if (typeof protectedHeader.skid === 'string') {
-      const senderDIDResult = await context.agent.resolveDid({ didUrl: `${protectedHeader.skid};cache` })
-      const err = senderDIDResult.didResolutionMetadata.error
-      const msg = senderDIDResult.didResolutionMetadata.message
-      const senderDoc = senderDIDResult.didDocument
-      if (!senderDoc || err) {
-        throw new Error(
-          `not_found: skid was provided but could not be resolved ${protectedHeader.skid}: ${err} ${msg}`,
-        )
-      }
+      const senderDoc = await this.resolveDidOrThrow(protectedHeader.skid, context)
       const sKey = (await context.agent.resolveDidFragment({
         didDocument: senderDoc,
         didURI: protectedHeader.skid,
@@ -453,7 +558,7 @@ export class DIDComm implements IAgentPlugin {
       if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019'].includes(sKey.type)) {
         throw new Error(`not_supported: sender key of type ${sKey.type} is not supported`)
       }
-      let publicKeyHex = this.convertToPublicKeyHex(sKey)
+      let publicKeyHex = this.convertToPublicKeyHex(sKey, true)
       senderKey = u8a.fromString(publicKeyHex, 'base16')
     }
     return senderKey
@@ -491,7 +596,7 @@ export class DIDComm implements IAgentPlugin {
     return managedRecipients
   }
 
-  private filterSupportedIdentifierKeys(identifier: IIdentifier): IKey[] {
+  private convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[] {
     return identifier.keys
       .map((key) => {
         if (key.type === 'Ed25519') {
@@ -503,6 +608,7 @@ export class DIDComm implements IAgentPlugin {
           }
           key.type = 'X25519'
         } else if (key.type !== 'X25519') {
+          debug(`key of type ${key.type} is not supported for [de]encryption`)
           return null
         }
         return key
@@ -517,7 +623,7 @@ export class DIDComm implements IAgentPlugin {
     const potentialKeys = await Promise.all(
       managedKeys.map(async ({ recipient, kid, identifier }) => {
         // TODO: use caching, since all recipients are supposed to belong to the same identifier
-        const identifierKeys = await this.mapIdentifierKeyAgreementKeys(identifier, context)
+        const identifierKeys = await this.mapIdentifierKeysToDoc(identifier, 'keyAgreement', context)
         const localKey = identifierKeys.find((key) => key.meta.verificationMethod.id === kid)
         if (localKey) {
           return { localKeyRef: localKey.kid, recipient }
@@ -530,26 +636,24 @@ export class DIDComm implements IAgentPlugin {
     return localKeys
   }
 
-  private async mapIdentifierKeyAgreementKeys(
+  private async mapIdentifierKeysToDoc(
     identifier: IIdentifier,
+    section: DIDDocumentSection = 'keyAgreement',
     context: IAgentContext<IResolver>,
   ): Promise<ExtendedIKey[]> {
-    const docResult = await context.agent.resolveDid({ didUrl: identifier.did })
-    const err = docResult.didResolutionMetadata.error
-    const msg = docResult.didResolutionMetadata.message
-    const didDocument = docResult.didDocument
-    if (!isDefined(didDocument) || err) {
-      throw new Error(`not_found: could not resolve DID document for '${identifier?.did}': ${err} ${msg}`)
-    }
+    const didDocument = await this.resolveDidOrThrow(identifier.did, context)
 
     // dereference all key agreement keys from DID document and normalize
-    const keyAgreementKeys: NormalizedVerificationMethod[] = await this.dereferenceKeyAgreementKeys(
+    const keyAgreementKeys: NormalizedVerificationMethod[] = await this.dereferenceDidKeys(
       didDocument,
+      section,
       context,
     )
 
-    const localKeys = this.filterSupportedIdentifierKeys(identifier)
-
+    let localKeys = identifier.keys
+    if (section === 'keyAgreement') {
+      localKeys = this.convertIdentifierEncryptionKeys(identifier)
+    }
     // finally map the didDocument keys to the identifier keys by comparing `publicKeyHex`
     const extendedKeys: ExtendedIKey[] = keyAgreementKeys
       .map((verificationMethod) => {
@@ -568,27 +672,44 @@ export class DIDComm implements IAgentPlugin {
     return extendedKeys
   }
 
+  private async resolveDidOrThrow(didURI: string, context: IAgentContext<IResolver>) {
+    // TODO: add caching
+    const docResult = await context.agent.resolveDid({ didUrl: didURI })
+    const err = docResult.didResolutionMetadata.error
+    const msg = docResult.didResolutionMetadata.message
+    const didDocument = docResult.didDocument
+    if (!isDefined(didDocument) || err) {
+      throw new Error(`not_found: could not resolve DID document for '${didURI}': ${err} ${msg}`)
+    }
+    return didDocument
+  }
+
   /**
    * Dereferences key agreement keys from DID document and normalizes them for easy comparison.
    *
-   * Only Ed25519 and X25519 curves are supported. other key types are omitted from the result.
-   * Ed25519 keys are converted to X25519
+   * When dereferencing keyAgreement keys, only Ed25519 and X25519 curves are supported.
+   * Other key types are omitted from the result and Ed25519 keys are converted to X25519
    *
    * @returns Promise<NormalizedVerificationMethod[]>
    */
-  private async dereferenceKeyAgreementKeys(
+  private async dereferenceDidKeys(
     didDocument: DIDDocument,
+    section: DIDDocumentSection = 'keyAgreement',
     context: IAgentContext<IResolver>,
   ): Promise<NormalizedVerificationMethod[]> {
+    const convert = section === 'keyAgreement'
+    if (section === 'service') {
+      return []
+    }
     return (
       await Promise.all(
-        (didDocument.keyAgreement || []).map(async (key) => {
+        (didDocument[section] || []).map(async (key: string | VerificationMethod) => {
           if (typeof key === 'string') {
             try {
               return (await context.agent.resolveDidFragment({
                 didDocument,
                 didURI: key,
-                section: 'keyAgreement',
+                section,
               })) as ExtendedVerificationMethod
             } catch (e) {
               return null
@@ -601,14 +722,14 @@ export class DIDComm implements IAgentPlugin {
     )
       .filter(isDefined)
       .map((key) => {
-        const hexKey = this.convertToPublicKeyHex(key)
+        const hexKey = this.convertToPublicKeyHex(key, convert)
         const { publicKeyHex, publicKeyBase58, publicKeyBase64, publicKeyJwk, ...keyProps } = key
         return { ...keyProps, publicKeyHex: hexKey }
       })
       .filter((key) => key.publicKeyHex.length > 0)
   }
 
-  private convertToPublicKeyHex(pk: ExtendedVerificationMethod): string {
+  private convertToPublicKeyHex(pk: ExtendedVerificationMethod, convert: boolean): string {
     let keyBytes: Uint8Array
     if (pk.publicKeyHex) {
       keyBytes = u8a.fromString(pk.publicKeyHex, 'base16')
@@ -617,28 +738,14 @@ export class DIDComm implements IAgentPlugin {
     } else if (pk.publicKeyBase64) {
       keyBytes = u8a.fromString(pk.publicKeyBase64, 'base64pad')
     } else return ''
-    if (['Ed25519', 'Ed25519VerificationKey2018'].includes(pk.type)) {
-      keyBytes = convertPublicKeyToX25519(keyBytes)
-    } else if (!['X25519', 'X25519KeyAgreementKey2019'].includes(pk.type)) {
-      return ''
+    if (convert) {
+      if (['Ed25519', 'Ed25519VerificationKey2018'].includes(pk.type)) {
+        keyBytes = convertPublicKeyToX25519(keyBytes)
+      } else if (!['X25519', 'X25519KeyAgreementKey2019'].includes(pk.type)) {
+        return ''
+      }
     }
     return u8a.toString(keyBytes, 'base16')
-  }
-
-  async unpackDIDCommMessage(
-    args: IUnpackDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
-  ): Promise<IUnpackedDIDCommMessage> {
-    const { msgObj, mediaType } = this.decodeMessageAndMediaType(args.message)
-    if (mediaType === IDIDCommMessageMediaType.DIDCOMM_JWS) {
-      throw Error('FIXME: TODO: unpacking JWS is not supported yet')
-    } else if (mediaType === IDIDCommMessageMediaType.DIDCOMM_PLAIN) {
-      return { message: <IDIDCommMessage>msgObj, metaData: { packing: 'none' } }
-    } else if (mediaType === IDIDCommMessageMediaType.DIDCOMM_JWE) {
-      return this.unpackDIDCommMessageJWE({ jwe: msgObj as JWE }, context)
-    } else {
-      throw Error('not_supported: ' + mediaType)
-    }
   }
 
   async sendDIDCommMessage(
@@ -747,6 +854,9 @@ interface ExtendedIKey extends IKey {
   }
 }
 
+/**
+ * represents a VerificationMethod whose public key material has been converted to publicKeyHex
+ */
 type NormalizedVerificationMethod = Omit<
   VerificationMethod,
   'publicKeyBase58' | 'publicKeyBase64' | 'publicKeyJwk'

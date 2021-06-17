@@ -171,6 +171,6 @@ describe('Local integration tests', () => {
   documentationExamples(testContext)
   keyManager(testContext)
   didManager(testContext)
-  didComm(testContext)
   messageHandler(testContext)
+  didComm(testContext)
 })
