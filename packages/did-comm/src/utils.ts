@@ -13,9 +13,9 @@ import {
 import { ECDH, JWE } from 'did-jwt'
 import { VerificationMethod, parse as parseDidUri, DIDDocument } from 'did-resolver'
 import * as u8a from 'uint8arrays'
-import { DIDCommMessageMediaType, IDIDCommMessage } from './action-handler'
 
 import Debug from 'debug'
+import { ExtendedIKey, ExtendedVerificationMethod, NormalizedVerificationMethod } from './types/utility-types'
 const debug = Debug('veramo:did-comm:action-handler')
 
 export function bytesToBase64url(b: Uint8Array): string {
@@ -38,45 +38,6 @@ export function encodeBase64url(s: string): string {
 export function decodeBase64url(s: string): string {
   return u8a.toString(base64ToBytes(s))
 }
-
-export type DIDCommPlainMessage = IDIDCommMessage & { typ: DIDCommMessageMediaType.PLAIN }
-
-export type DIDCommEncryptedMessage = JWE
-
-export type FlattenedJWS = {
-  payload: string
-  protected?: string
-  header?: Record<string, any>
-  signature: string
-}
-
-export type GenericJWS = {
-  payload: string
-  signatures: [{ protected?: string; header?: Record<string, any>; signature: string }]
-}
-
-export type DIDCommSignedMessage = FlattenedJWS | GenericJWS
-
-export type ExtendedVerificationMethod = VerificationMethod & { publicKeyBase64?: string }
-
-/**
- * represents an IKey that has been augmented with its corresponding entry from a DID document
- *
- * this is only used internally
- */
-export interface ExtendedIKey extends IKey {
-  meta: KeyMetadata & {
-    verificationMethod: NormalizedVerificationMethod
-  }
-}
-
-/**
- * represents a VerificationMethod whose public key material has been converted to publicKeyHex
- */
-export type NormalizedVerificationMethod = Omit<
-  VerificationMethod,
-  'publicKeyBase58' | 'publicKeyBase64' | 'publicKeyJwk'
->
 
 export function encodeJoseBlob(payload: {}) {
   return u8a.toString(u8a.fromString(JSON.stringify(payload), 'utf-8'), 'base64url')

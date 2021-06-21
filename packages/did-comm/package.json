@@ -10,7 +10,7 @@
   },
   "veramo": {
     "pluginInterfaces": {
-      "IDIDComm": "./src/action-handler.ts"
+      "IDIDComm": "./src/types/IDIDComm.ts"
     }
   },
   "dependencies": {

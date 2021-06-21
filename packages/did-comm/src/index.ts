@@ -7,13 +7,13 @@
  */
 export {
   DIDComm,
-  IDIDComm,
   ISendMessageDIDCommAlpha1Args,
-  IDIDCommMessage,
-  DIDCommMessageMediaType,
+  IPackDIDCommMessageArgs,
   IUnpackDIDCommMessageArgs,
-  IUnpackedDIDCommMessage,
 } from './action-handler'
+export * from './types/message-types'
+export * from './types/utility-types'
+export * from './types/IDIDComm'
 export { DIDCommMessageHandler } from './message-handler'
 const schema = require('../plugin.schema.json')
 export { schema }

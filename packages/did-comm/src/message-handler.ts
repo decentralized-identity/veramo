@@ -1,7 +1,7 @@
 import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
-import { IDIDComm } from './action-handler'
+import { IDIDComm } from './types/IDIDComm'
 const debug = Debug('veramo:did-comm:message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm>

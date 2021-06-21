@@ -6,7 +6,6 @@ import {
   IDIDManager,
   IKeyManager,
   IMessageHandler,
-  IPluginMethodMap,
   IAgentPlugin,
   IIdentifier,
 } from '@veramo/core'
@@ -28,9 +27,23 @@ import { schema } from './'
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
 import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
-import * as utils from './utils'
+import {
+  isDefined,
+  mapIdentifierKeysToDoc,
+  encodeJoseBlob,
+  createEcdhWrapper,
+  resolveDidOrThrow,
+  dereferenceDidKeys,
+  decodeJoseBlob,
+  extractSenderEncryptionKey,
+  extractManagedRecipients,
+  mapRecipientsToLocalKeys,
+} from './utils'
 
 import Debug from 'debug'
+import { IDIDComm } from './types/IDIDComm'
+import { DIDCommMessageMediaType, DIDCommMessagePacking, IDIDCommMessage, IPackedDIDCommMessage, IUnpackedDIDCommMessage } from './types/message-types'
+import { DIDCommEncryptedMessage, DIDCommPlainMessage, DIDCommSignedMessage, ExtendedIKey, FlattenedJWS, GenericJWS, NormalizedVerificationMethod } from './types/utility-types'
 const debug = Debug('veramo:did-comm:action-handler')
 
 /**
@@ -48,51 +61,6 @@ export interface ISendMessageDIDCommAlpha1Args {
     body: object | string
   }
   headers?: Record<string, string>
-}
-
-/**
- * The DIDComm message structure.
- * See https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure
- */
-export interface IDIDCommMessage {
-  type: string
-  from?: string
-  to: string
-  thread_id?: string
-  id: string
-  expires_time?: string
-  created_time?: string
-  next?: string
-  from_prior?: string
-  body: any
-}
-
-export enum DIDCommMessageMediaType {
-  PLAIN = 'application/didcomm-plain+json',
-  SIGNED = 'application/didcomm-signed+json',
-  ENCRYPTED = 'application/didcomm-encrypted+json',
-}
-
-export type DIDCommMessagePacking =
-  | 'authcrypt'
-  | 'anoncrypt'
-  | 'jws'
-  | 'none'
-  | 'anoncrypt+authcrypt'
-  | 'anoncrypt+jws'
-
-export interface IDIDCommMessageMetaData {
-  packing: DIDCommMessagePacking
-  // from_prior, reuse transport etc.
-}
-
-export interface IUnpackedDIDCommMessage {
-  metaData: IDIDCommMessageMetaData
-  message: IDIDCommMessage
-}
-
-export interface IPackedDIDCommMessage {
-  message: string
 }
 
 // interface arguments
@@ -122,74 +90,6 @@ export interface ISendDIDCommMessageArgs {
 export interface ISendDIDCommMessageResult {
   sent?: boolean
   error?: string
-}
-
-/**
- * DID Comm plugin interface for {@link @veramo/core#Agent}
- * @beta
- */
-export interface IDIDComm extends IPluginMethodMap {
-  /**
-   * Partially decodes a possible DIDComm message string to determine the {@link DIDCommMessageMediaType}
-   *
-   * @param { message: string } - the message to be interpreted
-   * @returns a {@link DIDCommMessageMediaType} or `null` if the message is not DIDComm
-   */
-  getDIDCommMessageMediaType({ message }: { message: string }): Promise<DIDCommMessageMediaType | null>
-
-  /**
-   * Packs a {@link IDIDCommMessage} using one of the {@link DIDCommMessagePacking} options.
-   *
-   * @param args.message - {@link IDIDCommMessage} - the message to be packed
-   * @param args.packing - {@link DIDCommMessagePacking} - the packing method
-   * @param args.keyRef - Optional - string - either a {@link did-resolver#VerificationMethod} id or a
-   *   {@link @veramo/core#IKey} `kid` to be used when signed or authenticated encryption is used.
-   *
-   * @param context - This method requires an agent that also has {@link @veramo/core#IDIDManager},
-   *   {@link @veramo/core#IKeyManager} and {@link @veramo/core#IResolver} plugins in use.
-   *
-   * @returns Promise<{message: string}> - a Promise that resolves to an object containing the serialized packed message
-   */
-  packDIDCommMessage(
-    args: IPackDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
-  ): Promise<IPackedDIDCommMessage>
-
-  /**
-   * Unpacks a possible DIDComm message and returns the {@link IDIDCommMessage} and
-   * {@link DIDCommMessagePacking} used to pack it.
-   *
-   * @param args.message - string - the message to be unpacked
-   * @param context - This method requires an agent that also has {@link @veramo/core#IDIDManager},
-   *   {@link @veramo/core#IKeyManager} and {@link @veramo/core#IResolver} plugins in use.
-   * * @returns Promise<IUnpackedDIDCommMessage> - a Promise that resolves to an object containing
-   *   the {@link IDIDCommMessage} and {@link DIDCommMessagePacking} used.
-   */
-  unpackDIDCommMessage(
-    args: IUnpackDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
-  ): Promise<IUnpackedDIDCommMessage>
-
-  sendDIDCommMessage(
-    args: ISendDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
-  ): Promise<ISendDIDCommMessageResult>
-
-  /**
-   *
-   * @deprecated TBD
-   *
-   * This is used to create a message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
-   *
-   * @remarks Be advised that this spec is still not final and that this protocol may need to change.
-   *
-   * @param args - Arguments necessary for sending a DIDComm message
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   */
-  sendMessageDIDCommAlpha1(
-    args: ISendMessageDIDCommAlpha1Args,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
-  ): Promise<IMessage>
 }
 
 /**
@@ -252,15 +152,15 @@ export class DIDComm implements IAgentPlugin {
     } catch (e) {
       debug(`message.from(${message.from}) is not managed by this agent`)
     }
-    if (!message.from || !utils.isDefined(managedSender)) {
+    if (!message.from || !isDefined(managedSender)) {
       throw new Error('invalid_argument: `from` field must be a DID managed by this agent')
     }
 
     // obtain sender signing key(s) from authentication section
-    const senderKeys = await utils.mapIdentifierKeysToDoc(managedSender, 'authentication', context)
+    const senderKeys = await mapIdentifierKeysToDoc(managedSender, 'authentication', context)
     // try to find a managed signing key that matches keyRef
     let signingKey = null
-    if (utils.isDefined(keyRef)) {
+    if (isDefined(keyRef)) {
       signingKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)
     }
     // otherwise use the first available one.
@@ -283,8 +183,8 @@ export class DIDComm implements IAgentPlugin {
     }
     // construct the protected header with alg, typ and kid
     const headerObj = { alg, kid, typ: DIDCommMessageMediaType.SIGNED }
-    const header = utils.encodeJoseBlob(headerObj)
-    const payload = utils.encodeJoseBlob(args.message)
+    const header = encodeJoseBlob(headerObj)
+    const payload = encodeJoseBlob(args.message)
     // construct signing input and obtain signature
     const signingInput = header + '.' + payload
     const signature: string = await context.agent.keyManagerSign({
@@ -326,16 +226,16 @@ export class DIDComm implements IAgentPlugin {
       //    1.1 check that args.message.from is a managed DID
       const sender: IIdentifier = await context.agent.didManagerGet({ did: args?.message?.from })
       //    1.2 match key agreement keys from DID to managed keys
-      const senderKeys: utils.ExtendedIKey[] = await utils.mapIdentifierKeysToDoc(sender, 'keyAgreement', context)
+      const senderKeys: ExtendedIKey[] = await mapIdentifierKeysToDoc(sender, 'keyAgreement', context)
       // try to find a sender key by keyRef, otherwise pick the first one
       let senderKey
-      if (utils.isDefined(keyRef)) {
+      if (isDefined(keyRef)) {
         senderKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)
       }
       senderKey = senderKey || senderKeys[0]
       //    1.3 use kid from DID doc(skid) + local IKey to bundle a sender key
       if (senderKey) {
-        senderECDH = utils.createEcdhWrapper(senderKey.kid, context)
+        senderECDH = createEcdhWrapper(senderKey.kid, context)
         protectedHeader = { ...protectedHeader, skid: senderKey.meta.verificationMethod.id }
       } else {
         throw new Error(`key_not_found: could not map an agent key to an skid for ${args?.message?.from}`)
@@ -343,10 +243,10 @@ export class DIDComm implements IAgentPlugin {
     }
 
     // 2. resolve DID for args.message.to
-    const didDocument: DIDDocument = await utils.resolveDidOrThrow(args?.message?.to, context)
+    const didDocument: DIDDocument = await resolveDidOrThrow(args?.message?.to, context)
 
     // 2.1 extract all recipient key agreement keys and normalize them
-    const keyAgreementKeys: utils.NormalizedVerificationMethod[] = await utils.dereferenceDidKeys(
+    const keyAgreementKeys: NormalizedVerificationMethod[] = await dereferenceDidKeys(
       didDocument,
       'keyAgreement',
       context,
@@ -366,7 +266,7 @@ export class DIDComm implements IAgentPlugin {
         const kid = pk.id
         return { kid, publicKeyBytes }
       })
-      .filter(utils.isDefined)
+      .filter(isDefined)
 
     // 3. create Encrypter for each recipient
     const encrypters: Encrypter[] = recipients.map((recipient) => {
@@ -385,15 +285,12 @@ export class DIDComm implements IAgentPlugin {
   }
 
   /** {@inheritdoc IDIDComm.getDidCommMessageMediaType} */
-  async getDidCommMessageMediaType({
-    message,
-  }: {
-    message: string
-  }): Promise<DIDCommMessageMediaType | null> {
+  async getDidCommMessageMediaType({ message }: { message: string }): Promise<DIDCommMessageMediaType | null> {
     try {
       const { mediaType } = this.decodeMessageAndMediaType(message)
       return mediaType
     } catch (e) {
+      debug(`Could not parse message as DIDComm v2 message: ${e}`)
       return null
     }
   }
@@ -405,7 +302,7 @@ export class DIDComm implements IAgentPlugin {
   ): Promise<IUnpackedDIDCommMessage> {
     const { msgObj, mediaType } = this.decodeMessageAndMediaType(args.message)
     if (mediaType === DIDCommMessageMediaType.SIGNED) {
-      return this.unpackDIDCommMessageJWS(msgObj as utils.DIDCommSignedMessage, context)
+      return this.unpackDIDCommMessageJWS(msgObj as DIDCommSignedMessage, context)
     } else if (mediaType === DIDCommMessageMediaType.PLAIN) {
       return { message: <IDIDCommMessage>msgObj, metaData: { packing: 'none' } }
     } else if (mediaType === DIDCommMessageMediaType.ENCRYPTED) {
@@ -416,33 +313,33 @@ export class DIDComm implements IAgentPlugin {
   }
 
   async unpackDIDCommMessageJWS(
-    jws: utils.DIDCommSignedMessage,
+    jws: DIDCommSignedMessage,
     context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
   ): Promise<IUnpackedDIDCommMessage> {
     // TODO: currently only supporting one signature
-    const signatureEncoded: string = utils.isDefined((<utils.FlattenedJWS>jws).signature)
-      ? (<utils.FlattenedJWS>jws).signature
-      : (<utils.GenericJWS>jws).signatures[0]?.signature
-    const headerEncoded = utils.isDefined((<utils.FlattenedJWS>jws).protected)
-      ? (<utils.FlattenedJWS>jws).protected
-      : (<utils.GenericJWS>jws).signatures[0]?.protected
-    if (!utils.isDefined(headerEncoded) || !utils.isDefined(signatureEncoded)) {
+    const signatureEncoded: string = isDefined((<FlattenedJWS>jws).signature)
+      ? (<FlattenedJWS>jws).signature
+      : (<GenericJWS>jws).signatures[0]?.signature
+    const headerEncoded = isDefined((<FlattenedJWS>jws).protected)
+      ? (<FlattenedJWS>jws).protected
+      : (<GenericJWS>jws).signatures[0]?.protected
+    if (!isDefined(headerEncoded) || !isDefined(signatureEncoded)) {
       throw new Error('invalid_argument: could not interpret message as JWS')
     }
-    const message = <IDIDCommMessage>utils.decodeJoseBlob(jws.payload)
-    const header = utils.decodeJoseBlob(headerEncoded)
+    const message = <IDIDCommMessage>decodeJoseBlob(jws.payload)
+    const header = decodeJoseBlob(headerEncoded)
     const sender = parseDidUri(header.kid)?.did
-    if (!utils.isDefined(sender) || sender !== message.from) {
+    if (!isDefined(sender) || sender !== message.from) {
       throw new Error('invalid_jws: sender is not a DID or does not match the `kid`')
     }
-    const senderDoc = await utils.resolveDidOrThrow(sender, context)
+    const senderDoc = await resolveDidOrThrow(sender, context)
     const senderKey = (await context.agent.dereferenceDidUri({
       didDocument: senderDoc,
       didURI: header.kid,
       section: 'authentication',
     })) as VerificationMethod
     const verifiedSenderKey = verifyJWS(`${headerEncoded}.${jws.payload}.${signatureEncoded}`, senderKey)
-    if (utils.isDefined(verifiedSenderKey)) {
+    if (isDefined(verifiedSenderKey)) {
       return { message, metaData: { packing: 'jws' } }
     } else {
       throw new Error('invalid_jws: sender `kid` could not be validated as the signer of the message')
@@ -455,20 +352,20 @@ export class DIDComm implements IAgentPlugin {
   ): Promise<IUnpackedDIDCommMessage> {
     // 0 resolve skid to DID doc
     //   - find skid in DID doc and convert to 'X25519' byte array (if type matches)
-    let senderKeyBytes: Uint8Array | null = await utils.extractSenderEncryptionKey(jwe, context)
+    let senderKeyBytes: Uint8Array | null = await extractSenderEncryptionKey(jwe, context)
 
     // 1. check whether kid is one of my DID URIs
     //   - get recipient DID URIs
     //   - extract DIDs from recipient DID URIs
     //   - match DIDs against locally managed DIDs
-    let managedRecipients = await utils.extractManagedRecipients(jwe, context)
+    let managedRecipients = await extractManagedRecipients(jwe, context)
 
     // 2. get internal IKey instance for each recipient.kid
     //   - resolve locally managed DIDs that match recipients
     //   - filter to the keyAgreementKeys that match the recipient.kid
     //   - match identifier.keys.publicKeyHex to (verificationMethod.publicKey*)
     //   - return a list of `IKey`
-    const localKeys = await utils.mapRecipientsToLocalKeys(managedRecipients, context)
+    const localKeys = await mapRecipientsToLocalKeys(managedRecipients, context)
 
     // 3. for each recipient
     //  if isAuthcrypted? (if senderKey != null)
@@ -478,7 +375,7 @@ export class DIDComm implements IAgentPlugin {
     for (const localKey of localKeys) {
       let packing: string
       let decrypter: Decrypter
-      const recipientECDH: ECDH = utils.createEcdhWrapper(localKey.localKeyRef, context)
+      const recipientECDH: ECDH = createEcdhWrapper(localKey.localKeyRef, context)
       // TODO: here's where more algorithms should be supported
       if (senderKeyBytes && localKey.recipient?.header?.alg?.includes('ECDH-1PU')) {
         decrypter = createAuthDecrypter(recipientECDH, senderKeyBytes)
@@ -504,7 +401,7 @@ export class DIDComm implements IAgentPlugin {
   }
 
   private decodeMessageAndMediaType(message: string): {
-    msgObj: utils.DIDCommPlainMessage | utils.DIDCommSignedMessage | utils.DIDCommEncryptedMessage
+    msgObj: DIDCommPlainMessage | DIDCommSignedMessage | DIDCommEncryptedMessage
     mediaType: DIDCommMessageMediaType
   } {
     let msgObj
@@ -519,10 +416,10 @@ export class DIDComm implements IAgentPlugin {
       msgObj = message
     }
     let mediaType: DIDCommMessageMediaType | null = null
-    if ((<utils.DIDCommPlainMessage>msgObj).typ === DIDCommMessageMediaType.PLAIN) {
+    if ((<DIDCommPlainMessage>msgObj).typ === DIDCommMessageMediaType.PLAIN) {
       mediaType = DIDCommMessageMediaType.PLAIN
-    } else if ((<utils.FlattenedJWS | utils.DIDCommEncryptedMessage>msgObj).protected) {
-      const protectedHeader = utils.decodeJoseBlob(msgObj.protected)
+    } else if ((<FlattenedJWS | DIDCommEncryptedMessage>msgObj).protected) {
+      const protectedHeader = decodeJoseBlob(msgObj.protected)
       if (protectedHeader.typ === DIDCommMessageMediaType.SIGNED) {
         mediaType = DIDCommMessageMediaType.SIGNED
       } else if (protectedHeader.typ === DIDCommMessageMediaType.ENCRYPTED) {
@@ -530,7 +427,7 @@ export class DIDComm implements IAgentPlugin {
       } else {
         throw new Error('invalid_argument: unable to determine message type')
       }
-    } else if ((<utils.GenericJWS>msgObj).signatures) {
+    } else if ((<GenericJWS>msgObj).signatures) {
       mediaType = DIDCommMessageMediaType.SIGNED
     } else {
       throw new Error('invalid_argument: unable to determine message type')
