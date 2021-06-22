@@ -23,10 +23,10 @@ export default (testContext: {
 
     //DO NOT EDIT MANUALLY START
 
-    it('core-IResolver-dereferenceDidUri example', async () => {
+    it('core-IResolver-getDIDComponentById example', async () => {
       const did = 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
       const didFragment = `${did}#controller`
-      const fragment = await agent.dereferenceDidUri({
+      const fragment = await agent.getDIDComponentById({
         didDocument: (await agent.resolveDid({ didUrl: did }))?.didDocument,
         didURI: didFragment,
         section: 'authentication',

@@ -103,7 +103,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
             to,
             from,
             id,
-            thread_id: threadId,
+            thid: threadId,
             created_time: createdAt,
             expires_time: expiresAt,
             body: data,

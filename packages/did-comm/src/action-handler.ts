@@ -22,7 +22,7 @@ import {
   Encrypter,
   verifyJWS,
 } from 'did-jwt'
-import { DIDDocument, parse as parseDidUri, VerificationMethod } from 'did-resolver'
+import { DIDDocument, parse as parseDidUrl, VerificationMethod } from 'did-resolver'
 import { schema } from './'
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
@@ -350,14 +350,14 @@ export class DIDComm implements IAgentPlugin {
     }
     const message = <IDIDCommMessage>decodeJoseBlob(jws.payload)
     const header = decodeJoseBlob(headerEncoded)
-    const sender = parseDidUri(header.kid)?.did
+    const sender = parseDidUrl(header.kid)?.did
     if (!isDefined(sender) || sender !== message.from) {
       throw new Error('invalid_jws: sender is not a DID or does not match the `kid`')
     }
     const senderDoc = await resolveDidOrThrow(sender, context)
-    const senderKey = (await context.agent.dereferenceDidUri({
+    const senderKey = (await context.agent.getDIDComponentById({
       didDocument: senderDoc,
-      didURI: header.kid,
+      didUrl: header.kid,
       section: 'authentication',
     })) as VerificationMethod
     const verifiedSenderKey = verifyJWS(`${headerEncoded}.${jws.payload}.${signatureEncoded}`, senderKey)

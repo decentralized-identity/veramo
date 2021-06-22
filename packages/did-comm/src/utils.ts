@@ -10,7 +10,7 @@ import {
   TKeyType,
 } from '@veramo/core'
 import { ECDH, JWE } from 'did-jwt'
-import { VerificationMethod, parse as parseDidUri, DIDDocument } from 'did-resolver'
+import { VerificationMethod, parse as parseDidUrl, DIDDocument } from 'did-resolver'
 import * as u8a from 'uint8arrays'
 
 import Debug from 'debug'
@@ -73,9 +73,9 @@ export async function extractSenderEncryptionKey(
   const protectedHeader = decodeJoseBlob(jwe.protected)
   if (typeof protectedHeader.skid === 'string') {
     const senderDoc = await resolveDidOrThrow(protectedHeader.skid, context)
-    const sKey = (await context.agent.dereferenceDidUri({
+    const sKey = (await context.agent.getDIDComponentById({
       didDocument: senderDoc,
-      didURI: protectedHeader.skid,
+      didUrl: protectedHeader.skid,
       section: 'keyAgreement',
     })) as _ExtendedVerificationMethod
     if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019'].includes(sKey.type)) {
@@ -94,7 +94,7 @@ export async function extractManagedRecipients(
   const parsedDIDs = (jwe.recipients || [])
     .map((recipient) => {
       const kid = recipient?.header?.kid
-      const did = parseDidUri(kid || '')?.did as string
+      const did = parseDidUrl(kid || '')?.did as string
       if (kid && did) {
         return { recipient, kid, did }
       } else {
@@ -193,14 +193,14 @@ export async function mapIdentifierKeysToDoc(
   return extendedKeys
 }
 
-export async function resolveDidOrThrow(didURI: string, context: IAgentContext<IResolver>) {
+export async function resolveDidOrThrow(didUrl: string, context: IAgentContext<IResolver>) {
   // TODO: add caching
-  const docResult = await context.agent.resolveDid({ didUrl: didURI })
+  const docResult = await context.agent.resolveDid({ didUrl: didUrl })
   const err = docResult.didResolutionMetadata.error
   const msg = docResult.didResolutionMetadata.message
   const didDocument = docResult.didDocument
   if (!isDefined(didDocument) || err) {
-    throw new Error(`not_found: could not resolve DID document for '${didURI}': ${err} ${msg}`)
+    throw new Error(`not_found: could not resolve DID document for '${didUrl}': ${err} ${msg}`)
   }
   return didDocument
 }
@@ -227,9 +227,9 @@ export async function dereferenceDidKeys(
       (didDocument[section] || []).map(async (key: string | VerificationMethod) => {
         if (typeof key === 'string') {
           try {
-            return (await context.agent.dereferenceDidUri({
+            return (await context.agent.getDIDComponentById({
               didDocument,
-              didURI: key,
+              didUrl: key,
               section,
             })) as _ExtendedVerificationMethod
           } catch (e) {

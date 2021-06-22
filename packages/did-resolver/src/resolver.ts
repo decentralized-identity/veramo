@@ -27,7 +27,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
 
     this.methods = {
       resolveDid: this.resolveDid.bind(this),
-      dereferenceDidUri: this.dereferenceDidUri.bind(this),
+      getDIDComponentById: this.getDIDComponentById.bind(this),
     }
   }
 
@@ -43,35 +43,35 @@ export class DIDResolverPlugin implements IAgentPlugin {
     return this.didResolver.resolve(didUrl, options)
   }
 
-  /** {@inheritDoc @veramo/core#IResolver.dereferenceDidUri} */
-  async dereferenceDidUri({
+  /** {@inheritDoc @veramo/core#IResolver.getDIDComponentById} */
+  async getDIDComponentById({
     didDocument,
-    didURI,
+    didUrl,
     section,
   }: {
     didDocument: DIDDocument
-    didURI: string
+    didUrl: string
     section?: DIDDocumentSection
   }): Promise<VerificationMethod | ServiceEndpoint> {
-    debug('Resolving %s', didURI)
-    const did = parseDID(didURI)?.did || didDocument.id
+    debug('Resolving %s', didUrl)
+    const did = parseDID(didUrl)?.did || didDocument.id
     const doc = didDocument
     const mainSections = [...(doc.verificationMethod || []), ...(doc.publicKey || []), ...(doc.service || [])]
     const subsection = section ? [...(doc[section] || [])] : mainSections
     
     let result = subsection.find((item) => {
       if (typeof item === 'string') {
-        return item === didURI || `${did}${item}` === didURI
+        return item === didUrl || `${did}${item}` === didUrl
       } else {
-        return item.id === didURI || `${did}${item.id}` === didURI
+        return item.id === didUrl || `${did}${item.id}` === didUrl
       }
     })
     if (typeof result === 'string') {
-      result = mainSections.find((item) => item.id === didURI || `${did}${item.id}` === didURI)
+      result = mainSections.find((item) => item.id === didUrl || `${did}${item.id}` === didUrl)
     }
     
     if (!result) {
-      const err = `not_found: DID document fragment (${didURI}) could not be located.`
+      const err = `not_found: DID document fragment (${didUrl}) could not be located.`
       debug(err)
       throw new Error(err)
     } else if (result.id.startsWith('#')) {

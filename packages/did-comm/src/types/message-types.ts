@@ -8,7 +8,8 @@ export interface IDIDCommMessage {
   type: string
   from?: string
   to: string
-  thread_id?: string
+  thid?: string
+  pthid?: string
   id: string
   expires_time?: string
   created_time?: string
