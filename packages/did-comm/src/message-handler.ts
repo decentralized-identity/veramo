@@ -15,7 +15,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
     super()
   }
 
-  async handleDIDCommAlpha(message: Message, context: IContext): Promise<Message> {
+  private async handleDIDCommAlpha(message: Message, context: IContext): Promise<Message> {
     if (message.raw) {
       try {
         const parsed = JSON.parse(message.raw)
@@ -86,7 +86,12 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
     const rawMessage = message.raw
     if (rawMessage) {
       // check whether message is DIDCommV2
-      const didCommMessageType = await context.agent.getDIDCommMessageMediaType({ message: rawMessage })
+      let didCommMessageType = undefined
+      try {
+        didCommMessageType = await context.agent.getDIDCommMessageMediaType({ message: rawMessage })
+      } catch (e) {
+        debug(`Could not parse message as DIDComm v2: ${e}`)
+      }
       if (didCommMessageType) {
         try {
           const unpackedMessage = await context.agent.unpackDIDCommMessage({
@@ -120,8 +125,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
 
           return message
         } catch (e) {
-          // FIXME: TODO: do something
-          console.debug('FIXME: TODO: handle error')
+          debug(`Could not unpack message as DIDComm v2: ${e}`)
         }
       }
     }

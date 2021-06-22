@@ -1,0 +1,517 @@
+{
+  "IDIDComm": {
+    "components": {
+      "schemas": {
+        "IUnpackDIDCommMessageArgs": {
+          "$ref": "#/components/schemas/IPackedDIDCommMessage",
+          "description": "The input to the  {@link  DIDComm.unpackDIDCommMessage }  method."
+        },
+        "IPackedDIDCommMessage": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "description": "The result of packing a DIDComm v2 message. The message is always serialized as string."
+        },
+        "DIDCommMessageMediaType": {
+          "type": "string",
+          "enum": [
+            "application/didcomm-plain+json",
+            "application/didcomm-signed+json",
+            "application/didcomm-encrypted+json"
+          ],
+          "description": "Represents different DIDComm v2 message encapsulation"
+        },
+        "IPackDIDCommMessageArgs": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "$ref": "#/components/schemas/IDIDCommMessage"
+            },
+            "packing": {
+              "$ref": "#/components/schemas/DIDCommMessagePacking"
+            },
+            "keyRef": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message",
+            "packing"
+          ],
+          "description": "The input to the  {@link  DIDComm.packDIDCommMessage }  method. When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided."
+        },
+        "IDIDCommMessage": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "from": {
+              "type": "string"
+            },
+            "to": {
+              "type": "string"
+            },
+            "thread_id": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "expires_time": {
+              "type": "string"
+            },
+            "created_time": {
+              "type": "string"
+            },
+            "next": {
+              "type": "string"
+            },
+            "from_prior": {
+              "type": "string"
+            },
+            "body": {}
+          },
+          "required": [
+            "type",
+            "to",
+            "id",
+            "body"
+          ],
+          "description": "The DIDComm message structure. See https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure"
+        },
+        "DIDCommMessagePacking": {
+          "type": "string",
+          "enum": [
+            "authcrypt",
+            "anoncrypt",
+            "jws",
+            "none",
+            "anoncrypt+authcrypt",
+            "anoncrypt+jws"
+          ],
+          "description": "The possible types of message packing.\n\n* `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce  {@link  DIDCommMessageMediaType.ENCRYPTED }  messages.\n* `jws` will produce  {@link  DIDCommMessageMediaType.SIGNED }  messages.\n* `none` will produce  {@link  DIDCommMessageMediaType.PLAIN }  messages."
+        },
+        "ISendDIDCommMessageArgs": {
+          "type": "object",
+          "properties": {
+            "packedMessage": {
+              "$ref": "#/components/schemas/IPackedDIDCommMessage"
+            },
+            "returnTransport": {
+              "$ref": "#/components/schemas/IDIDCommTransport"
+            },
+            "recipientDID": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "packedMessage",
+            "recipientDID"
+          ]
+        },
+        "IDIDCommTransport": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "ISendDIDCommMessageResult": {
+          "type": "object",
+          "properties": {
+            "sent": {
+              "type": "boolean"
+            },
+            "error": {
+              "type": "string"
+            }
+          }
+        },
+        "ISendMessageDIDCommAlpha1Args": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "save": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "body": {
+                  "anyOf": [
+                    {
+                      "type": "object"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "from",
+                "to",
+                "type",
+                "body"
+              ]
+            },
+            "headers": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "description": "Input arguments for  {@link  IDIDComm.sendMessageDIDCommAlpha1 }"
+        },
+        "IMessage": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique message ID"
+            },
+            "type": {
+              "type": "string",
+              "description": "Message type"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Optional. Creation date (ISO 8601)"
+            },
+            "expiresAt": {
+              "type": "string",
+              "description": "Optional. Expiration date (ISO 8601)"
+            },
+            "threadId": {
+              "type": "string",
+              "description": "Optional. Thread ID"
+            },
+            "raw": {
+              "type": "string",
+              "description": "Optional. Original message raw data"
+            },
+            "data": {
+              "anyOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Parsed data"
+            },
+            "replyTo": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Optional. List of DIDs to reply to"
+            },
+            "replyUrl": {
+              "type": "string",
+              "description": "Optional. URL to post a reply message to"
+            },
+            "from": {
+              "type": "string",
+              "description": "Optional. Sender DID"
+            },
+            "to": {
+              "type": "string",
+              "description": "Optional. Recipient DID"
+            },
+            "metaData": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMetaData"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Array of message metadata"
+            },
+            "credentials": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              },
+              "description": "Optional. Array of attached verifiable credentials"
+            },
+            "presentations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiablePresentation"
+              },
+              "description": "Optional. Array of attached verifiable presentations"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "description": "DIDComm message"
+        },
+        "IMetaData": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Type"
+            },
+            "value": {
+              "type": "string",
+              "description": "Optional. Value"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "description": "Message meta data"
+        },
+        "VerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuer": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "credentialSubject": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            },
+            "credentialStatus": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "type"
+              ]
+            },
+            "proof": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "@context",
+            "type",
+            "issuer",
+            "issuanceDate",
+            "credentialSubject",
+            "proof"
+          ],
+          "description": "Verifiable Credential  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "holder": {
+              "type": "string"
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verifier": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              }
+            },
+            "proof": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "holder",
+            "@context",
+            "type",
+            "verifier",
+            "verifiableCredential",
+            "proof"
+          ],
+          "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+        },
+        "IUnpackedDIDCommMessage": {
+          "type": "object",
+          "properties": {
+            "metaData": {
+              "$ref": "#/components/schemas/IDIDCommMessageMetaData"
+            },
+            "message": {
+              "$ref": "#/components/schemas/IDIDCommMessage"
+            }
+          },
+          "required": [
+            "metaData",
+            "message"
+          ],
+          "description": "The result of unpacking a DIDComm v2 message"
+        },
+        "IDIDCommMessageMetaData": {
+          "type": "object",
+          "properties": {
+            "packing": {
+              "$ref": "#/components/schemas/DIDCommMessagePacking"
+            }
+          },
+          "required": [
+            "packing"
+          ],
+          "description": "Metadata resulting from unpacking a DIDComm v2 message"
+        }
+      },
+      "methods": {
+        "getDIDCommMessageMediaType": {
+          "description": "Partially decodes a possible DIDComm message string to determine the ",
+          "arguments": {
+            "$ref": "#/components/schemas/IUnpackDIDCommMessageArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/DIDCommMessageMediaType"
+          }
+        },
+        "packDIDCommMessage": {
+          "description": "Packs a ",
+          "arguments": {
+            "$ref": "#/components/schemas/IPackDIDCommMessageArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IPackedDIDCommMessage"
+          }
+        },
+        "sendDIDCommMessage": {
+          "description": "TODO: add docs here",
+          "arguments": {
+            "$ref": "#/components/schemas/ISendDIDCommMessageArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/ISendDIDCommMessageResult"
+          }
+        },
+        "sendMessageDIDCommAlpha1": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/ISendMessageDIDCommAlpha1Args"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IMessage"
+          }
+        },
+        "unpackDIDCommMessage": {
+          "description": "Unpacks a possible DIDComm message and returns the ",
+          "arguments": {
+            "$ref": "#/components/schemas/IUnpackDIDCommMessageArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IUnpackedDIDCommMessage"
+          }
+        }
+      }
+    }
+  }
+}

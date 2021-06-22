@@ -7,7 +7,6 @@ import {
   IKey,
   IKeyManager,
   IResolver,
-  KeyMetadata,
   TKeyType,
 } from '@veramo/core'
 import { ECDH, JWE } from 'did-jwt'
@@ -15,7 +14,11 @@ import { VerificationMethod, parse as parseDidUri, DIDDocument } from 'did-resol
 import * as u8a from 'uint8arrays'
 
 import Debug from 'debug'
-import { ExtendedIKey, ExtendedVerificationMethod, NormalizedVerificationMethod } from './types/utility-types'
+import {
+  _ExtendedIKey,
+  _ExtendedVerificationMethod,
+  _NormalizedVerificationMethod,
+} from './types/utility-types'
 const debug = Debug('veramo:did-comm:action-handler')
 
 export function bytesToBase64url(b: Uint8Array): string {
@@ -74,7 +77,7 @@ export async function extractSenderEncryptionKey(
       didDocument: senderDoc,
       didURI: protectedHeader.skid,
       section: 'keyAgreement',
-    })) as ExtendedVerificationMethod
+    })) as _ExtendedVerificationMethod
     if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019'].includes(sKey.type)) {
       throw new Error(`not_supported: sender key of type ${sKey.type} is not supported`)
     }
@@ -160,11 +163,11 @@ export async function mapIdentifierKeysToDoc(
   identifier: IIdentifier,
   section: DIDDocumentSection = 'keyAgreement',
   context: IAgentContext<IResolver>,
-): Promise<ExtendedIKey[]> {
+): Promise<_ExtendedIKey[]> {
   const didDocument = await resolveDidOrThrow(identifier.did, context)
 
   // dereference all key agreement keys from DID document and normalize
-  const keyAgreementKeys: NormalizedVerificationMethod[] = await dereferenceDidKeys(
+  const keyAgreementKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,
     section,
     context,
@@ -175,7 +178,7 @@ export async function mapIdentifierKeysToDoc(
     localKeys = convertIdentifierEncryptionKeys(identifier)
   }
   // finally map the didDocument keys to the identifier keys by comparing `publicKeyHex`
-  const extendedKeys: ExtendedIKey[] = keyAgreementKeys
+  const extendedKeys: _ExtendedIKey[] = keyAgreementKeys
     .map((verificationMethod) => {
       const localKey = localKeys.find((localKey) => localKey.publicKeyHex === verificationMethod.publicKeyHex)
       if (localKey) {
@@ -214,7 +217,7 @@ export async function dereferenceDidKeys(
   didDocument: DIDDocument,
   section: DIDDocumentSection = 'keyAgreement',
   context: IAgentContext<IResolver>,
-): Promise<NormalizedVerificationMethod[]> {
+): Promise<_NormalizedVerificationMethod[]> {
   const convert = section === 'keyAgreement'
   if (section === 'service') {
     return []
@@ -228,12 +231,12 @@ export async function dereferenceDidKeys(
               didDocument,
               didURI: key,
               section,
-            })) as ExtendedVerificationMethod
+            })) as _ExtendedVerificationMethod
           } catch (e) {
             return null
           }
         } else {
-          return key as ExtendedVerificationMethod
+          return key as _ExtendedVerificationMethod
         }
       }),
     )
@@ -247,7 +250,7 @@ export async function dereferenceDidKeys(
     .filter((key) => key.publicKeyHex.length > 0)
 }
 
-function convertToPublicKeyHex(pk: ExtendedVerificationMethod, convert: boolean): string {
+function convertToPublicKeyHex(pk: _ExtendedVerificationMethod, convert: boolean): string {
   let keyBytes: Uint8Array
   if (pk.publicKeyHex) {
     keyBytes = u8a.fromString(pk.publicKeyHex, 'base16')

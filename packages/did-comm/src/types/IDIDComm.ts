@@ -24,25 +24,28 @@ export interface IDIDComm extends IPluginMethodMap {
   /**
    * Partially decodes a possible DIDComm message string to determine the {@link DIDCommMessageMediaType}
    *
-   * @param { message: string } - the message to be interpreted
-   * @returns a {@link DIDCommMessageMediaType} or `null` if the message is not DIDComm
+   * @param IPackedDIDCommMessage - the message to be interpreted
+   * @returns the {@link DIDCommMessageMediaType} if it was successfully parsed
+   * @throws if the message cannot be parsed as DIDComm v2
    *
    * @beta
    */
-  getDIDCommMessageMediaType({ message }: { message: string }): Promise<DIDCommMessageMediaType | null>
+  getDIDCommMessageMediaType(args: IUnpackDIDCommMessageArgs): Promise<DIDCommMessageMediaType>
 
   /**
    * Packs a {@link IDIDCommMessage} using one of the {@link DIDCommMessagePacking} options.
    *
-   * @param args.message - {@link IDIDCommMessage} - the message to be packed
-   * @param args.packing - {@link DIDCommMessagePacking} - the packing method
-   * @param args.keyRef - Optional - string - either a {@link did-resolver#VerificationMethod} id or a
-   *   {@link @veramo/core#IKey} `kid` to be used when signed or authenticated encryption is used.
+   * @param args - an {@link IPackDIDCommMessageArgs} object.
+   *   * args.message - {@link IDIDCommMessage} - the message to be packed
+   *   * args.packing - {@link DIDCommMessagePacking} - the packing method
+   *   * args.keyRef - Optional - string - either an `id` of a {@link did-resolver#VerificationMethod}
+   *     `kid` of a {@link @veramo/core#IKey} that will be used when `packing` is `jws` or `authcrypt`.
    *
    * @param context - This method requires an agent that also has {@link @veramo/core#IDIDManager},
    *   {@link @veramo/core#IKeyManager} and {@link @veramo/core#IResolver} plugins in use.
+   *   When calling this method, the `context` is supplied automatically by the framework.
    *
-   * @returns Promise<{message: string}> - a Promise that resolves to an object containing the serialized packed message
+   * @returns Promise\<\{message: string\}\> - a Promise that resolves to an object containing the serialized packed message
    *
    * @beta
    */
@@ -55,9 +58,11 @@ export interface IDIDComm extends IPluginMethodMap {
    * Unpacks a possible DIDComm message and returns the {@link IDIDCommMessage} and
    * {@link DIDCommMessagePacking} used to pack it.
    *
-   * @param args.message - string - the message to be unpacked
+   * @param args - an object containing the serialized message to be unpacked
    * @param context - This method requires an agent that also has {@link @veramo/core#IDIDManager},
    *   {@link @veramo/core#IKeyManager} and {@link @veramo/core#IResolver} plugins in use.
+   *   When calling this method, the `context` is supplied automatically by the framework.
+   *
    * @returns Promise<IUnpackedDIDCommMessage> - a Promise that resolves to an object containing
    *   the {@link IDIDCommMessage} and {@link DIDCommMessagePacking} used.
    *
@@ -71,10 +76,10 @@ export interface IDIDComm extends IPluginMethodMap {
   /**
    * TODO: add docs here
    *
-   * @param args
-   * @param context
+   * @param args - TBD
+   * @param context - TBD
    *
-   * @returns
+   * @returns TBD
    *
    * @beta
    */
@@ -85,7 +90,7 @@ export interface IDIDComm extends IPluginMethodMap {
 
   /**
    *
-   * @deprecated TBD
+   * @deprecated TBD - will be replaced by {@link DIDComm.sendDIDCommMessage}
    *
    * This is used to create a message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
    *

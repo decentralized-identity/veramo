@@ -5,6 +5,7 @@
  *
  * @packageDocumentation
  */
+
 export {
   DIDComm,
   ISendMessageDIDCommAlpha1Args,
@@ -15,5 +16,8 @@ export * from './types/message-types'
 export * from './types/utility-types'
 export * from './types/IDIDComm'
 export { DIDCommMessageHandler } from './message-handler'
+/**
+ * @beta
+ */
 const schema = require('../plugin.schema.json')
 export { schema }
