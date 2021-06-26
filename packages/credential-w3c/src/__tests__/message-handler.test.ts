@@ -67,7 +67,8 @@ describe('@veramo/credential-w3c', () => {
             } 
           }          
         }
-      }
+      },
+      getDIDComponentById: jest.fn()
     }
   }
 

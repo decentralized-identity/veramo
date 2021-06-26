@@ -54,6 +54,7 @@ import webDidFlow from './shared/webDidFlow'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
+import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
 import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
 
@@ -191,4 +192,5 @@ describe('REST integration tests', () => {
   keyManager(testContext)
   didManager(testContext)
   messageHandler(testContext)
+  didComm(testContext)
 })
