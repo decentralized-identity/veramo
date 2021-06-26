@@ -2,10 +2,6 @@
   "IDIDComm": {
     "components": {
       "schemas": {
-        "IUnpackDIDCommMessageArgs": {
-          "$ref": "#/components/schemas/IPackedDIDCommMessage",
-          "description": "The input to the  {@link  DIDComm.unpackDIDCommMessage }  method."
-        },
         "IPackedDIDCommMessage": {
           "type": "object",
           "properties": {
@@ -58,7 +54,10 @@
             "to": {
               "type": "string"
             },
-            "thread_id": {
+            "thid": {
+              "type": "string"
+            },
+            "pthid": {
               "type": "string"
             },
             "id": {
@@ -436,6 +435,10 @@
           ],
           "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
         },
+        "IUnpackDIDCommMessageArgs": {
+          "$ref": "#/components/schemas/IPackedDIDCommMessage",
+          "description": "The input to the  {@link  DIDComm.unpackDIDCommMessage }  method."
+        },
         "IUnpackedDIDCommMessage": {
           "type": "object",
           "properties": {
@@ -469,7 +472,7 @@
         "getDIDCommMessageMediaType": {
           "description": "Partially decodes a possible DIDComm message string to determine the ",
           "arguments": {
-            "$ref": "#/components/schemas/IUnpackDIDCommMessageArgs"
+            "$ref": "#/components/schemas/IPackedDIDCommMessage"
           },
           "returnType": {
             "$ref": "#/components/schemas/DIDCommMessageMediaType"

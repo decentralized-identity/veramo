@@ -28,7 +28,7 @@ export default (testContext: {
       const didFragment = `${did}#controller`
       const fragment = await agent.getDIDComponentById({
         didDocument: (await agent.resolveDid({ didUrl: did }))?.didDocument,
-        didURI: didFragment,
+        didUrl: didFragment,
         section: 'authentication',
       })
       expect(fragment).toEqual({

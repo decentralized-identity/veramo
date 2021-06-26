@@ -30,7 +30,7 @@ export interface IDIDComm extends IPluginMethodMap {
    *
    * @beta
    */
-  getDIDCommMessageMediaType(args: IUnpackDIDCommMessageArgs): Promise<DIDCommMessageMediaType>
+  getDIDCommMessageMediaType(args: IPackedDIDCommMessage): Promise<DIDCommMessageMediaType>
 
   /**
    * Packs a {@link IDIDCommMessage} using one of the {@link DIDCommMessagePacking} options.

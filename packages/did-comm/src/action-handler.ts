@@ -307,7 +307,7 @@ export class DIDComm implements IAgentPlugin {
   }
 
   /** {@inheritdoc IDIDComm.getDIDCommMessageMediaType} */
-  async getDidCommMessageMediaType({ message }: { message: string }): Promise<DIDCommMessageMediaType> {
+  async getDidCommMessageMediaType({ message }: IPackedDIDCommMessage): Promise<DIDCommMessageMediaType> {
     try {
       const { mediaType } = this.decodeMessageAndMediaType(message)
       return mediaType

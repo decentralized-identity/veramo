@@ -67,7 +67,7 @@ export interface IResolver extends IPluginMethodMap {
   resolveDid(args: ResolveDidArgs): Promise<DIDResolutionResult>
 
   /**
-   * Dereferences a DID URI fragment and return the corresponding DID document entry.
+   * Dereferences a DID URL fragment and returns the corresponding DID document entry.
    *
    * @example
    * ```typescript
