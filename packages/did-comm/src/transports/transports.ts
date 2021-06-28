@@ -1,7 +1,7 @@
 import 'cross-fetch/polyfill'
 import Debug from 'debug'
 import { v4 as uuidv4 } from 'uuid'
-import { IPackedDIDCommMessage } from '../action-handler'
+import { IPackedDIDCommMessage } from '../types/message-types'
 
 const debug = Debug('veramo:did-comm:transports')
 

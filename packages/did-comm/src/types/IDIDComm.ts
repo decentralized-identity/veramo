@@ -10,7 +10,6 @@ import {
 import {
   IPackDIDCommMessageArgs,
   ISendDIDCommMessageArgs,
-  ISendDIDCommMessageResult,
   ISendMessageDIDCommAlpha1Args,
   IUnpackDIDCommMessageArgs,
 } from '../action-handler'
@@ -74,19 +73,20 @@ export interface IDIDComm extends IPluginMethodMap {
   ): Promise<IUnpackedDIDCommMessage>
 
   /**
-   * TODO: add docs here
+   * Sends the given packed DIDComm message to the recipient. If a return transport is provided
+   * it will be checked whether the parent thread allows reusing the route. You cannot
+   * reuse the transport if the message was forwarded from a DIDComm mediator.
    *
-   * @param args - TBD
-   * @param context - TBD
+   * @param args
+   * @param context
+   * @throws `TBD:...` TBD
    *
-   * @returns TBD
-   *
-   * @beta
+   * @returns The transport id that was used to send the message.
    */
   sendDIDCommMessage(
     args: ISendDIDCommMessageArgs,
     context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
-  ): Promise<ISendDIDCommMessageResult>
+  ): Promise<string>
 
   /**
    *
