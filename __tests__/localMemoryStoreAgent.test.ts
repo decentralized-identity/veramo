@@ -46,6 +46,7 @@ import didManager from './shared/didManager'
 import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
 
 const databaseFile = 'local-database2.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -140,7 +141,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm(),
+      new DIDComm([new DIDCommHttpTransport()]),
       new CredentialIssuer(),
       new SelectiveDisclosure(),
     ],
