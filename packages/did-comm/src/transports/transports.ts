@@ -1,38 +1,116 @@
 import 'cross-fetch/polyfill'
 import Debug from 'debug'
+import { v4 as uuidv4 } from 'uuid'
+import { IPackedDIDCommMessage } from '../action-handler'
 
 const debug = Debug('veramo:did-comm:transports')
 
-export abstract class AbstractDIDCommTransport {
+export interface IDIDCommTransportResult {
+    result?: string
+    error?: string
+}
+
+export interface IDIDCommTransport {
+
     id: string
+    type: string
 
-    constructor(id: string) {
-        this.id = id
+    isServiceSupported(service: any) : boolean    
+    send(invocation: IDIDCommTransportInvocation, message: string) : Promise<IDIDCommTransportResult>
+    generateInvocation(service: any) : IDIDCommTransportInvocation
+}
+
+export abstract class AbstractDIDCommTransport implements IDIDCommTransport {
+
+    id: string
+    type: string
+
+    constructor(type: string, id?: string) {
+        this.id = id || uuidv4()
+        this.type = type
     }
 
-    getId() : string {
-        return this.id
+    abstract isServiceSupported(service: any) : boolean
+    abstract send(invocation: IDIDCommTransportInvocation, message: string) : Promise<IDIDCommTransportResult>
+    abstract generateInvocation(service: any) : IDIDCommTransportInvocation
+}
+
+export interface IDIDCommTransportInvocation {
+    id: string
+    transport: IDIDCommTransport
+
+    invoke(message: IPackedDIDCommMessage) : Promise<IDIDCommTransportResult>
+}
+
+export abstract class AbstractDIDCommTransportInvocation {
+    id: string
+    transport: IDIDCommTransport
+
+    constructor(transport: IDIDCommTransport, id?: string) {
+        this.id = id || uuidv4()
+        this.transport = transport
     }
 
-    abstract sendRawMessage(message: string, options?: any) : Promise<boolean>
+    async invoke(message: IPackedDIDCommMessage) : Promise<IDIDCommTransportResult> {
+        return this.transport.send(this, message.message)
+    }
+}
+
+export class DIDCommHttpTransportInvocation extends AbstractDIDCommTransportInvocation {
+
+    httpMethod: string
+    endpoint: string
+    // headers
+    // mode
+    // ...
+
+    constructor(transport: DIDCommHttpTransport, endpoint: string, httpMethod?: 'post' | 'get') {
+        super(transport)
+        this.httpMethod = httpMethod || 'post'
+        this.endpoint = endpoint
+    }
 }
 
 export class DIDCommHttpTransport extends AbstractDIDCommTransport {
     
-    async sendRawMessage(message: string,
-        options: { endpoint: string, headers?: string, method?: 'post' | 'get' }) : Promise<boolean> {
+    constructor() {
+        super('DIDCOMM_HTTP_TRANSPORT_TYPE')
+    }
 
-        const res = await fetch(options.endpoint, {
-            method: options.method,
-            body: message
-        })
+    isServiceSupported(service: any) {        
+        return (            
+            typeof service.serviceEndpoint === 'string' && 
+            (service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://')))
+    }
+    
+    generateInvocation(service: any) : IDIDCommTransportInvocation {
+        let invocation = new DIDCommHttpTransportInvocation(this, service.serviceEndpoint)
+        return invocation
+    }
 
-        if (res.status !== 200) {
-            throw new Error(`Error while sending raw message:${res.status}`)
+    async send(invocation: DIDCommHttpTransportInvocation, message: string) : Promise<IDIDCommTransportResult> {        
+        try {
+            const response = await fetch(invocation.endpoint, {
+                method: invocation.httpMethod,
+                body: message
+            })
+
+            let result
+            if (response.ok) {
+                result = {
+                    result: 'successfully send message: ' + response.statusText
+                }
+            } else {
+                result = {
+                    error: 'failed to send message: ' + response.statusText
+                }
+            }
+            return result
+        } catch (e) {
+            return {
+                error: 'failed to send message: ' + e
+            }
         }
-        debug('Status', res.status, res.statusText)
-
-        return (res.status == 200)
     }
 }
-  
+
