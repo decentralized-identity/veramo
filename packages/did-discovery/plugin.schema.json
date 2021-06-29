@@ -1,0 +1,86 @@
+{
+  "IDIDDiscovery": {
+    "components": {
+      "schemas": {
+        "IDIDDiscoveryDiscoverDidArgs": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "options": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "IDIDDiscoveryDiscoverDidResult": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "options": {
+              "type": "object"
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IDIDDiscoveryProviderResult"
+              }
+            }
+          },
+          "required": [
+            "results"
+          ]
+        },
+        "IDIDDiscoveryProviderResult": {
+          "type": "object",
+          "properties": {
+            "provider": {
+              "type": "string"
+            },
+            "matches": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IDIDDiscoverMatch"
+              }
+            }
+          },
+          "required": [
+            "provider",
+            "matches"
+          ]
+        },
+        "IDIDDiscoverMatch": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string"
+            },
+            "metaData": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "did",
+            "metaData"
+          ]
+        }
+      },
+      "methods": {
+        "discoverDid": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IDIDDiscoveryDiscoverDidArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IDIDDiscoveryDiscoverDidResult"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "@veramo/did-discovery",
+  "description": "Veramo DID discovery plugin",
+  "version": "1.2.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "IDIDDiscovery": "./src/types.ts"
+    }
+  },
+  "dependencies": {
+    "@veramo/core": "^1.2.0",
+    "@veramo/data-store": "^1.2.0",
+    "debug": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.5",
+    "typescript": "4.3.4"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "plugin.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    },
+    {
+      "name": "Oliver Terbu",
+      "email": "oliver.terbu@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}
