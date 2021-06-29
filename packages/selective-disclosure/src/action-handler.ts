@@ -19,6 +19,7 @@ import {
 } from './types'
 import { schema } from './'
 import { createJWT } from 'did-jwt'
+import { blake2bHex } from 'blakejs'
 import Debug from 'debug'
 
 /**
@@ -148,7 +149,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
       result.push({
         ...credentialRequest,
-        credentials: credentials.map((c) => c.verifiableCredential),
+        credentials,
       })
     }
     return result
@@ -214,7 +215,10 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
       claims.push({
         ...credentialRequest,
-        credentials,
+        credentials: credentials.map(vc => ({
+          hash: blake2bHex(JSON.stringify(vc)),
+          verifiableCredential: vc
+        })),
       })
     }
     return { valid, claims }

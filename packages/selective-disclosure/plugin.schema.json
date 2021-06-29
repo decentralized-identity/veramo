@@ -369,7 +369,7 @@
             "credentials": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/VerifiableCredential"
+                "$ref": "#/components/schemas/UniqueVerifiableCredential"
               }
             }
           },
@@ -378,6 +378,21 @@
             "credentials"
           ],
           "description": "The credentials that make up a response of a Selective Disclosure"
+        },
+        "UniqueVerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "verifiableCredential": {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            }
+          },
+          "required": [
+            "hash",
+            "verifiableCredential"
+          ]
         },
         "IValidatePresentationAgainstSdrArgs": {
           "type": "object",
