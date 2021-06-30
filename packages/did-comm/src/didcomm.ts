@@ -97,22 +97,17 @@ export interface IPackDIDCommMessageArgs {
   keyRef?: string
 }
 
+/**
+ * The input to the {@link DIDComm.sendDIDCommMessage} method.
+ * The provided `messageId` will be used in the emitted
+ * event to allow event/message correlation.
+ * @beta
+ */
 export interface ISendDIDCommMessageArgs {
   packedMessage: IPackedDIDCommMessage
+  messageId: string
   returnTransportId?: string
   recipientDidUrl: string
-}
-
-export abstract class DIDCommDIDDocConstants {
-  /**
-   * DIDComm Messaging service type value in DID Documents.
-   */
-  static readonly SERVICE_TYPE_VALUE = 'DIDCommMessaging'
-
-  /**
-   * DIDComm Messaging accept value in DID Documents.
-   */
-  static readonly ACCEPT_VALUE = 'didcomm/v2'
 }
 
 /**
@@ -460,7 +455,7 @@ export class DIDComm implements IAgentPlugin {
     args: ISendDIDCommMessageArgs,
     context: IAgentContext<IResolver>,
   ): Promise<string> {
-    const { packedMessage, returnTransportId, recipientDidUrl } = args
+    const { packedMessage, returnTransportId, recipientDidUrl, messageId } = args
 
     if (returnTransportId) {
       // FIXME: TODO: check if previous message was ok with reusing transport?
@@ -479,8 +474,8 @@ export class DIDComm implements IAgentPlugin {
 
     const services = didDoc.service?.filter(
       (service: any) =>
-        service.type == DIDCommDIDDocConstants.SERVICE_TYPE_VALUE &&
-        service.accept?.includes(DIDCommDIDDocConstants.ACCEPT_VALUE),
+        service.type == 'DIDCommMessaging' &&
+        service.accept?.includes('didcomm/v2'),
     )
     if (!services || services.length == 0) {
       throw new Error(
@@ -518,7 +513,7 @@ export class DIDComm implements IAgentPlugin {
       )
     }
 
-    context.agent.emit('DIDCommV2Message', packedMessage)
+    context.agent.emit('DIDCommV2Message-sent', messageId)
     return transport.id
   }
 

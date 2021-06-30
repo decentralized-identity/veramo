@@ -121,7 +121,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           } as Message
 
           message.addMetaData({ type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData) })
-          context.agent.emit('DIDCommV2Message', unpackedMessage)
+          context.agent.emit('DIDCommV2Message-received', unpackedMessage)
 
           return message
         } catch (e) {

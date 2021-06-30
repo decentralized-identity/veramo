@@ -77,8 +77,8 @@ export interface IDIDComm extends IPluginMethodMap {
    * it will be checked whether the parent thread allows reusing the route. You cannot
    * reuse the transport if the message was forwarded from a DIDComm mediator.
    * 
-   * Emits an eventType 'DIDCommV2Message' that contains the packed DIDComm message
-   * {@link IPackedDIDCommMessage} after the message was sent.
+   * Emits an eventType 'DIDCommV2Message-sent' that contains the message id of
+   * packed DIDComm message {@link IPackedDIDCommMessage} after the message was sent.
    *
    * @param args - An object containing the message, recipient information and optional
    * information about the transport that should be used.
