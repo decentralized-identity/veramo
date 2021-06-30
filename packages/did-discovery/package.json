@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@veramo/core": "^1.2.0",
-    "@veramo/data-store": "^1.2.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {

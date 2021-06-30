@@ -1,9 +1,7 @@
 import {
   IAgentContext,
-  IDIDManager,
   IPluginMethodMap,
 } from '@veramo/core'
-import { IDataStoreORM } from '@veramo/data-store'
 
 export interface IDIDDiscoveryDiscoverDidArgs {
   query: string
@@ -22,12 +20,13 @@ export interface IDIDDiscoveryProviderResult {
 
 export interface IDIDDiscoveryDiscoverDidResult extends Partial<IDIDDiscoveryDiscoverDidArgs> {
   results: IDIDDiscoveryProviderResult[]
+  errors?: Record<string, string>
 }
 
 export interface IDIDDiscovery extends IPluginMethodMap {
   discoverDid(
     args: IDIDDiscoveryDiscoverDidArgs,
-    context: IAgentContext<IDIDManager & IDataStoreORM>,
+    context: IAgentContext<any>,
   ): Promise<IDIDDiscoveryDiscoverDidResult>
   
 }

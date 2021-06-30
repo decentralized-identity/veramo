@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@veramo/core": "^1.2.0",
+    "@veramo/did-discovery": "^1.2.0",
     "@veramo/did-manager": "^1.2.0",
     "@veramo/key-manager": "^1.2.0",
     "debug": "^4.1.1",

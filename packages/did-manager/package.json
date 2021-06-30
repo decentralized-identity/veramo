@@ -9,7 +9,8 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^1.2.0"
+    "@veramo/core": "^1.2.0",
+    "@veramo/did-discovery": "^1.2.0"
   },
   "devDependencies": {
     "typescript": "4.3.4"

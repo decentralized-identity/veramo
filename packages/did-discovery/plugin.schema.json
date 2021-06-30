@@ -30,6 +30,12 @@
               "items": {
                 "$ref": "#/components/schemas/IDIDDiscoveryProviderResult"
               }
+            },
+            "errors": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
             }
           },
           "required": [

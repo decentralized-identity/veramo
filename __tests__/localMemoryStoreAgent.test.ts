@@ -59,7 +59,7 @@ let agent: TAgent<
     IMessageHandler &
     IDIDComm &
     ICredentialIssuer &
-    ISelectiveDisclosure
+    ISelectiveDisclosure 
 >
 let dbConnection: Promise<Connection>
 
@@ -81,7 +81,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IMessageHandler &
       IDIDComm &
       ICredentialIssuer &
-      ISelectiveDisclosure
+      ISelectiveDisclosure 
   >({
     ...options,
     context: {
