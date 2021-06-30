@@ -9,6 +9,7 @@ import {
   IDataStore,
   IMessageHandler,
   IAgentOptions,
+  TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
@@ -45,6 +46,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery'
 import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
+import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import fs from 'fs'
 
@@ -137,13 +139,15 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:fake': new FakeDidProvider(),
         },
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
-          key: getUniversalResolver(), // resolve using remote resolver
+          key: getUniversalResolver(), // resolve using remote resolver,
+          ...new FakeDidResolver(() => serverAgent as TAgent<IDIDManager>).getDidFakeResolver(),
         }),
       }),
       new DataStore(dbConnection),
