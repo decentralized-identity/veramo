@@ -23,7 +23,7 @@ import {
   verifyJWS,
 } from 'did-jwt'
 import { DIDDocument, parse as parseDidUrl, VerificationMethod } from 'did-resolver'
-import { schema } from './'
+import { schema } from '.'
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
 import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
@@ -42,7 +42,7 @@ import {
 
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm'
-import { IDIDCommTransport, DIDCommHttpTransport, IDIDCommTransportInvocation } from './transports/transports'
+import { IDIDCommTransport } from './transports/transports'
 import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,
@@ -103,20 +103,6 @@ export interface ISendDIDCommMessageArgs {
   recipientDidUrl: string
 }
 
-export abstract class DIDCommMetaDataConstants {
-  /**
-   * DIDComm Messaging specific meta-data for
-   * indicating a IMessage was sent.
-   */
-  static readonly SENT_MSG = 'didcomm-sent-message'
-
-  /**
-   * DIDComm Messaging specific meta-data for
-   * indicating a IMessage was received.
-   */
-  static readonly RECEIVED_MSG = 'didcomm-received-message'
-}
-
 export abstract class DIDCommDIDDocConstants {
   /**
    * DIDComm Messaging service type value in DID Documents.
@@ -128,15 +114,6 @@ export abstract class DIDCommDIDDocConstants {
    */
   static readonly ACCEPT_VALUE = 'didcomm/v2'
 }
-
-// export interface ISendDIDCommMessageResult {
-//   /**
-//    * Message object including raw message and
-//    * meta-data. The meta-data will have the
-//    * DIDCOMM_META_DATA_SENT_MSG tag on it.
-//    */
-//   message?: IMessage
-// }
 
 /**
  * DID Comm plugin for {@link @veramo/core#Agent}
@@ -473,16 +450,7 @@ export class DIDComm implements IAgentPlugin {
     return { msgObj, mediaType }
   }
 
-  private getDIDCommTransportInvocationByService(service: any): IDIDCommTransportInvocation {
-    const targetTransport = this.transports.filter((t) => t.isServiceSupported(service))
-    if (!targetTransport || targetTransport.length < 1) {
-      throw new Error('not_found: no transport type found for service: ' + JSON.stringify(service))
-    }
-
-    return targetTransport[0].generateInvocation(service)
-  }
-
-  private getPreferredDIDCommService(services: any) {
+  private findPreferredDIDCommService(services: any) {
     // FIXME: TODO: get preferred service endpoint according to configuration; now defaulting to first service
     return services[0]
   }
@@ -490,63 +458,68 @@ export class DIDComm implements IAgentPlugin {
   /** {@inheritdoc IDIDComm.sendDIDCommMessage} */
   async sendDIDCommMessage(
     args: ISendDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+    context: IAgentContext<IResolver>,
   ): Promise<string> {
     const { packedMessage, returnTransportId, recipientDidUrl } = args
 
-    let transportInvocation: IDIDCommTransportInvocation
     if (returnTransportId) {
       // FIXME: TODO: check if previous message was ok with reusing transport?
       // if so, retrieve transport from transport manager
       //transport = this.findDIDCommTransport(returnTransportId)
       throw new Error(`not_supported: return routes not supported yet`)
-    } else {
-      const result = await context.agent.resolveDid({ didUrl: `${recipientDidUrl};cache` })
-      const err = result.didResolutionMetadata.error
-      const msg = result.didResolutionMetadata.message
-      const didDoc = result.didDocument
-      if (!didDoc || err) {
-        throw new Error(`resolver_error: could not resolve DID document for '${recipientDidUrl}': ${err} ${msg}`)
-      }
-
-      const services = didDoc.service?.filter(
-        (service: any) =>
-          service.type == DIDCommDIDDocConstants.SERVICE_TYPE_VALUE &&
-          service.accept?.includes(DIDCommDIDDocConstants.ACCEPT_VALUE),
-      )
-      if (!services || services.length == 0) {
-        throw new Error(
-          `not_found: could not find DIDComm Messaging service in DID document for '${recipientDidUrl}'`,
-        )
-      }
-
-      const service = this.getPreferredDIDCommService(services)
-      if (!service) {
-        throw new Error(
-          `not_found: could not find preferred DIDComm Messaging service in DID document for '${recipientDidUrl}'`,
-        )
-      }
-
-      // FIXME: TODO: wrap forward messages based on service entry
-
-      transportInvocation = this.getDIDCommTransportInvocationByService({ service })
     }
 
+    const result = await context.agent.resolveDid({ didUrl: `${recipientDidUrl};cache` })
+    const err = result.didResolutionMetadata.error
+    const msg = result.didResolutionMetadata.message
+    const didDoc = result.didDocument
+    if (!didDoc || err) {
+      throw new Error(`resolver_error: could not resolve DID document for '${recipientDidUrl}': ${err} ${msg}`)
+    }
+
+    const services = didDoc.service?.filter(
+      (service: any) =>
+        service.type == DIDCommDIDDocConstants.SERVICE_TYPE_VALUE &&
+        service.accept?.includes(DIDCommDIDDocConstants.ACCEPT_VALUE),
+    )
+    if (!services || services.length == 0) {
+      throw new Error(
+        `not_found: could not find DIDComm Messaging service in DID document for '${recipientDidUrl}'`,
+      )
+    }
+
+    const service = this.findPreferredDIDCommService(services)
+    if (!service) {
+      throw new Error(
+        `not_found: could not find preferred DIDComm Messaging service in DID document for '${recipientDidUrl}'`,
+      )
+    }
+
+    // FIXME: TODO: wrap forward messages based on service entry
+
+    const transports = this.transports.filter((t) => t.isServiceSupported(service) && (!returnTransportId || t.id === returnTransportId))
+    if (!transports || transports.length < 1) {
+      throw new Error('not_found: no transport type found for service: ' + JSON.stringify(service))
+    }
+
+    // TODO: better strategy for selecting the transport if multiple transports apply
+    const transport = transports[0]
+
     try {
-      const error = await transportInvocation.invoke(packedMessage)
-      if (error) {
+      const response = await transport.send(service, packedMessage.message)
+      if (response.error) {
         throw new Error(
-          `Error when sending DIDComm message through transport with id: '${transportInvocation.transport.id}': ${error}`,
+          `Error when sending DIDComm message through transport with id: '${transport.id}': ${response.error}`,
         )
       }
     } catch (e) {
       throw new Error(
-        `Cannot send DIDComm message through transport with id: '${transportInvocation.transport.id}': ${e}`,
+        `Cannot send DIDComm message through transport with id: '${transport.id}': ${e}`,
       )
     }
 
-    context.agent.emit('DIDCommV2Message', 'sent')
-    return transportInvocation.transport.id
+    context.agent.emit('DIDCommV2Message', packedMessage)
+    return transport.id
   }
 
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
