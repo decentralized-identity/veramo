@@ -103,6 +103,9 @@
             "packedMessage": {
               "$ref": "#/components/schemas/IPackedDIDCommMessage"
             },
+            "messageId": {
+              "type": "string"
+            },
             "returnTransportId": {
               "type": "string"
             },
@@ -112,8 +115,10 @@
           },
           "required": [
             "packedMessage",
+            "messageId",
             "recipientDidUrl"
-          ]
+          ],
+          "description": "The input to the  {@link  DIDComm.sendDIDCommMessage }  method. The provided `messageId` will be used in the emitted event to allow event/message correlation."
         },
         "ISendMessageDIDCommAlpha1Args": {
           "type": "object",
