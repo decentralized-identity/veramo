@@ -45,6 +45,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
+import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 const databaseFile = 'local-database2.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -118,6 +119,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:fake': new FakeDidProvider(),
         },
       }),
       new DIDResolverPlugin({
@@ -125,6 +127,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
+          ...new FakeDidResolver(() => agent).getDidFakeResolver(),
         }),
       }),
       new DataStore(dbConnection),
