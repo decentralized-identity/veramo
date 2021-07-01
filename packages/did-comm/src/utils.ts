@@ -245,7 +245,11 @@ export async function dereferenceDidKeys(
     .map((key) => {
       const hexKey = convertToPublicKeyHex(key, convert)
       const { publicKeyHex, publicKeyBase58, publicKeyBase64, publicKeyJwk, ...keyProps } = key
-      return { ...keyProps, publicKeyHex: hexKey }
+      const newKey = { ...keyProps, publicKeyHex: hexKey }
+      if (convert && 'Ed25519VerificationKey2018' === newKey.type) {
+        newKey.type = 'X25519KeyAgreementKey2019'
+      }
+      return newKey
     })
     .filter((key) => key.publicKeyHex.length > 0)
 }
