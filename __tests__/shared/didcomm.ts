@@ -18,7 +18,7 @@ export default (testContext: {
       agent = testContext.getAgent()
 
       sender = await agent.didManagerImport({
-        did: 'did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+        did: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
         keys: [
           {
             type: 'Ed25519',
@@ -30,12 +30,12 @@ export default (testContext: {
           },
         ],
         services: [],
-        provider: 'did:key',
+        provider: 'did:fake',
         alias: 'sender',
       })
 
       receiver = await agent.didManagerImport({
-        did: 'did:key:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
+        did: 'did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
         keys: [
           {
             type: 'Ed25519',
@@ -47,7 +47,7 @@ export default (testContext: {
           },
         ],
         services: [],
-        provider: 'did:key',
+        provider: 'did:fake',
         alias: 'receiver',
       })
       return true

@@ -276,18 +276,7 @@ export class DIDComm implements IAgentPlugin {
 
     // 2.2 get public key bytes and key IDs for supported recipient keys
     const recipients: { kid: string; publicKeyBytes: Uint8Array }[] = keyAgreementKeys
-      .map((pk) => {
-        const publicKeyHex = pk.publicKeyHex!
-        let publicKeyBytes = u8a.fromString(publicKeyHex, 'base16')
-        if (['Ed25519VerificationKey2018', 'Ed25519'].includes(pk.type)) {
-          publicKeyBytes = convertPublicKeyToX25519(publicKeyBytes)
-        } else if (!['X25519KeyAgreementKey2019', 'X25519'].includes(pk.type)) {
-          // other key agreement keys not supported
-          return null
-        }
-        const kid = pk.id
-        return { kid, publicKeyBytes }
-      })
+      .map((pk) => ({ kid: pk.id, publicKeyBytes: u8a.fromString(pk.publicKeyHex!, 'base16') }))
       .filter(isDefined)
 
     // 3. create Encrypter for each recipient
