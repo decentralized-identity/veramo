@@ -1,12 +1,15 @@
 import { IAgentContext } from '@veramo/core'
 import { IDataStoreORM } from './data-store-orm'
-import { AbstractDidDiscoveryProvider, IDIDDiscoverMatch, IDIDDiscoveryDiscoverDidArgs } from '@veramo/did-discovery'
+import { AbstractDidDiscoveryProvider, IDIDDiscoverMatch, IDIDDiscoveryProviderResult, IDIDDiscoveryDiscoverDidArgs } from '@veramo/did-discovery'
 
 export class ProfileDiscoveryProvider implements AbstractDidDiscoveryProvider {
+
+  readonly name = 'profile'
+  
   async discoverDid(
     args: IDIDDiscoveryDiscoverDidArgs,
     context: IAgentContext<IDataStoreORM>,
-  ): Promise<Array<IDIDDiscoverMatch>> {
+  ): Promise<IDIDDiscoveryProviderResult> {
     const matches: IDIDDiscoverMatch[] = []
       
     const credentials = await context.agent.dataStoreORMGetVerifiableCredentialsByClaims({
@@ -26,6 +29,9 @@ export class ProfileDiscoveryProvider implements AbstractDidDiscoveryProvider {
       })
     })
 
-    return matches
+    return {
+      provider: this.name,
+      matches
+    }
   }
 }

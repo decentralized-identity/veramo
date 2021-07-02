@@ -1,7 +1,7 @@
 import { IAgentContext } from '@veramo/core';
 import {
   IDIDDiscoveryDiscoverDidArgs,
-  IDIDDiscoverMatch
+  IDIDDiscoveryProviderResult
 } from './types'
 
 /**
@@ -9,9 +9,10 @@ import {
  * @public
  */
 export abstract class AbstractDidDiscoveryProvider {
+  abstract name: string
   abstract discoverDid(
     args: IDIDDiscoveryDiscoverDidArgs,
     context: IAgentContext<any>,
-  ): Promise<Array<IDIDDiscoverMatch>>
+  ): Promise<IDIDDiscoveryProviderResult>
 
 }

@@ -160,10 +160,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new CredentialIssuer(),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: {
-          'alias': new AliasDiscoveryProvider(),
-          'profile': new ProfileDiscoveryProvider(),
-        }
+        providers: [
+          new AliasDiscoveryProvider(),
+          new ProfileDiscoveryProvider(),
+        ]
       }),
     ],
   })

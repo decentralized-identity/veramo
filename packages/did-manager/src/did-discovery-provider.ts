@@ -1,11 +1,13 @@
 import { IAgentContext, IDIDManager } from '@veramo/core';
-import { AbstractDidDiscoveryProvider, IDIDDiscoverMatch, IDIDDiscoveryDiscoverDidArgs } from '@veramo/did-discovery'
+import { AbstractDidDiscoveryProvider, IDIDDiscoverMatch, IDIDDiscoveryProviderResult, IDIDDiscoveryDiscoverDidArgs } from '@veramo/did-discovery'
 
 export class AliasDiscoveryProvider implements AbstractDidDiscoveryProvider {
+  readonly name = 'alias'
+
   async discoverDid(
     args: IDIDDiscoveryDiscoverDidArgs,
     context: IAgentContext<IDIDManager>,
-  ): Promise<Array<IDIDDiscoverMatch>> {
+  ): Promise<IDIDDiscoveryProviderResult> {
     const matches = []
     try {
       const identifier = await context.agent.didManagerGetByAlias({alias: args.query})
@@ -17,6 +19,10 @@ export class AliasDiscoveryProvider implements AbstractDidDiscoveryProvider {
       }
       matches.push(match)
     } catch (e) {}
-    return matches
+    
+    return {
+      provider: this.name,
+      matches
+    }
   }
 }

@@ -21,10 +21,10 @@ const debug = Debug('veramo:did-discovery')
 export class DIDDiscovery implements IAgentPlugin {
   readonly methods: IDIDDiscovery
   readonly schema = schema.IDIDDiscovery
-  readonly providers: Record<string, AbstractDidDiscoveryProvider>
+  readonly providers: Array<AbstractDidDiscoveryProvider>
 
   constructor(options: {
-    providers: Record<string, AbstractDidDiscoveryProvider>
+    providers: Array<AbstractDidDiscoveryProvider>
   }) {
     this.providers = options.providers
     this.methods = {
@@ -47,14 +47,14 @@ export class DIDDiscovery implements IAgentPlugin {
     const results: IDIDDiscoveryProviderResult[] = []
     const errors: Record<string, string> = {}
 
-    for (const provider of Object.keys(this.providers)) {
+    for (const provider of this.providers) {
       try {
-        const matches = await this.providers[provider].discoverDid(args, context)
-        if (matches.length > 0) {
-          results.push({ provider, matches })
+        const providerResult = await provider.discoverDid(args, context)
+        if (providerResult.matches.length > 0) {
+          results.push(providerResult)
         }
       } catch (e) {
-        errors[provider] = e.message
+        errors[provider.name] = e.message
         debug(`Error ${provider}: ${e.message}`)
       }
     }
