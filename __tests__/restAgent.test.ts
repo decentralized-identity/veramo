@@ -12,7 +12,7 @@ import {
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager } from '../packages/did-manager/src'
+import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
@@ -34,6 +34,7 @@ import {
   IDataStoreORM,
   DataStore,
   DataStoreORM,
+  ProfileDiscoveryProvider
 } from '../packages/data-store/src'
 import { AgentRestClient } from '../packages/remote-client/src'
 import express from 'express'
@@ -42,6 +43,9 @@ import { AgentRouter, RequestWithAgentRouter } from '../packages/remote-server/s
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery'
+import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
+
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -56,7 +60,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
-import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
+import didDiscovery from './shared/didDiscovery'
 
 const databaseFile = 'rest-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -78,7 +82,8 @@ const getAgent = (options?: IAgentOptions) =>
       IMessageHandler &
       IDIDComm &
       ICredentialIssuer &
-      ISelectiveDisclosure
+      ISelectiveDisclosure &
+      IDIDDiscovery
   >({
     ...options,
     plugins: [
@@ -154,6 +159,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDComm(),
       new CredentialIssuer(),
       new SelectiveDisclosure(),
+      new DIDDiscovery({
+        providers: [
+          new AliasDiscoveryProvider(),
+          new ProfileDiscoveryProvider(),
+        ]
+      }),
     ],
   })
 
@@ -193,4 +204,5 @@ describe('REST integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didComm(testContext)
+  didDiscovery(testContext)
 })
