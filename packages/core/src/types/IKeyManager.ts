@@ -121,7 +121,7 @@ export interface IKeyManagerSharedSecretArgs {
    * The secret key handle (`kid`)
    * as returned by {@link IKeyManager.keyManagerCreate | keyManagerCreate}
    */
-  secretKeyRef: string,
+  secretKeyRef: string
 
   /**
    * The public key of the other party.

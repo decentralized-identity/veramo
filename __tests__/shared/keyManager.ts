@@ -237,7 +237,10 @@ export default (testContext: {
         type: <TKeyType>'X25519',
         publicKeyHex: 'c1d9ca35bd2c86ad0d61f682c30b24c73045a96773d82ff3b21ebadf85c39244',
       }
-      const secret = await agent.keyManagerSharedSecret({ secretKeyRef: 'senderKey1', publicKey: receiverKey })
+      const secret = await agent.keyManagerSharedSecret({
+        secretKeyRef: 'senderKey1',
+        publicKey: receiverKey,
+      })
       expect(secret).toEqual('ee94c7fcf5298291029a3c3d59a8a05367a1806f36668a1f67f5ea8149097476')
     })
 

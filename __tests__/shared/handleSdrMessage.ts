@@ -139,7 +139,7 @@ export default (testContext: {
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
           issuanceDate: new Date().toISOString(),
-          verifiableCredential: credentials[0].credentials.map(c => c.verifiableCredential),
+          verifiableCredential: credentials[0].credentials.map((c) => c.verifiableCredential),
         },
         proofFormat: 'jwt',
         save: true,

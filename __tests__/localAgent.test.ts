@@ -32,7 +32,7 @@ import {
   IDataStoreORM,
   DataStore,
   DataStoreORM,
-  ProfileDiscoveryProvider
+  ProfileDiscoveryProvider,
 } from '../packages/data-store/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
@@ -156,10 +156,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new CredentialIssuer(),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: [
-          new AliasDiscoveryProvider(),
-          new ProfileDiscoveryProvider(),
-        ]
+        providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
       }),
     ],
   })

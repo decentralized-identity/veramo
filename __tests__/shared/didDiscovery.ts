@@ -21,22 +21,20 @@ export default (testContext: {
     })
     afterAll(testContext.tearDown)
 
-
     it('should discover did by alias', async () => {
       const identifier = await agent.didManagerCreate({
         alias: 'alice',
       })
 
-      const result = await agent.discoverDid({ query: 'alice'})
+      const result = await agent.discoverDid({ query: 'alice' })
 
       expect(result.results[0].matches[0]).toEqual({
-        did: identifier.did, 
-        metaData: { 
-          alias: 'alice'
-        }
+        did: identifier.did,
+        metaData: {
+          alias: 'alice',
+        },
       })
     })
-
 
     it('should discover did by profile vc', async () => {
       const identifier = await agent.didManagerCreate({})
@@ -53,20 +51,20 @@ export default (testContext: {
           },
         },
         proofFormat: 'jwt',
-        save: true
+        save: true,
       })
 
-      const result = await agent.discoverDid({ query: 'bob'})
-      
+      const result = await agent.discoverDid({ query: 'bob' })
+
       expect(result.results[0].matches[0]).toEqual({
-        did: identifier.did, 
-        metaData: { verifiableCredential }
+        did: identifier.did,
+        metaData: { verifiableCredential },
       })
     })
 
     it('should discover did by alias and profile vc', async () => {
       const identifier = await agent.didManagerCreate({
-        alias: 'bob'
+        alias: 'bob',
       })
 
       const verifiableCredential = await agent.createVerifiableCredential({
@@ -81,25 +79,25 @@ export default (testContext: {
           },
         },
         proofFormat: 'jwt',
-        save: true
+        save: true,
       })
 
-      const result = await agent.discoverDid({ query: 'bob'})
+      const result = await agent.discoverDid({ query: 'bob' })
 
       expect(result.results).toHaveLength(2)
       expect(result.results[0].matches).toHaveLength(1)
       expect(result.results[1].matches).toHaveLength(2)
 
       expect(result.results[0].matches[0]).toEqual({
-        did: identifier.did, 
-        metaData: { 
-          alias: 'bob'
-        }
+        did: identifier.did,
+        metaData: {
+          alias: 'bob',
+        },
       })
-      
+
       expect(result.results[1].matches[1]).toEqual({
-        did: identifier.did, 
-        metaData: { verifiableCredential }
+        did: identifier.did,
+        metaData: { verifiableCredential },
       })
     })
 
@@ -108,11 +106,9 @@ export default (testContext: {
       const connection = getConnection()
       await connection.query('PRAGMA foreign_keys = OFF;')
       await connection.query('DROP TABLE claim;')
-      
-      const result = await agent.discoverDid({ query: 'bob'})
-      expect(result.errors).toEqual({ profile: 'SQLITE_ERROR: no such table: claim' })
-      
-    })
 
+      const result = await agent.discoverDid({ query: 'bob' })
+      expect(result.errors).toEqual({ profile: 'SQLITE_ERROR: no such table: claim' })
+    })
   })
 }

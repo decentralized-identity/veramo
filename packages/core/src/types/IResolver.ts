@@ -98,7 +98,7 @@ export interface IResolver extends IPluginMethodMap {
    *
    * @beta
    */
-   getDIDComponentById(args: {
+  getDIDComponentById(args: {
     /**
      * the DID document from which to extract the fragment. This MUST be the document resolved by {@link resolveDid}
      */

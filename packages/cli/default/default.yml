@@ -271,8 +271,8 @@ didDiscovery:
   $require: '@veramo/did-discovery#DIDDiscovery'
   $args:
     - providers:
-      - $require: '@veramo/did-manager#AliasDiscoveryProvider'
-      - $require: '@veramo/data-store#ProfileDiscoveryProvider'
+        - $require: '@veramo/did-manager#AliasDiscoveryProvider'
+        - $require: '@veramo/data-store#ProfileDiscoveryProvider'
 
 # Agent
 agent:

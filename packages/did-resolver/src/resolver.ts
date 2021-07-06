@@ -58,7 +58,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     const doc = didDocument
     const mainSections = [...(doc.verificationMethod || []), ...(doc.publicKey || []), ...(doc.service || [])]
     const subsection = section ? [...(doc[section] || [])] : mainSections
-    
+
     let result = subsection.find((item) => {
       if (typeof item === 'string') {
         return item === didUrl || `${did}${item}` === didUrl
@@ -69,7 +69,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     if (typeof result === 'string') {
       result = mainSections.find((item) => item.id === didUrl || `${did}${item.id}` === didUrl)
     }
-    
+
     if (!result) {
       const err = `not_found: DID document fragment (${didUrl}) could not be located.`
       debug(err)

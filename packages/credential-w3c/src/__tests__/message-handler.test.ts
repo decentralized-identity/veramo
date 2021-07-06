@@ -5,7 +5,6 @@ import { IContext } from '../message-handler'
 import { blake2bHex } from 'blakejs'
 
 describe('@veramo/credential-w3c', () => {
-
   const handler = new W3cMessageHandler()
   const didEthr = 'did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61'
   const didKey = 'did:key:z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'
@@ -19,7 +18,7 @@ describe('@veramo/credential-w3c', () => {
       resolveDid: async (args?): Promise<DIDResolutionResult> => {
         if (!args?.didUrl) throw Error('DID required')
 
-        if(args?.didUrl === didEthr) {
+        if (args?.didUrl === didEthr) {
           return {
             didResolutionMetadata: {},
             didDocumentMetadata: {},
@@ -30,12 +29,12 @@ describe('@veramo/credential-w3c', () => {
                 {
                   id: `${didEthr}#owner`,
                   type: 'EcdsaSecp256k1RecoveryMethod2020',
-                  controller: args?.didUrl,                  
+                  controller: args?.didUrl,
                   blockchainAccountId: `${didEthr.slice(-42)}@eip155:1`,
                 },
               ],
               authentication: [`${didEthr}#owner`],
-            }
+            },
           }
         } else {
           return {
@@ -47,29 +46,25 @@ describe('@veramo/credential-w3c', () => {
               verificationMethod: [
                 {
                   id: '#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd',
-                  type: "Ed25519VerificationKey2018",
+                  type: 'Ed25519VerificationKey2018',
                   controller: didKey,
-                  publicKeyBase58: 'CHWxr7EA5adxzgiYUzq1Gn7zZxVudLR4wM47ioEcSd1F'
+                  publicKeyBase58: 'CHWxr7EA5adxzgiYUzq1Gn7zZxVudLR4wM47ioEcSd1F',
                 },
                 {
                   id: '#z6LSkpCZ3cLP76M3Q26rhZe6q98vMdcSPTt4iML4r9UT7LVt',
                   type: 'X25519KeyAgreementKey2019',
                   controller: didKey,
-                  publicKeyBase58: 'A92PXJXX1ddJJdj6Av89WYvSWV5KgrhuqNcPMgpvPxj8'
-                }
+                  publicKeyBase58: 'A92PXJXX1ddJJdj6Av89WYvSWV5KgrhuqNcPMgpvPxj8',
+                },
               ],
-              authentication: [
-                '#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'
-              ],
-              assertionMethod: [
-                '#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'
-              ]
-            } 
-          }          
+              authentication: ['#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'],
+              assertionMethod: ['#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'],
+            },
+          }
         }
       },
-      getDIDComponentById: jest.fn()
-    }
+      getDIDComponentById: jest.fn(),
+    },
   }
 
   it('should reject unknown message type', async () => {
@@ -151,19 +146,14 @@ describe('@veramo/credential-w3c', () => {
   const vcPayloadEd25519 = {
     vc: {
       credentialSubject: {
-        name: 'Alice'
+        name: 'Alice',
       },
-      '@context': [
-        'https://www.w3.org/2018/credentials/v1'
-      ],
-      type: [
-        'VerifiableCredential',
-        'Profile'
-      ]
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      type: ['VerifiableCredential', 'Profile'],
     },
     sub: didKey,
     nbf: 1621973954,
-    iss: didKey
+    iss: didKey,
   }
 
   const vpJwtEd25519 =
@@ -171,21 +161,16 @@ describe('@veramo/credential-w3c', () => {
 
   const vpPayloadEd25519 = {
     vp: {
-      '@context': [
-        'https://www.w3.org/2018/credentials/v1'
-      ],
-      type: [
-        'VerifiablePresentation',
-        'Profile'
-      ],
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      type: ['VerifiablePresentation', 'Profile'],
       verifiableCredential: [
-        'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJ2YyI6eyJjcmVkZW50aWFsU3ViamVjdCI6eyJuYW1lIjoiQWxpY2UifSwiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlByb2ZpbGUiXX0sInN1YiI6ImRpZDprZXk6ejZNa3FqbjFTTVViUjg4UzdCWkZBWm5yN3NmelBYbW0zRGZSZE15M1o1Q2RNcW5kIiwibmJmIjoxNjIxOTczOTU0LCJpc3MiOiJkaWQ6a2V5Ono2TWtxam4xU01VYlI4OFM3QlpGQVpucjdzZnpQWG1tM0RmUmRNeTNaNUNkTXFuZCJ9.xFUvm49vS4dNoSURJwrCMwdePgrAyBRzs7GqvcUyD6KjfNM8eSgFeF8CEUHC21WcwrmbTNrzpQtgFQTFP_9HAA'
-      ]
+        'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJ2YyI6eyJjcmVkZW50aWFsU3ViamVjdCI6eyJuYW1lIjoiQWxpY2UifSwiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlByb2ZpbGUiXX0sInN1YiI6ImRpZDprZXk6ejZNa3FqbjFTTVViUjg4UzdCWkZBWm5yN3NmelBYbW0zRGZSZE15M1o1Q2RNcW5kIiwibmJmIjoxNjIxOTczOTU0LCJpc3MiOiJkaWQ6a2V5Ono2TWtxam4xU01VYlI4OFM3QlpGQVpucjdzZnpQWG1tM0RmUmRNeTNaNUNkTXFuZCJ9.xFUvm49vS4dNoSURJwrCMwdePgrAyBRzs7GqvcUyD6KjfNM8eSgFeF8CEUHC21WcwrmbTNrzpQtgFQTFP_9HAA',
+      ],
     },
     tag: 'xyz123',
     nbf: 1621974382,
     iss: didKey,
-    aud: didKey
+    aud: didKey,
   }
 
   it('should return handled VC message (Ed25519)', async () => {

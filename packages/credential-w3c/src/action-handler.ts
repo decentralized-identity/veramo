@@ -297,7 +297,11 @@ export class CredentialIssuer implements IAgentPlugin {
   }
 }
 
-function wrapSigner(context: IAgentContext<Pick<IKeyManager, "keyManagerSign">>, key: IKey, algorithm?: string) {
+function wrapSigner(
+  context: IAgentContext<Pick<IKeyManager, 'keyManagerSign'>>,
+  key: IKey,
+  algorithm?: string,
+) {
   return async (data: string | Uint8Array) => {
     const result = await context.agent.keyManagerSign({ keyRef: key.kid, data: <string>data, algorithm })
     return result

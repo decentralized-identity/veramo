@@ -112,7 +112,7 @@ export class FakeDidResolver {
         return result
       })
       const vmIds = verificationMethod.map((vm) => vm.id)
-      const service = identifier.services.map(service => {
+      const service = identifier.services.map((service) => {
         service.id = `${did}#${service.id}`
         delete service.description
         return service

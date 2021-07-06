@@ -1,10 +1,4 @@
-import {
-  IAgentContext,
-  IDIDManager,
-  IKeyManager,
-  IAgentPlugin,
-  VerifiablePresentation,
-} from '@veramo/core'
+import { IAgentContext, IDIDManager, IKeyManager, IAgentPlugin, VerifiablePresentation } from '@veramo/core'
 import { IDataStoreORM, TClaimsColumns, FindArgs } from '@veramo/data-store'
 import { ICredentialIssuer } from '@veramo/credential-w3c'
 import {
@@ -70,12 +64,11 @@ export class SelectiveDisclosure implements IAgentPlugin {
       if (!key) throw Error('Signing key not found')
       const signer = (data: string | Uint8Array) => {
         let dataString, encoding: 'base16' | undefined
-        if (typeof(data) === 'string') {
+        if (typeof data === 'string') {
           dataString = data
           encoding = undefined
         } else {
-          dataString = Buffer.from(data).toString("hex"),
-          encoding = 'base16'
+          ;(dataString = Buffer.from(data).toString('hex')), (encoding = 'base16')
         }
         return context.agent.keyManagerSign({ keyRef: key.kid, data: dataString, encoding })
       }
@@ -215,9 +208,9 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
       claims.push({
         ...credentialRequest,
-        credentials: credentials.map(vc => ({
+        credentials: credentials.map((vc) => ({
           hash: blake2bHex(JSON.stringify(vc)),
-          verifiableCredential: vc
+          verifiableCredential: vc,
         })),
       })
     }

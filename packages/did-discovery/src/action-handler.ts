@@ -1,14 +1,10 @@
-import {
-  IAgentContext,
-  IAgentPlugin,
-  IDIDManager
-} from '@veramo/core'
+import { IAgentContext, IAgentPlugin, IDIDManager } from '@veramo/core'
 
 import {
   IDIDDiscovery,
   IDIDDiscoveryDiscoverDidArgs,
   IDIDDiscoveryProviderResult,
-  IDIDDiscoveryDiscoverDidResult
+  IDIDDiscoveryDiscoverDidResult,
 } from './types'
 import { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider'
 import { schema } from './'
@@ -23,9 +19,7 @@ export class DIDDiscovery implements IAgentPlugin {
   readonly schema = schema.IDIDDiscovery
   readonly providers: Array<AbstractDidDiscoveryProvider>
 
-  constructor(options: {
-    providers: Array<AbstractDidDiscoveryProvider>
-  }) {
+  constructor(options: { providers: Array<AbstractDidDiscoveryProvider> }) {
     this.providers = options.providers
     this.methods = {
       discoverDid: this.discoverDid.bind(this),
@@ -43,7 +37,6 @@ export class DIDDiscovery implements IAgentPlugin {
     args: IDIDDiscoveryDiscoverDidArgs,
     context: IAgentContext<any>,
   ): Promise<IDIDDiscoveryDiscoverDidResult> {
-
     const results: IDIDDiscoveryProviderResult[] = []
     const errors: Record<string, string> = {}
 
@@ -61,15 +54,13 @@ export class DIDDiscovery implements IAgentPlugin {
 
     const result: IDIDDiscoveryDiscoverDidResult = {
       ...args,
-      results
+      results,
     }
 
     if (errors) {
       result['errors'] = errors
-    } 
+    }
 
     return result
   }
-
-  
 }

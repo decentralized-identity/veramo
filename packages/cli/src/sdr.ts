@@ -47,8 +47,8 @@ sdr
           if (!val || !val.startsWith('did:')) {
             return "Subject DID does not start with 'did:'..."
           }
-          return true;
-        }
+          return true
+        },
       },
       {
         type: 'input',

@@ -15,11 +15,11 @@ discover
     const response = await agent.discoverDid({ query: cmd.query })
     const list: any = []
 
-    response.results.forEach(r => {
-      r.matches.forEach(m => {
+    response.results.forEach((r) => {
+      r.matches.forEach((m) => {
         list.push({
           provider: r.provider,
-          did: m.did
+          did: m.did,
         })
       })
     })
@@ -30,4 +30,3 @@ discover
       console.log('No dids discovered')
     }
   })
-

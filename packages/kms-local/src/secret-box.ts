@@ -25,9 +25,9 @@ export class SecretBox extends AbstractSecretBox {
     const cipherText = secretBox(key, nonce, toUtf8Bytes(message))
     return hexConcat([nonce, cipherText]).substring(2)
   }
-  
+
   async decrypt(encryptedMessageHex: string): Promise<string> {
-    const cipherTextWithNonce = arrayify('0x'+encryptedMessageHex)
+    const cipherTextWithNonce = arrayify('0x' + encryptedMessageHex)
     const nonce = cipherTextWithNonce.slice(0, NONCE_BYTES)
     const cipherText = cipherTextWithNonce.slice(NONCE_BYTES)
     const key = arrayify('0x' + this.secretKey)
