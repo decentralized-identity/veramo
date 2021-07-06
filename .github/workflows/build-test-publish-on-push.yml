@@ -32,7 +32,7 @@ jobs:
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-2-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-yarn-3-${{ hashFiles('**/package.json') }}
 
       - run: yarn install --frozen-lockfile
       - run: yarn bootstrap
