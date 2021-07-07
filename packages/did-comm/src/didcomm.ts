@@ -464,7 +464,7 @@ export class DIDComm implements IAgentPlugin {
       throw new Error(`not_supported: return routes not supported yet`)
     }
 
-    const result = await context.agent.resolveDid({ didUrl: `${recipientDidUrl};cache` })
+    const result = await context.agent.resolveDid({ didUrl: `${recipientDidUrl}` })
     const err = result.didResolutionMetadata.error
     const msg = result.didResolutionMetadata.message
     const didDoc = result.didDocument
@@ -474,8 +474,8 @@ export class DIDComm implements IAgentPlugin {
 
     const services = didDoc.service?.filter(
       (service: any) =>
-        service.type == 'DIDCommMessaging' &&
-        service.accept?.includes('didcomm/v2'),
+        service.type == 'DIDCommMessaging' 
+        // && service.accept?.includes('didcomm/v2'),
     )
     if (!services || services.length == 0) {
       throw new Error(
