@@ -36,7 +36,6 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
       })
 
       if (message) {
-        console.log('Received message', message.type, message.id)
         res.json({ id: message.id })
       }
     } catch (e) {
