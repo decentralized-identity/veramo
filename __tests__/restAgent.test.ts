@@ -40,7 +40,7 @@ import {
 import { AgentRestClient } from '../packages/remote-client/src'
 import express from 'express'
 import { Server } from 'http'
-import { AgentRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
+import { AgentRouter, RequestWithAgentRouter, MessagingRouter } from '../packages/remote-server/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -61,6 +61,7 @@ import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didComm from './shared/didcomm'
+import didCommRemote from './shared/didcommRemote'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 // import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
@@ -182,6 +183,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   return new Promise((resolve) => {
     const app = express()
     app.use(basePath, requestWithAgent, agentRouter)
+    app.use('/messaging', requestWithAgent, MessagingRouter({
+      metaData: { type: 'DIDComm', value: 'integration test' }
+    }))
     restServer = app.listen(port, () => {
       resolve(true)
     })
@@ -207,5 +211,6 @@ describe('REST integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didComm(testContext)
+  didCommRemote(testContext)
   didDiscovery(testContext)
 })
