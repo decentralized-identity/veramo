@@ -126,6 +126,10 @@ export class DIDComm implements IAgentPlugin {
   readonly methods: IDIDComm
   readonly schema = schema.IDIDComm
 
+  /**
+   * Constructor that takes a list of {@link IDIDCommTransport} objects.
+   * @param transports A list of {@link IDIDCommTransport} objects.
+   */
   constructor(transports: IDIDCommTransport[]) {
     this.transports = transports
     this.methods = {
@@ -474,8 +478,9 @@ export class DIDComm implements IAgentPlugin {
 
     const services = didDoc.service?.filter(
       (service: any) =>
-        service.type == 'DIDCommMessaging' 
-        // && service.accept?.includes('didcomm/v2'),
+        service.type == 'DIDCommMessaging'
+        // FIXME: TODO: only send the message if the service section either explicitly supports 
+        // `didcomm/v2`, or no `accept` property is present.         
     )
     if (!services || services.length == 0) {
       throw new Error(
