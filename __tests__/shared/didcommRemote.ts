@@ -1,11 +1,24 @@
-import { TAgent, IDIDManager, IKeyManager, IIdentifier, IResolver } from '../../packages/core/src'
+import {
+  TAgent,
+  IDIDManager,
+  IKeyManager,
+  IIdentifier,
+  IResolver,
+  IEventListener,
+  IAgentOptions,
+} from '../../packages/core/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 
+const DIDCommEventSniffer: IEventListener = {
+  eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
+  onEvent: jest.fn(),
+}
+
 export default (testContext: {
   getAgent: () => ConfiguredAgent
-  setup: () => Promise<boolean>
+  setup: (options?: IAgentOptions) => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
   describe('DID comm remote', () => {
@@ -14,7 +27,7 @@ export default (testContext: {
     let receiver: IIdentifier
 
     beforeAll(async () => {
-      await testContext.setup()
+      await testContext.setup({ plugins: [DIDCommEventSniffer] })
       agent = testContext.getAgent()
 
       sender = await agent.didManagerImport({
@@ -67,7 +80,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should send a message', async () => {
-      expect.assertions(1)
+      expect.assertions(3)
 
       const message = {
         type: 'test',
@@ -87,6 +100,27 @@ export default (testContext: {
       })
 
       expect(result).toBeTruthy()
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        { data: '123', type: 'DIDCommV2Message-sent' },
+        expect.anything(),
+      )
+      // in our case, it is the same agent that is receiving the messages
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { hello: 'world' },
+              from: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+              id: 'test',
+              to: 'did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
+              type: 'test',
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
     })
   })
 }

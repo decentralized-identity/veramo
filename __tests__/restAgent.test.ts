@@ -169,6 +169,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDDiscovery({
         providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
       }),
+      ...options?.plugins || [],
     ],
   })
 
