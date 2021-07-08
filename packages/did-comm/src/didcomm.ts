@@ -42,7 +42,7 @@ import {
 
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm'
-import { IDIDCommTransport } from './transports/transports'
+import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports'
 import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,
@@ -130,7 +130,7 @@ export class DIDComm implements IAgentPlugin {
    * Constructor that takes a list of {@link IDIDCommTransport} objects.
    * @param transports A list of {@link IDIDCommTransport} objects.
    */
-  constructor(transports: IDIDCommTransport[]) {
+  constructor(transports: IDIDCommTransport[] = [new DIDCommHttpTransport()]) {
     this.transports = transports
     this.methods = {
       sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1.bind(this),

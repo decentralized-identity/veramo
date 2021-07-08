@@ -141,7 +141,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm(),
       new CredentialIssuer(),
       new SelectiveDisclosure(),
     ],

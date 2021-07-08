@@ -45,9 +45,10 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery'
-import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
-
+// import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
+import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
+import { getDidKeyResolver } from '../packages/did-provider-key/build'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -64,8 +65,6 @@ import didComm from './shared/didcomm'
 import didCommRemote from './shared/didcommRemote'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
-// import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
-import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
 
 const databaseFile = 'rest-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -149,7 +148,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
-          key: getUniversalResolver(), // resolve using remote resolver,
+          // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
+          ...getDidKeyResolver(),
           ...new FakeDidResolver(() => serverAgent as TAgent<IDIDManager>).getDidFakeResolver(),
         }),
       }),
