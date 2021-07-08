@@ -473,16 +473,17 @@ export class DIDComm implements IAgentPlugin {
     const msg = result.didResolutionMetadata.message
     const didDoc = result.didDocument
     if (!didDoc || err) {
-      throw new Error(`resolver_error: could not resolve DID document for '${recipientDidUrl}': ${err} ${msg}`)
+      throw new Error(
+        `resolver_error: could not resolve DID document for '${recipientDidUrl}': ${err} ${msg}`,
+      )
     }
 
     const services = didDoc.service?.filter(
-      (service: any) =>
-        service.type == 'DIDCommMessaging'
-        // FIXME: TODO: only send the message if the service section either explicitly supports 
-        // `didcomm/v2`, or no `accept` property is present.         
+      (service: any) => service.type === 'DIDCommMessaging',
+      // FIXME: TODO: only send the message if the service section either explicitly supports
+      // `didcomm/v2`, or no `accept` property is present.
     )
-    if (!services || services.length == 0) {
+    if (!services || services.length === 0) {
       throw new Error(
         `not_found: could not find DIDComm Messaging service in DID document for '${recipientDidUrl}'`,
       )
@@ -497,7 +498,9 @@ export class DIDComm implements IAgentPlugin {
 
     // FIXME: TODO: wrap forward messages based on service entry
 
-    const transports = this.transports.filter((t) => t.isServiceSupported(service) && (!returnTransportId || t.id === returnTransportId))
+    const transports = this.transports.filter(
+      (t) => t.isServiceSupported(service) && (!returnTransportId || t.id === returnTransportId),
+    )
     if (!transports || transports.length < 1) {
       throw new Error('not_found: no transport type found for service: ' + JSON.stringify(service))
     }
@@ -513,9 +516,7 @@ export class DIDComm implements IAgentPlugin {
         )
       }
     } catch (e) {
-      throw new Error(
-        `Cannot send DIDComm message through transport with id: '${transport.id}': ${e}`,
-      )
+      throw new Error(`Cannot send DIDComm message through transport with id: '${transport.id}': ${e}`)
     }
 
     context.agent.emit('DIDCommV2Message-sent', messageId)

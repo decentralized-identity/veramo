@@ -183,9 +183,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   return new Promise((resolve) => {
     const app = express()
     app.use(basePath, requestWithAgent, agentRouter)
-    app.use('/messaging', requestWithAgent, MessagingRouter({
-      metaData: { type: 'DIDComm', value: 'integration test' }
-    }))
+    app.use(
+      '/messaging',
+      requestWithAgent,
+      MessagingRouter({
+        metaData: { type: 'DIDComm', value: 'integration test' },
+      }),
+    )
     restServer = app.listen(port, () => {
       resolve(true)
     })

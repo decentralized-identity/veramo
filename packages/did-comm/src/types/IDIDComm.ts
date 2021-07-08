@@ -76,7 +76,7 @@ export interface IDIDComm extends IPluginMethodMap {
    * Sends the given message to the recipient. If a return transport is provided
    * it will be checked whether the parent thread allows reusing the route. You cannot
    * reuse the transport if the message was forwarded from a DIDComm mediator.
-   * 
+   *
    * Emits an eventType 'DIDCommV2Message-sent' that contains the message id of
    * packed DIDComm message {@link IPackedDIDCommMessage} after the message was sent.
    *
@@ -87,13 +87,10 @@ export interface IDIDComm extends IPluginMethodMap {
    *
    * @returns The transport id that was used to send the message. It throws an error in case something
    * went wrong.
-   * 
+   *
    * @beta
    */
-  sendDIDCommMessage(
-    args: ISendDIDCommMessageArgs,
-    context: IAgentContext<IResolver>,
-  ): Promise<string>
+  sendDIDCommMessage(args: ISendDIDCommMessageArgs, context: IAgentContext<IResolver>): Promise<string>
 
   /**
    *

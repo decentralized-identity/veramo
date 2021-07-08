@@ -129,5 +129,5 @@ export default (testContext: {
       expect(unpackedMessage.message).toEqual(message)
       expect(unpackedMessage.metaData).toEqual({ packing: 'authcrypt' })
     })
-  })  
+  })
 }

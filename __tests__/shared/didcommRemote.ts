@@ -29,11 +29,13 @@ export default (testContext: {
             kms: 'local',
           },
         ],
-        services: [{
-          id: 'msg1',
-          type: 'DIDCommMessaging',
-          serviceEndpoint: 'http://localhost:3002/messaging'
-        }],
+        services: [
+          {
+            id: 'msg1',
+            type: 'DIDCommMessaging',
+            serviceEndpoint: 'http://localhost:3002/messaging',
+          },
+        ],
         provider: 'did:fake',
         alias: 'sender',
       })
@@ -50,11 +52,13 @@ export default (testContext: {
             kms: 'local',
           },
         ],
-        services: [{
-          id: 'msg2',
-          type: 'DIDCommMessaging',
-          serviceEndpoint: 'http://localhost:3002/messaging'
-        }],
+        services: [
+          {
+            id: 'msg2',
+            type: 'DIDCommMessaging',
+            serviceEndpoint: 'http://localhost:3002/messaging',
+          },
+        ],
         provider: 'did:fake',
         alias: 'receiver',
       })
@@ -79,11 +83,10 @@ export default (testContext: {
       const result = await agent.sendDIDCommMessage({
         messageId: '123',
         packedMessage,
-        recipientDidUrl: receiver.did
+        recipientDidUrl: receiver.did,
       })
 
       expect(result).toBeTruthy()
     })
-
-  })  
+  })
 }
