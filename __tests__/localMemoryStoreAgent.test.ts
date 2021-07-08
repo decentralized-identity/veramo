@@ -49,7 +49,6 @@ import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 const databaseFile = 'local-database2.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
-const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 let agent: TAgent<
   IDIDManager &
@@ -143,6 +142,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDComm(),
       new CredentialIssuer(),
       new SelectiveDisclosure(),
+      ...options?.plugins || [],
     ],
   })
   return true

@@ -11,7 +11,7 @@ export {
   ISendMessageDIDCommAlpha1Args,
   IPackDIDCommMessageArgs,
   IUnpackDIDCommMessageArgs,
-} from './action-handler'
+} from './didcomm'
 export * from './types/message-types'
 export * from './types/utility-types'
 export * from './types/IDIDComm'

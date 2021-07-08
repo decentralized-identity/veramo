@@ -87,44 +87,45 @@ describe('@veramo/did-resolver', () => {
     })
   })
 
-  it('should resolve did:key using uniresolver', async () => {
-    expect.assertions(1)
-    const { didDocument } = await resolverPlugin.resolveDid({
-      didUrl: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-    })
-    expect(didDocument).toEqual({
-      '@context': ['https://w3id.org/did/v0.11'],
-      id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-      publicKey: [
-        {
-          id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-          type: 'Ed25519VerificationKey2018',
-          controller: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-          publicKeyBase58: '2QTnR7atrFu3Y7S6Xmmr4hTsMaL1KDh6Mpe9MgnJugbi',
-        },
-      ],
-      authentication: [
-        'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-      ],
-      assertionMethod: [
-        'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-      ],
-      capabilityDelegation: [
-        'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-      ],
-      capabilityInvocation: [
-        'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-      ],
-      keyAgreement: [
-        {
-          id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6LSbgq3GejX88eiAYWmZ9EiddS3GaXodvm8MJJyEH7bqXgz',
-          type: 'X25519KeyAgreementKey2019',
-          controller: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-          publicKeyBase58: '1eskLvf2fvy5A912VimK3DZRRzgwKayUKbHjpU589vE',
-        },
-      ],
-    })
-  })
+  //// Uniresolver is too unstable
+  // it('should resolve did:key using uniresolver', async () => {
+  //   expect.assertions(1)
+  //   const { didDocument } = await resolverPlugin.resolveDid({
+  //     didUrl: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //   })
+  //   expect(didDocument).toEqual({
+  //     '@context': ['https://w3id.org/did/v0.11'],
+  //     id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //     publicKey: [
+  //       {
+  //         id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //         type: 'Ed25519VerificationKey2018',
+  //         controller: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //         publicKeyBase58: '2QTnR7atrFu3Y7S6Xmmr4hTsMaL1KDh6Mpe9MgnJugbi',
+  //       },
+  //     ],
+  //     authentication: [
+  //       'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //     ],
+  //     assertionMethod: [
+  //       'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //     ],
+  //     capabilityDelegation: [
+  //       'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //     ],
+  //     capabilityInvocation: [
+  //       'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //     ],
+  //     keyAgreement: [
+  //       {
+  //         id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6LSbgq3GejX88eiAYWmZ9EiddS3GaXodvm8MJJyEH7bqXgz',
+  //         type: 'X25519KeyAgreementKey2019',
+  //         controller: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
+  //         publicKeyBase58: '1eskLvf2fvy5A912VimK3DZRRzgwKayUKbHjpU589vE',
+  //       },
+  //     ],
+  //   })
+  // })
 
   it('should fail predictably when unsupported method is resolved', async () => {
     expect.assertions(1)

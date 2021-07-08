@@ -103,39 +103,22 @@
             "packedMessage": {
               "$ref": "#/components/schemas/IPackedDIDCommMessage"
             },
-            "returnTransport": {
-              "$ref": "#/components/schemas/IDIDCommTransport"
+            "messageId": {
+              "type": "string"
             },
-            "recipientDID": {
+            "returnTransportId": {
+              "type": "string"
+            },
+            "recipientDidUrl": {
               "type": "string"
             }
           },
           "required": [
             "packedMessage",
-            "recipientDID"
-          ]
-        },
-        "IDIDCommTransport": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id"
-          ]
-        },
-        "ISendDIDCommMessageResult": {
-          "type": "object",
-          "properties": {
-            "sent": {
-              "type": "boolean"
-            },
-            "error": {
-              "type": "string"
-            }
-          }
+            "messageId",
+            "recipientDidUrl"
+          ],
+          "description": "The input to the  {@link  DIDComm.sendDIDCommMessage }  method. The provided `messageId` will be used in the emitted event to allow event/message correlation."
         },
         "ISendMessageDIDCommAlpha1Args": {
           "type": "object",
@@ -488,12 +471,12 @@
           }
         },
         "sendDIDCommMessage": {
-          "description": "TODO: add docs here",
+          "description": "Sends the given message to the recipient. If a return transport is provided it will be checked whether the parent thread allows reusing the route. You cannot reuse the transport if the message was forwarded from a DIDComm mediator.",
           "arguments": {
             "$ref": "#/components/schemas/ISendDIDCommMessageArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/ISendDIDCommMessageResult"
+            "type": "string"
           }
         },
         "sendMessageDIDCommAlpha1": {

@@ -10,10 +10,9 @@ import {
 import {
   IPackDIDCommMessageArgs,
   ISendDIDCommMessageArgs,
-  ISendDIDCommMessageResult,
   ISendMessageDIDCommAlpha1Args,
   IUnpackDIDCommMessageArgs,
-} from '../action-handler'
+} from '../didcomm'
 import { DIDCommMessageMediaType, IPackedDIDCommMessage, IUnpackedDIDCommMessage } from './message-types'
 
 /**
@@ -74,19 +73,24 @@ export interface IDIDComm extends IPluginMethodMap {
   ): Promise<IUnpackedDIDCommMessage>
 
   /**
-   * TODO: add docs here
+   * Sends the given message to the recipient. If a return transport is provided
+   * it will be checked whether the parent thread allows reusing the route. You cannot
+   * reuse the transport if the message was forwarded from a DIDComm mediator.
    *
-   * @param args - TBD
-   * @param context - TBD
+   * Emits an eventType 'DIDCommV2Message-sent' that contains the message id of
+   * packed DIDComm message {@link IPackedDIDCommMessage} after the message was sent.
    *
-   * @returns TBD
+   * @param args - An object containing the message, recipient information and optional
+   * information about the transport that should be used.
+   * @param context - This method requires an agent that also has {@link @veramo/core#IResolver}
+   * plugins in use. When calling this method, the `context` is supplied automatically by the framework.
+   *
+   * @returns The transport id that was used to send the message. It throws an error in case something
+   * went wrong.
    *
    * @beta
    */
-  sendDIDCommMessage(
-    args: ISendDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
-  ): Promise<ISendDIDCommMessageResult>
+  sendDIDCommMessage(args: ISendDIDCommMessageArgs, context: IAgentContext<IResolver>): Promise<string>
 
   /**
    *

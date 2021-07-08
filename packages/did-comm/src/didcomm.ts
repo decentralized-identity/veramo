@@ -23,7 +23,7 @@ import {
   verifyJWS,
 } from 'did-jwt'
 import { DIDDocument, parse as parseDidUrl, VerificationMethod } from 'did-resolver'
-import { schema } from './'
+import { schema } from '.'
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
 import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
@@ -42,6 +42,7 @@ import {
 
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm'
+import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports'
 import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,
@@ -96,22 +97,17 @@ export interface IPackDIDCommMessageArgs {
   keyRef?: string
 }
 
-export interface IDIDCommTransport {
-  id: string
-  // FIXME: TODO: other potential stuff
-
-  // sendRawMessage(args: xyz, context: xyz)
-}
-
+/**
+ * The input to the {@link DIDComm.sendDIDCommMessage} method.
+ * The provided `messageId` will be used in the emitted
+ * event to allow event/message correlation.
+ * @beta
+ */
 export interface ISendDIDCommMessageArgs {
   packedMessage: IPackedDIDCommMessage
-  returnTransport?: IDIDCommTransport
-  recipientDID: string
-}
-
-export interface ISendDIDCommMessageResult {
-  sent?: boolean
-  error?: string
+  messageId: string
+  returnTransportId?: string
+  recipientDidUrl: string
 }
 
 /**
@@ -124,11 +120,18 @@ export interface ISendDIDCommMessageResult {
  * @beta
  */
 export class DIDComm implements IAgentPlugin {
+  readonly transports: IDIDCommTransport[]
+
   /** Plugin methods */
   readonly methods: IDIDComm
   readonly schema = schema.IDIDComm
 
-  constructor() {
+  /**
+   * Constructor that takes a list of {@link IDIDCommTransport} objects.
+   * @param transports A list of {@link IDIDCommTransport} objects.
+   */
+  constructor(transports: IDIDCommTransport[] = [new DIDCommHttpTransport()]) {
+    this.transports = transports
     this.methods = {
       sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1.bind(this),
       getDIDCommMessageMediaType: this.getDidCommMessageMediaType.bind(this),
@@ -446,28 +449,78 @@ export class DIDComm implements IAgentPlugin {
     return { msgObj, mediaType }
   }
 
+  private findPreferredDIDCommService(services: any) {
+    // FIXME: TODO: get preferred service endpoint according to configuration; now defaulting to first service
+    return services[0]
+  }
+
   /** {@inheritdoc IDIDComm.sendDIDCommMessage} */
   async sendDIDCommMessage(
     args: ISendDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
-  ): Promise<ISendDIDCommMessageResult> {
-    const { packedMessage, returnTransport, recipientDID } = args
-    // let transport: IDIDCommTransport
-    if (returnTransport) {
-      // FIXME: TODO: transport handling
-      // check if previous message was ok with reusing transport?
+    context: IAgentContext<IResolver>,
+  ): Promise<string> {
+    const { packedMessage, returnTransportId, recipientDidUrl, messageId } = args
+
+    if (returnTransportId) {
+      // FIXME: TODO: check if previous message was ok with reusing transport?
       // if so, retrieve transport from transport manager
-      // transport = this.transports.get(returnTransport.id)
-    } else {
-      // FIXME: TODO: get transport for recipientDID
-      // resolve(recipientDID)
-      // get service block
-      // get transport for service block
+      //transport = this.findDIDCommTransport(returnTransportId)
+      throw new Error(`not_supported: return routes not supported yet`)
     }
 
-    // transport.sendRawMessage(...)
+    const result = await context.agent.resolveDid({ didUrl: `${recipientDidUrl}` })
+    const err = result.didResolutionMetadata.error
+    const msg = result.didResolutionMetadata.message
+    const didDoc = result.didDocument
+    if (!didDoc || err) {
+      throw new Error(
+        `resolver_error: could not resolve DID document for '${recipientDidUrl}': ${err} ${msg}`,
+      )
+    }
 
-    throw Error('FIXME: TODO: sendDIDCommMessage not implemented yet')
+    const services = didDoc.service?.filter(
+      (service: any) => service.type === 'DIDCommMessaging',
+      // FIXME: TODO: only send the message if the service section either explicitly supports
+      // `didcomm/v2`, or no `accept` property is present.
+    )
+    if (!services || services.length === 0) {
+      throw new Error(
+        `not_found: could not find DIDComm Messaging service in DID document for '${recipientDidUrl}'`,
+      )
+    }
+
+    const service = this.findPreferredDIDCommService(services)
+    if (!service) {
+      throw new Error(
+        `not_found: could not find preferred DIDComm Messaging service in DID document for '${recipientDidUrl}'`,
+      )
+    }
+
+    // FIXME: TODO: wrap forward messages based on service entry
+
+    const transports = this.transports.filter(
+      (t) => t.isServiceSupported(service) && (!returnTransportId || t.id === returnTransportId),
+    )
+    if (!transports || transports.length < 1) {
+      throw new Error('not_found: no transport type found for service: ' + JSON.stringify(service))
+    }
+
+    // TODO: better strategy for selecting the transport if multiple transports apply
+    const transport = transports[0]
+
+    try {
+      const response = await transport.send(service, packedMessage.message)
+      if (response.error) {
+        throw new Error(
+          `Error when sending DIDComm message through transport with id: '${transport.id}': ${response.error}`,
+        )
+      }
+    } catch (e) {
+      throw new Error(`Cannot send DIDComm message through transport with id: '${transport.id}': ${e}`)
+    }
+
+    context.agent.emit('DIDCommV2Message-sent', messageId)
+    return transport.id
   }
 
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */

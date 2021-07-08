@@ -108,20 +108,18 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
             expires_time: expiresAt,
             body: data,
           } = unpackedMessage.message
-          message = {
-            ...message,
-            type,
-            to,
-            from,
-            id,
-            threadId,
-            createdAt,
-            expiresAt,
-            data,
-          } as Message
+
+          message.type = type
+          message.to = to
+          message.from = from
+          message.id = id
+          message.threadId = threadId
+          message.createdAt = createdAt
+          message.expiresAt = expiresAt
+          message.data = data
 
           message.addMetaData({ type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData) })
-          context.agent.emit('DIDCommV2Message', unpackedMessage)
+          context.agent.emit('DIDCommV2Message-received', unpackedMessage)
 
           return message
         } catch (e) {
