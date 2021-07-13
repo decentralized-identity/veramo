@@ -3,6 +3,7 @@ version: 2.0
 constants:
   baseUrl: http://localhost:3332
   port: 3332
+  # please use your own X25519 key, this is only an example
   secretKey: 29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
   databaseFile: ./database.sqlite
   methods:
@@ -28,6 +29,7 @@ constants:
     - didManagerAddService
     - didManagerRemoveService
     - resolveDid
+    - getDIDComponentById
     - discoverDid
     - dataStoreGetMessage
     - dataStoreSaveMessage
@@ -46,6 +48,9 @@ constants:
     - dataStoreORMGetVerifiablePresentations
     - dataStoreORMGetVerifiablePresentationsCount
     - handleMessage
+    - packDIDCommMessage
+    - unpackDIDCommMessage
+    - sendDIDCommMessage
     - sendMessageDIDCommAlpha1
     - createVerifiablePresentation
     - createVerifiableCredential
