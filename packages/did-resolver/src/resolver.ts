@@ -40,7 +40,11 @@ export class DIDResolverPlugin implements IAgentPlugin {
     options?: DIDResolutionOptions
   }): Promise<DIDResolutionResult> {
     debug('Resolving %s', didUrl)
-    return this.didResolver.resolve(didUrl, options)
+    const resolverOptions = {
+      accept: 'application/did+ld+json',
+      ...options,
+    }
+    return this.didResolver.resolve(didUrl, resolverOptions)
   }
 
   /** {@inheritDoc @veramo/core#IResolver.getDIDComponentById} */
