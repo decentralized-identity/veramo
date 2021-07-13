@@ -13,7 +13,7 @@
     "@veramo/did-manager": "^1.2.0",
     "@veramo/key-manager": "^1.2.0",
     "debug": "^4.1.1",
-    "dids": "^2.1.0",
+    "dids": "^2.4.0",
     "fast-json-stable-stringify": "^2.1.0",
     "rpc-utils": "^0.3.4"
   },

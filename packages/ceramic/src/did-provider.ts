@@ -71,7 +71,7 @@ const didMethods: HandlerMethods<Context, DIDProviderMethods> = {
   did_createJWS: async ({ did, agent }, params: CreateJWSParams & { did: string }) => {
     const requestDid = params.did.split('#')[0]
     if (requestDid !== did) throw new RPCError(4100, `Unknown DID: ${did}`)
-    const jws = await sign(params.payload, did, agent, params.protected)
+    const jws = await sign(params.payload as Record<string, any>, did, agent, params.protected)
     return { jws: toGeneralJWS(jws) }
   },
   did_decryptJWE: async ({ agent }, params: DecryptJWEParams) => {

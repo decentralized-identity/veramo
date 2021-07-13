@@ -30,9 +30,9 @@
     }
   },
   "devDependencies": {
-    "@ceramicnetwork/core": "^1.0.1",
-    "@ceramicnetwork/http-client": "^1.0.1",
-    "@ceramicnetwork/stream-tile": "^1.0.1",
+    "@ceramicnetwork/core": "^1.2.0",
+    "@ceramicnetwork/http-client": "^1.0.7",
+    "@ceramicnetwork/stream-tile": "^1.0.7",
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-conventional": "12.1.4",
     "@microsoft/api-documenter": "7.13.31",
@@ -41,7 +41,7 @@
     "@types/jest": "26.0.24",
     "codecov": "3.8.2",
     "cross-fetch": "3.1.4",
-    "dids": "^2.1.0",
+    "dids": "^2.4.0",
     "husky": "7.0.1",
     "jest": "27.0.6",
     "jest-fetch-mock": "3.0.3",
