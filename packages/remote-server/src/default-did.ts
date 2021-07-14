@@ -33,5 +33,15 @@ export async function createDefaultDid(options: CreateDefaultDidOptions) {
         serviceEndpoint: messagingServiceEndpoint,
       },
     })
+    // list DIDCommMessaging service at the same endpoint
+    await options?.agent?.didManagerAddService({
+      did: serverIdentifier.did,
+      service: {
+        id: serverIdentifier.did + '#msg-didcomm',
+        type: 'DIDCommMessaging',
+        description: 'Handles incoming DIDComm messages',
+        serviceEndpoint: messagingServiceEndpoint,
+      },
+    })
   }
 }
