@@ -1,6 +1,6 @@
 import parse from 'url-parse'
 
-import { IDIDManager, TAgent } from '@veramo/core'
+import { IDIDManager, TAgent, TKeyType } from '@veramo/core'
 
 interface CreateDefaultDidOptions {
   agent: TAgent<IDIDManager>
@@ -17,6 +17,9 @@ export async function createDefaultDid(options: CreateDefaultDidOptions) {
   const serverIdentifier = await options?.agent?.didManagerGetOrCreate({
     provider: 'did:web',
     alias: hostname,
+    options: {
+      keyType: <TKeyType>'Ed25519',
+    },
   })
   console.log('🆔', serverIdentifier?.did)
 

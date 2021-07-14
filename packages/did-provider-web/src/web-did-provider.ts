@@ -19,10 +19,11 @@ export class WebDIDProvider extends AbstractIdentifierProvider {
   }
 
   async createIdentifier(
-    { kms, alias }: { kms?: string; alias?: string },
+    { kms, alias, options }: { kms?: string; alias?: string; options: any },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
+    const keyType = options?.keyType || 'Secp256k1'
+    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: keyType })
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:web:' + alias,
