@@ -6,8 +6,12 @@ import { DID } from 'dids'
 import KeyDidResolver from 'key-did-resolver'
 import CeramicClient from '@ceramicnetwork/http-client'
 import { TileDocument } from '@ceramicnetwork/stream-tile'
+import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 
-const API_URL = "https://ceramic-clay.3boxlabs.com"
+// const API_URL = "https://ceramic-clay.3boxlabs.com"
+const API_URL = "http://0.0.0.0:7007"
+const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
+
 
 type ConfiguredAgent = TAgent<IKeyManager & IDIDManager>
 
@@ -57,7 +61,7 @@ export default (testContext: {
     })
 
 
-    it('create TileDocument', async () => {
+    it('create TileDocument did:key', async () => {
       const alice = await agent.didManagerGetOrCreate({alias: 'alice', provider: 'did:key'})
       const provider = new VeramoDidProvider(agent, alice.did)
       
@@ -65,6 +69,28 @@ export default (testContext: {
       const did = new DID({ provider, resolver })
       await did.authenticate()
 
+      const ceramic = new CeramicClient(API_URL)
+      ceramic.setDID(did)
+
+      const content = { hello: 'from veramo' }
+      const doc = await TileDocument.create(ceramic, content)
+
+      const doc2 = await TileDocument.load(ceramic, doc.commitId)
+      expect(doc2.content).toEqual(content)
+
+    })
+
+    it.only('create TileDocument with did:ethr', async () => {
+      const alice = await agent.didManagerGetOrCreate({alias: 'bob', provider: 'did:ethr'})
+      const provider = new VeramoDidProvider(agent, alice.did)
+      
+      const resolver = { 
+        ...KeyDidResolver.getResolver(),
+        ...ethrDidResolver({ infuraProjectId }),
+      }
+      const did = new DID({ provider, resolver })
+      await did.authenticate()
+      
       const ceramic = new CeramicClient(API_URL)
       ceramic.setDID(did)
 
