@@ -46,18 +46,20 @@ export class MessageThreads implements IAgentPlugin {
     * Code here to parse messages and return correct format
     * 
     **/
-
-   // Dummy response
-    const results: IMessageThreadsThreadResult[] = [{
-      threadId: '2323',
-      members: [{name: 'Jim', did: '0x13947f6383hf', avatar: '', trusted: true}],
-      viewer: '0x2u4hb283br3ir3irb3',
-      status: 0,
-      archived: false,
-      // @ts-ignore
-      lastMessage: {},
-      messageCount: 2
-    }]
+    
+   // Dummy promise response
+    const results = new Promise<IMessageThreadsThreadResult[]>((resolve, reject) => {
+      return [{
+        threadId: '2323',
+        members: [{name: 'Jim', did: '0x13947f6383hf', avatar: '', trusted: true}],
+        viewer: '0x2u4hb283br3ir3irb3',
+        status: 0,
+        archived: false,
+        // @ts-ignore
+        lastMessage: {},
+        messageCount: 2
+      }]
+    });
 
     // if (errors) {
     //   result['errors'] = errors
@@ -66,3 +68,5 @@ export class MessageThreads implements IAgentPlugin {
     return results
   }
 }
+
+
