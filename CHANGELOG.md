@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/veramo/compare/v1.2.2...v2.0.0) (2021-07-14)
+
+
+### Bug Fixes
+
+* **credential-w3c:** fixed handling of Ed25519 keys when creating VPs ([#534](https://github.com/uport-project/veramo/issues/534))([#516](https://github.com/uport-project/veramo/issues/516)) ([988c76c](https://github.com/uport-project/veramo/commit/988c76c46d391f3b76499ff141bdefe21e729c4a))
+* **deps:** bump did-jwt to 5.4.0 ([#528](https://github.com/uport-project/veramo/issues/528)) ([65f22cf](https://github.com/uport-project/veramo/commit/65f22cf6dcca48b5bb35331894536a2a567a1189))
+* **deps:** update all non-major dependencies ([9f40f7d](https://github.com/uport-project/veramo/commit/9f40f7d8b2a67e112b7ef2322ba887ee9033646c))
+* **deps:** update dependency @microsoft/api-extractor to v7.18.1 ([502c4c7](https://github.com/uport-project/veramo/commit/502c4c7ee6f674984e04adddcd555444cf6b94db))
+* **deps:** update dependency did-jwt to v5.5.2 ([ae0661f](https://github.com/uport-project/veramo/commit/ae0661fc5b225f80ebb102db60d55822b4786bce))
+* **deps:** update dependency dotenv to v10 ([#530](https://github.com/uport-project/veramo/issues/530)) ([1bd2c3f](https://github.com/uport-project/veramo/commit/1bd2c3fc3b7ce0f6ea8fbee00990eb1f8e7cd39f))
+* **deps:** update dependency dotenv to v9 ([#506](https://github.com/uport-project/veramo/issues/506)) ([4d1b720](https://github.com/uport-project/veramo/commit/4d1b720e1335cca7fc403bb17e6936909b1aaaf3))
+* **deps:** update dependency openapi-types to v9 ([#517](https://github.com/uport-project/veramo/issues/517)) ([3c33265](https://github.com/uport-project/veramo/commit/3c33265d3ebf65d6bc64f1fccda5461a1109b25c))
+* **deps:** update dependency ts-json-schema-generator to v0.92.0 ([a232e3a](https://github.com/uport-project/veramo/commit/a232e3a1481ab18682d96a8b4855f9824341aa12))
+* **did-comm:** avoid double conversion for some keys while packing ([78321a9](https://github.com/uport-project/veramo/commit/78321a9f22abf2c4541a6a4c49898c6aacb5d81f))
+* **did-comm:** fix potential null exception when unpacking message ([584766c](https://github.com/uport-project/veramo/commit/584766c2ed393b4540a4190681ca9c8461d0679d))
+* improve subject selection and verification for SDR ([#512](https://github.com/uport-project/veramo/issues/512)) ([01cb44e](https://github.com/uport-project/veramo/commit/01cb44eee6753f7bd4f5c31c38c6f56a708ff94e)), closes [#415](https://github.com/uport-project/veramo/issues/415)
+* **kms-local:** replace buggy didcomm clone with did jwt implementation ([#548](https://github.com/uport-project/veramo/issues/548)) ([9dea353](https://github.com/uport-project/veramo/commit/9dea3533c1936d53c1d5674c358679b17d623af2)), closes [#538](https://github.com/uport-project/veramo/issues/538)
+* **remote-server:** create an Ed25519 key for the default did:web ([a2f7f8c](https://github.com/uport-project/veramo/commit/a2f7f8c3fc6ab6cc276f6853104386bf9d923424))
+* **remote-server:** list DIDCommMessaging service entry by default for did:web ([339201a](https://github.com/uport-project/veramo/commit/339201a30f2f95f9b92251f233fb426d8290274f))
+* speed up secp256k1 keygen ([#551](https://github.com/uport-project/veramo/issues/551)) ([75e356c](https://github.com/uport-project/veramo/commit/75e356cac06e6eb3827da1789d3b39e6cd4f08f7)), closes [#549](https://github.com/uport-project/veramo/issues/549)
+* use optional chaining in SDR message handler ([#561](https://github.com/uport-project/veramo/issues/561)) ([ab24877](https://github.com/uport-project/veramo/commit/ab24877f941c37f1042fdc23683b1292b7f5bdc7)), closes [#560](https://github.com/uport-project/veramo/issues/560)
+
+
+### Features
+
+* add fake did method usable in tests ([4fc587c](https://github.com/uport-project/veramo/commit/4fc587cf07a56b2065c7c6beec2345001f5a5f40))
+* add support for did-comm over simple HTTP-based transports ([#610](https://github.com/uport-project/veramo/issues/610)) ([78836a4](https://github.com/uport-project/veramo/commit/78836a46d3ce71b568acaa98558b64f9c2b98167)), closes [#552](https://github.com/uport-project/veramo/issues/552) [#469](https://github.com/uport-project/veramo/issues/469)
+* **cli:** add DID discovery plugin to @veramo/cli ([#600](https://github.com/uport-project/veramo/issues/600)) ([a484f4c](https://github.com/uport-project/veramo/commit/a484f4c67e044d7c0299f128e15631cc8ae16f60))
+* **cli:** export new agent methods and request LD DIDDocument by default ([#617](https://github.com/uport-project/veramo/issues/617)) ([26d088b](https://github.com/uport-project/veramo/commit/26d088b86ecfd66a00cdef7c7bb926148f46fbc9))
+* **did-discovery:** implement a DID discovery plugin with simple providers ([#597](https://github.com/uport-project/veramo/issues/597)) ([6f01df3](https://github.com/uport-project/veramo/commit/6f01df38a732ba314d1e60728d65f511d26bfdcb))
+* implement didcomm v2 packing/unpacking ([#575](https://github.com/uport-project/veramo/issues/575)) ([249b07e](https://github.com/uport-project/veramo/commit/249b07eca8d2de9eb5252d71683d5f1fba319d60)), closes [#559](https://github.com/uport-project/veramo/issues/559) [#558](https://github.com/uport-project/veramo/issues/558)
+* **key-manager:** add generic signing capabilities ([#529](https://github.com/uport-project/veramo/issues/529)) ([5f10a1b](https://github.com/uport-project/veramo/commit/5f10a1bcea214cb593de12fa6ec3a91b3cb712bb)), closes [#522](https://github.com/uport-project/veramo/issues/522)
+* **key-manager:** add method to compute a shared secret ([#555](https://github.com/uport-project/veramo/issues/555)) ([393c316](https://github.com/uport-project/veramo/commit/393c316e27fb31b3c7fa63aae039b8fc6ae963ce)), closes [#541](https://github.com/uport-project/veramo/issues/541)
+* **key-manager:** implement JWE functionality directly in `key-manager` ([#557](https://github.com/uport-project/veramo/issues/557)) ([a030f0a](https://github.com/uport-project/veramo/commit/a030f0a9779e5158d9369d2f81107158fbaeac70)), closes [#556](https://github.com/uport-project/veramo/issues/556)
+* **remote-server:** express keys properly in did:web doc ([c33e39e](https://github.com/uport-project/veramo/commit/c33e39e6e33f5976aa4e5ff27ed3675b22113119)), closes [#618](https://github.com/uport-project/veramo/issues/618)
+* **sdr:** return UniqueVerifiableCredential for selective-disclosure ([#593](https://github.com/uport-project/veramo/issues/593)) ([9c6c090](https://github.com/uport-project/veramo/commit/9c6c0906607bc8f415042d3a855a2dd23a097725)), closes [#496](https://github.com/uport-project/veramo/issues/496)
+
+
+### BREAKING CHANGES
+
+* **sdr:** `getVerifiableCredentialsForSdr` and `validatePresentationAgainstSdr` now returns { hash: string, verifiableCredential: VerifiableCredential} instead of `VerifiableCredential`
+* **kms-local:** `@veramo/kms-local-react-native` is no more. On react-native, please use `@veramo/kms-local` instead, combined with `@ethersproject/shims`
+
+
+
+
+
 ## [1.2.2](https://github.com/uport-project/veramo/compare/v1.2.1...v1.2.2) (2021-05-18)
 
 

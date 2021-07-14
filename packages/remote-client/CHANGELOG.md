@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/veramo/compare/v1.2.2...v2.0.0) (2021-07-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency openapi-types to v9 ([#517](https://github.com/uport-project/veramo/issues/517)) ([3c33265](https://github.com/uport-project/veramo/commit/3c33265d3ebf65d6bc64f1fccda5461a1109b25c))
+
+
+
+
+
 # [1.2.0](https://github.com/uport-project/veramo/compare/v1.1.2...v1.2.0) (2021-04-27)
 
 

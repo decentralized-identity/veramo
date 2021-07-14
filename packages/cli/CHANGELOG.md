@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/veramo/compare/v1.2.2...v2.0.0) (2021-07-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @microsoft/api-extractor to v7.18.1 ([502c4c7](https://github.com/uport-project/veramo/commit/502c4c7ee6f674984e04adddcd555444cf6b94db))
+* **deps:** update dependency dotenv to v10 ([#530](https://github.com/uport-project/veramo/issues/530)) ([1bd2c3f](https://github.com/uport-project/veramo/commit/1bd2c3fc3b7ce0f6ea8fbee00990eb1f8e7cd39f))
+* **deps:** update dependency dotenv to v9 ([#506](https://github.com/uport-project/veramo/issues/506)) ([4d1b720](https://github.com/uport-project/veramo/commit/4d1b720e1335cca7fc403bb17e6936909b1aaaf3))
+* **deps:** update dependency openapi-types to v9 ([#517](https://github.com/uport-project/veramo/issues/517)) ([3c33265](https://github.com/uport-project/veramo/commit/3c33265d3ebf65d6bc64f1fccda5461a1109b25c))
+* **deps:** update dependency ts-json-schema-generator to v0.92.0 ([a232e3a](https://github.com/uport-project/veramo/commit/a232e3a1481ab18682d96a8b4855f9824341aa12))
+* improve subject selection and verification for SDR ([#512](https://github.com/uport-project/veramo/issues/512)) ([01cb44e](https://github.com/uport-project/veramo/commit/01cb44eee6753f7bd4f5c31c38c6f56a708ff94e)), closes [#415](https://github.com/uport-project/veramo/issues/415)
+
+
+### Features
+
+* **cli:** add DID discovery plugin to @veramo/cli ([#600](https://github.com/uport-project/veramo/issues/600)) ([a484f4c](https://github.com/uport-project/veramo/commit/a484f4c67e044d7c0299f128e15631cc8ae16f60))
+* **cli:** export new agent methods and request LD DIDDocument by default ([#617](https://github.com/uport-project/veramo/issues/617)) ([26d088b](https://github.com/uport-project/veramo/commit/26d088b86ecfd66a00cdef7c7bb926148f46fbc9))
+* implement didcomm v2 packing/unpacking ([#575](https://github.com/uport-project/veramo/issues/575)) ([249b07e](https://github.com/uport-project/veramo/commit/249b07eca8d2de9eb5252d71683d5f1fba319d60)), closes [#559](https://github.com/uport-project/veramo/issues/559) [#558](https://github.com/uport-project/veramo/issues/558)
+* **key-manager:** add generic signing capabilities ([#529](https://github.com/uport-project/veramo/issues/529)) ([5f10a1b](https://github.com/uport-project/veramo/commit/5f10a1bcea214cb593de12fa6ec3a91b3cb712bb)), closes [#522](https://github.com/uport-project/veramo/issues/522)
+* **sdr:** return UniqueVerifiableCredential for selective-disclosure ([#593](https://github.com/uport-project/veramo/issues/593)) ([9c6c090](https://github.com/uport-project/veramo/commit/9c6c0906607bc8f415042d3a855a2dd23a097725)), closes [#496](https://github.com/uport-project/veramo/issues/496)
+
+
+### BREAKING CHANGES
+
+* **sdr:** `getVerifiableCredentialsForSdr` and `validatePresentationAgainstSdr` now returns { hash: string, verifiableCredential: VerifiableCredential} instead of `VerifiableCredential`
+
+
+
+
+
 ## [1.2.2](https://github.com/uport-project/veramo/compare/v1.2.1...v1.2.2) (2021-05-18)
 
 
