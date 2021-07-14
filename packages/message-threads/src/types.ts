@@ -45,7 +45,7 @@ export interface IMessageThreadMemberProfile {
 
 export interface IMessageThreadsThreadResult {
   threadId: string
-  members: IMessageThreadMemberProfile[]
+  members: Array<IMessageThreadMemberProfile>
   viewer: string
   status: IMessageThreadStatus
   archived: boolean
@@ -60,5 +60,5 @@ export interface IMessageThreads extends IPluginMethodMap {
   getThreads(
     args: IMessageThreadsGetThreadsArgs,
     context: IAgentContext<any>,
-  ): Promise<IMessageThreadsThreadResult[]>
+  ): Promise<Array<IMessageThreadsThreadResult>>
 }
