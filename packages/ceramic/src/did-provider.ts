@@ -46,10 +46,11 @@ const sign = async (
   const identifier = await agent.didManagerGet({ did })
   const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
   if (!key) throw Error('No signing key for ' + identifier.did)
-  const signer = (data: string | Uint8Array) => agent.keyManagerSignJWT({ kid: key.kid, data })
+  const alg = key.type === 'Ed25519' ? 'EdDSA' : 'ES256K'
+  const signer = (data: string | Uint8Array) => agent.keyManagerSign({ keyRef: key.kid, data: <string> data, algorithm: alg })
 
   const kid = `${did}#${did.split(':')[2]}`
-  const header = toStableObject(Object.assign(protectedHeader, { kid, alg: 'EdDSA' }))
+  const header = toStableObject(Object.assign(protectedHeader, { kid, alg }))
   return createJWS(toStableObject(payload), signer, header)
 }
 
