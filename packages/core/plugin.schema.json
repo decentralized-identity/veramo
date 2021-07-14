@@ -2,67 +2,27 @@
   "IResolver": {
     "components": {
       "schemas": {
-        "ResolveDidArgs": {
+        "GetDIDComponentArgs": {
           "type": "object",
           "properties": {
+            "didDocument": {
+              "$ref": "#/components/schemas/DIDDocument",
+              "description": "the DID document from which to extract the fragment. This MUST be the document resolved by  {@link  resolveDid }"
+            },
             "didUrl": {
               "type": "string",
-              "description": "DID URL"
+              "description": "The DID URI that refers to the subsection by #fragment. Example: did:example:identifier#controller"
             },
-            "options": {
-              "$ref": "#/components/schemas/DIDResolutionOptions",
-              "description": "DID resolution options that will be passed to the method specific resolver. See: https://w3c.github.io/did-spec-registries/#did-resolution-input-metadata See: https://www.w3.org/TR/did-core/#did-resolution-options"
+            "section": {
+              "$ref": "#/components/schemas/DIDDocumentSection",
+              "description": "The section of the DID document where to search for the fragment. Example 'keyAgreement', or 'assertionMethod', or 'authentication', etc"
             }
           },
           "required": [
+            "didDocument",
             "didUrl"
           ],
-          "description": "Input arguments for  {@link  IResolver.resolveDid | resolveDid }"
-        },
-        "DIDResolutionOptions": {
-          "type": "object",
-          "properties": {
-            "accept": {
-              "type": "string"
-            }
-          }
-        },
-        "DIDResolutionResult": {
-          "type": "object",
-          "properties": {
-            "didResolutionMetadata": {
-              "$ref": "#/components/schemas/DIDResolutionMetadata"
-            },
-            "didDocument": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/DIDDocument"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "didDocumentMetadata": {
-              "$ref": "#/components/schemas/DIDDocumentMetadata"
-            }
-          },
-          "required": [
-            "didResolutionMetadata",
-            "didDocument",
-            "didDocumentMetadata"
-          ]
-        },
-        "DIDResolutionMetadata": {
-          "type": "object",
-          "properties": {
-            "contentType": {
-              "type": "string"
-            },
-            "error": {
-              "type": "string"
-            }
-          }
+          "description": "Input arguments for  {@link  IResolver.getDIDComponentById | getDIDComponentById }"
         },
         "DIDDocument": {
           "type": "object",
@@ -291,6 +251,92 @@
             "serviceEndpoint"
           ]
         },
+        "DIDDocumentSection": {
+          "type": "string",
+          "enum": [
+            "verificationMethod",
+            "publicKey",
+            "service",
+            "authentication",
+            "assertionMethod",
+            "keyAgreement",
+            "capabilityInvocation",
+            "capabilityDelegation"
+          ]
+        },
+        "DIDDocComponent": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerificationMethod"
+            },
+            {
+              "$ref": "#/components/schemas/ServiceEndpoint"
+            }
+          ],
+          "description": "Return type of  {@link  IResolver.getDIDComponentById | getDIDComponentById } \nrepresents a `VerificationMethod` or a `ServiceEndpoint` entry from a  {@link  did-resolver#DIDDocument | DIDDocument }"
+        },
+        "ResolveDidArgs": {
+          "type": "object",
+          "properties": {
+            "didUrl": {
+              "type": "string",
+              "description": "DID URL"
+            },
+            "options": {
+              "$ref": "#/components/schemas/DIDResolutionOptions",
+              "description": "DID resolution options that will be passed to the method specific resolver. See: https://w3c.github.io/did-spec-registries/#did-resolution-input-metadata See: https://www.w3.org/TR/did-core/#did-resolution-options"
+            }
+          },
+          "required": [
+            "didUrl"
+          ],
+          "description": "Input arguments for  {@link  IResolver.resolveDid | resolveDid }"
+        },
+        "DIDResolutionOptions": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string"
+            }
+          }
+        },
+        "DIDResolutionResult": {
+          "type": "object",
+          "properties": {
+            "didResolutionMetadata": {
+              "$ref": "#/components/schemas/DIDResolutionMetadata"
+            },
+            "didDocument": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/DIDDocument"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "didDocumentMetadata": {
+              "$ref": "#/components/schemas/DIDDocumentMetadata"
+            }
+          },
+          "required": [
+            "didResolutionMetadata",
+            "didDocument",
+            "didDocumentMetadata"
+          ]
+        },
+        "DIDResolutionMetadata": {
+          "type": "object",
+          "properties": {
+            "contentType": {
+              "type": "string"
+            },
+            "error": {
+              "type": "string"
+            }
+          }
+        },
         "DIDDocumentMetadata": {
           "type": "object",
           "properties": {
@@ -322,8 +368,17 @@
         }
       },
       "methods": {
+        "getDIDComponentById": {
+          "description": "Dereferences a DID URL fragment and returns the corresponding DID document entry.",
+          "arguments": {
+            "$ref": "#/components/schemas/GetDIDComponentArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/DIDDocComponent"
+          }
+        },
         "resolveDid": {
-          "description": "Resolves DID and returns DID Document",
+          "description": "Resolves DID and returns DID Resolution Result",
           "arguments": {
             "$ref": "#/components/schemas/ResolveDidArgs"
           },

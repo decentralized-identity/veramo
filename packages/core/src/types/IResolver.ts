@@ -30,6 +30,33 @@ export interface ResolveDidArgs {
 }
 
 /**
+ * Input arguments for {@link IResolver.getDIDComponentById | getDIDComponentById}
+ * @beta
+ */
+export interface GetDIDComponentArgs {
+  /**
+   * the DID document from which to extract the fragment. This MUST be the document resolved by {@link resolveDid}
+   */
+  didDocument: DIDDocument
+  /**
+   * The DID URI that refers to the subsection by #fragment. Example: did:example:identifier#controller
+   */
+  didUrl: string
+  /**
+   * The section of the DID document where to search for the fragment. Example 'keyAgreement', or 'assertionMethod',
+   * or 'authentication', etc
+   */
+  section?: DIDDocumentSection
+}
+
+/**
+ * Return type of {@link IResolver.getDIDComponentById | getDIDComponentById}
+ * represents a `VerificationMethod` or a `ServiceEndpoint` entry from a {@link did-resolver#DIDDocument | DIDDocument}
+ * @beta
+ */
+export type DIDDocComponent = VerificationMethod | ServiceEndpoint
+
+/**
  * DID Resolver interface
  * @public
  */
@@ -98,20 +125,7 @@ export interface IResolver extends IPluginMethodMap {
    *
    * @beta
    */
-  getDIDComponentById(args: {
-    /**
-     * the DID document from which to extract the fragment. This MUST be the document resolved by {@link resolveDid}
-     */
-    didDocument: DIDDocument
-    /**
-     * The DID URI that refers to the subsection by #fragment. Example: did:example:identifier#controller
-     */
-    didUrl: string
-    /**
-     * The section of the DID document where to search for the fragment. Example 'keyAgreement'
-     */
-    section?: DIDDocumentSection
-  }): Promise<VerificationMethod | ServiceEndpoint>
+  getDIDComponentById(args: GetDIDComponentArgs): Promise<DIDDocComponent>
 }
 
 export type DIDDocumentSection =

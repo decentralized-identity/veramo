@@ -1,14 +1,14 @@
-import { resolver } from '@transmute/did-key.js'
+import { resolve } from '@transmute/did-key.js'
 import { DIDResolutionOptions, DIDResolutionResult, DIDResolver, ParsedDID, Resolvable } from 'did-resolver'
 
-const resolve: DIDResolver = async (
+const resolveDidKey: DIDResolver = async (
   didUrl: string,
   _parsed: ParsedDID,
   _resolver: Resolvable,
   options: DIDResolutionOptions,
 ): Promise<DIDResolutionResult> => {
   try {
-    const didResolution = (await resolver.resolve(didUrl, options)) as DIDResolutionResult
+    const didResolution = (await resolve(didUrl, options as any)) as DIDResolutionResult
     return didResolution
   } catch (err) {
     return {
@@ -20,5 +20,5 @@ const resolve: DIDResolver = async (
 }
 
 export function getDidKeyResolver() {
-  return { key: resolve }
+  return { key: resolveDidKey }
 }

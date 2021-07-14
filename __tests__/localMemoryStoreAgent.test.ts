@@ -142,7 +142,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDComm(),
       new CredentialIssuer(),
       new SelectiveDisclosure(),
-      ...options?.plugins || [],
+      ...(options?.plugins || []),
     ],
   })
   return true
