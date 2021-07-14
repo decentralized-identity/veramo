@@ -30,13 +30,12 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
   router.post('/', async (req: RequestWithMessageHandler, res) => {
     try {
       const message = await req.agent?.handleMessage({
-        raw: (req.body as any) as string,
+        raw: req.body as any as string,
         metaData: [options.metaData],
         save: true,
       })
 
       if (message) {
-        console.log('Received message', message.type, message.id)
         res.json({ id: message.id })
       }
     } catch (e) {

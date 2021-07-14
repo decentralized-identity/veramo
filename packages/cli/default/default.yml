@@ -3,6 +3,7 @@ version: 2.0
 constants:
   baseUrl: http://localhost:3332
   port: 3332
+  # please use your own X25519 key, this is only an example
   secretKey: 29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
   databaseFile: ./database.sqlite
   methods:
@@ -13,6 +14,7 @@ constants:
     - keyManagerImport
     - keyManagerEncryptJWE
     - keyManagerDecryptJWE
+    - keyManagerSign
     - keyManagerSignJWT
     - keyManagerSignEthTX
     - didManagerGetProviders
@@ -27,6 +29,8 @@ constants:
     - didManagerAddService
     - didManagerRemoveService
     - resolveDid
+    - getDIDComponentById
+    - discoverDid
     - dataStoreGetMessage
     - dataStoreSaveMessage
     - dataStoreGetVerifiableCredential
@@ -44,6 +48,9 @@ constants:
     - dataStoreORMGetVerifiablePresentations
     - dataStoreORMGetVerifiablePresentationsCount
     - handleMessage
+    - packDIDCommMessage
+    - unpackDIDCommMessage
+    - sendDIDCommMessage
     - sendMessageDIDCommAlpha1
     - createVerifiablePresentation
     - createVerifiableCredential
@@ -265,6 +272,13 @@ didManager:
           $args:
             - defaultKms: local
 
+didDiscovery:
+  $require: '@veramo/did-discovery#DIDDiscovery'
+  $args:
+    - providers:
+        - $require: '@veramo/did-manager#AliasDiscoveryProvider'
+        - $require: '@veramo/data-store#ProfileDiscoveryProvider'
+
 # Agent
 agent:
   $require: '@veramo/core#Agent'
@@ -274,6 +288,7 @@ agent:
         - $ref: /keyManager
         - $ref: /didManager
         - $ref: /didResolver
+        - $ref: /didDiscovery
         - $ref: /messageHandler
         - $require: '@veramo/did-comm#DIDComm'
         - $require: '@veramo/credential-w3c#CredentialIssuer'

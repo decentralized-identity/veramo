@@ -10,6 +10,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   IDataStore,
+  IKey,
 } from '@veramo/core'
 
 import {
@@ -186,7 +187,7 @@ export type IContext = IAgentContext<
   IResolver &
     Pick<IDIDManager, 'didManagerGet'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerSignJWT'>
+    Pick<IKeyManager, 'keyManagerSign'>
 >
 
 /**
@@ -225,11 +226,16 @@ export class CredentialIssuer implements IAgentPlugin {
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
-      const signer = (data: string | Uint8Array) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
       debug('Signing VP with', identifier.did)
+      let alg = 'ES256K'
+      if (key.type === 'Ed25519') {
+        alg = 'EdDSA'
+      }
+      const signer = wrapSigner(context, key, alg)
+
       const jwt = await createVerifiablePresentationJwt(
         presentation,
-        { did: identifier.did, signer },
+        { did: identifier.did, signer, alg },
         { removeOriginalFields: args.removeOriginalFields },
       )
       //FIXME: flagging this as a potential privacy leak.
@@ -265,13 +271,12 @@ export class CredentialIssuer implements IAgentPlugin {
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
       //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
-      const signer = (data: string | Uint8Array) => context.agent.keyManagerSignJWT({ kid: key.kid, data })
-
       debug('Signing VC with', identifier.did)
       let alg = 'ES256K'
       if (key.type === 'Ed25519') {
         alg = 'EdDSA'
       }
+      const signer = wrapSigner(context, key, alg)
       const jwt = await createVerifiableCredentialJwt(
         credential,
         { did: identifier.did, signer, alg },
@@ -289,5 +294,16 @@ export class CredentialIssuer implements IAgentPlugin {
       debug(error)
       return Promise.reject(error)
     }
+  }
+}
+
+function wrapSigner(
+  context: IAgentContext<Pick<IKeyManager, 'keyManagerSign'>>,
+  key: IKey,
+  algorithm?: string,
+) {
+  return async (data: string | Uint8Array) => {
+    const result = await context.agent.keyManagerSign({ keyRef: key.kid, data: <string>data, algorithm })
+    return result
   }
 }

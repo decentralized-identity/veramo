@@ -9,10 +9,11 @@ import {
   IDataStore,
   IMessageHandler,
   IAgentOptions,
+  TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager } from '../packages/did-manager/src'
+import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
@@ -34,14 +35,20 @@ import {
   IDataStoreORM,
   DataStore,
   DataStoreORM,
+  ProfileDiscoveryProvider,
 } from '../packages/data-store/src'
 import { AgentRestClient } from '../packages/remote-client/src'
 import express from 'express'
 import { Server } from 'http'
-import { AgentRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
+import { AgentRouter, RequestWithAgentRouter, MessagingRouter } from '../packages/remote-server/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery'
+import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+// import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
+import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
+import { getDidKeyResolver } from '../packages/did-provider-key/build'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -54,8 +61,10 @@ import webDidFlow from './shared/webDidFlow'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
+import didComm from './shared/didcomm'
+import didCommRemote from './shared/didcommRemote'
 import messageHandler from './shared/messageHandler'
-import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
+import didDiscovery from './shared/didDiscovery'
 
 const databaseFile = 'rest-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -77,7 +86,8 @@ const getAgent = (options?: IAgentOptions) =>
       IMessageHandler &
       IDIDComm &
       ICredentialIssuer &
-      ISelectiveDisclosure
+      ISelectiveDisclosure &
+      IDIDDiscovery
   >({
     ...options,
     plugins: [
@@ -131,13 +141,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:fake': new FakeDidProvider(),
         },
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
-          key: getUniversalResolver(), // resolve using remote resolver
+          // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
+          ...getDidKeyResolver(),
+          ...new FakeDidResolver(() => serverAgent as TAgent<IDIDManager>).getDidFakeResolver(),
         }),
       }),
       new DataStore(dbConnection),
@@ -150,9 +163,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm(),
+      new DIDComm([new DIDCommHttpTransport()]),
       new CredentialIssuer(),
       new SelectiveDisclosure(),
+      new DIDDiscovery({
+        providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
+      }),
+      ...(options?.plugins || []),
     ],
   })
 
@@ -167,6 +184,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   return new Promise((resolve) => {
     const app = express()
     app.use(basePath, requestWithAgent, agentRouter)
+    app.use(
+      '/messaging',
+      requestWithAgent,
+      MessagingRouter({
+        metaData: { type: 'DIDComm', value: 'integration test' },
+      }),
+    )
     restServer = app.listen(port, () => {
       resolve(true)
     })
@@ -191,4 +215,7 @@ describe('REST integration tests', () => {
   keyManager(testContext)
   didManager(testContext)
   messageHandler(testContext)
+  didComm(testContext)
+  didCommRemote(testContext)
+  didDiscovery(testContext)
 })

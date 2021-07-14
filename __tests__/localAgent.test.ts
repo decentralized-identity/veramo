@@ -10,7 +10,7 @@ import {
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager } from '../packages/did-manager/src'
+import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
@@ -32,11 +32,13 @@ import {
   IDataStoreORM,
   DataStore,
   DataStoreORM,
+  ProfileDiscoveryProvider,
 } from '../packages/data-store/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { getDidKeyResolver } from '../packages/did-provider-key'
+import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -50,7 +52,11 @@ import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
+import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
+import didDiscovery from './shared/didDiscovery'
+import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
 
 const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -65,7 +71,8 @@ let agent: TAgent<
     IMessageHandler &
     IDIDComm &
     ICredentialIssuer &
-    ISelectiveDisclosure
+    ISelectiveDisclosure &
+    IDIDDiscovery
 >
 let dbConnection: Promise<Connection>
 
@@ -87,7 +94,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IMessageHandler &
       IDIDComm &
       ICredentialIssuer &
-      ISelectiveDisclosure
+      ISelectiveDisclosure &
+      IDIDDiscovery
   >({
     ...options,
     context: {
@@ -124,6 +132,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:fake': new FakeDidProvider(),
         },
       }),
       new DIDResolverPlugin({
@@ -131,6 +140,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
+          ...new FakeDidResolver(() => agent).getDidFakeResolver(),
         }),
       }),
       new DataStore(dbConnection),
@@ -143,9 +153,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm(),
+      new DIDComm([new DIDCommHttpTransport()]),
       new CredentialIssuer(),
       new SelectiveDisclosure(),
+      new DIDDiscovery({
+        providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
+      }),
+      ...(options?.plugins || []),
     ],
   })
   return true
@@ -171,4 +185,6 @@ describe('Local integration tests', () => {
   keyManager(testContext)
   didManager(testContext)
   messageHandler(testContext)
+  didComm(testContext)
+  didDiscovery(testContext)
 })
