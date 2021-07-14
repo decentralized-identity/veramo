@@ -1,4 +1,4 @@
-import { IIdentifier, IDIDManager, TAgent } from '@veramo/core'
+import { IIdentifier, IDIDManager, TAgent, TKeyType } from '@veramo/core'
 import { Request, Router } from 'express'
 
 interface RequestWithAgentDIDManager extends Request {
@@ -6,6 +6,12 @@ interface RequestWithAgentDIDManager extends Request {
 }
 
 export const didDocEndpoint = '/.well-known/did.json'
+
+const keyMapping: Record<TKeyType, string> = {
+  Secp256k1: 'EcdsaSecp256k1VerificationKey2019',
+  Ed25519: 'Ed25519VerificationKey2018',
+  X25519: 'X25519KeyAgreementKey2019',
+}
 
 /**
  * Creates a router that serves `did:web` DID Documents
@@ -17,16 +23,27 @@ export const WebDidDocRouter = (): Router => {
   const router = Router()
 
   const didDocForIdentifier = (identifier: IIdentifier) => {
+    const allKeys = identifier.keys.map((key) => ({
+      id: identifier.did + '#' + key.kid,
+      type: keyMapping[key.type],
+      controller: identifier.did,
+      publicKeyHex: key.publicKeyHex,
+    }))
+    // ed25519 keys can also be converted to x25519 for key agreement
+    const keyAgreementKeyIds = allKeys
+      .filter((key) => ['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019'].includes(key.type))
+      .map((key) => key.id)
+    const signingKeyIds = allKeys
+      .filter((key) => key.type !== 'X25519KeyAgreementKey2019')
+      .map((key) => key.id)
+
     const didDoc = {
       '@context': 'https://w3id.org/did/v1',
       id: identifier.did,
-      verificationMethod: identifier.keys.map((key) => ({
-        id: identifier.did + '#' + key.kid,
-        type: key.type === 'Secp256k1' ? 'EcdsaSecp256k1VerificationKey2019' : 'Ed25519VerificationKey2018',
-        controller: identifier.did,
-        publicKeyHex: key.publicKeyHex,
-      })),
-      authentication: identifier.keys.map((key) => `${identifier.did}#${key.kid}`),
+      verificationMethod: allKeys,
+      authentication: signingKeyIds,
+      assertionMethod: signingKeyIds,
+      keyAgreement: keyAgreementKeyIds,
       service: identifier.services,
     }
 
