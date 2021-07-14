@@ -15,6 +15,7 @@
     { "path": "key-manager" },
     { "path": "kms-local" },
     { "path": "message-handler" },
+    { "path": "message-threads" },
     { "path": "remote-client" },
     { "path": "remote-server" },
     { "path": "selective-disclosure" },

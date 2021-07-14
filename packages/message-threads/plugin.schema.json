@@ -1,0 +1,350 @@
+{
+  "IMessageThreads": {
+    "components": {
+      "schemas": {
+        "IMessageThreadsGetThreadsArgs": {
+          "type": "object",
+          "properties": {
+            "archived": {
+              "type": "boolean",
+              "description": "Archived"
+            },
+            "order": {
+              "type": "string",
+              "description": "Order"
+            }
+          },
+          "description": "Contains the parameters of a Message Thread Request"
+        },
+        "IMessageThreadsThreadResult": {
+          "type": "object",
+          "properties": {
+            "threadId": {
+              "type": "string"
+            },
+            "members": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IMessageThreadMemberProfile"
+              }
+            },
+            "viewer": {
+              "type": "string"
+            },
+            "status": {
+              "$ref": "#/components/schemas/IMessageThreadStatus"
+            },
+            "archived": {
+              "type": "boolean"
+            },
+            "lastMessage": {
+              "$ref": "#/components/schemas/IMessage"
+            },
+            "messageCount": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "threadId",
+            "members",
+            "viewer",
+            "status",
+            "archived",
+            "lastMessage",
+            "messageCount"
+          ]
+        },
+        "IMessageThreadMemberProfile": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "avatar": {
+              "type": "string"
+            },
+            "did": {
+              "type": "string"
+            },
+            "trusted": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name",
+            "avatar",
+            "did",
+            "trusted"
+          ]
+        },
+        "IMessageThreadStatus": {
+          "type": "number",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "IMessage": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique message ID"
+            },
+            "type": {
+              "type": "string",
+              "description": "Message type"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Optional. Creation date (ISO 8601)"
+            },
+            "expiresAt": {
+              "type": "string",
+              "description": "Optional. Expiration date (ISO 8601)"
+            },
+            "threadId": {
+              "type": "string",
+              "description": "Optional. Thread ID"
+            },
+            "raw": {
+              "type": "string",
+              "description": "Optional. Original message raw data"
+            },
+            "data": {
+              "anyOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Parsed data"
+            },
+            "replyTo": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Optional. List of DIDs to reply to"
+            },
+            "replyUrl": {
+              "type": "string",
+              "description": "Optional. URL to post a reply message to"
+            },
+            "from": {
+              "type": "string",
+              "description": "Optional. Sender DID"
+            },
+            "to": {
+              "type": "string",
+              "description": "Optional. Recipient DID"
+            },
+            "metaData": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMetaData"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Array of message metadata"
+            },
+            "credentials": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              },
+              "description": "Optional. Array of attached verifiable credentials"
+            },
+            "presentations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiablePresentation"
+              },
+              "description": "Optional. Array of attached verifiable presentations"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "description": "DIDComm message"
+        },
+        "IMetaData": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Type"
+            },
+            "value": {
+              "type": "string",
+              "description": "Optional. Value"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "description": "Message meta data"
+        },
+        "VerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuer": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "credentialSubject": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            },
+            "credentialStatus": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "type"
+              ]
+            },
+            "proof": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "@context",
+            "type",
+            "issuer",
+            "issuanceDate",
+            "credentialSubject",
+            "proof"
+          ],
+          "description": "Verifiable Credential  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "holder": {
+              "type": "string"
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verifier": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              }
+            },
+            "proof": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "holder",
+            "@context",
+            "type",
+            "verifier",
+            "verifiableCredential",
+            "proof"
+          ],
+          "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+        }
+      },
+      "methods": {
+        "getThreads": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IMessageThreadsGetThreadsArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMessageThreadsThreadResult"
+            }
+          }
+        }
+      }
+    }
+  }
+}
