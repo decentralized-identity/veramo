@@ -51,7 +51,7 @@ export function decodeJoseBlob(blob: string) {
 }
 
 export function isDefined<T>(arg: T): arg is Exclude<T, null | undefined> {
-  return typeof arg !== 'undefined'
+  return arg && typeof arg !== 'undefined'
 }
 
 export function createEcdhWrapper(secretKeyRef: string, context: IAgentContext<IKeyManager>): ECDH {
@@ -173,7 +173,7 @@ export async function mapIdentifierKeysToDoc(
     context,
   )
 
-  let localKeys = identifier.keys
+  let localKeys = identifier.keys.filter(isDefined)
   if (section === 'keyAgreement') {
     localKeys = convertIdentifierEncryptionKeys(identifier)
   }
