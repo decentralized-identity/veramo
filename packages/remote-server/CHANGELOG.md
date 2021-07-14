@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/uport-project/veramo/compare/v1.2.2...v2.0.0) (2021-07-14)
+
+
+### Bug Fixes
+
+* **remote-server:** create an Ed25519 key for the default did:web ([a2f7f8c](https://github.com/uport-project/veramo/commit/a2f7f8c3fc6ab6cc276f6853104386bf9d923424))
+* **remote-server:** list DIDCommMessaging service entry by default for did:web ([339201a](https://github.com/uport-project/veramo/commit/339201a30f2f95f9b92251f233fb426d8290274f))
+
+
+### Features
+
+* add support for did-comm over simple HTTP-based transports ([#610](https://github.com/uport-project/veramo/issues/610)) ([78836a4](https://github.com/uport-project/veramo/commit/78836a46d3ce71b568acaa98558b64f9c2b98167)), closes [#552](https://github.com/uport-project/veramo/issues/552) [#469](https://github.com/uport-project/veramo/issues/469)
+* **remote-server:** express keys properly in did:web doc ([c33e39e](https://github.com/uport-project/veramo/commit/c33e39e6e33f5976aa4e5ff27ed3675b22113119)), closes [#618](https://github.com/uport-project/veramo/issues/618)
+
+
+
+
+
 # [1.2.0](https://github.com/uport-project/veramo/compare/v1.1.2...v1.2.0) (2021-04-27)
 
 

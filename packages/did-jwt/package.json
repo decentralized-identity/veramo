@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-jwt",
   "description": "Veramo message validator plugin for decoding and verifying JWT payloads.",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^1.2.0",
-    "@veramo/message-handler": "^1.2.0",
+    "@veramo/core": "^2.0.0",
+    "@veramo/message-handler": "^2.0.0",
     "debug": "^4.1.1",
     "did-jwt": "5.6.2",
     "did-resolver": "3.1.0"

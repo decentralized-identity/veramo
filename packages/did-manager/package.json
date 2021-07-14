@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-manager",
   "description": "Veramo DID manager plugin",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^1.2.0",
-    "@veramo/did-discovery": "^1.2.0"
+    "@veramo/core": "^2.0.0",
+    "@veramo/did-discovery": "^2.0.0"
   },
   "devDependencies": {
     "typescript": "4.3.5"
