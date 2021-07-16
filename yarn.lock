@@ -1696,24 +1696,6 @@
     "@microsoft/tsdoc-config" "~0.15.2"
     "@rushstack/node-core-library" "3.39.1"
 
-"@microsoft/api-extractor@7.18.2":
-  version "7.18.2"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor/-/api-extractor-7.18.2.tgz#79582ef8619e169df61b474dc495b6eff782c95c"
-  integrity sha512-xRzTZV6GkUraRiPQPYy6uvttyMvzqssAHXGPlrvR7Nf62/0arZPM+XQ7ik8WafnHZ6nqIQcNp0r9S+qQ9wsjEA==
-  dependencies:
-    "@microsoft/api-extractor-model" "7.13.4"
-    "@microsoft/tsdoc" "0.13.2"
-    "@microsoft/tsdoc-config" "~0.15.2"
-    "@rushstack/node-core-library" "3.39.1"
-    "@rushstack/rig-package" "0.2.13"
-    "@rushstack/ts-command-line" "4.8.1"
-    colors "~1.2.1"
-    lodash "~4.17.15"
-    resolve "~1.17.0"
-    semver "~7.3.0"
-    source-map "~0.6.1"
-    typescript "~4.3.5"
-
 "@microsoft/api-extractor@7.18.4":
   version "7.18.4"
   resolved "https://registry.yarnpkg.com/@microsoft/api-extractor/-/api-extractor-7.18.4.tgz#2d7641b36d323b4ac710d838a972be7e4f14d32b"
