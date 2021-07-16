@@ -30,6 +30,7 @@
     }
   },
   "devDependencies": {
+    "@veramo/didcomm-chat-message": "file:tmp_modules/didcomm-chat-message",
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-conventional": "12.1.4",
     "@microsoft/api-documenter": "7.13.33",

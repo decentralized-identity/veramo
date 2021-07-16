@@ -2245,7 +2245,7 @@
     "@stablelib/constant-time" "^1.0.1"
     "@stablelib/wipe" "^1.0.1"
 
-"@stablelib/random@^1.0.1":
+"@stablelib/random@^1.0.0", "@stablelib/random@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@stablelib/random/-/random-1.0.1.tgz#4357a00cb1249d484a9a71e6054bc7b8324a7009"
   integrity sha512-zOh+JHX3XG9MSfIB0LZl/YwPP9w3o6WBiJkZvjPoKKu5LKFW4OLV71vMxWp9qG5T43NaWyn0QQTWgqCdO+yOBQ==
@@ -2262,7 +2262,7 @@
     "@stablelib/constant-time" "^1.0.1"
     "@stablelib/wipe" "^1.0.1"
 
-"@stablelib/sha256@^1.0.1":
+"@stablelib/sha256@^1.0.0", "@stablelib/sha256@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@stablelib/sha256/-/sha256-1.0.1.tgz#77b6675b67f9b0ea081d2e31bda4866297a3ae4f"
   integrity sha512-GIIH3e6KH+91FqGV42Kcj71Uefd/QEe7Dy42sBTeqppXV95ggCcxLTk39bEr+lZfJmp+ghsR07J++ORkRELsBQ==
@@ -2303,7 +2303,7 @@
     "@stablelib/chacha" "^1.0.1"
     "@stablelib/wipe" "^1.0.1"
 
-"@stablelib/xchacha20poly1305@^1.0.1":
+"@stablelib/xchacha20poly1305@^1.0.0", "@stablelib/xchacha20poly1305@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@stablelib/xchacha20poly1305/-/xchacha20poly1305-1.0.1.tgz#addcaf30b92dd956f76b3357888e2f91b92e7a61"
   integrity sha512-B1Abj0sMJ8h3HNmGnJ7vHBrAvxuNka6cJJoZ1ILN7iuacXp7sUYcgOVEOTLWj+rtQMpspY9tXSCRLPmN1mQNWg==
@@ -2828,6 +2828,94 @@
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.3.tgz#781d360c282436494b32fe7d9f7f8e64b3118aa3"
   integrity sha512-fbF6oTd4sGGy0xjHPKAt+eS2CrxJ3+6gQ3FGcBoIJR2TLAyCkCyI8JqZNy+FeON0AhVgNJoUumVoZQjBFUqHkw==
+
+"@veramo/core@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@veramo/core/-/core-1.2.0.tgz#5de3374caee351fc76fb0ddb19de405b3f795292"
+  integrity sha512-0qql9jn7QDVWF2vwoYN/SnhelfaILOT5mKFbtMYFVs/oj2JPrlDJTCdaXwadLAmH4i3RKJQcLtj3atlo0sHNQQ==
+  dependencies:
+    debug "^4.1.1"
+    did-jwt-vc "2.1.0"
+    events "^3.2.0"
+    z-schema "^5.0.0"
+
+"@veramo/credential-w3c@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@veramo/credential-w3c/-/credential-w3c-1.2.0.tgz#82780ca15b3275dd0105913ea6383402c5a62409"
+  integrity sha512-3hOGncVx2v9bkU5nm+sj9ksinc13iXwHgznioN+lLOfYLBhr2cdM3h2Cv2yklp+/eVNw0Q9qYebzKy3GpIBwzA==
+  dependencies:
+    "@veramo/core" "^1.2.0"
+    "@veramo/did-jwt" "^1.2.0"
+    "@veramo/did-resolver" "^1.2.0"
+    "@veramo/message-handler" "^1.2.0"
+    blakejs "^1.1.0"
+    debug "^4.1.1"
+    did-jwt-vc "2.1.0"
+    did-resolver "3.1.0"
+
+"@veramo/data-store@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@veramo/data-store/-/data-store-1.2.0.tgz#5c4b13becb6c8d191a783464976ba2bfcc828d5f"
+  integrity sha512-WHqPKjvUARPoVM+icqykDFKSzmJl3NjrT1MdY+RZeL+jfuR69PD0RpqrygTO3nWpqlJGs0h9wd2O+hhuV6pjSA==
+  dependencies:
+    "@veramo/core" "^1.2.0"
+    "@veramo/did-manager" "^1.2.0"
+    "@veramo/key-manager" "^1.2.0"
+    debug "^4.1.1"
+    typeorm "0.2.32"
+
+"@veramo/did-jwt@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@veramo/did-jwt/-/did-jwt-1.2.0.tgz#74ee932d5c02f53c4292d9ce4429e9213152115b"
+  integrity sha512-pZgFFC/lkxckSREw2E3IEqzpzsVHsb5LjsYVworiwVMZPm5vu8tDCccK5JWNVGH9/kJPgaTdSdIGvdtgCabwrA==
+  dependencies:
+    "@veramo/core" "^1.2.0"
+    "@veramo/message-handler" "^1.2.0"
+    debug "^4.1.1"
+    did-jwt "5.2.0"
+    did-resolver "3.1.0"
+
+"@veramo/did-manager@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@veramo/did-manager/-/did-manager-1.2.0.tgz#ebc2e98f42a2ad39c88618bbbf3c3d7f5bff0096"
+  integrity sha512-PWsvgvm6sSsYN+thDwiQfqibFFOq5lPueObe+1JbQ5UmwKvHoPI/NRP6wu7lAlYJkiqYMYry95SgL9c4LP5YNg==
+  dependencies:
+    "@veramo/core" "^1.2.0"
+
+"@veramo/did-resolver@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@veramo/did-resolver/-/did-resolver-1.2.0.tgz#9ddbd133bae86d10a1df577bc6899a7df9a63e5e"
+  integrity sha512-wbgX2ZIVOmNv5B37NU9RS+S1QJsG9Cpy7Gp63kEAk2NNRZdR69OO2NxJLlzLBYJWu9G3DK6UeU9pM/bJYrzEMA==
+  dependencies:
+    "@veramo/core" "^1.2.0"
+    cross-fetch "^3.1.4"
+    debug "^4.1.1"
+
+"@veramo/didcomm-chat-message@file:tmp_modules/didcomm-chat-message":
+  version "1.2.0"
+  dependencies:
+    "@veramo/core" "^1.2.0"
+    "@veramo/credential-w3c" "^1.2.0"
+    "@veramo/data-store" "^1.2.0"
+    "@veramo/did-jwt" "^1.2.0"
+    "@veramo/message-handler" "^1.2.0"
+    blakejs "^1.1.0"
+    debug "^4.1.1"
+    did-jwt "5.6.0"
+
+"@veramo/key-manager@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@veramo/key-manager/-/key-manager-1.2.0.tgz#0dc9d4dd4bf2ca51b87c64b966d0ea74f6b2424e"
+  integrity sha512-4g+FccQ4+aGoXJBOYPQh02ryVoKanb8cbO8ys5QD4QbsHP8eJF+BC2/bRXJPjAecJ93Huo/GEkTai1XnPDbTQg==
+  dependencies:
+    "@veramo/core" "^1.2.0"
+
+"@veramo/message-handler@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@veramo/message-handler/-/message-handler-1.2.0.tgz#4e51ca502a18fd811e750979a9c3a6367835275e"
+  integrity sha512-Gk2SnubIpigzN9r1Uz7mSdQdr8ISH6cic/YP0WdzEMN7VsTd333UOuJhassD4b0r0qKNO/ixWieIwtsOX1S7bQ==
+  dependencies:
+    "@veramo/core" "^1.2.0"
 
 JSONStream@^1.0.4:
   version "1.3.5"
@@ -4332,6 +4420,14 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
+did-jwt-vc@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.0.tgz#e55ddb96102a574bd33f2daed84fd170a5f50b64"
+  integrity sha512-OXt1Z8GyNJe4wgxdyhoJsIqIHrda47vebFzkJyhnu+vIN0uzaSmhqCPhSSzJkeZbmb8J5isYyMJ4ujsx5elNXw==
+  dependencies:
+    did-jwt "^5.1.2"
+    did-resolver "^3.1.0"
+
 did-jwt-vc@2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.3.tgz#cb8139e38eca874657e907300bf86d624cd848dd"
@@ -4340,7 +4436,38 @@ did-jwt-vc@2.1.3:
     did-jwt "^5.4.0"
     did-resolver "^3.1.0"
 
-did-jwt@5.6.2, did-jwt@^5.4.0:
+did-jwt@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.2.0.tgz#c8c662334663eeb53f7a6d241237c1e8633cd37d"
+  integrity sha512-5cyFUWdF/B7b7dJzih7XiPWavCUtThgzs00BXDzV8OemBHFlnXpZN7phq5aqy+k8vWWqp+ijxqVLQHRfgc609Q==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.1"
+    "@stablelib/random" "^1.0.0"
+    "@stablelib/sha256" "^1.0.0"
+    "@stablelib/x25519" "^1.0.0"
+    "@stablelib/xchacha20poly1305" "^1.0.0"
+    did-resolver "^3.1.0"
+    elliptic "^6.5.4"
+    js-sha3 "^0.8.0"
+    uint8arrays "^2.1.3"
+
+did-jwt@5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.6.0.tgz#aff04b19550c3b5175044f3f893a33da36777a9a"
+  integrity sha512-w4pvegvyOicfW2gvjUWyf0ggJV8v6NQw2OJgKNW3U3QG5ruEi3Xmv4gERRpzgGBqcCwnDuraV3NsQfTUW+kAfw==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.1"
+    "@stablelib/random" "^1.0.0"
+    "@stablelib/sha256" "^1.0.0"
+    "@stablelib/x25519" "^1.0.0"
+    "@stablelib/xchacha20poly1305" "^1.0.0"
+    canonicalize "^1.0.5"
+    did-resolver "^3.1.0"
+    elliptic "^6.5.4"
+    js-sha3 "^0.8.0"
+    uint8arrays "^2.1.3"
+
+did-jwt@5.6.2, did-jwt@^5.1.2, did-jwt@^5.4.0:
   version "5.6.2"
   resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.6.2.tgz#6b84f91db614bd844b58b45e94fb93ac748bdcd1"
   integrity sha512-WNX6haTfgNZZrOLxyeGdxKUh7tQJ07jJCcWIvXaq+wms0UxA7XGbdcEuz9h3uJsuIE+/7a3HgAy1FjD1DTcfww==
@@ -10152,6 +10279,29 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typeorm@0.2.32:
+  version "0.2.32"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.32.tgz#544dbfdfe0cd0887548d9bcbd28527ea4f4b3c9b"
+  integrity sha512-LOBZKZ9As3f8KRMPCUT2H0JZbZfWfkcUnO3w/1BFAbL/X9+cADTF6bczDGGaKVENJ3P8SaKheKmBgpt5h1x+EQ==
+  dependencies:
+    "@sqltools/formatter" "^1.2.2"
+    app-root-path "^3.0.0"
+    buffer "^6.0.3"
+    chalk "^4.1.0"
+    cli-highlight "^2.1.10"
+    debug "^4.3.1"
+    dotenv "^8.2.0"
+    glob "^7.1.6"
+    js-yaml "^4.0.0"
+    mkdirp "^1.0.4"
+    reflect-metadata "^0.1.13"
+    sha.js "^2.4.11"
+    tslib "^2.1.0"
+    xml2js "^0.4.23"
+    yargonaut "^1.1.4"
+    yargs "^16.2.0"
+    zen-observable-ts "^1.0.0"
 
 typeorm@0.2.34:
   version "0.2.34"

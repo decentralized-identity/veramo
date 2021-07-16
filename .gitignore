@@ -9,6 +9,7 @@
 /report
 /node_modules
 website/node_modules
+/tmp_modules
 
 /packages/*/build/
 /packages/*/api/*.api.json
