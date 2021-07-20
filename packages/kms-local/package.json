@@ -1,7 +1,7 @@
 {
   "name": "@veramo/kms-local",
   "description": "Veramo KMS implementation that provides Ed25519 and secp256k1 crypto",
-  "version": "2.0.0",
+  "version": "0.0.42",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -19,8 +19,8 @@
     "@ethersproject/wallet": "^5.1.0",
     "@stablelib/ed25519": "^1.0.2",
     "@stablelib/nacl": "^1.0.2",
-    "@veramo/core": "^2.0.0",
-    "@veramo/key-manager": "^2.0.0",
+    "@veramo/core": "^0.0.42",
+    "@veramo/key-manager": "^0.0.42",
     "base-58": "^0.0.1",
     "debug": "^4.1.1",
     "did-jwt": "5.6.2",

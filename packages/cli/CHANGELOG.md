@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.42](https://github.com/uport-project/veramo/compare/v2.0.1...v0.0.42) (2021-07-20)
+
+
+### Bug Fixes
+
+* **cli:** export recent methods from CLI local and remote ([44da085](https://github.com/uport-project/veramo/commit/44da0856bfdeb8f47ad85086e2d600d1e7e7f06a))
+* **deps:** update dependency @microsoft/api-extractor to v7.18.4 ([ec64d56](https://github.com/uport-project/veramo/commit/ec64d56eadf23a01946ad5cec3c4fcbd116ec073))
+
+
+
+
+
 ## [2.0.1](https://github.com/uport-project/veramo/compare/v2.0.0...v2.0.1) (2021-07-20)
 
 
