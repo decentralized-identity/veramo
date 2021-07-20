@@ -32,7 +32,7 @@ export class MessageThreads implements IAgentPlugin {
     context: IAgentContext<IDataStore & IDataStoreORM & IDIDManager>,
   ): Promise<IMessageThreadsThreadResult[]> {
     const messages = await context.agent.dataStoreORMGetMessages({
-      where: [{ column: 'type', value: ['veramo.io-chat-v1'] }],
+      where: [{ column: 'type', value: ['veramo.io-chat-v1', 'veramo.io-chat-v2'] }],
       order: [{ column: 'createdAt', direction: 'DESC' }],
     })
 
