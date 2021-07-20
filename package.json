@@ -18,7 +18,7 @@
     "build-clean": "rimraf ./packages/*/build ./packages/*/api ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo && jest --clearCache",
     "publish:latest": "lerna publish --conventional-commits --include-merged-tags --create-release github --yes --dist-tag latest --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
     "publish:next": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
-    "publish:unstable": "lerna publish --repo-version 0.0.42 --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid unstable --pre-dist-tag unstable --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}"
+    "publish:unstable": "lerna publish --conventional-prerelease --force-publish='*' --preid unstable --pre-dist-tag unstable --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN} 0.0.42"
   },
   "workspaces": [
     "packages/*"
