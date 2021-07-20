@@ -18,6 +18,8 @@ agent:
                 - keyManagerImport
                 - keyManagerEncryptJWE
                 - keyManagerDecryptJWE
+                - keyManagerSign
+                - keyManagerSharedSecret
                 - keyManagerSignJWT
                 - keyManagerSignEthTX
                 - didManagerGetProviders
@@ -32,6 +34,8 @@ agent:
                 - didManagerAddService
                 - didManagerRemoveService
                 - resolveDid
+                - getDIDComponentById
+                - discoverDid
                 - dataStoreGetMessage
                 - dataStoreSaveMessage
                 - dataStoreGetVerifiableCredential
@@ -49,6 +53,9 @@ agent:
                 - dataStoreORMGetVerifiablePresentations
                 - dataStoreORMGetVerifiablePresentationsCount
                 - handleMessage
+                - packDIDCommMessage
+                - unpackDIDCommMessage
+                - sendDIDCommMessage
                 - sendMessageDIDCommAlpha1
                 - createVerifiablePresentation
                 - createVerifiableCredential

@@ -15,6 +15,7 @@ constants:
     - keyManagerEncryptJWE
     - keyManagerDecryptJWE
     - keyManagerSign
+    - keyManagerSharedSecret
     - keyManagerSignJWT
     - keyManagerSignEthTX
     - didManagerGetProviders
