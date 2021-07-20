@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/uport-project/veramo/compare/v2.0.0...v2.0.1) (2021-07-20)
+
+
+### Bug Fixes
+
+* **cli:** export recent methods from CLI local and remote ([#625](https://github.com/uport-project/veramo/issues/625)) ([36bce08](https://github.com/uport-project/veramo/commit/36bce08095104fe7a1cb97f506da857e18fb8dc2))
+
+
+
+
+
 # [2.0.0](https://github.com/uport-project/veramo/compare/v1.2.2...v2.0.0) (2021-07-14)
 
 
