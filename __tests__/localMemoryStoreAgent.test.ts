@@ -44,7 +44,10 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
-import * as fs from 'fs'
+import fs from 'fs'
+
+jest.setTimeout(30000)
+
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
@@ -57,6 +60,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
+import ceramic from './shared/ceramic'
 
 jest.setTimeout(30000)
 
@@ -207,4 +211,5 @@ describe('Local in-memory integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didCommPacking(testContext)
+  ceramic(testContext)
 })

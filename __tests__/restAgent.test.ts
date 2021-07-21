@@ -79,6 +79,7 @@ import didCommPacking from './shared/didCommPacking'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
+import ceramic from './shared/ceramic'
 
 jest.setTimeout(30000)
 
@@ -258,4 +259,5 @@ describe('REST integration tests', () => {
   didCommPacking(testContext)
   didWithFakeDidFlow(testContext)
   didDiscovery(testContext)
+  ceramic(testContext)
 })

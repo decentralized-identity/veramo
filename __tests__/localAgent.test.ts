@@ -59,7 +59,10 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
-import * as fs from 'fs'
+import fs from 'fs'
+
+jest.setTimeout(30000)
+
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
@@ -75,8 +78,7 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
-
-jest.setTimeout(30000)
+import ceramic from './shared/ceramic'
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -256,4 +258,5 @@ describe('Local integration tests', () => {
   didDiscovery(testContext)
   dbInitOptions(testContext)
   didCommWithEthrDidFlow(testContext)
+  ceramic(testContext)
 })

@@ -67,6 +67,12 @@
     ]
   },
   "dependencies": {
+    "@ceramicnetwork/core": "^1.2.0",
+    "@ceramicnetwork/http-client": "^1.0.7",
+    "@ceramicnetwork/stream-tile": "^1.0.7",
+    "dids": "^2.4.0",
+    "key-did-provider-ed25519": "^1.1.0",
+    "key-did-resolver": "^1.2.1",
     "rimraf": "3.0.2"
   },
   "engines": {
