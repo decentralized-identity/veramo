@@ -71,7 +71,6 @@ import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 import { jest } from '@jest/globals'
-
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
@@ -93,6 +92,7 @@ import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
 import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
 import didCommWithPeerDidFlow from './shared/didCommWithPeerDidFlow.js'
+import ceramic from './shared/ceramic'
 
 jest.setTimeout(120000)
 
@@ -303,4 +303,5 @@ describe('Local integration tests', () => {
   didCommWithPeerDidFlow(testContext)
   credentialStatus(testContext)
   ethrDidFlowSigned(testContext)
+  ceramic(testContext)
 })
