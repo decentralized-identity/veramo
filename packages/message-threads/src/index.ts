@@ -4,7 +4,8 @@
  * @packageDocumentation
  */
 export { MessageThreads } from './action-handler'
-// export { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider'
+export { DIDCommChatMessageHandler, MessageTypes } from './message-handler'
+
 export * from './types'
 const schema = require('../plugin.schema.json')
 export { schema }

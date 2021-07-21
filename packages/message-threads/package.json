@@ -17,7 +17,11 @@
     "@veramo/core": "^2.0.0",
     "@veramo/data-store": "^2.0.0",
     "@veramo/message-handler": "^2.0.0",
-    "debug": "^4.1.1"
+    "@veramo/credential-w3c": "^2.0.0",
+    "@veramo/did-jwt": "^2.0.0",
+    "blakejs": "^1.1.0",
+    "debug": "^4.1.1",
+    "did-jwt": "5.6.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.6",

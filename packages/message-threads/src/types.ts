@@ -4,7 +4,7 @@ export enum IMessageThreadStatus {
   TRUSTED,
   PARTIALLY_TRUSTED,
   UNTRUSTED,
-  PENDING
+  PENDING,
 }
 
 /**
@@ -14,14 +14,13 @@ export interface IMessageThreadsGetThreadsArgs {
   /**
    * Archived
    */
-   archived?: boolean
+  archived?: boolean
 
   /**
    * Order
    */
-   order?: string
+  order?: string
 }
-
 
 export interface IMessageThreadsGetThreadByIdArgs {
   /**
@@ -29,7 +28,6 @@ export interface IMessageThreadsGetThreadByIdArgs {
    */
   threadId: string
 }
-
 
 export interface IMessageThreadsArchiveThreadByIdArgs {
   threadId: string
@@ -61,4 +59,8 @@ export interface IMessageThreads extends IPluginMethodMap {
     args: IMessageThreadsGetThreadsArgs,
     context: IAgentContext<any>,
   ): Promise<Array<IMessageThreadsThreadResult>>
+  getThreadById(
+    args: IMessageThreadsGetThreadByIdArgs,
+    context: IAgentContext<any>,
+  ): Promise<IMessageThreadsThreadResult>
 }

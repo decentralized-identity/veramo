@@ -2,7 +2,13 @@ import { IAgentContext, IAgentPlugin, IDataStore, IDIDManager, IMessage } from '
 import { IDataStoreORM } from '@veramo/data-store'
 import { Message } from '@veramo/message-handler'
 
-import { IMessageThreads, IMessageThreadsGetThreadsArgs, IMessageThreadsThreadResult } from './types'
+import {
+  IMessageThreads,
+  IMessageThreadsGetThreadByIdArgs,
+  IMessageThreadsGetThreadsArgs,
+  IMessageThreadsThreadResult,
+  IMessageThreadStatus,
+} from './types'
 import { schema } from './'
 import Debug from 'debug'
 const debug = Debug('veramo:did-discovery')
@@ -17,6 +23,7 @@ export class MessageThreads implements IAgentPlugin {
   constructor() {
     this.methods = {
       getThreads: this.getThreads.bind(this),
+      getThreadById: this.getThreadById.bind(this),
     }
   }
 
@@ -32,7 +39,7 @@ export class MessageThreads implements IAgentPlugin {
     context: IAgentContext<IDataStore & IDataStoreORM & IDIDManager>,
   ): Promise<IMessageThreadsThreadResult[]> {
     const messages = await context.agent.dataStoreORMGetMessages({
-      where: [{ column: 'type', value: ['veramo.io-chat-v1', 'veramo.io-chat-v2'] }],
+      where: [{ column: 'type', value: ['veramo.io-chat-v1'] }],
       order: [{ column: 'createdAt', direction: 'DESC' }],
     })
 
@@ -108,5 +115,89 @@ export class MessageThreads implements IAgentPlugin {
     })
 
     return Promise.all(threads)
+  }
+
+  /**
+   * gets messages and reformats the payload
+   *
+   * @param args - The param object with the properties necessary to query threads
+   * @param context - *RESERVED* This is filled by the framework when the method is called.
+   *
+   */
+  async getThreadById(
+    args: IMessageThreadsGetThreadByIdArgs,
+    context: IAgentContext<IDataStore & IDataStoreORM & IDIDManager>,
+  ): Promise<IMessageThreadsThreadResult> {
+    const messages = await context.agent.dataStoreORMGetMessages({
+      where: [
+        { column: 'type', value: ['veramo.io-chat-v1'] },
+        { column: 'threadId', value: [args.threadId] },
+      ],
+      order: [{ column: 'createdAt', direction: 'DESC' }],
+    })
+    const _allMembers = messages
+      .map((threadMsg: IMessage) => {
+        return [threadMsg.from, threadMsg.to]
+      })
+      .reduce((acc, val) => acc.concat(val), [])
+    const owned = await context.agent.didManagerFind()
+    const allMembers: any[] = [...new Set(_allMembers)]
+    const allMemberProfiles = await Promise.all(
+      allMembers.map(async (did) => {
+        const vcs = await context.agent.dataStoreORMGetVerifiableCredentials({
+          where: [
+            {
+              column: 'subject',
+              value: [did],
+            },
+          ],
+          order: [
+            {
+              column: 'issuanceDate',
+              direction: 'DESC',
+            },
+          ],
+        })
+
+        const filtered = vcs.filter((vc) => {
+          return vc.verifiableCredential.type.indexOf('Profile') > -1 && vc
+        })
+
+        if (filtered && filtered.length > 0) {
+          return {
+            did: did,
+            name: filtered[0].verifiableCredential.credentialSubject.name,
+            avatar: filtered[0].verifiableCredential.credentialSubject.avatar || '',
+            trusted: true,
+            vc: filtered[0].verifiableCredential,
+          }
+        } else {
+          return {
+            name: '',
+            avatar: '',
+            did: did,
+            trusted: false,
+            vc: null,
+          }
+        }
+      }),
+    )
+    const viewer = owned.find((own) => {
+      return allMembers.indexOf(own.did) > -1 && own
+    })
+
+    const thread = () => {
+      return {
+        threadId: args.threadId,
+        members: allMemberProfiles,
+        viewer: (viewer && viewer.did) || '',
+        status: IMessageThreadStatus.PENDING,
+        archived: false,
+        lastMessage: messages[0],
+        messageCount: messages.length,
+      }
+    }
+
+    return thread()
   }
 }
