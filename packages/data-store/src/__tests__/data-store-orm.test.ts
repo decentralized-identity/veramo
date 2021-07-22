@@ -393,7 +393,7 @@ describe('@veramo/data-store entities', () => {
     }
 
     const presentations = await agent.dataStoreORMGetVerifiablePresentations(args)
-    expect(presentations[0].verifiablePresentation.verifiableCredential[0].id).toEqual('vc6')
+    expect(presentations[0].verifiablePresentation.verifiableCredential?.[0]?.id).toEqual('vc6')
   })
 
   it('should query identifiers', async () => {

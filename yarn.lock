@@ -4332,10 +4332,10 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.5.tgz#693b4797574c566f5aec25adf8529d1865324edc"
-  integrity sha512-1XYHYh60ZjP2MUXpzUlgxhcK20Y3RoZLcQZFNvuYXTtX5Jnw4zCfMpCTeyuVpmxJFn9VMUCDeBi/G22O33dEuQ==
+did-jwt-vc@2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.6.tgz#9fde530800e9b96ba5747775467b4a6aefabd05b"
+  integrity sha512-lLYRTyYI0q4rPuHEFZ8B+TCXYBlrkpXuzjNHjDfSKqhBEHrG6NVnRF1N3P/9nre4qzY0kw3yI1gNm5Yd+umOoA==
   dependencies:
     did-jwt "^5.6.1"
     did-resolver "^3.1.0"

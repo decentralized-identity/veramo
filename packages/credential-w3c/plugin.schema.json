@@ -293,7 +293,6 @@
             "@context",
             "type",
             "verifier",
-            "verifiableCredential",
             "proof"
           ],
           "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
