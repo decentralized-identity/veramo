@@ -36,7 +36,7 @@ export interface VerifiablePresentation {
   '@context': string[]
   type: string[]
   verifier: string[]
-  verifiableCredential: VerifiableCredential[]
+  verifiableCredential?: VerifiableCredential[]
   proof: {
     type?: string
     [x: string]: any
@@ -78,7 +78,7 @@ export interface W3CPresentation {
   '@context': string[]
   type: string[]
   verifier: string[]
-  verifiableCredential: VerifiableCredential[]
+  verifiableCredential?: VerifiableCredential[]
   [x: string]: any
 }
 
