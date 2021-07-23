@@ -46,6 +46,17 @@ export interface IDataStoreGetVerifiableCredentialArgs {
 }
 
 /**
+ * Input arguments for {@link IDataStore.IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs}
+ * @public
+ */
+export interface IDataStoreDeleteVerifiableCredentialArgs {
+  /**
+   * Required. VerifiableCredential hash
+   */
+  hash: string
+}
+
+/**
  * Input arguments for {@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation}
  * @public
  */
@@ -92,6 +103,14 @@ export interface IDataStore extends IPluginMethodMap {
    * @returns a promise that resolves to the hash of the VerifiableCredential
    */
   dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string>
+
+
+  /**
+   * Deletes verifiable credential from the data store
+   * @param args - verifiable credential
+   * @returns a promise that resolves to a boolean
+   */
+  dataStoreDeleteVerifiableCredential(args: IDataStoreDeleteVerifiableCredentialArgs): Promise<boolean>
 
   /**
    * Gets verifiable credential from the data store
