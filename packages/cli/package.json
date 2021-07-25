@@ -70,11 +70,11 @@
     "yaml": "^1.10.0"
   },
   "devDependencies": {
-    "@types/debug": "4.1.6",
+    "@types/debug": "4.1.7",
     "@types/inquirer": "7.3.3",
-    "@types/node-fetch": "2.5.11",
+    "@types/node-fetch": "2.5.12",
     "@types/passport-http-bearer": "1.0.37",
-    "@types/ws": "7.4.6",
+    "@types/ws": "7.4.7",
     "typescript": "4.3.5"
   },
   "files": [
