@@ -16,7 +16,8 @@ const contexts = new Map([
   ['https://www.w3.org/ns/did/v1', _read('security_context_v1.jsonld')],
   ['https://w3id.org/did/v0.11', _read('did_v0.11.jsonld')],
   ['https://ns.did.ai/transmute/v1', _read('transmute_v1.jsonld')],
-  ['https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld', _read('lds-ecdsa-secp256k1-recovery2020-0.0.jsonld')]
+  ['https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld', _read('lds-ecdsa-secp256k1-recovery2020-0.0.jsonld')],
+  ['https://w3id.org/security/suites/ed25519-2018/v1', _read('ed25519-signature-2018-v1.jsonld')]
 ]);
 
 export default contexts;

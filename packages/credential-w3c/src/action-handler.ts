@@ -380,8 +380,8 @@ const getLDSigningSuite = (key: IKey, identifier: IIdentifier) => {
         key: new Ed25519VerificationKey2018({
           id,
           controller,
-          publicKeyBase58: Base58.encode(Buffer.from(key.publicKeyHex, 'hex')),
-          privateKeyBase58: Base58.encode(Buffer.from(key.privateKeyHex, 'hex')),
+          publicKey: Buffer.from(key.publicKeyHex, 'hex'),
+          privateKey: Buffer.from(key.privateKeyHex, 'hex'),
         })
       });
       break;
