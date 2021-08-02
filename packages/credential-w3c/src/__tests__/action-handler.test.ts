@@ -17,6 +17,7 @@ const mockDidJwtVc = {
 jest.mock('did-jwt-vc', () => mockDidJwtVc)
 
 import { CredentialIssuer, IContext } from '../action-handler'
+import { LdCredentialModule } from '../ld-credential-module'
 
 const mockIdentifiers: IIdentifier[] = [
   {
@@ -63,7 +64,9 @@ const mockIdentifiers: IIdentifier[] = [
   },
 ]
 
-const w3c = new CredentialIssuer()
+const w3c = new CredentialIssuer({
+  ldCredentialModule: new LdCredentialModule()
+})
 
 let agent = {
   execute: jest.fn(),

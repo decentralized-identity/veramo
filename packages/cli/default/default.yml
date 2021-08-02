@@ -277,6 +277,18 @@ didDiscovery:
         - $require: '@veramo/did-manager#AliasDiscoveryProvider'
         - $require: '@veramo/data-store#ProfileDiscoveryProvider'
 
+# LD-Handler
+ldCredentialModule:
+  - $require: '@veramo/credential-w3c#LdCredentialModule'
+
+
+# W3C credentialPlugin
+credentialPlugin:
+  - $require: '@veramo/credential-w3c#CredentialIssuer'
+    $args:
+      - ldCredentialModule:
+          $ref: /ldCredentialModule
+
 # Agent
 agent:
   $require: '@veramo/core#Agent'
@@ -289,7 +301,7 @@ agent:
         - $ref: /didDiscovery
         - $ref: /messageHandler
         - $require: '@veramo/did-comm#DIDComm'
-        - $require: '@veramo/credential-w3c#CredentialIssuer'
+        - $ref: /credentialPlugin
         - $require: '@veramo/selective-disclosure#SelectiveDisclosure'
         - $require: '@veramo/data-store#DataStore'
           $args:

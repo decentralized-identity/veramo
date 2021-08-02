@@ -15,5 +15,6 @@ export {
   ICreateVerifiablePresentationArgs,
   ProofFormat,
 } from './action-handler'
+export { LdCredentialModule }  from './ld-credential-module'
 const schema = require('../plugin.schema.json')
 export { schema }
