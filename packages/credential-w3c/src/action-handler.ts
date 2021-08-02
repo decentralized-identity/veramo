@@ -280,10 +280,10 @@ export class CredentialIssuer implements IAgentPlugin {
     this.ldCredentialModule = options.ldCredentialModule
 
     this.methods = {
-      createVerifiablePresentation: this.createVerifiablePresentation,
-      createVerifiableCredential: this.createVerifiableCredential,
-      verifyVerifiableCredential: this.verifyVerifiableCredential,
-      verifyVerifiablePresentation: this.verifyVerifiablePresentation,
+      createVerifiablePresentation: this.createVerifiablePresentation.bind(this),
+      createVerifiableCredential: this.createVerifiableCredential.bind(this),
+      verifyVerifiableCredential: this.verifyVerifiableCredential.bind(this),
+      verifyVerifiablePresentation: this.verifyVerifiablePresentation.bind(this),
     }
   }
 
