@@ -5,8 +5,6 @@ import {
   IKey, IResolver,
   VerifiableCredential,
   VerifiablePresentation,
-  W3CCredential,
-  W3CPresentation,
 } from '@veramo/core'
 
 import Debug from 'debug'
@@ -18,6 +16,7 @@ const {extendContextLoader} = require('jsonld-signatures');
 const {EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020} = require('EcdsaSecp256k1RecoverySignature2020')
 import {Ed25519Signature2018, Ed25519VerificationKey2018} from '@transmute/ed25519-signature-2018'
 import { IContext, IVerifyVerifiablePresentationArgs } from './action-handler'
+import { CredentialPayload, PresentationPayload } from 'did-jwt-vc'
 
 const debug = Debug('veramo:w3c:ld-credential-module')
 
@@ -144,7 +143,7 @@ export class LdCredentialModule {
   }
 
   async issueLDVerifiableCredential(
-    credential: W3CCredential,
+    credential: Partial<CredentialPayload>,
     key: IKey,
     identifier: IIdentifier,
     context: IAgentContext<IResolver>): Promise<VerifiableCredential> {
@@ -152,10 +151,14 @@ export class LdCredentialModule {
     const suite = this.getLDSigningSuite(key, identifier)
     const documentLoader = this.getDocumentLoader(context)
 
-    // some suites are misssisng the right contexts
+    // some suites are missing the right contexts
+    // TODO: How to generalize this?
     switch (suite.type) {
       case "EcdsaSecp256k1RecoverySignature2020":
         // console.log(`Adding context to credential ${suite.type}`)
+        if (!Array.isArray(credential['@context'])) {
+          credential['@context'] = []
+        }
         credential['@context'].push('https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld')
         break
       default:
@@ -170,7 +173,7 @@ export class LdCredentialModule {
   }
 
   async signLDVerifiablePresentation(
-    presentation: W3CPresentation,
+    presentation: Partial<PresentationPayload>,
     key: IKey,
     challenge: string | undefined,
     domain: string | undefined,
@@ -201,7 +204,7 @@ export class LdCredentialModule {
   }
 
   async verifyVerifiableCredential(
-    credential: VerifiableCredential,
+    credential: Partial<CredentialPayload>,
     context: IAgentContext<IResolver>
   ): Promise<boolean> {
 
@@ -225,7 +228,7 @@ export class LdCredentialModule {
   }
 
   async verifyVerifiablePresentation(
-    presentation: any, // TODO: set Type for LD Presentation
+    presentation: Partial<PresentationPayload>,
     challenge: string | undefined,
     domain: string | undefined,
     context: IAgentContext<IResolver>

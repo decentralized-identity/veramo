@@ -131,7 +131,7 @@ export interface IVerifyVerifiableCredentialArgs {
    * of the `credential`
    *
    */
-  credential: VerifiableCredential
+  credential: Partial<CredentialPayload>
 }
 
 /**
@@ -149,21 +149,7 @@ export interface IVerifyVerifiablePresentationArgs {
    * of the `credential`
    *
    */
-  presentation: {
-    id?: string
-    holder: string
-    // issuanceDate?: string
-    // expirationDate?: string
-    '@context': string[]
-    type: string[]
-    // verifier: string[]
-    verifiableCredential: VerifiableCredential[]
-    proof: {
-      type?: string
-      [x: string]: any
-    }
-    [x: string]: any
-  }
+  presentation: Partial<PresentationPayload>
 
   /**
    * Optional (only for JWT) string challenge parameter to verify the verifiable presentation against
@@ -400,9 +386,7 @@ export class CredentialIssuer implements IAgentPlugin {
         verifiableCredential = await this.ldCredentialModule.issueLDVerifiableCredential(credential, keyPayload, identifier, context)
       } else {
         //------------------------- END JSON_LD INSERT
-        //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
-
-
+        //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt` or `lds`
         debug('Signing VC with', identifier.did)
         let alg = 'ES256K'
         if (key.type === 'Ed25519') {

@@ -130,7 +130,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
 
       // throws on error.
       await context.agent.verifyVerifiablePresentation({
-        presentation,
+        presentation ,
         // TODO: HARDCODED CHALLENGE VERIFICATION FOR NOW
         challenge: 'VERAMO',
         domain: 'VERAMO'
