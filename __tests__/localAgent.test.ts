@@ -35,6 +35,7 @@ import {
   DataStore,
   DataStoreORM,
   ProfileDiscoveryProvider,
+  PrivateKeyStore,
   migrations,
 } from '../packages/data-store/src'
 import { createConnection, Connection } from 'typeorm'
@@ -112,9 +113,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     },
     plugins: [
       new KeyManager({
-        store: new KeyStore(dbConnection, new SecretBox(secretKey)),
+        store: new KeyStore(dbConnection),
         kms: {
-          local: new KeyManagementSystem(),
+          local: new KeyManagementSystem({ keyStore: new PrivateKeyStore(dbConnection, new SecretBox(secretKey)) }),
         },
       }),
       new DIDManager({

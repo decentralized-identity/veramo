@@ -9,8 +9,8 @@ export class SecretBox1588075773000 implements MigrationInterface {
       const secretBox = new SecretBox(process.env.VERAMO_SECRET_KEY)
       const keys = await queryRunner.connection.getRepository(Key).find()
       for (const key of keys) {
-        if (key.privateKeyHex) {
-          key.privateKeyHex = await secretBox.encrypt(key.privateKeyHex)
+        if ((<any>key).privateKeyHex) {
+          (<any>key).privateKeyHex = await secretBox.encrypt((<any>key).privateKeyHex)
         }
         await key.save()
       }
@@ -23,8 +23,8 @@ export class SecretBox1588075773000 implements MigrationInterface {
       const secretBox = new SecretBox(process.env.VERAMO_SECRET_KEY)
       const keys = await queryRunner.connection.getRepository(Key).find()
       for (const key of keys) {
-        if (key.privateKeyHex) {
-          key.privateKeyHex = await secretBox.decrypt(key.privateKeyHex)
+        if ((<any>key).privateKeyHex) {
+          (<any>key).privateKeyHex = await secretBox.decrypt((<any>key).privateKeyHex)
         }
         await key.save()
       }

@@ -434,7 +434,7 @@
             }
           }
         },
-        "IKey": {
+        "ManagedKeyInfo": {
           "type": "object",
           "properties": {
             "kid": {
@@ -452,10 +452,6 @@
             "publicKeyHex": {
               "type": "string",
               "description": "Public key"
-            },
-            "privateKeyHex": {
-              "type": "string",
-              "description": "Optional. Private key"
             },
             "meta": {
               "anyOf": [
@@ -475,7 +471,7 @@
             "type",
             "publicKeyHex"
           ],
-          "description": "Cryptographic key"
+          "description": "Represents information about a managed key. Private or secret key material is not present."
         },
         "IKeyManagerDecryptJWEArgs": {
           "type": "object",
@@ -577,6 +573,89 @@
             "kid"
           ],
           "description": "Input arguments for  {@link  IKeyManager.keyManagerGet | keyManagerGet }"
+        },
+        "IKey": {
+          "type": "object",
+          "properties": {
+            "kid": {
+              "type": "string",
+              "description": "Key ID"
+            },
+            "kms": {
+              "type": "string",
+              "description": "Key Management System"
+            },
+            "type": {
+              "$ref": "#/components/schemas/TKeyType",
+              "description": "Key type"
+            },
+            "publicKeyHex": {
+              "type": "string",
+              "description": "Public key"
+            },
+            "privateKeyHex": {
+              "type": "string",
+              "description": "Optional. Private key"
+            },
+            "meta": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/KeyMetadata"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
+            }
+          },
+          "required": [
+            "kid",
+            "kms",
+            "type",
+            "publicKeyHex"
+          ],
+          "description": "Cryptographic key"
+        },
+        "MinimalImportableKey": {
+          "$ref": "#/components/schemas/RequireOnly<IKey,(\"privateKeyHex\"|\"type\"|\"kms\")>",
+          "description": "Represents the properties required to import a key."
+        },
+        "RequireOnly<IKey,(\"privateKeyHex\"|\"type\"|\"kms\")>": {
+          "type": "object",
+          "properties": {
+            "kid": {
+              "type": "string",
+              "description": "Key ID"
+            },
+            "kms": {
+              "type": "string",
+              "description": "Key Management System"
+            },
+            "type": {
+              "$ref": "#/components/schemas/TKeyType",
+              "description": "Key type"
+            },
+            "publicKeyHex": {
+              "type": "string",
+              "description": "Public key"
+            },
+            "privateKeyHex": {
+              "type": "string",
+              "description": "Optional. Private key"
+            },
+            "meta": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/KeyMetadata"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
+            }
+          }
         },
         "IKeyManagerSharedSecretArgs": {
           "type": "object",
@@ -733,7 +812,7 @@
             "$ref": "#/components/schemas/IKeyManagerCreateArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IKey"
+            "$ref": "#/components/schemas/ManagedKeyInfo"
           }
         },
         "keyManagerDecryptJWE": {
@@ -787,10 +866,10 @@
         "keyManagerImport": {
           "description": "Imports a created key",
           "arguments": {
-            "$ref": "#/components/schemas/IKey"
+            "$ref": "#/components/schemas/MinimalImportableKey"
           },
           "returnType": {
-            "type": "boolean"
+            "$ref": "#/components/schemas/ManagedKeyInfo"
           }
         },
         "keyManagerSharedSecret": {
@@ -1115,6 +1194,85 @@
           ],
           "description": "Input arguments for  {@link  IDIDManager.didManagerGetOrCreate | didManagerGetOrCreate }"
         },
+        "MinimalImportableIdentifier": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Decentralized identifier"
+            },
+            "alias": {
+              "type": "string",
+              "description": "Optional. Identifier alias. Can be used to reference an object in an external system"
+            },
+            "provider": {
+              "type": "string",
+              "description": "Identifier provider name"
+            },
+            "controllerKeyId": {
+              "type": "string",
+              "description": "Controller key id"
+            },
+            "keys": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/MinimalImportableKey"
+              }
+            },
+            "services": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IService"
+              }
+            }
+          },
+          "required": [
+            "did",
+            "keys",
+            "provider"
+          ],
+          "description": "Represents the minimum amount of information needed to import an  {@link  IIdentifier }"
+        },
+        "MinimalImportableKey": {
+          "$ref": "#/components/schemas/RequireOnly<IKey,(\"privateKeyHex\"|\"type\"|\"kms\")>",
+          "description": "Represents the properties required to import a key."
+        },
+        "RequireOnly<IKey,(\"privateKeyHex\"|\"type\"|\"kms\")>": {
+          "type": "object",
+          "properties": {
+            "kid": {
+              "type": "string",
+              "description": "Key ID"
+            },
+            "kms": {
+              "type": "string",
+              "description": "Key Management System"
+            },
+            "type": {
+              "$ref": "#/components/schemas/TKeyType",
+              "description": "Key type"
+            },
+            "publicKeyHex": {
+              "type": "string",
+              "description": "Public key"
+            },
+            "privateKeyHex": {
+              "type": "string",
+              "description": "Optional. Private key"
+            },
+            "meta": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/KeyMetadata"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
+            }
+          }
+        },
         "IDIDManagerRemoveKeyArgs": {
           "type": "object",
           "properties": {
@@ -1269,7 +1427,7 @@
         "didManagerImport": {
           "description": "Imports identifier",
           "arguments": {
-            "$ref": "#/components/schemas/IIdentifier"
+            "$ref": "#/components/schemas/MinimalImportableIdentifier"
           },
           "returnType": {
             "$ref": "#/components/schemas/IIdentifier"

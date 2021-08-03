@@ -5,6 +5,7 @@ import {
   VerifiablePresentation,
   IPluginMethodMap,
   IIdentifier,
+  IKey,
 } from '@veramo/core'
 import { Message, createMessage } from './entities/message'
 import { Claim } from './entities/claim'
@@ -37,7 +38,7 @@ import {
   FindArgs,
 } from './types'
 
-import { schema } from './'
+import { Key, schema } from './'
 
 interface IContext {
   authenticatedDid?: string
@@ -130,7 +131,7 @@ export class DataStoreORM implements IAgentPlugin {
   ): Promise<PartialIdentifier[]> {
     const identifiers = await (await this.identifiersQuery(args, context)).getMany()
     return identifiers.map((i) => {
-      const identifier: PartialIdentifier = i
+      const identifier: PartialIdentifier = i as PartialIdentifier
       if (identifier.controllerKeyId === null) {
         delete identifier.controllerKeyId
       }
@@ -140,7 +141,7 @@ export class DataStoreORM implements IAgentPlugin {
       if (identifier.provider === null) {
         delete identifier.provider
       }
-      return identifier
+      return identifier as IIdentifier
     })
   }
 

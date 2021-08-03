@@ -2,6 +2,22 @@ import { IPluginMethodMap } from './IAgent'
 import { TKeyType, IKey, KeyMetadata } from './IIdentifier'
 
 /**
+ * Represents an object type where a subset of keys are required and everything else is optional.
+ */
+export type RequireOnly<T, K extends keyof T> = Required<Pick<T, K>> & Partial<T>
+
+/**
+ * Represents the properties required to import a key.
+ */
+export type MinimalImportableKey = RequireOnly<IKey, 'privateKeyHex' | 'type' | 'kms'>
+
+/**
+ * Represents information about a managed key.
+ * Private or secret key material is not present.
+ */
+export type ManagedKeyInfo = Omit<IKey, 'privateKeyHex'>
+
+/**
  * Input arguments for {@link IKeyManager.keyManagerCreate | keyManagerCreate}
  * @public
  */
@@ -175,7 +191,7 @@ export interface IKeyManager extends IPluginMethodMap {
   /**
    * Creates and returns a new key
    */
-  keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey>
+  keyManagerCreate(args: IKeyManagerCreateArgs): Promise<ManagedKeyInfo>
 
   /**
    * Returns an existing key
@@ -190,7 +206,7 @@ export interface IKeyManager extends IPluginMethodMap {
   /**
    * Imports a created key
    */
-  keyManagerImport(args: IKey): Promise<boolean>
+  keyManagerImport(args: MinimalImportableKey): Promise<ManagedKeyInfo>
 
   /**
    * Generates a signature according to the algorithm specified.

@@ -1,4 +1,4 @@
-import { IKey } from '@veramo/core'
+import { IKey, ManagedKeyInfo } from '@veramo/core'
 import { AbstractKeyStore, AbstractSecretBox } from '@veramo/key-manager'
 import { Connection } from 'typeorm'
 
@@ -8,20 +8,17 @@ import Debug from 'debug'
 const debug = Debug('veramo:typeorm:key-store')
 
 export class KeyStore extends AbstractKeyStore {
-  constructor(private dbConnection: Promise<Connection>, private secretBox?: AbstractSecretBox) {
+  constructor(private dbConnection: Promise<Connection>) {
     super()
-    if (!secretBox) {
-      console.warn('Please provide SecretBox to the KeyStore')
-    }
   }
 
   async get({ kid }: { kid: string }): Promise<IKey> {
     const key = await (await this.dbConnection).getRepository(Key).findOne(kid)
     if (!key) throw Error('Key not found')
-    if (this.secretBox && key.privateKeyHex) {
-      key.privateKeyHex = await this.secretBox.decrypt(key.privateKeyHex)
-    }
-    return key
+    // if (this.secretBox && key.privateKeyHex) {
+    //   key.privateKeyHex = await this.secretBox.decrypt(key.privateKeyHex)
+    // }
+    return key as IKey
   }
 
   async delete({ kid }: { kid: string }) {
@@ -35,10 +32,10 @@ export class KeyStore extends AbstractKeyStore {
   async import(args: IKey) {
     const key = new Key()
     key.kid = args.kid
-    key.privateKeyHex = args.privateKeyHex
-    if (this.secretBox && key.privateKeyHex) {
-      key.privateKeyHex = await this.secretBox.encrypt(key.privateKeyHex)
-    }
+    // key.privateKeyHex = args.privateKeyHex
+    // if (this.secretBox && key.privateKeyHex) {
+    //   key.privateKeyHex = await this.secretBox.encrypt(key.privateKeyHex)
+    // }
     key.publicKeyHex = args.publicKeyHex
     key.type = args.type
     key.kms = args.kms
@@ -46,5 +43,14 @@ export class KeyStore extends AbstractKeyStore {
     debug('Saving key', args.kid)
     await (await this.dbConnection).getRepository(Key).save(key)
     return true
+  }
+
+  async list(args: {} = {}): Promise<ManagedKeyInfo[]> {
+    const keys = await (await this.dbConnection).getRepository(Key).find()
+    const managedKeys: ManagedKeyInfo[] = keys.map((key) => {
+      const { kid, publicKeyHex, type, meta, kms } = key
+      return { kid, publicKeyHex, type, meta, kms } as IKey
+    })
+    return managedKeys
   }
 }

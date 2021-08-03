@@ -69,7 +69,9 @@ export default (testContext: {
           kms: 'foobar',
           type: 'Secp256k1',
         }),
-      ).rejects.toThrow('KMS does not exist: foobar')
+      ).rejects.toThrow(
+        `invalid_argument: This agent has no registered KeyManagementSystem with name='foobar'`,
+      )
     })
 
     it('should throw an error for unsupported key type', async () => {
@@ -115,8 +117,12 @@ export default (testContext: {
         kid: key.kid,
       })
 
-      expect(key2).toHaveProperty('privateKeyHex')
-      expect(key2.publicKeyHex).toEqual(key.publicKeyHex)
+      expect(key2).toHaveProperty('kid')
+      expect(key2).toHaveProperty('kms')
+      expect(key2).toHaveProperty('publicKeyHex')
+      expect(key2).toHaveProperty('type')
+      expect(key2).not.toHaveProperty('privateKeyHex')
+      expect(key2).toEqual(key)
     })
 
     it('should delete key', async () => {
@@ -145,24 +151,34 @@ export default (testContext: {
     })
 
     it('should import key', async () => {
-      const fullKey: IKey = {
-        kid: '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
+      const keyData = {
+        kid: 'myImportedKey',
         kms: 'local',
-        type: 'Secp256k1',
-        publicKeyHex:
-          '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
+        type: <TKeyType>'Secp256k1',
         privateKeyHex: 'e63886b5ba367dc2aff9acea6d955ee7c39115f12eaf2aa6b1a2eaa852036668',
         meta: { foo: 'bar' },
       }
 
-      const result = await agent.keyManagerImport(fullKey)
-      expect(result).toEqual(true)
+      const expectedImport = {
+        kid: 'myImportedKey',
+        kms: 'local',
+        type: 'Secp256k1',
+        publicKeyHex:
+          '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
+        meta: {
+          algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage'],
+          foo: 'bar',
+        },
+      }
+
+      const result = await agent.keyManagerImport(keyData)
+      expect(result).toEqual(expectedImport)
 
       const key2 = await agent.keyManagerGet({
-        kid: fullKey.kid,
+        kid: keyData.kid,
       })
 
-      expect(key2).toEqual(fullKey)
+      expect(key2).toEqual(expectedImport)
     })
 
     it('should sign JWT', async () => {

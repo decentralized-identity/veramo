@@ -4359,7 +4359,7 @@ did-jwt-vc@2.1.6:
     did-jwt "^5.6.1"
     did-resolver "^3.1.0"
 
-did-jwt@5.6.2, did-jwt@^5.4.0, did-jwt@^5.6.1:
+did-jwt@5.6.2, did-jwt@^5.4.0, did-jwt@^5.6.1, did-jwt@^5.6.2:
   version "5.6.2"
   resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.6.2.tgz#6b84f91db614bd844b58b45e94fb93ac748bdcd1"
   integrity sha512-WNX6haTfgNZZrOLxyeGdxKUh7tQJ07jJCcWIvXaq+wms0UxA7XGbdcEuz9h3uJsuIE+/7a3HgAy1FjD1DTcfww==
@@ -10154,6 +10154,13 @@ uid-number@0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
   integrity sha1-DqEOgDXo61uOREnwbaHHMGY7qoE=
+
+uint8arrays@2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/uint8arrays/-/uint8arrays-2.1.8.tgz#79394390ba93c7d858ce5703705dcf9012f0c9d4"
+  integrity sha512-qpZ/B88mSea11W3LvoimtnGWIC2i3gGuXby5wBkn8jY+OFulbaQwyjpOYSyrASqgcNEvKdAkLiOwiUt5cPSdcQ==
+  dependencies:
+    multiformats "^9.4.2"
 
 uint8arrays@^2.1.5:
   version "2.1.5"

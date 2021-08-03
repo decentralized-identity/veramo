@@ -1,4 +1,4 @@
-import { IIdentifier } from '@veramo/core'
+import { IIdentifier, IKey } from '@veramo/core'
 import { AbstractDIDStore } from '@veramo/did-manager'
 import { Identifier } from '../entities/identifier'
 import { Credential } from '../entities/credential'
@@ -50,7 +50,7 @@ export class DIDStore extends AbstractDIDStore {
         kms: k.kms,
         publicKeyHex: k.publicKeyHex,
         meta: k.meta,
-      })),
+      } as IKey)),
     }
     if (identifier.alias) {
       result.alias = identifier.alias
@@ -112,7 +112,7 @@ export class DIDStore extends AbstractDIDStore {
       const key = new Key()
       key.kid = argsKey.kid
       key.publicKeyHex = argsKey.publicKeyHex
-      key.privateKeyHex = argsKey.privateKeyHex
+      // key.privateKeyHex = argsKey.privateKeyHex
       key.kms = argsKey.kms
       key.meta = argsKey.meta
       identifier.keys.push(key)

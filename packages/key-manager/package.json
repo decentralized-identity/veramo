@@ -9,7 +9,13 @@
     "extract-api": "yarn veramo dev generate-plugin-schema"
   },
   "dependencies": {
-    "@veramo/core": "^2.1.0"
+    "@ethersproject/bytes": "^5.4.0",
+    "@ethersproject/strings": "^5.4.0",
+    "@ethersproject/transactions": "^5.4.0",
+    "@stablelib/ed25519": "^1.0.2",
+    "@veramo/core": "^2.1.0",
+    "did-jwt": "^5.6.2",
+    "uint8arrays": "2.1.8"
   },
   "devDependencies": {
     "typescript": "4.3.5"

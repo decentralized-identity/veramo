@@ -9,7 +9,7 @@ import {
   IAgentOptions,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager, MemoryKeyStore } from '../packages/key-manager/src'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src'
 import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
 import { createConnection, Connection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
@@ -95,7 +95,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
-          local: new KeyManagementSystem(),
+          local: new KeyManagementSystem({ keyStore: new MemoryPrivateKeyStore() }),
         },
       }),
       new DIDManager({

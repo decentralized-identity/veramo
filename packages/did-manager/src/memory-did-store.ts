@@ -13,19 +13,19 @@ export class MemoryDIDStore extends AbstractDIDStore {
     alias: string
     provider: string
   }): Promise<IIdentifier> {
-    if (did !== undefined && alias === undefined) {
-      if (!this.identifiers[did]) throw Error('Identifier not found')
+    if (did && !alias) {
+      if (!this.identifiers[did]) throw Error(`not_found: IIdentifier not found with did=${did}`)
       return this.identifiers[did]
-    } else if (did === undefined && alias !== undefined && provider !== undefined) {
+    } else if (!did && alias && provider) {
       for (const key of Object.keys(this.identifiers)) {
         if (this.identifiers[key].alias === alias && this.identifiers[key].provider === provider) {
           return this.identifiers[key]
         }
       }
     } else {
-      throw Error('Get requires did or (alias and provider)')
+      throw Error('invalid_argument: Get requires did or (alias and provider)')
     }
-    throw Error('Identifier not found')
+    throw Error(`not_found: IIdentifier not found with alias=${alias} provider=${provider}`)
   }
 
   async delete({ did }: { did: string }) {
