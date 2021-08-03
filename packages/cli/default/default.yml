@@ -277,9 +277,22 @@ didDiscovery:
         - $require: '@veramo/did-manager#AliasDiscoveryProvider'
         - $require: '@veramo/data-store#ProfileDiscoveryProvider'
 
-# LD-Handler
+# LD-Context Loader
+ldContextLoader:
+  - $require: '@veramo/credential-w3c#LdContextLoader'
+    $args:
+      - contextsPaths:
+          - $require: '@veramo/credential-w3c?t=object#LdDefaultContexts'
+          # others could be included here, e.g.
+          #- $require: '@transmute/credentials-context?t=object#contexts'
+
+
+# LD-Module
 ldCredentialModule:
   - $require: '@veramo/credential-w3c#LdCredentialModule'
+    $args:
+      - ldContextLoader:
+          - $ref: /ldContextLoader
 
 
 # W3C credentialPlugin

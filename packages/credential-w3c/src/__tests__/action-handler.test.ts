@@ -1,10 +1,9 @@
-import {
-  W3CCredential,
-  VerifiableCredential,
-  IIdentifier,
-  W3CPresentation,
-  VerifiablePresentation, IKey,
-} from '@veramo/core'
+import { IIdentifier, VerifiableCredential, W3CCredential, W3CPresentation,
+  VerifiablePresentation, IKey,} from '@veramo/core'
+import { CredentialIssuer, IContext } from '../action-handler'
+import { LdCredentialModule } from '../ld-credential-module'
+import { LdContextLoader } from '../ld-context-loader'
+import { LdDefaultContexts } from '../ld-default-contexts'
 
 const mockDidJwtVc = {
   createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
@@ -15,9 +14,6 @@ const mockDidJwtVc = {
 }
 
 jest.mock('did-jwt-vc', () => mockDidJwtVc)
-
-import { CredentialIssuer, IContext } from '../action-handler'
-import { LdCredentialModule } from '../ld-credential-module'
 
 const mockIdentifiers: IIdentifier[] = [
   {
@@ -65,7 +61,11 @@ const mockIdentifiers: IIdentifier[] = [
 ]
 
 const w3c = new CredentialIssuer({
-  ldCredentialModule: new LdCredentialModule()
+  ldCredentialModule: new LdCredentialModule({
+    ldContextLoader: new LdContextLoader({
+      contextsPaths: [ LdDefaultContexts ]
+    })
+  })
 })
 
 let agent = {

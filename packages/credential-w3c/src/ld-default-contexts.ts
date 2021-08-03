@@ -1,4 +1,3 @@
-
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -9,7 +8,7 @@ function _read(_path: string) {
       {encoding: 'utf8'}));
 }
 
-const contexts = new Map([
+export const LdDefaultContexts = new Map([
   ['https://veramo.io/contexts/socialmedia/v1', _read('socialmedia-v1.jsonld')],
   ['https://veramo.io/contexts/kyc/v1', _read('kyc-v1.jsonld')],
   ['https://veramo.io/contexts/profile/v1', _read('profile-v1.jsonld')],
@@ -20,5 +19,3 @@ const contexts = new Map([
   ['https://w3id.org/security/suites/ed25519-2018/v1', _read('ed25519-signature-2018-v1.jsonld')],
   ['https://w3id.org/security/suites/x25519-2019/v1', _read('X25519KeyAgreementKey2019.jsonld')]
 ]);
-
-export default contexts;

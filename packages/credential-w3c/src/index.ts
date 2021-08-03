@@ -16,5 +16,7 @@ export {
   ProofFormat,
 } from './action-handler'
 export { LdCredentialModule }  from './ld-credential-module'
+export { LdContextLoader } from './ld-context-loader'
+export { LdDefaultContexts } from './ld-default-contexts'
 const schema = require('../plugin.schema.json')
 export { schema }

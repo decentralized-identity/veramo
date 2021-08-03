@@ -1,4 +1,3 @@
-import localContexts from './contexts'
 import {
   IAgentContext,
   IIdentifier,
@@ -15,8 +14,8 @@ const { defaultDocumentLoader } = vc;
 const {extendContextLoader} = require('jsonld-signatures');
 const {EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020} = require('EcdsaSecp256k1RecoverySignature2020')
 import {Ed25519Signature2018, Ed25519VerificationKey2018} from '@transmute/ed25519-signature-2018'
-import { IContext, IVerifyVerifiablePresentationArgs } from './action-handler'
 import { CredentialPayload, PresentationPayload } from 'did-jwt-vc'
+import { LdContextLoader } from './ld-context-loader'
 
 const debug = Debug('veramo:w3c:ld-credential-module')
 
@@ -29,6 +28,15 @@ export class LdCredentialModule {
    * - DID Fragement Resolution.
    * - Key Manager and Verification Methods: Veramo currently implements no link between those.
    */
+
+  private ldContextLoader: LdContextLoader
+  constructor(options: {
+    ldContextLoader: LdContextLoader
+  }) {
+    this.ldContextLoader = options.ldContextLoader
+  }
+
+
 
   getDocumentLoader(context: IAgentContext<IResolver>) {
     return extendContextLoader(async (url: string) => {
@@ -81,12 +89,12 @@ export class LdCredentialModule {
         };
       }
 
-      if (localContexts.has(url)) {
+      if (this.ldContextLoader.has(url)) {
         // console.log(`Returning local context for: ${url}`)
         return {
           contextUrl: null,
           documentUrl: url,
-          document: localContexts.get(url)
+          document: this.ldContextLoader.get(url)
         };
       }
 
