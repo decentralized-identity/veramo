@@ -282,9 +282,10 @@ ldContextLoader:
   - $require: '@veramo/credential-w3c#LdContextLoader'
     $args:
       - contextsPaths:
+          # The LdDefaultContext is a "catch-all" for now.
           - $require: '@veramo/credential-w3c?t=object#LdDefaultContexts'
-          # others could be included here, e.g.
-          #- $require: '@transmute/credentials-context?t=object#contexts'
+          - $require: '@transmute/credentials-context?t=object#contexts'
+          #  others should be included here
 
 
 # LD-Module

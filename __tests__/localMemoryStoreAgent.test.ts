@@ -43,6 +43,8 @@ import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+import { getDidKeyResolver } from '../packages/did-provider-key'
+import {contexts as credential_contexts} from '@transmute/credentials-context'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -168,7 +170,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new CredentialIssuer({
           ldCredentialModule: new LdCredentialModule({
             ldContextLoader: new LdContextLoader({
-              contextsPaths: [ LdDefaultContexts ]
+              contextsPaths: [
+                LdDefaultContexts,
+                credential_contexts as Map<string, object>
+              ]
             })
           })
         }

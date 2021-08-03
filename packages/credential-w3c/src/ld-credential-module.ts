@@ -231,7 +231,7 @@ export class LdCredentialModule {
 
     // result can include raw Error
     console.log(`Error verifying LD Verifiable Credential`)
-    console.log(JSON.stringify(result, null, 2));
+    // console.log(JSON.stringify(result, null, 2));
     throw Error('Error verifying LD Verifiable Credential')
   }
 

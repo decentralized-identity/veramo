@@ -4,6 +4,7 @@ import { CredentialIssuer, IContext } from '../action-handler'
 import { LdCredentialModule } from '../ld-credential-module'
 import { LdContextLoader } from '../ld-context-loader'
 import { LdDefaultContexts } from '../ld-default-contexts'
+import {contexts as credential_contexts} from '@transmute/credentials-context'
 
 const mockDidJwtVc = {
   createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
@@ -63,7 +64,10 @@ const mockIdentifiers: IIdentifier[] = [
 const w3c = new CredentialIssuer({
   ldCredentialModule: new LdCredentialModule({
     ldContextLoader: new LdContextLoader({
-      contextsPaths: [ LdDefaultContexts ]
+      contextsPaths: [
+        LdDefaultContexts,
+        credential_contexts as Map<string, object>
+      ]
     })
   })
 })

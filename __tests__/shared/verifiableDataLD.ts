@@ -243,7 +243,7 @@ export default (testContext: {
     it('should verify a verifiable credential in LD with did:key', async () => {
       const verifiableCredential = await agent.dataStoreGetVerifiableCredential({ hash: storedCredentialHash })
 
-      console.log(JSON.stringify(verifiableCredential, null,  2))
+      // console.log(JSON.stringify(verifiableCredential, null,  2))
       // check that verification works
       const result = await agent.verifyVerifiableCredential({
         credential: verifiableCredential

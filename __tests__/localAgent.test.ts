@@ -1,7 +1,7 @@
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials, presentations, messages as well as keys and DIDs.
- * 
+ *
  * This suite also runs a ganache local blockchain to run through some examples of DIDComm using did:ethr identifiers.
  */
 
@@ -59,6 +59,9 @@ import { createGanacheProvider } from './utils/ganache-provider'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+import { getDidKeyResolver } from '../packages/did-provider-key'
+import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery'
+import {contexts as credential_contexts} from '@transmute/credentials-context'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -78,6 +81,7 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
+import contexts from '@veramo/credential-w3c/build/contexts'
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -211,7 +215,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new CredentialIssuer({
         ldCredentialModule: new LdCredentialModule({
             ldContextLoader: new LdContextLoader({
-              contextsPaths: [ LdDefaultContexts ]
+              contextsPaths: [
+                LdDefaultContexts,
+                credential_contexts as Map<string, object>
+              ]
             })
           })
         }
