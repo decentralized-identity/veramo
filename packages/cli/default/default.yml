@@ -277,6 +277,14 @@ didDiscovery:
         - $require: '@veramo/did-manager#AliasDiscoveryProvider'
         - $require: '@veramo/data-store#ProfileDiscoveryProvider'
 
+# LD-Suite Loader
+ldSuiteLoader:
+  - $require: '@veramo/credential-w3c#LdSuiteLoader'
+    $args:
+      - veramoLdSignatures:
+          - $require: '@veramo/credential-w3c#VeramoEd25519Signature2018'
+          - $require: '@veramo/credential-w3c#VeramoEcdsaSecp256k1RecoverySignature2020'
+
 # LD-Context Loader
 ldContextLoader:
   - $require: '@veramo/credential-w3c#LdContextLoader'
@@ -294,7 +302,8 @@ ldCredentialModule:
     $args:
       - ldContextLoader:
           - $ref: /ldContextLoader
-
+      - ldSuiteLoader:
+          - $ref: /ldSuiteLoader
 
 # W3C credentialPlugin
 credentialPlugin:
