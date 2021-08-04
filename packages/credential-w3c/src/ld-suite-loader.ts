@@ -14,15 +14,17 @@ export class LdSuiteLoader {
       return map
     }, new Map<TKeyType, VeramoLdSignature>())
   }
-
   private signatureMap: Map<TKeyType, VeramoLdSignature>;
 
-  getSignatureForKeyType(type: TKeyType) {
-    if (this.signatureMap.has(type)) {
-      return this.signatureMap.get(type)
-    }
+  getSignatureSuiteForKeyType(type: TKeyType) {
+    const suite = this.signatureMap.get(type)
+    if (suite) return suite
 
     throw new Error('No Veramo LD Signature Suite for ' + type)
+  }
+
+  getAllSignatureSuites() {
+    return Array.from(this.signatureMap.values())
   }
 
 }

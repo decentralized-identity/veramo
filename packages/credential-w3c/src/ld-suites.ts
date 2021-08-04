@@ -1,6 +1,7 @@
 import { IIdentifier, IKey, TKeyType } from '@veramo/core'
 import { Ed25519Signature2018, Ed25519VerificationKey2018 } from '@transmute/ed25519-signature-2018'
-import { CredentialPayload } from 'did-jwt-vc'
+import { CredentialPayload, PresentationPayload } from 'did-jwt-vc'
+import { DIDDocument } from 'did-resolver/src/resolver'
 const { EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020 } = require('EcdsaSecp256k1RecoverySignature2020')
 
 
@@ -19,7 +20,18 @@ export abstract class VeramoLdSignature {
 
   abstract getSuiteForVerification(): any;
 
+  abstract preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void;
+
   abstract preSigningCredModification(credential: Partial<CredentialPayload>): void;
+
+  preSigningPresModification(presentation: Partial<PresentationPayload>): void {
+    // TODO: Remove invalid field 'verifiers' from Presentation. Needs to be adapted for LD credentials
+    // Only remove empty array (vc.signPresentation will throw then)
+    const sanitizedPresentation = presentation as any
+    if (sanitizedPresentation.verifier.length == 0) {
+      delete sanitizedPresentation.verifier
+    }
+  }
 }
 
 
@@ -56,6 +68,25 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
       credential['@context'] = []
     }
     credential['@context'].push('https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld')
+  }
+
+  preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
+    // specific resolution modifications
+    // did:ethr
+    if (didUrl.toLowerCase().startsWith('did:ethr')) {
+      didDoc.assertionMethod = []
+      // TODO: EcdsaSecp256k1RecoveryMethod2020 does not support blockchainAccountId
+      // blockchainAccountId to ethereumAddress
+      didDoc.verificationMethod?.forEach(x => {
+        if (x.blockchainAccountId) {
+          x.ethereumAddress = x.blockchainAccountId.substring(0, x.blockchainAccountId.lastIndexOf("@"))
+        }
+
+        // TODO: Verification method \"did:ethr:rinkeby:0x99b5bcc24ac2701d763aac0a8466ac51a189501b#controller\" not authorized by controller for proof purpose \"assertionMethod\"."
+        // @ts-ignore
+        didDoc.assertionMethod.push(x.id)
+      })
+    }
   }
 
 }
@@ -100,6 +131,10 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
   }
 
   preSigningCredModification(credential: Partial<CredentialPayload>): void {
+    // nothing to do here
+  }
+
+  preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
     // nothing to do here
   }
 

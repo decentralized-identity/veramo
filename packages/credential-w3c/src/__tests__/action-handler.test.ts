@@ -6,6 +6,15 @@ import { LdContextLoader } from '../ld-context-loader'
 import { LdDefaultContexts } from '../ld-default-contexts'
 import {contexts as credential_contexts} from '@transmute/credentials-context'
 
+import { IIdentifier, VerifiableCredential, W3CCredential, W3CPresentation } from '@veramo/core'
+import { CredentialIssuer, IContext } from '../action-handler'
+import { LdCredentialModule } from '../ld-credential-module'
+import { LdContextLoader } from '../ld-context-loader'
+import { LdDefaultContexts } from '../ld-default-contexts'
+import { contexts as credential_contexts } from '@transmute/credentials-context'
+import { LdSuiteLoader } from '../ld-suite-loader'
+import { VeramoEcdsaSecp256k1RecoverySignature2020, VeramoEd25519Signature2018 } from '../ld-suites'
+
 const mockDidJwtVc = {
   createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
   createVerifiablePresentationJwt: jest.fn().mockReturnValue('mockVcJwt'),
@@ -14,6 +23,7 @@ const mockDidJwtVc = {
   normalizePresentation: jest.fn().mockReturnValue('mockPresentation'),
 }
 
+// Mock must come before imports with transitive dependency.
 jest.mock('did-jwt-vc', () => mockDidJwtVc)
 
 const mockIdentifiers: IIdentifier[] = [
@@ -67,6 +77,12 @@ const w3c = new CredentialIssuer({
       contextsPaths: [
         LdDefaultContexts,
         credential_contexts as Map<string, object>
+      ]
+    }),
+    ldSuiteLoader: new LdSuiteLoader({
+      veramoLdSignatures: [
+        new VeramoEd25519Signature2018(),
+        new VeramoEcdsaSecp256k1RecoverySignature2020()
       ]
     })
   })

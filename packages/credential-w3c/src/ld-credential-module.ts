@@ -11,11 +11,10 @@ import Debug from 'debug'
 const { purposes: { AssertionProofPurpose }} = require("jsonld-signatures");
 const vc = require('vc-js');
 const { defaultDocumentLoader } = vc;
-const {extendContextLoader} = require('jsonld-signatures');
-const {EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020} = require('EcdsaSecp256k1RecoverySignature2020')
-import {Ed25519Signature2018, Ed25519VerificationKey2018} from '@transmute/ed25519-signature-2018'
+const { extendContextLoader } = require('jsonld-signatures');
 import { CredentialPayload, PresentationPayload } from 'did-jwt-vc'
 import { LdContextLoader } from './ld-context-loader'
+import { LdSuiteLoader } from './ld-suite-loader'
 
 const debug = Debug('veramo:w3c:ld-credential-module')
 
@@ -30,10 +29,13 @@ export class LdCredentialModule {
    */
 
   private ldContextLoader: LdContextLoader
+  private ldSuiteLoader: LdSuiteLoader
   constructor(options: {
     ldContextLoader: LdContextLoader
+    ldSuiteLoader: LdSuiteLoader
   }) {
     this.ldContextLoader = options.ldContextLoader
+    this.ldSuiteLoader = options.ldSuiteLoader
   }
 
 
@@ -45,40 +47,15 @@ export class LdCredentialModule {
       // did resolution
       if (url.toLowerCase().startsWith('did:')) {
         const didDoc = await context.agent.resolveDid({ didUrl: url })
-        let returnDocument = didDoc.didDocument
+        const returnDocument = didDoc.didDocument
 
         if (!returnDocument) return
 
-        // specific resolution modifications
-        // did:ethr
-        if (url.toLowerCase().startsWith('did:ethr')) {
-          returnDocument.assertionMethod = []
-          // TODO: EcdsaSecp256k1RecoveryMethod2020 does not support blockchainAccountId
-          // blockchainAccountId to ethereumAddress
-          returnDocument.verificationMethod?.forEach(x => {
-            if (x.blockchainAccountId) {
-              x.ethereumAddress = x.blockchainAccountId.substring(0, x.blockchainAccountId.lastIndexOf("@"))
-            }
-
-            // TODO: Verification method \"did:ethr:rinkeby:0x99b5bcc24ac2701d763aac0a8466ac51a189501b#controller\" not authorized by controller for proof purpose \"assertionMethod\"."
-            // @ts-ignore
-            returnDocument.assertionMethod.push(x.id)
-          })
-        }
-
-        // did:key
-        if (url.toLowerCase().startsWith('did:key')) {
-          // TODO: Fix the strange id naming in did:key. make sure its ${}#controller
-          // let newId = '';
-          // returnDocument.publicKey?.forEach(x => {
-          //   newId = `${x.id.substring(0, x.id.lastIndexOf("#"))}#controller`
-          //   x.id = newId
-          // })
-          //
-          // returnDocument.assertionMethod = [ newId ]
-          // returnDocument.verificationMethod = returnDocument.publicKey
-          // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
-        }
+        // currently Veramo LD suites can modify the resolution response for DIDs from
+        // the document Loader. This allows to fix incompatibilities between DID Documents
+        // and LD suites to be fixed specifically within the Veramo LD Suites definition
+        this.ldSuiteLoader.getAllSignatureSuites().forEach(
+          x => x.preDidResolutionModification(url, returnDocument))
 
 
         // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
@@ -105,76 +82,21 @@ export class LdCredentialModule {
     });
   }
 
-  getLDSigningSuite(key: IKey, identifier: IIdentifier) {
-    let suite
-    const controller = identifier.did
-
-    if (!key.privateKeyHex) {
-      throw Error('No private Key for LD Signing available.')
-    }
-
-    switch(key.type) {
-      case 'Secp256k1':
-        suite = new EcdsaSecp256k1RecoverySignature2020({
-          key: new EcdsaSecp256k1RecoveryMethod2020({
-            publicKeyHex: key.publicKeyHex,
-            privateKeyHex: key.privateKeyHex,
-            type: 'EcdsaSecp256k1RecoveryMethod2020', // A little verbose?
-            controller,
-            id: `${controller}#controller` // TODO: Only default controller verificationMethod supported
-          }),
-        });
-        break;
-      case 'Ed25519':
-        // DID Key ID
-        let id = `${controller}#controller`
-        // TODO: Hacky id adjustment
-        if (controller.startsWith('did:key')) {
-          id = `${controller}#${controller.substring(controller.lastIndexOf(':') + 1)}`
-        }
-
-
-        suite = new Ed25519Signature2018({
-          key: new Ed25519VerificationKey2018({
-            id,
-            controller,
-            publicKey: Buffer.from(key.publicKeyHex, 'hex'),
-            privateKey: Buffer.from(key.privateKeyHex, 'hex'),
-          })
-        });
-        break;
-      default:
-        throw new Error(`Unknown key type ${key.type}.`);
-    }
-
-    return suite
-  }
-
   async issueLDVerifiableCredential(
     credential: Partial<CredentialPayload>,
     key: IKey,
     identifier: IIdentifier,
     context: IAgentContext<IResolver>): Promise<VerifiableCredential> {
 
-    const suite = this.getLDSigningSuite(key, identifier)
+    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
     const documentLoader = this.getDocumentLoader(context)
 
-    // some suites are missing the right contexts
-    // TODO: How to generalize this?
-    switch (suite.type) {
-      case "EcdsaSecp256k1RecoverySignature2020":
-        // console.log(`Adding context to credential ${suite.type}`)
-        if (!Array.isArray(credential['@context'])) {
-          credential['@context'] = []
-        }
-        credential['@context'].push('https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld')
-        break
-      default:
-    }
+    // some suites can modify the incoming credential (e.g. add required contexts)W
+    suite.preSigningCredModification(credential)
 
     return await vc.issue({
       credential,
-      suite,
+      suite: suite.getSuiteForSigning(key, identifier),
       documentLoader,
       compactProof: false
     });
@@ -189,20 +111,15 @@ export class LdCredentialModule {
     context: IAgentContext<IResolver>,
   ): Promise<VerifiablePresentation> {
 
-    const suite = this.getLDSigningSuite(key, identifier)
+    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
     const documentLoader = this.getDocumentLoader(context)
 
-    // TODO: Remove invalid field 'verifiers' from Presentation. Needs to be adapted for LD credentials
-    // Only remove empty array (vc.signPresentation will throw then)
-    const sanitizedPresentation = presentation as any
-    if (sanitizedPresentation.verifier.length == 0) {
-      delete sanitizedPresentation.verifier
-    }
+    suite.preSigningPresModification(presentation)
 
 
     return await vc.signPresentation({
-      presentation: sanitizedPresentation,
-      suite,
+      presentation,
+      suite: suite.getSuiteForSigning(key, identifier),
       challenge,
       domain,
       documentLoader,
@@ -218,7 +135,7 @@ export class LdCredentialModule {
 
     const result = await vc.verifyCredential({
       credential,
-      suite: [new EcdsaSecp256k1RecoverySignature2020(), new Ed25519Signature2018()],
+      suite: this.ldSuiteLoader.getAllSignatureSuites().map(x => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context),
       purpose: new AssertionProofPurpose(),
       compactProof: false
@@ -244,7 +161,7 @@ export class LdCredentialModule {
 
     const result = await vc.verify({
       presentation,
-      suite: [new EcdsaSecp256k1RecoverySignature2020(), new Ed25519Signature2018({})],
+      suite: this.ldSuiteLoader.getAllSignatureSuites().map(x => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context),
       challenge,
       domain,

@@ -28,7 +28,11 @@ import {
   ICredentialIssuer,
   W3cMessageHandler,
   LdCredentialModule,
-  LdContextLoader, LdDefaultContexts,
+  LdContextLoader,
+  LdDefaultContexts,
+  LdSuiteLoader,
+  VeramoEd25519Signature2018,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
 } from '../packages/credential-w3c/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
@@ -200,6 +204,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
               contextsPaths: [
                 LdDefaultContexts,
                 credential_contexts as Map<string, object>
+              ]
+            }),
+            ldSuiteLoader: new LdSuiteLoader({
+              veramoLdSignatures: [
+                new VeramoEd25519Signature2018(),
+                new VeramoEcdsaSecp256k1RecoverySignature2020()
               ]
             })
           })
