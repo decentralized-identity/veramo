@@ -67,9 +67,7 @@ export class DataStore implements IAgentPlugin {
       .getRepository(Claim)
       .find({ where: [{ credential: credentialEntity }] })
 
-    claims.forEach(async (claim) => {
-      await claim.remove()
-    })
+    await (await this.dbConnection).getRepository(Claim).remove(claims)
 
     await (await this.dbConnection).getRepository(Credential).remove(credentialEntity)
 

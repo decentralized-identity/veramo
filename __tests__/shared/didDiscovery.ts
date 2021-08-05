@@ -103,7 +103,7 @@ export default (testContext: {
 
     // THIS HAS TO BE THE LAST TEST IN THIS FILE!
     it('should return errors', async () => {
-      const connection = getConnection()
+      const connection = getConnection('test')
       await connection.query('PRAGMA foreign_keys = OFF;')
       await connection.query('DROP TABLE claim;')
 

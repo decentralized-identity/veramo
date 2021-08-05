@@ -78,6 +78,7 @@ let dbConnection: Promise<Connection>
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   dbConnection = createConnection({
+    name: 'test',
     type: 'sqlite',
     database: databaseFile,
     synchronize: true,
