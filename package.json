@@ -43,7 +43,7 @@
     "jest-fetch-mock": "3.0.3",
     "json-schema": "0.3.0",
     "lerna": "4.0.0",
-    "lerna-changelog": "1.0.1",
+    "lerna-changelog": "2.1.0",
     "oas-resolver": "2.5.6",
     "openapi-types": "9.1.0",
     "prettier": "2.3.2",
