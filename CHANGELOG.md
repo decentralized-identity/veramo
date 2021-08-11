@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/uport-project/veramo/compare/v2.0.1...v2.1.0) (2021-08-11)
+
+
+### Bug Fixes
+
+* **cli:** export recent methods from CLI local and remote ([44da085](https://github.com/uport-project/veramo/commit/44da0856bfdeb8f47ad85086e2d600d1e7e7f06a))
+* **credentials-w3c:** accept Presentations without Credentials ([#616](https://github.com/uport-project/veramo/issues/616)) ([2389cd0](https://github.com/uport-project/veramo/commit/2389cd0df080e968ee320d66fabf2e8a7b51ba47))
+* dataStoreDeleteVerifiableCredential ([#652](https://github.com/uport-project/veramo/issues/652)) ([840d89b](https://github.com/uport-project/veramo/commit/840d89ba097b89c061c9206057e05bd2e3d3a630)), closes [#649](https://github.com/uport-project/veramo/issues/649)
+* **deps:** update dependency @microsoft/api-extractor to v7.18.4 ([ec64d56](https://github.com/uport-project/veramo/commit/ec64d56eadf23a01946ad5cec3c4fcbd116ec073))
+* **deps:** update dependency ts-json-schema-generator to ^0.95.0 ([76e0133](https://github.com/uport-project/veramo/commit/76e0133ff818d805fe3ebbfb601073a568d1bd25))
+* **deps:** update dependency ws to v8 ([#643](https://github.com/uport-project/veramo/issues/643)) ([40fae61](https://github.com/uport-project/veramo/commit/40fae6198f427283c0db4db29fde53360deec37b))
+
+
+### Features
+
+* **data-store:** delete verifiable credential ([#634](https://github.com/uport-project/veramo/issues/634)) ([c7b0131](https://github.com/uport-project/veramo/commit/c7b0131c94e21c5c6800990c5743418b6b135a30)), closes [#635](https://github.com/uport-project/veramo/issues/635)
+
+
+
+
+
 ## [2.0.1](https://github.com/uport-project/veramo/compare/v2.0.0...v2.0.1) (2021-07-20)
 
 
