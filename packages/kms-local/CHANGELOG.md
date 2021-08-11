@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/uport-project/veramo/compare/v2.1.0...v2.1.1) (2021-08-11)
+
+
+### Bug Fixes
+
+* include tx type in eth_signTransaction ([#660](https://github.com/uport-project/veramo/issues/660)) ([d45129e](https://github.com/uport-project/veramo/commit/d45129ec7106c7fdb0ddfafc22bfa498d4e95d9d)), closes [#641](https://github.com/uport-project/veramo/issues/641)
+
+
+
+
+
 # [2.1.0](https://github.com/uport-project/veramo/compare/v2.0.1...v2.1.0) (2021-08-11)
 
 **Note:** Version bump only for package @veramo/kms-local
