@@ -11,9 +11,11 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   schema,
+  IDataStoreDeleteVerifiableCredentialArgs,
 } from '@veramo/core'
 import { Message, createMessageEntity, createMessage } from './entities/message'
 import { Credential, createCredentialEntity } from './entities/credential'
+import { Claim } from './entities/claim'
 import { Presentation, createPresentationEntity } from './entities/presentation'
 import { Connection } from 'typeorm'
 
@@ -28,6 +30,7 @@ export class DataStore implements IAgentPlugin {
     this.methods = {
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
+      dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiableCredential: this.dataStoreSaveVerifiableCredential.bind(this),
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
@@ -51,6 +54,24 @@ export class DataStore implements IAgentPlugin {
     } catch (e) {
       throw Error('Message not found')
     }
+  }
+
+  async dataStoreDeleteVerifiableCredential(
+    args: IDataStoreDeleteVerifiableCredentialArgs,
+  ): Promise<boolean> {
+    const credentialEntity = await (await this.dbConnection)
+      .getRepository(Credential)
+      .findOneOrFail(args.hash)
+
+    const claims = await (await this.dbConnection)
+      .getRepository(Claim)
+      .find({ where: [{ credential: credentialEntity }] })
+
+    await (await this.dbConnection).getRepository(Claim).remove(claims)
+
+    await (await this.dbConnection).getRepository(Credential).remove(credentialEntity)
+
+    return true
   }
 
   async dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string> {

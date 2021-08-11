@@ -14,7 +14,7 @@
     "update-veramo-latest": "yarn add @veramo/core@latest @veramo/discovery@latest @veramo/remote-client@latest @veramo/remote-server@latest @veramo/did-provider-key@latest @veramo/did-resolver@latest @veramo/did-jwt@latest @veramo/credential-w3c@latest @veramo/did-provider-ethr@latest @veramo/did-provider-web@latest @veramo/did-comm@latest @veramo/kms-local@latest @veramo/selective-disclosure@latest @veramo/data-store@latest @veramo/key-manager@latest @veramo/message-handler@latest @veramo/did-manager@latest @veramo/url-handler@latest"
   },
   "dependencies": {
-    "@microsoft/api-extractor": "7.18.2",
+    "@microsoft/api-extractor": "7.18.4",
     "@microsoft/api-extractor-model": "7.13.4",
     "@types/blessed": "^0.1.17",
     "@types/swagger-ui-express": "^4.1.2",
@@ -62,19 +62,19 @@
     "qrcode-terminal": "^0.12.0",
     "sqlite3": "^5.0.0",
     "swagger-ui-express": "^4.1.5",
-    "ts-json-schema-generator": "^0.94.0",
+    "ts-json-schema-generator": "^0.95.0",
     "typeorm": "0.2.34",
     "url-parse": "^1.5.1",
     "web-did-resolver": "2.0.4",
-    "ws": "^7.4.1",
+    "ws": "^8.0.0",
     "yaml": "^1.10.0"
   },
   "devDependencies": {
-    "@types/debug": "4.1.6",
+    "@types/debug": "4.1.7",
     "@types/inquirer": "7.3.3",
-    "@types/node-fetch": "2.5.11",
+    "@types/node-fetch": "2.5.12",
     "@types/passport-http-bearer": "1.0.37",
-    "@types/ws": "7.4.6",
+    "@types/ws": "7.4.7",
     "typescript": "4.3.5"
   },
   "files": [

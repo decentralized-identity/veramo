@@ -1308,6 +1308,19 @@
   "IDataStore": {
     "components": {
       "schemas": {
+        "IDataStoreDeleteVerifiableCredentialArgs": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string",
+              "description": "Required. VerifiableCredential hash"
+            }
+          },
+          "required": [
+            "hash"
+          ],
+          "description": "Input arguments for  {@link  IDataStore.IDataStoreDeleteVerifiableCredentialArgs| IDataStoreDeleteVerifiableCredentialArgs }"
+        },
         "IDataStoreGetMessageArgs": {
           "type": "object",
           "properties": {
@@ -1560,7 +1573,6 @@
             "@context",
             "type",
             "verifier",
-            "verifiableCredential",
             "proof"
           ],
           "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
@@ -1632,6 +1644,15 @@
         }
       },
       "methods": {
+        "dataStoreDeleteVerifiableCredential": {
+          "description": "Deletes verifiable credential from the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreDeleteVerifiableCredentialArgs"
+          },
+          "returnType": {
+            "type": "boolean"
+          }
+        },
         "dataStoreGetMessage": {
           "description": "Gets message from the data store",
           "arguments": {
@@ -1955,7 +1976,6 @@
             "@context",
             "type",
             "verifier",
-            "verifiableCredential",
             "proof"
           ],
           "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"

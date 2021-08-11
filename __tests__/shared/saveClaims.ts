@@ -101,5 +101,18 @@ export default (testContext: {
       })
       expect(credentials).toHaveLength(2)
     })
+
+    it('should be able to delete credential', async () => {
+      const credentials = await agent.dataStoreORMGetVerifiableCredentials()
+      expect(credentials).toHaveLength(3)
+
+      const result = await agent.dataStoreDeleteVerifiableCredential({hash: credentials[0].hash})
+      expect(result).toEqual(true)
+
+      const credentials2 = await agent.dataStoreORMGetVerifiableCredentials()
+      expect(credentials2).toHaveLength(2)
+
+    })
+    
   })
 }

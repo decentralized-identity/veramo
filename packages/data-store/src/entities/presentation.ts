@@ -105,6 +105,6 @@ export const createPresentationEntity = (vp: VerifiablePresentation): Presentati
 
   presentation.raw = vp
 
-  presentation.credentials = vp.verifiableCredential.map(createCredentialEntity)
+  presentation.credentials = (vp.verifiableCredential || []).map(createCredentialEntity)
   return presentation
 }

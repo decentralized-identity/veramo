@@ -5,19 +5,20 @@ import {
   IDIDManager,
   IKeyManager,
   IPluginMethodMap,
-  W3CCredential,
-  W3CPresentation,
   VerifiableCredential,
   VerifiablePresentation,
   IDataStore,
   IKey,
+  IIdentifier,
 } from '@veramo/core'
 
 import {
   createVerifiableCredentialJwt,
   createVerifiablePresentationJwt,
+  CredentialPayload,
   normalizeCredential,
   normalizePresentation,
+  PresentationPayload,
 } from 'did-jwt-vc'
 
 import { schema } from './'
@@ -50,17 +51,7 @@ export interface ICreateVerifiablePresentationArgs {
    *
    * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
    */
-  presentation: {
-    id?: string
-    holder: string
-    issuanceDate?: string
-    expirationDate?: string
-    '@context'?: string[]
-    type?: string[]
-    verifier: string[]
-    verifiableCredential: VerifiableCredential[]
-    [x: string]: any
-  }
+  presentation: Partial<PresentationPayload>
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
@@ -97,23 +88,7 @@ export interface ICreateVerifiableCredentialArgs {
    *
    * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
    */
-  credential: {
-    '@context'?: string[]
-    id?: string
-    type?: string[]
-    issuer: { id: string; [x: string]: any }
-    issuanceDate?: string
-    expirationDate?: string
-    credentialSubject: {
-      id?: string
-      [x: string]: any
-    }
-    credentialStatus?: {
-      id: string
-      type: string
-    }
-    [x: string]: any
-  }
+  credential: Partial<CredentialPayload>
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
@@ -211,17 +186,25 @@ export class CredentialIssuer implements IAgentPlugin {
     args: ICreateVerifiablePresentationArgs,
     context: IContext,
   ): Promise<VerifiablePresentation> {
-    try {
-      const presentation: W3CPresentation = {
-        ...args.presentation,
-        '@context': args.presentation['@context'] || ['https://www.w3.org/2018/credentials/v1'],
-        //FIXME: make sure 'VerifiablePresentation' is the first element in this array:
-        type: args.presentation.type || ['VerifiablePresentation'],
-        issuanceDate: args.presentation.issuanceDate || new Date().toISOString(),
-      }
+    const presentation: Partial<PresentationPayload> = {
+      ...args?.presentation,
+      '@context': args?.presentation['@context'] || ['https://www.w3.org/2018/credentials/v1'],
+      //FIXME: make sure 'VerifiablePresentation' is the first element in this array:
+      type: args?.presentation?.type || ['VerifiablePresentation'],
+      issuanceDate: args?.presentation?.issuanceDate || new Date().toISOString(),
+    }
 
-      //FIXME: if the identifier is not found, the error message should reflect that.
-      const identifier = await context.agent.didManagerGet({ did: presentation.holder })
+    if (!presentation.holder || typeof presentation.holder === 'undefined') {
+      throw new Error('invalid_argument: args.presentation.holder must not be empty')
+    }
+
+    let identifier: IIdentifier
+    try {
+      identifier = await context.agent.didManagerGet({ did: presentation.holder })
+    } catch (e) {
+      throw new Error('invalid_argument: args.presentation.holder must be a DID managed by this agent')
+    }
+    try {
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
@@ -234,7 +217,7 @@ export class CredentialIssuer implements IAgentPlugin {
       const signer = wrapSigner(context, key, alg)
 
       const jwt = await createVerifiablePresentationJwt(
-        presentation,
+        presentation as PresentationPayload,
         { did: identifier.did, signer, alg },
         { removeOriginalFields: args.removeOriginalFields },
       )
@@ -256,17 +239,27 @@ export class CredentialIssuer implements IAgentPlugin {
     args: ICreateVerifiableCredentialArgs,
     context: IContext,
   ): Promise<VerifiableCredential> {
-    try {
-      const credential: W3CCredential = {
-        ...args.credential,
-        '@context': args.credential['@context'] || ['https://www.w3.org/2018/credentials/v1'],
-        //FIXME: make sure 'VerifiableCredential' is the first element in this array:
-        type: args.credential.type || ['VerifiableCredential'],
-        issuanceDate: args.credential.issuanceDate || new Date().toISOString(),
-      }
+    const credential: Partial<CredentialPayload> = {
+      ...args?.credential,
+      '@context': args?.credential?.['@context'] || ['https://www.w3.org/2018/credentials/v1'],
+      //FIXME: make sure 'VerifiableCredential' is the first element in this array:
+      type: args?.credential?.type || ['VerifiableCredential'],
+      issuanceDate: args?.credential?.issuanceDate || new Date().toISOString(),
+    }
 
-      //FIXME: if the identifier is not found, the error message should reflect that.
-      const identifier = await context.agent.didManagerGet({ did: credential.issuer.id })
+    //FIXME: if the identifier is not found, the error message should reflect that.
+    const issuer = typeof credential.issuer === 'string' ? credential.issuer : credential?.issuer?.id
+    if (!issuer || typeof issuer === 'undefined') {
+      throw new Error('invalid_argument: args.credential.issuer must not be empty')
+    }
+
+    let identifier: IIdentifier
+    try {
+      identifier = await context.agent.didManagerGet({ did: issuer })
+    } catch (e) {
+      throw new Error(`invalid_argument: args.credential.issuer must be a DID managed by this agent. ${e}`)
+    }
+    try {
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
@@ -278,7 +271,7 @@ export class CredentialIssuer implements IAgentPlugin {
       }
       const signer = wrapSigner(context, key, alg)
       const jwt = await createVerifiableCredentialJwt(
-        credential,
+        credential as CredentialPayload,
         { did: identifier.did, signer, alg },
         { removeOriginalFields: args.removeOriginalFields },
       )

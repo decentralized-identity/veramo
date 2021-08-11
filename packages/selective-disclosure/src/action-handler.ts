@@ -165,7 +165,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
     let valid = true
     let claims = []
     for (const credentialRequest of args.sdr.claims) {
-      let credentials = args.presentation.verifiableCredential.filter((credential) => {
+      let credentials = (args.presentation?.verifiableCredential || []).filter((credential) => {
         if (
           credentialRequest.claimType &&
           credentialRequest.claimValue &&
