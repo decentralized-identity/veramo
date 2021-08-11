@@ -122,7 +122,7 @@ did
           type: 'text',
           name: 'type',
           message: 'Service type',
-          default: 'Messaging',
+          default: 'DIDCommMessaging',
         },
         {
           type: 'text',
