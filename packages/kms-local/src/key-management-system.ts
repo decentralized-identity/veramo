@@ -161,7 +161,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed raw transaction
    */
   private async eth_signTransaction(privateKeyHex: string, rlpTransaction: Uint8Array) {
-    const { v, r, s, type, ...tx } = parse(rlpTransaction)
+    const { v, r, s, ...tx } = parse(rlpTransaction)
     const wallet = new Wallet(privateKeyHex)
     const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
     //HEX encoded string, 0x prefixed
