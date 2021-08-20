@@ -1,7 +1,6 @@
 import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly } from '@veramo/core'
 import { AbstractKeyManagementSystem, AbstractPrivateKeyStore } from '@veramo/key-manager'
-// FIXME: weird import
-import { ManagedPrivateKey } from '@veramo/key-manager/src/abstract-private-key-store'
+import { ManagedPrivateKey } from '@veramo/key-manager'
 
 import { EdDSASigner, ES256KSigner } from 'did-jwt'
 import {

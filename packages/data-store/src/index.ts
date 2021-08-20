@@ -34,8 +34,9 @@ import { Presentation } from './entities/presentation'
 import { Service } from './entities/service'
 import { Message, MetaData } from './entities/message'
 import { PrivateKey } from './entities/private-key'
-export const Entities = [Key, Identifier, Message, Claim, Credential, Presentation, Service, PrivateKey]
-export { KeyType, Key, Identifier, Message, Claim, Credential, Presentation, MetaData, Service, PrivateKey }
+import { PreMigrationKey } from './entities/PreMigrationEntities'
+export const Entities = [Key, Identifier, Message, Claim, Credential, Presentation, Service, PrivateKey, PreMigrationKey]
+export { KeyType, Key, Identifier, Message, Claim, Credential, Presentation, MetaData, Service, PrivateKey, PreMigrationKey }
 export { migrations } from './migrations'
 const schema = require('../plugin.schema.json')
 export { schema }

@@ -316,7 +316,7 @@ export default (testContext: {
             id: `${did}#msg`,
             serviceEndpoint: 'https://example.org/messaging',
             type: 'Messaging',
-          } as Service,
+          },
         ],
       })
     })

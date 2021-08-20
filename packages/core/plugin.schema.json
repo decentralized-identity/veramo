@@ -655,7 +655,8 @@
               ],
               "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
             }
-          }
+          },
+          "description": "Represents an object type where a subset of keys are required and everything else is optional."
         },
         "IKeyManagerSharedSecretArgs": {
           "type": "object",
@@ -1271,7 +1272,8 @@
               ],
               "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
             }
-          }
+          },
+          "description": "Represents an object type where a subset of keys are required and everything else is optional."
         },
         "IDIDManagerRemoveKeyArgs": {
           "type": "object",
