@@ -19,8 +19,11 @@ import {
 import * as u8a from 'uint8arrays'
 import { JWE, createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, ECDH } from 'did-jwt'
 import { arrayify, hexlify } from '@ethersproject/bytes'
+import { serialize, computeAddress } from '@ethersproject/transactions'
 import { toUtf8String, toUtf8Bytes } from '@ethersproject/strings'
 import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
+import Debug from 'debug'
+const debug = Debug('veramo:key-manager')
 
 /**
  * Agent plugin that provides {@link @veramo/core#IKeyManager} methods
@@ -138,9 +141,12 @@ export class KeyManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignJWT} */
   async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string> {
-    const key = await this.store.get({ kid })
-    const kms = this.getKms(key.kms)
-    return kms.signJWT({ key, data })
+    if (typeof data === 'string') {
+      return this.keyManagerSign({ keyRef: kid, data, encoding: 'utf-8' })
+    } else {
+      const dataString = u8a.toString(data, 'base16')
+      return this.keyManagerSign({ keyRef: kid, data: dataString, encoding: 'base16' })
+    }
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSign} */
@@ -164,9 +170,23 @@ export class KeyManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignEthTX} */
   async keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string> {
-    const key = await this.store.get({ kid })
-    const kms = this.getKms(key.kms)
-    return kms.signEthTX({ key, transaction })
+    const { v, r, s, from, ...tx } = <any>transaction
+    if (typeof from === 'string') {
+      debug('WARNING: executing a transaction signing request with a `from` field.')
+      const key = await this.store.get({ kid })
+      if (key.publicKeyHex) {
+        const address = computeAddress('0x' + key.publicKeyHex)
+        if (address.toLowerCase() !== from.toLowerCase()) {
+          const msg =
+            'invalid_arguments: keyManagerSignEthTX `from` field does not match the chosen key. `from` field should be omitted.'
+          debug(msg)
+          throw new Error(msg)
+        }
+      }
+    }
+    const data = serialize(tx)
+    const algorithm = 'eth_signTransaction'
+    return this.keyManagerSign({ keyRef: kid, data, algorithm, encoding: 'base16' })
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSharedKey} */
@@ -178,11 +198,11 @@ export class KeyManager implements IAgentPlugin {
       myKey.type === theirKey.type ||
       (['Ed25519', 'X25519'].includes(myKey.type) && ['Ed25519', 'X25519'].includes(theirKey.type))
     ) {
+      const kms = this.getKms(myKey.kms)
+      return kms.sharedSecret({ myKey, theirKey })
     } else {
       throw new Error('invalid_argument: the key types have to match to be able to compute a shared secret')
     }
-    const kms = this.getKms(myKey.kms)
-    return kms.sharedSecret({ myKey, theirKey })
   }
 
   createX25519ECDH(secretKeyRef: string): ECDH {
