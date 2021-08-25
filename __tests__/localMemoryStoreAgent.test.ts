@@ -26,10 +26,12 @@ import {
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
 import { Entities, IDataStoreORM, DataStore, DataStoreORM } from '../packages/data-store/src'
+import { getDidKeyResolver } from '../packages/did-provider-key/src'
+import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import { getDidKeyResolver } from '../packages/did-provider-key'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -45,7 +47,6 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 const databaseFile = 'local-database2.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
@@ -112,6 +113,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
             gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
+          }),
+          'did:ethr:421611': new EthrDIDProvider({
+            defaultKms: 'local',
+            network: 421611,
+            rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
+            registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
           }),
           'did:web': new WebDIDProvider({
             defaultKms: 'local',

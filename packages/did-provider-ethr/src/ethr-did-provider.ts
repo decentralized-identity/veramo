@@ -25,7 +25,7 @@ export function toEthereumAddress(hexPublicKey: string): string {
  */
 export class EthrDIDProvider extends AbstractIdentifierProvider {
   private defaultKms: string
-  private network: string
+  private network: string | number
   private web3Provider?: Provider
   private rpcUrl?: string
   private gas?: number
@@ -34,7 +34,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
 
   constructor(options: {
     defaultKms: string
-    network: string
+    network: string | number
     rpcUrl?: string
     web3Provider?: Provider
     ttl?: number

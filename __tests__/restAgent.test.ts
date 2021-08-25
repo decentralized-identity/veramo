@@ -22,6 +22,7 @@ import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
 import {
   SelectiveDisclosure,
   ISelectiveDisclosure,
@@ -38,17 +39,16 @@ import {
   ProfileDiscoveryProvider,
 } from '../packages/data-store/src'
 import { AgentRestClient } from '../packages/remote-client/src'
-import express from 'express'
-import { Server } from 'http'
 import { AgentRouter, RequestWithAgentRouter, MessagingRouter } from '../packages/remote-server/src'
+import { getDidKeyResolver } from '../packages/did-provider-key/src'
+import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
+import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
-// import { getUniversalResolver } from '../packages/did-resolver/src/universal-resolver'
-import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
-import { getDidKeyResolver } from '../packages/did-provider-key/build'
+import express from 'express'
+import { Server } from 'http'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -135,6 +135,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
             gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
+          }),
+          'did:ethr:421611': new EthrDIDProvider({
+            defaultKms: 'local',
+            network: 421611,
+            rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
+            registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
           }),
           'did:web': new WebDIDProvider({
             defaultKms: 'local',
