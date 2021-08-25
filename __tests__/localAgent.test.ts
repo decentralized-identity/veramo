@@ -11,21 +11,22 @@ import {
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
-import { createConnection, Connection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
+import { DIDComm, DIDCommMessageHandler, IDIDComm, DIDCommHttpTransport } from '../packages/did-comm/src'
 import {
   SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
+import { getDidKeyResolver } from '../packages/did-provider-key/src'
+
 import {
   Entities,
   KeyStore,
@@ -34,11 +35,11 @@ import {
   DataStore,
   DataStoreORM,
   ProfileDiscoveryProvider,
+  migrations,
 } from '../packages/data-store/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
-import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { createConnection, Connection } from 'typeorm'
 
+import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -82,7 +83,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     name: 'test',
     type: 'sqlite',
     database: databaseFile,
-    synchronize: true,
+    synchronize: false,
+    migrations: migrations,
+    migrationsRun: true,
     logging: false,
     entities: Entities,
   })

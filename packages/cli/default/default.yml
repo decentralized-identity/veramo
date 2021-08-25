@@ -66,7 +66,10 @@ dbConnection:
     - type: sqlite
       database:
         $ref: /constants/databaseFile
-      synchronize: true
+      synchronize: false
+      migrationsRun: true
+      migrations:
+        $require: '@veramo/data-store?t=object#migrations'
       logging: false
       entities:
         $require: '@veramo/data-store?t=object#Entities'

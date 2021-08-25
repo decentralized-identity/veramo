@@ -39,7 +39,7 @@ export class Key extends BaseEntity {
   })
   meta?: KeyMetadata | null
 
-  @ManyToOne((type) => Identifier, (identifier) => identifier.keys)
+  @ManyToOne((type) => Identifier, (identifier) => identifier?.keys)
   //@ts-ignore
-  identifier: Identifier
+  identifier?: Identifier
 }

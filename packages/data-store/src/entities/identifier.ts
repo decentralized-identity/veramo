@@ -1,13 +1,14 @@
 import {
   Entity,
   Column,
+  Connection,
   PrimaryColumn,
   BaseEntity,
   OneToMany,
   ManyToMany,
-  CreateDateColumn,
-  UpdateDateColumn,
   Index,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm'
 import { Key } from './key'
 import { Service } from './service'
@@ -15,7 +16,6 @@ import { Message } from './message'
 import { Presentation } from './presentation'
 import { Credential } from './credential'
 import { Claim } from './claim'
-import { Connection } from 'typeorm'
 
 @Entity('identifier')
 @Index(['alias', 'provider'], { unique: true })
@@ -26,23 +26,34 @@ export class Identifier extends BaseEntity {
 
   @Column({ nullable: true })
   //@ts-ignore
-  provider: string
+  provider?: string
 
   @Column({ nullable: true })
   //@ts-ignore
   alias?: string
 
-  @CreateDateColumn({ select: false })
+  @BeforeInsert()
+  setSaveDate() {
+    this.saveDate = new Date()
+    this.updateDate = new Date()
+  }
+
+  @BeforeUpdate()
+  setUpdateDate() {
+    this.updateDate = new Date()
+  }
+
+  @Column({ select: false })
   //@ts-ignore
   saveDate: Date
 
-  @UpdateDateColumn({ select: false })
+  @Column({ select: false })
   //@ts-ignore
   updateDate: Date
 
   @Column({ nullable: true })
   //@ts-ignore
-  controllerKeyId: string
+  controllerKeyId?: string
 
   @OneToMany((type) => Key, (key) => key.identifier)
   //@ts-ignore

@@ -16,6 +16,7 @@ export * from './types/message-types'
 export * from './types/utility-types'
 export * from './types/IDIDComm'
 export { DIDCommMessageHandler } from './message-handler'
+export * from './transports/transports'
 /**
  * @beta
  */

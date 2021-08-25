@@ -40,7 +40,7 @@ export class DIDStore extends AbstractDIDStore {
     const result: IIdentifier = {
       did: identifier.did,
       controllerKeyId: identifier.controllerKeyId,
-      provider: identifier.provider,
+      provider: identifier.provider!!,
       services: identifier.services,
       keys: identifier.keys.map((k) => ({
         kid: k.kid,
@@ -117,7 +117,7 @@ export class DIDStore extends AbstractDIDStore {
       if (i.alias === null) {
         delete i.alias
       }
-      return i
+      return i as IIdentifier
     })
   }
 }
