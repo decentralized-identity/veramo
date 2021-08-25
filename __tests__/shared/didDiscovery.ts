@@ -1,4 +1,4 @@
-import { IDIDDiscovery } from '../../packages/did-discovery'
+import { IDIDDiscovery } from '../../packages/did-discovery/src'
 import { TAgent, IDIDManager, IKeyManager, IIdentifier } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'

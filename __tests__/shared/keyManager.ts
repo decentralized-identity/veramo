@@ -1,5 +1,4 @@
-import { IKey, TKeyType } from '@veramo/core'
-import { TAgent, IDIDManager, IKeyManager, IAgentOptions } from '../../packages/core/src'
+import { TAgent, IDIDManager, IKeyManager, IAgentOptions, IKey, TKeyType } from '../../packages/core/src'
 import { serialize, computeAddress } from '@ethersproject/transactions'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>

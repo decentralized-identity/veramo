@@ -19,7 +19,7 @@ export default (testContext: {
 
     it('should get providers', async () => {
       const providers = await agent.didManagerGetProviders()
-      expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:web', 'did:key', 'did:fake'])
+      expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:ethr:421611', 'did:web', 'did:key', 'did:fake'])
     })
 
     let identifier: IIdentifier
@@ -31,6 +31,17 @@ export default (testContext: {
       expect(identifier.provider).toEqual('did:web')
       expect(identifier.alias).toEqual('example.com')
       expect(identifier.did).toEqual('did:web:example.com')
+      expect(identifier.keys.length).toEqual(1)
+      expect(identifier.services.length).toEqual(0)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
+    it('should create identifier using did:ethr:421611', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:ethr:421611',
+      })
+      expect(identifier.provider).toEqual('did:ethr:421611')
+      expect(identifier.did).toMatch(/^did:ethr:421611:0x.*$/)
       expect(identifier.keys.length).toEqual(1)
       expect(identifier.services.length).toEqual(0)
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
@@ -109,7 +120,7 @@ export default (testContext: {
 
     it('should get identifiers', async () => {
       const allIdentifiers = await agent.didManagerFind()
-      expect(allIdentifiers.length).toEqual(4)
+      expect(allIdentifiers.length).toEqual(5)
 
       const aliceIdentifiers = await agent.didManagerFind({
         alias: 'alice',
