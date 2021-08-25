@@ -1,6 +1,6 @@
 import { IKey, TKeyType } from '@veramo/core'
 import { arrayify, hexlify } from '@ethersproject/bytes'
-import { serialize, Transaction } from '@ethersproject/transactions'
+import { serialize } from '@ethersproject/transactions'
 import * as u8a from 'uint8arrays'
 
 export abstract class AbstractKeyManagementSystem {
@@ -9,7 +9,7 @@ export abstract class AbstractKeyManagementSystem {
 
   /**@deprecated please use `sign({key, alg: 'eth_signTransaction', data: arrayify(serialize(transaction))})` instead */
   async signEthTX({ key, transaction }: { key: IKey; transaction: object }): Promise<string> {
-    const { v, r, s, type, ...tx } = <Transaction>transaction
+    const { v, r, s, from, ...tx } = <any>transaction
     const data = arrayify(serialize(tx))
     const algorithm = 'eth_signTransaction'
     const signedTxHexString = this.sign({ key, data, algorithm })

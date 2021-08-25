@@ -10,8 +10,8 @@ import { parse } from '@ethersproject/transactions'
 import { Wallet } from '@ethersproject/wallet'
 import { SigningKey } from '@ethersproject/signing-key'
 import { randomBytes } from '@ethersproject/random'
-import Debug from 'debug'
 import { arrayify, hexlify } from '@ethersproject/bytes'
+import Debug from 'debug'
 const debug = Debug('veramo:kms:local')
 
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
@@ -161,8 +161,16 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed raw transaction
    */
   private async eth_signTransaction(privateKeyHex: string, rlpTransaction: Uint8Array) {
-    const { v, r, s, ...tx } = parse(rlpTransaction)
+    const { v, r, s, from, ...tx } = parse(rlpTransaction)
     const wallet = new Wallet(privateKeyHex)
+    if (from) {
+      debug('WARNING: executing a transaction signing request with a `from` field.')
+      if (wallet.address.toLowerCase() !== from.toLowerCase()) {
+        const msg = "invalid_arguments: eth_signTransaction `from` field does not match the chosen key. `from` field should be omitted."
+        debug(msg)
+        throw new Error(msg)
+      }
+    }
     const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
     //HEX encoded string, 0x prefixed
     return signedRawTransaction

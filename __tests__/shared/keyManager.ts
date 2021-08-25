@@ -1,6 +1,6 @@
 import { IKey, TKeyType } from '@veramo/core'
 import { TAgent, IDIDManager, IKeyManager, IAgentOptions } from '../../packages/core/src'
-import { serialize } from '@ethersproject/transactions'
+import { serialize, computeAddress } from '@ethersproject/transactions'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
 
@@ -198,6 +198,52 @@ export default (testContext: {
       })
 
       expect(typeof rawTx).toEqual('string')
+    })
+
+    it('should allow signing EthTX with matching from', async () => {
+      const key = await agent.keyManagerCreate({
+        kms: 'local',
+        type: 'Secp256k1',
+      })
+      const keyAddress = computeAddress('0x' + key.publicKeyHex)
+
+      const rawTx = await agent.keyManagerSignEthTX({
+        kid: key.kid,
+        transaction: {
+          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+          from: keyAddress,
+          value: 300000,
+          gasLimit: 43092000,
+          gasPrice: 20000000000,
+          nonce: 1,
+        },
+      })
+
+      expect(typeof rawTx).toEqual('string')
+    })
+
+    it('should NOT sign EthTX with mismatching from field', async () => {
+      expect.assertions(1)
+      const key = await agent.keyManagerCreate({
+        kms: 'local',
+        type: 'Secp256k1',
+      })
+
+      await expect(
+        agent.keyManagerSignEthTX({
+          kid: key.kid,
+          transaction: {
+            to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+            from: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+            value: 300000,
+            gasLimit: 43092000,
+            gasPrice: 20000000000,
+            nonce: 1,
+          },
+        }),
+      ).rejects.toThrowError(
+        'invalid_arguments: keyManagerSignEthTX `from` field does not match the chosen key. `from` field should be omitted.',
+      )
     })
 
     it('Should Encrypt/Decrypt', async () => {
