@@ -193,11 +193,11 @@ export async function mapIdentifierKeysToDoc(
   return extendedKeys
 }
 
-export async function resolveDidOrThrow(didUrl: string, context: IAgentContext<IResolver>) {
+export async function resolveDidOrThrow(didUrl: string, context: IAgentContext<IResolver>): Promise<DIDDocument> {
   // TODO: add caching
   const docResult = await context.agent.resolveDid({ didUrl: didUrl })
-  const err = docResult.didResolutionMetadata.error
-  const msg = docResult.didResolutionMetadata.message
+  const err = docResult?.didResolutionMetadata?.error
+  const msg = docResult?.didResolutionMetadata?.message
   const didDocument = docResult.didDocument
   if (!isDefined(didDocument) || err) {
     throw new Error(`not_found: could not resolve DID document for '${didUrl}': ${err} ${msg}`)

@@ -468,15 +468,7 @@ export class DIDComm implements IAgentPlugin {
       throw new Error(`not_supported: return routes not supported yet`)
     }
 
-    const result = await context.agent.resolveDid({ didUrl: `${recipientDidUrl}` })
-    const err = result.didResolutionMetadata.error
-    const msg = result.didResolutionMetadata.message
-    const didDoc = result.didDocument
-    if (!didDoc || err) {
-      throw new Error(
-        `resolver_error: could not resolve DID document for '${recipientDidUrl}': ${err} ${msg}`,
-      )
-    }
+    const didDoc = await resolveDidOrThrow(recipientDidUrl, context)
 
     const services = didDoc.service?.filter(
       (service: any) => service.type === 'DIDCommMessaging',
