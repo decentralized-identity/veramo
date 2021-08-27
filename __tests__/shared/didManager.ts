@@ -19,7 +19,14 @@ export default (testContext: {
 
     it('should get providers', async () => {
       const providers = await agent.didManagerGetProviders()
-      expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:ethr:421611', 'did:web', 'did:key', 'did:fake'])
+      expect(providers).toEqual([
+        'did:ethr',
+        'did:ethr:rinkeby',
+        'did:ethr:421611',
+        'did:web',
+        'did:key',
+        'did:fake',
+      ])
     })
 
     let identifier: IIdentifier
@@ -120,7 +127,7 @@ export default (testContext: {
 
     it('should get identifiers', async () => {
       const allIdentifiers = await agent.didManagerFind()
-      expect(allIdentifiers.length).toEqual(5)
+      expect(allIdentifiers.length).toBeGreaterThanOrEqual(5)
 
       const aliceIdentifiers = await agent.didManagerFind({
         alias: 'alice',
@@ -130,15 +137,15 @@ export default (testContext: {
       const rinkebyIdentifiers = await agent.didManagerFind({
         provider: 'did:ethr:rinkeby',
       })
-      expect(rinkebyIdentifiers.length).toEqual(1)
+      expect(rinkebyIdentifiers.length).toBeGreaterThanOrEqual(1)
 
       // Default provider 'did:ethr:rinkeby'
-      await agent.didManagerCreate()
+      await agent.didManagerCreate({ provider: 'did:ethr:rinkeby' })
 
       const rinkebyIdentifiers2 = await agent.didManagerFind({
         provider: 'did:ethr:rinkeby',
       })
-      expect(rinkebyIdentifiers2.length).toEqual(2)
+      expect(rinkebyIdentifiers2.length).toEqual(rinkebyIdentifiers.length + 1)
     })
 
     it('should delete identifier', async () => {
@@ -261,71 +268,72 @@ export default (testContext: {
     })
 
     it('should import identifier', async () => {
-      const identifier = await agent.didManagerGetOrCreate({
+      const imported: IIdentifier = {
+        did: 'did:web:example.org',
         alias: 'example.org',
         provider: 'did:web',
-      })
+        services: [
+          {
+            id: 'did:web:example.org#msg',
+            type: 'Messaging',
+            serviceEndpoint: 'https://example.org/messaging',
+            description: 'Handles incoming messages',
+          },
+        ],
+        keys: [
+          {
+            kid: '0405debbb55a873648ca545f810e44edd1997688eb8e46b1fdd6842bd83e300b16fd8258a3ca19f5d858a5ab0c9ba8381b0bf00727be1154e5bbd3a4da5f186af6',
+            kms: 'local',
+            type: 'Secp256k1',
+            publicKeyHex:
+              '0405debbb55a873648ca545f810e44edd1997688eb8e46b1fdd6842bd83e300b16fd8258a3ca19f5d858a5ab0c9ba8381b0bf00727be1154e5bbd3a4da5f186af6',
+            privateKeyHex: '55e67c7f7b4c25657d3144fa7ca3cf842790906ce24176b02b927b3aebffab50',
+            meta: {
+              algorithms: [
+                'ES256K',
+                'ES256K-R',
+                'eth_signTransaction',
+                'eth_signTypedData',
+                'eth_signMessage',
+              ],
+            },
+          },
+          {
+            kid: 'b4fdd9cb90730776f2934fd5bfd43d187fff667ddbe81ec40445250fcc6b60df',
+            kms: 'local',
+            type: 'Ed25519',
+            publicKeyHex: 'b4fdd9cb90730776f2934fd5bfd43d187fff667ddbe81ec40445250fcc6b60df',
+            privateKeyHex:
+              'eb1722c5767e9e938e6bef6361baf16d389051b6c1dcaf58adedf5ef9652be67b4fdd9cb90730776f2934fd5bfd43d187fff667ddbe81ec40445250fcc6b60df',
+            meta: { algorithms: ['Ed25519', 'EdDSA'] },
+          },
+        ],
+      }
 
-      await agent.didManagerAddService({
-        did: identifier.did,
-        service: {
-          id: 'did:web:example.org#msg',
-          type: 'Messaging',
-          serviceEndpoint: 'https://example.org/messaging',
-          description: 'Handles incoming messages',
-        },
-      })
-
-      const signingKeyFull = await agent.keyManagerGet({
-        kid: identifier.keys[0].kid,
-      })
-
-      const encryptionKey = await agent.keyManagerCreate({
-        kms: 'local',
-        type: 'Ed25519',
-      })
-
-      const encryptionKeyFull = await agent.keyManagerGet({
-        kid: encryptionKey.kid,
-      })
-
-      await agent.didManagerAddKey({
-        did: identifier.did,
-        key: encryptionKey,
-      })
-
-      const exportedIdentifier = await agent.didManagerGet({
-        did: identifier.did,
-      })
-
-      await agent.didManagerDelete({
-        did: identifier.did,
-      })
-
-      await agent.didManagerImport({
-        ...exportedIdentifier,
-        keys: [signingKeyFull, encryptionKeyFull],
-      })
+      await agent.didManagerImport(imported)
 
       const importedIdentifier = await agent.didManagerGet({
-        did: identifier.did,
+        did: imported.did,
       })
-      expect(importedIdentifier).toEqual(exportedIdentifier)
+      
+      expect(importedIdentifier.did).toEqual(imported.did)
+      expect(importedIdentifier.keys.length).toEqual(imported.keys.length)
+      expect(importedIdentifier.services).toEqual(imported.services)
     })
 
     it('should set alias for identifier', async () => {
       const identifier = await agent.didManagerCreate()
       const result = await agent.didManagerSetAlias({
         did: identifier.did,
-        alias: 'carol',
+        alias: 'dave',
       })
       expect(result).toEqual(true)
 
       const identifier2 = await agent.didManagerGetByAlias({
-        alias: 'carol',
+        alias: 'dave',
       })
 
-      expect(identifier2).toEqual({ ...identifier, alias: 'carol' })
+      expect(identifier2).toEqual({ ...identifier, alias: 'dave' })
     })
 
     it.todo('should add key for did:ethr')

@@ -80,7 +80,7 @@ let dbConnection: Promise<Connection>
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   dbConnection = createConnection({
-    name: 'test',
+    name: options?.context?.['dbName'] || 'sqlite-test',
     type: 'sqlite',
     database: databaseFile,
     synchronize: false,
@@ -89,6 +89,21 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     logging: false,
     entities: Entities,
   })
+
+  // //docker run -p 5432:5432 -it --rm -e POSTGRES_PASSWORD=test123 postgres
+  // dbConnection = createConnection({
+  //   name: options?.context?.['dbName'] || 'postgres-test',
+  //   type: 'postgres',
+  //   host: 'localhost',
+  //   port: 5432,
+  //   password: 'test123',
+  //   username: 'postgres',
+  //   synchronize: true,
+  //   // migrations: migrations,
+  //   // migrationsRun: true,
+  //   logging: false,
+  //   entities: Entities,
+  // })
 
   agent = createAgent<
     IDIDManager &
@@ -177,8 +192,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 }
 
 const tearDown = async (): Promise<boolean> => {
-  await (await dbConnection).close()
-  fs.unlinkSync(databaseFile)
+  try {
+    await (await dbConnection).dropDatabase()
+    await (await dbConnection).close()
+  } catch (e) {
+    // nop
+  }
+  try {
+    fs.unlinkSync(databaseFile)
+  } catch (e) {
+    // nop
+  }
   return true
 }
 

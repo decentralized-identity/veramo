@@ -18,7 +18,7 @@ export class Service extends BaseEntity {
   @Column({ nullable: true })
   description?: string
 
-  @ManyToOne((type) => Identifier, (identifier) => identifier?.services)
+  @ManyToOne((type) => Identifier, (identifier) => identifier?.services, { onDelete: 'CASCADE' })
   //@ts-ignore
   identifier?: Identifier
 }

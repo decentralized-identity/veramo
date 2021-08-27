@@ -1,11 +1,13 @@
 import { IIdentifier } from '@veramo/core'
 import { AbstractDIDStore } from '@veramo/did-manager'
 import { Identifier } from '../entities/identifier'
+import { Credential } from '../entities/credential'
 import { Key } from '../entities/key'
 import { Service } from '../entities/service'
-import { Connection, IsNull, Not } from 'typeorm'
+import { Connection, In, IsNull, Not } from 'typeorm'
 
 import Debug from 'debug'
+import { Presentation } from '../entities/presentation'
 const debug = Debug('veramo:typeorm:identifier-store')
 
 export class DIDStore extends AbstractDIDStore {
@@ -57,7 +59,36 @@ export class DIDStore extends AbstractDIDStore {
   }
 
   async delete({ did }: { did: string }) {
-    const identifier = await (await this.dbConnection).getRepository(Identifier).findOne(did)
+    const identifier = await (await this.dbConnection)
+      .getRepository(Identifier)
+      .findOne({
+        where: { did },
+        relations: ['keys', 'services', 'issuedCredentials', 'issuedPresentations'],
+      })
+    if (!identifier || typeof identifier === 'undefined') {
+      return true
+    }
+    // some drivers don't support cascading so we delete these manually
+
+    //unlink existing keys that are no longer tied to this identifier
+    let existingKeys = identifier.keys.map((key) => {
+      delete key.identifier
+      return key
+    })
+    await (await this.dbConnection).getRepository(Key).save(existingKeys)
+
+    if (identifier.issuedCredentials || typeof identifier.issuedCredentials !== 'undefined') {
+      await (await this.dbConnection).getRepository(Credential).remove(identifier.issuedCredentials)
+    }
+
+    if (identifier.issuedPresentations || typeof identifier.issuedPresentations !== 'undefined') {
+      await (await this.dbConnection).getRepository(Presentation).remove(identifier.issuedPresentations)
+    }
+
+    //delete existing services that are no longer tied to this identifier
+    let oldServices = identifier.services
+    const srvRepo = await (await this.dbConnection).getRepository(Service).remove(oldServices)
+
     if (!identifier) throw Error('Identifier not found')
     debug('Deleting', did)
     await (await this.dbConnection).getRepository(Identifier).remove(identifier)

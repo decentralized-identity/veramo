@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm'
+import { ColumnType, MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm'
 import Debug from 'debug'
 const debug = Debug('veramo:data-store:initial-migration')
 
@@ -7,6 +7,8 @@ const debug = Debug('veramo:data-store:initial-migration')
  */
 export class CreateDatabase1447159020001 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {
+    const dateTimeType: string = queryRunner.connection.driver.mappedDataTypes.createDate as string
+
     debug(`creating identifier table`)
     // "CREATE TABLE \"identifier\" (\"did\" varchar PRIMARY KEY NOT NULL, \"provider\" varchar, \"alias\" varchar, \"saveDate\" datetime NOT NULL DEFAULT (datetime('now')), \"updateDate\" datetime NOT NULL DEFAULT (datetime('now')), \"controllerKeyId\" varchar)",
     // "CREATE UNIQUE INDEX \"IDX_6098cca69c838d91e55ef32fe1\" ON \"identifier\" (\"alias\", \"provider\")",
@@ -17,8 +19,8 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           { name: 'did', type: 'varchar', isPrimary: true },
           { name: 'provider', type: 'varchar', isNullable: true },
           { name: 'alias', type: 'varchar', isNullable: true },
-          { name: 'saveDate', type: 'datetime' },
-          { name: 'updateDate', type: 'datetime' },
+          { name: 'saveDate', type: dateTimeType },
+          { name: 'updateDate', type: dateTimeType },
           { name: 'controllerKeyId', type: 'varchar', isNullable: true },
         ],
         indices: [
@@ -43,7 +45,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           { name: 'publicKeyHex', type: 'varchar' },
           { name: 'privateKeyHex', type: 'varchar', isNullable: true },
           { name: 'meta', type: 'text', isNullable: true },
-          { name: 'identifierDid', type: 'varchar'},
+          { name: 'identifierDid', type: 'varchar' },
         ],
         foreignKeys: [
           {
@@ -66,13 +68,14 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           { name: 'type', type: 'varchar' },
           { name: 'serviceEndpoint', type: 'varchar' },
           { name: 'description', type: 'varchar', isNullable: true },
-          { name: 'identifierDid', type: 'varchar'},
+          { name: 'identifierDid', type: 'varchar' },
         ],
         foreignKeys: [
           {
             columnNames: ['identifierDid'],
             referencedColumnNames: ['did'],
             referencedTableName: 'identifier',
+            onDelete: 'cascade',
           },
         ],
       }),
@@ -88,18 +91,19 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           { name: 'hash', type: 'varchar', isPrimary: true },
           { name: 'raw', type: 'text' },
           { name: 'id', type: 'varchar', isNullable: true },
-          { name: 'issuanceDate', type: 'datetime' },
-          { name: 'expirationDate', type: 'datetime', isNullable: true },
+          { name: 'issuanceDate', type: dateTimeType },
+          { name: 'expirationDate', type: dateTimeType, isNullable: true },
           { name: 'context', type: 'text' },
           { name: 'type', type: 'text' },
           { name: 'issuerDid', type: 'varchar' },
-          { name: 'subjectDid', type: 'varchar' },
+          { name: 'subjectDid', type: 'varchar', isNullable: true },
         ],
         foreignKeys: [
           {
             columnNames: ['issuerDid'],
             referencedColumnNames: ['did'],
             referencedTableName: 'identifier',
+            onDelete: 'cascade',
           },
           {
             columnNames: ['subjectDid'],
@@ -118,8 +122,8 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
         name: 'claim',
         columns: [
           { name: 'hash', type: 'varchar', isPrimary: true },
-          { name: 'issuanceDate', type: 'datetime' },
-          { name: 'expirationDate', type: 'datetime', isNullable: true },
+          { name: 'issuanceDate', type: dateTimeType },
+          { name: 'expirationDate', type: dateTimeType, isNullable: true },
           { name: 'context', type: 'text' },
           { name: 'credentialType', type: 'text' },
           { name: 'value', type: 'text' },
@@ -134,6 +138,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
             columnNames: ['issuerDid'],
             referencedColumnNames: ['did'],
             referencedTableName: 'identifier',
+            onDelete: 'cascade',
           },
           {
             columnNames: ['subjectDid'],
@@ -144,6 +149,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
             columnNames: ['credentialHash'],
             referencedColumnNames: ['hash'],
             referencedTableName: 'credential',
+            onDelete: 'cascade',
           },
         ],
       }),
@@ -159,8 +165,8 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           { name: 'hash', type: 'varchar', isPrimary: true },
           { name: 'raw', type: 'text' },
           { name: 'id', type: 'varchar', isNullable: true },
-          { name: 'issuanceDate', type: 'datetime' },
-          { name: 'expirationDate', type: 'datetime', isNullable: true },
+          { name: 'issuanceDate', type: dateTimeType },
+          { name: 'expirationDate', type: dateTimeType, isNullable: true },
           { name: 'context', type: 'text' },
           { name: 'type', type: 'text' },
           { name: 'holderDid', type: 'varchar', isNullable: true },
@@ -170,6 +176,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
             columnNames: ['holderDid'],
             referencedColumnNames: ['did'],
             referencedTableName: 'identifier',
+            onDelete: 'cascade',
           },
         ],
       }),
@@ -183,10 +190,10 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
         name: 'message',
         columns: [
           { name: 'id', type: 'varchar', isPrimary: true },
-          { name: 'saveDate', type: 'datetime' },
-          { name: 'updateDate', type: 'datetime' },
-          { name: 'createdAt', type: 'datetime', isNullable: true },
-          { name: 'expiresAt', type: 'datetime', isNullable: true },
+          { name: 'saveDate', type: dateTimeType },
+          { name: 'updateDate', type: dateTimeType },
+          { name: 'createdAt', type: dateTimeType, isNullable: true },
+          { name: 'expiresAt', type: dateTimeType, isNullable: true },
           { name: 'threadId', type: 'varchar', isNullable: true },
           { name: 'type', type: 'varchar', isNullable: true },
           { name: 'raw', type: 'varchar', isNullable: true },

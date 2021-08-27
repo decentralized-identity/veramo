@@ -35,7 +35,7 @@ import {
   DataStore,
   DataStoreORM,
   ProfileDiscoveryProvider,
-  migrations
+  migrations,
 } from '../packages/data-store/src'
 import { createConnection, Connection } from 'typeorm'
 import { AgentRestClient } from '../packages/remote-client/src'
@@ -101,7 +101,7 @@ const getAgent = (options?: IAgentOptions) =>
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   dbConnection = createConnection({
-    name: 'test',
+    name: options?.context?.['dbName'] || 'sqlite-test',
     type: 'sqlite',
     database: databaseFile,
     synchronize: false,
@@ -207,9 +207,18 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 }
 
 const tearDown = async (): Promise<boolean> => {
-  restServer.close()
-  await (await dbConnection).close()
-  fs.unlinkSync(databaseFile)
+  await new Promise((resolve, reject) => restServer.close(resolve))
+  try {
+    await (await dbConnection).dropDatabase()
+    await (await dbConnection).close()
+  } catch (e) {
+    // nop
+  }
+  try {
+    fs.unlinkSync(databaseFile)
+  } catch (e) {
+    //nop
+  }
   return true
 }
 

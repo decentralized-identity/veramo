@@ -85,6 +85,7 @@ export class Message extends BaseEntity {
     nullable: true,
     cascade: ['insert'],
     eager: true,
+    onDelete: "CASCADE",
   })
   from?: Identifier
 
@@ -92,6 +93,7 @@ export class Message extends BaseEntity {
     nullable: true,
     cascade: ['insert'],
     eager: true,
+    onDelete: "CASCADE"
   })
   to?: Identifier
 

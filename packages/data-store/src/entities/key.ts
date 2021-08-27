@@ -39,7 +39,7 @@ export class Key extends BaseEntity {
   })
   meta?: KeyMetadata | null
 
-  @ManyToOne((type) => Identifier, (identifier) => identifier?.keys)
+  @ManyToOne((type) => Identifier, (identifier) => identifier?.keys, { onDelete: 'CASCADE' })
   //@ts-ignore
   identifier?: Identifier
 }

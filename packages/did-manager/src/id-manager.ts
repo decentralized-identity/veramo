@@ -156,10 +156,6 @@ export class DIDManager implements IAgentPlugin {
     const identifier = await this.store.get({ did })
     const provider = this.getProvider(identifier.provider)
     await provider.deleteIdentifier(identifier, context)
-    if (identifier.services.length > 0) {
-      identifier.services = []
-      await this.store.import(identifier)
-    }
     return this.store.delete({ did })
   }
 

@@ -159,8 +159,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 }
 
 const tearDown = async (): Promise<boolean> => {
-  await (await dbConnection).close()
-  fs.unlinkSync(databaseFile)
+  try {
+    await (await dbConnection).dropDatabase()
+    await (await dbConnection).close()
+  } catch (e) {
+    // nop
+  }
+  try{
+    fs.unlinkSync(databaseFile)
+  } catch (e) {
+    //nop
+  }
   return true
 }
 
