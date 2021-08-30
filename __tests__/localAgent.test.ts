@@ -59,8 +59,8 @@ import didManager from './shared/didManager'
 import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
+import dbInitOptions from './shared/dbInitOptions'
 
-const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
@@ -77,10 +77,12 @@ let agent: TAgent<
     IDIDDiscovery
 >
 let dbConnection: Promise<Connection>
+let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
+  databaseFile = options?.context?.databaseFile || 'local-database.sqlite'
   dbConnection = createConnection({
-    name: options?.context?.['dbName'] || 'sqlite-test',
+    name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',
     database: databaseFile,
     synchronize: false,
@@ -88,22 +90,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     migrationsRun: true,
     logging: false,
     entities: Entities,
+    // allow shared tests to override connection options
+    ...options?.context?.dbConnectionOptions
   })
-
-  // //docker run -p 5432:5432 -it --rm -e POSTGRES_PASSWORD=test123 postgres
-  // dbConnection = createConnection({
-  //   name: options?.context?.['dbName'] || 'postgres-test',
-  //   type: 'postgres',
-  //   host: 'localhost',
-  //   port: 5432,
-  //   password: 'test123',
-  //   username: 'postgres',
-  //   synchronize: true,
-  //   // migrations: migrations,
-  //   // migrationsRun: true,
-  //   logging: false,
-  //   entities: Entities,
-  // })
 
   agent = createAgent<
     IDIDManager &
@@ -222,4 +211,5 @@ describe('Local integration tests', () => {
   messageHandler(testContext)
   didComm(testContext)
   didDiscovery(testContext)
+  dbInitOptions(testContext)
 })
