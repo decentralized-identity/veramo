@@ -112,7 +112,6 @@ export class DIDStore extends AbstractDIDStore {
       const key = new Key()
       key.kid = argsKey.kid
       key.publicKeyHex = argsKey.publicKeyHex
-      // key.privateKeyHex = argsKey.privateKeyHex
       key.kms = argsKey.kms
       key.meta = argsKey.meta
       identifier.keys.push(key)

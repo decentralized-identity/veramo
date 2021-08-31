@@ -22,9 +22,6 @@ export class Key extends BaseEntity {
   //@ts-ignore
   publicKeyHex: string
 
-  // @Column({ nullable: true })
-  // privateKeyHex?: string
-
   @Column({
     type: 'simple-json',
     nullable: true,

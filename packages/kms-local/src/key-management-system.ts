@@ -191,7 +191,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     const wallet = new Wallet(privateKeyHex)
 
     const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
-    //HEX encoded string
+    // HEX encoded string
     return signature
   }
 
@@ -201,7 +201,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   private async eth_signMessage(privateKeyHex: string, rawMessageBytes: Uint8Array) {
     const wallet = new Wallet(privateKeyHex)
     const signature = await wallet.signMessage(rawMessageBytes)
-    //HEX encoded string, 0x prefixed
+    // HEX encoded string, 0x prefixed
     return signature
   }
 
@@ -220,7 +220,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
       }
     }
     const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
-    //HEX encoded string, 0x prefixed
+    // HEX encoded string, 0x prefixed
     return signedRawTransaction
   }
 
@@ -230,7 +230,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   private async signEdDSA(key: string, data: Uint8Array): Promise<string> {
     const signer = EdDSASigner(key)
     const signature = await signer(data)
-    //base64url encoded string
+    // base64url encoded string
     return signature as string
   }
 
@@ -244,7 +244,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   ): Promise<string> {
     const signer = ES256KSigner(privateKeyHex, alg === 'ES256K-R')
     const signature = await signer(data)
-    //base64url encoded string
+    // base64url encoded string
     return signature as string
   }
 
