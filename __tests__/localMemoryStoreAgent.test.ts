@@ -95,7 +95,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
-          local: new KeyManagementSystem({ keyStore: new MemoryPrivateKeyStore() }),
+          local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
       new DIDManager({

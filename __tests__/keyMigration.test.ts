@@ -61,9 +61,7 @@ describe('database private-key migration tests', () => {
           new KeyManager({
             store: new KeyStore(dbConnection),
             kms: {
-              local: new KeyManagementSystem({
-                keyStore: new PrivateKeyStore(dbConnection, new SecretBox(secretKey)),
-              }),
+              local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
             },
           }),
           new DIDManager({

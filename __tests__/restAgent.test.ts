@@ -118,7 +118,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new KeyManager({
         store: new KeyStore(dbConnection),
         kms: {
-          local: new KeyManagementSystem({ keyStore: new PrivateKeyStore(dbConnection, new SecretBox(secretKey)) }),
+          local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
         },
       }),
       new DIDManager({

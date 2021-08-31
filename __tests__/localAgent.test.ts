@@ -92,7 +92,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     logging: false,
     entities: Entities,
     // allow shared tests to override connection options
-    ...options?.context?.dbConnectionOptions
+    ...options?.context?.dbConnectionOptions,
   })
 
   agent = createAgent<
@@ -115,7 +115,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new KeyManager({
         store: new KeyStore(dbConnection),
         kms: {
-          local: new KeyManagementSystem({ keyStore: new PrivateKeyStore(dbConnection, new SecretBox(secretKey)) }),
+          local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
         },
       }),
       new DIDManager({

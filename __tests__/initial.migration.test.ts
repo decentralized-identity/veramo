@@ -13,7 +13,7 @@ import {
   KeyStore,
   DIDStore,
   migrations,
-  PrivateKeyStore
+  PrivateKeyStore,
 } from '../packages/data-store/src'
 import { getDidKeyResolver } from '../packages/did-provider-key/src'
 import { KeyManager } from '../packages/key-manager/src'
@@ -61,9 +61,7 @@ describe('database initial migration tests', () => {
           new KeyManager({
             store: new KeyStore(dbConnection),
             kms: {
-              local: new KeyManagementSystem({
-                keyStore: new PrivateKeyStore(dbConnection, new SecretBox(secretKey)),
-              }),
+              local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
             },
           }),
           new DIDManager({

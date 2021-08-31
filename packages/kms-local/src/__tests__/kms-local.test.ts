@@ -4,7 +4,7 @@ import { MemoryPrivateKeyStore } from '@veramo/key-manager/src'
 
 describe('@veramo/kms-local', () => {
   it('should compute a shared secret Ed+Ed', async () => {
-    const kms = new KeyManagementSystem({ keyStore: new MemoryPrivateKeyStore() })
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'Ed25519',
       privateKeyHex:
@@ -20,7 +20,7 @@ describe('@veramo/kms-local', () => {
   })
 
   it('should compute a shared secret Ed+X', async () => {
-    const kms = new KeyManagementSystem({ keyStore: new MemoryPrivateKeyStore() })
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'Ed25519',
       privateKeyHex:
@@ -36,7 +36,7 @@ describe('@veramo/kms-local', () => {
   })
 
   it('should compute a shared secret X+Ed', async () => {
-    const kms = new KeyManagementSystem({ keyStore: new MemoryPrivateKeyStore() })
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'X25519',
       privateKeyHex: '704380837434dde8a41bebcb75494578bf243fa19cd59e120a1de84e0815c84d',
@@ -52,7 +52,7 @@ describe('@veramo/kms-local', () => {
   })
 
   it('should compute a shared secret X+X', async () => {
-    const kms = new KeyManagementSystem({ keyStore: new MemoryPrivateKeyStore() })
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'X25519',
       privateKeyHex: '704380837434dde8a41bebcb75494578bf243fa19cd59e120a1de84e0815c84d',
@@ -69,7 +69,7 @@ describe('@veramo/kms-local', () => {
 
   it('should throw on invalid myKey type', async () => {
     expect.assertions(1)
-    const kms = new KeyManagementSystem({ keyStore: new MemoryPrivateKeyStore() })
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'Secp256k1',
       privateKeyHex: '704380837434dde8a41bebcb75494578bf243fa19cd59e120a1de84e0815c84d',
@@ -85,7 +85,7 @@ describe('@veramo/kms-local', () => {
 
   it('should throw on invalid theirKey type', async () => {
     expect.assertions(1)
-    const kms = new KeyManagementSystem({ keyStore: new MemoryPrivateKeyStore() })
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'X25519',
       privateKeyHex: '704380837434dde8a41bebcb75494578bf243fa19cd59e120a1de84e0815c84d',

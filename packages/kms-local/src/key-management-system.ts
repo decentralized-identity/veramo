@@ -29,9 +29,9 @@ const debug = Debug('veramo:kms:local')
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
   private readonly keyStore: AbstractPrivateKeyStore
 
-  constructor(args: { keyStore: AbstractPrivateKeyStore }) {
+  constructor(keyStore: AbstractPrivateKeyStore) {
     super()
-    this.keyStore = args.keyStore
+    this.keyStore = keyStore
   }
 
   async importKey(args: Omit<MinimalImportableKey, 'kms'>): Promise<ManagedKeyInfo> {

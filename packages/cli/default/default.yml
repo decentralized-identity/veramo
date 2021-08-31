@@ -201,13 +201,12 @@ keyManager:
         local:
           $require: '@veramo/kms-local#KeyManagementSystem'
           $args:
-            - keyStore:
-                $require: '@veramo/data-store#PrivateKeyStore'
-                $args:
-                  - $ref: /dbConnection
-                  - $require: '@veramo/kms-local#SecretBox'
-                    $args:
-                      - $ref: /constants/secretKey
+            - $require: '@veramo/data-store#PrivateKeyStore'
+              $args:
+                - $ref: /dbConnection
+                - $require: '@veramo/kms-local#SecretBox'
+                  $args:
+                    - $ref: /constants/secretKey
 
 # DID Manager
 didManager:
