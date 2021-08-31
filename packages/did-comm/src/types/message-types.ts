@@ -24,19 +24,32 @@ export interface IDIDCommMessage {
  * @beta
  */
 export enum DIDCommMessageMediaType {
+  /**
+   * A plain JSON DIDComm message
+   */
   PLAIN = 'application/didcomm-plain+json',
+  
+  /**
+   * A JWS signed DIDComm message
+   */
   SIGNED = 'application/didcomm-signed+json',
+
+  /**
+   * A JWE encrypted DIDComm message
+   */
   ENCRYPTED = 'application/didcomm-encrypted+json',
 }
 
 /**
  * The possible types of message packing.
  *
- * * `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws`
- * will produce {@link DIDCommMessageMediaType.ENCRYPTED} messages.
- * * `jws` will produce {@link DIDCommMessageMediaType.SIGNED} messages.
- * * `none` will produce {@link DIDCommMessageMediaType.PLAIN} messages.
- *
+ * <ul>
+ *  <li> `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce
+ * {@link DIDCommMessageMediaType.ENCRYPTED} messages.</li>
+ *  <li> `jws` will produce {@link DIDCommMessageMediaType.SIGNED} messages. </li>
+ *  <li> `none` will produce {@link DIDCommMessageMediaType.PLAIN} messages. </li>
+ * </ul>
+ * 
  * @beta
  */
 export type DIDCommMessagePacking =

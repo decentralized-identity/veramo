@@ -44,7 +44,7 @@ export interface IDIDComm extends IPluginMethodMap {
    *   {@link @veramo/core#IKeyManager} and {@link @veramo/core#IResolver} plugins in use.
    *   When calling this method, the `context` is supplied automatically by the framework.
    *
-   * @returns Promise\<\{message: string\}\> - a Promise that resolves to an object containing the serialized packed message
+   * @returns a Promise that resolves to an object containing the serialized packed `message` string
    *
    * @beta
    */
@@ -62,7 +62,7 @@ export interface IDIDComm extends IPluginMethodMap {
    *   {@link @veramo/core#IKeyManager} and {@link @veramo/core#IResolver} plugins in use.
    *   When calling this method, the `context` is supplied automatically by the framework.
    *
-   * @returns Promise<IUnpackedDIDCommMessage> - a Promise that resolves to an object containing
+   * @returns a Promise that resolves to an object containing
    *   the {@link IDIDCommMessage} and {@link DIDCommMessagePacking} used.
    *
    * @beta
