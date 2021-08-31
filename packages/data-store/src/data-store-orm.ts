@@ -5,7 +5,6 @@ import {
   VerifiablePresentation,
   IPluginMethodMap,
   IIdentifier,
-  IKey,
 } from '@veramo/core'
 import { Message, createMessage } from './entities/message'
 import { Claim } from './entities/claim'
@@ -377,8 +376,8 @@ function createWhereObject(
     TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns | TIdentifiersColumns
   >,
 ): any {
+  const where: Record<string, any> = {}
   if (input?.where) {
-    const where: Record<string, any> = {}
     for (const item of input.where) {
       if (item.column === 'verifier') {
         continue
@@ -428,8 +427,8 @@ function createWhereObject(
         where[item.column] = Not(where[item.column])
       }
     }
-    return where
   }
+  return where
 }
 
 function decorateQB(
