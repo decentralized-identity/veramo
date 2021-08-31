@@ -25,7 +25,7 @@ import {
   SdrMessageHandler,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
-import { Entities, IDataStoreORM, DataStore, DataStoreORM } from '../packages/data-store/src'
+import { Entities, IDataStoreORM, DataStore, DataStoreORM, migrations } from '../packages/data-store/src'
 import { getDidKeyResolver } from '../packages/did-provider-key/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
@@ -69,7 +69,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     name: 'test',
     type: 'sqlite',
     database: databaseFile,
-    synchronize: true,
+    synchronize: false,
+    migrations: migrations,
+    migrationsRun:true,
     logging: false,
     entities: Entities,
   })
@@ -157,8 +159,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 }
 
 const tearDown = async (): Promise<boolean> => {
-  await (await dbConnection).close()
-  fs.unlinkSync(databaseFile)
+  try {
+    await (await dbConnection).dropDatabase()
+    await (await dbConnection).close()
+  } catch (e) {
+    // nop
+  }
+  try{
+    fs.unlinkSync(databaseFile)
+  } catch (e) {
+    //nop
+  }
   return true
 }
 

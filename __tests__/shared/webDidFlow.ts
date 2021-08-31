@@ -24,57 +24,59 @@ export default (testContext: {
     it('should create service identifier', async () => {
       serviceIdentifier = await agent.didManagerGetOrCreate({
         provider: 'did:web',
-        alias: 'example.com',
+        alias: 'webdidflow.example.com',
       })
 
       expect(serviceIdentifier.provider).toEqual('did:web')
-      expect(serviceIdentifier.alias).toEqual('example.com')
-      expect(serviceIdentifier.did).toEqual('did:web:example.com')
+      expect(serviceIdentifier.alias).toEqual('webdidflow.example.com')
+      expect(serviceIdentifier.did).toEqual('did:web:webdidflow.example.com')
       serviceIdentifierKey = serviceIdentifier.keys[0]
     })
 
     it('should add service endpoint', async () => {
       const service = {
-        id: 'did:web:example.com#1',
+        id: 'did:web:webdidflow.example.com#1',
         type: 'Messaging',
         description: 'Post any RAW message here',
         serviceEndpoint: 'https://example.com/messaging',
       }
 
       await agent.didManagerAddService({
-        did: 'did:web:example.com',
+        did: 'did:web:webdidflow.example.com',
         service,
       })
 
-      const testIdentifier = await agent.didManagerGet({ did: 'did:web:example.com' })
+      const testIdentifier = await agent.didManagerGet({ did: 'did:web:webdidflow.example.com' })
       expect(testIdentifier.services[0]).toEqual(service)
     })
 
     it('should get existing service identifier', async () => {
       const testIdentifier = await agent.didManagerGetOrCreate({
         provider: 'did:web',
-        alias: 'example.com',
+        alias: 'webdidflow.example.com',
       })
 
       expect(testIdentifier.keys[0]).toEqual(serviceIdentifierKey)
       expect(testIdentifier.provider).toEqual('did:web')
-      expect(testIdentifier.alias).toEqual('example.com')
-      expect(testIdentifier.did).toEqual('did:web:example.com')
+      expect(testIdentifier.alias).toEqual('webdidflow.example.com')
+      expect(testIdentifier.did).toEqual('did:web:webdidflow.example.com')
     })
 
     it('should create identifier with alias: alice', async () => {
       alice = await agent.didManagerGetOrCreate({
         alias: 'alice',
+        provider: 'did:ethr:rinkeby'
       })
-
+      
       expect(alice.provider).toEqual('did:ethr:rinkeby')
       expect(alice.alias).toEqual('alice')
       expect(alice.did).toBeDefined()
     })
-
+    
     it('should create identifier with alias: bob', async () => {
       bob = await agent.didManagerGetOrCreate({
         alias: 'bob',
+        provider: 'did:ethr:rinkeby'
       })
 
       expect(bob.provider).toEqual('did:ethr:rinkeby')
@@ -84,7 +86,7 @@ export default (testContext: {
 
     it('should query identifiers', async () => {
       const identifiers = await agent.didManagerFind()
-      expect(identifiers.length).toEqual(3)
+      expect(identifiers.length).toBeGreaterThanOrEqual(3)
     })
 
     describe('should create verifiable credential', () => {

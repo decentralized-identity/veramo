@@ -9,6 +9,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm'
 import { blake2bHex } from 'blakejs'
 import { IMessage } from '@veramo/core'
@@ -34,11 +35,22 @@ export class Message extends BaseEntity {
   //@ts-ignore
   id: string
 
-  @CreateDateColumn({ select: false })
+  @BeforeInsert()
+  setSaveDate() {
+    this.saveDate = new Date()
+    this.updateDate = new Date()
+  }
+
+  @BeforeUpdate()
+  setUpdateDate() {
+    this.updateDate = new Date()
+  }
+
+  @Column({ select: false })
   //@ts-ignore
   saveDate: Date
 
-  @UpdateDateColumn({ select: false })
+  @Column({ select: false })
   //@ts-ignore
   updateDate: Date
 
@@ -73,6 +85,7 @@ export class Message extends BaseEntity {
     nullable: true,
     cascade: ['insert'],
     eager: true,
+    onDelete: "CASCADE",
   })
   from?: Identifier
 
@@ -80,6 +93,7 @@ export class Message extends BaseEntity {
     nullable: true,
     cascade: ['insert'],
     eager: true,
+    onDelete: "CASCADE"
   })
   to?: Identifier
 

@@ -11,21 +11,22 @@ import {
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
-import { createConnection, Connection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import { DIDCommHttpTransport } from '../packages/did-comm/src/transports/transports'
+import { DIDComm, DIDCommMessageHandler, IDIDComm, DIDCommHttpTransport } from '../packages/did-comm/src'
 import {
   SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
+import { getDidKeyResolver } from '../packages/did-provider-key/src'
+
 import {
   Entities,
   KeyStore,
@@ -34,11 +35,11 @@ import {
   DataStore,
   DataStoreORM,
   ProfileDiscoveryProvider,
+  migrations,
 } from '../packages/data-store/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
-import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { createConnection, Connection } from 'typeorm'
 
+import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -58,8 +59,8 @@ import didManager from './shared/didManager'
 import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
+import dbInitOptions from './shared/dbInitOptions'
 
-const databaseFile = 'local-database.sqlite'
 const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
@@ -76,15 +77,21 @@ let agent: TAgent<
     IDIDDiscovery
 >
 let dbConnection: Promise<Connection>
+let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
+  databaseFile = options?.context?.databaseFile || 'local-database.sqlite'
   dbConnection = createConnection({
-    name: 'test',
+    name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',
     database: databaseFile,
-    synchronize: true,
+    synchronize: false,
+    migrations: migrations,
+    migrationsRun: true,
     logging: false,
     entities: Entities,
+    // allow shared tests to override connection options
+    ...options?.context?.dbConnectionOptions
   })
 
   agent = createAgent<
@@ -174,8 +181,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 }
 
 const tearDown = async (): Promise<boolean> => {
-  await (await dbConnection).close()
-  fs.unlinkSync(databaseFile)
+  try {
+    await (await dbConnection).dropDatabase()
+    await (await dbConnection).close()
+  } catch (e) {
+    // nop
+  }
+  try {
+    fs.unlinkSync(databaseFile)
+  } catch (e) {
+    // nop
+  }
   return true
 }
 
@@ -195,4 +211,5 @@ describe('Local integration tests', () => {
   messageHandler(testContext)
   didComm(testContext)
   didDiscovery(testContext)
+  dbInitOptions(testContext)
 })

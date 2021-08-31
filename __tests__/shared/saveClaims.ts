@@ -2,6 +2,7 @@ import { TAgent, IDIDManager, IIdentifier, IDataStore, IMessageHandler } from '.
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
+import { FindCredentialsArgs } from '@veramo/data-store'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
@@ -77,7 +78,9 @@ export default (testContext: {
     })
 
     it('should be able to find all the credentials', async () => {
-      const credentials = await agent.dataStoreORMGetVerifiableCredentials()
+      const credentials = await agent.dataStoreORMGetVerifiableCredentials({
+        where: [{ column: 'issuer', value: [identifier.did] }],
+      })
       expect(credentials).toHaveLength(3)
     })
 
@@ -103,16 +106,15 @@ export default (testContext: {
     })
 
     it('should be able to delete credential', async () => {
-      const credentials = await agent.dataStoreORMGetVerifiableCredentials()
+      const findOptions: FindCredentialsArgs = { where: [{ column: 'issuer', value: [identifier.did] }] }
+      const credentials = await agent.dataStoreORMGetVerifiableCredentials(findOptions)
       expect(credentials).toHaveLength(3)
 
-      const result = await agent.dataStoreDeleteVerifiableCredential({hash: credentials[0].hash})
+      const result = await agent.dataStoreDeleteVerifiableCredential({ hash: credentials[0].hash })
       expect(result).toEqual(true)
 
-      const credentials2 = await agent.dataStoreORMGetVerifiableCredentials()
+      const credentials2 = await agent.dataStoreORMGetVerifiableCredentials(findOptions)
       expect(credentials2).toHaveLength(2)
-
     })
-    
   })
 }

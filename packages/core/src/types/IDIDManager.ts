@@ -251,7 +251,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * @example
    * ```typescript
    * const identifier = await agent.didManagerGetByAlias({
-   *   alias: 'alice',
+   *   alias: 'charlie',
    *   provider: 'did:ethr:rinkeby'
    * })
    * ```
@@ -267,7 +267,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * @example
    * ```typescript
    * const identifier = await agent.didManagerCreate({
-   *   alias: 'alice',
+   *   alias: 'charlie',
    *   provider: 'did:ethr:rinkeby',
    *   kms: 'local'
    * })
