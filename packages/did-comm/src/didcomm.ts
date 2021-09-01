@@ -62,6 +62,7 @@ import {
 const debug = Debug('veramo:did-comm:action-handler')
 
 /**
+ * @deprecated Please use {@link IDIDComm.sendDIDCommMessage} instead. This will be removed in Veramo 4.0.
  * Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}
  * @beta
  */

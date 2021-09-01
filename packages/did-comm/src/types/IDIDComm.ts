@@ -94,7 +94,7 @@ export interface IDIDComm extends IPluginMethodMap {
 
   /**
    *
-   * @deprecated TBD - will be replaced by {@link DIDComm.sendDIDCommMessage}
+   * @deprecated Please use {@link sendDIDCommMessage} instead. This will be removed in Veramo 4.0
    *
    * This is used to create a message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
    *
