@@ -46,9 +46,9 @@ export class DIDDiscovery implements IAgentPlugin {
         if (providerResult.matches.length > 0) {
           results.push(providerResult)
         }
-      } catch (e) {
-        errors[provider.name] = e.message
-        debug(`Error ${provider}: ${e.message}`)
+      } catch (e: any) {
+        errors[provider.name] = e?.message
+        debug(`Error ${provider}: ${e?.message}`)
       }
     }
 

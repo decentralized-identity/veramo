@@ -271,9 +271,9 @@ export class Agent implements IAgent {
     while (this.eventQueue.length > 0) {
       try {
         await this.eventQueue.shift()
-      } catch (e) {
+      } catch (e: any) {
         //nop
-        if (e.message.startsWith('ErrorEventHandlerError')) {
+        if (typeof e?.message === 'string' && e?.message?.startsWith('ErrorEventHandlerError')) {
           throw e
         }
       }

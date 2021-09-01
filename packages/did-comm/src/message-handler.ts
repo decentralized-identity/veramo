@@ -45,7 +45,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
                   message.addMetaData({ type: 'DIDComm' })
                 }
                 return super.handle(message, context)
-              } catch (e) {
+              } catch (e: any) {
                 debug(e.message)
               }
 

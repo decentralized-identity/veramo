@@ -15,7 +15,7 @@ program
     try {
       const config = createObjects(getConfig(program.opts().config), { server: '/server' })
       server = config.server
-    } catch (e) {
+    } catch (e: any) {
       console.log(e.message)
       process.exit(1)
     }

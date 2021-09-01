@@ -34,7 +34,7 @@ export const AgentRouter = (options: AgentRouterOptions): Router => {
       try {
         const result = await req.agent.execute(exposedMethod, req.body)
         res.status(200).json(result)
-      } catch (e) {
+      } catch (e: any) {
         if (e.name === 'ValidationError') {
           res.status(400).json({
             name: 'ValidationError',
