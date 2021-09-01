@@ -37,7 +37,7 @@ import {
   FindArgs,
 } from './types'
 
-import { schema } from './'
+import { Key, schema } from './'
 
 interface IContext {
   authenticatedDid?: string
@@ -130,7 +130,7 @@ export class DataStoreORM implements IAgentPlugin {
   ): Promise<PartialIdentifier[]> {
     const identifiers = await (await this.identifiersQuery(args, context)).getMany()
     return identifiers.map((i) => {
-      const identifier: PartialIdentifier = i
+      const identifier: PartialIdentifier = i as PartialIdentifier
       if (identifier.controllerKeyId === null) {
         delete identifier.controllerKeyId
       }
@@ -140,7 +140,7 @@ export class DataStoreORM implements IAgentPlugin {
       if (identifier.provider === null) {
         delete identifier.provider
       }
-      return identifier
+      return identifier as IIdentifier
     })
   }
 
@@ -376,8 +376,8 @@ function createWhereObject(
     TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns | TIdentifiersColumns
   >,
 ): any {
+  const where: Record<string, any> = {}
   if (input?.where) {
-    const where: Record<string, any> = {}
     for (const item of input.where) {
       if (item.column === 'verifier') {
         continue
@@ -427,8 +427,8 @@ function createWhereObject(
         where[item.column] = Not(where[item.column])
       }
     }
-    return where
   }
+  return where
 }
 
 function decorateQB(

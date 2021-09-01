@@ -15,6 +15,8 @@ import {
   IKeyManagerSignArgs,
   IKeyManagerSharedSecretArgs,
   TKeyType,
+  MinimalImportableKey,
+  ManagedKeyInfo,
 } from '@veramo/core'
 import * as u8a from 'uint8arrays'
 import { JWE, createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, ECDH } from 'did-jwt'
@@ -61,7 +63,9 @@ export class KeyManager implements IAgentPlugin {
 
   private getKms(name: string): AbstractKeyManagementSystem {
     const kms = this.kms[name]
-    if (!kms) throw Error('KMS does not exist: ' + name)
+    if (!kms) {
+      throw Error(`invalid_argument: This agent has no registered KeyManagementSystem with name='${name}'`)
+    }
     return kms
   }
 
@@ -71,7 +75,7 @@ export class KeyManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerCreate} */
-  async keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey> {
+  async keyManagerCreate(args: IKeyManagerCreateArgs): Promise<ManagedKeyInfo> {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
     const key: IKey = { ...partialKey, kms: args.kms }
@@ -99,9 +103,13 @@ export class KeyManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerImport} */
-  async keyManagerImport(key: IKey): Promise<boolean> {
-    //FIXME: check proper key properties and ask the actual KMS to import and fill in the missing meta data
-    return this.store.import(key)
+  async keyManagerImport(key: MinimalImportableKey): Promise<ManagedKeyInfo> {
+    const kms = this.getKms(key.kms)
+    const managedKey = await kms.importKey(key)
+    const { meta } = key
+    const importedKey = { ...managedKey, meta: { ...meta, ...managedKey.meta }, kms: key.kms }
+    await this.store.import(importedKey)
+    return importedKey
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerEncryptJWE} */
@@ -152,7 +160,7 @@ export class KeyManager implements IAgentPlugin {
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSign} */
   async keyManagerSign(args: IKeyManagerSignArgs): Promise<string> {
     const { keyRef, data, algorithm, encoding, ...extras } = { encoding: 'utf-8', ...args }
-    const key = await this.store.get({ kid: keyRef })
+    const keyInfo: ManagedKeyInfo = await this.store.get({ kid: keyRef })
     let dataBytes
     if (typeof data === 'string') {
       if (encoding === 'base16' || encoding === 'hex') {
@@ -164,8 +172,8 @@ export class KeyManager implements IAgentPlugin {
     } else {
       dataBytes = data
     }
-    const kms = this.getKms(key.kms)
-    return kms.sign({ key, algorithm, data: dataBytes, ...extras })
+    const kms = this.getKms(keyInfo.kms)
+    return kms.sign({ keyRef: keyInfo, algorithm, data: dataBytes, ...extras })
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignEthTX} */
@@ -192,14 +200,14 @@ export class KeyManager implements IAgentPlugin {
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSharedKey} */
   async keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string> {
     const { secretKeyRef, publicKey } = args
-    const myKey = await this.store.get({ kid: secretKeyRef })
+    const myKeyRef = await this.store.get({ kid: secretKeyRef })
     const theirKey = publicKey
     if (
-      myKey.type === theirKey.type ||
-      (['Ed25519', 'X25519'].includes(myKey.type) && ['Ed25519', 'X25519'].includes(theirKey.type))
+      myKeyRef.type === theirKey.type ||
+      (['Ed25519', 'X25519'].includes(myKeyRef.type) && ['Ed25519', 'X25519'].includes(theirKey.type))
     ) {
-      const kms = this.getKms(myKey.kms)
-      return kms.sharedSecret({ myKey, theirKey })
+      const kms = this.getKms(myKeyRef.kms)
+      return kms.sharedSecret({ myKeyRef, theirKey })
     } else {
       throw new Error('invalid_argument: the key types have to match to be able to compute a shared secret')
     }

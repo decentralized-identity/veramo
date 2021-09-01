@@ -1,5 +1,5 @@
 import { IPluginMethodMap, IAgentContext } from './IAgent'
-import { IIdentifier, IService, IKey } from './IIdentifier'
+import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier'
 import { IKeyManager } from './IKeyManager'
 
 /**
@@ -303,7 +303,7 @@ export interface IDIDManager extends IPluginMethodMap {
   /**
    * Imports identifier
    */
-  didManagerImport(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
+  didManagerImport(args: MinimalImportableIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 
   /**
    * Deletes identifier

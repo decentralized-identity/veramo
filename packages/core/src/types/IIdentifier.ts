@@ -1,3 +1,5 @@
+import { MinimalImportableKey } from './IKeyManager'
+
 /**
  * Identifier interface
  * @public
@@ -33,6 +35,14 @@ export interface IIdentifier {
    */
   services: IService[]
 }
+
+/**
+ * Represents the minimum amount of information needed to import an {@link IIdentifier}
+ */
+export type MinimalImportableIdentifier = {
+  keys: MinimalImportableKey[]
+  services?: IService[]
+} & Omit<IIdentifier, 'keys' | 'services'>
 
 /**
  * Cryptographic key type

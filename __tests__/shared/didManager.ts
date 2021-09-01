@@ -268,13 +268,14 @@ export default (testContext: {
     })
 
     it('should import identifier', async () => {
-      const imported: IIdentifier = {
-        did: 'did:web:example.org',
-        alias: 'example.org',
+      expect.assertions(1)
+      const did = 'did:web:imported.example'
+      const imported = await agent.didManagerImport({
+        did,
         provider: 'did:web',
         services: [
           {
-            id: 'did:web:example.org#msg',
+            id: `${did}#msg`,
             type: 'Messaging',
             serviceEndpoint: 'https://example.org/messaging',
             description: 'Handles incoming messages',
@@ -282,12 +283,18 @@ export default (testContext: {
         ],
         keys: [
           {
-            kid: '0405debbb55a873648ca545f810e44edd1997688eb8e46b1fdd6842bd83e300b16fd8258a3ca19f5d858a5ab0c9ba8381b0bf00727be1154e5bbd3a4da5f186af6',
             kms: 'local',
+            privateKeyHex: 'e63886b5ba367dc2aff9acea6d955ee7c39115f12eaf2aa6b1a2eaa852036668',
             type: 'Secp256k1',
-            publicKeyHex:
-              '0405debbb55a873648ca545f810e44edd1997688eb8e46b1fdd6842bd83e300b16fd8258a3ca19f5d858a5ab0c9ba8381b0bf00727be1154e5bbd3a4da5f186af6',
-            privateKeyHex: '55e67c7f7b4c25657d3144fa7ca3cf842790906ce24176b02b927b3aebffab50',
+          },
+        ],
+      })
+      expect(imported).toEqual({
+        did,
+        keys: [
+          {
+            kid: '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
+            kms: 'local',
             meta: {
               algorithms: [
                 'ES256K',
@@ -297,28 +304,21 @@ export default (testContext: {
                 'eth_signMessage',
               ],
             },
-          },
-          {
-            kid: 'b4fdd9cb90730776f2934fd5bfd43d187fff667ddbe81ec40445250fcc6b60df',
-            kms: 'local',
-            type: 'Ed25519',
-            publicKeyHex: 'b4fdd9cb90730776f2934fd5bfd43d187fff667ddbe81ec40445250fcc6b60df',
-            privateKeyHex:
-              'eb1722c5767e9e938e6bef6361baf16d389051b6c1dcaf58adedf5ef9652be67b4fdd9cb90730776f2934fd5bfd43d187fff667ddbe81ec40445250fcc6b60df',
-            meta: { algorithms: ['Ed25519', 'EdDSA'] },
+            publicKeyHex:
+              '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
+            type: 'Secp256k1',
           },
         ],
-      }
-
-      await agent.didManagerImport(imported)
-
-      const importedIdentifier = await agent.didManagerGet({
-        did: imported.did,
+        provider: 'did:web',
+        services: [
+          {
+            description: 'Handles incoming messages',
+            id: `${did}#msg`,
+            serviceEndpoint: 'https://example.org/messaging',
+            type: 'Messaging',
+          },
+        ],
       })
-      
-      expect(importedIdentifier.did).toEqual(imported.did)
-      expect(importedIdentifier.keys.length).toEqual(imported.keys.length)
-      expect(importedIdentifier.services).toEqual(imported.services)
     })
 
     it('should set alias for identifier', async () => {

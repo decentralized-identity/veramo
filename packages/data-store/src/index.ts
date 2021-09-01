@@ -11,6 +11,7 @@
 
 export { DIDStore } from './identifier/did-store'
 export { KeyStore } from './identifier/key-store'
+export { PrivateKeyStore } from './identifier/private-key-store'
 export { DataStore } from './data-store'
 export {
   DataStoreORM,
@@ -32,8 +33,10 @@ import { Credential } from './entities/credential'
 import { Presentation } from './entities/presentation'
 import { Service } from './entities/service'
 import { Message, MetaData } from './entities/message'
-export const Entities = [Key, Identifier, Message, Claim, Credential, Presentation, Service]
-export { KeyType, Key, Identifier, Message, Claim, Credential, Presentation, MetaData, Service }
+import { PrivateKey } from './entities/private-key'
+import { PreMigrationKey } from './entities/PreMigrationEntities'
+export const Entities = [Key, Identifier, Message, Claim, Credential, Presentation, Service, PrivateKey, PreMigrationKey]
+export { KeyType, Key, Identifier, Message, Claim, Credential, Presentation, MetaData, Service, PrivateKey, PreMigrationKey }
 export { migrations } from './migrations'
 const schema = require('../plugin.schema.json')
 export { schema }

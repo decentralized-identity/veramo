@@ -1,4 +1,4 @@
-version: 2.0
+version: 3.0
 
 constants:
   baseUrl: http://localhost:3332
@@ -176,20 +176,7 @@ didResolver:
 ethr-did-resolver:
   $require: ethr-did-resolver?t=function&p=/ethr#getResolver
   $args:
-    - networks:
-        - name: mainnet
-          rpcUrl: https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-        - name: rinkeby
-          rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-        - name: ropsten
-          rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-        - name: kovan
-          rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-        - name: goerli
-          rpcUrl: https://goerli.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-        - name: private
-          rpcUrl: http://localhost:8545/
-          registry: '0x05cc574b19a3c11308f761b3d7263bd8608bc532'
+    - infuraProjectId: 5ffc47f65c4042ce847ef66a3fa70d4c
 
 web-did-resolver:
   $require: web-did-resolver?t=function&p=/web#getResolver
@@ -210,12 +197,16 @@ keyManager:
         $require: '@veramo/data-store#KeyStore'
         $args:
           - $ref: /dbConnection
-          - $require: '@veramo/kms-local#SecretBox'
-            $args:
-              - $ref: /constants/secretKey
       kms:
         local:
           $require: '@veramo/kms-local#KeyManagementSystem'
+          $args:
+            - $require: '@veramo/data-store#PrivateKeyStore'
+              $args:
+                - $ref: /dbConnection
+                - $require: '@veramo/kms-local#SecretBox'
+                  $args:
+                    - $ref: /constants/secretKey
 
 # DID Manager
 didManager:
