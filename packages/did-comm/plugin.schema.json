@@ -95,7 +95,7 @@
             "anoncrypt+authcrypt",
             "anoncrypt+jws"
           ],
-          "description": "The possible types of message packing.\n\n<ul>  <li> `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce\n {@link  DIDCommMessageMediaType.ENCRYPTED }  messages.</li>  <li> `jws` will produce  {@link  DIDCommMessageMediaType.SIGNED }  messages. </li>  <li> `none` will produce  {@link  DIDCommMessageMediaType.PLAIN }  messages. </li> </ul>"
+          "description": "The possible types of message packing.\n\n`authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce `DIDCommMessageMediaType.ENCRYPTED` messages.\n\n`jws` will produce `DIDCommMessageMediaType.SIGNED` messages.\n\n`none` will produce `DIDCommMessageMediaType.PLAIN` messages."
         },
         "ISendDIDCommMessageArgs": {
           "type": "object",
@@ -171,8 +171,7 @@
           },
           "required": [
             "data"
-          ],
-          "description": "Input arguments for  {@link  IDIDComm.sendMessageDIDCommAlpha1 }"
+          ]
         },
         "IMessage": {
           "type": "object",

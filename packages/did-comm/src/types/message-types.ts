@@ -43,12 +43,12 @@ export enum DIDCommMessageMediaType {
 /**
  * The possible types of message packing.
  *
- * <ul>
- *  <li> `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce
- * {@link DIDCommMessageMediaType.ENCRYPTED} messages.</li>
- *  <li> `jws` will produce {@link DIDCommMessageMediaType.SIGNED} messages. </li>
- *  <li> `none` will produce {@link DIDCommMessageMediaType.PLAIN} messages. </li>
- * </ul>
+ * `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce `DIDCommMessageMediaType.ENCRYPTED` messages.
+ * 
+ * `jws` will produce `DIDCommMessageMediaType.SIGNED` messages.
+ * 
+ * `none` will produce `DIDCommMessageMediaType.PLAIN` messages.
+ *
  * 
  * @beta
  */
