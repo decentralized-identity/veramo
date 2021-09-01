@@ -95,7 +95,7 @@
             "anoncrypt+authcrypt",
             "anoncrypt+jws"
           ],
-          "description": "The possible types of message packing.\n\n* `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce  {@link  DIDCommMessageMediaType.ENCRYPTED }  messages.\n* `jws` will produce  {@link  DIDCommMessageMediaType.SIGNED }  messages.\n* `none` will produce  {@link  DIDCommMessageMediaType.PLAIN }  messages."
+          "description": "The possible types of message packing.\n\n<ul>  <li> `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce\n {@link  DIDCommMessageMediaType.ENCRYPTED }  messages.</li>  <li> `jws` will produce  {@link  DIDCommMessageMediaType.SIGNED }  messages. </li>  <li> `none` will produce  {@link  DIDCommMessageMediaType.PLAIN }  messages. </li> </ul>"
         },
         "ISendDIDCommMessageArgs": {
           "type": "object",
