@@ -1,7 +1,7 @@
 {
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -21,7 +21,7 @@
     "@veramo/core": "^2.1.0",
     "@veramo/credential-w3c": "^2.1.0",
     "@veramo/data-store": "^2.1.0",
-    "@veramo/did-comm": "^2.1.0",
+    "@veramo/did-comm": "^2.1.2",
     "@veramo/did-discovery": "^2.1.0",
     "@veramo/did-jwt": "^2.1.0",
     "@veramo/did-manager": "^2.1.0",
