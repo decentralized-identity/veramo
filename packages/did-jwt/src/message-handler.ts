@@ -22,7 +22,7 @@ export class JwtMessageHandler extends AbstractMessageHandler {
         debug('Message.raw is a valid JWT')
         message.addMetaData({ type: decoded.header.typ || 'JWT', value: decoded.header.alg })
         message.data = verified.payload
-      } catch (e) {
+      } catch (e: any) {
         debug(e.message)
       }
     }

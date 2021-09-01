@@ -131,7 +131,7 @@ export class FakeDidResolver {
         didDocumentMetadata: {},
       }
       return didResolution
-    } catch (err) {
+    } catch (err: any) {
       return {
         didDocumentMetadata: {},
         didResolutionMetadata: { error: 'invalidDid', message: err.toString() },

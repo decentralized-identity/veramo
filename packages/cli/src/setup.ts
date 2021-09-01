@@ -42,7 +42,7 @@ export type ConfiguredAgent = TAgent<EnabledInterfaces>
 export function getAgent(fileName: string) {
   try {
     return createAgentFromConfig<EnabledInterfaces>(getConfig(fileName))
-  } catch (e) {
+  } catch (e: any) {
     console.log('Unable to create agent from ' + fileName + '.', e.message)
     process.exit(1)
   }

@@ -31,7 +31,7 @@ message
       })
 
       console.dir(message, { depth: 10 })
-    } catch (e) {
+    } catch (e: any) {
       console.error(e.message)
     }
   })

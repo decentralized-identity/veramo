@@ -32,7 +32,7 @@ export class UrlMessageHandler extends AbstractMessageHandler {
             message.raw = await response.text()
             message.addMetaData({ type: 'URL', value: url })
           }
-        } catch (e) {
+        } catch (e: any) {
           console.log(e)
           debug(e.message)
         }

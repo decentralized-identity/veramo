@@ -38,7 +38,7 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
       if (message) {
         res.json({ id: message.id })
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log(e)
       res.send(e.message)
     }

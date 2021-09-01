@@ -71,7 +71,7 @@ did
 
       const identifier = await agent.didManagerCreate(answers)
       printTable([{ provider: identifier.provider, alias: identifier.alias, did: identifier.did }])
-    } catch (e) {
+    } catch (e: any) {
       console.error(e.message)
     }
   })
@@ -98,7 +98,7 @@ did
       })
 
       console.log('Success:', result)
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
     }
   })
@@ -146,7 +146,7 @@ did
       })
 
       console.log('Success:', result)
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
     }
   })
@@ -179,7 +179,7 @@ did
       })
 
       console.log('Success:', result)
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
     }
   })
@@ -225,7 +225,7 @@ did
       })
 
       console.log('Success:', result)
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
     }
   })
@@ -258,7 +258,7 @@ did
       })
 
       console.log('Success:', result)
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
     }
   })
@@ -286,7 +286,7 @@ did
       const identifier = await agent.didManagerGet({ did: answers.did })
 
       console.log(JSON.stringify(identifier))
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
     }
   })
@@ -308,7 +308,7 @@ did
 
       const identifier = await agent.didManagerImport(JSON.parse(answers.identifier))
       console.log(identifier)
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
     }
   })
@@ -321,7 +321,7 @@ did
     try {
       const ddo = await agent.resolveDid({ didUrl })
       console.log(JSON.stringify(ddo, null, 2))
-    } catch (e) {
+    } catch (e: any) {
       console.error(e.message)
     }
   })
