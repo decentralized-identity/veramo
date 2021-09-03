@@ -1687,10 +1687,10 @@
     neon-cli "0.4.0"
     node-pre-gyp "0.14.0"
 
-"@microsoft/api-documenter@7.13.42":
-  version "7.13.42"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.13.42.tgz#9ffd100bc96b024324cb4cb82336bf92a9448b99"
-  integrity sha512-99pMXzOeWH6T7LQzJdjEjGLO5V11NAzPikvmBpQmO/2nipN6oLm7aEq+XO3rzQJ0vKDxESQalMLcE7CsedWzhg==
+"@microsoft/api-documenter@7.13.44":
+  version "7.13.44"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.13.44.tgz#81c235985735965da0e98d5623db9b8e4cd10b80"
+  integrity sha512-vNLyHpeHfZQCg+G7ksmPTyOEAlr0HRpzun/CBR0r1OxXBfTBs8FPEJnYsbroWxFMyxuVs7K6O5e4uXUQN+yBkQ==
   dependencies:
     "@microsoft/api-extractor-model" "7.13.5"
     "@microsoft/tsdoc" "0.13.2"
