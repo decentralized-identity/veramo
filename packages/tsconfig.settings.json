@@ -12,6 +12,7 @@
     "declaration": true,
     "composite": true,
     "emitDecoratorMetadata": true,
+    "useUnknownInCatchVariables": false,
     "experimentalDecorators": true
   },
   "exclude": ["**/__tests__/**/*", "**/build/**/*"]

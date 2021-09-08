@@ -8,7 +8,5 @@
   "references": [
     { "path": "../core" },
     { "path": "../did-resolver" },
-    { "path": "../message-handler" },
-    { "path": "../utils" }
   ]
 }

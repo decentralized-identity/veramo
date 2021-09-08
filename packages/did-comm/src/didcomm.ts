@@ -26,19 +26,23 @@ import { DIDDocument, parse as parseDidUrl, VerificationMethod } from 'did-resol
 import { schema } from '.'
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
-import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
 import {
-  isDefined,
-  mapIdentifierKeysToDoc,
-  encodeJoseBlob,
   createEcdhWrapper,
-  resolveDidOrThrow,
-  dereferenceDidKeys,
-  decodeJoseBlob,
   extractSenderEncryptionKey,
   extractManagedRecipients,
   mapRecipientsToLocalKeys,
 } from './utils'
+
+import {
+  decodeJoseBlob,
+  dereferenceDidKeys,
+  encodeJoseBlob,
+  isDefined,
+  mapIdentifierKeysToDoc,
+  resolveDidOrThrow,
+  _ExtendedIKey,
+  _NormalizedVerificationMethod,
+} from '@veramo/utils'
 
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm'
@@ -54,10 +58,8 @@ import {
   _DIDCommEncryptedMessage,
   _DIDCommPlainMessage,
   _DIDCommSignedMessage,
-  _ExtendedIKey,
   _FlattenedJWS,
   _GenericJWS,
-  _NormalizedVerificationMethod,
 } from './types/utility-types'
 const debug = Debug('veramo:did-comm:action-handler')
 
