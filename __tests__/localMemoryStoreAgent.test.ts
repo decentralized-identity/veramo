@@ -27,12 +27,11 @@ import {
   LdContextLoader,
   LdDefaultContexts,
   LdSuiteLoader,
-  VeramoEd25519Signature2018,
   VeramoEcdsaSecp256k1RecoverySignature2020,
 } from '../packages/credential-w3c/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
+import { KeyDIDProvider, getDidKeyResolver } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   SelectiveDisclosure,
@@ -41,14 +40,12 @@ import {
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
 import { Entities, IDataStoreORM, DataStore, DataStoreORM, migrations } from '../packages/data-store/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import { getDidKeyResolver } from '../packages/did-provider-key'
-import {contexts as credential_contexts} from '@transmute/credentials-context'
+import { contexts as credential_contexts } from '@transmute/credentials-context'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -89,7 +86,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     database: databaseFile,
     synchronize: false,
     migrations: migrations,
-    migrationsRun:true,
+    migrationsRun: true,
     logging: false,
     entities: Entities,
   })
@@ -146,9 +143,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
-          'did:key': new KeyDIDProvider({
-            defaultKms: 'local',
-          }),
           'did:fake': new FakeDidProvider(),
         },
       }),
@@ -172,22 +166,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm(),
       new CredentialIssuer({
-          ldCredentialModule: new LdCredentialModule({
-            ldContextLoader: new LdContextLoader({
-              contextsPaths: [
-                LdDefaultContexts,
-                credential_contexts as Map<string, object>
-              ]
-            }),
-            ldSuiteLoader: new LdSuiteLoader({
-              veramoLdSignatures: [
-                new VeramoEd25519Signature2018(),
-                new VeramoEcdsaSecp256k1RecoverySignature2020()
-              ]
-            })
-          })
-        }
-      ),
+        ldCredentialModule: new LdCredentialModule({
+          ldContextLoader: new LdContextLoader({
+            contextsPaths: [LdDefaultContexts, credential_contexts as Map<string, object>],
+          }),
+          ldSuiteLoader: new LdSuiteLoader({
+            veramoLdSignatures: [
+              new VeramoEcdsaSecp256k1RecoverySignature2020(),
+            ],
+          }),
+        }),
+      }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],
@@ -202,7 +191,7 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     // nop
   }
-  try{
+  try {
     fs.unlinkSync(databaseFile)
   } catch (e) {
     //nop

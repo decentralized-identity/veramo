@@ -10,6 +10,7 @@
   "references": [
     { "path": "../core" },
     { "path": "../did-jwt" },
-    { "path": "../message-handler" }
+    { "path": "../message-handler" },
+    { "path": "../utils" }
   ]
 }

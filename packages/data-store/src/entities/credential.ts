@@ -28,7 +28,7 @@ export class Credential extends BaseEntity {
   @ManyToOne((type) => Identifier, (identifier) => identifier.issuedCredentials, {
     cascade: ['insert'],
     eager: true,
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE',
   })
   //@ts-ignore
   issuer: Identifier

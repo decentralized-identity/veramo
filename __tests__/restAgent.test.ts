@@ -31,12 +31,11 @@ import {
   LdContextLoader,
   LdDefaultContexts,
   LdSuiteLoader,
-  VeramoEd25519Signature2018,
   VeramoEcdsaSecp256k1RecoverySignature2020,
 } from '../packages/credential-w3c/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
+import { KeyDIDProvider, getDidKeyResolver } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm, DIDCommHttpTransport } from '../packages/did-comm/src'
 import {
   SelectiveDisclosure,
@@ -58,10 +57,7 @@ import {
 import { createConnection, Connection } from 'typeorm'
 import { AgentRestClient } from '../packages/remote-client/src'
 import { AgentRouter, RequestWithAgentRouter, MessagingRouter } from '../packages/remote-server/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
 import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
-import { getUniversalResolver } from '../packages/did-resolver/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import { Resolver } from 'did-resolver'
@@ -69,7 +65,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import express from 'express'
 import { Server } from 'http'
-import {contexts as credential_contexts} from '@transmute/credentials-context'
+import { contexts as credential_contexts } from '@transmute/credentials-context'
 import fs from 'fs'
 
 jest.setTimeout(30000)
@@ -172,9 +168,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
-          'did:key': new KeyDIDProvider({
-            defaultKms: 'local',
-          }),
           'did:fake': new FakeDidProvider(),
         },
       }),
@@ -199,22 +192,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm([new DIDCommHttpTransport()]),
       new CredentialIssuer({
-          ldCredentialModule: new LdCredentialModule({
-            ldContextLoader: new LdContextLoader({
-              contextsPaths: [
-                LdDefaultContexts,
-                credential_contexts as Map<string, object>
-              ]
-            }),
-            ldSuiteLoader: new LdSuiteLoader({
-              veramoLdSignatures: [
-                new VeramoEd25519Signature2018(),
-                new VeramoEcdsaSecp256k1RecoverySignature2020()
-              ]
-            })
-          })
-        }
-      ),
+        ldCredentialModule: new LdCredentialModule({
+          ldContextLoader: new LdContextLoader({
+            contextsPaths: [LdDefaultContexts, credential_contexts as Map<string, object>],
+          }),
+          ldSuiteLoader: new LdSuiteLoader({
+            veramoLdSignatures: [
+              new VeramoEcdsaSecp256k1RecoverySignature2020(),
+            ],
+          }),
+        }),
+      }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],

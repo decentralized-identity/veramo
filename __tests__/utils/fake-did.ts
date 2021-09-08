@@ -9,7 +9,7 @@ import {
   VerificationMethod,
 } from 'did-resolver'
 import { TAgent } from '@veramo/core/src'
-import { _NormalizedVerificationMethod } from '../../packages/did-comm/src'
+import { _NormalizedVerificationMethod } from '../../packages/utils/src'
 
 /**
  * A DID method that uses the information stored by the DID manager to resolve

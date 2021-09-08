@@ -1,17 +1,13 @@
 import { IAgentContext, IResolver, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
-import { Message, AbstractMessageHandler } from '@veramo/message-handler'
+import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import { blake2bHex } from 'blakejs'
-
-import {
-  validateJwtCredentialPayload,
-  validateJwtPresentationPayload,
-  normalizePresentation,
-  normalizeCredential,
-} from 'did-jwt-vc'
-
 import Debug from 'debug'
-
+import {
+  normalizeCredential, normalizePresentation, validateJwtCredentialPayload,
+  validateJwtPresentationPayload
+} from 'did-jwt-vc'
 import { ICredentialIssuer } from './action-handler'
+
 const debug = Debug('veramo:w3c:message-handler')
 
 /**
@@ -109,7 +105,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
       const credential = message.data as VerifiableCredential
 
       // throws on error.
-      await context.agent.verifyVerifiableCredential({ credential })
+      await context.agent.verifyCredential({ credential })
       message.id = blake2bHex(message.raw)
       message.type = MessageTypes.vc
       message.from = credential.issuer.id
@@ -129,7 +125,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
       const presentation = message.data as VerifiablePresentation
 
       // throws on error.
-      await context.agent.verifyVerifiablePresentation({
+      await context.agent.verifyPresentation({
         presentation ,
         // TODO: HARDCODED CHALLENGE VERIFICATION FOR NOW
         challenge: 'VERAMO',

@@ -22,7 +22,6 @@ export { LdSuiteLoader } from './ld-suite-loader'
 export {
   VeramoLdSignature,
   VeramoEcdsaSecp256k1RecoverySignature2020,
-  VeramoEd25519Signature2018
 } from './ld-suites'
 const schema = require('../plugin.schema.json')
 export { schema }

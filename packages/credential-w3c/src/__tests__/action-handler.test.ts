@@ -1,30 +1,23 @@
-import { IIdentifier, VerifiableCredential, W3CCredential, W3CPresentation,
-  VerifiablePresentation, IKey,} from '@veramo/core'
-import { CredentialIssuer, IContext } from '../action-handler'
-import { LdCredentialModule } from '../ld-credential-module'
-import { LdContextLoader } from '../ld-context-loader'
-import { LdDefaultContexts } from '../ld-default-contexts'
-import {contexts as credential_contexts} from '@transmute/credentials-context'
+// Mock must come before imports with transitive dependency.
+jest.mock('did-jwt-vc', () => {
+  const mockDidJwtVc = {
+    createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
+    createVerifiablePresentationJwt: jest.fn().mockReturnValue('mockVcJwt'),
+    verifyCredential: jest.fn().mockReturnValue({ payload: {} }),
+    normalizeCredential: jest.fn().mockReturnValue('mockCredential'),
+    normalizePresentation: jest.fn().mockReturnValue('mockPresentation'),
+  }
+  return mockDidJwtVc
+})
 
-import { IIdentifier, VerifiableCredential, W3CCredential, W3CPresentation } from '@veramo/core'
+import { IIdentifier, IKey, VerifiableCredential, W3CCredential, W3CPresentation } from '@veramo/core'
 import { CredentialIssuer, IContext } from '../action-handler'
 import { LdCredentialModule } from '../ld-credential-module'
 import { LdContextLoader } from '../ld-context-loader'
 import { LdDefaultContexts } from '../ld-default-contexts'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import { LdSuiteLoader } from '../ld-suite-loader'
-import { VeramoEcdsaSecp256k1RecoverySignature2020, VeramoEd25519Signature2018 } from '../ld-suites'
-
-const mockDidJwtVc = {
-  createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
-  createVerifiablePresentationJwt: jest.fn().mockReturnValue('mockVcJwt'),
-  verifyCredential: jest.fn().mockReturnValue({ payload: {} }),
-  normalizeCredential: jest.fn().mockReturnValue('mockCredential'),
-  normalizePresentation: jest.fn().mockReturnValue('mockPresentation'),
-}
-
-// Mock must come before imports with transitive dependency.
-jest.mock('did-jwt-vc', () => mockDidJwtVc)
+import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../ld-suites'
 
 const mockIdentifiers: IIdentifier[] = [
   {
@@ -74,18 +67,12 @@ const mockIdentifiers: IIdentifier[] = [
 const w3c = new CredentialIssuer({
   ldCredentialModule: new LdCredentialModule({
     ldContextLoader: new LdContextLoader({
-      contextsPaths: [
-        LdDefaultContexts,
-        credential_contexts as Map<string, object>
-      ]
+      contextsPaths: [LdDefaultContexts, credential_contexts as Map<string, object>],
     }),
     ldSuiteLoader: new LdSuiteLoader({
-      veramoLdSignatures: [
-        new VeramoEd25519Signature2018(),
-        new VeramoEcdsaSecp256k1RecoverySignature2020()
-      ]
-    })
-  })
+      veramoLdSignatures: [new VeramoEcdsaSecp256k1RecoverySignature2020()],
+    }),
+  }),
 })
 
 let agent = {
@@ -95,15 +82,17 @@ let agent = {
   getDIDComponentById: jest.fn(),
   emit: jest.fn(),
   keyManagerSign: jest.fn().mockImplementation(async (args): Promise<string> => 'mockJWT'),
-  keyManagerGet: jest.fn().mockImplementation(async (args): Promise<IKey> => ({
+  keyManagerGet: jest.fn().mockImplementation(
+    async (args): Promise<IKey> => ({
       kid: '',
       kms: '',
       type: 'Ed25519',
       publicKeyHex: '',
-    })),
-    dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
-    dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
-    getSchema: jest.fn(),
+    }),
+  ),
+  dataStoreSaveVerifiableCredential: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
+  dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
+  getSchema: jest.fn(),
   didManagerGet: jest.fn(),
 }
 

@@ -7,7 +7,9 @@ import {
   IPluginMethodMap,
   VerifiableCredential,
   VerifiablePresentation,
-  IDataStore, IKey,
+  IDataStore,
+  IKey,
+  IIdentifier,
 } from '@veramo/core'
 
 import {
@@ -105,7 +107,6 @@ export interface ICreateVerifiableCredentialArgs {
 
   /**
    * The desired format for the VerifiablePresentation to be created.
-   * Currently, only JWT is supported
    */
   proofFormat: ProofFormat
 
@@ -122,7 +123,7 @@ export interface ICreateVerifiableCredentialArgs {
  *
  * @public
  */
-export interface IVerifyVerifiableCredentialArgs {
+export interface IVerifyCredentialArgs {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -131,7 +132,7 @@ export interface IVerifyVerifiableCredentialArgs {
    * of the `credential`
    *
    */
-  credential: Partial<CredentialPayload>
+  credential: VerifiableCredential
 }
 
 /**
@@ -140,7 +141,7 @@ export interface IVerifyVerifiableCredentialArgs {
  *
  * @public
  */
-export interface IVerifyVerifiablePresentationArgs {
+export interface IVerifyPresentationArgs {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -149,7 +150,7 @@ export interface IVerifyVerifiablePresentationArgs {
    * of the `credential`
    *
    */
-  presentation: Partial<PresentationPayload>
+  presentation: VerifiablePresentation
 
   /**
    * Optional (only for JWT) string challenge parameter to verify the verifiable presentation against
@@ -204,7 +205,6 @@ export interface ICredentialIssuer extends IPluginMethodMap {
     context: IContext,
   ): Promise<VerifiableCredential>
 
-
   /**
    * Verifies a Verifiable Credential JWT or LDS Format.
    *
@@ -215,11 +215,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    */
-  verifyVerifiableCredential(
-    args: IVerifyVerifiableCredentialArgs,
-    context: IContext,
-  ): Promise<boolean>
-
+  verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<boolean>
 
   /**
    * Verifies a Verifiable Presentation JWT or LDS Format.
@@ -231,10 +227,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyVerifiablePresentation(
-    args: IVerifyVerifiablePresentationArgs,
-    context: IContext,
-  ): Promise<boolean>
+  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<boolean>
 }
 
 /**
@@ -247,7 +240,7 @@ export type IContext = IAgentContext<
   IResolver &
     Pick<IDIDManager, 'didManagerGet'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerSign' | 'keyManagerGet'>
+    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >
 
 /**
@@ -260,16 +253,14 @@ export class CredentialIssuer implements IAgentPlugin {
   readonly schema = schema.ICredentialIssuer
 
   private ldCredentialModule: LdCredentialModule
-  constructor(options: {
-    ldCredentialModule: LdCredentialModule
-  }) {
+  constructor(options: { ldCredentialModule: LdCredentialModule }) {
     this.ldCredentialModule = options.ldCredentialModule
 
     this.methods = {
       createVerifiablePresentation: this.createVerifiablePresentation.bind(this),
       createVerifiableCredential: this.createVerifiableCredential.bind(this),
-      verifyVerifiableCredential: this.verifyVerifiableCredential.bind(this),
-      verifyVerifiablePresentation: this.verifyVerifiablePresentation.bind(this),
+      verifyCredential: this.verifyCredential.bind(this),
+      verifyPresentation: this.verifyPresentation.bind(this),
     }
   }
 
@@ -309,8 +300,17 @@ export class CredentialIssuer implements IAgentPlugin {
         }
 
         const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
-        return await this.ldCredentialModule.signLDVerifiablePresentation(presentation,
-          keyPayload, args.challenge, args.domain, identifier, context)
+        //issuanceDate must not be present for presentations
+        delete presentation.issuanceDate
+
+        return await this.ldCredentialModule.signLDVerifiablePresentation(
+          presentation,
+          keyPayload,
+          args.challenge,
+          args.domain,
+          identifier,
+          context,
+        )
       }
       //------------------------- END JSON_LD INSERT
       else {
@@ -375,7 +375,7 @@ export class CredentialIssuer implements IAgentPlugin {
       if (!key) throw Error('No signing key for ' + identifier.did)
 
       //------------------------- BEGIN JSON_LD INSERT
-      let verifiableCredential;
+      let verifiableCredential
       if (args.proofFormat === 'lds') {
         // LDS ONLY works on `controllerKeyId` because it's uniquely resolvable as a verificationMethod
         if (key.kid != identifier.controllerKeyId) {
@@ -383,7 +383,12 @@ export class CredentialIssuer implements IAgentPlugin {
         }
 
         const keyPayload = await context.agent.keyManagerGet({ kid: key.kid })
-        verifiableCredential = await this.ldCredentialModule.issueLDVerifiableCredential(credential, keyPayload, identifier, context)
+        verifiableCredential = await this.ldCredentialModule.issueLDVerifiableCredential(
+          credential,
+          keyPayload,
+          identifier,
+          context,
+        )
       } else {
         //------------------------- END JSON_LD INSERT
         //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt` or `lds`
@@ -391,9 +396,10 @@ export class CredentialIssuer implements IAgentPlugin {
         let alg = 'ES256K'
         if (key.type === 'Ed25519') {
           alg = 'EdDSA'
-        }const signer = wrapSigner(context, key, alg)
+        }
+        const signer = wrapSigner(context, key, alg)
         const jwt = await createVerifiableCredentialJwt(
-          credentialas CredentialPayload,
+          credential as CredentialPayload,
           { did: identifier.did, signer, alg },
           { removeOriginalFields: args.removeOriginalFields },
         )
@@ -412,34 +418,39 @@ export class CredentialIssuer implements IAgentPlugin {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.verifyVerifiableCredential} */
-  async verifyVerifiableCredential(
-    args: IVerifyVerifiableCredentialArgs,
+  /** {@inheritdoc ICredentialIssuer.verifyCredential} */
+  async verifyCredential(
+    args: IVerifyCredentialArgs,
     context: IContext,
   ): Promise<boolean> {
     const credential = args.credential
     // JWT
     if (credential.proof.jwt) {
       // Not implemented yet.
-      throw Error('verifyVerifiableCredential currently does not the verification of VC-JWT credentials.')
+      throw Error('verifyCredential currently does not the verification of VC-JWT credentials.')
     }
 
-    return this.ldCredentialModule.verifyVerifiableCredential(credential, context)
+    return this.ldCredentialModule.verifyCredential(credential, context)
   }
 
-  /** {@inheritdoc ICredentialIssuer.verifyVerifiablePresentation} */
-  async verifyVerifiablePresentation(
-    args: IVerifyVerifiablePresentationArgs,
+  /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
+  async verifyPresentation(
+    args: IVerifyPresentationArgs,
     context: IContext,
   ): Promise<boolean> {
     const presentation = args.presentation
     // JWT
     if (presentation.proof.jwt) {
       // Not implemented yet.
-      throw Error('verifyVerifiablePresentation currently does not the verification of VC-JWT credentials.')
+      throw Error('verifyPresentation currently does not the verification of VC-JWT credentials.')
     }
 
-    return this.ldCredentialModule.verifyVerifiablePresentation(presentation, args.challenge, args.domain, context)
+    return this.ldCredentialModule.verifyPresentation(
+      presentation,
+      args.challenge,
+      args.domain,
+      context,
+    )
   }
 }
 

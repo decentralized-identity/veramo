@@ -1,4 +1,4 @@
-import { DIDDocument, DIDResolutionResult } from '@veramo/core'
+import { DIDResolutionResult } from '@veramo/core'
 import { Message } from '@veramo/message-handler'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { IContext } from '../message-handler'
@@ -65,8 +65,8 @@ describe('@veramo/credential-w3c', () => {
       },
       createVerifiableCredential: jest.fn(),
       createVerifiablePresentation: jest.fn(),
-      verifyVerifiableCredential: jest.fn(),
-      verifyVerifiablePresentation: jest.fn(),
+      verifyCredential: jest.fn(),
+      verifyPresentation: jest.fn(),
       getDIDComponentById: jest.fn(),
     },
   }

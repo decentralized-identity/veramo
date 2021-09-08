@@ -59,8 +59,8 @@ constants:
     - createSelectiveDisclosureRequest
     - getVerifiableCredentialsForSdr
     - validatePresentationAgainstSdr
-    - verifyVerifiableCredential
-    - verifyVerifiablePresentation
+    - verifyCredential
+    - verifyPresentation
 
 # Data base
 dbConnection:
