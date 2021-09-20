@@ -8,7 +8,7 @@ coverage:
   range: '70...100'
 
   status:
-    patch: yes
+    patch: no
     changes: no
     project:
       default:
@@ -41,3 +41,6 @@ comment:
 
 fixes:
   - 'before/::after/'
+
+github_checks:
+    annotations: false

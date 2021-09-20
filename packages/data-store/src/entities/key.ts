@@ -22,9 +22,6 @@ export class Key extends BaseEntity {
   //@ts-ignore
   publicKeyHex: string
 
-  @Column({ nullable: true })
-  privateKeyHex?: string
-
   @Column({
     type: 'simple-json',
     nullable: true,
@@ -39,7 +36,7 @@ export class Key extends BaseEntity {
   })
   meta?: KeyMetadata | null
 
-  @ManyToOne((type) => Identifier, (identifier) => identifier.keys)
+  @ManyToOne((type) => Identifier, (identifier) => identifier?.keys, { onDelete: 'CASCADE' })
   //@ts-ignore
-  identifier: Identifier
+  identifier?: Identifier
 }

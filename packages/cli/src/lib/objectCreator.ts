@@ -61,7 +61,7 @@ export function createObjects(config: object, pointers: Record<string, string>):
       } else if (type === 'object') {
         object = required
       }
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(`Error creating ${module}['${member}']: ${e.message}`)
     }
     if (pointer) {
@@ -90,7 +90,7 @@ export function createObjects(config: object, pointers: Record<string, string>):
         }
         set(objects, pointer, object)
         return object
-      } catch (e) {
+      } catch (e: any) {
         throw Error(e.message + '. While creating object from pointer: ' + pointer)
       }
     }

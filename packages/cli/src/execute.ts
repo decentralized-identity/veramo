@@ -109,7 +109,7 @@ program
         methodApi.returnType.description ? `(${methodApi.returnType.description}):` : ':',
         JSON.stringify(result, null, 2),
       )
-    } catch (e) {
+    } catch (e: any) {
       console.error(e.message)
     }
   })

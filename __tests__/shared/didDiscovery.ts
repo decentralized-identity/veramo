@@ -1,28 +1,29 @@
-import { IDIDDiscovery } from '../../packages/did-discovery'
+import { IDIDDiscovery } from '../../packages/did-discovery/src'
 import { TAgent, IDIDManager, IKeyManager, IIdentifier } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { getConnection } from 'typeorm'
+import { IAgentOptions } from '@veramo/core'
 
 type ConfiguredAgent = TAgent<IDIDManager & IDIDDiscovery & IDataStoreORM & ICredentialIssuer>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
-  setup: () => Promise<boolean>
+  setup: (agentOptions: IAgentOptions) => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
   describe('DID discovery', () => {
     let agent: ConfiguredAgent
 
     beforeAll(async () => {
-      await testContext.setup()
+      await testContext.setup({ context: { dbName: 'did-discovery-test' } })
       agent = testContext.getAgent()
       return true
     })
     afterAll(testContext.tearDown)
 
     it('should discover did by alias', async () => {
-      const identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerGetOrCreate({
         alias: 'alice',
       })
 
@@ -47,14 +48,14 @@ export default (testContext: {
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
             id: identifier.did,
-            name: 'bob',
+            name: 'bobby',
           },
         },
         proofFormat: 'jwt',
         save: true,
       })
 
-      const result = await agent.discoverDid({ query: 'bob' })
+      const result = await agent.discoverDid({ query: 'bobby' })
 
       expect(result.results[0].matches[0]).toEqual({
         did: identifier.did,
@@ -63,7 +64,7 @@ export default (testContext: {
     })
 
     it('should discover did by alias and profile vc', async () => {
-      const identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerGetOrCreate({
         alias: 'bob',
       })
 
@@ -103,12 +104,10 @@ export default (testContext: {
 
     // THIS HAS TO BE THE LAST TEST IN THIS FILE!
     it('should return errors', async () => {
-      const connection = getConnection('test')
-      await connection.query('PRAGMA foreign_keys = OFF;')
-      await connection.query('DROP TABLE claim;')
-
+      const connection = getConnection('did-discovery-test')
+      await connection.close()
       const result = await agent.discoverDid({ query: 'bob' })
-      expect(result.errors).toEqual({ profile: 'SQLITE_ERROR: no such table: claim' })
+      expect(result?.errors?.profile).toMatch(/(Connection with sqlite database is not established)|(Cannot read property 'connect' of undefined)/)
     })
   })
 }

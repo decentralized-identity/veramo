@@ -64,7 +64,7 @@ export default (testContext: {
 
     it('core-IDIDManager-didManagerCreate example', async () => {
       const identifier = await agent.didManagerCreate({
-        alias: 'alice',
+        alias: 'charlie',
         provider: 'did:ethr:rinkeby',
         kms: 'local',
       })
@@ -82,7 +82,7 @@ export default (testContext: {
 
     it('core-IDIDManager-didManagerGetByAlias example', async () => {
       const identifier = await agent.didManagerGetByAlias({
-        alias: 'alice',
+        alias: 'charlie',
         provider: 'did:ethr:rinkeby',
       })
     })

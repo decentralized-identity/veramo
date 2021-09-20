@@ -16,6 +16,15 @@ jobs:
       GH_USER: ${{secrets.GH_USER}}
       GH_EMAIL: ${{secrets.GH_EMAIL}}
     runs-on: ubuntu-18.04
+    services:
+      postgres:
+        image: postgres:10.10
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test123
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
         with:
@@ -37,7 +46,14 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn bootstrap
       - run: yarn build
-      - run: yarn test:integration
+      - name: run integration tests
+        env:
+          INCLUDE_POSTGRES_TESTS: true
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test123
+          POSTGRES_PORT: 5432
+        run: yarn test:integration
 
       - name: setup git coordinates
         run: |

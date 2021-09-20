@@ -17,6 +17,9 @@ import {
   IDIDManagerFindArgs,
   IDIDManagerSetAliasArgs,
   schema,
+  MinimalImportableIdentifier,
+  IKey,
+  IService,
 } from '@veramo/core'
 import { AbstractDIDStore } from './abstract-identifier-store'
 
@@ -140,12 +143,23 @@ export class DIDManager implements IAgentPlugin {
     return await this.store.import(identifier)
   }
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerImport} */
-  async didManagerImport(identifier: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
+  async didManagerImport(
+    identifier: MinimalImportableIdentifier,
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier> {
+    const keys: IKey[] = []
     for (const key of identifier.keys) {
-      await context.agent.keyManagerImport(key)
+      const importedKey = await context.agent.keyManagerImport(key)
+      keys.push(importedKey)
     }
-    await this.store.import(identifier)
-    return identifier
+    const services: IService[] = [...(identifier?.services || [])]
+    const importedDID = {
+      ...identifier,
+      keys,
+      services,
+    }
+    await this.store.import(importedDID)
+    return importedDID
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerDelete} */
@@ -156,10 +170,6 @@ export class DIDManager implements IAgentPlugin {
     const identifier = await this.store.get({ did })
     const provider = this.getProvider(identifier.provider)
     await provider.deleteIdentifier(identifier, context)
-    if (identifier.services.length > 0) {
-      identifier.services = []
-      await this.store.import(identifier)
-    }
     return this.store.delete({ did })
   }
 

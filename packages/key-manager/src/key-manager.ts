@@ -15,12 +15,17 @@ import {
   IKeyManagerSignArgs,
   IKeyManagerSharedSecretArgs,
   TKeyType,
+  MinimalImportableKey,
+  ManagedKeyInfo,
 } from '@veramo/core'
 import * as u8a from 'uint8arrays'
 import { JWE, createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, ECDH } from 'did-jwt'
 import { arrayify, hexlify } from '@ethersproject/bytes'
+import { serialize, computeAddress } from '@ethersproject/transactions'
 import { toUtf8String, toUtf8Bytes } from '@ethersproject/strings'
 import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
+import Debug from 'debug'
+const debug = Debug('veramo:key-manager')
 
 /**
  * Agent plugin that provides {@link @veramo/core#IKeyManager} methods
@@ -58,7 +63,9 @@ export class KeyManager implements IAgentPlugin {
 
   private getKms(name: string): AbstractKeyManagementSystem {
     const kms = this.kms[name]
-    if (!kms) throw Error('KMS does not exist: ' + name)
+    if (!kms) {
+      throw Error(`invalid_argument: This agent has no registered KeyManagementSystem with name='${name}'`)
+    }
     return kms
   }
 
@@ -68,7 +75,7 @@ export class KeyManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerCreate} */
-  async keyManagerCreate(args: IKeyManagerCreateArgs): Promise<IKey> {
+  async keyManagerCreate(args: IKeyManagerCreateArgs): Promise<ManagedKeyInfo> {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
     const key: IKey = { ...partialKey, kms: args.kms }
@@ -96,9 +103,13 @@ export class KeyManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerImport} */
-  async keyManagerImport(key: IKey): Promise<boolean> {
-    //FIXME: check proper key properties and ask the actual KMS to import and fill in the missing meta data
-    return this.store.import(key)
+  async keyManagerImport(key: MinimalImportableKey): Promise<ManagedKeyInfo> {
+    const kms = this.getKms(key.kms)
+    const managedKey = await kms.importKey(key)
+    const { meta } = key
+    const importedKey = { ...managedKey, meta: { ...meta, ...managedKey.meta }, kms: key.kms }
+    await this.store.import(importedKey)
+    return importedKey
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerEncryptJWE} */
@@ -138,15 +149,18 @@ export class KeyManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignJWT} */
   async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string> {
-    const key = await this.store.get({ kid })
-    const kms = this.getKms(key.kms)
-    return kms.signJWT({ key, data })
+    if (typeof data === 'string') {
+      return this.keyManagerSign({ keyRef: kid, data, encoding: 'utf-8' })
+    } else {
+      const dataString = u8a.toString(data, 'base16')
+      return this.keyManagerSign({ keyRef: kid, data: dataString, encoding: 'base16' })
+    }
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSign} */
   async keyManagerSign(args: IKeyManagerSignArgs): Promise<string> {
     const { keyRef, data, algorithm, encoding, ...extras } = { encoding: 'utf-8', ...args }
-    const key = await this.store.get({ kid: keyRef })
+    const keyInfo: ManagedKeyInfo = await this.store.get({ kid: keyRef })
     let dataBytes
     if (typeof data === 'string') {
       if (encoding === 'base16' || encoding === 'hex') {
@@ -158,31 +172,45 @@ export class KeyManager implements IAgentPlugin {
     } else {
       dataBytes = data
     }
-    const kms = this.getKms(key.kms)
-    return kms.sign({ key, algorithm, data: dataBytes, ...extras })
+    const kms = this.getKms(keyInfo.kms)
+    return kms.sign({ keyRef: keyInfo, algorithm, data: dataBytes, ...extras })
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignEthTX} */
   async keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string> {
-    const key = await this.store.get({ kid })
-    const kms = this.getKms(key.kms)
-    return kms.signEthTX({ key, transaction })
+    const { v, r, s, from, ...tx } = <any>transaction
+    if (typeof from === 'string') {
+      debug('WARNING: executing a transaction signing request with a `from` field.')
+      const key = await this.store.get({ kid })
+      if (key.publicKeyHex) {
+        const address = computeAddress('0x' + key.publicKeyHex)
+        if (address.toLowerCase() !== from.toLowerCase()) {
+          const msg =
+            'invalid_arguments: keyManagerSignEthTX `from` field does not match the chosen key. `from` field should be omitted.'
+          debug(msg)
+          throw new Error(msg)
+        }
+      }
+    }
+    const data = serialize(tx)
+    const algorithm = 'eth_signTransaction'
+    return this.keyManagerSign({ keyRef: kid, data, algorithm, encoding: 'base16' })
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSharedKey} */
   async keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string> {
     const { secretKeyRef, publicKey } = args
-    const myKey = await this.store.get({ kid: secretKeyRef })
+    const myKeyRef = await this.store.get({ kid: secretKeyRef })
     const theirKey = publicKey
     if (
-      myKey.type === theirKey.type ||
-      (['Ed25519', 'X25519'].includes(myKey.type) && ['Ed25519', 'X25519'].includes(theirKey.type))
+      myKeyRef.type === theirKey.type ||
+      (['Ed25519', 'X25519'].includes(myKeyRef.type) && ['Ed25519', 'X25519'].includes(theirKey.type))
     ) {
+      const kms = this.getKms(myKeyRef.kms)
+      return kms.sharedSecret({ myKeyRef, theirKey })
     } else {
       throw new Error('invalid_argument: the key types have to match to be able to compute a shared secret')
     }
-    const kms = this.getKms(myKey.kms)
-    return kms.sharedSecret({ myKey, theirKey })
   }
 
   createX25519ECDH(secretKeyRef: string): ECDH {

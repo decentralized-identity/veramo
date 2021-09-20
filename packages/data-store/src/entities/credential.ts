@@ -28,12 +28,13 @@ export class Credential extends BaseEntity {
   @ManyToOne((type) => Identifier, (identifier) => identifier.issuedCredentials, {
     cascade: ['insert'],
     eager: true,
+    onDelete: "CASCADE"
   })
   //@ts-ignore
   issuer: Identifier
 
   // Subject can be null https://w3c.github.io/vc-data-model/#credential-uniquely-identifies-a-subject
-  @ManyToOne((type) => Identifier, (identifier) => identifier.receivedCredentials, {
+  @ManyToOne((type) => Identifier, (identifier) => identifier?.receivedCredentials, {
     cascade: ['insert'],
     eager: true,
     nullable: true,

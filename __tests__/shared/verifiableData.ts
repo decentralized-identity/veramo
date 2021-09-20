@@ -1,8 +1,7 @@
-import { TAgent, IDIDManager, IIdentifier, IDataStore } from '../../packages/core/src'
+import { TAgent, IDIDManager, IIdentifier, IDataStore, TKeyType } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { decodeJWT } from 'did-jwt'
-import { TKeyType } from '@veramo/core'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 

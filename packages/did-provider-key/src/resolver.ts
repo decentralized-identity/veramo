@@ -10,7 +10,7 @@ const resolveDidKey: DIDResolver = async (
   try {
     const didResolution = (await resolve(didUrl, options as any)) as DIDResolutionResult
     return didResolution
-  } catch (err) {
+  } catch (err: any) {
     return {
       didDocumentMetadata: {},
       didResolutionMetadata: { error: 'invalidDid', message: err.toString() },

@@ -1,5 +1,5 @@
 import { IPluginMethodMap, IAgentContext } from './IAgent'
-import { IIdentifier, IService, IKey } from './IIdentifier'
+import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier'
 import { IKeyManager } from './IKeyManager'
 
 /**
@@ -251,7 +251,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * @example
    * ```typescript
    * const identifier = await agent.didManagerGetByAlias({
-   *   alias: 'alice',
+   *   alias: 'charlie',
    *   provider: 'did:ethr:rinkeby'
    * })
    * ```
@@ -267,7 +267,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * @example
    * ```typescript
    * const identifier = await agent.didManagerCreate({
-   *   alias: 'alice',
+   *   alias: 'charlie',
    *   provider: 'did:ethr:rinkeby',
    *   kms: 'local'
    * })
@@ -303,7 +303,7 @@ export interface IDIDManager extends IPluginMethodMap {
   /**
    * Imports identifier
    */
-  didManagerImport(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
+  didManagerImport(args: MinimalImportableIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 
   /**
    * Deletes identifier

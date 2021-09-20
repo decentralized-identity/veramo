@@ -19,7 +19,14 @@ export default (testContext: {
 
     it('should get providers', async () => {
       const providers = await agent.didManagerGetProviders()
-      expect(providers).toEqual(['did:ethr', 'did:ethr:rinkeby', 'did:web', 'did:key', 'did:fake'])
+      expect(providers).toEqual([
+        'did:ethr',
+        'did:ethr:rinkeby',
+        'did:ethr:421611',
+        'did:web',
+        'did:key',
+        'did:fake',
+      ])
     })
 
     let identifier: IIdentifier
@@ -31,6 +38,17 @@ export default (testContext: {
       expect(identifier.provider).toEqual('did:web')
       expect(identifier.alias).toEqual('example.com')
       expect(identifier.did).toEqual('did:web:example.com')
+      expect(identifier.keys.length).toEqual(1)
+      expect(identifier.services.length).toEqual(0)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
+    it('should create identifier using did:ethr:421611', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:ethr:421611',
+      })
+      expect(identifier.provider).toEqual('did:ethr:421611')
+      expect(identifier.did).toMatch(/^did:ethr:421611:0x.*$/)
       expect(identifier.keys.length).toEqual(1)
       expect(identifier.services.length).toEqual(0)
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
@@ -109,7 +127,7 @@ export default (testContext: {
 
     it('should get identifiers', async () => {
       const allIdentifiers = await agent.didManagerFind()
-      expect(allIdentifiers.length).toEqual(4)
+      expect(allIdentifiers.length).toBeGreaterThanOrEqual(5)
 
       const aliceIdentifiers = await agent.didManagerFind({
         alias: 'alice',
@@ -119,15 +137,15 @@ export default (testContext: {
       const rinkebyIdentifiers = await agent.didManagerFind({
         provider: 'did:ethr:rinkeby',
       })
-      expect(rinkebyIdentifiers.length).toEqual(1)
+      expect(rinkebyIdentifiers.length).toBeGreaterThanOrEqual(1)
 
       // Default provider 'did:ethr:rinkeby'
-      await agent.didManagerCreate()
+      await agent.didManagerCreate({ provider: 'did:ethr:rinkeby' })
 
       const rinkebyIdentifiers2 = await agent.didManagerFind({
         provider: 'did:ethr:rinkeby',
       })
-      expect(rinkebyIdentifiers2.length).toEqual(2)
+      expect(rinkebyIdentifiers2.length).toEqual(rinkebyIdentifiers.length + 1)
     })
 
     it('should delete identifier', async () => {
@@ -250,71 +268,72 @@ export default (testContext: {
     })
 
     it('should import identifier', async () => {
-      const identifier = await agent.didManagerGetOrCreate({
-        alias: 'example.org',
+      expect.assertions(1)
+      const did = 'did:web:imported.example'
+      const imported = await agent.didManagerImport({
+        did,
         provider: 'did:web',
+        services: [
+          {
+            id: `${did}#msg`,
+            type: 'Messaging',
+            serviceEndpoint: 'https://example.org/messaging',
+            description: 'Handles incoming messages',
+          },
+        ],
+        keys: [
+          {
+            kms: 'local',
+            privateKeyHex: 'e63886b5ba367dc2aff9acea6d955ee7c39115f12eaf2aa6b1a2eaa852036668',
+            type: 'Secp256k1',
+          },
+        ],
       })
-
-      await agent.didManagerAddService({
-        did: identifier.did,
-        service: {
-          id: 'did:web:example.org#msg',
-          type: 'Messaging',
-          serviceEndpoint: 'https://example.org/messaging',
-          description: 'Handles incoming messages',
-        },
+      expect(imported).toEqual({
+        did,
+        keys: [
+          {
+            kid: '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
+            kms: 'local',
+            meta: {
+              algorithms: [
+                'ES256K',
+                'ES256K-R',
+                'eth_signTransaction',
+                'eth_signTypedData',
+                'eth_signMessage',
+              ],
+            },
+            publicKeyHex:
+              '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
+            type: 'Secp256k1',
+          },
+        ],
+        provider: 'did:web',
+        services: [
+          {
+            description: 'Handles incoming messages',
+            id: `${did}#msg`,
+            serviceEndpoint: 'https://example.org/messaging',
+            type: 'Messaging',
+          },
+        ],
       })
-
-      const signingKeyFull = await agent.keyManagerGet({
-        kid: identifier.keys[0].kid,
-      })
-
-      const encryptionKey = await agent.keyManagerCreate({
-        kms: 'local',
-        type: 'Ed25519',
-      })
-
-      const encryptionKeyFull = await agent.keyManagerGet({
-        kid: encryptionKey.kid,
-      })
-
-      await agent.didManagerAddKey({
-        did: identifier.did,
-        key: encryptionKey,
-      })
-
-      const exportedIdentifier = await agent.didManagerGet({
-        did: identifier.did,
-      })
-
-      await agent.didManagerDelete({
-        did: identifier.did,
-      })
-
-      await agent.didManagerImport({
-        ...exportedIdentifier,
-        keys: [signingKeyFull, encryptionKeyFull],
-      })
-
-      const importedIdentifier = await agent.didManagerGet({
-        did: identifier.did,
-      })
-      expect(importedIdentifier).toEqual(exportedIdentifier)
     })
 
     it('should set alias for identifier', async () => {
       const identifier = await agent.didManagerCreate()
       const result = await agent.didManagerSetAlias({
         did: identifier.did,
-        alias: 'carol',
+        alias: 'dave',
       })
       expect(result).toEqual(true)
 
       const identifier2 = await agent.didManagerGetByAlias({
-        alias: 'carol',
+        alias: 'dave',
       })
 
-      expect(identifier2).toEqual({ ...identifier, alias: 'carol' })
+      expect(identifier2).toEqual({ ...identifier, alias: 'dave' })
     })
 
     it.todo('should add key for did:ethr')

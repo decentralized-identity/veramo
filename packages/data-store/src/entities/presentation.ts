@@ -36,11 +36,12 @@ export class Presentation extends BaseEntity {
   @ManyToOne((type) => Identifier, (identifier) => identifier.issuedPresentations, {
     cascade: ['insert'],
     eager: true,
+    onDelete: "CASCADE"
   })
   //@ts-ignore
   holder: Identifier
 
-  @ManyToMany((type) => Identifier, (identifier) => identifier.receivedPresentations, {
+  @ManyToMany((type) => Identifier, (identifier) => identifier?.receivedPresentations, {
     cascade: ['insert'],
     eager: true,
     nullable: true,

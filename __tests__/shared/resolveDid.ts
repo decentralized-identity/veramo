@@ -1,5 +1,4 @@
-import { IDIDManager } from '@veramo/core'
-import { TAgent, IResolver, IAgentOptions } from '../../packages/core/src'
+import { TAgent, IResolver, IAgentOptions, IDIDManager } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>
 
@@ -24,16 +23,18 @@ export default (testContext: {
       expect(didDoc?.id).toEqual(didUrl)
     })
 
-    it('should resolve did:key', async () => {
+    it('should resolve did:key github #681', async () => {
       const didUrl = 'did:key:z6Mkk7yqnGF3YwTrLpqrW6PGsKci7dNqh1CjnvMbzrMerSeL'
       const result = await agent.resolveDid({ didUrl })
       const didDoc = result.didDocument
       expect(didDoc?.id).toEqual(didUrl)
+      expect(result).toHaveProperty('didDocumentMetadata')
+      expect(result).toHaveProperty('didResolutionMetadata')
     })
 
     it('should resolve imported fake did', async () => {
       const did = 'did:fake:myfakedid'
-      const importedFakeDID = await agent.didManagerImport({
+      await agent.didManagerImport({
         did,
         keys: [
           {
@@ -57,7 +58,7 @@ export default (testContext: {
       })
       const resolved = await agent.resolveDid({ didUrl: did })
       expect(resolved.didDocument).toEqual({
-        id: 'did:fake:myfakedid',
+        id: did,
         service: [
           {
             id: 'did:fake:myfakedid#fake-service-1',
@@ -78,6 +79,8 @@ export default (testContext: {
         authentication: ['did:fake:myfakedid#fake-key-1'],
         assertionMethod: ['did:fake:myfakedid#fake-key-1'],
       })
+      expect(resolved).toHaveProperty('didDocumentMetadata')
+      expect(resolved).toHaveProperty('didResolutionMetadata')
     })
 
     it('should resolve created fake did', async () => {
@@ -104,6 +107,7 @@ export default (testContext: {
     })
 
     it('should throw error when resolving garbage', async () => {
+      expect.assertions(3)
       //@ts-ignore
       await expect(agent.resolveDid()).resolves.toEqual({
         didDocument: null,
@@ -136,6 +140,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should throw validation error', async () => {
+      expect.assertions(3)
       //@ts-ignore
       await expect(agent.resolveDid()).rejects.toHaveProperty('name', 'ValidationError')
       //@ts-ignore

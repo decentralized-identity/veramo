@@ -43,7 +43,7 @@ config
     try {
       const secretKey = await SecretBox.createSecretKey()
       console.log(secretKey)
-    } catch (e) {
+    } catch (e: any) {
       console.error(e.message)
     }
   })

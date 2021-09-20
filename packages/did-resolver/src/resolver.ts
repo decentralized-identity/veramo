@@ -44,7 +44,20 @@ export class DIDResolverPlugin implements IAgentPlugin {
       accept: 'application/did+ld+json',
       ...options,
     }
-    return this.didResolver.resolve(didUrl, resolverOptions)
+    
+    // ensure the required fields are present, even if the resolver is not compliant
+    const cannedResponse: DIDResolutionResult = {
+      didDocumentMetadata: {},
+      didResolutionMetadata: {},
+      didDocument: null,
+    }
+
+    const resolution = await this.didResolver.resolve(didUrl, resolverOptions)
+    
+    return {
+      ...cannedResponse,
+      ...resolution,
+    }
   }
 
   /** {@inheritDoc @veramo/core#IResolver.getDIDComponentById} */

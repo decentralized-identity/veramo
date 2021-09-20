@@ -19,7 +19,7 @@ export const getConfig = (fileName: string): any => {
 
   const config = yaml.parse(fs.readFileSync(fileName).toString())
 
-  if (config?.version != 2) {
+  if (config?.version != 3) {
     console.log('Unsupported configuration file version:', config.version)
     process.exit(1)
   }
@@ -42,7 +42,7 @@ export type ConfiguredAgent = TAgent<EnabledInterfaces>
 export function getAgent(fileName: string) {
   try {
     return createAgentFromConfig<EnabledInterfaces>(getConfig(fileName))
-  } catch (e) {
+  } catch (e: any) {
     console.log('Unable to create agent from ' + fileName + '.', e.message)
     process.exit(1)
   }

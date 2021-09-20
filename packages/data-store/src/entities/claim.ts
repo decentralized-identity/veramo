@@ -10,6 +10,7 @@ export class Claim extends BaseEntity {
 
   @ManyToOne((type) => Identifier, (identifier) => identifier.issuedClaims, {
     eager: true,
+    onDelete: "CASCADE"
   })
   //@ts-ignore
   issuer: Identifier
@@ -20,7 +21,9 @@ export class Claim extends BaseEntity {
   })
   subject?: Identifier
 
-  @ManyToOne((type) => Credential, (credential) => credential.claims)
+  @ManyToOne((type) => Credential, (credential) => credential.claims, {
+    onDelete: "CASCADE"
+  })
   //@ts-ignore
   credential: Credential
 

@@ -21,11 +21,11 @@
     "@veramo/message-handler": "^2.1.0",
     "blakejs": "^1.1.0",
     "debug": "^4.1.1",
-    "did-jwt": "5.6.2"
+    "did-jwt": "5.7.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.3.5"
+    "typescript": "4.4.3"
   },
   "files": [
     "build/**/*",
