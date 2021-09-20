@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/uport-project/veramo/compare/v2.1.3...v3.0.0) (2021-09-20)
+
+
+### Bug Fixes
+
+* **did-ethr-provider:** allow initialization with chainId number ([#678](https://github.com/uport-project/veramo/issues/678)) ([38cd0ae](https://github.com/uport-project/veramo/commit/38cd0aeb438ada57eb95464cabe072d02cbebb2b)), closes [#677](https://github.com/uport-project/veramo/issues/677)
+
+
+
+
+
 # [2.1.0](https://github.com/uport-project/veramo/compare/v2.0.1...v2.1.0) (2021-08-11)
 
 **Note:** Version bump only for package @veramo/did-provider-ethr

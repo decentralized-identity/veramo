@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-discovery",
   "description": "Veramo DID discovery plugin",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -14,7 +14,7 @@
     }
   },
   "dependencies": {
-    "@veramo/core": "^2.1.0",
+    "@veramo/core": "^3.0.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {
