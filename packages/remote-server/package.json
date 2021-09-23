@@ -12,7 +12,7 @@
     "@veramo/core": "^3.0.0",
     "@veramo/remote-client": "^3.0.0",
     "debug": "^4.1.1",
-    "passport": "^0.4.1",
+    "passport": "^0.5.0",
     "passport-http-bearer": "^1.0.1",
     "url-parse": "^1.5.1"
   },
