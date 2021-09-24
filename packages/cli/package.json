@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/inquirer": "8.1.1",
+    "@types/inquirer": "8.1.2",
     "@types/node-fetch": "3.0.2",
     "@types/passport-http-bearer": "1.0.37",
     "@types/ws": "7.4.7",
