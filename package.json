@@ -23,22 +23,13 @@
   "workspaces": [
     "packages/*"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "devDependencies": {
-    "@commitlint/cli": "13.1.0",
-    "@commitlint/config-conventional": "13.1.0",
     "@microsoft/api-documenter": "7.13.54",
     "@microsoft/api-extractor": "7.18.11",
     "@microsoft/api-extractor-model": "7.13.9",
     "@types/jest": "27.0.2",
     "codecov": "3.8.3",
     "cross-fetch": "3.1.4",
-    "husky": "7.0.2",
     "jest": "27.2.2",
     "jest-fetch-mock": "3.0.3",
     "json-schema": "0.3.0",
