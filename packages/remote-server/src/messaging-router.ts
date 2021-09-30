@@ -16,6 +16,11 @@ export interface MessagingRouterOptions {
     type: string
     value?: string
   }
+
+  /**
+   * Optional. true by default
+   */
+  save?: boolean
 }
 
 /**
@@ -32,7 +37,7 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
       const message = await req.agent?.handleMessage({
         raw: req.body as any as string,
         metaData: [options.metaData],
-        save: true,
+        save: typeof options.save === 'undefined'  ? true : options.save,
       })
 
       if (message) {
