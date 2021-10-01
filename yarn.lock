@@ -4195,10 +4195,10 @@ did-jwt-vc@2.1.7:
     did-jwt "^5.7.0"
     did-resolver "^3.1.0"
 
-did-jwt@5.7.0, did-jwt@^5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.7.0.tgz#7c5284daece5c86388db90e1274d0df63bb20f52"
-  integrity sha512-etWD68ZugZ+mf9PoA+unFc1A9IPrCpD8CXeOu7cCLOtXum30TO6OU73a+AoDPie1R4knO1yGLv/3dPZ68CufFw==
+did-jwt@5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.8.0.tgz#4393a3b985a774327e7c121774179f5c0f174719"
+  integrity sha512-DTSxqBKds2h5mBaAIBGfMDF/WJAwfoGB3+/BBTVEQYybJazTrf2A64kBK3V7QhzRmCrd5xY0gwjZG9cMQ8CkKg==
   dependencies:
     "@stablelib/ed25519" "^1.0.2"
     "@stablelib/random" "^1.0.1"
@@ -4206,9 +4206,10 @@ did-jwt@5.7.0, did-jwt@^5.7.0:
     "@stablelib/x25519" "^1.0.1"
     "@stablelib/xchacha20poly1305" "^1.0.1"
     canonicalize "^1.0.5"
-    did-resolver "^3.1.0"
+    did-resolver "^3.1.1"
     elliptic "^6.5.4"
     js-sha3 "^0.8.0"
+    multiformats "^9.4.8"
     uint8arrays "^3.0.0"
 
 did-jwt@^5.4.0, did-jwt@^5.6.2:
@@ -4227,12 +4228,28 @@ did-jwt@^5.4.0, did-jwt@^5.6.2:
     js-sha3 "^0.8.0"
     uint8arrays "^2.1.5"
 
+did-jwt@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.7.0.tgz#7c5284daece5c86388db90e1274d0df63bb20f52"
+  integrity sha512-etWD68ZugZ+mf9PoA+unFc1A9IPrCpD8CXeOu7cCLOtXum30TO6OU73a+AoDPie1R4knO1yGLv/3dPZ68CufFw==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.2"
+    "@stablelib/random" "^1.0.1"
+    "@stablelib/sha256" "^1.0.1"
+    "@stablelib/x25519" "^1.0.1"
+    "@stablelib/xchacha20poly1305" "^1.0.1"
+    canonicalize "^1.0.5"
+    did-resolver "^3.1.0"
+    elliptic "^6.5.4"
+    js-sha3 "^0.8.0"
+    uint8arrays "^3.0.0"
+
 did-resolver@3.1.0, did-resolver@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.0.tgz#84f0e3d16abe9711dc04c34a5a0e2f63868c9611"
   integrity sha512-uf3/4LfHoDn3Ek8bFegO72OemHMytBhAkud6CA1HlB5I0iVwrCpG4oh+DA6DXUuBdhrA0cY4cGz1D0VNDTlgnw==
 
-did-resolver@^3.1.2:
+did-resolver@3.1.2, did-resolver@^3.1.1, did-resolver@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.2.tgz#9ea891a6cc01ab0ea0a2fdd15effbc1e637466e5"
   integrity sha512-z0F571S95ZKES452sLyFSfUtQrvcW5OgZVCFq7D6gKReonTflgzdD6dcs27HbjUPXwTaXR9lzGFrA3mUd2K6uw==
@@ -7232,6 +7249,11 @@ multiformats@^9.4.2:
   version "9.4.5"
   resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.4.5.tgz#9ac47bbc87aadb09d4bd05e9cd3da6f4436414f6"
   integrity sha512-zQxukxsHM34EJi3yT3MkUlycY9wEouyrAz0PSN+CyCj6cYchJZ4LrTH74YtlsxVyAK6waz/gnVLmJwi3P0knKg==
+
+multiformats@^9.4.8:
+  version "9.4.8"
+  resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.4.8.tgz#46f74ec116f7871f2a334cc6d4ad3d810dbac341"
+  integrity sha512-EOJL02/kv+FD5hoItMhKgkYUUruJYMYFq4NQ6YkCh3jVQ5CuHo+OKdHeR50hAxEQmXQ9yvrM9BxLIk42xtfwnQ==
 
 multimatch@^4.0.0:
   version "4.0.0"
@@ -10254,6 +10276,14 @@ web-did-resolver@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.4.tgz#5a26cc96b1c6924191687ecc8cdb2ce5ef66805b"
   integrity sha512-PORpoA4P0I3m0cLJX2IIDZ0gMKgC1PjS8DuDeg9/JCdIlFiXrZCyTG1hxvw4a4vhDKr0sZKSZL1pQDXTgqLm8w==
+  dependencies:
+    cross-fetch "^3.1.2"
+    did-resolver "^3.1.0"
+
+web-did-resolver@2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.6.tgz#20d4153306d3355b41726de20baa57c6012d7a55"
+  integrity sha512-ltimspyPIIHEtMnK6eEVxNFslc0U/VKp5zs2nWORDiaC2NDjfnexSzY3pW/zKa90VUn23iFpKUGwbJEv2JcgEQ==
   dependencies:
     cross-fetch "^3.1.2"
     did-resolver "^3.1.0"
