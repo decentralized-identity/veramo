@@ -43,7 +43,7 @@
     "cross-fetch": "^3.1.4",
     "date-fns": "^2.16.1",
     "debug": "^4.1.1",
-    "did-resolver": "3.1.0",
+    "did-resolver": "3.1.2",
     "dotenv": "^10.0.0",
     "ethr-did-resolver": "4.3.4",
     "express": "^4.17.1",
@@ -65,7 +65,7 @@
     "ts-json-schema-generator": "^0.95.0",
     "typeorm": "0.2.37",
     "url-parse": "^1.5.1",
-    "web-did-resolver": "2.0.4",
+    "web-did-resolver": "2.0.6",
     "ws": "^8.0.0",
     "yaml": "^1.10.0"
   },
