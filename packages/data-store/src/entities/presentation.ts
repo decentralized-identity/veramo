@@ -1,15 +1,6 @@
 import { VerifiablePresentation } from '@veramo/core'
 import { blake2bHex } from 'blakejs'
-import {
-  Entity,
-  Column,
-  BaseEntity,
-  ManyToOne,
-  JoinTable,
-  PrimaryColumn,
-  BeforeInsert,
-  ManyToMany,
-} from 'typeorm'
+import { Entity, Column, BaseEntity, ManyToOne, JoinTable, PrimaryColumn, ManyToMany } from 'typeorm'
 import { Identifier } from './identifier'
 import { Message } from './message'
 import { Credential, createCredentialEntity } from './credential'
@@ -36,7 +27,7 @@ export class Presentation extends BaseEntity {
   @ManyToOne((type) => Identifier, (identifier) => identifier.issuedPresentations, {
     cascade: ['insert'],
     eager: true,
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE',
   })
   //@ts-ignore
   holder: Identifier

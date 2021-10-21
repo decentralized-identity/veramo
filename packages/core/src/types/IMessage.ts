@@ -1,51 +1,31 @@
 /**
- * Verifiable Credential {@link https://github.com/decentralized-identifier/did-jwt-vc}
+ * Represents a signed Verifiable Credential payload (includes proof).
+ * See {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model}
+ * 
  * @public
  */
-export interface VerifiableCredential {
-  '@context': string[]
-  id?: string
-  type: string[]
-  issuer: { id: string; [x: string]: any }
-  issuanceDate: string
-  expirationDate?: string
-  credentialSubject: {
-    id?: string
-    [x: string]: any
-  }
-  credentialStatus?: {
-    id: string
-    type: string
-  }
+export interface VerifiableCredential extends W3CCredential {
   proof: {
     type?: string
     [x: string]: any
   }
-  [x: string]: any
 }
 
 /**
- * Verifiable Presentation {@link https://github.com/decentralized-identifier/did-jwt-vc}
+ * Represents a signed Verifiable Presentation (includes proof).
+ * See {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model}
  * @public
  */
-export interface VerifiablePresentation {
-  id?: string
-  holder: string
-  issuanceDate?: string
-  expirationDate?: string
-  '@context': string[]
-  type: string[]
-  verifier: string[]
-  verifiableCredential?: VerifiableCredential[]
+export interface VerifiablePresentation extends W3CPresentation {
   proof: {
     type?: string
     [x: string]: any
   }
-  [x: string]: any
 }
 
 /**
- * W3CCredential {@link https://github.com/decentralized-identifier/did-jwt-vc}
+ * Represents an unsigned W3C Credential payload.
+ * See {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model}
  * @public
  */
 export interface W3CCredential {
@@ -67,7 +47,8 @@ export interface W3CCredential {
 }
 
 /**
- * W3CPresentation {@link https://github.com/decentralized-identifier/did-jwt-vc}
+ * Represents an unsigned W3C Presentation payload.
+ * See {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model}
  * @public
  */
 export interface W3CPresentation {
@@ -99,7 +80,7 @@ export interface IMetaData {
 }
 
 /**
- * DIDComm message
+ * Represents a DIDComm v1 message payload, with optionally decoded credentials and presentations.
  * @public
  */
 export interface IMessage {
