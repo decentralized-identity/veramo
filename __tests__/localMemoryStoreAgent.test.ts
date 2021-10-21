@@ -49,7 +49,7 @@ import didComm from './shared/didcomm'
 import messageHandler from './shared/messageHandler'
 
 const databaseFile = 'local-database2.sqlite'
-const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
+const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
 let agent: TAgent<
   IDIDManager &
