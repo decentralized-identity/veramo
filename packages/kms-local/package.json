@@ -23,7 +23,7 @@
     "@veramo/key-manager": "^3.0.0",
     "base-58": "^0.0.1",
     "debug": "^4.1.1",
-    "did-jwt": "5.8.0",
+    "did-jwt": "5.9.0",
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
