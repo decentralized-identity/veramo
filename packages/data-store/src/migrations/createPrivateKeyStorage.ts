@@ -63,6 +63,12 @@ export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface 
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
+    function getTableName(givenName: string): string {
+      return (
+        queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)?.tableName ||
+        givenName
+      )
+    }
     // 1. add old column back
     debug(`adding back privateKeyHex column to key table`)
     await queryRunner.addColumn(
@@ -87,7 +93,7 @@ export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface 
     }
     debug(`dropping private-key table`)
     // 3. drop the new private key table
-    await queryRunner.dropTable('private-key')
+    await queryRunner.dropTable(getTableName('private-key'))
     // 4. done
     debug(`rolled back ${keys.length} keys`)
   }
