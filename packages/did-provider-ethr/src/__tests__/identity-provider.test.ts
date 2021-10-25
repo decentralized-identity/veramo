@@ -13,7 +13,7 @@ describe('dummy', () => {
 })
 
 // describe('@veramo/did-provider-ethr', () => {
-// const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
+// const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 // const rpcUrl = 'https://rinkeby.infura.io/v3/' + infuraProjectId
 // const resolver = new DIDResolverPlugin({ infuraProjectId })
 // const key = {

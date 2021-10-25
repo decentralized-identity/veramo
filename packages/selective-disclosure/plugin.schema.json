@@ -90,13 +90,13 @@
             }
           },
           "required": [
-            "holder",
             "@context",
+            "holder",
+            "proof",
             "type",
-            "verifier",
-            "proof"
+            "verifier"
           ],
-          "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Presentation (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
         "VerifiableCredential": {
           "type": "object",
@@ -167,13 +167,13 @@
           },
           "required": [
             "@context",
-            "type",
-            "issuer",
-            "issuanceDate",
             "credentialSubject",
-            "proof"
+            "issuanceDate",
+            "issuer",
+            "proof",
+            "type"
           ],
-          "description": "Verifiable Credential  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ICreateSelectiveDisclosureRequestArgs": {
           "type": "object",

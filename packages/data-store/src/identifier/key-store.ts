@@ -1,5 +1,5 @@
 import { IKey, ManagedKeyInfo } from '@veramo/core'
-import { AbstractKeyStore, AbstractSecretBox } from '@veramo/key-manager'
+import { AbstractKeyStore } from '@veramo/key-manager'
 import { Connection } from 'typeorm'
 
 import { Key } from '../entities/key'

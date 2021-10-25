@@ -9,11 +9,17 @@ const debug = Debug('veramo:data-store:key-migration')
  */
 export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {
+    function getTableName(givenName: string): string {
+      return (
+        queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)?.tableName ||
+        givenName
+      )
+    }
     // 1.create new table
     debug(`creating new private-key table`)
     await queryRunner.createTable(
       new Table({
-        name: 'private-key',
+        name: getTableName('private-key'),
         columns: [
           {
             name: 'alias',
@@ -43,15 +49,26 @@ export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface 
         privateKeyHex: key.privateKeyHex,
       }))
     debug(`${privKeys.length} keys need to be migrated`)
-    await queryRunner.manager.createQueryBuilder().insert().into('private-key').values(privKeys).execute()
+    await queryRunner.manager
+      .createQueryBuilder()
+      .insert()
+      .into(getTableName('private-key'))
+      .values(privKeys)
+      .execute()
     // 3. drop old column
     debug(`dropping privKeyHex column from old key table`)
-    await queryRunner.dropColumn('key', 'privateKeyHex')
+    await queryRunner.dropColumn(getTableName('key'), 'privateKeyHex')
     //4. done
     debug(`migrated ${privKeys.length} keys to private key storage`)
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
+    function getTableName(givenName: string): string {
+      return (
+        queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)?.tableName ||
+        givenName
+      )
+    }
     // 1. add old column back
     debug(`adding back privateKeyHex column to key table`)
     await queryRunner.addColumn(
@@ -68,15 +85,15 @@ export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface 
     debug(`copying ${keys.length} keys`)
     for (const key of keys) {
       await queryRunner.manager
-      .createQueryBuilder()
-      .update(PreMigrationKey)
-      .set({ privateKeyHex: key.privateKeyHex })
-      .where('kid = :alias', { alias: key.alias })
-      .execute()
+        .createQueryBuilder()
+        .update(PreMigrationKey)
+        .set({ privateKeyHex: key.privateKeyHex })
+        .where('kid = :alias', { alias: key.alias })
+        .execute()
     }
     debug(`dropping private-key table`)
     // 3. drop the new private key table
-    await queryRunner.dropTable('private-key')
+    await queryRunner.dropTable(getTableName('private-key'))
     // 4. done
     debug(`rolled back ${keys.length} keys`)
   }

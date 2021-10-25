@@ -50,6 +50,7 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
   schemaStr = schemaStr.replace(/Where\<(.*)\>/gm, 'Where-$1')
   schemaStr = schemaStr.replace(/Order\<(.*)\>/gm, 'Order-$1')
   schemaStr = schemaStr.replace(/FindArgs\<(.*)\>/gm, 'FindArgs-$1')
+  schemaStr = schemaStr.replace(/https \:\/\//gm, 'https://')
   return JSON.parse(schemaStr)
 }
 
