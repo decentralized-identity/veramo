@@ -4,7 +4,8 @@ constants:
   baseUrl: http://localhost:3332
   port: 3332
   # please use your own X25519 key, this is only an example
-  secretKey: 29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
+  # you can generate a new key by running `veramo config gen-key` in a terminal
+  dbEncryptionKey: 29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
   databaseFile: ./database.sqlite
   methods:
     - keyManagerGetKeyManagementSystems
@@ -206,7 +207,7 @@ keyManager:
                 - $ref: /dbConnection
                 - $require: '@veramo/kms-local#SecretBox'
                   $args:
-                    - $ref: /constants/secretKey
+                    - $ref: /constants/dbEncryptionKey
 
 # DID Manager
 didManager:
