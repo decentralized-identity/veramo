@@ -4319,7 +4319,12 @@ did-resolver@3.1.0, did-resolver@^3.1.0:
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.0.tgz#84f0e3d16abe9711dc04c34a5a0e2f63868c9611"
   integrity sha512-uf3/4LfHoDn3Ek8bFegO72OemHMytBhAkud6CA1HlB5I0iVwrCpG4oh+DA6DXUuBdhrA0cY4cGz1D0VNDTlgnw==
 
-did-resolver@3.1.2, did-resolver@^3.1.1, did-resolver@^3.1.2:
+did-resolver@3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.3.tgz#ed530c9daa2c9925f85e9eabf258e51960db7e70"
+  integrity sha512-ab8y90tSiDkTdfddXRC9Qcb1QSd568aC6+OgFTrcE4rs1vQAZOil+VqXHDu+Ff/UvhxlckPO8oJtp86iICZG0w==
+
+did-resolver@^3.1.1, did-resolver@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.2.tgz#9ea891a6cc01ab0ea0a2fdd15effbc1e637466e5"
   integrity sha512-z0F571S95ZKES452sLyFSfUtQrvcW5OgZVCFq7D6gKReonTflgzdD6dcs27HbjUPXwTaXR9lzGFrA3mUd2K6uw==
@@ -10375,10 +10380,10 @@ web-did-resolver@2.0.4:
     cross-fetch "^3.1.2"
     did-resolver "^3.1.0"
 
-web-did-resolver@2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.6.tgz#20d4153306d3355b41726de20baa57c6012d7a55"
-  integrity sha512-ltimspyPIIHEtMnK6eEVxNFslc0U/VKp5zs2nWORDiaC2NDjfnexSzY3pW/zKa90VUn23iFpKUGwbJEv2JcgEQ==
+web-did-resolver@2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.7.tgz#caab60c6d37cd3c0e563da8918cbe27b51710935"
+  integrity sha512-/wCbUt9O5H+mpkWuQDGGMr9vaNm2TEamKOFf5RoGkEhLzb6zRqS0H+mHtqSk5U1JEknSviomqkEhp7XM7jMleQ==
   dependencies:
     cross-fetch "^3.1.2"
     did-resolver "^3.1.0"
