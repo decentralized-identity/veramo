@@ -53,7 +53,7 @@
     "inquirer": "^8.0.0",
     "inquirer-autocomplete-prompt": "^1.2.0",
     "json-schema": "^0.3.0",
-    "jsonpointer": "^4.1.0",
+    "jsonpointer": "^5.0.0",
     "oas-resolver": "^2.5.3",
     "openapi-types": "^9.0.0",
     "passport": "^0.5.0",
