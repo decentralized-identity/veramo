@@ -147,7 +147,8 @@
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/VerificationMethod"
-              }
+              },
+              "deprecated": ""
             }
           },
           "required": [
