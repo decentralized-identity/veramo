@@ -19,7 +19,7 @@
     "@veramo/message-handler": "^3.0.0",
     "cross-fetch": "^3.1.4",
     "debug": "^4.1.1",
-    "did-jwt": "5.9.0",
+    "did-jwt": "5.10.0",
     "did-resolver": "^3.1.0",
     "uint8arrays": "^3.0.0",
     "uuid": "^8.3.0"
