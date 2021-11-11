@@ -1,3 +1,10 @@
+/**
+ * This runs a suite of ./shared tests using an agent configured for remote operations.
+ * There is a local agent that only uses @veramo/remove-client and a remote agent that provides the actual functionality.
+ * 
+ * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
+ * See didWithFakeDidFlow() for more details.
+ */
 import 'cross-fetch/polyfill'
 import {
   Agent,
@@ -62,8 +69,8 @@ import webDidFlow from './shared/webDidFlow'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
-import didComm from './shared/didcomm'
-import didCommRemote from './shared/didcommRemote'
+import didCommPacking from './shared/didCommPacking'
+import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 
@@ -234,7 +241,7 @@ describe('REST integration tests', () => {
   keyManager(testContext)
   didManager(testContext)
   messageHandler(testContext)
-  didComm(testContext)
-  didCommRemote(testContext)
+  didCommPacking(testContext)
+  didWithFakeDidFlow(testContext)
   didDiscovery(testContext)
 })

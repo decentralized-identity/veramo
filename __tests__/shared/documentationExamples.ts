@@ -1,3 +1,10 @@
+/**
+ * This test suite runs the examples from the documentation in various test contexts.
+ * 
+ * Documentation examples are extracted from the tsdoc of the relevant source code.
+ * To document a new package, add it to docsconfig.json array and have it processed with `extract-api` or `generate-plugin-schema`.
+ */
+
 import { TAgent, IDIDManager, IDataStore, IMessageHandler } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
@@ -15,8 +22,8 @@ export default (testContext: {
   describe('Documentation examples', () => {
     let agent: ConfiguredAgent
 
-    beforeAll(() => {
-      testContext.setup()
+    beforeAll(async () => {
+      await testContext.setup()
       agent = testContext.getAgent()
     })
     afterAll(testContext.tearDown)

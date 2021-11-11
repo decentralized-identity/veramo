@@ -1,3 +1,8 @@
+/**
+ * This runs a suite of ./shared tests using an agent configured for local operations,
+ * using a SQLite db for storage of credentials and an in-memory store for keys and DIDs.
+ * 
+ */
 import {
   createAgent,
   TAgent,
@@ -45,7 +50,7 @@ import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
-import didComm from './shared/didcomm'
+import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
 
 const databaseFile = 'local-database2.sqlite'
@@ -187,5 +192,5 @@ describe('Local in-memory integration tests', () => {
   keyManager(testContext)
   didManager(testContext)
   messageHandler(testContext)
-  didComm(testContext)
+  didCommPacking(testContext)
 })

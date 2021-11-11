@@ -17,18 +17,6 @@ export default (testContext: {
     })
     afterAll(testContext.tearDown)
 
-    it('should get providers', async () => {
-      const providers = await agent.didManagerGetProviders()
-      expect(providers).toEqual([
-        'did:ethr',
-        'did:ethr:rinkeby',
-        'did:ethr:421611',
-        'did:web',
-        'did:key',
-        'did:fake',
-      ])
-    })
-
     let identifier: IIdentifier
     it('should create identifier', async () => {
       identifier = await agent.didManagerCreate({

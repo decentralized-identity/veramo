@@ -1,3 +1,8 @@
+/**
+ * This suite runs through a few agent operations using data that was created before
+ * TypeORM migrations were available (before Veramo 3.0.0)
+ */
+
 import { createAgent, TAgent, IDIDManager, IResolver, IKeyManager, IDataStore } from '../packages/core/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'

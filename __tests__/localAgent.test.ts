@@ -1,3 +1,10 @@
+/**
+ * This runs a suite of ./shared tests using an agent configured for local operations,
+ * using a SQLite db for storage of credentials, presentations, messages as well as keys and DIDs.
+ * 
+ * This suite also runs a ganache local blockchain to run through some examples of DIDComm using did:ethr identifiers.
+ */
+
 import {
   createAgent,
   TAgent,
@@ -57,7 +64,7 @@ import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
-import didComm from './shared/didcomm'
+import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
@@ -210,7 +217,7 @@ describe('Local integration tests', () => {
   keyManager(testContext)
   didManager(testContext)
   messageHandler(testContext)
-  didComm(testContext)
+  didCommPacking(testContext)
   didDiscovery(testContext)
   dbInitOptions(testContext)
 })
