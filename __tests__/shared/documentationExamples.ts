@@ -1,6 +1,6 @@
 /**
  * This test suite runs the examples from the documentation in various test contexts.
- * 
+ *
  * Documentation examples are extracted from the tsdoc of the relevant source code.
  * To document a new package, add it to docsconfig.json array and have it processed with `extract-api` or `generate-plugin-schema`.
  */
