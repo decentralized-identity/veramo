@@ -6,9 +6,9 @@ import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import fs from 'fs'
 
-describe('veramo core', () => {
+describe('DB entities test', () => {
   let connection: Connection
-  const databaseFile = './test-db.sqlite'
+  const databaseFile = './tmp/test-db.sqlite'
 
   beforeAll(
     async () =>

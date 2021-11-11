@@ -74,7 +74,7 @@ import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 
-const databaseFile = 'rest-database.sqlite'
+const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 const port = 3002

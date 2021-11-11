@@ -90,7 +90,7 @@ let dbConnection: Promise<Connection>
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  databaseFile = options?.context?.databaseFile || 'local-database.sqlite'
+  databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
   dbConnection = createConnection({
     name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',

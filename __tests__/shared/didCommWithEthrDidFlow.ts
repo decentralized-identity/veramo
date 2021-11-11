@@ -90,7 +90,11 @@ export default (testContext: {
     })
 
     afterAll(async () => {
-      await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+      try {
+        await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+      } catch (e) {
+        //nop
+      }
       testContext.tearDown()
     })
 
@@ -108,7 +112,9 @@ export default (testContext: {
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(`http://localhost:${listeningPort}/foobar`)
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
+        `http://localhost:${listeningPort}/foobar`,
+      )
     })
 
     it('should remove service from identifier', async () => {
@@ -168,7 +174,9 @@ export default (testContext: {
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(`http://localhost:${listeningPort}/messaging`)
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
+        `http://localhost:${listeningPort}/messaging`,
+      )
     })
 
     it('should add encryption key to receiver DID', async () => {
@@ -186,10 +194,12 @@ export default (testContext: {
       const resolution = await agent.resolveDid({ didUrl: alice.did })
       const expectedBase58Key = u8a.toString(u8a.fromString(newKey.publicKeyHex, 'base16'), 'base58btc')
       expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyBase58).toEqual(expectedBase58Key)
-      expect(resolution?.didDocument?.keyAgreement?.[0]).toEqual(resolution?.didDocument?.verificationMethod?.[2].id)
+      expect(resolution?.didDocument?.keyAgreement?.[0]).toEqual(
+        resolution?.didDocument?.verificationMethod?.[2].id,
+      )
     })
 
-    it.skip('should send an anoncrypt message from bob to alice', async () => {
+    it('should send an anoncrypt message from bob to alice', async () => {
       expect.assertions(3)
 
       const message = {
@@ -233,8 +243,8 @@ export default (testContext: {
       )
     })
 
-    it.skip('should fail to send jws message from alice to bob', async () => {
-      expect.assertions(3)
+    it('should fail to send jws message from alice to bob', async () => {
+      expect.assertions(1)
 
       const message = {
         type: 'test',
@@ -247,12 +257,13 @@ export default (testContext: {
         packing: 'jws',
         message,
       })
-      expect(agent.sendDIDCommMessage({
-        messageId: '456',
-        packedMessage,
-        recipientDidUrl: bob.did,
-      })).rejects.toThrowError(/^Error: Failed to send message/)
-
+      await expect(
+        agent.sendDIDCommMessage({
+          messageId: '456',
+          packedMessage,
+          recipientDidUrl: bob.did,
+        }),
+      ).rejects.toThrowError(/^not_found: could not find DIDComm Messaging service in DID document for/)
     })
   })
 }
