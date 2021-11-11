@@ -323,10 +323,5 @@ export default (testContext: {
 
       expect(identifier2).toEqual({ ...identifier, alias: 'dave' })
     })
-
-    it.todo('should add key for did:ethr')
-    it.todo('should remove key for did:ethr')
-    it.todo('should add service for did:ethr')
-    it.todo('should remove service for did:ethr')
   })
 }

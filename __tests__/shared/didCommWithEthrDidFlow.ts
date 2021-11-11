@@ -98,7 +98,7 @@ export default (testContext: {
       testContext.tearDown()
     })
 
-    it('should add service to identifier', async () => {
+    it('should add dummy service to identifier', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
         service: {
@@ -117,7 +117,7 @@ export default (testContext: {
       )
     })
 
-    it('should remove service from identifier', async () => {
+    it('should remove dummy service from identifier', async () => {
       const result = await agent.didManagerRemoveService({
         did: alice.did,
         id: 'localhost-useless-endpoint',
@@ -133,7 +133,7 @@ export default (testContext: {
 
     let dummyKey: IKey
 
-    it('should add signing key to identifier', async () => {
+    it('should add dummy key to identifier', async () => {
       dummyKey = await agent.keyManagerCreate({
         kms: 'local',
         type: 'Secp256k1',
@@ -149,7 +149,7 @@ export default (testContext: {
       expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyHex).toEqual(dummyKey.publicKeyHex)
     })
 
-    it('should remove signing key from identifier', async () => {
+    it('should remove dummy key from identifier', async () => {
       const result = await agent.didManagerRemoveKey({
         did: alice.did,
         kid: dummyKey.kid,
@@ -179,6 +179,68 @@ export default (testContext: {
       )
     })
 
+    it('should send an signed message from bob to alice', async () => {
+      expect.assertions(3)
+
+      const message = {
+        type: 'test',
+        to: alice.did,
+        from: bob.did,
+        id: 'test-jws-success',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'jws',
+        message,
+      })
+      const result = await agent.sendDIDCommMessage({
+        messageId: 'test-jws-success',
+        packedMessage,
+        recipientDidUrl: alice.did,
+      })
+
+      expect(result).toBeTruthy()
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        { data: 'test-jws-success', type: 'DIDCommV2Message-sent' },
+        expect.anything(),
+      )
+      // in our case, it is the same agent that is receiving the messages
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { hello: 'world' },
+              from: bob.did,
+              id: 'test-jws-success',
+              to: alice.did,
+              type: 'test',
+            },
+            metaData: { packing: 'jws' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should fail to pack an anoncrypt message from bob to alice (no receiver key)', async () => {
+      expect.assertions(1)
+
+      const message = {
+        type: 'test',
+        to: alice.did,
+        from: bob.did,
+        id: 'test-anoncrypt-fail',
+        body: { hello: 'world' },
+      }
+      await expect(
+        agent.packDIDCommMessage({
+          packing: 'anoncrypt',
+          message,
+        }),
+      ).rejects.toThrowError(/^key_not_found: no key agreement keys found for recipient/)
+    })
+
     it('should add encryption key to receiver DID', async () => {
       const newKey = await agent.keyManagerCreate({
         kms: 'local',
@@ -206,7 +268,7 @@ export default (testContext: {
         type: 'test',
         to: alice.did,
         from: bob.did,
-        id: 'test',
+        id: 'test-anoncrypt-success',
         body: { hello: 'world' },
       }
       const packedMessage = await agent.packDIDCommMessage({
@@ -214,14 +276,14 @@ export default (testContext: {
         message,
       })
       const result = await agent.sendDIDCommMessage({
-        messageId: '123',
+        messageId: 'test-anoncrypt-success',
         packedMessage,
         recipientDidUrl: alice.did,
       })
 
       expect(result).toBeTruthy()
       expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-        { data: '123', type: 'DIDCommV2Message-sent' },
+        { data: 'test-anoncrypt-success', type: 'DIDCommV2Message-sent' },
         expect.anything(),
       )
       // in our case, it is the same agent that is receiving the messages
@@ -231,7 +293,7 @@ export default (testContext: {
             message: {
               body: { hello: 'world' },
               from: 'did:ethr:ganache:0x02c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5',
-              id: 'test',
+              id: 'test-anoncrypt-success',
               to: 'did:ethr:ganache:0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798',
               type: 'test',
             },
@@ -243,14 +305,14 @@ export default (testContext: {
       )
     })
 
-    it('should fail to send jws message from alice to bob', async () => {
+    it('should fail to send jws message from alice to bob (no service endpoint)', async () => {
       expect.assertions(1)
 
       const message = {
         type: 'test',
         to: bob.did,
         from: alice.did,
-        id: 'fail',
+        id: 'test-endpoint-fail',
         body: { hello: 'world' },
       }
       const packedMessage = await agent.packDIDCommMessage({
@@ -259,11 +321,93 @@ export default (testContext: {
       })
       await expect(
         agent.sendDIDCommMessage({
-          messageId: '456',
+          messageId: 'test-endpoint-fail',
           packedMessage,
           recipientDidUrl: bob.did,
         }),
       ).rejects.toThrowError(/^not_found: could not find DIDComm Messaging service in DID document for/)
+    })
+
+    it('should fail to pack an authcrypt message from bob to alice (no skid)', async () => {
+      expect.assertions(1)
+
+      const message = {
+        type: 'test',
+        to: alice.did,
+        from: bob.did,
+        id: 'test-authcrypt-fail',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await await expect(
+        agent.packDIDCommMessage({
+          packing: 'authcrypt',
+          message,
+        }),
+      ).rejects.toThrowError(/^key_not_found: could not map an agent key to an skid for/)
+    })
+
+    it('should add encryption key to sender DID', async () => {
+      const newKey = await agent.keyManagerCreate({
+        kms: 'local',
+        type: 'X25519',
+      })
+
+      const result = await agent.didManagerAddKey({
+        did: bob.did,
+        key: newKey,
+      })
+
+      expect(result.substr(0, 2)).toEqual('0x')
+      const resolution = await agent.resolveDid({ didUrl: bob.did })
+      const expectedBase58Key = u8a.toString(u8a.fromString(newKey.publicKeyHex, 'base16'), 'base58btc')
+      expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyBase58).toEqual(expectedBase58Key)
+      expect(resolution?.didDocument?.keyAgreement?.[0]).toEqual(
+        resolution?.didDocument?.verificationMethod?.[2].id,
+      )
+    })
+
+    it('should send an authcrypt message from bob to alice', async () => {
+      expect.assertions(3)
+
+      const message = {
+        type: 'test',
+        to: alice.did,
+        from: bob.did,
+        id: 'test-authcrypt-success',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message,
+      })
+      const result = await agent.sendDIDCommMessage({
+        messageId: 'test-authcrypt-success',
+        packedMessage,
+        recipientDidUrl: alice.did,
+      })
+
+      expect(result).toBeTruthy()
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        { data: 'test-authcrypt-success', type: 'DIDCommV2Message-sent' },
+        expect.anything(),
+      )
+      // in our case, it is the same agent that is receiving the messages
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { hello: 'world' },
+              from: bob.did,
+              id: 'test-authcrypt-success',
+              to: alice.did,
+              type: 'test',
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
     })
   })
 }
