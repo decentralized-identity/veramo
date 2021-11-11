@@ -1,5 +1,5 @@
 import { getAgent } from '../setup'
-import program from 'commander'
+import { program } from 'commander'
 import { renderMainScreen } from './main'
 
 program
