@@ -48,6 +48,7 @@ import {
 import { createConnection, Connection } from 'typeorm'
 
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { createGanacheProvider } from './utils/ganache-provider'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -68,6 +69,7 @@ import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
+import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -101,6 +103,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
   })
+
+  const { provider, registry } = await createGanacheProvider()
 
   agent = createAgent<
     IDIDManager &
@@ -149,6 +153,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
             registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
           }),
+          'did:ethr:ganache': new EthrDIDProvider({
+            defaultKms: 'local',
+            network: 1337,
+            web3Provider: provider,
+            registry,
+          }),
           'did:web': new WebDIDProvider({
             defaultKms: 'local',
           }),
@@ -160,7 +170,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId }),
+          ...ethrDidResolver({
+            infuraProjectId,
+            networks: [
+              {
+                name: 'ganache',
+                chainId: 1337,
+                provider,
+                registry,
+              },
+            ],
+          }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),
@@ -220,4 +240,5 @@ describe('Local integration tests', () => {
   didCommPacking(testContext)
   didDiscovery(testContext)
   dbInitOptions(testContext)
+  didCommWithEthrDidFlow(testContext)
 })
