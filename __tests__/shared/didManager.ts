@@ -17,18 +17,6 @@ export default (testContext: {
     })
     afterAll(testContext.tearDown)
 
-    it('should get providers', async () => {
-      const providers = await agent.didManagerGetProviders()
-      expect(providers).toEqual([
-        'did:ethr',
-        'did:ethr:rinkeby',
-        'did:ethr:421611',
-        'did:web',
-        'did:key',
-        'did:fake',
-      ])
-    })
-
     let identifier: IIdentifier
     it('should create identifier', async () => {
       identifier = await agent.didManagerCreate({
@@ -335,10 +323,5 @@ export default (testContext: {
 
       expect(identifier2).toEqual({ ...identifier, alias: 'dave' })
     })
-
-    it.todo('should add key for did:ethr')
-    it.todo('should remove key for did:ethr')
-    it.todo('should add service for did:ethr')
-    it.todo('should remove service for did:ethr')
   })
 }

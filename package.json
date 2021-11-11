@@ -30,6 +30,8 @@
     "@types/jest": "27.0.2",
     "codecov": "3.8.3",
     "cross-fetch": "3.1.4",
+    "ethr-did-registry": "^0.0.3",
+    "ganache-cli": "^6.12.2",
     "jest": "27.2.2",
     "jest-fetch-mock": "3.0.3",
     "json-schema": "0.3.0",

@@ -19,8 +19,8 @@ export default (testContext: {
     let originalRequestSender: string
     let sdr: SelectiveDisclosure
 
-    beforeAll(() => {
-      testContext.setup()
+    beforeAll(async () => {
+      await testContext.setup()
       agent = testContext.getAgent()
     })
     afterAll(testContext.tearDown)

@@ -17,8 +17,8 @@ export default (testContext: {
     let agent: ConfiguredAgent
     let identifier: IIdentifier
 
-    beforeAll(() => {
-      testContext.setup()
+    beforeAll(async () => {
+      await testContext.setup()
       agent = testContext.getAgent()
     })
     afterAll(testContext.tearDown)

@@ -5,7 +5,6 @@
     "packages/**/src/**/*.ts",
     "!**/examples/**",
     "!packages/cli/**",
-    "!packages/kms-local-react-native/**",
     "!**/types/**",
     "!**/build/**",
     "!**/node_modules/**"

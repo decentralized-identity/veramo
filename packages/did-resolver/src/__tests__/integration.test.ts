@@ -136,5 +136,4 @@ describe('@veramo/did-resolver', () => {
     })
   })
 
-  it.todo('should resolve ethr-did with custom web3 provider')
 })

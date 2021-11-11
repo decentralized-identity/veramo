@@ -278,10 +278,18 @@ export class DIDComm implements IAgentPlugin {
       context,
     )
 
+    if (keyAgreementKeys.length === 0) {
+      throw new Error(`key_not_found: no key agreement keys found for recipient ${args?.message?.to}`)
+    }
+
     // 2.2 get public key bytes and key IDs for supported recipient keys
     const recipients: { kid: string; publicKeyBytes: Uint8Array }[] = keyAgreementKeys
       .map((pk) => ({ kid: pk.id, publicKeyBytes: u8a.fromString(pk.publicKeyHex!, 'base16') }))
       .filter(isDefined)
+
+    if (recipients.length === 0) {
+      throw new Error(`not_supported: no compatible key agreement keys found for recipient ${args?.message?.to}`)
+    }
 
     // 3. create Encrypter for each recipient
     const encrypters: Encrypter[] = recipients.map((recipient) => {
@@ -290,7 +298,11 @@ export class DIDComm implements IAgentPlugin {
       } else {
         return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
       }
-    })
+    }).filter(isDefined)
+
+    if (encrypters.length === 0) {
+      throw new Error(`not_supported: could not create suitable encryption for recipient ${args?.message?.to}`)
+    }
 
     // 4. createJWE
     const messageBytes = u8a.fromString(JSON.stringify(args.message), 'utf-8')
