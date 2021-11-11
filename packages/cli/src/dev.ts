@@ -5,7 +5,7 @@ import {
   ApiParameterListMixin,
   ApiReturnTypeMixin,
 } from '@microsoft/api-extractor-model'
-import program from 'commander'
+import { program } from 'commander'
 import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'

@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import program from 'commander'
+import { program } from 'commander'
 import { SecretBox } from '@veramo/kms-local'
 import { getAgent, getConfig } from './setup'
 const fs = require('fs')
@@ -77,9 +77,13 @@ config
       )
     } else {
       if (typeof agent[options.method] !== 'function') {
-        console.error(`The agent was created using the config, but the 'agent.${options.method}()' method is not available. Make sure the plugin that implements that method is installed.`)
+        console.error(
+          `The agent was created using the config, but the 'agent.${options.method}()' method is not available. Make sure the plugin that implements that method is installed.`,
+        )
       } else {
-        console.log(`Your Veramo configuration seems fine. An agent can be created and the 'agent.${options.method}()' method can be called on it.`)
+        console.log(
+          `Your Veramo configuration seems fine. An agent can be created and the 'agent.${options.method}()' method can be called on it.`,
+        )
       }
     }
   })

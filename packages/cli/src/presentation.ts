@@ -1,6 +1,6 @@
 import { W3CCredential } from '@veramo/core'
 import { getAgent } from './setup'
-import program from 'commander'
+import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 
