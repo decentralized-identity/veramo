@@ -9,22 +9,22 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@ethersproject/abstract-provider": "^5.1.0",
-    "@ethersproject/abstract-signer": "^5.1.0",
-    "@ethersproject/bytes": "^5.1.0",
-    "@ethersproject/random": "^5.3.0",
-    "@ethersproject/signing-key": "^5.3.0",
-    "@ethersproject/strings": "^5.1.0",
-    "@ethersproject/transactions": "^5.1.1",
-    "@ethersproject/wallet": "^5.1.0",
+    "@ethersproject/abstract-provider": "5.5.1",
+    "@ethersproject/abstract-signer": "5.5.0",
+    "@ethersproject/bytes": "5.5.0",
+    "@ethersproject/random": "5.5.0",
+    "@ethersproject/signing-key": "5.5.0",
+    "@ethersproject/strings": "5.5.0",
+    "@ethersproject/transactions": "5.5.0",
+    "@ethersproject/wallet": "5.5.0",
     "@stablelib/ed25519": "^1.0.2",
     "@stablelib/nacl": "^1.0.2",
     "@veramo/core": "^3.0.0",
     "@veramo/key-manager": "^3.0.0",
     "base-58": "^0.0.1",
     "debug": "^4.1.1",
-    "did-jwt": "5.10.0",
-    "uint8arrays": "^3.0.0"
+    "did-jwt": "5.11.1",
+    "uint8arrays": "3.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

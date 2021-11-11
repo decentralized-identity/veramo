@@ -27,51 +27,6 @@
         "DIDDocument": {
           "type": "object",
           "properties": {
-            "@context": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "const": "https://www.w3.org/ns/did/v1"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
-            },
-            "id": {
-              "type": "string"
-            },
-            "alsoKnownAs": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "controller": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
-            },
-            "verificationMethod": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/VerificationMethod"
-              }
-            },
             "authentication": {
               "type": "array",
               "items": {
@@ -137,6 +92,51 @@
                 ]
               }
             },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "https://www.w3.org/ns/did/v1"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "alsoKnownAs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "controller": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "verificationMethod": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerificationMethod"
+              }
+            },
             "service": {
               "type": "array",
               "items": {
@@ -168,6 +168,9 @@
               "type": "string"
             },
             "publicKeyBase58": {
+              "type": "string"
+            },
+            "publicKeyBase64": {
               "type": "string"
             },
             "publicKeyJwk": {
@@ -215,6 +218,9 @@
               ]
             },
             "publicKeyHex": {
+              "type": "string"
+            },
+            "publicKeyMultibase": {
               "type": "string"
             },
             "blockchainAccountId": {

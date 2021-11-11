@@ -9,17 +9,17 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@ethersproject/abstract-provider": "^5.1.0",
-    "@ethersproject/abstract-signer": "^5.1.0",
-    "@ethersproject/address": "^5.1.0",
-    "@ethersproject/bytes": "^5.1.0",
-    "@ethersproject/properties": "^5.1.0",
-    "@ethersproject/signing-key": "^5.1.0",
-    "@ethersproject/transactions": "^5.1.1",
+    "@ethersproject/abstract-provider": "5.5.1",
+    "@ethersproject/abstract-signer": "5.5.0",
+    "@ethersproject/address": "5.5.0",
+    "@ethersproject/bytes": "5.5.0",
+    "@ethersproject/properties": "5.5.0",
+    "@ethersproject/signing-key": "5.5.0",
+    "@ethersproject/transactions": "5.5.0",
     "@veramo/core": "^3.0.0",
     "@veramo/did-manager": "^3.0.0",
     "debug": "^4.1.1",
-    "ethr-did": "2.1.4"
+    "ethr-did": "2.1.5"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
