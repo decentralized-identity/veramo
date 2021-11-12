@@ -1,21 +1,16 @@
-import { getAgent } from './setup'
-import program from 'commander'
-const fs = require('fs')
-import { resolve, dirname } from 'path'
-import { writeFileSync, readFileSync } from 'fs'
-import * as TJS from 'ts-json-schema-generator'
-import { JSONSchema7 } from 'json-schema'
-import { OpenAPIV3 } from 'openapi-types'
 import { Extractor, ExtractorConfig, ExtractorResult } from '@microsoft/api-extractor'
 import {
-  ApiModel,
-  ApiPackage,
-  ApiParameterListMixin,
-  ApiDocumentedItem,
-  ApiReturnTypeMixin,
   ApiMethodSignature,
+  ApiModel,
+  ApiParameterListMixin,
+  ApiReturnTypeMixin,
 } from '@microsoft/api-extractor-model'
-import { IIdentifier } from '@veramo/core'
+import { program } from 'commander'
+import { writeFileSync } from 'fs'
+import { OpenAPIV3 } from 'openapi-types'
+import { resolve } from 'path'
+import * as TJS from 'ts-json-schema-generator'
+const fs = require('fs')
 
 interface Method {
   packageName: string
@@ -50,6 +45,7 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
   schemaStr = schemaStr.replace(/Where\<(.*)\>/gm, 'Where-$1')
   schemaStr = schemaStr.replace(/Order\<(.*)\>/gm, 'Order-$1')
   schemaStr = schemaStr.replace(/FindArgs\<(.*)\>/gm, 'FindArgs-$1')
+  schemaStr = schemaStr.replace(/https \:\/\//gm, 'https://')
   return JSON.parse(schemaStr)
 }
 

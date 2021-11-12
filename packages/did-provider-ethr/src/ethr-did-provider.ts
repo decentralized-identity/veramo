@@ -100,15 +100,23 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     context: IRequiredContext,
   ): Promise<any> {
     const ethrDid = await this.getEthrDidController(identifier, context)
-    const usg = 'veriKey'
-    const attribute = 'did/pub/' + key.type + '/' + usg + '/hex'
-    const value = '0x' + key.publicKeyHex
+    const usg = key.type === 'X25519' ? 'enc' : 'veriKey'
+    const encoding = key.type === 'X25519' ? 'base58' : options?.encoding || 'hex'
+    const attrName = `did/pub/${key.type}/${usg}/${encoding}`
+    const attrValue = '0x' + key.publicKeyHex
     const ttl = options?.ttl || this.ttl
     const gasLimit = options?.gas || this.gas
-
-    debug('ethrDid.setAttribute %o', { attribute, value, ttl, gas: gasLimit })
-
-    const txHash = await ethrDid.setAttribute(attribute, value, ttl, gasLimit)
+    debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
+    const txHash = await ethrDid.setAttribute(attrName, attrValue, ttl, undefined, {
+      gasLimit,
+      gasPrice: options?.gasPrice,
+      maxFeePerGas: options?.maxFeePerGas,
+      maxPriorityFeePerGas: options?.maxPriorityFeePerGas,
+      // from: options?.from,
+      nonce: options?.nonce,
+      accessList: options?.accessList,
+      type: options?.type,
+    })
     debug({ txHash })
     return txHash
   }
@@ -119,14 +127,23 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
   ): Promise<any> {
     const ethrDid = await this.getEthrDidController(identifier, context)
 
-    const attribute = 'did/svc/' + service.type
-    const value = service.serviceEndpoint
+    const attrName = 'did/svc/' + service.type
+    const attrValue = service.serviceEndpoint
     const ttl = options?.ttl || this.ttl
-    const gas = options?.gas || this.gas
+    const gasLimit = options?.gas || this.gas
 
-    debug('ethrDid.setAttribute %o', { attribute, value, ttl, gas })
+    debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
 
-    const txHash = await ethrDid.setAttribute(attribute, value, ttl, gas)
+    const txHash = await ethrDid.setAttribute(attrName, attrValue, ttl, undefined, {
+      gasLimit,
+      gasPrice: options?.gasPrice,
+      maxFeePerGas: options?.maxFeePerGas,
+      maxPriorityFeePerGas: options?.maxPriorityFeePerGas,
+      // from: options?.from,
+      nonce: options?.nonce,
+      accessList: options?.accessList,
+      type: options?.type,
+    })
     debug({ txHash })
     return txHash
   }
@@ -140,13 +157,24 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const key = args.identifier.keys.find((k) => k.kid === args.kid)
     if (!key) throw Error('Key not found')
 
-    const usg = 'veriKey'
-    const attribute = 'did/pub/' + key.type + '/' + usg + '/hex'
-    const value = '0x' + key.publicKeyHex
-    const gas = args.options?.gas || this.gas
+    const usg = key.type === 'X25519' ? 'enc' : 'veriKey'
+    const encoding = key.type === 'X25519' ? 'base58' : args.options?.encoding || 'hex'
+    const attrName = `did/pub/${key.type}/${usg}/${encoding}`
+    const attrValue = '0x' + key.publicKeyHex
+    const gasLimit = args.options?.gas || this.gas
 
-    debug('ethrDid.revokeAttribute', { attribute, value, gas })
-    const txHash = await ethrDid.revokeAttribute(attribute, value, gas)
+    debug('ethrDid.revokeAttribute', { attrName, attrValue, gasLimit })
+    const txHash = await ethrDid.revokeAttribute(attrName, attrValue, undefined, {
+      gasLimit,
+      gasPrice: args.options?.gasPrice,
+      maxFeePerGas: args.options?.maxFeePerGas,
+      maxPriorityFeePerGas: args.options?.maxPriorityFeePerGas,
+      // from: options?.from,
+      nonce: args.options?.nonce,
+      accessList: args.options?.accessList,
+      type: args.options?.type,
+    })
+
     return txHash
   }
 
@@ -159,12 +187,21 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const service = args.identifier.services.find((s) => s.id === args.id)
     if (!service) throw Error('Service not found')
 
-    const attribute = 'did/svc/' + service.type
-    const value = service.serviceEndpoint
-    const gas = args.options?.gas || this.gas
+    const attrName = 'did/svc/' + service.type
+    const attrValue = service.serviceEndpoint
+    const gasLimit = args.options?.gas || this.gas
 
-    debug('ethrDid.revokeAttribute', { attribute, value, gas })
-    const txHash = await ethrDid.revokeAttribute(attribute, value, gas)
+    debug('ethrDid.revokeAttribute', { attrName, attrValue, gasLimit })
+    const txHash = await ethrDid.revokeAttribute(attrName, attrValue, undefined, {
+      gasLimit,
+      gasPrice: args.options?.gasPrice,
+      maxFeePerGas: args.options?.maxFeePerGas,
+      maxPriorityFeePerGas: args.options?.maxPriorityFeePerGas,
+      // from: options?.from,
+      nonce: args.options?.nonce,
+      accessList: args.options?.accessList,
+      type: args.options?.type,
+    })
     return txHash
   }
 }

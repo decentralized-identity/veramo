@@ -1,6 +1,6 @@
 import { ICredentialRequestInput } from '@veramo/selective-disclosure'
 import { getAgent } from './setup'
-import program from 'commander'
+import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { shortDate, shortDid } from './explore/utils'

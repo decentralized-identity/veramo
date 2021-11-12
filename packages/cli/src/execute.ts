@@ -1,7 +1,5 @@
-import { input } from 'blessed'
-import program from 'commander'
+import { program } from 'commander'
 import inquirer from 'inquirer'
-import jsonpointer from 'jsonpointer'
 import { getAgent } from './setup'
 const fs = require('fs')
 const OasResolver = require('oas-resolver')

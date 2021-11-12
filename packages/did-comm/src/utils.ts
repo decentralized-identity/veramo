@@ -1,4 +1,5 @@
 import { convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
+import { computePublicKey } from '@ethersproject/signing-key'
 import {
   DIDDocumentSection,
   IAgentContext,
@@ -139,6 +140,19 @@ export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[]
     .filter(isDefined)
 }
 
+export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[] {
+  return identifier.keys
+    .map((key) => {
+      if (key.type === 'Secp256k1') {
+        const publicBytes = u8a.fromString(key.publicKeyHex, 'base16')
+        const compressedKey = computePublicKey(publicBytes, true).substring(2)
+        key.publicKeyHex = compressedKey
+      }
+      return key
+    })
+    .filter(isDefined)
+}
+
 export async function mapRecipientsToLocalKeys(
   managedKeys: { recipient: any; kid: string; identifier: IIdentifier }[],
   context: IAgentContext<IResolver>,
@@ -176,6 +190,8 @@ export async function mapIdentifierKeysToDoc(
   let localKeys = identifier.keys.filter(isDefined)
   if (section === 'keyAgreement') {
     localKeys = convertIdentifierEncryptionKeys(identifier)
+  } else {
+    localKeys = compressIdentifierSecp256k1Keys(identifier)
   }
   // finally map the didDocument keys to the identifier keys by comparing `publicKeyHex`
   const extendedKeys: _ExtendedIKey[] = keyAgreementKeys
@@ -193,7 +209,10 @@ export async function mapIdentifierKeysToDoc(
   return extendedKeys
 }
 
-export async function resolveDidOrThrow(didUrl: string, context: IAgentContext<IResolver>): Promise<DIDDocument> {
+export async function resolveDidOrThrow(
+  didUrl: string,
+  context: IAgentContext<IResolver>,
+): Promise<DIDDocument> {
   // TODO: add caching
   const docResult = await context.agent.resolveDid({ didUrl: didUrl })
   const err = docResult?.didResolutionMetadata?.error

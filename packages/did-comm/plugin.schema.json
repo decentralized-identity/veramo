@@ -171,7 +171,8 @@
           },
           "required": [
             "data"
-          ]
+          ],
+          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
         },
         "IMessage": {
           "type": "object",
@@ -263,7 +264,7 @@
             "id",
             "type"
           ],
-          "description": "DIDComm message"
+          "description": "Represents a DIDComm v1 message payload, with optionally decoded credentials and presentations."
         },
         "IMetaData": {
           "type": "object",
@@ -351,13 +352,13 @@
           },
           "required": [
             "@context",
-            "type",
-            "issuer",
-            "issuanceDate",
             "credentialSubject",
-            "proof"
+            "issuanceDate",
+            "issuer",
+            "proof",
+            "type"
           ],
-          "description": "Verifiable Credential  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -408,13 +409,13 @@
             }
           },
           "required": [
-            "holder",
             "@context",
+            "holder",
+            "proof",
             "type",
-            "verifier",
-            "proof"
+            "verifier"
           ],
-          "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Presentation (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
         "IUnpackDIDCommMessageArgs": {
           "$ref": "#/components/schemas/IPackedDIDCommMessage",

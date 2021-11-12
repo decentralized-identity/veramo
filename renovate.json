@@ -3,32 +3,48 @@
     "config:base",
     "group:allNonMajor"
   ],
-  "labels": ["maintenance"],
+  "labels": [
+    "maintenance"
+  ],
+  "schedule": [
+    "every weekend"
+  ],
+  "automerge": true,
+  "automergeType": "branch",
   "packageRules": [
     {
-      "packagePatterns": [ "jest", "sinon", "codecov", "lint", "jsdoc", "bundle", "prettier", "webpack", "typescript", "@microsoft" ],
+      "groupName": "did-libraries",
+      "matchPackagePatterns": [
+        "did"
+      ],
+      "schedule": ["before 5am every day"]
+    },
+    {
       "groupName": "builders-and-testers",
-      "automerge": true,
-      "automergeType": "branch",
-      "schedule": ["before 5am"]
+      "matchPackagePatterns": [
+        "jest",
+        "codecov",
+        "lint",
+        "jsdoc",
+        "bundle",
+        "prettier",
+        "webpack",
+        "typescript",
+        "@microsoft"
+      ]
     },
     {
-      "packagePatterns": [ "semantic", "commitlint", "lerna" ],
       "groupName": "automation",
-      "automerge": true,
-      "automergeType": "branch",
-      "schedule": ["before 5am"]
+      "matchPackagePatterns": [
+        "semantic",
+        "lerna"
+      ]
     },
     {
-      "depTypeList": ["devDependencies"],
       "groupName": "devDeps",
-      "automerge": true,
-      "automergeType": "branch",
-      "schedule": ["before 5am"]
-    },
-    {
-      "updateTypes": ["minor", "patch"],
-      "automerge": true
+      "matchDepTypes": [
+        "devDependencies"
+      ]
     }
   ]
 }

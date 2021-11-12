@@ -21,7 +21,7 @@ export default (testContext: {
   setup: (options?: IAgentOptions) => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
-  describe('DID comm remote', () => {
+  describe('DID comm using did:fake flow', () => {
     let agent: ConfiguredAgent
     let sender: IIdentifier
     let receiver: IIdentifier

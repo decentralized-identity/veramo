@@ -8,14 +8,7 @@ import {
 } from '@veramo/core'
 import { createConnection, Connection } from 'typeorm'
 import { DataStoreORM, IDataStoreORM } from '../data-store-orm'
-import {
-  FindArgs,
-  TClaimsColumns,
-  TCredentialColumns,
-  TMessageColumns,
-  TPresentationColumns,
-  TIdentifiersColumns,
-} from '../types'
+import { FindArgs, TCredentialColumns, TMessageColumns, TPresentationColumns } from '../types'
 import { DataStore } from '../data-store'
 import { Entities } from '../index'
 import fs from 'fs'
@@ -115,9 +108,9 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
   await agent.dataStoreSaveMessage({ message: m4 })
 }
 
-describe('@veramo/data-store entities', () => {
+describe('@veramo/data-store queries', () => {
   let dbConnection: Promise<Connection>
-  const databaseFile = './test-db2.sqlite'
+  const databaseFile = './tmp/test-db2.sqlite'
 
   function makeAgent(context?: Record<string, any>): TAgent<IDataStore & IDataStoreORM> {
     //@ts-ignore

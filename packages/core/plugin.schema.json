@@ -7,7 +7,7 @@
           "properties": {
             "didDocument": {
               "$ref": "#/components/schemas/DIDDocument",
-              "description": "the DID document from which to extract the fragment. This MUST be the document resolved by  {@link  resolveDid }"
+              "description": "the DID document from which to extract the fragment. This MUST be the document resolved by  {@link  resolveDid  }"
             },
             "didUrl": {
               "type": "string",
@@ -27,51 +27,6 @@
         "DIDDocument": {
           "type": "object",
           "properties": {
-            "@context": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "const": "https://www.w3.org/ns/did/v1"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
-            },
-            "id": {
-              "type": "string"
-            },
-            "alsoKnownAs": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "controller": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
-            },
-            "verificationMethod": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/VerificationMethod"
-              }
-            },
             "authentication": {
               "type": "array",
               "items": {
@@ -137,6 +92,51 @@
                 ]
               }
             },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "https://www.w3.org/ns/did/v1"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "alsoKnownAs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "controller": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "verificationMethod": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerificationMethod"
+              }
+            },
             "service": {
               "type": "array",
               "items": {
@@ -147,7 +147,8 @@
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/VerificationMethod"
-              }
+              },
+              "deprecated": ""
             }
           },
           "required": [
@@ -167,6 +168,9 @@
               "type": "string"
             },
             "publicKeyBase58": {
+              "type": "string"
+            },
+            "publicKeyBase64": {
               "type": "string"
             },
             "publicKeyJwk": {
@@ -214,6 +218,9 @@
               ]
             },
             "publicKeyHex": {
+              "type": "string"
+            },
+            "publicKeyMultibase": {
               "type": "string"
             },
             "blockchainAccountId": {
@@ -1479,7 +1486,7 @@
           "required": [
             "hash"
           ],
-          "description": "Input arguments for  {@link  IDataStore.IDataStoreDeleteVerifiableCredentialArgs| IDataStoreDeleteVerifiableCredentialArgs }"
+          "description": "Input arguments for  {@link  IDataStore.IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs }"
         },
         "IDataStoreGetMessageArgs": {
           "type": "object",
@@ -1584,7 +1591,7 @@
             "id",
             "type"
           ],
-          "description": "DIDComm message"
+          "description": "Represents a DIDComm v1 message payload, with optionally decoded credentials and presentations."
         },
         "IMetaData": {
           "type": "object",
@@ -1672,13 +1679,13 @@
           },
           "required": [
             "@context",
-            "type",
-            "issuer",
-            "issuanceDate",
             "credentialSubject",
-            "proof"
+            "issuanceDate",
+            "issuer",
+            "proof",
+            "type"
           ],
-          "description": "Verifiable Credential  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -1729,13 +1736,13 @@
             }
           },
           "required": [
-            "holder",
             "@context",
+            "holder",
+            "proof",
             "type",
-            "verifier",
-            "proof"
+            "verifier"
           ],
-          "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Presentation (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
         "IDataStoreGetVerifiableCredentialArgs": {
           "type": "object",
@@ -2004,7 +2011,7 @@
             "id",
             "type"
           ],
-          "description": "DIDComm message"
+          "description": "Represents a DIDComm v1 message payload, with optionally decoded credentials and presentations."
         },
         "VerifiableCredential": {
           "type": "object",
@@ -2075,13 +2082,13 @@
           },
           "required": [
             "@context",
-            "type",
-            "issuer",
-            "issuanceDate",
             "credentialSubject",
-            "proof"
+            "issuanceDate",
+            "issuer",
+            "proof",
+            "type"
           ],
-          "description": "Verifiable Credential  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -2132,13 +2139,13 @@
             }
           },
           "required": [
-            "holder",
             "@context",
+            "holder",
+            "proof",
             "type",
-            "verifier",
-            "proof"
+            "verifier"
           ],
-          "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Presentation (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         }
       },
       "methods": {

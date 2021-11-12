@@ -6,8 +6,6 @@ import {
   ManyToMany,
   PrimaryColumn,
   JoinTable,
-  CreateDateColumn,
-  UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
 } from 'typeorm'
@@ -85,7 +83,7 @@ export class Message extends BaseEntity {
     nullable: true,
     cascade: ['insert'],
     eager: true,
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
   from?: Identifier
 
@@ -93,7 +91,7 @@ export class Message extends BaseEntity {
     nullable: true,
     cascade: ['insert'],
     eager: true,
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE',
   })
   to?: Identifier
 

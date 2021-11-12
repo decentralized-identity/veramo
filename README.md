@@ -11,9 +11,9 @@ Veramo runs on Node, Browsers, and React Native straight out of the box. Save ti
 See the full docs on [veramo.io](https://veramo.io)
 
 - Agent
-    - [Intro](https://veramo.io/docs/agent/introduction)
-    - [Plugins](https://veramo.io/docs/agent/plugins)
-    - [Plugins Directory](https://veramo.io/docs/agent/plugins_list)
+    - [Intro](https://veramo.io/docs/veramo_agent/introduction)
+    - [Plugins](https://veramo.io/docs/veramo_agent/plugins)
+    - [Plugins Directory](https://veramo.io/docs/veramo_agent/plugins_list)
 - Guides
     - [CLI](https://veramo.io/docs/guides/cli)
     - [Node](https://veramo.io/docs/guides/nodejs)

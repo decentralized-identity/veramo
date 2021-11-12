@@ -1,6 +1,5 @@
-import { KeyMetadata, TKeyType } from '@veramo/core'
-import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne, ManyToMany } from 'typeorm'
-import { Identifier } from './identifier'
+import { TKeyType } from '@veramo/core'
+import { Entity, Column, PrimaryColumn, BaseEntity } from 'typeorm'
 
 export type KeyType = TKeyType
 

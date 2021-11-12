@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm'
+import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm'
 import Debug from 'debug'
 const debug = Debug('veramo:data-store:initial-migration')
 
@@ -7,8 +7,22 @@ const debug = Debug('veramo:data-store:initial-migration')
  */
 export class SimplifyRelations1447159020002 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.changeColumn("key", "identifierDid", new TableColumn({ name: 'identifierDid', type: 'varchar', isNullable: true }))
-    await queryRunner.changeColumn("service", "identifierDid", new TableColumn({ name: 'identifierDid', type: 'varchar', isNullable: true }))
+    function getTableName(givenName: string): string {
+      return (
+        queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)?.tableName ||
+        givenName
+      )
+    }
+    await queryRunner.changeColumn(
+      getTableName('key'),
+      'identifierDid',
+      new TableColumn({ name: 'identifierDid', type: 'varchar', isNullable: true }),
+    )
+    await queryRunner.changeColumn(
+      getTableName('service'),
+      'identifierDid',
+      new TableColumn({ name: 'identifierDid', type: 'varchar', isNullable: true }),
+    )
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {

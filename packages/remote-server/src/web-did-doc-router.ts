@@ -1,5 +1,6 @@
 import { IIdentifier, IDIDManager, TAgent, TKeyType } from '@veramo/core'
 import { Request, Router } from 'express'
+import { ServiceEndpoint } from 'did-resolver'
 
 interface RequestWithAgentDIDManager extends Request {
   agent?: TAgent<IDIDManager>
@@ -14,12 +15,19 @@ const keyMapping: Record<TKeyType, string> = {
 }
 
 /**
+ * @public
+ */
+ export interface WebDidDocRouterOptions {
+  services?: ServiceEndpoint[]
+}
+
+/**
  * Creates a router that serves `did:web` DID Documents
  *
  * @param options - Initialization option
  * @returns Expressjs router
  */
-export const WebDidDocRouter = (): Router => {
+export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
   const router = Router()
 
   const didDocForIdentifier = (identifier: IIdentifier) => {
@@ -44,7 +52,7 @@ export const WebDidDocRouter = (): Router => {
       authentication: signingKeyIds,
       assertionMethod: signingKeyIds,
       keyAgreement: keyAgreementKeyIds,
-      service: identifier.services,
+      service: typeof options.services === 'undefined' ? identifier.services : [...options.services, ...identifier.services],
     }
 
     return didDoc
