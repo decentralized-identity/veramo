@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/uport-project/veramo/compare/v3.0.0...v3.1.0) (2021-11-12)
+
+
+### Bug Fixes
+
+* **deps:** update did-libraries ([0ea73fc](https://github.com/uport-project/veramo/commit/0ea73fc1dba02c3d4c4df5befef265f7f573b2d1))
+* **deps:** update did-libraries ([417dc5d](https://github.com/uport-project/veramo/commit/417dc5dd157ee259b6f89f4987f1ecca444fb1d4))
+
+
+
+
+
 # [3.0.0](https://github.com/uport-project/veramo/compare/v2.1.3...v3.0.0) (2021-09-20)
 
 

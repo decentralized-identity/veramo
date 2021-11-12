@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/uport-project/veramo/compare/v3.0.0...v3.1.0) (2021-11-12)
+
+
+### Bug Fixes
+
+* **data-store:** add support for entityPrefix ([#725](https://github.com/uport-project/veramo/issues/725)) ([801bb95](https://github.com/uport-project/veramo/commit/801bb95ddd22abaa61c938b025834132d4e8d3be)), closes [#724](https://github.com/uport-project/veramo/issues/724)
+* **deps:** update all non-major dependencies ([a6614e8](https://github.com/uport-project/veramo/commit/a6614e8ba9b34c6fdb7a9e3960b6fa20090ce44a))
+* **deps:** update builders-and-testers ([5c4fa9e](https://github.com/uport-project/veramo/commit/5c4fa9e90def0beea9873e647a3bdd1410987e00))
+* **deps:** update builders-and-testers ([828bfa2](https://github.com/uport-project/veramo/commit/828bfa20c6181c2e3a405ab13a06249f5112eb72))
+* **deps:** update builders-and-testers ([e31a4be](https://github.com/uport-project/veramo/commit/e31a4beea645169e468824c26122d69cf5c4050f))
+* **deps:** update builders-and-testers ([ba97cf1](https://github.com/uport-project/veramo/commit/ba97cf139e4379308edefee09f9b1dd7f36bb026))
+* **deps:** update builders-and-testers ([2e4e6e5](https://github.com/uport-project/veramo/commit/2e4e6e56f1cde9213966ed95671d97b529c0f505))
+* **deps:** update dependency commander to v8 ([#587](https://github.com/uport-project/veramo/issues/587)) ([9fc5c50](https://github.com/uport-project/veramo/commit/9fc5c509b6475b19c1f49fdf31cf7d5ed3fcc16a))
+* **deps:** update dependency jsonpointer to v5 ([5c0ab9f](https://github.com/uport-project/veramo/commit/5c0ab9f2b0f377722abae6b3a175e22e7ad5471a))
+* **deps:** update dependency passport to ^0.5.0 ([a4dae24](https://github.com/uport-project/veramo/commit/a4dae24c8e8b2bf9e061e182076c1b89b71df306))
+* **deps:** update dependency ts-json-schema-generator to ^0.97.0 ([c20a409](https://github.com/uport-project/veramo/commit/c20a409d8bbc84bdd41809a722c1fd599707e46a))
+* **deps:** update did-libraries ([0ea73fc](https://github.com/uport-project/veramo/commit/0ea73fc1dba02c3d4c4df5befef265f7f573b2d1))
+* **deps:** update did-libraries ([417dc5d](https://github.com/uport-project/veramo/commit/417dc5dd157ee259b6f89f4987f1ecca444fb1d4))
+
+
+### Features
+
+* **cli:** add command to verify an agent configuration file ([#729](https://github.com/uport-project/veramo/issues/729)) ([2790ebc](https://github.com/uport-project/veramo/commit/2790ebcc2af72caa2a85f2068cdd832b548a2187))
+* **did-comm:** didcomm messaging using did:ethr ([#744](https://github.com/uport-project/veramo/issues/744)) ([1be5e04](https://github.com/uport-project/veramo/commit/1be5e04e09112c0823d776fe2d55117d71a7b448)), closes [#743](https://github.com/uport-project/veramo/issues/743)
+
+
+
+
+
 # [3.0.0](https://github.com/uport-project/veramo/compare/v2.1.3...v3.0.0) (2021-09-20)
 
 
