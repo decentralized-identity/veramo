@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/uport-project/veramo/compare/v3.0.0...v3.1.0) (2021-11-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency passport to ^0.5.0 ([a4dae24](https://github.com/uport-project/veramo/commit/a4dae24c8e8b2bf9e061e182076c1b89b71df306))
+
+
+### Features
+
+* **did-comm:** didcomm messaging using did:ethr ([#744](https://github.com/uport-project/veramo/issues/744)) ([1be5e04](https://github.com/uport-project/veramo/commit/1be5e04e09112c0823d776fe2d55117d71a7b448)), closes [#743](https://github.com/uport-project/veramo/issues/743)
+* **remote-server:** add default services option for WebDidDocRouter ([#715](https://github.com/uport-project/veramo/issues/715)) ([cfa6431](https://github.com/uport-project/veramo/commit/cfa64319a6ca27ec29330ea743104d0fa1a7eba0))
+* **remote-server:** add MessagingRouter `save` option ([#713](https://github.com/uport-project/veramo/issues/713)) ([0ca9b44](https://github.com/uport-project/veramo/commit/0ca9b448db8b467630a14bc64343082af29bc725))
+
+
+
+
+
 # [3.0.0](https://github.com/uport-project/veramo/compare/v2.1.3...v3.0.0) (2021-09-20)
 
 **Note:** Version bump only for package @veramo/remote-server
