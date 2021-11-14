@@ -4679,13 +4679,13 @@ expect@^27.3.1:
     jest-message-util "^27.3.1"
     jest-regex-util "^27.0.6"
 
-express-handlebars@^5.2.0:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/express-handlebars/-/express-handlebars-5.3.2.tgz#4c1a809a039cd7d3659f06401c37d9905e3d5cd9"
-  integrity sha512-iGR7HXP+x+SfJQo9m00ocqcr7hU8ZzcssTLE/4wBX+jsqcblO6sFJEbEAEFjiNze3XMz9Y26Zs1WN5Bb4zxivQ==
+express-handlebars@^6.0.0:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/express-handlebars/-/express-handlebars-6.0.1.tgz#97f5dfbc802921fae3c5dccbddd0c17a570d9e58"
+  integrity sha512-K3Lemki5jkD3sZwDhgBEBk+oAl1xg4nsMJAfpq1AUl5K187/mU1/xKVWt+4RZAHAxlyQFk4YBfX5+00AzLNfWg==
   dependencies:
-    glob "^7.1.7"
-    graceful-fs "^4.2.6"
+    glob "^7.2.0"
+    graceful-fs "^4.2.8"
     handlebars "^4.7.7"
 
 express@4.17.1, express@^4.17.1:
@@ -5221,6 +5221,11 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
   integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
+
+graceful-fs@^4.2.8:
+  version "4.2.8"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.8.tgz#e412b8d33f5e006593cbd3cee6df9f2cebbe802a"
+  integrity sha512-qkIilPUYcNhJpd33n0GBXTB1MMPp14TxEsEs0pTrsSVucApsYzW5V+Q8Qxhik6KU3evy+qkAAowTByymK0avdg==
 
 handlebars@^4.1.0, handlebars@^4.7.6, handlebars@^4.7.7:
   version "4.7.7"
