@@ -12,7 +12,8 @@ export default (testContext: {
 }) => {
   describe('creating Verifiable Credentials in LD', () => {
     let agent: ConfiguredAgent
-    let ethrIdentifier: IIdentifier
+    let didEthrIdentifier: IIdentifier
+    let didKeyIdentifier: IIdentifier
     let storedCredentialHash: string
     let challenge: string
 
@@ -20,14 +21,15 @@ export default (testContext: {
       await testContext.setup()
       agent = testContext.getAgent()
       challenge = 'TEST_CHALLENGE_STRING'
-      ethrIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:ethr' })
+      didEthrIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:ethr' })
+      didKeyIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:key' })
     })
     afterAll(testContext.tearDown)
 
     it('should create verifiable credential in LD', async () => {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
-          issuer: { id: ethrIdentifier.did },
+          issuer: { id: didEthrIdentifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
           type: ['VerifiableCredential', 'Profile'],
           issuanceDate: new Date().toISOString(),
@@ -42,7 +44,7 @@ export default (testContext: {
       // Check credential:
       expect(verifiableCredential).toHaveProperty('proof')
       expect(verifiableCredential).toHaveProperty('proof.jws')
-      expect(verifiableCredential.proof.verificationMethod).toEqual(`${ethrIdentifier.did}#controller`)
+      expect(verifiableCredential.proof.verificationMethod).toEqual(`${didEthrIdentifier.did}#controller`)
 
       expect(verifiableCredential['@context']).toEqual([
         'https://www.w3.org/2018/credentials/v1',
@@ -118,7 +120,7 @@ export default (testContext: {
 
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
-          holder: ethrIdentifier.did,
+          holder: didEthrIdentifier.did,
           verifier: [],
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
@@ -142,7 +144,7 @@ export default (testContext: {
       const domain = 'TEST_DOMAIN'
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
-          holder: ethrIdentifier.did,
+          holder: didEthrIdentifier.did,
           verifier: [],
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
@@ -171,7 +173,7 @@ export default (testContext: {
 
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
-          holder: ethrIdentifier.did,
+          holder: didEthrIdentifier.did,
           verifier: [],
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
@@ -192,5 +194,54 @@ export default (testContext: {
       })
       expect(typeof parsedMessage.id).toEqual('string')
     })
+
+    it('should create verifiable credential in LD with did:key', async () => {
+      const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: didKeyIdentifier.did },
+          '@context': [
+            'https://www.w3.org/2018/credentials/v1',
+            'https://veramo.io/contexts/profile/v1'
+          ],
+          type: ['VerifiableCredential', 'Profile'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: didKeyIdentifier.did,
+            name: "Martin, the great"
+          },
+        },
+        proofFormat: 'lds',
+      })
+
+      // Check credential:
+      expect(verifiableCredential).toHaveProperty('proof')
+      expect(verifiableCredential).toHaveProperty('proof.jws')
+      expect(verifiableCredential.proof.verificationMethod).toEqual(`${didKeyIdentifier.did}#${didKeyIdentifier.did.substring(didKeyIdentifier.did.lastIndexOf(':') + 1)}`)
+
+      expect(verifiableCredential['@context']).toEqual([
+        'https://www.w3.org/2018/credentials/v1',
+        'https://veramo.io/contexts/profile/v1',
+      ])
+      expect(verifiableCredential['type']).toEqual(
+        ['VerifiableCredential', 'Profile'])
+
+      storedCredentialHash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
+      expect(typeof storedCredentialHash).toEqual('string')
+
+      const verifiableCredential2 = await agent.dataStoreGetVerifiableCredential({ hash: storedCredentialHash })
+      expect(verifiableCredential).toEqual(verifiableCredential2)
+    })
+
+    it('should verify a verifiable credential in LD with did:key', async () => {
+      const verifiableCredential = await agent.dataStoreGetVerifiableCredential({ hash: storedCredentialHash })
+
+      const result = await agent.verifyCredential({
+        credential: verifiableCredential
+      })
+
+      expect(result).toEqual(true)
+    })
+
+
   })
 }

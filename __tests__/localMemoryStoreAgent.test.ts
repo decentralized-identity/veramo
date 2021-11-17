@@ -28,6 +28,7 @@ import {
   LdDefaultContexts,
   LdSuiteLoader,
   VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018
 } from '../packages/credential-w3c/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
@@ -173,6 +174,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ldSuiteLoader: new LdSuiteLoader({
             veramoLdSignatures: [
               new VeramoEcdsaSecp256k1RecoverySignature2020(),
+              new VeramoEd25519Signature2018(),
             ],
           }),
         }),

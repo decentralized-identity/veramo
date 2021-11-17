@@ -31,7 +31,7 @@ import {
   LdContextLoader,
   LdDefaultContexts,
   LdSuiteLoader,
-  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEcdsaSecp256k1RecoverySignature2020, VeramoEd25519Signature2018,
 } from '../packages/credential-w3c/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
@@ -66,7 +66,7 @@ import { getResolver as webDidResolver } from 'web-did-resolver'
 import express from 'express'
 import { Server } from 'http'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
-import fs from 'fs'
+import * as fs from 'fs'
 
 jest.setTimeout(30000)
 
@@ -199,6 +199,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ldSuiteLoader: new LdSuiteLoader({
             veramoLdSignatures: [
               new VeramoEcdsaSecp256k1RecoverySignature2020(),
+              new VeramoEd25519Signature2018()
             ],
           }),
         }),
