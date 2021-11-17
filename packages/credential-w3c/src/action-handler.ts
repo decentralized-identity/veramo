@@ -5,11 +5,9 @@ import {
   IDIDManager,
   IKeyManager,
   IPluginMethodMap,
-  VerifiableCredential,
-  VerifiablePresentation,
   IDataStore,
   IKey,
-  IIdentifier,
+  IIdentifier, VerifiableCredential, VerifiablePresentation, W3CPresentation,
 } from '@veramo/core'
 
 import {
@@ -18,12 +16,26 @@ import {
   CredentialPayload,
   normalizeCredential,
   normalizePresentation,
-  PresentationPayload,
 } from 'did-jwt-vc'
 
 import { LdCredentialModule, schema } from './'
 import Debug from 'debug'
+import { JWT } from 'did-jwt-vc/lib/types'
+
 const debug = Debug('veramo:w3c:action-handler')
+
+export interface PresentationPayload {
+  '@context': string | string[]
+  type: string | string[]
+  id?: string
+  verifiableCredential?: (VerifiableCredential | JWT)[]
+  holder: string
+  verifier?: string | string[]
+  issuanceDate?: string
+  expirationDate?: string,
+
+  [x: string]: any
+}
 
 /**
  * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
@@ -236,12 +248,10 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  *
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  */
-export type IContext = IAgentContext<
-  IResolver &
-    Pick<IDIDManager, 'didManagerGet'> &
-    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
->
+export type IContext = IAgentContext<IResolver &
+  Pick<IDIDManager, 'didManagerGet'> &
+  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>>
 
 /**
  * A Veramo plugin that implements the {@link ICredentialIssuer} methods.
@@ -425,7 +435,7 @@ export class CredentialIssuer implements IAgentPlugin {
   ): Promise<boolean> {
     const credential = args.credential
     // JWT
-    if (credential.proof.jwt) {
+    if (typeof credential === 'string' || credential.proof.jwt) {
       // Not implemented yet.
       throw Error('verifyCredential currently does not the verification of VC-JWT credentials.')
     }
@@ -440,7 +450,7 @@ export class CredentialIssuer implements IAgentPlugin {
   ): Promise<boolean> {
     const presentation = args.presentation
     // JWT
-    if (presentation.proof.jwt) {
+    if (typeof presentation === 'string' || (<W3CPresentation>presentation).proof.jwt) {
       // Not implemented yet.
       throw Error('verifyPresentation currently does not the verification of VC-JWT credentials.')
     }

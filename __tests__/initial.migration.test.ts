@@ -29,7 +29,7 @@ import { createConnection, Connection, ConnectionOptions } from 'typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import fs from 'fs'
+import * as fs from 'fs'
 
 jest.setTimeout(30000)
 

@@ -18,7 +18,7 @@
     "@stablelib/ed25519": "^1.0.2",
     "@veramo/core": "^3.1.0",
     "@veramo/message-handler": "^3.1.0",
-    "@veramo/utils": "^2.1.0",
+    "@veramo/utils": "^3.1.0",
     "cross-fetch": "^3.1.4",
     "debug": "^4.1.1",
     "did-jwt": "5.12.0",

@@ -46,7 +46,7 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
-import fs from 'fs'
+import * as fs from 'fs'
 
 jest.setTimeout(30000)
 
