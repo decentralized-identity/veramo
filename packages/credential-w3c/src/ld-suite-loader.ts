@@ -10,7 +10,7 @@ export class LdSuiteLoader {
     veramoLdSignatures: VeramoLdSignature[]
   }) {
     this.signatureMap = options.veramoLdSignatures.reduce((map, obj) => {
-      map.set(obj.getSupportedVeramoKeyType(),  obj);
+      map.set(obj.getSupportedVeramoKeyType(), obj);
       return map
     }, new Map<TKeyType, VeramoLdSignature>())
   }

@@ -5,7 +5,7 @@ function _read(_path: string) {
   return JSON.parse(
     fs.readFileSync(
       path.join(__dirname, '../contexts', _path),
-      {encoding: 'utf8'}));
+      { encoding: 'utf8' }));
 }
 
 export const LdDefaultContexts = new Map([

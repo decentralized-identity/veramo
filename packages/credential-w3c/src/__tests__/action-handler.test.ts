@@ -17,7 +17,7 @@ import { LdContextLoader } from '../ld-context-loader'
 import { LdDefaultContexts } from '../ld-default-contexts'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import { LdSuiteLoader } from '../ld-suite-loader'
-import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../ld-suites'
+import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020'
 
 const mockIdentifiers: IIdentifier[] = [
   {

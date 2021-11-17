@@ -15,14 +15,14 @@ export {
   ICreateVerifiablePresentationArgs,
   ProofFormat,
 } from './action-handler'
-export { LdCredentialModule }  from './ld-credential-module'
+export { LdCredentialModule } from './ld-credential-module'
 export { LdContextLoader } from './ld-context-loader'
 export { LdDefaultContexts } from './ld-default-contexts'
 export { LdSuiteLoader } from './ld-suite-loader'
 export {
   VeramoLdSignature,
-  VeramoEcdsaSecp256k1RecoverySignature2020,
-  VeramoEd25519Signature2018
 } from './ld-suites'
+export * from './suites/EcdsaSecp256k1RecoverySignature2020'
+export * from './suites/Ed25519Signature2018'
 const schema = require('../plugin.schema.json')
 export { schema }

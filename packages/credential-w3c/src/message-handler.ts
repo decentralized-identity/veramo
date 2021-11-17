@@ -76,7 +76,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.credentials = credentials
 
         return message
-      } catch (e) {}
+      } catch (e) { }
 
       try {
         validateJwtCredentialPayload(data)
@@ -96,7 +96,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.createdAt = credential.issuanceDate
         message.credentials = [credential]
         return message
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // LDS Verification and Handling
@@ -126,7 +126,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
 
       // throws on error.
       await context.agent.verifyPresentation({
-        presentation ,
+        presentation,
         // TODO: HARDCODED CHALLENGE VERIFICATION FOR NOW
         challenge: 'VERAMO',
         domain: 'VERAMO'
