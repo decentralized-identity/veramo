@@ -24,13 +24,17 @@ import {
   CredentialIssuer,
   ICredentialIssuer,
   W3cMessageHandler,
+} from '../packages/credential-w3c/src'
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
   LdCredentialModule,
   LdContextLoader,
   LdDefaultContexts,
   LdSuiteLoader,
   VeramoEcdsaSecp256k1RecoverySignature2020,
-  VeramoEd25519Signature2018,
-} from '../packages/credential-w3c/src'
+  VeramoEd25519Signature2018
+} from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { KeyDIDProvider } from '../packages/did-provider-key/src'
@@ -86,18 +90,17 @@ import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
-let agent: TAgent<
-  IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialIssuer &
-    ISelectiveDisclosure &
-    IDIDDiscovery
->
+let agent: TAgent<IDIDManager &
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolver &
+  IMessageHandler &
+  IDIDComm &
+  ICredentialIssuer &
+  ICredentialIssuerLD &
+  ISelectiveDisclosure &
+  IDIDDiscovery>
 let dbConnection: Promise<Connection>
 let databaseFile: string
 
@@ -118,18 +121,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   const { provider, registry } = await createGanacheProvider()
 
-  agent = createAgent<
-    IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialIssuer &
-      ISelectiveDisclosure &
-      IDIDDiscovery
-  >({
+  agent = createAgent<IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialIssuer &
+    ICredentialIssuerLD &
+    ISelectiveDisclosure &
+    IDIDDiscovery>({
     ...options,
     context: {
       // authenticatedDid: 'did:example:3456'
@@ -209,7 +211,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm([new DIDCommHttpTransport()]),
-      new CredentialIssuer({
+      new CredentialIssuer(),
+      new CredentialIssuerLD({
         ldCredentialModule: new LdCredentialModule({
           ldContextLoader: new LdContextLoader({
             contextsPaths: [LdDefaultContexts, credential_contexts as Map<string, object>],

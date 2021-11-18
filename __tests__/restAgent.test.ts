@@ -1,7 +1,7 @@
 /**
  * This runs a suite of ./shared tests using an agent configured for remote operations.
  * There is a local agent that only uses @veramo/remove-client and a remote agent that provides the actual functionality.
- * 
+ *
  * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
  * See didWithFakeDidFlow() for more details.
  */
@@ -27,12 +27,17 @@ import {
   CredentialIssuer,
   ICredentialIssuer,
   W3cMessageHandler,
+} from '../packages/credential-w3c/src'
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
   LdCredentialModule,
   LdContextLoader,
   LdDefaultContexts,
   LdSuiteLoader,
-  VeramoEcdsaSecp256k1RecoverySignature2020, VeramoEd25519Signature2018,
-} from '../packages/credential-w3c/src'
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018
+} from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { KeyDIDProvider, getDidKeyResolver } from '../packages/did-provider-key/src'
@@ -95,18 +100,17 @@ let serverAgent: IAgent
 let restServer: Server
 
 const getAgent = (options?: IAgentOptions) =>
-  createAgent<
-    IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialIssuer &
-      ISelectiveDisclosure &
-      IDIDDiscovery
-  >({
+  createAgent<IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialIssuer &
+    ICredentialIssuerLD &
+    ISelectiveDisclosure &
+    IDIDDiscovery>({
     ...options,
     plugins: [
       new AgentRestClient({
@@ -191,7 +195,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm([new DIDCommHttpTransport()]),
-      new CredentialIssuer({
+      new CredentialIssuer(),
+      new CredentialIssuerLD({
         ldCredentialModule: new LdCredentialModule({
           ldContextLoader: new LdContextLoader({
             contextsPaths: [LdDefaultContexts, credential_contexts as Map<string, object>],

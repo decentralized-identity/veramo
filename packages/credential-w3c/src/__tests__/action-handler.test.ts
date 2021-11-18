@@ -12,12 +12,6 @@ jest.mock('did-jwt-vc', () => {
 
 import { IIdentifier, IKey, VerifiableCredential, W3CCredential, W3CPresentation } from '@veramo/core'
 import { CredentialIssuer, IContext } from '../action-handler'
-import { LdCredentialModule } from '../ld-credential-module'
-import { LdContextLoader } from '../ld-context-loader'
-import { LdDefaultContexts } from '../ld-default-contexts'
-import { contexts as credential_contexts } from '@transmute/credentials-context'
-import { LdSuiteLoader } from '../ld-suite-loader'
-import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020'
 
 const mockIdentifiers: IIdentifier[] = [
   {
@@ -64,16 +58,7 @@ const mockIdentifiers: IIdentifier[] = [
   },
 ]
 
-const w3c = new CredentialIssuer({
-  ldCredentialModule: new LdCredentialModule({
-    ldContextLoader: new LdContextLoader({
-      contextsPaths: [LdDefaultContexts, credential_contexts as Map<string, object>],
-    }),
-    ldSuiteLoader: new LdSuiteLoader({
-      veramoLdSignatures: [new VeramoEcdsaSecp256k1RecoverySignature2020()],
-    }),
-  }),
-})
+const w3c = new CredentialIssuer()
 
 let agent = {
   execute: jest.fn(),
@@ -94,6 +79,10 @@ let agent = {
   dataStoreSaveVerifiablePresentation: jest.fn().mockImplementation(async (args): Promise<boolean> => true),
   getSchema: jest.fn(),
   didManagerGet: jest.fn(),
+  createVerifiableCredentialLD: jest.fn(),
+  createVerifiablePresentationLD: jest.fn(),
+  verifyCredentialLD: jest.fn(),
+  verifyPresentationLD: jest.fn(),
 }
 
 describe('@veramo/credential-w3c', () => {

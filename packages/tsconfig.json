@@ -3,6 +3,7 @@
   "references": [
     { "path": "core" },
     { "path": "credential-w3c" },
+    { "path": "credential-ld" },
     { "path": "data-store" },
     { "path": "did-comm" },
     { "path": "did-discovery" },

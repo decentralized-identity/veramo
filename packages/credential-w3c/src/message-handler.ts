@@ -44,7 +44,6 @@ export type IContext = IAgentContext<IResolver & ICredentialIssuer>
  */
 export class W3cMessageHandler extends AbstractMessageHandler {
 
-
   async handle(message: Message, context: IContext): Promise<Message> {
     const meta = message.getLastMetaData()
 
@@ -121,7 +120,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
     }
 
     if (message.type === MessageTypes.vp && message.data) {
-      // verify credential
+      // verify presentation
       const presentation = message.data as VerifiablePresentation
 
       // throws on error.

@@ -1,7 +1,7 @@
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials and an in-memory store for keys and DIDs.
- * 
+ *
  */
 import {
   createAgent,
@@ -23,13 +23,17 @@ import {
   CredentialIssuer,
   ICredentialIssuer,
   W3cMessageHandler,
+} from '../packages/credential-w3c/src'
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
   LdCredentialModule,
   LdContextLoader,
   LdDefaultContexts,
   LdSuiteLoader,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018
-} from '../packages/credential-w3c/src'
+} from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { KeyDIDProvider, getDidKeyResolver } from '../packages/did-provider-key/src'
@@ -67,17 +71,16 @@ import messageHandler from './shared/messageHandler'
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
-let agent: TAgent<
-  IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialIssuer &
-    ISelectiveDisclosure
->
+let agent: TAgent<IDIDManager &
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolver &
+  IMessageHandler &
+  IDIDComm &
+  ICredentialIssuer &
+  ICredentialIssuerLD &
+  ISelectiveDisclosure>
 let dbConnection: Promise<Connection>
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
@@ -92,17 +95,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
   })
 
-  agent = createAgent<
-    IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialIssuer &
-      ISelectiveDisclosure
-  >({
+  agent = createAgent<IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialIssuer &
+    ICredentialIssuerLD &
+    ISelectiveDisclosure>({
     ...options,
     context: {
       // authenticatedDid: 'did:example:3456'
@@ -166,7 +168,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new CredentialIssuer({
+      new CredentialIssuer(),
+      new CredentialIssuerLD({
         ldCredentialModule: new LdCredentialModule({
           ldContextLoader: new LdContextLoader({
             contextsPaths: [LdDefaultContexts, credential_contexts as Map<string, object>],
