@@ -61,11 +61,11 @@ export class LdCredentialModule {
       }
 
       if (this.ldContextLoader.has(url)) {
-        // console.log(`Returning local context for: ${url}`)
+        const contextDoc = await this.ldContextLoader.get(url)
         return {
           contextUrl: null,
           documentUrl: url,
-          document: this.ldContextLoader.get(url),
+          document: contextDoc,
         }
       }
 

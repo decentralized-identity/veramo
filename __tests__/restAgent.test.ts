@@ -8,61 +8,50 @@
 import 'cross-fetch/polyfill'
 import {
   Agent,
-  IAgent,
   createAgent,
-  IDIDManager,
-  IResolver,
-  IKeyManager,
-  IDataStore,
-  IMessageHandler,
+  IAgent,
   IAgentOptions,
+  IDataStore,
+  IDIDManager,
+  IKeyManager,
+  IMessageHandler,
+  IResolver,
   TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import {
-  CredentialIssuer,
-  ICredentialIssuer,
-  W3cMessageHandler,
-} from '../packages/credential-w3c/src'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler, } from '../packages/credential-w3c/src'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
-  LdCredentialModule,
-  LdContextLoader,
   LdDefaultContexts,
-  LdSuiteLoader,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider, getDidKeyResolver } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm, DIDCommHttpTransport } from '../packages/did-comm/src'
-import {
-  SelectiveDisclosure,
-  ISelectiveDisclosure,
-  SdrMessageHandler,
-} from '../packages/selective-disclosure/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure, } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import {
-  Entities,
-  KeyStore,
-  DIDStore,
-  IDataStoreORM,
   DataStore,
   DataStoreORM,
-  ProfileDiscoveryProvider,
-  PrivateKeyStore,
+  DIDStore,
+  Entities,
+  IDataStoreORM,
+  KeyStore,
   migrations,
+  PrivateKeyStore,
+  ProfileDiscoveryProvider,
 } from '../packages/data-store/src'
-import { createConnection, Connection } from 'typeorm'
+import { Connection, createConnection } from 'typeorm'
 import { AgentRestClient } from '../packages/remote-client/src'
-import { AgentRouter, RequestWithAgentRouter, MessagingRouter } from '../packages/remote-server/src'
-import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
+import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import { Resolver } from 'did-resolver'
@@ -72,9 +61,6 @@ import express from 'express'
 import { Server } from 'http'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
-
-jest.setTimeout(30000)
-
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
@@ -88,6 +74,8 @@ import didCommPacking from './shared/didCommPacking'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
+
+jest.setTimeout(30000)
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
@@ -197,17 +185,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDComm([new DIDCommHttpTransport()]),
       new CredentialIssuer(),
       new CredentialIssuerLD({
-        ldCredentialModule: new LdCredentialModule({
-          ldContextLoader: new LdContextLoader({
-            contextsPaths: [LdDefaultContexts, credential_contexts as Map<string, object>],
-          }),
-          ldSuiteLoader: new LdSuiteLoader({
-            veramoLdSignatures: [
-              new VeramoEcdsaSecp256k1RecoverySignature2020(),
-              new VeramoEd25519Signature2018()
-            ],
-          }),
-        }),
+        contextMaps: [LdDefaultContexts, credential_contexts as any],
+        suites: [
+          new VeramoEcdsaSecp256k1RecoverySignature2020(),
+          new VeramoEd25519Signature2018()
+        ],
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({

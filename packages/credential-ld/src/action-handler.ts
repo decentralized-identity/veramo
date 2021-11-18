@@ -10,8 +10,9 @@ import {
   IIdentifier, VerifiableCredential, VerifiablePresentation, W3CPresentation,
 } from '@veramo/core'
 
-import { LdCredentialModule, schema } from './'
+import { LdContextLoader, LdCredentialModule, LdSuiteLoader, schema, VeramoLdSignature } from './'
 import Debug from 'debug'
+import { ContextDoc, OrPromise, RecordLike } from "./ld-context-loader";
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -278,7 +279,7 @@ export type IContext = IAgentContext<IResolver &
   Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>>
 
 /**
- * A Veramo plugin that implements the {@link ICredentialIssuer} methods.
+ * A Veramo plugin that implements the {@link ICredentialIssuerLD} methods.
  *
  * @public
  */
@@ -288,8 +289,14 @@ export class CredentialIssuerLD implements IAgentPlugin {
 
   private ldCredentialModule: LdCredentialModule
 
-  constructor(options: { ldCredentialModule: LdCredentialModule }) {
-    this.ldCredentialModule = options.ldCredentialModule
+  constructor(options: {
+    contextMaps: RecordLike<OrPromise<ContextDoc>>[],
+    suites: VeramoLdSignature[]
+  }) {
+    this.ldCredentialModule = new LdCredentialModule({
+      ldContextLoader: new LdContextLoader({ contextsPaths: options.contextMaps }),
+      ldSuiteLoader: new LdSuiteLoader({ veramoLdSignatures: options.suites })
+    })
 
     this.methods = {
       createVerifiablePresentationLD: this.createVerifiablePresentationLD.bind(this),
