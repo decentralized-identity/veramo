@@ -1,7 +1,7 @@
 import { TAgent, IDIDManager, IDataStore, IIdentifier } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
-import { IDIDComm } from '@veramo/did-comm'
+import { IDIDComm } from '../../packages/did-comm/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM & IDIDComm>
 

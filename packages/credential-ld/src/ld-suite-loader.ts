@@ -9,22 +9,25 @@ export class LdSuiteLoader {
   constructor(options: {
     veramoLdSignatures: VeramoLdSignature[]
   }) {
-    this.signatureMap = options.veramoLdSignatures.reduce((map, obj) => {
-      map.set(obj.getSupportedVeramoKeyType(), obj);
-      return map
-    }, new Map<TKeyType, VeramoLdSignature>())
+    options.veramoLdSignatures.forEach((obj) => {
+      this.signatureMap[obj.getSupportedVeramoKeyType()] = obj
+    })
   }
-  private signatureMap: Map<TKeyType, VeramoLdSignature>;
+  private signatureMap: Record<string, VeramoLdSignature> = {};
 
   getSignatureSuiteForKeyType(type: TKeyType) {
-    const suite = this.signatureMap.get(type)
+    const suite = this.signatureMap[type]
     if (suite) return suite
 
     throw new Error('No Veramo LD Signature Suite for ' + type)
   }
 
   getAllSignatureSuites() {
-    return Array.from(this.signatureMap.values())
+    return Object.values(this.signatureMap)
+  }
+
+  getAllSignatureSuiteTypes() {
+    return Object.values(this.signatureMap).map(x => x.getSupportedVerificationType())
   }
 
 }

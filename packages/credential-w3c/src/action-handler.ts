@@ -10,8 +10,6 @@ import {
   IIdentifier, VerifiableCredential, VerifiablePresentation, W3CPresentation,
 } from '@veramo/core'
 
-import { ICredentialIssuerLD } from "@veramo/credential-ld"
-
 import {
   createVerifiableCredentialJwt,
   createVerifiablePresentationJwt,
@@ -256,8 +254,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
 export type IContext = IAgentContext<IResolver &
   Pick<IDIDManager, 'didManagerGet'> &
   Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'> &
-  ICredentialIssuerLD>
+  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>>
 
 /**
  * A Veramo plugin that implements the {@link ICredentialIssuer} methods.

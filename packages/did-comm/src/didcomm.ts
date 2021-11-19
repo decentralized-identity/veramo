@@ -274,11 +274,11 @@ export class DIDComm implements IAgentPlugin {
     const didDocument: DIDDocument = await resolveDidOrThrow(args?.message?.to, context)
 
     // 2.1 extract all recipient key agreement keys and normalize them
-    const keyAgreementKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
+    const keyAgreementKeys: _NormalizedVerificationMethod[] = (await dereferenceDidKeys(
       didDocument,
       'keyAgreement',
       context,
-    )
+    )).filter(k => k.publicKeyHex?.length! > 0)
 
     if (keyAgreementKeys.length === 0) {
       throw new Error(`key_not_found: no key agreement keys found for recipient ${args?.message?.to}`)

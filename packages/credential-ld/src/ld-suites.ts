@@ -1,4 +1,4 @@
-import { IAgentContext, IIdentifier, IKey, IKeyManager, IResolver, TKeyType } from '@veramo/core'
+import { IAgentContext, IKey, IKeyManager, IResolver, TKeyType } from '@veramo/core'
 import { CredentialPayload, PresentationPayload } from 'did-jwt-vc'
 import { DIDDocument } from 'did-resolver/src/resolver'
 
@@ -16,7 +16,8 @@ export abstract class VeramoLdSignature {
 
   abstract getSuiteForSigning(
     key: IKey,
-    identifier: IIdentifier,
+    issuerDid: string,
+    verificationMethodId: string,
     context: IAgentContext<RequiredAgentMethods>,
   ): any
 

@@ -2,7 +2,7 @@
   "ICredentialIssuerLD": {
     "components": {
       "schemas": {
-        "ICreateVerifiableCredentialArgs": {
+        "ICreateVerifiableCredentialLDArgs": {
           "type": "object",
           "properties": {
             "credential": {
@@ -55,22 +55,13 @@
               },
               "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n'@context', 'type' and 'issuanceDate' will be added automatically if omitted"
             },
-            "save": {
-              "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved"
-            },
-            "proofFormat": {
-              "$ref": "#/components/schemas/ProofFormat",
-              "description": "The desired format for the VerifiablePresentation to be created."
-            },
-            "removeOriginalFields": {
-              "type": "boolean",
-              "description": "Remove payload members during JWT-JSON transformation. Defaults to `true`. See https://www.w3.org/TR/vc-data-model/#jwt-encoding"
+            "keyRef": {
+              "type": "string",
+              "description": "Optional. The key handle ( {@link  IKey#kid  } ) from the internal database."
             }
           },
           "required": [
-            "credential",
-            "proofFormat"
+            "credential"
           ],
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
@@ -117,14 +108,6 @@
             "id",
             "type"
           ]
-        },
-        "ProofFormat": {
-          "type": "string",
-          "enum": [
-            "jwt",
-            "lds"
-          ],
-          "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` and `lds` is supported at the moment."
         },
         "VerifiableCredential": {
           "type": "object",
@@ -203,7 +186,7 @@
           ],
           "description": "Represents a signed Verifiable Credential payload (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
-        "ICreateVerifiablePresentationArgs": {
+        "ICreateVerifiablePresentationLDArgs": {
           "type": "object",
           "properties": {
             "presentation": {
@@ -276,10 +259,6 @@
               },
               "description": "The json payload of the Presentation according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n'@context', 'type' and 'issuanceDate' will be added automatically if omitted"
             },
-            "save": {
-              "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved"
-            },
             "challenge": {
               "type": "string",
               "description": "Optional (only JWT) string challenge parameter to add to the verifiable presentation."
@@ -288,18 +267,13 @@
               "type": "string",
               "description": "Optional string domain parameter to add to the verifiable presentation."
             },
-            "proofFormat": {
-              "$ref": "#/components/schemas/ProofFormat",
-              "description": "The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported"
-            },
-            "removeOriginalFields": {
-              "type": "boolean",
-              "description": "Remove payload members during JWT-JSON transformation. Defaults to `true`. See https://www.w3.org/TR/vc-data-model/#jwt-encoding"
+            "keyRef": {
+              "type": "string",
+              "description": "Optional. The key handle ( {@link  IKey#kid  } ) from the internal database."
             }
           },
           "required": [
-            "presentation",
-            "proofFormat"
+            "presentation"
           ],
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
@@ -363,7 +337,7 @@
           ],
           "description": "Represents a signed Verifiable Presentation (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
-        "IVerifyCredentialArgs": {
+        "IVerifyCredentialLDArgs": {
           "type": "object",
           "properties": {
             "credential": {
@@ -376,7 +350,7 @@
           ],
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
-        "IVerifyPresentationArgs": {
+        "IVerifyPresentationLDArgs": {
           "type": "object",
           "properties": {
             "presentation": {
@@ -402,7 +376,7 @@
         "createVerifiableCredentialLD": {
           "description": "Creates a Verifiable Credential. The payload, signer and format are chosen based on the ",
           "arguments": {
-            "$ref": "#/components/schemas/ICreateVerifiableCredentialArgs"
+            "$ref": "#/components/schemas/ICreateVerifiableCredentialLDArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiableCredential"
@@ -411,7 +385,7 @@
         "createVerifiablePresentationLD": {
           "description": "Creates a Verifiable Presentation. The payload, signer and format are chosen based on the ",
           "arguments": {
-            "$ref": "#/components/schemas/ICreateVerifiablePresentationArgs"
+            "$ref": "#/components/schemas/ICreateVerifiablePresentationLDArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiablePresentation"
@@ -420,7 +394,7 @@
         "verifyCredentialLD": {
           "description": "Verifies a Verifiable Credential JWT or LDS Format.",
           "arguments": {
-            "$ref": "#/components/schemas/IVerifyCredentialArgs"
+            "$ref": "#/components/schemas/IVerifyCredentialLDArgs"
           },
           "returnType": {
             "type": "boolean"
@@ -429,7 +403,7 @@
         "verifyPresentationLD": {
           "description": "Verifies a Verifiable Presentation JWT or LDS Format.",
           "arguments": {
-            "$ref": "#/components/schemas/IVerifyPresentationArgs"
+            "$ref": "#/components/schemas/IVerifyPresentationLDArgs"
           },
           "returnType": {
             "type": "boolean"

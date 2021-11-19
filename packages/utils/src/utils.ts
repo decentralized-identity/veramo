@@ -1,15 +1,13 @@
 import { convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
 import { computePublicKey } from '@ethersproject/signing-key'
+import { computeAddress } from '@ethersproject/transactions'
 import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core'
-import { VerificationMethod, DIDDocument } from 'did-resolver'
+import { DIDDocument, VerificationMethod } from 'did-resolver'
 import * as u8a from 'uint8arrays'
 
 import Debug from 'debug'
-import {
-  _ExtendedIKey,
-  _ExtendedVerificationMethod,
-  _NormalizedVerificationMethod,
-} from './types/utility-types'
+import { _ExtendedIKey, _ExtendedVerificationMethod, _NormalizedVerificationMethod, } from './types/utility-types'
+
 const debug = Debug('veramo:utils')
 
 export function bytesToBase64url(b: Uint8Array): string {
@@ -42,7 +40,11 @@ export function decodeJoseBlob(blob: string) {
 }
 
 export function isDefined<T>(arg: T): arg is Exclude<T, null | undefined> {
-  return arg !== null && typeof arg !== 'undefined' 
+  return arg !== null && typeof arg !== 'undefined'
+}
+
+export function asArray<T>(arg: T | T[]): T[] {
+  return Array.isArray(arg) ? arg : [arg]
 }
 
 export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[] {
@@ -70,12 +72,29 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
     .map((key) => {
       if (key.type === 'Secp256k1') {
         const publicBytes = u8a.fromString(key.publicKeyHex, 'base16')
-        const compressedKey = computePublicKey(publicBytes, true).substring(2)
-        key.publicKeyHex = compressedKey
+        key.publicKeyHex = computePublicKey(publicBytes, true).substring(2)
+        key.meta = { ...key.meta }
+        key.meta.ethereumAddress = computeAddress('0x' + key.publicKeyHex)
       }
       return key
     })
     .filter(isDefined)
+}
+
+function compareBlockchainAccountId(localKey: IKey, verificationMethod: _NormalizedVerificationMethod) {
+  if (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' || localKey.type !== 'Secp256k1') {
+    return false;
+  }
+  let vmEthAddr = verificationMethod.ethereumAddress?.toLowerCase()
+  if (!vmEthAddr) {
+    if (verificationMethod.blockchainAccountId?.includes('@eip155')) {
+      vmEthAddr = verificationMethod.blockchainAccountId?.split('@eip155')[0].toLowerCase()
+    } else if (verificationMethod.blockchainAccountId?.startsWith('eip155')) {
+      vmEthAddr = verificationMethod.blockchainAccountId.split(':')[2]?.toLowerCase()
+    }
+  }
+  const computedAddr = computeAddress('0x' + localKey.publicKeyHex).toLowerCase()
+  return (computedAddr === vmEthAddr)
 }
 
 export async function mapIdentifierKeysToDoc(
@@ -86,7 +105,7 @@ export async function mapIdentifierKeysToDoc(
   const didDocument = await resolveDidOrThrow(identifier.did, context)
 
   // dereference all key agreement keys from DID document and normalize
-  const keyAgreementKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
+  const documentKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,
     section,
     context,
@@ -99,9 +118,9 @@ export async function mapIdentifierKeysToDoc(
     localKeys = compressIdentifierSecp256k1Keys(identifier)
   }
   // finally map the didDocument keys to the identifier keys by comparing `publicKeyHex`
-  const extendedKeys: _ExtendedIKey[] = keyAgreementKeys
+  const extendedKeys: _ExtendedIKey[] = documentKeys
     .map((verificationMethod) => {
-      const localKey = localKeys.find((localKey) => localKey.publicKeyHex === verificationMethod.publicKeyHex)
+      const localKey = localKeys.find((localKey) => localKey.publicKeyHex === verificationMethod.publicKeyHex || compareBlockchainAccountId(localKey, verificationMethod))
       if (localKey) {
         const { meta, ...localProps } = localKey
         return { ...localProps, meta: { ...meta, verificationMethod } }
@@ -175,7 +194,6 @@ export async function dereferenceDidKeys(
       }
       return newKey
     })
-    .filter((key) => key.publicKeyHex.length > 0)
 }
 
 /**

@@ -1,6 +1,5 @@
 import {
   IAgentContext,
-  IIdentifier,
   IKey,
   IResolver,
   VerifiableCredential,
@@ -28,7 +27,7 @@ export class LdCredentialModule {
    */
 
   private ldContextLoader: LdContextLoader
-  private ldSuiteLoader: LdSuiteLoader
+  ldSuiteLoader: LdSuiteLoader
   constructor(options: { ldContextLoader: LdContextLoader; ldSuiteLoader: LdSuiteLoader }) {
     this.ldContextLoader = options.ldContextLoader
     this.ldSuiteLoader = options.ldSuiteLoader
@@ -40,23 +39,23 @@ export class LdCredentialModule {
 
       // did resolution
       if (url.toLowerCase().startsWith('did:')) {
-        const didDoc = await context.agent.resolveDid({ didUrl: url })
-        const returnDocument = didDoc.didDocument
+        const resolutionResult = await context.agent.resolveDid({ didUrl: url })
+        const didDoc = resolutionResult.didDocument
 
-        if (!returnDocument) return
+        if (!didDoc) return
 
         // currently Veramo LD suites can modify the resolution response for DIDs from
         // the document Loader. This allows to fix incompatibilities between DID Documents
         // and LD suites to be fixed specifically within the Veramo LD Suites definition
         this.ldSuiteLoader
           .getAllSignatureSuites()
-          .forEach((x) => x.preDidResolutionModification(url, returnDocument))
+          .forEach((x) => x.preDidResolutionModification(url, didDoc))
 
         // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
         return {
           contextUrl: null,
           documentUrl: url,
-          document: returnDocument,
+          document: didDoc,
         }
       }
 
@@ -78,8 +77,9 @@ export class LdCredentialModule {
 
   async issueLDVerifiableCredential(
     credential: Partial<CredentialPayload>,
+    issuerDid: string,
     key: IKey,
-    identifier: IIdentifier,
+    verificationMethodId: string,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiableCredential> {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
@@ -90,7 +90,7 @@ export class LdCredentialModule {
 
     return await vc.issue({
       credential,
-      suite: suite.getSuiteForSigning(key, identifier, context),
+      suite: suite.getSuiteForSigning(key, issuerDid, verificationMethodId, context),
       documentLoader,
       compactProof: false,
     })
@@ -98,10 +98,11 @@ export class LdCredentialModule {
 
   async signLDVerifiablePresentation(
     presentation: Partial<PresentationPayload>,
+    holderDid: string,
     key: IKey,
+    verificationMethodId: string,
     challenge: string | undefined,
     domain: string | undefined,
-    identifier: IIdentifier,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiablePresentation> {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
@@ -111,7 +112,7 @@ export class LdCredentialModule {
 
     return await vc.signPresentation({
       presentation,
-      suite: suite.getSuiteForSigning(key, identifier, context),
+      suite: suite.getSuiteForSigning(key, holderDid, verificationMethodId, context),
       challenge,
       domain,
       documentLoader,
@@ -137,7 +138,7 @@ export class LdCredentialModule {
     // NOT verified.
 
     // result can include raw Error
-    console.log(`Error verifying LD Verifiable Credential`)
+    debug(`Error verifying LD Verifiable Credential: ${JSON.stringify(result, null, 2)}`)
     // console.log(JSON.stringify(result, null, 2));
     throw Error('Error verifying LD Verifiable Credential')
   }

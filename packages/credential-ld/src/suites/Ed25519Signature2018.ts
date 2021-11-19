@@ -15,15 +15,11 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
     return 'Ed25519'
   }
 
-  getSuiteForSigning(key: IKey, identifier: IIdentifier, context: IAgentContext<RequiredAgentMethods>): any {
-    const controller = identifier.did
+  getSuiteForSigning(key: IKey, issuerDid: string, verificationMethodId: string, context: IAgentContext<RequiredAgentMethods>): any {
+    const controller = issuerDid
 
     // DID Key ID
-    let id = `${controller}#controller`
-    // TODO: Hacky id adjustment
-    if (controller.startsWith('did:key')) {
-      id = `${controller}#${controller.substring(controller.lastIndexOf(':') + 1)}`
-    }
+    let id = verificationMethodId
 
     const signer = {
       // returns a JWS detached

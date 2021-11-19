@@ -6,15 +6,9 @@
  */
 export {
   CredentialIssuerLD,
-  ICredentialIssuerLD,
-  ICreateVerifiableCredentialArgs,
-  ICreateVerifiablePresentationArgs,
-  ProofFormat,
 } from './action-handler'
-export { LdCredentialModule } from './ld-credential-module'
-export { LdContextLoader } from './ld-context-loader'
+export * from './types'
 export { LdDefaultContexts } from './ld-default-contexts'
-export { LdSuiteLoader } from './ld-suite-loader'
 export {
   VeramoLdSignature,
 } from './ld-suites'

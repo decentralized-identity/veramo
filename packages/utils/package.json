@@ -8,6 +8,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@ethersproject/transactions": "^5.5.0",
     "@stablelib/ed25519": "^1.0.2",
     "@veramo/core": "^3.1.0",
     "cross-fetch": "^3.1.4",

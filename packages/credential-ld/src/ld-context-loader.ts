@@ -1,16 +1,11 @@
-export type OrPromise<T> = T | Promise<T>
-
-export type ContextDoc = {
-  "@context": Record<string, any>
-}
-
-export type RecordLike<T> = Map<string, T> | Record<string, T>
-
 /**
  * The LdContextLoader is initialized with a List of Map<string, ContextDoc>
  * that it unifies into a single Map to provide to the documentLoader within
  * the w3c credential module.
  */
+import { OrPromise, RecordLike } from "@veramo/utils";
+import { ContextDoc } from "./types";
+
 export class LdContextLoader {
   private contexts: Record<string, OrPromise<ContextDoc>>
 

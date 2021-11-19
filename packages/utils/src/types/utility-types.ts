@@ -30,3 +30,14 @@ export type _NormalizedVerificationMethod = Omit<
   VerificationMethod,
   'publicKeyBase58' | 'publicKeyBase64' | 'publicKeyJwk'
 >
+
+/**
+ * Accept a Type or a Promise of that Type
+ */
+export type OrPromise<T> = T | Promise<T>
+
+/**
+ * A mapping of string to another type.
+ * Both Map and Record are accepted.
+ */
+export type RecordLike<T> = Map<string, T> | Record<string, T>
