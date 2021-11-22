@@ -20,10 +20,13 @@ import {
   normalizePresentation,
 } from 'did-jwt-vc'
 
+import { decodeJWT } from 'did-jwt'
+
 import { schema } from './'
 import Debug from 'debug'
 import { JWT } from 'did-jwt-vc/lib/types'
 import { Resolvable } from 'did-resolver'
+import { asArray } from "@veramo/utils";
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -252,7 +255,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  */
 export type IContext = IAgentContext<IResolver &
-  Pick<IDIDManager, 'didManagerGet'> &
+  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
   Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
   Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>>
 
@@ -453,10 +456,25 @@ export class CredentialIssuer implements IAgentPlugin {
       }
       const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
 
+      let audience = args.domain
+      if (!audience) {
+        const { payload } = await decodeJWT(jwt)
+        if (payload.aud) {
+          // automatically add a managed DID as audience if one is found
+          const intendedAudience = asArray(payload.aud)
+          const managedDids = await context.agent.didManagerFind()
+          const filtered = managedDids.filter(identifier => intendedAudience.includes(identifier.did))
+          if (filtered.length > 0) {
+            audience = filtered[0].did
+          }
+        }
+      }
+
       try {
         const verification = await verifyPresentationJWT(jwt, resolver, {
           challenge: args.challenge,
-          domain: args.domain
+          domain: args.domain,
+          audience
         })
         return true
       } catch (e: any) {
