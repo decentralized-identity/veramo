@@ -54,13 +54,13 @@ constants:
     - unpackDIDCommMessage
     - sendDIDCommMessage
     - sendMessageDIDCommAlpha1
-    - createVerifiablePresentation
     - createVerifiableCredential
+    - createVerifiablePresentation
+    - verifyCredential
+    - verifyPresentation
     - createSelectiveDisclosureRequest
     - getVerifiableCredentialsForSdr
     - validatePresentationAgainstSdr
-    - verifyCredential
-    - verifyPresentation
 
 # Data base
 dbConnection:
@@ -277,40 +277,18 @@ didDiscovery:
         - $require: '@veramo/did-manager#AliasDiscoveryProvider'
         - $require: '@veramo/data-store#ProfileDiscoveryProvider'
 
-# LD-Suite Loader
-ldSuiteLoader:
-  - $require: '@veramo/credential-w3c#LdSuiteLoader'
-    $args:
-      - veramoLdSignatures:
-          - $require: '@veramo/credential-w3c#VeramoEd25519Signature2018'
-          - $require: '@veramo/credential-w3c#VeramoEcdsaSecp256k1RecoverySignature2020'
-
-# LD-Context Loader
-ldContextLoader:
-  - $require: '@veramo/credential-w3c#LdContextLoader'
-    $args:
-      - contextsPaths:
-          # The LdDefaultContext is a "catch-all" for now.
-          - $require: '@veramo/credential-w3c?t=object#LdDefaultContexts'
-          - $require: '@transmute/credentials-context?t=object#contexts'
-          #  others should be included here
-
-
-# LD-Module
-ldCredentialModule:
-  - $require: '@veramo/credential-w3c#LdCredentialModule'
-    $args:
-      - ldContextLoader:
-          - $ref: /ldContextLoader
-      - ldSuiteLoader:
-          - $ref: /ldSuiteLoader
-
 # W3C credentialPlugin
-credentialPlugin:
-  - $require: '@veramo/credential-w3c#CredentialIssuer'
-    $args:
-      - ldCredentialModule:
-          $ref: /ldCredentialModule
+credentialIssuerLD:
+  $require: '@veramo/credential-ld#CredentialIssuerLD'
+  $args:
+    - suites:
+        - $require: '@veramo/credential-ld#VeramoEd25519Signature2018'
+        - $require: '@veramo/credential-ld#VeramoEcdsaSecp256k1RecoverySignature2020'
+      contextMaps:
+        # The LdDefaultContext is a "catch-all" for now.
+        - $require: '@veramo/credential-ld?t=object#LdDefaultContexts'
+        - $require: '@transmute/credentials-context?t=object#contexts'
+        #  others should be included here
 
 # Agent
 agent:
@@ -324,7 +302,8 @@ agent:
         - $ref: /didDiscovery
         - $ref: /messageHandler
         - $require: '@veramo/did-comm#DIDComm'
-        - $ref: /credentialPlugin
+        - $require: '@veramo/credential-w3c#CredentialIssuer'
+        - $ref: /credentialIssuerLD
         - $require: '@veramo/selective-disclosure#SelectiveDisclosure'
         - $require: '@veramo/data-store#DataStore'
           $args:

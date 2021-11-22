@@ -57,8 +57,10 @@ agent:
                 - unpackDIDCommMessage
                 - sendDIDCommMessage
                 - sendMessageDIDCommAlpha1
-                - createVerifiablePresentation
                 - createVerifiableCredential
+                - createVerifiablePresentation
+                - verifyCredential
+                - verifyPresentation
                 - createSelectiveDisclosureRequest
                 - getVerifiableCredentialsForSdr
                 - validatePresentationAgainstSdr
