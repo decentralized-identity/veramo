@@ -1,8 +1,10 @@
-import { W3CCredential } from '@veramo/core'
 import { getAgent } from './setup'
 import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
+import { readStdin } from "./util";
+import * as fs from 'fs'
+import * as json5 from 'json5'
 
 const presentation = program.command('presentation').description('W3C Verifiable Presentation')
 
@@ -151,5 +153,42 @@ presentation
       } else {
         console.dir(verifiablePresentation, { depth: 10 })
       }
+    }
+  })
+
+
+presentation
+  .command('verify')
+  .description('Verify a W3C Verifiable Presentation provided as a string param or a file or from stdin')
+  .option('-c, --challenge <string>', 'Optional. Specify a challenge that the presentation should match.')
+  .option('-d, --domain <string>', 'Optional. Specify a domain that the presentation should match.')
+  .option('-f, --filename <string>', 'Optional. Read the presentation from a file instead of stdin')
+  .option('-r, --raw <string>', 'Optional. Specify the presentation as a parameter string instead of a file or stdin.')
+  .action(async (options) => {
+    const agent = getAgent(program.opts().config)
+    let raw: string = ''
+    if (options.raw) {
+      raw = options.raw
+    } else if (options.filename) {
+      raw = await fs.promises.readFile(options.filename, 'utf-8')
+    } else {
+      raw = await readStdin()
+    }
+    let presentationAsJSON: any
+    try {
+      presentationAsJSON = json5.parse(raw)
+    } catch (e: any) {
+      presentationAsJSON = {
+        proof: {
+          type: 'JwtProof2020',
+          jwt: raw
+        }
+      } as any
+    }
+    const result = await agent.verifyPresentation({ presentation: presentationAsJSON, challenge: options.challenge, domain: options.domain })
+    if (result === true) {
+      console.log('Presentation was verified successfully.')
+    } else {
+      console.error('Presentation could not be verified.')
     }
   })

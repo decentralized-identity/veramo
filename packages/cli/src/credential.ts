@@ -3,6 +3,9 @@ import { getAgent } from './setup'
 import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
+import * as fs from 'fs'
+import * as json5 from 'json5'
+import { readStdin } from './util'
 
 const credential = program.command('credential').description('W3C Verifiable Credential')
 
@@ -146,5 +149,39 @@ credential
       qrcode.generate(verifiableCredential.proof.jwt)
     } else {
       console.dir(verifiableCredential, { depth: 10 })
+    }
+  })
+
+credential
+  .command('verify')
+  .description('Verify a W3C Verifiable Credential provided as raw string, file or stdin')
+  .option('-f, --filename <string>', 'Optional. Read the credential from a file instead of stdin')
+  .option('-r, --raw <string>', 'Optional. Specify the credential as a parameter instead of file or stdin')
+  .action(async (options) => {
+    const agent = getAgent(program.opts().config)
+    let raw: string = ''
+    if (options.raw) {
+      raw = options.raw
+    } else if (options.filename) {
+      raw = await fs.promises.readFile(options.filename, 'utf-8')
+    } else {
+      raw = await readStdin()
+    }
+    let credentialAsJSON: any
+    try {
+      credentialAsJSON = json5.parse(raw)
+    } catch (e: any) {
+      credentialAsJSON = {
+        proof: {
+          type: 'JwtProof2020',
+          jwt: raw
+        }
+      } as any
+    }
+    const result = await agent.verifyCredential({ credential: credentialAsJSON })
+    if (result === true) {
+      console.log('Credential was verified successfully.')
+    } else {
+      console.error('Credential could not be verified.')
     }
   })
