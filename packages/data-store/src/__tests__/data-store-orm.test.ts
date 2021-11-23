@@ -1,4 +1,11 @@
-import { Agent, IDataStore, IMessage, TAgent, VerifiableCredential, VerifiablePresentation, } from '@veramo/core'
+import {
+  Agent,
+  IDataStore,
+  IMessage,
+  TAgent,
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core'
 import { Connection, createConnection } from 'typeorm'
 import { DataStoreORM, IDataStoreORM } from '../data-store-orm'
 import { FindArgs, TCredentialColumns, TMessageColumns, TPresentationColumns } from '../types'

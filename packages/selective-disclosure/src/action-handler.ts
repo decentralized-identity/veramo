@@ -14,7 +14,13 @@ import {
 import { schema } from './'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
-import { asArray, bytesToBase64, computeEntryHash, decodeCredentialToObject, extractIssuer } from '@veramo/utils'
+import {
+  asArray,
+  bytesToBase64,
+  computeEntryHash,
+  decodeCredentialToObject,
+  extractIssuer,
+} from '@veramo/utils'
 
 /**
  * This class adds support for creating
@@ -197,7 +203,10 @@ export class SelectiveDisclosure implements IAgentPlugin {
             return false
           }
 
-          if (credentialRequest.credentialType && !asArray(credential.type || []).includes(credentialRequest.credentialType)) {
+          if (
+            credentialRequest.credentialType &&
+            !asArray(credential.type || []).includes(credentialRequest.credentialType)
+          ) {
             return false
           }
 

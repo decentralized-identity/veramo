@@ -65,18 +65,18 @@ export default (testContext: {
     it('should create identifier with alias: alice', async () => {
       alice = await agent.didManagerGetOrCreate({
         alias: 'alice',
-        provider: 'did:ethr:rinkeby'
+        provider: 'did:ethr:rinkeby',
       })
-      
+
       expect(alice.provider).toEqual('did:ethr:rinkeby')
       expect(alice.alias).toEqual('alice')
       expect(alice.did).toBeDefined()
     })
-    
+
     it('should create identifier with alias: bob', async () => {
       bob = await agent.didManagerGetOrCreate({
         alias: 'bob',
-        provider: 'did:ethr:rinkeby'
+        provider: 'did:ethr:rinkeby',
       })
 
       expect(bob.provider).toEqual('did:ethr:rinkeby')

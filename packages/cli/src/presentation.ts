@@ -2,10 +2,10 @@ import { getAgent } from './setup'
 import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
-import { readStdin } from "./util";
+import { readStdin } from './util'
 import * as fs from 'fs'
 import * as json5 from 'json5'
-import { extractIssuer } from '@veramo/utils';
+import { extractIssuer } from '@veramo/utils'
 
 const presentation = program.command('presentation').description('W3C Verifiable Presentation')
 
@@ -157,14 +157,16 @@ presentation
     }
   })
 
-
 presentation
   .command('verify')
   .description('Verify a W3C Verifiable Presentation provided as a string param or a file or from stdin')
   .option('-c, --challenge <string>', 'Optional. Specify a challenge that the presentation should match.')
   .option('-d, --domain <string>', 'Optional. Specify a domain that the presentation should match.')
   .option('-f, --filename <string>', 'Optional. Read the presentation from a file instead of stdin')
-  .option('-r, --raw <string>', 'Optional. Specify the presentation as a parameter string instead of a file or stdin.')
+  .option(
+    '-r, --raw <string>',
+    'Optional. Presentation as a parameter string instead of a file or stdin.',
+  )
   .action(async (options) => {
     const agent = getAgent(program.opts().config)
     let raw: string = ''
@@ -182,11 +184,15 @@ presentation
       presentationAsJSON = {
         proof: {
           type: 'JwtProof2020',
-          jwt: raw
-        }
+          jwt: raw,
+        },
       } as any
     }
-    const result = await agent.verifyPresentation({ presentation: presentationAsJSON, challenge: options.challenge, domain: options.domain })
+    const result = await agent.verifyPresentation({
+      presentation: presentationAsJSON,
+      challenge: options.challenge,
+      domain: options.domain,
+    })
     if (result === true) {
       console.log('Presentation was verified successfully.')
     } else {

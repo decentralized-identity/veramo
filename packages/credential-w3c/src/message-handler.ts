@@ -1,11 +1,11 @@
 import { IAgentContext, IResolver, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
-import { computeEntryHash, decodeCredentialToObject, extractIssuer } from '@veramo/utils'
+import { asArray, computeEntryHash, decodeCredentialToObject, extractIssuer } from '@veramo/utils'
 import {
   normalizeCredential,
   normalizePresentation,
   validateJwtCredentialPayload,
-  validateJwtPresentationPayload
+  validateJwtPresentationPayload,
 } from 'did-jwt-vc'
 import { ICredentialIssuer } from './action-handler'
 import { v4 as uuidv4 } from 'uuid'
@@ -46,7 +46,6 @@ export type IContext = IAgentContext<IResolver & ICredentialIssuer>
  * @public
  */
 export class W3cMessageHandler extends AbstractMessageHandler {
-
   async handle(message: Message, context: IContext): Promise<Message> {
     const meta = message.getLastMetaData()
 
@@ -78,8 +77,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.credentials = credentials
 
         return message
-      } catch (e) {
-      }
+      } catch (e) {}
 
       try {
         validateJwtCredentialPayload(data)
@@ -99,8 +97,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.createdAt = credential.issuanceDate
         message.credentials = [credential]
         return message
-      } catch (e) {
-      }
+      } catch (e) {}
     }
 
     // LDS Verification and Handling
@@ -133,10 +130,8 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         presentation,
         // FIXME: HARDCODED CHALLENGE VERIFICATION FOR NOW
         challenge: 'VERAMO',
-        domain: 'VERAMO'
+        domain: 'VERAMO',
       })
-
-      const credentials = presentation.verifiableCredential
 
       message.id = computeEntryHash(message.raw || message.id || uuidv4())
       message.type = MessageTypes.vp
@@ -149,10 +144,9 @@ export class W3cMessageHandler extends AbstractMessageHandler {
 
       // message.createdAt = presentation.issuanceDate
       message.presentations = [presentation]
-      message.credentials = (credentials || []).map(decodeCredentialToObject)
+      message.credentials = asArray(presentation.verifiableCredential).map(decodeCredentialToObject)
       return message
     }
-
 
     return super.handle(message, context)
   }

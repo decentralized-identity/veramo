@@ -6,7 +6,7 @@ import ganache from 'ganache-cli'
 
 /**
  * Creates a Web3Provider that connects to a local ganache instance with a bunch of known keys and an ERC1056 contract.
- * 
+ *
  * This provider can only be used in a single test suite, because of some concurrency issues with ganache.
  */
 export async function createGanacheProvider(): Promise<{ provider: JsonRpcProvider; registry: string }> {

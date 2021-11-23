@@ -44,13 +44,16 @@ export class DIDStore extends AbstractDIDStore {
       controllerKeyId: identifier.controllerKeyId,
       provider: identifier.provider!!,
       services: identifier.services,
-      keys: identifier.keys.map((k) => ({
-        kid: k.kid,
-        type: k.type,
-        kms: k.kms,
-        publicKeyHex: k.publicKeyHex,
-        meta: k.meta,
-      } as IKey)),
+      keys: identifier.keys.map(
+        (k) =>
+          ({
+            kid: k.kid,
+            type: k.type,
+            kms: k.kms,
+            publicKeyHex: k.publicKeyHex,
+            meta: k.meta,
+          } as IKey),
+      ),
     }
     if (identifier.alias) {
       result.alias = identifier.alias
@@ -59,12 +62,10 @@ export class DIDStore extends AbstractDIDStore {
   }
 
   async delete({ did }: { did: string }) {
-    const identifier = await (await this.dbConnection)
-      .getRepository(Identifier)
-      .findOne({
-        where: { did },
-        relations: ['keys', 'services', 'issuedCredentials', 'issuedPresentations'],
-      })
+    const identifier = await (await this.dbConnection).getRepository(Identifier).findOne({
+      where: { did },
+      relations: ['keys', 'services', 'issuedCredentials', 'issuedPresentations'],
+    })
     if (!identifier || typeof identifier === 'undefined') {
       return true
     }

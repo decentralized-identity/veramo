@@ -11,7 +11,7 @@ import {
 } from '@veramo/core'
 import { schema, VeramoLdSignature } from './'
 import Debug from 'debug'
-import { LdContextLoader } from "./ld-context-loader";
+import { LdContextLoader } from './ld-context-loader'
 import {
   _ExtendedIKey,
   extractIssuer,
@@ -20,11 +20,11 @@ import {
   mapIdentifierKeysToDoc,
   OrPromise,
   processEntryToArray,
-  RecordLike
-} from "@veramo/utils";
+  RecordLike,
+} from '@veramo/utils'
 
-import { LdCredentialModule } from "./ld-credential-module";
-import { LdSuiteLoader } from './ld-suite-loader';
+import { LdCredentialModule } from './ld-credential-module'
+import { LdSuiteLoader } from './ld-suite-loader'
 import {
   ContextDoc,
   ICreateVerifiableCredentialLDArgs,
@@ -33,7 +33,7 @@ import {
   IRequiredContext,
   IVerifyCredentialLDArgs,
   IVerifyPresentationLDArgs,
-} from "./types";
+} from './types'
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -48,13 +48,10 @@ export class CredentialIssuerLD implements IAgentPlugin {
 
   private ldCredentialModule: LdCredentialModule
 
-  constructor(options: {
-    contextMaps: RecordLike<OrPromise<ContextDoc>>[],
-    suites: VeramoLdSignature[]
-  }) {
+  constructor(options: { contextMaps: RecordLike<OrPromise<ContextDoc>>[]; suites: VeramoLdSignature[] }) {
     this.ldCredentialModule = new LdCredentialModule({
       ldContextLoader: new LdContextLoader({ contextsPaths: options.contextMaps }),
-      ldSuiteLoader: new LdSuiteLoader({ veramoLdSignatures: options.suites })
+      ldSuiteLoader: new LdSuiteLoader({ veramoLdSignatures: options.suites }),
     })
 
     this.methods = {
@@ -70,7 +67,10 @@ export class CredentialIssuerLD implements IAgentPlugin {
     args: ICreateVerifiablePresentationLDArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation> {
-    const presentationContext = processEntryToArray(args?.presentation?.['@context'], MANDATORY_CREDENTIAL_CONTEXT)
+    const presentationContext = processEntryToArray(
+      args?.presentation?.['@context'],
+      MANDATORY_CREDENTIAL_CONTEXT,
+    )
     const presentationType = processEntryToArray(args?.presentation?.type, 'VerifiablePresentation')
 
     const presentation: PresentationPayload = {
@@ -84,7 +84,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
     }
 
     if (args.presentation.verifiableCredential) {
-      const credentials = args.presentation.verifiableCredential.map(cred => {
+      const credentials = args.presentation.verifiableCredential.map((cred) => {
         if (typeof cred !== 'string' && cred.proof.jwt) {
           return cred.proof.jwt
         } else {
@@ -104,7 +104,11 @@ export class CredentialIssuerLD implements IAgentPlugin {
       throw new Error('invalid_argument: args.presentation.holder must be a DID managed by this agent')
     }
     try {
-      const { signingKey, verificationMethodId } = await this.findSigningKeyWithId(context, identifier, args.keyRef)
+      const { signingKey, verificationMethodId } = await this.findSigningKeyWithId(
+        context,
+        identifier,
+        args.keyRef,
+      )
 
       return await this.ldCredentialModule.signLDVerifiablePresentation(
         presentation,
@@ -126,7 +130,10 @@ export class CredentialIssuerLD implements IAgentPlugin {
     args: ICreateVerifiableCredentialLDArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential> {
-    const credentialContext = processEntryToArray(args?.credential?.['@context'], MANDATORY_CREDENTIAL_CONTEXT);
+    const credentialContext = processEntryToArray(
+      args?.credential?.['@context'],
+      MANDATORY_CREDENTIAL_CONTEXT,
+    )
     const credentialType = processEntryToArray(args?.credential?.type, 'VerifiableCredential')
     let issuanceDate = args?.credential?.issuanceDate || new Date().toISOString()
     if (issuanceDate instanceof Date) {
@@ -151,7 +158,11 @@ export class CredentialIssuerLD implements IAgentPlugin {
       throw new Error(`invalid_argument: args.credential.issuer must be a DID managed by this agent. ${e}`)
     }
     try {
-      const { signingKey, verificationMethodId } = await this.findSigningKeyWithId(context, identifier, args.keyRef)
+      const { signingKey, verificationMethodId } = await this.findSigningKeyWithId(
+        context,
+        identifier,
+        args.keyRef,
+      )
 
       return await this.ldCredentialModule.issueLDVerifiableCredential(
         credential,
@@ -181,15 +192,14 @@ export class CredentialIssuerLD implements IAgentPlugin {
     context: IRequiredContext,
   ): Promise<boolean> {
     const presentation = args.presentation
-    return this.ldCredentialModule.verifyPresentation(
-      presentation,
-      args.challenge,
-      args.domain,
-      context,
-    )
+    return this.ldCredentialModule.verifyPresentation(presentation, args.challenge, args.domain, context)
   }
 
-  private async findSigningKeyWithId(context: IAgentContext<IResolver>, identifier: IIdentifier, keyRef?: string): Promise<{ signingKey: IKey; verificationMethodId: string }> {
+  private async findSigningKeyWithId(
+    context: IAgentContext<IResolver>,
+    identifier: IIdentifier,
+    keyRef?: string,
+  ): Promise<{ signingKey: IKey; verificationMethodId: string }> {
     const extendedKeys: _ExtendedIKey[] = await mapIdentifierKeysToDoc(identifier, 'assertionMethod', context)
     let supportedTypes = this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuiteTypes()
     let signingKey: _ExtendedIKey | undefined
@@ -198,12 +208,16 @@ export class CredentialIssuerLD implements IAgentPlugin {
       signingKey = extendedKeys.find((k) => k.kid === keyRef)
     }
     if (signingKey && !supportedTypes.includes(signingKey.meta.verificationMethod.type)) {
-      debug('WARNING: requested signing key DOES NOT correspond to a supported Signature suite type. Looking for the next best key.')
+      debug(
+        'WARNING: requested signing key DOES NOT correspond to a supported Signature suite type. Looking for the next best key.',
+      )
       signingKey = undefined
     }
     if (!signingKey) {
       if (keyRef) {
-        debug('WARNING: no signing key was found that matches the reference provided. Searching for the first available signing key.')
+        debug(
+          'WARNING: no signing key was found that matches the reference provided. Searching for the first available signing key.',
+        )
       }
       signingKey = extendedKeys.find((k) => supportedTypes.includes(k.meta.verificationMethod.type))
     }
@@ -213,4 +227,3 @@ export class CredentialIssuerLD implements IAgentPlugin {
     return { signingKey, verificationMethodId }
   }
 }
-

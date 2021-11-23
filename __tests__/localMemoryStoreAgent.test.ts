@@ -19,19 +19,23 @@ import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
 import { Connection, createConnection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler, } from '../packages/credential-w3c/src'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
-  VeramoEd25519Signature2018
+  VeramoEd25519Signature2018,
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure, } from '../packages/selective-disclosure/src'
+import {
+  ISelectiveDisclosure,
+  SdrMessageHandler,
+  SelectiveDisclosure,
+} from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
 import { DataStore, DataStoreORM, Entities, IDataStoreORM, migrations } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
@@ -59,16 +63,18 @@ jest.setTimeout(30000)
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
-let agent: TAgent<IDIDManager &
-  IKeyManager &
-  IDataStore &
-  IDataStoreORM &
-  IResolver &
-  IMessageHandler &
-  IDIDComm &
-  ICredentialIssuer &
-  ICredentialIssuerLD &
-  ISelectiveDisclosure>
+let agent: TAgent<
+  IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialIssuer &
+    ICredentialIssuerLD &
+    ISelectiveDisclosure
+>
 let dbConnection: Promise<Connection>
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
@@ -83,16 +89,18 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
   })
 
-  agent = createAgent<IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialIssuer &
-    ICredentialIssuerLD &
-    ISelectiveDisclosure>({
+  agent = createAgent<
+    IDIDManager &
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolver &
+      IMessageHandler &
+      IDIDComm &
+      ICredentialIssuer &
+      ICredentialIssuerLD &
+      ISelectiveDisclosure
+  >({
     ...options,
     context: {
       // authenticatedDid: 'did:example:3456'
@@ -159,10 +167,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new CredentialIssuer(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018()
-        ],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
       }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),

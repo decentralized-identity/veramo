@@ -5,7 +5,8 @@ import {
   IMessageHandler,
   IHandleMessageArgs,
   schema,
-  CoreEvents, IMessage,
+  CoreEvents,
+  IMessage,
 } from '@veramo/core'
 import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
@@ -51,7 +52,10 @@ export class MessageHandler implements IAgentPlugin {
   }
 
   /** {@inheritDoc @veramo/core#IMessageHandler.handleMessage} */
-  public async handleMessage(args: IHandleMessageArgs, context: IAgentContext<IDataStore>): Promise<IMessage> {
+  public async handleMessage(
+    args: IHandleMessageArgs,
+    context: IAgentContext<IDataStore>,
+  ): Promise<IMessage> {
     const { raw, metaData, save } = args
     debug('%o', { raw, metaData, save })
     if (!this.messageHandler) {

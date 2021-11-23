@@ -10,7 +10,7 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-  VerifiableCredential
+  VerifiableCredential,
 } from '../packages/core/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'

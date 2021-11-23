@@ -93,37 +93,37 @@ describe('@veramo/credential-w3c', () => {
     agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
     const context: IContext = { agent: agent }
 
-      const credential: CredentialPayload = {
-        '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
-        type: ['VerifiableCredential', 'PublicProfile'],
-        issuer: { id: mockIdentifier.did },
-        issuanceDate: new Date().toISOString(),
-        id: 'vc1',
-        credentialSubject: {
-          id: 'https://example.com/user/alice',
-          name: 'Alice',
-          profilePicture: 'https://example.com/a.png',
-          address: {
-            street: 'Some str.',
-            house: 1,
-          },
+    const credential: CredentialPayload = {
+      '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
+      type: ['VerifiableCredential', 'PublicProfile'],
+      issuer: { id: mockIdentifier.did },
+      issuanceDate: new Date().toISOString(),
+      id: 'vc1',
+      credentialSubject: {
+        id: 'https://example.com/user/alice',
+        name: 'Alice',
+        profilePicture: 'https://example.com/a.png',
+        address: {
+          street: 'Some str.',
+          house: 1,
         },
-      }
+      },
+    }
 
-      const vc = await w3c.createVerifiableCredential(
-        {
-          credential,
-          save: true,
-          proofFormat: 'jwt',
-        },
-        context,
-      )
-      // TODO Update these after refactoring did-jwt-vc
-      expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
-      expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
-        verifiableCredential: 'mockCredential',
-      })
-      expect(vc).toEqual('mockCredential')
+    const vc = await w3c.createVerifiableCredential(
+      {
+        credential,
+        save: true,
+        proofFormat: 'jwt',
+      },
+      context,
+    )
+    // TODO Update these after refactoring did-jwt-vc
+    expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
+    expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
+      verifiableCredential: 'mockCredential',
+    })
+    expect(vc).toEqual('mockCredential')
   })
 
   test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
@@ -132,7 +132,6 @@ describe('@veramo/credential-w3c', () => {
     agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
     const context: IContext = { agent: agent }
 
-
     const credential: VerifiableCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiableCredential', 'PublicProfile'],
@@ -140,7 +139,7 @@ describe('@veramo/credential-w3c', () => {
       issuanceDate: new Date().toISOString(),
       id: 'vc1',
       credentialSubject: {
-        id: "https://example.com/user/alice",
+        id: 'https://example.com/user/alice',
         name: 'Alice',
         profilePicture: 'https://example.com/a.png',
         address: {

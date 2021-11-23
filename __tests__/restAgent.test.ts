@@ -23,19 +23,23 @@ import { KeyManager } from '../packages/key-manager/src'
 import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler, } from '../packages/credential-w3c/src'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
-  VeramoEd25519Signature2018
+  VeramoEd25519Signature2018,
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure, } from '../packages/selective-disclosure/src'
+import {
+  ISelectiveDisclosure,
+  SdrMessageHandler,
+  SelectiveDisclosure,
+} from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import {
   DataStore,
@@ -89,17 +93,19 @@ let serverAgent: IAgent
 let restServer: Server
 
 const getAgent = (options?: IAgentOptions) =>
-  createAgent<IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialIssuer &
-    ICredentialIssuerLD &
-    ISelectiveDisclosure &
-    IDIDDiscovery>({
+  createAgent<
+    IDIDManager &
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolver &
+      IMessageHandler &
+      IDIDComm &
+      ICredentialIssuer &
+      ICredentialIssuerLD &
+      ISelectiveDisclosure &
+      IDIDDiscovery
+  >({
     ...options,
     plugins: [
       new AgentRestClient({
@@ -187,10 +193,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new CredentialIssuer(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018()
-        ],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({

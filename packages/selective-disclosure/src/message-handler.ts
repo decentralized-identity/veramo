@@ -3,7 +3,7 @@ import { Message, AbstractMessageHandler } from '@veramo/message-handler'
 import { v4 as uuidv4 } from 'uuid'
 
 import Debug from 'debug'
-import { asArray, computeEntryHash } from "@veramo/utils";
+import { asArray, computeEntryHash } from '@veramo/utils'
 const debug = Debug('veramo:selective-disclosure:message-handler')
 
 /**

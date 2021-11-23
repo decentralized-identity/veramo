@@ -48,9 +48,7 @@ export class LdCredentialModule {
         // currently Veramo LD suites can modify the resolution response for DIDs from
         // the document Loader. This allows to fix incompatibilities between DID Documents
         // and LD suites to be fixed specifically within the Veramo LD Suites definition
-        this.ldSuiteLoader
-          .getAllSignatureSuites()
-          .forEach((x) => x.preDidResolutionModification(url, didDoc))
+        this.ldSuiteLoader.getAllSignatureSuites().forEach((x) => x.preDidResolutionModification(url, didDoc))
 
         // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
         return {

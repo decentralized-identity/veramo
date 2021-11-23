@@ -274,11 +274,9 @@ export class DIDComm implements IAgentPlugin {
     const didDocument: DIDDocument = await resolveDidOrThrow(args?.message?.to, context)
 
     // 2.1 extract all recipient key agreement keys and normalize them
-    const keyAgreementKeys: _NormalizedVerificationMethod[] = (await dereferenceDidKeys(
-      didDocument,
-      'keyAgreement',
-      context,
-    )).filter(k => k.publicKeyHex?.length! > 0)
+    const keyAgreementKeys: _NormalizedVerificationMethod[] = (
+      await dereferenceDidKeys(didDocument, 'keyAgreement', context)
+    ).filter((k) => k.publicKeyHex?.length! > 0)
 
     if (keyAgreementKeys.length === 0) {
       throw new Error(`key_not_found: no key agreement keys found for recipient ${args?.message?.to}`)
@@ -290,20 +288,26 @@ export class DIDComm implements IAgentPlugin {
       .filter(isDefined)
 
     if (recipients.length === 0) {
-      throw new Error(`not_supported: no compatible key agreement keys found for recipient ${args?.message?.to}`)
+      throw new Error(
+        `not_supported: no compatible key agreement keys found for recipient ${args?.message?.to}`,
+      )
     }
 
     // 3. create Encrypter for each recipient
-    const encrypters: Encrypter[] = recipients.map((recipient) => {
-      if (args.packing === 'authcrypt') {
-        return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
-      } else {
-        return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
-      }
-    }).filter(isDefined)
+    const encrypters: Encrypter[] = recipients
+      .map((recipient) => {
+        if (args.packing === 'authcrypt') {
+          return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
+        } else {
+          return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
+        }
+      })
+      .filter(isDefined)
 
     if (encrypters.length === 0) {
-      throw new Error(`not_supported: could not create suitable encryption for recipient ${args?.message?.to}`)
+      throw new Error(
+        `not_supported: could not create suitable encryption for recipient ${args?.message?.to}`,
+      )
     }
 
     // 4. createJWE

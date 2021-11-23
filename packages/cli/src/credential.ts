@@ -25,10 +25,7 @@ credential
       {
         type: 'list',
         name: 'proofFormat',
-        choices: [
-          'jwt',
-          'lds'
-        ],
+        choices: ['jwt', 'lds'],
         message: 'Credential proofFormat',
       },
       {
@@ -82,10 +79,7 @@ credential
 
     const credential: CredentialPayload = {
       issuer: { id: answers.iss },
-      '@context': [
-        'https://www.w3.org/2018/credentials/v1',
-        'https://veramo.io/contexts/profile/v1'
-      ],
+      '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
       type: answers.type.split(','),
       issuanceDate: new Date().toISOString(),
       credentialSubject,
@@ -120,8 +114,8 @@ credential
     })
 
     if (cmd.send) {
-      let body;
-      let type;
+      let body
+      let type
       if (answers.proofFormat == 'jwt') {
         body = verifiableCredential.proof.jwt
         type = 'jwt'
@@ -174,8 +168,8 @@ credential
       credentialAsJSON = {
         proof: {
           type: 'JwtProof2020',
-          jwt: raw
-        }
+          jwt: raw,
+        },
       } as any
     }
     const result = await agent.verifyCredential({ credential: credentialAsJSON })

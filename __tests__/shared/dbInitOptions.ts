@@ -12,16 +12,18 @@ import {
 import { IDataStoreORM } from '@veramo/data-store/src'
 import { ICredentialIssuer } from '@veramo/credential-w3c/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
-import { extractIssuer } from "../../packages/utils"
+import { extractIssuer } from '../../packages/utils'
 
-type ConfiguredAgent = TAgent<IDataStoreORM &
-  IDataStore &
-  IDIDManager &
-  IKeyManager &
-  ICredentialIssuer &
-  IDIDComm &
-  IMessageHandler &
-  IResolver>
+type ConfiguredAgent = TAgent<
+  IDataStoreORM &
+    IDataStore &
+    IDIDManager &
+    IKeyManager &
+    ICredentialIssuer &
+    IDIDComm &
+    IMessageHandler &
+    IResolver
+>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent

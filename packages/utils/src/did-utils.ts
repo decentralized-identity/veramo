@@ -3,8 +3,12 @@ import { computePublicKey } from '@ethersproject/signing-key'
 import { computeAddress } from '@ethersproject/transactions'
 import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core'
 import { DIDDocument, VerificationMethod } from 'did-resolver'
-import { _ExtendedIKey, _ExtendedVerificationMethod, _NormalizedVerificationMethod } from "./types/utility-types";
-import { isDefined } from "./utils";
+import {
+  _ExtendedIKey,
+  _ExtendedVerificationMethod,
+  _NormalizedVerificationMethod,
+} from './types/utility-types'
+import { isDefined } from './type-utils'
 import * as u8a from 'uint8arrays'
 import Debug from 'debug'
 const debug = Debug('veramo:utils')
@@ -45,7 +49,7 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
 
 function compareBlockchainAccountId(localKey: IKey, verificationMethod: _NormalizedVerificationMethod) {
   if (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' || localKey.type !== 'Secp256k1') {
-    return false;
+    return false
   }
   let vmEthAddr = verificationMethod.ethereumAddress?.toLowerCase()
   if (!vmEthAddr) {
@@ -56,7 +60,7 @@ function compareBlockchainAccountId(localKey: IKey, verificationMethod: _Normali
     }
   }
   const computedAddr = computeAddress('0x' + localKey.publicKeyHex).toLowerCase()
-  return (computedAddr === vmEthAddr)
+  return computedAddr === vmEthAddr
 }
 
 export async function mapIdentifierKeysToDoc(
@@ -82,7 +86,11 @@ export async function mapIdentifierKeysToDoc(
   // finally map the didDocument keys to the identifier keys by comparing `publicKeyHex`
   const extendedKeys: _ExtendedIKey[] = documentKeys
     .map((verificationMethod) => {
-      const localKey = localKeys.find((localKey) => localKey.publicKeyHex === verificationMethod.publicKeyHex || compareBlockchainAccountId(localKey, verificationMethod))
+      const localKey = localKeys.find(
+        (localKey) =>
+          localKey.publicKeyHex === verificationMethod.publicKeyHex ||
+          compareBlockchainAccountId(localKey, verificationMethod),
+      )
       if (localKey) {
         const { meta, ...localProps } = localKey
         return { ...localProps, meta: { ...meta, verificationMethod } }

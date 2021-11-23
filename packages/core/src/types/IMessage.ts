@@ -1,4 +1,4 @@
-import { VerifiableCredential, VerifiablePresentation } from "./vc-data-model";
+import { VerifiableCredential, VerifiablePresentation } from './vc-data-model'
 
 /**
  * Message meta data

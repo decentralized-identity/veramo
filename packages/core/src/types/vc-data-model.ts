@@ -18,7 +18,7 @@ export type CompactJWT = string
  *
  * @beta
  */
-export type IssuerType = { id: string, [x: string]: any } | string
+export type IssuerType = { id: string; [x: string]: any } | string
 
 /**
  * The value of the credentialSubject property is defined as a set of objects that contain one or more properties that
@@ -115,7 +115,6 @@ export interface UnsignedPresentation {
   [x: string]: any
 }
 
-
 /**
  * Represents a signed Verifiable Presentation (includes proof), using a JSON representation.
  * See {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model}
@@ -169,7 +168,7 @@ export interface PresentationPayload {
   '@context'?: string[]
   verifier?: string[]
   issuanceDate?: DateType
-  expirationDate?: DateType,
+  expirationDate?: DateType
   id?: string
 
   [x: string]: any

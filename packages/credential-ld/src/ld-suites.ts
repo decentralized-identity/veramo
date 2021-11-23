@@ -1,4 +1,12 @@
-import { CredentialPayload, IAgentContext, IKey, IKeyManager, IResolver, PresentationPayload, TKeyType } from '@veramo/core'
+import {
+  CredentialPayload,
+  IAgentContext,
+  IKey,
+  IKeyManager,
+  IResolver,
+  PresentationPayload,
+  TKeyType,
+} from '@veramo/core'
 import { DIDDocument } from 'did-resolver/src/resolver'
 
 export type RequiredAgentMethods = IResolver & Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
@@ -35,5 +43,3 @@ export abstract class VeramoLdSignature {
     }
   }
 }
-
-

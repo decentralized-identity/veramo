@@ -44,7 +44,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
       accept: 'application/did+ld+json',
       ...options,
     }
-    
+
     // ensure the required fields are present, even if the resolver is not compliant
     const cannedResponse: DIDResolutionResult = {
       didDocumentMetadata: {},
@@ -53,7 +53,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     }
 
     const resolution = await this.didResolver.resolve(didUrl, resolverOptions)
-    
+
     return {
       ...cannedResponse,
       ...resolution,

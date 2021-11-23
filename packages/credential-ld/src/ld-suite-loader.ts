@@ -5,15 +5,12 @@ import { TKeyType } from '@veramo/core'
  * Initializes a list of Veramo-wrapped LD Signature suites and exposes those to the Agent Module
  */
 export class LdSuiteLoader {
-
-  constructor(options: {
-    veramoLdSignatures: VeramoLdSignature[]
-  }) {
+  constructor(options: { veramoLdSignatures: VeramoLdSignature[] }) {
     options.veramoLdSignatures.forEach((obj) => {
       this.signatureMap[obj.getSupportedVeramoKeyType()] = obj
     })
   }
-  private signatureMap: Record<string, VeramoLdSignature> = {};
+  private signatureMap: Record<string, VeramoLdSignature> = {}
 
   getSignatureSuiteForKeyType(type: TKeyType) {
     const suite = this.signatureMap[type]
@@ -27,7 +24,6 @@ export class LdSuiteLoader {
   }
 
   getAllSignatureSuiteTypes() {
-    return Object.values(this.signatureMap).map(x => x.getSupportedVerificationType())
+    return Object.values(this.signatureMap).map((x) => x.getSupportedVerificationType())
   }
-
 }

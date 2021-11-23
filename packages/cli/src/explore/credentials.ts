@@ -3,7 +3,7 @@ import { UniqueVerifiableCredential } from '@veramo/data-store'
 import { shortDate, shortDid } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
-import { asArray, extractIssuer } from "@veramo/utils";
+import { asArray, extractIssuer } from '@veramo/utils'
 
 export const getCredentialsTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {
   screen.title = 'Credentials'

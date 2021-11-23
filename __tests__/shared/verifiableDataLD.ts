@@ -199,15 +199,12 @@ export default (testContext: {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: didKeyIdentifier.did },
-          '@context': [
-            'https://www.w3.org/2018/credentials/v1',
-            'https://veramo.io/contexts/profile/v1'
-          ],
+          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
           type: ['VerifiableCredential', 'Profile'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
             id: didKeyIdentifier.did,
-            name: "Martin, the great"
+            name: 'Martin, the great',
           },
         },
         proofFormat: 'lds',
@@ -216,32 +213,37 @@ export default (testContext: {
       // Check credential:
       expect(verifiableCredential).toHaveProperty('proof')
       expect(verifiableCredential).toHaveProperty('proof.jws')
-      expect(verifiableCredential.proof.verificationMethod).toEqual(`${didKeyIdentifier.did}#${didKeyIdentifier.did.substring(didKeyIdentifier.did.lastIndexOf(':') + 1)}`)
+      expect(verifiableCredential.proof.verificationMethod).toEqual(
+        `${didKeyIdentifier.did}#${didKeyIdentifier.did.substring(
+          didKeyIdentifier.did.lastIndexOf(':') + 1,
+        )}`,
+      )
 
       expect(verifiableCredential['@context']).toEqual([
         'https://www.w3.org/2018/credentials/v1',
         'https://veramo.io/contexts/profile/v1',
       ])
-      expect(verifiableCredential['type']).toEqual(
-        ['VerifiableCredential', 'Profile'])
+      expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'Profile'])
 
       storedCredentialHash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
       expect(typeof storedCredentialHash).toEqual('string')
 
-      const verifiableCredential2 = await agent.dataStoreGetVerifiableCredential({ hash: storedCredentialHash })
+      const verifiableCredential2 = await agent.dataStoreGetVerifiableCredential({
+        hash: storedCredentialHash,
+      })
       expect(verifiableCredential).toEqual(verifiableCredential2)
     })
 
     it('should verify a verifiable credential in LD with did:key', async () => {
-      const verifiableCredential = await agent.dataStoreGetVerifiableCredential({ hash: storedCredentialHash })
+      const verifiableCredential = await agent.dataStoreGetVerifiableCredential({
+        hash: storedCredentialHash,
+      })
 
       const result = await agent.verifyCredential({
-        credential: verifiableCredential
+        credential: verifiableCredential,
       })
 
       expect(result).toEqual(true)
     })
-
-
   })
 }

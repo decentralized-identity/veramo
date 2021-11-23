@@ -30,7 +30,13 @@ import { decodeJWT } from 'did-jwt'
 import { schema } from './'
 import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
-import { asArray, extractIssuer, isDefined, MANDATORY_CREDENTIAL_CONTEXT, processEntryToArray } from "@veramo/utils";
+import {
+  asArray,
+  extractIssuer,
+  isDefined,
+  MANDATORY_CREDENTIAL_CONTEXT,
+  processEntryToArray,
+} from '@veramo/utils'
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -245,10 +251,12 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  *
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  */
-export type IContext = IAgentContext<IResolver &
-  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>>
+export type IContext = IAgentContext<
+  IResolver &
+    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
+    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
+>
 
 /**
  * A Veramo plugin that implements the {@link ICredentialIssuer} methods.
@@ -273,7 +281,10 @@ export class CredentialIssuer implements IAgentPlugin {
     args: ICreateVerifiablePresentationArgs,
     context: IContext,
   ): Promise<VerifiablePresentation> {
-    const presentationContext = processEntryToArray(args?.presentation?.['@context'], MANDATORY_CREDENTIAL_CONTEXT)
+    const presentationContext = processEntryToArray(
+      args?.presentation?.['@context'],
+      MANDATORY_CREDENTIAL_CONTEXT,
+    )
     const presentationType = processEntryToArray(args?.presentation?.type, 'VerifiablePresentation')
     const presentation: PresentationPayload = {
       ...args?.presentation,
@@ -287,7 +298,7 @@ export class CredentialIssuer implements IAgentPlugin {
     }
 
     if (args.presentation.verifiableCredential) {
-      const credentials = args.presentation.verifiableCredential.map(cred => {
+      const credentials = args.presentation.verifiableCredential.map((cred) => {
         // map JWT credentials to their canonical form
         if (typeof cred !== 'string' && cred.proof.jwt) {
           return cred.proof.jwt
@@ -315,7 +326,9 @@ export class CredentialIssuer implements IAgentPlugin {
         if (typeof context.agent.createVerifiablePresentationLD === 'function') {
           verifiablePresentation = await context.agent.createVerifiablePresentationLD(args)
         } else {
-          throw new Error('invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed')
+          throw new Error(
+            'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+          )
         }
       } else {
         // only add issuanceDate for JWT
@@ -351,7 +364,10 @@ export class CredentialIssuer implements IAgentPlugin {
     args: ICreateVerifiableCredentialArgs,
     context: IContext,
   ): Promise<VerifiableCredential> {
-    const credentialContext = processEntryToArray(args?.credential?.['@context'], MANDATORY_CREDENTIAL_CONTEXT)
+    const credentialContext = processEntryToArray(
+      args?.credential?.['@context'],
+      MANDATORY_CREDENTIAL_CONTEXT,
+    )
     const credentialType = processEntryToArray(args?.credential?.type, 'VerifiableCredential')
     const credential: CredentialPayload = {
       ...args?.credential,
@@ -359,7 +375,6 @@ export class CredentialIssuer implements IAgentPlugin {
       type: credentialType,
       issuanceDate: args?.credential?.issuanceDate || new Date().toISOString(),
     }
-
 
     //FIXME: if the identifier is not found, the error message should reflect that.
     const issuer = extractIssuer(credential)
@@ -383,7 +398,9 @@ export class CredentialIssuer implements IAgentPlugin {
         if (typeof context.agent.createVerifiableCredentialLD === 'function') {
           verifiableCredential = await context.agent.createVerifiableCredentialLD(args as any)
         } else {
-          throw new Error('invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed')
+          throw new Error(
+            'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+          )
         }
       } else {
         debug('Signing VC with', identifier.did)
@@ -413,10 +430,7 @@ export class CredentialIssuer implements IAgentPlugin {
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyCredential} */
-  async verifyCredential(
-    args: IVerifyCredentialArgs,
-    context: IContext,
-  ): Promise<boolean> {
+  async verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<boolean> {
     const credential = args.credential
     if (typeof credential === 'string' || (<VerifiableCredential>credential)?.proof?.jwt) {
       // JWT
@@ -440,16 +454,15 @@ export class CredentialIssuer implements IAgentPlugin {
         const result = await context.agent.verifyCredentialLD(args)
         return result
       } else {
-        throw new Error('invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed')
+        throw new Error(
+          'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+        )
       }
     }
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
-  async verifyPresentation(
-    args: IVerifyPresentationArgs,
-    context: IContext,
-  ): Promise<boolean> {
+  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<boolean> {
     const presentation = args.presentation
     if (typeof presentation === 'string' || (<VerifiablePresentation>presentation)?.proof?.jwt) {
       // JWT
@@ -468,7 +481,7 @@ export class CredentialIssuer implements IAgentPlugin {
           // automatically add a managed DID as audience if one is found
           const intendedAudience = asArray(payload.aud)
           const managedDids = await context.agent.didManagerFind()
-          const filtered = managedDids.filter(identifier => intendedAudience.includes(identifier.did))
+          const filtered = managedDids.filter((identifier) => intendedAudience.includes(identifier.did))
           if (filtered.length > 0) {
             audience = filtered[0].did
           }
@@ -479,7 +492,7 @@ export class CredentialIssuer implements IAgentPlugin {
         const verification = await verifyPresentationJWT(jwt, resolver, {
           challenge: args.challenge,
           domain: args.domain,
-          audience
+          audience,
         })
         return true
       } catch (e: any) {
@@ -492,7 +505,9 @@ export class CredentialIssuer implements IAgentPlugin {
         const result = await context.agent.verifyPresentationLD(args)
         return result
       } else {
-        throw new Error('invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed')
+        throw new Error(
+          'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+        )
       }
     }
   }

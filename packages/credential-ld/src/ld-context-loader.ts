@@ -3,16 +3,14 @@
  * that it unifies into a single Map to provide to the documentLoader within
  * the w3c credential module.
  */
-import { OrPromise, RecordLike } from "@veramo/utils";
-import { ContextDoc } from "./types";
+import { OrPromise, RecordLike } from '@veramo/utils'
+import { ContextDoc } from './types'
 
 export class LdContextLoader {
   private contexts: Record<string, OrPromise<ContextDoc>>
 
-  constructor(options: {
-    contextsPaths: RecordLike<OrPromise<ContextDoc>>[]
-  }) {
-    this.contexts = {};
+  constructor(options: { contextsPaths: RecordLike<OrPromise<ContextDoc>>[] }) {
+    this.contexts = {}
     // generate-plugin-schema is failing unless we use the cast to `any[]`
     Array.from(options.contextsPaths as any[], (mapItem) => {
       for (const [key, value] of mapItem) {

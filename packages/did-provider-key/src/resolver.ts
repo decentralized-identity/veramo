@@ -7,7 +7,7 @@ export const startsWithMap: Record<string, Function> = {
   'did:key:z6Mk': resolveED25519,
   'did:key:z6LS': resolveX25519,
   'did:key:zQ3s': resolveSecp256k1,
-};
+}
 
 const resolveDidKey: DIDResolver = async (
   didUrl: string,
@@ -16,13 +16,13 @@ const resolveDidKey: DIDResolver = async (
   options: DIDResolutionOptions,
 ): Promise<DIDResolutionResult> => {
   try {
-    const startsWith = _parsed.did.substring(0, 12);
+    const startsWith = _parsed.did.substring(0, 12)
     if (startsWithMap[startsWith] !== undefined) {
-      const didResolution = (await startsWithMap[startsWith](didUrl, options as any))
+      const didResolution = await startsWithMap[startsWith](didUrl, options as any)
       return {
         didDocumentMetadata: {},
         didResolutionMetadata: {},
-        ...didResolution
+        ...didResolution,
       }
     } else {
       return {

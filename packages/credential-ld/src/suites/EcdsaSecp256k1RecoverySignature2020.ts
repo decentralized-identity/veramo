@@ -1,5 +1,5 @@
-import { RequiredAgentMethods, VeramoLdSignature } from "../ld-suites";
-import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from "@veramo/core";
+import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core'
 import {
   EcdsaSecp256k1RecoveryMethod2020,
   EcdsaSecp256k1RecoverySignature2020,
@@ -17,7 +17,12 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
     return 'Secp256k1'
   }
 
-  getSuiteForSigning(key: IKey, did: string, verifiableMethodId: string, context: IAgentContext<RequiredAgentMethods>): any {
+  getSuiteForSigning(
+    key: IKey,
+    did: string,
+    verifiableMethodId: string,
+    context: IAgentContext<RequiredAgentMethods>,
+  ): any {
     const controller = did
     const signer = {
       //returns a JWS detached
@@ -47,7 +52,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
         signer: () => signer,
         type: this.getSupportedVerificationType(),
         controller,
-        id: verifiableMethodId
+        id: verifiableMethodId,
       }),
     })
   }
@@ -59,7 +64,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
   preSigningCredModification(credential: CredentialPayload): void {
     credential['@context'] = [
       ...asArray(credential['@context'] || []),
-      'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld'
+      'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
     ]
   }
 

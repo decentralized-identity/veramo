@@ -1,31 +1,37 @@
-import { asArray } from "./utils";
+import { asArray, isDefined } from './type-utils'
 import {
-  CredentialPayload, IMessage,
+  CredentialPayload,
+  IMessage,
   IssuerType,
-  PresentationPayload, VerifiableCredential,
+  PresentationPayload,
+  VerifiableCredential,
+  VerifiablePresentation,
   W3CVerifiableCredential,
-  W3CVerifiablePresentation
-} from "@veramo/core";
+  W3CVerifiablePresentation,
+} from '@veramo/core'
 import { blake2bHex } from 'blakejs'
-import { decodeJWT } from "did-jwt";
-import { normalizeCredential } from "did-jwt-vc";
+import { decodeJWT } from 'did-jwt'
+import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
 
 export const MANDATORY_CREDENTIAL_CONTEXT = 'https://www.w3.org/2018/credentials/v1'
 
 /**
- * Processes a n entry or an array of entries into an array of entries. If a `startWithEntry` param is provided, it is
+ * Processes an entry or an array of entries into an array of entries. If a `startWithEntry` param is provided, it is
  * set as the first item in the result array.
  * @param inputEntryOrArray
  * @param startWithEntry
  *
  * @beta This API may change without prior notice.
  */
-export function processEntryToArray(inputEntryOrArray?: string | string[], startWithEntry?: string): string[] {
-  const result: string[] = asArray<string>(inputEntryOrArray || []) || [startWithEntry]
+export function processEntryToArray(
+  inputEntryOrArray?: string | string[] | null,
+  startWithEntry?: string,
+): string[] {
+  const result: string[] = asArray<string>(inputEntryOrArray) || [startWithEntry]
   if (startWithEntry && result[0] !== startWithEntry) {
     result.unshift(startWithEntry)
   }
-  return result;
+  return result.filter<string>(isDefined).filter((item, index, arr) => arr.indexOf(item) === index)
 }
 
 /**
@@ -37,27 +43,29 @@ export function processEntryToArray(inputEntryOrArray?: string | string[], start
  * @beta This API may change without prior notice.
  */
 export function decodeCredentialToObject(input: W3CVerifiableCredential): VerifiableCredential {
-  return (typeof input === 'string') ? normalizeCredential(input) : <VerifiableCredential>input
+  return typeof input === 'string' ? normalizeCredential(input) : <VerifiableCredential>input
 }
 
-// /**
-//  * Parses a {@link VerifiablePresentation} and converts it to a {@link SignedPresentation} so it is easier to use
-//  * programmatically.
-//  *
-//  * @param input
-//
-//  * @beta This API may change without prior notice.
-//  */
-// export function convertToSignedPresentation(input: VerifiablePresentation): SignedPresentation {
-//   let result: SignedPresentation
-//   if (typeof input === 'string') {
-//     result = normalizePresentation(input)
-//   } else {
-//     result = input as SignedPresentation
-//     result.verifiableCredential = result.verifiableCredential?.map(convertToSignedCredential)
-//   }
-//   return result
-// }
+/**
+ * Parses a {@link W3CVerifiableCredential} and converts it to a {@link VerifiablePresentation} so it is easier to use
+ * programmatically.
+ *
+ * @param input
+
+ * @beta This API may change without prior notice.
+ */
+export function decodePresentationToObject(input: W3CVerifiablePresentation): VerifiablePresentation {
+  let result: VerifiablePresentation
+  if (typeof input === 'string') {
+    result = normalizePresentation(input)
+  } else {
+    result = input as VerifiablePresentation
+    result.verifiableCredential = asArray<W3CVerifiableCredential>(result.verifiableCredential).map(
+      decodeCredentialToObject,
+    )
+  }
+  return result
+}
 
 /**
  * Computes a hash for a given credential or presentation.
@@ -67,7 +75,9 @@ export function decodeCredentialToObject(input: W3CVerifiableCredential): Verifi
  *
  * @beta This API may change without prior notice.
  */
-export function computeEntryHash(input: W3CVerifiableCredential | W3CVerifiablePresentation | IMessage): string {
+export function computeEntryHash(
+  input: W3CVerifiableCredential | W3CVerifiablePresentation | IMessage,
+): string {
   if (typeof input === 'string') {
     // TODO: try to parse as JSON before assuming it's a JWT?
     return blake2bHex(input)
@@ -86,7 +96,9 @@ export function computeEntryHash(input: W3CVerifiableCredential | W3CVerifiableP
  *
  * @beta This API may change without prior notice.
  */
-export function extractIssuer(input: W3CVerifiableCredential | W3CVerifiablePresentation | CredentialPayload | PresentationPayload): string {
+export function extractIssuer(
+  input: W3CVerifiableCredential | W3CVerifiablePresentation | CredentialPayload | PresentationPayload,
+): string {
   if (typeof input === 'string') {
     // JWT
     const { payload } = decodeJWT(input)
@@ -101,6 +113,6 @@ export function extractIssuer(input: W3CVerifiableCredential | W3CVerifiablePres
     } else {
       iss = ''
     }
-    return (typeof iss === 'string') ? iss : (iss?.id || '')
+    return typeof iss === 'string' ? iss : iss?.id || ''
   }
 }

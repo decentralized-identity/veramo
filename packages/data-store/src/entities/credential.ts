@@ -4,7 +4,7 @@ import { Identifier } from './identifier'
 import { Message } from './message'
 import { Presentation } from './presentation'
 import { Claim } from './claim'
-import { asArray, computeEntryHash, extractIssuer } from "@veramo/utils";
+import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 
 @Entity('credential')
 export class Credential extends BaseEntity {

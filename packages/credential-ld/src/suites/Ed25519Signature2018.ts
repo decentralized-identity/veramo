@@ -1,11 +1,10 @@
-import { encodeJoseBlob } from "@veramo/utils";
-import { RequiredAgentMethods, VeramoLdSignature } from "../ld-suites";
-import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from "@veramo/core";
+import { encodeJoseBlob } from '@veramo/utils'
+import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core'
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2018, Ed25519VerificationKey2018 } from '@transmute/ed25519-signature-2018'
 
 export class VeramoEd25519Signature2018 extends VeramoLdSignature {
-
   getSupportedVerificationType(): string {
     return 'Ed25519VerificationKey2018'
   }
@@ -14,7 +13,12 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
     return 'Ed25519'
   }
 
-  getSuiteForSigning(key: IKey, issuerDid: string, verificationMethodId: string, context: IAgentContext<RequiredAgentMethods>): any {
+  getSuiteForSigning(
+    key: IKey,
+    issuerDid: string,
+    verificationMethodId: string,
+    context: IAgentContext<RequiredAgentMethods>,
+  ): any {
     const controller = issuerDid
 
     // DID Key ID
@@ -53,12 +57,12 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
 
     return new Ed25519Signature2018({
       key: verificationKey,
-      signer: signer
-    });
+      signer: signer,
+    })
   }
 
   getSuiteForVerification(): any {
-    return new Ed25519Signature2018();
+    return new Ed25519Signature2018()
   }
 
   preSigningCredModification(credential: CredentialPayload): void {
@@ -68,5 +72,4 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
   preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
     // nothing to do here
   }
-
 }

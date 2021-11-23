@@ -1,4 +1,12 @@
-import { IAgentContext, IDIDManager, IIdentifier, IKey, IKeyManager, IService, TAgent } from '../../packages/core/src'
+import {
+  IAgentContext,
+  IDIDManager,
+  IIdentifier,
+  IKey,
+  IKeyManager,
+  IService,
+  TAgent,
+} from '../../packages/core/src'
 import { AbstractIdentifierProvider } from '../../packages/did-manager/src'
 import { _NormalizedVerificationMethod } from '../../packages/utils/src'
 import {

@@ -106,7 +106,9 @@ export default (testContext: {
       const connection = getConnection('did-discovery-test')
       await connection.close()
       const result = await agent.discoverDid({ query: 'bob' })
-      expect(result?.errors?.profile).toMatch(/(Connection with sqlite database is not established)|(Cannot read property 'connect' of undefined)/)
+      expect(result?.errors?.profile).toMatch(
+        /(Connection with sqlite database is not established)|(Cannot read property 'connect' of undefined)/,
+      )
     })
   })
 }
