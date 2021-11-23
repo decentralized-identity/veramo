@@ -1,7 +1,8 @@
 import {
   computeEntryHash,
   decodeCredentialToObject,
-  decodePresentationToObject, extractIssuer,
+  decodePresentationToObject,
+  extractIssuer,
   processEntryToArray,
 } from '../credential-utils'
 
@@ -163,7 +164,8 @@ describe('@veramo/utils credential utils', () => {
   })
 
   it('computeEntryHash for JWT', () => {
-    const jwt = 'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7InlvdSI6IlJvY2sifX0sInN1YiI6ImRpZDp3ZWI6ZXhhbXBsZS5jb20iLCJuYmYiOjE2Mzc2ODAzMTcsImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgwMmY2NDk1NWRkMDVkZGU1NTkxMGYzNzllYzU3ODVlZWUwOGJiZTZlNTBkZGFlNmJhY2UwNTk2ZmQ4ZDQ2MDE4ZjcifQ.ujM4zNm8h5-Cg01vh4ka_7NmdwYl8HAjO90XjxYYwSa0-4rqzM5ndt-OE6vS6y0gPwhwlQWHmDxg4X7OTzCUoQ'
+    const jwt =
+      'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7InlvdSI6IlJvY2sifX0sInN1YiI6ImRpZDp3ZWI6ZXhhbXBsZS5jb20iLCJuYmYiOjE2Mzc2ODAzMTcsImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgwMmY2NDk1NWRkMDVkZGU1NTkxMGYzNzllYzU3ODVlZWUwOGJiZTZlNTBkZGFlNmJhY2UwNTk2ZmQ4ZDQ2MDE4ZjcifQ.ujM4zNm8h5-Cg01vh4ka_7NmdwYl8HAjO90XjxYYwSa0-4rqzM5ndt-OE6vS6y0gPwhwlQWHmDxg4X7OTzCUoQ'
     const expandedCred = {
       credentialSubject: { you: 'Rock', id: 'did:web:example.com' },
       issuer: { id: 'did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7' },
@@ -172,13 +174,15 @@ describe('@veramo/utils credential utils', () => {
       issuanceDate: '2021-11-23T15:11:57.000Z',
       proof: {
         type: 'JwtProof2020',
-        jwt
+        jwt,
       },
     }
     const serializedCred = `{"credentialSubject":{"you":"Rock","id":"did:web:example.com"},"issuer":{"id":"did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7"},"type":["VerifiableCredential"],"@context":["https://www.w3.org/2018/credentials/v1"],"issuanceDate":"2021-11-23T15:11:57.000Z","proof":{"type":"JwtProof2020","jwt":"${jwt}"}}`
     expect(computeEntryHash(expandedCred)).toEqual(computeEntryHash(serializedCred))
     expect(computeEntryHash(jwt)).toEqual(computeEntryHash(serializedCred))
-    expect(computeEntryHash(serializedCred)).toEqual('452f0fb4b876e22867585ee15a6aabb7a6f9ccccf6a2ee664e9f7618737792d64b219fef0792b9d73f3ff756a265083526ecb7313ae4972ef6290b600cacbe88')
+    expect(computeEntryHash(serializedCred)).toEqual(
+      '452f0fb4b876e22867585ee15a6aabb7a6f9ccccf6a2ee664e9f7618737792d64b219fef0792b9d73f3ff756a265083526ecb7313ae4972ef6290b600cacbe88',
+    )
   })
 
   it('computeEntryHash for LD', () => {
@@ -200,9 +204,12 @@ describe('@veramo/utils credential utils', () => {
         jws: 'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..wKMmMZNdIgL_19HYJgpRL9SeKVzYT85S-ZyVdF3IMiaiL8nhX8i48D82TQtuQlTT960h_TOQ18fQFula6QxADA',
       },
     }
-    const serializedCred = '{"issuer":{"id":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn"},"@context":["https://www.w3.org/2018/credentials/v1","https://veramo.io/contexts/profile/v1"],"type":["VerifiableCredential","Profile"],"issuanceDate":"2021-11-23T15:06:12.820Z","credentialSubject":{"id":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn","name":"Martin, the great"},"proof":{"type":"Ed25519Signature2018","created":"2021-11-23T15:06:12Z","verificationMethod":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn#z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn","proofPurpose":"assertionMethod","jws":"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..wKMmMZNdIgL_19HYJgpRL9SeKVzYT85S-ZyVdF3IMiaiL8nhX8i48D82TQtuQlTT960h_TOQ18fQFula6QxADA"}}'
+    const serializedCred =
+      '{"issuer":{"id":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn"},"@context":["https://www.w3.org/2018/credentials/v1","https://veramo.io/contexts/profile/v1"],"type":["VerifiableCredential","Profile"],"issuanceDate":"2021-11-23T15:06:12.820Z","credentialSubject":{"id":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn","name":"Martin, the great"},"proof":{"type":"Ed25519Signature2018","created":"2021-11-23T15:06:12Z","verificationMethod":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn#z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn","proofPurpose":"assertionMethod","jws":"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..wKMmMZNdIgL_19HYJgpRL9SeKVzYT85S-ZyVdF3IMiaiL8nhX8i48D82TQtuQlTT960h_TOQ18fQFula6QxADA"}}'
     expect(computeEntryHash(expandedCred)).toEqual(computeEntryHash(serializedCred))
-    expect(computeEntryHash(serializedCred)).toEqual('357436ca94682f2872b26c35a64d52c8e12dfbf86561a8f219cb395482f5978758fb577c927874cdb01189853054433a07eca81a4b3a999be12290021eb9bcbb')
+    expect(computeEntryHash(serializedCred)).toEqual(
+      '357436ca94682f2872b26c35a64d52c8e12dfbf86561a8f219cb395482f5978758fb577c927874cdb01189853054433a07eca81a4b3a999be12290021eb9bcbb',
+    )
   })
 
   it('extractIssuer', () => {
@@ -224,11 +231,14 @@ describe('@veramo/utils credential utils', () => {
         type: 'fake',
       },
     }
-    const jwt = 'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7InlvdSI6IlJvY2sifX0sInN1YiI6ImRpZDp3ZWI6ZXhhbXBsZS5jb20iLCJuYmYiOjE2Mzc2ODAzMTcsImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgwMmY2NDk1NWRkMDVkZGU1NTkxMGYzNzllYzU3ODVlZWUwOGJiZTZlNTBkZGFlNmJhY2UwNTk2ZmQ4ZDQ2MDE4ZjcifQ.ujM4zNm8h5-Cg01vh4ka_7NmdwYl8HAjO90XjxYYwSa0-4rqzM5ndt-OE6vS6y0gPwhwlQWHmDxg4X7OTzCUoQ'
+    const jwt =
+      'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7InlvdSI6IlJvY2sifX0sInN1YiI6ImRpZDp3ZWI6ZXhhbXBsZS5jb20iLCJuYmYiOjE2Mzc2ODAzMTcsImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgwMmY2NDk1NWRkMDVkZGU1NTkxMGYzNzllYzU3ODVlZWUwOGJiZTZlNTBkZGFlNmJhY2UwNTk2ZmQ4ZDQ2MDE4ZjcifQ.ujM4zNm8h5-Cg01vh4ka_7NmdwYl8HAjO90XjxYYwSa0-4rqzM5ndt-OE6vS6y0gPwhwlQWHmDxg4X7OTzCUoQ'
     expect(extractIssuer(ldCred1)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
     expect(extractIssuer(ldCred2)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
     expect(extractIssuer(ldPres)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
-    expect(extractIssuer(jwt)).toEqual('did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7')
+    expect(extractIssuer(jwt)).toEqual(
+      'did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7',
+    )
     expect(extractIssuer('')).toEqual('')
     expect(extractIssuer('header.payload.signature')).toEqual('')
     expect(extractIssuer({} as any)).toEqual('')

@@ -163,10 +163,7 @@ presentation
   .option('-c, --challenge <string>', 'Optional. Specify a challenge that the presentation should match.')
   .option('-d, --domain <string>', 'Optional. Specify a domain that the presentation should match.')
   .option('-f, --filename <string>', 'Optional. Read the presentation from a file instead of stdin')
-  .option(
-    '-r, --raw <string>',
-    'Optional. Presentation as a parameter string instead of a file or stdin.',
-  )
+  .option('-r, --raw <string>', 'Optional. Presentation as a parameter string instead of a file or stdin.')
   .action(async (options) => {
     const agent = getAgent(program.opts().config)
     let raw: string = ''

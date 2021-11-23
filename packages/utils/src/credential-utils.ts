@@ -103,7 +103,12 @@ export function computeEntryHash(
  * @beta This API may change without prior notice.
  */
 export function extractIssuer(
-  input?: W3CVerifiableCredential | W3CVerifiablePresentation | CredentialPayload | PresentationPayload | null,
+  input?:
+    | W3CVerifiableCredential
+    | W3CVerifiablePresentation
+    | CredentialPayload
+    | PresentationPayload
+    | null,
 ): string {
   if (!isDefined(input)) {
     return ''
