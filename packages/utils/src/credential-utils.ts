@@ -78,14 +78,20 @@ export function decodePresentationToObject(input: W3CVerifiablePresentation): Ve
 export function computeEntryHash(
   input: W3CVerifiableCredential | W3CVerifiablePresentation | IMessage,
 ): string {
+  let hashable: string
   if (typeof input === 'string') {
-    // TODO: try to parse as JSON before assuming it's a JWT?
-    return blake2bHex(input)
+    try {
+      const cred = JSON.parse(input)
+      hashable = cred?.proof?.jwt || input
+    } catch (e) {
+      hashable = input
+    }
   } else if ((<VerifiableCredential>input)?.proof?.jwt) {
-    return blake2bHex((<VerifiableCredential>input).proof.jwt)
+    hashable = (<VerifiableCredential>input).proof.jwt
   } else {
-    return blake2bHex(JSON.stringify(input))
+    hashable = JSON.stringify(input)
   }
+  return blake2bHex(hashable)
 }
 
 /**
@@ -97,12 +103,18 @@ export function computeEntryHash(
  * @beta This API may change without prior notice.
  */
 export function extractIssuer(
-  input: W3CVerifiableCredential | W3CVerifiablePresentation | CredentialPayload | PresentationPayload,
+  input?: W3CVerifiableCredential | W3CVerifiablePresentation | CredentialPayload | PresentationPayload | null,
 ): string {
-  if (typeof input === 'string') {
+  if (!isDefined(input)) {
+    return ''
+  } else if (typeof input === 'string') {
     // JWT
-    const { payload } = decodeJWT(input)
-    return payload.iss || ''
+    try {
+      const { payload } = decodeJWT(input)
+      return payload.iss || ''
+    } catch (e: any) {
+      return ''
+    }
   } else {
     // JSON
     let iss: IssuerType
