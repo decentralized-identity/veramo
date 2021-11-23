@@ -3,6 +3,7 @@ import { UniqueVerifiablePresentation } from '@veramo/data-store'
 import { shortDate, shortDid } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
+import { asArray } from '@veramo/utils'
 
 export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {
   screen.title = 'Presentations'
@@ -25,9 +26,9 @@ export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widg
     [['Created', 'Type', 'Holder', 'Verifier']].concat(
       presentations.map(({ verifiablePresentation: m }) => [
         shortDate(m.issuanceDate),
-        m.type.join(','),
+        asArray(m.type || []).join(','),
         shortDid(m.holder),
-        shortDid(m.verifier.join(',')),
+        shortDid(asArray(m.verifier || []).join(',')),
       ]),
     ),
   )

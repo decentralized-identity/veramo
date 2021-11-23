@@ -1,8 +1,9 @@
 import { IAgentContext, IMessageHandler } from '@veramo/core'
 import { Message, AbstractMessageHandler } from '@veramo/message-handler'
-import { blake2bHex } from 'blakejs'
+import { v4 as uuidv4 } from 'uuid'
 
 import Debug from 'debug'
+import { asArray, computeEntryHash } from "@veramo/utils";
 const debug = Debug('veramo:selective-disclosure:message-handler')
 
 /**
@@ -28,16 +29,12 @@ export class SdrMessageHandler extends AbstractMessageHandler {
     if (message?.data?.type == MessageTypes.sdr && message?.data?.claims) {
       debug('Message type is', MessageTypes.sdr)
 
-      message.id = blake2bHex(message.raw)
+      message.id = computeEntryHash(message.raw || message.id || uuidv4())
       message.type = MessageTypes.sdr
       message.from = message.data.iss
 
       if (message.data.replyTo) {
-        message.replyTo = Array.isArray(message.data.replyTo)
-          ? message.data.replyTo
-          : message.data.replyTo
-          ? [message.data.replyTo]
-          : undefined
+        message.replyTo = asArray(message.data.replyTo)
       }
 
       if (message.data.replyUrl) {

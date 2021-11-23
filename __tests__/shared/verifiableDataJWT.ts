@@ -58,6 +58,7 @@ export default (testContext: {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: identifier.did },
+          type: ['Example'],
           credentialSubject: {
             id: 'did:web:example.com',
             you: 'Rock',
@@ -69,7 +70,7 @@ export default (testContext: {
       expect(verifiableCredential).toHaveProperty('proof.jwt')
       expect(verifiableCredential).toHaveProperty('issuanceDate')
       expect(verifiableCredential['@context']).toEqual(['https://www.w3.org/2018/credentials/v1'])
-      expect(verifiableCredential['type']).toEqual(['VerifiableCredential'])
+      expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'Example'])
 
       const token = verifiableCredential.proof.jwt
       const { payload } = decodeJWT(token)
@@ -81,6 +82,7 @@ export default (testContext: {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: identifier.did },
+          type: ['Example'],
           credentialSubject: {
             id: 'did:web:example.com',
             you: 'Rock',
@@ -93,7 +95,7 @@ export default (testContext: {
       expect(verifiableCredential).toHaveProperty('proof.jwt')
       expect(verifiableCredential).toHaveProperty('issuanceDate')
       expect(verifiableCredential['@context']).toEqual(['https://www.w3.org/2018/credentials/v1'])
-      expect(verifiableCredential['type']).toEqual(['VerifiableCredential'])
+      expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'Example'])
 
       const token = verifiableCredential.proof.jwt
       const { payload } = decodeJWT(token)
@@ -145,6 +147,7 @@ export default (testContext: {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: identifier.did },
+          type: ['Example'],
           credentialSubject: {
             id: 'did:web:example.com',
             you: 'Rock',
@@ -156,6 +159,7 @@ export default (testContext: {
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
           holder: identifier.did,
+          type: ['Example'],
           verifier: [],
           verifiableCredential: [verifiableCredential],
         },
@@ -164,7 +168,7 @@ export default (testContext: {
 
       expect(verifiablePresentation).toHaveProperty('proof.jwt')
       expect(verifiablePresentation['@context']).toEqual(['https://www.w3.org/2018/credentials/v1'])
-      expect(verifiablePresentation['type']).toEqual(['VerifiablePresentation'])
+      expect(verifiablePresentation['type']).toEqual(['VerifiablePresentation', 'Example'])
 
       const hash = await agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation })
       expect(typeof hash).toEqual('string')
@@ -181,6 +185,7 @@ export default (testContext: {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: identifier.did },
+          type: ['Example'],
           credentialSubject: {
             id: 'did:web:example.com',
             you: 'Rock',
@@ -192,6 +197,7 @@ export default (testContext: {
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
           holder: identifier.did,
+          type: ['Example'],
           verifier: [],
           verifiableCredential: [verifiableCredential],
         },
@@ -201,7 +207,7 @@ export default (testContext: {
 
       expect(verifiablePresentation).toHaveProperty('proof.jwt')
       expect(verifiablePresentation['@context']).toEqual(['https://www.w3.org/2018/credentials/v1'])
-      expect(verifiablePresentation['type']).toEqual(['VerifiablePresentation'])
+      expect(verifiablePresentation['type']).toEqual(['VerifiablePresentation', 'Example'])
 
       const token = verifiablePresentation.proof.jwt
       const { payload } = decodeJWT(token)
@@ -267,6 +273,7 @@ export default (testContext: {
         const credentialInput = {
           credentialSubject: { id: 'did:example:subject', name: 'Alice' },
           issuer: { id: importedDID.did },
+          type: ['Example'],
         }
         const { proof, issuanceDate, ...comparableOutput } = await agent.createVerifiableCredential({
           credential: credentialInput,
@@ -279,7 +286,7 @@ export default (testContext: {
           issuer: {
             id: 'did:ethr:rinkeby:0x03155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c',
           },
-          type: ['VerifiableCredential'],
+          type: ['VerifiableCredential', 'Example'],
           '@context': ['https://www.w3.org/2018/credentials/v1'],
         })
       })

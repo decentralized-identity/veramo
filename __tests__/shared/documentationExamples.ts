@@ -5,7 +5,7 @@
  * To document a new package, add it to docsconfig.json array and have it processed with `extract-api` or `generate-plugin-schema`.
  */
 
-import { TAgent, IDIDManager, IDataStore, IMessageHandler } from '../../packages/core/src'
+import { IDataStore, IDIDManager, IMessageHandler, TAgent } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
 import { IDataStoreORM } from '../../packages/data-store/src'

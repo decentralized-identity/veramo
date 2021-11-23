@@ -1,9 +1,8 @@
 import { encodeJoseBlob } from "@veramo/utils";
 import { RequiredAgentMethods, VeramoLdSignature } from "../ld-suites";
-import { DIDDocument, IAgentContext, IIdentifier, IKey, TKeyType } from "@veramo/core";
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from "@veramo/core";
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2018, Ed25519VerificationKey2018 } from '@transmute/ed25519-signature-2018'
-import { CredentialPayload } from 'did-jwt-vc'
 
 export class VeramoEd25519Signature2018 extends VeramoLdSignature {
 
@@ -62,7 +61,7 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
     return new Ed25519Signature2018();
   }
 
-  preSigningCredModification(credential: Partial<CredentialPayload>): void {
+  preSigningCredModification(credential: CredentialPayload): void {
     // nothing to do here
   }
 

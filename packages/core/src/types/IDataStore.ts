@@ -1,5 +1,6 @@
 import { IPluginMethodMap } from './IAgent'
-import { IMessage, VerifiablePresentation, VerifiableCredential } from './IMessage'
+import { IMessage } from './IMessage'
+import { VerifiableCredential, VerifiablePresentation } from "./vc-data-model";
 
 /**
  * Input arguments for {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}
@@ -46,7 +47,7 @@ export interface IDataStoreGetVerifiableCredentialArgs {
 }
 
 /**
- * Input arguments for {@link IDataStore.IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs}
+ * Input arguments for {@link IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs}
  * @public
  */
 export interface IDataStoreDeleteVerifiableCredentialArgs {

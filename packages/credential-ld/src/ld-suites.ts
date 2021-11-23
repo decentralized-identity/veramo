@@ -1,5 +1,4 @@
-import { IAgentContext, IKey, IKeyManager, IResolver, TKeyType } from '@veramo/core'
-import { CredentialPayload, PresentationPayload } from 'did-jwt-vc'
+import { CredentialPayload, IAgentContext, IKey, IKeyManager, IResolver, PresentationPayload, TKeyType } from '@veramo/core'
 import { DIDDocument } from 'did-resolver/src/resolver'
 
 export type RequiredAgentMethods = IResolver & Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
@@ -25,9 +24,9 @@ export abstract class VeramoLdSignature {
 
   abstract preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void
 
-  abstract preSigningCredModification(credential: Partial<CredentialPayload>): void
+  abstract preSigningCredModification(credential: CredentialPayload): void
 
-  preSigningPresModification(presentation: Partial<PresentationPayload>): void {
+  preSigningPresModification(presentation: PresentationPayload): void {
     // TODO: Remove invalid field 'verifiers' from Presentation. Needs to be adapted for LD credentials
     // Only remove empty array (vc.signPresentation will throw then)
     const sanitizedPresentation = presentation as any

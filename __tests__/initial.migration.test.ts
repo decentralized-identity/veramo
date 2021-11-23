@@ -3,29 +3,36 @@
  * TypeORM migrations were available (before Veramo 3.0.0)
  */
 
-import { createAgent, TAgent, IDIDManager, IResolver, IKeyManager, IDataStore } from '../packages/core/src'
+import {
+  createAgent,
+  IDataStore,
+  IDIDManager,
+  IKeyManager,
+  IResolver,
+  TAgent,
+  VerifiableCredential
+} from '../packages/core/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, IDIDComm } from '../packages/did-comm/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import {
-  Entities,
-  IDataStoreORM,
   DataStore,
   DataStoreORM,
-  KeyStore,
   DIDStore,
+  Entities,
+  IDataStoreORM,
+  KeyStore,
   migrations,
   PrivateKeyStore,
 } from '../packages/data-store/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
-import { createConnection, Connection, ConnectionOptions } from 'typeorm'
+import { Connection, ConnectionOptions, createConnection } from 'typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -196,10 +203,11 @@ describe('database initial migration tests', () => {
       })
 
       it('reads a presentation by hash', async () => {
-        const cred = await agent.dataStoreGetVerifiablePresentation({
+        const presentation = await agent.dataStoreGetVerifiablePresentation({
           hash: '4cfe965596a0d343ff2cc02afd32068bced34caa2b1e7e3f253b23e420de106b58a613f06f55d9d9cbbdbe0b0f051a45d44404020b123c58f0ee48bdaeafdc90',
         })
-        expect(cred?.verifiableCredential?.[0]?.credentialSubject?.name).toEqual('Alice')
+        const cred0: VerifiableCredential = presentation?.verifiableCredential?.[0] as VerifiableCredential
+        expect(cred0.credentialSubject?.name).toEqual('Alice')
       })
 
       it('reads existing messages', async () => {

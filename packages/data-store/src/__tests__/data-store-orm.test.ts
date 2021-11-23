@@ -1,17 +1,10 @@
-import {
-  Agent,
-  VerifiableCredential,
-  VerifiablePresentation,
-  IMessage,
-  IDataStore,
-  TAgent,
-} from '@veramo/core'
-import { createConnection, Connection } from 'typeorm'
+import { Agent, IDataStore, IMessage, TAgent, VerifiableCredential, VerifiablePresentation, } from '@veramo/core'
+import { Connection, createConnection } from 'typeorm'
 import { DataStoreORM, IDataStoreORM } from '../data-store-orm'
 import { FindArgs, TCredentialColumns, TMessageColumns, TPresentationColumns } from '../types'
 import { DataStore } from '../data-store'
 import { Entities } from '../index'
-import fs from 'fs'
+import * as fs from 'fs'
 
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'
@@ -386,7 +379,8 @@ describe('@veramo/data-store queries', () => {
     }
 
     const presentations = await agent.dataStoreORMGetVerifiablePresentations(args)
-    expect(presentations[0].verifiablePresentation.verifiableCredential?.[0]?.id).toEqual('vc6')
+    const cred0 = presentations[0].verifiablePresentation.verifiableCredential?.[0] as VerifiableCredential
+    expect(cred0.id).toEqual('vc6')
   })
 
   it('should query identifiers', async () => {

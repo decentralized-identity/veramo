@@ -1,4 +1,3 @@
-import { W3CCredential } from '@veramo/core'
 import { getAgent } from './setup'
 import { program } from 'commander'
 import inquirer from 'inquirer'
@@ -6,6 +5,7 @@ import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
 import * as json5 from 'json5'
 import { readStdin } from './util'
+import { CredentialPayload } from '@veramo/core'
 
 const credential = program.command('credential').description('W3C Verifiable Credential')
 
@@ -80,7 +80,7 @@ credential
     const type: string = answers.claimType
     credentialSubject[type] = answers.claimValue
 
-    const credential: W3CCredential = {
+    const credential: CredentialPayload = {
       issuer: { id: answers.iss },
       '@context': [
         'https://www.w3.org/2018/credentials/v1',

@@ -1,10 +1,12 @@
 import {
+  CredentialPayload,
   IAgentContext,
   IDIDManager,
   IKey,
   IKeyManager,
   IPluginMethodMap,
   IResolver,
+  PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
@@ -101,7 +103,7 @@ export interface ICreateVerifiablePresentationLDArgs {
    *
    * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
    */
-  presentation: Partial<PresentationPayload>
+  presentation: PresentationPayload
 
   /**
    * Optional (only JWT) string challenge parameter to add to the verifiable presentation.
@@ -135,7 +137,7 @@ export interface ICreateVerifiableCredentialLDArgs {
    *
    * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
    */
-  credential: Partial<CredentialPayload>
+  credential: CredentialPayload
 
   /**
    * Optional. The key handle ({@link IKey#kid}) from the internal database.
@@ -201,54 +203,6 @@ export type IRequiredContext = IAgentContext<IResolver &
   Pick<IDIDManager, 'didManagerGet'> &
   Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>>
 
-export type JWT = string
-
-export type IssuerType = { id: string, [x: string]: any } | string
-export type CredentialSubject = { id?: string, [x: string]: any }
-
-export interface CredentialStatus {
-  id: string
-  type: string
-
-  [x: string]: any
-}
-
-export type DateType = string | Date
-
-/**
- * used as input when creating Verifiable Credentials
- */
-export interface CredentialPayload {
-  '@context': string | string[]
-  id?: string
-  type: string | string[]
-  issuer: IssuerType
-  issuanceDate: DateType
-  expirationDate?: DateType
-  credentialSubject: CredentialSubject
-  credentialStatus?: CredentialStatus
-
-  [x: string]: any
-}
-
-/**
- * used as input when creating Verifiable Presentations
- */
-export interface PresentationPayload {
-  '@context': string | string[]
-  type: string | string[]
-  id?: string
-  verifiableCredential?: (VerifiableCredential | JWT)[]
-  holder: string
-  verifier?: string | string[]
-  issuanceDate?: string
-  expirationDate?: string,
-
-  [x: string]: any
-}
-
 export type ContextDoc = {
   "@context": Record<string, any>
 }
-
-export const MANDATORY_CREDENTIAL_CONTEXT = 'https://www.w3.org/2018/credentials/v1'

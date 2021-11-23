@@ -1,4 +1,4 @@
-import { TAgent, IDIDManager, IIdentifier, IKey } from '../../packages/core/src'
+import { IDIDManager, IIdentifier, IKey, TAgent } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer>

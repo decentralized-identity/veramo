@@ -3197,7 +3197,7 @@ bl@^4.1.0:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
-blakejs@^1.1.0:
+blakejs@^1.1.0, blakejs@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/blakejs/-/blakejs-1.1.1.tgz#bf313053978b2cd4c444a48795710be05c785702"
   integrity sha512-bLG6PHOCZJKNshTjGRBvET0vTciwQE6zFKOKKXPDJfwFBd4Ac0yBfPZqcGvGJap50l7ktvlpFqc2jGVaUgbJgg==
@@ -4224,7 +4224,7 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@2.1.7:
+did-jwt-vc@2.1.7, did-jwt-vc@^2.1.7:
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.7.tgz#c9bf69cdf86f3e46db30344eb5d1e6cbada9164b"
   integrity sha512-MSuoy2yVRqlF4viGjtUzDmFBfxercwgUwIY+rs3swnyU7RmeZ5Iwp5TBhStIy3ro+BIQEPtXtp1xlcbATJW1iA==
@@ -4579,7 +4579,7 @@ ethjs-util@0.1.6:
     is-hex-prefixed "1.0.0"
     strip-hex-prefix "1.0.0"
 
-ethr-did-registry@0.0.3, ethr-did-registry@^0.0.3:
+ethr-did-registry@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/ethr-did-registry/-/ethr-did-registry-0.0.3.tgz#f363d2c73cb9572b57bd7a5c9c90c88485feceb5"
   integrity sha512-4BPvMGkxAK9vTduCq6D5b8ZqjteD2cvDIPPriXP6nnmPhWKFSxypo+AFvyQ0omJGa0cGTR+dkdI/8jiF7U/qaw==

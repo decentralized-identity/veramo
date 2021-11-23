@@ -1,8 +1,7 @@
-import { TAgent, IDIDManager, IIdentifier, IDataStore, IMessageHandler } from '../../packages/core/src'
+import { IDataStore, IDIDManager, IIdentifier, IMessageHandler, TAgent } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
-import { IDataStoreORM } from '../../packages/data-store/src'
-import { FindCredentialsArgs } from '@veramo/data-store'
+import { FindCredentialsArgs, IDataStoreORM } from '../../packages/data-store/src'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure

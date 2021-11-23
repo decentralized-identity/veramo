@@ -57,6 +57,7 @@ import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
 import { contexts as credential_contexts } from '@transmute/credentials-context'

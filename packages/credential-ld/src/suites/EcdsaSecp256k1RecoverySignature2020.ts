@@ -1,13 +1,12 @@
 import { RequiredAgentMethods, VeramoLdSignature } from "../ld-suites";
-import { DIDDocument, IAgentContext, IKey, TKeyType } from "@veramo/core";
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from "@veramo/core";
 import {
   EcdsaSecp256k1RecoveryMethod2020,
   EcdsaSecp256k1RecoverySignature2020,
 } from '@transmute/lds-ecdsa-secp256k1-recovery2020'
-import { CredentialPayload } from 'did-jwt-vc'
 
 import * as u8a from 'uint8arrays'
-import { encodeJoseBlob } from '@veramo/utils'
+import { asArray, encodeJoseBlob } from '@veramo/utils'
 
 export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature {
   getSupportedVerificationType(): string {
@@ -57,13 +56,11 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
     return new EcdsaSecp256k1RecoverySignature2020()
   }
 
-  preSigningCredModification(credential: Partial<CredentialPayload>): void {
-    if (!Array.isArray(credential['@context'])) {
-      credential['@context'] = []
-    }
-    credential['@context'].push(
-      'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
-    )
+  preSigningCredModification(credential: CredentialPayload): void {
+    credential['@context'] = [
+      ...asArray(credential['@context'] || []),
+      'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld'
+    ]
   }
 
   preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {

@@ -37,7 +37,7 @@ import {
   FindArgs,
 } from './types'
 
-import { Key, schema } from './'
+import { schema } from './'
 
 interface IContext {
   authenticatedDid?: string

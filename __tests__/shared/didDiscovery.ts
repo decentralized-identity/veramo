@@ -1,9 +1,8 @@
 import { IDIDDiscovery } from '../../packages/did-discovery/src'
-import { TAgent, IDIDManager, IKeyManager, IIdentifier } from '../../packages/core/src'
+import { IAgentOptions, IDIDManager, TAgent } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { getConnection } from 'typeorm'
-import { IAgentOptions } from '@veramo/core'
 
 type ConfiguredAgent = TAgent<IDIDManager & IDIDDiscovery & IDataStoreORM & ICredentialIssuer>
 

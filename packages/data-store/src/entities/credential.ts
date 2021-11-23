@@ -1,10 +1,10 @@
 import { VerifiableCredential } from '@veramo/core'
-import { blake2bHex } from 'blakejs'
-import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToMany, ManyToMany } from 'typeorm'
+import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 import { Identifier } from './identifier'
 import { Message } from './message'
 import { Presentation } from './presentation'
 import { Claim } from './claim'
+import { asArray, computeEntryHash, extractIssuer } from "@veramo/utils";
 
 @Entity('credential')
 export class Credential extends BaseEntity {
@@ -17,7 +17,7 @@ export class Credential extends BaseEntity {
 
   set raw(raw: VerifiableCredential) {
     this._raw = raw
-    this.hash = blake2bHex(JSON.stringify(raw))
+    this.hash = computeEntryHash(raw)
   }
 
   @Column('simple-json')
@@ -74,10 +74,11 @@ export class Credential extends BaseEntity {
   messages: Message[]
 }
 
-export const createCredentialEntity = (vc: VerifiableCredential): Credential => {
+export const createCredentialEntity = (vci: VerifiableCredential): Credential => {
+  const vc = vci
   const credential = new Credential()
-  credential.context = vc['@context']
-  credential.type = vc.type
+  credential.context = asArray(vc['@context'])
+  credential.type = asArray(vc.type || [])
   credential.id = vc.id
 
   if (vc.issuanceDate) {
@@ -89,7 +90,7 @@ export const createCredentialEntity = (vc: VerifiableCredential): Credential => 
   }
 
   const issuer = new Identifier()
-  issuer.did = vc.issuer.id
+  issuer.did = extractIssuer(vc)
   credential.issuer = issuer
 
   if (vc.credentialSubject.id) {
@@ -105,7 +106,7 @@ export const createCredentialEntity = (vc: VerifiableCredential): Credential => 
       if (type !== 'id') {
         const isObj = typeof value === 'function' || (typeof value === 'object' && !!value)
         const claim = new Claim()
-        claim.hash = blake2bHex(JSON.stringify(vc) + type)
+        claim.hash = computeEntryHash(JSON.stringify(vc) + type)
         claim.type = type
         claim.value = isObj ? JSON.stringify(value) : value
         claim.isObj = isObj
@@ -120,6 +121,6 @@ export const createCredentialEntity = (vc: VerifiableCredential): Credential => 
     }
   }
 
-  credential.raw = vc
+  credential.raw = vci
   return credential
 }

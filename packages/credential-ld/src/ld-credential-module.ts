@@ -1,12 +1,13 @@
 import {
+  CredentialPayload,
   IAgentContext,
   IKey,
   IResolver,
+  PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
 import Debug from 'debug'
-import { CredentialPayload, PresentationPayload } from 'did-jwt-vc'
 import { extendContextLoader, purposes } from 'jsonld-signatures'
 import * as vc from 'vc-js'
 import { LdContextLoader } from './ld-context-loader'
@@ -76,7 +77,7 @@ export class LdCredentialModule {
   }
 
   async issueLDVerifiableCredential(
-    credential: Partial<CredentialPayload>,
+    credential: CredentialPayload,
     issuerDid: string,
     key: IKey,
     verificationMethodId: string,
@@ -97,7 +98,7 @@ export class LdCredentialModule {
   }
 
   async signLDVerifiablePresentation(
-    presentation: Partial<PresentationPayload>,
+    presentation: PresentationPayload,
     holderDid: string,
     key: IKey,
     verificationMethodId: string,
@@ -122,7 +123,7 @@ export class LdCredentialModule {
   }
 
   async verifyCredential(
-    credential: Partial<CredentialPayload>,
+    credential: VerifiableCredential,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
     const result = await vc.verifyCredential({
@@ -144,7 +145,7 @@ export class LdCredentialModule {
   }
 
   async verifyPresentation(
-    presentation: Partial<PresentationPayload>,
+    presentation: VerifiablePresentation,
     challenge: string | undefined,
     domain: string | undefined,
     context: IAgentContext<IResolver>,

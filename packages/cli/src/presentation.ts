@@ -5,6 +5,7 @@ import qrcode from 'qrcode-terminal'
 import { readStdin } from "./util";
 import * as fs from 'fs'
 import * as json5 from 'json5'
+import { extractIssuer } from '@veramo/utils';
 
 const presentation = program.command('presentation').description('W3C Verifiable Presentation')
 
@@ -87,7 +88,7 @@ presentation
           name:
             JSON.stringify(credential.verifiableCredential.credentialSubject) +
             ' | Issuer: ' +
-            credential.verifiableCredential.issuer.id,
+            extractIssuer(credential.verifiableCredential),
           value: credential.verifiableCredential,
         })
       }

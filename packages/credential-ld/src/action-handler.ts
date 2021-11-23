@@ -1,30 +1,38 @@
 import {
+  CredentialPayload,
   IAgentContext,
   IAgentPlugin,
   IIdentifier,
   IKey,
   IResolver,
+  PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
 import { schema, VeramoLdSignature } from './'
 import Debug from 'debug'
 import { LdContextLoader } from "./ld-context-loader";
-import { _ExtendedIKey, asArray, mapIdentifierKeysToDoc, RecordLike, OrPromise } from "@veramo/utils";
+import {
+  _ExtendedIKey,
+  extractIssuer,
+  isDefined,
+  MANDATORY_CREDENTIAL_CONTEXT,
+  mapIdentifierKeysToDoc,
+  OrPromise,
+  processEntryToArray,
+  RecordLike
+} from "@veramo/utils";
 
 import { LdCredentialModule } from "./ld-credential-module";
 import { LdSuiteLoader } from './ld-suite-loader';
 import {
   ContextDoc,
-  CredentialPayload,
   ICreateVerifiableCredentialLDArgs,
   ICreateVerifiablePresentationLDArgs,
   ICredentialIssuerLD,
   IRequiredContext,
   IVerifyCredentialLDArgs,
   IVerifyPresentationLDArgs,
-  MANDATORY_CREDENTIAL_CONTEXT,
-  PresentationPayload,
 } from "./types";
 
 const debug = Debug('veramo:w3c:action-handler')
@@ -62,28 +70,32 @@ export class CredentialIssuerLD implements IAgentPlugin {
     args: ICreateVerifiablePresentationLDArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation> {
-    const presentationContext: string[] = asArray<string>(args?.presentation?.['@context'] || []) || ['https://www.w3.org/2018/credentials/v1']
-    if (presentationContext[0] !== MANDATORY_CREDENTIAL_CONTEXT) {
-      presentationContext.unshift(MANDATORY_CREDENTIAL_CONTEXT)
-    }
-    const presentationType = asArray<string>(args?.presentation?.type || []) || ['VerifiablePresentation']
-    if (presentationType[0] !== 'VerifiablePresentation') {
-      presentationType.unshift('VerifiablePresentation')
-    }
+    const presentationContext = processEntryToArray(args?.presentation?.['@context'], MANDATORY_CREDENTIAL_CONTEXT)
+    const presentationType = processEntryToArray(args?.presentation?.type, 'VerifiablePresentation')
 
-    const presentation: Partial<PresentationPayload> = {
+    const presentation: PresentationPayload = {
       ...args?.presentation,
       '@context': presentationContext,
       type: presentationType,
     }
-    //issuanceDate must not be present for presentations because it is not defined in a @context
-    delete presentation.issuanceDate
 
-    // FIXME: if credentials use the internal JwtProof2020, map them to only use JWT before bundling the presentation
-
-    if (!presentation.holder || typeof presentation.holder === 'undefined') {
+    if (!isDefined(presentation.holder)) {
       throw new Error('invalid_argument: args.presentation.holder must not be empty')
     }
+
+    if (args.presentation.verifiableCredential) {
+      const credentials = args.presentation.verifiableCredential.map(cred => {
+        if (typeof cred !== 'string' && cred.proof.jwt) {
+          return cred.proof.jwt
+        } else {
+          return cred
+        }
+      })
+      presentation.verifiableCredential = credentials
+    }
+
+    //issuanceDate must not be present for presentations because it is not defined in a @context
+    delete presentation.issuanceDate
 
     let identifier: IIdentifier
     try {
@@ -114,26 +126,20 @@ export class CredentialIssuerLD implements IAgentPlugin {
     args: ICreateVerifiableCredentialLDArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential> {
-    const credentialContext: string[] = asArray<string>(args?.credential?.['@context'] || []) || ['https://www.w3.org/2018/credentials/v1']
-    if (credentialContext[0] !== MANDATORY_CREDENTIAL_CONTEXT) {
-      credentialContext.unshift(MANDATORY_CREDENTIAL_CONTEXT)
-    }
-    const credentialType = asArray<string>(args?.credential?.type || []) || ['VerifiableCredential']
-    if (credentialType[0] !== 'VerifiableCredential') {
-      credentialType.unshift('VerifiableCredential')
-    }
+    const credentialContext = processEntryToArray(args?.credential?.['@context'], MANDATORY_CREDENTIAL_CONTEXT);
+    const credentialType = processEntryToArray(args?.credential?.type, 'VerifiableCredential')
     let issuanceDate = args?.credential?.issuanceDate || new Date().toISOString()
     if (issuanceDate instanceof Date) {
       issuanceDate = issuanceDate.toISOString()
     }
-    const credential: Partial<CredentialPayload> = {
+    const credential: CredentialPayload = {
       ...args?.credential,
       '@context': credentialContext,
       type: credentialType,
       issuanceDate,
     }
 
-    const issuer = typeof credential.issuer === 'string' ? credential.issuer : credential?.issuer?.id
+    const issuer = extractIssuer(credential)
     if (!issuer || typeof issuer === 'undefined') {
       throw new Error('invalid_argument: args.credential.issuer must not be empty')
     }
