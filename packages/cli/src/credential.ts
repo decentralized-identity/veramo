@@ -13,6 +13,7 @@ credential
   .command('create', { isDefault: true })
   .description('Create W3C Verifiable Credential')
   .option('-s, --send', 'Send')
+  .option('-j, --json', 'Output in JSON')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
@@ -142,7 +143,11 @@ credential
     if (cmd.qrcode) {
       qrcode.generate(verifiableCredential.proof.jwt)
     } else {
-      console.dir(verifiableCredential, { depth: 10 })
+      if (cmd.json) {
+        console.log(JSON.stringify(verifiableCredential, null, 2))
+      } else {
+        console.dir(verifiableCredential, { depth: 10 })
+      }
     }
   })
 
@@ -172,10 +177,14 @@ credential
         },
       } as any
     }
-    const result = await agent.verifyCredential({ credential: credentialAsJSON })
-    if (result === true) {
-      console.log('Credential was verified successfully.')
-    } else {
-      console.error('Credential could not be verified.')
+    try {
+      const result = await agent.verifyCredential({ credential: credentialAsJSON })
+      if (result === true) {
+        console.log('Credential was verified successfully.')
+      } else {
+        console.error('Credential could not be verified.')
+      }
+    } catch (e) {
+      console.error(e.message)
     }
   })
