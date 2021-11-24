@@ -518,7 +518,7 @@ function wrapSigner(
   key: IKey,
   algorithm?: string,
 ) {
-  return async (data: string | Uint8Array) => {
+  return async (data: string | Uint8Array): Promise<string> => {
     const result = await context.agent.keyManagerSign({ keyRef: key.kid, data: <string>data, algorithm })
     return result
   }

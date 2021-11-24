@@ -1,19 +1,20 @@
 /**
- * The LdContextLoader is initialized with a List of Map<string, ContextDoc>
+ * The LdContextLoader is initialized with a List of Map<string, ContextDoc | Promise<ContextDoc>>
  * that it unifies into a single Map to provide to the documentLoader within
  * the w3c credential module.
  */
-import { OrPromise, RecordLike } from '@veramo/utils'
+import { isIterable, OrPromise, RecordLike } from '@veramo/utils'
 import { ContextDoc } from './types'
 
 export class LdContextLoader {
-  private contexts: Record<string, OrPromise<ContextDoc>>
+  private readonly contexts: Record<string, OrPromise<ContextDoc>>
 
   constructor(options: { contextsPaths: RecordLike<OrPromise<ContextDoc>>[] }) {
     this.contexts = {}
-    // generate-plugin-schema is failing unless we use the cast to `any[]`
-    Array.from(options.contextsPaths as any[], (mapItem) => {
-      for (const [key, value] of mapItem) {
+    Array.from(options.contextsPaths, (mapItem) => {
+      const map = isIterable(mapItem) ? mapItem : Object.entries(mapItem)
+      // generate-plugin-schema is failing unless we use the cast to `any[]`
+      for (const [key, value] of map as any[]) {
         this.contexts[key] = value
       }
     })
