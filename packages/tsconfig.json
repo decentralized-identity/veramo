@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     { "path": "core" },
+    { "path": "credential-ld" },
     { "path": "credential-w3c" },
     { "path": "data-store" },
     { "path": "did-comm" },
@@ -18,6 +19,7 @@
     { "path": "remote-client" },
     { "path": "remote-server" },
     { "path": "selective-disclosure" },
-    { "path": "url-handler" }
+    { "path": "url-handler" },
+    { "path": "utils" }
   ]
 }

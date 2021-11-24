@@ -5,6 +5,8 @@ import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { shortDate, shortDid } from './explore/utils'
 import { VerifiableCredential } from '@veramo/core'
+import { asArray, extractIssuer } from '@veramo/utils'
+
 const fuzzy = require('fuzzy')
 
 const sdr = program.command('sdr').description('Selective Disclosure Request')
@@ -173,7 +175,7 @@ sdr
             name:
               JSON.stringify(credential.verifiableCredential.credentialSubject) +
               ' | Issuer: ' +
-              credential.verifiableCredential.issuer.id,
+              extractIssuer(credential.verifiableCredential),
             value: credential.verifiableCredential.proof.jwt,
           })
         }
@@ -305,9 +307,9 @@ sdr
           name:
             c.verifiableCredential.credentialSubject[item.claimType] +
             ' (' +
-            c.verifiableCredential.type.join(',') +
+            asArray(c.verifiableCredential.type || []).join(',') +
             ') issued by: ' +
-            c.verifiableCredential.issuer.id +
+            extractIssuer(c.verifiableCredential) +
             ' ' +
             shortDate(c.verifiableCredential.issuanceDate) +
             ' ago',

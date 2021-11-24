@@ -18,6 +18,7 @@
     "@veramo/did-discovery": "^3.1.0",
     "@veramo/did-manager": "^3.1.0",
     "@veramo/key-manager": "^3.1.0",
+    "@veramo/utils": "^3.1.0",
     "debug": "^4.1.1",
     "typeorm": "0.2.41"
   },

@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm'
 import { PrivateKey } from '..'
 import { PreMigrationKey } from '../entities/PreMigrationEntities'
 import Debug from 'debug'
-const debug = Debug('veramo:data-store:key-migration')
+const debug = Debug('veramo:data-store:migrate-private-keys')
 
 /**
  * Migration of existing private keys from Veramo 2.x to Veramo 3.x

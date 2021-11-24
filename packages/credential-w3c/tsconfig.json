@@ -3,11 +3,14 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
-    "declarationDir": "build"
+    "declarationDir": "build",
+    // https://github.com/transmute-industries/vc.js/issues/60
+    "skipLibCheck": true
   },
   "references": [
     { "path": "../core" },
     { "path": "../did-jwt" },
-    { "path": "../message-handler" }
+    { "path": "../message-handler" },
+    { "path": "../utils" }
   ]
 }

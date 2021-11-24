@@ -37,7 +37,7 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
       const message = await req.agent?.handleMessage({
         raw: req.body as any as string,
         metaData: [options.metaData],
-        save: typeof options.save === 'undefined'  ? true : options.save,
+        save: typeof options.save === 'undefined' ? true : options.save,
       })
 
       if (message) {

@@ -135,5 +135,4 @@ describe('@veramo/did-resolver', () => {
       didResolutionMetadata: { error: 'unsupportedDidMethod' },
     })
   })
-
 })

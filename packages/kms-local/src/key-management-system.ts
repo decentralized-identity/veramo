@@ -214,7 +214,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     if (from) {
       debug('WARNING: executing a transaction signing request with a `from` field.')
       if (wallet.address.toLowerCase() !== from.toLowerCase()) {
-        const msg = "invalid_arguments: eth_signTransaction `from` field does not match the chosen key. `from` field should be omitted."
+        const msg =
+          'invalid_arguments: eth_signTransaction `from` field does not match the chosen key. `from` field should be omitted.'
         debug(msg)
         throw new Error(msg)
       }

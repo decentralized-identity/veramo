@@ -1,39 +1,53 @@
 import {
+  CredentialPayload,
   IAgentContext,
   IAgentPlugin,
-  IResolver,
+  IDataStore,
   IDIDManager,
+  IIdentifier,
+  IKey,
   IKeyManager,
   IPluginMethodMap,
+  IResolver,
+  PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-  IDataStore,
-  IKey,
-  IIdentifier,
+  W3CVerifiableCredential,
+  W3CVerifiablePresentation,
 } from '@veramo/core'
 
 import {
   createVerifiableCredentialJwt,
   createVerifiablePresentationJwt,
-  CredentialPayload,
   normalizeCredential,
   normalizePresentation,
-  PresentationPayload,
+  verifyCredential as verifyCredentialJWT,
+  verifyPresentation as verifyPresentationJWT,
 } from 'did-jwt-vc'
 
-import { schema } from './'
+import { decodeJWT } from 'did-jwt'
 
+import { schema } from './'
 import Debug from 'debug'
+import { Resolvable } from 'did-resolver'
+import {
+  asArray,
+  extractIssuer,
+  isDefined,
+  MANDATORY_CREDENTIAL_CONTEXT,
+  processEntryToArray,
+} from '@veramo/utils'
+
 const debug = Debug('veramo:w3c:action-handler')
 
 /**
  * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
  *
- * Only `jwt` is supported at the moment.
+ * Only `jwt` and `lds` is supported at the moment.
  *
  * @public
  */
-export type EncodingFormat = 'jwt' // | "json" | "json-ld"
+export type ProofFormat = 'jwt' | 'lds'
 
 /**
  * Encapsulates the parameters required to create a
@@ -51,7 +65,7 @@ export interface ICreateVerifiablePresentationArgs {
    *
    * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
    */
-  presentation: Partial<PresentationPayload>
+  presentation: PresentationPayload
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
@@ -60,10 +74,20 @@ export interface ICreateVerifiablePresentationArgs {
   save?: boolean
 
   /**
+   * Optional (only JWT) string challenge parameter to add to the verifiable presentation.
+   */
+  challenge?: string
+
+  /**
+   * Optional string domain parameter to add to the verifiable presentation.
+   */
+  domain?: string
+
+  /**
    * The desired format for the VerifiablePresentation to be created.
    * Currently, only JWT is supported
    */
-  proofFormat: EncodingFormat
+  proofFormat: ProofFormat
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -88,7 +112,7 @@ export interface ICreateVerifiableCredentialArgs {
    *
    * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
    */
-  credential: Partial<CredentialPayload>
+  credential: CredentialPayload
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
@@ -98,15 +122,60 @@ export interface ICreateVerifiableCredentialArgs {
 
   /**
    * The desired format for the VerifiablePresentation to be created.
-   * Currently, only JWT is supported
    */
-  proofFormat: EncodingFormat
+  proofFormat: ProofFormat
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
    * See https://www.w3.org/TR/vc-data-model/#jwt-encoding
    */
   removeOriginalFields?: boolean
+}
+
+/**
+ * Encapsulates the parameters required to verify a
+ * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
+ *
+ * @public
+ */
+export interface IVerifyCredentialArgs {
+  /**
+   * The json payload of the Credential according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
+   *
+   * The signer of the Credential is chosen based on the `issuer.id` property
+   * of the `credential`
+   *
+   */
+  credential: W3CVerifiableCredential
+}
+
+/**
+ * Encapsulates the parameters required to verify a
+ * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
+ *
+ * @public
+ */
+export interface IVerifyPresentationArgs {
+  /**
+   * The json payload of the Credential according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
+   *
+   * The signer of the Credential is chosen based on the `issuer.id` property
+   * of the `credential`
+   *
+   */
+  presentation: W3CVerifiablePresentation
+
+  /**
+   * Optional (only for JWT) string challenge parameter to verify the verifiable presentation against
+   */
+  challenge?: string
+
+  /**
+   * Optional (only for JWT) string domain parameter to verify the verifiable presentation against
+   */
+  domain?: string
 }
 
 /**
@@ -150,6 +219,30 @@ export interface ICredentialIssuer extends IPluginMethodMap {
     args: ICreateVerifiableCredentialArgs,
     context: IContext,
   ): Promise<VerifiableCredential>
+
+  /**
+   * Verifies a Verifiable Credential JWT or LDS Format.
+   *
+   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
+   */
+  verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<boolean>
+
+  /**
+   * Verifies a Verifiable Presentation JWT or LDS Format.
+   *
+   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
+   */
+  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<boolean>
 }
 
 /**
@@ -160,9 +253,9 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IContext = IAgentContext<
   IResolver &
-    Pick<IDIDManager, 'didManagerGet'> &
+    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
     Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerSign'>
+    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >
 
 /**
@@ -176,8 +269,10 @@ export class CredentialIssuer implements IAgentPlugin {
 
   constructor() {
     this.methods = {
-      createVerifiablePresentation: this.createVerifiablePresentation,
-      createVerifiableCredential: this.createVerifiableCredential,
+      createVerifiablePresentation: this.createVerifiablePresentation.bind(this),
+      createVerifiableCredential: this.createVerifiableCredential.bind(this),
+      verifyCredential: this.verifyCredential.bind(this),
+      verifyPresentation: this.verifyPresentation.bind(this),
     }
   }
 
@@ -186,16 +281,32 @@ export class CredentialIssuer implements IAgentPlugin {
     args: ICreateVerifiablePresentationArgs,
     context: IContext,
   ): Promise<VerifiablePresentation> {
-    const presentation: Partial<PresentationPayload> = {
+    const presentationContext = processEntryToArray(
+      args?.presentation?.['@context'],
+      MANDATORY_CREDENTIAL_CONTEXT,
+    )
+    const presentationType = processEntryToArray(args?.presentation?.type, 'VerifiablePresentation')
+    const presentation: PresentationPayload = {
       ...args?.presentation,
-      '@context': args?.presentation['@context'] || ['https://www.w3.org/2018/credentials/v1'],
-      //FIXME: make sure 'VerifiablePresentation' is the first element in this array:
-      type: args?.presentation?.type || ['VerifiablePresentation'],
-      issuanceDate: args?.presentation?.issuanceDate || new Date().toISOString(),
+      '@context': presentationContext,
+      type: presentationType,
+      issuanceDate: args?.presentation?.issuanceDate || new Date(),
     }
 
-    if (!presentation.holder || typeof presentation.holder === 'undefined') {
+    if (!isDefined(presentation.holder)) {
       throw new Error('invalid_argument: args.presentation.holder must not be empty')
+    }
+
+    if (args.presentation.verifiableCredential) {
+      const credentials = args.presentation.verifiableCredential.map((cred) => {
+        // map JWT credentials to their canonical form
+        if (typeof cred !== 'string' && cred.proof.jwt) {
+          return cred.proof.jwt
+        } else {
+          return cred
+        }
+      })
+      presentation.verifiableCredential = credentials
     }
 
     let identifier: IIdentifier
@@ -208,22 +319,36 @@ export class CredentialIssuer implements IAgentPlugin {
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
-      //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
-      debug('Signing VP with', identifier.did)
-      let alg = 'ES256K'
-      if (key.type === 'Ed25519') {
-        alg = 'EdDSA'
-      }
-      const signer = wrapSigner(context, key, alg)
 
-      const jwt = await createVerifiablePresentationJwt(
-        presentation as PresentationPayload,
-        { did: identifier.did, signer, alg },
-        { removeOriginalFields: args.removeOriginalFields },
-      )
-      //FIXME: flagging this as a potential privacy leak.
-      debug(jwt)
-      const verifiablePresentation = normalizePresentation(jwt)
+      let verifiablePresentation: VerifiablePresentation
+
+      if (args.proofFormat === 'lds') {
+        if (typeof context.agent.createVerifiablePresentationLD === 'function') {
+          verifiablePresentation = await context.agent.createVerifiablePresentationLD(args)
+        } else {
+          throw new Error(
+            'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+          )
+        }
+      } else {
+        // only add issuanceDate for JWT
+        presentation.issuanceDate = args.presentation.issuanceDate || new Date().toISOString()
+        debug('Signing VP with', identifier.did)
+        let alg = 'ES256K'
+        if (key.type === 'Ed25519') {
+          alg = 'EdDSA'
+        }
+        const signer = wrapSigner(context, key, alg)
+
+        const jwt = await createVerifiablePresentationJwt(
+          presentation as any,
+          { did: identifier.did, signer, alg },
+          { removeOriginalFields: args.removeOriginalFields },
+        )
+        //FIXME: flagging this as a potential privacy leak.
+        debug(jwt)
+        verifiablePresentation = normalizePresentation(jwt)
+      }
       if (args.save) {
         await context.agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation })
       }
@@ -239,16 +364,20 @@ export class CredentialIssuer implements IAgentPlugin {
     args: ICreateVerifiableCredentialArgs,
     context: IContext,
   ): Promise<VerifiableCredential> {
-    const credential: Partial<CredentialPayload> = {
+    const credentialContext = processEntryToArray(
+      args?.credential?.['@context'],
+      MANDATORY_CREDENTIAL_CONTEXT,
+    )
+    const credentialType = processEntryToArray(args?.credential?.type, 'VerifiableCredential')
+    const credential: CredentialPayload = {
       ...args?.credential,
-      '@context': args?.credential?.['@context'] || ['https://www.w3.org/2018/credentials/v1'],
-      //FIXME: make sure 'VerifiableCredential' is the first element in this array:
-      type: args?.credential?.type || ['VerifiableCredential'],
+      '@context': credentialContext,
+      type: credentialType,
       issuanceDate: args?.credential?.issuanceDate || new Date().toISOString(),
     }
 
     //FIXME: if the identifier is not found, the error message should reflect that.
-    const issuer = typeof credential.issuer === 'string' ? credential.issuer : credential?.issuer?.id
+    const issuer = extractIssuer(credential)
     if (!issuer || typeof issuer === 'undefined') {
       throw new Error('invalid_argument: args.credential.issuer must not be empty')
     }
@@ -263,21 +392,32 @@ export class CredentialIssuer implements IAgentPlugin {
       //FIXME: `args` should allow picking a key or key type
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
       if (!key) throw Error('No signing key for ' + identifier.did)
-      //FIXME: Throw an `unsupported_format` error if the `args.proofFormat` is not `jwt`
-      debug('Signing VC with', identifier.did)
-      let alg = 'ES256K'
-      if (key.type === 'Ed25519') {
-        alg = 'EdDSA'
+
+      let verifiableCredential: VerifiableCredential
+      if (args.proofFormat === 'lds') {
+        if (typeof context.agent.createVerifiableCredentialLD === 'function') {
+          verifiableCredential = await context.agent.createVerifiableCredentialLD(args as any)
+        } else {
+          throw new Error(
+            'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+          )
+        }
+      } else {
+        debug('Signing VC with', identifier.did)
+        let alg = 'ES256K'
+        if (key.type === 'Ed25519') {
+          alg = 'EdDSA'
+        }
+        const signer = wrapSigner(context, key, alg)
+        const jwt = await createVerifiableCredentialJwt(
+          credential as any,
+          { did: identifier.did, signer, alg },
+          { removeOriginalFields: args.removeOriginalFields },
+        )
+        //FIXME: flagging this as a potential privacy leak.
+        debug(jwt)
+        verifiableCredential = normalizeCredential(jwt)
       }
-      const signer = wrapSigner(context, key, alg)
-      const jwt = await createVerifiableCredentialJwt(
-        credential as CredentialPayload,
-        { did: identifier.did, signer, alg },
-        { removeOriginalFields: args.removeOriginalFields },
-      )
-      //FIXME: flagging this as a potential privacy leak.
-      debug(jwt)
-      const verifiableCredential = normalizeCredential(jwt)
       if (args.save) {
         await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
       }
@@ -286,6 +426,89 @@ export class CredentialIssuer implements IAgentPlugin {
     } catch (error) {
       debug(error)
       return Promise.reject(error)
+    }
+  }
+
+  /** {@inheritdoc ICredentialIssuer.verifyCredential} */
+  async verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<boolean> {
+    const credential = args.credential
+    if (typeof credential === 'string' || (<VerifiableCredential>credential)?.proof?.jwt) {
+      // JWT
+      let jwt: string
+      if (typeof credential === 'string') {
+        jwt = credential
+      } else {
+        jwt = credential.proof.jwt
+      }
+      const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
+      try {
+        const verification = await verifyCredentialJWT(jwt, resolver)
+        return true
+      } catch (e: any) {
+        //TODO: return a more detailed reason for failure
+        return false
+      }
+    } else {
+      // JSON-LD
+      if (typeof context.agent.verifyCredentialLD === 'function') {
+        const result = await context.agent.verifyCredentialLD(args)
+        return result
+      } else {
+        throw new Error(
+          'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+        )
+      }
+    }
+  }
+
+  /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
+  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<boolean> {
+    const presentation = args.presentation
+    if (typeof presentation === 'string' || (<VerifiablePresentation>presentation)?.proof?.jwt) {
+      // JWT
+      let jwt: string
+      if (typeof presentation === 'string') {
+        jwt = presentation
+      } else {
+        jwt = presentation.proof.jwt
+      }
+      const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
+
+      let audience = args.domain
+      if (!audience) {
+        const { payload } = await decodeJWT(jwt)
+        if (payload.aud) {
+          // automatically add a managed DID as audience if one is found
+          const intendedAudience = asArray(payload.aud)
+          const managedDids = await context.agent.didManagerFind()
+          const filtered = managedDids.filter((identifier) => intendedAudience.includes(identifier.did))
+          if (filtered.length > 0) {
+            audience = filtered[0].did
+          }
+        }
+      }
+
+      try {
+        const verification = await verifyPresentationJWT(jwt, resolver, {
+          challenge: args.challenge,
+          domain: args.domain,
+          audience,
+        })
+        return true
+      } catch (e: any) {
+        //TODO: return a more detailed reason for failure
+        return false
+      }
+    } else {
+      // JSON-LD
+      if (typeof context.agent.verifyPresentationLD === 'function') {
+        const result = await context.agent.verifyPresentationLD(args)
+        return result
+      } else {
+        throw new Error(
+          'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+        )
+      }
     }
   }
 }

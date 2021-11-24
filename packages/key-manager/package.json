@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev generate-plugin-schema"
+    "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
     "@ethersproject/bytes": "5.5.0",

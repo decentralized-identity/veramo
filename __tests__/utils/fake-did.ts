@@ -1,15 +1,22 @@
-import { IAgentContext, IKeyManager, IIdentifier, IKey, IService, IDIDManager } from '@veramo/core'
-import { AbstractIdentifierProvider } from '../../packages/did-manager/src/index'
+import {
+  IAgentContext,
+  IDIDManager,
+  IIdentifier,
+  IKey,
+  IKeyManager,
+  IService,
+  TAgent,
+} from '../../packages/core/src'
+import { AbstractIdentifierProvider } from '../../packages/did-manager/src'
+import { _NormalizedVerificationMethod } from '../../packages/utils/src'
 import {
   DIDResolutionOptions,
   DIDResolutionResult,
   DIDResolver,
-  Resolvable,
   ParsedDID,
+  Resolvable,
   VerificationMethod,
 } from 'did-resolver'
-import { TAgent } from '@veramo/core/src'
-import { _NormalizedVerificationMethod } from '../../packages/did-comm/src'
 
 /**
  * A DID method that uses the information stored by the DID manager to resolve

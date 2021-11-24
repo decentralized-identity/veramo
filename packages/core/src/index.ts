@@ -14,5 +14,6 @@ export * from './types/IKeyManager'
 export * from './types/IMessage'
 export * from './types/IMessageHandler'
 export * from './types/IResolver'
+export * from './types/vc-data-model'
 const schema = require('../plugin.schema.json')
 export { schema }
