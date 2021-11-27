@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "borc": "^3.0.0",
-    "typescript": "4.4.4"
+    "borc": "3.0.0",
+    "typescript": "4.5.2"
   },
   "files": [
     "build/**/*",
