@@ -7,6 +7,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
+import fetch from 'cross-fetch'
 import Debug from 'debug'
 import { extendContextLoader, purposes } from 'jsonld-signatures'
 import * as vc from 'vc-js'
@@ -34,7 +35,7 @@ export class LdCredentialModule {
     this.ldSuiteLoader = options.ldSuiteLoader
   }
 
-  getDocumentLoader(context: IAgentContext<IResolver>) {
+  getDocumentLoader(context: IAgentContext<IResolver>, attemptToFetchContexts: boolean = false) {
     return extendContextLoader(async (url: string) => {
       // console.log(`resolving context for: ${url}`)
 
@@ -65,10 +66,27 @@ export class LdCredentialModule {
           documentUrl: url,
           document: contextDoc,
         }
+      } else {
+        if (attemptToFetchContexts) {
+          // attempt to fetch the remote context!!!! MEGA FAIL for JSON-LD.
+          debug("WARNING: attempting to fetch the doc directly for ", url)
+          try {
+            const response = await fetch(url)
+            if (response.status === 200) {
+              const document = await response.json()
+              return {
+                contextUrl: null,
+                documentUrl: url,
+                document
+              }
+            }
+          } catch (e) {
+            debug("WARNING: unable to fetch the doc or interpret it as JSON", e)
+          }
+        }
       }
 
-      debug('WARNING: Possible unknown context/identifier for', url)
-      console.log(`WARNING: Possible unknown context/identifier for: ${url}`)
+      debug(`WARNING: Possible unknown context/identifier for ${url} \n falling back to default documentLoader`)
 
       return vc.defaultDocumentLoader(url)
     })
@@ -122,12 +140,13 @@ export class LdCredentialModule {
 
   async verifyCredential(
     credential: VerifiableCredential,
+    fetchRemoteContexts: boolean = false,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
     const result = await vc.verifyCredential({
       credential,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
-      documentLoader: this.getDocumentLoader(context),
+      documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
       purpose: new AssertionProofPurpose(),
       compactProof: false,
     })
@@ -146,12 +165,13 @@ export class LdCredentialModule {
     presentation: VerifiablePresentation,
     challenge: string | undefined,
     domain: string | undefined,
+    fetchRemoteContexts: boolean = false,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
     const result = await vc.verify({
       presentation,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
-      documentLoader: this.getDocumentLoader(context),
+      documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
       challenge,
       domain,
       purpose: new AssertionProofPurpose(),

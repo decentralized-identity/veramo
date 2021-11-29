@@ -326,6 +326,11 @@
             "credential": {
               "$ref": "#/components/schemas/VerifiableCredential",
               "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.",
+              "default": false
             }
           },
           "required": [
@@ -347,6 +352,11 @@
             "domain": {
               "type": "string",
               "description": "Optional (only for JWT) string domain parameter to verify the verifiable presentation against"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.",
+              "default": false
             }
           },
           "required": [

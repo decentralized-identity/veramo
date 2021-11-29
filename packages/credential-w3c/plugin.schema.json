@@ -351,12 +351,20 @@
           "properties": {
             "credential": {
               "$ref": "#/components/schemas/W3CVerifiableCredential",
-              "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
+              "description": "The Verifiable Credential object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the JWT representation.\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
             }
           },
           "required": [
             "credential"
           ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+          },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "IVerifyPresentationArgs": {
@@ -364,7 +372,7 @@
           "properties": {
             "presentation": {
               "$ref": "#/components/schemas/W3CVerifiablePresentation",
-              "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
+              "description": "The Verifiable Presentation object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
             },
             "challenge": {
               "type": "string",
@@ -373,11 +381,19 @@
             "domain": {
               "type": "string",
               "description": "Optional (only for JWT) string domain parameter to verify the verifiable presentation against"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
             }
           },
           "required": [
             "presentation"
           ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+          },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
         "W3CVerifiablePresentation": {

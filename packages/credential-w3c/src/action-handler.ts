@@ -140,14 +140,29 @@ export interface ICreateVerifiableCredentialArgs {
  */
 export interface IVerifyCredentialArgs {
   /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
+   * The Verifiable Credential object according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model} or the JWT representation.
    *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
+   * The signer of the Credential is verified based on the `issuer.id` property
+   * of the `credential` or the `iss` property of the JWT payload respectively
    *
    */
   credential: W3CVerifiableCredential
+
+  /**
+   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded.
+   * The context definitions SHOULD rather be provided at startup instead of being fetched.
+   * 
+   * @default false
+   */
+   fetchRemoteContexts?: boolean
+
+  /**
+   * Other options can be specified for verification.
+   * They will be forwarded to the lower level modules. that performt the checks
+   */
+   [x: string]: any
 }
 
 /**
@@ -158,11 +173,11 @@ export interface IVerifyCredentialArgs {
  */
 export interface IVerifyPresentationArgs {
   /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
+   * The Verifiable Presentation object according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.
    *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
+   * The signer of the Presentation is verified based on the `holder` property
+   * of the `presentation` or the `iss` property of the JWT payload respectively
    *
    */
   presentation: W3CVerifiablePresentation
@@ -176,6 +191,21 @@ export interface IVerifyPresentationArgs {
    * Optional (only for JWT) string domain parameter to verify the verifiable presentation against
    */
   domain?: string
+
+  /**
+   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded.
+   * The context definitions SHOULD rather be provided at startup instead of being fetched.
+   * 
+   * @default false
+   */
+   fetchRemoteContexts?: boolean
+
+  /**
+   * Other options can be specified for verification.
+   * They will be forwarded to the lower level modules. that performt the checks
+   */
+   [x: string]: any
 }
 
 /**

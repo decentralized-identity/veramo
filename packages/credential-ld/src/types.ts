@@ -160,7 +160,14 @@ export interface IVerifyCredentialLDArgs {
    * of the `credential`
    *
    */
-  credential: VerifiableCredential
+  credential: VerifiableCredential,
+
+  /**
+   * Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.
+   * 
+   * @default false
+   */
+  fetchRemoteContexts?: boolean
 }
 
 /**
@@ -189,6 +196,13 @@ export interface IVerifyPresentationLDArgs {
    * Optional (only for JWT) string domain parameter to verify the verifiable presentation against
    */
   domain?: string
+
+  /**
+   * Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.
+   * 
+   * @default false
+   */
+   fetchRemoteContexts?: boolean
 }
 
 /**
