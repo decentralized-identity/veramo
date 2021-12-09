@@ -53,7 +53,7 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
       assertionMethod: signingKeyIds,
       keyAgreement: keyAgreementKeyIds,
       service:
-        typeof options.services === 'undefined'
+        typeof options?.services === 'undefined'
           ? identifier.services
           : [...options.services, ...identifier.services],
     }
