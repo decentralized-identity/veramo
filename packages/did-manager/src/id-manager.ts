@@ -142,6 +142,7 @@ export class DIDManager implements IAgentPlugin {
     identifier.alias = alias
     return await this.store.import(identifier)
   }
+
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerImport} */
   async didManagerImport(
     identifier: MinimalImportableIdentifier,
@@ -154,6 +155,9 @@ export class DIDManager implements IAgentPlugin {
     }
     const services: IService[] = [...(identifier?.services || [])]
     const importedDID = {
+      // pick the first key as controller, but still allow user to override.
+      // See https://github.com/uport-project/veramo/discussions/779
+      controllerKeyId: keys[0]?.kid,
       ...identifier,
       keys,
       services,

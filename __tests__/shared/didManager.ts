@@ -278,6 +278,8 @@ export default (testContext: {
         ],
       })
       expect(imported).toEqual({
+        controllerKeyId:
+          '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
         did,
         keys: [
           {
