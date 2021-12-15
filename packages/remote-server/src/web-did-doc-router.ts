@@ -80,7 +80,7 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
     if (req.agent) {
       try {
         const identifier = await req.agent.didManagerGet({
-          did: 'did:web:' + getAliasForRequest(req) + ':' + req.params[0].replace('/', ':'),
+          did: 'did:web:' + getAliasForRequest(req) + ':' + req.params[0].replace(/\//g, ':'),
         })
         const didDoc = didDocForIdentifier(identifier)
         res.json(didDoc)
