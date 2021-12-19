@@ -8207,11 +8207,6 @@ openapi-types@10.0.0:
   resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-10.0.0.tgz#0debbf663b2feed0322030b5b7c9080804076934"
   integrity sha512-Y8xOCT2eiKGYDzMW9R4x5cmfc3vGaaI4EL2pwhDmodWw1HlK18YcZ4uJxc7Rdp7/gGzAygzH9SXr6GKYIXbRcQ==
 
-openapi-types@9.3.1:
-  version "9.3.1"
-  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-9.3.1.tgz#617ae6db3efd3e3f68e849f65ced58801d01d3cf"
-  integrity sha512-/Yvsd2D7miYB4HLJ3hOOS0+vnowQpaT75FsHzr/y5M9P4q9bwa7RcbW2YdH6KZBn8ceLbKGnHxMZ1CHliGHUFw==
-
 opener@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.2.tgz#5d37e1f35077b9dcac4301372271afdeb2a13598"
