@@ -38,14 +38,16 @@ sdr
         message: 'Subject DID',
         type: 'autocomplete',
         pageSize: 15,
-        suggestOnly: true,
         source: async (answers: any, input: string) => {
           const res = fuzzy
             .filter(input, subjects)
             .map((el: any) => (typeof el === 'string' ? el : el.original))
           return res
         },
-        validate(val) {
+        validate: (val) => {
+          if (val && typeof val !== 'string') {
+            val = val.value
+          }
           if (!val || !val.startsWith('did:')) {
             return "Subject DID does not start with 'did:'..."
           }
