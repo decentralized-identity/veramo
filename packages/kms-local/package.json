@@ -12,7 +12,7 @@
     "@ethersproject/abstract-provider": "5.5.1",
     "@ethersproject/abstract-signer": "5.5.0",
     "@ethersproject/bytes": "5.5.0",
-    "@ethersproject/random": "5.5.0",
+    "@ethersproject/random": "5.5.1",
     "@ethersproject/signing-key": "5.5.0",
     "@ethersproject/strings": "5.5.0",
     "@ethersproject/transactions": "5.5.0",
