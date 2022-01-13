@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/uport-project/veramo/compare/v3.1.0...v3.1.1) (2022-01-13)
+
+
+### Bug Fixes
+
+* **remote-server:** api-key-auth ([#772](https://github.com/uport-project/veramo/issues/772)) ([6d1916b](https://github.com/uport-project/veramo/commit/6d1916b52f23aa818e023c35e6324ec5153e1a5c)), closes [#771](https://github.com/uport-project/veramo/issues/771)
+* **remote-server:** fix path for web-did-doc-router ([6bb1003](https://github.com/uport-project/veramo/commit/6bb10039434d45de3ffcc22bcfeadf796c774b08))
+
+
+
+
+
 # [3.1.0](https://github.com/uport-project/veramo/compare/v3.0.0...v3.1.0) (2021-11-12)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -33,7 +33,7 @@
     "@veramo/kms-local": "^3.1.0",
     "@veramo/message-handler": "^3.1.0",
     "@veramo/remote-client": "^3.1.0",
-    "@veramo/remote-server": "^3.1.0",
+    "@veramo/remote-server": "^3.1.1",
     "@veramo/selective-disclosure": "^3.1.0",
     "@veramo/url-handler": "^3.1.0",
     "blessed": "^0.1.81",
