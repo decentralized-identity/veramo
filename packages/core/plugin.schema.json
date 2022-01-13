@@ -310,6 +310,23 @@
         "DIDResolutionResult": {
           "type": "object",
           "properties": {
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "https://w3id.org/did-resolution/v1"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
             "didResolutionMetadata": {
               "$ref": "#/components/schemas/DIDResolutionMetadata"
             },

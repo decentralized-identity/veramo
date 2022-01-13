@@ -8,18 +8,18 @@ const providerConfig = {
   networks: [
     { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },
     { name: 'development', rpcUrl: 'http://localhost:7545' },
-    //FIXME: add this example
+    // FIXME: add this example
     // { name: 'test', provider: TBD_add_example_of_custom_provider_usage },
   ],
 }
 
 /** This creates a resolver that supports the [ethr, web, key, elem] DID methods */
-let resolver: Resolver = new Resolver({
-  //resolve did:ethr using the embedded ethr-did-resolver
+let resolver = new Resolver({
+  // resolve did:ethr using the embedded ethr-did-resolver
   ...getEthrResolver(providerConfig),
-  //resolve did:web using the embedded web-did-resolver
+  // resolve did:web using the embedded web-did-resolver
   ...getWebDidResolver(),
-  //resolve some other DID methods using the centralized `uniresolver.io` service
+  // resolve some other DID methods using the centralized `uniresolver.io` service
   ...getUniversalResolverFor(['key', 'elem']),
 })
 

@@ -14,11 +14,11 @@
     "@ethersproject/transactions": "5.5.0",
     "@stablelib/ed25519": "^1.0.2",
     "@veramo/core": "^3.1.0",
-    "did-jwt": "5.12.0",
+    "did-jwt": "^5.12.3",
     "uint8arrays": "3.0.0"
   },
   "devDependencies": {
-    "typescript": "4.5.2"
+    "typescript": "4.5.4"
   },
   "files": [
     "build/**/*",
