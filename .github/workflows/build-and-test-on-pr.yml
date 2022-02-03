@@ -44,3 +44,5 @@ jobs:
         run: yarn test:integration
       - run: yarn lint
       - run: npx codecov
+      - name: run browser tests
+        run: yarn test:browser

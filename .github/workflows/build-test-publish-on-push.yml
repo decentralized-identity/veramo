@@ -55,6 +55,9 @@ jobs:
           POSTGRES_PORT: 5432
         run: yarn test:integration
 
+      - name: run browser tests
+        run: yarn test:browser
+
       - name: setup git coordinates
         run: |
           git remote set-url origin https://uport-project:$GH_TOKEN@github.com/uport-project/veramo.git
