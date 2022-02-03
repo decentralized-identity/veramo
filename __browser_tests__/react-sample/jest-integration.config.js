@@ -1,5 +1,5 @@
 module.exports = {
   preset: 'jest-puppeteer',
-  rootDir: '../',
+  rootDir: 'headless-tests',
   testRegex: './*\\.test\\.(js|tsx?)$',
 }

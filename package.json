@@ -14,7 +14,7 @@
     "test:ci": "jest --config=jest.json",
     "test": "jest --config=jest.json --coverage=false",
     "test:watch": "yarn test --watch --verbose",
-    "test:browser": "cd ./__browser_tests__/react-sample && yarn install && yarn add file:../../. && yarn test:integration",
+    "test:browser": "yarn link && cd ./__browser_tests__/react-sample && yarn install && yarn link veramo && yarn test:browser-integration",
     "veramo": "./packages/cli/bin/veramo.js",
     "prettier": "prettier --write '{packages,__tests__}/**/*.{ts,js,json,md,yml}'",
     "build-clean": "rimraf ./packages/*/build ./packages/*/api ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo && jest --clearCache",
