@@ -1,9 +1,8 @@
 import { IDIDDiscovery } from '../../packages/did-discovery/src'
-import { TAgent, IDIDManager, IKeyManager, IIdentifier } from '../../packages/core/src'
+import { IAgentOptions, IDIDManager, TAgent } from '../../packages/core/src'
 import { IDataStoreORM } from '../../packages/data-store/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { getConnection } from 'typeorm'
-import { IAgentOptions } from '@veramo/core'
 
 type ConfiguredAgent = TAgent<IDIDManager & IDIDDiscovery & IDataStoreORM & ICredentialIssuer>
 
@@ -107,7 +106,9 @@ export default (testContext: {
       const connection = getConnection('did-discovery-test')
       await connection.close()
       const result = await agent.discoverDid({ query: 'bob' })
-      expect(result?.errors?.profile).toMatch(/(Connection with sqlite database is not established)|(Cannot read property 'connect' of undefined)/)
+      expect(result?.errors?.profile).toMatch(
+        /(Connection with sqlite database is not established)|(Cannot read property 'connect' of undefined)/,
+      )
     })
   })
 }

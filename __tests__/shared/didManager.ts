@@ -1,4 +1,4 @@
-import { TAgent, IDIDManager, IKeyManager, IIdentifier } from '../../packages/core/src'
+import { IDIDManager, IIdentifier, IKeyManager, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
 

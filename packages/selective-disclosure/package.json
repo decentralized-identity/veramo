@@ -19,13 +19,13 @@
     "@veramo/data-store": "^3.1.0",
     "@veramo/did-jwt": "^3.1.0",
     "@veramo/message-handler": "^3.1.0",
-    "blakejs": "^1.1.0",
-    "debug": "^4.1.1",
-    "did-jwt": "5.11.1"
+    "debug": "^4.3.3",
+    "did-jwt": "^5.12.3",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.4.4"
+    "typescript": "4.5.5"
   },
   "files": [
     "build/**/*",

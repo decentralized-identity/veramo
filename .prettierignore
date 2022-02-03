@@ -1,6 +1,6 @@
 coverage
 examples
-build/**/*
+**/build
 docs
 report
 *.json

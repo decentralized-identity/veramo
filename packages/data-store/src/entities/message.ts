@@ -1,19 +1,20 @@
 import {
-  Entity,
-  Column,
   BaseEntity,
-  ManyToOne,
-  ManyToMany,
-  PrimaryColumn,
-  JoinTable,
   BeforeInsert,
   BeforeUpdate,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryColumn,
 } from 'typeorm'
-import { blake2bHex } from 'blakejs'
 import { IMessage } from '@veramo/core'
 import { Identifier } from './identifier'
-import { Presentation, createPresentationEntity } from './presentation'
-import { Credential, createCredentialEntity } from './credential'
+import { createPresentationEntity, Presentation } from './presentation'
+import { createCredentialEntity, Credential } from './credential'
+import { computeEntryHash } from '@veramo/utils'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface MetaData {
   type: string
@@ -25,7 +26,7 @@ export class Message extends BaseEntity {
   @BeforeInsert()
   setId() {
     if (!this.id) {
-      this.id = blake2bHex(this.raw)
+      this.id = computeEntryHash(this.raw || uuidv4())
     }
   }
 

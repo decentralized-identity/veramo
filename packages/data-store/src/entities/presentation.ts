@@ -1,9 +1,11 @@
-import { VerifiablePresentation } from '@veramo/core'
-import { blake2bHex } from 'blakejs'
-import { Entity, Column, BaseEntity, ManyToOne, JoinTable, PrimaryColumn, ManyToMany } from 'typeorm'
+import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
+
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm'
 import { Identifier } from './identifier'
 import { Message } from './message'
-import { Credential, createCredentialEntity } from './credential'
+import { createCredentialEntity, Credential } from './credential'
+import { asArray, computeEntryHash } from '@veramo/utils'
+import { normalizeCredential } from 'did-jwt-vc'
 
 @Entity('presentation')
 export class Presentation extends BaseEntity {
@@ -16,7 +18,7 @@ export class Presentation extends BaseEntity {
 
   set raw(raw: VerifiablePresentation) {
     this._raw = raw
-    this.hash = blake2bHex(JSON.stringify(raw))
+    this.hash = computeEntryHash(raw)
   }
 
   @Column({ type: 'simple-json' })
@@ -71,10 +73,11 @@ export class Presentation extends BaseEntity {
   messages: Message[]
 }
 
-export const createPresentationEntity = (vp: VerifiablePresentation): Presentation => {
+export const createPresentationEntity = (vpi: VerifiablePresentation): Presentation => {
+  const vp = vpi
   const presentation = new Presentation()
-  presentation.context = vp['@context']
-  presentation.type = vp.type
+  presentation.context = asArray(vp['@context'])
+  presentation.type = asArray(vp.type || [])
   presentation.id = vp.id
 
   if (vp.issuanceDate) {
@@ -89,14 +92,22 @@ export const createPresentationEntity = (vp: VerifiablePresentation): Presentati
   holder.did = vp.holder
   presentation.holder = holder
 
-  presentation.verifier = vp.verifier?.map((verifierDid) => {
+  presentation.verifier = asArray(vp.verifier || []).map((verifierDid) => {
     const id = new Identifier()
     id.did = verifierDid
     return id
   })
 
-  presentation.raw = vp
+  presentation.raw = vpi
 
-  presentation.credentials = (vp.verifiableCredential || []).map(createCredentialEntity)
+  presentation.credentials = (vp.verifiableCredential || [])
+    .map((cred) => {
+      if (typeof cred === 'string') {
+        return normalizeCredential(cred)
+      } else {
+        return <VerifiableCredential>cred
+      }
+    })
+    .map(createCredentialEntity)
   return presentation
 }

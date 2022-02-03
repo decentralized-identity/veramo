@@ -37,7 +37,7 @@ export class MemoryKeyStore extends AbstractKeyStore {
 
 /**
  * An implementation of {@link AbstractPrivateKeyStore} that holds everything in memory.
- * 
+ *
  * This is usable by {@link @veramo/kms-local} to hold the private key data.
  */
 export class MemoryPrivateKeyStore extends AbstractPrivateKeyStore {

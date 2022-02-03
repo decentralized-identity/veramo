@@ -4,7 +4,7 @@ import { createConnection, Connection, In } from 'typeorm'
 import { Identifier, Message, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
-import fs from 'fs'
+import * as fs from 'fs'
 
 describe('DB entities test', () => {
   let connection: Connection

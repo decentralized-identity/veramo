@@ -26,19 +26,23 @@ import { DIDDocument, parse as parseDidUrl, VerificationMethod } from 'did-resol
 import { schema } from '.'
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
-import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
 import {
-  isDefined,
-  mapIdentifierKeysToDoc,
-  encodeJoseBlob,
   createEcdhWrapper,
-  resolveDidOrThrow,
-  dereferenceDidKeys,
-  decodeJoseBlob,
   extractSenderEncryptionKey,
   extractManagedRecipients,
   mapRecipientsToLocalKeys,
 } from './utils'
+
+import {
+  decodeJoseBlob,
+  dereferenceDidKeys,
+  encodeJoseBlob,
+  isDefined,
+  mapIdentifierKeysToDoc,
+  resolveDidOrThrow,
+  _ExtendedIKey,
+  _NormalizedVerificationMethod,
+} from '@veramo/utils'
 
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm'
@@ -54,10 +58,8 @@ import {
   _DIDCommEncryptedMessage,
   _DIDCommPlainMessage,
   _DIDCommSignedMessage,
-  _ExtendedIKey,
   _FlattenedJWS,
   _GenericJWS,
-  _NormalizedVerificationMethod,
 } from './types/utility-types'
 const debug = Debug('veramo:did-comm:action-handler')
 
@@ -272,11 +274,9 @@ export class DIDComm implements IAgentPlugin {
     const didDocument: DIDDocument = await resolveDidOrThrow(args?.message?.to, context)
 
     // 2.1 extract all recipient key agreement keys and normalize them
-    const keyAgreementKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
-      didDocument,
-      'keyAgreement',
-      context,
-    )
+    const keyAgreementKeys: _NormalizedVerificationMethod[] = (
+      await dereferenceDidKeys(didDocument, 'keyAgreement', context)
+    ).filter((k) => k.publicKeyHex?.length! > 0)
 
     if (keyAgreementKeys.length === 0) {
       throw new Error(`key_not_found: no key agreement keys found for recipient ${args?.message?.to}`)
@@ -288,20 +288,26 @@ export class DIDComm implements IAgentPlugin {
       .filter(isDefined)
 
     if (recipients.length === 0) {
-      throw new Error(`not_supported: no compatible key agreement keys found for recipient ${args?.message?.to}`)
+      throw new Error(
+        `not_supported: no compatible key agreement keys found for recipient ${args?.message?.to}`,
+      )
     }
 
     // 3. create Encrypter for each recipient
-    const encrypters: Encrypter[] = recipients.map((recipient) => {
-      if (args.packing === 'authcrypt') {
-        return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
-      } else {
-        return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
-      }
-    }).filter(isDefined)
+    const encrypters: Encrypter[] = recipients
+      .map((recipient) => {
+        if (args.packing === 'authcrypt') {
+          return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
+        } else {
+          return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
+        }
+      })
+      .filter(isDefined)
 
     if (encrypters.length === 0) {
-      throw new Error(`not_supported: could not create suitable encryption for recipient ${args?.message?.to}`)
+      throw new Error(
+        `not_supported: could not create suitable encryption for recipient ${args?.message?.to}`,
+      )
     }
 
     // 4. createJWE

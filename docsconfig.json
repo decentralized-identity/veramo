@@ -1,9 +1,11 @@
 {
     "documentPackages": [
         "core",
+        "credential-ld",
         "credential-w3c",
         "data-store",
         "did-comm",
+        "did-discovery",
         "did-jwt",
         "did-manager",
         "did-provider-ethr",
@@ -16,6 +18,7 @@
         "remote-client",
         "remote-server",
         "selective-disclosure",
-        "url-handler"
+        "url-handler",
+        "utils"
     ]
 }

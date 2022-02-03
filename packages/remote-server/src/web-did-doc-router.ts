@@ -17,7 +17,7 @@ const keyMapping: Record<TKeyType, string> = {
 /**
  * @public
  */
- export interface WebDidDocRouterOptions {
+export interface WebDidDocRouterOptions {
   services?: ServiceEndpoint[]
 }
 
@@ -52,7 +52,10 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
       authentication: signingKeyIds,
       assertionMethod: signingKeyIds,
       keyAgreement: keyAgreementKeyIds,
-      service: typeof options.services === 'undefined' ? identifier.services : [...options.services, ...identifier.services],
+      service:
+        typeof options?.services === 'undefined'
+          ? identifier.services
+          : [...options.services, ...identifier.services],
     }
 
     return didDoc

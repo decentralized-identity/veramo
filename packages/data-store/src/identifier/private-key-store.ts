@@ -2,7 +2,7 @@ import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
 import { Connection } from 'typeorm'
 import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager/src/abstract-private-key-store'
 import { PrivateKey } from '../entities/private-key'
-import { v4 as uuid4} from 'uuid'
+import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
 const debug = Debug('veramo:typeorm:key-store')
 
@@ -43,7 +43,9 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     const keyRepo = await (await this.dbConnection).getRepository(PrivateKey)
     const existingKey = await keyRepo.findOne(key.alias)
     if (existingKey && existingKey.privateKeyHex !== key.privateKeyHex) {
-      throw new Error(`key_already_exists: A key with this alias exists but with different data. Please use a different alias.`)
+      throw new Error(
+        `key_already_exists: A key with this alias exists but with different data. Please use a different alias.`,
+      )
     }
     await keyRepo.save(key)
     return key

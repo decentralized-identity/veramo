@@ -1,17 +1,18 @@
 import {
-  TAgent,
-  IDIDManager,
-  IKeyManager,
-  IIdentifier,
-  IResolver,
-  IKey,
-  IEventListener,
   IAgentOptions,
+  IDIDManager,
+  IEventListener,
+  IIdentifier,
+  IKey,
+  IKeyManager,
   IMessageHandler,
+  IResolver,
+  TAgent,
 } from '../../packages/core/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../packages/remote-server/src'
 import * as u8a from 'uint8arrays'
+// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
 

@@ -1,5 +1,5 @@
-import { TAgent, IDIDManager, IKeyManager, IAgentOptions, IKey, TKeyType } from '../../packages/core/src'
-import { serialize, computeAddress } from '@ethersproject/transactions'
+import { IAgentOptions, IDIDManager, IKeyManager, TAgent, TKeyType } from '../../packages/core/src'
+import { computeAddress, serialize } from '@ethersproject/transactions'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
 

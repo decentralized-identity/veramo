@@ -6,68 +6,7 @@
           "type": "object",
           "properties": {
             "credential": {
-              "type": "object",
-              "properties": {
-                "@context": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "id": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "issuer": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "id"
-                  ]
-                },
-                "issuanceDate": {
-                  "type": "string"
-                },
-                "expirationDate": {
-                  "type": "string"
-                },
-                "credentialSubject": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "credentialStatus": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "type"
-                  ]
-                }
-              },
-              "required": [
-                "issuer",
-                "credentialSubject"
-              ],
+              "$ref": "#/components/schemas/CredentialPayload",
               "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n'@context', 'type' and 'issuanceDate' will be added automatically if omitted"
             },
             "save": {
@@ -75,8 +14,8 @@
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved"
             },
             "proofFormat": {
-              "$ref": "#/components/schemas/EncodingFormat",
-              "description": "The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported"
+              "$ref": "#/components/schemas/ProofFormat",
+              "description": "The desired format for the VerifiablePresentation to be created."
             },
             "removeOriginalFields": {
               "type": "boolean",
@@ -89,22 +28,14 @@
           ],
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
-        "EncodingFormat": {
-          "type": "string",
-          "const": "jwt",
-          "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` is supported at the moment."
-        },
-        "VerifiableCredential": {
+        "CredentialPayload": {
           "type": "object",
           "properties": {
-            "@context": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+            "issuer": {
+              "$ref": "#/components/schemas/IssuerType"
             },
-            "id": {
-              "type": "string"
+            "credentialSubject": {
+              "$ref": "#/components/schemas/CredentialSubject"
             },
             "type": {
               "type": "array",
@@ -112,7 +43,33 @@
                 "type": "string"
               }
             },
-            "issuer": {
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuanceDate": {
+              "$ref": "#/components/schemas/DateType"
+            },
+            "expirationDate": {
+              "$ref": "#/components/schemas/DateType"
+            },
+            "credentialStatus": {
+              "$ref": "#/components/schemas/CredentialStatus"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "issuer"
+          ],
+          "description": "Used as input when creating Verifiable Credentials"
+        },
+        "IssuerType": {
+          "anyOf": [
+            {
               "type": "object",
               "properties": {
                 "id": {
@@ -123,110 +80,135 @@
                 "id"
               ]
             },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The issuer of a Credential or the holder of a Presentation.\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+        },
+        "CredentialSubject": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+        },
+        "DateType": {
+          "type": "string",
+          "description": "Represents an issuance or expiration date for Credentials / Presentations. This is used as input when creating them."
+        },
+        "CredentialStatus": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+        },
+        "ProofFormat": {
+          "type": "string",
+          "enum": [
+            "jwt",
+            "lds"
+          ],
+          "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` and `lds` is supported at the moment."
+        },
+        "VerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "issuer": {
+              "$ref": "#/components/schemas/IssuerType"
+            },
+            "credentialSubject": {
+              "$ref": "#/components/schemas/CredentialSubject"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
             "issuanceDate": {
               "type": "string"
             },
             "expirationDate": {
               "type": "string"
             },
-            "credentialSubject": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              }
-            },
             "credentialStatus": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id",
-                "type"
-              ]
+              "$ref": "#/components/schemas/CredentialStatus"
             },
-            "proof": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
-                }
-              }
+            "id": {
+              "type": "string"
             }
           },
           "required": [
             "@context",
-            "type",
-            "issuer",
-            "issuanceDate",
             "credentialSubject",
+            "issuanceDate",
+            "issuer",
             "proof"
           ],
-          "description": "Verifiable Credential  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+        },
+        "ProofType": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            }
+          },
+          "description": "A proof property of a Verifiable Credential or Presentation"
         },
         "ICreateVerifiablePresentationArgs": {
           "type": "object",
           "properties": {
             "presentation": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "holder": {
-                  "type": "string"
-                },
-                "issuanceDate": {
-                  "type": "string"
-                },
-                "expirationDate": {
-                  "type": "string"
-                },
-                "@context": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "verifier": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "verifiableCredential": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VerifiableCredential"
-                  }
-                }
-              },
-              "required": [
-                "holder",
-                "verifier",
-                "verifiableCredential"
-              ],
+              "$ref": "#/components/schemas/PresentationPayload",
               "description": "The json payload of the Presentation according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n'@context', 'type' and 'issuanceDate' will be added automatically if omitted"
             },
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved"
             },
+            "challenge": {
+              "type": "string",
+              "description": "Optional (only JWT) string challenge parameter to add to the verifiable presentation."
+            },
+            "domain": {
+              "type": "string",
+              "description": "Optional string domain parameter to add to the verifiable presentation."
+            },
             "proofFormat": {
-              "$ref": "#/components/schemas/EncodingFormat",
+              "$ref": "#/components/schemas/ProofFormat",
               "description": "The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported"
             },
             "removeOriginalFields": {
@@ -240,28 +222,25 @@
           ],
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
-        "VerifiablePresentation": {
+        "PresentationPayload": {
           "type": "object",
           "properties": {
-            "id": {
-              "type": "string"
-            },
             "holder": {
               "type": "string"
             },
-            "issuanceDate": {
-              "type": "string"
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
+              }
             },
-            "expirationDate": {
-              "type": "string"
-            },
-            "@context": {
+            "type": {
               "type": "array",
               "items": {
                 "type": "string"
               }
             },
-            "type": {
+            "@context": {
               "type": "array",
               "items": {
                 "type": "string"
@@ -273,29 +252,160 @@
                 "type": "string"
               }
             },
-            "verifiableCredential": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/VerifiableCredential"
-              }
+            "issuanceDate": {
+              "$ref": "#/components/schemas/DateType"
             },
-            "proof": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
-                }
-              }
+            "expirationDate": {
+              "$ref": "#/components/schemas/DateType"
+            },
+            "id": {
+              "type": "string"
             }
           },
           "required": [
-            "holder",
+            "holder"
+          ],
+          "description": "Used as input when creating Verifiable Presentations"
+        },
+        "W3CVerifiableCredential": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+        },
+        "CompactJWT": {
+          "type": "string",
+          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "holder": {
+              "type": "string"
+            },
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
+              }
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "verifier": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
             "@context",
-            "type",
-            "verifier",
+            "holder",
             "proof"
           ],
-          "description": "Verifiable Presentation  {@link  https://github.com/decentralized-identifier/did-jwt-vc }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+        },
+        "IVerifyCredentialArgs": {
+          "type": "object",
+          "properties": {
+            "credential": {
+              "$ref": "#/components/schemas/W3CVerifiableCredential",
+              "description": "The Verifiable Credential object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the JWT representation.\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
+            }
+          },
+          "required": [
+            "credential"
+          ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+          },
+          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+        },
+        "IVerifyPresentationArgs": {
+          "type": "object",
+          "properties": {
+            "presentation": {
+              "$ref": "#/components/schemas/W3CVerifiablePresentation",
+              "description": "The Verifiable Presentation object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
+            },
+            "challenge": {
+              "type": "string",
+              "description": "Optional (only for JWT) string challenge parameter to verify the verifiable presentation against"
+            },
+            "domain": {
+              "type": "string",
+              "description": "Optional (only for JWT) string domain parameter to verify the verifiable presentation against"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
+            }
+          },
+          "required": [
+            "presentation"
+          ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+          },
+          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+        },
+        "W3CVerifiablePresentation": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiablePresentation"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         }
       },
       "methods": {
@@ -315,6 +425,24 @@
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiablePresentation"
+          }
+        },
+        "verifyCredential": {
+          "description": "Verifies a Verifiable Credential JWT or LDS Format.",
+          "arguments": {
+            "$ref": "#/components/schemas/IVerifyCredentialArgs"
+          },
+          "returnType": {
+            "type": "boolean"
+          }
+        },
+        "verifyPresentation": {
+          "description": "Verifies a Verifiable Presentation JWT or LDS Format.",
+          "arguments": {
+            "$ref": "#/components/schemas/IVerifyPresentationArgs"
+          },
+          "returnType": {
+            "type": "boolean"
           }
         }
       }
