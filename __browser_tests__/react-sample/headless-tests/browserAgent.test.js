@@ -17,17 +17,17 @@ jest.setTimeout(3 * 60 * 1000)
 describe('Browser integration tests', () => {
   describe('global tests', () => {
     const testContext = { getAgent: () => agent, setup: () => {}, tearDown: () => {} }
-    verifiableDataJWT(testContext)
-    verifiableDataLD(testContext)
-    handleSdrMessage(testContext)
-    resolveDid(testContext)
-    webDidFlow(testContext)
-    saveClaims(testContext)
-    documentationExamples(testContext)
+    // verifiableDataJWT(testContext)
+    // verifiableDataLD(testContext)
+    // handleSdrMessage(testContext)
+    // resolveDid(testContext)
+    // webDidFlow(testContext)
+    // saveClaims(testContext)
+    // documentationExamples(testContext)
     keyManager(testContext)
-    didManager(testContext)
-    messageHandler(testContext)
-    didCommPacking(testContext)
+    // didManager(testContext)
+    // messageHandler(testContext)
+    // didCommPacking(testContext)
   })
 
   describe('should intialize in the react app', () => {

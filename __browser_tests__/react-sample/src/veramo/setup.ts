@@ -39,6 +39,8 @@ export const agent = createAgent<IResolver>({
         /**
          * `getDidKeyResolver` throws error:
          * "Field 'browser' doesn't contain a valid alias configuration"
+         * Can't resolve 'stream'
+         * 'stream-browserify' can be installed for brower env
          */
         // ...getDidKeyResolver(),
         // ...new FakeDidResolver(() => agent).getDidFakeResolver(),
@@ -80,6 +82,8 @@ export const agent = createAgent<IResolver>({
         /**
          * `KeyDIDProvider` throws error:
          * "Field 'browser' doesn't contain a valid alias configuration"
+         * Can't resolve 'stream'
+         * 'stream-browserify' can be installed for brower env
          */
         // 'did:key': new KeyDIDProvider({
         //   defaultKms: 'local',
