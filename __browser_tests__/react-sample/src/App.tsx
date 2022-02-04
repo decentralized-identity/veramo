@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 import { agent } from './veramo/setup'
 
-const globalAny: any = global
-
 function App() {
   const [didDoc, setDidDoc] = useState<any>(null)
   const [invalidDidDoc, setInvalidDidDoc] = useState<any>(null)
@@ -23,8 +21,6 @@ function App() {
   }
 
   useEffect(() => {
-    globalAny.agent = agent
-
     resolve()
     resolveInvalid()
   }, [])
