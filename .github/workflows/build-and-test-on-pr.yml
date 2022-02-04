@@ -46,4 +46,3 @@ jobs:
       - run: npx codecov
       - name: run browser tests
         run: yarn test:browser
-        continue-on-error: true
