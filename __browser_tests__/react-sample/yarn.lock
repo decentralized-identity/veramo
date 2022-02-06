@@ -3877,12 +3877,7 @@ devtools-protocol@0.0.948846:
   resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.948846.tgz#bff47e2d1dba060130fa40ed2e5f78b916ba285f"
   integrity sha512-5fGyt9xmMqUl2VI7+rnUkKCiAQIpLns8sfQtTENy5L70ktbNw0Z3TFJ1JoFNYdx/jffz4YXU45VF75wKZD7sZQ==
 
-did-resolver@3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.3.tgz#ed530c9daa2c9925f85e9eabf258e51960db7e70"
-  integrity sha512-ab8y90tSiDkTdfddXRC9Qcb1QSd568aC6+OgFTrcE4rs1vQAZOil+VqXHDu+Ff/UvhxlckPO8oJtp86iICZG0w==
-
-did-resolver@^3.1.5:
+did-resolver@3.1.5, did-resolver@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.5.tgz#1a82a00fa96d64085676183bff40ebc13c88cd6a"
   integrity sha512-/4lM1vK5osnWVZ2oN9QhlWV5xOwssuLSL1MvueBc8LQWotbD5kM9XQMe7h4GydYpbh3JaWMFkOWwc9jvSZ+qgg==
@@ -4469,7 +4464,7 @@ ethr-did-registry@^0.0.3:
   resolved "https://registry.yarnpkg.com/ethr-did-registry/-/ethr-did-registry-0.0.3.tgz#f363d2c73cb9572b57bd7a5c9c90c88485feceb5"
   integrity sha512-4BPvMGkxAK9vTduCq6D5b8ZqjteD2cvDIPPriXP6nnmPhWKFSxypo+AFvyQ0omJGa0cGTR+dkdI/8jiF7U/qaw==
 
-ethr-did-resolver@^5.0.4:
+ethr-did-resolver@5.0.4:
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-5.0.4.tgz#a5c09465ee2b1cf752e49f09673bc44567bd8c59"
   integrity sha512-eccHUIS207ymuxjAjFWu7jDeKKd1Sk+GDiKL3T0IpQRXwemkh6k9V2pQah9uQ7tS8sxZ8mKT7SeWXDmM6Uf/UQ==
@@ -9277,7 +9272,7 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-did-resolver@^2.0.12:
+web-did-resolver@2.0.12:
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.12.tgz#3413b988c2ab9d52378be7aa22ef457d70c48e21"
   integrity sha512-bidL5bPn8CYFM33sfh465iLcgTbkNpfAlmpWkSC69D24fXnAY36tbMfhnehqIut+VCKZqIqeeZZl5ACanF5/+A==
