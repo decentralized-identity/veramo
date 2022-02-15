@@ -2767,7 +2767,7 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@transmute/credentials-context@^0.7.0-unstable.34":
+"@transmute/credentials-context@^0.7.0-unstable.47":
   version "0.7.0-unstable.47"
   resolved "https://registry.yarnpkg.com/@transmute/credentials-context/-/credentials-context-0.7.0-unstable.47.tgz#6d8925b16c9952922877bd420fd5084c33bf12b2"
   integrity sha512-d+AcqzRTHgNszRdIOzpi49M7MtjPFDAqf0RfgvgKvP1YtiiS6oA5pl2niGlkQBiFMCDTudiZUzatO+/FvSyZUw==
@@ -2830,7 +2830,7 @@
     "@transmute/ld-key-pair" "^0.6.1-unstable.37"
     "@transmute/x25519-key-pair" "^0.6.1-unstable.37"
 
-"@transmute/ed25519-signature-2018@^0.7.0-unstable.34":
+"@transmute/ed25519-signature-2018@^0.7.0-unstable.47":
   version "0.7.0-unstable.47"
   resolved "https://registry.yarnpkg.com/@transmute/ed25519-signature-2018/-/ed25519-signature-2018-0.7.0-unstable.47.tgz#c4d82c213032a11bec657f0d06df46aef30a5cb0"
   integrity sha512-xjuKwagcxa4N2NQO+9wYHPYXeKiqtCpbzRtBMxph7h1TOhaAt5KYHJnTzZMIujEw0A40SCyBpMGPSJRI7QuuxA==
@@ -7918,6 +7918,11 @@ jju@~1.4.0:
   resolved "https://registry.yarnpkg.com/jju/-/jju-1.4.0.tgz#a3abe2718af241a2b2904f84a625970f389ae32a"
   integrity sha1-o6vicYryQaKykE+EpiWXDzia4yo=
 
+jose@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.5.0.tgz#92829d8cf846351eb55aaaf94f252fb1d191f2d5"
+  integrity sha512-GFcVFQwYQKbQTUOo2JlpFGXTkgBw26uzDsRMD2q1WgSKNSnpKS9Ug7bdQ8dS+p4sZHNH6iRPu6WK2jLIjspaMA==
+
 js-sha256@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.9.0.tgz#0b89ac166583e91ef9123644bd3c5334ce9d0966"
@@ -9323,7 +9328,7 @@ nan@^2.13.2, nan@^2.14.0:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
 
-nanoid@^3.0.2, nanoid@^3.1.12, nanoid@^3.1.20, nanoid@^3.1.21, nanoid@^3.2.0:
+nanoid@^3.0.2, nanoid@^3.1.12, nanoid@^3.1.20, nanoid@^3.1.21:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.0.tgz#5906f776fd886c66c24f3653e0c46fcb1d4ad6b0"
   integrity sha512-JzxqqT5u/x+/KOFSd7JP15DOo9nOoHpx6DYatqIHUW2+flybkm+mdcraotSQR5WcnZr+qhGVh8Ted0KdfSMxlg==
@@ -11210,12 +11215,12 @@ rpc-utils@^0.3.4:
   dependencies:
     nanoid "^3.1.21"
 
-rpc-utils@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/rpc-utils/-/rpc-utils-0.6.1.tgz#f49c0fe275f207155736f9bfcc2590f86ac07fa2"
-  integrity sha512-dsVTH4k3x/lf95kk3hZVSfs1JoeOAGgAHtTNQBQ+ezxv+y1jS0eH+tkPTi4l3bM9tscsco9e3EqN1PcX3CyqNw==
+rpc-utils@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/rpc-utils/-/rpc-utils-0.4.0.tgz#7006d0e32e140090530f6f4fd4a7f841c28da0e6"
+  integrity sha512-XBvam3jhcD4d66kFRGjr0cAwJNf8v8eXeJNN187jDGvHuQO9Dugu01WCAghojAbSOcdimCBBz77WNVU1j2+Uig==
   dependencies:
-    nanoid "^3.2.0"
+    nanoid "^3.1.21"
 
 run-async@^2.4.0:
   version "2.4.1"
