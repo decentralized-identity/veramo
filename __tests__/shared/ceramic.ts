@@ -76,7 +76,7 @@ export default (testContext: {
       expect(doc2.content).toEqual(content)
     })
 
-    it.only('modelManager and DIDDataStore with did:key', async () => {
+    it('modelManager and DIDDataStore with did:key', async () => {
       const alice = await agent.didManagerGetOrCreate({ alias: 'alice', provider: 'did:key' })
       const provider = new VeramoDidProvider(agent, alice.did)
 
