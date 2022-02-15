@@ -168,6 +168,19 @@ export interface IVerifyCredentialLDArgs {
    * @default false
    */
   fetchRemoteContexts?: boolean
+
+  /**
+   * Optional function for checking credential status if `credentialStatus` is
+   * present on the credential
+   * NOTE: `ts-json-schema-generator` does not support functions, so need to use `any` here
+   *
+   * @default undefined
+   */
+  checkStatus?: any
+}
+
+export interface CheckStatusResult {
+  verified: true
 }
 
 /**

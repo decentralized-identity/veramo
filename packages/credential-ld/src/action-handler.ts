@@ -183,7 +183,15 @@ export class CredentialIssuerLD implements IAgentPlugin {
     context: IRequiredContext,
   ): Promise<boolean> {
     const credential = args.credential
-    return this.ldCredentialModule.verifyCredential(credential, args.fetchRemoteContexts || false,  context)
+    if (typeof args.checkStatus === 'function') {
+      return this.ldCredentialModule.verifyCredential(
+        credential,
+        args.fetchRemoteContexts || false,
+        args.checkStatus,
+        context,
+      )
+    }
+    return this.ldCredentialModule.verifyCredential(credential, args.fetchRemoteContexts || false, context)
   }
 
   /** {@inheritdoc ICredentialIssuerLD.verifyPresentationLD} */

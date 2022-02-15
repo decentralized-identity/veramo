@@ -331,6 +331,10 @@
               "type": "boolean",
               "description": "Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.",
               "default": false
+            },
+            "checkStatus": {
+              "description": "Optional function for checking credential status if `credentialStatus` is present on the credential",
+              "default": "undefined"
             }
           },
           "required": [

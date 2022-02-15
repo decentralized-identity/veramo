@@ -11,6 +11,7 @@ import fetch from 'cross-fetch'
 import Debug from 'debug'
 import { extendContextLoader, purposes } from 'jsonld-signatures'
 import * as vc from 'vc-js'
+import { CheckStatusResult } from './types'
 import { LdContextLoader } from './ld-context-loader'
 import { LdSuiteLoader } from './ld-suite-loader'
 import { RequiredAgentMethods } from './ld-suites'
@@ -140,15 +141,34 @@ export class LdCredentialModule {
 
   async verifyCredential(
     credential: VerifiableCredential,
-    fetchRemoteContexts: boolean = false,
+    fetchRemoteContexts: boolean,
+    checkStatus: () => CheckStatusResult | Promise<CheckStatusResult>,
     context: IAgentContext<IResolver>,
+  ): Promise<boolean>
+  async verifyCredential(
+    credential: VerifiableCredential,
+    fetchRemoteContexts: boolean,
+    context: IAgentContext<IResolver>,
+  ): Promise<boolean>
+  async verifyCredential(
+    credential: VerifiableCredential,
+    fetchRemoteContexts: boolean = false,
+    ...rest: any[]
   ): Promise<boolean> {
+    let checkStatus: undefined | (() => boolean | Promise<boolean>);
+    let context: IAgentContext<IResolver> = rest.pop()
+
+    if (rest.length > 0) {
+      checkStatus = rest.pop()
+    }
+
     const result = await vc.verifyCredential({
       credential,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
       purpose: new AssertionProofPurpose(),
       compactProof: false,
+      checkStatus,
     })
 
     if (result.verified) return true
