@@ -295,6 +295,7 @@ describe('Local integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didCommPacking(testContext)
+  ceramic(testContext)
   didDiscovery(testContext)
   dbInitOptions(testContext)
   utils(testContext)
@@ -303,5 +304,4 @@ describe('Local integration tests', () => {
   didCommWithPeerDidFlow(testContext)
   credentialStatus(testContext)
   ethrDidFlowSigned(testContext)
-  ceramic(testContext)
 })
