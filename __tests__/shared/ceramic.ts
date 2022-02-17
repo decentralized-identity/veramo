@@ -10,10 +10,11 @@ import { CeramicApi } from '@ceramicnetwork/common'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { ModelManager } from '@glazed/devtools'
 import { DIDDataStore } from '@glazed/did-datastore'
+import { ICredentialIssuer } from '@veramo/credential-w3c'
 
 const API_URL = 'https://ceramic-clay.3boxlabs.com'
 
-type ConfiguredAgent = TAgent<IKeyManager & IDIDManager>
+type ConfiguredAgent = TAgent<IKeyManager & IDIDManager & ICredentialIssuer>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -114,21 +115,48 @@ export default (testContext: {
 
       // Create a tile using the created schema ID
       const tile = await manager.createTile('exampleNote', { text: 'A simple note' }, { schema })
+
       expect(tile).toBeTruthy()
 
       const model = await manager.toPublished()
       expect(model).toBeTruthy()
 
-      const store = new DIDDataStore({ 
+      const store = new DIDDataStore({
         //FIXME: there is a type mismatch somewhere in the dependency tree (@ceramicnetwork/common)
         ceramic: ceramic as any as CeramicApi,
-        model
+        model,
       })
 
       await store.set('myNote', { text: 'This is my note' })
       const note = await store.get('myNote')
 
       expect(note).toEqual({ text: 'This is my note' })
+    })
+
+    it('update an array in a TileDocument', async () => {
+      const alice = await agent.didManagerGetOrCreate({ alias: 'alice', provider: 'did:key' })
+      const provider = new VeramoDidProvider(agent, alice.did)
+
+      const resolver = { ...KeyDidResolver.getResolver() }
+      const did = new DID({ provider, resolver })
+      await did.authenticate()
+
+      const ceramic = new CeramicClient(API_URL)
+      ceramic.setDID(did)
+
+      const content = { vcs: ['first'] }
+      const doc = await TileDocument.create(ceramic, content)
+
+      const doc2 = await TileDocument.load(ceramic, doc.commitId)
+      expect(doc2.content).toEqual(content)
+
+      const content2 = doc.content
+      content2.vcs.push('second')
+      await doc.update(content2)
+
+      const doc3 = await TileDocument.load(ceramic, doc.commitId)
+      expect(doc3.content).toEqual(content2)
+
     })
 
     it.skip('create TileDocument with did:ethr', async () => {
