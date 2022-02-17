@@ -118,7 +118,7 @@ export default (testContext: {
       })
 
       expect(credentials[0].credentials[0]).toHaveProperty('hash')
-      expect(credentials[0].credentials[0]).toHaveProperty('verifiableCredential.proof.jwt')
+      expect(credentials[0].credentials[0]).toHaveProperty('verifiableCredential.proof')
     })
 
     it('should create verifiable presentation', async () => {
