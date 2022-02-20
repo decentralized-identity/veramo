@@ -4166,11 +4166,6 @@ commander@^2.15.0, commander@^2.20.3, commander@^2.7.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
-commander@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-8.2.0.tgz#37fe2bde301d87d47a53adeff8b5915db1381ca8"
-  integrity sha512-LLKxDvHeL91/8MIyTAD5BFMNtoIwztGPMiM/7Bl8rIPmHCZXRxmSWr91h57dpOpnQ6jIUqEWdXE/uBYMfiVZDA==
-
 commander@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-9.0.0.tgz#86d58f24ee98126568936bd1d3574e0308a99a40"
@@ -9875,11 +9870,6 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
 
-safe-stable-stringify@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.2.0.tgz#26a52f13a6988de16a0d88e20248f38e8a7d840c"
-  integrity sha512-C6AuMdYPuPV/P1leplHNu0lgc2LAElq/g3TdoksDCIVtBhr78o/CH03bt/9SKqugFbKU9CUjsNlCu0fjtQzQUw==
-
 safe-stable-stringify@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.3.1.tgz#ab67cbe1fe7d40603ca641c5e765cb942d04fc73"
@@ -10850,7 +10840,7 @@ ts-jest@27.1.3:
     semver "7.x"
     yargs-parser "20.x"
 
-ts-json-schema-generator@0.98.0:
+ts-json-schema-generator@0.98.0, ts-json-schema-generator@^0.98.0:
   version "0.98.0"
   resolved "https://registry.yarnpkg.com/ts-json-schema-generator/-/ts-json-schema-generator-0.98.0.tgz#5aa957f45ba4b662a53ffafe86164e6e218942fa"
   integrity sha512-emurTxAKkhk9a/i0Rfg5WkT5Hbg7MaL9VlxQXsWScBun0aXVl99gr06sEcHm3EJ8As4Ji51J7VJGEg6wrER/Kg==
@@ -10861,18 +10851,6 @@ ts-json-schema-generator@0.98.0:
     json5 "^2.2.0"
     safe-stable-stringify "^2.3.1"
     typescript "~4.5.4"
-
-ts-json-schema-generator@^0.97.0:
-  version "0.97.0"
-  resolved "https://registry.yarnpkg.com/ts-json-schema-generator/-/ts-json-schema-generator-0.97.0.tgz#ea4f2ddbcba1fb6c0a2f97d242783b7fdc8e203b"
-  integrity sha512-kPDq4ut8Mu1ZgSN7OeTXz+ueb1juFt2eyGd23lMr3WoN5sq4Xa9m22kDI46OlwapE0aF8e1pUesOFgDcATHcuA==
-  dependencies:
-    "@types/json-schema" "^7.0.9"
-    commander "^8.2.0"
-    glob "^7.2.0"
-    json5 "^2.2.0"
-    safe-stable-stringify "^2.2.0"
-    typescript "~4.4.3"
 
 ts-node@10.5.0:
   version "10.5.0"
@@ -11002,10 +10980,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeorm@0.2.41:
-  version "0.2.41"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.41.tgz#88758101ac158dc0a0a903d70eaacea2974281cc"
-  integrity sha512-/d8CLJJxKPgsnrZWiMyPI0rz2MFZnBQrnQ5XP3Vu3mswv2WPexb58QM6BEtmRmlTMYN5KFWUz8SKluze+wS9xw==
+typeorm@0.2.43:
+  version "0.2.43"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.43.tgz#110d629ed5d0b014c735f0213f06b34abb32d298"
+  integrity sha512-j4SU8I0PsMWtF64s/9tOJmlexzfDsvXhTjSE2GXdSseUN8TYyfbCm/fJnC6lx3uHgBJL4z9bE8U/7qyC/FVmNw==
   dependencies:
     "@sqltools/formatter" "^1.2.2"
     app-root-path "^3.0.0"
@@ -11020,6 +10998,7 @@ typeorm@0.2.41:
     reflect-metadata "^0.1.13"
     sha.js "^2.4.11"
     tslib "^2.1.0"
+    uuid "^8.3.2"
     xml2js "^0.4.23"
     yargs "^17.0.1"
     zen-observable-ts "^1.0.0"
@@ -11028,11 +11007,6 @@ typescript@4.5.5, typescript@~4.5.4:
   version "4.5.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
   integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
-
-typescript@~4.4.3:
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.3.tgz#bdc5407caa2b109efd4f82fe130656f977a29324"
-  integrity sha512-4xfscpisVgqqDfPaJo5vkd+Qd/ItkoagnHpufr+i2QCHBsNYp+G7UAoyFl8aPtx879u38wPV65rZ8qbGZijalA==
 
 typescript@~4.5.2:
   version "4.5.3"
