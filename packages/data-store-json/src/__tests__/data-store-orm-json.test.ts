@@ -16,7 +16,7 @@ import {
   TCredentialColumns,
 } from '../../../data-store/src'
 import { DataStoreJson } from '../data-store-json'
-import { DefaultRecords } from '../types'
+import { MemoryJsonStore, VeramoJsonStore } from '../types'
 
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'
@@ -113,13 +113,7 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
   await agent.dataStoreSaveMessage({ message: m4 })
 }
 
-let dataStore: DefaultRecords = {
-  dids: {},
-  keys: {},
-  credentials: {},
-  presentations: {},
-  messages: {},
-}
+let dataStore: VeramoJsonStore = new MemoryJsonStore()
 
 describe('@veramo/data-store queries', () => {
   function makeAgent(context?: Record<string, any>): TAgent<IDataStore & IDataStoreORM> {
@@ -131,13 +125,7 @@ describe('@veramo/data-store queries', () => {
   }
 
   beforeEach(async () => {
-    dataStore = {
-      dids: {},
-      keys: {},
-      credentials: {},
-      presentations: {},
-      messages: {},
-    }
+    dataStore = new MemoryJsonStore()
     await populateDB(makeAgent())
   })
 
@@ -257,10 +245,10 @@ describe('@veramo/data-store queries', () => {
 
   test('works with relations', async () => {
     const credentials = await makeAgent().dataStoreORMGetVerifiableCredentialsByClaims({})
-    expect(credentials.length).toBe(3)
+    expect(credentials.length).toBe(1)
     expect(credentials[0].verifiableCredential.id).toBe('vc1')
     const count = await makeAgent().dataStoreORMGetVerifiableCredentialsByClaimsCount({})
-    expect(count).toBe(3)
+    expect(count).toBe(1)
 
     const credentials2 = await makeAgent({
       authenticatedDid: did3,

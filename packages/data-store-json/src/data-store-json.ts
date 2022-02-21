@@ -14,14 +14,20 @@ import {
   IDataStoreDeleteVerifiableCredentialArgs,
   IIdentifier,
   IKey,
-  CredentialSubject,
 } from '@veramo/core'
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 import structuredClone from '@ungap/structured-clone'
-import { DefaultRecords, DiffCallback } from './types'
+import {
+  VeramoJsonStore,
+  DiffCallback,
+  ClaimTableEntry,
+  CredentialTableEntry,
+  PresentationTableEntry,
+} from './types'
 import { normalizeCredential } from 'did-jwt-vc'
 import {
   FindArgs,
+  IDataStoreORM,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -29,28 +35,48 @@ import {
   TPresentationColumns,
   UniqueVerifiableCredential,
   UniqueVerifiablePresentation,
+  schema as DataStoreOrmSchema,
+  Order,
 } from '@veramo/data-store'
 
 interface IContext {
   authenticatedDid?: string
 }
 
-export class DataStoreJson implements IAgentPlugin {
-  readonly methods: IDataStore
-  readonly schema = schema.IDataStore
+type LocalRecords = Required<
+  Pick<VeramoJsonStore, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
+>
 
-  private readonly cacheTree: DefaultRecords
+/**
+ * A storage plugin that implements the `IDataStore` and `IDataStoreORM` methods using a JSON tree as a backend.
+ *
+ * Each update operation triggers a callback that can be used to either save the latest state of the agent data or
+ * compute a diff and log the changes.
+ *
+ * The JSON object containing the storage state can be supplied during initialization, as well as an option to use
+ * copies or in-place modifications.
+ */
+export class DataStoreJson implements IAgentPlugin {
+  readonly methods: IDataStore & IDataStoreORM
+  readonly schema = { ...schema.IDataStore, ...DataStoreOrmSchema }
+
+  private readonly cacheTree: LocalRecords
   private readonly updateCallback: DiffCallback
-  private readonly useDirectReferences: boolean
 
   constructor(
-    initialState: DefaultRecords,
+    initialState: Pick<VeramoJsonStore, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>,
     updateCallback?: DiffCallback | null,
-    useDirectReferences: boolean = true,
+    private useDirectReferences: boolean = true,
   ) {
-    this.cacheTree = useDirectReferences ? initialState : structuredClone(initialState)
+    this.cacheTree = (useDirectReferences ? initialState : structuredClone(initialState)) as LocalRecords
+    const tables = ['dids', 'credentials', 'presentations', 'claims', 'messages'] as (keyof LocalRecords)[]
+    for (const table of tables) {
+      if (!this.cacheTree[table]) {
+        this.cacheTree[table] = {}
+      }
+    }
+
     this.updateCallback = updateCallback instanceof Function ? updateCallback : () => Promise.resolve()
-    this.useDirectReferences = useDirectReferences
 
     this.methods = {
       // IDataStore methods
@@ -87,12 +113,14 @@ export class DataStoreJson implements IAgentPlugin {
     const oldTree = structuredClone(this.cacheTree)
     this.cacheTree.messages[id] = message
     // TODO: deprecate automatic credential and presentation saving
-    asArray(message.credentials).forEach((verifiableCredential) =>
-      this._dataStoreSaveVerifiableCredential({ verifiableCredential }, false),
-    )
-    asArray(message.presentations).forEach((verifiablePresentation) =>
-      this._dataStoreSaveVerifiablePresentation({ verifiablePresentation }, false),
-    )
+    const credentials = asArray(message.credentials)
+    const presentations = asArray(message.presentations)
+    for (const verifiableCredential of credentials) {
+      await this._dataStoreSaveVerifiableCredential({ verifiableCredential }, false)
+    }
+    for (const verifiablePresentation of presentations) {
+      await this._dataStoreSaveVerifiablePresentation({ verifiablePresentation }, false)
+    }
     const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
     await this.updateCallback(oldTree, newTree)
     return message.id
@@ -112,23 +140,77 @@ export class DataStoreJson implements IAgentPlugin {
     args: IDataStoreSaveVerifiableCredentialArgs,
     postUpdates: boolean = true,
   ): Promise<string> {
-    const _veramo_raw_credential =
+    const canonicalCredential =
       args?.verifiableCredential?.proof?.type === 'JwtProof2020' &&
       typeof args?.verifiableCredential?.proof?.jwt === 'string'
         ? args?.verifiableCredential?.proof?.jwt
         : args.verifiableCredential
-    const _veramo_credential_hash = computeEntryHash(_veramo_raw_credential)
-    const credential = { ...args.verifiableCredential, _veramo_raw_credential, _veramo_credential_hash }
-    let oldTree: DefaultRecords
+    const vc = args.verifiableCredential
+    const id = vc.id
+    const hash = computeEntryHash(canonicalCredential)
+    const issuer = extractIssuer(vc)
+    const subject = vc.credentialSubject.id
+    const context = asArray(vc['@context'])
+    const type = asArray(vc.type)
+    let issuanceDate: Date | undefined = undefined
+    let expirationDate: Date | undefined = undefined
+
+    if (vc.issuanceDate) {
+      issuanceDate = new Date(vc.issuanceDate)
+    }
+    if (vc.expirationDate) {
+      expirationDate = new Date(vc.expirationDate)
+    }
+
+    const credential: CredentialTableEntry = {
+      hash,
+      id,
+      parsedCredential: vc,
+      canonicalCredential,
+      issuer,
+      subject,
+      issuanceDate,
+      expirationDate,
+      context,
+      type,
+    }
+
+    const claims: ClaimTableEntry[] = []
+
+    for (const claimType in vc.credentialSubject) {
+      if (vc.credentialSubject.hasOwnProperty(claimType)) {
+        const value = vc.credentialSubject[claimType]
+        if (claimType !== 'id') {
+          const claim = {
+            hash: computeEntryHash(hash + claimType),
+            type: claimType,
+            value,
+            issuer,
+            subject,
+            issuanceDate,
+            expirationDate,
+            context: context,
+            credentialType: type,
+            credentialHash: hash,
+          }
+          claims.push(claim)
+        }
+      }
+    }
+
+    let oldTree: VeramoJsonStore
     if (postUpdates) {
       oldTree = structuredClone(this.cacheTree)
     }
-    this.cacheTree.credentials[_veramo_credential_hash] = credential
+    this.cacheTree.credentials[hash] = credential
+    for (const claim of claims) {
+      this.cacheTree.claims[claim.hash] = claim
+    }
     if (postUpdates) {
       const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
       await this.updateCallback(oldTree!!, newTree)
     }
-    return credential._veramo_credential_hash
+    return credential.hash
   }
 
   async dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string> {
@@ -139,11 +221,20 @@ export class DataStoreJson implements IAgentPlugin {
     args: IDataStoreDeleteVerifiableCredentialArgs,
   ): Promise<boolean> {
     const credential = this.cacheTree.credentials[args.hash]
-    const oldTree = structuredClone(this.cacheTree)
-    delete this.cacheTree.credentials[args.hash]
-    const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
-    await this.updateCallback(oldTree, newTree)
-    return !!credential
+    if (credential) {
+      const claims = Object.values(this.cacheTree.claims)
+        .filter((claim) => claim.credentialHash === credential.hash)
+        .map((claim) => claim.hash)
+      const oldTree = structuredClone(this.cacheTree)
+      delete this.cacheTree.credentials[args.hash]
+      for (const claimHash of claims) {
+        delete this.cacheTree.claims[claimHash]
+      }
+      const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
+      await this.updateCallback(oldTree, newTree)
+      return true
+    }
+    return false
   }
 
   async dataStoreGetVerifiableCredential(
@@ -151,10 +242,8 @@ export class DataStoreJson implements IAgentPlugin {
   ): Promise<VerifiableCredential> {
     const credentialEntity = this.cacheTree.credentials[args.hash]
     if (credentialEntity) {
-      const { _veramo_raw_credential, _veramo_credential_hash, ...credential } =
-        structuredClone(credentialEntity)
-      // FIXME: do we return the RAW credential here?
-      return credential
+      const { parsedCredential } = credentialEntity
+      return structuredClone(parsedCredential)
     } else {
       throw Error('Verifiable credential not found')
     }
@@ -164,40 +253,63 @@ export class DataStoreJson implements IAgentPlugin {
     args: IDataStoreSaveVerifiablePresentationArgs,
     postUpdates: boolean = true,
   ): Promise<string> {
-    const _veramo_raw_presentation =
-      args?.verifiablePresentation?.proof?.type === 'JwtProof2020' &&
-      typeof args?.verifiablePresentation?.proof?.jwt === 'string'
-        ? args?.verifiablePresentation?.proof?.jwt
-        : args.verifiablePresentation
-    const _veramo_presentation_hash = computeEntryHash(_veramo_raw_presentation)
-    const presentation = {
-      ...args.verifiablePresentation,
-      _veramo_presentation_hash,
-      _veramo_raw_presentation,
+    const vp = args.verifiablePresentation
+    const canonicalPresentation =
+      vp?.proof?.type === 'JwtProof2020' && typeof vp?.proof?.jwt === 'string' ? vp?.proof?.jwt : vp
+
+    const id = vp.id
+    const hash = computeEntryHash(canonicalPresentation)
+    const holder = extractIssuer(vp)
+    const verifier = asArray(vp.verifier)
+    const context = asArray(vp['@context'])
+    const type = asArray(vp.type)
+    let issuanceDate: Date | undefined = undefined
+    let expirationDate: Date | undefined = undefined
+
+    if (vp.issuanceDate) {
+      issuanceDate = new Date(vp.issuanceDate)
     }
-    let oldTree: DefaultRecords
+    if (vp.expirationDate) {
+      expirationDate = new Date(vp.expirationDate)
+    }
+
+    const credentials: VerifiableCredential[] = asArray(vp.verifiableCredential).map((cred) => {
+      if (typeof cred === 'string') {
+        return normalizeCredential(cred)
+      } else {
+        return <VerifiableCredential>cred
+      }
+    })
+
+    const presentation: PresentationTableEntry = {
+      hash,
+      id,
+      parsedPresentation: vp,
+      canonicalPresentation,
+      holder,
+      verifier,
+      issuanceDate,
+      expirationDate,
+      context,
+      type,
+      credentials,
+    }
+
+    let oldTree: VeramoJsonStore
     if (postUpdates) {
       oldTree = structuredClone(this.cacheTree)
     }
-    this.cacheTree.presentations[_veramo_presentation_hash] = presentation
 
-    asArray(presentation.verifiableCredential)
-      .map((cred) => {
-        if (typeof cred === 'string') {
-          return normalizeCredential(cred)
-        } else {
-          return <VerifiableCredential>cred
-        }
-      })
-      .forEach((verifiableCredential) => {
-        this._dataStoreSaveVerifiableCredential({ verifiableCredential }, false)
-      })
+    this.cacheTree.presentations[hash] = presentation
+    for (const verifiableCredential of credentials) {
+      await this._dataStoreSaveVerifiableCredential({ verifiableCredential }, false)
+    }
 
     if (postUpdates) {
       const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
       await this.updateCallback(oldTree!!, newTree)
     }
-    return _veramo_presentation_hash
+    return hash
   }
 
   async dataStoreSaveVerifiablePresentation(args: IDataStoreSaveVerifiablePresentationArgs): Promise<string> {
@@ -209,41 +321,23 @@ export class DataStoreJson implements IAgentPlugin {
   ): Promise<VerifiablePresentation> {
     const presentationEntry = this.cacheTree.presentations[args.hash]
     if (presentationEntry) {
-      const { _veramo_raw_presentation, _veramo_presentation_hash, ...presentation } = presentationEntry
-      return presentation
+      const { parsedPresentation } = presentationEntry
+      return parsedPresentation
     } else {
       throw Error('Verifiable presentation not found')
     }
   }
 
-  // Identifiers
-
-  // private async identifiersQuery(
-  //   args: FindArgs<TIdentifiersColumns>,
-  //   context: IContext,
-  // ): Promise<SelectQueryBuilder<Identifier>> {
-  //   const where = createWhereObject(args)
-  //   let qb = (await this.dbConnection)
-  //     .getRepository(Identifier)
-  //     .createQueryBuilder('identifier')
-  //     .leftJoinAndSelect('identifier.keys', 'keys')
-  //     .leftJoinAndSelect('identifier.services', 'services')
-  //     .where(where)
-  //   qb = decorateQB(qb, 'message', args)
-  //   return qb
-  // }
-
   async dataStoreORMGetIdentifiers(
     args: FindArgs<TIdentifiersColumns>,
     context: IContext,
   ): Promise<IIdentifier[]> {
-    let identifiers = Object.values(this.cacheTree.dids).filter((iid) => buildFilter(iid, args))
-    if (args.skip) {
-      identifiers = identifiers.slice(args.skip)
-    }
-    if (args.take) {
-      identifiers = identifiers.slice(0, args.take)
-    }
+    const identifiers = buildQuery(
+      Object.values(this.cacheTree.dids),
+      args,
+      ['did'],
+      context.authenticatedDid,
+    )
     // FIXME: collect corresponding keys from `this.cacheTree.keys`?
     return structuredClone(identifiers)
   }
@@ -255,52 +349,13 @@ export class DataStoreJson implements IAgentPlugin {
     return (await this.dataStoreORMGetIdentifiers(args, context)).length
   }
 
-  // Messages
-
-  // private async messagesQuery(
-  //   args: FindArgs<TMessageColumns>,
-  //   context: IContext,
-  // ): Promise<SelectQueryBuilder<Message>> {
-  //   const where = createWhereObject(args)
-  //   let qb = (await this.dbConnection)
-  //     .getRepository(Message)
-  //     .createQueryBuilder('message')
-  //     .leftJoinAndSelect('message.from', 'from')
-  //     .leftJoinAndSelect('message.to', 'to')
-  //     .leftJoinAndSelect('message.credentials', 'credentials')
-  //     .leftJoinAndSelect('message.presentations', 'presentations')
-  //     .where(where)
-  //   qb = decorateQB(qb, 'message', args)
-  //   if (context.authenticatedDid) {
-  //     qb = qb.andWhere(
-  //       new Brackets((qb) => {
-  //         qb.where('message.to = :ident', { ident: context.authenticatedDid }).orWhere(
-  //           'message.from = :ident',
-  //           {
-  //             ident: context.authenticatedDid,
-  //           },
-  //         )
-  //       }),
-  //     )
-  //   }
-  //   return qb
-  // }
-
   async dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Promise<IMessage[]> {
-    let messages = Object.values(this.cacheTree.messages)
-      .filter((msg) => buildFilter(msg, args))
-      .filter(
-        (msg) =>
-          !context.authenticatedDid ||
-          (context.authenticatedDid &&
-            [...asArray(msg.to), ...asArray(msg.from)].includes(context.authenticatedDid)),
-      )
-    if (args.skip) {
-      messages = messages.slice(args.skip)
-    }
-    if (args.take) {
-      messages = messages.slice(0, args.take)
-    }
+    const messages = buildQuery(
+      Object.values(this.cacheTree.messages),
+      args,
+      ['to', 'from'],
+      context.authenticatedDid,
+    )
     return structuredClone(messages)
   }
 
@@ -308,86 +363,28 @@ export class DataStoreJson implements IAgentPlugin {
     return (await this.dataStoreORMGetMessages(args, context)).length
   }
 
-  // Claims
-
-  // private async claimsQuery(
-  //   args: FindArgs<TClaimsColumns>,
-  //   context: IContext,
-  // ): Promise<SelectQueryBuilder<Claim>> {
-  //   const where = createWhereObject(args)
-  //   let qb = (await this.dbConnection)
-  //     .getRepository(Claim)
-  //     .createQueryBuilder('claim')
-  //     .leftJoinAndSelect('claim.issuer', 'issuer')
-  //     .leftJoinAndSelect('claim.subject', 'subject')
-  //     .where(where)
-  //   qb = decorateQB(qb, 'claim', args)
-  //   qb = qb.leftJoinAndSelect('claim.credential', 'credential')
-  //   if (context.authenticatedDid) {
-  //     qb = qb.andWhere(
-  //       new Brackets((qb) => {
-  //         qb.where('claim.subject = :ident', { ident: context.authenticatedDid }).orWhere(
-  //           'claim.issuer = :ident',
-  //           {
-  //             ident: context.authenticatedDid,
-  //           },
-  //         )
-  //       }),
-  //     )
-  //   }
-  //   return qb
-  // }
-
   async dataStoreORMGetVerifiableCredentialsByClaims(
     args: FindArgs<TClaimsColumns>,
     context: IContext,
   ): Promise<Array<UniqueVerifiableCredential>> {
-    let filteredClaims = Object.values(this.cacheTree.credentials)
-      .map((cred: VerifiableCredential) => {
-        const issuer = extractIssuer(cred)
-        const subject = cred.credentialSubject.id
-        const _veramo_credential_hash = (cred as any)._veramo_credential_hash
-        const credentialType = asArray(cred?.type).join(',')
-        const context = asArray(cred?.['@context']).join(',')
+    const filteredClaims = buildQuery(
+      Object.values(this.cacheTree.claims),
+      args,
+      ['issuer', 'subject'],
+      context.authenticatedDid,
+    )
 
-        // build arrays of claims to mimic the SQL claims table
-        return Object.entries(cred.credentialSubject).map(([type, value]) => ({
-          type,
-          value,
-          issuer,
-          subject,
-          _veramo_credential_hash,
-          credentialType,
-          context,
-        }))
-      })
-      .reduce((allClaims, claims) => [...allClaims, ...claims])
-      .filter((claim) => buildFilter(claim, args))
-      .filter(
-        (claim) =>
-          !context.authenticatedDid ||
-          (context.authenticatedDid &&
-            [...asArray(claim.issuer), ...asArray(claim.subject)].includes(context.authenticatedDid)),
-      )
-
-    if (args.skip) {
-      filteredClaims = filteredClaims.slice(args.skip)
-    }
-    if (args.take) {
-      filteredClaims = filteredClaims.slice(0, args.take)
-    }
-
-    let filteredCredentials = new Set<VerifiableCredential>()
+    let filteredCredentials = new Set<CredentialTableEntry>()
     filteredClaims.forEach((claim) => {
-      filteredCredentials.add(this.cacheTree.credentials[claim._veramo_credential_hash])
+      filteredCredentials.add(this.cacheTree.credentials[claim.credentialHash])
     })
 
     return structuredClone(
       Array.from(filteredCredentials).map((cred) => {
-        const { _veramo_raw_credential, _veramo_credential_hash, ...credential } = cred
+        const { hash, parsedCredential } = cred
         return {
-          hash: _veramo_credential_hash,
-          verifiableCredential: credential,
+          hash,
+          verifiableCredential: parsedCredential,
         }
       }),
     )
@@ -400,67 +397,23 @@ export class DataStoreJson implements IAgentPlugin {
     return (await this.dataStoreORMGetVerifiableCredentialsByClaims(args, context)).length
   }
 
-  // Credentials
-
-  // private async credentialsQuery(
-  //   args: FindArgs<TCredentialColumns>,
-  //   context: IContext,
-  // ): Promise<SelectQueryBuilder<Credential>> {
-  //   const where = createWhereObject(args)
-  //   let qb = (await this.dbConnection)
-  //     .getRepository(Credential)
-  //     .createQueryBuilder('credential')
-  //     .leftJoinAndSelect('credential.issuer', 'issuer')
-  //     .leftJoinAndSelect('credential.subject', 'subject')
-  //     .where(where)
-  //   qb = decorateQB(qb, 'credential', args)
-  //   if (context.authenticatedDid) {
-  //     qb = qb.andWhere(
-  //       new Brackets((qb) => {
-  //         qb.where('credential.subject = :ident', { ident: context.authenticatedDid }).orWhere(
-  //           'credential.issuer = :ident',
-  //           {
-  //             ident: context.authenticatedDid,
-  //           },
-  //         )
-  //       }),
-  //     )
-  //   }
-  //   return qb
-  // }
-
   async dataStoreORMGetVerifiableCredentials(
     args: FindArgs<TCredentialColumns>,
     context: IContext,
   ): Promise<Array<UniqueVerifiableCredential>> {
-    let credentials = Object.values(this.cacheTree.credentials)
-      .map((cred) => ({
-        ...cred,
-        issuer: extractIssuer(cred),
-        subject: cred.credentialSubject.id,
-        context: asArray(cred['@context']).join(','),
-        type: asArray(cred.type).join(','),
-      }))
-      .filter((cred) => buildFilter(cred, args))
-      .filter(
-        (cred) =>
-          !context.authenticatedDid ||
-          (context.authenticatedDid && [cred.issuer, cred.subject].includes(context.authenticatedDid)),
-      )
-
-    if (args.skip) {
-      credentials = credentials.slice(args.skip)
-    }
-    if (args.take) {
-      credentials = credentials.slice(0, args.take)
-    }
+    const credentials = buildQuery(
+      Object.values(this.cacheTree.credentials),
+      args,
+      ['issuer', 'subject'],
+      context.authenticatedDid,
+    )
 
     return structuredClone(
       credentials.map((cred: any) => {
-        const { _veramo_raw_credential, _veramo_credential_hash, ...credential } = cred
+        const { hash, parsedCredential } = cred
         return {
-          hash: _veramo_credential_hash,
-          verifiableCredential: credential,
+          hash,
+          verifiableCredential: parsedCredential,
         }
       }),
     )
@@ -473,66 +426,23 @@ export class DataStoreJson implements IAgentPlugin {
     return (await this.dataStoreORMGetVerifiableCredentials(args, context)).length
   }
 
-  // Presentations
-  //
-  // private async presentationsQuery(
-  //   args: FindArgs<TPresentationColumns>,
-  //   context: IContext,
-  // ): Promise<SelectQueryBuilder<Presentation>> {
-  //   const where = createWhereObject(args)
-  //   let qb = (await this.dbConnection)
-  //     .getRepository(Presentation)
-  //     .createQueryBuilder('presentation')
-  //     .leftJoinAndSelect('presentation.holder', 'holder')
-  //     .leftJoinAndSelect('presentation.verifier', 'verifier')
-  //     .where(where)
-  //   qb = decorateQB(qb, 'presentation', args)
-  //   qb = addVerifierQuery(args, qb)
-  //   if (context.authenticatedDid) {
-  //     qb = qb.andWhere(
-  //       new Brackets((qb) => {
-  //         qb.where('verifier.did = :ident', {
-  //           ident: context.authenticatedDid,
-  //         }).orWhere('presentation.holder = :ident', { ident: context.authenticatedDid })
-  //       }),
-  //     )
-  //   }
-  //   return qb
-  // }
-
   async dataStoreORMGetVerifiablePresentations(
     args: FindArgs<TPresentationColumns>,
     context: IContext,
   ): Promise<Array<UniqueVerifiablePresentation>> {
-    let presentations = Object.values(this.cacheTree.presentations)
-      .map((pres) => ({
-        context: asArray(pres['@context']).join(','),
-        type: asArray(pres.type).join(','),
-        ...pres,
-      }))
-      .filter((pres) => buildFilter(pres, args))
-      .filter(
-        (pres) =>
-          !context.authenticatedDid ||
-          (context.authenticatedDid &&
-            [pres.holder, ...asArray(pres.verifier)].includes(context.authenticatedDid)),
-      )
-    if (args.skip) {
-      presentations = presentations.slice(args.skip)
-    }
-    if (args.take) {
-      presentations = presentations.slice(0, args.take)
-    }
-    // // FIXME: filter for authenticated DID
-    // if (context.authenticatedDid) {
-    //   presentations = presentations.filter(pres => pres.holder === context.authenticatedDid ||
-    // pres.verifier?.includes(context?.authenticatedDid || '')) }
+    const presentations = buildQuery(
+      Object.values(this.cacheTree.presentations),
+      args,
+      ['holder', 'verifier'],
+      context.authenticatedDid,
+    )
+
     return structuredClone(
       presentations.map((pres: any) => {
-        const { _veramo_raw_presentation, _veramo_presentation_hash, ...presentation } = pres
+        const { hash, parsedPresentation } = pres
         return {
-          hash: _veramo_presentation_hash,
-          verifiablePresentation: presentation,
+          hash,
+          verifiablePresentation: parsedPresentation,
         }
       }),
     )
@@ -546,176 +456,62 @@ export class DataStoreJson implements IAgentPlugin {
   }
 }
 
-// function opToSQL(item: Where<any>): any[] {
-//   switch (item.op) {
-//     case 'IsNull':
-//       return ['IS NULL', '']
-//     case 'Like':
-//       if (item.value?.length != 1) throw Error('Operation Equal requires one value')
-//       return ['LIKE :value', item.value[0]]
-//     case 'Equal':
-//       if (item.value?.length != 1) throw Error('Operation Equal requires one value')
-//       return ['= :value', item.value[0]]
-//     case 'Any':
-//     case 'Between':
-//     case 'LessThan':
-//     case 'LessThanOrEqual':
-//     case 'MoreThan':
-//     case 'MoreThanOrEqual':
-//       throw new Error(`${item.op} not compatible with DID argument`)
-//     case 'In':
-//     default:
-//       return ['IN (:...value)', item.value]
-//   }
-// }
-//
-// function addVerifierQuery(input: FindArgs<any>, qb: SelectQueryBuilder<any>): SelectQueryBuilder<any> {
-//   if (!input) {
-//     return qb
-//   }
-//   if (!Array.isArray(input.where)) {
-//     return qb
-//   }
-//   const verifierWhere = input.where.find((item) => item.column === 'verifier')
-//   if (!verifierWhere) {
-//     return qb
-//   }
-//   const [op, value] = opToSQL(verifierWhere)
-//   return qb.andWhere(`verifier.did ${op}`, { value })
-// }
-//
-// function createWhereObject(
-//   input: FindArgs<
-//     TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns | TIdentifiersColumns
-//   >,
-// ): any {
-//   const where: Record<string, any> = {}
-//   if (input?.where) {
-//     for (const item of input.where) {
-//       if (item.column === 'verifier') {
-//         continue
-//       }
-//       switch (item.op) {
-//         case 'Any':
-//           if (!Array.isArray(item.value)) throw Error('Operator Any requires value to be an array')
-//           where[item.column] = Any(item.value)
-//           break
-//         case 'Between':
-//           if (item.value?.length != 2) throw Error('Operation Between requires two values')
-//           where[item.column] = Between(item.value[0], item.value[1])
-//           break
-//         case 'Equal':
-//           if (item.value?.length != 1) throw Error('Operation Equal requires one value')
-//           where[item.column] = Equal(item.value[0])
-//           break
-//         case 'IsNull':
-//           where[item.column] = IsNull()
-//           break
-//         case 'LessThan':
-//           if (item.value?.length != 1) throw Error('Operation LessThan requires one value')
-//           where[item.column] = LessThan(item.value[0])
-//           break
-//         case 'LessThanOrEqual':
-//           if (item.value?.length != 1) throw Error('Operation LessThanOrEqual requires one value')
-//           where[item.column] = LessThanOrEqual(item.value[0])
-//           break
-//         case 'Like':
-//           if (item.value?.length != 1) throw Error('Operation Like requires one value')
-//           where[item.column] = Like(item.value[0])
-//           break
-//         case 'MoreThan':
-//           if (item.value?.length != 1) throw Error('Operation MoreThan requires one value')
-//           where[item.column] = MoreThan(item.value[0])
-//           break
-//         case 'MoreThanOrEqual':
-//           if (item.value?.length != 1) throw Error('Operation MoreThanOrEqual requires one value')
-//           where[item.column] = MoreThanOrEqual(item.value[0])
-//           break
-//         case 'In':
-//         default:
-//           if (!Array.isArray(item.value)) throw Error('Operator IN requires value to be an array')
-//           where[item.column] = In(item.value)
-//       }
-//       if (item.not === true) {
-//         where[item.column] = Not(where[item.column])
-//       }
-//     }
-//   }
-//   return where
-// }
-//
-// function decorateQB(
-//   qb: SelectQueryBuilder<any>,
-//   tableName: string,
-//   input: FindArgs<any>,
-// ): SelectQueryBuilder<any> {
-//   if (input?.skip) qb = qb.skip(input.skip)
-//   if (input?.take) qb = qb.take(input.take)
-//
-//   if (input?.order) {
-//     for (const item of input.order) {
-//       qb = qb.orderBy(
-//         qb.connection.driver.escape(tableName) + '.' + qb.connection.driver.escape(item.column),
-//         item.direction,
-//       )
-//     }
-//   }
-//   return qb
-// }
-
-function buildFilter(
-  target: IKey | IIdentifier | IMessage | VerifiableCredential | VerifiablePresentation | CredentialSubject,
-  input: FindArgs<
-    TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns | TIdentifiersColumns
-  >,
-): any {
+function buildFilter<T extends Partial<Record<PossibleColumns, any>>>(
+  target: T,
+  input: FindArgs<PossibleColumns>,
+): boolean {
   let condition = true
   if (input?.where) {
     for (const item of input.where) {
       let newCondition: boolean
+      const targetValue = (target as any)[item.column]
       switch (item.op) {
         case 'Between':
           if (item.value?.length != 2) throw Error('Operation Between requires two values')
-          newCondition =
-            item.value[0] <= (target as any)[item.column] && (target as any)[item.column] <= item.value[1]
+          newCondition = item.value[0] <= targetValue && targetValue <= item.value[1]
           break
         case 'Equal':
           if (item.value?.length != 1) throw Error('Operation Equal requires one value')
-          newCondition = item.value[0] === (target as any)[item.column]
+          newCondition = item.value[0] === targetValue
+          if (Array.isArray(targetValue)) {
+            // mimicking legacy SQL data-store behavior where array values are stored as joined strings
+            newCondition ||= targetValue.join(',').includes(item.value[0])
+          }
           break
         case 'IsNull':
-          newCondition =
-            (target as any)[item.column] === null || typeof (target as any)[item.column] === 'undefined'
+          newCondition = targetValue === null || typeof targetValue === 'undefined'
           break
         case 'LessThan':
           if (item.value?.length != 1) throw Error('Operation LessThan requires one value')
-          newCondition = (target as any)[item.column] < item.value
+          newCondition = targetValue < item.value
           break
         case 'LessThanOrEqual':
           if (item.value?.length != 1) throw Error('Operation LessThanOrEqual requires one value')
-          newCondition = (target as any)[item.column] <= item.value
+          newCondition = targetValue <= item.value
           break
         case 'Like':
           if (item.value?.length != 1) throw Error('Operation Like requires one value')
           // FIXME: add support for escaping
           const likeExpression = `^${(item.value?.[0] || '').replace(/_/g, '.').replace(/%/g, '.*')}$`
-          newCondition = new RegExp(likeExpression).test((target as any)[item.column])
+          newCondition = new RegExp(likeExpression).test(targetValue)
           break
         case 'MoreThan':
           if (item.value?.length != 1) throw Error('Operation MoreThan requires one value')
-          newCondition = (target as any)[item.column] > item.value
+          newCondition = targetValue > item.value
           break
         case 'MoreThanOrEqual':
           if (item.value?.length != 1) throw Error('Operation MoreThanOrEqual requires one value')
-          newCondition = (target as any)[item.column] >= item.value
+          newCondition = targetValue >= item.value
           break
         case 'Any':
         case 'In':
         default:
           if (!Array.isArray(item.value)) throw Error('Operator Any requires value to be an array')
-          const targetValue = (target as any)[item.column]
+
           if (Array.isArray(targetValue)) {
             newCondition = item.value.find((val) => targetValue.includes(val)) !== undefined
+            // mimicking legacy SQL data-store behavior where array values are stored as joined strings
+            newCondition ||= targetValue.join(',').includes(item.value.join(','))
           } else {
             newCondition = item.value.includes(targetValue)
           }
@@ -728,4 +524,58 @@ function buildFilter(
     }
   }
   return condition
+}
+
+type PossibleColumns =
+  | TMessageColumns
+  | TClaimsColumns
+  | TCredentialColumns
+  | TPresentationColumns
+  | TIdentifiersColumns
+
+function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
+  targetCollection: T[],
+  input: FindArgs<PossibleColumns>,
+  authFilterColumns: string[],
+  authFilterValue?: string,
+): T[] {
+  let filteredCollection = targetCollection.filter((target) => buildFilter(target, input))
+  if (authFilterValue) {
+    filteredCollection = filteredCollection.filter((target) => {
+      let columnValues: string[] = []
+      for (const column of authFilterColumns) {
+        columnValues = [...columnValues, ...asArray((target as any)[column])]
+      }
+      return columnValues.includes(authFilterValue)
+    })
+  }
+  if (input.skip) {
+    filteredCollection = filteredCollection.slice(input.skip)
+  }
+  if (input.take) {
+    filteredCollection = filteredCollection.slice(0, input.take)
+  }
+  if (input.order && input.order.length > 0) {
+    filteredCollection.sort((a: T, b: T) => {
+      let result = 0
+      let orderIndex = 0
+      while (result == 0 && input.order?.[orderIndex]) {
+        const direction = input.order?.[orderIndex].direction === 'DESC' ? -1 : 1
+        const col: PossibleColumns = input.order?.[orderIndex]?.column
+        if (!col) {
+          break
+        }
+        const colA = a[col]
+        const colB = b[col]
+        if (typeof colA?.localeCompare === 'function') {
+          result = direction * colA.localeCompare(colB)
+        } else {
+          result = direction * (colA - colB || 0)
+        }
+        orderIndex++
+      }
+      return result
+    })
+  }
+  return filteredCollection
 }

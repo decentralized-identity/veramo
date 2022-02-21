@@ -16,7 +16,7 @@ import {
   TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager, MemoryPrivateKeyStore } from '../packages/key-manager/src'
+import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
@@ -37,14 +37,13 @@ import {
   SdrMessageHandler,
   SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
-import { KeyManagementSystem } from '../packages/kms-local/src'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import { IDataStoreORM } from '../packages/data-store/src'
 import {
   DataStoreJson,
-  DataStoreORMJson,
-  DefaultRecords,
   DIDStoreJson,
   KeyStoreJson,
+  PrivateKeyStoreJson,
 } from '../packages/data-store-json/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
@@ -52,6 +51,8 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
+import * as fs from 'fs'
+
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
@@ -68,6 +69,7 @@ import messageHandler from './shared/messageHandler'
 jest.setTimeout(30000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
+const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 let agent: TAgent<
   IDIDManager &
@@ -84,13 +86,7 @@ let agent: TAgent<
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // This test suite uses an in-memory JSON storage specific to each agent created.
-  let memoryJsonStore: DefaultRecords = {
-    dids: {},
-    keys: {},
-    credentials: {},
-    presentations: {},
-    messages: {},
-  }
+  const memoryJsonStore = {}
 
   agent = createAgent<
     IDIDManager &
@@ -110,9 +106,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     },
     plugins: [
       new KeyManager({
-        store: new KeyStoreJson(memoryJsonStore, null, true),
+        store: new KeyStoreJson(memoryJsonStore),
         kms: {
-          local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
+          local: new KeyManagementSystem(
+            new PrivateKeyStoreJson(memoryJsonStore, null, new SecretBox(secretKey), true),
+          ),
         },
       }),
       new DIDManager({
@@ -156,8 +154,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),
         }),
       }),
-      new DataStoreJson(memoryJsonStore, null, true),
-      new DataStoreORMJson(memoryJsonStore, null, true),
+      new DataStoreJson(memoryJsonStore),
       new MessageHandler({
         messageHandlers: [
           new DIDCommMessageHandler(),

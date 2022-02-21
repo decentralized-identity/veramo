@@ -8,6 +8,7 @@
  */
 
 export { DataStoreJson } from './data-store-json'
-export { DefaultRecords } from './types'
+export { VeramoJsonStore } from './types'
 export { DIDStoreJson } from './identifier/did-store'
 export { KeyStoreJson } from './identifier/key-store'
+export { PrivateKeyStoreJson } from './identifier/private-key-store'
