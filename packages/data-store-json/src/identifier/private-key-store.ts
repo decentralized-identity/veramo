@@ -2,41 +2,36 @@ import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
 import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager/src/abstract-private-key-store'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
-import { VeramoJsonStore, DiffCallback } from '../types'
+import { DiffCallback, VeramoJsonCache } from '../types'
 import structuredClone from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:private-key-store')
 
 export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
-  private readonly cacheTree: Required<Pick<VeramoJsonStore, 'privateKeys'>>
-  private readonly updateCallback: DiffCallback
+  private readonly cacheTree: Required<Pick<VeramoJsonCache, 'privateKeys'>>
 
   constructor(
-    initialState: Pick<VeramoJsonStore, 'privateKeys'>,
-    updateCallback?: DiffCallback | null,
+    jsonCache: VeramoJsonCache,
     private secretBox?: AbstractSecretBox,
-    private useDirectReferences: boolean = true,
+    private updateCallback: DiffCallback = () => Promise.resolve()
   ) {
     super()
-    this.cacheTree = (useDirectReferences ? initialState : structuredClone(initialState)) as Required<
-      Pick<VeramoJsonStore, 'privateKeys'>
-    >
+    this.cacheTree = jsonCache as Required<Pick<VeramoJsonCache, 'privateKeys'>>
     if (!this.cacheTree.privateKeys) {
       this.cacheTree.privateKeys = {}
     }
-    this.updateCallback = updateCallback instanceof Function ? updateCallback : () => Promise.resolve()
     if (!secretBox) {
       console.warn('Please provide SecretBox to the KeyStore')
     }
   }
 
   async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
-    const privateKeyEntry = this.cacheTree.privateKeys[alias]
-    if (!privateKeyEntry) throw Error('not_found: PrivateKey not found')
-    if (this.secretBox && privateKeyEntry.privateKeyHex) {
-      privateKeyEntry.privateKeyHex = await this.secretBox.decrypt(privateKeyEntry.privateKeyHex)
+    const key = structuredClone(this.cacheTree.privateKeys[alias])
+    if (!key) throw Error('not_found: PrivateKey not found')
+    if (this.secretBox && key.privateKeyHex) {
+      key.privateKeyHex = await this.secretBox.decrypt(key.privateKeyHex)
     }
-    return structuredClone(privateKeyEntry)
+    return key
   }
 
   async delete({ alias }: { alias: string }) {
@@ -45,21 +40,21 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
     if (privateKeyEntry) {
       const oldTree = structuredClone(this.cacheTree)
       delete this.cacheTree.privateKeys[alias]
-      const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
-      await this.updateCallback(oldTree, newTree)
+      await this.updateCallback(oldTree, this.cacheTree)
     }
     return true
   }
 
   async import(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
     debug('Saving private key data', args.alias)
-    const key: ManagedPrivateKey = {
-      alias: args.alias || uuid4(),
-      privateKeyHex: args.privateKeyHex,
-      type: args.type,
-    }
+    const alias = args.alias || uuid4()
+    const key: ManagedPrivateKey = structuredClone({
+      ...args,
+      alias
+    })
     if (this.secretBox && key.privateKeyHex) {
-      key.privateKeyHex = await this.secretBox.encrypt(key.privateKeyHex)
+      const copy = key.privateKeyHex
+      key.privateKeyHex = await this.secretBox.encrypt(copy)
     }
     const existingKey = this.cacheTree.privateKeys[key.alias]
     if (existingKey && existingKey.privateKeyHex !== key.privateKeyHex) {
@@ -70,8 +65,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
 
     const oldTree = structuredClone(this.cacheTree)
     this.cacheTree.privateKeys[key.alias] = key
-    const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
-    await this.updateCallback(oldTree, newTree)
+    await this.updateCallback(oldTree, this.cacheTree)
 
     return key
   }

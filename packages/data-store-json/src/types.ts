@@ -52,7 +52,7 @@ export interface PresentationTableEntry {
 /**
  * A JSON data layout for data-store-json implementations.
  */
-export interface VeramoJsonStore {
+export interface VeramoJsonCache {
   // usable for AbstractDIDStore implementations
   dids?: Record<string, IIdentifier>
   // usable for AbstractKeyStore implementations
@@ -67,30 +67,32 @@ export interface VeramoJsonStore {
   messages?: Record<string, IMessage>
 }
 
-export class MemoryJsonStore implements VeramoJsonStore {
-  claims: Record<string, ClaimTableEntry>
-  credentials: Record<string, CredentialTableEntry>
-  dids: Record<string, IIdentifier>
-  keys: Record<string, ManagedKeyInfo>
-  messages: Record<string, IMessage>
-  presentations: Record<string, PresentationTableEntry>
-  privateKeys: Record<string, ManagedPrivateKey>
+export class VeramoJsonCache implements VeramoJsonCache {
+  // usable for AbstractDIDStore implementations
+  dids?: Record<string, IIdentifier>
+  // usable for AbstractKeyStore implementations
+  keys?: Record<string, ManagedKeyInfo>
+  // usable for KMS implementations that opt to use the same storage for the private key material
+  privateKeys?: Record<string, ManagedPrivateKey>
 
-  callback: DiffCallback
+  // usable for IDataStore and IDataStoreORM implementations
+  credentials?: Record<string, CredentialTableEntry>
+  claims?: Record<string, ClaimTableEntry>
+  presentations?: Record<string, PresentationTableEntry>
+  messages?: Record<string, IMessage>
 
-  constructor() {
-    this.dids = {}
-    this.keys = {}
-    this.credentials = {}
-    this.presentations = {}
-    this.messages = {}
-    this.claims = {}
-    this.privateKeys = {}
-    this.callback = () => Promise.resolve()
+  constructor(initialState?: VeramoJsonCache) {
+    this.dids = { ...initialState?.dids }
+    this.keys = { ...initialState?.keys }
+    this.privateKeys = { ...initialState?.privateKeys }
+    this.credentials = { ...initialState?.credentials }
+    this.claims = { ...initialState?.claims }
+    this.presentations = { ...initialState?.presentations }
+    this.messages = { ...initialState?.messages }
   }
 }
 
 export type DiffCallback = (
-  oldState: Partial<VeramoJsonStore>,
-  newState: Partial<VeramoJsonStore>,
+  oldState: Partial<VeramoJsonCache>,
+  newState: Partial<VeramoJsonCache>,
 ) => Promise<void>

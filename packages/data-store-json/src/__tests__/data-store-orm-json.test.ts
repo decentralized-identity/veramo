@@ -16,7 +16,7 @@ import {
   TCredentialColumns,
 } from '../../../data-store/src'
 import { DataStoreJson } from '../data-store-json'
-import { MemoryJsonStore, VeramoJsonStore } from '../types'
+import { VeramoJsonCache } from "../types";
 
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'
@@ -113,7 +113,7 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
   await agent.dataStoreSaveMessage({ message: m4 })
 }
 
-let dataStore: VeramoJsonStore = new MemoryJsonStore()
+let dataStore: VeramoJsonCache
 
 describe('@veramo/data-store queries', () => {
   function makeAgent(context?: Record<string, any>): TAgent<IDataStore & IDataStoreORM> {
@@ -125,7 +125,7 @@ describe('@veramo/data-store queries', () => {
   }
 
   beforeEach(async () => {
-    dataStore = new MemoryJsonStore()
+    dataStore = new VeramoJsonCache()
     await populateDB(makeAgent())
   })
 
@@ -157,7 +157,7 @@ describe('@veramo/data-store queries', () => {
     authenticatedDid = did3
 
     presentations = await makeAgent({ authenticatedDid }).dataStoreORMGetVerifiablePresentations(args)
-    expect(presentations.length).toBe(0)
+    expect(presentations.length).toEqual(0)
     count = await makeAgent({ authenticatedDid }).dataStoreORMGetVerifiablePresentationsCount(args)
     expect(count).toBe(0)
   })

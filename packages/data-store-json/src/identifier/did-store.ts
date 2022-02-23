@@ -2,33 +2,26 @@ import { IIdentifier } from '@veramo/core'
 import { AbstractDIDStore } from '@veramo/did-manager'
 
 import Debug from 'debug'
-import { VeramoJsonStore, DiffCallback } from '../types'
+import { DiffCallback, VeramoJsonCache } from '../types'
 import structuredClone from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:did-store')
 
 export class DIDStoreJson extends AbstractDIDStore {
-  private readonly cacheTree: Required<Pick<VeramoJsonStore, 'dids' | 'keys'>>
-  private readonly updateCallback: DiffCallback
-  private readonly useDirectReferences: boolean
+  private readonly cacheTree: Required<Pick<VeramoJsonCache, 'dids' | 'keys'>>
 
   constructor(
-    initialState: Pick<VeramoJsonStore, 'dids' | 'keys'>,
-    updateCallback?: DiffCallback | null,
-    useDirectReferences: boolean = true,
+    jsonCache: VeramoJsonCache,
+    private updateCallback: DiffCallback = () => Promise.resolve()
   ) {
     super()
-    this.cacheTree = (useDirectReferences ? initialState : structuredClone(initialState)) as Required<
-      Pick<VeramoJsonStore, 'dids' | 'keys'>
-    >
+    this.cacheTree = jsonCache as Required< Pick<VeramoJsonCache, 'dids' | 'keys'> >
     if (!this.cacheTree.dids) {
       this.cacheTree.dids = {}
     }
     if (!this.cacheTree.keys) {
       this.cacheTree.keys = {}
     }
-    this.updateCallback = updateCallback instanceof Function ? updateCallback : () => Promise.resolve()
-    this.useDirectReferences = useDirectReferences
   }
 
   async get({
@@ -69,8 +62,7 @@ export class DIDStoreJson extends AbstractDIDStore {
       const oldTree = structuredClone(this.cacheTree)
       delete this.cacheTree.dids[did]
       // FIXME: delete key associations?
-      const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
-      await this.updateCallback(oldTree, newTree)
+      await this.updateCallback(oldTree, this.cacheTree)
       return true
     }
     return false
@@ -87,8 +79,7 @@ export class DIDStoreJson extends AbstractDIDStore {
       }
     })
 
-    const newTree = this.useDirectReferences ? this.cacheTree : structuredClone(this.cacheTree)
-    await this.updateCallback(oldTree, newTree)
+    await this.updateCallback(oldTree, this.cacheTree)
     return true
   }
 

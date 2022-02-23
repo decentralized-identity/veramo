@@ -51,7 +51,6 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
-import * as fs from 'fs'
 
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
@@ -85,7 +84,9 @@ let agent: TAgent<
 >
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  // This test suite uses an in-memory JSON storage specific to each agent created.
+  // This test suite uses an in-memory JSON storage for each agent created.
+  // It is important that the same object be used for `DIDStoreJson`/`KeyStoreJson`
+  // and `DataStoreJson` if you want to use all the query capabilities of `DataStoreJson`
   const memoryJsonStore = {}
 
   agent = createAgent<
@@ -109,7 +110,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStoreJson(memoryJsonStore),
         kms: {
           local: new KeyManagementSystem(
-            new PrivateKeyStoreJson(memoryJsonStore, null, new SecretBox(secretKey), true),
+            new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(secretKey)),
           ),
         },
       }),
