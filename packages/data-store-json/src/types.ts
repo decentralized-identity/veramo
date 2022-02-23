@@ -67,29 +67,8 @@ export interface VeramoJsonCache {
   messages?: Record<string, IMessage>
 }
 
-export class VeramoJsonCache implements VeramoJsonCache {
-  // usable for AbstractDIDStore implementations
-  dids?: Record<string, IIdentifier>
-  // usable for AbstractKeyStore implementations
-  keys?: Record<string, ManagedKeyInfo>
-  // usable for KMS implementations that opt to use the same storage for the private key material
-  privateKeys?: Record<string, ManagedPrivateKey>
-
-  // usable for IDataStore and IDataStoreORM implementations
-  credentials?: Record<string, CredentialTableEntry>
-  claims?: Record<string, ClaimTableEntry>
-  presentations?: Record<string, PresentationTableEntry>
-  messages?: Record<string, IMessage>
-
-  constructor(initialState?: VeramoJsonCache) {
-    this.dids = { ...initialState?.dids }
-    this.keys = { ...initialState?.keys }
-    this.privateKeys = { ...initialState?.privateKeys }
-    this.credentials = { ...initialState?.credentials }
-    this.claims = { ...initialState?.claims }
-    this.presentations = { ...initialState?.presentations }
-    this.messages = { ...initialState?.messages }
-  }
+export interface VeramoJsonStore extends VeramoJsonCache {
+  notifyUpdate: DiffCallback
 }
 
 export type DiffCallback = (

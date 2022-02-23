@@ -16,7 +16,7 @@ import {
   TCredentialColumns,
 } from '../../../data-store/src'
 import { DataStoreJson } from '../data-store-json'
-import { VeramoJsonCache } from "../types";
+import { VeramoJsonStore } from '../types'
 
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'
@@ -113,7 +113,7 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
   await agent.dataStoreSaveMessage({ message: m4 })
 }
 
-let dataStore: VeramoJsonCache
+let dataStore: VeramoJsonStore
 
 describe('@veramo/data-store queries', () => {
   function makeAgent(context?: Record<string, any>): TAgent<IDataStore & IDataStoreORM> {
@@ -125,7 +125,7 @@ describe('@veramo/data-store queries', () => {
   }
 
   beforeEach(async () => {
-    dataStore = new VeramoJsonCache()
+    dataStore = { notifyUpdate: () => Promise.resolve() }
     await populateDB(makeAgent())
   })
 

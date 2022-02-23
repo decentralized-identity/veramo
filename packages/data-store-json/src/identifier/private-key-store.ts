@@ -2,21 +2,22 @@ import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
 import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager/src/abstract-private-key-store'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache } from '../types'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
 import structuredClone from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:private-key-store')
 
 export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   private readonly cacheTree: Required<Pick<VeramoJsonCache, 'privateKeys'>>
+  private readonly notifyUpdate: DiffCallback
 
   constructor(
-    jsonCache: VeramoJsonCache,
+    jsonStore: VeramoJsonStore,
     private secretBox?: AbstractSecretBox,
-    private updateCallback: DiffCallback = () => Promise.resolve()
   ) {
     super()
-    this.cacheTree = jsonCache as Required<Pick<VeramoJsonCache, 'privateKeys'>>
+    this.cacheTree = jsonStore as Required<Pick<VeramoJsonCache, 'privateKeys'>>
+    this.notifyUpdate = jsonStore.notifyUpdate
     if (!this.cacheTree.privateKeys) {
       this.cacheTree.privateKeys = {}
     }
@@ -38,9 +39,9 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
     debug(`Deleting private key data for alias=${alias}`)
     const privateKeyEntry = this.cacheTree.privateKeys[alias]
     if (privateKeyEntry) {
-      const oldTree = structuredClone(this.cacheTree)
+      const oldTree = structuredClone(this.cacheTree, { lossy: true })
       delete this.cacheTree.privateKeys[alias]
-      await this.updateCallback(oldTree, this.cacheTree)
+      await this.notifyUpdate(oldTree, this.cacheTree)
     }
     return true
   }
@@ -50,7 +51,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
     const alias = args.alias || uuid4()
     const key: ManagedPrivateKey = structuredClone({
       ...args,
-      alias
+      alias,
     })
     if (this.secretBox && key.privateKeyHex) {
       const copy = key.privateKeyHex
@@ -63,9 +64,9 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
       )
     }
 
-    const oldTree = structuredClone(this.cacheTree)
+    const oldTree = structuredClone(this.cacheTree, { lossy: true })
     this.cacheTree.privateKeys[key.alias] = key
-    await this.updateCallback(oldTree, this.cacheTree)
+    await this.notifyUpdate(oldTree, this.cacheTree)
 
     return key
   }

@@ -51,6 +51,7 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
+import * as fs from 'fs'
 
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
@@ -64,6 +65,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
+import { JsonFileStore } from './utils/json-file-store'
 
 jest.setTimeout(30000)
 
@@ -83,11 +85,15 @@ let agent: TAgent<
     ISelectiveDisclosure
 >
 
+let databaseFile: string
+
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  // This test suite uses an in-memory JSON storage for each agent created.
+  // This test suite uses a plain JSON file for storage for each agent created.
   // It is important that the same object be used for `DIDStoreJson`/`KeyStoreJson`
   // and `DataStoreJson` if you want to use all the query capabilities of `DataStoreJson`
-  const memoryJsonStore = {}
+  databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.json`
+
+  const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
 
   agent = createAgent<
     IDIDManager &
@@ -107,15 +113,15 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     },
     plugins: [
       new KeyManager({
-        store: new KeyStoreJson(memoryJsonStore),
+        store: new KeyStoreJson(jsonFileStore),
         kms: {
           local: new KeyManagementSystem(
-            new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(secretKey)),
+            new PrivateKeyStoreJson(jsonFileStore, new SecretBox(secretKey)),
           ),
         },
       }),
       new DIDManager({
-        store: new DIDStoreJson(memoryJsonStore),
+        store: new DIDStoreJson(jsonFileStore),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
           'did:ethr': new EthrDIDProvider({
@@ -155,7 +161,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),
         }),
       }),
-      new DataStoreJson(memoryJsonStore),
+      new DataStoreJson(jsonFileStore),
       new MessageHandler({
         messageHandlers: [
           new DIDCommMessageHandler(),
@@ -185,7 +191,7 @@ const tearDown = async (): Promise<boolean> => {
     // nop
   }
   try {
-    // fs.unlinkSync(databaseFile)
+    fs.unlinkSync(databaseFile)
   } catch (e) {
     //nop
   }

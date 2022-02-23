@@ -2,20 +2,19 @@ import { IIdentifier } from '@veramo/core'
 import { AbstractDIDStore } from '@veramo/did-manager'
 
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache } from '../types'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
 import structuredClone from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:did-store')
 
 export class DIDStoreJson extends AbstractDIDStore {
   private readonly cacheTree: Required<Pick<VeramoJsonCache, 'dids' | 'keys'>>
+  private readonly notifyUpdate: DiffCallback
 
-  constructor(
-    jsonCache: VeramoJsonCache,
-    private updateCallback: DiffCallback = () => Promise.resolve()
-  ) {
+  constructor(jsonStore: VeramoJsonStore) {
     super()
-    this.cacheTree = jsonCache as Required< Pick<VeramoJsonCache, 'dids' | 'keys'> >
+    this.notifyUpdate = jsonStore.notifyUpdate
+    this.cacheTree = jsonStore as Required<Pick<VeramoJsonCache, 'dids' | 'keys'>>
     if (!this.cacheTree.dids) {
       this.cacheTree.dids = {}
     }
@@ -59,17 +58,17 @@ export class DIDStoreJson extends AbstractDIDStore {
 
   async delete({ did }: { did: string }) {
     if (this.cacheTree.dids[did]) {
-      const oldTree = structuredClone(this.cacheTree)
+      const oldTree = structuredClone(this.cacheTree, { lossy: true })
       delete this.cacheTree.dids[did]
       // FIXME: delete key associations?
-      await this.updateCallback(oldTree, this.cacheTree)
+      await this.notifyUpdate(oldTree, this.cacheTree)
       return true
     }
     return false
   }
 
   async import(args: IIdentifier) {
-    const oldTree = structuredClone(this.cacheTree)
+    const oldTree = structuredClone(this.cacheTree, { lossy: true })
     this.cacheTree.dids[args.did] = args
     args.keys.forEach((key) => {
       this.cacheTree.keys[key.kid] = {
@@ -79,7 +78,7 @@ export class DIDStoreJson extends AbstractDIDStore {
       }
     })
 
-    await this.updateCallback(oldTree, this.cacheTree)
+    await this.notifyUpdate(oldTree, this.cacheTree)
     return true
   }
 

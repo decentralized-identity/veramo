@@ -8,7 +8,14 @@
  */
 
 export { DataStoreJson } from './data-store-json'
-export { VeramoJsonCache } from './types'
+export {
+  DiffCallback,
+  ClaimTableEntry,
+  CredentialTableEntry,
+  PresentationTableEntry,
+  VeramoJsonCache,
+  VeramoJsonStore,
+} from './types'
 export { DIDStoreJson } from './identifier/did-store'
 export { KeyStoreJson } from './identifier/key-store'
 export { PrivateKeyStoreJson } from './identifier/private-key-store'

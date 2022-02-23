@@ -2,20 +2,19 @@ import { IKey, ManagedKeyInfo } from '@veramo/core'
 import { AbstractKeyStore } from '@veramo/key-manager'
 
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache } from '../types'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
 import structuredClone from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:key-store')
 
 export class KeyStoreJson extends AbstractKeyStore {
   private readonly cacheTree: Required<Pick<VeramoJsonCache, 'keys'>>
+  private readonly notifyUpdate: DiffCallback
 
-  constructor(
-    jsonCache: VeramoJsonCache,
-    private updateCallback: DiffCallback = () => Promise.resolve()
-  ) {
+  constructor(jsonStore: VeramoJsonStore) {
     super()
-    this.cacheTree = jsonCache as Required< Pick<VeramoJsonCache, 'dids' | 'keys'> >
+    this.notifyUpdate = jsonStore.notifyUpdate
+    this.cacheTree = jsonStore as Required<Pick<VeramoJsonCache, 'dids' | 'keys'>>
     if (!this.cacheTree.keys) {
       this.cacheTree.keys = {}
     }
@@ -31,9 +30,9 @@ export class KeyStoreJson extends AbstractKeyStore {
 
   async delete({ kid }: { kid: string }) {
     if (this.cacheTree.keys[kid]) {
-      const oldTree = structuredClone(this.cacheTree)
+      const oldTree = structuredClone(this.cacheTree, { lossy: true })
       delete this.cacheTree.keys[kid]
-      await this.updateCallback(oldTree, this.cacheTree)
+      await this.notifyUpdate(oldTree, this.cacheTree)
       return true
     } else {
       return false
@@ -41,9 +40,9 @@ export class KeyStoreJson extends AbstractKeyStore {
   }
 
   async import(args: IKey) {
-    const oldTree = structuredClone(this.cacheTree)
+    const oldTree = structuredClone(this.cacheTree, { lossy: true })
     this.cacheTree.keys[args.kid] = args
-    await this.updateCallback(oldTree, this.cacheTree)
+    await this.notifyUpdate(oldTree, this.cacheTree)
     return true
   }
 

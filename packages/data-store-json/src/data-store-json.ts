@@ -22,6 +22,7 @@ import {
   CredentialTableEntry,
   PresentationTableEntry,
   VeramoJsonCache,
+  VeramoJsonStore,
 } from './types'
 import { normalizeCredential } from 'did-jwt-vc'
 import {
@@ -41,7 +42,9 @@ interface IContext {
   authenticatedDid?: string
 }
 
-type LocalRecords = Required<Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>>
+type LocalRecords = Required<
+  Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
+>
 
 /**
  * A storage plugin that implements the `IDataStore` and `IDataStoreORM` methods using a JSON tree as a backend.
@@ -57,9 +60,11 @@ export class DataStoreJson implements IAgentPlugin {
   readonly schema = { ...schema.IDataStore, ...DataStoreOrmSchema }
 
   private readonly cacheTree: LocalRecords
+  private readonly notifyUpdate: DiffCallback;
 
-  constructor(jsonStore: VeramoJsonCache, private updateCallback: DiffCallback = () => Promise.resolve()) {
-    this.cacheTree = (jsonStore) as LocalRecords
+  constructor(jsonStore: VeramoJsonStore) {
+    this.notifyUpdate = jsonStore.notifyUpdate
+    this.cacheTree = jsonStore as LocalRecords
     const tables = ['dids', 'credentials', 'presentations', 'claims', 'messages'] as (keyof LocalRecords)[]
     for (const table of tables) {
       if (!this.cacheTree[table]) {
@@ -99,7 +104,7 @@ export class DataStoreJson implements IAgentPlugin {
   async dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string> {
     const id = args.message?.id || computeEntryHash(args.message)
     const message = { ...args.message, id }
-    const oldTree = structuredClone(this.cacheTree)
+    const oldTree = structuredClone(this.cacheTree, { lossy: true })
     this.cacheTree.messages[id] = message
     // TODO: deprecate automatic credential and presentation saving
     const credentials = asArray(message.credentials)
@@ -114,18 +119,17 @@ export class DataStoreJson implements IAgentPlugin {
     if (message?.from && !this.cacheTree.dids[message.from]) {
       this.cacheTree.dids[message.from] = { did: message.from, provider: '', keys: [], services: [] }
     }
-    asArray(message.to).forEach(did => {
+    asArray(message.to).forEach((did) => {
       if (!this.cacheTree.dids[did]) {
         this.cacheTree.dids[did] = { did, provider: '', keys: [], services: [] }
       }
     })
-    await this.updateCallback(oldTree, this.cacheTree)
+    await this.notifyUpdate(oldTree, this.cacheTree)
     return message.id
   }
 
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
     const message = this.cacheTree.messages[args.id]
-    // FIXME: fix relations with credentials and presentations?
     if (message) {
       return message
     } else {
@@ -197,7 +201,7 @@ export class DataStoreJson implements IAgentPlugin {
 
     let oldTree: VeramoJsonCache
     if (postUpdates) {
-      oldTree = structuredClone(this.cacheTree)
+      oldTree = structuredClone(this.cacheTree, { lossy: true })
     }
     this.cacheTree.credentials[hash] = credential
     for (const claim of claims) {
@@ -211,7 +215,7 @@ export class DataStoreJson implements IAgentPlugin {
       this.cacheTree.dids[subject] = { did: subject, provider: '', keys: [], services: [] }
     }
     if (postUpdates) {
-      await this.updateCallback(oldTree!!, this.cacheTree)
+      await this.notifyUpdate(oldTree!!, this.cacheTree)
     }
     return credential.hash
   }
@@ -228,12 +232,12 @@ export class DataStoreJson implements IAgentPlugin {
       const claims = Object.values(this.cacheTree.claims)
         .filter((claim) => claim.credentialHash === credential.hash)
         .map((claim) => claim.hash)
-      const oldTree = structuredClone(this.cacheTree)
+      const oldTree = structuredClone(this.cacheTree, { lossy: true })
       delete this.cacheTree.credentials[args.hash]
       for (const claimHash of claims) {
         delete this.cacheTree.claims[claimHash]
       }
-      await this.updateCallback(oldTree, this.cacheTree)
+      await this.notifyUpdate(oldTree, this.cacheTree)
       return true
     }
     return false
@@ -299,7 +303,7 @@ export class DataStoreJson implements IAgentPlugin {
 
     let oldTree: VeramoJsonCache
     if (postUpdates) {
-      oldTree = structuredClone(this.cacheTree)
+      oldTree = structuredClone(this.cacheTree, { lossy: true })
     }
 
     this.cacheTree.presentations[hash] = presentation
@@ -310,13 +314,13 @@ export class DataStoreJson implements IAgentPlugin {
     if (holder && !this.cacheTree.dids[holder]) {
       this.cacheTree.dids[holder] = { did: holder, provider: '', keys: [], services: [] }
     }
-    asArray(verifier).forEach(did => {
+    asArray(verifier).forEach((did) => {
       if (!this.cacheTree.dids[did]) {
         this.cacheTree.dids[did] = { did, provider: '', keys: [], services: [] }
       }
     })
     if (postUpdates) {
-      await this.updateCallback(oldTree!!, this.cacheTree)
+      await this.notifyUpdate(oldTree!!, this.cacheTree)
     }
     return hash
   }
