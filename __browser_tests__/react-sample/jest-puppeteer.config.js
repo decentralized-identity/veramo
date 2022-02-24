@@ -6,7 +6,7 @@ module.exports = {
   },
   browserContext: "default",
   server: {
-    command: `npm start`,
+    command: "npm start",
     port: 3000,
     launchTimeout: 20000,
     debug: true,

@@ -1,18 +1,17 @@
-import { createAgent, IResolver } from '@veramo/core'
+import { createAgent, IDataStore, IDIDManager, IKeyManager, IResolver, TAgent } from '@veramo/core'
 
 import { DIDResolverPlugin } from '@veramo/did-resolver'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { MessageHandler } from '@veramo/message-handler'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '@veramo/key-manager'
-import { DIDManager, MemoryDIDStore } from '@veramo/did-manager'
+import { KeyManager } from '@veramo/key-manager'
+import { DIDManager } from '@veramo/did-manager'
 import { JwtMessageHandler } from '@veramo/did-jwt'
 import { W3cMessageHandler } from '@veramo/credential-w3c'
 import { DIDCommMessageHandler } from '@veramo/did-comm'
 import { SdrMessageHandler } from '@veramo/selective-disclosure'
 import { KeyManagementSystem } from '@veramo/kms-local'
-// import { Connection, createConnection } from 'typeorm'
 import { CredentialIssuer, ICredentialIssuer } from '@veramo/credential-w3c'
 import {
   CredentialIssuerLD,
@@ -23,14 +22,30 @@ import {
 } from '@veramo/credential-ld'
 import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { WebDIDProvider } from '@veramo/did-provider-web'
-import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
+// import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 import { DIDComm, IDIDComm } from '@veramo/did-comm'
 import { ISelectiveDisclosure, SelectiveDisclosure } from '@veramo/selective-disclosure'
-// import { DataStore, DataStoreORM, Entities, IDataStoreORM, migrations } from '@veramo/data-store'
+import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from "@veramo/data-store-json";
+// import { FakeDidProvider, FakeDidResolver } from "../../../../__tests__/utils/fake-did";
+import { IDataStoreORM } from "@veramo/data-store";
 
 const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
 
-export const agent = createAgent<IResolver>({
+const memoryJsonStore = {
+  notifyUpdate: () => Promise.resolve()
+}
+
+type InstalledPlugins =
+  IResolver
+  & IKeyManager
+  & IDIDManager
+  & ICredentialIssuer
+  & IDataStoreORM
+  & IDataStore
+  & ISelectiveDisclosure
+  & IDIDComm
+
+export const agent: TAgent<InstalledPlugins> = createAgent<InstalledPlugins>({
   plugins: [
     new DIDResolverPlugin({
       resolver: new Resolver({
@@ -47,13 +62,13 @@ export const agent = createAgent<IResolver>({
       }),
     }),
     new KeyManager({
-      store: new MemoryKeyStore(),
+      store: new KeyStoreJson(memoryJsonStore),
       kms: {
-        local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
+        local: new KeyManagementSystem(new PrivateKeyStoreJson(memoryJsonStore)),
       },
     }),
     new DIDManager({
-      store: new MemoryDIDStore(),
+      store: new DIDStoreJson(memoryJsonStore),
       defaultProvider: 'did:ethr:rinkeby',
       providers: {
         'did:ethr': new EthrDIDProvider({
@@ -83,7 +98,7 @@ export const agent = createAgent<IResolver>({
          * `KeyDIDProvider` throws error:
          * "Field 'browser' doesn't contain a valid alias configuration"
          * Can't resolve 'stream'
-         * 'stream-browserify' can be installed for brower env
+         * 'stream-browserify' can be installed for browser env
          */
         // 'did:key': new KeyDIDProvider({
         //   defaultKms: 'local',
@@ -91,8 +106,7 @@ export const agent = createAgent<IResolver>({
         // 'did:fake': new FakeDidProvider(),
       },
     }),
-    // new DataStore(dbConnection),
-    // new DataStoreORM(dbConnection),
+    new DataStoreJson(memoryJsonStore),
     new MessageHandler({
       messageHandlers: [
         new DIDCommMessageHandler(),
