@@ -160,11 +160,11 @@ export interface IVerifyCredentialLDArgs {
    * of the `credential`
    *
    */
-  credential: VerifiableCredential,
+  credential: VerifiableCredential
 
   /**
    * Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.
-   * 
+   *
    * @default false
    */
   fetchRemoteContexts?: boolean
@@ -199,10 +199,10 @@ export interface IVerifyPresentationLDArgs {
 
   /**
    * Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.
-   * 
+   *
    * @default false
    */
-   fetchRemoteContexts?: boolean
+  fetchRemoteContexts?: boolean
 }
 
 /**

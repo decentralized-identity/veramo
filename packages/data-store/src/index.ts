@@ -13,18 +13,7 @@ export { DIDStore } from './identifier/did-store'
 export { KeyStore } from './identifier/key-store'
 export { PrivateKeyStore } from './identifier/private-key-store'
 export { DataStore } from './data-store'
-export {
-  DataStoreORM,
-  IDataStoreORM,
-  FindClaimsArgs,
-  FindCredentialsArgs,
-  FindIdentifiersArgs,
-  FindMessagesArgs,
-  FindPresentationsArgs,
-  UniqueVerifiablePresentation,
-  UniqueVerifiableCredential,
-} from './data-store-orm'
-export * from './types'
+export { DataStoreORM } from './data-store-orm'
 export { ProfileDiscoveryProvider } from './did-discovery-provider'
 import { Key, KeyType } from './entities/key'
 import { Identifier } from './entities/identifier'
@@ -60,5 +49,3 @@ export {
   PreMigrationKey,
 }
 export { migrations } from './migrations'
-const schema = require('../plugin.schema.json')
-export { schema }

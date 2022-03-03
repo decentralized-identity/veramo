@@ -1,6 +1,5 @@
 import { IDIDDiscovery } from '../../packages/did-discovery/src'
-import { IAgentOptions, IDIDManager, TAgent } from '../../packages/core/src'
-import { IDataStoreORM } from '../../packages/data-store/src'
+import { IAgentOptions, IDataStoreORM, IDIDManager, TAgent } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { getConnection } from 'typeorm'
 

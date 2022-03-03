@@ -9,6 +9,7 @@ import {
   createAgent,
   IAgentOptions,
   IDataStore,
+  IDataStoreORM,
   IDIDManager,
   IKeyManager,
   IMessageHandler,
@@ -38,7 +39,6 @@ import {
   SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import { IDataStoreORM } from '../packages/data-store/src'
 import {
   DataStoreJson,
   DIDStoreJson,
@@ -109,15 +109,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   >({
     ...options,
     context: {
-      // authenticatedDid: 'did:example:3456'
+      // authorizedDID: 'did:example:3456'
     },
     plugins: [
       new KeyManager({
         store: new KeyStoreJson(jsonFileStore),
         kms: {
-          local: new KeyManagementSystem(
-            new PrivateKeyStoreJson(jsonFileStore, new SecretBox(secretKey)),
-          ),
+          local: new KeyManagementSystem(new PrivateKeyStoreJson(jsonFileStore, new SecretBox(secretKey))),
         },
       }),
       new DIDManager({

@@ -1,17 +1,12 @@
 {
   "name": "@veramo/data-store",
-  "description": "Veramo date storage based on TypeORM",
+  "description": "Veramo data storage plugin based on TypeORM database drivers",
   "version": "3.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
-  },
-  "veramo": {
-    "pluginInterfaces": {
-      "IDataStoreORM": "./src/data-store-orm.ts"
-    }
+    "generate-plugin-schema": "yarn veramo dev extract-api"
   },
   "dependencies": {
     "@veramo/core": "^3.1.0",
@@ -30,7 +25,6 @@
   "files": [
     "build/**/*",
     "src/**/*",
-    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],
@@ -40,10 +34,7 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
   "contributors": [
-    {
-      "name": "Mircea Nistor",
-      "email": "mircea.nistor@mesh.xyz"
-    }
+    "Mircea Nistor mircea.nistor@mesh.xyz"
   ],
   "license": "Apache-2.0",
   "keywords": []

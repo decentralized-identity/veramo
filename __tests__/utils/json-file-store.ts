@@ -1,5 +1,6 @@
 import {
-  DiffCallback, VeramoJsonCache,
+  DiffCallback,
+  VeramoJsonCache,
   ClaimTableEntry,
   CredentialTableEntry,
   PresentationTableEntry,
@@ -66,7 +67,7 @@ export class JsonFileStore implements VeramoJsonStore {
       presentations: {},
       messages: {},
       privateKeys: {},
-      ...cache
+      ...cache,
     })
     return this
   }

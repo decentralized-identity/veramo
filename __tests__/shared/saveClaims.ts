@@ -1,7 +1,14 @@
-import { IDataStore, IDIDManager, IIdentifier, IMessageHandler, TAgent } from '../../packages/core/src'
+import {
+  FindCredentialsArgs,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IIdentifier,
+  IMessageHandler,
+  TAgent,
+} from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
-import { FindCredentialsArgs, IDataStoreORM } from '../../packages/data-store/src'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure

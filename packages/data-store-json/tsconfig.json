@@ -8,7 +8,6 @@
     { "path": "../core" },
     { "path": "../did-manager" },
     { "path": "../key-manager" },
-    { "path": "../data-store" },
     { "path": "../utils" }
   ]
 }

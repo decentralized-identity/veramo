@@ -2,19 +2,17 @@
 
 import {
   Agent,
+  FindArgs,
   IDataStore,
+  IDataStoreORM,
   IMessage,
   TAgent,
+  TCredentialColumns,
+  TMessageColumns,
+  TPresentationColumns,
   VerifiableCredential,
   VerifiablePresentation,
 } from '../../../core/src'
-import {
-  IDataStoreORM,
-  TPresentationColumns,
-  FindArgs,
-  TMessageColumns,
-  TCredentialColumns,
-} from '../../../data-store/src'
 import { DataStoreJson } from '../data-store-json'
 import { VeramoJsonStore } from '../types'
 
@@ -146,19 +144,19 @@ describe('@veramo/data-store queries', () => {
     let count = await agent.dataStoreORMGetVerifiablePresentationsCount(args)
     expect(count).toBe(1)
     // search when authenticated as the issuer
-    let authenticatedDid = did1
+    let authorizedDID = did1
 
-    presentations = await makeAgent({ authenticatedDid }).dataStoreORMGetVerifiablePresentations(args)
+    presentations = await makeAgent({ authorizedDID }).dataStoreORMGetVerifiablePresentations(args)
     expect(presentations.length).toBe(1)
-    count = await makeAgent({ authenticatedDid }).dataStoreORMGetVerifiablePresentationsCount(args)
+    count = await makeAgent({ authorizedDID }).dataStoreORMGetVerifiablePresentationsCount(args)
     expect(count).toBe(1)
 
     // search when authenticated as another did
-    authenticatedDid = did3
+    authorizedDID = did3
 
-    presentations = await makeAgent({ authenticatedDid }).dataStoreORMGetVerifiablePresentations(args)
+    presentations = await makeAgent({ authorizedDID }).dataStoreORMGetVerifiablePresentations(args)
     expect(presentations.length).toEqual(0)
-    count = await makeAgent({ authenticatedDid }).dataStoreORMGetVerifiablePresentationsCount(args)
+    count = await makeAgent({ authorizedDID }).dataStoreORMGetVerifiablePresentationsCount(args)
     expect(count).toBe(0)
   })
 
@@ -190,11 +188,11 @@ describe('@veramo/data-store queries', () => {
         },
       ],
     }
-    const authenticatedDid = did1
+    const authorizedDID = did1
 
-    const messages = await makeAgent({ authenticatedDid }).dataStoreORMGetMessages(args)
+    const messages = await makeAgent({ authorizedDID }).dataStoreORMGetMessages(args)
     expect(messages.length).toBe(3)
-    const count = await makeAgent({ authenticatedDid }).dataStoreORMGetMessagesCount(args)
+    const count = await makeAgent({ authorizedDID }).dataStoreORMGetMessagesCount(args)
     expect(count).toBe(3)
   })
 
@@ -251,11 +249,11 @@ describe('@veramo/data-store queries', () => {
     expect(count).toBe(1)
 
     const credentials2 = await makeAgent({
-      authenticatedDid: did3,
+      authorizedDID: did3,
     }).dataStoreORMGetVerifiableCredentialsByClaims({})
     expect(credentials2.length).toBe(0)
     const count2 = await makeAgent({
-      authenticatedDid: did3,
+      authorizedDID: did3,
     }).dataStoreORMGetVerifiableCredentialsByClaimsCount({})
     expect(count2).toBe(0)
   })
@@ -271,18 +269,18 @@ describe('@veramo/data-store queries', () => {
       ],
     }
 
-    let presentations = await makeAgent({ authenticatedDid: did1 }).dataStoreORMGetVerifiablePresentations(
+    let presentations = await makeAgent({ authorizedDID: did1 }).dataStoreORMGetVerifiablePresentations(
       args,
     )
     expect(presentations.length).toBe(1)
 
-    presentations = await makeAgent({ authenticatedDid: did2 }).dataStoreORMGetVerifiablePresentations(args)
+    presentations = await makeAgent({ authorizedDID: did2 }).dataStoreORMGetVerifiablePresentations(args)
     expect(presentations.length).toBe(1)
 
-    presentations = await makeAgent({ authenticatedDid: did4 }).dataStoreORMGetVerifiablePresentations(args)
+    presentations = await makeAgent({ authorizedDID: did4 }).dataStoreORMGetVerifiablePresentations(args)
     expect(presentations.length).toBe(1)
 
-    presentations = await makeAgent({ authenticatedDid: did3 }).dataStoreORMGetVerifiablePresentations(args)
+    presentations = await makeAgent({ authorizedDID: did3 }).dataStoreORMGetVerifiablePresentations(args)
     expect(presentations.length).toBe(0)
   })
 

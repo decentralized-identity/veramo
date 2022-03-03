@@ -11,10 +11,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   private readonly cacheTree: Required<Pick<VeramoJsonCache, 'privateKeys'>>
   private readonly notifyUpdate: DiffCallback
 
-  constructor(
-    jsonStore: VeramoJsonStore,
-    private secretBox?: AbstractSecretBox,
-  ) {
+  constructor(jsonStore: VeramoJsonStore, private secretBox?: AbstractSecretBox) {
     super()
     this.cacheTree = jsonStore as Required<Pick<VeramoJsonCache, 'privateKeys'>>
     this.notifyUpdate = jsonStore.notifyUpdate

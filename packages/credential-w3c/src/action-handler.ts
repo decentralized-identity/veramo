@@ -153,16 +153,16 @@ export interface IVerifyCredentialArgs {
    * When dealing with JSON-LD you also MUST provide the proper contexts.
    * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded.
    * The context definitions SHOULD rather be provided at startup instead of being fetched.
-   * 
+   *
    * @default false
    */
-   fetchRemoteContexts?: boolean
+  fetchRemoteContexts?: boolean
 
   /**
    * Other options can be specified for verification.
    * They will be forwarded to the lower level modules. that performt the checks
    */
-   [x: string]: any
+  [x: string]: any
 }
 
 /**
@@ -196,16 +196,16 @@ export interface IVerifyPresentationArgs {
    * When dealing with JSON-LD you also MUST provide the proper contexts.
    * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded.
    * The context definitions SHOULD rather be provided at startup instead of being fetched.
-   * 
+   *
    * @default false
    */
-   fetchRemoteContexts?: boolean
+  fetchRemoteContexts?: boolean
 
   /**
    * Other options can be specified for verification.
    * They will be forwarded to the lower level modules. that performt the checks
    */
-   [x: string]: any
+  [x: string]: any
 }
 
 /**

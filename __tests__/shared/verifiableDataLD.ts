@@ -1,5 +1,4 @@
-import { IDataStore, IDIDManager, IIdentifier, TAgent } from '../../packages/core/src'
-import { IDataStoreORM } from '../../packages/data-store/src'
+import { IDataStore, IDataStoreORM, IDIDManager, IIdentifier, TAgent } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 

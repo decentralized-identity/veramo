@@ -1,33 +1,19 @@
 import {
+  AuthorizedDIDContext,
+  FindArgs,
   IAgentPlugin,
   IDataStore,
+  IDataStoreDeleteVerifiableCredentialArgs,
   IDataStoreGetMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
+  IDataStoreORM,
   IDataStoreSaveMessageArgs,
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
-  IMessage,
-  VerifiableCredential,
-  VerifiablePresentation,
-  schema,
-  IDataStoreDeleteVerifiableCredentialArgs,
   IIdentifier,
-} from '@veramo/core'
-import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
-import structuredClone from '@ungap/structured-clone'
-import {
-  DiffCallback,
-  ClaimTableEntry,
-  CredentialTableEntry,
-  PresentationTableEntry,
-  VeramoJsonCache,
-  VeramoJsonStore,
-} from './types'
-import { normalizeCredential } from 'did-jwt-vc'
-import {
-  FindArgs,
-  IDataStoreORM,
+  IMessage,
+  schema,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -35,12 +21,20 @@ import {
   TPresentationColumns,
   UniqueVerifiableCredential,
   UniqueVerifiablePresentation,
-  schema as DataStoreOrmSchema,
-} from '@veramo/data-store'
-
-interface IContext {
-  authenticatedDid?: string
-}
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core'
+import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
+import structuredClone from '@ungap/structured-clone'
+import {
+  ClaimTableEntry,
+  CredentialTableEntry,
+  DiffCallback,
+  PresentationTableEntry,
+  VeramoJsonCache,
+  VeramoJsonStore,
+} from './types'
+import { normalizeCredential } from 'did-jwt-vc'
 
 type LocalRecords = Required<
   Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
@@ -57,10 +51,10 @@ type LocalRecords = Required<
  */
 export class DataStoreJson implements IAgentPlugin {
   readonly methods: IDataStore & IDataStoreORM
-  readonly schema = { ...schema.IDataStore, ...DataStoreOrmSchema }
+  readonly schema = { ...schema.IDataStore, ...schema.IDataStoreORM }
 
   private readonly cacheTree: LocalRecords
-  private readonly notifyUpdate: DiffCallback;
+  private readonly notifyUpdate: DiffCallback
 
   constructor(jsonStore: VeramoJsonStore) {
     this.notifyUpdate = jsonStore.notifyUpdate
@@ -343,48 +337,49 @@ export class DataStoreJson implements IAgentPlugin {
 
   async dataStoreORMGetIdentifiers(
     args: FindArgs<TIdentifiersColumns>,
-    context: IContext,
+    context: AuthorizedDIDContext,
   ): Promise<IIdentifier[]> {
-    const identifiers = buildQuery(
-      Object.values(this.cacheTree.dids),
-      args,
-      ['did'],
-      context.authenticatedDid,
-    )
+    const identifiers = buildQuery(Object.values(this.cacheTree.dids), args, ['did'], context.authorizedDID)
     // FIXME: collect corresponding keys from `this.cacheTree.keys`?
     return structuredClone(identifiers)
   }
 
   async dataStoreORMGetIdentifiersCount(
     args: FindArgs<TIdentifiersColumns>,
-    context: IContext,
+    context: AuthorizedDIDContext,
   ): Promise<number> {
     return (await this.dataStoreORMGetIdentifiers(args, context)).length
   }
 
-  async dataStoreORMGetMessages(args: FindArgs<TMessageColumns>, context: IContext): Promise<IMessage[]> {
+  async dataStoreORMGetMessages(
+    args: FindArgs<TMessageColumns>,
+    context: AuthorizedDIDContext,
+  ): Promise<IMessage[]> {
     const messages = buildQuery(
       Object.values(this.cacheTree.messages),
       args,
       ['to', 'from'],
-      context.authenticatedDid,
+      context.authorizedDID,
     )
     return structuredClone(messages)
   }
 
-  async dataStoreORMGetMessagesCount(args: FindArgs<TMessageColumns>, context: IContext): Promise<number> {
+  async dataStoreORMGetMessagesCount(
+    args: FindArgs<TMessageColumns>,
+    context: AuthorizedDIDContext,
+  ): Promise<number> {
     return (await this.dataStoreORMGetMessages(args, context)).length
   }
 
   async dataStoreORMGetVerifiableCredentialsByClaims(
     args: FindArgs<TClaimsColumns>,
-    context: IContext,
+    context: AuthorizedDIDContext,
   ): Promise<Array<UniqueVerifiableCredential>> {
     const filteredClaims = buildQuery(
       Object.values(this.cacheTree.claims),
       args,
       ['issuer', 'subject'],
-      context.authenticatedDid,
+      context.authorizedDID,
     )
 
     let filteredCredentials = new Set<CredentialTableEntry>()
@@ -405,20 +400,20 @@ export class DataStoreJson implements IAgentPlugin {
 
   async dataStoreORMGetVerifiableCredentialsByClaimsCount(
     args: FindArgs<TClaimsColumns>,
-    context: IContext,
+    context: AuthorizedDIDContext,
   ): Promise<number> {
     return (await this.dataStoreORMGetVerifiableCredentialsByClaims(args, context)).length
   }
 
   async dataStoreORMGetVerifiableCredentials(
     args: FindArgs<TCredentialColumns>,
-    context: IContext,
+    context: AuthorizedDIDContext,
   ): Promise<Array<UniqueVerifiableCredential>> {
     const credentials = buildQuery(
       Object.values(this.cacheTree.credentials),
       args,
       ['issuer', 'subject'],
-      context.authenticatedDid,
+      context.authorizedDID,
     )
 
     return structuredClone(
@@ -434,20 +429,20 @@ export class DataStoreJson implements IAgentPlugin {
 
   async dataStoreORMGetVerifiableCredentialsCount(
     args: FindArgs<TCredentialColumns>,
-    context: IContext,
+    context: AuthorizedDIDContext,
   ): Promise<number> {
     return (await this.dataStoreORMGetVerifiableCredentials(args, context)).length
   }
 
   async dataStoreORMGetVerifiablePresentations(
     args: FindArgs<TPresentationColumns>,
-    context: IContext,
+    context: AuthorizedDIDContext,
   ): Promise<Array<UniqueVerifiablePresentation>> {
     const presentations = buildQuery(
       Object.values(this.cacheTree.presentations),
       args,
       ['holder', 'verifier'],
-      context.authenticatedDid,
+      context.authorizedDID,
     )
 
     return structuredClone(
@@ -463,7 +458,7 @@ export class DataStoreJson implements IAgentPlugin {
 
   async dataStoreORMGetVerifiablePresentationsCount(
     args: FindArgs<TPresentationColumns>,
-    context: IContext,
+    context: AuthorizedDIDContext,
   ): Promise<number> {
     return (await this.dataStoreORMGetVerifiablePresentations(args, context)).length
   }
