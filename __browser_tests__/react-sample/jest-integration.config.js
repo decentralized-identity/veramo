@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'jest-puppeteer',
   rootDir: 'headless-tests',
-  testRegex: './*\\.test\\.(js|tsx?)$',
+  testRegex: './*\\.browser-test\\.(ts|tsx?)$',
   globalSetup: 'jest-environment-puppeteer/setup',
   globalTeardown: 'jest-environment-puppeteer/teardown',
   testEnvironment: 'jest-environment-puppeteer',

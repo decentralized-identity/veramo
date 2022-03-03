@@ -15,7 +15,7 @@ import messageHandler from '../../../__tests__/shared/messageHandler'
 jest.setTimeout(3 * 60 * 1000)
 
 describe('Browser integration tests', () => {
-  describe('global tests', () => {
+  describe('shared tests', () => {
     const testContext = { getAgent: () => agent, setup: () => {}, tearDown: () => {} }
     verifiableDataJWT(testContext)
     // verifiableDataLD(testContext)
