@@ -51,7 +51,7 @@
     "jest-environment-puppeteer": "6.0.3",
     "jest-environment-puppeteer-jsdom": "6.0.0",
     "jest-puppeteer": "6.1.0",
-    "puppeteer": "13.4.0",
+    "puppeteer": "13.4.1",
     "ts-jest": "27.1.3"
   }
 }
