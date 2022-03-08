@@ -285,9 +285,7 @@ describe('@veramo/data-store queries', () => {
       ],
     }
 
-    let presentations = await makeAgent({ authorizedDID: did1 }).dataStoreORMGetVerifiablePresentations(
-      args,
-    )
+    let presentations = await makeAgent({ authorizedDID: did1 }).dataStoreORMGetVerifiablePresentations(args)
     expect(presentations.length).toBe(1)
 
     presentations = await makeAgent({ authorizedDID: did2 }).dataStoreORMGetVerifiablePresentations(args)
