@@ -445,7 +445,8 @@
           "required": [
             "hash",
             "verifiableCredential"
-          ]
+          ],
+          "description": "Represents the result of a Query for  {@link  VerifiableCredential } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }"
         },
         "IValidatePresentationAgainstSdrArgs": {
           "type": "object",

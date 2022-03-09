@@ -36,7 +36,9 @@ import {
 } from './types'
 import { normalizeCredential } from 'did-jwt-vc'
 
-type LocalRecords = Required<Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>>
+type LocalRecords = Required<
+  Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
+>
 
 /**
  * A storage plugin that implements the {@link IDataStore} and {@link IDataStoreORM} methods using a JSON object as a

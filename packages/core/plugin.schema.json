@@ -1952,7 +1952,8 @@
     "components": {
       "schemas": {
         "FindIdentifiersArgs": {
-          "$ref": "#/components/schemas/FindArgs-TIdentifiersColumns"
+          "$ref": "#/components/schemas/FindArgs-TIdentifiersColumns",
+          "description": "The filter that can be used to find  {@link  IIdentifier } s in the data store."
         },
         "FindArgs-TIdentifiersColumns": {
           "type": "object",
@@ -1961,21 +1962,26 @@
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Where-TIdentifiersColumns"
-              }
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
             },
             "order": {
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Order-TIdentifiersColumns"
-              }
-            },
-            "take": {
-              "type": "number"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
             },
             "skip": {
-              "type": "number"
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
             }
-          }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
         },
         "Where-TIdentifiersColumns": {
           "type": "object",
@@ -2010,7 +2016,8 @@
           },
           "required": [
             "column"
-          ]
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TIdentifiersColumns": {
           "type": "string",
@@ -2018,7 +2025,9 @@
             "did",
             "alias",
             "provider"
-          ]
+          ],
+          "description": "The columns that can be queried for an  {@link  IIdentifier }",
+          "deprecated": "This type will be removed in future versions of this plugin interface."
         },
         "Order-TIdentifiersColumns": {
           "type": "object",
@@ -2037,7 +2046,8 @@
           "required": [
             "column",
             "direction"
-          ]
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
         },
         "PartialIdentifier": {
           "type": "object",
@@ -2072,7 +2082,8 @@
               },
               "description": "Array of services"
             }
-          }
+          },
+          "description": "The result of a  {@link  IDataStoreORM.dataStoreORMGetIdentifiers }  query."
         },
         "IKey": {
           "type": "object",
@@ -2165,7 +2176,8 @@
           "description": "Identifier service"
         },
         "FindMessagesArgs": {
-          "$ref": "#/components/schemas/FindArgs-TMessageColumns"
+          "$ref": "#/components/schemas/FindArgs-TMessageColumns",
+          "description": "The filter that can be used to find  {@link  IMessage } s in the data store. See  {@link  IDataStoreORM.dataStoreORMGetMessages }"
         },
         "FindArgs-TMessageColumns": {
           "type": "object",
@@ -2174,21 +2186,26 @@
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Where-TMessageColumns"
-              }
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
             },
             "order": {
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Order-TMessageColumns"
-              }
-            },
-            "take": {
-              "type": "number"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
             },
             "skip": {
-              "type": "number"
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
             }
-          }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
         },
         "Where-TMessageColumns": {
           "type": "object",
@@ -2223,7 +2240,8 @@
           },
           "required": [
             "column"
-          ]
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TMessageColumns": {
           "type": "string",
@@ -2238,7 +2256,8 @@
             "raw",
             "replyTo",
             "replyUrl"
-          ]
+          ],
+          "description": "The columns that can be queried for an  {@link  IMessage } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetMessagesCount }"
         },
         "Order-TMessageColumns": {
           "type": "object",
@@ -2257,7 +2276,8 @@
           "required": [
             "column",
             "direction"
-          ]
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
         },
         "IMessage": {
           "type": "object",
@@ -2557,7 +2577,8 @@
           "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
         },
         "FindCredentialsArgs": {
-          "$ref": "#/components/schemas/FindArgs-TCredentialColumns"
+          "$ref": "#/components/schemas/FindArgs-TCredentialColumns",
+          "description": "The filter that can be used to find  {@link  VerifiableCredential } s in the data store. See  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials }"
         },
         "FindArgs-TCredentialColumns": {
           "type": "object",
@@ -2566,21 +2587,26 @@
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Where-TCredentialColumns"
-              }
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
             },
             "order": {
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Order-TCredentialColumns"
-              }
-            },
-            "take": {
-              "type": "number"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
             },
             "skip": {
-              "type": "number"
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
             }
-          }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
         },
         "Where-TCredentialColumns": {
           "type": "object",
@@ -2615,7 +2641,8 @@
           },
           "required": [
             "column"
-          ]
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TCredentialColumns": {
           "type": "string",
@@ -2627,7 +2654,8 @@
             "subject",
             "expirationDate",
             "issuanceDate"
-          ]
+          ],
+          "description": "The columns that can be searched for a  {@link  VerifiableCredential } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsCount }"
         },
         "Order-TCredentialColumns": {
           "type": "object",
@@ -2646,7 +2674,8 @@
           "required": [
             "column",
             "direction"
-          ]
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
         },
         "UniqueVerifiableCredential": {
           "type": "object",
@@ -2661,10 +2690,12 @@
           "required": [
             "hash",
             "verifiableCredential"
-          ]
+          ],
+          "description": "Represents the result of a Query for  {@link  VerifiableCredential } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }"
         },
         "FindClaimsArgs": {
-          "$ref": "#/components/schemas/FindArgs-TClaimsColumns"
+          "$ref": "#/components/schemas/FindArgs-TClaimsColumns",
+          "description": "The filter that can be used to find  {@link  VerifiableCredential } s in the data store, based on the types and values of their claims.\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }"
         },
         "FindArgs-TClaimsColumns": {
           "type": "object",
@@ -2673,21 +2704,26 @@
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Where-TClaimsColumns"
-              }
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
             },
             "order": {
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Order-TClaimsColumns"
-              }
-            },
-            "take": {
-              "type": "number"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
             },
             "skip": {
-              "type": "number"
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
             }
-          }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
         },
         "Where-TClaimsColumns": {
           "type": "object",
@@ -2722,7 +2758,8 @@
           },
           "required": [
             "column"
-          ]
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TClaimsColumns": {
           "type": "string",
@@ -2737,7 +2774,8 @@
             "subject",
             "expirationDate",
             "issuanceDate"
-          ]
+          ],
+          "description": "The columns that can be searched for the claims of a  {@link  VerifiableCredential } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaimsCount }"
         },
         "Order-TClaimsColumns": {
           "type": "object",
@@ -2756,10 +2794,12 @@
           "required": [
             "column",
             "direction"
-          ]
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
         },
         "FindPresentationsArgs": {
-          "$ref": "#/components/schemas/FindArgs-TPresentationColumns"
+          "$ref": "#/components/schemas/FindArgs-TPresentationColumns",
+          "description": "The filter that can be used to find  {@link  VerifiablePresentation } s in the data store. See  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentations }"
         },
         "FindArgs-TPresentationColumns": {
           "type": "object",
@@ -2768,21 +2808,26 @@
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Where-TPresentationColumns"
-              }
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
             },
             "order": {
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/Order-TPresentationColumns"
-              }
-            },
-            "take": {
-              "type": "number"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
             },
             "skip": {
-              "type": "number"
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
             }
-          }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
         },
         "Where-TPresentationColumns": {
           "type": "object",
@@ -2817,7 +2862,8 @@
           },
           "required": [
             "column"
-          ]
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TPresentationColumns": {
           "type": "string",
@@ -2829,7 +2875,8 @@
             "verifier",
             "expirationDate",
             "issuanceDate"
-          ]
+          ],
+          "description": "The columns that can be searched for a  {@link  VerifiablePresentation } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentations } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentationsCount }"
         },
         "Order-TPresentationColumns": {
           "type": "object",
@@ -2848,7 +2895,8 @@
           "required": [
             "column",
             "direction"
-          ]
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
         },
         "UniqueVerifiablePresentation": {
           "type": "object",
@@ -2863,12 +2911,13 @@
           "required": [
             "hash",
             "verifiablePresentation"
-          ]
+          ],
+          "description": "Represents the result of a Query for  {@link  VerifiablePresentation } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentations }"
         }
       },
       "methods": {
         "dataStoreORMGetIdentifiers": {
-          "description": "",
+          "description": "Tries to obtain a list of ",
           "arguments": {
             "$ref": "#/components/schemas/FindIdentifiersArgs"
           },
@@ -2880,7 +2929,7 @@
           }
         },
         "dataStoreORMGetIdentifiersCount": {
-          "description": "",
+          "description": "Tries to obtain a count of ",
           "arguments": {
             "$ref": "#/components/schemas/FindIdentifiersArgs"
           },
@@ -2889,7 +2938,7 @@
           }
         },
         "dataStoreORMGetMessages": {
-          "description": "",
+          "description": "Returns a list of ",
           "arguments": {
             "$ref": "#/components/schemas/FindMessagesArgs"
           },
@@ -2901,7 +2950,7 @@
           }
         },
         "dataStoreORMGetMessagesCount": {
-          "description": "",
+          "description": "Returns a count of ",
           "arguments": {
             "$ref": "#/components/schemas/FindMessagesArgs"
           },
@@ -2910,7 +2959,7 @@
           }
         },
         "dataStoreORMGetVerifiableCredentials": {
-          "description": "",
+          "description": "Returns a list of ",
           "arguments": {
             "$ref": "#/components/schemas/FindCredentialsArgs"
           },
@@ -2922,7 +2971,7 @@
           }
         },
         "dataStoreORMGetVerifiableCredentialsByClaims": {
-          "description": "",
+          "description": "Returns a list of ",
           "arguments": {
             "$ref": "#/components/schemas/FindClaimsArgs"
           },
@@ -2934,7 +2983,7 @@
           }
         },
         "dataStoreORMGetVerifiableCredentialsByClaimsCount": {
-          "description": "",
+          "description": "Returns a count of ",
           "arguments": {
             "$ref": "#/components/schemas/FindClaimsArgs"
           },
@@ -2943,7 +2992,7 @@
           }
         },
         "dataStoreORMGetVerifiableCredentialsCount": {
-          "description": "",
+          "description": "Returns a count of ",
           "arguments": {
             "$ref": "#/components/schemas/FindCredentialsArgs"
           },
@@ -2952,7 +3001,7 @@
           }
         },
         "dataStoreORMGetVerifiablePresentations": {
-          "description": "",
+          "description": "Returns a list of ",
           "arguments": {
             "$ref": "#/components/schemas/FindPresentationsArgs"
           },
@@ -2964,7 +3013,7 @@
           }
         },
         "dataStoreORMGetVerifiablePresentationsCount": {
-          "description": "",
+          "description": "Returns a count of ",
           "arguments": {
             "$ref": "#/components/schemas/FindPresentationsArgs"
           },

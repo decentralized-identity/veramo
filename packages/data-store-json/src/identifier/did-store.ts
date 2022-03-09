@@ -37,10 +37,10 @@ export class DIDStoreJson extends AbstractDIDStore {
   }
 
   async get({
-              did,
-              alias,
-              provider,
-            }: {
+    did,
+    alias,
+    provider,
+  }: {
     did?: string
     alias?: string
     provider?: string
