@@ -38,11 +38,10 @@ for (const inputFolder of inputFolders) {
 const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
-  core: ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
+  core: ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IDataStoreORM', 'IKeyManager'],
   'credential-w3c': ['ICredentialIssuer'],
   'selective-disclosure': ['ISelectiveDisclosure'],
   'did-comm': ['IDIDComm'],
-  'data-store': ['IDataStoreORM'],
 }
 
 interface RestMethod {

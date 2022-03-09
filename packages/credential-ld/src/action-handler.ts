@@ -183,7 +183,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
     context: IRequiredContext,
   ): Promise<boolean> {
     const credential = args.credential
-    return this.ldCredentialModule.verifyCredential(credential, args.fetchRemoteContexts || false,  context)
+    return this.ldCredentialModule.verifyCredential(credential, args.fetchRemoteContexts || false, context)
   }
 
   /** {@inheritdoc ICredentialIssuerLD.verifyPresentationLD} */
@@ -192,7 +192,13 @@ export class CredentialIssuerLD implements IAgentPlugin {
     context: IRequiredContext,
   ): Promise<boolean> {
     const presentation = args.presentation
-    return this.ldCredentialModule.verifyPresentation(presentation, args.challenge, args.domain, args.fetchRemoteContexts || false, context)
+    return this.ldCredentialModule.verifyPresentation(
+      presentation,
+      args.challenge,
+      args.domain,
+      args.fetchRemoteContexts || false,
+      context,
+    )
   }
 
   private async findSigningKeyWithId(

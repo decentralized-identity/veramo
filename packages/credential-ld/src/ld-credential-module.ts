@@ -69,7 +69,7 @@ export class LdCredentialModule {
       } else {
         if (attemptToFetchContexts) {
           // attempt to fetch the remote context!!!! MEGA FAIL for JSON-LD.
-          debug("WARNING: attempting to fetch the doc directly for ", url)
+          debug('WARNING: attempting to fetch the doc directly for ', url)
           try {
             const response = await fetch(url)
             if (response.status === 200) {
@@ -77,16 +77,18 @@ export class LdCredentialModule {
               return {
                 contextUrl: null,
                 documentUrl: url,
-                document
+                document,
               }
             }
           } catch (e) {
-            debug("WARNING: unable to fetch the doc or interpret it as JSON", e)
+            debug('WARNING: unable to fetch the doc or interpret it as JSON', e)
           }
         }
       }
 
-      debug(`WARNING: Possible unknown context/identifier for ${url} \n falling back to default documentLoader`)
+      debug(
+        `WARNING: Possible unknown context/identifier for ${url} \n falling back to default documentLoader`,
+      )
 
       return vc.defaultDocumentLoader(url)
     })

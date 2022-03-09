@@ -6,6 +6,7 @@
 import {
   createAgent,
   IDataStore,
+  IDataStoreORM,
   IDIDManager,
   IKeyManager,
   IResolver,
@@ -23,7 +24,6 @@ import {
   DataStoreORM,
   DIDStore,
   Entities,
-  IDataStoreORM,
   KeyStore,
   migrations,
   PrivateKeyStore,
@@ -83,7 +83,7 @@ describe('database initial migration tests', () => {
 
         agent = createAgent<TestingAgentPlugins>({
           context: {
-            // authenticatedDid: 'did:example:3456'
+            // authorizedDID: 'did:example:3456'
           },
           plugins: [
             new KeyManager({

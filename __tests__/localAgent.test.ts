@@ -9,6 +9,7 @@ import {
   createAgent,
   IAgentOptions,
   IDataStore,
+  IDataStoreORM,
   IDIDManager,
   IKeyManager,
   IMessageHandler,
@@ -45,7 +46,6 @@ import {
   DataStoreORM,
   DIDStore,
   Entities,
-  IDataStoreORM,
   KeyStore,
   migrations,
   PrivateKeyStore,
@@ -130,7 +130,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   >({
     ...options,
     context: {
-      // authenticatedDid: 'did:example:3456'
+      // authorizedDID: 'did:example:3456'
     },
     plugins: [
       new KeyManager({

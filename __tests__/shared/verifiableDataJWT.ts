@@ -1,5 +1,11 @@
-import { TAgent, IDIDManager, IIdentifier, IDataStore, TKeyType } from '../../packages/core/src'
-import { IDataStoreORM } from '../../packages/data-store/src'
+import {
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IIdentifier,
+  TAgent,
+  TKeyType,
+} from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { decodeJWT } from 'did-jwt'
 

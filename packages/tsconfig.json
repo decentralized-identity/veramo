@@ -5,6 +5,7 @@
     { "path": "credential-ld" },
     { "path": "credential-w3c" },
     { "path": "data-store" },
+    { "path": "data-store-json" },
     { "path": "did-comm" },
     { "path": "did-discovery" },
     { "path": "did-jwt" },

@@ -1,6 +1,7 @@
 import {
   IAgentOptions,
   IDataStore,
+  IDataStoreORM,
   IDIDManager,
   IIdentifier,
   IKey,
@@ -8,9 +9,8 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '@veramo/core/src'
-import { IDataStoreORM } from '@veramo/data-store/src'
-import { ICredentialIssuer } from '@veramo/credential-w3c/src'
+} from '../../packages/core/src'
+import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
 import { extractIssuer } from '../../packages/utils'
 

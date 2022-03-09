@@ -1,15 +1,12 @@
+// noinspection ES6PreferShortImport
+
 /**
- * This runs a suite of ./shared tests using an agent configured for remote operations.
- * There is a local agent that only uses @veramo/remove-client and a remote agent that provides the actual functionality.
+ * This runs a suite of ./shared tests using an agent configured for local operations,
+ * using a JSON db for storage of credentials and an in-memory store for keys and DIDs.
  *
- * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
- * See didWithFakeDidFlow() for more details.
  */
-import 'cross-fetch/polyfill'
 import {
-  Agent,
   createAgent,
-  IAgent,
   IAgentOptions,
   IDataStore,
   IDataStoreORM,
@@ -21,7 +18,7 @@ import {
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
-import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
+import { DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
@@ -35,7 +32,7 @@ import {
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -43,57 +40,62 @@ import {
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import {
-  DataStore,
-  DataStoreORM,
-  DIDStore,
-  Entities,
-  KeyStore,
-  migrations,
-  PrivateKeyStore,
-  ProfileDiscoveryProvider,
-} from '../packages/data-store/src'
-import { Connection, createConnection } from 'typeorm'
-import { AgentRestClient } from '../packages/remote-client/src'
-import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
-import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
+  DataStoreJson,
+  DIDStoreJson,
+  KeyStoreJson,
+  PrivateKeyStoreJson,
+} from '../packages/data-store-json/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-// @ts-ignore
-import express from 'express'
-import { Server } from 'http'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
+
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
+import saveClaims from './shared/saveClaims'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
-import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
 import messageHandler from './shared/messageHandler'
-import didDiscovery from './shared/didDiscovery'
+import { JsonFileStore } from './utils/json-file-store'
 
 jest.setTimeout(30000)
 
-const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
-const port = 3002
-const basePath = '/agent'
 
-let dbConnection: Promise<Connection>
-let serverAgent: IAgent
-let restServer: Server
+let agent: TAgent<
+  IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialIssuer &
+    ICredentialIssuerLD &
+    ISelectiveDisclosure
+>
 
-const getAgent = (options?: IAgentOptions) =>
-  createAgent<
+let databaseFile: string
+
+const setup = async (options?: IAgentOptions): Promise<boolean> => {
+  // This test suite uses a plain JSON file for storage for each agent created.
+  // It is important that the same object be used for `DIDStoreJson`/`KeyStoreJson`
+  // and `DataStoreJson` if you want to use all the query capabilities of `DataStoreJson`
+  databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.json`
+
+  const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
+
+  agent = createAgent<
     IDIDManager &
       IKeyManager &
       IDataStore &
@@ -103,42 +105,21 @@ const getAgent = (options?: IAgentOptions) =>
       IDIDComm &
       ICredentialIssuer &
       ICredentialIssuerLD &
-      ISelectiveDisclosure &
-      IDIDDiscovery
+      ISelectiveDisclosure
   >({
     ...options,
-    plugins: [
-      new AgentRestClient({
-        url: 'http://localhost:' + port + basePath,
-        enabledMethods: serverAgent.availableMethods(),
-        schema: serverAgent.getSchema(),
-      }),
-    ],
-  })
-
-const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  dbConnection = createConnection({
-    name: options?.context?.['dbName'] || 'sqlite-test',
-    type: 'sqlite',
-    database: databaseFile,
-    synchronize: false,
-    migrations: migrations,
-    migrationsRun: true,
-    logging: false,
-    entities: Entities,
-  })
-
-  serverAgent = new Agent({
-    ...options,
+    context: {
+      // authorizedDID: 'did:example:3456'
+    },
     plugins: [
       new KeyManager({
-        store: new KeyStore(dbConnection),
+        store: new KeyStoreJson(jsonFileStore),
         kms: {
-          local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
+          local: new KeyManagementSystem(new PrivateKeyStoreJson(jsonFileStore, new SecretBox(secretKey))),
         },
       }),
       new DIDManager({
-        store: new DIDStore(dbConnection),
+        store: new DIDStoreJson(jsonFileStore),
         defaultProvider: 'did:ethr:rinkeby',
         providers: {
           'did:ethr': new EthrDIDProvider({
@@ -174,13 +155,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
-          // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
           ...getDidKeyResolver(),
-          ...new FakeDidResolver(() => serverAgent as TAgent<IDIDManager>).getDidFakeResolver(),
+          ...new FakeDidResolver(() => agent).getDidFakeResolver(),
         }),
       }),
-      new DataStore(dbConnection),
-      new DataStoreORM(dbConnection),
+      new DataStoreJson(jsonFileStore),
       new MessageHandler({
         messageHandlers: [
           new DIDCommMessageHandler(),
@@ -189,49 +168,23 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm(),
       new CredentialIssuer(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
         suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
       }),
       new SelectiveDisclosure(),
-      new DIDDiscovery({
-        providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
-      }),
       ...(options?.plugins || []),
     ],
   })
-
-  const agentRouter = AgentRouter({
-    exposedMethods: serverAgent.availableMethods(),
-  })
-
-  const requestWithAgent = RequestWithAgentRouter({
-    agent: serverAgent,
-  })
-
-  return new Promise((resolve) => {
-    const app = express()
-    app.use(basePath, requestWithAgent, agentRouter)
-    app.use(
-      '/messaging',
-      requestWithAgent,
-      MessagingRouter({
-        metaData: { type: 'DIDComm', value: 'integration test' },
-      }),
-    )
-    restServer = app.listen(port, () => {
-      resolve(true)
-    })
-  })
+  return true
 }
 
 const tearDown = async (): Promise<boolean> => {
-  await new Promise((resolve, reject) => restServer.close(resolve))
   try {
-    await (await dbConnection).dropDatabase()
-    await (await dbConnection).close()
+    // await (await dbConnection).dropDatabase()
+    // await (await dbConnection).close()
   } catch (e) {
     // nop
   }
@@ -243,19 +196,20 @@ const tearDown = async (): Promise<boolean> => {
   return true
 }
 
+const getAgent = () => agent
+
 const testContext = { getAgent, setup, tearDown }
 
-describe('REST integration tests', () => {
+describe('Local json-data-store integration tests', () => {
   verifiableDataJWT(testContext)
   verifiableDataLD(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)
+  saveClaims(testContext)
   documentationExamples(testContext)
   keyManager(testContext)
   didManager(testContext)
   messageHandler(testContext)
   didCommPacking(testContext)
-  didWithFakeDidFlow(testContext)
-  didDiscovery(testContext)
 })

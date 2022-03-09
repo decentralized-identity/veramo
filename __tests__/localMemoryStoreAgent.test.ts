@@ -7,6 +7,7 @@ import {
   createAgent,
   IAgentOptions,
   IDataStore,
+  IDataStoreORM,
   IDIDManager,
   IKeyManager,
   IMessageHandler,
@@ -37,7 +38,7 @@ import {
   SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
-import { DataStore, DataStoreORM, Entities, IDataStoreORM, migrations } from '../packages/data-store/src'
+import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import { Resolver } from 'did-resolver'
@@ -103,7 +104,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   >({
     ...options,
     context: {
-      // authenticatedDid: 'did:example:3456'
+      // authorizedDID: 'did:example:3456'
     },
     plugins: [
       new KeyManager({
