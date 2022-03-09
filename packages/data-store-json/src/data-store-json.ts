@@ -36,18 +36,20 @@ import {
 } from './types'
 import { normalizeCredential } from 'did-jwt-vc'
 
-type LocalRecords = Required<
-  Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
->
+type LocalRecords = Required<Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>>
 
 /**
- * A storage plugin that implements the `IDataStore` and `IDataStoreORM` methods using a JSON tree as a backend.
+ * A storage plugin that implements the {@link IDataStore} and {@link IDataStoreORM} methods using a JSON object as a
+ * backend.
  *
  * Each update operation triggers a callback that can be used to either save the latest state of the agent data or
- * compute a diff and log the changes.
+ * compute a diff and log only the changes.
  *
- * The JSON object containing the storage state can be supplied during initialization, as well as an option to use
- * copies or in-place modifications.
+ * This plugin must be initialized with a {@link VeramoJsonStore}, which serves as the JSON object storing data in
+ * memory as well as providing an update notification callback to persist this data.
+ * The JSON object can be pre-populated with data from previous sessions.
+ *
+ * @beta This API is likely to change without a BREAKING CHANGE notice.
  */
 export class DataStoreJson implements IAgentPlugin {
   readonly methods: IDataStore & IDataStoreORM
@@ -56,6 +58,10 @@ export class DataStoreJson implements IAgentPlugin {
   private readonly cacheTree: LocalRecords
   private readonly notifyUpdate: DiffCallback
 
+  /**
+   * @param jsonStore a reference to the JSON object that holds the data in memory and implements an update callback.
+   *   This object can be pre-populated with data from previous sessions, and will be used by reference.
+   */
   constructor(jsonStore: VeramoJsonStore) {
     this.notifyUpdate = jsonStore.notifyUpdate
     this.cacheTree = jsonStore as LocalRecords

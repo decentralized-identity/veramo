@@ -7,6 +7,19 @@ import structuredClone from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:did-store')
 
+/**
+ * An implementation of {@link AbstractDIDStore} that uses a JSON object to store the relationships between DIDs, their
+ * providers and controllers and their keys and services as they are known and managed by a Veramo agent.
+ *
+ * An instance of this class can be used by {@link @veramo/did-manager#DIDManager} as the data storage layer.
+ *
+ * This class must be initialized with a {@link VeramoJsonStore}, which serves as the JSON object storing data in
+ * memory as well as providing an update notification callback to persist this data.
+ * For correct usage, this MUST use the same {@link VeramoJsonStore} instance as the one used by
+ * {@link @veramo/key-manager#KeyManager | KeyManager}.
+ *
+ * @beta This API is likely to change without a BREAKING CHANGE notice.
+ */
 export class DIDStoreJson extends AbstractDIDStore {
   private readonly cacheTree: Required<Pick<VeramoJsonCache, 'dids' | 'keys'>>
   private readonly notifyUpdate: DiffCallback
@@ -24,10 +37,10 @@ export class DIDStoreJson extends AbstractDIDStore {
   }
 
   async get({
-    did,
-    alias,
-    provider,
-  }: {
+              did,
+              alias,
+              provider,
+            }: {
     did?: string
     alias?: string
     provider?: string
@@ -39,7 +52,7 @@ export class DIDStoreJson extends AbstractDIDStore {
     } else if (did === undefined && alias !== undefined && provider !== undefined) {
       where = { alias, provider }
     } else {
-      throw Error('[veramo:data-store:identifier-store] Get requires did or (alias and provider)')
+      throw Error('invalid_arguments: DidStoreJson.get requires did or (alias and provider)')
     }
 
     let identifier: IIdentifier | undefined

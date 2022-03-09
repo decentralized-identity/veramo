@@ -7,10 +7,29 @@ import structuredClone from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:key-store')
 
+/**
+ * An implementation of {@link AbstractKeyStore} that uses a JSON object to store the relationships between keys, their
+ * IDs, aliases and {@link @veramo/key-manager#AbstractKeyManagementSystem | KMS implementations}, as they are known
+ * and managed by a Veramo agent.
+ *
+ * An instance of this class can be used by {@link @veramo/key-manager#KeyManager} as the data storage layer.
+ *
+ * This class must be initialized with a {@link VeramoJsonStore}, which serves as the JSON object storing data in
+ * memory as well as providing an update notification callback to persist this data.
+ * For correct usage, this MUST use the same {@link VeramoJsonStore} instance as the one used by
+ * {@link @veramo/did-manager#DIDManager | DIDManager}.
+ *
+ * @beta This API is likely to change without a BREAKING CHANGE notice.
+ */
 export class KeyStoreJson extends AbstractKeyStore {
   private readonly cacheTree: Required<Pick<VeramoJsonCache, 'keys'>>
   private readonly notifyUpdate: DiffCallback
 
+  /**
+   * @param jsonStore serves as the JSON object storing data in memory as well as providing an update notification
+   *   callback to persist this data. For correct usage, this MUST use the same {@link VeramoJsonStore} instance as the
+   *   one used by {@link @veramo/did-manager#DIDManager | DIDManager}.
+   */
   constructor(jsonStore: VeramoJsonStore) {
     super()
     this.notifyUpdate = jsonStore.notifyUpdate
