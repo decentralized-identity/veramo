@@ -2899,7 +2899,7 @@
     debug "^4.1.1"
     typeorm "0.2.38"
 
-"@veramo/did-comm@^3.1.0":
+"@veramo/did-comm@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@veramo/did-comm/-/did-comm-3.1.0.tgz#6f50adb89cdf09da92d4406880d82d1662192490"
   integrity sha512-3aVV5nw8Iov+K+V4WrwETxQTbXqTtEOzUJuytMLrHNPLEFAqbcicZ01d3nzlld+EnKqK8rBClVSUbRSVGttYWg==
@@ -2923,7 +2923,7 @@
     "@veramo/core" "^3.1.0"
     debug "^4.1.1"
 
-"@veramo/did-jwt@^3.1.0":
+"@veramo/did-jwt@3.1.0", "@veramo/did-jwt@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@veramo/did-jwt/-/did-jwt-3.1.0.tgz#a928187b4b413f98f54f0230c9659bd57226868d"
   integrity sha512-YX7hROsnQPG0MLfcYRdM6VrZ7gqNPEGkNEme45bMhtn0hNNneoI8AoaVNv33KlpPZ/1YComjoNMsdw4Vfjqm4g==
@@ -2934,7 +2934,7 @@
     did-jwt "5.11.1"
     did-resolver "3.1.3"
 
-"@veramo/did-manager@^3.1.0":
+"@veramo/did-manager@3.1.0", "@veramo/did-manager@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@veramo/did-manager/-/did-manager-3.1.0.tgz#c8dfe8b3d6f87232c987ae3d2794321aa4837c4a"
   integrity sha512-acKy6jjp5MAcbw0MXQ2tEoMIWAMZYvHuPoYPzf3GKw9PsNZFUEzIJVgAgcb1iKv5YnJqihAhxD6675nkIkqiHw==
@@ -2942,7 +2942,7 @@
     "@veramo/core" "^3.1.0"
     "@veramo/did-discovery" "^3.1.0"
 
-"@veramo/did-provider-ethr@^3.1.0":
+"@veramo/did-provider-ethr@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@veramo/did-provider-ethr/-/did-provider-ethr-3.1.0.tgz#1509948921c3a66e114bad4c401a88d6212d0158"
   integrity sha512-UNLWVm4+TM/NwoOBOxxjiiAyc+z/kFMkV2FRUswjjZ2HvHnIfS1I6vLKVMUOWgtpt9XKqqbwKRQaNxSDR3ggKg==
@@ -2959,7 +2959,7 @@
     debug "^4.1.1"
     ethr-did "2.1.5"
 
-"@veramo/did-provider-key@^3.1.0":
+"@veramo/did-provider-key@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@veramo/did-provider-key/-/did-provider-key-3.1.0.tgz#75e27b12ec53d742c088eb93e9a2081fc11f0f26"
   integrity sha512-L4TyKGFXUauYeaNI+K2tqPpnsex+4+xOhiJGGbrYbYumjbJXcWEE9Cf9EvFExG/1QuHXkXM3/CndC9A83fwNBg==
@@ -2971,7 +2971,7 @@
     multibase "^4.0.2"
     multicodec "^3.0.0"
 
-"@veramo/did-provider-web@^3.1.0":
+"@veramo/did-provider-web@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@veramo/did-provider-web/-/did-provider-web-3.1.0.tgz#37473544a0c399ddd2e4277f5ed0e718e4ceb738"
   integrity sha512-EVoQA56/9+9iovQ3e+XzuKKFHDBKTkYnVGzJ4OYdf/Vn1VEM5ShEneH/pFhGzx7N4k/0q3P9ZvazDp83OrRpnA==
@@ -2980,7 +2980,7 @@
     "@veramo/did-manager" "^3.1.0"
     debug "^4.1.1"
 
-"@veramo/did-resolver@^3.1.0":
+"@veramo/did-resolver@3.1.0", "@veramo/did-resolver@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@veramo/did-resolver/-/did-resolver-3.1.0.tgz#3f832ed3d519660c70a29cd1ce75f9427efa65f3"
   integrity sha512-yXO3EGDwnf8hVjM1dpqBnvfN3mbRJzzZt79uVW/KMHqycQVodEGm7HOOw4qkSpjmooMZlyXMHLi0eWyyeRC5KQ==
