@@ -63,7 +63,7 @@ function compareBlockchainAccountId(localKey: IKey, verificationMethod: _Normali
   return computedAddr === vmEthAddr
 }
 
-export function getBlockchainAccountId(verificationMethod: _NormalizedVerificationMethod) {
+export function getEthereumAddress(verificationMethod: _NormalizedVerificationMethod) {
   let vmEthAddr = verificationMethod.ethereumAddress?.toLowerCase()
   if (!vmEthAddr) {
     if (verificationMethod.blockchainAccountId?.includes('@eip155')) {

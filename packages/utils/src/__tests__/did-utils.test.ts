@@ -1,4 +1,4 @@
-import { getBlockchainAccountId, getChainIdForDidEthr } from '../did-utils'
+import { getChainIdForDidEthr, getEthereumAddress } from '../did-utils'
 
 describe('@veramo/utils did utils', () => {
   it(`should return correct chainId for did:ethr`, () => {
@@ -36,6 +36,6 @@ describe('@veramo/utils did utils', () => {
       'blockchainAccountId': '0x1B54DaD834f2017ab66C1a1ffF74425889141e51@eip155:1'
     }
 
-    expect(getBlockchainAccountId(verificationMethod)).toEqual("0x1B54DaD834f2017ab66C1a1ffF74425889141e51".toLowerCase())
+    expect(getEthereumAddress(verificationMethod)).toEqual("0x1B54DaD834f2017ab66C1a1ffF74425889141e51".toLowerCase())
   })
 })
