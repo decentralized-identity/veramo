@@ -63,6 +63,27 @@ function compareBlockchainAccountId(localKey: IKey, verificationMethod: _Normali
   return computedAddr === vmEthAddr
 }
 
+export function getEthereumAddress(verificationMethod: _NormalizedVerificationMethod) {
+  let vmEthAddr = verificationMethod.ethereumAddress?.toLowerCase()
+  if (!vmEthAddr) {
+    if (verificationMethod.blockchainAccountId?.includes('@eip155')) {
+      vmEthAddr = verificationMethod.blockchainAccountId?.split('@eip155')[0].toLowerCase()
+    } else if (verificationMethod.blockchainAccountId?.startsWith('eip155')) {
+      vmEthAddr = verificationMethod.blockchainAccountId.split(':')[2]?.toLowerCase()
+    }
+  }
+  return vmEthAddr
+}
+
+export function getChainIdForDidEthr(verificationMethod: _NormalizedVerificationMethod): number {
+  if (verificationMethod.blockchainAccountId?.includes('@eip155')) {
+    return parseInt(verificationMethod.blockchainAccountId!.split(':').slice(-1)[0])
+  } else if (verificationMethod.blockchainAccountId?.startsWith('eip155')) {
+    return parseInt(verificationMethod.blockchainAccountId!.split(':')[1])
+  }
+  throw new Error('blockchainAccountId does not include eip155 designation')
+}
+
 export async function mapIdentifierKeysToDoc(
   identifier: IIdentifier,
   section: DIDDocumentSection = 'keyAgreement',
