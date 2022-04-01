@@ -5027,7 +5027,12 @@ did-resolver@3.1.3:
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.3.tgz#ed530c9daa2c9925f85e9eabf258e51960db7e70"
   integrity sha512-ab8y90tSiDkTdfddXRC9Qcb1QSd568aC6+OgFTrcE4rs1vQAZOil+VqXHDu+Ff/UvhxlckPO8oJtp86iICZG0w==
 
-did-resolver@3.1.5, did-resolver@^3.1.0, did-resolver@^3.1.3, did-resolver@^3.1.5:
+did-resolver@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.2.0.tgz#b89edd0dd70ad6f1c65ca1285472e021c2239707"
+  integrity sha512-8YiTRitfGt9hJYDIzjc254gXgJptO4zq6Q2BMZMNqkbCf9EFkV6BD4QIh5BUF4YjBglBgJY+duQRzO3UZAlZsw==
+
+did-resolver@^3.1.0, did-resolver@^3.1.3, did-resolver@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.1.5.tgz#1a82a00fa96d64085676183bff40ebc13c88cd6a"
   integrity sha512-/4lM1vK5osnWVZ2oN9QhlWV5xOwssuLSL1MvueBc8LQWotbD5kM9XQMe7h4GydYpbh3JaWMFkOWwc9jvSZ+qgg==
@@ -11790,10 +11795,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-did-resolver@2.0.12:
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.12.tgz#3413b988c2ab9d52378be7aa22ef457d70c48e21"
-  integrity sha512-bidL5bPn8CYFM33sfh465iLcgTbkNpfAlmpWkSC69D24fXnAY36tbMfhnehqIut+VCKZqIqeeZZl5ACanF5/+A==
+web-did-resolver@2.0.14:
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.14.tgz#ba8b6cf05130e16e6d0f3be3a5a20b121acfe5e9"
+  integrity sha512-jKF708NEebihZ2Nhj/MLS4+9LoYUhv0/65F/9GSgoNTSYQaNTRNjbZdEGsbahT8YVKCcLEP1luzG2mj5UP6uDA==
   dependencies:
     cross-fetch "^3.1.2"
     did-resolver "^3.1.5"
