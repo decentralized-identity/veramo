@@ -27,7 +27,7 @@
     "react-scripts": "5.0.0",
     "typeorm": "^0.2.44",
     "typescript": "4.6.3",
-    "web-did-resolver": "2.0.14",
+    "web-did-resolver": "2.0.15",
     "web-vitals": "2.1.4"
   },
   "scripts": {
