@@ -25,7 +25,7 @@ import {
   VerifiablePresentation,
 } from '@veramo/core'
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
-import structuredClone from '@ungap/structured-clone'
+import { serialize, deserialize } from '@ungap/structured-clone'
 import {
   ClaimTableEntry,
   CredentialTableEntry,
@@ -106,7 +106,7 @@ export class DataStoreJson implements IAgentPlugin {
   async dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string> {
     const id = args.message?.id || computeEntryHash(args.message)
     const message = { ...args.message, id }
-    const oldTree = structuredClone(this.cacheTree, { lossy: true })
+    const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     this.cacheTree.messages[id] = message
     // TODO: deprecate automatic credential and presentation saving
     const credentials = asArray(message.credentials)
@@ -203,7 +203,7 @@ export class DataStoreJson implements IAgentPlugin {
 
     let oldTree: VeramoJsonCache
     if (postUpdates) {
-      oldTree = structuredClone(this.cacheTree, { lossy: true })
+      oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     }
     this.cacheTree.credentials[hash] = credential
     for (const claim of claims) {
@@ -234,7 +234,7 @@ export class DataStoreJson implements IAgentPlugin {
       const claims = Object.values(this.cacheTree.claims)
         .filter((claim) => claim.credentialHash === credential.hash)
         .map((claim) => claim.hash)
-      const oldTree = structuredClone(this.cacheTree, { lossy: true })
+      const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
       delete this.cacheTree.credentials[args.hash]
       for (const claimHash of claims) {
         delete this.cacheTree.claims[claimHash]
@@ -251,7 +251,7 @@ export class DataStoreJson implements IAgentPlugin {
     const credentialEntity = this.cacheTree.credentials[args.hash]
     if (credentialEntity) {
       const { parsedCredential } = credentialEntity
-      return structuredClone(parsedCredential)
+      return deserialize(serialize(parsedCredential))
     } else {
       throw Error('Verifiable credential not found')
     }
@@ -305,7 +305,7 @@ export class DataStoreJson implements IAgentPlugin {
 
     let oldTree: VeramoJsonCache
     if (postUpdates) {
-      oldTree = structuredClone(this.cacheTree, { lossy: true })
+      oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     }
 
     this.cacheTree.presentations[hash] = presentation
@@ -349,7 +349,7 @@ export class DataStoreJson implements IAgentPlugin {
   ): Promise<IIdentifier[]> {
     const identifiers = buildQuery(Object.values(this.cacheTree.dids), args, ['did'], context.authorizedDID)
     // FIXME: collect corresponding keys from `this.cacheTree.keys`?
-    return structuredClone(identifiers)
+    return deserialize(serialize(identifiers))
   }
 
   async dataStoreORMGetIdentifiersCount(
@@ -369,7 +369,7 @@ export class DataStoreJson implements IAgentPlugin {
       ['to', 'from'],
       context.authorizedDID,
     )
-    return structuredClone(messages)
+    return deserialize(serialize(messages))
   }
 
   async dataStoreORMGetMessagesCount(
@@ -395,7 +395,7 @@ export class DataStoreJson implements IAgentPlugin {
       filteredCredentials.add(this.cacheTree.credentials[claim.credentialHash])
     })
 
-    return structuredClone(
+    return deserialize(serialize(
       Array.from(filteredCredentials).map((cred) => {
         const { hash, parsedCredential } = cred
         return {
@@ -403,7 +403,7 @@ export class DataStoreJson implements IAgentPlugin {
           verifiableCredential: parsedCredential,
         }
       }),
-    )
+    ))
   }
 
   async dataStoreORMGetVerifiableCredentialsByClaimsCount(
@@ -424,7 +424,7 @@ export class DataStoreJson implements IAgentPlugin {
       context.authorizedDID,
     )
 
-    return structuredClone(
+    return deserialize(serialize(
       credentials.map((cred: any) => {
         const { hash, parsedCredential } = cred
         return {
@@ -432,7 +432,7 @@ export class DataStoreJson implements IAgentPlugin {
           verifiableCredential: parsedCredential,
         }
       }),
-    )
+    ))
   }
 
   async dataStoreORMGetVerifiableCredentialsCount(
@@ -453,7 +453,7 @@ export class DataStoreJson implements IAgentPlugin {
       context.authorizedDID,
     )
 
-    return structuredClone(
+    return deserialize(serialize(
       presentations.map((pres: any) => {
         const { hash, parsedPresentation } = pres
         return {
@@ -461,7 +461,7 @@ export class DataStoreJson implements IAgentPlugin {
           verifiablePresentation: parsedPresentation,
         }
       }),
-    )
+    ))
   }
 
   async dataStoreORMGetVerifiablePresentationsCount(
