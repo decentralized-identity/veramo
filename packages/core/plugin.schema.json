@@ -148,7 +148,7 @@
               "items": {
                 "$ref": "#/components/schemas/VerificationMethod"
               },
-              "deprecated": ""
+              "deprecated": true
             }
           },
           "required": [
@@ -174,48 +174,7 @@
               "type": "string"
             },
             "publicKeyJwk": {
-              "type": "object",
-              "properties": {
-                "alg": {
-                  "type": "string"
-                },
-                "crv": {
-                  "type": "string"
-                },
-                "e": {
-                  "type": "string"
-                },
-                "ext": {
-                  "type": "boolean"
-                },
-                "key_ops": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "kid": {
-                  "type": "string"
-                },
-                "kty": {
-                  "type": "string"
-                },
-                "n": {
-                  "type": "string"
-                },
-                "use": {
-                  "type": "string"
-                },
-                "x": {
-                  "type": "string"
-                },
-                "y": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "kty"
-              ]
+              "$ref": "#/components/schemas/JsonWebKey"
             },
             "publicKeyHex": {
               "type": "string"
@@ -235,6 +194,51 @@
             "type",
             "controller"
           ]
+        },
+        "JsonWebKey": {
+          "type": "object",
+          "properties": {
+            "alg": {
+              "type": "string"
+            },
+            "crv": {
+              "type": "string"
+            },
+            "e": {
+              "type": "string"
+            },
+            "ext": {
+              "type": "boolean"
+            },
+            "key_ops": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "kid": {
+              "type": "string"
+            },
+            "kty": {
+              "type": "string"
+            },
+            "n": {
+              "type": "string"
+            },
+            "use": {
+              "type": "string"
+            },
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kty"
+          ],
+          "description": "Encapsulates a JSON web key type that includes only the public properties that can be used in DID documents.\n\nThe private properties are intentionally omitted to discourage the use (and accidental disclosure) of private keys in DID documents."
         },
         "ServiceEndpoint": {
           "type": "object",
