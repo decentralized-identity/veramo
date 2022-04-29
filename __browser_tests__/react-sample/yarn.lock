@@ -11802,10 +11802,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-did-resolver@2.0.15:
-  version "2.0.15"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.15.tgz#357046314a1c3dbe464ead7b918bcc87c26283e4"
-  integrity sha512-NugVp5j//dKKLER6UYRAXsLdfRW5webTswoDAgjQiQ1lG4Bc7vFIOzyJ2VP4d4SiXmRTu1ipCm9StfGxPMitNQ==
+web-did-resolver@2.0.16:
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.16.tgz#23e6607a6a068218ff8403d967b8a70af2e0cc25"
+  integrity sha512-PNGO9nP8H1mTxBRzg/AdzB40HXHhQ99BMCMEQYLK1fatohdmEDetJglgTFwavKQEbBexDG3xknCIzryWD7iS0A==
   dependencies:
     cross-fetch "^3.1.2"
     did-resolver "^3.1.5"
