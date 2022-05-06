@@ -5,7 +5,8 @@
     "outDir": "build",
     "declarationDir": "build",
     // https://github.com/transmute-industries/vc.js/issues/60
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "references": [
     { "path": "../core" },
