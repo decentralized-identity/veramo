@@ -68,7 +68,7 @@
     "url-parse": "^1.5.4",
     "web-did-resolver": "^2.0.12",
     "ws": "^8.4.0",
-    "yaml": "^1.10.0"
+    "yaml": "^2.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
