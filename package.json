@@ -26,10 +26,10 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@microsoft/api-documenter": "7.17.11",
-    "@microsoft/api-extractor": "7.23.0",
+    "@microsoft/api-documenter": "7.17.12",
+    "@microsoft/api-extractor": "7.23.1",
     "@microsoft/api-extractor-model": "7.17.2",
-    "@types/jest": "27.4.1",
+    "@types/jest": "27.5.0",
     "codecov": "3.8.3",
     "cross-fetch": "3.1.5",
     "ethr-did-registry": "0.0.3",
