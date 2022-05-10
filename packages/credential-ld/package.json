@@ -35,7 +35,7 @@
   "files": [
     "build/**/*",
     "src/**/*",
-    "contexts/**/*.jsonld",
+    "contexts/**/*.json",
     "plugin.schema.json",
     "README.md",
     "LICENSE"
