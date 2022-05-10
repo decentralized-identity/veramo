@@ -151,6 +151,12 @@ export class LdCredentialModule {
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
       purpose: new AssertionProofPurpose(),
       compactProof: false,
+      checkStatus: async ({ credential }: any) => {
+        const result = await context.agent.checkCredentialStatus({
+          credential,
+        });
+        return { verified: !result.revoked };
+      },
     })
 
     if (result.verified) return true

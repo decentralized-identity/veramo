@@ -1,0 +1,51 @@
+{
+  "name": "@veramo/credential-status",
+  "description": "Veramo plugin for resolving a credential status",
+  "version": "3.1.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema",
+    "start": "veramo server",
+    "build:watch": "tsc -b --watch",
+    "test:ci": "jest --config=jest.config.js",
+    "test": "jest --config=jest.config.js --coverage=false",
+    "test:watch": "yarn test --watch --verbose",
+    "clean": "rm -rf tmp && rm -rf database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "ICheckCredentialStatus": "./src/types.ts"
+    }
+  },
+  "dependencies": {
+    "@veramo/core": "^3.1.0",
+    "credential-status": "^2.0.0",
+    "did-jwt": "^5.12.4",
+    "did-resolver": "^3.1.5"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "@types/jest": "27.4.1",
+    "@veramo/cli": "3.1.1",
+    "jest": "27.5.1",
+    "ts-jest": "27.1.3",
+    "typescript": "4.6.2"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "plugin.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Konstantin Tsabolov <konstantin.tsabolov@spherity.com>",
+  "contributors": [],
+  "license": "Apache-2.0",
+  "keywords": []
+}

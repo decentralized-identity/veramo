@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "declarationDir": "build",
+    "skipLibCheck": true,
+    "paths": {
+      "credential-status": ["../../node_modules/credential-status/src/index.ts"],
+      "credential-status/*": ["../../node_modules/credential-status/src/*"]
+    }
+  },
+  "references": [
+    { "path": "../core" }
+  ]
+}
