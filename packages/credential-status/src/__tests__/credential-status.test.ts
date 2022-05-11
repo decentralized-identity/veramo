@@ -12,6 +12,7 @@ describe('@veramo/credential-status', () => {
   const referenceDoc = {} as DIDDocument
 
   it('should check the credential status', async () => {
+    expect.assertions(3);
     const expectedResult = {}
     const checkStatus = jest.fn(async () => expectedResult)
     const agent = createAgent({
@@ -33,6 +34,7 @@ describe('@veramo/credential-status', () => {
   })
 
   it('should not perform status check if no `credentialStatus` present', async () => {
+    expect.assertions(2);
     const checkStatus = jest.fn()
     const agent = createAgent({
       plugins: [
@@ -55,6 +57,7 @@ describe('@veramo/credential-status', () => {
   })
 
   it('should throw if unknown status check was provided', async () => {
+    expect.assertions(1);
     const agent = createAgent({
       plugins: [new CredentialStatusPlugin()],
     })
