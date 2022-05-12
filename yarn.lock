@@ -4435,10 +4435,10 @@ create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
-credential-status@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/credential-status/-/credential-status-2.0.0.tgz#daa59c4c98f4a5787bf7ae2b17779b046f55b99b"
-  integrity sha512-X/NDl6Yssh/4a6m9WxF1+er91agyXa7aiTejOODQwvWhzH0znF0J42LCl03ajHru/uK3Uccqew1LhARLClCL1Q==
+credential-status@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/credential-status/-/credential-status-2.0.2.tgz#108d52c4ac466943e86d6f9e45c7cb7603ee7a52"
+  integrity sha512-Xm52ESIhGU1pxl/EfXbW2rh6R9u1KPyy+/N2dIVARVsVYjIZilu+uhscS0M+TruaOD4RXzGVYtipJif/t3qHsA==
   dependencies:
     did-jwt "^5.12.3"
     did-resolver "^3.1.5"

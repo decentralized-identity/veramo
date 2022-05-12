@@ -1,6 +1,3 @@
-const { pathsToModuleNameMapper } = require('ts-jest')
-const { compilerOptions } = require('./tsconfig.json')
-
 module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   collectCoverage: true,
@@ -19,6 +16,5 @@ module.exports = {
     },
   },
   testEnvironment: 'node',
-  automock: false,
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<root_dir>' }),
+  automock: false
 }

@@ -12,7 +12,7 @@
     "test:ci": "jest --config=jest.config.js",
     "test": "jest --config=jest.config.js --coverage=false",
     "test:watch": "yarn test --watch --verbose",
-    "clean": "rm -rf tmp && rm -rf database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo"
+    "clean": "rm -rf tmp && rm -rf build && rm tsconfig.tsbuildinfo"
   },
   "veramo": {
     "pluginInterfaces": {
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@veramo/core": "^3.1.0",
-    "credential-status": "^2.0.0",
+    "credential-status": "^2.0.2",
     "did-jwt": "^5.12.4",
     "did-resolver": "^3.1.5"
   },
