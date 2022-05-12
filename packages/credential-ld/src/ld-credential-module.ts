@@ -145,12 +145,23 @@ export class LdCredentialModule {
     fetchRemoteContexts: boolean = false,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
+    const checkStatusFn =
+      typeof context.agent.checkCredentialStatus === 'function'
+        ? async ({ credential }: any) => {
+            const result = await context.agent.checkCredentialStatus({
+              credential,
+            })
+            return { verified: !result.revoked }
+          }
+        : void 0
+
     const result = await vc.verifyCredential({
       credential,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
       purpose: new AssertionProofPurpose(),
       compactProof: false,
+      checkStatus: checkStatusFn,
     })
 
     if (result.verified) return true

@@ -3,6 +3,7 @@
   "references": [
     { "path": "core" },
     { "path": "credential-ld" },
+    { "path": "credential-status"},
     { "path": "credential-w3c" },
     { "path": "data-store" },
     { "path": "data-store-json" },
