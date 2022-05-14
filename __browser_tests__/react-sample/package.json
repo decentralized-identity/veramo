@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/node": "16.11.26",
-    "@types/react": "17.0.39",
+    "@types/react": "18.0.9",
     "@types/react-dom": "18.0.0",
     "@veramo/core": "^3.1.0",
     "@veramo/credential-w3c": "^3.1.0",
