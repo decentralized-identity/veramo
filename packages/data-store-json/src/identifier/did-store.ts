@@ -3,7 +3,7 @@ import { AbstractDIDStore } from '@veramo/did-manager'
 
 import Debug from 'debug'
 import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
-import structuredClone from '@ungap/structured-clone'
+import { serialize, deserialize } from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:did-store')
 
@@ -66,12 +66,12 @@ export class DIDStoreJson extends AbstractDIDStore {
 
     if (!identifier) throw Error('Identifier not found')
 
-    return structuredClone(identifier)
+    return deserialize(serialize(identifier))
   }
 
   async delete({ did }: { did: string }) {
     if (this.cacheTree.dids[did]) {
-      const oldTree = structuredClone(this.cacheTree, { lossy: true })
+      const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
       delete this.cacheTree.dids[did]
       // FIXME: delete key associations?
       await this.notifyUpdate(oldTree, this.cacheTree)
@@ -81,7 +81,7 @@ export class DIDStoreJson extends AbstractDIDStore {
   }
 
   async import(args: IIdentifier) {
-    const oldTree = structuredClone(this.cacheTree, { lossy: true })
+    const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     this.cacheTree.dids[args.did] = args
     args.keys.forEach((key) => {
       this.cacheTree.keys[key.kid] = {
@@ -101,6 +101,6 @@ export class DIDStoreJson extends AbstractDIDStore {
         (!args.provider || (args.provider && iid.provider === args.provider)) &&
         (!args.alias || (args.alias && iid.alias === args.alias)),
     )
-    return structuredClone(result)
+    return deserialize(serialize(result))
   }
 }
