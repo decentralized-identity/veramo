@@ -3,7 +3,7 @@ import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager/src
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
 import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
-import structuredClone from '@ungap/structured-clone'
+import { serialize, deserialize } from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:private-key-store')
 
@@ -42,7 +42,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   }
 
   async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
-    const key = structuredClone(this.cacheTree.privateKeys[alias])
+    const key = deserialize(serialize(this.cacheTree.privateKeys[alias]))
     if (!key) throw Error('not_found: PrivateKey not found')
     if (this.secretBox && key.privateKeyHex) {
       key.privateKeyHex = await this.secretBox.decrypt(key.privateKeyHex)
@@ -54,7 +54,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
     debug(`Deleting private key data for alias=${alias}`)
     const privateKeyEntry = this.cacheTree.privateKeys[alias]
     if (privateKeyEntry) {
-      const oldTree = structuredClone(this.cacheTree, { lossy: true })
+      const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
       delete this.cacheTree.privateKeys[alias]
       await this.notifyUpdate(oldTree, this.cacheTree)
     }
@@ -64,10 +64,10 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   async import(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
     debug('Saving private key data', args.alias)
     const alias = args.alias || uuid4()
-    const key: ManagedPrivateKey = structuredClone({
+    const key: ManagedPrivateKey = deserialize(serialize({
       ...args,
       alias,
-    })
+    }))
     if (this.secretBox && key.privateKeyHex) {
       const copy = key.privateKeyHex
       key.privateKeyHex = await this.secretBox.encrypt(copy)
@@ -79,7 +79,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
       )
     }
 
-    const oldTree = structuredClone(this.cacheTree, { lossy: true })
+    const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     this.cacheTree.privateKeys[key.alias] = key
     await this.notifyUpdate(oldTree, this.cacheTree)
 
@@ -87,6 +87,6 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   }
 
   async list(): Promise<Array<ManagedPrivateKey>> {
-    return structuredClone(Object.values(this.cacheTree.privateKeys))
+    return deserialize(serialize(Object.values(this.cacheTree.privateKeys)))
   }
 }
