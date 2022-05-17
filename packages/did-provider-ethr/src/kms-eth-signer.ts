@@ -24,6 +24,10 @@ export class KmsEthereumSigner extends Signer {
   }
 
   async getAddress(): Promise<string> {
+    // publicKeyHex is not available when using web3provider
+    if (this.controllerKey.meta?.account) {
+      return this.controllerKey.meta?.account
+    }
     return computeAddress('0x' + this.controllerKey.publicKeyHex)
   }
 
