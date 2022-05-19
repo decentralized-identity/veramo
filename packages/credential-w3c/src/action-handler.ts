@@ -373,7 +373,7 @@ export class CredentialIssuer implements IAgentPlugin {
         const jwt = await createVerifiablePresentationJwt(
           presentation as any,
           { did: identifier.did, signer, alg },
-          { removeOriginalFields: args.removeOriginalFields },
+          { removeOriginalFields: args.removeOriginalFields, challenge: args.challenge, domain: args.domain },
         )
         //FIXME: flagging this as a potential privacy leak.
         debug(jwt)
