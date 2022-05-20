@@ -34,6 +34,9 @@
             },
             "keyRef": {
               "type": "string"
+            },
+            "options": {
+              "$ref": "#/components/schemas/IDIDCommOptions"
             }
           },
           "required": [
@@ -96,6 +99,17 @@
             "anoncrypt+jws"
           ],
           "description": "The possible types of message packing.\n\n`authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce `DIDCommMessageMediaType.ENCRYPTED` messages.\n\n`jws` will produce `DIDCommMessageMediaType.SIGNED` messages.\n\n`none` will produce `DIDCommMessageMediaType.PLAIN` messages."
+        },
+        "IDIDCommOptions": {
+          "type": "object",
+          "properties": {
+            "bcc": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         },
         "ISendDIDCommMessageArgs": {
           "type": "object",

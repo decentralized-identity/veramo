@@ -51,6 +51,7 @@ import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,
   IDIDCommMessage,
+  IDIDCommOptions,
   IPackedDIDCommMessage,
   IUnpackedDIDCommMessage,
 } from './types/message-types'
@@ -98,6 +99,7 @@ export interface IPackDIDCommMessageArgs {
   message: IDIDCommMessage
   packing: DIDCommMessagePacking
   keyRef?: string
+  options?: IDIDCommOptions
 }
 
 /**
@@ -270,27 +272,43 @@ export class DIDComm implements IAgentPlugin {
       }
     }
 
-    // 2. resolve DID for args.message.to
-    const didDocument: DIDDocument = await resolveDidOrThrow(args?.message?.to, context)
+    // 2: compute recipients
+    interface IRecipient {
+      kid: string
+      publicKeyBytes: Uint8Array
+    }
+    let recipients: IRecipient[] = []
 
-    // 2.1 extract all recipient key agreement keys and normalize them
-    const keyAgreementKeys: _NormalizedVerificationMethod[] = (
-      await dereferenceDidKeys(didDocument, 'keyAgreement', context)
-    ).filter((k) => k.publicKeyHex?.length! > 0)
+    async function computeRecipients(to: string): Promise<IRecipient[]> {
+      // 2.1 resolve DID for "to"
+      const didDocument: DIDDocument = await resolveDidOrThrow(to, context)
 
-    if (keyAgreementKeys.length === 0) {
-      throw new Error(`key_not_found: no key agreement keys found for recipient ${args?.message?.to}`)
+      // 2.2 extract all recipient key agreement keys and normalize them
+      const keyAgreementKeys: _NormalizedVerificationMethod[] = (
+        await dereferenceDidKeys(didDocument, 'keyAgreement', context)
+      ).filter((k) => k.publicKeyHex?.length! > 0)
+
+      if (keyAgreementKeys.length === 0) {
+        throw new Error(`key_not_found: no key agreement keys found for recipient ${to}`)
+      }
+
+      // 2.3 get public key bytes and key IDs for supported recipient keys
+      const tempRecipients = keyAgreementKeys
+        .map((pk) => ({ kid: pk.id, publicKeyBytes: u8a.fromString(pk.publicKeyHex!, 'base16') }))
+        .filter(isDefined)
+
+      if (tempRecipients.length === 0) {
+        throw new Error(`not_supported: no compatible key agreement keys found for recipient ${to}`)
+      }
+      return tempRecipients
     }
 
-    // 2.2 get public key bytes and key IDs for supported recipient keys
-    const recipients: { kid: string; publicKeyBytes: Uint8Array }[] = keyAgreementKeys
-      .map((pk) => ({ kid: pk.id, publicKeyBytes: u8a.fromString(pk.publicKeyHex!, 'base16') }))
-      .filter(isDefined)
+    // add primary recipient
+    recipients.push(...(await computeRecipients(args.message.to)))
 
-    if (recipients.length === 0) {
-      throw new Error(
-        `not_supported: no compatible key agreement keys found for recipient ${args?.message?.to}`,
-      )
+    // add bcc recipients (optional)
+    for (const to of args.options?.bcc || []) {
+      recipients.push(...(await computeRecipients(to)))
     }
 
     // 3. create Encrypter for each recipient

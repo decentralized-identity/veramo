@@ -17,6 +17,9 @@ export interface IDIDCommMessage {
   from_prior?: string
   body: any
 }
+export interface IDIDCommOptions {
+  bcc?: string[]
+}
 
 /**
  * Represents different DIDComm v2 message encapsulation
