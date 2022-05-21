@@ -13,7 +13,12 @@ import {
   ISendMessageDIDCommAlpha1Args,
   IUnpackDIDCommMessageArgs,
 } from '../didcomm'
-import { DIDCommMessageMediaType, IPackedDIDCommMessage, IUnpackedDIDCommMessage } from './message-types'
+import {
+  DIDCommMessageMediaType,
+  IDIDCommOptions,
+  IPackedDIDCommMessage,
+  IUnpackedDIDCommMessage,
+} from './message-types'
 
 /**
  * DID Comm plugin interface for {@link @veramo/core#Agent}
@@ -39,6 +44,7 @@ export interface IDIDComm extends IPluginMethodMap {
    *   * args.packing - {@link DIDCommMessagePacking} - the packing method
    *   * args.keyRef - Optional - string - either an `id` of a {@link did-resolver#VerificationMethod}
    *     `kid` of a {@link @veramo/core#IKey} that will be used when `packing` is `jws` or `authcrypt`.
+   *   * args.options - {@link IDIDCommOptions} - optional options
    *
    * @param context - This method requires an agent that also has {@link @veramo/core#IDIDManager},
    *   {@link @veramo/core#IKeyManager} and {@link @veramo/core#IResolver} plugins in use.
