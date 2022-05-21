@@ -9,7 +9,7 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@ungap/structured-clone": "^0.3.4",
+    "@ungap/structured-clone": "^1.0.0",
     "@veramo/core": "^3.1.0",
     "@veramo/data-store": "^3.1.0",
     "@veramo/did-discovery": "^3.1.0",
