@@ -50,7 +50,7 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-  ProfileDiscoveryProvider,
+  DataStoreDiscoveryProvider,
 } from '../packages/data-store/src'
 import { Connection, createConnection } from 'typeorm'
 import { AgentRestClient } from '../packages/remote-client/src'
@@ -197,7 +197,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
+        providers: [new AliasDiscoveryProvider(), new DataStoreDiscoveryProvider()],
       }),
       ...(options?.plugins || []),
     ],

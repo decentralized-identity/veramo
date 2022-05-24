@@ -49,7 +49,7 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-  ProfileDiscoveryProvider,
+  DataStoreDiscoveryProvider,
 } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
@@ -214,7 +214,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
+        providers: [new AliasDiscoveryProvider(), new DataStoreDiscoveryProvider()],
       }),
       ...(options?.plugins || []),
     ],

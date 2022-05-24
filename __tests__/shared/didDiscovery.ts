@@ -82,10 +82,9 @@ export default (testContext: {
       })
 
       const result = await agent.discoverDid({ query: 'bob' })
-
       expect(result.results).toHaveLength(2)
       expect(result.results[0].matches).toHaveLength(1)
-      expect(result.results[1].matches).toHaveLength(2)
+      expect(result.results[1].matches).toHaveLength(3)
 
       expect(result.results[0].matches[0]).toEqual({
         did: identifier.did,
@@ -97,6 +96,24 @@ export default (testContext: {
       expect(result.results[1].matches[1]).toEqual({
         did: identifier.did,
         metaData: { verifiableCredential },
+      })
+
+      expect(result.results[1].matches[2]).toEqual({
+        did: identifier.did,
+        metaData: {
+          alias: 'bob',
+        },
+      })
+
+      const byDIDFragmentResult = await agent.discoverDid({ query: identifier.did.substring(3, identifier.did.length - 3)})
+      expect(byDIDFragmentResult.results).toHaveLength(1)
+      expect(byDIDFragmentResult.results[0].matches).toHaveLength(1)
+
+      expect(byDIDFragmentResult.results[0].matches[0]).toEqual({
+        did: identifier.did,
+        metaData: {
+          alias: 'bob'
+        }
       })
     })
 
