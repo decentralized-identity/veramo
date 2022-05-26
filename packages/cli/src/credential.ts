@@ -39,10 +39,13 @@ credential
         message: 'Issuer DID',
       },
       {
-        type: 'input',
+        type: 'list',
         name: 'sub',
+        choices: identifiers.map((item) => ({
+          name: `${item.did} ${item.alias}`,
+          value: item.did,
+        })),
         message: 'Subject DID',
-        default: identifiers[0].did,
       },
       {
         type: 'input',
