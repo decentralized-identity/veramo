@@ -54,15 +54,6 @@ credential
             .map((el: any) => (typeof el === 'string' ? el : el.original))
           return res
         },
-        validate: (val) => {
-          if (val && typeof val !== 'string') {
-            val = val.value
-          }
-          if (!val || !val.startsWith('did:')) {
-            return "Subject DID does not start with 'did:'..."
-          }
-          return true
-        },
         message: 'Subject DID',
       },
       {
