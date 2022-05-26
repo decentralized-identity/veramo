@@ -20,6 +20,9 @@
             "removeOriginalFields": {
               "type": "boolean",
               "description": "Remove payload members during JWT-JSON transformation. Defaults to `true`. See https://www.w3.org/TR/vc-data-model/#jwt-encoding"
+            },
+            "keyRef": {
+              "type": "string"
             }
           },
           "required": [
@@ -115,7 +118,8 @@
           "type": "string",
           "enum": [
             "jwt",
-            "lds"
+            "lds",
+            "EthereumEip712Signature2021"
           ],
           "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` and `lds` is supported at the moment."
         },
