@@ -15,7 +15,7 @@
     "@veramo/key-manager": "^3.1.0",
     "@veramo/utils": "^3.1.0",
     "debug": "^4.3.3",
-    "typeorm": "0.2.45"
+    "typeorm": "0.3.6"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
