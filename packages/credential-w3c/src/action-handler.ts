@@ -131,6 +131,10 @@ export interface ICreateVerifiableCredentialArgs {
    */
   removeOriginalFields?: boolean
 
+  /**
+   * [Optional] The ID of the key that should sign this credential.
+   * If this is not specified, the first matching key will be used.
+   */
   keyRef?: string
 }
 
