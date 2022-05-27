@@ -7,6 +7,8 @@ import * as json5 from 'json5'
 import { readStdin } from './util'
 import { CredentialPayload } from '@veramo/core'
 
+const fuzzy = require('fuzzy')
+
 const credential = program.command('credential').description('W3C Verifiable Credential')
 
 credential
@@ -18,6 +20,10 @@ credential
   .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
+
+    const knownDids = await agent.dataStoreORMGetIdentifiers()
+    const subjects = [...knownDids.map((id) => id.did)]
+
     if (identifiers.length === 0) {
       console.error('No dids')
       process.exit()
@@ -39,10 +45,16 @@ credential
         message: 'Issuer DID',
       },
       {
-        type: 'input',
+        type: 'autocomplete',
         name: 'sub',
+        pageSize: 15,
+        source: async (answers: any, input: string) => {
+          const res = fuzzy
+            .filter(input, subjects)
+            .map((el: any) => (typeof el === 'string' ? el : el.original))
+          return res
+        },
         message: 'Subject DID',
-        default: identifiers[0].did,
       },
       {
         type: 'input',
