@@ -1,5 +1,6 @@
 import blessed, { Widgets } from 'blessed'
 import { IIdentifier } from '@veramo/core'
+import { copyToClipboard } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
 
@@ -52,6 +53,23 @@ export const getManagedIdentifiersTable = async (agent: ConfiguredAgent, screen:
       },
 
       content: JSON.stringify(identifier, null, 2),
+    })
+    identifierBox.key(['c'], function (ch, key) {
+      var messageBox = blessed.message({
+        parent: screen,
+        top: 'center',
+        left: 'center',
+        height: 'shrink',
+        width: 'shrink',
+        border: 'line',
+        shadow: true,
+        style: {
+          fg: 'green'
+        },
+      })
+      const success = copyToClipboard(JSON.stringify(identifier, null, 2))
+      const message = success ? 'Copied to clipboard.' : 'Could not copy to clipboard.'
+      messageBox.display(message, () => {})
     })
     identifierBox.key(['escape'], function (ch, key) {
       identifierBox.destroy()
