@@ -8,7 +8,6 @@
   "references": [
     { "path": "../core" },
     { "path": "../credential-w3c" },
-    { "path": "../data-store" },
     { "path": "../did-jwt" },
     { "path": "../message-handler" }
   ]

@@ -1,63 +1,68 @@
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials, presentations, messages as well as keys and DIDs.
- * 
+ *
  * This suite also runs a ganache local blockchain to run through some examples of DIDComm using did:ethr identifiers.
  */
 
 import {
   createAgent,
-  TAgent,
-  IDIDManager,
-  IResolver,
-  IKeyManager,
-  IDataStore,
-  IMessageHandler,
   IAgentOptions,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  IMessageHandler,
+  IResolver,
+  TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+} from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm, DIDCommHttpTransport } from '../packages/did-comm/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
-  SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
+  SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 
 import {
-  Entities,
-  KeyStore,
-  DIDStore,
-  IDataStoreORM,
   DataStore,
   DataStoreORM,
-  ProfileDiscoveryProvider,
-  PrivateKeyStore,
+  DIDStore,
+  Entities,
+  KeyStore,
   migrations,
+  PrivateKeyStore,
+  ProfileDiscoveryProvider,
 } from '../packages/data-store/src'
-import { createConnection, Connection } from 'typeorm'
-
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+
+import { Connection, createConnection } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import fs from 'fs'
-
-jest.setTimeout(30000)
-
+import { contexts as credential_contexts } from '@transmute/credentials-context'
+import * as fs from 'fs'
 // Shared tests
-import verifiableData from './shared/verifiableData'
+import verifiableDataJWT from './shared/verifiableDataJWT'
+import verifiableDataLD from './shared/verifiableDataLD'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
@@ -71,6 +76,8 @@ import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 
+jest.setTimeout(30000)
+
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
@@ -83,6 +90,7 @@ let agent: TAgent<
     IMessageHandler &
     IDIDComm &
     ICredentialIssuer &
+    ICredentialIssuerLD &
     ISelectiveDisclosure &
     IDIDDiscovery
 >
@@ -90,7 +98,8 @@ let dbConnection: Promise<Connection>
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
+  databaseFile =
+    options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
   dbConnection = createConnection({
     name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',
@@ -115,12 +124,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IMessageHandler &
       IDIDComm &
       ICredentialIssuer &
+      ICredentialIssuerLD &
       ISelectiveDisclosure &
       IDIDDiscovery
   >({
     ...options,
     context: {
-      // authenticatedDid: 'did:example:3456'
+      // authorizedDID: 'did:example:3456'
     },
     plugins: [
       new KeyManager({
@@ -198,6 +208,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm([new DIDCommHttpTransport()]),
       new CredentialIssuer(),
+      new CredentialIssuerLD({
+        contextMaps: [LdDefaultContexts, credential_contexts as any],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+      }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
@@ -228,7 +242,8 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local integration tests', () => {
-  verifiableData(testContext)
+  verifiableDataJWT(testContext)
+  verifiableDataLD(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)

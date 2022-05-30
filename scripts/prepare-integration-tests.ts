@@ -1,15 +1,12 @@
 import { resolve } from 'path'
-import { writeFileSync, readFileSync } from 'fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
 import * as TJS from 'ts-json-schema-generator'
-import { existsSync, readdirSync, copyFileSync, mkdirSync, unlinkSync } from 'fs'
 import { DocFencedCode } from '@microsoft/tsdoc'
 import {
-  ApiModel,
-  ApiPackage,
-  ApiParameterListMixin,
-  ApiDocumentedItem,
-  ApiReturnTypeMixin,
   ApiMethodSignature,
+  ApiModel,
+  ApiParameterListMixin,
+  ApiReturnTypeMixin,
 } from '@microsoft/api-extractor-model'
 
 const outputFolder = './temp'
@@ -41,11 +38,10 @@ for (const inputFolder of inputFolders) {
 const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
-  core: ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IKeyManager'],
+  core: ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IDataStoreORM', 'IKeyManager'],
   'credential-w3c': ['ICredentialIssuer'],
   'selective-disclosure': ['ISelectiveDisclosure'],
   'did-comm': ['IDIDComm'],
-  'data-store': ['IDataStoreORM'],
 }
 
 interface RestMethod {
@@ -64,6 +60,8 @@ for (const packageName of Object.keys(agentPlugins)) {
   const generator = TJS.createGenerator({
     path: resolve('packages/' + packageName + '/src/index.ts'),
     encodeRefs: false,
+    // TODO: https://github.com/transmute-industries/vc.js/issues/60
+    skipTypeCheck: true
   })
 
   const apiModel: ApiModel = new ApiModel()

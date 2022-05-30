@@ -148,7 +148,7 @@
               "items": {
                 "$ref": "#/components/schemas/VerificationMethod"
               },
-              "deprecated": ""
+              "deprecated": true
             }
           },
           "required": [
@@ -174,48 +174,7 @@
               "type": "string"
             },
             "publicKeyJwk": {
-              "type": "object",
-              "properties": {
-                "alg": {
-                  "type": "string"
-                },
-                "crv": {
-                  "type": "string"
-                },
-                "e": {
-                  "type": "string"
-                },
-                "ext": {
-                  "type": "boolean"
-                },
-                "key_ops": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "kid": {
-                  "type": "string"
-                },
-                "kty": {
-                  "type": "string"
-                },
-                "n": {
-                  "type": "string"
-                },
-                "use": {
-                  "type": "string"
-                },
-                "x": {
-                  "type": "string"
-                },
-                "y": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "kty"
-              ]
+              "$ref": "#/components/schemas/JsonWebKey"
             },
             "publicKeyHex": {
               "type": "string"
@@ -235,6 +194,51 @@
             "type",
             "controller"
           ]
+        },
+        "JsonWebKey": {
+          "type": "object",
+          "properties": {
+            "alg": {
+              "type": "string"
+            },
+            "crv": {
+              "type": "string"
+            },
+            "e": {
+              "type": "string"
+            },
+            "ext": {
+              "type": "boolean"
+            },
+            "key_ops": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "kid": {
+              "type": "string"
+            },
+            "kty": {
+              "type": "string"
+            },
+            "n": {
+              "type": "string"
+            },
+            "use": {
+              "type": "string"
+            },
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kty"
+          ],
+          "description": "Encapsulates a JSON web key type that includes only the public properties that can be used in DID documents.\n\nThe private properties are intentionally omitted to discourage the use (and accidental disclosure) of private keys in DID documents."
         },
         "ServiceEndpoint": {
           "type": "object",
@@ -310,6 +314,23 @@
         "DIDResolutionResult": {
           "type": "object",
           "properties": {
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "https://w3id.org/did-resolution/v1"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
             "didResolutionMetadata": {
               "$ref": "#/components/schemas/DIDResolutionMetadata"
             },
@@ -426,7 +447,9 @@
           "enum": [
             "Ed25519",
             "Secp256k1",
-            "X25519"
+            "X25519",
+            "Bls12381G1",
+            "Bls12381G2"
           ],
           "description": "Cryptographic key type"
         },
@@ -992,7 +1015,9 @@
           "enum": [
             "Ed25519",
             "Secp256k1",
-            "X25519"
+            "X25519",
+            "Bls12381G1",
+            "Bls12381G2"
           ],
           "description": "Cryptographic key type"
         },
@@ -1486,7 +1511,7 @@
           "required": [
             "hash"
           ],
-          "description": "Input arguments for  {@link  IDataStore.IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs }"
+          "description": "Input arguments for  {@link  IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs }"
         },
         "IDataStoreGetMessageArgs": {
           "type": "object",
@@ -1613,22 +1638,75 @@
         "VerifiableCredential": {
           "type": "object",
           "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "issuer": {
+              "$ref": "#/components/schemas/IssuerType"
+            },
+            "credentialSubject": {
+              "$ref": "#/components/schemas/CredentialSubject"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
             "@context": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "credentialStatus": {
+              "$ref": "#/components/schemas/CredentialStatus"
             },
             "id": {
               "type": "string"
-            },
+            }
+          },
+          "required": [
+            "@context",
+            "credentialSubject",
+            "issuanceDate",
+            "issuer",
+            "proof"
+          ],
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+        },
+        "ProofType": {
+          "type": "object",
+          "properties": {
             "type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "issuer": {
+              "type": "string"
+            }
+          },
+          "description": "A proof property of a Verifiable Credential or Presentation"
+        },
+        "IssuerType": {
+          "anyOf": [
+            {
               "type": "object",
               "properties": {
                 "id": {
@@ -1639,80 +1717,73 @@
                 "id"
               ]
             },
-            "issuanceDate": {
+            {
               "type": "string"
-            },
-            "expirationDate": {
+            }
+          ],
+          "description": "The issuer of a Credential or the holder of a Presentation.\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+        },
+        "CredentialSubject": {
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "string"
-            },
-            "credentialSubject": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              }
-            },
-            "credentialStatus": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id",
-                "type"
-              ]
-            },
-            "proof": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
-                }
-              }
             }
           },
-          "required": [
-            "@context",
-            "credentialSubject",
-            "issuanceDate",
-            "issuer",
-            "proof",
-            "type"
-          ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
-        "VerifiablePresentation": {
+        "CredentialStatus": {
           "type": "object",
           "properties": {
             "id": {
               "type": "string"
             },
+            "type": {
+              "type": "string"
+            }
+          },
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
             "holder": {
               "type": "string"
             },
-            "issuanceDate": {
-              "type": "string"
-            },
-            "expirationDate": {
-              "type": "string"
-            },
-            "@context": {
+            "verifiableCredential": {
               "type": "array",
               "items": {
-                "type": "string"
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
               }
             },
             "type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
             },
             "verifier": {
               "type": "array",
@@ -1720,29 +1791,37 @@
                 "type": "string"
               }
             },
-            "verifiableCredential": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/VerifiableCredential"
-              }
+            "issuanceDate": {
+              "type": "string"
             },
-            "proof": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
-                }
-              }
+            "expirationDate": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
             }
           },
           "required": [
             "@context",
             "holder",
-            "proof",
-            "type",
-            "verifier"
+            "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+        },
+        "W3CVerifiableCredential": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+        },
+        "CompactJWT": {
+          "type": "string",
+          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
         },
         "IDataStoreGetVerifiableCredentialArgs": {
           "type": "object",
@@ -1872,6 +1951,1084 @@
           },
           "returnType": {
             "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "IDataStoreORM": {
+    "components": {
+      "schemas": {
+        "FindIdentifiersArgs": {
+          "$ref": "#/components/schemas/FindArgs-TIdentifiersColumns",
+          "description": "The filter that can be used to find  {@link  IIdentifier } s in the data store."
+        },
+        "FindArgs-TIdentifiersColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TIdentifiersColumns"
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TIdentifiersColumns"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
+            },
+            "skip": {
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
+            }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
+        },
+        "Where-TIdentifiersColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TIdentifiersColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+        },
+        "TIdentifiersColumns": {
+          "type": "string",
+          "enum": [
+            "did",
+            "alias",
+            "provider"
+          ],
+          "description": "The columns that can be queried for an  {@link  IIdentifier }",
+          "deprecated": "This type will be removed in future versions of this plugin interface."
+        },
+        "Order-TIdentifiersColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TIdentifiersColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+        },
+        "PartialIdentifier": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Decentralized identifier"
+            },
+            "alias": {
+              "type": "string",
+              "description": "Optional. Identifier alias. Can be used to reference an object in an external system"
+            },
+            "provider": {
+              "type": "string",
+              "description": "Identifier provider name"
+            },
+            "controllerKeyId": {
+              "type": "string",
+              "description": "Controller key id"
+            },
+            "keys": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IKey"
+              },
+              "description": "Array of managed keys"
+            },
+            "services": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IService"
+              },
+              "description": "Array of services"
+            }
+          },
+          "description": "The result of a  {@link  IDataStoreORM.dataStoreORMGetIdentifiers }  query."
+        },
+        "IKey": {
+          "type": "object",
+          "properties": {
+            "kid": {
+              "type": "string",
+              "description": "Key ID"
+            },
+            "kms": {
+              "type": "string",
+              "description": "Key Management System"
+            },
+            "type": {
+              "$ref": "#/components/schemas/TKeyType",
+              "description": "Key type"
+            },
+            "publicKeyHex": {
+              "type": "string",
+              "description": "Public key"
+            },
+            "privateKeyHex": {
+              "type": "string",
+              "description": "Optional. Private key"
+            },
+            "meta": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/KeyMetadata"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
+            }
+          },
+          "required": [
+            "kid",
+            "kms",
+            "type",
+            "publicKeyHex"
+          ],
+          "description": "Cryptographic key"
+        },
+        "TKeyType": {
+          "type": "string",
+          "enum": [
+            "Ed25519",
+            "Secp256k1",
+            "X25519",
+            "Bls12381G1",
+            "Bls12381G2"
+          ],
+          "description": "Cryptographic key type"
+        },
+        "KeyMetadata": {
+          "type": "object",
+          "properties": {
+            "algorithms": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "IService": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "ID"
+            },
+            "type": {
+              "type": "string",
+              "description": "Service type"
+            },
+            "serviceEndpoint": {
+              "type": "string",
+              "description": "Endpoint URL"
+            },
+            "description": {
+              "type": "string",
+              "description": "Optional. Description"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "serviceEndpoint"
+          ],
+          "description": "Identifier service"
+        },
+        "FindMessagesArgs": {
+          "$ref": "#/components/schemas/FindArgs-TMessageColumns",
+          "description": "The filter that can be used to find  {@link  IMessage } s in the data store. See  {@link  IDataStoreORM.dataStoreORMGetMessages }"
+        },
+        "FindArgs-TMessageColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TMessageColumns"
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TMessageColumns"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
+            },
+            "skip": {
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
+            }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
+        },
+        "Where-TMessageColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TMessageColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+        },
+        "TMessageColumns": {
+          "type": "string",
+          "enum": [
+            "from",
+            "to",
+            "id",
+            "createdAt",
+            "expiresAt",
+            "threadId",
+            "type",
+            "raw",
+            "replyTo",
+            "replyUrl"
+          ],
+          "description": "The columns that can be queried for an  {@link  IMessage } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetMessagesCount }"
+        },
+        "Order-TMessageColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TMessageColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+        },
+        "IMessage": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique message ID"
+            },
+            "type": {
+              "type": "string",
+              "description": "Message type"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Optional. Creation date (ISO 8601)"
+            },
+            "expiresAt": {
+              "type": "string",
+              "description": "Optional. Expiration date (ISO 8601)"
+            },
+            "threadId": {
+              "type": "string",
+              "description": "Optional. Thread ID"
+            },
+            "raw": {
+              "type": "string",
+              "description": "Optional. Original message raw data"
+            },
+            "data": {
+              "anyOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Parsed data"
+            },
+            "replyTo": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Optional. List of DIDs to reply to"
+            },
+            "replyUrl": {
+              "type": "string",
+              "description": "Optional. URL to post a reply message to"
+            },
+            "from": {
+              "type": "string",
+              "description": "Optional. Sender DID"
+            },
+            "to": {
+              "type": "string",
+              "description": "Optional. Recipient DID"
+            },
+            "metaData": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMetaData"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Array of message metadata"
+            },
+            "credentials": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              },
+              "description": "Optional. Array of attached verifiable credentials"
+            },
+            "presentations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiablePresentation"
+              },
+              "description": "Optional. Array of attached verifiable presentations"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "description": "Represents a DIDComm v1 message payload, with optionally decoded credentials and presentations."
+        },
+        "IMetaData": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Type"
+            },
+            "value": {
+              "type": "string",
+              "description": "Optional. Value"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "description": "Message meta data"
+        },
+        "VerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "issuer": {
+              "$ref": "#/components/schemas/IssuerType"
+            },
+            "credentialSubject": {
+              "$ref": "#/components/schemas/CredentialSubject"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "credentialStatus": {
+              "$ref": "#/components/schemas/CredentialStatus"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@context",
+            "credentialSubject",
+            "issuanceDate",
+            "issuer",
+            "proof"
+          ],
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+        },
+        "ProofType": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            }
+          },
+          "description": "A proof property of a Verifiable Credential or Presentation"
+        },
+        "IssuerType": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The issuer of a Credential or the holder of a Presentation.\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+        },
+        "CredentialSubject": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+        },
+        "CredentialStatus": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "holder": {
+              "type": "string"
+            },
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
+              }
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "verifier": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@context",
+            "holder",
+            "proof"
+          ],
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+        },
+        "W3CVerifiableCredential": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+        },
+        "CompactJWT": {
+          "type": "string",
+          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
+        },
+        "FindCredentialsArgs": {
+          "$ref": "#/components/schemas/FindArgs-TCredentialColumns",
+          "description": "The filter that can be used to find  {@link  VerifiableCredential } s in the data store. See  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials }"
+        },
+        "FindArgs-TCredentialColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TCredentialColumns"
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TCredentialColumns"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
+            },
+            "skip": {
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
+            }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
+        },
+        "Where-TCredentialColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TCredentialColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+        },
+        "TCredentialColumns": {
+          "type": "string",
+          "enum": [
+            "context",
+            "type",
+            "id",
+            "issuer",
+            "subject",
+            "expirationDate",
+            "issuanceDate"
+          ],
+          "description": "The columns that can be searched for a  {@link  VerifiableCredential } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsCount }"
+        },
+        "Order-TCredentialColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TCredentialColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+        },
+        "UniqueVerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "verifiableCredential": {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            }
+          },
+          "required": [
+            "hash",
+            "verifiableCredential"
+          ],
+          "description": "Represents the result of a Query for  {@link  VerifiableCredential } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }"
+        },
+        "FindClaimsArgs": {
+          "$ref": "#/components/schemas/FindArgs-TClaimsColumns",
+          "description": "The filter that can be used to find  {@link  VerifiableCredential } s in the data store, based on the types and values of their claims.\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }"
+        },
+        "FindArgs-TClaimsColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TClaimsColumns"
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TClaimsColumns"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
+            },
+            "skip": {
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
+            }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
+        },
+        "Where-TClaimsColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TClaimsColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+        },
+        "TClaimsColumns": {
+          "type": "string",
+          "enum": [
+            "context",
+            "credentialType",
+            "type",
+            "value",
+            "isObj",
+            "id",
+            "issuer",
+            "subject",
+            "expirationDate",
+            "issuanceDate"
+          ],
+          "description": "The columns that can be searched for the claims of a  {@link  VerifiableCredential } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaimsCount }"
+        },
+        "Order-TClaimsColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TClaimsColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+        },
+        "FindPresentationsArgs": {
+          "$ref": "#/components/schemas/FindArgs-TPresentationColumns",
+          "description": "The filter that can be used to find  {@link  VerifiablePresentation } s in the data store. See  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentations }"
+        },
+        "FindArgs-TPresentationColumns": {
+          "type": "object",
+          "properties": {
+            "where": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Where-TPresentationColumns"
+              },
+              "description": "Imposes constraints on the values of the given columns. WHERE clauses are combined using AND."
+            },
+            "order": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Order-TPresentationColumns"
+              },
+              "description": "Sorts the results according to the given array of column priorities."
+            },
+            "skip": {
+              "type": "number",
+              "description": "Ignores the first number of entries in a  {@link  IDataStoreORM }  query result."
+            },
+            "take": {
+              "type": "number",
+              "description": "Returns at most this number of results from a  {@link  IDataStoreORM }  query."
+            }
+          },
+          "description": "Represents an  {@link  IDataStoreORM }  Query."
+        },
+        "Where-TPresentationColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TPresentationColumns"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "type": "boolean"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "LessThan",
+                "LessThanOrEqual",
+                "MoreThan",
+                "MoreThanOrEqual",
+                "Equal",
+                "Like",
+                "Between",
+                "In",
+                "Any",
+                "IsNull"
+              ]
+            }
+          },
+          "required": [
+            "column"
+          ],
+          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+        },
+        "TPresentationColumns": {
+          "type": "string",
+          "enum": [
+            "context",
+            "type",
+            "id",
+            "holder",
+            "verifier",
+            "expirationDate",
+            "issuanceDate"
+          ],
+          "description": "The columns that can be searched for a  {@link  VerifiablePresentation } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentations } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentationsCount }"
+        },
+        "Order-TPresentationColumns": {
+          "type": "object",
+          "properties": {
+            "column": {
+              "$ref": "#/components/schemas/TPresentationColumns"
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "required": [
+            "column",
+            "direction"
+          ],
+          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+        },
+        "UniqueVerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "verifiablePresentation": {
+              "$ref": "#/components/schemas/VerifiablePresentation"
+            }
+          },
+          "required": [
+            "hash",
+            "verifiablePresentation"
+          ],
+          "description": "Represents the result of a Query for  {@link  VerifiablePresentation } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentations }"
+        }
+      },
+      "methods": {
+        "dataStoreORMGetIdentifiers": {
+          "description": "Tries to obtain a list of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindIdentifiersArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartialIdentifier"
+            }
+          }
+        },
+        "dataStoreORMGetIdentifiersCount": {
+          "description": "Tries to obtain a count of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindIdentifiersArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        },
+        "dataStoreORMGetMessages": {
+          "description": "Returns a list of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindMessagesArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMessage"
+            }
+          }
+        },
+        "dataStoreORMGetMessagesCount": {
+          "description": "Returns a count of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindMessagesArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        },
+        "dataStoreORMGetVerifiableCredentials": {
+          "description": "Returns a list of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindCredentialsArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UniqueVerifiableCredential"
+            }
+          }
+        },
+        "dataStoreORMGetVerifiableCredentialsByClaims": {
+          "description": "Returns a list of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindClaimsArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UniqueVerifiableCredential"
+            }
+          }
+        },
+        "dataStoreORMGetVerifiableCredentialsByClaimsCount": {
+          "description": "Returns a count of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindClaimsArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        },
+        "dataStoreORMGetVerifiableCredentialsCount": {
+          "description": "Returns a count of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindCredentialsArgs"
+          },
+          "returnType": {
+            "type": "number"
+          }
+        },
+        "dataStoreORMGetVerifiablePresentations": {
+          "description": "Returns a list of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindPresentationsArgs"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UniqueVerifiablePresentation"
+            }
+          }
+        },
+        "dataStoreORMGetVerifiablePresentationsCount": {
+          "description": "Returns a count of ",
+          "arguments": {
+            "$ref": "#/components/schemas/FindPresentationsArgs"
+          },
+          "returnType": {
+            "type": "number"
           }
         }
       }
@@ -2016,22 +3173,75 @@
         "VerifiableCredential": {
           "type": "object",
           "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "issuer": {
+              "$ref": "#/components/schemas/IssuerType"
+            },
+            "credentialSubject": {
+              "$ref": "#/components/schemas/CredentialSubject"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
             "@context": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "credentialStatus": {
+              "$ref": "#/components/schemas/CredentialStatus"
             },
             "id": {
               "type": "string"
-            },
+            }
+          },
+          "required": [
+            "@context",
+            "credentialSubject",
+            "issuanceDate",
+            "issuer",
+            "proof"
+          ],
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+        },
+        "ProofType": {
+          "type": "object",
+          "properties": {
             "type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "issuer": {
+              "type": "string"
+            }
+          },
+          "description": "A proof property of a Verifiable Credential or Presentation"
+        },
+        "IssuerType": {
+          "anyOf": [
+            {
               "type": "object",
               "properties": {
                 "id": {
@@ -2042,80 +3252,73 @@
                 "id"
               ]
             },
-            "issuanceDate": {
+            {
               "type": "string"
-            },
-            "expirationDate": {
+            }
+          ],
+          "description": "The issuer of a Credential or the holder of a Presentation.\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+        },
+        "CredentialSubject": {
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "string"
-            },
-            "credentialSubject": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              }
-            },
-            "credentialStatus": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id",
-                "type"
-              ]
-            },
-            "proof": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
-                }
-              }
             }
           },
-          "required": [
-            "@context",
-            "credentialSubject",
-            "issuanceDate",
-            "issuer",
-            "proof",
-            "type"
-          ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
-        "VerifiablePresentation": {
+        "CredentialStatus": {
           "type": "object",
           "properties": {
             "id": {
               "type": "string"
             },
+            "type": {
+              "type": "string"
+            }
+          },
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
             "holder": {
               "type": "string"
             },
-            "issuanceDate": {
-              "type": "string"
-            },
-            "expirationDate": {
-              "type": "string"
-            },
-            "@context": {
+            "verifiableCredential": {
               "type": "array",
               "items": {
-                "type": "string"
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
               }
             },
             "type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
             },
             "verifier": {
               "type": "array",
@@ -2123,29 +3326,37 @@
                 "type": "string"
               }
             },
-            "verifiableCredential": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/VerifiableCredential"
-              }
+            "issuanceDate": {
+              "type": "string"
             },
-            "proof": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
-                }
-              }
+            "expirationDate": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
             }
           },
           "required": [
             "@context",
             "holder",
-            "proof",
-            "type",
-            "verifier"
+            "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof). See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+        },
+        "W3CVerifiableCredential": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+        },
+        "CompactJWT": {
+          "type": "string",
+          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
         }
       },
       "methods": {

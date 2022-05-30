@@ -1,15 +1,16 @@
-import { IAgentContext, IResolver } from '@veramo/core'
-import { Message, AbstractMessageHandler } from '@veramo/message-handler'
-import { blake2bHex } from 'blakejs'
-
+import { IAgentContext, IResolver, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
+import { AbstractMessageHandler, Message } from '@veramo/message-handler'
+import { asArray, computeEntryHash, decodeCredentialToObject, extractIssuer } from '@veramo/utils'
 import {
+  normalizeCredential,
+  normalizePresentation,
   validateJwtCredentialPayload,
   validateJwtPresentationPayload,
-  normalizePresentation,
-  normalizeCredential,
 } from 'did-jwt-vc'
-
+import { ICredentialIssuer } from './action-handler'
+import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
+
 const debug = Debug('veramo:w3c:message-handler')
 
 /**
@@ -30,7 +31,7 @@ export const MessageTypes = {
  *
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  */
-export type IContext = IAgentContext<IResolver>
+export type IContext = IAgentContext<IResolver & ICredentialIssuer>
 
 /**
  * An implementation of the {@link @veramo/message-handler#AbstractMessageHandler}.
@@ -48,6 +49,8 @@ export class W3cMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {
     const meta = message.getLastMetaData()
 
+    // console.log(JSON.stringify(message, null,  2))
+
     //FIXME: messages should not be expected to be only JWT
     if (meta?.type === 'JWT' && message.raw) {
       const { data } = message
@@ -60,7 +63,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         const presentation = normalizePresentation(message.raw)
         const credentials = presentation.verifiableCredential
 
-        message.id = blake2bHex(message.raw)
+        message.id = computeEntryHash(message.raw)
         message.type = MessageTypes.vp
         message.from = presentation.holder
         message.to = presentation.verifier?.[0]
@@ -82,7 +85,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         debug('JWT is', MessageTypes.vc)
         const credential = normalizeCredential(message.raw)
 
-        message.id = blake2bHex(message.raw)
+        message.id = computeEntryHash(message.raw)
         message.type = MessageTypes.vc
         message.from = credential.issuer.id
         message.to = credential.credentialSubject.id
@@ -95,6 +98,54 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.credentials = [credential]
         return message
       } catch (e) {}
+    }
+
+    // LDS Verification and Handling
+    if (message.type === MessageTypes.vc && message.data) {
+      // verify credential
+      const credential = message.data as VerifiableCredential
+
+      // throws on error.
+      await context.agent.verifyCredential({ credential })
+      message.id = computeEntryHash(message.raw || message.id || uuidv4())
+      message.type = MessageTypes.vc
+      message.from = extractIssuer(credential)
+      message.to = credential.credentialSubject.id
+
+      if (credential.tag) {
+        message.threadId = credential.tag
+      }
+
+      message.createdAt = credential.issuanceDate
+      message.credentials = [credential]
+      return message
+    }
+
+    if (message.type === MessageTypes.vp && message.data) {
+      // verify presentation
+      const presentation = message.data as VerifiablePresentation
+
+      // throws on error.
+      await context.agent.verifyPresentation({
+        presentation,
+        // FIXME: HARDCODED CHALLENGE VERIFICATION FOR NOW
+        challenge: 'VERAMO',
+        domain: 'VERAMO',
+      })
+
+      message.id = computeEntryHash(message.raw || message.id || uuidv4())
+      message.type = MessageTypes.vp
+      message.from = presentation.holder
+      // message.to = presentation.verifier?.[0]
+
+      if (presentation.tag) {
+        message.threadId = presentation.tag
+      }
+
+      // message.createdAt = presentation.issuanceDate
+      message.presentations = [presentation]
+      message.credentials = asArray(presentation.verifiableCredential).map(decodeCredentialToObject)
+      return message
     }
 
     return super.handle(message, context)

@@ -1,0 +1,312 @@
+{
+  "ICheckCredentialStatus": {
+    "components": {
+      "schemas": {
+        "ICheckCredentialStatusArgs": {
+          "type": "object",
+          "properties": {
+            "credential": {
+              "$ref": "#/components/schemas/CredentialJwtOrJSON"
+            },
+            "didDoc": {
+              "$ref": "#/components/schemas/DIDDocument"
+            }
+          },
+          "required": [
+            "credential",
+            "didDoc"
+          ]
+        },
+        "CredentialJwtOrJSON": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "credentialStatus": {
+                  "$ref": "#/components/schemas/StatusEntry"
+                }
+              }
+            }
+          ],
+          "description": "The Verifiable Credential or Presentation to be verified in either JSON/JSON-LD or JWT format."
+        },
+        "StatusEntry": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "description": "Represents a status method entry that could be embedded in a W3C Verifiable Credential. Normally, only credentials that list a status method would need to be verified by it.\n\nex: ```json credentialStatus: {   type: \"EthrStatusRegistry2019\",   id: \"rinkeby:0xregistryAddress\" } ``` See https://www.w3.org/TR/vc-data-model/#status"
+        },
+        "DIDDocument": {
+          "type": "object",
+          "properties": {
+            "authentication": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VerificationMethod"
+                  }
+                ]
+              }
+            },
+            "assertionMethod": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VerificationMethod"
+                  }
+                ]
+              }
+            },
+            "keyAgreement": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VerificationMethod"
+                  }
+                ]
+              }
+            },
+            "capabilityInvocation": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VerificationMethod"
+                  }
+                ]
+              }
+            },
+            "capabilityDelegation": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VerificationMethod"
+                  }
+                ]
+              }
+            },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "https://www.w3.org/ns/did/v1"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "alsoKnownAs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "controller": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "verificationMethod": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerificationMethod"
+              }
+            },
+            "service": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ServiceEndpoint"
+              }
+            },
+            "publicKey": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerificationMethod"
+              },
+              "deprecated": true
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "VerificationMethod": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "controller": {
+              "type": "string"
+            },
+            "publicKeyBase58": {
+              "type": "string"
+            },
+            "publicKeyBase64": {
+              "type": "string"
+            },
+            "publicKeyJwk": {
+              "type": "object",
+              "properties": {
+                "alg": {
+                  "type": "string"
+                },
+                "crv": {
+                  "type": "string"
+                },
+                "e": {
+                  "type": "string"
+                },
+                "ext": {
+                  "type": "boolean"
+                },
+                "key_ops": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "kid": {
+                  "type": "string"
+                },
+                "kty": {
+                  "type": "string"
+                },
+                "n": {
+                  "type": "string"
+                },
+                "use": {
+                  "type": "string"
+                },
+                "x": {
+                  "type": "string"
+                },
+                "y": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kty"
+              ]
+            },
+            "publicKeyHex": {
+              "type": "string"
+            },
+            "publicKeyMultibase": {
+              "type": "string"
+            },
+            "blockchainAccountId": {
+              "type": "string"
+            },
+            "ethereumAddress": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "controller"
+          ]
+        },
+        "ServiceEndpoint": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "serviceEndpoint": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "serviceEndpoint"
+          ]
+        },
+        "CredentialStatus": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+        }
+      },
+      "methods": {
+        "checkCredentialStatus": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/ICheckCredentialStatusArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/CredentialStatus"
+          }
+        }
+      }
+    }
+  }
+}

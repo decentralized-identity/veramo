@@ -1,8 +1,9 @@
 import blessed, { Widgets } from 'blessed'
-import { UniqueVerifiableCredential } from '@veramo/data-store'
+import { UniqueVerifiableCredential } from '@veramo/core'
 import { shortDate, shortDid } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
+import { asArray, extractIssuer } from '@veramo/utils'
 
 export const getCredentialsTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {
   screen.title = 'Credentials'
@@ -25,8 +26,8 @@ export const getCredentialsTable = async (agent: ConfiguredAgent, screen: Widget
     [['Created', 'Type', 'From', 'To']].concat(
       credentials.map(({ verifiableCredential: m }) => [
         shortDate(m.issuanceDate),
-        m.type.join(','),
-        shortDid(m.issuer.id),
+        asArray(m.type || []).join(','),
+        shortDid(extractIssuer(m)),
         shortDid(m.credentialSubject.id),
       ]),
     ),

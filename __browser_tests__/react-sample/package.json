@@ -1,0 +1,71 @@
+{
+  "name": "veramo-react-test",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/node": "16.11.36",
+    "@types/react": "18.0.9",
+    "@types/react-dom": "18.0.5",
+    "@veramo/core": "^3.1.0",
+    "@veramo/credential-w3c": "^3.1.0",
+    "@veramo/data-store": "^3.1.0",
+    "@veramo/did-comm": "3.1.0",
+    "@veramo/did-jwt": "3.1.0",
+    "@veramo/did-manager": "3.1.0",
+    "@veramo/did-provider-ethr": "3.1.0",
+    "@veramo/did-provider-key": "3.1.0",
+    "@veramo/did-provider-web": "3.1.0",
+    "@veramo/did-resolver": "3.1.0",
+    "@veramo/key-manager": "^3.1.0",
+    "@veramo/message-handler": "^3.1.0",
+    "@veramo/selective-disclosure": "^3.1.0",
+    "crypto": "npm:crypto-browserify",
+    "did-resolver": "3.2.0",
+    "ethr-did-resolver": "5.0.4",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "react-scripts": "5.0.1",
+    "typeorm": "0.3.6",
+    "typescript": "4.6.4",
+    "web-did-resolver": "2.0.16",
+    "web-vitals": "2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "test:browser-integration": "jest -c jest-integration.config.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "7.17.12",
+    "@types/expect-puppeteer": "4.4.7",
+    "@types/jest": "27.5.1",
+    "@types/jest-environment-puppeteer": "5.0.2",
+    "@types/puppeteer": "5.4.6",
+    "jest": "27.5.1",
+    "jest-environment-puppeteer": "6.0.3",
+    "jest-environment-puppeteer-jsdom": "6.0.0",
+    "jest-puppeteer": "6.1.0",
+    "puppeteer": "13.7.0",
+    "ts-jest": "27.1.5"
+  }
+}

@@ -16,16 +16,15 @@
   "dependencies": {
     "@veramo/core": "^3.1.0",
     "@veramo/credential-w3c": "^3.1.0",
-    "@veramo/data-store": "^3.1.0",
     "@veramo/did-jwt": "^3.1.0",
     "@veramo/message-handler": "^3.1.0",
-    "blakejs": "^1.1.0",
-    "debug": "^4.1.1",
-    "did-jwt": "5.11.1"
+    "debug": "^4.3.3",
+    "did-jwt": "^5.12.3",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.4.4"
+    "typescript": "4.7.2"
   },
   "files": [
     "build/**/*",
@@ -40,10 +39,7 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
   "contributors": [
-    {
-      "name": "Mircea Nistor",
-      "email": "mircea.nistor@mesh.xyz"
-    }
+    "Mircea Nistor mircea.nistor@mesh.xyz"
   ],
   "license": "Apache-2.0",
   "keywords": []

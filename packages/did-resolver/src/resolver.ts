@@ -1,25 +1,25 @@
 import { DIDDocumentSection, IAgentPlugin, IResolver, schema } from '@veramo/core'
 import {
-  Resolver,
   DIDDocument,
   DIDResolutionResult,
   DIDResolutionOptions,
   VerificationMethod,
   ServiceEndpoint,
   parse as parseDID,
+  Resolvable,
 } from 'did-resolver'
 export { DIDDocument }
 import Debug from 'debug'
 const debug = Debug('veramo:resolver')
 
 interface Options {
-  resolver: Resolver
+  resolver: Resolvable
 }
 
 export class DIDResolverPlugin implements IAgentPlugin {
   readonly methods: IResolver
   readonly schema = schema.IResolver
-  private didResolver: Resolver
+  private didResolver: Resolvable
 
   constructor(options: Options) {
     if (!options.resolver) throw Error('Missing resolver')
@@ -44,7 +44,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
       accept: 'application/did+ld+json',
       ...options,
     }
-    
+
     // ensure the required fields are present, even if the resolver is not compliant
     const cannedResponse: DIDResolutionResult = {
       didDocumentMetadata: {},
@@ -53,7 +53,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     }
 
     const resolution = await this.didResolver.resolve(didUrl, resolverOptions)
-    
+
     return {
       ...cannedResponse,
       ...resolution,

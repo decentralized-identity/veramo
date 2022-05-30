@@ -1,0 +1,48 @@
+{
+  "extends": "../../packages/tsconfig.settings.json",
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ],
+  "references": [
+    { "path": "../../packages/core" },
+    { "path": "../../packages/credential-w3c" },
+    { "path": "../../packages/data-store" },
+    { "path": "../../packages/data-store-json" },
+    { "path": "../../packages/did-comm" },
+    { "path": "../../packages/did-discovery" },
+    { "path": "../../packages/did-jwt" },
+    { "path": "../../packages/did-manager" },
+    { "path": "../../packages/did-provider-ethr" },
+    { "path": "../../packages/did-provider-key" },
+    { "path": "../../packages/did-provider-web" },
+    { "path": "../../packages/did-resolver" },
+    { "path": "../../packages/key-manager" },
+    { "path": "../../packages/kms-local" },
+    { "path": "../../packages/message-handler" },
+    { "path": "../../packages/remote-client" },
+    { "path": "../../packages/remote-server" },
+    { "path": "../../packages/selective-disclosure" },
+    { "path": "../../packages/url-handler" },
+    { "path": "../../packages/utils" }
+  ]
+}

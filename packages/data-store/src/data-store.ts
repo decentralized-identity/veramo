@@ -47,9 +47,12 @@ export class DataStore implements IAgentPlugin {
 
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
     try {
-      const messageEntity = await (await this.dbConnection).getRepository(Message).findOneOrFail(args.id, {
+      const messageEntity = await (await this.dbConnection).getRepository(Message).findOne({
+        where: { id: args.id },
         relations: ['credentials', 'presentations'],
       })
+      if (!messageEntity) throw new Error('Message not found')
+
       return createMessage(messageEntity)
     } catch (e) {
       throw Error('Message not found')
@@ -61,11 +64,13 @@ export class DataStore implements IAgentPlugin {
   ): Promise<boolean> {
     const credentialEntity = await (await this.dbConnection)
       .getRepository(Credential)
-      .findOneOrFail(args.hash)
+      .findOneBy({ hash: args.hash })
+    if (!credentialEntity) throw new Error('Verifiable credential not found')
 
     const claims = await (await this.dbConnection)
       .getRepository(Claim)
-      .find({ where: [{ credential: credentialEntity }] })
+      .find({ where: { credential: { id: credentialEntity.id } } })
+    // .find({ where: [{ column: 'credential', value: [credentialEntity.id] }] })
 
     await (await this.dbConnection).getRepository(Claim).remove(claims)
 
@@ -87,7 +92,9 @@ export class DataStore implements IAgentPlugin {
     try {
       const credentialEntity = await (await this.dbConnection)
         .getRepository(Credential)
-        .findOneOrFail(args.hash)
+        .findOneBy({ hash: args.hash })
+      if (!credentialEntity) throw new Error('Verifiable credential not found')
+
       return credentialEntity.raw
     } catch (e) {
       throw Error('Verifiable credential not found')
@@ -107,7 +114,9 @@ export class DataStore implements IAgentPlugin {
     try {
       const presentationEntity = await (await this.dbConnection)
         .getRepository(Presentation)
-        .findOneOrFail(args.hash)
+        .findOneBy({ hash: args.hash })
+      if (!presentationEntity) throw new Error('Verifiable presentation not found')
+
       return presentationEntity.raw
     } catch (e) {
       throw Error('Verifiable presentation not found')

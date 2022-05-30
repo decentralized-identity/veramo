@@ -1,5 +1,4 @@
-import { TAgent, IDataStore, IMessageHandler, IMessage } from '../../packages/core/src'
-import { IDataStoreORM } from '../../packages/data-store/src'
+import { IDataStore, IDataStoreORM, IMessage, IMessageHandler, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IDataStore & IMessageHandler & IDataStoreORM>
 

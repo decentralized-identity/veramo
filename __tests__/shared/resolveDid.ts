@@ -1,4 +1,4 @@
-import { TAgent, IResolver, IAgentOptions, IDIDManager } from '../../packages/core/src'
+import { IAgentOptions, IDIDManager, IResolver, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>
 

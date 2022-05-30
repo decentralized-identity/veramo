@@ -12,12 +12,14 @@ const keyMapping: Record<TKeyType, string> = {
   Secp256k1: 'EcdsaSecp256k1VerificationKey2019',
   Ed25519: 'Ed25519VerificationKey2018',
   X25519: 'X25519KeyAgreementKey2019',
+  Bls12381G1: 'Bls12381G1Key2020',
+  Bls12381G2: 'Bls12381G2Key2020',
 }
 
 /**
  * @public
  */
- export interface WebDidDocRouterOptions {
+export interface WebDidDocRouterOptions {
   services?: ServiceEndpoint[]
 }
 

@@ -1,48 +1,54 @@
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials and an in-memory store for keys and DIDs.
- * 
+ *
  */
 import {
   createAgent,
-  TAgent,
-  IDIDManager,
-  IResolver,
-  IKeyManager,
-  IDataStore,
-  IMessageHandler,
   IAgentOptions,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  IMessageHandler,
+  IResolver,
+  TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src'
 import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
-import { createConnection, Connection } from 'typeorm'
+import { Connection, createConnection } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+} from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
-  SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
+  SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
-import { Entities, IDataStoreORM, DataStore, DataStoreORM, migrations } from '../packages/data-store/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
+import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import fs from 'fs'
-
-jest.setTimeout(30000)
-
+import { contexts as credential_contexts } from '@transmute/credentials-context'
+import * as fs from 'fs'
 // Shared tests
-import verifiableData from './shared/verifiableData'
+import verifiableDataJWT from './shared/verifiableDataJWT'
+import verifiableDataLD from './shared/verifiableDataLD'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
@@ -52,6 +58,8 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
+
+jest.setTimeout(30000)
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
@@ -65,6 +73,7 @@ let agent: TAgent<
     IMessageHandler &
     IDIDComm &
     ICredentialIssuer &
+    ICredentialIssuerLD &
     ISelectiveDisclosure
 >
 let dbConnection: Promise<Connection>
@@ -76,7 +85,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     database: databaseFile,
     synchronize: false,
     migrations: migrations,
-    migrationsRun:true,
+    migrationsRun: true,
     logging: false,
     entities: Entities,
   })
@@ -90,11 +99,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IMessageHandler &
       IDIDComm &
       ICredentialIssuer &
+      ICredentialIssuerLD &
       ISelectiveDisclosure
   >({
     ...options,
     context: {
-      // authenticatedDid: 'did:example:3456'
+      // authorizedDID: 'did:example:3456'
     },
     plugins: [
       new KeyManager({
@@ -156,6 +166,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm(),
       new CredentialIssuer(),
+      new CredentialIssuerLD({
+        contextMaps: [LdDefaultContexts, credential_contexts as any],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+      }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],
@@ -170,7 +184,7 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     // nop
   }
-  try{
+  try {
     fs.unlinkSync(databaseFile)
   } catch (e) {
     //nop
@@ -183,7 +197,8 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local in-memory integration tests', () => {
-  verifiableData(testContext)
+  verifiableDataJWT(testContext)
+  verifiableDataLD(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)

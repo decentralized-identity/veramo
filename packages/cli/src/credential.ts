@@ -1,8 +1,13 @@
-import { W3CCredential } from '@veramo/core'
 import { getAgent } from './setup'
 import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
+import * as fs from 'fs'
+import * as json5 from 'json5'
+import { readStdin } from './util'
+import { CredentialPayload } from '@veramo/core'
+
+const fuzzy = require('fuzzy')
 
 const credential = program.command('credential').description('W3C Verifiable Credential')
 
@@ -10,15 +15,26 @@ credential
   .command('create', { isDefault: true })
   .description('Create W3C Verifiable Credential')
   .option('-s, --send', 'Send')
+  .option('-j, --json', 'Output in JSON')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
+
+    const knownDids = await agent.dataStoreORMGetIdentifiers()
+    const subjects = [...knownDids.map((id) => id.did)]
+
     if (identifiers.length === 0) {
       console.error('No dids')
       process.exit()
     }
     const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'proofFormat',
+        choices: ['jwt', 'lds'],
+        message: 'Credential proofFormat',
+      },
       {
         type: 'list',
         name: 'iss',
@@ -29,10 +45,16 @@ credential
         message: 'Issuer DID',
       },
       {
-        type: 'input',
+        type: 'autocomplete',
         name: 'sub',
+        pageSize: 15,
+        source: async (answers: any, input: string) => {
+          const res = fuzzy
+            .filter(input, subjects)
+            .map((el: any) => (typeof el === 'string' ? el : el.original))
+          return res
+        },
         message: 'Subject DID',
-        default: identifiers[0].did,
       },
       {
         type: 'input',
@@ -68,9 +90,9 @@ credential
     const type: string = answers.claimType
     credentialSubject[type] = answers.claimValue
 
-    const credential: W3CCredential = {
+    const credential: CredentialPayload = {
       issuer: { id: answers.iss },
-      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
       type: answers.type.split(','),
       issuanceDate: new Date().toISOString(),
       credentialSubject,
@@ -101,18 +123,27 @@ credential
     const verifiableCredential = await agent.createVerifiableCredential({
       save: true,
       credential,
-      proofFormat: 'jwt',
+      proofFormat: answers.proofFormat,
     })
 
     if (cmd.send) {
+      let body
+      let type
+      if (answers.proofFormat == 'jwt') {
+        body = verifiableCredential.proof.jwt
+        type = 'jwt'
+      } else {
+        body = verifiableCredential
+        type = 'w3c.vc'
+      }
       try {
         const message = await agent.sendMessageDIDCommAlpha1({
           save: true,
           data: {
             from: answers.iss,
             to: answers.sub,
-            type: 'jwt',
-            body: verifiableCredential.proof.jwt,
+            type,
+            body,
           },
         })
         console.dir(message, { depth: 10 })
@@ -124,6 +155,48 @@ credential
     if (cmd.qrcode) {
       qrcode.generate(verifiableCredential.proof.jwt)
     } else {
-      console.dir(verifiableCredential, { depth: 10 })
+      if (cmd.json) {
+        console.log(JSON.stringify(verifiableCredential, null, 2))
+      } else {
+        console.dir(verifiableCredential, { depth: 10 })
+      }
+    }
+  })
+
+credential
+  .command('verify')
+  .description('Verify a W3C Verifiable Credential provided as raw string, file or stdin')
+  .option('-f, --filename <string>', 'Optional. Read the credential from a file instead of stdin')
+  .option('-r, --raw <string>', 'Optional. Specify the credential as a parameter instead of file or stdin')
+  .action(async (options) => {
+    const agent = getAgent(program.opts().config)
+    let raw: string = ''
+    if (options.raw) {
+      raw = options.raw
+    } else if (options.filename) {
+      raw = await fs.promises.readFile(options.filename, 'utf-8')
+    } else {
+      raw = await readStdin()
+    }
+    let credentialAsJSON: any
+    try {
+      credentialAsJSON = json5.parse(raw)
+    } catch (e: any) {
+      credentialAsJSON = {
+        proof: {
+          type: 'JwtProof2020',
+          jwt: raw,
+        },
+      } as any
+    }
+    try {
+      const result = await agent.verifyCredential({ credential: credentialAsJSON })
+      if (result === true) {
+        console.log('Credential was verified successfully.')
+      } else {
+        console.error('Credential could not be verified.')
+      }
+    } catch (e) {
+      console.error(e.message)
     }
   })

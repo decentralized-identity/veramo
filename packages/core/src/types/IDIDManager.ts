@@ -303,7 +303,10 @@ export interface IDIDManager extends IPluginMethodMap {
   /**
    * Imports identifier
    */
-  didManagerImport(args: MinimalImportableIdentifier, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
+  didManagerImport(
+    args: MinimalImportableIdentifier,
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier>
 
   /**
    * Deletes identifier

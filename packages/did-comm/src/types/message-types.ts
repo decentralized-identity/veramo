@@ -17,6 +17,9 @@ export interface IDIDCommMessage {
   from_prior?: string
   body: any
 }
+export interface IDIDCommOptions {
+  bcc?: string[]
+}
 
 /**
  * Represents different DIDComm v2 message encapsulation
@@ -28,7 +31,7 @@ export enum DIDCommMessageMediaType {
    * A plain JSON DIDComm message
    */
   PLAIN = 'application/didcomm-plain+json',
-  
+
   /**
    * A JWS signed DIDComm message
    */
@@ -44,12 +47,12 @@ export enum DIDCommMessageMediaType {
  * The possible types of message packing.
  *
  * `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce `DIDCommMessageMediaType.ENCRYPTED` messages.
- * 
+ *
  * `jws` will produce `DIDCommMessageMediaType.SIGNED` messages.
- * 
+ *
  * `none` will produce `DIDCommMessageMediaType.PLAIN` messages.
  *
- * 
+ *
  * @beta
  */
 export type DIDCommMessagePacking =
