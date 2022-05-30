@@ -230,7 +230,7 @@ credential
         },
       ])
 
-      console.dir(answers.credential, { depth: 10 })
+      console.log(JSON.stringify(answers.credential, null, 2))
     } else {
       console.log('No credentials found.')
     }

@@ -241,7 +241,7 @@ presentation
       }
 
       if (selected) {
-        console.dir(selected, { depth: 10 })
+        console.log(JSON.stringify(selected, null, 2))
       } else {
         console.log('Presentation not found.')
       }
