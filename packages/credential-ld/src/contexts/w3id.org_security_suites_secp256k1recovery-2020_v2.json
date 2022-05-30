@@ -8,8 +8,8 @@
       "@type": "@id",
       "@container": "@graph"
     },
-    "Ed25519VerificationKey2018": {
-      "@id": "https://w3id.org/security#Ed25519VerificationKey2018",
+    "EcdsaSecp256k1RecoveryMethod2020": {
+      "@id": "https://identity.foundation/EcdsaSecp256k1RecoverySignature2020#EcdsaSecp256k1RecoveryMethod2020",
       "@context": {
         "@protected": true,
         "id": "@id",
@@ -18,17 +18,15 @@
           "@id": "https://w3id.org/security#controller",
           "@type": "@id"
         },
-        "revoked": {
-          "@id": "https://w3id.org/security#revoked",
-          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
-        },
-        "publicKeyBase58": {
-          "@id": "https://w3id.org/security#publicKeyBase58"
+        "blockchainAccountId": "https://w3id.org/security#blockchainAccountId",
+        "publicKeyJwk": {
+          "@id": "https://w3id.org/security#publicKeyJwk",
+          "@type": "@json"
         }
       }
     },
-    "Ed25519Signature2018": {
-      "@id": "https://w3id.org/security#Ed25519Signature2018",
+    "EcdsaSecp256k1RecoverySignature2020": {
+      "@id": "https://identity.foundation/EcdsaSecp256k1RecoverySignature2020#EcdsaSecp256k1RecoverySignature2020",
       "@context": {
         "@protected": true,
         "id": "@id",
@@ -43,6 +41,7 @@
           "@id": "https://w3id.org/security#expiration",
           "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
         },
+        "jws": "https://w3id.org/security#jws",
         "nonce": "https://w3id.org/security#nonce",
         "proofPurpose": {
           "@id": "https://w3id.org/security#proofPurpose",
@@ -77,9 +76,6 @@
               "@container": "@set"
             }
           }
-        },
-        "jws": {
-          "@id": "https://w3id.org/security#jws"
         },
         "verificationMethod": {
           "@id": "https://w3id.org/security#verificationMethod",

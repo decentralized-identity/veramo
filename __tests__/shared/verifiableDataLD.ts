@@ -48,7 +48,7 @@ export default (testContext: {
       expect(verifiableCredential['@context']).toEqual([
         'https://www.w3.org/2018/credentials/v1',
         'https://veramo.io/contexts/profile/v1',
-        'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+        'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
       ])
       expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'Profile'])
 
