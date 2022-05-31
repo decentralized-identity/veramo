@@ -13,13 +13,13 @@ export class KeyStore extends AbstractKeyStore {
   }
 
   async get({ kid }: { kid: string }): Promise<IKey> {
-    const key = await (await this.dbConnection).getRepository(Key).findOne(kid)
+    const key = await (await this.dbConnection).getRepository(Key).findOneBy({ kid })
     if (!key) throw Error('Key not found')
     return key as IKey
   }
 
   async delete({ kid }: { kid: string }) {
-    const key = await (await this.dbConnection).getRepository(Key).findOne(kid)
+    const key = await (await this.dbConnection).getRepository(Key).findOneBy({ kid })
     if (!key) throw Error('Key not found')
     debug('Deleting key', kid)
     await (await this.dbConnection).getRepository(Key).remove(key)

@@ -15,7 +15,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
   }
 
   async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
-    const key = await (await this.dbConnection).getRepository(PrivateKey).findOne(alias)
+    const key = await (await this.dbConnection).getRepository(PrivateKey).findOneBy({ alias })
     if (!key) throw Error('Key not found')
     if (this.secretBox && key.privateKeyHex) {
       key.privateKeyHex = await this.secretBox.decrypt(key.privateKeyHex)
@@ -24,7 +24,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
   }
 
   async delete({ alias }: { alias: string }) {
-    const key = await (await this.dbConnection).getRepository(PrivateKey).findOne(alias)
+    const key = await (await this.dbConnection).getRepository(PrivateKey).findOneBy({ alias })
     if (!key) throw Error(`not_found: Private Key data not found for alias=${alias}`)
     debug('Deleting private key data', alias)
     await (await this.dbConnection).getRepository(PrivateKey).remove(key)
@@ -41,7 +41,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     key.type = args.type
     debug('Saving private key data', args.alias)
     const keyRepo = await (await this.dbConnection).getRepository(PrivateKey)
-    const existingKey = await keyRepo.findOne(key.alias)
+    const existingKey = await keyRepo.findOneBy({ alias: key.alias })
     if (existingKey && existingKey.privateKeyHex !== key.privateKeyHex) {
       throw new Error(
         `key_already_exists: A key with this alias exists but with different data. Please use a different alias.`,

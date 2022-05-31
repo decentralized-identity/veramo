@@ -34,7 +34,7 @@ describe('DB entities test', () => {
     identifier.did = 'did:test:123'
     await identifier.save()
 
-    const fromDb = await Identifier.findOne(identifier.did)
+    const fromDb = await Identifier.findOneBy({ did: identifier.did })
     expect(fromDb?.did).toEqual(identifier.did)
   })
 
@@ -62,7 +62,8 @@ describe('DB entities test', () => {
     })
     await entity.save()
 
-    const credential = await Credential.findOne(entity.hash, {
+    const credential = await Credential.findOne({
+      where: { hash: entity.hash },
       relations: ['issuer', 'subject', 'claims', 'claims.issuer', 'claims.subject'],
     })
     expect(credential?.issuer.did).toEqual(did1)
@@ -135,7 +136,8 @@ describe('DB entities test', () => {
 
     await m.save()
 
-    const message = await Message.findOne(m.id, {
+    const message = await Message.findOne({
+      where: { id: m.id },
       relations: [
         'credentials',
         'credentials.issuer',
@@ -173,7 +175,7 @@ describe('DB entities test', () => {
 
     await message.save()
 
-    const fromDb = await Message.findOne(customId)
+    const fromDb = await Message.findOneBy({ id: customId })
 
     expect(fromDb?.id).toEqual(customId)
     expect(fromDb?.type).toEqual('custom')

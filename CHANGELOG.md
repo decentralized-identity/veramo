@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.2](https://github.com/uport-project/veramo/compare/v3.1.1...v3.1.2) (2022-05-30)
+
+
+### Bug Fixes
+
+* **remote-server:** fix error when resolving local did:web ([#905](https://github.com/uport-project/veramo/issues/905)) ([782f64a](https://github.com/uport-project/veramo/commit/782f64ace21c4710185fa80015b6435c8c37d088))
+
+
+
+
+
 ## [3.1.1](https://github.com/uport-project/veramo/compare/v3.1.0...v3.1.1) (2022-01-13)
 
 
