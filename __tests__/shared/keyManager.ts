@@ -1,7 +1,7 @@
 import { IAgentOptions, IDIDManager, IKeyManager, TAgent, TKeyType } from '../../packages/core/src'
 import { computeAddress, serialize } from '@ethersproject/transactions'
-import { mapIdentifierKeysToDoc } from '@veramo/utils/src'
-import { IResolver } from '@veramo/core'
+import { mapIdentifierKeysToDoc } from '../../packages/utils/src'
+import { IResolver } from '../../packages/core/src'
 import { recoverTypedSignature, normalize, SignTypedDataVersion } from '@metamask/eth-sig-util'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver>
