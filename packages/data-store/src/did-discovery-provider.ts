@@ -15,7 +15,7 @@ export class DataStoreDiscoveryProvider implements AbstractDidDiscoveryProvider 
   ): Promise<IDIDDiscoveryProviderResult> {
     const matches: IDIDDiscoverMatch[] = []
 
-    const credentials = await context.agent.dataStoreORMGetVerifiableCredentialsByClaims({
+    const credentialsByName = await context.agent.dataStoreORMGetVerifiableCredentialsByClaims({
       where: [
         { column: 'type', value: ['name'] },
         { column: 'value', value: [`%${args.query}%`], op: 'Like' },
@@ -23,7 +23,24 @@ export class DataStoreDiscoveryProvider implements AbstractDidDiscoveryProvider 
       ],
     })
 
-    credentials.forEach((vc) => {
+    credentialsByName.forEach((vc) => {
+      matches.push({
+        did: vc.verifiableCredential.credentialSubject.id as string,
+        metaData: {
+          verifiableCredential: vc.verifiableCredential,
+        },
+      })
+    })
+    
+    const credentialsByDID = await context.agent.dataStoreORMGetVerifiableCredentialsByClaims({
+      where: [
+        { column: 'type', value: ['name'] },
+        { column: 'subject', value: [`%${args.query}%`], op: 'Like' },
+        { column: 'credentialType', value: ['VerifiableCredential,Profile'] },
+      ],
+    })
+    
+    credentialsByDID.forEach((vc) => {
       matches.push({
         did: vc.verifiableCredential.credentialSubject.id as string,
         metaData: {

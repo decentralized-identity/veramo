@@ -107,9 +107,9 @@ export default (testContext: {
 
       const byDIDFragmentResult = await agent.discoverDid({ query: identifier.did.substring(3, identifier.did.length - 3)})
       expect(byDIDFragmentResult.results).toHaveLength(1)
-      expect(byDIDFragmentResult.results[0].matches).toHaveLength(1)
+      expect(byDIDFragmentResult.results[0].matches).toHaveLength(2)
 
-      expect(byDIDFragmentResult.results[0].matches[0]).toEqual({
+      expect(byDIDFragmentResult.results[0].matches[1]).toEqual({
         did: identifier.did,
         metaData: {
           alias: 'bob'
