@@ -35,6 +35,23 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
     args: ICreateVerifiableCredentialEIP712Args,
     context: IRequiredContext,
   ): Promise<VerifiableCredential>
+
+  /**
+   * Verifies a Verifiable Credential in EIP712 Format.
+   *
+   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
+   *
+   * @beta This API is likely to change without a BREAKING CHANGE notice
+   */
+  verifyCredentialEIP712(
+    args: IVerifyCredentialEIP712Args,
+    context: IRequiredContext
+  ): Promise<boolean>
 }
 
 /**
@@ -59,6 +76,27 @@ export interface ICreateVerifiableCredentialEIP712Args {
    * Specific key to use for signing
    */
   keyRef?: string
+}
+
+
+
+/**
+ * Encapsulates the parameters required to verify a
+ * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
+ *
+ * @beta This API is likely to change without a BREAKING CHANGE notice
+ */
+ export interface IVerifyCredentialEIP712Args {
+  /**
+   * The json payload of the Credential according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
+   *
+   * The signer of the Credential is chosen based on the `issuer.id` property
+   * of the `credential`
+   *
+   */
+  credential: VerifiableCredential
+
 }
 
 /**

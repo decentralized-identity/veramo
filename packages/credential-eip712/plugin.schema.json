@@ -170,6 +170,19 @@
             }
           },
           "description": "A proof property of a Verifiable Credential or Presentation"
+        },
+        "IVerifyCredentialEIP712Args": {
+          "type": "object",
+          "properties": {
+            "credential": {
+              "$ref": "#/components/schemas/VerifiableCredential",
+              "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
+            }
+          },
+          "required": [
+            "credential"
+          ],
+          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         }
       },
       "methods": {
@@ -180,6 +193,15 @@
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiableCredential"
+          }
+        },
+        "verifyCredentialEIP712": {
+          "description": "Verifies a Verifiable Credential in EIP712 Format.",
+          "arguments": {
+            "$ref": "#/components/schemas/IVerifyCredentialEIP712Args"
+          },
+          "returnType": {
+            "type": "boolean"
           }
         }
       }

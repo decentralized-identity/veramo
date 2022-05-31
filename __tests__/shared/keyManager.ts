@@ -477,10 +477,12 @@ export default (testContext: {
 
       const data = {
         ...msgParams,
-        primaryType: 'VerifiableCredential',
+        primaryType: 'Mail',
         types: {
           ...msgParams.types,
           EIP712Domain: [
+            // Order of these elements matters!
+            // https://github.com/ethers-io/ethers.js/blob/a71f51825571d1ea0fa997c1352d5b4d85643416/packages/hash/src.ts/typed-data.ts#L385            
             { name: 'name', type: 'string' },
             { name: 'version', type: 'string' },
             { name: 'chainId', type: 'uint256' },
@@ -496,30 +498,12 @@ export default (testContext: {
 
     it('should sign credential with eth_signTypedData', async () => {
       const msgParams = {
-        domain: {
-          chainId: 4,
-          name: 'VerifiableCredential',
-          version: '1',
+        "domain": {
+          "chainId": 4,
+          "name": "VerifiableCredential",
+          "version": "1"
         },
-        message: {
-          "issuer": {
-            "id": "did:ethr:rinkeby:0x02e414478147be998b50752f68f7deee6b4f73c198aa5f949f68691531624437a3"
-          },
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://example.com/1/2/3"
-          ],
-          "type": [
-            "VerifiableCredential",
-            "Custom"
-          ],
-          "issuanceDate": "2022-05-31T10:01:14.955Z",
-          "credentialSubject": {
-            "id": "did:web:example.com",
-            "you": "Rock"
-          }
-        },
-        types: {
+        "types": {
           "CredentialSubject": [
             {
               "name": "id",
@@ -559,7 +543,25 @@ export default (testContext: {
             }
           ]
         },
-      };
+        "message": {
+          "issuer": {
+            "id": "did:fake:123"
+          },
+          "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            "https://example.com/1/2/3"
+          ],
+          "type": [
+            "VerifiableCredential",
+            "Custom"
+          ],
+          "issuanceDate": "2022-05-31T14:02:06.109Z",
+          "credentialSubject": {
+            "id": "did:web:example.com",
+            "you": "Rock"
+          }
+        }
+      }
   
       const identifier = await agent.didManagerCreate({ kms: 'local' })
   
@@ -580,19 +582,21 @@ export default (testContext: {
         types: {
           ...msgParams.types,
           EIP712Domain: [
+            // Order of these elements matters!
+            // https://github.com/ethers-io/ethers.js/blob/a71f51825571d1ea0fa997c1352d5b4d85643416/packages/hash/src.ts/typed-data.ts#L385
             { name: 'name', type: 'string' },
             { name: 'version', type: 'string' },
             { name: 'chainId', type: 'uint256' },
           ],
         },
       }
-  
+
       const args = {data, signature: signature, version: SignTypedDataVersion.V4}
-      console.log('valid', JSON.stringify(args, null, 2))
       //@ts-ignore
       const recovered = recoverTypedSignature(args)
       expect(address.toLowerCase()).toEqual(recovered)
     })
+
   })
 
 

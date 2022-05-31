@@ -22,7 +22,8 @@
               "description": "Remove payload members during JWT-JSON transformation. Defaults to `true`. See https://www.w3.org/TR/vc-data-model/#jwt-encoding"
             },
             "keyRef": {
-              "type": "string"
+              "type": "string",
+              "description": "[Optional] The ID of the key that should sign this credential. If this is not specified, the first matching key will be used."
             }
           },
           "required": [

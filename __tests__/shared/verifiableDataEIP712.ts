@@ -8,6 +8,7 @@ import {
 } from '../../packages/core/src'
 import { ICredentialIssuerEIP712 } from '../../packages/credential-eip712/src'
 import { decodeJWT } from 'did-jwt'
+import { VerifiableCredential } from '@veramo/core'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuerEIP712 & IDataStore & IDataStoreORM>
 
@@ -19,6 +20,7 @@ export default (testContext: {
   describe('creating Verifiable Credentials in EIP712', () => {
     let agent: ConfiguredAgent
     let identifier: IIdentifier
+    let verifiableCredential: VerifiableCredential
 
     beforeAll(async () => {
       await testContext.setup()
@@ -33,7 +35,7 @@ export default (testContext: {
     })
 
     it('should create verifiable credential with EthereumEip712Signature2021 proof type', async () => {
-      const verifiableCredential = await agent.createVerifiableCredential({
+      verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: identifier.did },
           '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
@@ -59,6 +61,15 @@ export default (testContext: {
 
       const verifiableCredential2 = await agent.dataStoreGetVerifiableCredential({ hash })
       expect(verifiableCredential).toEqual(verifiableCredential2)
+
+    })
+
+    it('should verify credential with EthereumEip712Signature2021 proof type', async () => {
+      const result = await agent.verifyCredentialEIP712({
+        credential: verifiableCredential
+      })
+
+      expect(result).toEqual(true)
     })
 
   })
