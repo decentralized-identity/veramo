@@ -1,0 +1,20 @@
+name: Trigger veramo-website build
+on:
+  push:
+    branches:
+      - 'main'
+      - 'italo/fix-docs'
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.PAT_TOKEN }}
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: 'uport-project',
+            repo: 'veramo-website',
+            workflow_id: 'main.yml',
+            ref: 'main'
+          })
