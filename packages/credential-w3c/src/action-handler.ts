@@ -94,6 +94,12 @@ export interface ICreateVerifiablePresentationArgs {
    * See https://www.w3.org/TR/vc-data-model/#jwt-encoding
    */
   removeOriginalFields?: boolean
+
+  /**
+   * [Optional] The ID of the key that should sign this presentation.
+   * If this is not specified, the first matching key will be used.
+   */
+  keyRef?: string  
 }
 
 /**
@@ -364,6 +370,14 @@ export class CredentialIssuer implements IAgentPlugin {
         } else {
           throw new Error(
             'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+          )
+        }
+      } else if (args.proofFormat === 'EthereumEip712Signature2021') {
+        if (typeof context.agent.createVerifiablePresentationEIP712 === 'function') {
+          verifiablePresentation = await context.agent.createVerifiablePresentationEIP712(args)
+        } else {
+          throw new Error(
+            'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
           )
         }
       } else {

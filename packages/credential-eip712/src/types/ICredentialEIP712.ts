@@ -5,7 +5,9 @@ import {
   IKeyManager,
   IPluginMethodMap,
   IResolver,
+  PresentationPayload,
   VerifiableCredential,
+  VerifiablePresentation,
 } from '@veramo/core'
 
 /**
@@ -52,6 +54,38 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
     args: IVerifyCredentialEIP712Args,
     context: IRequiredContext
   ): Promise<boolean>
+
+  /**
+   * Creates a Verifiable Presentation.
+   * The payload and signer are chosen based on the `args` parameter.
+   *
+   * @param args - Arguments necessary to create the Presentation.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the {@link @veramo/core#VerifiablePresentation} that was requested or rejects with an error
+   * if there was a problem with the input or while getting the key to sign
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
+   */
+  createVerifiablePresentationEIP712(
+    args: ICreateVerifiablePresentationEIP712Args,
+    context: IRequiredContext,
+  ): Promise<VerifiablePresentation>
+
+  /**
+   * Verifies a Verifiable Presentation EIP712 Format.
+   *
+   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
+   */
+  verifyPresentationEIP712(
+    args: IVerifyPresentationEIP712Args,
+    context: IRequiredContext
+  ): Promise<boolean>  
 }
 
 /**
@@ -78,7 +112,24 @@ export interface ICreateVerifiableCredentialEIP712Args {
   keyRef?: string
 }
 
+export interface ICreateVerifiablePresentationEIP712Args {
+  /**
+   * The json payload of the Presentation according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
+   *
+   * The signer of the Presentation is chosen based on the `holder` property
+   * of the `presentation`
+   *
+   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
+   */
+  presentation: PresentationPayload
 
+  /**
+   * [Optional] The ID of the key that should sign this presentation.
+   * If this is not specified, the first matching key will be used.
+   */
+  keyRef?: string  
+}
 
 /**
  * Encapsulates the parameters required to verify a
@@ -96,6 +147,25 @@ export interface ICreateVerifiableCredentialEIP712Args {
    *
    */
   credential: VerifiableCredential
+
+}
+
+/**
+ * Encapsulates the parameters required to verify a
+ * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
+ *
+ * @public
+ */
+ export interface IVerifyPresentationEIP712Args {
+  /**
+   * The Verifiable Presentation object according to the
+   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.
+   *
+   * The signer of the Presentation is verified based on the `holder` property
+   * of the `presentation` or the `iss` property of the JWT payload respectively
+   *
+   */
+  presentation: VerifiablePresentation
 
 }
 

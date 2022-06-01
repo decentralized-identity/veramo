@@ -59,7 +59,7 @@ function getEthTypesFromInputDocHelper(input: object, primaryType: string): Map<
                             types.push({ name: property, type: "string[]"});
                         }
                     } else {
-                        throw new Error("Array with elements of unknown type found")
+                        throw new Error(`Array with elements of unknown type found (${arrayFirstType}): ${JSON.stringify(val)}`)
                     }
                 }
             } else {

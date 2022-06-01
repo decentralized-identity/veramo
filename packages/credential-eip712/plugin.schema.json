@@ -171,6 +171,146 @@
           },
           "description": "A proof property of a Verifiable Credential or Presentation"
         },
+        "ICreateVerifiablePresentationEIP712Args": {
+          "type": "object",
+          "properties": {
+            "presentation": {
+              "$ref": "#/components/schemas/PresentationPayload",
+              "description": "The json payload of the Presentation according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n'@context', 'type' and 'issuanceDate' will be added automatically if omitted"
+            },
+            "keyRef": {
+              "type": "string",
+              "description": "[Optional] The ID of the key that should sign this presentation. If this is not specified, the first matching key will be used."
+            }
+          },
+          "required": [
+            "presentation"
+          ]
+        },
+        "PresentationPayload": {
+          "type": "object",
+          "properties": {
+            "holder": {
+              "type": "string"
+            },
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
+              }
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verifier": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuanceDate": {
+              "$ref": "#/components/schemas/DateType"
+            },
+            "expirationDate": {
+              "$ref": "#/components/schemas/DateType"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "holder"
+          ],
+          "description": "Used as input when creating Verifiable Presentations"
+        },
+        "W3CVerifiableCredential": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+        },
+        "CompactJWT": {
+          "type": "string",
+          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "holder": {
+              "type": "string"
+            },
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
+              }
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "@context": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "verifier": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@context",
+            "holder",
+            "proof"
+          ],
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+        },
         "IVerifyCredentialEIP712Args": {
           "type": "object",
           "properties": {
@@ -183,6 +323,19 @@
             "credential"
           ],
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+        },
+        "IVerifyPresentationEIP712Args": {
+          "type": "object",
+          "properties": {
+            "presentation": {
+              "$ref": "#/components/schemas/VerifiablePresentation",
+              "description": "The Verifiable Presentation object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
+            }
+          },
+          "required": [
+            "presentation"
+          ],
+          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         }
       },
       "methods": {
@@ -195,10 +348,28 @@
             "$ref": "#/components/schemas/VerifiableCredential"
           }
         },
+        "createVerifiablePresentationEIP712": {
+          "description": "Creates a Verifiable Presentation. The payload and signer are chosen based on the ",
+          "arguments": {
+            "$ref": "#/components/schemas/ICreateVerifiablePresentationEIP712Args"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/VerifiablePresentation"
+          }
+        },
         "verifyCredentialEIP712": {
           "description": "Verifies a Verifiable Credential in EIP712 Format.",
           "arguments": {
             "$ref": "#/components/schemas/IVerifyCredentialEIP712Args"
+          },
+          "returnType": {
+            "type": "boolean"
+          }
+        },
+        "verifyPresentationEIP712": {
+          "description": "Verifies a Verifiable Presentation EIP712 Format.",
+          "arguments": {
+            "$ref": "#/components/schemas/IVerifyPresentationEIP712Args"
           },
           "returnType": {
             "type": "boolean"
