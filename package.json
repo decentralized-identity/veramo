@@ -14,11 +14,16 @@
     "test": "jest --config=jest.json --coverage=false",
     "test:watch": "yarn test --watch --verbose",
     "veramo": "./packages/cli/bin/veramo.js",
-    "prettier": "prettier --write '{packages,__tests__, !build}/**/*.{ts,js,json,md,yml}'",
+    "prettier": "prettier --write '{packages,docs,__tests__, !build}/**/*.{ts,js,json,md,yml}'",
     "build-clean": "rimraf ./packages/*/build ./packages/*/api ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo && jest --clearCache",
     "publish:latest": "lerna publish --conventional-commits --include-merged-tags --create-release github --yes --dist-tag latest --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
     "publish:next": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
-    "publish:unstable": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid unstable --pre-dist-tag unstable --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}"
+    "publish:unstable": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid unstable --pre-dist-tag unstable --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
+    "docs": "yarn docs:extract && yarn docs:copy && yarn docs:build",
+    "docs:extract": "ts-node ./scripts/docs-extract.ts",
+    "docs:copy": "ts-node ./scripts/docs-copy.ts",
+    "docs:build": "ts-node ./scripts/docs-build.ts && yarn docs:pretty",    
+    "docs:pretty": "pretty-quick"
   },
   "workspaces": [
     "packages/*"
@@ -27,6 +32,7 @@
     "@microsoft/api-documenter": "7.13.68",
     "@microsoft/api-extractor": "7.18.19",
     "@microsoft/api-extractor-model": "7.13.16",
+    "@types/fs-extra": "^9.0.13",
     "@types/jest": "27.0.2",
     "codecov": "3.8.3",
     "cross-fetch": "3.1.4",
