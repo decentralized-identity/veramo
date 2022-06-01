@@ -40,8 +40,8 @@ export interface IIdentifier {
  * Represents the minimum amount of information needed to import an {@link IIdentifier}
  */
 export type MinimalImportableIdentifier = {
-  keys: MinimalImportableKey[]
-  services?: IService[]
+  keys: Array<MinimalImportableKey>
+  services?: Array<IService>
 } & Omit<IIdentifier, 'keys' | 'services'>
 
 /**
