@@ -1,5 +1,5 @@
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
-import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core'
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, PresentationPayload, TKeyType } from '@veramo/core'
 import {
   EcdsaSecp256k1RecoveryMethod2020,
   EcdsaSecp256k1RecoverySignature2020,
@@ -64,18 +64,33 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
   preSigningCredModification(credential: CredentialPayload): void {
     credential['@context'] = [
       ...asArray(credential['@context'] || []),
-      'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+      'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
+    ]
+  }
+  
+  preSigningPresModification(presentation: PresentationPayload): void {
+    super.preSigningPresModification(presentation)
+    presentation['@context'] = [
+      ...asArray(presentation['@context'] || []),
+      'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
     ]
   }
 
   preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
-    // did:ethr
+//    did:ethr
+    const idx = didDoc['@context']?.indexOf('https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld') || -1
+    if (Array.isArray(didDoc['@context']) && idx !== -1) {
+      didDoc['@context'][idx] = "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
+    }
+
     if (didUrl.toLowerCase().startsWith('did:ethr')) {
-      // TODO: EcdsaSecp256k1RecoveryMethod2020 does not support blockchainAccountId
-      // blockchainAccountId to ethereumAddress
+      //EcdsaSecp256k1RecoveryMethod2020 does not support older format blockchainAccountId
       didDoc.verificationMethod?.forEach((x) => {
         if (x.blockchainAccountId) {
-          x.ethereumAddress = x.blockchainAccountId.substring(0, x.blockchainAccountId.lastIndexOf('@'))
+          if (x.blockchainAccountId.lastIndexOf('@eip155:') !== -1) {
+            const [ address, chain ] = x.blockchainAccountId.split("@eip155:")
+            x.blockchainAccountId = `eip155:${chain}:${address}`
+          }
         }
       })
     }

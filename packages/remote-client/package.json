@@ -1,7 +1,7 @@
 {
   "name": "@veramo/remote-client",
   "description": "A remote client plugin for Veramo",
-  "version": "3.1.0",
+  "version": "3.1.4",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^3.1.0",
+    "@veramo/core": "^3.1.4",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
     "openapi-types": "11.0.1"
@@ -29,12 +29,7 @@
   },
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
-  "contributors": [
-    {
-      "name": "Mircea Nistor",
-      "email": "mircea.nistor@mesh.xyz"
-    }
-  ],
+  "contributors": ["Mircea Nistor <mircea.nistor@mesh.xyz>"],
   "license": "Apache-2.0",
   "keywords": []
 }

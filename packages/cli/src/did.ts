@@ -78,7 +78,7 @@ did
 
 did
   .command('delete')
-  .description('create an identifier')
+  .description('delete an identifier')
   .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 

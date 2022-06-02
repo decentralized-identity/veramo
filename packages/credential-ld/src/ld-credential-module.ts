@@ -10,7 +10,7 @@ import {
 import fetch from 'cross-fetch'
 import Debug from 'debug'
 import { extendContextLoader, purposes } from 'jsonld-signatures'
-import * as vc from 'vc-js'
+import * as vc from '@digitalbazaar/vc'
 import { LdContextLoader } from './ld-context-loader'
 import { LdSuiteLoader } from './ld-suite-loader'
 import { RequiredAgentMethods } from './ld-suites'
