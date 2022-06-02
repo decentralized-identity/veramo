@@ -3,7 +3,10 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
-    "declarationDir": "build"
+    "declarationDir": "build",
+    "lib": [
+      "dom"
+    ]
   },
   "references": [{ "path": "../core" }]
 }
