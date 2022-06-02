@@ -2,7 +2,7 @@ import { createAgent, IAgentContext, IMessageHandler } from '@veramo/core'
 import { MessageHandler } from '..'
 import { AbstractMessageHandler, Message } from '../../build'
 
-jest.setTimeout(30000)
+jest.setTimeout(60000)
 
 class DummyHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<{}>): Promise<Message> {

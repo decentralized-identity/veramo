@@ -98,7 +98,7 @@ describe('credential-LD full flow', () => {
     expect(verified).toBe(true)
   })
 
-  it.only('works with EcdsaSecp256k1RecoveryMethod2020 credentials', async () => {
+  it('works with EcdsaSecp256k1RecoveryMethod2020 credentials', async () => {
     const credential: CredentialPayload = {
       issuer: didEthrIdentifier.did,
       '@context': ['custom:example.context'],
@@ -138,6 +138,7 @@ describe('credential-LD full flow', () => {
         verifiableCredential: [verifiableCredential1],
         holder: didKeyIdentifier.did
       },
+      challenge: "VERAMO",
       proofFormat: 'lds',
     })
 
@@ -172,6 +173,7 @@ describe('credential-LD full flow', () => {
         verifiableCredential: [verifiableCredential1],
         holder: didEthrIdentifier.did
       },
+      challenge: "VERAMO",
       proofFormat: 'lds',
     })
 

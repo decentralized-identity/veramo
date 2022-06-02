@@ -47,23 +47,16 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
     .filter(isDefined)
 }
 
-function compareBlockchainAccountId(localKey: IKey, verificationMethod: _NormalizedVerificationMethod) {
+function compareBlockchainAccountId(localKey: IKey, verificationMethod: _NormalizedVerificationMethod): boolean {
   if (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' || localKey.type !== 'Secp256k1') {
     return false
   }
-  let vmEthAddr = verificationMethod.ethereumAddress?.toLowerCase()
-  if (!vmEthAddr) {
-    if (verificationMethod.blockchainAccountId?.includes('@eip155')) {
-      vmEthAddr = verificationMethod.blockchainAccountId?.split('@eip155')[0].toLowerCase()
-    } else if (verificationMethod.blockchainAccountId?.startsWith('eip155')) {
-      vmEthAddr = verificationMethod.blockchainAccountId.split(':')[2]?.toLowerCase()
-    }
-  }
+  let vmEthAddr = getEthereumAddress(verificationMethod)
   const computedAddr = computeAddress('0x' + localKey.publicKeyHex).toLowerCase()
   return computedAddr === vmEthAddr
 }
 
-export function getEthereumAddress(verificationMethod: _NormalizedVerificationMethod) {
+export function getEthereumAddress(verificationMethod: _NormalizedVerificationMethod): string | undefined {
   let vmEthAddr = verificationMethod.ethereumAddress?.toLowerCase()
   if (!vmEthAddr) {
     if (verificationMethod.blockchainAccountId?.includes('@eip155')) {

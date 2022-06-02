@@ -9,13 +9,11 @@ import {
 } from '@veramo/core'
 import fetch from 'cross-fetch'
 import Debug from 'debug'
-import { extendContextLoader, purposes } from 'jsonld-signatures'
-import * as vc from '@digitalbazaar/vc'
+import { extendContextLoader } from '@digitalcredentials/jsonld-signatures'
+import * as vc from '@digitalcredentials/vc'
 import { LdContextLoader } from './ld-context-loader'
 import { LdSuiteLoader } from './ld-suite-loader'
 import { RequiredAgentMethods } from './ld-suites'
-
-const AssertionProofPurpose = purposes.AssertionProofPurpose
 
 const debug = Debug('veramo:w3c:ld-credential-module')
 
@@ -46,8 +44,8 @@ export class LdCredentialModule {
 
         if (!didDoc) return
 
-        // currently Veramo LD suites can modify the resolution response for DIDs from
-        // the document Loader. This allows to fix incompatibilities between DID Documents
+        // currently, Veramo LD suites can modify the resolution response for DIDs from
+        // the document Loader. This allows us to fix incompatibilities between DID Documents
         // and LD suites to be fixed specifically within the Veramo LD Suites definition
         this.ldSuiteLoader.getAllSignatureSuites().forEach((x) => x.preDidResolutionModification(url, didDoc))
 
@@ -104,7 +102,7 @@ export class LdCredentialModule {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
     const documentLoader = this.getDocumentLoader(context)
 
-    // some suites can modify the incoming credential (e.g. add required contexts)W
+    // some suites can modify the incoming credential (e.g. add required contexts)
     suite.preSigningCredModification(credential)
 
     return await vc.issue({
@@ -135,7 +133,6 @@ export class LdCredentialModule {
       challenge,
       domain,
       documentLoader,
-      purpose: new AssertionProofPurpose(),
       compactProof: false,
     })
   }
@@ -159,7 +156,6 @@ export class LdCredentialModule {
       credential,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
-      purpose: new AssertionProofPurpose(),
       compactProof: false,
       checkStatus: checkStatusFn,
     })
@@ -187,7 +183,6 @@ export class LdCredentialModule {
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
       challenge,
       domain,
-      purpose: new AssertionProofPurpose(),
       compactProof: false,
     })
 
