@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import { agent } from './veramo/setup'
+import { getAgent } from './veramo/setup'
 
 function App() {
   const [didDoc, setDidDoc] = useState<any>(null)
   const [invalidDidDoc, setInvalidDidDoc] = useState<any>(null)
+
+  const agent = getAgent()
 
   const resolve = async () => {
     const doc = await agent.resolveDid({
