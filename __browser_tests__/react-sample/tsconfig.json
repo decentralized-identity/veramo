@@ -26,6 +26,7 @@
   "references": [
     { "path": "../../packages/core" },
     { "path": "../../packages/credential-w3c" },
+    { "path": "../../packages/credential-ld" },
     { "path": "../../packages/data-store" },
     { "path": "../../packages/data-store-json" },
     { "path": "../../packages/did-comm" },
@@ -43,6 +44,7 @@
     { "path": "../../packages/remote-server" },
     { "path": "../../packages/selective-disclosure" },
     { "path": "../../packages/url-handler" },
+    { "path": "../../packages/test-utils" },
     { "path": "../../packages/utils" }
   ]
 }

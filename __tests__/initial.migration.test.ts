@@ -30,7 +30,7 @@ import {
 } from '../packages/data-store/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Connection, ConnectionOptions, createConnection } from 'typeorm'
 import { Resolver } from 'did-resolver'

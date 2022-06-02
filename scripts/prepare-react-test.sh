@@ -23,6 +23,7 @@ packages=(
 "remote-client"
 "remote-server"
 "selective-disclosure"
+"test-utils"
 "url-handler"
 "utils"
 );

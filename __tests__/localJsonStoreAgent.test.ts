@@ -46,7 +46,7 @@ import {
   KeyStoreJson,
   PrivateKeyStoreJson,
 } from '../packages/data-store-json/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'

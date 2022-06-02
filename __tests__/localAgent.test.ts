@@ -52,7 +52,7 @@ import {
   PrivateKeyStore,
   DataStoreDiscoveryProvider,
 } from '../packages/data-store/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Connection, createConnection } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider'

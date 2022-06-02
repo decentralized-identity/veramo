@@ -16,7 +16,7 @@ import { KeyManagementSystem } from '@veramo/kms-local'
 import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { WebDIDProvider } from '@veramo/did-provider-web'
 import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from "@veramo/data-store-json";
-// import { FakeDidProvider, FakeDidResolver } from "../../../../__tests__/utils/fake-did";
+import { FakeDidProvider, FakeDidResolver } from "@veramo/test-utils";
 
 const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
 

@@ -6,9 +6,9 @@ import {
   IKeyManager,
   IService,
   TAgent,
-} from '../../packages/core/src'
-import { AbstractIdentifierProvider } from '../../packages/did-manager/src'
-import { _NormalizedVerificationMethod } from '../../packages/utils/src'
+} from '@veramo/core'
+import { AbstractIdentifierProvider } from '@veramo/did-manager'
+import { _NormalizedVerificationMethod } from '@veramo/utils'
 import {
   DIDResolutionOptions,
   DIDResolutionResult,

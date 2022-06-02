@@ -57,7 +57,7 @@ import { Connection, createConnection } from 'typeorm'
 import { AgentRestClient } from '../packages/remote-client/src'
 import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
 import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
