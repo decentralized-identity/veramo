@@ -29,7 +29,7 @@ import {
 } from '../types/ICredentialEIP712'
 import { recoverTypedSignature, normalize, SignTypedDataVersion } from '@metamask/eth-sig-util'
 
-import { getEthTypesFromInputDoc } from "../utils/getEthTypesFromInputDoc"
+import { getEthTypesFromInputDoc } from "eip-712-types-generation"
 
 /**
  * A Veramo plugin that implements the {@link ICredentialIssuerEIP712} methods.
@@ -63,14 +63,8 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     if (issuanceDate instanceof Date) {
       issuanceDate = issuanceDate.toISOString()
     }
-    const credential: CredentialPayload = {
-      ...args?.credential,
-      '@context': credentialContext,
-      type: credentialType,
-      issuanceDate,
-    }
 
-    const issuer = extractIssuer(credential)
+    const issuer = extractIssuer(args.credential)
     if (!issuer || typeof issuer === 'undefined') {
       throw new Error('invalid_argument: args.credential.issuer must not be empty')
     }
@@ -91,6 +85,19 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
     
+    const credential: CredentialPayload = {
+      ...args?.credential,
+      '@context': credentialContext,
+      type: credentialType,
+      issuanceDate,
+      proof: {
+        verificationMethod: extendedKey.meta.verificationMethod.id,
+        created: issuanceDate,
+        proofPurpose: "assertionMethod",
+        type: "EthereumEip712Signature2021",
+      }
+    }
+
     const message = credential;
     const domain = {
       chainId,
@@ -98,40 +105,22 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       version: "1",
     };
 
-    const types = getEthTypesFromInputDoc(credential, "VerifiableCredential");
-    const allTypes = {
-      EIP712Domain: [
-        // Order of these elements matters!
-        // https://github.com/ethers-io/ethers.js/blob/a71f51825571d1ea0fa997c1352d5b4d85643416/packages/hash/src.ts/typed-data.ts#L385            
-        { name: 'name', type: 'string' },
-        { name: 'version', type: 'string' },
-        { name: 'chainId', type: 'uint256' },
-      ],
-      ...types
-    }
+    const allTypes = getEthTypesFromInputDoc(credential, "VerifiableCredential");
+    const types = {...allTypes}
+    delete(types.EIP712Domain)
 
     const data = JSON.stringify({domain, types, message})
 
     const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
 
-    const newObj = JSON.parse(JSON.stringify(message));
-
-    newObj.proof = {
-      verificationMethod: extendedKey.meta.verificationMethod.id,
-      created: issuanceDate,
-      proofPurpose: "assertionMethod",
-      type: "EthereumEip712Signature2021",
-    }
-
-    newObj.proof.proofValue = signature;
-
-    newObj.proof.eip712Domain = {
+    credential['proof']['proofValue'] = signature;
+    credential['proof']['eip712'] = {
       domain,
       messageSchema: allTypes,
       primaryType: "VerifiableCredential",
-    };
+    }
 
-    return newObj;
+    return credential as VerifiableCredential;
   }
 
   /** {@inheritdoc ICredentialIssuerEIP712.verifyCredentialEIP712} */
@@ -140,13 +129,13 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
         const { credential } = args
       if(!credential.proof || !credential.proof.proofValue) throw new Error("Proof is undefined")
       if(
-        !credential.proof.eip712Domain || 
-        !credential.proof.eip712Domain.messageSchema ||
-        !credential.proof.eip712Domain.domain 
-      ) throw new Error("eip712Domain is undefined");
+        !credential.proof.eip712 || 
+        !credential.proof.eip712.messageSchema ||
+        !credential.proof.eip712.domain 
+      ) throw new Error("eip712 is undefined");
       
       const { proof, ...signingInput } = credential;
-      const { proofValue, eip712Domain, ...verifyInputProof} = proof;
+      const { proofValue, eip712, ...verifyInputProof} = proof;
       const verificationMessage = {
         ...signingInput,
         proof: verifyInputProof
@@ -154,9 +143,9 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
   
       const objectToVerify = {
         message: verificationMessage,
-        domain: eip712Domain.domain,
-        types: eip712Domain.messageSchema,
-        primaryType: eip712Domain.primaryType
+        domain: eip712.domain,
+        types: eip712.messageSchema,
+        primaryType: eip712.primaryType
       }
   
       const recovered = recoverTypedSignature({
@@ -208,7 +197,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
         issuanceDate,
       }
   
-      if (!isDefined(presentation.holder)) {
+      if (!isDefined(args.presentation.holder)) {
         throw new Error('invalid_argument: args.presentation.holder must not be empty')
       }
   
@@ -244,6 +233,12 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       if (!extendedKey) throw Error('Key not found')
 
       const chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
+      presentation['proof'] = {
+        verificationMethod: extendedKey.meta.verificationMethod.id,
+        created: issuanceDate,
+        proofPurpose: "assertionMethod",
+        type: "EthereumEip712Signature2021",
+      }
       
       const message = presentation;
       const domain = {
@@ -252,40 +247,24 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
         version: "1",
       };
 
-      const types = getEthTypesFromInputDoc(presentation, "VerifiablePresentation");
-      const allTypes = {
-        EIP712Domain: [
-          // Order of these elements matters!
-          // https://github.com/ethers-io/ethers.js/blob/a71f51825571d1ea0fa997c1352d5b4d85643416/packages/hash/src.ts/typed-data.ts#L385            
-          { name: 'name', type: 'string' },
-          { name: 'version', type: 'string' },
-          { name: 'chainId', type: 'uint256' },
-        ],
-        ...types
-      }
-
+      const allTypes = getEthTypesFromInputDoc(presentation, "VerifiablePresentation");
+      const types = {...allTypes}
+      delete(types.EIP712Domain)
+  
       const data = JSON.stringify({domain, types, message})
 
       const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
 
-      const newObj = JSON.parse(JSON.stringify(message));
 
-      newObj.proof = {
-        verificationMethod: extendedKey.meta.verificationMethod.id,
-        created: issuanceDate,
-        proofPurpose: "assertionMethod",
-        type: "EthereumEip712Signature2021",
-      }
+      presentation.proof.proofValue = signature;
 
-      newObj.proof.proofValue = signature;
-
-      newObj.proof.eip712Domain = {
+      presentation.proof.eip712 = {
         domain,
         messageSchema: allTypes,
         primaryType: "VerifiablePresentation",
       };
 
-      return newObj;
+      return presentation as VerifiablePresentation
     }
 
 /** {@inheritdoc ICredentialIssuerEIP712.verifyPresentationEIP712} */
@@ -294,13 +273,13 @@ private async verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, cont
       const { presentation } = args
     if(!presentation.proof || !presentation.proof.proofValue) throw new Error("Proof is undefined")
     if(
-      !presentation.proof.eip712Domain || 
-      !presentation.proof.eip712Domain.messageSchema ||
-      !presentation.proof.eip712Domain.domain 
-    ) throw new Error("eip712Domain is undefined");
+      !presentation.proof.eip712 || 
+      !presentation.proof.eip712.messageSchema ||
+      !presentation.proof.eip712.domain 
+    ) throw new Error("eip712 is undefined");
     
     const { proof, ...signingInput } = presentation;
-    const { proofValue, eip712Domain, ...verifyInputProof} = proof;
+    const { proofValue, eip712, ...verifyInputProof} = proof;
     const verificationMessage = {
       ...signingInput,
       proof: verifyInputProof
@@ -308,9 +287,9 @@ private async verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, cont
 
     const objectToVerify = {
       message: verificationMessage,
-      domain: eip712Domain.domain,
-      types: eip712Domain.messageSchema,
-      primaryType: eip712Domain.primaryType
+      domain: eip712.domain,
+      types: eip712.messageSchema,
+      primaryType: eip712.primaryType
     }
 
     const recovered = recoverTypedSignature({
