@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.4](https://github.com/uport-project/veramo/compare/v3.1.3...v3.1.4) (2022-06-02)
+
+
+### Bug Fixes
+
+* **deps:** bump sqlite3 to 5.0.8 to enable build on apple M1 chips ([#911](https://github.com/uport-project/veramo/issues/911)) ([daeadb7](https://github.com/uport-project/veramo/commit/daeadb7ce5a86a5ef01e1b1d507133f11fb35d29))
+
+
+
+
+
 ## [3.1.3](https://github.com/uport-project/veramo/compare/v3.1.2...v3.1.3) (2022-06-01)
 
 **Note:** Version bump only for package @veramo/data-store
