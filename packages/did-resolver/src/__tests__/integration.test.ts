@@ -4,6 +4,8 @@ import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
 import { getUniversalResolverFor } from '../universal-resolver'
 
+jest.setTimeout(30000)
+
 const providerConfig = {
   networks: [
     { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },

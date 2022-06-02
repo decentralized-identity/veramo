@@ -13,7 +13,11 @@
     "composite": true,
     "emitDecoratorMetadata": true,
     "useUnknownInCatchVariables": false,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true
   },
-  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
+  "exclude": [
+    "**/__tests__/**/*",
+    "**/build/**/*"
+  ]
 }
