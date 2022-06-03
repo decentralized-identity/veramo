@@ -207,7 +207,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
           if (typeof cred !== 'string' && cred.proof.jwt) {
             return cred.proof.jwt
           } else {
-            return cred
+            return JSON.stringify(cred)
           }
         })
         presentation.verifiableCredential = credentials
