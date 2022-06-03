@@ -13,13 +13,14 @@ import { CredentialIssuerLD, ICredentialIssuerLD, LdDefaultContexts, VeramoEcdsa
 import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
 import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure } from '@veramo/selective-disclosure'
-import { KeyManagementSystem } from '@veramo/kms-local'
+import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
 import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { WebDIDProvider } from '@veramo/did-provider-web'
 import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from "@veramo/data-store-json";
 import { FakeDidProvider, FakeDidResolver } from "@veramo/test-utils";
 
 const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
+const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
 
 const memoryJsonStore = {
   notifyUpdate: () => Promise.resolve()
@@ -47,13 +48,13 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
           ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
-          ...new FakeDidResolver(() => agent).getDidFakeResolver(),
+          ...new FakeDidResolver(() => agent as TAgent<IDIDManager>).getDidFakeResolver(),
         }),
       }),
       new KeyManager({
         store: new KeyStoreJson(memoryJsonStore),
         kms: {
-          local: new KeyManagementSystem(new PrivateKeyStoreJson(memoryJsonStore)),
+          local: new KeyManagementSystem(new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(DB_SECRET_KEY))),
         },
       }),
       new DIDManager({

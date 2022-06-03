@@ -1,14 +1,34 @@
 {
   "extends": "../tsconfig.settings.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "build"
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
+  "include": [
+    "src"
+  ],
   "references": [
     { "path": "../core" },
     { "path": "../credential-ld" },
     { "path": "../credential-w3c" },
     { "path": "../data-store" },
+    { "path": "../data-store-json" },
     { "path": "../did-comm" },
     { "path": "../did-discovery" },
     { "path": "../did-jwt" },
@@ -20,9 +40,11 @@
     { "path": "../key-manager" },
     { "path": "../kms-local" },
     { "path": "../message-handler" },
-    { "path": "../remote-server" },
     { "path": "../remote-client" },
+    { "path": "../remote-server" },
     { "path": "../selective-disclosure" },
-    { "path": "../url-handler" }
+    { "path": "../url-handler" },
+    { "path": "../test-utils" },
+    { "path": "../utils" }
   ]
 }

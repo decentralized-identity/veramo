@@ -1,6 +1,6 @@
 {
   "name": "@veramo/data-store-json",
-  "description": "Veramo date storage based on a JSON tree",
+  "description": "Veramo data storage based on a JSON tree",
   "version": "3.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",

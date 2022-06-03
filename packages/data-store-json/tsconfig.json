@@ -4,7 +4,8 @@
     "rootDir": "src",
     "outDir": "build",
     "lib": [
-      "dom"
+      "dom",
+      "esnext"
     ]
   },
   "references": [
