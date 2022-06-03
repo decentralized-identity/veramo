@@ -113,6 +113,14 @@ export interface ICreateVerifiableCredentialEIP712Args {
   keyRef?: string
 }
 
+/**
+ * Encapsulates the parameters required to create a
+ * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
+ * using the {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
+ * proof format.
+ *
+ * @beta This API is likely to change without a BREAKING CHANGE notice
+ */
 export interface ICreateVerifiablePresentationEIP712Args {
   /**
    * The json payload of the Presentation according to the
