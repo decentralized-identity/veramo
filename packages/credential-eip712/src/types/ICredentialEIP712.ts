@@ -15,6 +15,7 @@ import {
  * that use EIP712 proof format.
  *
  * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
+ * @remarks Please see {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
  *
  * @beta This API is likely to change without a BREAKING CHANGE notice
  */
