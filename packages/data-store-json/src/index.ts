@@ -21,4 +21,4 @@ export {
 export { DIDStoreJson } from './identifier/did-store'
 export { KeyStoreJson } from './identifier/key-store'
 export { PrivateKeyStoreJson } from './identifier/private-key-store'
-export { LocalStorageStore } from './local-storage-store'
+export { BrowserLocalStorageStore } from './browser-local-storage-store'

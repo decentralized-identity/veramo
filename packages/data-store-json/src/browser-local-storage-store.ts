@@ -14,11 +14,11 @@ import {
  * 
  * @example
  * ```
- * const dataStore = LocalStorageStore.fromLocalStorage('veramo-state')
+ * const dataStore = BrowserLocalStorageStore.fromLocalStorage('veramo-state')
  * const plugin = new DataStoreJson(dataStore)
  * ```
  */
-export class LocalStorageStore implements VeramoJsonStore {
+export class BrowserLocalStorageStore implements VeramoJsonStore {
   notifyUpdate: DiffCallback
   dids: Record<string, IIdentifier>
   keys: Record<string, ManagedKeyInfo>
@@ -44,12 +44,12 @@ export class LocalStorageStore implements VeramoJsonStore {
     this.messages = {}
   }
 
-  public static fromLocalStorage(localStorageKey: string): LocalStorageStore {
-    const store = new LocalStorageStore(localStorageKey)
+  public static fromLocalStorage(localStorageKey: string): BrowserLocalStorageStore {
+    const store = new BrowserLocalStorageStore(localStorageKey)
     return store.load()
   }
 
-  private load(): LocalStorageStore {
+  private load(): BrowserLocalStorageStore {
     if (typeof window !== 'undefined') {
       const rawCache = window.localStorage.getItem(this.localStorageKey) || '{}'
       let cache: VeramoJsonCache
