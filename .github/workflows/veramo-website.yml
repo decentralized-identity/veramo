@@ -4,7 +4,7 @@ on:
     branches:
       - 'main'
       - 'italo/fix-docs'
-permissions: read-all|write-all
+permissions: write-all
 jobs:
   dispatch:
     runs-on: ubuntu-latest
