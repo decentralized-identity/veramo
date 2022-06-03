@@ -24,7 +24,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    * Creates a Verifiable Credential.
    * The payload, signer and format are chosen based on the `args` parameter.
    *
-   * @param args - Arguments necessary to create the Presentation.
+   * @param args - Arguments necessary to create the Credential.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
    * @returns - a promise that resolves to the {@link @veramo/core#VerifiableCredential} that was requested or rejects with an error
