@@ -1,0 +1,51 @@
+{
+  "name": "@veramo/credential-eip712",
+  "description": "Veramo plugin for working with EIP712 Verifiable Credentials & Presentations.",
+  "version": "3.1.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "ICredentialIssuerEIP712": "./src/types/ICredentialEIP712.ts"
+    }
+  },
+  "dependencies": {
+    "@metamask/eth-sig-util": "^4.0.1",
+    "@veramo/core": "^3.1.0",
+    "@veramo/utils": "^3.1.0",
+    "debug": "^4.3.3",
+    "eip-712-types-generation": "^0.1.6"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "typescript": "4.6.4"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "plugin.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Nick Reynolds <nick.reynolds@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Simonas Karuzas",
+      "email": "simonas.karuzas@mesh.xyz"
+    },
+    {
+      "name": "Italo Borssatto",
+      "email": "italo.borssatto@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}

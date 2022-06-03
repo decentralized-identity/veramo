@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     { "path": "core" },
+    { "path": "credential-eip712" },
     { "path": "credential-ld" },
     { "path": "credential-status"},
     { "path": "credential-w3c" },

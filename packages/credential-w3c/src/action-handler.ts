@@ -47,7 +47,7 @@ const debug = Debug('veramo:w3c:action-handler')
  *
  * @public
  */
-export type ProofFormat = 'jwt' | 'lds'
+export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021'
 
 /**
  * Encapsulates the parameters required to create a
@@ -94,6 +94,12 @@ export interface ICreateVerifiablePresentationArgs {
    * See https://www.w3.org/TR/vc-data-model/#jwt-encoding
    */
   removeOriginalFields?: boolean
+
+  /**
+   * [Optional] The ID of the key that should sign this presentation.
+   * If this is not specified, the first matching key will be used.
+   */
+  keyRef?: string  
 }
 
 /**
@@ -130,6 +136,12 @@ export interface ICreateVerifiableCredentialArgs {
    * See https://www.w3.org/TR/vc-data-model/#jwt-encoding
    */
   removeOriginalFields?: boolean
+
+  /**
+   * [Optional] The ID of the key that should sign this credential.
+   * If this is not specified, the first matching key will be used.
+   */
+  keyRef?: string
 }
 
 /**
@@ -360,6 +372,14 @@ export class CredentialIssuer implements IAgentPlugin {
             'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
           )
         }
+      } else if (args.proofFormat === 'EthereumEip712Signature2021') {
+        if (typeof context.agent.createVerifiablePresentationEIP712 === 'function') {
+          verifiablePresentation = await context.agent.createVerifiablePresentationEIP712(args)
+        } else {
+          throw new Error(
+            'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+          )
+        }
       } else {
         // only add issuanceDate for JWT
         presentation.issuanceDate = args.presentation.issuanceDate || new Date().toISOString()
@@ -419,9 +439,6 @@ export class CredentialIssuer implements IAgentPlugin {
       throw new Error(`invalid_argument: args.credential.issuer must be a DID managed by this agent. ${e}`)
     }
     try {
-      //FIXME: `args` should allow picking a key or key type
-      const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
-      if (!key) throw Error('No signing key for ' + identifier.did)
 
       let verifiableCredential: VerifiableCredential
       if (args.proofFormat === 'lds') {
@@ -432,7 +449,19 @@ export class CredentialIssuer implements IAgentPlugin {
             'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
           )
         }
+      } else if (args.proofFormat === 'EthereumEip712Signature2021') {
+        if (typeof context.agent.createVerifiableCredentialEIP712 === 'function') {
+          verifiableCredential = await context.agent.createVerifiableCredentialEIP712(args as any)
+        } else {
+          throw new Error(
+            'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+          )
+        }
       } else {
+        //FIXME: `args` should allow picking a key or key type
+        const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
+        if (!key) throw Error('No signing key for ' + identifier.did)
+
         debug('Signing VC with', identifier.did)
         let alg = 'ES256K'
         if (key.type === 'Ed25519') {
@@ -478,7 +507,18 @@ export class CredentialIssuer implements IAgentPlugin {
         //TODO: return a more detailed reason for failure
         return false
       }
-    } else {
+    } else if( (<VerifiableCredential>credential)?.proof?.type === 'EthereumEip712Signature2021'){
+      // EIP712
+      if (typeof context.agent.verifyCredentialEIP712 === 'function') {
+        const result = await context.agent.verifyCredentialEIP712(args)
+        return result
+      } else {
+        throw new Error(
+          'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+        )
+      }
+
+    }else{
       // JSON-LD
       if (typeof context.agent.verifyCredentialLD === 'function') {
         const result = await context.agent.verifyCredentialLD(args)

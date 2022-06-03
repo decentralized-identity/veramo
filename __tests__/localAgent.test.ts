@@ -22,6 +22,7 @@ import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
@@ -63,6 +64,7 @@ import * as fs from 'fs'
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
@@ -91,6 +93,7 @@ let agent: TAgent<
     IDIDComm &
     ICredentialIssuer &
     ICredentialIssuerLD &
+    ICredentialIssuerEIP712 &
     ISelectiveDisclosure &
     IDIDDiscovery
 >
@@ -125,6 +128,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IDIDComm &
       ICredentialIssuer &
       ICredentialIssuerLD &
+      ICredentialIssuerEIP712 &
       ISelectiveDisclosure &
       IDIDDiscovery
   >({
@@ -208,6 +212,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm([new DIDCommHttpTransport()]),
       new CredentialIssuer(),
+      new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
         suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
@@ -244,6 +249,7 @@ const testContext = { getAgent, setup, tearDown }
 describe('Local integration tests', () => {
   verifiableDataJWT(testContext)
   verifiableDataLD(testContext)
+  verifiableDataEIP712(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)
