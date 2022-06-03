@@ -38,7 +38,7 @@ import { getEthTypesFromInputDoc } from "eip-712-types-generation"
  */
 export class CredentialIssuerEIP712 implements IAgentPlugin {
   readonly methods: ICredentialIssuerEIP712
-  readonly schema = schema.ICredentialIssuer
+  readonly schema = schema.ICredentialIssuerEIP712
 
   constructor() {
     this.methods = {
