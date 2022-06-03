@@ -76,7 +76,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
   /**
    * Verifies a Verifiable Presentation EIP712 Format.
    *
-   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param args - Arguments necessary to verify the Presentation
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
    * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
