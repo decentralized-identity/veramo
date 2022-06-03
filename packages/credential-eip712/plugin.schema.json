@@ -185,7 +185,8 @@
           },
           "required": [
             "presentation"
-          ]
+          ],
+          "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation } \nusing the  {@link  https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021 } \nproof format."
         },
         "PresentationPayload": {
           "type": "object",
