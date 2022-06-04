@@ -1,6 +1,6 @@
 import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
 import { Connection } from 'typeorm'
-import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager/src/abstract-private-key-store'
+import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager'
 import { PrivateKey } from '../entities/private-key'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'

@@ -1,5 +1,5 @@
 import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
-import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager/src/abstract-private-key-store'
+import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
 import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'

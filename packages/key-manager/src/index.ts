@@ -7,6 +7,6 @@
 export { KeyManager } from './key-manager'
 export { AbstractKeyManagementSystem } from './abstract-key-management-system'
 export { AbstractKeyStore } from './abstract-key-store'
-export { AbstractPrivateKeyStore, ManagedPrivateKey } from './abstract-private-key-store'
+export { AbstractPrivateKeyStore, ImportablePrivateKey, ManagedPrivateKey } from './abstract-private-key-store'
 export { AbstractSecretBox } from './abstract-secret-box'
 export { MemoryKeyStore, MemoryPrivateKeyStore } from './memory-key-store'

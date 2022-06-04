@@ -1,4 +1,4 @@
-import { ManagedKeyInfo, RequireOnly, TKeyType } from '@veramo/core'
+import { RequireOnly, TKeyType } from '@veramo/core'
 
 export interface ManagedPrivateKey {
   alias: string

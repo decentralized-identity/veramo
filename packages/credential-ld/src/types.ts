@@ -2,7 +2,6 @@ import {
   CredentialPayload,
   IAgentContext,
   IDIDManager,
-  IKey,
   IKeyManager,
   IPluginMethodMap,
   IResolver,
