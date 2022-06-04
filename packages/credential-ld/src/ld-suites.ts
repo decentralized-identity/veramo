@@ -38,7 +38,7 @@ export abstract class VeramoLdSignature {
     // TODO: Remove invalid field 'verifiers' from Presentation. Needs to be adapted for LD credentials
     // Only remove empty array (vc.signPresentation will throw then)
     const sanitizedPresentation = presentation as any
-    if (sanitizedPresentation.verifier?.length == 0) {
+    if (sanitizedPresentation?.verifier?.length == 0) {
       delete sanitizedPresentation.verifier
     }
   }

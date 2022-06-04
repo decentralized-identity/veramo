@@ -4,7 +4,7 @@ import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
 import { getUniversalResolverFor } from '../universal-resolver'
 
-jest.setTimeout(30000)
+jest.setTimeout(60000)
 
 const providerConfig = {
   networks: [

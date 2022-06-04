@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
+  "include": ["src/**/*.json", "src/**/*.ts"],
   "references": [
     { "path": "../core" },
     { "path": "../did-resolver" },

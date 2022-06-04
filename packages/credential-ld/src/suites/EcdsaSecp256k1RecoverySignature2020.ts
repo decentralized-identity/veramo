@@ -1,5 +1,5 @@
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
-import { CredentialPayload, DIDDocument, IAgentContext, IKey, PresentationPayload, TKeyType } from '@veramo/core'
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core'
 import {
   EcdsaSecp256k1RecoveryMethod2020,
   EcdsaSecp256k1RecoverySignature2020,
@@ -45,7 +45,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
       },
     }
 
-    return new EcdsaSecp256k1RecoverySignature2020({
+    const suite = new EcdsaSecp256k1RecoverySignature2020({
       // signer,
       key: new EcdsaSecp256k1RecoveryMethod2020({
         publicKeyHex: key.publicKeyHex,
@@ -55,6 +55,12 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
         id: verifiableMethodId,
       }),
     })
+
+    suite.ensureSuiteContext = ({ document }: { document: any, addSuiteContext: boolean }) => {
+      document['@context'] = [...asArray(document['@context'] || []), this.getContext()]
+    }
+
+    return suite
   }
 
   getSuiteForVerification(): any {
@@ -62,25 +68,13 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
   }
 
   preSigningCredModification(credential: CredentialPayload): void {
-    credential['@context'] = [
-      ...asArray(credential['@context'] || []),
-      'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
-    ]
-  }
-  
-  preSigningPresModification(presentation: PresentationPayload): void {
-    super.preSigningPresModification(presentation)
-    presentation['@context'] = [
-      ...asArray(presentation['@context'] || []),
-      'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
-    ]
   }
 
   preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
 //    did:ethr
     const idx = didDoc['@context']?.indexOf('https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld') || -1
     if (Array.isArray(didDoc['@context']) && idx !== -1) {
-      didDoc['@context'][idx] = "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
+      didDoc['@context'][idx] = this.getContext()
     }
 
     if (didUrl.toLowerCase().startsWith('did:ethr')) {
@@ -94,5 +88,8 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
         }
       })
     }
+  }
+  getContext(): string {
+    return 'https://w3id.org/security/suites/secp256k1recovery-2020/v2'
   }
 }

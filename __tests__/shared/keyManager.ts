@@ -310,7 +310,7 @@ export default (testContext: {
 
     describe('using Secp256k1 test vectors', () => {
       const importedKey = {
-        kid: '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
+        kid: 'imported',
         kms: 'local',
         type: <TKeyType>'Secp256k1',
         publicKeyHex:

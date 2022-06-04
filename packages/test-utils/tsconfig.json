@@ -3,15 +3,12 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
-    "lib": [
-      "dom",
-      "esnext"
-    ]
+    "declarationDir": "build"
   },
   "references": [
     { "path": "../core" },
+    { "path": "../data-store-json" },
     { "path": "../did-manager" },
     { "path": "../key-manager" },
-    { "path": "../utils" }
   ]
 }

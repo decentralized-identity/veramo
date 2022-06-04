@@ -40,7 +40,7 @@ import {
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
 import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
@@ -61,7 +61,7 @@ import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
 
-jest.setTimeout(30000)
+jest.setTimeout(60000)
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'

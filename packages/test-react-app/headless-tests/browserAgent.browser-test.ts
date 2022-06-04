@@ -1,33 +1,33 @@
-import { agent } from '../src/veramo/setup'
+import { getAgent } from '../src/veramo/setup'
 
 import keyManager from '../../../__tests__/shared/keyManager'
-// import didManager from '../../../__tests__/shared/didManager'
+import didManager from '../../../__tests__/shared/didManager'
 import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT'
 import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD'
 import handleSdrMessage from '../../../__tests__/shared/handleSdrMessage'
-// import resolveDid from '../../../__tests__/shared/resolveDid'
+import resolveDid from '../../../__tests__/shared/resolveDid'
 import webDidFlow from '../../../__tests__/shared/webDidFlow'
 import saveClaims from '../../../__tests__/shared/saveClaims'
 import documentationExamples from '../../../__tests__/shared/documentationExamples'
-// import didCommPacking from '../../../__tests__/shared/didCommPacking'
+import didCommPacking from '../../../__tests__/shared/didCommPacking'
 import messageHandler from '../../../__tests__/shared/messageHandler'
 
 jest.setTimeout(3 * 60 * 1000)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {
-    const testContext = { getAgent: () => agent, setup: () => {}, tearDown: () => {} }
+    const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
     verifiableDataJWT(testContext)
-    // verifiableDataLD(testContext)
+    verifiableDataLD(testContext)
     handleSdrMessage(testContext)
-    // resolveDid(testContext)
+    resolveDid(testContext)
     webDidFlow(testContext)
     saveClaims(testContext)
     documentationExamples(testContext)
     keyManager(testContext)
-    // didManager(testContext)
+    didManager(testContext)
     messageHandler(testContext)
-    // didCommPacking(testContext)
+    didCommPacking(testContext)
   })
 
   describe('should intialize in the react app', () => {

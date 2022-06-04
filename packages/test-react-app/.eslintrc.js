@@ -9,4 +9,8 @@ module.exports = {
     context: true,
     jestPuppeteer: true,
   },
+  parserOptions: {
+    sourceType: "module",
+    ecmaVersion: 2020
+  }
 }
