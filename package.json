@@ -69,7 +69,7 @@
     ]
   },
   "resolutions": {
-    "@types/react": "18.0.9"
+    "@types/react": "18.0.11"
   },
   "engines": {
     "node": ">= 14.0.0"
