@@ -25,10 +25,21 @@ import { serialize, computeAddress } from '@ethersproject/transactions'
 import { toUtf8String, toUtf8Bytes } from '@ethersproject/strings'
 import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
 import Debug from 'debug'
+
 const debug = Debug('veramo:key-manager')
 
 /**
- * Agent plugin that provides {@link @veramo/core#IKeyManager} methods
+ * Agent plugin that implements {@link @veramo/core#IKeyManager} methods.
+ *
+ * This plugin orchestrates various implementations of {@link AbstractKeyManagementSystem}, using a KeyStore to
+ * remember the link between a key reference, its metadata, and the respective key management system that provides the
+ * actual cryptographic capabilities.
+ *
+ * The methods of this plugin are used automatically by other plugins, such as
+ * {@link @veramo/did-manager#DIDManager | DIDManager},
+ * {@link @veramo/credential-w3c#CredentialIssuer | CredentialIssuer}, or {@link @veramo/did-comm#DIDComm | DIDComm} to
+ * perform their required cryptographic operations using the managed keys.
+ *
  * @public
  */
 export class KeyManager implements IAgentPlugin {
