@@ -8,6 +8,14 @@ interface CreateDefaultDidOptions {
   messagingServiceEndpoint?: string
 }
 
+/**
+ * This can be used to automatically create a did:web with signing and encryption keys and listing messaging and
+ * DIDComm service endpoints.
+ *
+ * @param options - The options guiding the creation of the default DID
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export async function createDefaultDid(options: CreateDefaultDidOptions) {
   if (!options.agent) throw Error('[createDefaultDid] Agent is required')
   if (!options.baseUrl) throw Error('[createDefaultDid] baseUrl is required')

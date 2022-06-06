@@ -17,10 +17,15 @@ export interface AgentRouterOptions {
 }
 
 /**
- * Creates a router that exposes {@link @veramo/core#Agent} methods
+ * Creates a router that exposes {@link @veramo/core#Agent} methods remotely.
+ *
+ * This can be used by {@link @veramo/remote-client#AgentRestClient | AgentRestClient} to instantiate the methods of
+ * this agent on the client.
  *
  * @param options - Initialization option
  * @returns Expressjs router
+ *
+ * @public
  */
 export const AgentRouter = (options: AgentRouterOptions): Router => {
   const router = Router()
