@@ -275,7 +275,7 @@ didDiscovery:
   $args:
     - providers:
         - $require: '@veramo/did-manager#AliasDiscoveryProvider'
-        - $require: '@veramo/data-store#ProfileDiscoveryProvider'
+        - $require: '@veramo/data-store#DataStoreDiscoveryProvider'
 
 # W3C credentialPlugin
 credentialIssuerLD:
