@@ -2435,6 +2435,11 @@
     "@stablelib/x25519" "^1.0.0"
     "@transmute/ld-key-pair" "^0.7.0-unstable.3"
 
+"@tsconfig/docusaurus@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@tsconfig/docusaurus/-/docusaurus-1.0.5.tgz#5298c5b0333c6263f06c3149b38ebccc9f169a4e"
+  integrity sha512-KM/TuJa9fugo67dTGx+ktIqf3fVc077J6jwHu845Hex4EQf7LABlNonP/mohDKT0cmncdtlYVHHF74xR/YpThg==
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
   resolved "https://registry.npmjs.org/@tsconfig/node10/-/node10-1.0.8.tgz"
@@ -3887,6 +3892,11 @@ commander@^8.2.0:
   version "8.2.0"
   resolved "https://registry.npmjs.org/commander/-/commander-8.2.0.tgz"
   integrity sha512-LLKxDvHeL91/8MIyTAD5BFMNtoIwztGPMiM/7Bl8rIPmHCZXRxmSWr91h57dpOpnQ6jIUqEWdXE/uBYMfiVZDA==
+
+commander@^9.0.0:
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-9.3.0.tgz#f619114a5a2d2054e0d9ff1b31d5ccf89255e26b"
+  integrity sha512-hv95iU5uXPbK83mjrJKuZyFM/LBAoCV/XhVGkS5Je6tl7sxr6A0ITMw5WoRV46/UaJ46Nllm3Xt7IaJhXTIkzw==
 
 common-ancestor-path@^1.0.1:
   version "1.0.1"
@@ -9239,6 +9249,11 @@ safe-stable-stringify@^2.2.0:
   resolved "https://registry.npmjs.org/safe-stable-stringify/-/safe-stable-stringify-2.2.0.tgz"
   integrity sha512-C6AuMdYPuPV/P1leplHNu0lgc2LAElq/g3TdoksDCIVtBhr78o/CH03bt/9SKqugFbKU9CUjsNlCu0fjtQzQUw==
 
+safe-stable-stringify@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.3.1.tgz#ab67cbe1fe7d40603ca641c5e765cb942d04fc73"
+  integrity sha512-kYBSfT+troD9cDA85VDnHZ1rpHC50O0g1e6WlGHVCz/g+JS+9WKLj+XwFYyR8UbrZN8ll9HUpDAAddY58MGisg==
+
 "safer-buffer@>= 2.1.2 < 3", "safer-buffer@>= 2.1.2 < 3.0.0", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
   resolved "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
@@ -10170,7 +10185,19 @@ ts-jest@27.0.7:
     semver "7.x"
     yargs-parser "20.x"
 
-ts-json-schema-generator@0.97.0, ts-json-schema-generator@^0.97.0:
+ts-json-schema-generator@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ts-json-schema-generator/-/ts-json-schema-generator-1.0.0.tgz#33e4affd1665268899eb57afbad397bc6a58cc53"
+  integrity sha512-F5VofsyMhNSXKII32NDS8/Ur8o2K3Sh5i/U2ke3UgCKf26ybgm2cZeT2x7VJPl1trML/9QLzz/82l0mvzmb3Vw==
+  dependencies:
+    "@types/json-schema" "^7.0.9"
+    commander "^9.0.0"
+    glob "^7.2.0"
+    json5 "^2.2.0"
+    safe-stable-stringify "^2.3.1"
+    typescript "~4.6.2"
+
+ts-json-schema-generator@^0.97.0:
   version "0.97.0"
   resolved "https://registry.npmjs.org/ts-json-schema-generator/-/ts-json-schema-generator-0.97.0.tgz"
   integrity sha512-kPDq4ut8Mu1ZgSN7OeTXz+ueb1juFt2eyGd23lMr3WoN5sq4Xa9m22kDI46OlwapE0aF8e1pUesOFgDcATHcuA==
@@ -10340,7 +10367,7 @@ typescript@~4.4.2, typescript@~4.4.3:
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.4.3.tgz"
   integrity sha512-4xfscpisVgqqDfPaJo5vkd+Qd/ItkoagnHpufr+i2QCHBsNYp+G7UAoyFl8aPtx879u38wPV65rZ8qbGZijalA==
 
-typescript@~4.6.3:
+typescript@~4.6.2, typescript@~4.6.3:
   version "4.6.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
   integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
