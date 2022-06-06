@@ -3,9 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "build": "lerna run build --stream && yarn build:schema-api",
     "bootstrap": "lerna bootstrap",
-    "build:schema-api": "lerna run extract-api --stream && lerna run generate-plugin-schema --stream",
+    "build": "yarn build:js && yarn build:api && yarn build:schema",
+    "build:js": "lerna run build --stream",
+    "build:api": "lerna run extract-api --stream",
+    "build:schema": "lerna run generate-plugin-schema --stream",
     "lint": "echo \"linting not yet enabled\"",
     "test:integration-build": "yarn test:integration-prepare && yarn test:integration-pretty",
     "test:integration-prepare": "ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
