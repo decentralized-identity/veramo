@@ -10,13 +10,15 @@ import {
 } from './types'
 
 /**
- * Implementation of {@link VeramoJsonStore} that uses browser localStorage to store data
+ * Implementation of {@link VeramoJsonStore} that uses browser localStorage to store data.
  * 
  * @example
  * ```
  * const dataStore = BrowserLocalStorageStore.fromLocalStorage('veramo-state')
  * const plugin = new DataStoreJson(dataStore)
  * ```
+ *
+ * @public
  */
 export class BrowserLocalStorageStore implements VeramoJsonStore {
   notifyUpdate: DiffCallback

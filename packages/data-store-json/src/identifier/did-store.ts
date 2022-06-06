@@ -8,8 +8,9 @@ import { serialize, deserialize } from '@ungap/structured-clone'
 const debug = Debug('veramo:data-store-json:did-store')
 
 /**
- * An implementation of {@link AbstractDIDStore} that uses a JSON object to store the relationships between DIDs, their
- * providers and controllers and their keys and services as they are known and managed by a Veramo agent.
+ * An implementation of {@link @veramo/did-manager#AbstractDIDStore | AbstractDIDStore} that uses a JSON object to
+ * store the relationships between DIDs, their providers and controllers and their keys and services as they are known
+ * and managed by a Veramo agent.
  *
  * An instance of this class can be used by {@link @veramo/did-manager#DIDManager} as the data storage layer.
  *
@@ -18,7 +19,7 @@ const debug = Debug('veramo:data-store-json:did-store')
  * For correct usage, this MUST use the same {@link VeramoJsonStore} instance as the one used by
  * {@link @veramo/key-manager#KeyManager | KeyManager}.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class DIDStoreJson extends AbstractDIDStore {
   private readonly cacheTree: Required<Pick<VeramoJsonCache, 'dids' | 'keys'>>
@@ -37,10 +38,10 @@ export class DIDStoreJson extends AbstractDIDStore {
   }
 
   async get({
-    did,
-    alias,
-    provider,
-  }: {
+              did,
+              alias,
+              provider,
+            }: {
     did?: string
     alias?: string
     provider?: string

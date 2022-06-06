@@ -8,26 +8,28 @@ import { serialize, deserialize } from '@ungap/structured-clone'
 const debug = Debug('veramo:data-store-json:private-key-store')
 
 /**
- * An implementation of {@link AbstractPrivateKeyStore} that uses a JSON object to store the private key material
- * needed by {@link @veramo/kms-local#KeyManagementSystem}.
+ * An implementation of {@link @veramo/key-manager#AbstractPrivateKeyStore | AbstractPrivateKeyStore} that uses a JSON
+ * object to store the private key material needed by {@link @veramo/kms-local#KeyManagementSystem |
+ * KeyManagementSystem}.
  *
  * This class must be initialized with a {@link VeramoJsonStore}, which serves as the JSON object storing data in
  * memory as well as providing an update notification callback to persist this data.
  * The JSON object does not have to be shared with other users of {@link VeramoJsonStore}, but it can be.
  *
- * If an {@link AbstractSecretBox} is used, then key material is encrypted, even in memory.
+ * If an {@link @veramo/key-manager#AbstractSecretBox | AbstractSecretBox} is used, then key material is encrypted,
+ * even in memory.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   private readonly cacheTree: Required<Pick<VeramoJsonCache, 'privateKeys'>>
   private readonly notifyUpdate: DiffCallback
 
   /**
-   * @param jsonStore This serves as the JSON object storing data in memory as well as providing an update notification
+   * @param jsonStore - This serves as the JSON object storing data in memory as well as providing an update notification
    *   callback to persist this data. The JSON object does not have to be shared with other users of
    *   {@link VeramoJsonStore}, but it can be.
-   * @param secretBox if this is used, then key material is encrypted, even in memory.
+   * @param secretBox - If this is used, then key material is encrypted, even in memory.
    */
   constructor(jsonStore: VeramoJsonStore, private secretBox?: AbstractSecretBox) {
     super()
