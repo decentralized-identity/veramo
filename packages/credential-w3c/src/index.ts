@@ -1,5 +1,6 @@
 /**
- * Provides a {@link @veramo/credential-w3c#CredentialIssuer | plugin} for the {@link @veramo/core#Agent} that implements
+ * Provides a {@link @veramo/credential-w3c#CredentialIssuer | plugin} for the {@link @veramo/core#Agent} that
+ * implements
  * {@link @veramo/credential-w3c#ICredentialIssuer} interface.
  *
  * Provides a {@link @veramo/credential-w3c#W3cMessageHandler | plugin} for the
@@ -15,5 +16,10 @@ export {
   ICreateVerifiablePresentationArgs,
   ProofFormat,
 } from './action-handler'
+/**
+ * The parameter and return type schemas for the methods of the {@link @veramo/credential-w3c#ICredentialIssuer} plugin.
+ *
+ * @public
+ */
 const schema = require('../plugin.schema.json')
 export { schema }

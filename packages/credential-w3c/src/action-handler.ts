@@ -57,13 +57,13 @@ export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021'
  */
 export interface ICreateVerifiablePresentationArgs {
   /**
-   * The json payload of the Presentation according to the
+   * The JSON payload of the Presentation according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
    *
    * The signer of the Presentation is chosen based on the `holder` property
    * of the `presentation`
    *
-   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
+   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
    */
   presentation: PresentationPayload
 
@@ -110,13 +110,13 @@ export interface ICreateVerifiablePresentationArgs {
  */
 export interface ICreateVerifiableCredentialArgs {
   /**
-   * The json payload of the Credential according to the
+   * The JSON payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
    *
    * The signer of the Credential is chosen based on the `issuer.id` property
    * of the `credential`
    *
-   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
+   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
    */
   credential: CredentialPayload
 
