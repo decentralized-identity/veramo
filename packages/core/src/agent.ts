@@ -71,7 +71,7 @@ export interface IAgentOptions {
   /**
    * Flag that enables schema validation for plugin methods.
    *
-   * @default false
+   * Defaults to `false`.
    */
   schemaValidation?: boolean
 }

@@ -2,7 +2,7 @@
  * Represents a Json Web Token in compact form.
  * "header.payload.signature"
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type CompactJWT = string
 
@@ -16,7 +16,7 @@ export type CompactJWT = string
  *
  * See {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model}
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type IssuerType = { id: string; [x: string]: any } | string
 
@@ -27,7 +27,7 @@ export type IssuerType = { id: string; [x: string]: any } | string
  *
  * See {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject}
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type CredentialSubject = {
   id?: string
@@ -42,7 +42,7 @@ export type CredentialSubject = {
  *
  * See {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status}
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type CredentialStatus = {
   id?: string
@@ -53,7 +53,7 @@ export type CredentialStatus = {
 /**
  * A proof property of a Verifiable Credential or Presentation
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ProofType {
   type?: string
@@ -65,7 +65,7 @@ export interface ProofType {
  * Represents an unsigned W3C Credential payload.
  * See {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model}
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface UnsignedCredential {
   issuer: IssuerType
@@ -84,7 +84,7 @@ export interface UnsignedCredential {
  * Represents a signed Verifiable Credential payload (includes proof), using a JSON representation.
  * See {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model}
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type VerifiableCredential = UnsignedCredential & { proof: ProofType }
 
@@ -93,7 +93,7 @@ export type VerifiableCredential = UnsignedCredential & { proof: ProofType }
  * See {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model}
  * See {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats}
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type W3CVerifiableCredential = VerifiableCredential | CompactJWT
 

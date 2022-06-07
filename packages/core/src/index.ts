@@ -16,5 +16,12 @@ export * from './types/IMessage'
 export * from './types/IMessageHandler'
 export * from './types/IResolver'
 export * from './types/vc-data-model'
+
+/**
+ * This represents the collection of schemas for the core plugins.
+ * Implementations of these schemas can be provided by other packages.
+ *
+ * @public
+ */
 const schema = require('../plugin.schema.json')
 export { schema }

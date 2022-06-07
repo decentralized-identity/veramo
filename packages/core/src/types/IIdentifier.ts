@@ -37,7 +37,9 @@ export interface IIdentifier {
 }
 
 /**
- * Represents the minimum amount of information needed to import an {@link IIdentifier}
+ * Represents the minimum amount of information needed to import an {@link IIdentifier}.
+ *
+ * @public
  */
 export type MinimalImportableIdentifier = {
   keys: Array<MinimalImportableKey>
@@ -45,7 +47,8 @@ export type MinimalImportableIdentifier = {
 } & Omit<IIdentifier, 'keys' | 'services'>
 
 /**
- * Cryptographic key type
+ * Cryptographic key type.
+ *
  * @public
  */
 export type TKeyType = 'Ed25519' | 'Secp256k1' | 'X25519' | 'Bls12381G1' | 'Bls12381G2'
@@ -86,8 +89,19 @@ export interface IKey {
   meta?: KeyMetadata | null
 }
 
+/**
+ * This encapsulates data about a key.
+ *
+ * Implementations of {@link @veramo/key-manager#AbstractKeyManagementSystem | AbstractKeyManagementSystem} should
+ * populate this object, for each key, with the algorithms that can be performed using it.
+ *
+ * This can also be used to add various tags to the keys under management.
+ *
+ * @public
+ */
 export interface KeyMetadata {
   algorithms?: string[]
+
   [x: string]: any
 }
 
