@@ -1,6 +1,7 @@
 import * as path from 'path'
 import { resolve } from 'path'
 import { existsSync, readdirSync, copyFileSync, mkdirSync, unlinkSync } from 'fs'
+
 const outputFolder = './temp'
 const { documentPackages } = require('../docsconfig.json')
 

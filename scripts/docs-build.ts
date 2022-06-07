@@ -70,7 +70,7 @@ async function main() {
         }
 
         // MDX cries when you put commects in there :(
-        line = line.replace('<!-- -->', ' ')
+        line = replaceAll(line, '<!-- -->', ' ')
 
         if (id === 'core') {
           line = line.replace('core package', 'Veramo Core')
@@ -91,6 +91,14 @@ async function main() {
       console.error(`Could not process ${docFile}: ${err}`)
     }
   }
+}
+
+function escapeRegExp(string: string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
+}
+
+function replaceAll(str: string, find: string, replace: string) {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace)
 }
 
 main()
