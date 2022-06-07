@@ -39,7 +39,7 @@ import {
  * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Presentation}
  * as the response encoding instead of a `shareReq`.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class SelectiveDisclosure implements IAgentPlugin {
   readonly methods: ISelectiveDisclosure
@@ -64,7 +64,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
    *   {@link ISelectiveDisclosureRequest}
    * @param context - *RESERVED* This is filled by the framework when the method is called.
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   async createSelectiveDisclosureRequest(
     args: ICreateSelectiveDisclosureRequestArgs,
@@ -113,7 +113,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
    * @param args - Contains the Request to be fulfilled and the DID of the subject
    * @param context - *RESERVED* This is filled by the framework when the method is called.
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   async getVerifiableCredentialsForSdr(
     args: IGetVerifiableCredentialsForSdrArgs,
@@ -171,7 +171,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
    * @param args - Contains the request and the response `Presentation` that needs to be checked.
    * @param context - *RESERVED* This is filled by the framework when the method is called.
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   async validatePresentationAgainstSdr(
     args: IValidatePresentationAgainstSdrArgs,
@@ -240,7 +240,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
   /**
    * Creates profile credentials
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   async createProfilePresentation(
     args: ICreateProfileCredentialsArgs,
