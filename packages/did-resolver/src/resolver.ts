@@ -8,14 +8,24 @@ import {
   parse as parseDID,
   Resolvable,
 } from 'did-resolver'
+
 export { DIDDocument }
 import Debug from 'debug'
+
 const debug = Debug('veramo:resolver')
 
 interface Options {
   resolver: Resolvable
 }
 
+/**
+ * A Veramo Plugin that enables users to resolve DID documents.
+ *
+ * This plugin is used automatically by plugins that create or verify Verifiable Credentials or Presentations or when
+ * working with DIDComm
+ *
+ * @public
+ */
 export class DIDResolverPlugin implements IAgentPlugin {
   readonly methods: IResolver
   readonly schema = schema.IResolver
@@ -33,9 +43,9 @@ export class DIDResolverPlugin implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IResolver.resolveDid} */
   async resolveDid({
-    didUrl,
-    options,
-  }: {
+                     didUrl,
+                     options,
+                   }: {
     didUrl: string
     options?: DIDResolutionOptions
   }): Promise<DIDResolutionResult> {
@@ -62,10 +72,10 @@ export class DIDResolverPlugin implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IResolver.getDIDComponentById} */
   async getDIDComponentById({
-    didDocument,
-    didUrl,
-    section,
-  }: {
+                              didDocument,
+                              didUrl,
+                              section,
+                            }: {
     didDocument: DIDDocument
     didUrl: string
     section?: DIDDocumentSection
