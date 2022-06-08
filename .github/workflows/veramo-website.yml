@@ -7,6 +7,8 @@ on:
 permissions: write-all
 jobs:
   dispatch:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -14,4 +16,5 @@ jobs:
             -H 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/uport-project/veramo-website/actions/workflows/main.yml/dispatches \
-            -d '{"ref":"${GITHUB_REF}"}'
+            -d '{"ref":"${GITHUB_REF}"}' \
+            --fail
