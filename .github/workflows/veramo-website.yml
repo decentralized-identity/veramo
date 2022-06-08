@@ -9,12 +9,8 @@ jobs:
   dispatch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'uport-project',
-              repo: 'veramo-website',
-              workflow_id: 'main.yml',
-              ref: 'main'
-            })
+      - run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/uport-project/veramo-website/actions/workflows/main.yml/dispatches \
+            -d '{"ref":"${GITHUB_REF}"}'
