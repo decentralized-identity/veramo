@@ -70,7 +70,7 @@ async function main() {
         }
 
         // MDX cries when you put commects in there :(
-        line = replaceAll(line, '<!-- -->', ' ')
+        line = replaceAll(line, '<!-- -->', '')
 
         if (id === 'core') {
           line = line.replace('core package', 'Veramo Core')
