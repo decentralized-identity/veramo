@@ -1,6 +1,18 @@
 import { OpenAPIV3 } from 'openapi-types'
 import { IAgent } from '@veramo/core'
 
+/**
+ * This method can be used to generate an OpenAPIv3 schema to describe how the methods of a Veramo agent can be called
+ * remotely.
+ *
+ * @param agent - The agent whose schema needs to be interpreted.
+ * @param basePath - The base URL
+ * @param exposedMethods - The list of method names available through this schema
+ * @param name - The name of the agent
+ * @param version - The version of the agent
+ *
+ * @public
+ */
 export const getOpenApiSchema = (
   agent: IAgent,
   basePath: string,
