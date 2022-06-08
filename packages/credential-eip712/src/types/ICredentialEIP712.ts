@@ -17,7 +17,7 @@ import {
  * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
  * @remarks Please see {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
   /**
@@ -32,7 +32,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   createVerifiableCredentialEIP712(
     args: ICreateVerifiableCredentialEIP712Args,
@@ -49,7 +49,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   verifyCredentialEIP712(
     args: IVerifyCredentialEIP712Args,
@@ -93,7 +93,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
  * Encapsulates the parameters required to create a
  * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICreateVerifiableCredentialEIP712Args {
   /**
@@ -119,7 +119,7 @@ export interface ICreateVerifiableCredentialEIP712Args {
  * using the {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
  * proof format.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICreateVerifiablePresentationEIP712Args {
   /**
@@ -129,7 +129,7 @@ export interface ICreateVerifiablePresentationEIP712Args {
    * The signer of the Presentation is chosen based on the `holder` property
    * of the `presentation`
    *
-   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
+   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
    */
   presentation: PresentationPayload
 
@@ -144,7 +144,7 @@ export interface ICreateVerifiablePresentationEIP712Args {
  * Encapsulates the parameters required to verify a
  * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
  export interface IVerifyCredentialEIP712Args {
   /**
@@ -184,12 +184,8 @@ export interface ICreateVerifiablePresentationEIP712Args {
  *
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type IRequiredContext = IAgentContext<
   IResolver & IKeyManager & IDIDManager
 >
-
-export type ContextDoc = {
-  '@context': Record<string, any>
-}
