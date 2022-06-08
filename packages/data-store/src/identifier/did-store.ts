@@ -8,18 +8,31 @@ import { Connection, In, IsNull, Not } from 'typeorm'
 
 import Debug from 'debug'
 import { Presentation } from '../entities/presentation'
+
 const debug = Debug('veramo:typeorm:identifier-store')
 
+/**
+ * An implementation of {@link @veramo/did-manager#AbstractDIDStore | AbstractDIDStore} that uses a TypeORM database to
+ * store the relationships between DIDs, their providers and controllers and their keys and services as they are known
+ * and managed by a Veramo agent.
+ *
+ * An instance of this class can be used by {@link @veramo/did-manager#DIDManager} as the data storage layer.
+ *
+ * To make full use of this class, it should use the same database as the one used by
+ * {@link @veramo/data-store#KeyStore | KeyStore}.
+ *
+ * @public
+ */
 export class DIDStore extends AbstractDIDStore {
   constructor(private dbConnection: Promise<Connection>) {
     super()
   }
 
   async get({
-    did,
-    alias,
-    provider,
-  }: {
+              did,
+              alias,
+              provider,
+            }: {
     did: string
     alias: string
     provider: string

@@ -4,8 +4,18 @@ import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager'
 import { PrivateKey } from '../entities/private-key'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
+
 const debug = Debug('veramo:typeorm:key-store')
 
+/**
+ * An implementation of {@link @veramo/key-manager#bstractPrivateKeyStore | AbstractPrivateKeyStore} that uses a
+ * TypeORM database connection to store private key material.
+ *
+ * The keys can be encrypted while at rest if this class is initialized with an
+ * {@link @veramo/key-manager#AbstractSecretBox | AbstractSecretBox} implementation.
+ *
+ * @public
+ */
 export class PrivateKeyStore extends AbstractPrivateKeyStore {
   constructor(private dbConnection: Promise<Connection>, private secretBox?: AbstractSecretBox) {
     super()

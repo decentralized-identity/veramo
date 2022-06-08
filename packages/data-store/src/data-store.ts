@@ -19,6 +19,19 @@ import { Claim } from './entities/claim'
 import { Presentation, createPresentationEntity } from './entities/presentation'
 import { Connection } from 'typeorm'
 
+/**
+ * This class implements the {@link @veramo/core#IDataStore} interface using a TypeORM compatible database.
+ *
+ * This allows you to store and retrieve Verifiable Credentials, Presentations and Messages by their IDs.
+ *
+ * For more complex queries you should use {@link @veramo/data-store#DataStoreORM} which is the default way to query
+ * the stored data by some common properties. These two classes MUST also share the same database connection.
+ *
+ * @see {@link @veramo/core#IDataStoreORM}
+ * @see {@link @veramo/core#IDataStore}
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export class DataStore implements IAgentPlugin {
   readonly methods: IDataStore
   readonly schema = schema.IDataStore
