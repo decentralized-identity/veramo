@@ -11,7 +11,7 @@ type IContext = IAgentContext<IKeyManager>
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:key` identifiers
  *
- * @alpha
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class KeyDIDProvider extends AbstractIdentifierProvider {
   private defaultKms: string

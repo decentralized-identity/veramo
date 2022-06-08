@@ -45,8 +45,8 @@ export type CredentialSubject = {
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type CredentialStatus = {
-  id?: string
-  type?: string
+  id: string
+  type: string
   [x: string]: any
 }
 
