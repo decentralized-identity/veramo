@@ -7,7 +7,7 @@
           "properties": {
             "credential": {
               "$ref": "#/components/schemas/CredentialPayload",
-              "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n'@context', 'type' and 'issuanceDate' will be added automatically if omitted"
+              "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
             },
             "keyRef": {
               "type": "string",
@@ -100,6 +100,10 @@
               "type": "string"
             }
           },
+          "required": [
+            "id",
+            "type"
+          ],
           "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiableCredential": {
@@ -176,7 +180,7 @@
           "properties": {
             "presentation": {
               "$ref": "#/components/schemas/PresentationPayload",
-              "description": "The json payload of the Presentation according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n'@context', 'type' and 'issuanceDate' will be added automatically if omitted"
+              "description": "The json payload of the Presentation according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted."
             },
             "challenge": {
               "type": "string",
@@ -329,8 +333,7 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.",
-              "default": false
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.\n\nDefaults to `false`"
             }
           },
           "required": [
@@ -355,8 +358,7 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.",
-              "default": false
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.\n\nDefaults to `false`"
             }
           },
           "required": [

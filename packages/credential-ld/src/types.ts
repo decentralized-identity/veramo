@@ -12,11 +12,12 @@ import {
 
 /**
  * The interface definition for a plugin that can issue and verify Verifiable Credentials and Presentations
- * that use JSON-LD format.
+ * that use JSON-LD format (also called Data Integrity Proofs).
  *
  * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
+ * @see {@link https://www.w3.org/TR/vc-data-model/#data-integrity-proofs | Data Integrity proofs}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICredentialIssuerLD extends IPluginMethodMap {
   /**
@@ -31,7 +32,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   createVerifiablePresentationLD(
     args: ICreateVerifiablePresentationLDArgs,
@@ -50,7 +51,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   createVerifiableCredentialLD(
     args: ICreateVerifiableCredentialLDArgs,
@@ -67,7 +68,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   verifyCredentialLD(args: IVerifyCredentialLDArgs, context: IRequiredContext): Promise<boolean>
 
@@ -81,7 +82,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   verifyPresentationLD(args: IVerifyPresentationLDArgs, context: IRequiredContext): Promise<boolean>
 }
@@ -90,7 +91,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
  * Encapsulates the parameters required to create a
  * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICreateVerifiablePresentationLDArgs {
   /**
@@ -100,7 +101,7 @@ export interface ICreateVerifiablePresentationLDArgs {
    * The signer of the Presentation is chosen based on the `holder` property
    * of the `presentation`
    *
-   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
+   * `@context`, `type` and `issuanceDate` will be added automatically if omitted.
    */
   presentation: PresentationPayload
 
@@ -124,7 +125,7 @@ export interface ICreateVerifiablePresentationLDArgs {
  * Encapsulates the parameters required to create a
  * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICreateVerifiableCredentialLDArgs {
   /**
@@ -134,7 +135,7 @@ export interface ICreateVerifiableCredentialLDArgs {
    * The signer of the Credential is chosen based on the `issuer.id` property
    * of the `credential`
    *
-   * '@context', 'type' and 'issuanceDate' will be added automatically if omitted
+   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
    */
   credential: CredentialPayload
 
@@ -148,7 +149,7 @@ export interface ICreateVerifiableCredentialLDArgs {
  * Encapsulates the parameters required to verify a
  * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice
  */
 export interface IVerifyCredentialLDArgs {
   /**
@@ -162,9 +163,9 @@ export interface IVerifyCredentialLDArgs {
   credential: VerifiableCredential
 
   /**
-   * Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.
+   * Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.
    *
-   * @default false
+   * Defaults to `false`
    */
   fetchRemoteContexts?: boolean
 }
@@ -173,7 +174,7 @@ export interface IVerifyCredentialLDArgs {
  * Encapsulates the parameters required to verify a
  * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IVerifyPresentationLDArgs {
   /**
@@ -197,9 +198,9 @@ export interface IVerifyPresentationLDArgs {
   domain?: string
 
   /**
-   * Set this to true if you want the '@context' URLs to be fetched in case they are not pre-loaded.
+   * Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.
    *
-   * @default false
+   * Defaults to `false`
    */
   fetchRemoteContexts?: boolean
 }
@@ -210,12 +211,17 @@ export interface IVerifyPresentationLDArgs {
  *
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type IRequiredContext = IAgentContext<
   IResolver & Pick<IDIDManager, 'didManagerGet'> & Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >
 
+/**
+ * Describes a document with a `@context` property.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export type ContextDoc = {
   '@context': Record<string, any>
 }
