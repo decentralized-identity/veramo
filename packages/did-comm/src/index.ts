@@ -18,7 +18,7 @@ export * from './types/IDIDComm'
 export { DIDCommMessageHandler } from './message-handler'
 export * from './transports/transports'
 /**
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 const schema = require('../plugin.schema.json')
 export { schema }

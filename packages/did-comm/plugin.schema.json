@@ -21,7 +21,7 @@
             "application/didcomm-signed+json",
             "application/didcomm-encrypted+json"
           ],
-          "description": "Represents different DIDComm v2 message encapsulation"
+          "description": "Represents different DIDComm v2 message encapsulation."
         },
         "IPackDIDCommMessageArgs": {
           "type": "object",
@@ -107,9 +107,11 @@
               "type": "array",
               "items": {
                 "type": "string"
-              }
+              },
+              "description": "Add extra recipients for the packed message."
             }
-          }
+          },
+          "description": "Extra options when packing a DIDComm message."
         },
         "ISendDIDCommMessageArgs": {
           "type": "object",
@@ -404,6 +406,10 @@
               "type": "string"
             }
           },
+          "required": [
+            "id",
+            "type"
+          ],
           "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
@@ -503,7 +509,7 @@
             "metaData",
             "message"
           ],
-          "description": "The result of unpacking a DIDComm v2 message"
+          "description": "The result of unpacking a DIDComm v2 message."
         },
         "IDIDCommMessageMetaData": {
           "type": "object",
@@ -515,7 +521,7 @@
           "required": [
             "packing"
           ],
-          "description": "Metadata resulting from unpacking a DIDComm v2 message"
+          "description": "Metadata resulting from unpacking a DIDComm v2 message."
         }
       },
       "methods": {

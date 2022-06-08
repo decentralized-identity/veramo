@@ -62,12 +62,14 @@ import {
   _FlattenedJWS,
   _GenericJWS,
 } from './types/utility-types'
+
 const debug = Debug('veramo:did-comm:action-handler')
 
 /**
  * @deprecated Please use {@link IDIDComm.sendDIDCommMessage} instead. This will be removed in Veramo 4.0.
  * Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ISendMessageDIDCommAlpha1Args {
   url?: string
@@ -86,14 +88,16 @@ export interface ISendMessageDIDCommAlpha1Args {
 
 /**
  * The input to the {@link DIDComm.unpackDIDCommMessage} method.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type IUnpackDIDCommMessageArgs = IPackedDIDCommMessage
 
 /**
  * The input to the {@link DIDComm.packDIDCommMessage} method.
  * When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IPackDIDCommMessageArgs {
   message: IDIDCommMessage
@@ -106,7 +110,8 @@ export interface IPackDIDCommMessageArgs {
  * The input to the {@link DIDComm.sendDIDCommMessage} method.
  * The provided `messageId` will be used in the emitted
  * event to allow event/message correlation.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ISendDIDCommMessageArgs {
   packedMessage: IPackedDIDCommMessage
@@ -118,11 +123,12 @@ export interface ISendDIDCommMessageArgs {
 /**
  * DID Comm plugin for {@link @veramo/core#Agent}
  *
- * This plugin provides a method of creating an encrypted message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
+ * This plugin provides a method of creating an encrypted message according to the initial
+ * {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
  *
  * @remarks Be advised that this spec is still not final and that this protocol may need to change.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class DIDComm implements IAgentPlugin {
   readonly transports: IDIDCommTransport[]
@@ -133,7 +139,8 @@ export class DIDComm implements IAgentPlugin {
 
   /**
    * Constructor that takes a list of {@link IDIDCommTransport} objects.
-   * @param transports A list of {@link IDIDCommTransport} objects.
+   * @param transports - A list of {@link IDIDCommTransport} objects. Defaults to
+   *   {@link @veramo/did-comm#DIDCommHttpTransport | DIDCommHttpTransport}
    */
   constructor(transports: IDIDCommTransport[] = [new DIDCommHttpTransport()]) {
     this.transports = transports
@@ -277,6 +284,7 @@ export class DIDComm implements IAgentPlugin {
       kid: string
       publicKeyBytes: Uint8Array
     }
+
     let recipients: IRecipient[] = []
 
     async function computeRecipients(to: string): Promise<IRecipient[]> {
@@ -591,7 +599,8 @@ export class DIDComm implements IAgentPlugin {
           })
 
           debug('Encrypted:', postPayload)
-        } catch (e) {}
+        } catch (e) {
+        }
 
         debug('Sending to %s', serviceEndpoint)
         const res = await fetch(serviceEndpoint, {
