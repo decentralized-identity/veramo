@@ -40,6 +40,11 @@ const resolveDidKey: DIDResolver = async (
   }
 }
 
+/**
+ * Provides a mapping to a did:key resolver, usable by {@link did-resolver#Resolver}.
+ *
+ * @public
+ */
 export function getDidKeyResolver() {
   return { key: resolveDidKey }
 }
