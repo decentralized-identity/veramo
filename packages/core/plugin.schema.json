@@ -7,15 +7,15 @@
           "properties": {
             "didDocument": {
               "$ref": "#/components/schemas/DIDDocument",
-              "description": "the DID document from which to extract the fragment. This MUST be the document resolved by  {@link  resolveDid  }"
+              "description": "the DID document from which to extract the fragment. This MUST be the document resolved by\n {@link  IResolver.resolveDid }"
             },
             "didUrl": {
               "type": "string",
-              "description": "The DID URI that refers to the subsection by #fragment. Example: did:example:identifier#controller"
+              "description": "The DID URI that needs to be dereferenced. This should refer to the subsection by #fragment.\n\nExample: did:example:identifier#controller"
             },
             "section": {
               "$ref": "#/components/schemas/DIDDocumentSection",
-              "description": "The section of the DID document where to search for the fragment. Example 'keyAgreement', or 'assertionMethod', or 'authentication', etc"
+              "description": "Optional. The section of the DID document where to search for the fragment. Example 'keyAgreement', or 'assertionMethod', or 'authentication', etc"
             }
           },
           "required": [
@@ -273,7 +273,8 @@
             "keyAgreement",
             "capabilityInvocation",
             "capabilityDelegation"
-          ]
+          ],
+          "description": "Refers to a section of a DID document. Either the list of verification methods or services or one of the verification relationships.\n\nSee  {@link  https://www.w3.org/TR/did-core/#verification-relationships | verification relationships }"
         },
         "DIDDocComponent": {
           "anyOf": [
@@ -451,7 +452,7 @@
             "Bls12381G1",
             "Bls12381G2"
           ],
-          "description": "Cryptographic key type"
+          "description": "Cryptographic key type."
         },
         "KeyMetadata": {
           "type": "object",
@@ -462,7 +463,8 @@
                 "type": "string"
               }
             }
-          }
+          },
+          "description": "This encapsulates data about a key.\n\nImplementations of  {@link  @veramo/key-manager#AbstractKeyManagementSystem | AbstractKeyManagementSystem }  should populate this object, for each key, with the algorithms that can be performed using it.\n\nThis can also be used to add various tags to the keys under management."
         },
         "ManagedKeyInfo": {
           "type": "object",
@@ -501,7 +503,7 @@
             "type",
             "publicKeyHex"
           ],
-          "description": "Represents information about a managed key. Private or secret key material is not present."
+          "description": "Represents information about a managed key. Private or secret key material is NOT present."
         },
         "IKeyManagerDecryptJWEArgs": {
           "type": "object",
@@ -847,7 +849,7 @@
           }
         },
         "keyManagerDecryptJWE": {
-          "description": "Decrypts data",
+          "description": "Decrypts data This API may change without a BREAKING CHANGE notice.",
           "arguments": {
             "$ref": "#/components/schemas/IKeyManagerDecryptJWEArgs"
           },
@@ -865,7 +867,7 @@
           }
         },
         "keyManagerEncryptJWE": {
-          "description": "Encrypts data",
+          "description": "Encrypts data This API may change without a BREAKING CHANGE notice.",
           "arguments": {
             "$ref": "#/components/schemas/IKeyManagerEncryptJWEArgs"
           },
@@ -1019,7 +1021,7 @@
             "Bls12381G1",
             "Bls12381G2"
           ],
-          "description": "Cryptographic key type"
+          "description": "Cryptographic key type."
         },
         "KeyMetadata": {
           "type": "object",
@@ -1030,7 +1032,8 @@
                 "type": "string"
               }
             }
-          }
+          },
+          "description": "This encapsulates data about a key.\n\nImplementations of  {@link  @veramo/key-manager#AbstractKeyManagementSystem | AbstractKeyManagementSystem }  should populate this object, for each key, with the algorithms that can be performed using it.\n\nThis can also be used to add various tags to the keys under management."
         },
         "IDIDManagerAddServiceArgs": {
           "type": "object",
@@ -1264,7 +1267,7 @@
             "keys",
             "provider"
           ],
-          "description": "Represents the minimum amount of information needed to import an  {@link  IIdentifier }"
+          "description": "Represents the minimum amount of information needed to import an  {@link  IIdentifier } ."
         },
         "MinimalImportableKey": {
           "$ref": "#/components/schemas/RequireOnly<IKey,(\"privateKeyHex\"|\"type\"|\"kms\")>",
@@ -1742,6 +1745,10 @@
               "type": "string"
             }
           },
+          "required": [
+            "id",
+            "type"
+          ],
           "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
@@ -2025,7 +2032,7 @@
           "required": [
             "column"
           ],
-          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+          "description": "Represents a WHERE predicate for a  {@link  FindArgs }  query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TIdentifiersColumns": {
           "type": "string",
@@ -2055,7 +2062,7 @@
             "column",
             "direction"
           ],
-          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+          "description": "Represents the sort order of results from a  {@link  FindArgs }  query."
         },
         "PartialIdentifier": {
           "type": "object",
@@ -2145,7 +2152,7 @@
             "Bls12381G1",
             "Bls12381G2"
           ],
-          "description": "Cryptographic key type"
+          "description": "Cryptographic key type."
         },
         "KeyMetadata": {
           "type": "object",
@@ -2156,7 +2163,8 @@
                 "type": "string"
               }
             }
-          }
+          },
+          "description": "This encapsulates data about a key.\n\nImplementations of  {@link  @veramo/key-manager#AbstractKeyManagementSystem | AbstractKeyManagementSystem }  should populate this object, for each key, with the algorithms that can be performed using it.\n\nThis can also be used to add various tags to the keys under management."
         },
         "IService": {
           "type": "object",
@@ -2251,7 +2259,7 @@
           "required": [
             "column"
           ],
-          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+          "description": "Represents a WHERE predicate for a  {@link  FindArgs }  query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TMessageColumns": {
           "type": "string",
@@ -2287,7 +2295,7 @@
             "column",
             "direction"
           ],
-          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+          "description": "Represents the sort order of results from a  {@link  FindArgs }  query."
         },
         "IMessage": {
           "type": "object",
@@ -2505,6 +2513,10 @@
               "type": "string"
             }
           },
+          "required": [
+            "id",
+            "type"
+          ],
           "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
@@ -2652,7 +2664,7 @@
           "required": [
             "column"
           ],
-          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+          "description": "Represents a WHERE predicate for a  {@link  FindArgs }  query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TCredentialColumns": {
           "type": "string",
@@ -2685,7 +2697,7 @@
             "column",
             "direction"
           ],
-          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+          "description": "Represents the sort order of results from a  {@link  FindArgs }  query."
         },
         "UniqueVerifiableCredential": {
           "type": "object",
@@ -2769,7 +2781,7 @@
           "required": [
             "column"
           ],
-          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+          "description": "Represents a WHERE predicate for a  {@link  FindArgs }  query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TClaimsColumns": {
           "type": "string",
@@ -2805,7 +2817,7 @@
             "column",
             "direction"
           ],
-          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+          "description": "Represents the sort order of results from a  {@link  FindArgs }  query."
         },
         "FindPresentationsArgs": {
           "$ref": "#/components/schemas/FindArgs-TPresentationColumns",
@@ -2873,7 +2885,7 @@
           "required": [
             "column"
           ],
-          "description": "Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query. In situations where multiple WHERE predicates are present, they are combined with AND."
+          "description": "Represents a WHERE predicate for a  {@link  FindArgs }  query. In situations where multiple WHERE predicates are present, they are combined with AND."
         },
         "TPresentationColumns": {
           "type": "string",
@@ -2906,7 +2918,7 @@
             "column",
             "direction"
           ],
-          "description": "Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query."
+          "description": "Represents the sort order of results from a  {@link  FindArgs }  query."
         },
         "UniqueVerifiablePresentation": {
           "type": "object",
@@ -3277,6 +3289,10 @@
               "type": "string"
             }
           },
+          "required": [
+            "id",
+            "type"
+          ],
           "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {

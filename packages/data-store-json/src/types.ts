@@ -101,8 +101,8 @@ export interface VeramoJsonStore extends VeramoJsonCache {
 /**
  * A callback method that is called when the data stored in a {@link VeramoJsonCache} is updated.
  *
- * @param oldState the snapshot of the cache before the update.
- * @param newState the new cache object, after the update. This object may reference the underlying storage.
+ * @param oldState - The snapshot of the cache before the update.
+ * @param newState - The new cache object, after the update. This object may reference the underlying storage.
  *
  * @beta This API may change in future versions without a BREAKING CHANGE notice.
  */

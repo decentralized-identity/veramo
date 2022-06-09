@@ -8,7 +8,7 @@ type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm>
 
 /**
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that decrypts DIDComm messages.
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class DIDCommMessageHandler extends AbstractMessageHandler {
   constructor() {

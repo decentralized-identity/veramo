@@ -5,6 +5,7 @@ import {
   ServiceEndpoint,
   VerificationMethod,
 } from 'did-resolver'
+
 export { DIDDocument, DIDResolutionOptions, DIDResolutionResult } from 'did-resolver'
 import { IPluginMethodMap } from './IAgent'
 
@@ -31,18 +32,25 @@ export interface ResolveDidArgs {
 
 /**
  * Input arguments for {@link IResolver.getDIDComponentById | getDIDComponentById}
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface GetDIDComponentArgs {
   /**
-   * the DID document from which to extract the fragment. This MUST be the document resolved by {@link resolveDid}
+   * the DID document from which to extract the fragment. This MUST be the document resolved by
+   * {@link IResolver.resolveDid}
    */
   didDocument: DIDDocument
+
   /**
-   * The DID URI that refers to the subsection by #fragment. Example: did:example:identifier#controller
+   * The DID URI that needs to be dereferenced.
+   * This should refer to the subsection by #fragment.
+   *
+   * Example: did:example:identifier#controller
    */
   didUrl: string
+
   /**
+   * Optional.
    * The section of the DID document where to search for the fragment. Example 'keyAgreement', or 'assertionMethod',
    * or 'authentication', etc
    */
@@ -52,7 +60,7 @@ export interface GetDIDComponentArgs {
 /**
  * Return type of {@link IResolver.getDIDComponentById | getDIDComponentById}
  * represents a `VerificationMethod` or a `ServiceEndpoint` entry from a {@link did-resolver#DIDDocument | DIDDocument}
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type DIDDocComponent = VerificationMethod | ServiceEndpoint
 
@@ -113,21 +121,26 @@ export interface IResolver extends IPluginMethodMap {
    *     })
    * ```
    *
-   * @param args.didDocument - the DID document from which to extract the fragment.
-   *   This MUST be the document resolved by {@link resolveDid}
-   * @param args.didUrl - the DID URI that needs to be dereferenced
-   * @param args.section - Optional - the section of the DID Document to be used for dereferencing
+   * @param args - The description of the component you want.
    *
    * @returns a `Promise` containing the {@link did-resolver#VerificationMethod | VerificationMethod} or
    *   {@link did-resolver#ServiceEndpoint | ServiceEndpoint}
    *
    * @throws `not_found:...` in case the fragment is not displayed in the DID document
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   getDIDComponentById(args: GetDIDComponentArgs): Promise<DIDDocComponent>
 }
 
+/**
+ * Refers to a section of a DID document.
+ * Either the list of verification methods or services or one of the verification relationships.
+ *
+ * See {@link https://www.w3.org/TR/did-core/#verification-relationships | verification relationships}
+ *
+ * @public
+ */
 export type DIDDocumentSection =
   | 'verificationMethod'
   | 'publicKey' //used for backward compatibility

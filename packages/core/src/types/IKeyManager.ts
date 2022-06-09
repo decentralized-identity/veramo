@@ -3,17 +3,23 @@ import { TKeyType, IKey, KeyMetadata } from './IIdentifier'
 
 /**
  * Represents an object type where a subset of keys are required and everything else is optional.
+ *
+ * @public
  */
 export type RequireOnly<T, K extends keyof T> = Required<Pick<T, K>> & Partial<T>
 
 /**
  * Represents the properties required to import a key.
+ *
+ * @public
  */
 export type MinimalImportableKey = RequireOnly<IKey, 'privateKeyHex' | 'type' | 'kms'>
 
 /**
  * Represents information about a managed key.
- * Private or secret key material is not present.
+ * Private or secret key material is NOT present.
+ *
+ * @public
  */
 export type ManagedKeyInfo = Omit<IKey, 'privateKeyHex'>
 
@@ -62,7 +68,7 @@ export interface IKeyManagerDeleteArgs {
 
 /**
  * Input arguments for {@link IKeyManager.keyManagerEncryptJWE | keyManagerEncryptJWE}
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IKeyManagerEncryptJWEArgs {
   /**
@@ -83,7 +89,7 @@ export interface IKeyManagerEncryptJWEArgs {
 
 /**
  * Input arguments for {@link IKeyManager.keyManagerDecryptJWE | keyManagerDecryptJWE}
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IKeyManagerDecryptJWEArgs {
   /**
@@ -179,7 +185,18 @@ export interface IKeyManagerSignEthTXArgs {
 }
 
 /**
- * Key manager interface
+ * Key manager interface.
+ *
+ * This defines an interface for a plugin that orchestrates various implementations of
+ * {@link @veramo/key-manager#AbstractKeyManagementSystem | AbstractKeyManagementSystem}.
+ *
+ * See {@link @veramo/key-manager#KeyManager | KeyManager} for a reference implementation.
+ *
+ * The methods of this plugin are used automatically by other plugins, such as
+ * {@link @veramo/did-manager#DIDManager | DIDManager},
+ * {@link @veramo/credential-w3c#CredentialIssuer | CredentialIssuer}, or {@link @veramo/did-comm#DIDComm | DIDComm} to
+ * perform their required cryptographic operations using the managed keys.
+ *
  * @public
  */
 export interface IKeyManager extends IPluginMethodMap {
@@ -210,8 +227,9 @@ export interface IKeyManager extends IPluginMethodMap {
 
   /**
    * Generates a signature according to the algorithm specified.
-   * @throws `Error("not_supported")` if the KMS does not support the operation or if the key does not match the algorithm.
-   * @param args
+   * @throws `Error("not_supported")` if the KMS does not support the operation or if the key does not match the
+   *   algorithm.
+   * @param args - The input to the signing method, including data to be signed, key reference and algorithm to use.
    */
   keyManagerSign(args: IKeyManagerSignArgs): Promise<string>
 
@@ -221,20 +239,21 @@ export interface IKeyManager extends IPluginMethodMap {
    * This computes the raw shared secret (the result of a Diffie-Hellman computation)
    * To use this for symmetric encryption you MUST apply a KDF on the result.
    *
-   * @param args {@link IKeyManagerSharedKeyArgs}
+   * @param args - {@link IKeyManagerSharedSecretArgs} The input to compute the shared secret, including the local key
+   *   reference and remote key details.
    * @returns a `Promise` that resolves to a hex encoded shared secret
    */
   keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string>
 
   /**
    * Encrypts data
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   keyManagerEncryptJWE(args: IKeyManagerEncryptJWEArgs): Promise<string>
 
   /**
    * Decrypts data
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   keyManagerDecryptJWE(args: IKeyManagerDecryptJWEArgs): Promise<string>
 

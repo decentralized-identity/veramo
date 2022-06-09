@@ -10,7 +10,7 @@ const debug = Debug('veramo:selective-disclosure:message-handler')
  * Identifies a {@link @veramo/core#IMessage} that represents a Selective Disclosure Request
  *
  * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export const MessageTypes = {
   sdr: 'sdr',
@@ -20,7 +20,7 @@ export const MessageTypes = {
  * A Veramo message handler plugin that can decode an incoming Selective Disclosure Response
  * into the internal Message representation.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class SdrMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message> {

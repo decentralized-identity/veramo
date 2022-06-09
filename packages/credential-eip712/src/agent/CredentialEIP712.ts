@@ -7,7 +7,6 @@ import {
   IIdentifier,
 } from "@veramo/core"
 import {
-  _ExtendedIKey,
   extractIssuer,
   MANDATORY_CREDENTIAL_CONTEXT,
   processEntryToArray,
@@ -34,7 +33,7 @@ import { getEthTypesFromInputDoc } from "eip-712-types-generation"
 /**
  * A Veramo plugin that implements the {@link ICredentialIssuerEIP712} methods.
  *
- * @public
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class CredentialIssuerEIP712 implements IAgentPlugin {
   readonly methods: ICredentialIssuerEIP712

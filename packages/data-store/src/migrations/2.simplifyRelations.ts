@@ -3,7 +3,9 @@ import Debug from 'debug'
 const debug = Debug('veramo:data-store:initial-migration')
 
 /**
- * Fix inconsistencies between Entity data and column data
+ * Fix inconsistencies between Entity data and column data.
+ *
+ * @public
  */
 export class SimplifyRelations1447159020002 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {

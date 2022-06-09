@@ -42,6 +42,8 @@ export interface ApiSchemaRouterOptions {
  *
  * @param options - Initialization option
  * @returns Expressjs router
+ *
+ * @public
  */
 export const ApiSchemaRouter = (options: ApiSchemaRouterOptions): Router => {
   const router = Router()

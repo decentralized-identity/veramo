@@ -24,10 +24,14 @@ export interface MessagingRouterOptions {
 }
 
 /**
- * Creates a router for handling incoming messages
+ * Creates a router for handling incoming messages.
+ *
+ * Messages posted to this router get sent to the `handleMessage` method of the associated agent where this is used.
  *
  * @param options - Initialization option
  * @returns Expressjs router
+ *
+ * @public
  */
 export const MessagingRouter = (options: MessagingRouterOptions): Router => {
   const router = Router()

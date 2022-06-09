@@ -5,7 +5,12 @@ async function _read(_path: string): Promise<ContextDoc> {
 }
 
 /**
- * Provides a hardcoded map of common context definitions
+ * Provides a hardcoded map of common Linked Data `@context` definitions.
+ *
+ * You can use this to bootstrap the `@context` definitions used by
+ * {@link @veramo/credential-ld#CredentialIssuerLD | CredentialIssuerLD} with these common context definitions.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export const LdDefaultContexts = new Map([
   ['https://www.w3.org/2018/credentials/v1', _read('www.w3.org_2018_credentials_v1.json')],

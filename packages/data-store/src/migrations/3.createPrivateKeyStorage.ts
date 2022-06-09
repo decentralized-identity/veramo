@@ -6,6 +6,8 @@ const debug = Debug('veramo:data-store:migrate-private-keys')
 
 /**
  * Migration of existing private keys from Veramo 2.x to Veramo 3.x
+ *
+ * @public
  */
 export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {

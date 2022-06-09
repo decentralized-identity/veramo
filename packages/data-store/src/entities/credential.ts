@@ -6,10 +6,22 @@ import { Presentation } from './presentation'
 import { Claim } from './claim'
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 
+/**
+ * Represents some common properties of a Verifiable Credential that are stored in a TypeORM database for querying.
+ *
+ * @see {@link @veramo/core#IDataStoreORM.dataStoreORMGetVerifiableCredentials | dataStoreORMGetVerifiableCredentials}
+ *   for the interface defining how this can be queried.
+ *
+ * @see {@link @veramo/data-store#DataStoreORM | DataStoreORM} for the implementation of the query interface.
+ *
+ * @see {@link @veramo/core#IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims | dataStoreORMGetVerifiableCredentialsByClaims} for the interface defining how to query credentials by the claims they contain.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 @Entity('credential')
 export class Credential extends BaseEntity {
   @PrimaryColumn()
-  //@ts-ignore
+    //@ts-ignore
   hash: string
 
   //@ts-ignore
@@ -30,7 +42,7 @@ export class Credential extends BaseEntity {
     eager: true,
     onDelete: 'CASCADE',
   })
-  //@ts-ignore
+    //@ts-ignore
   issuer: Identifier
 
   // Subject can be null https://w3c.github.io/vc-data-model/#credential-uniquely-identifies-a-subject
@@ -45,32 +57,32 @@ export class Credential extends BaseEntity {
   id?: string
 
   @Column()
-  //@ts-ignore
+    //@ts-ignore
   issuanceDate: Date
 
   @Column({ nullable: true })
   expirationDate?: Date
 
   @Column('simple-array')
-  //@ts-ignore
+    //@ts-ignore
   context: string[]
 
   @Column('simple-array')
-  //@ts-ignore
+    //@ts-ignore
   type: string[]
 
   @OneToMany((type) => Claim, (claim) => claim.credential, {
     cascade: ['insert'],
   })
-  //@ts-ignore
+    //@ts-ignore
   claims: Claim[]
 
   @ManyToMany((type) => Presentation, (presentation) => presentation.credentials)
-  //@ts-ignore
+    //@ts-ignore
   presentations: Presentation[]
 
   @ManyToMany((type) => Message, (message) => message.credentials)
-  //@ts-ignore
+    //@ts-ignore
   messages: Message[]
 }
 

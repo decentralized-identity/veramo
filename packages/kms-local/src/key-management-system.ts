@@ -24,8 +24,18 @@ import { randomBytes } from '@ethersproject/random'
 import { arrayify, hexlify } from '@ethersproject/bytes'
 import * as u8a from 'uint8arrays'
 import Debug from 'debug'
+
 const debug = Debug('veramo:kms:local')
 
+/**
+ * This is an implementation of {@link @veramo/key-manager#AbstractKeyManagementSystem | AbstractKeyManagementSystem}
+ * that uses a local {@link @veramo/key-manager#AbstractPrivateKeyStore | AbstractPrivateKeyStore} to hold private key
+ * material.
+ *
+ * The key material is used to provide local implementations of various cryptographic algorithms.
+ *
+ * @public
+ */
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
   private readonly keyStore: AbstractPrivateKeyStore
 
@@ -92,10 +102,10 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   async sign({
-    keyRef,
-    algorithm,
-    data,
-  }: {
+               keyRef,
+               algorithm,
+               data,
+             }: {
     keyRef: Pick<IKey, 'kid'>
     algorithm?: string
     data: Uint8Array
@@ -250,7 +260,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   /**
-   * Converts a {@link ManagedPrivateKey} to {@link ManagedKeyInfo}
+   * Converts a {@link @veramo/key-manager#ManagedPrivateKey | ManagedPrivateKey} to {@link @veramo/core#ManagedKeyInfo}
    */
   private asManagedKeyInfo(args: RequireOnly<ManagedPrivateKey, 'privateKeyHex' | 'type'>): ManagedKeyInfo {
     let key: Partial<ManagedKeyInfo>

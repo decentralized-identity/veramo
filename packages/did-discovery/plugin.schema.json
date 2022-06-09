@@ -17,7 +17,7 @@
           "required": [
             "query"
           ],
-          "description": "Contains the parameters of a DID Discovery Request"
+          "description": "Contains the parameters of a DID Discovery Request."
         },
         "IDIDDiscoveryDiscoverDidResult": {
           "type": "object",
@@ -48,7 +48,7 @@
           "required": [
             "results"
           ],
-          "description": "DID Discovery results"
+          "description": "DID Discovery results."
         },
         "IDIDDiscoveryProviderResult": {
           "type": "object",
@@ -69,7 +69,7 @@
             "provider",
             "matches"
           ],
-          "description": "Discovery results from one provider"
+          "description": "Discovery results from one provider."
         },
         "IDIDDiscoverMatch": {
           "type": "object",
@@ -87,7 +87,7 @@
             "did",
             "metaData"
           ],
-          "description": "A single discovery match"
+          "description": "A single discovery match."
         }
       },
       "methods": {

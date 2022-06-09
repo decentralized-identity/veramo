@@ -8,6 +8,11 @@ import {
 import * as u8a from 'uint8arrays'
 import { asArray, encodeJoseBlob } from '@veramo/utils'
 
+/**
+ * Veramo wrapper for the EcdsaSecp256k1RecoverySignature2020 suite by Transmute Industries
+ *
+ * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
+ */
 export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature {
   getSupportedVerificationType(): string {
     return 'EcdsaSecp256k1RecoveryMethod2020'

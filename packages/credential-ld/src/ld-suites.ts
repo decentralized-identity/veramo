@@ -7,10 +7,15 @@ import {
   PresentationPayload,
   TKeyType,
 } from '@veramo/core'
-import { DIDDocument } from 'did-resolver/src/resolver'
+import { DIDDocument } from 'did-resolver'
 
 export type RequiredAgentMethods = IResolver & Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 
+/**
+ * Base class for Veramo adapters of LinkedDataSignature suites.
+ *
+ * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
+ */
 export abstract class VeramoLdSignature {
   // LinkedDataSignature Suites according to
   // https://github.com/digitalbazaar/jsonld-signatures/blob/main/lib/suites/LinkedDataSignature.js

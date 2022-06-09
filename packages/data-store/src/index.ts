@@ -24,6 +24,14 @@ import { Service } from './entities/service'
 import { Message, MetaData } from './entities/message'
 import { PrivateKey } from './entities/private-key'
 import { PreMigrationKey } from './entities/PreMigrationEntities'
+
+/**
+ * The TypeORM entities used by this package.
+ *
+ * This array SHOULD be used when creating a TypeORM connection.
+ *
+ * @public
+ */
 export const Entities = [
   Key,
   Identifier,

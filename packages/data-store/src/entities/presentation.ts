@@ -7,10 +7,19 @@ import { createCredentialEntity, Credential } from './credential'
 import { asArray, computeEntryHash } from '@veramo/utils'
 import { normalizeCredential } from 'did-jwt-vc'
 
+/**
+ * Represents some common properties of a Verifiable Presentation that are stored in a TypeORM database for querying.
+ *
+ * @see {@link @veramo/core#IDataStoreORM.dataStoreORMGetVerifiablePresentations | dataStoreORMGetVerifiablePresentations} for the interface defining how this can be queried.
+ *
+ * @see {@link @veramo/data-store#DataStoreORM | DataStoreORM} for the implementation of the query interface.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 @Entity('presentation')
 export class Presentation extends BaseEntity {
   @PrimaryColumn()
-  //@ts-ignore
+    //@ts-ignore
   hash: string
 
   //@ts-ignore
@@ -31,7 +40,7 @@ export class Presentation extends BaseEntity {
     eager: true,
     onDelete: 'CASCADE',
   })
-  //@ts-ignore
+    //@ts-ignore
   holder: Identifier
 
   @ManyToMany((type) => Identifier, (identifier) => identifier?.receivedPresentations, {
@@ -40,36 +49,36 @@ export class Presentation extends BaseEntity {
     nullable: true,
   })
   @JoinTable()
-  //@ts-ignore
+    //@ts-ignore
   verifier?: Identifier[]
 
   @Column({ nullable: true })
   id?: String
 
   @Column()
-  //@ts-ignore
+    //@ts-ignore
   issuanceDate: Date
 
   @Column({ nullable: true })
   expirationDate?: Date
 
   @Column('simple-array')
-  //@ts-ignore
+    //@ts-ignore
   context: string[]
 
   @Column('simple-array')
-  //@ts-ignore
+    //@ts-ignore
   type: string[]
 
   @ManyToMany((type) => Credential, (credential) => credential.presentations, {
     cascade: true,
   })
   @JoinTable()
-  //@ts-ignore
+    //@ts-ignore
   credentials: Credential[]
 
   @ManyToMany((type) => Message, (message) => message.presentations)
-  //@ts-ignore
+    //@ts-ignore
   messages: Message[]
 }
 

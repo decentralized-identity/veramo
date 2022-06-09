@@ -4,9 +4,9 @@ import { IAgentContext, IPluginMethodMap } from './IAgent'
 import { IMessage } from './IMessage'
 
 /**
- * Represents the sort order of results from a { @link IDataStoreORM.FindArgs } query.
+ * Represents the sort order of results from a {@link FindArgs} query.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface Order<TColumns> {
   column: TColumns
@@ -14,10 +14,10 @@ export interface Order<TColumns> {
 }
 
 /**
- * Represents a WHERE predicate for a { @link IDataStoreORM.FindArgs } query.
+ * Represents a WHERE predicate for a {@link FindArgs} query.
  * In situations where multiple WHERE predicates are present, they are combined with AND.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface Where<TColumns> {
   column: TColumns
@@ -39,7 +39,7 @@ export interface Where<TColumns> {
 /**
  * Represents an {@link IDataStoreORM} Query.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface FindArgs<TColumns> {
   /**
@@ -68,7 +68,7 @@ export interface FindArgs<TColumns> {
  * The columns that can be queried for an {@link IIdentifier}
  *
  * @deprecated This type will be removed in future versions of this plugin interface.
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type TIdentifiersColumns = 'did' | 'alias' | 'provider'
 
@@ -76,7 +76,7 @@ export type TIdentifiersColumns = 'did' | 'alias' | 'provider'
  * The columns that can be queried for an {@link IMessage}
  *
  * See {@link IDataStoreORM.dataStoreORMGetMessagesCount}
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type TMessageColumns =
   | 'from'
@@ -96,7 +96,7 @@ export type TMessageColumns =
  * See {@link IDataStoreORM.dataStoreORMGetVerifiableCredentials}
  * See {@link IDataStoreORM.dataStoreORMGetVerifiableCredentialsCount}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type TCredentialColumns =
   | 'context'
@@ -113,7 +113,7 @@ export type TCredentialColumns =
  * See {@link IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims}
  * See {@link IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaimsCount}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type TClaimsColumns =
   | 'context'
@@ -133,7 +133,7 @@ export type TClaimsColumns =
  * See {@link IDataStoreORM.dataStoreORMGetVerifiablePresentations}
  * See {@link IDataStoreORM.dataStoreORMGetVerifiablePresentationsCount}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type TPresentationColumns =
   | 'context'
@@ -152,7 +152,7 @@ export type TPresentationColumns =
  * This does not constitute an authorization mechanism, but relies on an authorization mechanism existing before the
  * Veramo Agent is created.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface AuthorizedDIDContext extends IAgentContext<{}> {
   authorizedDID?: string
@@ -164,7 +164,7 @@ export interface AuthorizedDIDContext extends IAgentContext<{}> {
  * See {@link IDataStoreORM.dataStoreORMGetVerifiableCredentials}
  * See {@link IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface UniqueVerifiableCredential {
   hash: string
@@ -176,7 +176,7 @@ export interface UniqueVerifiableCredential {
  *
  * See {@link IDataStoreORM.dataStoreORMGetVerifiablePresentations}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface UniqueVerifiablePresentation {
   hash: string
@@ -186,7 +186,7 @@ export interface UniqueVerifiablePresentation {
 /**
  * The filter that can be used to find {@link IIdentifier}s in the data store.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type FindIdentifiersArgs = FindArgs<TIdentifiersColumns>
 
@@ -194,7 +194,7 @@ export type FindIdentifiersArgs = FindArgs<TIdentifiersColumns>
  * The filter that can be used to find {@link IMessage}s in the data store.
  * See {@link IDataStoreORM.dataStoreORMGetMessages}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type FindMessagesArgs = FindArgs<TMessageColumns>
 
@@ -203,7 +203,7 @@ export type FindMessagesArgs = FindArgs<TMessageColumns>
  * of their claims.
  *
  * See {@link IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims}
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type FindClaimsArgs = FindArgs<TClaimsColumns>
 
@@ -211,7 +211,7 @@ export type FindClaimsArgs = FindArgs<TClaimsColumns>
  * The filter that can be used to find {@link VerifiableCredential}s in the data store.
  * See {@link IDataStoreORM.dataStoreORMGetVerifiableCredentials}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type FindCredentialsArgs = FindArgs<TCredentialColumns>
 
@@ -219,14 +219,14 @@ export type FindCredentialsArgs = FindArgs<TCredentialColumns>
  * The filter that can be used to find {@link VerifiablePresentation}s in the data store.
  * See {@link IDataStoreORM.dataStoreORMGetVerifiablePresentations}
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type FindPresentationsArgs = FindArgs<TPresentationColumns>
 
 /**
  * The result of a {@link IDataStoreORM.dataStoreORMGetIdentifiers} query.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type PartialIdentifier = Partial<IIdentifier>
 
@@ -239,7 +239,11 @@ export type PartialIdentifier = Partial<IIdentifier>
  * If this interface is implemented by a different plugin than {@link IDataStore}, then both plugins MUST use the same
  * media for data storage.
  *
- * @beta This API is likely to change without a BREAKING CHANGE notice.
+ * @see {@link @veramo/data-store#DataStoreORM} for an implementation using a TypeORM backend
+ * @see {@link @veramo/data-store-json#DataStoreJson} for an implementation using a JSON object that can also be
+ *   persisted.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDataStoreORM extends IPluginMethodMap {
   /**
@@ -251,12 +255,12 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * AbstractDIDStore}, then these identifiers can also come from {@link IDIDManager.didManagerCreate |
    * didManagerCreate} or {@link IDIDManager.didManagerImport | didManagerImport} operations.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
    * @deprecated This will be removed in future versions of this plugin interface.
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetIdentifiers(
     args: FindIdentifiersArgs,
@@ -272,24 +276,24 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * AbstractDIDStore}, then these identifiers can also come from {@link IDIDManager.didManagerCreate |
    * didManagerCreate} or {@link IDIDManager.didManagerImport | didManagerImport} operations.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
    * @deprecated This will be removed in future versions of this plugin interface.
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetIdentifiersCount(args: FindIdentifiersArgs, context: AuthorizedDIDContext): Promise<number>
 
   /**
    * Returns a list of {@link IMessage}s that match the given filter.
-   * These are messages that were stored using {IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}.
+   * These are messages that were stored using {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetMessages(args: FindMessagesArgs, context: AuthorizedDIDContext): Promise<Array<IMessage>>
 
@@ -297,11 +301,11 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * Returns a count of {@link IMessage}s that match the given filter.
    * These are messages that were stored using {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying.
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetMessagesCount(args: FindMessagesArgs, context: AuthorizedDIDContext): Promise<number>
 
@@ -312,11 +316,11 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * These are VerifiableCredentials that were stored using
    * {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential}.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetVerifiableCredentialsByClaims(
     args: FindClaimsArgs,
@@ -330,11 +334,11 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * These are VerifiableCredentials that were stored using
    * {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential}.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetVerifiableCredentialsByClaimsCount(
     args: FindClaimsArgs,
@@ -348,11 +352,11 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * These are VerifiableCredentials that were stored using
    * {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential}.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetVerifiableCredentials(
     args: FindCredentialsArgs,
@@ -366,11 +370,11 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * These are VerifiableCredentials that were stored using
    * {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential}.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetVerifiableCredentialsCount(
     args: FindCredentialsArgs,
@@ -384,11 +388,11 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * These are {@link VerifiablePresentation}s that were stored using
    * {@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation}.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetVerifiablePresentations(
     args: FindPresentationsArgs,
@@ -402,11 +406,11 @@ export interface IDataStoreORM extends IPluginMethodMap {
    * These are {@link VerifiablePresentation}s that were stored using
    * {@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation}.
    *
-   * @param args The filter to apply when querying
-   * @param context Can be sued to signal that only a particular DID is authorized to perform this operation. This will
-   *   cause the result to only contain data that this DID should be able to access.
+   * @param args - The filter to apply when querying
+   * @param context - Can be used to signal that only a particular DID is authorized to perform this operation. This
+   *   will cause the result to only contain data that this DID should be able to access.
    *
-   * @beta This API is likely to change without a BREAKING CHANGE notice.
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   dataStoreORMGetVerifiablePresentationsCount(
     args: FindPresentationsArgs,

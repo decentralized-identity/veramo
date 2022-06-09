@@ -5,12 +5,21 @@ validator.setRemoteReference('http://json-schema.org/draft-07/schema#', {
   type: ['array', 'boolean', 'integer', 'number', 'object', 'string'],
 })
 
+/**
+ * Represents a Schema validation error.
+ *
+ * This can occur when a method of the agent is invoked with certain parameters or the returned value doesn't match the
+ * declared plugin schema.
+ *
+ * @public
+ */
 export class ValidationError extends Error {
   public method: string
   public code: string
   public message: string
   public path: string
   public description: string
+
   constructor(message: string, method: string, code: string, path: string, description: string) {
     super(message)
     this.name = 'ValidationError'
@@ -29,6 +38,7 @@ export class PluginReturnTypeError extends Error {
   public message: string
   public path: string
   public description: string
+
   constructor(message: string, method: string, code: string, path: string, description: string) {
     super(message)
     this.name = 'PluginReturnTypeError'

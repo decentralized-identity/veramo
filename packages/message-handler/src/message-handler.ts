@@ -12,6 +12,7 @@ import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
 
 import Debug from 'debug'
+
 const debug = Debug('veramo:message-handler')
 
 export const EventTypes = {
@@ -21,7 +22,18 @@ export const EventTypes = {
 }
 
 /**
- * Agent plugin that provides {@link @veramo/core#IMessageHandler} methods
+ * A Veramo agent plugin that implements {@link @veramo/core#IMessageHandler | IMessageHandler} methods.
+ *
+ * This plugin is meant to chain together multiple other {@link @veramo/core#IMessageHandler | IMessageHandler}
+ * implementations.
+ *
+ * When handling a message, the message is passed from one handler to the next, and each handler in
+ * the chain can decide if it is able to interpret the message.
+ *
+ * If the message can be processed by a handler it is returned as an {@link @veramo/core#IMessage | IMessage}.
+ * If the message cannot be processed by any of the handlers, an error is thrown.
+ *
+ * @public
  */
 export class MessageHandler implements IAgentPlugin {
   /**

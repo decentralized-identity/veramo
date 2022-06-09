@@ -22,7 +22,8 @@ import {
 
 /**
  * DID Comm plugin interface for {@link @veramo/core#Agent}
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDComm extends IPluginMethodMap {
   /**
@@ -32,7 +33,7 @@ export interface IDIDComm extends IPluginMethodMap {
    * @returns the {@link DIDCommMessageMediaType} if it was successfully parsed
    * @throws if the message cannot be parsed as DIDComm v2
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   getDIDCommMessageMediaType(args: IPackedDIDCommMessage): Promise<DIDCommMessageMediaType>
 
@@ -52,7 +53,7 @@ export interface IDIDComm extends IPluginMethodMap {
    *
    * @returns a Promise that resolves to an object containing the serialized packed `message` string
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   packDIDCommMessage(
     args: IPackDIDCommMessageArgs,
@@ -71,7 +72,7 @@ export interface IDIDComm extends IPluginMethodMap {
    * @returns a Promise that resolves to an object containing
    *   the {@link IDIDCommMessage} and {@link DIDCommMessagePacking} used.
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   unpackDIDCommMessage(
     args: IUnpackDIDCommMessageArgs,
@@ -94,13 +95,13 @@ export interface IDIDComm extends IPluginMethodMap {
    * @returns The transport id that was used to send the message. It throws an error in case something
    * went wrong.
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   sendDIDCommMessage(args: ISendDIDCommMessageArgs, context: IAgentContext<IResolver>): Promise<string>
 
   /**
    *
-   * @deprecated Please use {@link sendDIDCommMessage} instead. This will be removed in Veramo 4.0
+   * @deprecated Please use {@link IDIDComm.sendDIDCommMessage} instead. This will be removed in Veramo 4.0
    *
    * This is used to create a message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
    *
@@ -109,7 +110,7 @@ export interface IDIDComm extends IPluginMethodMap {
    * @param args - Arguments necessary for sending a DIDComm message
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   sendMessageDIDCommAlpha1(
     args: ISendMessageDIDCommAlpha1Args,

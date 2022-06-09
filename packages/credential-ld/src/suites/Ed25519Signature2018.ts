@@ -4,6 +4,11 @@ import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2018, Ed25519VerificationKey2018 } from '@transmute/ed25519-signature-2018'
 
+/**
+ * Veramo wrapper for the Ed25519Signature2018 suite by Transmute Industries
+ *
+ * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
+ */
 export class VeramoEd25519Signature2018 extends VeramoLdSignature {
   getSupportedVerificationType(): string {
     return 'Ed25519VerificationKey2018'

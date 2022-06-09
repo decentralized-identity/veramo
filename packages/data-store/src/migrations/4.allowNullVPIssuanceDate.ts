@@ -5,7 +5,9 @@ import Debug from 'debug'
 const debug = Debug('veramo:data-store:migrate-presentation-issuance-date')
 
 /**
- * Reduce issuanceDate constraint of Presentations
+ * Reduce issuanceDate constraint of Presentations.
+ *
+ * @public
  */
 export class AllowNullIssuanceDateForPresentations1637237492913 implements MigrationInterface {
   private getTableName(givenName: string, queryRunner: QueryRunner): string {
