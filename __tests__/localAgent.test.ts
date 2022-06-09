@@ -265,6 +265,6 @@ describe('Local integration tests', () => {
   didCommPacking(testContext)
   didDiscovery(testContext)
   dbInitOptions(testContext)
-  didCommWithEthrDidFlow(testContext)
   utils(testContext)
+  didCommWithEthrDidFlow(testContext)
 })
