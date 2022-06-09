@@ -101,6 +101,10 @@ export default (testContext: {
       })
     })
 
+    it('did-comm-IDIDComm-getDIDCommMessageMediaType example', async () => {
+      undefined
+    })
+
     //DO NOT EDIT MANUALLY END
   })
 }
