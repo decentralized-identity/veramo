@@ -54,8 +54,8 @@ function compareBlockchainAccountId(localKey: IKey, verificationMethod: _Normali
     return false
   }
   let vmEthAddr = getEthereumAddress(verificationMethod)
-  if (localKey.meta?.ethereumAddress) {
-    return vmEthAddr === localKey.meta?.ethereumAddress
+  if (localKey.meta?.account) {
+    return vmEthAddr === localKey.meta?.account
   }
   const computedAddr = computeAddress('0x' + localKey.publicKeyHex).toLowerCase()
   return computedAddr === vmEthAddr
@@ -88,7 +88,6 @@ export async function mapIdentifierKeysToDoc(
   context: IAgentContext<IResolver>,
 ): Promise<_ExtendedIKey[]> {
   const didDocument = await resolveDidOrThrow(identifier.did, context)
-
   // dereference all key agreement keys from DID document and normalize
   const documentKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,

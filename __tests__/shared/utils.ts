@@ -28,8 +28,8 @@ export default (testContext: {
     })
 
     it('should map identifier keys to did doc', async () => {
-      const ethereumAddress = `0xb09b66026ba5909a7cfe99b76875431d2b8d5190`
-      const did = `did:ethr:0x4:${ethereumAddress}`
+      const account = `0xb09b66026ba5909a7cfe99b76875431d2b8d5190`
+      const did = `did:ethr:0x4:${account}`
       const controllerKeyId = `${did}#controller`
       await agent.didManagerImport({
         did,
@@ -40,8 +40,9 @@ export default (testContext: {
           type: 'Secp256k1',
           kms: 'web3',
           privateKeyHex: '',
+          publicKeyHex: '',
           meta: {
-            ethereumAddress,
+            account,
             provider: 'metamask',
             algorithms: [
               'eth_signMessage',
@@ -53,7 +54,7 @@ export default (testContext: {
 
       const identifier = await agent.didManagerGet({ did })
       const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
-      expect(extendedKeys[0].meta.verificationMethod?.blockchainAccountId?.toLocaleLowerCase()).toEqual(`${ethereumAddress}@eip155:4`)
+      expect(extendedKeys[0].meta.verificationMethod?.blockchainAccountId?.toLocaleLowerCase()).toEqual(`${account}@eip155:4`)
     
     })
   })
