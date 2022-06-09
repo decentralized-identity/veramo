@@ -12,7 +12,7 @@ describe('@veramo/utils did utils', () => {
       'id': 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
       'type': 'EcdsaSecp256k1RecoveryMethod2020',
       'controller': 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
-      'blockchainAccountId':'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51@eip155:1'
+      'blockchainAccountId':'eip155:1:0x1B54DaD834f2017ab66C1a1ffF74425889141e51'
     })).toEqual(1)
     expect(getChainIdForDidEthr({
       'id': 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
@@ -23,8 +23,8 @@ describe('@veramo/utils did utils', () => {
     expect(getChainIdForDidEthr({
       'id': 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
       'type': 'EcdsaSecp256k1RecoveryMethod2020',
-      'controller': 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
-      'blockchainAccountId':'did:ethr:rinkeby:0x1B54DaD834f2017ab66C1a1ffF74425889141e51@eip155:4'
+      'controller': 'did:ethr:rinkeby:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
+      'blockchainAccountId':'eip155:4:0x1B54DaD834f2017ab66C1a1ffF74425889141e51'
     })).toEqual(4)
   })
 
@@ -33,7 +33,7 @@ describe('@veramo/utils did utils', () => {
       'id': 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
       'type': 'EcdsaSecp256k1RecoveryMethod2020',
       'controller': 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
-      'blockchainAccountId': '0x1B54DaD834f2017ab66C1a1ffF74425889141e51@eip155:1'
+      'blockchainAccountId': 'eip155:1:0x1B54DaD834f2017ab66C1a1ffF74425889141e51'
     }
 
     expect(getEthereumAddress(verificationMethod)).toEqual("0x1B54DaD834f2017ab66C1a1ffF74425889141e51".toLowerCase())

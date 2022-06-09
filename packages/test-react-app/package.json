@@ -23,14 +23,14 @@
     "@veramo/url-handler": "^3.1.0",
     "@veramo/utils": "^3.1.0",
     "crypto": "npm:crypto-browserify",
-    "did-resolver": "3.2.2",
-    "ethr-did-resolver": "5.0.4",
+    "did-resolver": "^3.2.2",
+    "ethr-did-resolver": "^6.0.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "stream": "npm:stream-browserify",
     "typeorm": "0.3.6",
-    "web-did-resolver": "2.0.18",
-    "web-vitals": "2.1.4"
+    "web-did-resolver": "^2.0.18",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

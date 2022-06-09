@@ -239,7 +239,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a base64url encoded signature for the `EdDSA` alg
    */
   private async signEdDSA(key: string, data: Uint8Array): Promise<string> {
-    const signer = EdDSASigner(key)
+    const signer = EdDSASigner(arrayify(key, { allowMissingPrefix: true }))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -253,7 +253,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     alg: string | undefined,
     data: Uint8Array,
   ): Promise<string> {
-    const signer = ES256KSigner(privateKeyHex, alg === 'ES256K-R')
+    const signer = ES256KSigner(arrayify(privateKeyHex, { allowMissingPrefix: true }), alg === 'ES256K-R')
     const signature = await signer(data)
     // base64url encoded string
     return signature as string

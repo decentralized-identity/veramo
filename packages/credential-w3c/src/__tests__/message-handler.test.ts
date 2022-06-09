@@ -30,7 +30,7 @@ describe('@veramo/credential-w3c', () => {
                   id: `${didEthr}#owner`,
                   type: 'EcdsaSecp256k1RecoveryMethod2020',
                   controller: args?.didUrl,
-                  blockchainAccountId: `${didEthr.slice(-42)}@eip155:1`,
+                  blockchainAccountId: `eip155:1:${didEthr.slice(-42)}`,
                 },
               ],
               authentication: [`${didEthr}#owner`],

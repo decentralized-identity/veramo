@@ -313,5 +313,5 @@ export function createAgent<T extends IPluginMethodMap, C = Record<string, any>>
   options: IAgentOptions & { context?: C },
 ): TAgent<T> & { context?: C } {
   //@ts-ignore
-  return new Agent(options)
+  return new Agent(options) as TAgent<T>
 }

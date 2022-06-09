@@ -48,7 +48,7 @@ describe('Browser integration tests', () => {
         didDocument: {
           '@context': [
             'https://www.w3.org/ns/did/v1',
-            'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+            'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
           ],
           id: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
           verificationMethod: [
@@ -56,7 +56,7 @@ describe('Browser integration tests', () => {
               id: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
               type: 'EcdsaSecp256k1RecoveryMethod2020',
               controller: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
-              blockchainAccountId: '0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730@eip155:4',
+              blockchainAccountId: 'eip155:4:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
             },
           ],
           authentication: ['did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
