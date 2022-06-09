@@ -12,7 +12,7 @@
     "@veramo/core": "^3.1.4",
     "@veramo/message-handler": "^3.1.4",
     "debug": "^4.3.3",
-    "did-jwt": "^5.12.3",
+    "did-jwt": "^6.0.0",
     "did-resolver": "3.2.2"
   },
   "devDependencies": {
