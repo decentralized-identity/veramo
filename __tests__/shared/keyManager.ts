@@ -23,7 +23,7 @@ export default (testContext: {
 
     it('should get a list of available key management systems', async () => {
       const keyManagementSystems = await agent.keyManagerGetKeyManagementSystems()
-      expect(keyManagementSystems).toEqual(['local'])
+      expect(keyManagementSystems).toEqual(['local', 'web3'])
     })
 
     it('should create Secp256k1 key', async () => {

@@ -17,7 +17,7 @@ import {
   TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager } from '../packages/key-manager/src'
+import { KeyManager, MemoryKeyStore } from '../packages/key-manager/src'
 import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
@@ -40,6 +40,7 @@ import {
   SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 
 import {
@@ -77,6 +78,8 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
+import utils from './shared/utils'
+
 
 jest.setTimeout(60000)
 
@@ -141,6 +144,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStore(dbConnection),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
+          web3: new Web3KeyManagementSystem({}, new MemoryKeyStore())
         },
       }),
       new DIDManager({
@@ -247,19 +251,20 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local integration tests', () => {
-  verifiableDataJWT(testContext)
-  verifiableDataLD(testContext)
-  verifiableDataEIP712(testContext)
-  handleSdrMessage(testContext)
-  resolveDid(testContext)
-  webDidFlow(testContext)
-  saveClaims(testContext)
-  documentationExamples(testContext)
-  keyManager(testContext)
-  didManager(testContext)
-  messageHandler(testContext)
-  didCommPacking(testContext)
-  didDiscovery(testContext)
-  dbInitOptions(testContext)
-  didCommWithEthrDidFlow(testContext)
+  // verifiableDataJWT(testContext)
+  // verifiableDataLD(testContext)
+  // verifiableDataEIP712(testContext)
+  // handleSdrMessage(testContext)
+  // resolveDid(testContext)
+  // webDidFlow(testContext)
+  // saveClaims(testContext)
+  // documentationExamples(testContext)
+  // keyManager(testContext)
+  // didManager(testContext)
+  // messageHandler(testContext)
+  // didCommPacking(testContext)
+  // didDiscovery(testContext)
+  // dbInitOptions(testContext)
+  // didCommWithEthrDidFlow(testContext)
+  utils(testContext)
 })

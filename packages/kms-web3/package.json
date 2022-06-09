@@ -1,0 +1,42 @@
+{
+  "name": "@veramo/kms-web3",
+  "description": "Veramo KMS implementation backed by web3 wallets",
+  "version": "3.1.4",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@ethersproject/providers": "5.6.8",
+    "@ethersproject/abstract-signer": "5.6.2",
+    "@ethersproject/strings": "5.6.1",
+    "@ethersproject/transactions": "5.6.2",
+    "@veramo/core": "^3.1.4",
+    "@veramo/key-manager": "^3.1.4",
+    "debug": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "typescript": "4.7.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    {
+      "name": "Mircea Nistor",
+      "email": "mircea.nistor@mesh.xyz"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": []
+}

@@ -39,6 +39,7 @@ import {
   SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
@@ -60,6 +61,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
+import utils from './shared/utils'
 
 jest.setTimeout(60000)
 
@@ -115,6 +117,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new MemoryKeyStore(),
         kms: {
           local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
+          web3: new Web3KeyManagementSystem({}, new MemoryKeyStore())
         },
       }),
       new DIDManager({
@@ -214,4 +217,5 @@ describe('Local in-memory integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didCommPacking(testContext)
+  utils(testContext)
 })
