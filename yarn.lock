@@ -7153,7 +7153,7 @@ credentials-context@^2.0.0:
   resolved "https://registry.yarnpkg.com/credentials-context/-/credentials-context-2.0.0.tgz#68a9a1a88850c398d3bba4976c8490530af093e8"
   integrity sha512-/mFKax6FK26KjgV2KW2D4YqKgoJ5DVJpNt87X2Jc9IxT2HBMy7nEIlc+n7pEi+YFFe721XqrvZPd+jbyyBjsvQ==
 
-cross-fetch@3.1.5:
+cross-fetch@3.1.5, cross-fetch@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
   integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
@@ -7743,12 +7743,7 @@ did-jwt@^5.12.4:
     multiformats "^9.4.10"
     uint8arrays "^3.0.0"
 
-did-resolver@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.2.0.tgz#b89edd0dd70ad6f1c65ca1285472e021c2239707"
-  integrity sha512-8YiTRitfGt9hJYDIzjc254gXgJptO4zq6Q2BMZMNqkbCf9EFkV6BD4QIh5BUF4YjBglBgJY+duQRzO3UZAlZsw==
-
-did-resolver@3.2.2:
+did-resolver@3.2.2, did-resolver@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.2.2.tgz#6f4e252a810f785d1b28a10265fad6dffee25158"
   integrity sha512-Eeo2F524VM5N3W4GwglZrnul2y6TLTwMQP3In62JdG34NZoqihYyOZLk+5wUW8sSgvIYIcJM8Dlt3xsdKZZ3tg==
@@ -17480,6 +17475,14 @@ web-did-resolver@2.0.16:
   dependencies:
     cross-fetch "^3.1.2"
     did-resolver "^3.1.5"
+
+web-did-resolver@2.0.18:
+  version "2.0.18"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.18.tgz#d31c737808c66e10bb9c4fea04a6f7ed19d96c4f"
+  integrity sha512-6jVQMbsNdzsRqnkEPKPfnfFY0IUJjt9LKy6h+tzjc9NhgI6MQWuvZf8ouGBw7W9qDvlAtHY+lrk6OEatjPJGZA==
+  dependencies:
+    cross-fetch "^3.1.5"
+    did-resolver "^3.2.2"
 
 web-did-resolver@^2.0.12:
   version "2.0.12"
