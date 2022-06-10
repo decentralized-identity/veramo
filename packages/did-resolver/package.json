@@ -16,9 +16,9 @@
   "devDependencies": {
     "@types/debug": "4.1.7",
     "did-resolver": "3.2.2",
-    "ethr-did-resolver": "5.0.4",
+    "ethr-did-resolver": "6.0.1",
     "typescript": "4.7.3",
-    "web-did-resolver": "2.0.16"
+    "web-did-resolver": "2.0.18"
   },
   "files": [
     "build/**/*",

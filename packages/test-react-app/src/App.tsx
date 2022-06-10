@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import * as React from 'react'
 import './App.css'
 import { getAgent } from './veramo/setup'
+import { DIDResolutionResult } from 'did-resolver'
 
 function App() {
-  const [didDoc, setDidDoc] = useState<any>(null)
-  const [invalidDidDoc, setInvalidDidDoc] = useState<any>(null)
+  const [didDoc, setDidDoc] = React.useState<DIDResolutionResult>(null)
+  const [invalidDidDoc, setInvalidDidDoc] = React.useState<DIDResolutionResult>(null)
 
   const agent = getAgent()
 
@@ -22,7 +23,7 @@ function App() {
     setInvalidDidDoc(doc)
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     resolve()
     resolveInvalid()
   }, [])

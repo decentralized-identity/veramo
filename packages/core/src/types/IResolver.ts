@@ -80,7 +80,7 @@ export interface IResolver extends IPluginMethodMap {
    * expect(doc.didDocument).toEqual({
    *   '@context': [
    *     'https://www.w3.org/ns/did/v1',
-   *     'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+   *     'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
    *   ],
    *   id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
    *   verificationMethod: [
@@ -88,7 +88,7 @@ export interface IResolver extends IPluginMethodMap {
    *       id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
    *       type: 'EcdsaSecp256k1RecoveryMethod2020',
    *       controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
-   *       blockchainAccountId: '0xb09B66026bA5909A7CFE99b76875431D2b8D5190@eip155:4',
+   *       blockchainAccountId: 'eip155:4:0xb09B66026bA5909A7CFE99b76875431D2b8D5190',
    *     },
    *   ],
    *   authentication: ['did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'],
@@ -114,11 +114,11 @@ export interface IResolver extends IPluginMethodMap {
    *   section: 'authentication'
    * })
    * expect(fragment).toEqual({
-   *       id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
-   *       type: 'EcdsaSecp256k1RecoveryMethod2020',
-   *       controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
-   *       blockchainAccountId: '0xb09B66026bA5909A7CFE99b76875431D2b8D5190@eip155:4',
-   *     })
+   *   id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
+   *   type: 'EcdsaSecp256k1RecoveryMethod2020',
+   *   controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+   *   blockchainAccountId: 'eip155:4:0xb09B66026bA5909A7CFE99b76875431D2b8D5190',
+   * })
    * ```
    *
    * @param args - The description of the component you want.

@@ -70,7 +70,7 @@ describe('@veramo/did-resolver', () => {
       didDocument: {
         '@context': [
           'https://www.w3.org/ns/did/v1',
-          'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+          'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
         ],
         id: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
         verificationMethod: [
@@ -78,7 +78,7 @@ describe('@veramo/did-resolver', () => {
             id: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller',
             type: 'EcdsaSecp256k1RecoveryMethod2020',
             controller: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
-            blockchainAccountId: '0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6@eip155:4',
+            blockchainAccountId: 'eip155:4:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
           },
         ],
         authentication: ['did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
