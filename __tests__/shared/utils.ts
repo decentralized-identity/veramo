@@ -54,7 +54,7 @@ export default (testContext: {
 
       const identifier = await agent.didManagerGet({ did })
       const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
-      expect(extendedKeys[0].meta.verificationMethod?.blockchainAccountId?.toLocaleLowerCase()).toEqual(`${account}@eip155:4`)
+      expect(extendedKeys[0].meta.verificationMethod?.blockchainAccountId?.toLocaleLowerCase()).toEqual(`eip155:4:${account}`)
     
     })
   })

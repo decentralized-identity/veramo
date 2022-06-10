@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ethersproject/abstract-signer": "5.6.2",
-    "@ethersproject/providers": "5.5.0",
+    "@ethersproject/providers": "^5.6.8",
     "@ethersproject/strings": "5.6.1",
     "@ethersproject/transactions": "5.6.2",
     "@veramo/core": "^3.1.4",

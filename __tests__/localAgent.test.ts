@@ -79,7 +79,7 @@ import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
-// import web3 from './shared/web3'
+import web3 from './shared/web3'
 
 
 jest.setTimeout(60000)
@@ -269,6 +269,6 @@ describe('Local integration tests', () => {
   didDiscovery(testContext)
   dbInitOptions(testContext)
   utils(testContext)
-  // web3(testContext)
+  web3(testContext)
   didCommWithEthrDidFlow(testContext)
 })
