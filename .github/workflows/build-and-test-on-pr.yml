@@ -30,7 +30,7 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-2-${{ hashFiles('**/package.json') }}
-
+          
       - run: yarn install --frozen-lockfile
       - run: yarn bootstrap
       - run: yarn build
@@ -42,5 +42,6 @@ jobs:
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
         run: yarn test:integration
+      - run: yarn docs
       - run: yarn lint
       - run: npx codecov

@@ -53,7 +53,8 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
-        run: yarn test:integration
+        run: yarn test:integration        
+      - run: yarn docs
 
       - name: setup git coordinates
         run: |
