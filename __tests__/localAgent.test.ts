@@ -79,6 +79,7 @@ import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
+// import web3 from './shared/web3'
 
 
 jest.setTimeout(60000)
@@ -144,7 +145,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStore(dbConnection),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
-          web3: new Web3KeyManagementSystem({}, new MemoryKeyStore())
+          web3: new Web3KeyManagementSystem({
+            'ganache': provider
+          })
         },
       }),
       new DIDManager({
@@ -266,5 +269,6 @@ describe('Local integration tests', () => {
   didDiscovery(testContext)
   dbInitOptions(testContext)
   utils(testContext)
+  // web3(testContext)
   didCommWithEthrDidFlow(testContext)
 })

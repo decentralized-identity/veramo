@@ -1,16 +1,13 @@
-import { TransactionRequest, Web3Provider } from '@ethersproject/providers'
+import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import {
   TKeyType,
   IKey,
   ManagedKeyInfo,
   MinimalImportableKey,
 } from '@veramo/core'
-import { AbstractKeyManagementSystem, AbstractKeyStore } from '@veramo/key-manager'
+import { AbstractKeyManagementSystem } from '@veramo/key-manager'
 import { toUtf8String } from '@ethersproject/strings'
 import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
-import { parse } from '@ethersproject/transactions'
-// import Debug from 'debug'
-// const debug = Debug('veramo:kms:web3')
 
 type Eip712Payload = {
   domain: TypedDataDomain
@@ -20,7 +17,7 @@ type Eip712Payload = {
 }
 
 export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
-  constructor(private providers: Record<string, Web3Provider>, private keyStore: AbstractKeyStore) {
+  constructor(private providers: Record<string, Web3Provider>) {
     super()
   }
 
@@ -51,6 +48,16 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     return true
   }
 
+  // keyRef should be in this format '{providerName-account}   
+  // example: 'metamask-0xf3beac30c498d9e26865f34fcaa57dbb935b0d74' 
+  private getSignerByKeyRef(keyRef: Pick<IKey, 'kid'>): JsonRpcSigner {
+    const [ providerName, account ] = keyRef.kid.split('-')
+    if (!this.providers[providerName]) {
+      throw Error(`not_available: provider ${providerName}`)
+    }
+    return this.providers[providerName].getSigner(account)
+  }
+
   async sign({
     keyRef,
     algorithm,
@@ -60,21 +67,14 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     algorithm?: string
     data: Uint8Array
   }): Promise<string> {
-    
-    let key: IKey
-    try {
-      key = await this.keyStore.get({ kid: keyRef.kid })
-    } catch (e) {
-      throw new Error(`key_not_found: No key entry found for kid=${keyRef.kid}`)
-    }
 
     if (algorithm) {
       if (algorithm === 'eth_signMessage') {
-        return await this.eth_signMessage(key, data)
+        return await this.eth_signMessage(keyRef, data)
       } else if (
         ['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)
       ) {
-        return await this.eth_signTypedData(key, data)
+        return await this.eth_signTypedData(keyRef, data)
       }
     }
 
@@ -84,7 +84,7 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
   /**
    * @returns a `0x` prefixed hex string representing the signed EIP712 data
    */
-  private async eth_signTypedData(key: IKey, data: Uint8Array) {
+  private async eth_signTypedData(keyRef: Pick<IKey, 'kid'>, data: Uint8Array) {
     let msg, msgDomain, msgTypes
     const serializedData = toUtf8String(data)
     try {
@@ -113,8 +113,7 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
       )
     }
 
-    const signature = await this.providers[key.meta?.provider]
-      .getSigner()
+    const signature = await this.getSignerByKeyRef(keyRef)
       ._signTypedData(msgDomain, msgTypes, msg)
     return signature
   }
@@ -122,9 +121,8 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
   /**
    * @returns a `0x` prefixed hex string representing the signed message
    */
-  private async eth_signMessage(key: IKey, rawMessageBytes: Uint8Array) {
-    const signature = await this.providers[key.meta?.provider]
-      .getSigner()
+  private async eth_signMessage(keyRef: Pick<IKey, 'kid'>, rawMessageBytes: Uint8Array) {
+    const signature = await this.getSignerByKeyRef(keyRef)
       .signMessage(rawMessageBytes)
     // HEX encoded string, 0x prefixed
     return signature

@@ -30,7 +30,7 @@ export default (testContext: {
     it('should map identifier keys to did doc', async () => {
       const account = `0xb09b66026ba5909a7cfe99b76875431d2b8d5190`
       const did = `did:ethr:0x4:${account}`
-      const controllerKeyId = `${did}#controller`
+      const controllerKeyId = `metamask-${account}`
       await agent.didManagerImport({
         did,
         provider: 'did:ethr:rinkeby',

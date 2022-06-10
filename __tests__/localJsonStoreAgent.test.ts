@@ -123,7 +123,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStoreJson(jsonFileStore),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStoreJson(jsonFileStore, new SecretBox(secretKey))),
-          web3: new Web3KeyManagementSystem({}, new MemoryKeyStore()),
+          web3: new Web3KeyManagementSystem({}),
         },
       }),
       new DIDManager({

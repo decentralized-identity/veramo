@@ -140,7 +140,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStore(dbConnection),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
-          web3: new Web3KeyManagementSystem({}, new MemoryKeyStore())
+          web3: new Web3KeyManagementSystem({})
         },
       }),
       new DIDManager({
