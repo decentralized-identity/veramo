@@ -15,7 +15,7 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { MessageHandler } from '@veramo/message-handler'
-import { KeyManager } from '@veramo/key-manager'
+import { KeyManager, MemoryKeyStore } from '@veramo/key-manager'
 import { DIDManager } from '@veramo/did-manager'
 import { JwtMessageHandler } from '@veramo/did-jwt'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '@veramo/credential-w3c'
@@ -30,6 +30,7 @@ import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
 import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure } from '@veramo/selective-disclosure'
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
+import { Web3KeyManagementSystem } from '@veramo/kms-web3'
 import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { WebDIDProvider } from '@veramo/did-provider-web'
 import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from "@veramo/data-store-json";
@@ -71,6 +72,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
         store: new KeyStoreJson(memoryJsonStore),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(DB_SECRET_KEY))),
+          web3: new Web3KeyManagementSystem({}, new MemoryKeyStore())
         },
       }),
       new DIDManager({
