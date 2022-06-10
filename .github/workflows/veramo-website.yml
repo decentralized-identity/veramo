@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - "main"
-permissions: write-all
 jobs:
   dispatch:
     permissions:
