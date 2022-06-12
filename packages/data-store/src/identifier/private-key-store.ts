@@ -8,7 +8,7 @@ import Debug from 'debug'
 const debug = Debug('veramo:typeorm:key-store')
 
 /**
- * An implementation of {@link @veramo/key-manager#bstractPrivateKeyStore | AbstractPrivateKeyStore} that uses a
+ * An implementation of {@link @veramo/key-manager#abstractPrivateKeyStore | AbstractPrivateKeyStore} that uses a
  * TypeORM database connection to store private key material.
  *
  * The keys can be encrypted while at rest if this class is initialized with an

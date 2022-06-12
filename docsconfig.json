@@ -4,6 +4,7 @@
         "credential-ld",
         "credential-w3c",
         "data-store",
+        "data-store-json",
         "did-comm",
         "did-discovery",
         "did-jwt",

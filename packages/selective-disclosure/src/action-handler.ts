@@ -107,7 +107,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
   /**
    * Gathers the required credentials necessary to fulfill a Selective Disclosure Request.
-   * It uses the {@link @veramo/data-store#IDataStoreORM} plugin to query the local database for
+   * It uses a {@link @veramo/core#IDataStoreORM} plugin implementation to query the local database for
    * the required credentials.
    *
    * @param args - Contains the Request to be fulfilled and the DID of the subject

@@ -32,12 +32,16 @@ export type _NormalizedVerificationMethod = Omit<
 >
 
 /**
- * Accept a Type or a Promise of that Type
+ * Accept a Type or a Promise of that Type.
+ *
+ * @internal
  */
 export type OrPromise<T> = T | Promise<T>
 
 /**
  * A mapping of string to another type.
  * Both Map and Record are accepted.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type RecordLike<T> = Map<string, T> | Record<string, T>

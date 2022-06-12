@@ -208,7 +208,7 @@ export class KeyManager implements IAgentPlugin {
     return this.keyManagerSign({ keyRef: kid, data, algorithm, encoding: 'base16' })
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSharedKey} */
+  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSharedSecret} */
   async keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string> {
     const { secretKeyRef, publicKey } = args
     const myKeyRef = await this.store.get({ kid: secretKeyRef })

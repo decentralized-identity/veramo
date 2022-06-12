@@ -116,7 +116,7 @@ export interface ICreateVerifiablePresentationLDArgs {
   domain?: string
 
   /**
-   * Optional. The key handle ({@link IKey#kid}) from the internal database.
+   * Optional. The key handle ({@link @veramo/core#IKey.kid | IKey.kid}) from the internal database.
    */
   keyRef?: string
 }
@@ -140,7 +140,7 @@ export interface ICreateVerifiableCredentialLDArgs {
   credential: CredentialPayload
 
   /**
-   * Optional. The key handle ({@link IKey#kid}) from the internal database.
+   * Optional. The key handle ({@link @veramo/core#IKey.kid | IKey.kid}) from the internal database.
    */
   keyRef?: string
 }
