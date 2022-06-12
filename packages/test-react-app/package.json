@@ -61,19 +61,19 @@
     "@babel/preset-typescript": "7.17.12",
     "@types/eslint": "8.4.2",
     "@types/expect-puppeteer": "4.4.7",
-    "@types/jest": "27.5.2",
+    "@types/jest": "28.1.1",
     "@types/jest-environment-puppeteer": "5.0.2",
     "@types/node": "17.0.35",
     "@types/puppeteer": "5.4.6",
     "@types/react": "18.0.11",
     "@types/react-dom": "18.0.5",
-    "jest": "27.5.1",
+    "jest": "28.1.1",
     "jest-environment-puppeteer": "6.0.3",
     "jest-environment-puppeteer-jsdom": "6.0.0",
     "jest-puppeteer": "6.1.0",
-    "puppeteer": "13.7.0",
+    "puppeteer": "14.3.0",
     "react-scripts": "5.0.1",
-    "ts-jest": "27.1.5",
+    "ts-jest": "28.0.4",
     "typescript": "4.7.3"
   }
 }
