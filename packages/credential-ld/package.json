@@ -28,7 +28,7 @@
     "uint8arrays": "^3.0.0"
   },
   "resolutions": {
-    "@types/react": "18.0.11",
+    "@types/react": "18.0.12",
     "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
   },
   "devDependencies": {
