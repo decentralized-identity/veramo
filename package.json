@@ -43,6 +43,8 @@
     "ethr-did-registry": "0.0.3",
     "ganache": "7.3.0",
     "jest": "28.1.1",
+    "jest-environment-jsdom": "28.1.1",
+    "jest-environment-node": "28.1.1",
     "jest-fetch-mock": "3.0.3",
     "json-schema": "0.4.0",
     "lerna": "5.1.1",

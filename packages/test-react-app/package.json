@@ -37,7 +37,7 @@
     "buildz": "react-scripts build",
     "testz": "react-scripts test",
     "ejectz": "react-scripts eject",
-    "test:browser": "jest -c jest-integration.config.js"
+    "test:browser": "NODE_OPTIONS=--experimental-vm-modules jest -c jest-integration.config.js"
   },
   "eslintConfig": {
     "extends": [
@@ -70,6 +70,7 @@
     "jest": "28.1.1",
     "jest-environment-puppeteer": "6.0.3",
     "jest-environment-puppeteer-jsdom": "6.0.0",
+    "jest-jasmine2": "28.1.1",
     "jest-puppeteer": "6.1.0",
     "puppeteer": "14.3.0",
     "react-scripts": "5.0.1",
