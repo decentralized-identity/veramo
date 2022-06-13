@@ -40,6 +40,7 @@ import {
   SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import {
   DataStoreJson,
   DIDStoreJson,
@@ -67,7 +68,9 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
+import utils from './shared/utils'
 import { JsonFileStore } from './utils/json-file-store'
+
 
 jest.setTimeout(60000)
 
@@ -120,6 +123,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStoreJson(jsonFileStore),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStoreJson(jsonFileStore, new SecretBox(secretKey))),
+          web3: new Web3KeyManagementSystem({}),
         },
       }),
       new DIDManager({
@@ -218,4 +222,5 @@ describe('Local json-data-store integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didCommPacking(testContext)
+  utils(testContext)
 })

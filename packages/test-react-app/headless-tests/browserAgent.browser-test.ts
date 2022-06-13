@@ -11,6 +11,7 @@ import saveClaims from '../../../__tests__/shared/saveClaims'
 import documentationExamples from '../../../__tests__/shared/documentationExamples'
 import didCommPacking from '../../../__tests__/shared/didCommPacking'
 import messageHandler from '../../../__tests__/shared/messageHandler'
+import utils from '../../../__tests__/shared/utils'
 
 jest.setTimeout(3 * 60 * 1000)
 
@@ -27,6 +28,7 @@ describe('Browser integration tests', () => {
     keyManager(testContext)
     didManager(testContext)
     messageHandler(testContext)
+    utils(testContext)
     didCommPacking(testContext)
   })
 

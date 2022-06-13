@@ -56,10 +56,12 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
   return identifier.keys
     .map((key) => {
       if (key.type === 'Secp256k1') {
-        const publicBytes = u8a.fromString(key.publicKeyHex, 'base16')
-        key.publicKeyHex = computePublicKey(publicBytes, true).substring(2)
-        key.meta = { ...key.meta }
-        key.meta.ethereumAddress = computeAddress('0x' + key.publicKeyHex)
+        if (key.publicKeyHex) {
+          const publicBytes = u8a.fromString(key.publicKeyHex, 'base16')
+          key.publicKeyHex = computePublicKey(publicBytes, true).substring(2)
+          key.meta = { ...key.meta }
+          key.meta.ethereumAddress = computeAddress('0x' + key.publicKeyHex)
+        }
       }
       return key
     })
@@ -86,6 +88,9 @@ function compareBlockchainAccountId(
     return false
   }
   let vmEthAddr = getEthereumAddress(verificationMethod)
+  if (localKey.meta?.account) {
+    return vmEthAddr === localKey.meta?.account
+  }
   const computedAddr = computeAddress('0x' + localKey.publicKeyHex).toLowerCase()
   return computedAddr === vmEthAddr
 }
@@ -153,7 +158,6 @@ export async function mapIdentifierKeysToDoc(
   context: IAgentContext<IResolver>,
 ): Promise<_ExtendedIKey[]> {
   const didDocument = await resolveDidOrThrow(identifier.did, context)
-
   // dereference all key agreement keys from DID document and normalize
   const documentKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,

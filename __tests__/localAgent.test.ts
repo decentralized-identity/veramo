@@ -40,6 +40,7 @@ import {
   SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 
 import {
@@ -77,6 +78,9 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
+import utils from './shared/utils'
+import web3 from './shared/web3'
+
 
 jest.setTimeout(60000)
 
@@ -141,6 +145,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStore(dbConnection),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
+          web3: new Web3KeyManagementSystem({
+            'ganache': provider
+          })
         },
       }),
       new DIDManager({
@@ -261,5 +268,7 @@ describe('Local integration tests', () => {
   didCommPacking(testContext)
   didDiscovery(testContext)
   dbInitOptions(testContext)
+  utils(testContext)
+  web3(testContext)
   didCommWithEthrDidFlow(testContext)
 })

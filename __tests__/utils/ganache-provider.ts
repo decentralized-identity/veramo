@@ -9,7 +9,7 @@ import ganache from 'ganache'
  *
  * This provider can only be used in a single test suite, because of some concurrency issues with ganache.
  */
-export async function createGanacheProvider(): Promise<{ provider: JsonRpcProvider; registry: string }> {
+export async function createGanacheProvider(): Promise<{ provider: Web3Provider; registry: string }> {
   const provider = new Web3Provider(
     ganache.provider({
       logging: { quiet: true },

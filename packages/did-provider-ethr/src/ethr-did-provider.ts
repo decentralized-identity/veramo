@@ -85,14 +85,25 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     if (typeof controllerKey === 'undefined') {
       throw new Error('invalid_argument: identifier.controllerKeyId is not managed by this agent')
     }
-    return new EthrDID({
-      identifier: identifier.did,
-      provider: this.web3Provider,
-      chainNameOrId: this.network,
-      rpcUrl: this.rpcUrl,
-      registry: this.registry,
-      txSigner: new KmsEthereumSigner(controllerKey, context, this.web3Provider),
-    })
+    if (controllerKey.meta?.algorithms?.includes('eth_signTransaction')) {
+      return new EthrDID({
+        identifier: identifier.did,
+        provider: this.web3Provider,
+        chainNameOrId: this.network,
+        rpcUrl: this.rpcUrl,
+        registry: this.registry,
+        txSigner: new KmsEthereumSigner(controllerKey, context, this.web3Provider),
+      })
+    } else {
+      // Web3Provider should perform signing and sending transaction
+      return new EthrDID({
+        identifier: identifier.did,
+        provider: this.web3Provider,
+        chainNameOrId: this.network,
+        rpcUrl: this.rpcUrl,
+        registry: this.registry,
+      })      
+    }
   }
 
   async addKey(

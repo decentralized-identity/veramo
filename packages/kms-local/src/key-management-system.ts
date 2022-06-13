@@ -1,5 +1,5 @@
 import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly } from '@veramo/core'
-import { AbstractKeyManagementSystem, AbstractPrivateKeyStore } from '@veramo/key-manager'
+import { AbstractKeyManagementSystem, AbstractPrivateKeyStore, Eip712Payload } from '@veramo/key-manager'
 import { ManagedPrivateKey } from '@veramo/key-manager'
 
 import { EdDSASigner, ES256KSigner } from 'did-jwt'
@@ -14,7 +14,6 @@ import {
   generateKeyPairFromSeed as generateEncryptionKeyPairFromSeed,
   sharedKey,
 } from '@stablelib/x25519'
-import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { toUtf8String } from '@ethersproject/strings'
 import { parse } from '@ethersproject/transactions'
@@ -198,6 +197,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
       )
     }
+    delete(msgTypes.EIP712Domain)
     const wallet = new Wallet(privateKeyHex)
 
     const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
@@ -311,11 +311,4 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     }
     return key as ManagedKeyInfo
   }
-}
-
-type Eip712Payload = {
-  domain: TypedDataDomain
-  types: Record<string, TypedDataField[]>
-  primaryType: string
-  message: Record<string, any>
 }
