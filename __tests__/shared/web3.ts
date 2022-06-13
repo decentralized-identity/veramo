@@ -46,6 +46,7 @@ export default (testContext: {
     })
 
     // getting error: The method personal_sign does not exist/is not available
+    // https://github.com/trufflesuite/ganache/issues/995
     it.skip('should sign a message', async () => {
       if (identifier.controllerKeyId) {
         const signature = await agent.keyManagerSign({
@@ -57,8 +58,7 @@ export default (testContext: {
       }
     })
 
-    // getting error: cannot sign data; string sent, expected object
-    it.skip('should create verifiable credential with EthereumEip712Signature2021 proof type', async () => {
+    it('should create verifiable credential with EthereumEip712Signature2021 proof type', async () => {
       verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: identifier.did },

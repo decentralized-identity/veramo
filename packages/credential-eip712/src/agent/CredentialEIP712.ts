@@ -104,11 +104,11 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       version: "1",
     };
 
-    const allTypes = getEthTypesFromInputDoc(credential, "VerifiableCredential");
+    const primaryType = "VerifiableCredential"
+    const allTypes = getEthTypesFromInputDoc(credential, primaryType);
     const types = {...allTypes}
-    delete(types.EIP712Domain)
 
-    const data = JSON.stringify({domain, types, message})
+    const data = JSON.stringify({ domain, types, message, primaryType })
 
     const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
 
@@ -116,7 +116,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     credential['proof']['eip712'] = {
       domain,
       messageSchema: allTypes,
-      primaryType: "VerifiableCredential",
+      primaryType,
     }
 
     return credential as VerifiableCredential;
@@ -246,9 +246,9 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
         version: "1",
       };
 
-      const allTypes = getEthTypesFromInputDoc(presentation, "VerifiablePresentation");
+      const primaryType = 'VerifiablePresentation'
+      const allTypes = getEthTypesFromInputDoc(presentation, primaryType);
       const types = {...allTypes}
-      delete(types.EIP712Domain)
   
       const data = JSON.stringify({domain, types, message})
 
@@ -260,7 +260,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       presentation.proof.eip712 = {
         domain,
         messageSchema: allTypes,
-        primaryType: "VerifiablePresentation",
+        primaryType,
       };
 
       return presentation as VerifiablePresentation

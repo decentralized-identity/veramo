@@ -198,6 +198,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
       )
     }
+    delete(msgTypes.EIP712Domain)
     const wallet = new Wallet(privateKeyHex)
 
     const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)

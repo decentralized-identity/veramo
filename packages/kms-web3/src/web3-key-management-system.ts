@@ -50,12 +50,13 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
 
   // keyRef should be in this format '{providerName-account}   
   // example: 'metamask-0xf3beac30c498d9e26865f34fcaa57dbb935b0d74' 
-  private getSignerByKeyRef(keyRef: Pick<IKey, 'kid'>): JsonRpcSigner {
+  private getAccountAndSignerByKeyRef(keyRef: Pick<IKey, 'kid'>): {account: string, signer: JsonRpcSigner } {
     const [ providerName, account ] = keyRef.kid.split('-')
     if (!this.providers[providerName]) {
       throw Error(`not_available: provider ${providerName}`)
     }
-    return this.providers[providerName].getSigner(account)
+    const signer = this.providers[providerName].getSigner(account)
+    return { account, signer }
   }
 
   async sign({
@@ -85,7 +86,7 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed EIP712 data
    */
   private async eth_signTypedData(keyRef: Pick<IKey, 'kid'>, data: Uint8Array) {
-    let msg, msgDomain, msgTypes
+    let msg, msgDomain, msgTypes, msgPrimaryType
     const serializedData = toUtf8String(data)
     try {
       const jsonData = JSON.parse(serializedData) as Eip712Payload
@@ -93,10 +94,11 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
         typeof jsonData.domain === 'object' &&
         typeof jsonData.types === 'object'
       ) {
-        const { domain, types, message } = jsonData
+        const { domain, types, message, primaryType } = jsonData
         msg = message
         msgDomain = domain
         msgTypes = types
+        msgPrimaryType = primaryType
       } else {
         // next check will throw since the data couldn't be parsed
       }
@@ -112,9 +114,19 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
         `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
       )
     }
+    const { signer, account } = this.getAccountAndSignerByKeyRef(keyRef)
 
-    const signature = await this.getSignerByKeyRef(keyRef)
-      ._signTypedData(msgDomain, msgTypes, msg)
+    const signature = await signer.provider.send('eth_signTypedData_v4', [
+      account,
+      {
+        domain: msgDomain,
+        types: msgTypes,
+        primaryType: msgPrimaryType,
+        message: msg
+      }
+    ])
+      // ._signTypedData(msgDomain, msgTypes, msg)
+      
     return signature
   }
 
@@ -122,8 +134,8 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed message
    */
   private async eth_signMessage(keyRef: Pick<IKey, 'kid'>, rawMessageBytes: Uint8Array) {
-    const signature = await this.getSignerByKeyRef(keyRef)
-      .signMessage(rawMessageBytes)
+    const { signer } = this.getAccountAndSignerByKeyRef(keyRef)
+    const signature = await signer.signMessage(rawMessageBytes)
     // HEX encoded string, 0x prefixed
     return signature
   }
