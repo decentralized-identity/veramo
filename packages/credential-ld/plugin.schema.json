@@ -11,7 +11,7 @@
             },
             "keyRef": {
               "type": "string",
-              "description": "Optional. The key handle ( {@link  IKey#kid  } ) from the internal database."
+              "description": "Optional. The key handle ( {@link  @veramo/core#IKey.kid | IKey.kid } ) from the internal database."
             }
           },
           "required": [
@@ -192,7 +192,7 @@
             },
             "keyRef": {
               "type": "string",
-              "description": "Optional. The key handle ( {@link  IKey#kid  } ) from the internal database."
+              "description": "Optional. The key handle ( {@link  @veramo/core#IKey.kid | IKey.kid } ) from the internal database."
             }
           },
           "required": [

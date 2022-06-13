@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
     "@ethersproject/transactions": "^5.5.0",

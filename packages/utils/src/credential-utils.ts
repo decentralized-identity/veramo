@@ -13,15 +13,20 @@ import { blake2bHex } from 'blakejs'
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
 
+/**
+ * Every Verifiable Credential `@context` property must contain this.
+ *
+ * @public
+ */
 export const MANDATORY_CREDENTIAL_CONTEXT = 'https://www.w3.org/2018/credentials/v1'
 
 /**
  * Processes an entry or an array of entries into an array of entries. If a `startWithEntry` param is provided, it is
  * set as the first item in the result array.
- * @param inputEntryOrArray
- * @param startWithEntry
+ * @param inputEntryOrArray - The input that needs to be transformed to an array.
+ * @param startWithEntry - If this is provided, this element will be the first in the resulting array.
  *
- * @beta This API may change without prior notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function processEntryToArray(
   inputEntryOrArray?: string | string[] | null,
@@ -35,24 +40,23 @@ export function processEntryToArray(
 }
 
 /**
- * Parses a {@link W3CVerifiableCredential} and converts it to a {@link VerifiableCredential} so it is easier to use
- * programmatically.
+ * Parses a {@link @veramo/core#W3CVerifiableCredential | W3CVerifiableCredential} and converts it to a
+ * {@link @veramo/core#VerifiableCredential | VerifiableCredential} so it is easier to use programmatically.
  *
- * @param input
-
- * @beta This API may change without prior notice.
+ * @param input - the raw credential to be transformed
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function decodeCredentialToObject(input: W3CVerifiableCredential): VerifiableCredential {
   return typeof input === 'string' ? normalizeCredential(input) : <VerifiableCredential>input
 }
 
 /**
- * Parses a {@link W3CVerifiableCredential} and converts it to a {@link VerifiablePresentation} so it is easier to use
- * programmatically.
+ * Parses a {@link @veramo/core#W3CVerifiablePresentation | W3CVerifiablePresentation} and converts it to a
+ * {@link @veramo/core#VerifiablePresentation | VerifiablePresentation} so it is easier to use programmatically.
  *
- * @param input
-
- * @beta This API may change without prior notice.
+ * @param input - the raw presentation to be transformed.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function decodePresentationToObject(input: W3CVerifiablePresentation): VerifiablePresentation {
   let result: VerifiablePresentation
@@ -71,9 +75,9 @@ export function decodePresentationToObject(input: W3CVerifiablePresentation): Ve
  * Computes a hash for a given credential or presentation.
  * This hash is usable as an internal ID for database indexing
  *
- * @param input
+ * @param input - the Credential or Presentation whose hash is neeeded
  *
- * @beta This API may change without prior notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function computeEntryHash(
   input: W3CVerifiableCredential | W3CVerifiablePresentation | IMessage,
@@ -98,9 +102,9 @@ export function computeEntryHash(
  * Decodes a credential or presentation and returns the issuer ID
  * `iss` from a JWT or `issuer`/`issuer.id` from a VC or `holder` from a VP
  *
- * @param input
+ * @param input - the credential or presentation whose issuer/holder needs to be extracted.
  *
- * @beta This API may change without prior notice.
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function extractIssuer(
   input?:

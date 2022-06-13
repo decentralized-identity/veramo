@@ -2,7 +2,7 @@
  * {@link https://typeorm.io/ | TypeORM } backed plugins. {@link @veramo/core#Agent}
  * {@link @veramo/data-store#DataStore | plugin} that implements {@link @veramo/core#IDataStore } interface.
  * {@link @veramo/core#Agent} {@link @veramo/data-store#DataStoreORM | plugin} that implements
- * {@link @veramo/data-store#IDataStoreORM} interface. Provides {@link @veramo/data-store#KeyStore} for
+ * {@link @veramo/core#IDataStoreORM} interface. Provides {@link @veramo/data-store#KeyStore} for
  * {@link @veramo/key-manager#KeyManager} and {@link @veramo/data-store#DIDStore} for
  * {@link @veramo/did-manager#DIDManager}
  *

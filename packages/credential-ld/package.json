@@ -27,6 +27,10 @@
     "did-resolver": "^3.2.2",
     "uint8arrays": "^3.0.0"
   },
+  "resolutions": {
+    "@types/react": "18.0.12",
+    "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
+  },
   "devDependencies": {
     "@types/debug": "4.1.7",
     "borc": "3.0.0",

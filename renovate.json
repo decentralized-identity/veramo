@@ -1,23 +1,33 @@
 {
   "extends": [
     "config:base",
-    "group:allNonMajor"
+    "group:allNonMajor",
+    "schedule:earlyMondays",
+    ":preserveSemverRanges"
   ],
   "labels": [
     "maintenance"
-  ],
-  "schedule": [
-    "every weekend"
   ],
   "automerge": true,
   "automergeType": "branch",
   "packageRules": [
     {
-      "groupName": "did-libraries",
+      "groupName": "did-vc-libraries",
       "matchPackagePatterns": [
-        "did"
+        "did",
+        "credential"
       ],
-      "schedule": ["before 5am every day"]
+      "schedule": [
+        "before 5am every day"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "bump",
+        "digest"
+      ],
+      "commitMessagePrefix": "fix(deps):"
     },
     {
       "groupName": "builders-and-testers",
@@ -31,6 +41,10 @@
         "webpack",
         "typescript",
         "@microsoft"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
       ]
     },
     {
@@ -38,12 +52,20 @@
       "matchPackagePatterns": [
         "semantic",
         "lerna"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
       ]
     },
     {
       "groupName": "devDeps",
       "matchDepTypes": [
         "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
       ]
     }
   ]

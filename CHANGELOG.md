@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.5](https://github.com/uport-project/veramo/compare/v3.1.4...v3.1.5) (2022-06-10)
+
+
+### Bug Fixes
+
+* **ci:** improve documentation CI workflows ([#922](https://github.com/uport-project/veramo/issues/922)) ([0579764](https://github.com/uport-project/veramo/commit/057976402f3d7ea64082f500a454546c809d8c50))
+
+
+
+
+
 ## [3.1.4](https://github.com/uport-project/veramo/compare/v3.1.3...v3.1.4) (2022-06-02)
 
 

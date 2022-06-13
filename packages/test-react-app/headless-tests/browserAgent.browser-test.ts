@@ -67,8 +67,8 @@ describe('Browser integration tests', () => {
       }
 
       await page.waitForSelector('#result').then(async (element) => {
-        let result = await element.evaluate((el) => el.textContent)
-        let parsedResult = JSON.parse(result)
+        let result = await element!.evaluate((el) => el.textContent)
+        let parsedResult = JSON.parse(result!)
         await expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })
@@ -84,8 +84,8 @@ describe('Browser integration tests', () => {
       }
 
       await page.waitForSelector('#invalid-result').then(async (element) => {
-        let result = await element.evaluate((el) => el.textContent)
-        let parsedResult = JSON.parse(result)
+        let result = await element!.evaluate((el) => el.textContent)
+        let parsedResult = JSON.parse(result!)
         await expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })

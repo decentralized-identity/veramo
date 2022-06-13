@@ -30,7 +30,7 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-2-${{ hashFiles('**/package.json') }}
-
+          
       - run: yarn install --frozen-lockfile
       - run: yarn bootstrap
       - run: yarn build
@@ -44,5 +44,6 @@ jobs:
         run: yarn test:integration
       - name: run browser tests
         run: yarn test:browser
+      - run: yarn docs
       - run: yarn lint
       - run: npx codecov
