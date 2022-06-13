@@ -77,7 +77,8 @@
     ]
   },
   "resolutions": {
-    "@types/react": "18.0.12"
+    "@types/react": "^18.0.12",
+    "@types/eslint": "^8.4.3"
   },
   "engines": {
     "node": ">= 14.0.0"
