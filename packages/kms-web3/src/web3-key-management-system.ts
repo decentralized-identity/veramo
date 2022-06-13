@@ -5,16 +5,8 @@ import {
   ManagedKeyInfo,
   MinimalImportableKey,
 } from '@veramo/core'
-import { AbstractKeyManagementSystem } from '@veramo/key-manager'
+import { AbstractKeyManagementSystem, Eip712Payload } from '@veramo/key-manager'
 import { toUtf8String } from '@ethersproject/strings'
-import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
-
-type Eip712Payload = {
-  domain: TypedDataDomain
-  types: Record<string, TypedDataField[]>
-  primaryType: string
-  message: Record<string, any>
-}
 
 export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
   constructor(private providers: Record<string, Web3Provider>) {
