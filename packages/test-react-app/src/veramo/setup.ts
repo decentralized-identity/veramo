@@ -15,7 +15,7 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { MessageHandler } from '@veramo/message-handler'
-import { KeyManager, MemoryKeyStore } from '@veramo/key-manager'
+import { KeyManager } from '@veramo/key-manager'
 import { DIDManager } from '@veramo/did-manager'
 import { JwtMessageHandler } from '@veramo/did-jwt'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '@veramo/credential-w3c'
@@ -72,7 +72,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
         store: new KeyStoreJson(memoryJsonStore),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(DB_SECRET_KEY))),
-          web3: new Web3KeyManagementSystem({}, new MemoryKeyStore())
+          web3: new Web3KeyManagementSystem({})
         },
       }),
       new DIDManager({
