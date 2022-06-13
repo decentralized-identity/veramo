@@ -9,6 +9,10 @@ import { AbstractKeyManagementSystem, Eip712Payload } from '@veramo/key-manager'
 import { toUtf8String } from '@ethersproject/strings'
 
 export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
+  /**
+   * 
+   * @param providers - the key can be any unique name. Example { metamask: metamaskProvider, walletConnect: walletConnectProvider }
+   */
   constructor(private providers: Record<string, Web3Provider>) {
     super()
   }
