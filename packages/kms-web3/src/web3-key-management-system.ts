@@ -110,19 +110,11 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
         `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
       )
     }
-    const { signer, account } = this.getAccountAndSignerByKeyRef(keyRef)
+    delete(msgTypes.EIP712Domain)
 
-    const signature = await signer.provider.send('eth_signTypedData_v4', [
-      account,
-      {
-        domain: msgDomain,
-        types: msgTypes,
-        primaryType: msgPrimaryType,
-        message: msg
-      }
-    ])
-      // ._signTypedData(msgDomain, msgTypes, msg)
-      
+    const { signer } = this.getAccountAndSignerByKeyRef(keyRef)
+    const signature = await signer._signTypedData(msgDomain, msgTypes, msg)
+
     return signature
   }
 

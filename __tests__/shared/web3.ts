@@ -19,13 +19,13 @@ export default (testContext: {
     })
     afterAll(testContext.tearDown)
 
-    it('should import ganache did', async () => {
-      const account = `0x7e5f4552091a69125d5dfcb7b8c2659029395bdf`
-      const did = `did:ethr:ganache:${account}`
-      const controllerKeyId = `ganache-${account}`
+    it('should import ethers did', async () => {
+      const account = `0x71CB05EE1b1F506fF321Da3dac38f25c0c9ce6E1`
+      const did = `did:ethr:${account}`
+      const controllerKeyId = `ethers-${account}`
       identifier = await agent.didManagerImport({
         did,
-        provider: 'did:ethr:ganache',
+        provider: 'did:ethr',
         controllerKeyId,
         keys: [{
           kid: controllerKeyId,
@@ -35,7 +35,7 @@ export default (testContext: {
           publicKeyHex: '',
           meta: {
             account,
-            provider: 'ganache',
+            provider: 'ethers',
             algorithms: [
               'eth_signMessage',
               'eth_signTypedData',
@@ -45,9 +45,7 @@ export default (testContext: {
       })
     })
 
-    // getting error: The method personal_sign does not exist/is not available
-    // https://github.com/trufflesuite/ganache/issues/995
-    it.skip('should sign a message', async () => {
+    it('should sign a message', async () => {
       if (identifier.controllerKeyId) {
         const signature = await agent.keyManagerSign({
           data: 'Hello world',
