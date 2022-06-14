@@ -89,7 +89,7 @@ function compareBlockchainAccountId(
   }
   let vmEthAddr = getEthereumAddress(verificationMethod)
   if (localKey.meta?.account) {
-    return vmEthAddr === localKey.meta?.account
+    return vmEthAddr === localKey.meta?.account.toLowerCase()
   }
   const computedAddr = computeAddress('0x' + localKey.publicKeyHex).toLowerCase()
   return computedAddr === vmEthAddr

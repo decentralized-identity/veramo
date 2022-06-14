@@ -57,6 +57,7 @@ import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Connection, createConnection } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider'
+import { createEthersProvider } from './utils/ethers-provider'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -121,6 +122,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   })
 
   const { provider, registry } = await createGanacheProvider()
+  const ethersProvider = createEthersProvider()
 
   agent = createAgent<
     IDIDManager &
@@ -146,7 +148,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
           web3: new Web3KeyManagementSystem({
-            'ganache': provider
+            'ethers': ethersProvider
           })
         },
       }),
