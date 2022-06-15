@@ -18069,7 +18069,15 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-did-resolver@2.0.18, web-did-resolver@^2.0.18:
+web-did-resolver@2.0.19:
+  version "2.0.19"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.19.tgz#25f11fd89f510b2650ce77f50baae496ae20d104"
+  integrity sha512-KRnLWTOApVAVvx20k5Fn2e4Fwhbo7cZbALruOv/lcW3Fr/1UTfGXFg0hnFYcscxk/hBrT+wBORoJf/VeQIOMSQ==
+  dependencies:
+    cross-fetch "^3.1.5"
+    did-resolver "^3.2.2"
+
+web-did-resolver@^2.0.18:
   version "2.0.18"
   resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.18.tgz#d31c737808c66e10bb9c4fea04a6f7ed19d96c4f"
   integrity sha512-6jVQMbsNdzsRqnkEPKPfnfFY0IUJjt9LKy6h+tzjc9NhgI6MQWuvZf8ouGBw7W9qDvlAtHY+lrk6OEatjPJGZA==
