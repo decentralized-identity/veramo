@@ -12,7 +12,7 @@
     "@veramo/core": "^3.1.4",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
-    "openapi-types": "11.1.0"
+    "openapi-types": "12.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
