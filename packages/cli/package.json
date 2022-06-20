@@ -56,7 +56,7 @@
     "json5": "^2.2.0",
     "jsonpointer": "^5.0.0",
     "oas-resolver": "^2.5.3",
-    "openapi-types": "11.1.0",
+    "openapi-types": "12.0.0",
     "passport": "^0.6.0",
     "passport-http-bearer": "^1.0.1",
     "pg": "^8.7.1",
