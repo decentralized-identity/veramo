@@ -81,6 +81,7 @@ import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
 import web3 from './shared/web3'
+import credentialStatus from './shared/credentialStatus'
 
 
 jest.setTimeout(60000)
@@ -273,4 +274,5 @@ describe('Local integration tests', () => {
   utils(testContext)
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
+  credentialStatus(testContext)
 })

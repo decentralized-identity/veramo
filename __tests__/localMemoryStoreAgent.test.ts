@@ -62,6 +62,7 @@ import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
 import utils from './shared/utils'
+import credentialStatus from './shared/credentialStatus'
 
 jest.setTimeout(60000)
 
@@ -217,5 +218,6 @@ describe('Local in-memory integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didCommPacking(testContext)
-  utils(testContext)
+  utils(testContext)  
+  credentialStatus(testContext)
 })

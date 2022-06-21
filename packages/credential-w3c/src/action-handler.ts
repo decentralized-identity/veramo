@@ -99,7 +99,7 @@ export interface ICreateVerifiablePresentationArgs {
    * [Optional] The ID of the key that should sign this presentation.
    * If this is not specified, the first matching key will be used.
    */
-  keyRef?: string  
+  keyRef?: string
 }
 
 /**
@@ -295,9 +295,9 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IContext = IAgentContext<
   IResolver &
-    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
+  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
+  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >
 
 /**
@@ -502,15 +502,27 @@ export class CredentialIssuer implements IAgentPlugin {
       const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
       try {
         const verification = await verifyCredentialJWT(jwt, resolver)
+
+        // FIXME: nice to refactor to have credentialStatus checked whatever the credential type
+        if (typeof context.agent.checkCredentialStatus === 'function') {
+          await context.agent.checkCredentialStatus({ credential: verification.verifiableCredential });
+        }
+
         return true
       } catch (e: any) {
         //TODO: return a more detailed reason for failure
         return false
       }
-    } else if( (<VerifiableCredential>credential)?.proof?.type === 'EthereumEip712Signature2021'){
+    } else if ((<VerifiableCredential>credential)?.proof?.type === 'EthereumEip712Signature2021') {
       // EIP712
       if (typeof context.agent.verifyCredentialEIP712 === 'function') {
         const result = await context.agent.verifyCredentialEIP712(args)
+
+        // FIXME: nice to refactor to have credentialStatus checked whatever the credential type
+        if (typeof context.agent.checkCredentialStatus === 'function') {
+          await context.agent.checkCredentialStatus({ credential });
+        }
+
         return result
       } else {
         throw new Error(
@@ -518,7 +530,7 @@ export class CredentialIssuer implements IAgentPlugin {
         )
       }
 
-    }else{
+    } else {
       // JSON-LD
       if (typeof context.agent.verifyCredentialLD === 'function') {
         const result = await context.agent.verifyCredentialLD(args)
