@@ -106,15 +106,7 @@ export class DataStoreJson implements IAgentPlugin {
     const message = { ...args.message, id }
     const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     this.cacheTree.messages[id] = message
-    // TODO: deprecate automatic credential and presentation saving
-    const credentials = asArray(message.credentials)
-    const presentations = asArray(message.presentations)
-    for (const verifiableCredential of credentials) {
-      await this._dataStoreSaveVerifiableCredential({ verifiableCredential }, false)
-    }
-    for (const verifiablePresentation of presentations) {
-      await this._dataStoreSaveVerifiablePresentation({ verifiablePresentation }, false)
-    }
+
     // adding dummy DIDs is required to make `dataStoreORMGetIdentifiers` work
     if (message?.from && !this.cacheTree.dids[message.from]) {
       this.cacheTree.dids[message.from] = { did: message.from, provider: '', keys: [], services: [] }

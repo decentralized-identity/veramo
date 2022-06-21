@@ -82,6 +82,7 @@ export class DataStoreORM implements IAgentPlugin {
 
   private async identifiersQuery(
     args: FindArgs<TIdentifiersColumns>,
+    // FIXME: authorized DID is not being used here.
     context: AuthorizedDIDContext,
   ): Promise<SelectQueryBuilder<Identifier>> {
     const where = createWhereObject(args)
@@ -134,8 +135,6 @@ export class DataStoreORM implements IAgentPlugin {
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.from', 'from')
       .leftJoinAndSelect('message.to', 'to')
-      .leftJoinAndSelect('message.credentials', 'credentials')
-      .leftJoinAndSelect('message.presentations', 'presentations')
       .where(where)
     qb = decorateQB(qb, 'message', args)
     if (context.authorizedDID) {

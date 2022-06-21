@@ -72,9 +72,7 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
     to: did2,
     createdAt: '2020-06-16T11:06:51.680Z',
     type: 'mock',
-    raw: 'mock',
-    credentials: [vc1],
-    presentations: [vp1],
+    raw: 'mock'
   }
 
   const m2: IMessage = {
@@ -101,14 +99,14 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
     to: did2,
     createdAt: '2020-06-16T11:09:51.680Z',
     type: 'mock',
-    raw: 'mockmoreaudienct',
-    credentials: [vc1],
-    presentations: [vp2],
+    raw: 'mockmoreaudienct'
   }
   await agent.dataStoreSaveMessage({ message: m1 })
   await agent.dataStoreSaveMessage({ message: m2 })
   await agent.dataStoreSaveMessage({ message: m3 })
   await agent.dataStoreSaveMessage({ message: m4 })
+  await agent.dataStoreSaveVerifiablePresentation({verifiablePresentation: vp1})
+  await agent.dataStoreSaveVerifiablePresentation({verifiablePresentation: vp2})
 }
 
 let dataStore: VeramoJsonStore

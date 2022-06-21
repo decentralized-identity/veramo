@@ -74,8 +74,6 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
     createdAt: '2020-06-16T11:06:51.680Z',
     type: 'mock',
     raw: 'mock',
-    credentials: [vc1],
-    presentations: [vp1],
   }
 
   const m2: IMessage = {
@@ -103,13 +101,13 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
     createdAt: '2020-06-16T11:09:51.680Z',
     type: 'mock',
     raw: 'mockmoreaudienct',
-    credentials: [vc1],
-    presentations: [vp2],
   }
   await agent.dataStoreSaveMessage({ message: m1 })
   await agent.dataStoreSaveMessage({ message: m2 })
   await agent.dataStoreSaveMessage({ message: m3 })
   await agent.dataStoreSaveMessage({ message: m4 })
+  await agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation: vp1 })
+  await agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation: vp2 })
 }
 
 describe('@veramo/data-store queries', () => {
@@ -155,9 +153,9 @@ describe('@veramo/data-store queries', () => {
       ],
     }
 
-    let presentations = await makeAgent().dataStoreORMGetVerifiablePresentations(args)
+    let presentations = await agent.dataStoreORMGetVerifiablePresentations(args)
     expect(presentations.length).toBe(1)
-    let count = await makeAgent().dataStoreORMGetVerifiablePresentationsCount(args)
+    let count = await agent.dataStoreORMGetVerifiablePresentationsCount(args)
     expect(count).toBe(1)
     // search when authenticated as the issuer
     let authorizedDID = did1

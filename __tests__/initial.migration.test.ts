@@ -226,8 +226,8 @@ describe('database initial migration tests', () => {
             },
           ],
         })
-        expect(msgs[0]?.presentations?.length).toEqual(1)
-        expect(msgs[0]?.credentials?.length).toEqual(1)
+        expect(msgs).toHaveLength(1)
+        expect(msgs[0]).toHaveProperty('raw')
       })
 
       it('reads a credential by claim', async () => {

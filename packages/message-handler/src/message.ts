@@ -1,4 +1,4 @@
-import { IMessage, IMetaData, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
+import { IMessage, IMetaData } from '@veramo/core'
 
 /**
  * A class implementing {@link @veramo/core#IMessage | IMessage}.
@@ -43,9 +43,6 @@ export class Message implements IMessage {
 
   metaData?: IMetaData[]
 
-  presentations?: VerifiablePresentation[]
-  credentials?: VerifiableCredential[]
-
   addMetaData(meta: IMetaData) {
     if (this.metaData) {
       this.metaData.push(meta)
@@ -63,10 +60,10 @@ export class Message implements IMessage {
   }
 
   isValid() {
-    if (this.type === null || this.type === '') {
+    if (!this.type || this.type === '') {
       return false
     }
-    if (!this.raw || this.raw === null || this.raw === '') {
+    if (!this.raw || this.raw === '') {
       return false
     }
     return true

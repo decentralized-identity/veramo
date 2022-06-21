@@ -62,7 +62,6 @@ export class DataStore implements IAgentPlugin {
     try {
       const messageEntity = await (await this.dbConnection).getRepository(Message).findOne({
         where: { id: args.id },
-        relations: ['credentials', 'presentations'],
       })
       if (!messageEntity) throw new Error('Message not found')
 

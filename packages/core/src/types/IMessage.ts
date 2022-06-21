@@ -1,5 +1,3 @@
-import { VerifiableCredential, VerifiablePresentation } from './vc-data-model'
-
 /**
  * Message meta data
  * @public
@@ -80,14 +78,4 @@ export interface IMessage {
    * Optional. Array of message metadata
    */
   metaData?: IMetaData[] | null
-
-  /**
-   * Optional. Array of attached verifiable credentials
-   */
-  credentials?: VerifiableCredential[]
-
-  /**
-   * Optional. Array of attached verifiable presentations
-   */
-  presentations?: VerifiablePresentation[]
 }

@@ -180,11 +180,12 @@ export default (testContext: {
           expect(msg.type).toBe('w3c.vc')
         })
 
-        it('should get credentials from message by claim', async () => {
+        it('should NOT get credentials from message by claim', async () => {
           const incomingCredential = await agent.createVerifiableCredential({
             proofFormat: 'jwt',
             credential: {
               type: ['Example'],
+              id: "don't find me in a message",
               credentialSubject: {
                 incoming: 'yes',
               },
@@ -197,7 +198,7 @@ export default (testContext: {
           const retrievedCredential = await agent.dataStoreORMGetVerifiableCredentialsByClaims({
             where: [{ column: 'type', value: ['incoming'] }],
           })
-          expect(retrievedCredential.length).toBeGreaterThan(0)
+          expect(retrievedCredential.length).toEqual(0)
         })
       })
     }

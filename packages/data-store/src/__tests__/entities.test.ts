@@ -131,27 +131,12 @@ describe('DB entities test', () => {
     m.type = 'mock'
     m.raw = 'mock'
     m.createdAt = new Date()
-    m.credentials = [vc]
-    m.presentations = [vp]
 
     await m.save()
 
     const message = await Message.findOne({
       where: { id: m.id },
-      relations: [
-        'credentials',
-        'credentials.issuer',
-        'credentials.subject',
-        'credentials.claims',
-        'presentations',
-        'presentations.credentials',
-      ],
     })
-
-    expect(message?.credentials.length).toEqual(1)
-    expect(message?.credentials[0].claims.length).toEqual(3)
-    expect(message?.presentations.length).toEqual(1)
-    expect(message?.presentations[0].credentials.length).toEqual(1)
 
     const claims = await Claim.find({
       relations: ['credential', 'credential.issuer', 'credential.subject'],

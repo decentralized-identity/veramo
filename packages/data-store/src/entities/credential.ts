@@ -1,7 +1,6 @@
 import { VerifiableCredential } from '@veramo/core'
 import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 import { Identifier } from './identifier'
-import { Message } from './message'
 import { Presentation } from './presentation'
 import { Claim } from './claim'
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
@@ -80,10 +79,6 @@ export class Credential extends BaseEntity {
   @ManyToMany((type) => Presentation, (presentation) => presentation.credentials)
     //@ts-ignore
   presentations: Presentation[]
-
-  @ManyToMany((type) => Message, (message) => message.credentials)
-    //@ts-ignore
-  messages: Message[]
 }
 
 export const createCredentialEntity = (vci: VerifiableCredential): Credential => {

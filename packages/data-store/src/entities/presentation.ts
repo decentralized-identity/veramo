@@ -2,7 +2,6 @@ import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 
 import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm'
 import { Identifier } from './identifier'
-import { Message } from './message'
 import { createCredentialEntity, Credential } from './credential'
 import { asArray, computeEntryHash } from '@veramo/utils'
 import { normalizeCredential } from 'did-jwt-vc'
@@ -76,10 +75,6 @@ export class Presentation extends BaseEntity {
   @JoinTable()
     //@ts-ignore
   credentials: Credential[]
-
-  @ManyToMany((type) => Message, (message) => message.presentations)
-    //@ts-ignore
-  messages: Message[]
 }
 
 export const createPresentationEntity = (vpi: VerifiablePresentation): Presentation => {

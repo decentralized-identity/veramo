@@ -1,6 +1,6 @@
 import { IAgentContext, IResolver, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
-import { asArray, computeEntryHash, decodeCredentialToObject, extractIssuer } from '@veramo/utils'
+import { computeEntryHash, extractIssuer } from '@veramo/utils'
 import {
   normalizeCredential,
   normalizePresentation,
@@ -61,7 +61,7 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         //FIXME: flagging this for potential privacy leaks
         debug('JWT is', MessageTypes.vp)
         const presentation = normalizePresentation(message.raw)
-        const credentials = presentation.verifiableCredential
+        // const credentials = presentation.verifiableCredential
 
         message.id = computeEntryHash(message.raw)
         message.type = MessageTypes.vp
@@ -73,8 +73,6 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         }
 
         message.createdAt = presentation.issuanceDate
-        message.presentations = [presentation]
-        message.credentials = credentials
 
         return message
       } catch (e) {}
@@ -95,7 +93,6 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         }
 
         message.createdAt = credential.issuanceDate
-        message.credentials = [credential]
         return message
       } catch (e) {}
     }
@@ -117,7 +114,6 @@ export class W3cMessageHandler extends AbstractMessageHandler {
       }
 
       message.createdAt = credential.issuanceDate
-      message.credentials = [credential]
       return message
     }
 
@@ -142,9 +138,6 @@ export class W3cMessageHandler extends AbstractMessageHandler {
         message.threadId = presentation.tag
       }
 
-      // message.createdAt = presentation.issuanceDate
-      message.presentations = [presentation]
-      message.credentials = asArray(presentation.verifiableCredential).map(decodeCredentialToObject)
       return message
     }
 

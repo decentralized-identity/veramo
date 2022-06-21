@@ -4,15 +4,11 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm'
 import { IMessage } from '@veramo/core'
 import { Identifier } from './identifier'
-import { createPresentationEntity, Presentation } from './presentation'
-import { createCredentialEntity, Credential } from './credential'
 import { computeEntryHash } from '@veramo/utils'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -118,18 +114,6 @@ export class Message extends BaseEntity {
 
   @Column('simple-json', { nullable: true })
   metaData?: MetaData[] | null
-
-  @ManyToMany((type) => Presentation, (presentation) => presentation.messages, {
-    cascade: true,
-  })
-  @JoinTable()
-    //@ts-ignore
-  presentations: Presentation[]
-
-  @ManyToMany((type) => Credential, (credential) => credential.messages, { cascade: true })
-  @JoinTable()
-    //@ts-ignore
-  credentials: Credential[]
 }
 
 export const createMessageEntity = (args: IMessage): Message => {
@@ -166,14 +150,6 @@ export const createMessageEntity = (args: IMessage): Message => {
     const to = new Identifier()
     to.did = args.to
     message.to = to
-  }
-
-  if (args.presentations) {
-    message.presentations = args.presentations.map(createPresentationEntity)
-  }
-
-  if (args.credentials) {
-    message.credentials = args.credentials.map(createCredentialEntity)
   }
 
   return message
@@ -214,14 +190,6 @@ export const createMessage = (args: Message): IMessage => {
 
   if (args.to) {
     message.to = args.to.did
-  }
-
-  if (args.presentations) {
-    message.presentations = args.presentations.map((vp) => vp.raw)
-  }
-
-  if (args.credentials) {
-    message.credentials = args.credentials.map((vc) => vc.raw)
   }
 
   return message as IMessage
