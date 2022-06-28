@@ -22,6 +22,9 @@
     "@types/debug": "4.1.7",
     "typescript": "4.7.3"
   },
+  "resolutions": {
+    "*/**/jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
+  },
   "files": [
     "build/**/*",
     "src/**/*",

@@ -3,7 +3,7 @@ import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@
 import {
   EcdsaSecp256k1RecoveryMethod2020,
   EcdsaSecp256k1RecoverySignature2020,
-} from '@transmute/lds-ecdsa-secp256k1-recovery2020'
+} from '@veramo-community/lds-ecdsa-secp256k1-recovery2020'
 
 import * as u8a from 'uint8arrays'
 import { asArray, encodeJoseBlob } from '@veramo/utils'
