@@ -15,8 +15,8 @@
     "blakejs": "^1.1.1",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
-    "did-jwt": "^6.1.2",
-    "did-jwt-vc": "^2.1.12",
+    "did-jwt": "^6.2.0",
+    "did-jwt-vc": "^2.1.13",
     "did-resolver": "^3.2.2",
     "uint8arrays": "^3.0.0",
     "uuid": "^8.3.0"
