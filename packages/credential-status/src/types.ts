@@ -1,5 +1,5 @@
 import { IAgentContext, IPluginMethodMap, VerifiableCredential } from '@veramo/core'
-import { CredentialStatus } from 'credential-status'
+import { CredentialStatusVerification } from 'credential-status'
 import { DIDDocument } from 'did-resolver'
 
 /**
@@ -44,5 +44,5 @@ export interface ICheckCredentialStatus extends IPluginMethodMap {
   checkCredentialStatus(
     args: ICheckCredentialStatusArgs,
     context: IAgentContext<any>,
-  ): Promise<CredentialStatus>
+  ): Promise<CredentialStatusVerification>
 }

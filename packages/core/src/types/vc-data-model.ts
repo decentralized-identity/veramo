@@ -18,7 +18,7 @@ export type CompactJWT = string
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type IssuerType = { id: string; [x: string]: any } | string
+export type IssuerType = { id: string;[x: string]: any } | string
 
 /**
  * The value of the credentialSubject property is defined as a set of objects that contain one or more properties that
@@ -35,6 +35,15 @@ export type CredentialSubject = {
 }
 
 /**
+ * Expresses the credential status type (also referred to as the credential status method). 
+ * It is expected that the value will provide enough information to determine the current status of the credential 
+ * and that machine readable information needs to be retrievable from the URI. 
+ * For example, the object could contain a link to an external document noting whether or not the credential is suspended or revoked.
+ * @see https://www.w3.org/TR/vc-data-model/#status
+ */
+export type CredentialStatusType = string
+
+/**
  * Used for the discovery of information about the current status of a verifiable credential, such as whether it is
  * suspended or revoked.
  * The precise contents of the credential status information is determined by the specific `credentialStatus` type
@@ -46,7 +55,7 @@ export type CredentialSubject = {
  */
 export type CredentialStatus = {
   id: string
-  type: string
+  type: CredentialStatusType
   [x: string]: any
 }
 
