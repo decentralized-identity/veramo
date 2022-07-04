@@ -39,8 +39,6 @@ export default (testContext: {
       })
       agent = testContext.getAgent()
       identifier = await agent.didManagerCreate({ kms: 'local' })
-    })
-    beforeEach(() => {
       rawCredential = {
         issuer: { id: identifier.did },
         '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
@@ -54,6 +52,7 @@ export default (testContext: {
           id: 'some-exotic-id',
         }
       }
+      return true
     })
     afterAll(testContext.tearDown)
 

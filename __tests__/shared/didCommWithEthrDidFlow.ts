@@ -96,7 +96,7 @@ export default (testContext: {
       } catch (e) {
         //nop
       }
-      testContext.tearDown()
+      await testContext.tearDown()
     })
 
     it('should add dummy service to identifier', async () => {
