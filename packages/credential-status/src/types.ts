@@ -1,5 +1,5 @@
 import { IAgentContext, IPluginMethodMap, VerifiableCredential } from '@veramo/core'
-import { CredentialStatusVerification } from 'credential-status'
+import { CredentialStatus as CredentialStatusVerification } from 'credential-status'
 import { DIDDocument } from 'did-resolver'
 
 /**

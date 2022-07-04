@@ -1,6 +1,6 @@
 import { VerifiableCredential } from 'did-jwt-vc'
 import {
-  CredentialStatusVerification
+  CredentialStatus as CredentialStatusVerification
 } from 'credential-status'
 
 export { DIDDocument, DIDResolutionOptions, DIDResolutionResult } from 'did-resolver'
