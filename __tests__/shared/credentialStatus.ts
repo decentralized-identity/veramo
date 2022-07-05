@@ -5,7 +5,7 @@ import {
   IDIDManager,
   IIdentifier,
   TAgent
-} from '@veramo/core/src'
+} from '../../packages/core/src'
 import { CredentialStatusPlugin } from '../../packages/credential-status/src/credential-status'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 
