@@ -1,12 +1,3 @@
----
-name: Bug fix
-about: Create a PR to fix an issue
-title: ''
-labels: triage
-assignees: ''
-
----
-
 **What issue is this PR fixing**
 Example:
 `closes #123`
@@ -21,7 +12,7 @@ A clear description of what this PR brings.
 
 **Quality**
 Check all that apply:
-
+* [X] 
 * [ ] I successfully ran `yarn`, `yarn build`, `yarn test`, `yarn test:browser` locally.
 * [ ] I allow my PR to be updated by the reviewers (to speed up the review process).
 * [ ] I added unit tests.
