@@ -1581,10 +1581,10 @@
     fast-text-encoding "^1.0.3"
     isomorphic-webcrypto "^2.3.8"
 
-"@digitalcredentials/vc@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@digitalcredentials/vc/-/vc-1.1.2.tgz#868a56962f5137c29eb51eea1ba60251ebf69ad1"
-  integrity sha512-TSgny9XUh+W7uFjdcpvZzN7I35F9YMTv6jVINXr7UaLNgrinIjy6A5RMGQH9ecpcaoLMemKB5XjtLOOOQ3vknQ==
+"@digitalcredentials/vc@^4.0.0":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/vc/-/vc-4.1.1.tgz#cc10e3559c6d1ec620b08445703b1268f852cb17"
+  integrity sha512-QVLrFBX/jzm/psHhjHpCikJ+CtKsV7kLGsteXbVNUrwJxfzpYeGuhggZSqmdrXr/9ePWwfOpBy2DAaJsqmEkIA==
   dependencies:
     "@digitalcredentials/jsonld" "^5.2.1"
     "@digitalcredentials/jsonld-signatures" "^9.3.1"
