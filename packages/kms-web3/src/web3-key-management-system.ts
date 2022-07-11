@@ -29,7 +29,28 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   async listKeys(): Promise<ManagedKeyInfo[]> {
-    throw Error('not_implemented: Web3KeyManagementSystem listKeys')
+    const keys: ManagedKeyInfo[] = []
+    for (const provider in this.providers) {
+      const accounts = await this.providers[provider].listAccounts()
+      for (const account of accounts) { 
+        const key: ManagedKeyInfo = {
+          kid: `${provider}-${account}`,
+          type: 'Secp256k1',
+          publicKeyHex: '',
+          kms: '',
+          meta: {
+            account,
+            provider,
+            algorithms: [
+              'eth_signMessage',
+              'eth_signTypedData',
+            ]
+          }
+        }
+        keys.push(key)
+      }
+    }
+    return keys
   }
 
   async sharedSecret(args: {
