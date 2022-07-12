@@ -16,6 +16,8 @@ import {
   W3CVerifiablePresentation,
 } from '@veramo/core'
 
+import { CredentialStatus } from 'credential-status'
+
 import {
   createVerifiableCredentialJwt,
   createVerifiablePresentationJwt,
@@ -37,6 +39,9 @@ import {
   MANDATORY_CREDENTIAL_CONTEXT,
   processEntryToArray,
 } from '@veramo/utils'
+import { JWT_ALG } from 'did-jwt-vc/lib/types'
+
+const enum CredentialType { JWT, JSONLD, EIP712 }
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -263,7 +268,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
   ): Promise<VerifiableCredential>
 
   /**
-   * Verifies a Verifiable Credential JWT or LDS Format.
+   * Verifies a Verifiable Credential JWT, LDS Format or EIP712.
    *
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
@@ -491,56 +496,52 @@ export class CredentialIssuer implements IAgentPlugin {
   /** {@inheritdoc ICredentialIssuer.verifyCredential} */
   async verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<boolean> {
     const credential = args.credential
-    if (typeof credential === 'string' || (<VerifiableCredential>credential)?.proof?.jwt) {
-      // JWT
-      let jwt: string
-      if (typeof credential === 'string') {
-        jwt = credential
-      } else {
-        jwt = credential.proof.jwt
-      }
+    let verifiedCredential: VerifiableCredential;
+
+    const type: CredentialType = detectCredentialType(credential);
+    if (type == CredentialType.JWT) {
+      let jwt: string = (typeof credential === 'string') ? credential : credential.proof.jwt;
+
       const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
       try {
         const verification = await verifyCredentialJWT(jwt, resolver)
-
-        // FIXME: nice to refactor to have credentialStatus checked whatever the credential type
-        if (typeof context.agent.checkCredentialStatus === 'function') {
-          await context.agent.checkCredentialStatus({ credential: verification.verifiableCredential });
-        }
-
-        return true
+        verifiedCredential = verification.verifiableCredential
       } catch (e: any) {
         //TODO: return a more detailed reason for failure
         return false
       }
-    } else if ((<VerifiableCredential>credential)?.proof?.type === 'EthereumEip712Signature2021') {
-      // EIP712
-      if (typeof context.agent.verifyCredentialEIP712 === 'function') {
-        const result = await context.agent.verifyCredentialEIP712(args)
-
-        // FIXME: nice to refactor to have credentialStatus checked whatever the credential type
-        if (typeof context.agent.checkCredentialStatus === 'function') {
-          await context.agent.checkCredentialStatus({ credential });
-        }
-
-        return result
-      } else {
+    } else if (type == CredentialType.EIP712) {
+      if (typeof context.agent.verifyCredentialEIP712 !== 'function') {
         throw new Error(
           'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
         )
       }
 
-    } else {
-      // JSON-LD
-      if (typeof context.agent.verifyCredentialLD === 'function') {
-        const result = await context.agent.verifyCredentialLD(args)
-        return result
-      } else {
+      if (!await context.agent.verifyCredentialEIP712(args)) {
+        return false;
+      }
+
+      verifiedCredential = <VerifiableCredential>credential
+    } else if (type == CredentialType.JSONLD) {
+      if (typeof context.agent.verifyCredentialLD !== 'function') {
         throw new Error(
           'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
         )
       }
+
+      if (!await context.agent.verifyCredentialLD(args)) return false;
+
+      verifiedCredential = <VerifiableCredential>credential
     }
+    else {
+      throw new Error('Unknown credential type.')
+    }
+
+    if (await isRevoked(verifiedCredential, context)) {
+      return false;
+    }    
+
+    return true;
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
@@ -605,3 +606,22 @@ function wrapSigner(
     return result
   }
 }
+
+function detectCredentialType(credential: W3CVerifiableCredential): CredentialType {
+  if (typeof credential === 'string' || (<VerifiableCredential>credential)?.proof?.jwt) return CredentialType.JWT;
+  if ((<VerifiableCredential>credential)?.proof?.type === 'EthereumEip712Signature2021') return CredentialType.EIP712;
+  return CredentialType.JSONLD;
+}
+
+async function isRevoked(verifiedCredential: VerifiableCredential, context: IContext): Promise<boolean> {
+  if (typeof context.agent.checkCredentialStatus === 'function') {
+    const status: CredentialStatus = await context.agent.checkCredentialStatus({ credential: verifiedCredential });
+    if (status?.revoked) return true
+  }
+  else if (verifiedCredential.credentialStatus) {
+    throw new Error(`The credential status can't be verified by the agent`)
+  }
+
+  return false;
+}
+

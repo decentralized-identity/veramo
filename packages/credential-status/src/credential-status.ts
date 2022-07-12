@@ -1,5 +1,5 @@
-import { IAgentContext, IAgentPlugin } from '@veramo/core'
-import { Status, StatusMethod } from 'credential-status'
+import { IAgentContext, IAgentPlugin, VerifiableCredential } from '@veramo/core'
+import { CredentialStatus, Status, StatusMethod } from 'credential-status'
 import { ICheckCredentialStatus, ICheckCredentialStatusArgs } from './types'
 
 /**
@@ -35,3 +35,4 @@ export class CredentialStatusPlugin implements IAgentPlugin {
     return this.status.checkStatus(args.credential, args.didDoc)
   }
 }
+

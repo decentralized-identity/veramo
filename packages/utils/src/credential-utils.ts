@@ -1,6 +1,7 @@
 import { asArray, isDefined } from './type-utils'
 import {
   CredentialPayload,
+  IAgentContext,
   IMessage,
   IssuerType,
   PresentationPayload,
@@ -12,6 +13,7 @@ import {
 import { blake2bHex } from 'blakejs'
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
+import { CredentialStatus } from 'credential-status'
 
 /**
  * Every Verifiable Credential `@context` property must contain this.
@@ -136,4 +138,15 @@ export function extractIssuer(
     }
     return typeof iss === 'string' ? iss : iss?.id || ''
   }
+}
+
+export async function isRevoked(credential: VerifiableCredential, context: IAgentContext<any>): Promise<boolean> {
+  if (!credential.credentialStatus) return false
+
+  if (typeof context.agent.checkCredentialStatus === 'function') {
+    const status: CredentialStatus = await context.agent.checkCredentialStatus({ credential });
+    return (status?.revoked == true);
+  }
+
+  throw new Error(`invalid_config: The credential status can't be verified by the agent`)
 }
