@@ -13,10 +13,8 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
-  W3CVerifiablePresentation,
+  W3CVerifiablePresentation
 } from '@veramo/core'
-
-import { CredentialStatus } from 'credential-status'
 
 import {
   createVerifiableCredentialJwt,
@@ -24,22 +22,21 @@ import {
   normalizeCredential,
   normalizePresentation,
   verifyCredential as verifyCredentialJWT,
-  verifyPresentation as verifyPresentationJWT,
+  verifyPresentation as verifyPresentationJWT
 } from 'did-jwt-vc'
 
 import { decodeJWT } from 'did-jwt'
 
-import { schema } from './'
-import Debug from 'debug'
-import { Resolvable } from 'did-resolver'
 import {
   asArray,
   extractIssuer,
   isDefined,
   MANDATORY_CREDENTIAL_CONTEXT,
-  processEntryToArray,
+  processEntryToArray
 } from '@veramo/utils'
-import { JWT_ALG } from 'did-jwt-vc/lib/types'
+import Debug from 'debug'
+import { Resolvable } from 'did-resolver'
+import { schema } from './'
 
 const enum CredentialType { JWT, JSONLD, EIP712 }
 
@@ -539,7 +536,7 @@ export class CredentialIssuer implements IAgentPlugin {
 
     if (await isRevoked(verifiedCredential, context)) {
       return false;
-    }    
+    }
 
     return true;
   }
@@ -613,15 +610,13 @@ function detectCredentialType(credential: W3CVerifiableCredential): CredentialTy
   return CredentialType.JSONLD;
 }
 
-async function isRevoked(verifiedCredential: VerifiableCredential, context: IContext): Promise<boolean> {
+async function isRevoked(credential: VerifiableCredential, context: IAgentContext<any>): Promise<boolean> {
+  if (!credential.credentialStatus) return false
+
   if (typeof context.agent.checkCredentialStatus === 'function') {
-    const status: CredentialStatus = await context.agent.checkCredentialStatus({ credential: verifiedCredential });
-    if (status?.revoked) return true
-  }
-  else if (verifiedCredential.credentialStatus) {
-    throw new Error(`The credential status can't be verified by the agent`)
+    const status = await context.agent.checkCredentialStatus({ credential });
+    return (status?.revoked == true);
   }
 
-  return false;
+  throw new Error(`invalid_config: The credential status can't be verified by the agent`)
 }
-

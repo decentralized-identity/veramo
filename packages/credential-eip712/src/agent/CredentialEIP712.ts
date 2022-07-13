@@ -5,7 +5,7 @@ import {
   extractIssuer, getChainIdForDidEthr,
   getEthereumAddress,
   isDefined,
-  isRevoked, MANDATORY_CREDENTIAL_CONTEXT, mapIdentifierKeysToDoc, processEntryToArray,
+  MANDATORY_CREDENTIAL_CONTEXT, mapIdentifierKeysToDoc, processEntryToArray,
   resolveDidOrThrow
 } from "@veramo/utils"
 import { schema } from '../index'
@@ -160,10 +160,6 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     }
     else {
       throw new Error("Recovered Address does not match issuer")
-    }
-
-    if (await isRevoked(credential, context)) {
-      return false;
     }
 
     return true;
