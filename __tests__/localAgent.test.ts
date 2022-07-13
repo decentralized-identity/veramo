@@ -240,7 +240,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 const tearDown = async (): Promise<boolean> => {
   try {
     await (await dbConnection).dropDatabase()
-    await (await dbConnection).destroy()
+    await (await dbConnection).close()
   } catch (e) {
     // nop
   }
