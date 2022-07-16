@@ -220,6 +220,8 @@ export default (testContext: {
       }
     })
 
+    afterAll(testContext.tearDown)
+
     it('should fail on credentialStatus check when agent has no status plugin', async () => {
       const vc = await agent.createVerifiableCredential({
         credential: rawCredential,
@@ -233,6 +235,7 @@ export default (testContext: {
 
   })
 }
+
 function buildCredential(identifier: IIdentifier, credentialStatus: { type: string; id: string }): CredentialPayload {
   return {
     issuer: { id: identifier.did },
