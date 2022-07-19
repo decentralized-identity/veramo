@@ -83,6 +83,7 @@ import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
+import credentialStatus from './shared/credentialStatus'
 
 jest.setTimeout(60000)
 
@@ -266,5 +267,6 @@ describe('REST integration tests', () => {
   didCommPacking(testContext)
   didWithFakeDidFlow(testContext)
   didDiscovery(testContext)
-  utils(testContext)
+  utils(testContext)  
+  credentialStatus(testContext)
 })
