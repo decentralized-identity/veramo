@@ -55,7 +55,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext,
   ): Promise<any> {
-    throw Error('KeyDIDProvider deleteIdentity not supported')
+    throw Error('KeyDIDProvider addKey not supported')
   }
 
   async addService(
