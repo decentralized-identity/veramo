@@ -15,7 +15,7 @@ A clear description of what this PR brings.
 Check all that apply:
 * [X] I want these changes to be integrated
 * [ ] I successfully ran `yarn`, `yarn build`, `yarn test`, `yarn test:browser` locally.
-* [ ] I allow my PR to be updated by the reviewers (to speed up the review process).
+* [ ] I allow my PR to be updated by the reviewers (to speed up the review process).
 * [ ] I added unit tests.
 * [ ] I added integration tests.
 * [ ] I did not add automated tests because _________, and I am aware that a PR without tests will likely get rejected.

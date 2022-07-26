@@ -98,6 +98,7 @@ describe('database initial migration tests', () => {
               store: new DIDStore(dbConnection),
               defaultProvider: 'did:ethr:goerli',
               providers: {
+                // intentionally using deprecated config for backward compatibility checks
                 'did:ethr:goerli': new EthrDIDProvider({
                   defaultKms: 'local',
                   network: 'goerli',
