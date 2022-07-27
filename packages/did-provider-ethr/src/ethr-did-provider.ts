@@ -194,7 +194,6 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       )
     }
     if (typeof networkSpecifier === 'number') {
-      console.log('opting for new network')
       networkSpecifier =
         network.name && network.name.length > 0
           ? network.name
