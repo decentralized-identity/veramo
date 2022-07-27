@@ -65,7 +65,12 @@ export class DIDManager implements IAgentPlugin {
   }
 
   private getProvider(name: string): AbstractIdentifierProvider {
-    const provider = this.providers[name]
+    let provider: AbstractIdentifierProvider | undefined = this.providers[name]
+    if (!provider) {
+      provider = Object.values(this.providers).find(
+        (p) => typeof p.matchPrefix === 'function' && p.matchPrefix(name),
+      )
+    }
     if (!provider) throw Error('Identifier provider does not exist: ' + name)
     return provider
   }
@@ -103,12 +108,14 @@ export class DIDManager implements IAgentPlugin {
         existingIdentifier = await this.store.get({ alias: args.alias, provider: providerName })
       } catch (e) {}
       if (existingIdentifier) {
-        throw Error(`Identifier with alias: ${args.alias}, provider: ${providerName} already exists`)
+        throw Error(
+          `illegal_argument: Identifier with alias: ${args.alias}, provider: ${providerName} already exists: ${existingIdentifier.did}`,
+        )
       }
     }
     const identifierProvider = this.getProvider(providerName)
     const partialIdentifier = await identifierProvider.createIdentifier(
-      { kms: args?.kms, alias: args?.alias, options: args?.options },
+      { kms: args?.kms, alias: args?.alias, options: { providerName, ...args?.options } },
       context,
     )
     const identifier: IIdentifier = { ...partialIdentifier, provider: providerName }
@@ -142,6 +149,7 @@ export class DIDManager implements IAgentPlugin {
     identifier.alias = alias
     return await this.store.import(identifier)
   }
+
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerImport} */
   async didManagerImport(
     identifier: MinimalImportableIdentifier,
