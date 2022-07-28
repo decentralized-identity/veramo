@@ -34,19 +34,10 @@ import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import {
-  ISelectiveDisclosure,
-  SdrMessageHandler,
-  SelectiveDisclosure,
-} from '../packages/selective-disclosure/src'
+import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure, } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
-import {
-  DataStoreJson,
-  DIDStoreJson,
-  KeyStoreJson,
-  PrivateKeyStoreJson,
-} from '../packages/data-store-json/src'
+import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson, } from '../packages/data-store-json/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Resolver } from 'did-resolver'

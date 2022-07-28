@@ -1,8 +1,9 @@
-import { IAgentOptions, IDIDManager, IKeyManager, TAgent, TKeyType } from '../../packages/core/src'
+// noinspection ES6PreferShortImport
+
+import { IAgentOptions, IDIDManager, IKeyManager, IResolver, TAgent, TKeyType } from '../../packages/core/src'
 import { computeAddress, serialize } from '@ethersproject/transactions'
 import { mapIdentifierKeysToDoc } from '../../packages/utils/src'
-import { IResolver } from '../../packages/core/src'
-import { recoverTypedSignature, normalize, SignTypedDataVersion } from '@metamask/eth-sig-util'
+import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver>
 
@@ -482,7 +483,7 @@ export default (testContext: {
           ...msgParams.types,
           EIP712Domain: [
             // Order of these elements matters!
-            // https://github.com/ethers-io/ethers.js/blob/a71f51825571d1ea0fa997c1352d5b4d85643416/packages/hash/src.ts/typed-data.ts#L385            
+            // https://github.com/ethers-io/ethers.js/blob/a71f51825571d1ea0fa997c1352d5b4d85643416/packages/hash/src.ts/typed-data.ts#L385
             { name: 'name', type: 'string' },
             { name: 'version', type: 'string' },
             { name: 'chainId', type: 'uint256' },
@@ -562,20 +563,20 @@ export default (testContext: {
           }
         }
       }
-  
+
       const identifier = await agent.didManagerCreate({ kms: 'local' })
-  
+
       const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
       const extendedKey = extendedKeys[0]
-  
+
       const signature = await agent.keyManagerSign({
         data: JSON.stringify(msgParams),
         keyRef: extendedKey.kid,
         algorithm: 'eth_signTypedData'
       })
-  
+
       const address = extendedKey.meta.ethereumAddress
-  
+
       const data = {
         ...msgParams,
         primaryType: 'VerifiableCredential',

@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {
   IAgentOptions,
   IDataStore,
@@ -12,7 +14,7 @@ import {
 } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
-import { extractIssuer } from '../../packages/utils'
+import { extractIssuer } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<
   IDataStoreORM &

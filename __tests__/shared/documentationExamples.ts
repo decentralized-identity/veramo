@@ -1,8 +1,11 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This test suite runs the examples from the documentation in various test contexts.
  *
  * Documentation examples are extracted from the tsdoc of the relevant source code.
- * To document a new package, add it to docsconfig.json array and have it processed with `extract-api` or `generate-plugin-schema`.
+ * To document a new package, add it to docsconfig.json array and have it processed with `extract-api` or
+ * `generate-plugin-schema`.
  */
 
 import { IDataStore, IDataStoreORM, IDIDManager, IMessageHandler, TAgent } from '../../packages/core/src'

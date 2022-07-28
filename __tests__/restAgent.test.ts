@@ -1,6 +1,9 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This runs a suite of ./shared tests using an agent configured for remote operations.
- * There is a local agent that only uses @veramo/remove-client and a remote agent that provides the actual functionality.
+ * There is a local agent that only uses @veramo/remove-client and a remote agent that provides the actual
+ * functionality.
  *
  * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
  * See didWithFakeDidFlow() for more details.
@@ -46,20 +49,20 @@ import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import {
   DataStore,
+  DataStoreDiscoveryProvider,
   DataStoreORM,
   DIDStore,
   Entities,
   KeyStore,
   migrations,
   PrivateKeyStore,
-  DataStoreDiscoveryProvider,
 } from '../packages/data-store/src'
-import { Connection, createConnection } from 'typeorm'
 import { AgentRestClient } from '../packages/remote-client/src'
 import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
 import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
-import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
+import { DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -93,7 +96,7 @@ const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa8
 const port = 3002
 const basePath = '/agent'
 
-let dbConnection: Promise<Connection>
+let dbConnection: Promise<DataSource>
 let serverAgent: IAgent
 let restServer: Server
 
@@ -123,7 +126,7 @@ const getAgent = (options?: IAgentOptions) =>
   })
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  dbConnection = createConnection({
+  dbConnection = new DataSource({
     name: options?.context?.['dbName'] || 'sqlite-test',
     type: 'sqlite',
     database: databaseFile,
@@ -132,7 +135,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     migrationsRun: true,
     logging: false,
     entities: Entities,
-  })
+  }).initialize()
 
   serverAgent = new Agent({
     ...options,
@@ -141,7 +144,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStore(dbConnection),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
-          web3: new Web3KeyManagementSystem({})
+          web3: new Web3KeyManagementSystem({}),
         },
       }),
       new DIDManager({
@@ -205,7 +208,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: [new AliasDiscoveryProvider(), new DataStoreDiscoveryProvider()],
+        providers: [
+          new AliasDiscoveryProvider(),
+          new DataStoreDiscoveryProvider(),
+          new BrokenDiscoveryProvider(),
+        ],
       }),
       ...(options?.plugins || []),
     ],
@@ -267,6 +274,6 @@ describe('REST integration tests', () => {
   didCommPacking(testContext)
   didWithFakeDidFlow(testContext)
   didDiscovery(testContext)
-  utils(testContext)  
+  utils(testContext)
   credentialStatus(testContext)
 })

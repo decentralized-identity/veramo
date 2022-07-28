@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials, presentations, messages as well as keys and DIDs.
@@ -45,17 +47,17 @@ import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 
 import {
   DataStore,
+  DataStoreDiscoveryProvider,
   DataStoreORM,
   DIDStore,
   Entities,
   KeyStore,
   migrations,
   PrivateKeyStore,
-  DataStoreDiscoveryProvider,
 } from '../packages/data-store/src'
-import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
-import { Connection, createConnection } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider'
 import { createEthersProvider } from './utils/ethers-provider'
 import { Resolver } from 'did-resolver'
@@ -102,13 +104,13 @@ let agent: TAgent<
     ISelectiveDisclosure &
     IDIDDiscovery
 >
-let dbConnection: Promise<Connection>
+let dbConnection: Promise<DataSource>
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile =
     options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
-  dbConnection = createConnection({
+  dbConnection = new DataSource({
     name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',
     database: databaseFile,
@@ -119,7 +121,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
-  })
+  }).initialize()
 
   const { provider, registry } = await createGanacheProvider()
   const ethersProvider = createEthersProvider()
@@ -228,7 +230,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: [new AliasDiscoveryProvider(), new DataStoreDiscoveryProvider()],
+        providers: [
+          new AliasDiscoveryProvider(),
+          new DataStoreDiscoveryProvider(),
+          new BrokenDiscoveryProvider(),
+        ],
       }),
       ...(options?.plugins || []),
     ],

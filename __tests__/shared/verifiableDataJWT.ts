@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {
   IDataStore,
   IDataStoreORM,

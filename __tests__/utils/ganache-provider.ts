@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Web3Provider, ExternalProvider } from '@ethersproject/providers'
+import { Web3Provider } from '@ethersproject/providers'
 import { Contract, ContractFactory } from '@ethersproject/contracts'
 // @ts-ignore
 import DidRegistryContract from 'ethr-did-registry'
