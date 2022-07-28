@@ -1,22 +1,22 @@
 import { Credential, createCredentialEntity } from '../entities/credential'
 import { createPresentationEntity } from '../entities/presentation'
-import { createConnection, Connection, In } from 'typeorm'
+import { DataSource, In } from 'typeorm'
 import { Identifier, Message, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
 import * as fs from 'fs'
 
 describe('DB entities test', () => {
-  let connection: Connection
+  let connection: DataSource
   const databaseFile = './tmp/test-db.sqlite'
 
   beforeAll(
     async () =>
-      (connection = await createConnection({
+      (connection = await new DataSource({
         type: 'sqlite',
         database: databaseFile,
         entities: Entities,
-      })),
+      }).initialize()),
   )
 
   beforeEach(async () => {

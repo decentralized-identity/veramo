@@ -1,14 +1,16 @@
+// noinspection ES6PreferShortImport
+
 import {
-  DiffCallback,
-  VeramoJsonCache,
   ClaimTableEntry,
   CredentialTableEntry,
+  DiffCallback,
   PresentationTableEntry,
+  VeramoJsonCache,
   VeramoJsonStore,
 } from '../../packages/data-store-json/src'
 import * as fs from 'fs'
-import { IIdentifier, IMessage, ManagedKeyInfo } from '../../packages/core'
-import { ManagedPrivateKey } from '../../packages/key-manager'
+import { IIdentifier, IMessage, ManagedKeyInfo } from '../../packages/core/src'
+import { ManagedPrivateKey } from '../../packages/key-manager/src'
 
 /**
  * A utility class that shows how a File based JSON storage system could work.

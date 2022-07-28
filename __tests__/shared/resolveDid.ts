@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import { IAgentOptions, IDIDManager, IResolver, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>

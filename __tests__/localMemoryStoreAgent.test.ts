@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials and an in-memory store for keys and DIDs.
@@ -17,7 +19,7 @@ import {
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src'
 import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
-import { Connection, createConnection } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
@@ -71,21 +73,22 @@ const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
 let agent: TAgent<
   IDIDManager &
-  IKeyManager &
-  IDataStore &
-  IDataStoreORM &
-  IResolver &
-  IMessageHandler &
-  IDIDComm &
-  ICredentialIssuer &
-  ICredentialIssuerLD &
-  ICredentialIssuerEIP712 &
-  ISelectiveDisclosure
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialIssuer &
+    ICredentialIssuerLD &
+    ICredentialIssuerEIP712 &
+    ISelectiveDisclosure
 >
-let dbConnection: Promise<Connection>
+let dbConnection: DataSource
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  dbConnection = createConnection({
+  // intentionally not initializing here to test compatibility
+  dbConnection = new DataSource({
     name: 'test',
     type: 'sqlite',
     database: databaseFile,
@@ -98,16 +101,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   agent = createAgent<
     IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialIssuer &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
-    ISelectiveDisclosure
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolver &
+      IMessageHandler &
+      IDIDComm &
+      ICredentialIssuer &
+      ICredentialIssuerLD &
+      ICredentialIssuerEIP712 &
+      ISelectiveDisclosure
   >({
     ...options,
     context: {
@@ -218,6 +221,6 @@ describe('Local in-memory integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didCommPacking(testContext)
-  utils(testContext)  
+  utils(testContext)
   credentialStatus(testContext)
 })

@@ -1,46 +1,47 @@
+// noinspection ES6PreferShortImport
+
 import { CredentialStatus } from 'credential-status'
 import {
-  CredentialPayload, IAgentOptions,
+  CredentialPayload,
+  IAgentOptions,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
   IIdentifier,
-  TAgent
+  TAgent,
 } from '../../packages/core/src'
-import { CredentialStatusPlugin } from '../../packages/credential-status/src/credential-status'
+import { CredentialStatusPlugin } from '../../packages/credential-status/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 
 // Constant used to simulate exception flows
-const simulateStatusVerificationFailure = "Any unexpected failure during status verification.";
+const simulateStatusVerificationFailure = 'Any unexpected failure during status verification.'
 
 // Constant used to simulate revoked credentials
-const simulateRevokedCredential = "A revoked credential.";
+const simulateRevokedCredential = 'A revoked credential.'
 
 // Constant used to simulate revoked credentials
-const simulateNotRevokedCredential = "A NOT revoked credential.";
+const simulateNotRevokedCredential = 'A NOT revoked credential.'
 
-const callsCounter = jest.fn();
+const callsCounter = jest.fn()
 
 const checkStatus = async (credential: any): Promise<CredentialStatus> => {
-  callsCounter();
+  callsCounter()
 
   if (credential.credentialStatus.id === simulateStatusVerificationFailure) {
-    // Simulates the exception flows where the credential status verification 
+    // Simulates the exception flows where the credential status verification
     // can't be executed for and unexpected reason, like network failures.
     throw new Error(simulateStatusVerificationFailure)
   }
 
-  const revoked = credential.credentialStatus.id === simulateRevokedCredential;
+  const revoked = credential.credentialStatus.id === simulateRevokedCredential
   if (!revoked && credential.credentialStatus.id !== simulateNotRevokedCredential) {
-    throw new Error("Invalid state.")
+    throw new Error('Invalid state.')
   }
 
   return revoked ? { revoked } : {}
-};
-
-
+}
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -125,7 +126,9 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.jwt')
 
-      await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(simulateStatusVerificationFailure);
+      await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(
+        simulateStatusVerificationFailure,
+      )
       expect(callsCounter).toHaveBeenCalledTimes(1)
     })
 
@@ -136,7 +139,9 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.jwt')
 
-      await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(`unknown_method: credentialStatus method UnknownType unknown. Validity can not be determined.`)
+      await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(
+        `unknown_method: credentialStatus method UnknownType unknown. Validity can not be determined.`,
+      )
       expect(callsCounter).toHaveBeenCalledTimes(0)
     })
 
@@ -189,7 +194,6 @@ export default (testContext: {
     })
   })
 
-
   describe('Credential status verification (revocation) without status plugin', () => {
     let agent: ConfiguredAgent
     let identifier: IIdentifier
@@ -216,7 +220,7 @@ export default (testContext: {
         credentialStatus: {
           type: 'ExoticStatusMethod2022',
           id: simulateNotRevokedCredential,
-        }
+        },
       }
     })
 
@@ -230,13 +234,17 @@ export default (testContext: {
       expect(vc).toHaveProperty('proof.jwt')
 
       // TODO It`s an exception flow an it'd be better to throw an exception instead of returning false
-      await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(`The credential status can't be verified by the agent`)
+      await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(
+        `The credential status can't be verified by the agent`,
+      )
     })
-
   })
 }
 
-function buildCredential(identifier: IIdentifier, credentialStatus: { type: string; id: string }): CredentialPayload {
+function buildCredential(
+  identifier: IIdentifier,
+  credentialStatus: { type: string; id: string },
+): CredentialPayload {
   return {
     issuer: { id: identifier.did },
     '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
@@ -245,7 +253,6 @@ function buildCredential(identifier: IIdentifier, credentialStatus: { type: stri
     credentialSubject: {
       name: 'Better trust layers with Veramo!',
     },
-    credentialStatus
+    credentialStatus,
   }
 }
-

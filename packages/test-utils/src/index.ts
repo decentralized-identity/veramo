@@ -7,3 +7,4 @@
  */
 
 export * from './fake-did'
+export * from './broken-did-discovery'

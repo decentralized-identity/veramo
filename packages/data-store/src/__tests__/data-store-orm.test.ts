@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {
   Agent,
   FindArgs,
@@ -11,7 +13,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '../../../core/src'
-import { Connection, createConnection } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { DataStoreORM } from '../data-store-orm'
 import { DataStore } from '../data-store'
 import { Entities } from '../index'
@@ -113,7 +115,7 @@ async function populateDB(agent: TAgent<IDataStore & IDataStoreORM>) {
 }
 
 describe('@veramo/data-store queries', () => {
-  let dbConnection: Promise<Connection>
+  let dbConnection: Promise<DataSource>
   const databaseFile = './tmp/test-db2.sqlite'
 
   function makeAgent(context?: Record<string, any>): TAgent<IDataStore & IDataStoreORM> {
@@ -125,11 +127,11 @@ describe('@veramo/data-store queries', () => {
   }
 
   beforeAll(async () => {
-    dbConnection = createConnection({
+    dbConnection = new DataSource({
       type: 'sqlite',
       database: databaseFile,
       entities: Entities,
-    })
+    }).initialize()
   })
 
   beforeEach(async () => {

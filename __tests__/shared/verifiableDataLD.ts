@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import { IDataStore, IDataStoreORM, IDIDManager, IIdentifier, TAgent } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { IDIDComm } from '../../packages/did-comm/src'
