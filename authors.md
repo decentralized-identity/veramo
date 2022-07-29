@@ -1,0 +1,36 @@
+# Contributors Highlight 
+
+### Team
+- [Mircea Nistor](https://github.com/mirceanis) (Maintainer)
+- [Simonas Kiru](https://github.com/simonas-notcat)
+- [Italo Borsatto](https://github.com/italobb)
+- [Nick Reynolds](https://github.com/nickreynolds)
+
+Special thanks to the following extraordinary individuals, for their contributions to the Veramo project:
+
+- [Nick L.](https://github.com/nick-verida)
+- [Richard Braman](https://github.com/fhirfly)
+- [Eengineer](https://github.com/Eengineer1)
+- [Ron Kreutzer](https://github.com/rkreutzer)
+- [Duranteau Ludovic](https://github.com/duranteau-l-i)
+- [Ilya Nevolin](https://github.com/inevolin)
+- [Andraz](https://github.com/andyv09)
+- [Konstantin Tsabolov](https://github.com/tsabolov)
+- [Martin Riedel](https://github.com/rado0x54)
+- [Emile Baizel](https://github.com/ebaizel)
+- [Moe Jangda](https://github.com/mistermoe)
+- [Martijndebruijn](https://github.com/martijndebruijn)
+- [Leo Ribeiro](https://github.com/leordev)
+- [Oliver Terbu](https://github.com/awoie)
+- [Greg Bugyis](https://github.com/gbugyis)
+- [Oriel Steele](https://github.com/OR13)
+- [Jason Healy](https://github.com/jasheal)
+- [Trent Larson](https://github.com/trentlarson)
+- [Adres Junge](https://github.com/ajunge)
+- [Roderik van der Veer](https://github.com/roderik)
+- [Jan Christoph Ebersbach](https://github.com/jceb)
+- [Dan Bolser](https://github.com/CholoTook)
+- [Walker Flynn](https://github.com/walfly)
+- [Raj Singhrawat](https://github.com/devrajsinghrawat)
+- [Eseoghene Mentie](https://github.com/Eseoghene)
+- [Ilan Olkies](https://github.com/ilanolkies)
