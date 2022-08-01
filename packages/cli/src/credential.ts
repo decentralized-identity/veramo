@@ -200,3 +200,38 @@ credential
       console.error(e.message)
     }
   })
+
+credential
+  .command('output')
+  .description('Print W3C Verifiable Credential to stdout')
+  .action(async (cmd) => {
+    const agent = getAgent(program.opts().config)
+
+    const credentials = await agent.dataStoreORMGetVerifiableCredentials()
+
+    if (credentials.length > 0) {
+      const list: any = []
+      for (const cred of credentials) {
+        list.push({
+          name:
+            JSON.stringify(cred.verifiableCredential.credentialSubject) +
+            ' | Issuer: ' +
+            JSON.stringify(cred.verifiableCredential.issuer),
+          value: cred,
+        })
+      }
+
+      const answers = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'credential',
+          choices: list,
+          message: 'Select credential',
+        },
+      ])
+
+      console.dir(answers.credential, { depth: 10 })
+    } else {
+      console.log('No credentials found.')
+    }
+  })

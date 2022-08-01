@@ -1,4 +1,15 @@
-import { IAgentOptions, IDIDManager, IIdentifier, IKeyManager, IResolver, MinimalImportableKey, TAgent, VerifiableCredential } from '../../packages/core/src'
+// noinspection ES6PreferShortImport
+
+import {
+  IAgentOptions,
+  IDIDManager,
+  IIdentifier,
+  IKeyManager,
+  IResolver,
+  MinimalImportableKey,
+  TAgent,
+  VerifiableCredential,
+} from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager & IKeyManager>
 
@@ -27,21 +38,20 @@ export default (testContext: {
         did,
         provider: 'did:ethr',
         controllerKeyId,
-        keys: [{
-          kid: controllerKeyId,
-          type: 'Secp256k1',
-          kms: 'web3',
-          privateKeyHex: '',
-          publicKeyHex: '',
-          meta: {
-            account,
-            provider: 'ethers',
-            algorithms: [
-              'eth_signMessage',
-              'eth_signTypedData',
-            ]
-          },
-        } as MinimalImportableKey],
+        keys: [
+          {
+            kid: controllerKeyId,
+            type: 'Secp256k1',
+            kms: 'web3',
+            privateKeyHex: '',
+            publicKeyHex: '',
+            meta: {
+              account,
+              provider: 'ethers',
+              algorithms: ['eth_signMessage', 'eth_signTypedData'],
+            },
+          } as MinimalImportableKey,
+        ],
       })
     })
 
@@ -50,7 +60,7 @@ export default (testContext: {
         const signature = await agent.keyManagerSign({
           data: 'Hello world',
           keyRef: identifier.controllerKeyId,
-          algorithm: 'eth_signMessage'
+          algorithm: 'eth_signMessage',
         })
         expect(signature).toBeTruthy()
       }
@@ -66,7 +76,7 @@ export default (testContext: {
           credentialSubject: {
             id: 'did:web:example.com',
             you: 'Rock',
-          }
+          },
         },
         proofFormat: 'EthereumEip712Signature2021',
       })
@@ -83,7 +93,6 @@ export default (testContext: {
 
       const verifiableCredential2 = await agent.dataStoreGetVerifiableCredential({ hash })
       expect(verifiableCredential).toEqual(verifiableCredential2)
-
     })
   })
 }

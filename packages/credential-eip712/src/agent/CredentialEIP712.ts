@@ -1,32 +1,24 @@
 import {
-  IAgentPlugin,
-  VerifiableCredential,
-  CredentialPayload,
-  VerifiablePresentation,
-  PresentationPayload,
-  IIdentifier,
+  CredentialPayload, IAgentPlugin, IIdentifier, PresentationPayload, VerifiableCredential, VerifiablePresentation
 } from "@veramo/core"
 import {
-  extractIssuer,
-  MANDATORY_CREDENTIAL_CONTEXT,
-  processEntryToArray,
-  resolveDidOrThrow,
-  mapIdentifierKeysToDoc,
-  getChainIdForDidEthr,
+  extractIssuer, getChainIdForDidEthr,
   getEthereumAddress,
-  isDefined
+  isDefined,
+  MANDATORY_CREDENTIAL_CONTEXT, mapIdentifierKeysToDoc, processEntryToArray,
+  resolveDidOrThrow
 } from "@veramo/utils"
 import { schema } from '../index'
 
+import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {
   ICreateVerifiableCredentialEIP712Args,
   ICreateVerifiablePresentationEIP712Args,
   ICredentialIssuerEIP712,
   IRequiredContext,
   IVerifyCredentialEIP712Args,
-  IVerifyPresentationEIP712Args,
+  IVerifyPresentationEIP712Args
 } from '../types/ICredentialEIP712'
-import { recoverTypedSignature, normalize, SignTypedDataVersion } from '@metamask/eth-sig-util'
 
 import { getEthTypesFromInputDoc } from "eip-712-types-generation"
 
@@ -72,7 +64,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const identifier = await context.agent.didManagerGet({ did: issuer })
 
-    if(!keyRef) {
+    if (!keyRef) {
       const key = identifier.keys.find((k) => k.type === 'Secp256k1' && k.meta?.algorithms?.includes('eth_signTypedData'))
       if (!key) throw Error('No signing key for ' + identifier.did)
       keyRef = key.kid
@@ -83,7 +75,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     if (!extendedKey) throw Error('Key not found')
 
     const chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
-    
+
     const credential: CredentialPayload = {
       ...args?.credential,
       '@context': credentialContext,
@@ -106,7 +98,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const primaryType = "VerifiableCredential"
     const allTypes = getEthTypesFromInputDoc(credential, primaryType);
-    const types = {...allTypes}
+    const types = { ...allTypes }
 
     const data = JSON.stringify({ domain, types, message, primaryType })
 
@@ -124,161 +116,16 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
   /** {@inheritdoc ICredentialIssuerEIP712.verifyCredentialEIP712} */
   private async verifyCredentialEIP712(args: IVerifyCredentialEIP712Args, context: IRequiredContext): Promise<boolean> {
-    try {
-        const { credential } = args
-      if(!credential.proof || !credential.proof.proofValue) throw new Error("Proof is undefined")
-      if(
-        !credential.proof.eip712 || 
-        !credential.proof.eip712.messageSchema ||
-        !credential.proof.eip712.domain 
-      ) throw new Error("eip712 is undefined");
-      
-      const { proof, ...signingInput } = credential;
-      const { proofValue, eip712, ...verifyInputProof} = proof;
-      const verificationMessage = {
-        ...signingInput,
-        proof: verifyInputProof
-      }
-  
-      const objectToVerify = {
-        message: verificationMessage,
-        domain: eip712.domain,
-        types: eip712.messageSchema,
-        primaryType: eip712.primaryType
-      }
-  
-      const recovered = recoverTypedSignature({
-        data: objectToVerify,
-        signature: proofValue,
-        version: SignTypedDataVersion.V4
-      })
-      
-      const issuer = extractIssuer(credential)
-      if (!issuer || typeof issuer === 'undefined') {
-        throw new Error('invalid_argument: args.credential.issuer must not be empty')
-      }
-  
-      const didDocument = await resolveDidOrThrow(issuer, context);
-
-      if (didDocument.verificationMethod) {
-        for(const verificationMethod of didDocument.verificationMethod) {
-          if (getEthereumAddress(verificationMethod)?.toLowerCase() === recovered.toLowerCase()) {
-            return true
-          }
-        }
-      }
-
-      throw new Error("Recovered Address does not match issuer")
-    } catch (e: any) {
-      throw new Error(e);
-    }
-  }
-
-    /** {@inheritdoc ICredentialIssuerEIP712.createVerifiablePresentationEIP712} */
-    async createVerifiablePresentationEIP712(
-      args: ICreateVerifiablePresentationEIP712Args,
-      context: IRequiredContext,
-    ): Promise<VerifiablePresentation> {
-      const presentationContext = processEntryToArray(
-        args?.presentation?.['@context'],
-        MANDATORY_CREDENTIAL_CONTEXT,
-      )
-      const presentationType = processEntryToArray(args?.presentation?.type, 'VerifiablePresentation')
-      let issuanceDate = args?.presentation?.issuanceDate || new Date().toISOString()
-      if (issuanceDate instanceof Date) {
-        issuanceDate = issuanceDate.toISOString()
-      }
-  
-      const presentation: PresentationPayload = {
-        ...args?.presentation,
-        '@context': presentationContext,
-        type: presentationType,
-        issuanceDate,
-      }
-  
-      if (!isDefined(args.presentation.holder)) {
-        throw new Error('invalid_argument: args.presentation.holder must not be empty')
-      }
-  
-      if (args.presentation.verifiableCredential) {
-        const credentials = args.presentation.verifiableCredential.map((cred) => {
-          // map JWT credentials to their canonical form
-          if (typeof cred !== 'string' && cred.proof.jwt) {
-            return cred.proof.jwt
-          } else {
-            return JSON.stringify(cred)
-          }
-        })
-        presentation.verifiableCredential = credentials
-      }
-  
-      let identifier: IIdentifier
-      try {
-        identifier = await context.agent.didManagerGet({ did: presentation.holder })
-      } catch (e) {
-        throw new Error('invalid_argument: args.presentation.holder must be a DID managed by this agent')
-      }
-
-      let keyRef = args.keyRef
-
-      if(!keyRef) {
-        const key = identifier.keys.find((k) => k.type === 'Secp256k1' && k.meta?.algorithms?.includes('eth_signTypedData'))
-        if (!key) throw Error('No signing key for ' + identifier.did)
-        keyRef = key.kid
-      }
-
-      const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', context)
-      const extendedKey = extendedKeys.find(key => key.kid === keyRef)
-      if (!extendedKey) throw Error('Key not found')
-
-      const chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
-      presentation['proof'] = {
-        verificationMethod: extendedKey.meta.verificationMethod.id,
-        created: issuanceDate,
-        proofPurpose: "assertionMethod",
-        type: "EthereumEip712Signature2021",
-      }
-      
-      const message = presentation;
-      const domain = {
-        chainId,
-        name: "VerifiablePresentation",
-        version: "1",
-      };
-
-      const primaryType = 'VerifiablePresentation'
-      const allTypes = getEthTypesFromInputDoc(presentation, primaryType);
-      const types = {...allTypes}
-  
-      const data = JSON.stringify({domain, types, message})
-
-      const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
-
-
-      presentation.proof.proofValue = signature;
-
-      presentation.proof.eip712 = {
-        domain,
-        messageSchema: allTypes,
-        primaryType,
-      };
-
-      return presentation as VerifiablePresentation
-    }
-
-/** {@inheritdoc ICredentialIssuerEIP712.verifyPresentationEIP712} */
-private async verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, context: IRequiredContext): Promise<boolean> {
-  try {
-      const { presentation } = args
-    if(!presentation.proof || !presentation.proof.proofValue) throw new Error("Proof is undefined")
-    if(
-      !presentation.proof.eip712 || 
-      !presentation.proof.eip712.messageSchema ||
-      !presentation.proof.eip712.domain 
+    const { credential } = args
+    if (!credential.proof || !credential.proof.proofValue) throw new Error("Proof is undefined")
+    if (
+      !credential.proof.eip712 ||
+      !credential.proof.eip712.messageSchema ||
+      !credential.proof.eip712.domain
     ) throw new Error("eip712 is undefined");
-    
-    const { proof, ...signingInput } = presentation;
-    const { proofValue, eip712, ...verifyInputProof} = proof;
+
+    const { proof, ...signingInput } = credential;
+    const { proofValue, eip712, ...verifyInputProof } = proof;
     const verificationMessage = {
       ...signingInput,
       proof: verifyInputProof
@@ -296,25 +143,169 @@ private async verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, cont
       signature: proofValue,
       version: SignTypedDataVersion.V4
     })
-    
-    const issuer = extractIssuer(presentation)
+
+    const issuer = extractIssuer(credential)
     if (!issuer || typeof issuer === 'undefined') {
-      throw new Error('invalid_argument: args.presentation.holder must not be empty')
+      throw new Error('invalid_argument: args.credential.issuer must not be empty')
     }
 
     const didDocument = await resolveDidOrThrow(issuer, context);
 
     if (didDocument.verificationMethod) {
-      for(const verificationMethod of didDocument.verificationMethod) {
+      for (const verificationMethod of didDocument.verificationMethod) {
         if (getEthereumAddress(verificationMethod)?.toLowerCase() === recovered.toLowerCase()) {
           return true
         }
       }
     }
+    else {
+      throw new Error("Recovered Address does not match issuer")
+    }
 
-    throw new Error("Recovered Address does not match issuer")
-  } catch (e: any) {
-    throw new Error(e);
+    return true;
   }
-}    
+
+  /** {@inheritdoc ICredentialIssuerEIP712.createVerifiablePresentationEIP712} */
+  async createVerifiablePresentationEIP712(
+    args: ICreateVerifiablePresentationEIP712Args,
+    context: IRequiredContext,
+  ): Promise<VerifiablePresentation> {
+    const presentationContext = processEntryToArray(
+      args?.presentation?.['@context'],
+      MANDATORY_CREDENTIAL_CONTEXT,
+    )
+    const presentationType = processEntryToArray(args?.presentation?.type, 'VerifiablePresentation')
+    let issuanceDate = args?.presentation?.issuanceDate || new Date().toISOString()
+    if (issuanceDate instanceof Date) {
+      issuanceDate = issuanceDate.toISOString()
+    }
+
+    const presentation: PresentationPayload = {
+      ...args?.presentation,
+      '@context': presentationContext,
+      type: presentationType,
+      issuanceDate,
+    }
+
+    if (!isDefined(args.presentation.holder)) {
+      throw new Error('invalid_argument: args.presentation.holder must not be empty')
+    }
+
+    if (args.presentation.verifiableCredential) {
+      const credentials = args.presentation.verifiableCredential.map((cred) => {
+        // map JWT credentials to their canonical form
+        if (typeof cred !== 'string' && cred.proof.jwt) {
+          return cred.proof.jwt
+        } else {
+          return JSON.stringify(cred)
+        }
+      })
+      presentation.verifiableCredential = credentials
+    }
+
+    let identifier: IIdentifier
+    try {
+      identifier = await context.agent.didManagerGet({ did: presentation.holder })
+    } catch (e) {
+      throw new Error('invalid_argument: args.presentation.holder must be a DID managed by this agent')
+    }
+
+    let keyRef = args.keyRef
+
+    if (!keyRef) {
+      const key = identifier.keys.find((k) => k.type === 'Secp256k1' && k.meta?.algorithms?.includes('eth_signTypedData'))
+      if (!key) throw Error('No signing key for ' + identifier.did)
+      keyRef = key.kid
+    }
+
+    const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', context)
+    const extendedKey = extendedKeys.find(key => key.kid === keyRef)
+    if (!extendedKey) throw Error('Key not found')
+
+    const chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
+    presentation['proof'] = {
+      verificationMethod: extendedKey.meta.verificationMethod.id,
+      created: issuanceDate,
+      proofPurpose: "assertionMethod",
+      type: "EthereumEip712Signature2021",
+    }
+
+    const message = presentation;
+    const domain = {
+      chainId,
+      name: "VerifiablePresentation",
+      version: "1",
+    };
+
+    const primaryType = 'VerifiablePresentation'
+    const allTypes = getEthTypesFromInputDoc(presentation, primaryType);
+    const types = { ...allTypes }
+
+    const data = JSON.stringify({ domain, types, message })
+
+    const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
+
+
+    presentation.proof.proofValue = signature;
+
+    presentation.proof.eip712 = {
+      domain,
+      messageSchema: allTypes,
+      primaryType,
+    };
+
+    return presentation as VerifiablePresentation
+  }
+
+  /** {@inheritdoc ICredentialIssuerEIP712.verifyPresentationEIP712} */
+  private async verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, context: IRequiredContext): Promise<boolean> {
+    try {
+      const { presentation } = args
+      if (!presentation.proof || !presentation.proof.proofValue) throw new Error("Proof is undefined")
+      if (
+        !presentation.proof.eip712 ||
+        !presentation.proof.eip712.messageSchema ||
+        !presentation.proof.eip712.domain
+      ) throw new Error("eip712 is undefined");
+
+      const { proof, ...signingInput } = presentation;
+      const { proofValue, eip712, ...verifyInputProof } = proof;
+      const verificationMessage = {
+        ...signingInput,
+        proof: verifyInputProof
+      }
+
+      const objectToVerify = {
+        message: verificationMessage,
+        domain: eip712.domain,
+        types: eip712.messageSchema,
+        primaryType: eip712.primaryType
+      }
+
+      const recovered = recoverTypedSignature({
+        data: objectToVerify,
+        signature: proofValue,
+        version: SignTypedDataVersion.V4
+      })
+
+      const issuer = extractIssuer(presentation)
+      if (!issuer || typeof issuer === 'undefined') {
+        throw new Error('invalid_argument: args.presentation.issuer must not be empty')
+      }
+
+      const didDocument = await resolveDidOrThrow(issuer, context);
+
+      if (didDocument.verificationMethod) {
+        for (const verificationMethod of didDocument.verificationMethod) {
+          if (getEthereumAddress(verificationMethod)?.toLowerCase() === recovered.toLowerCase()) {
+            return true
+          }
+        }
+      }
+
+      throw new Error("Recovered Address does not match issuer")
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  }
 }

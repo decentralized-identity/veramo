@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import { IDIDManager, IIdentifier, IKeyManager, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
@@ -31,12 +33,29 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
-    it('should create identifier using did:ethr:421611', async () => {
+    it('should create identifier using did:ethr:arbitrum:rinkeby provider', async () => {
       identifier = await agent.didManagerCreate({
-        provider: 'did:ethr:421611',
+        // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:rinkeby` network specifier
+        provider: 'did:ethr:arbitrum:rinkeby',
       })
-      expect(identifier.provider).toEqual('did:ethr:421611')
-      expect(identifier.did).toMatch(/^did:ethr:421611:0x.*$/)
+      expect(identifier.provider).toEqual('did:ethr:arbitrum:rinkeby')
+      expect(identifier.did).toMatch(/^did:ethr:arbitrum:rinkeby:0x.*$/)
+      expect(identifier.keys.length).toEqual(1)
+      expect(identifier.services.length).toEqual(0)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
+    it('should create identifier using chainId 421611', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:ethr',
+        options: {
+          // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:rinkeby` network specifier
+          // because the configured network has that name
+          network: 421611
+        }
+      })
+      expect(identifier.provider).toEqual('did:ethr')
+      expect(identifier.did).toMatch(/^did:ethr:arbitrum:rinkeby:0x.*$/)
       expect(identifier.keys.length).toEqual(1)
       expect(identifier.services.length).toEqual(0)
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)

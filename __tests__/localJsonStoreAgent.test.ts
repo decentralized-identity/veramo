@@ -34,19 +34,10 @@ import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import {
-  ISelectiveDisclosure,
-  SdrMessageHandler,
-  SelectiveDisclosure,
-} from '../packages/selective-disclosure/src'
+import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure, } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
-import {
-  DataStoreJson,
-  DIDStoreJson,
-  KeyStoreJson,
-  PrivateKeyStoreJson,
-} from '../packages/data-store-json/src'
+import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson, } from '../packages/data-store-json/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Resolver } from 'did-resolver'
@@ -70,7 +61,7 @@ import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
 import utils from './shared/utils'
 import { JsonFileStore } from './utils/json-file-store'
-
+import credentialStatus from './shared/credentialStatus'
 
 jest.setTimeout(60000)
 
@@ -132,23 +123,23 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
-            network: 'mainnet',
-            rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:rinkeby': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 'rinkeby',
-            rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
-            ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:421611': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 421611,
-            rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
-            registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+            networks: [
+              {
+                name: 'mainnet',
+                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                name: 'rinkeby',
+                rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                chainId: 421611,
+                name: 'arbitrum:rinkeby',
+                rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
+                registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+              },
+            ],
           }),
           'did:web': new WebDIDProvider({
             defaultKms: 'local',
@@ -223,4 +214,5 @@ describe('Local json-data-store integration tests', () => {
   messageHandler(testContext)
   didCommPacking(testContext)
   utils(testContext)
+  credentialStatus(testContext)
 })

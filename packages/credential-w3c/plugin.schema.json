@@ -441,7 +441,7 @@
           }
         },
         "verifyCredential": {
-          "description": "Verifies a Verifiable Credential JWT or LDS Format.",
+          "description": "Verifies a Verifiable Credential JWT, LDS Format or EIP712.",
           "arguments": {
             "$ref": "#/components/schemas/IVerifyCredentialArgs"
           },

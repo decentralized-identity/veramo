@@ -64,7 +64,7 @@ constants:
 
 # Data base
 dbConnection:
-  $require: typeorm?t=function#createConnection
+  $require: typeorm#DataSource
   $args:
     - type: sqlite
       database:

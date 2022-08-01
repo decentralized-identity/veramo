@@ -1,7 +1,8 @@
+// noinspection ES6PreferShortImport
+
 import { IDIDDiscovery } from '../../packages/did-discovery/src'
 import { IAgentOptions, IDataStoreORM, IDIDManager, TAgent } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
-import { getConnection } from 'typeorm'
 
 type ConfiguredAgent = TAgent<IDIDManager & IDIDDiscovery & IDataStoreORM & ICredentialIssuer>
 
@@ -105,26 +106,23 @@ export default (testContext: {
         },
       })
 
-      const byDIDFragmentResult = await agent.discoverDid({ query: identifier.did.substring(3, identifier.did.length - 3)})
+      const byDIDFragmentResult = await agent.discoverDid({
+        query: identifier.did.substring(3, identifier.did.length - 3),
+      })
       expect(byDIDFragmentResult.results).toHaveLength(1)
       expect(byDIDFragmentResult.results[0].matches).toHaveLength(2)
 
       expect(byDIDFragmentResult.results[0].matches[1]).toEqual({
         did: identifier.did,
         metaData: {
-          alias: 'bob'
-        }
+          alias: 'bob',
+        },
       })
     })
 
-    // THIS HAS TO BE THE LAST TEST IN THIS FILE!
     it('should return errors', async () => {
-      const connection = getConnection('did-discovery-test')
-      await connection.close()
-      const result = await agent.discoverDid({ query: 'bob' })
-      expect(result!.errors!['data-store-discovery']).toMatch(
-        /(Connection with sqlite database is not established)|(Cannot read property 'connect' of undefined)/,
-      )
+      const result = await agent.discoverDid({ query: 'broken' })
+      expect(result!.errors!['broken-discovery']).toMatch(/test_error/)
     })
   })
 }

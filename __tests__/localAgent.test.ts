@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials, presentations, messages as well as keys and DIDs.
@@ -45,17 +47,17 @@ import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 
 import {
   DataStore,
+  DataStoreDiscoveryProvider,
   DataStoreORM,
   DIDStore,
   Entities,
   KeyStore,
   migrations,
   PrivateKeyStore,
-  DataStoreDiscoveryProvider,
 } from '../packages/data-store/src'
-import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
-import { Connection, createConnection } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider'
 import { createEthersProvider } from './utils/ethers-provider'
 import { Resolver } from 'did-resolver'
@@ -81,7 +83,7 @@ import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
 import web3 from './shared/web3'
-
+import credentialStatus from './shared/credentialStatus'
 
 jest.setTimeout(60000)
 
@@ -102,13 +104,13 @@ let agent: TAgent<
     ISelectiveDisclosure &
     IDIDDiscovery
 >
-let dbConnection: Promise<Connection>
+let dbConnection: Promise<DataSource>
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile =
     options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
-  dbConnection = createConnection({
+  dbConnection = new DataSource({
     name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',
     database: databaseFile,
@@ -119,7 +121,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
-  })
+  }).initialize()
 
   const { provider, registry } = await createGanacheProvider()
   const ethersProvider = createEthersProvider()
@@ -148,8 +150,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
           web3: new Web3KeyManagementSystem({
-            'ethers': ethersProvider
-          })
+            ethers: ethersProvider,
+          }),
         },
       }),
       new DIDManager({
@@ -158,29 +160,29 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
-            network: 'mainnet',
-            rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:rinkeby': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 'rinkeby',
-            rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
-            ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:421611': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 421611,
-            rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
-            registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
-          }),
-          'did:ethr:ganache': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 1337,
-            web3Provider: provider,
-            registry,
+            networks: [
+              {
+                name: 'mainnet',
+                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                name: 'rinkeby',
+                rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                chainId: 421611,
+                name: 'arbitrum:rinkeby',
+                rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
+                registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+              },
+              {
+                chainId: 1337,
+                name: 'ganache',
+                provider,
+                registry,
+              },
+            ],
           }),
           'did:web': new WebDIDProvider({
             defaultKms: 'local',
@@ -228,7 +230,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: [new AliasDiscoveryProvider(), new DataStoreDiscoveryProvider()],
+        providers: [
+          new AliasDiscoveryProvider(),
+          new DataStoreDiscoveryProvider(),
+          new BrokenDiscoveryProvider(),
+        ],
       }),
       ...(options?.plugins || []),
     ],
@@ -273,4 +279,5 @@ describe('Local integration tests', () => {
   utils(testContext)
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
+  credentialStatus(testContext)
 })
