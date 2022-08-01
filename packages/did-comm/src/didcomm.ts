@@ -46,7 +46,8 @@ import {
 
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm'
-import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports'
+import { IDIDCommTransport } from './transports/transports'
+import { DIDCommHttpTransport } from './transports/httpTransport'
 import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,

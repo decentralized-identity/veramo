@@ -24,7 +24,19 @@
     "did-jwt": "^6.2.0",
     "did-resolver": "^3.2.2",
     "uint8arrays": "^3.0.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "@chainsafe/libp2p-noise": "^7.0.1",
+    "@libp2p/bootstrap": "^2.0.0",
+    "@libp2p/mplex": "^4.0.0",
+    "@libp2p/peer-id-factory": "^1.0.16",
+    "@libp2p/webrtc-star": "^3.0.0",
+    "@libp2p/websockets": "^3.0.1",
+    "it-length-prefixed": "^7.0.1",
+    "it-map": "^1.0.6",
+    "it-pipe": "^2.0.3",
+    "libp2p": "0.37.3-05e8e7e",
+    "libp2p-websockets": "^0.16.2",
+    "peer-id": "^0.16.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
@@ -48,5 +60,8 @@
     "Oliver Terbu <oliver.terbu@mesh.xyz"
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "engines": {
+    "node": ">= 16.0.0"
+  }
 }
