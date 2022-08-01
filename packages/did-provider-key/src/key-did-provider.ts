@@ -44,6 +44,10 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     return identifier
   }
 
+  async updateIdentifier(args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any }, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
+    throw new Error('KeyDIDProvider updateIdentifier not supported yet.')
+  }
+
   async deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean> {
     for (const { kid } of identifier.keys) {
       await context.agent.keyManagerDelete({ kid })

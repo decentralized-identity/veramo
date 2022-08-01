@@ -106,7 +106,7 @@ export interface IDIDManagerGetOrCreateArgs {
   /**
    * Identifier alias. Can be used to reference an object in an external system
    */
-  alias: string
+  alias?: string
 
   /**
    * Optional. Identifier provider
@@ -121,6 +121,28 @@ export interface IDIDManagerGetOrCreateArgs {
   /**
    * Optional. Identifier provider specific options
    */
+  options?: object
+}
+
+export interface IDIDManagerUpdateArgs {
+  /**
+   * Required. DID
+   */
+  did: string
+
+  /**
+   * Identifier alias. Can be used to reference an object in an external system
+   */
+  alias?: string
+
+  /**
+   * Optional. Key Management System
+   */
+  kms?: string
+
+  /**
+    * Optional. Identifier provider specific options
+    */
   options?: object
 }
 
@@ -299,6 +321,8 @@ export interface IDIDManager extends IPluginMethodMap {
     args: IDIDManagerGetOrCreateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier>
+
+  didManagerUpdate(args: IDIDManagerUpdateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 
   /**
    * Imports identifier

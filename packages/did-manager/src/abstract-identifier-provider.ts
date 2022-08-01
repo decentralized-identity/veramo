@@ -9,7 +9,10 @@ export abstract class AbstractIdentifierProvider {
     args: { kms?: string; alias?: string; options?: any },
     context: IAgentContext<IKeyManager>,
   ): Promise<Omit<IIdentifier, 'provider'>>
-
+  abstract updateIdentifier(
+    args: { did: string, kms?: string; alias?: string; options?: any },
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier>
   abstract deleteIdentifier(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<boolean>
 
   abstract addKey(

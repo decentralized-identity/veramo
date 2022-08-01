@@ -9,6 +9,7 @@ import {
   IDIDManagerCreateArgs,
   IDIDManagerGetByAliasArgs,
   IDIDManagerGetOrCreateArgs,
+  IDIDManagerUpdateArgs,
   IDIDManagerDeleteArgs,
   IDIDManagerAddKeyArgs,
   IDIDManagerRemoveKeyArgs,
@@ -55,6 +56,7 @@ export class DIDManager implements IAgentPlugin {
       didManagerCreate: this.didManagerCreate.bind(this),
       didManagerSetAlias: this.didManagerSetAlias.bind(this),
       didManagerGetOrCreate: this.didManagerGetOrCreate.bind(this),
+      didManagerUpdate: this.didManagerUpdate.bind(this),
       didManagerImport: this.didManagerImport.bind(this),
       didManagerDelete: this.didManagerDelete.bind(this),
       didManagerAddKey: this.didManagerAddKey.bind(this),
@@ -133,10 +135,43 @@ export class DIDManager implements IAgentPlugin {
   ): Promise<IIdentifier> {
     try {
       const providerName = provider || this.defaultProvider
+      // @ts-ignore
       const identifier = await this.store.get({ alias, provider: providerName })
       return identifier
     } catch {
       return this.didManagerCreate({ provider, alias, kms, options }, context)
+    }
+  }
+
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerUpdate} */
+  async didManagerUpdate(
+    { did, alias, kms, options }: IDIDManagerUpdateArgs,
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier> {
+    /**
+     * 1. Check if provider implements updateIdentifier
+     * 2. If not, throw
+     */
+    try {
+      /**
+       * 1. Check if the identifier is already in the store
+       * 2. If not, throw
+       * 3. If yes, resolve from ledger and construct the body
+       * 4. Get raw payload provided by `options.payload`
+       * 5. Publish ledger transaction
+       * 6. Update the identifier in the store
+       * 7. Return the identifier
+       */
+      const identifier = await this.store.get({ did })
+      const identifierProvider = this.getProvider(identifier.provider)
+      const updatedIdentifier = await identifierProvider.updateIdentifier(
+        { did, alias, kms, options },
+        context,
+      )
+      await this.store.import(updatedIdentifier)
+      return updatedIdentifier
+    } catch {
+      throw Error('Provider does not support updateIdentifier')
     }
   }
 
