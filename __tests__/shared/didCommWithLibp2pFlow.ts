@@ -17,6 +17,7 @@ import * as u8a from 'uint8arrays'
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
+import { createFromJSON } from '@libp2p/peer-id-factory'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 
@@ -35,9 +36,15 @@ export default (testContext: {
 
     let alice: IIdentifier
     let bob: IIdentifier
+    const listenerPeerIdJson = {
+      "id": "QmcrQZ6RJdpYuGvZqD5QEHAv6qX4BrQLJLQPQUrTrzdcgm",
+      "privKey": "CAASqAkwggSkAgEAAoIBAQDLZZcGcbe4urMBVlcHgN0fpBymY+xcr14ewvamG70QZODJ1h9sljlExZ7byLiqRB3SjGbfpZ1FweznwNxWtWpjHkQjTVXeoM4EEgDSNO/Cg7KNlU0EJvgPJXeEPycAZX9qASbVJ6EECQ40VR/7+SuSqsdL1hrmG1phpIju+D64gLyWpw9WEALfzMpH5I/KvdYDW3N4g6zOD2mZNp5y1gHeXINHWzMF596O72/6cxwyiXV1eJ000k1NVnUyrPjXtqWdVLRk5IU1LFpoQoXZU5X1hKj1a2qt/lZfH5eOrF/ramHcwhrYYw1txf8JHXWO/bbNnyemTHAvutZpTNrsWATfAgMBAAECggEAQj0obPnVyjxLFZFnsFLgMHDCv9Fk5V5bOYtmxfvcm50us6ye+T8HEYWGUa9RrGmYiLweuJD34gLgwyzE1RwptHPj3tdNsr4NubefOtXwixlWqdNIjKSgPlaGULQ8YF2tm/kaC2rnfifwz0w1qVqhPReO5fypL+0ShyANVD3WN0Fo2ugzrniCXHUpR2sHXSg6K+2+qWdveyjNWog34b7CgpV73Ln96BWae6ElU8PR5AWdMnRaA9ucA+/HWWJIWB3Fb4+6uwlxhu2L50Ckq1gwYZCtGw63q5L4CglmXMfIKnQAuEzazq9T4YxEkp+XDnVZAOgnQGUBYpetlgMmkkh9qQKBgQDvsEs0ThzFLgnhtC2Jy//ZOrOvIAKAZZf/mS08AqWH3L0/Rjm8ZYbLsRcoWU78sl8UFFwAQhMRDBP9G+RPojWVahBL/B7emdKKnFR1NfwKjFdDVaoX5uNvZEKSl9UubbC4WZJ65u/cd5jEnj+w3ir9G8n+P1gp/0yBz02nZXFgSwKBgQDZPQr4HBxZL7Kx7D49ormIlB7CCn2i7mT11Cppn5ifUTrp7DbFJ2t9e8UNk6tgvbENgCKXvXWsmflSo9gmMxeEOD40AgAkO8Pn2R4OYhrwd89dECiKM34HrVNBzGoB5+YsAno6zGvOzLKbNwMG++2iuNXqXTk4uV9GcI8OnU5ZPQKBgCZUGrKSiyc85XeiSGXwqUkjifhHNh8yH8xPwlwGUFIZimnD4RevZI7OEtXw8iCWpX2gg9XGuyXOuKORAkF5vvfVriV4e7c9Ad4Igbj8mQFWz92EpV6NHXGCpuKqRPzXrZrNOA9PPqwSs+s9IxI1dMpk1zhBCOguWx2m+NP79NVhAoGBAI6WSoTfrpu7ewbdkVzTWgQTdLzYNe6jmxDf2ZbKclrf7lNr/+cYIK2Ud5qZunsdBwFdgVcnu/02czeS42TvVBgs8mcgiQc/Uy7yi4/VROlhOnJTEMjlU2umkGc3zLzDgYiRd7jwRDLQmMrYKNyEr02HFKFn3w8kXSzW5I8rISnhAoGBANhchHVtJd3VMYvxNcQb909FiwTnT9kl9pkjhwivx+f8/K8pDfYCjYSBYCfPTM5Pskv5dXzOdnNuCj6Y2H/9m2SsObukBwF0z5Qijgu1DsxvADVIKZ4rzrGb4uSEmM6200qjJ/9U98fVM7rvOraakrhcf9gRwuspguJQnSO9cLj6",
+      "pubKey": "CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDLZZcGcbe4urMBVlcHgN0fpBymY+xcr14ewvamG70QZODJ1h9sljlExZ7byLiqRB3SjGbfpZ1FweznwNxWtWpjHkQjTVXeoM4EEgDSNO/Cg7KNlU0EJvgPJXeEPycAZX9qASbVJ6EECQ40VR/7+SuSqsdL1hrmG1phpIju+D64gLyWpw9WEALfzMpH5I/KvdYDW3N4g6zOD2mZNp5y1gHeXINHWzMF596O72/6cxwyiXV1eJ000k1NVnUyrPjXtqWdVLRk5IU1LFpoQoXZU5X1hKj1a2qt/lZfH5eOrF/ramHcwhrYYw1txf8JHXWO/bbNnyemTHAvutZpTNrsWATfAgMBAAE="
+    }
+    const listenerMultiAddrPrefix = ``
 
-    let didCommEndpointServer: Server
-    let listeningPort = Math.round(Math.random() * 32000 + 2048)
+    let listenerNode: any
+    // let listeningPort = Math.round(Math.random() * 32000 + 2048)
 
     beforeAll(async () => {
       await testContext.setup({ plugins: [DIDCommEventSniffer] })
@@ -75,20 +82,9 @@ export default (testContext: {
 
       const requestWithAgent = RequestWithAgentRouter({ agent })
 
-      await new Promise((resolve) => {
-        //setup a server to receive HTTP messages and forward them to this agent to be processed as DIDComm messages
-        const app = express()
-        // app.use(requestWithAgent)
-        app.use(
-          '/messaging',
-          requestWithAgent,
-          MessagingRouter({
-            metaData: { type: 'DIDComm', value: 'integration test' },
-          }),
-        )
-        didCommEndpointServer = app.listen(listeningPort, () => {
-          resolve(true)
-        })
+      const idListener = await createFromJSON(listenerPeerIdJson)
+      await new Promise(async (resolve) => {
+        listenerNode = await createLibp2pNode({})
       })
     })
 
@@ -101,75 +97,16 @@ export default (testContext: {
       await testContext.tearDown()
     })
 
-    it('should add dummy service to identifier', async () => {
-      const result = await agent.didManagerAddService({
-        did: alice.did,
-        service: {
-          id: 'localhost-useless-endpoint',
-          type: 'DIDComm',
-          serviceEndpoint: `http://localhost:${listeningPort}/foobar`,
-          description: 'this endpoint will be removed',
-        },
-      })
-      expect(result.substr(0, 2)).toEqual('0x')
-
-      const resolution = await agent.resolveDid({ didUrl: alice.did })
-
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
-        `http://localhost:${listeningPort}/foobar`,
-      )
-    })
-
-    it('should remove dummy service from identifier', async () => {
-      const result = await agent.didManagerRemoveService({
-        did: alice.did,
-        id: 'localhost-useless-endpoint',
-      })
-
-      expect(result.substr(0, 2)).toEqual('0x')
-
-      const resolution = await agent.resolveDid({ didUrl: alice.did })
-
-      expect(resolution?.didDocument).not.toBeNull()
-      expect([...(resolution?.didDocument?.service || [])]).toEqual([])
-    })
-
-    let dummyKey: IKey
-
-    it('should add dummy key to identifier', async () => {
-      dummyKey = await agent.keyManagerCreate({
-        kms: 'local',
-        type: 'Secp256k1',
-      })
-
-      const result = await agent.didManagerAddKey({
-        did: alice.did,
-        key: dummyKey,
-      })
-
-      expect(result.substr(0, 2)).toEqual('0x')
-      const resolution = await agent.resolveDid({ didUrl: alice.did })
-      expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyHex).toEqual(dummyKey.publicKeyHex)
-    })
-
-    it('should remove dummy key from identifier', async () => {
-      const result = await agent.didManagerRemoveKey({
-        did: alice.did,
-        kid: dummyKey.kid,
-      })
-
-      expect(result.substr(0, 2)).toEqual('0x')
-      const resolution = await agent.resolveDid({ didUrl: alice.did })
-      expect(resolution?.didDocument?.verificationMethod?.length).toEqual(2)
-    })
-
     it('should add DIDComm service to receiver DID', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
         service: {
           id: 'alice-didcomm-endpoint',
           type: 'DIDCommMessaging',
-          serviceEndpoint: `http://localhost:${listeningPort}/messaging`,
+          serviceEndpoint: {
+            transportType: "libp2p",
+            multiAddr: `${listenerMultiAddrPrefix}\\${listenerPeerIdJson.id}`
+          }
           description: 'handles DIDComm messages',
         },
       })

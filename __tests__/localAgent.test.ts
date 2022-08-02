@@ -324,5 +324,6 @@ describe('Local integration tests', () => {
   utils(testContext)
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
+  didCommWithLibp2pFlow(testContext)
   credentialStatus(testContext)
 })
