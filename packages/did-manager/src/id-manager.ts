@@ -145,34 +145,29 @@ export class DIDManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerUpdate} */
   async didManagerUpdate(
-    { did, options }: IDIDManagerUpdateArgs,
+    { did, document, options }: IDIDManagerUpdateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier> {
     /**
-     * 1. Check if provider implements updateIdentifier
+     * 1. Check if the identifier is already in the store
      * 2. If not, throw
+     * 3. Check if provider implements updateIdentifier (handles ledger resolution logic)
+     * 4. If not, throw
+     * 5. If yes, execute updateIdentifier
+     * 6. Update the identifier in the store
+     * 7. Return the identifier
      */
-    try {
-      /**
-       * 1. Check if the identifier is already in the store
-       * 2. If not, throw
-       * 3. If yes, resolve from ledger and construct the body
-       * 4. Get raw payload provided by `options.document`
-       * 5. Publish ledger transaction
-       * 6. Update the identifier in the store
-       * 7. Return the identifier
-       */
       const identifier = await this.store.get({ did })
       const identifierProvider = this.getProvider(identifier.provider)
+      if (typeof identifierProvider?.updateIdentifier !== 'function') {
+        throw new Error(`not_supported: ${identifier?.provider} provider does not implement full document updates`)
+      }
       const updatedIdentifier = await identifierProvider.updateIdentifier(
-        { did, options },
+        { did, document, options },
         context,
       )
       await this.store.import(updatedIdentifier)
       return updatedIdentifier
-    } catch {
-      throw Error('Provider does not support updateIdentifier')
-    }
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerSetAlias} */

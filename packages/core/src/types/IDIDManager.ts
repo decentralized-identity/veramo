@@ -107,7 +107,7 @@ export interface IDIDManagerGetOrCreateArgs {
   /**
    * Identifier alias. Can be used to reference an object in an external system
    */
-  alias?: string
+  alias: string
 
   /**
    * Optional. Identifier provider
@@ -132,13 +132,15 @@ export interface IDIDManagerUpdateArgs {
   did: string
 
   /**
+   * Required
+   */
+  document: Partial<DIDDocument>
+
+  /**
     * Identifier provider specific options
     */
-  options: {
-    /**
-     * Partial pre-constructed DIDDocument
-     */
-    document: Partial<DIDDocument>
+  options?: {
+    [x: string]: any
   }
 }
 

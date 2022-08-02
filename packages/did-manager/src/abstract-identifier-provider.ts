@@ -10,8 +10,8 @@ export abstract class AbstractIdentifierProvider {
     context: IAgentContext<IKeyManager>,
   ): Promise<Omit<IIdentifier, 'provider'>>
 
-  abstract updateIdentifier(
-    args: { did: string, options: { document: Partial<DIDDocument> } },
+  abstract updateIdentifier?(
+    args: { did: string, document: Partial<DIDDocument>, options?: { [x: string]: any } },
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier>
 
