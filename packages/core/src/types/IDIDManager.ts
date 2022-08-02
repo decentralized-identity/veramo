@@ -1,3 +1,4 @@
+import { DIDDocument } from 'did-resolver'
 import { IPluginMethodMap, IAgentContext } from './IAgent'
 import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier'
 import { IKeyManager } from './IKeyManager'
@@ -131,19 +132,14 @@ export interface IDIDManagerUpdateArgs {
   did: string
 
   /**
-   * Identifier alias. Can be used to reference an object in an external system
-   */
-  alias?: string
-
-  /**
-   * Optional. Key Management System
-   */
-  kms?: string
-
-  /**
-    * Optional. Identifier provider specific options
+    * Identifier provider specific options
     */
-  options?: object
+  options: {
+    /**
+     * Partial pre-constructed DIDDocument
+     */
+    document: Partial<DIDDocument>
+  }
 }
 
 /**
