@@ -106,7 +106,7 @@ export interface KeyMetadata {
 }
 
 /**
- * Identifier service
+ * Identifier service 
  * @public
  */
 export interface IService {
@@ -121,12 +121,12 @@ export interface IService {
   type: string
 
   /**
-   * Endpoint URL
+   * Service Endpoint Object conforms to DIDComm/v2 Specification
+   * https://identity.foundation/didcomm-messaging/spec/
    */
-  serviceEndpoint: string
+  serviceEndpoint: ServiceEndpoint[]
 
-  /**
-   * Optional. Description
-   */
-  description?: string
+  [x: string]: any
 }
+
+export type ServiceEndpoint = string | Record<string, any>

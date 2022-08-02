@@ -32,6 +32,7 @@
     "__browser_tests__/*"
   ],
   "devDependencies": {
+    "@libp2p/peer-id-factory": "^1.0.17",
     "@microsoft/api-documenter": "7.17.17",
     "@microsoft/api-extractor": "7.25.0",
     "@microsoft/api-extractor-model": "7.18.0",
