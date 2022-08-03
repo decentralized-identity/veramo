@@ -9,6 +9,7 @@ import {
   IDIDManagerCreateArgs,
   IDIDManagerGetByAliasArgs,
   IDIDManagerGetOrCreateArgs,
+  IDIDManagerUpdateArgs,
   IDIDManagerDeleteArgs,
   IDIDManagerAddKeyArgs,
   IDIDManagerRemoveKeyArgs,
@@ -55,6 +56,7 @@ export class DIDManager implements IAgentPlugin {
       didManagerCreate: this.didManagerCreate.bind(this),
       didManagerSetAlias: this.didManagerSetAlias.bind(this),
       didManagerGetOrCreate: this.didManagerGetOrCreate.bind(this),
+      didManagerUpdate: this.didManagerUpdate.bind(this),
       didManagerImport: this.didManagerImport.bind(this),
       didManagerDelete: this.didManagerDelete.bind(this),
       didManagerAddKey: this.didManagerAddKey.bind(this),
@@ -133,11 +135,39 @@ export class DIDManager implements IAgentPlugin {
   ): Promise<IIdentifier> {
     try {
       const providerName = provider || this.defaultProvider
+      // @ts-ignore
       const identifier = await this.store.get({ alias, provider: providerName })
       return identifier
     } catch {
       return this.didManagerCreate({ provider, alias, kms, options }, context)
     }
+  }
+
+  /** {@inheritDoc @veramo/core#IDIDManager.didManagerUpdate} */
+  async didManagerUpdate(
+    { did, document, options }: IDIDManagerUpdateArgs,
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier> {
+    /**
+     * 1. Check if the identifier is already in the store
+     * 2. If not, throw
+     * 3. Check if provider implements updateIdentifier (handles ledger resolution logic)
+     * 4. If not, throw
+     * 5. If yes, execute updateIdentifier
+     * 6. Update the identifier in the store
+     * 7. Return the identifier
+     */
+      const identifier = await this.store.get({ did })
+      const identifierProvider = this.getProvider(identifier.provider)
+      if (typeof identifierProvider?.updateIdentifier !== 'function') {
+        throw new Error(`not_supported: ${identifier?.provider} provider does not implement full document updates`)
+      }
+      const updatedIdentifier = await identifierProvider.updateIdentifier(
+        { did, document, options },
+        context,
+      )
+      await this.store.import(updatedIdentifier)
+      return updatedIdentifier
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerSetAlias} */

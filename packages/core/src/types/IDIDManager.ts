@@ -1,3 +1,4 @@
+import { DIDDocument } from 'did-resolver'
 import { IPluginMethodMap, IAgentContext } from './IAgent'
 import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier'
 import { IKeyManager } from './IKeyManager'
@@ -122,6 +123,25 @@ export interface IDIDManagerGetOrCreateArgs {
    * Optional. Identifier provider specific options
    */
   options?: object
+}
+
+export interface IDIDManagerUpdateArgs {
+  /**
+   * Required. DID
+   */
+  did: string
+
+  /**
+   * Required
+   */
+  document: Partial<DIDDocument>
+
+  /**
+    * Identifier provider specific options
+    */
+  options?: {
+    [x: string]: any
+  }
 }
 
 /**
@@ -299,6 +319,8 @@ export interface IDIDManager extends IPluginMethodMap {
     args: IDIDManagerGetOrCreateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier>
+
+  didManagerUpdate(args: IDIDManagerUpdateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 
   /**
    * Imports identifier
