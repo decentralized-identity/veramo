@@ -3163,7 +3163,8 @@
             },
             "save": {
               "type": "boolean",
-              "description": "Optional. If set to `true`, the message will be saved using  {@link  IDataStore.dataStoreSaveMessage | dataStoreSaveMessage }"
+              "description": "Optional. If set to `true`, the message will be saved using\n {@link  IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
+              "deprecated": "Please call {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after handling the\nmessage and determining that it must be saved."
             }
           },
           "required": [
@@ -3475,7 +3476,7 @@
       },
       "methods": {
         "handleMessage": {
-          "description": "Parses and optionally saves a message",
+          "description": "Parses a raw message.",
           "arguments": {
             "$ref": "#/components/schemas/IHandleMessageArgs"
           },

@@ -11,7 +11,8 @@
             },
             "save": {
               "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved"
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved.",
+              "deprecated": "Please call {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()}to save the credential after creating it."
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
@@ -206,7 +207,8 @@
             },
             "save": {
               "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved"
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved. <p/><p/>",
+              "deprecated": "Please call\n{@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to save the\ncredential after creating it."
             },
             "challenge": {
               "type": "string",

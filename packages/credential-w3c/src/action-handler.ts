@@ -13,7 +13,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
-  W3CVerifiablePresentation
+  W3CVerifiablePresentation,
 } from '@veramo/core'
 
 import {
@@ -22,7 +22,7 @@ import {
   normalizeCredential,
   normalizePresentation,
   verifyCredential as verifyCredentialJWT,
-  verifyPresentation as verifyPresentationJWT
+  verifyPresentation as verifyPresentationJWT,
 } from 'did-jwt-vc'
 
 import { decodeJWT } from 'did-jwt'
@@ -32,13 +32,17 @@ import {
   extractIssuer,
   isDefined,
   MANDATORY_CREDENTIAL_CONTEXT,
-  processEntryToArray
+  processEntryToArray,
 } from '@veramo/utils'
 import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
 import { schema } from './'
 
-const enum CredentialType { JWT, JSONLD, EIP712 }
+const enum CredentialType {
+  JWT,
+  JSONLD,
+  EIP712,
+}
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -71,7 +75,11 @@ export interface ICreateVerifiablePresentationArgs {
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
-   * {@link @veramo/core#IDataStore | storage plugin} to be saved
+   * {@link @veramo/core#IDataStore | storage plugin} to be saved.
+   * <p/><p/>
+   * @deprecated Please call
+   *   {@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to save the
+   *   credential after creating it.
    */
   save?: boolean
 
@@ -124,7 +132,10 @@ export interface ICreateVerifiableCredentialArgs {
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
-   * {@link @veramo/core#IDataStore | storage plugin} to be saved
+   * {@link @veramo/core#IDataStore | storage plugin} to be saved.
+   *
+   * @deprecated Please call {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()}
+   *   to save the credential after creating it.
    */
   save?: boolean
 
@@ -237,10 +248,11 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiablePresentation} that was requested or rejects with an error
-   * if there was a problem with the input or while getting the key to sign
+   * @returns - a promise that resolves to the {@link @veramo/core#VerifiablePresentation} that was requested or
+   *   rejects with an error if there was a problem with the input or while getting the key to sign
    *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
+   *   }
    */
   createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
@@ -254,8 +266,8 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiableCredential} that was requested or rejects with an error
-   * if there was a problem with the input or while getting the key to sign
+   * @returns - a promise that resolves to the {@link @veramo/core#VerifiableCredential} that was requested or rejects
+   *   with an error if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    */
@@ -297,9 +309,9 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IContext = IAgentContext<
   IResolver &
-  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
+    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
+    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >
 
 /**
@@ -441,7 +453,6 @@ export class CredentialIssuer implements IAgentPlugin {
       throw new Error(`invalid_argument: args.credential.issuer must be a DID managed by this agent. ${e}`)
     }
     try {
-
       let verifiableCredential: VerifiableCredential
       if (args.proofFormat === 'lds') {
         if (typeof context.agent.createVerifiableCredentialLD === 'function') {
@@ -493,11 +504,11 @@ export class CredentialIssuer implements IAgentPlugin {
   /** {@inheritdoc ICredentialIssuer.verifyCredential} */
   async verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<boolean> {
     const credential = args.credential
-    let verifiedCredential: VerifiableCredential;
+    let verifiedCredential: VerifiableCredential
 
-    const type: CredentialType = detectCredentialType(credential);
+    const type: CredentialType = detectCredentialType(credential)
     if (type == CredentialType.JWT) {
-      let jwt: string = (typeof credential === 'string') ? credential : credential.proof.jwt;
+      let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
 
       const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
       try {
@@ -514,8 +525,8 @@ export class CredentialIssuer implements IAgentPlugin {
         )
       }
 
-      if (!await context.agent.verifyCredentialEIP712(args)) {
-        return false;
+      if (!(await context.agent.verifyCredentialEIP712(args))) {
+        return false
       }
 
       verifiedCredential = <VerifiableCredential>credential
@@ -526,19 +537,18 @@ export class CredentialIssuer implements IAgentPlugin {
         )
       }
 
-      if (!await context.agent.verifyCredentialLD(args)) return false;
+      if (!(await context.agent.verifyCredentialLD(args))) return false
 
       verifiedCredential = <VerifiableCredential>credential
-    }
-    else {
+    } else {
       throw new Error('Unknown credential type.')
     }
 
     if (await isRevoked(verifiedCredential, context)) {
-      return false;
+      return false
     }
 
-    return true;
+    return true
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
@@ -605,17 +615,19 @@ function wrapSigner(
 }
 
 function detectCredentialType(credential: W3CVerifiableCredential): CredentialType {
-  if (typeof credential === 'string' || (<VerifiableCredential>credential)?.proof?.jwt) return CredentialType.JWT;
-  if ((<VerifiableCredential>credential)?.proof?.type === 'EthereumEip712Signature2021') return CredentialType.EIP712;
-  return CredentialType.JSONLD;
+  if (typeof credential === 'string' || (<VerifiableCredential>credential)?.proof?.jwt)
+    return CredentialType.JWT
+  if ((<VerifiableCredential>credential)?.proof?.type === 'EthereumEip712Signature2021')
+    return CredentialType.EIP712
+  return CredentialType.JSONLD
 }
 
 async function isRevoked(credential: VerifiableCredential, context: IAgentContext<any>): Promise<boolean> {
   if (!credential.credentialStatus) return false
 
   if (typeof context.agent.checkCredentialStatus === 'function') {
-    const status = await context.agent.checkCredentialStatus({ credential });
-    return (status?.revoked == true);
+    const status = await context.agent.checkCredentialStatus({ credential })
+    return status?.revoked == true
   }
 
   throw new Error(`invalid_config: The credential status can't be verified by the agent`)
