@@ -21,8 +21,8 @@ import { CredentialStatus, CredentialStatusType } from './vc-data-model'
 interface CredentialStatusUpdateOptions { [x: string]: any }
 
 /**
- * Input arguments for {@link IRevocation.credentialStatusUpdate  | credentialStatusUpdate}
- * @public
+ * Input arguments for {@link ICredentialStatus.credentialStatusUpdate  | credentialStatusUpdate}
+ * @beta
  */
 export interface CredentialStatusUpdateArgs {
   /**
