@@ -62,7 +62,7 @@ export interface ICredentialStatus extends IPluginMethodMap {
    * @param args - Input arguments for updating the status or revoking a credential
    * @beta
    */
-  credentialStatusUpdate(args: CredentialStatusUpdateArgs): Promise<CredentialStatusVerification>
+  credentialStatusUpdate(args: CredentialStatusUpdateArgs): Promise<any>
 
   /**
    * Generates a `credentialStatus` property for a future credential, not yet signed.
