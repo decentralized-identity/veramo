@@ -15,12 +15,14 @@ import { CredentialStatus, CredentialStatusType } from './vc-data-model'
  * 
  * @see https://w3c-ccg.github.io/vc-status-list-2021/ | StatusList2021Entry
  * @see https://w3c-ccg.github.io/vc-csl2017/ | CredentialStatusList2017
+ *
+ * @beta
  */
-class CredentialStatusUpdateOptions { [x: string]: any }
+interface CredentialStatusUpdateOptions { [x: string]: any }
 
 /**
- * Input arguments for {@link IRevocation.credentialStatusUpdate  | credentialStatusUpdate}
- * @public
+ * Input arguments for {@link ICredentialStatus.credentialStatusUpdate  | credentialStatusUpdate}
+ * @beta
  */
 export interface CredentialStatusUpdateArgs {
   /**
@@ -36,9 +38,15 @@ export interface CredentialStatusUpdateArgs {
   options?: CredentialStatusUpdateOptions
 }
 
+/**
+ * Arguments for generating a `credentialStatus` property for a {@link VerifiableCredential}.
+ * @see {@link ICredentialStatus.credentialStatusGenerate}
+ *
+ * @beta
+ */
 export interface CredentialStatusGenerateArgs {
   /**
-   * The credential status type (aka credential status method) to be used in the `cretentialStatus` generation.
+   * The credential status type (aka credential status method) to be used in the `credentialStatus` generation.
    */
   type: CredentialStatusType
 }
@@ -53,7 +61,7 @@ export interface ICredentialStatus extends IPluginMethodMap {
    * Commonly used to revoke an existent credential.
    * 
    * @param args - Input arguments for updating the status or revoking a credential
-   * @public
+   * @beta
    */
   credentialStatusUpdate(args: CredentialStatusUpdateArgs): Promise<CredentialStatusVerification>
 
@@ -64,7 +72,7 @@ export interface ICredentialStatus extends IPluginMethodMap {
    * having its status updated later, allowing it to be revoked later by instance.
    * 
    * @param args - Input arguments for generating the `credentialStatus` field of a new credential
-   * @public
+   * @beta
    */
   credentialStatusGenerate(args: CredentialStatusGenerateArgs): Promise<CredentialStatus>
 

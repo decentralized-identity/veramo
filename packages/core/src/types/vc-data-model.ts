@@ -36,9 +36,7 @@ export type CredentialSubject = {
 
 /**
  * Expresses the credential status type (also referred to as the credential status method). 
- * It is expected that the value will provide enough information to determine the current status of the credential 
- * and that machine readable information needs to be retrievable from the URI. 
- * For example, the object could contain a link to an external document noting whether or not the credential is suspended or revoked.
+ *
  * @see https://www.w3.org/TR/vc-data-model/#status
  */
 export type CredentialStatusType = string
