@@ -1,11 +1,10 @@
-import { VerifiableCredential } from 'did-jwt-vc'
 import {
   CredentialStatus as CredentialStatusVerification
 } from 'credential-status'
 
 export { DIDDocument, DIDResolutionOptions, DIDResolutionResult } from 'did-resolver'
 import { IPluginMethodMap } from './IAgent'
-import { CredentialStatus, CredentialStatusType } from './vc-data-model'
+import { CredentialStatus, CredentialStatusType, VerifiableCredential } from './vc-data-model'
 
 /**
  * The arguments expected by a plugin that implements a credential status type/method 
