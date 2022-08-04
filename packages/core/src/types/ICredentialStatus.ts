@@ -38,6 +38,12 @@ export interface CredentialStatusUpdateArgs {
   options?: CredentialStatusUpdateOptions
 }
 
+/**
+ * Arguments for generating a `credentialStatus` property for a {@link VerifiableCredential}.
+ * @see {@link ICredentialStatus.credentialStatusGenerate}
+ *
+ * @beta
+ */
 export interface CredentialStatusGenerateArgs {
   /**
    * The credential status type (aka credential status method) to be used in the `cretentialStatus` generation.
