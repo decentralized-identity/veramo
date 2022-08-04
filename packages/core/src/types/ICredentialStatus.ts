@@ -61,7 +61,7 @@ export interface ICredentialStatus extends IPluginMethodMap {
    * Commonly used to revoke an existent credential.
    * 
    * @param args - Input arguments for updating the status or revoking a credential
-   * @public
+   * @beta
    */
   credentialStatusUpdate(args: CredentialStatusUpdateArgs): Promise<CredentialStatusVerification>
 
