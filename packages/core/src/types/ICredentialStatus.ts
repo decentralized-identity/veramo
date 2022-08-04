@@ -46,7 +46,7 @@ export interface CredentialStatusUpdateArgs {
  */
 export interface CredentialStatusGenerateArgs {
   /**
-   * The credential status type (aka credential status method) to be used in the `cretentialStatus` generation.
+   * The credential status type (aka credential status method) to be used in the `credentialStatus` generation.
    */
   type: CredentialStatusType
 }
