@@ -1,6 +1,5 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm'
 import Debug from 'debug'
-const debug = Debug('veramo:data-store:initial-migration')
 
 /**
  * Fix inconsistencies between Entity data and column data.

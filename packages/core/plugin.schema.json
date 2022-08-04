@@ -1371,6 +1371,95 @@
             "alias"
           ],
           "description": "Input arguments for  {@link  IDIDManager.didManagerSetAlias | didManagerSetAlias }"
+        },
+        "IDIDManagerUpdateArgs": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Required. DID"
+            },
+            "document": {
+              "type": "object",
+              "properties": {
+                "@context": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
+                },
+                "id": {
+                  "type": "string"
+                },
+                "alsoKnownAs": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "controller": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
+                },
+                "verificationMethod": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "service": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "publicKey": {
+                  "type": "object",
+                  "properties": {},
+                  "deprecated": true
+                },
+                "authentication": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "assertionMethod": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "keyAgreement": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "capabilityInvocation": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "capabilityDelegation": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "description": "Required"
+            },
+            "options": {
+              "type": "object",
+              "description": "Identifier provider specific options"
+            }
+          },
+          "required": [
+            "did",
+            "document"
+          ]
         }
       },
       "methods": {
@@ -1495,6 +1584,15 @@
           },
           "returnType": {
             "type": "boolean"
+          }
+        },
+        "didManagerUpdate": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IDIDManagerUpdateArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IIdentifier"
           }
         }
       }

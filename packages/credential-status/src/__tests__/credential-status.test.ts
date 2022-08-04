@@ -59,18 +59,15 @@ describe('@veramo/credential-status', () => {
   it('should throw if unknown status check was provided', async () => {
     expect.assertions(1);
     const agent = createAgent({
-      plugins: [new CredentialStatusPlugin()],
+      plugins: [
+        new CredentialStatusPlugin({
+          NotCalled: jest.fn()
+        })
+      ],
     })
 
-    await expect(() =>
-      agent.checkCredentialStatus({
-        credential: referenceCredential,
-        didDoc: referenceDoc,
-      }),
-    ).rejects.toThrow(
-      new Error(
-        `unknown_method: credentialStatus method ExoticStatusMethod2022 unknown. Validity can not be determined.`,
-      ),
-    )
+    await expect(agent.checkCredentialStatus({
+      credential: referenceCredential
+    })).rejects.toThrow(`unknown_method: credentialStatus method ExoticStatusMethod2022 unknown. Validity can not be determined.`)
   })
 })

@@ -25,7 +25,7 @@ import {
   Any,
   Between,
   Brackets,
-  Connection,
+  DataSource,
   Equal,
   In,
   IsNull,
@@ -37,6 +37,8 @@ import {
   Not,
   SelectQueryBuilder,
 } from 'typeorm'
+import { getConnectedDb } from "./utils";
+import { OrPromise } from "@veramo/utils";
 
 /**
  * This class implements the {@link @veramo/core#IDataStoreORM} query interface using a TypeORM compatible database.
@@ -56,9 +58,9 @@ import {
 export class DataStoreORM implements IAgentPlugin {
   readonly methods: IDataStoreORM
   readonly schema = schema.IDataStoreORM
-  private dbConnection: Promise<Connection>
+  private dbConnection: OrPromise<DataSource>
 
-  constructor(dbConnection: Promise<Connection>) {
+  constructor(dbConnection: OrPromise<DataSource>) {
     this.dbConnection = dbConnection
 
     this.methods = {
@@ -85,7 +87,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: AuthorizedDIDContext,
   ): Promise<SelectQueryBuilder<Identifier>> {
     const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
+    let qb = (await getConnectedDb(this.dbConnection))
       .getRepository(Identifier)
       .createQueryBuilder('identifier')
       .leftJoinAndSelect('identifier.keys', 'keys')
@@ -129,7 +131,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: AuthorizedDIDContext,
   ): Promise<SelectQueryBuilder<Message>> {
     const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
+    let qb = (await getConnectedDb(this.dbConnection))
       .getRepository(Message)
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.from', 'from')
@@ -172,7 +174,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: AuthorizedDIDContext,
   ): Promise<SelectQueryBuilder<Claim>> {
     const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
+    let qb = (await getConnectedDb(this.dbConnection))
       .getRepository(Claim)
       .createQueryBuilder('claim')
       .leftJoinAndSelect('claim.issuer', 'issuer')
@@ -221,7 +223,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: AuthorizedDIDContext,
   ): Promise<SelectQueryBuilder<Credential>> {
     const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
+    let qb = (await getConnectedDb(this.dbConnection))
       .getRepository(Credential)
       .createQueryBuilder('credential')
       .leftJoinAndSelect('credential.issuer', 'issuer')
@@ -268,7 +270,7 @@ export class DataStoreORM implements IAgentPlugin {
     context: AuthorizedDIDContext,
   ): Promise<SelectQueryBuilder<Presentation>> {
     const where = createWhereObject(args)
-    let qb = (await this.dbConnection)
+    let qb = (await getConnectedDb(this.dbConnection))
       .getRepository(Presentation)
       .createQueryBuilder('presentation')
       .leftJoinAndSelect('presentation.holder', 'holder')

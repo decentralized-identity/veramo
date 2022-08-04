@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This suite runs through a few agent operations using data that was created before
  * TypeORM migrations were available (before Veramo 3.0.0)
@@ -32,7 +34,7 @@ import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
-import { Connection, ConnectionOptions, createConnection } from 'typeorm'
+import { DataSourceOptions, DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -58,18 +60,19 @@ describe('database initial migration tests', () => {
 
   function createTestsUsingOptions(
     databaseBeforeFile: string,
-    connectionOverrides: Partial<ConnectionOptions>,
+    connectionOverrides: Partial<DataSourceOptions>,
   ) {
     describe('using pre-migration database fixture', () => {
       const databaseFile = databaseBeforeFile + '.tmp'
       type TestingAgentPlugins = IDIDManager & IKeyManager & IDataStore & IDataStoreORM & IResolver & IDIDComm
       let agent: TAgent<TestingAgentPlugins>
-      let dbConnection: Promise<Connection>
+      let dbConnection: DataSource
 
       beforeAll(async () => {
         fs.copyFileSync(databaseBeforeFile, databaseFile)
 
-        dbConnection = createConnection({
+        // intentionally using DataSource instead of Promise<DataSource> to test compatibility
+        dbConnection = new DataSource({
           name: 'test',
           type: 'sqlite',
           database: databaseFile,
@@ -79,7 +82,7 @@ describe('database initial migration tests', () => {
           logging: false,
           entities: Entities,
           ...connectionOverrides,
-        } as ConnectionOptions)
+        } as DataSourceOptions)
 
         agent = createAgent<TestingAgentPlugins>({
           context: {
@@ -98,6 +101,7 @@ describe('database initial migration tests', () => {
               store: new DIDStore(dbConnection),
               defaultProvider: 'did:ethr:goerli',
               providers: {
+                // intentionally using deprecated config for backward compatibility checks
                 'did:ethr:goerli': new EthrDIDProvider({
                   defaultKms: 'local',
                   network: 'goerli',

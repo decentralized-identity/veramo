@@ -13,14 +13,14 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { EthrDIDProvider } from "../../../did-provider-ethr/src";
+import { EthrDIDProvider } from '../../../did-provider-ethr/src'
 import { ContextDoc } from '../types'
 import { CredentialIssuerLD } from '../action-handler'
 import { LdDefaultContexts } from '../ld-default-contexts'
 import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
-import { VeramoEcdsaSecp256k1RecoverySignature2020 } from "../suites/EcdsaSecp256k1RecoverySignature2020";
+import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020'
 
 jest.setTimeout(300000)
 
@@ -62,7 +62,7 @@ describe('credential-LD full flow', () => {
         new DIDResolverPlugin({
           resolver: new Resolver({
             ...getDidKeyResolver(),
-            ...ethrDidResolver({ infuraProjectId, }),
+            ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
         new CredentialIssuer(),
@@ -73,7 +73,7 @@ describe('credential-LD full flow', () => {
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()
-    didEthrIdentifier = await agent.didManagerCreate({ provider: "did:ethr:goerli" })
+    didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr:goerli' })
   })
 
   it('works with Ed25519Signature2018 credential', async () => {
@@ -136,9 +136,9 @@ describe('credential-LD full flow', () => {
     const verifiablePresentation = await agent.createVerifiablePresentation({
       presentation: {
         verifiableCredential: [verifiableCredential1],
-        holder: didKeyIdentifier.did
+        holder: didKeyIdentifier.did,
       },
-      challenge: "VERAMO",
+      challenge: 'VERAMO',
       proofFormat: 'lds',
     })
 
@@ -146,7 +146,7 @@ describe('credential-LD full flow', () => {
 
     const verified = await agent.verifyPresentation({
       presentation: verifiablePresentation,
-      challenge: "VERAMO",
+      challenge: 'VERAMO',
     })
 
     expect(verified).toBe(true)
@@ -171,9 +171,9 @@ describe('credential-LD full flow', () => {
     const verifiablePresentation = await agent.createVerifiablePresentation({
       presentation: {
         verifiableCredential: [verifiableCredential1],
-        holder: didEthrIdentifier.did
+        holder: didEthrIdentifier.did,
       },
-      challenge: "VERAMO",
+      challenge: 'VERAMO',
       proofFormat: 'lds',
     })
 
@@ -181,7 +181,7 @@ describe('credential-LD full flow', () => {
 
     const verified = await agent.verifyPresentation({
       presentation: verifiablePresentation,
-      challenge: "VERAMO",
+      challenge: 'VERAMO',
     })
 
     expect(verified).toBe(true)

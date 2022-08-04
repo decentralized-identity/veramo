@@ -4,10 +4,12 @@ import { Identifier } from '../entities/identifier'
 import { Credential } from '../entities/credential'
 import { Key } from '../entities/key'
 import { Service } from '../entities/service'
-import { Connection, In, IsNull, Not } from 'typeorm'
+import { DataSource, IsNull, Not } from 'typeorm'
 
 import Debug from 'debug'
 import { Presentation } from '../entities/presentation'
+import { OrPromise } from "@veramo/utils";
+import { getConnectedDb } from "../utils";
 
 const debug = Debug('veramo:typeorm:identifier-store')
 
@@ -24,15 +26,15 @@ const debug = Debug('veramo:typeorm:identifier-store')
  * @public
  */
 export class DIDStore extends AbstractDIDStore {
-  constructor(private dbConnection: Promise<Connection>) {
+  constructor(private dbConnection: OrPromise<DataSource>) {
     super()
   }
 
   async get({
-              did,
-              alias,
-              provider,
-            }: {
+    did,
+    alias,
+    provider,
+  }: {
     did: string
     alias: string
     provider: string
@@ -46,7 +48,7 @@ export class DIDStore extends AbstractDIDStore {
       throw Error('[veramo:data-store:identifier-store] Get requires did or (alias and provider)')
     }
 
-    const identifier = await (await this.dbConnection).getRepository(Identifier).findOne({
+    const identifier = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).findOne({
       where,
       relations: ['keys', 'services'],
     })
@@ -75,7 +77,7 @@ export class DIDStore extends AbstractDIDStore {
   }
 
   async delete({ did }: { did: string }) {
-    const identifier = await (await this.dbConnection).getRepository(Identifier).findOne({
+    const identifier = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).findOne({
       where: { did },
       relations: ['keys', 'services', 'issuedCredentials', 'issuedPresentations'],
     })
@@ -89,23 +91,23 @@ export class DIDStore extends AbstractDIDStore {
       delete key.identifier
       return key
     })
-    await (await this.dbConnection).getRepository(Key).save(existingKeys)
+    await (await getConnectedDb(this.dbConnection)).getRepository(Key).save(existingKeys)
 
     if (identifier.issuedCredentials || typeof identifier.issuedCredentials !== 'undefined') {
-      await (await this.dbConnection).getRepository(Credential).remove(identifier.issuedCredentials)
+      await (await getConnectedDb(this.dbConnection)).getRepository(Credential).remove(identifier.issuedCredentials)
     }
 
     if (identifier.issuedPresentations || typeof identifier.issuedPresentations !== 'undefined') {
-      await (await this.dbConnection).getRepository(Presentation).remove(identifier.issuedPresentations)
+      await (await getConnectedDb(this.dbConnection)).getRepository(Presentation).remove(identifier.issuedPresentations)
     }
 
     //delete existing services that are no longer tied to this identifier
     let oldServices = identifier.services
-    const srvRepo = await (await this.dbConnection).getRepository(Service).remove(oldServices)
+    const srvRepo = await (await getConnectedDb(this.dbConnection)).getRepository(Service).remove(oldServices)
 
     if (!identifier) throw Error('Identifier not found')
     debug('Deleting', did)
-    await (await this.dbConnection).getRepository(Identifier).remove(identifier)
+    await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).remove(identifier)
 
     return true
   }
@@ -141,7 +143,7 @@ export class DIDStore extends AbstractDIDStore {
       identifier.services.push(service)
     }
 
-    await (await this.dbConnection).getRepository(Identifier).save(identifier)
+    await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).save(identifier)
 
     debug('Saving', args.did)
     return true
@@ -152,7 +154,7 @@ export class DIDStore extends AbstractDIDStore {
     if (args?.alias) {
       where['alias'] = args.alias
     }
-    const identifiers = await (await this.dbConnection).getRepository(Identifier).find({
+    const identifiers = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).find({
       where,
       relations: ['keys', 'services'],
     })

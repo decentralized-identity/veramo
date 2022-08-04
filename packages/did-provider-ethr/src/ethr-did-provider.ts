@@ -1,22 +1,113 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { Provider } from '@ethersproject/abstract-provider'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { JsonRpcProvider, TransactionRequest } from '@ethersproject/providers'
+import { BigNumber } from '@ethersproject/bignumber'
 import { computePublicKey } from '@ethersproject/signing-key'
 import { computeAddress } from '@ethersproject/transactions'
 import { KmsEthereumSigner } from './kms-eth-signer'
 import Debug from 'debug'
 import { EthrDID } from 'ethr-did'
+
 const debug = Debug('veramo:did-provider-ethr')
 
 export type IRequiredContext = IAgentContext<IKeyManager>
 
 /**
- * Helper method that can computes the ethereumAddress corresponding to a secp256k1 public key.
- * @param hexPublicKey A hex encoded public key, prefixed with `0x`
+ * For most operations at most 60-70k gas is needed, larger amount for safety
+ */
+export const DEFAULT_GAS_LIMIT = 100000
+
+/**
+ * Helper method that can computes the ethereumAddress corresponding to a Secp256k1 public key.
+ * @param hexPublicKey A hex encoded public key, optionally prefixed with `0x`
  */
 export function toEthereumAddress(hexPublicKey: string): string {
-  return computeAddress('0x' + hexPublicKey)
+  const publicKey = hexPublicKey.startsWith('0x') ? hexPublicKey : '0x' + hexPublicKey
+  return computeAddress(publicKey)
+}
+
+/**
+ * Options for creating a did:ethr
+ * @beta
+ */
+export interface CreateDidEthrOptions {
+  /**
+   * This can be a network name or hex encoded chain ID (string) or a chainId number
+   *
+   * If this is not specified, `mainnet` is assumed.
+   */
+  network?: string | number
+
+  /**
+   * This is usually a did prefix, like `did:ethr` or `did:ethr:goerli` and can be used to determine the desired
+   * network, if no `network` option is specified.
+   */
+  providerName?: string
+}
+
+export interface TransactionOptions extends TransactionRequest {
+  ttl?: number
+  encoding?: string
+}
+
+/**
+ * Possible options for network configuration for `did:ethr`
+ *
+ * @beta
+ */
+export interface EthrNetworkConfiguration {
+  /**
+   * The name of the network, for example 'mainnet', 'goerli', 'polygon'.
+   * If this is present, then DIDs anchored on this network will have a human-readable prefix, like
+   * `did:ethr:goerli:0x...`. See the
+   * {@link https://github.com/uport-project/ethr-did-registry#contract-deployments | official deployments} for a table
+   * of reusable names.
+   * If this parameter is not present, `chainId` MUST be specified.
+   */
+  name?: string
+
+  /**
+   * Web3 provider. This is used to interact with the ethereum network.
+   * When a web3 wallet is used here, it can also be used to sign transactions.
+   * Either a `provider` or a `rpcUrl` must be specified. `provider` takes precedence when both are used.
+   */
+  provider?: Provider
+
+  /**
+   * Equivalent to `provider`
+   * Web3 provider. This is used to interact with the ethereum network.
+   * When a web3 wallet is used here, it can also be used to sign transactions.
+   * Either a `provider` or a `rpcUrl` must be specified. `provider` takes precedence when both are used.
+   */
+  web3Provider?: Provider
+
+  /**
+   * A JSON RPC URL for the ethereum network that is being used.
+   * Either a `provider` or a `rpcUrl` must be specified. `provider` takes precedence when both are used.
+   */
+  rpcUrl?: string
+
+  /**
+   * The EIP1056 registry address for the ethereum network being configured.
+   *
+   * Please See the
+   * {@link https://github.com/uport-project/ethr-did-registry#contract-deployments | official deployments} for a table
+   * of known deployments.
+   */
+  registry?: string
+
+  /**
+   * The chain ID for the ethereum network being configured. This can be a hex-encoded string starting with `0x`.
+   * If `name` is not specified, then the hex encoded `chainId` will be used when creating DIDs, according to the
+   * `did:ethr` spec.
+   *
+   * Example, chainId==42 and name==undefined => DIDs are prefixed with `did:ethr:0x2a:`
+   */
+  chainId?: string | number
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [index: string]: any
 }
 
 /**
@@ -25,43 +116,92 @@ export function toEthereumAddress(hexPublicKey: string): string {
  */
 export class EthrDIDProvider extends AbstractIdentifierProvider {
   private defaultKms: string
-  private network: string | number
-  private web3Provider?: Provider
-  private rpcUrl?: string
+  private networks: EthrNetworkConfiguration[]
   private gas?: number
   private ttl?: number
-  private registry?: string
 
   constructor(options: {
     defaultKms: string
-    network: string | number
-    rpcUrl?: string
-    web3Provider?: Provider
+    networks?: EthrNetworkConfiguration[]
     ttl?: number
-    gas?: number
+    /**
+     * @deprecated Please use the `networks` parameter instead.
+     */
+    network?: string | number
+    /**
+     * @deprecated Please use the `networks` parameter instead.
+     */
+    name?: string
+    /**
+     * @deprecated Please use the `networks` parameter instead.
+     */
+    rpcUrl?: string
+    /**
+     * @deprecated Please use the `networks` parameter instead.
+     */
+    web3Provider?: Provider
+    /**
+     * @deprecated Please use the `networks` parameter instead.
+     */
     registry?: string
+    /**
+     * @deprecated If tweaking is necessary, please specify the maximum `gasLimit` as an `option` to every DID update
+     */
+    gas?: number
   }) {
     super()
     this.defaultKms = options.defaultKms
-    this.network = options.network
-    this.rpcUrl = options.rpcUrl
-    this.web3Provider = <Provider>options.web3Provider
-    if (typeof this.web3Provider === 'undefined') {
-      this.web3Provider = new JsonRpcProvider(this.rpcUrl, this.network)
+    if (options.networks) {
+      this.networks = options.networks
+    } else {
+      const singleNetwork: EthrNetworkConfiguration = {
+        provider: options.web3Provider,
+        rpcUrl: options.rpcUrl,
+        registry: options.registry,
+      }
+      if (typeof singleNetwork.provider === 'undefined') {
+        singleNetwork.provider = new JsonRpcProvider(singleNetwork.rpcUrl, singleNetwork.network)
+      }
+      if (typeof options.network === 'string') {
+        if (options.network.startsWith('0x')) {
+          singleNetwork.chainId = parseInt(options.network.substring(2), 16)
+        } else {
+          singleNetwork.name = options.network
+        }
+      } else if (typeof options.network === 'number') {
+        singleNetwork.chainId = options.network
+        singleNetwork.name = options.name
+      }
+      this.networks = [singleNetwork]
     }
     this.ttl = options.ttl
     this.gas = options.gas
-    this.registry = options.registry
   }
 
   async createIdentifier(
-    { kms, options }: { kms?: string; options?: any },
+    { kms, options }: { kms?: string; options?: CreateDidEthrOptions },
     context: IRequiredContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
     const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
     const compressedPublicKey = computePublicKey(`0x${key.publicKeyHex}`, true)
+    let networkSpecifier =
+      options?.network ||
+      (options?.providerName?.match(/^did:ethr:.+$/) ? options?.providerName?.substring(9) : undefined)
+    const network = this.getNetworkFor(networkSpecifier)
+    if (!network) {
+      throw new Error(
+        `invalid_config: Cannot create did:ethr. There is no known configuration for network=${networkSpecifier}'`,
+      )
+    }
+    if (typeof networkSpecifier === 'number') {
+      networkSpecifier =
+        network.name && network.name.length > 0
+          ? network.name
+          : BigNumber.from(options?.network || 1).toHexString()
+    }
+    const networkString = networkSpecifier && networkSpecifier !== 'mainnet' ? `${networkSpecifier}:` : ''
     const identifier: Omit<IIdentifier, 'provider'> = {
-      did: 'did:ethr:' + (this.network !== 'mainnet' ? this.network + ':' : '') + compressedPublicKey,
+      did: 'did:ethr:' + networkString + compressedPublicKey,
       controllerKeyId: key.kid,
       keys: [key],
       services: [],
@@ -70,14 +210,36 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     return identifier
   }
 
+  async updateIdentifier(args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any }, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
+    throw new Error('EthrDIDProvider updateIdentifier not supported yet.')
+  }
+
   async deleteIdentifier(identifier: IIdentifier, context: IRequiredContext): Promise<boolean> {
     for (const { kid } of identifier.keys) {
+      // FIXME: keys might be used by multiple DIDs or even independent
       await context.agent.keyManagerDelete({ kid })
     }
     return true
   }
 
-  private async getEthrDidController(identifier: IIdentifier, context: IRequiredContext) {
+  private getNetworkFor(networkSpecifier: string | number | undefined): EthrNetworkConfiguration | undefined {
+    let networkNameOrId: string | number = networkSpecifier || 'mainnet'
+    if (
+      typeof networkNameOrId === 'string' &&
+      (networkNameOrId.startsWith('0x') || parseInt(networkNameOrId) > 0)
+    ) {
+      networkNameOrId = BigNumber.from(networkNameOrId).toNumber()
+    }
+    let network = this.networks.find(
+      (n) => n.chainId === networkNameOrId || n.name === networkNameOrId || n.description === networkNameOrId,
+    )
+    if (!network && !networkSpecifier && this.networks.length === 1) {
+      network = this.networks[0]
+    }
+    return network
+  }
+
+  private async getEthrDidController(identifier: IIdentifier, context: IRequiredContext): Promise<EthrDID> {
     if (identifier.controllerKeyId == null) {
       throw new Error('invalid_argument: identifier does not list a `controllerKeyId`')
     }
@@ -85,29 +247,38 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     if (typeof controllerKey === 'undefined') {
       throw new Error('invalid_argument: identifier.controllerKeyId is not managed by this agent')
     }
+
+    // find network
+    const networkStringMatcher = /^did:ethr(:.+)?:(0x[0-9a-fA-F]{40}|0x[0-9a-fA-F]{66}).*$/
+    const matches = identifier.did.match(networkStringMatcher)
+    let network = this.getNetworkFor(matches?.[1]?.substring(1))
+    if (!matches || !network) {
+      throw new Error(`invalid_argument: cannot find network for ${identifier.did}`)
+    }
+
     if (controllerKey.meta?.algorithms?.includes('eth_signTransaction')) {
       return new EthrDID({
         identifier: identifier.did,
-        provider: this.web3Provider,
-        chainNameOrId: this.network,
-        rpcUrl: this.rpcUrl,
-        registry: this.registry,
-        txSigner: new KmsEthereumSigner(controllerKey, context, this.web3Provider),
+        provider: network.provider,
+        chainNameOrId: network.name || network.chainId,
+        rpcUrl: network.rpcUrl,
+        registry: network.registry,
+        txSigner: new KmsEthereumSigner(controllerKey, context, network?.provider),
       })
     } else {
       // Web3Provider should perform signing and sending transaction
       return new EthrDID({
         identifier: identifier.did,
-        provider: this.web3Provider,
-        chainNameOrId: this.network,
-        rpcUrl: this.rpcUrl,
-        registry: this.registry,
-      })      
+        provider: network.provider,
+        chainNameOrId: network.name || network.chainId,
+        rpcUrl: network.rpcUrl,
+        registry: network.registry,
+      })
     }
   }
 
   async addKey(
-    { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
+    { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: TransactionOptions },
     context: IRequiredContext,
   ): Promise<any> {
     const ethrDid = await this.getEthrDidController(identifier, context)
@@ -116,24 +287,22 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const attrName = `did/pub/${key.type}/${usg}/${encoding}`
     const attrValue = '0x' + key.publicKeyHex
     const ttl = options?.ttl || this.ttl
-    const gasLimit = options?.gas || this.gas
+    const gasLimit = options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
     debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
     const txHash = await ethrDid.setAttribute(attrName, attrValue, ttl, undefined, {
+      ...options,
       gasLimit,
-      gasPrice: options?.gasPrice,
-      maxFeePerGas: options?.maxFeePerGas,
-      maxPriorityFeePerGas: options?.maxPriorityFeePerGas,
-      // from: options?.from,
-      nonce: options?.nonce,
-      accessList: options?.accessList,
-      type: options?.type,
     })
-    debug({ txHash })
+    debug(`ethrDid.addKey tx = ${txHash}`)
     return txHash
   }
 
   async addService(
-    { identifier, service, options }: { identifier: IIdentifier; service: IService; options?: any },
+    {
+      identifier,
+      service,
+      options,
+    }: { identifier: IIdentifier; service: IService; options?: TransactionOptions },
     context: IRequiredContext,
   ): Promise<any> {
     const ethrDid = await this.getEthrDidController(identifier, context)
@@ -141,26 +310,20 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const attrName = 'did/svc/' + service.type
     const attrValue = service.serviceEndpoint
     const ttl = options?.ttl || this.ttl
-    const gasLimit = options?.gas || this.gas
+    const gasLimit = options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
     debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
 
     const txHash = await ethrDid.setAttribute(attrName, attrValue, ttl, undefined, {
+      ...options,
       gasLimit,
-      gasPrice: options?.gasPrice,
-      maxFeePerGas: options?.maxFeePerGas,
-      maxPriorityFeePerGas: options?.maxPriorityFeePerGas,
-      // from: options?.from,
-      nonce: options?.nonce,
-      accessList: options?.accessList,
-      type: options?.type,
     })
-    debug({ txHash })
+    debug(`ethrDid.addService tx = ${txHash}`)
     return txHash
   }
 
   async removeKey(
-    args: { identifier: IIdentifier; kid: string; options?: any },
+    args: { identifier: IIdentifier; kid: string; options?: TransactionOptions },
     context: IRequiredContext,
   ): Promise<any> {
     const ethrDid = await this.getEthrDidController(args.identifier, context)
@@ -172,25 +335,19 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const encoding = key.type === 'X25519' ? 'base58' : args.options?.encoding || 'hex'
     const attrName = `did/pub/${key.type}/${usg}/${encoding}`
     const attrValue = '0x' + key.publicKeyHex
-    const gasLimit = args.options?.gas || this.gas
+    const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
     debug('ethrDid.revokeAttribute', { attrName, attrValue, gasLimit })
     const txHash = await ethrDid.revokeAttribute(attrName, attrValue, undefined, {
+      ...args.options,
       gasLimit,
-      gasPrice: args.options?.gasPrice,
-      maxFeePerGas: args.options?.maxFeePerGas,
-      maxPriorityFeePerGas: args.options?.maxPriorityFeePerGas,
-      // from: options?.from,
-      nonce: args.options?.nonce,
-      accessList: args.options?.accessList,
-      type: args.options?.type,
     })
-
+    debug(`ethrDid.removeKey tx = ${txHash}`)
     return txHash
   }
 
   async removeService(
-    args: { identifier: IIdentifier; id: string; options?: any },
+    args: { identifier: IIdentifier; id: string; options?: TransactionOptions },
     context: IRequiredContext,
   ): Promise<any> {
     const ethrDid = await this.getEthrDidController(args.identifier, context)
@@ -200,19 +357,31 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
 
     const attrName = 'did/svc/' + service.type
     const attrValue = service.serviceEndpoint
-    const gasLimit = args.options?.gas || this.gas
+    const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
     debug('ethrDid.revokeAttribute', { attrName, attrValue, gasLimit })
     const txHash = await ethrDid.revokeAttribute(attrName, attrValue, undefined, {
+      ...args.options,
       gasLimit,
-      gasPrice: args.options?.gasPrice,
-      maxFeePerGas: args.options?.maxFeePerGas,
-      maxPriorityFeePerGas: args.options?.maxPriorityFeePerGas,
-      // from: options?.from,
-      nonce: args.options?.nonce,
-      accessList: args.options?.accessList,
-      type: args.options?.type,
     })
+    debug(`ethrDid.removeService tx = ${txHash}`)
     return txHash
+  }
+
+  /**
+   * Tries to determine if this DID provider can manage DIDs with the given prefix.
+   *
+   * If this provider was configured for a particular network and that network name or hexChainId is used in the prefix
+   * it will return true.
+   *
+   * @param prefix - The DID prefix to match against
+   */
+  matchPrefix(prefix: string): boolean {
+    const matches = prefix.match(/^did:ethr(:.+)?$/)
+    let network = this.getNetworkFor(matches?.[1]?.substring(1))
+    if (!matches || !network) {
+      return false
+    }
+    return true
   }
 }
