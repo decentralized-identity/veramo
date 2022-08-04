@@ -35,13 +35,6 @@ export type CredentialSubject = {
 }
 
 /**
- * Expresses the credential status type (also referred to as the credential status method). 
- *
- * @see https://www.w3.org/TR/vc-data-model/#status
- */
-export type CredentialStatusType = string
-
-/**
  * Used for the discovery of information about the current status of a verifiable credential, such as whether it is
  * suspended or revoked.
  * The precise contents of the credential status information is determined by the specific `credentialStatus` type
@@ -53,7 +46,7 @@ export type CredentialStatusType = string
  */
 export type CredentialStatus = {
   id: string
-  type: CredentialStatusType
+  type: string
   [x: string]: any
 }
 
