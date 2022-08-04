@@ -15,8 +15,10 @@ import { CredentialStatus, CredentialStatusType } from './vc-data-model'
  * 
  * @see https://w3c-ccg.github.io/vc-status-list-2021/ | StatusList2021Entry
  * @see https://w3c-ccg.github.io/vc-csl2017/ | CredentialStatusList2017
+ *
+ * @beta
  */
-class CredentialStatusUpdateOptions { [x: string]: any }
+interface CredentialStatusUpdateOptions { [x: string]: any }
 
 /**
  * Input arguments for {@link IRevocation.credentialStatusUpdate  | credentialStatusUpdate}
