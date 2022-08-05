@@ -26,7 +26,7 @@ Special thanks to the following extraordinary individuals, for their contributio
 - [Oriel Steele](https://github.com/OR13)
 - [Jason Healy](https://github.com/jasheal)
 - [Trent Larson](https://github.com/trentlarson)
-- [Adres Junge](https://github.com/ajunge)
+- [Andres Junge](https://github.com/ajunge)
 - [Roderik van der Veer](https://github.com/roderik)
 - [Jan Christoph Ebersbach](https://github.com/jceb)
 - [Dan Bolser](https://github.com/CholoTook)
