@@ -1,7 +1,7 @@
 # Contributors Highlight 
 
 ### Team
-- [Mircea Nistor](https://github.com/mirceanis) (Maintainer)
+- [Mircea Nistor](https://github.com/mirceanis)
 - [Simonas Karuzas](https://github.com/simonas-notcat)
 - [Italo Borsatto](https://github.com/italobb)
 - [Nick Reynolds](https://github.com/nickreynolds)
