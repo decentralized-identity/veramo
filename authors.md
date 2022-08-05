@@ -19,7 +19,7 @@ Special thanks to the following extraordinary individuals, for their contributio
 - [Martin Riedel](https://github.com/rado0x54)
 - [Emile Baizel](https://github.com/ebaizel)
 - [Moe Jangda](https://github.com/mistermoe)
-- [Martijndebruijn](https://github.com/martijndebruijn)
+- [Martijn de Bruijn](https://github.com/martijndebruijn)
 - [Leo Ribeiro](https://github.com/leordev)
 - [Oliver Terbu](https://github.com/awoie)
 - [Greg Bugyis](https://github.com/gbugyis)
