@@ -10,7 +10,7 @@ Special thanks to the following extraordinary individuals, for their contributio
 
 - [Nick L.](https://github.com/nick-verida)
 - [Richard Braman](https://github.com/fhirfly)
-- [Eengineer](https://github.com/Eengineer1)
+- [Tasos Derisiotis](https://github.com/Eengineer1)
 - [Ron Kreutzer](https://github.com/rkreutzer)
 - [Duranteau Ludovic](https://github.com/duranteau-l-i)
 - [Ilya Nevolin](https://github.com/inevolin)
