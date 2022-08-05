@@ -31,6 +31,6 @@ Special thanks to the following extraordinary individuals, for their contributio
 - [Jan Christoph Ebersbach](https://github.com/jceb)
 - [Dan Bolser](https://github.com/CholoTook)
 - [Walker Flynn](https://github.com/walfly)
-- [Raj Singhrawat](https://github.com/devrajsinghrawat)
+- [Devraj Singh Rawat](https://github.com/devrajsinghrawat)
 - [Eseoghene Mentie](https://github.com/Eseoghene)
 - [Ilan Olkies](https://github.com/ilanolkies)
