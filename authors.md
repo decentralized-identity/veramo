@@ -2,7 +2,7 @@
 
 ### Team
 - [Mircea Nistor](https://github.com/mirceanis) (Maintainer)
-- [Simonas Kiru](https://github.com/simonas-notcat)
+- [Simonas Karuzas](https://github.com/simonas-notcat)
 - [Italo Borsatto](https://github.com/italobb)
 - [Nick Reynolds](https://github.com/nickreynolds)
 
