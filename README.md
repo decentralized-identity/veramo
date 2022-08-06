@@ -1,5 +1,5 @@
 [![Discord](https://img.shields.io/discord/878293684620234752?logo=discord&logoColor=white&style=flat-square)](https://discord.gg/huwyNfVkhe)
-![Twitter Follow](https://img.shields.io/twitter/follow/veramojs?logo=twitter&style=flat-square)
+![Twitter Follow](https://img.shields.io/twitter/follow/veramolabs?logo=twitter&style=flat-square)
 [![Build, Test and Publish](https://github.com/uport-project/veramo/workflows/Build,%20Test%20and%20Publish/badge.svg?branch=next)](https://github.com/uport-project/veramo/actions?query=workflow%3A%22Build%2C+Test+and+Publish%22)
 [![codecov](https://codecov.io/gh/uport-project/veramo/branch/next/graph/badge.svg)](https://codecov.io/gh/uport-project/veramo)
 
