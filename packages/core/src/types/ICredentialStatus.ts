@@ -10,7 +10,7 @@ import { CredentialStatus, VerifiableCredential } from './vc-data-model'
  * The arguments expected by a plugin that implements a credential status type/method 
  * in order to change the status of an issued verifiable credential.
  * 
- * Each cretential status type has its own specific parameters according to their spec.
+ * Each credential status type has its own specific parameters according to their spec.
  * 
  * @see https://w3c-ccg.github.io/vc-status-list-2021/ | StatusList2021Entry
  * @see https://w3c-ccg.github.io/vc-csl2017/ | CredentialStatusList2017
