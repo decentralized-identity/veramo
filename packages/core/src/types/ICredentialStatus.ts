@@ -52,7 +52,7 @@ export interface CredentialStatusGenerateArgs {
 
 /**
  * Credential status manager interface
- * @public
+ * @beta
  */
 export interface ICredentialStatus extends IPluginMethodMap {
   /**
