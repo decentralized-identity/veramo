@@ -18,7 +18,7 @@ export type CompactJWT = string
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type IssuerType = { id: string; [x: string]: any } | string
+export type IssuerType = { id: string;[x: string]: any } | string
 
 /**
  * The value of the credentialSubject property is defined as a set of objects that contain one or more properties that
