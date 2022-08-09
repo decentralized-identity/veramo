@@ -1,9 +1,15 @@
-import { IAgentContext, IAgentPlugin, VerifiableCredential } from '@veramo/core'
-import { CredentialStatus, Status, StatusMethod } from 'credential-status'
-import { ICheckCredentialStatus, ICheckCredentialStatusArgs } from './types'
+import {
+  IAgentContext,
+  IAgentPlugin,
+  ICheckCredentialStatusArgs,
+  ICredentialStatusVerifier,
+  IResolver,
+} from '@veramo/core'
+import { extractIssuer, resolveDidOrThrow } from '@veramo/utils'
+import { Status, StatusMethod } from 'credential-status'
 
 /**
- * This plugin implements the {@link @veramo/credential-status#ICheckCredentialStatus | ICheckCredentialStatus}
+ * This plugin implements the {@link @veramo/core#ICredentialStatusVerifier | ICredentialStatusVerifier}
  * interface.
  *
  * This aggregates some {@link credential-status#StatusMethod | credential status implementations} to provide a second
@@ -22,7 +28,7 @@ import { ICheckCredentialStatus, ICheckCredentialStatusArgs } from './types'
  */
 export class CredentialStatusPlugin implements IAgentPlugin {
   private readonly status: Status
-  readonly methods: ICheckCredentialStatus
+  readonly methods: ICredentialStatusVerifier
 
   constructor(registry: Record<string, StatusMethod> = {}) {
     this.status = new Status(registry)
@@ -31,8 +37,12 @@ export class CredentialStatusPlugin implements IAgentPlugin {
     }
   }
 
-  private async checkCredentialStatus(args: ICheckCredentialStatusArgs, context: IAgentContext<any>) {
-    return this.status.checkStatus(args.credential, args.didDoc)
+  private async checkCredentialStatus(args: ICheckCredentialStatusArgs, context: IAgentContext<IResolver>) {
+    let didDoc = args.didDocumentOverride
+    if (!didDoc) {
+      const issuerDid = extractIssuer(args.credential)
+      didDoc = await resolveDidOrThrow(issuerDid, context)
+    }
+    return this.status.checkStatus(args.credential, didDoc)
   }
 }
-

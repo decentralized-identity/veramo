@@ -1,17 +1,18 @@
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
-import {
-  TKeyType,
-  IKey,
-  ManagedKeyInfo,
-  MinimalImportableKey,
-} from '@veramo/core'
+import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey } from '@veramo/core'
 import { AbstractKeyManagementSystem, Eip712Payload } from '@veramo/key-manager'
 import { toUtf8String } from '@ethersproject/strings'
 
+/**
+ * This is a {@link @veramo/keyManager#AbstractKeyManagementSystem | KMS} implementation that uses the addresses of a
+ * web3 wallet as key identifiers, and calls the respective wallet for signing operations.
+ * @beta
+ */
 export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
   /**
-   * 
-   * @param providers - the key can be any unique name. Example { metamask: metamaskProvider, walletConnect: walletConnectProvider }
+   *
+   * @param providers - the key can be any unique name. Example { metamask: metamaskProvider, walletConnect:
+   *   walletConnectProvider }
    */
   constructor(private providers: Record<string, Web3Provider>) {
     super()
@@ -21,9 +22,7 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     throw Error('not_supported: Web3KeyManagementSystem cannot create new keys')
   }
 
-  async importKey(
-    args: Omit<MinimalImportableKey, 'kms'>,
-  ): Promise<ManagedKeyInfo> {
+  async importKey(args: Omit<MinimalImportableKey, 'kms'>): Promise<ManagedKeyInfo> {
     // throw Error('Not implemented')
     return args as any as ManagedKeyInfo
   }
@@ -32,7 +31,7 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     const keys: ManagedKeyInfo[] = []
     for (const provider in this.providers) {
       const accounts = await this.providers[provider].listAccounts()
-      for (const account of accounts) { 
+      for (const account of accounts) {
         const key: ManagedKeyInfo = {
           kid: `${provider}-${account}`,
           type: 'Secp256k1',
@@ -41,11 +40,8 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
           meta: {
             account,
             provider,
-            algorithms: [
-              'eth_signMessage',
-              'eth_signTypedData',
-            ]
-          }
+            algorithms: ['eth_signMessage', 'eth_signTypedData'],
+          },
         }
         keys.push(key)
       }
@@ -65,10 +61,10 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     return true
   }
 
-  // keyRef should be in this format '{providerName-account}   
-  // example: 'metamask-0xf3beac30c498d9e26865f34fcaa57dbb935b0d74' 
-  private getAccountAndSignerByKeyRef(keyRef: Pick<IKey, 'kid'>): {account: string, signer: JsonRpcSigner } {
-    const [ providerName, account ] = keyRef.kid.split('-')
+  // keyRef should be in this format '{providerName-account}
+  // example: 'metamask-0xf3beac30c498d9e26865f34fcaa57dbb935b0d74'
+  private getAccountAndSignerByKeyRef(keyRef: Pick<IKey, 'kid'>): { account: string; signer: JsonRpcSigner } {
+    const [providerName, account] = keyRef.kid.split('-')
     if (!this.providers[providerName]) {
       throw Error(`not_available: provider ${providerName}`)
     }
@@ -85,13 +81,10 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     algorithm?: string
     data: Uint8Array
   }): Promise<string> {
-
     if (algorithm) {
       if (algorithm === 'eth_signMessage') {
         return await this.eth_signMessage(keyRef, data)
-      } else if (
-        ['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)
-      ) {
+      } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)) {
         return await this.eth_signTypedData(keyRef, data)
       }
     }
@@ -107,10 +100,7 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     const serializedData = toUtf8String(data)
     try {
       const jsonData = JSON.parse(serializedData) as Eip712Payload
-      if (
-        typeof jsonData.domain === 'object' &&
-        typeof jsonData.types === 'object'
-      ) {
+      if (typeof jsonData.domain === 'object' && typeof jsonData.types === 'object') {
         const { domain, types, message, primaryType } = jsonData
         msg = message
         msgDomain = domain
@@ -122,16 +112,12 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     } catch (e) {
       // next check will throw since the data couldn't be parsed
     }
-    if (
-      typeof msgDomain !== 'object' ||
-      typeof msgTypes !== 'object' ||
-      typeof msg !== 'object'
-    ) {
+    if (typeof msgDomain !== 'object' || typeof msgTypes !== 'object' || typeof msg !== 'object') {
       throw Error(
         `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
       )
     }
-    delete(msgTypes.EIP712Domain)
+    delete msgTypes.EIP712Domain
 
     const { signer } = this.getAccountAndSignerByKeyRef(keyRef)
     const signature = await signer._signTypedData(msgDomain, msgTypes, msg)
@@ -148,5 +134,4 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     // HEX encoded string, 0x prefixed
     return signature
   }
-
 }

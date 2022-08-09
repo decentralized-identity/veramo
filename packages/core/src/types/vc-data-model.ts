@@ -7,7 +7,7 @@
 export type CompactJWT = string
 
 /**
- * The issuer of a Credential or the holder of a Presentation.
+ * The issuer of a {@link VerifiableCredential} or the holder of a {@link VerifiablePresentation }.
  *
  * The value of the issuer property MUST be either a URI or an object containing an id property.
  * It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document
@@ -18,7 +18,7 @@ export type CompactJWT = string
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type IssuerType = { id: string;[x: string]: any } | string
+export type IssuerType = { id: string; [x: string]: any } | string
 
 /**
  * The value of the credentialSubject property is defined as a set of objects that contain one or more properties that
@@ -44,14 +44,29 @@ export type CredentialSubject = {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type CredentialStatus = {
+export type CredentialStatusReference = {
   id: string
   type: string
   [x: string]: any
 }
 
 /**
- * A proof property of a Verifiable Credential or Presentation
+ * Represents the result of a status check.
+ *
+ * Implementations MUST populate the `revoked` boolean property, but they can return additional metadata that is
+ * method specific.
+ *
+ * @see {@link credential-status#CredentialStatus | CredentialStatus}
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export type CredentialStatus = {
+  revoked?: boolean
+  [x: string]: any
+}
+
+/**
+ * A proof property of a {@link VerifiableCredential} or {@link VerifiablePresentation}
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -74,7 +89,7 @@ export interface UnsignedCredential {
   '@context': string[] | string
   issuanceDate: string
   expirationDate?: string
-  credentialStatus?: CredentialStatus
+  credentialStatus?: CredentialStatusReference
   id?: string
 
   [x: string]: any
@@ -150,7 +165,7 @@ export interface CredentialPayload {
   '@context'?: string[]
   issuanceDate?: DateType
   expirationDate?: DateType
-  credentialStatus?: CredentialStatus
+  credentialStatus?: CredentialStatusReference
   id?: string
 
   [x: string]: any

@@ -125,6 +125,13 @@ export interface IDIDManagerGetOrCreateArgs {
   options?: object
 }
 
+/**
+ * The arguments necessary to perform a full DID document update for a DID.
+ *
+ * @see {@link IDIDManager.didManagerUpdate | didManagerUpdate}
+ *
+ * @beta
+ */
 export interface IDIDManagerUpdateArgs {
   /**
    * Required. DID
@@ -137,8 +144,10 @@ export interface IDIDManagerUpdateArgs {
   document: Partial<DIDDocument>
 
   /**
-    * Identifier provider specific options
-    */
+   * Identifier provider specific options.
+   *
+   * @see {@link @veramo/did-manager#AbstractIdentifierProvider | AbstractIdentifierProvider}
+   */
   options?: {
     [x: string]: any
   }
@@ -242,7 +251,6 @@ export interface IDIDManager extends IPluginMethodMap {
    * Returns a list of managed identifiers
    *
    * @param args - Required. Arguments to get the list of identifiers
-   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link @veramo/core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -266,7 +274,6 @@ export interface IDIDManager extends IPluginMethodMap {
    * Returns a specific identifier by alias
    *
    * @param args - Required. Arguments to get the identifier
-   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link @veramo/core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -282,7 +289,9 @@ export interface IDIDManager extends IPluginMethodMap {
    * Creates and returns a new identifier
    *
    * @param args - Required. Arguments to create the identifier
-   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link @veramo/core#IKeyManager} methods
+   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's <a
+   *   href="/docs/agent/plugins#executing-plugin-methods">Execution context</a> requires an `agent` that has
+   *   {@link @veramo/core#IKeyManager} methods.
    *
    * @example
    * ```typescript
@@ -299,7 +308,8 @@ export interface IDIDManager extends IPluginMethodMap {
    * Sets identifier alias
    *
    * @param args - Required. Arguments to set identifier alias
-   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent` that has {@link @veramo/core#IKeyManager} methods
+   * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent`
+   *   that has {@link @veramo/core#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -314,13 +324,24 @@ export interface IDIDManager extends IPluginMethodMap {
 
   /**
    * Returns an existing identifier or creates a new one for a specific alias
+   * @param args - The alias used for the search and the provider/kms/options used to create the DID when none is found.
+   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's <a
+   *   href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
+   *   {@link @veramo/core#IKeyManager} methods.
    */
   didManagerGetOrCreate(
     args: IDIDManagerGetOrCreateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier>
 
-  didManagerUpdate(args: IDIDManagerUpdateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
+  /**
+   * Updates the DID document of a managed {@link IIdentifier | DID}.
+   * @param args - the arguments necessary for the update. The options are specific for each DID provider.
+   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's <a
+   *   href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
+   *   {@link @veramo/core#IKeyManager} methods.
+   */
+   didManagerUpdate(args: IDIDManagerUpdateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 
   /**
    * Imports identifier
