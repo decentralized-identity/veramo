@@ -13,6 +13,7 @@
     { "path": "did-jwt" },
     { "path": "did-manager" },
     { "path": "did-provider-ethr" },
+    { "path": "did-provider-ion" },
     { "path": "did-provider-key" },
     { "path": "did-provider-web" },
     { "path": "did-resolver" },
