@@ -39,7 +39,7 @@ export abstract class AbstractIdentifierProvider {
 
   /**
    * Subclasses can override this to signal that they can work with a given DID prefix
-   * @param prefix a DID URL prefix, Example: 'did:key:z6Mk', or `did:ethr`, or `did:ethr:arbitrum:testnet`
+   * @param prefix - a DID URL prefix, Example: 'did:key:z6Mk', or `did:ethr`, or `did:ethr:arbitrum:testnet`
    */
   matchPrefix?(prefix: string): boolean {
     return false

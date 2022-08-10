@@ -1,9 +1,10 @@
-import { IAgentContext, IPluginMethodMap, VerifiableCredential } from '@veramo/core'
-import { CredentialStatus as CredentialStatusVerification } from 'credential-status'
 import { DIDDocument } from 'did-resolver'
+import { IAgentContext, IPluginMethodMap } from './IAgent'
+import { VerifiableCredential, CredentialStatus } from './vc-data-model'
+import { IResolver } from "./IResolver";
 
 /**
- * Arguments for calling {@link ICheckCredentialStatus.checkCredentialStatus | checkCredentialStatus}.
+ * Arguments for calling {@link ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus}.
  *
  * The credential whose status should be checked and the DID document of the credential issuer.
  *
@@ -12,8 +13,16 @@ import { DIDDocument } from 'did-resolver'
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICheckCredentialStatusArgs {
+  /**
+   * The credential whose status needs to be checked
+   */
   credential: VerifiableCredential
-  didDoc: DIDDocument
+
+  /**
+   * The DID document of the issuer. This can be used in case the DID Document is already resolver, to avoid a
+   * potentially expensive DID resolution operation.
+   */
+  didDocumentOverride?: DIDDocument
 }
 
 /**
@@ -33,8 +42,7 @@ export interface ICheckCredentialStatusArgs {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICheckCredentialStatus extends IPluginMethodMap {
-
+export interface ICredentialStatusVerifier extends IPluginMethodMap {
   /**
    * Checks the status of a {@link @veramo/core#VerifiableCredential | Verifiable Credential}.
    *
@@ -43,6 +51,6 @@ export interface ICheckCredentialStatus extends IPluginMethodMap {
    */
   checkCredentialStatus(
     args: ICheckCredentialStatusArgs,
-    context: IAgentContext<any>,
-  ): Promise<CredentialStatusVerification>
+    context: IAgentContext<IResolver>,
+  ): Promise<CredentialStatus>
 }

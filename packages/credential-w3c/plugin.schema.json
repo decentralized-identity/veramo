@@ -12,7 +12,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved.",
-              "deprecated": "Please call {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()}to save the credential after creating it."
+              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\nthe credential after creating it."
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
@@ -61,7 +61,7 @@
               "$ref": "#/components/schemas/DateType"
             },
             "credentialStatus": {
-              "$ref": "#/components/schemas/CredentialStatus"
+              "$ref": "#/components/schemas/CredentialStatusReference"
             },
             "id": {
               "type": "string"
@@ -89,7 +89,7 @@
               "type": "string"
             }
           ],
-          "description": "The issuer of a Credential or the holder of a Presentation.\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -104,7 +104,7 @@
           "type": "string",
           "description": "Represents an issuance or expiration date for Credentials / Presentations. This is used as input when creating them."
         },
-        "CredentialStatus": {
+        "CredentialStatusReference": {
           "type": "object",
           "properties": {
             "id": {
@@ -174,7 +174,7 @@
               "type": "string"
             },
             "credentialStatus": {
-              "$ref": "#/components/schemas/CredentialStatus"
+              "$ref": "#/components/schemas/CredentialStatusReference"
             },
             "id": {
               "type": "string"
@@ -196,7 +196,7 @@
               "type": "string"
             }
           },
-          "description": "A proof property of a Verifiable Credential or Presentation"
+          "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
         },
         "ICreateVerifiablePresentationArgs": {
           "type": "object",
@@ -208,7 +208,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved. <p/><p/>",
-              "deprecated": "Please call\n{@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to save the\ncredential after creating it."
+              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\nsave the credential after creating it."
             },
             "challenge": {
               "type": "string",

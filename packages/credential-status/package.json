@@ -6,15 +6,11 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
-  },
-  "veramo": {
-    "pluginInterfaces": {
-      "ICheckCredentialStatus": "./src/types.ts"
-    }
+    "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
     "@veramo/core": "^3.1.0",
+    "@veramo/utils": "^3.1.0",
     "credential-status": "^2.0.3",
     "did-jwt": "^6.2.0",
     "did-resolver": "^3.2.2"

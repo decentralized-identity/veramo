@@ -2,6 +2,7 @@
     "documentPackages": [
         "core",
         "credential-ld",
+        "credential-status",
         "credential-w3c",
         "data-store",
         "data-store-json",
@@ -15,6 +16,7 @@
         "did-resolver",
         "key-manager",
         "kms-local",
+        "kms-web3",
         "message-handler",
         "remote-client",
         "remote-server",

@@ -78,8 +78,8 @@ export interface ICreateVerifiablePresentationArgs {
    * {@link @veramo/core#IDataStore | storage plugin} to be saved.
    * <p/><p/>
    * @deprecated Please call
-   *   {@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to save the
-   *   credential after creating it.
+   *   {@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to
+   *   save the credential after creating it.
    */
   save?: boolean
 
@@ -134,8 +134,9 @@ export interface ICreateVerifiableCredentialArgs {
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
    * {@link @veramo/core#IDataStore | storage plugin} to be saved.
    *
-   * @deprecated Please call {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()}
-   *   to save the credential after creating it.
+   * @deprecated Please call
+   *   {@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save
+   *   the credential after creating it.
    */
   save?: boolean
 

@@ -112,7 +112,7 @@
               "type": "string"
             }
           },
-          "description": "A proof property of a Verifiable Credential or Presentation"
+          "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
         },
         "W3CVerifiableCredential": {
           "anyOf": [
@@ -170,7 +170,7 @@
               "type": "string"
             },
             "credentialStatus": {
-              "$ref": "#/components/schemas/CredentialStatus"
+              "$ref": "#/components/schemas/CredentialStatusReference"
             },
             "id": {
               "type": "string"
@@ -202,7 +202,7 @@
               "type": "string"
             }
           ],
-          "description": "The issuer of a Credential or the holder of a Presentation.\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -213,7 +213,7 @@
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
-        "CredentialStatus": {
+        "CredentialStatusReference": {
           "type": "object",
           "properties": {
             "id": {
