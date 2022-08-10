@@ -100,17 +100,26 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
   /** {@inheritdoc AbstractDIDCommTransport.isServiceSupported} */
   isServiceSupported(service: any) {
-    // FIXME: TODO: addtionally handle serviceEndpoint objects in did docs
     return (
-      typeof service.serviceEndpoint === 'string' &&
-      (service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://'))
+      (typeof service.serviceEndpoint === 'string'  && (
+        service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.uri &&  typeof service.serviceEndpoint.uri === 'string' && (
+        service.serviceEndpoint.uri.startsWith('http://') || service.serviceEndpoint.uri.startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0].uri === 'string' && (
+        service.serviceEndpoint[0].uri.startsWith('http://') || service.serviceEndpoint[0].uri.startsWith('https://')
+      ))
     )
   }
 
   /** {@inheritdoc AbstractDIDCommTransport.send} */
   async send(service: any, message: string): Promise<IDIDCommTransportResult> {
+    const serviceEndpoint = (service.serviceEndpoint.length > 0 && service.serviceEndpoint[0].uri) || service.serviceEndpoint.uri || service.serviceEndpoint
     try {
-      const response = await fetch(service.serviceEndpoint, {
+      const response = await fetch(serviceEndpoint, {
         method: this.httpMethod,
         body: message,
       })

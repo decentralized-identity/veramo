@@ -123,10 +123,12 @@ export interface IService {
   /**
    * Endpoint URL
    */
-  serviceEndpoint: string
+  serviceEndpoint: IServiceEndpoint | IServiceEndpoint[]
 
   /**
    * Optional. Description
    */
   description?: string
 }
+
+export type IServiceEndpoint = string | Record<string, any>

@@ -1086,7 +1086,17 @@
               "description": "Service type"
             },
             "serviceEndpoint": {
-              "type": "string",
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/IServiceEndpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IServiceEndpoint"
+                  }
+                }
+              ],
               "description": "Endpoint URL"
             },
             "description": {
@@ -1100,6 +1110,16 @@
             "serviceEndpoint"
           ],
           "description": "Identifier service"
+        },
+        "IServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
+          ]
         },
         "IDIDManagerCreateArgs": {
           "type": "object",
@@ -2294,7 +2314,17 @@
               "description": "Service type"
             },
             "serviceEndpoint": {
-              "type": "string",
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/IServiceEndpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IServiceEndpoint"
+                  }
+                }
+              ],
               "description": "Endpoint URL"
             },
             "description": {
@@ -2308,6 +2338,16 @@
             "serviceEndpoint"
           ],
           "description": "Identifier service"
+        },
+        "IServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
+          ]
         },
         "FindMessagesArgs": {
           "$ref": "#/components/schemas/FindArgs-TMessageColumns",
