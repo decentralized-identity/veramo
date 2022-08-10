@@ -8,24 +8,27 @@ jest.setTimeout(60000)
 
 const providerConfig = {
   networks: [
-    { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },
+    { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/3586660d179141e3801c3895de1c2eba' },
+    { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/3586660d179141e3801c3895de1c2eba' },
     { name: 'development', rpcUrl: 'http://localhost:7545' },
     // FIXME: add this example
     // { name: 'test', provider: TBD_add_example_of_custom_provider_usage },
   ],
 }
 
-/** This creates a resolver that supports the [ethr, web, key, elem] DID methods */
-let resolver = new Resolver({
+let resolverMap = {
   // resolve did:ethr using the embedded ethr-did-resolver
   ...getEthrResolver(providerConfig),
   // resolve did:web using the embedded web-did-resolver
   ...getWebDidResolver(),
   // resolve some other DID methods using the centralized `uniresolver.io` service
   ...getUniversalResolverFor(['key', 'elem']),
-})
+}
 
+/** This creates a resolver that supports the [ethr, web, key, elem] DID methods */
+let resolver = new Resolver(resolverMap)
 let resolverPlugin: DIDResolverPlugin = new DIDResolverPlugin({ resolver })
+let resolverPluginDirect: DIDResolverPlugin = new DIDResolverPlugin(resolverMap)
 
 describe('@veramo/did-resolver', () => {
   beforeAll(() => {})
@@ -89,45 +92,19 @@ describe('@veramo/did-resolver', () => {
     })
   })
 
-  //// Uniresolver is too unstable
-  // it('should resolve did:key using uniresolver', async () => {
-  //   expect.assertions(1)
-  //   const { didDocument } = await resolverPlugin.resolveDid({
-  //     didUrl: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //   })
-  //   expect(didDocument).toEqual({
-  //     '@context': ['https://w3id.org/did/v0.11'],
-  //     id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //     publicKey: [
-  //       {
-  //         id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //         type: 'Ed25519VerificationKey2018',
-  //         controller: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //         publicKeyBase58: '2QTnR7atrFu3Y7S6Xmmr4hTsMaL1KDh6Mpe9MgnJugbi',
-  //       },
-  //     ],
-  //     authentication: [
-  //       'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //     ],
-  //     assertionMethod: [
-  //       'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //     ],
-  //     capabilityDelegation: [
-  //       'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //     ],
-  //     capabilityInvocation: [
-  //       'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //     ],
-  //     keyAgreement: [
-  //       {
-  //         id: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6#z6LSbgq3GejX88eiAYWmZ9EiddS3GaXodvm8MJJyEH7bqXgz',
-  //         type: 'X25519KeyAgreementKey2019',
-  //         controller: 'did:key:z6Mkfriq1MqLBoPWecGoDLjguo1sB9brj6wT3qZ5BxkKpuP6',
-  //         publicKeyBase58: '1eskLvf2fvy5A912VimK3DZRRzgwKayUKbHjpU589vE',
-  //       },
-  //     ],
-  //   })
-  // })
+  it('should resolve web DID using direct constructor', async () => {
+    expect.assertions(1)
+    const result = await resolverPluginDirect.resolveDid({ didUrl: 'did:web:did.actor:alice' })
+    expect(result?.didDocument?.id).toEqual('did:web:did.actor:alice')
+  })
+
+  it('should resolve ethr-did with RPC URL using direct constructor', async () => {
+    expect.assertions(1)
+    const result = await resolverPluginDirect.resolveDid({
+      didUrl: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+    })
+    expect(result?.didDocument?.id).toEqual('did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6')
+  })
 
   it('should fail predictably when unsupported method is resolved', async () => {
     expect.assertions(1)

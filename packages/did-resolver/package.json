@@ -10,12 +10,13 @@
   },
   "dependencies": {
     "@veramo/core": "^3.1.4",
+    "@veramo/utils": "^3.1.4",
     "cross-fetch": "^3.1.4",
-    "debug": "^4.3.3"
+    "debug": "^4.3.3",
+    "did-resolver": "^3.2.2"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "did-resolver": "3.2.2",
     "ethr-did-resolver": "6.0.2",
     "typescript": "4.7.3",
     "web-did-resolver": "2.0.19"
@@ -32,10 +33,7 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
   "contributors": [
-    {
-      "name": "Mircea Nistor",
-      "email": "mircea.nistor@mesh.xyz"
-    }
+    "Mircea Nistor <mircea.nistor@mesh.xyz"
   ],
   "license": "Apache-2.0",
   "keywords": []

@@ -1,22 +1,19 @@
 import { DIDDocumentSection, IAgentPlugin, IResolver, schema } from '@veramo/core'
+import { isDefined } from '@veramo/utils'
 import {
   DIDDocument,
-  DIDResolutionResult,
   DIDResolutionOptions,
-  VerificationMethod,
-  ServiceEndpoint,
+  DIDResolutionResult,
+  DIDResolver,
   parse as parseDID,
   Resolvable,
+  Resolver,
+  ServiceEndpoint,
+  VerificationMethod,
 } from 'did-resolver'
-
-export { DIDDocument }
 import Debug from 'debug'
 
 const debug = Debug('veramo:resolver')
-
-interface Options {
-  resolver: Resolvable
-}
 
 /**
  * A Veramo Plugin that enables users to resolve DID documents.
@@ -31,9 +28,17 @@ export class DIDResolverPlugin implements IAgentPlugin {
   readonly schema = schema.IResolver
   private didResolver: Resolvable
 
-  constructor(options: Options) {
-    if (!options.resolver) throw Error('Missing resolver')
-    this.didResolver = options.resolver
+  constructor(options: { resolver?: Resolvable } | { [didMethod: string]: DIDResolver }) {
+    const { resolver, ...resolverMap } = options
+    if (isDefined(resolver)) {
+      this.didResolver = resolver as Resolvable
+    } else if (Object.keys(resolverMap).length > 0) {
+      this.didResolver = new Resolver(resolverMap as Record<string, DIDResolver>)
+    } else {
+      throw Error(
+        'invalid_config: The DIDResolverPlugin must be initialized with a Resolvable or a map of methods to DIDResolver implementations',
+      )
+    }
 
     this.methods = {
       resolveDid: this.resolveDid.bind(this),
@@ -43,9 +48,9 @@ export class DIDResolverPlugin implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IResolver.resolveDid} */
   async resolveDid({
-                     didUrl,
-                     options,
-                   }: {
+    didUrl,
+    options,
+  }: {
     didUrl: string
     options?: DIDResolutionOptions
   }): Promise<DIDResolutionResult> {
@@ -72,10 +77,10 @@ export class DIDResolverPlugin implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IResolver.getDIDComponentById} */
   async getDIDComponentById({
-                              didDocument,
-                              didUrl,
-                              section,
-                            }: {
+    didDocument,
+    didUrl,
+    section,
+  }: {
     didDocument: DIDDocument
     didUrl: string
     section?: DIDDocumentSection

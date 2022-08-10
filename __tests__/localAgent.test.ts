@@ -60,7 +60,6 @@ import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../pa
 import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider'
 import { createEthersProvider } from './utils/ethers-provider'
-import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
@@ -194,22 +193,20 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         },
       }),
       new DIDResolverPlugin({
-        resolver: new Resolver({
-          ...ethrDidResolver({
-            infuraProjectId,
-            networks: [
-              {
-                name: 'ganache',
-                chainId: 1337,
-                provider,
-                registry,
-              },
-            ],
-          }),
-          ...webDidResolver(),
-          ...getDidKeyResolver(),
-          ...new FakeDidResolver(() => agent).getDidFakeResolver(),
+        ...ethrDidResolver({
+          infuraProjectId,
+          networks: [
+            {
+              name: 'ganache',
+              chainId: 1337,
+              provider,
+              registry,
+            },
+          ],
         }),
+        ...webDidResolver(),
+        ...getDidKeyResolver(),
+        ...new FakeDidResolver(() => agent).getDidFakeResolver(),
       }),
       new DataStore(dbConnection),
       new DataStoreORM(dbConnection),
