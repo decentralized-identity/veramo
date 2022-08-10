@@ -31,7 +31,7 @@ export class CredentialStatusPlugin implements IAgentPlugin {
     }
   }
 
-  private async checkCredentialStatus(args: ICheckCredentialStatusArgs, context: IAgentContext<any>) {
+  private async checkCredentialStatus(args: ICheckCredentialStatusArgs, context: IAgentContext<any>): Promise<CredentialStatus> {
     return this.status.checkStatus(args.credential, args.didDoc)
   }
 }

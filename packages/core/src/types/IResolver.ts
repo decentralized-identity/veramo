@@ -2,7 +2,7 @@ import {
   DIDDocument,
   DIDResolutionOptions,
   DIDResolutionResult,
-  ServiceEndpoint,
+  Service,
   VerificationMethod,
 } from 'did-resolver'
 
@@ -59,10 +59,10 @@ export interface GetDIDComponentArgs {
 
 /**
  * Return type of {@link IResolver.getDIDComponentById | getDIDComponentById}
- * represents a `VerificationMethod` or a `ServiceEndpoint` entry from a {@link did-resolver#DIDDocument | DIDDocument}
+ * represents a `VerificationMethod` or a `Service` entry from a {@link did-resolver#DIDDocument | DIDDocument}
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type DIDDocComponent = VerificationMethod | ServiceEndpoint
+export type DIDDocComponent = VerificationMethod | Service
 
 /**
  * DID Resolver interface
@@ -124,7 +124,7 @@ export interface IResolver extends IPluginMethodMap {
    * @param args - The description of the component you want.
    *
    * @returns a `Promise` containing the {@link did-resolver#VerificationMethod | VerificationMethod} or
-   *   {@link did-resolver#ServiceEndpoint | ServiceEndpoint}
+   *   {@link did-resolver#Service | Service}
    *
    * @throws `not_found:...` in case the fragment is not displayed in the DID document
    *

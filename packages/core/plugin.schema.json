@@ -140,7 +140,7 @@
             "service": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/ServiceEndpoint"
+                "$ref": "#/components/schemas/Service"
               }
             },
             "publicKey": {
@@ -240,7 +240,7 @@
           ],
           "description": "Encapsulates a JSON web key type that includes only the public properties that can be used in DID documents.\n\nThe private properties are intentionally omitted to discourage the use (and accidental disclosure) of private keys in DID documents."
         },
-        "ServiceEndpoint": {
+        "Service": {
           "type": "object",
           "properties": {
             "id": {
@@ -250,16 +250,33 @@
               "type": "string"
             },
             "serviceEndpoint": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ServiceEndpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceEndpoint"
+                  }
+                }
+              ]
             }
           },
           "required": [
             "id",
             "type",
             "serviceEndpoint"
+          ]
+        },
+        "ServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
           ]
         },
         "DIDDocumentSection": {
@@ -282,10 +299,10 @@
               "$ref": "#/components/schemas/VerificationMethod"
             },
             {
-              "$ref": "#/components/schemas/ServiceEndpoint"
+              "$ref": "#/components/schemas/Service"
             }
           ],
-          "description": "Return type of  {@link  IResolver.getDIDComponentById | getDIDComponentById } \nrepresents a `VerificationMethod` or a `ServiceEndpoint` entry from a  {@link  did-resolver#DIDDocument | DIDDocument }"
+          "description": "Return type of  {@link  IResolver.getDIDComponentById | getDIDComponentById } \nrepresents a `VerificationMethod` or a `Service` entry from a  {@link  did-resolver#DIDDocument | DIDDocument }"
         },
         "ResolveDidArgs": {
           "type": "object",
@@ -1069,7 +1086,17 @@
               "description": "Service type"
             },
             "serviceEndpoint": {
-              "type": "string",
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Endpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Endpoint"
+                  }
+                }
+              ],
               "description": "Endpoint URL"
             },
             "description": {
@@ -1083,6 +1110,26 @@
             "serviceEndpoint"
           ],
           "description": "Identifier service"
+        },
+        "Endpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/components/schemas/ServiceEndpoint"
+            }
+          ]
+        },
+        "ServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
+          ]
         },
         "IDIDManagerCreateArgs": {
           "type": "object",
@@ -2178,7 +2225,17 @@
               "description": "Service type"
             },
             "serviceEndpoint": {
-              "type": "string",
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Endpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Endpoint"
+                  }
+                }
+              ],
               "description": "Endpoint URL"
             },
             "description": {
@@ -2192,6 +2249,26 @@
             "serviceEndpoint"
           ],
           "description": "Identifier service"
+        },
+        "Endpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/components/schemas/ServiceEndpoint"
+            }
+          ]
+        },
+        "ServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
+          ]
         },
         "FindMessagesArgs": {
           "$ref": "#/components/schemas/FindArgs-TMessageColumns",

@@ -603,7 +603,7 @@ export class DIDComm implements IAgentPlugin {
         }
 
         debug('Sending to %s', serviceEndpoint)
-        const res = await fetch(serviceEndpoint, {
+        const res = await fetch(serviceEndpoint as string, {
           method: 'POST',
           body: postPayload,
           headers,

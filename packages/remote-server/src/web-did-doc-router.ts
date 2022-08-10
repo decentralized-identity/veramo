@@ -1,6 +1,6 @@
 import { IIdentifier, IDIDManager, TAgent, TKeyType } from '@veramo/core'
 import { Request, Router } from 'express'
-import { ServiceEndpoint } from 'did-resolver'
+import { Service } from 'did-resolver'
 
 interface RequestWithAgentDIDManager extends Request {
   agent?: TAgent<IDIDManager>
@@ -25,7 +25,7 @@ const keyMapping: Record<TKeyType, string> = {
  * @public
  */
 export interface WebDidDocRouterOptions {
-  services?: ServiceEndpoint[]
+  services?: Service[]
 }
 
 /**

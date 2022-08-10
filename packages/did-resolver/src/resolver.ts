@@ -4,9 +4,9 @@ import {
   DIDResolutionResult,
   DIDResolutionOptions,
   VerificationMethod,
-  ServiceEndpoint,
   parse as parseDID,
   Resolvable,
+  Service,
 } from 'did-resolver'
 
 export { DIDDocument }
@@ -79,7 +79,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     didDocument: DIDDocument
     didUrl: string
     section?: DIDDocumentSection
-  }): Promise<VerificationMethod | ServiceEndpoint> {
+  }): Promise<VerificationMethod | Service> {
     debug('Resolving %s', didUrl)
     const did = parseDID(didUrl)?.did || didDocument.id
     const doc = didDocument

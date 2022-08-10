@@ -58,7 +58,14 @@ export class DIDStore extends AbstractDIDStore {
       did: identifier.did,
       controllerKeyId: identifier.controllerKeyId,
       provider: identifier.provider!!,
-      services: identifier.services,
+
+      // TODO(nickreynolds): refactor this hack
+      services: identifier.services.map((service) => { 
+        try {
+          return {...service, serviceEndpoint: (JSON.parse(service.serviceEndpoint.toString()))}
+        } catch (e) {
+          return {...service, serviceEndpoint: service.serviceEndpoint.toString()}
+        }}),
       keys: identifier.keys.map(
         (k) =>
           ({
@@ -138,7 +145,9 @@ export class DIDStore extends AbstractDIDStore {
       const service = new Service()
       service.id = argsService.id
       service.type = argsService.type
-      service.serviceEndpoint = argsService.serviceEndpoint
+
+      // TODO(nickreynolds): refactor this hack
+      service.serviceEndpoint = JSON.stringify(argsService.serviceEndpoint)
       service.description = argsService.description
       identifier.services.push(service)
     }

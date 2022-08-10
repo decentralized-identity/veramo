@@ -7958,13 +7958,13 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@^2.1.13:
-  version "2.1.13"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.13.tgz#b14e0a0b3a9c005d7620535939362ed777ee5c95"
-  integrity sha512-BHbGDlFVvi9NTwxPXiIGvRMxdCBIV2VW6qzA4VxpYg2cnehI2bhEJWAwz+g355fDJgj0Grj157S6gzJjTcGqAw==
+did-jwt-vc@^2.1.14:
+  version "2.1.14"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.14.tgz#0668354d986da7577b830e866bec961584df3c01"
+  integrity sha512-z3y1sVXi4jdgomK6ZAtAjfkWiRUeMHFfQQ+RMozWdpOW8ECvQlFJE95NmF3E6fpLEyafPthEBAsb1hm4uNcY2g==
   dependencies:
-    did-jwt "^6.2.0"
-    did-resolver "^3.2.2"
+    did-jwt "^6.2.2"
+    did-resolver "^4.0.0"
 
 did-jwt@^6.1.2:
   version "6.1.2"
@@ -8002,10 +8002,28 @@ did-jwt@^6.2.0:
     multiformats "^9.6.5"
     uint8arrays "^3.0.0"
 
-did-resolver@3.2.2, did-resolver@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.2.2.tgz#6f4e252a810f785d1b28a10265fad6dffee25158"
-  integrity sha512-Eeo2F524VM5N3W4GwglZrnul2y6TLTwMQP3In62JdG34NZoqihYyOZLk+5wUW8sSgvIYIcJM8Dlt3xsdKZZ3tg==
+did-jwt@^6.2.2:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.3.0.tgz#6c7380a69fff97f95101ce03519fd34c0ee43594"
+  integrity sha512-kvwCDY6KZJZn9/LK+X4Co+X1brnZWr6fnP1NRVReTgSPFyA+20oZ+VCsmSnzzYUoPkQ/Pl54uOMlmRw69z5zBg==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.2"
+    "@stablelib/random" "^1.0.1"
+    "@stablelib/sha256" "^1.0.1"
+    "@stablelib/x25519" "^1.0.2"
+    "@stablelib/xchacha20poly1305" "^1.0.1"
+    bech32 "^2.0.0"
+    canonicalize "^1.0.8"
+    did-resolver "^4.0.0"
+    elliptic "^6.5.4"
+    js-sha3 "^0.8.0"
+    multiformats "^9.6.5"
+    uint8arrays "^3.0.0"
+
+did-resolver@4.0.0, did-resolver@^3.2.2, did-resolver@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-4.0.0.tgz#fc8f657b4cd7f44c2921051fb046599fbe7d4b31"
+  integrity sha512-/roxrDr9EnAmLs+s9T+8+gcpilMo+IkeytcsGO7dcxvTmVJ+0Rt60HtV8o0UXHhGBo0Q+paMH/0ffXz1rqGFYg==
 
 didyoumean@^1.2.2:
   version "1.2.2"
@@ -17973,13 +17991,13 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-did-resolver@2.0.19:
-  version "2.0.19"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.19.tgz#25f11fd89f510b2650ce77f50baae496ae20d104"
-  integrity sha512-KRnLWTOApVAVvx20k5Fn2e4Fwhbo7cZbALruOv/lcW3Fr/1UTfGXFg0hnFYcscxk/hBrT+wBORoJf/VeQIOMSQ==
+web-did-resolver@2.0.20:
+  version "2.0.20"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.20.tgz#22e053b0f8bc1f4ab03da05989ce934852b7623f"
+  integrity sha512-qGcrm01B+ytCZUYhxH0mGOk0Ldf67kXUXLsNth6F3sx3fhUKNSIE8D+MnMFRugQm7j87mDHqUTDLmW9c90g3nw==
   dependencies:
     cross-fetch "^3.1.5"
-    did-resolver "^3.2.2"
+    did-resolver "^4.0.0"
 
 web-did-resolver@^2.0.18:
   version "2.0.18"

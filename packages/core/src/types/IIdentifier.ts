@@ -1,3 +1,4 @@
+import { ServiceEndpoint } from 'did-resolver'
 import { MinimalImportableKey } from './IKeyManager'
 
 /**
@@ -123,10 +124,12 @@ export interface IService {
   /**
    * Endpoint URL
    */
-  serviceEndpoint: string
+  serviceEndpoint: Endpoint | Endpoint[]
 
   /**
    * Optional. Description
    */
   description?: string
 }
+
+export type Endpoint = string | ServiceEndpoint
