@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/debug": "4.1.7",
     "did-resolver": "^4.0.0",
-    "credential-status": "^2.0.4",
+    "credential-status": "^2.0.5",
     "typescript": "4.7.3"
   },
   "files": [
