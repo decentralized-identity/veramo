@@ -122,21 +122,21 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
   /** {@inheritdoc AbstractDIDCommTransport.send} */
   async send(service: any, message: string): Promise<IDIDCommTransportResult> {
-    let serviceEndpoint = ''
+    let serviceEndpointUrl = ''
     if (typeof service.serviceEndpoint === 'string') {
-      serviceEndpoint = service.serviceEndpoint
+      serviceEndpointUrl = service.serviceEndpoint
     } else if (service.serviceEndpoint.uri) {
-      serviceEndpoint = service.serviceEndpoint.uri
+      serviceEndpointUrl = service.serviceEndpoint.uri
     } else if (service.serviceEndpoint.length > 0) {
       if (typeof service.serviceEndpoint[0] === 'string') {
-        serviceEndpoint = service.serviceEndpoint[0]
+        serviceEndpointUrl = service.serviceEndpoint[0]
       } else if (service.serviceEndpoint[0].uri) {
-        serviceEndpoint = service.serviceEndpoint[0].uri
+        serviceEndpointUrl = service.serviceEndpoint[0].uri
       }
     }
     
     try {
-      const response = await fetch(serviceEndpoint, {
+      const response = await fetch(serviceEndpointUrl, {
         method: this.httpMethod,
         body: message,
       })
