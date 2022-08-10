@@ -22,7 +22,7 @@ import {
   Encrypter,
   verifyJWS,
 } from 'did-jwt'
-import { DIDDocument, parse as parseDidUrl, VerificationMethod } from 'did-resolver'
+import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod } from 'did-resolver'
 import { schema } from '.'
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
@@ -603,7 +603,9 @@ export class DIDComm implements IAgentPlugin {
         }
 
         debug('Sending to %s', serviceEndpoint)
-        const res = await fetch(serviceEndpoint, {
+        const endpointUri = (typeof serviceEndpoint === 'string' || serviceEndpoint instanceof String) ? serviceEndpoint : serviceEndpoint.uri
+
+        const res = await fetch(endpointUri, {
           method: 'POST',
           body: postPayload,
           headers,

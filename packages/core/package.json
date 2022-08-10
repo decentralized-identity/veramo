@@ -23,14 +23,14 @@
   },
   "dependencies": {
     "debug": "^4.3.3",
-    "did-jwt-vc": "^2.1.13",
+    "did-jwt-vc": "^2.1.14",
     "events": "^3.2.0",
     "z-schema": "^5.0.2"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "did-resolver": "3.2.2",
-    "credential-status": "^2.0.3",
+    "did-resolver": "^4.0.0",
+    "credential-status": "^2.0.4",
     "typescript": "4.7.3"
   },
   "files": [

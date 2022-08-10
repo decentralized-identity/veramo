@@ -7403,13 +7403,13 @@ create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
-credential-status@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/credential-status/-/credential-status-2.0.3.tgz#843eb8e5bd15fd24d3f40d81ca75deb40ad19d92"
-  integrity sha512-wUYMCoB3+Gnl87CBBLcZVveylbAltW18cCG/U3FEkYo/bIu95J7lj/CdF2eZ/ulMlZaCIRjokcvboPlsBwZBig==
+credential-status@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/credential-status/-/credential-status-2.0.4.tgz#8f27d72cd5251984bd02483980d794522b5f6c89"
+  integrity sha512-x+mtZq6W1SCGRa/xxZMhhUtBdDkJZyQjLd5THk5jYNBF7XQMzBo4XC4JnYjFp1tCSUEVEvRY40SXQsCSKsXzBw==
   dependencies:
     did-jwt "^6.1.2"
-    did-resolver "^3.2.2"
+    did-resolver "^4.0.0"
 
 credentials-context@^2.0.0:
   version "2.0.0"
@@ -7958,36 +7958,18 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@^2.1.13:
-  version "2.1.13"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.13.tgz#b14e0a0b3a9c005d7620535939362ed777ee5c95"
-  integrity sha512-BHbGDlFVvi9NTwxPXiIGvRMxdCBIV2VW6qzA4VxpYg2cnehI2bhEJWAwz+g355fDJgj0Grj157S6gzJjTcGqAw==
+did-jwt-vc@^2.1.14:
+  version "2.1.14"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-2.1.14.tgz#0668354d986da7577b830e866bec961584df3c01"
+  integrity sha512-z3y1sVXi4jdgomK6ZAtAjfkWiRUeMHFfQQ+RMozWdpOW8ECvQlFJE95NmF3E6fpLEyafPthEBAsb1hm4uNcY2g==
   dependencies:
-    did-jwt "^6.2.0"
-    did-resolver "^3.2.2"
+    did-jwt "^6.2.2"
+    did-resolver "^4.0.0"
 
-did-jwt@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.1.2.tgz#adef6c3264ae4bcecac5d2cab5de8f3a3024ca03"
-  integrity sha512-OkXsk5zUi2uwSWh2WiaGCLEPKon9HDfMT3mmUp0r7jFgyNWiEFTP9oCLYJq/SaVkKRZsImehrnd0+Ku9ivUvsw==
-  dependencies:
-    "@stablelib/ed25519" "^1.0.2"
-    "@stablelib/random" "^1.0.1"
-    "@stablelib/sha256" "^1.0.1"
-    "@stablelib/x25519" "^1.0.2"
-    "@stablelib/xchacha20poly1305" "^1.0.1"
-    bech32 "^2.0.0"
-    canonicalize "^1.0.8"
-    did-resolver "^3.2.2"
-    elliptic "^6.5.4"
-    js-sha3 "^0.8.0"
-    multiformats "^9.6.5"
-    uint8arrays "^3.0.0"
-
-did-jwt@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.2.0.tgz#5c4009871ad1ad85ec80c14c501a52991a16e7a1"
-  integrity sha512-BokZHvwStx4K5s3a/0TXs649b1Tjl5S9X4X80gQjdkQFlg33Z0qh/DTfctDI8dWyapMR69yUPtMlLdDxwWQEQQ==
+did-jwt@^6.1.2, did-jwt@^6.2.2, did-jwt@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.3.0.tgz#6c7380a69fff97f95101ce03519fd34c0ee43594"
+  integrity sha512-kvwCDY6KZJZn9/LK+X4Co+X1brnZWr6fnP1NRVReTgSPFyA+20oZ+VCsmSnzzYUoPkQ/Pl54uOMlmRw69z5zBg==
   dependencies:
     "@stablelib/ed25519" "^1.0.2"
     "@stablelib/random" "^1.0.1"
@@ -7996,16 +7978,21 @@ did-jwt@^6.2.0:
     "@stablelib/xchacha20poly1305" "^1.0.1"
     bech32 "^2.0.0"
     canonicalize "^1.0.8"
-    did-resolver "^3.2.2"
+    did-resolver "^4.0.0"
     elliptic "^6.5.4"
     js-sha3 "^0.8.0"
     multiformats "^9.6.5"
     uint8arrays "^3.0.0"
 
-did-resolver@3.2.2, did-resolver@^3.2.2:
+did-resolver@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-3.2.2.tgz#6f4e252a810f785d1b28a10265fad6dffee25158"
   integrity sha512-Eeo2F524VM5N3W4GwglZrnul2y6TLTwMQP3In62JdG34NZoqihYyOZLk+5wUW8sSgvIYIcJM8Dlt3xsdKZZ3tg==
+
+did-resolver@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-4.0.0.tgz#fc8f657b4cd7f44c2921051fb046599fbe7d4b31"
+  integrity sha512-/roxrDr9EnAmLs+s9T+8+gcpilMo+IkeytcsGO7dcxvTmVJ+0Rt60HtV8o0UXHhGBo0Q+paMH/0ffXz1rqGFYg==
 
 didyoumean@^1.2.2:
   version "1.2.2"
@@ -8800,6 +8787,22 @@ ethr-did-resolver@^6.0.1:
     "@ethersproject/transactions" "^5.6.2"
     did-resolver "^3.2.2"
     ethr-did-registry "^0.0.3"
+
+ethr-did-resolver@^6.0.2:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-6.1.0.tgz#9f72d1e186932941ca0b165a598f6929c34c81dd"
+  integrity sha512-nsTt4QHHNGxviAIn2z6de8wyEYdc48Hcx3VtSB4Vt3a1hXPin7GZaiSFRDsf/nT/U8RPKRwSgy8i21RV3mCsZw==
+  dependencies:
+    "@ethersproject/abi" "^5.6.3"
+    "@ethersproject/abstract-signer" "^5.6.2"
+    "@ethersproject/address" "^5.6.1"
+    "@ethersproject/basex" "^5.6.1"
+    "@ethersproject/bignumber" "^5.6.2"
+    "@ethersproject/contracts" "^5.6.2"
+    "@ethersproject/providers" "^5.6.8"
+    "@ethersproject/transactions" "^5.6.2"
+    did-resolver "^4.0.0"
+    ethr-did-registry "^1.0.0"
 
 ethr-did@^2.2.3:
   version "2.2.3"
@@ -17973,21 +17976,13 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-did-resolver@2.0.19:
-  version "2.0.19"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.19.tgz#25f11fd89f510b2650ce77f50baae496ae20d104"
-  integrity sha512-KRnLWTOApVAVvx20k5Fn2e4Fwhbo7cZbALruOv/lcW3Fr/1UTfGXFg0hnFYcscxk/hBrT+wBORoJf/VeQIOMSQ==
+web-did-resolver@2.0.20, web-did-resolver@^2.0.20:
+  version "2.0.20"
+  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.20.tgz#22e053b0f8bc1f4ab03da05989ce934852b7623f"
+  integrity sha512-qGcrm01B+ytCZUYhxH0mGOk0Ldf67kXUXLsNth6F3sx3fhUKNSIE8D+MnMFRugQm7j87mDHqUTDLmW9c90g3nw==
   dependencies:
     cross-fetch "^3.1.5"
-    did-resolver "^3.2.2"
-
-web-did-resolver@^2.0.18:
-  version "2.0.18"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.18.tgz#d31c737808c66e10bb9c4fea04a6f7ed19d96c4f"
-  integrity sha512-6jVQMbsNdzsRqnkEPKPfnfFY0IUJjt9LKy6h+tzjc9NhgI6MQWuvZf8ouGBw7W9qDvlAtHY+lrk6OEatjPJGZA==
-  dependencies:
-    cross-fetch "^3.1.5"
-    did-resolver "^3.2.2"
+    did-resolver "^4.0.0"
 
 web-streams-polyfill@^3.0.3:
   version "3.1.0"

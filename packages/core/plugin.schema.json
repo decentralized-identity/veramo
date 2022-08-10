@@ -140,7 +140,7 @@
             "service": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/ServiceEndpoint"
+                "$ref": "#/components/schemas/Service"
               }
             },
             "publicKey": {
@@ -240,7 +240,7 @@
           ],
           "description": "Encapsulates a JSON web key type that includes only the public properties that can be used in DID documents.\n\nThe private properties are intentionally omitted to discourage the use (and accidental disclosure) of private keys in DID documents."
         },
-        "ServiceEndpoint": {
+        "Service": {
           "type": "object",
           "properties": {
             "id": {
@@ -250,16 +250,33 @@
               "type": "string"
             },
             "serviceEndpoint": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ServiceEndpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceEndpoint"
+                  }
+                }
+              ]
             }
           },
           "required": [
             "id",
             "type",
             "serviceEndpoint"
+          ]
+        },
+        "ServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
           ]
         },
         "DIDDocumentSection": {
@@ -3165,7 +3182,7 @@
             "save": {
               "type": "boolean",
               "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
-              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
+              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\r\nhandling the message and determining that it must be saved."
             }
           },
           "required": [
@@ -3743,7 +3760,7 @@
             "service": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/ServiceEndpoint"
+                "$ref": "#/components/schemas/Service"
               }
             },
             "publicKey": {
@@ -3843,7 +3860,7 @@
           ],
           "description": "Encapsulates a JSON web key type that includes only the public properties that can be used in DID documents.\n\nThe private properties are intentionally omitted to discourage the use (and accidental disclosure) of private keys in DID documents."
         },
-        "ServiceEndpoint": {
+        "Service": {
           "type": "object",
           "properties": {
             "id": {
@@ -3853,16 +3870,33 @@
               "type": "string"
             },
             "serviceEndpoint": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ServiceEndpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceEndpoint"
+                  }
+                }
+              ]
             }
           },
           "required": [
             "id",
             "type",
             "serviceEndpoint"
+          ]
+        },
+        "ServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
           ]
         },
         "CredentialStatus": {

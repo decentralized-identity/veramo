@@ -11,9 +11,9 @@
   "dependencies": {
     "@veramo/core": "^3.1.0",
     "@veramo/utils": "^3.1.0",
-    "credential-status": "^2.0.3",
-    "did-jwt": "^6.2.0",
-    "did-resolver": "^3.2.2"
+    "credential-status": "^2.0.4",
+    "did-jwt": "^6.3.0",
+    "did-resolver": "^4.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
