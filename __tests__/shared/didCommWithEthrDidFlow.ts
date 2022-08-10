@@ -560,6 +560,162 @@ export default (testContext: {
       )
     })
 
+    
+    it('should remove DIDComm service from receiver', async () => {
+      const result = await agent.didManagerRemoveService({
+        did: alice.did,
+        id: 'alice-didcomm-endpoint',
+      })
+
+      expect(result.substr(0, 2)).toEqual('0x')
+
+      const resolution = await agent.resolveDid({ didUrl: alice.did })
+
+      expect(resolution?.didDocument).not.toBeNull()
+      expect([...(resolution?.didDocument?.service || [])]).toEqual([])
+    })
+    
+    it('should add DIDComm service to receiver DID', async () => {
+      const result = await agent.didManagerAddService({
+        did: alice.did,
+        service: {
+          id: 'alice-didcomm-endpoint',
+          type: 'DIDCommMessaging',
+          serviceEndpoint: { uri: `http://localhost:${listeningPort}/messaging` },
+          description: 'handles DIDComm messages',
+        },
+      })
+      expect(result.substr(0, 2)).toEqual('0x')
+
+      const resolution = await agent.resolveDid({ didUrl: alice.did })
+
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
+        { uri: `http://localhost:${listeningPort}/messaging` },
+      )
+    })
+
+    it('should send an signed message from bob to alice with ServiceEndpoint', async () => {
+      expect.assertions(3)
+
+      const message = {
+        type: 'test',
+        to: alice.did,
+        from: bob.did,
+        id: 'test-jws-success',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'jws',
+        message,
+      })
+      const result = await agent.sendDIDCommMessage({
+        messageId: 'test-jws-success',
+        packedMessage,
+        recipientDidUrl: alice.did,
+      })
+
+      expect(result).toBeTruthy()
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        { data: 'test-jws-success', type: 'DIDCommV2Message-sent' },
+        expect.anything(),
+      )
+      // in our case, it is the same agent that is receiving the messages
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { hello: 'world' },
+              from: bob.did,
+              id: 'test-jws-success',
+              to: alice.did,
+              type: 'test',
+            },
+            metaData: { packing: 'jws' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    
+    it('should remove DIDComm service from receiver', async () => {
+      const result = await agent.didManagerRemoveService({
+        did: alice.did,
+        id: 'alice-didcomm-endpoint',
+      })
+
+      expect(result.substr(0, 2)).toEqual('0x')
+
+      const resolution = await agent.resolveDid({ didUrl: alice.did })
+
+      expect(resolution?.didDocument).not.toBeNull()
+      expect([...(resolution?.didDocument?.service || [])]).toEqual([])
+    })
+    
+    it('should add DIDComm service to receiver DID', async () => {
+      const result = await agent.didManagerAddService({
+        did: alice.did,
+        service: {
+          id: 'alice-didcomm-endpoint',
+          type: 'DIDCommMessaging',
+          serviceEndpoint: [{ uri: `http://localhost:${listeningPort}/messaging` }],
+          description: 'handles DIDComm messages',
+        },
+      })
+      expect(result.substr(0, 2)).toEqual('0x')
+
+      const resolution = await agent.resolveDid({ didUrl: alice.did })
+
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
+        [{ uri: `http://localhost:${listeningPort}/messaging` }],
+      )
+    })
+
+    it('should send an signed message from bob to alice with ServiceEndpoint array', async () => {
+      expect.assertions(3)
+
+      const message = {
+        type: 'test',
+        to: alice.did,
+        from: bob.did,
+        id: 'test-jws-success',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'jws',
+        message,
+      })
+      const result = await agent.sendDIDCommMessage({
+        messageId: 'test-jws-success',
+        packedMessage,
+        recipientDidUrl: alice.did,
+      })
+
+      expect(result).toBeTruthy()
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        { data: 'test-jws-success', type: 'DIDCommV2Message-sent' },
+        expect.anything(),
+      )
+      // in our case, it is the same agent that is receiving the messages
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { hello: 'world' },
+              from: bob.did,
+              id: 'test-jws-success',
+              to: alice.did,
+              type: 'test',
+            },
+            metaData: { packing: 'jws' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
     it('should fail to pack an anoncrypt message from bob to alice (no receiver key)', async () => {
       expect.assertions(1)
 
