@@ -8,11 +8,6 @@
     "build": "tsc",
     "extract-api": "yarn veramo dev extract-api"
   },
-  "veramo": {
-    "pluginInterfaces": {
-      "ICheckCredentialStatus": "./src/types.ts"
-    }
-  },
   "dependencies": {
     "@veramo/core": "^3.1.0",
     "@veramo/utils": "^3.1.0",

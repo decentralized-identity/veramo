@@ -40,7 +40,7 @@ const checkStatus = async (credential: any): Promise<CredentialStatus> => {
     throw new Error('Invalid state.')
   }
 
-  return revoked ? { revoked } : {}
+  return { revoked }
 }
 
 export default (testContext: {

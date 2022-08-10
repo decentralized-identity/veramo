@@ -335,13 +335,13 @@ export interface IDIDManager extends IPluginMethodMap {
   ): Promise<IIdentifier>
 
   /**
-   * Updates the DID document of a managed {@link IIdentifier | DID}.
+   * Updates the DID document of a managed {@link @veramo/core#IIdentifier | DID}.
    * @param args - the arguments necessary for the update. The options are specific for each DID provider.
    * @param context - *RESERVED* This is filled by the framework when the method is called. This method's <a
    *   href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
    *   {@link @veramo/core#IKeyManager} methods.
    */
-   didManagerUpdate(args: IDIDManagerUpdateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
+  didManagerUpdate(args: IDIDManagerUpdateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 
   /**
    * Imports identifier

@@ -3164,8 +3164,8 @@
             },
             "save": {
               "type": "boolean",
-              "description": "Optional. If set to `true`, the message will be saved using\n {@link  IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
-              "deprecated": "Please call {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after handling the\nmessage and determining that it must be saved."
+              "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
+              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
             }
           },
           "required": [
@@ -3872,6 +3872,9 @@
               "type": "boolean"
             }
           },
+          "required": [
+            "revoked"
+          ],
           "description": "Represents the result of a status check.\n\nImplementations MUST populate the `revoked` boolean property, but they can return additional metadata that is method specific."
         }
       },

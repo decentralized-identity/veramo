@@ -1,11 +1,12 @@
 import {
+  CredentialStatus,
   IAgentContext,
   IAgentPlugin,
   ICheckCredentialStatusArgs,
   ICredentialStatusVerifier,
   IResolver,
 } from '@veramo/core'
-import { extractIssuer, resolveDidOrThrow } from '@veramo/utils'
+import { extractIssuer, isDefined, resolveDidOrThrow } from '@veramo/utils'
 import { Status, StatusMethod } from 'credential-status'
 
 /**
@@ -43,6 +44,17 @@ export class CredentialStatusPlugin implements IAgentPlugin {
       const issuerDid = extractIssuer(args.credential)
       didDoc = await resolveDidOrThrow(issuerDid, context)
     }
-    return this.status.checkStatus(args.credential, didDoc)
+    const statusCheck: CredentialStatus = (await this.status.checkStatus(
+      args.credential,
+      didDoc,
+    )) as CredentialStatus
+    if (!isDefined(statusCheck.revoked)) {
+      throw new Error(
+        `invalid_result: 'revoked' property missing. The Credential Status verification resulted in an ambiguous result: ${JSON.stringify(
+          statusCheck,
+        )}`,
+      )
+    }
+    return statusCheck
   }
 }

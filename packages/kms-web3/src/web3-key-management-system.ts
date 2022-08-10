@@ -4,7 +4,7 @@ import { AbstractKeyManagementSystem, Eip712Payload } from '@veramo/key-manager'
 import { toUtf8String } from '@ethersproject/strings'
 
 /**
- * This is a {@link @veramo/keyManager#AbstractKeyManagementSystem | KMS} implementation that uses the addresses of a
+ * This is a {@link @veramo/key-manager#AbstractKeyManagementSystem | KMS} implementation that uses the addresses of a
  * web3 wallet as key identifiers, and calls the respective wallet for signing operations.
  * @beta
  */

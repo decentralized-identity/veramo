@@ -61,7 +61,7 @@ export type CredentialStatusReference = {
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type CredentialStatus = {
-  revoked?: boolean
+  revoked: boolean
   [x: string]: any
 }
 
