@@ -100,6 +100,7 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
   /** {@inheritdoc AbstractDIDCommTransport.isServiceSupported} */
   isServiceSupported(service: any) {
+    // serviceEndpoint can be a string, a ServiceEndpoint object, or an array of strings or ServiceEndpoint objects
     return (
       (typeof service.serviceEndpoint === 'string'  && (
         service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://')
@@ -107,6 +108,10 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
       || 
       (service.serviceEndpoint.uri &&  typeof service.serviceEndpoint.uri === 'string' && (
         service.serviceEndpoint.uri.startsWith('http://') || service.serviceEndpoint.uri.startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0] === 'string' && (
+        service.serviceEndpoint[0].startsWith('http://') || service.serviceEndpoint[0].startsWith('https://')
       ))
       || 
       (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0].uri === 'string' && (
@@ -117,7 +122,7 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
   /** {@inheritdoc AbstractDIDCommTransport.send} */
   async send(service: any, message: string): Promise<IDIDCommTransportResult> {
-    const serviceEndpoint = (service.serviceEndpoint.length > 0 && service.serviceEndpoint[0].uri) || service.serviceEndpoint.uri || service.serviceEndpoint
+    const serviceEndpoint = (typeof service.serviceEndpoint !== 'string'  && service.serviceEndpoint.length > 0 && (service.serviceEndpoint[0].uri || service.serviceEndpoint[0])) || service.serviceEndpoint.uri || service.serviceEndpoint
     try {
       const response = await fetch(serviceEndpoint, {
         method: this.httpMethod,
