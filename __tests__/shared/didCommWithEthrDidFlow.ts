@@ -575,7 +575,7 @@ export default (testContext: {
       expect([...(resolution?.didDocument?.service || [])]).toEqual([])
     })
     
-    it('should add DIDComm service to receiver DID', async () => {
+    it('should add DIDComm service to receiver DID with ServiceEndpoint as object', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
         service: {
@@ -594,7 +594,7 @@ export default (testContext: {
       )
     })
 
-    it('should send an signed message from bob to alice with ServiceEndpoint', async () => {
+    it('should send an signed message from bob to alice with ServiceEndpoint as object', async () => {
       expect.assertions(3)
 
       const message = {
@@ -653,7 +653,7 @@ export default (testContext: {
       expect([...(resolution?.didDocument?.service || [])]).toEqual([])
     })
     
-    it('should add DIDComm service to receiver DID', async () => {
+    it('should add DIDComm service to receiver DID with serviceEndpoint as array of ServiceEndpoint objects', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
         service: {
@@ -672,7 +672,7 @@ export default (testContext: {
       )
     })
 
-    it('should send an signed message from bob to alice with ServiceEndpoint array', async () => {
+    it('should send an signed message from bob to alice with serviceEndpoint as array of ServiceEndpoint objects', async () => {
       expect.assertions(3)
 
       const message = {
