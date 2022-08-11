@@ -399,6 +399,10 @@
               "type": "boolean",
               "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
               "default": false
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerifyPresentationPolicies",
+              "description": "Verification Policies for the verifiable presentation These will also be forwarded to the lower level module"
             }
           },
           "required": [
@@ -419,6 +423,47 @@
             }
           ],
           "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+        },
+        "VerifyPresentationPolicies": {
+          "type": "object",
+          "properties": {
+            "now": {
+              "type": "number"
+            },
+            "nbf": {
+              "type": "boolean"
+            },
+            "iat": {
+              "type": "boolean"
+            },
+            "exp": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "now"
+          ]
+        },
+        "IVerifyPresentationResponse": {
+          "type": "object",
+          "properties": {
+            "verified": {
+              "type": "boolean",
+              "description": "This value is used to transmit the result of verification."
+            },
+            "details": {
+              "type": "string",
+              "description": "Optional string only to be used to convey the response message from errors."
+            },
+            "errorCode": {
+              "type": "string",
+              "description": "Optional string to response the Error code being received from the lower module, should be a Machine readable enum but currently the machine readable errors are not expored from DID-JWT package to be imported here"
+            }
+          },
+          "required": [
+            "verified"
+          ],
+          "description": "Encapsulates the response object to verifyPresentation method after verifying a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         }
       },
       "methods": {
@@ -455,7 +500,7 @@
             "$ref": "#/components/schemas/IVerifyPresentationArgs"
           },
           "returnType": {
-            "type": "boolean"
+            "$ref": "#/components/schemas/IVerifyPresentationResponse"
           }
         }
       }

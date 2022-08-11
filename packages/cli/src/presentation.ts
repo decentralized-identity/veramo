@@ -190,7 +190,7 @@ presentation
       challenge: options.challenge,
       domain: options.domain,
     })
-    if (result === true) {
+    if (result.verified === true) {
       console.log('Presentation was verified successfully.')
     } else {
       console.error('Presentation could not be verified.')

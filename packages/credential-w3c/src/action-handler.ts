@@ -215,11 +215,50 @@ export interface IVerifyPresentationArgs {
    */
   fetchRemoteContexts?: boolean
 
+
+  /**
+   * Verification Policies for the verifiable presentation
+   * These will also be forwarded to the lower level module
+   */
+  policies?: VerifyPresentationPolicies
+
   /**
    * Other options can be specified for verification.
    * They will be forwarded to the lower level modules. that performt the checks
-   */
+    */
   [x: string]: any
+}
+
+export interface VerifyPresentationPolicies {
+  now: number
+  nbf?: boolean
+  iat?: boolean
+  exp?: boolean
+}
+
+/**
+ * Encapsulates the response object to verifyPresentation method after verifying a
+ * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
+ *
+ * @public
+ */
+ export interface IVerifyPresentationResponse {
+  /**
+   * This value is used to transmit the result of verification.
+   */
+  verified: boolean
+
+
+  /**
+   * Optional string only to be used to convey the response message from errors.
+   */
+  details?: string
+
+  /**
+   * Optional string to response the Error code being received from the lower module, should be a Machine readable enum
+   * but currently the machine readable errors are not expored from DID-JWT package to be imported here
+   */
+  errorCode?: string
 }
 
 /**
@@ -286,7 +325,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<boolean>
+  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyPresentationResponse>
 }
 
 /**
@@ -542,7 +581,7 @@ export class CredentialIssuer implements IAgentPlugin {
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
-  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<boolean> {
+  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyPresentationResponse> {
     const presentation = args.presentation
     if (typeof presentation === 'string' || (<VerifiablePresentation>presentation)?.proof?.jwt) {
       // JWT
@@ -573,11 +612,17 @@ export class CredentialIssuer implements IAgentPlugin {
           challenge: args.challenge,
           domain: args.domain,
           audience,
+          policies: args.policies
         })
-        return true
+        return { verified: true }
       } catch (e: any) {
-        //TODO: return a more detailed reason for failure
-        return false
+        const errorCodes = ['invalid_jwt','invalid_config', 'invalid_signature', 'not_supported', 'no_suitable_keys', 'resolver_error']
+        if (errorCodes.some(errorCode => e.message.includes(errorCode))) {
+          return { verified: false, details: e.message }
+        }
+        else {
+          throw e
+        }
       }
     } else {
       // JSON-LD
