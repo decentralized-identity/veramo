@@ -100,17 +100,43 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
   /** {@inheritdoc AbstractDIDCommTransport.isServiceSupported} */
   isServiceSupported(service: any) {
-    // FIXME: TODO: addtionally handle serviceEndpoint objects in did docs
+    // serviceEndpoint can be a string, a ServiceEndpoint object, or an array of strings or ServiceEndpoint objects
     return (
-      typeof service.serviceEndpoint === 'string' &&
-      (service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://'))
+      (typeof service.serviceEndpoint === 'string'  && (
+        service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.uri &&  typeof service.serviceEndpoint.uri === 'string' && (
+        service.serviceEndpoint.uri.startsWith('http://') || service.serviceEndpoint.uri.startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0] === 'string' && (
+        service.serviceEndpoint[0].startsWith('http://') || service.serviceEndpoint[0].startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0].uri === 'string' && (
+        service.serviceEndpoint[0].uri.startsWith('http://') || service.serviceEndpoint[0].uri.startsWith('https://')
+      ))
     )
   }
 
   /** {@inheritdoc AbstractDIDCommTransport.send} */
   async send(service: any, message: string): Promise<IDIDCommTransportResult> {
+    let serviceEndpointUrl = ''
+    if (typeof service.serviceEndpoint === 'string') {
+      serviceEndpointUrl = service.serviceEndpoint
+    } else if (service.serviceEndpoint.uri) {
+      serviceEndpointUrl = service.serviceEndpoint.uri
+    } else if (service.serviceEndpoint.length > 0) {
+      if (typeof service.serviceEndpoint[0] === 'string') {
+        serviceEndpointUrl = service.serviceEndpoint[0]
+      } else if (service.serviceEndpoint[0].uri) {
+        serviceEndpointUrl = service.serviceEndpoint[0].uri
+      }
+    }
+    
     try {
-      const response = await fetch(service.serviceEndpoint, {
+      const response = await fetch(serviceEndpointUrl, {
         method: this.httpMethod,
         body: message,
       })

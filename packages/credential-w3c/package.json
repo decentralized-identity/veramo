@@ -20,8 +20,8 @@
     "@veramo/message-handler": "^3.1.4",
     "@veramo/utils": "^3.1.4",
     "debug": "^4.3.3",
-    "did-jwt-vc": "^2.1.13",
-    "did-resolver": "^3.2.2",
+    "did-jwt-vc": "^2.1.14",
+    "did-resolver": "^4.0.0",
     "uint8arrays": "^3.0.0",
     "uuid": "^8.3.0"
   },
