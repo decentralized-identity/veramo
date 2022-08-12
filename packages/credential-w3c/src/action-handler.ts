@@ -230,7 +230,7 @@ export interface IVerifyPresentationArgs {
 }
 
 export interface VerifyPresentationPolicies {
-  now: number
+  now?: number
   nbf?: boolean
   iat?: boolean
   exp?: boolean
