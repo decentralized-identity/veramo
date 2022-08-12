@@ -314,7 +314,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
 
     debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
 
-    const txHash = await ethrDid.setAttribute(attrName, JSON.stringify(attrValue), ttl, undefined, {
+    const txHash = await ethrDid.setAttribute(attrName, attrValue, ttl, undefined, {
       ...options,
       gasLimit,
     })
@@ -360,7 +360,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
     debug('ethrDid.revokeAttribute', { attrName, attrValue, gasLimit })
-    const txHash = await ethrDid.revokeAttribute(attrName, JSON.stringify(attrValue), undefined, {
+    const txHash = await ethrDid.revokeAttribute(attrName, attrValue, undefined, {
       ...args.options,
       gasLimit,
     })
