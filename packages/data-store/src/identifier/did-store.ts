@@ -149,7 +149,7 @@ export class DIDStore extends AbstractDIDStore {
       const service = new Service()
       service.id = argsService.id
       service.type = argsService.type
-      service.serviceEndpoint = JSON.stringify(argsService.serviceEndpoint)
+      service.serviceEndpoint = (typeof argsService.serviceEndpoint === 'string') ? argsService.serviceEndpoint : JSON.stringify(argsService.serviceEndpoint)
       service.description = argsService.description
       identifier.services.push(service)
     }

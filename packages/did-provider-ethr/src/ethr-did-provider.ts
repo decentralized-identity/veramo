@@ -308,13 +308,13 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const ethrDid = await this.getEthrDidController(identifier, context)
 
     const attrName = 'did/svc/' + service.type
-    const attrValue = service.serviceEndpoint
+    const attrValue = (typeof service.serviceEndpoint === 'string') ? service.serviceEndpoint : JSON.stringify(service.serviceEndpoint)
     const ttl = options?.ttl || this.ttl
     const gasLimit = options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
     debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
 
-    const txHash = await ethrDid.setAttribute(attrName, JSON.stringify(attrValue), ttl, undefined, {
+    const txHash = await ethrDid.setAttribute(attrName, attrValue, ttl, undefined, {
       ...options,
       gasLimit,
     })
@@ -356,11 +356,11 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     if (!service) throw Error('Service not found')
 
     const attrName = 'did/svc/' + service.type
-    const attrValue = service.serviceEndpoint
+    const attrValue = (typeof service.serviceEndpoint === 'string') ? service.serviceEndpoint : JSON.stringify(service.serviceEndpoint)
     const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
     debug('ethrDid.revokeAttribute', { attrName, attrValue, gasLimit })
-    const txHash = await ethrDid.revokeAttribute(attrName, JSON.stringify(attrValue), undefined, {
+    const txHash = await ethrDid.revokeAttribute(attrName, attrValue, undefined, {
       ...args.options,
       gasLimit,
     })
