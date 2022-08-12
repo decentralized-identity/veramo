@@ -1,6 +1,6 @@
 import { AbstractDIDCommTransport, IDIDCommTransportResult } from "./transports"
 // import { WebRTCStar } from '@libp2p/webrtc-star'
-import { pipe } from "it-pipe"
+import { pipe } from 'it-pipe'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import * as lp from 'it-length-prefixed'
 

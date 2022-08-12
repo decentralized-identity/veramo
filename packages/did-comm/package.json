@@ -23,7 +23,7 @@
     "it-length-prefixed": "^8.0.2",
     "it-map": "^1.0.6",
     "it-pipe": "^2.0.3",
-    "libp2p": "0.37.3-8880eef",
+    "libp2p": "0.37.3-6630cb1",
     "libp2p-websockets": "^0.16.2",
     "peer-id": "^0.16.0",
     "@ethersproject/signing-key": "^5.5.0",
