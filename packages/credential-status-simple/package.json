@@ -1,6 +1,6 @@
 {
-  "name": "@veramo/credential-status",
-  "description": "Veramo plugin for resolving a credential status",
+  "name": "@veramo/credential-status-simple",
+  "description": "Veramo example plugin for revoking a credential using a very simple credential status method",
   "version": "3.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -9,15 +9,16 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^3.1.0",
-    "@veramo/utils": "^3.1.0",
-    "credential-status": "^2.0.3",
-    "did-jwt": "^6.2.0",
-    "did-resolver": "^3.2.2"
+    "@veramo/core": "^3.1.6-next.165",
+    "@veramo/utils": "^3.1.6-next.165",
+    "@veramo/credential-w3c": "^3.1.6-next.165",
+    "@veramo/credential-status": "^3.1.6-next.165",
+    "credential-status": "^2.0.5"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.7.3"
+    "typescript": "4.7.3",
+    "express": "4.18.1"
   },
   "files": [
     "build/**/*",
@@ -30,11 +31,8 @@
     "access": "public"
   },
   "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Konstantin Tsabolov <konstantin.tsabolov@spherity.com>",
-  "contributors": [    
-    "Mircea Nistor <mircea.nistor@mesh.xyz>",
-    "Italo Borssatto <italo.borssatto@mesh.xyz>"
-  ],
+  "author": "Italo Borssatto <italo.borssatto@mesh.xyz>",
+  "contributors": [],
   "license": "Apache-2.0",
   "keywords": []
 }
