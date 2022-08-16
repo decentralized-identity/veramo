@@ -40,21 +40,25 @@ export class CredentialStatusPlugin implements IAgentPlugin {
 
   private async checkCredentialStatus(args: ICheckCredentialStatusArgs, context: IAgentContext<IResolver>) {
     let didDoc = args.didDocumentOverride
+
     if (!didDoc) {
       const issuerDid = extractIssuer(args.credential)
       didDoc = await resolveDidOrThrow(issuerDid, context)
     }
+
     const statusCheck: CredentialStatus = (await this.status.checkStatus(
       args.credential,
       didDoc,
     )) as CredentialStatus
-    if (!isDefined(statusCheck.revoked)) {
+
+    if (!isDefined(statusCheck.verified)) {
       throw new Error(
-        `invalid_result: 'revoked' property missing. The Credential Status verification resulted in an ambiguous result: ${JSON.stringify(
+        `invalid_result: 'verified' property missing. The Credential Status verification resulted in an ambiguous result: ${JSON.stringify(
           statusCheck,
         )}`,
       )
     }
+    
     return statusCheck
   }
 }

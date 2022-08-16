@@ -19,7 +19,7 @@ describe('@veramo/credential-status', () => {
 
   it('should check the credential status', async () => {
     expect.assertions(3)
-    const expectedResult = { revoked: false }
+    const expectedResult = { verified: true }
     const checkStatus = jest.fn(async () => expectedResult)
     const agent = createAgent<ICredentialStatusVerifier>({
       plugins: [
@@ -41,7 +41,7 @@ describe('@veramo/credential-status', () => {
 
   it('should check the credential status using DID resolver to get the issuer doc', async () => {
     expect.assertions(4)
-    const expectedResult = { revoked: false }
+    const expectedResult = { verified: true }
     const checkStatus = jest.fn(async () => expectedResult)
     const fakeResolver: Resolvable = {
       resolve: jest.fn(
@@ -91,7 +91,7 @@ describe('@veramo/credential-status', () => {
 
     expect(result).toEqual({
       message: 'credentialStatus property was not set on the original credential',
-      revoked: false,
+      verified: true,
     })
     expect(checkStatus).toBeCalledTimes(0)
   })

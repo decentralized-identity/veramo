@@ -72,7 +72,7 @@ export interface ICredentialStatusManager extends IPluginMethodMap {
    * Generates a `credentialStatus` property for a future credential, not yet signed.
    *
    * This method is used during the creation of a {@link VerifiableCredential} in order to make it capable of
-   * having its status updated later (to be revoked).
+   * having its status updated later (to be revoked/suspended).
    *
    * @param args - Input arguments for generating the `credentialStatus` field of a new credential
    * @beta

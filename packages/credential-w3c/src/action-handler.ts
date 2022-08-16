@@ -310,9 +310,9 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IContext = IAgentContext<
   IResolver &
-    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
+  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
+  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >
 
 /**
@@ -628,7 +628,7 @@ async function isRevoked(credential: VerifiableCredential, context: IAgentContex
 
   if (typeof context.agent.checkCredentialStatus === 'function') {
     const status = await context.agent.checkCredentialStatus({ credential })
-    return status?.revoked == true
+    return status?.verified == false
   }
 
   throw new Error(`invalid_config: The credential status can't be verified by the agent`)

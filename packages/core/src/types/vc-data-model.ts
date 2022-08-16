@@ -18,7 +18,7 @@ export type CompactJWT = string
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type IssuerType = { id: string; [x: string]: any } | string
+export type IssuerType = { id: string;[x: string]: any } | string
 
 /**
  * The value of the credentialSubject property is defined as a set of objects that contain one or more properties that
@@ -53,7 +53,7 @@ export type CredentialStatusReference = {
 /**
  * Represents the result of a status check.
  *
- * Implementations MUST populate the `revoked` boolean property, but they can return additional metadata that is
+ * Implementations MUST populate the `verified` boolean property, but they can return additional metadata that is
  * method specific.
  *
  * @see {@link credential-status#CredentialStatus | CredentialStatus}
@@ -61,7 +61,7 @@ export type CredentialStatusReference = {
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type CredentialStatus = {
-  revoked: boolean
+  verified: boolean
   [x: string]: any
 }
 
