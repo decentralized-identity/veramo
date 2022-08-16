@@ -9,6 +9,7 @@ import {
   IKeyManager,
   IPluginMethodMap,
   IResolver,
+  IError,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
@@ -231,9 +232,15 @@ export interface IVerifyPresentationArgs {
 
 export interface VerifyPresentationPolicies {
   now?: number
-  nbf?: boolean
-  iat?: boolean
-  exp?: boolean
+  issuanceDate?: boolean
+  issuedAtDate?: boolean
+  expirationDate?: boolean
+
+  /**
+   * Other options can be specified for verification.
+   * They will be forwarded to the lower level modules that perform the checks
+    */
+  [x: string]: any
 }
 
 /**
@@ -248,17 +255,17 @@ export interface VerifyPresentationPolicies {
    */
   verified: boolean
 
-
   /**
-   * Optional string only to be used to convey the response message from errors.
-   */
-  details?: string
-
-  /**
-   * Optional string to response the Error code being received from the lower module, should be a Machine readable enum
+   * Optional Error object for the
    * but currently the machine readable errors are not expored from DID-JWT package to be imported here
    */
-  errorCode?: string
+  error?: IError
+
+  /**
+   * Other options can be specified for verification.
+   * They will be forwarded to the lower level modules. that performt the checks
+   */
+  [x: string]: any
 }
 
 /**
@@ -618,7 +625,7 @@ export class CredentialIssuer implements IAgentPlugin {
       } catch (e: any) {
         const errorCodes = ['invalid_jwt','invalid_config', 'invalid_signature', 'not_supported', 'no_suitable_keys', 'resolver_error']
         if (errorCodes.some(errorCode => e.message.includes(errorCode))) {
-          return { verified: false, details: e.message }
+          return { verified: false, error: { errorMessage: e.message } }
         }
         else {
           throw e

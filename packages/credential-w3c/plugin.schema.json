@@ -430,19 +430,19 @@
             "now": {
               "type": "number"
             },
-            "nbf": {
+            "issuanceDate": {
               "type": "boolean"
             },
-            "iat": {
+            "issuedAtDate": {
               "type": "boolean"
             },
-            "exp": {
+            "expirationDate": {
               "type": "boolean"
             }
           },
-          "required": [
-            "now"
-          ]
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules that perform the checks"
+          }
         },
         "IVerifyPresentationResponse": {
           "type": "object",
@@ -451,19 +451,32 @@
               "type": "boolean",
               "description": "This value is used to transmit the result of verification."
             },
-            "details": {
-              "type": "string",
-              "description": "Optional string only to be used to convey the response message from errors."
-            },
-            "errorCode": {
-              "type": "string",
-              "description": "Optional string to response the Error code being received from the lower module, should be a Machine readable enum but currently the machine readable errors are not expored from DID-JWT package to be imported here"
+            "error": {
+              "$ref": "#/components/schemas/IError",
+              "description": "Optional Error object for the but currently the machine readable errors are not expored from DID-JWT package to be imported here"
             }
           },
           "required": [
             "verified"
           ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+          },
           "description": "Encapsulates the response object to verifyPresentation method after verifying a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+        },
+        "IError": {
+          "type": "object",
+          "properties": {
+            "errorMessage": {
+              "type": "string",
+              "description": "The details of the error being throw or forwarded"
+            },
+            "errorCode": {
+              "type": "string",
+              "description": "The code for the error being throw"
+            }
+          },
+          "description": "Error interface"
         }
       },
       "methods": {

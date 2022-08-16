@@ -108,7 +108,8 @@ describe('credential-w3c full flow', () => {
     })
 
     expect(response.verified).toBe(false)
-    expect(response.details).toContain('JWT has expired')
+    expect(response.error).toBeDefined()
+    expect(response.error?.errorMessage).toContain('JWT has expired')
   })
 
 
@@ -120,7 +121,8 @@ describe('credential-w3c full flow', () => {
     })
 
     expect(response.verified).toBe(false)
-    expect(response.details).toContain('JWT not valid before nbf')
+    expect(response.error).toBeDefined()
+    expect(response.error?.errorMessage).toContain('JWT not valid before nbf')
   })
 
   /**
