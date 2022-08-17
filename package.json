@@ -12,8 +12,8 @@
     "test:integration-prepare": "ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
     "test:integration-pretty": "prettier --write __tests__/shared/documentationExamples.ts",
     "test:integration": "yarn test:integration-build && yarn test:ci",
-    "test:ci": "jest --config=jest.config.json --coverage=true",
-    "test": "jest --config=jest.config.json",
+    "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.json --coverage=true",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.json",
     "test:watch": "yarn test --watch --verbose",
     "test:browser": "cd packages/test-react-app && yarn test:browser",
     "veramo": "./packages/cli/bin/veramo.js",
@@ -83,5 +83,6 @@
   },
   "engines": {
     "node": ">= 14.0.0"
-  }
+  },
+  "type": "module"
 }

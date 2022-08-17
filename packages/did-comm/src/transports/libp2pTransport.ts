@@ -1,16 +1,16 @@
 import { AbstractDIDCommTransport, IDIDCommTransportResult } from "./transports"
 // import { WebRTCStar } from '@libp2p/webrtc-star'
-import { pipe } from 'it-pipe'
+import { pipe } from "it-pipe"
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import * as lp from 'it-length-prefixed'
-
 // TODO(nickreynolds): should use it-map package, but having schema generation issue when using this package
 // import map from "it-map"
 const map = async function * (source: any, func: any) {
-    for await (const val of source) {
-        yield func(val)
-    }
+  for await (const val of source) {
+      yield func(val)
+  }
 }
+
 
 /**
  * Implementation of {@link IDIDCommTransport} to provide a
@@ -67,6 +67,5 @@ const map = async function * (source: any, func: any) {
         error: 'failed to send message: ' + e,
       }
     }
-    // return {}
   }
 }
