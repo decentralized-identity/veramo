@@ -1,6 +1,7 @@
 import { Agent, createAgent } from '../agent'
 import { IAgentPlugin } from '../types/IAgent'
 import { IResolver } from '../types/IResolver'
+import {jest} from '@jest/globals';
 
 describe('core agent', () => {
   it('should use plugin methods', async () => {

@@ -10,7 +10,7 @@ import {
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core'
-import { blake2bHex } from 'blakejs'
+import blakejs from 'blakejs'
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
 import { CredentialStatus } from 'credential-status'
@@ -97,7 +97,7 @@ export function computeEntryHash(
   } else {
     hashable = JSON.stringify(input)
   }
-  return blake2bHex(hashable)
+  return blakejs.blake2bHex(hashable)
 }
 
 /**

@@ -1,6 +1,11 @@
-const ZSchema = require('z-schema')
-
+// import { createRequire } from "module"
+// const ZSchema = createRequire('z-schema')
+import Validator from 'z-schema'
+import ZSchema from 'z-schema'
+// ZSchema.
 const validator = new ZSchema({})
+// validator.
+// @ts-ignore
 validator.setRemoteReference('http://json-schema.org/draft-07/schema#', {
   type: ['array', 'boolean', 'integer', 'number', 'object', 'string'],
 })

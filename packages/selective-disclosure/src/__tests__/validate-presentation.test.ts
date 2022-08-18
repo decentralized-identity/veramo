@@ -1,6 +1,7 @@
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 import { ISelectiveDisclosureRequest } from '../types'
 import { SelectiveDisclosure } from '../action-handler'
+import {jest} from '@jest/globals';
 
 const actionHandler = new SelectiveDisclosure()
 

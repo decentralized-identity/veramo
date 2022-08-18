@@ -83,7 +83,8 @@ import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
-
+import { createLibp2p } from "libp2p"
+import {jest} from '@jest/globals';
 jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
@@ -107,6 +108,7 @@ let dbConnection: Promise<DataSource>
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
+  const l = await createLibp2p({})
   databaseFile =
     options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
   dbConnection = new DataSource({

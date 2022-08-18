@@ -87,7 +87,7 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
 import credentialStatus from './shared/credentialStatus'
-
+import {jest} from '@jest/globals';
 jest.setTimeout(60000)
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`

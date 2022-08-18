@@ -10,6 +10,7 @@ import {
   TAgent,
 } from '../../packages/core/src'
 import { IDIDComm } from '../../packages/did-comm/src'
+import {jest} from '@jest/globals';
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 

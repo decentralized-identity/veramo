@@ -1,4 +1,5 @@
-{
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+export default {
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "jsonld"],
   "collectCoverage": false,
   "collectCoverageFrom": [
@@ -11,17 +12,28 @@
   ],
   "coverageReporters": ["text", "lcov", "json"],
   "coverageDirectory": "./coverage",
+  "testMatch": ["**/__tests__/**/*.test.ts"],
   "transform": {
     "\\.jsx?$": "babel-jest",
     "\\.tsx?$": "ts-jest"
   },
-  "testMatch": ["**/__tests__/**/*.test.*"],
+  "extensionsToTreatAsEsm": [".ts"],
   "globals": {
-    "ts-jest": {
-      "tsconfig": "./packages/tsconfig.settings.json"
-    }
+    'ts-jest': {
+      "useESM": true,
+    },
   },
-  "testEnvironment": "node",
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+  },
+  "rootDir": "./",
+  "roots": [
+    "<rootDir>",
+  ],
+  "modulePaths": [
+    "<rootDir>",
+  ],
+  "moduleDirectories": ['node_modules'],
   "automock": false,
   "setupFiles": ["./setupJest.js"]
 }

@@ -62,7 +62,7 @@ import messageHandler from './shared/messageHandler'
 import utils from './shared/utils'
 import { JsonFileStore } from './utils/json-file-store'
 import credentialStatus from './shared/credentialStatus'
-
+import {jest} from '@jest/globals';
 jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'

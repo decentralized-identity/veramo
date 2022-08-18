@@ -21,6 +21,7 @@ import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020'
+import {jest} from '@jest/globals';
 
 jest.setTimeout(300000)
 

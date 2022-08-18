@@ -3,7 +3,7 @@ import { createPresentationEntity } from '../entities/presentation'
 import { DataSource, In } from 'typeorm'
 import { Identifier, Message, Claim } from '../index'
 import { Entities } from '../index'
-import { blake2bHex } from 'blakejs'
+import blakejs from 'blakejs'
 import * as fs from 'fs'
 
 describe('DB entities test', () => {
@@ -167,7 +167,7 @@ describe('DB entities test', () => {
   })
 
   it('Message can have externally set id', async () => {
-    const customId = blake2bHex('hash123')
+    const customId = blakejs.blake2bHex('hash123')
 
     const message = new Message()
     message.type = 'custom'
