@@ -9,7 +9,7 @@ import {
   IKeyManager,
   IPluginMethodMap,
   IResolver,
-  IError,
+  IVerifyResult,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
@@ -230,10 +230,31 @@ export interface IVerifyPresentationArgs {
   [x: string]: any
 }
 
+/**
+ * These optional settings can be used to override some of the default checks that are performed on
+ * Presentations during verification.
+ *
+ * @beta
+ */
 export interface VerifyPresentationPolicies {
+  /**
+   * policy to over the now (current time) during the verification check
+   */
   now?: number
+
+  /**
+   * policy to override the issuanceDate (nbf) timestamp check
+   */
   issuanceDate?: boolean
+
+  /**
+   * policy to override the issuedAtDate (iat) timestamp check
+   */
   issuedAtDate?: boolean
+
+  /**
+   * policy to override the expirationDate (exp) timestamp check
+   */
   expirationDate?: boolean
 
   /**
@@ -249,24 +270,6 @@ export interface VerifyPresentationPolicies {
  *
  * @public
  */
- export interface IVerifyPresentationResponse {
-  /**
-   * This value is used to transmit the result of verification.
-   */
-  verified: boolean
-
-  /**
-   * Optional Error object for the
-   * but currently the machine readable errors are not expored from DID-JWT package to be imported here
-   */
-  error?: IError
-
-  /**
-   * Other options can be specified for verification.
-   * They will be forwarded to the lower level modules. that performt the checks
-   */
-  [x: string]: any
-}
 
 /**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
@@ -332,7 +335,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyPresentationResponse>
+  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyResult>
 }
 
 /**
@@ -588,7 +591,7 @@ export class CredentialIssuer implements IAgentPlugin {
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
-  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyPresentationResponse> {
+  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyResult> {
     const presentation = args.presentation
     if (typeof presentation === 'string' || (<VerifiablePresentation>presentation)?.proof?.jwt) {
       // JWT
@@ -619,17 +622,19 @@ export class CredentialIssuer implements IAgentPlugin {
           challenge: args.challenge,
           domain: args.domain,
           audience,
-          policies: args.policies
+          policies: {
+            nbf: args.policies?.issuanceDate,
+            iat: args.policies?.issuedAtDate,
+            now: args.policies?.now,
+            exp: args.policies?.expirationDate
+          }
         })
         return { verified: true }
       } catch (e: any) {
-        const errorCodes = ['invalid_jwt','invalid_config', 'invalid_signature', 'not_supported', 'no_suitable_keys', 'resolver_error']
-        if (errorCodes.some(errorCode => e.message.includes(errorCode))) {
-          return { verified: false, error: { errorMessage: e.message } }
-        }
-        else {
-          throw e
-        }
+
+        // Need this logic for the errorCode because ErrorCodes are not being exported from did-jwt
+        // Uncase the code is not present the ErrorCode property will be undefined
+        return { verified: false, error: { message: e.message, errorCode: e.message.split(':')[0] } }
       }
     } else {
       // JSON-LD

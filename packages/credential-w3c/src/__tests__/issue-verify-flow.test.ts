@@ -100,7 +100,7 @@ describe('credential-w3c full flow', () => {
     expect(response.verified).toBe(true)
   })
 
-  it('fails the verification of an expired credential', async () => {
+  it.only('fails the verification of an expired credential', async () => {
     const presentationJWT = 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjAyOTcyMTAsInZwIjp7IkBjb250ZXh0IjpbImh0dHBzOi8vd3d3LnczLm9yZy8yMDE4L2NyZWRlbnRpYWxzL3YxIl0sInR5cGUiOlsiVmVyaWZpYWJsZVByZXNlbnRhdGlvbiJdLCJ2ZXJpZmlhYmxlQ3JlZGVudGlhbCI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSjkuZXlKbGVIQWlPakUyTmpBeU9UY3lNVEFzSW5aaklqcDdJa0JqYjI1MFpYaDBJanBiSW1oMGRIQnpPaTh2ZDNkM0xuY3pMbTl5Wnk4eU1ERTRMMk55WldSbGJuUnBZV3h6TDNZeElpd2lZM1Z6ZEc5dE9tVjRZVzF3YkdVdVkyOXVkR1Y0ZENKZExDSjBlWEJsSWpwYklsWmxjbWxtYVdGaWJHVkRjbVZrWlc1MGFXRnNJbDBzSW1OeVpXUmxiblJwWVd4VGRXSnFaV04wSWpwN0ltNXZkR2hwYm1jaU9pSmxiSE5sSUcxaGRIUmxjbk1pZlgwc0ltNWlaaUk2TVRZMk1ESTVOekl4TUN3aWFYTnpJam9pWkdsa09tdGxlVHA2TmsxcmFWVTNVbk5hVnpOeWFXVmxRMjg1U25OMVVEUnpRWEZYZFdGRE0zbGhjbWwxWVZCMlVXcHRZVzVsWTFBaWZRLkZhdzBEUWNNdXpacEVkcy1LR3dOalMyM2IzbUEzZFhQWXBQcGJzNmRVSnhIOVBrZzVieGF3UDVwMlNPajdQM25IdEpCR3lwTjJ3NzRfZjc3SjF5dUJ3Il19LCJuYmYiOjE2NjAyOTcyMTAsImlzcyI6ImRpZDprZXk6ejZNa2lVN1JzWlczcmllZUNvOUpzdVA0c0FxV3VhQzN5YXJpdWFQdlFqbWFuZWNQIn0.YcYbyqVlD8YsTjVw0kCEs0P_ie6SFMakf_ncPntEjsmS9C4cKyiS50ZhNkOv0R3Roy1NrzX7h93WBU55KeJlCw'
 
     const response = await agent.verifyPresentation({
@@ -109,7 +109,7 @@ describe('credential-w3c full flow', () => {
 
     expect(response.verified).toBe(false)
     expect(response.error).toBeDefined()
-    expect(response.error?.errorMessage).toContain('JWT has expired')
+    expect(response.error?.message).toContain('JWT has expired')
   })
 
 
@@ -122,7 +122,7 @@ describe('credential-w3c full flow', () => {
 
     expect(response.verified).toBe(false)
     expect(response.error).toBeDefined()
-    expect(response.error?.errorMessage).toContain('JWT not valid before nbf')
+    expect(response.error?.message).toContain('JWT not valid before nbf')
   })
 
   /**

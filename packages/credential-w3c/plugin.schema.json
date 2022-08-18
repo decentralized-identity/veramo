@@ -428,23 +428,28 @@
           "type": "object",
           "properties": {
             "now": {
-              "type": "number"
+              "type": "number",
+              "description": "policy to over the now (current time) during the verification check"
             },
             "issuanceDate": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "policy to override the issuanceDate (nbf) timestamp check"
             },
             "issuedAtDate": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "policy to override the issuedAtDate (iat) timestamp check"
             },
             "expirationDate": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "policy to override the expirationDate (exp) timestamp check"
             }
           },
           "additionalProperties": {
             "description": "Other options can be specified for verification. They will be forwarded to the lower level modules that perform the checks"
-          }
+          },
+          "description": "These optional settings can be used to override some of the default checks that are performed on Presentations during verification."
         },
-        "IVerifyPresentationResponse": {
+        "IVerifyResult": {
           "type": "object",
           "properties": {
             "verified": {
@@ -467,7 +472,7 @@
         "IError": {
           "type": "object",
           "properties": {
-            "errorMessage": {
+            "message": {
               "type": "string",
               "description": "The details of the error being throw or forwarded"
             },
@@ -476,7 +481,7 @@
               "description": "The code for the error being throw"
             }
           },
-          "description": "Error interface"
+          "description": "An error object, which can contain a code."
         }
       },
       "methods": {
@@ -513,7 +518,7 @@
             "$ref": "#/components/schemas/IVerifyPresentationArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IVerifyPresentationResponse"
+            "$ref": "#/components/schemas/IVerifyResult"
           }
         }
       }
