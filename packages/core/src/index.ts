@@ -18,6 +18,8 @@ export * from './types/IKeyManager'
 export * from './types/IMessage'
 export * from './types/IMessageHandler'
 export * from './types/IResolver'
+export * from './types/IError'
+export * from './types/IVerifyResult'
 export * from './types/vc-data-model'
 
 /**
