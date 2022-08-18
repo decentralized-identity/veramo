@@ -28,6 +28,7 @@ export class LdCredentialModule {
 
   private ldContextLoader: LdContextLoader
   ldSuiteLoader: LdSuiteLoader
+
   constructor(options: { ldContextLoader: LdContextLoader; ldSuiteLoader: LdSuiteLoader }) {
     this.ldContextLoader = options.ldContextLoader
     this.ldSuiteLoader = options.ldSuiteLoader
@@ -150,13 +151,12 @@ export class LdCredentialModule {
       checkStatus: async () => Promise.resolve({ verified: true }), // Fake method
     })
 
-    if (result.verified) return true
+    if (!result.verified) {
+      // result can include raw Error
+      debug(`Error verifying LD Credential: ${JSON.stringify(result, null, 2)}`)
+    }
 
-    // NOT verified.    
-    // result can include raw Error
-    debug(`Error verifying LD Verifiable Credential: ${JSON.stringify(result, null, 2)}`)
-    // console.log(JSON.stringify(result, null, 2));
-    throw Error('Error verifying LD Verifiable Credential')
+    return result
   }
 
   async verifyPresentation(
@@ -175,13 +175,10 @@ export class LdCredentialModule {
       compactProof: false,
     })
 
-    if (result.verified) return true
-
-    // NOT verified.
-
-    // result can include raw Error
-    console.log(`Error verifying LD Verifiable Presentation`)
-    console.log(JSON.stringify(result, null, 2))
-    throw Error('Error verifying LD Verifiable Presentation')
+    if (!result.verified) {
+      // result can include raw Error
+      debug(`Error verifying LD Presentation: ${JSON.stringify(result, null, 2)}`)
+    }
+    return result
   }
 }

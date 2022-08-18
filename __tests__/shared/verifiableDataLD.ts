@@ -72,7 +72,7 @@ export default (testContext: {
         credential: verifiableCredential,
       })
 
-      expect(result).toEqual(true)
+      expect(result.verified).toEqual(true)
     })
 
     it('should handleMessage with VC (non-JWT)', async () => {
@@ -98,20 +98,19 @@ export default (testContext: {
         hash: storedCredentialHash,
       })
 
+      // tamper with credential
       verifiableCredential.credentialSubject.name = 'Martin, the not so greats'
 
-      try {
-        await agent.handleMessage({
+      await expect(
+        agent.handleMessage({
           raw: JSON.stringify({
             body: verifiableCredential,
             type: 'w3c.vc',
           }),
           save: false,
           metaData: [{ type: 'LDS' }],
-        })
-      } catch (e) {
-        expect(e).toEqual(Error('Error verifying LD Verifiable Credential'))
-      }
+        }),
+      ).rejects.toThrow(/Verification error/)
     })
 
     it('should sign a verifiable presentation in LD', async () => {
@@ -164,7 +163,7 @@ export default (testContext: {
         domain,
       })
 
-      expect(result).toBeTruthy()
+      expect(result.verified).toEqual(true)
     })
 
     it('should handleMessage with VPs (non-JWT)', async () => {
@@ -244,7 +243,7 @@ export default (testContext: {
         credential: verifiableCredential,
       })
 
-      expect(result).toEqual(true)
+      expect(result.verified).toEqual(true)
     })
   })
 }

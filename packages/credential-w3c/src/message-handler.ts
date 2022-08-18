@@ -6,7 +6,9 @@ import {
   normalizePresentation,
   validateJwtCredentialPayload,
   validateJwtPresentationPayload,
+  VC_ERROR,
 } from 'did-jwt-vc'
+import { JWT_ERROR } from 'did-jwt'
 import { ICredentialIssuer } from './action-handler'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
@@ -32,6 +34,16 @@ export const MessageTypes = {
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  */
 export type IContext = IAgentContext<IResolver & ICredentialIssuer>
+
+const validityErrors: string[] = [
+  JWT_ERROR.INVALID_JWT,
+  JWT_ERROR.INVALID_AUDIENCE,
+  JWT_ERROR.INVALID_SIGNATURE,
+  JWT_ERROR.NO_SUITABLE_KEYS,
+  VC_ERROR.SCHEMA_ERROR,
+  VC_ERROR.FORMAT_ERROR,
+  VC_ERROR.AUTH_ERROR,
+]
 
 /**
  * An implementation of the {@link @veramo/message-handler#AbstractMessageHandler}.
@@ -105,20 +117,23 @@ export class W3cMessageHandler extends AbstractMessageHandler {
       // verify credential
       const credential = message.data as VerifiableCredential
 
-      // throws on error.
-      await context.agent.verifyCredential({ credential })
-      message.id = computeEntryHash(message.raw || message.id || uuidv4())
-      message.type = MessageTypes.vc
-      message.from = extractIssuer(credential)
-      message.to = credential.credentialSubject.id
+      const result = await context.agent.verifyCredential({ credential })
+      if (result.verified) {
+        message.id = computeEntryHash(message.raw || message.id || uuidv4())
+        message.type = MessageTypes.vc
+        message.from = extractIssuer(credential)
+        message.to = credential.credentialSubject.id
 
-      if (credential.tag) {
-        message.threadId = credential.tag
+        if (credential.tag) {
+          message.threadId = credential.tag
+        }
+
+        message.createdAt = credential.issuanceDate
+        message.credentials = [credential]
+        return message
+      } else {
+        throw new Error(result.error?.message)
       }
-
-      message.createdAt = credential.issuanceDate
-      message.credentials = [credential]
-      return message
     }
 
     if (message.type === MessageTypes.vp && message.data) {
@@ -126,26 +141,29 @@ export class W3cMessageHandler extends AbstractMessageHandler {
       const presentation = message.data as VerifiablePresentation
 
       // throws on error.
-      await context.agent.verifyPresentation({
+      const result = await context.agent.verifyPresentation({
         presentation,
         // FIXME: HARDCODED CHALLENGE VERIFICATION FOR NOW
         challenge: 'VERAMO',
         domain: 'VERAMO',
       })
+      if (result.verified) {
+        message.id = computeEntryHash(message.raw || message.id || uuidv4())
+        message.type = MessageTypes.vp
+        message.from = presentation.holder
+        // message.to = presentation.verifier?.[0]
 
-      message.id = computeEntryHash(message.raw || message.id || uuidv4())
-      message.type = MessageTypes.vp
-      message.from = presentation.holder
-      // message.to = presentation.verifier?.[0]
+        if (presentation.tag) {
+          message.threadId = presentation.tag
+        }
 
-      if (presentation.tag) {
-        message.threadId = presentation.tag
+        // message.createdAt = presentation.issuanceDate
+        message.presentations = [presentation]
+        message.credentials = asArray(presentation.verifiableCredential).map(decodeCredentialToObject)
+        return message
+      } else {
+        throw new Error(result.error?.message)
       }
-
-      // message.createdAt = presentation.issuanceDate
-      message.presentations = [presentation]
-      message.credentials = asArray(presentation.verifiableCredential).map(decodeCredentialToObject)
-      return message
     }
 
     return super.handle(message, context)

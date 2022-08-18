@@ -191,7 +191,7 @@ credential
     }
     try {
       const result = await agent.verifyCredential({ credential: credentialAsJSON })
-      if (result === true) {
+      if (result.verified === true) {
         console.log('Credential was verified successfully.')
       } else {
         console.error('Credential could not be verified.')

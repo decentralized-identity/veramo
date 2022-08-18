@@ -25,13 +25,9 @@ export default (testContext: {
     beforeAll(async () => {
       await testContext.setup()
       agent = testContext.getAgent()
+      identifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:key' })
     })
     afterAll(testContext.tearDown)
-
-    it('should create identifier', async () => {
-      identifier = await agent.didManagerCreate({ kms: 'local' })
-      expect(identifier).toHaveProperty('did')
-    })
 
     it('should create verifiable credential in JWT', async () => {
       const verifiableCredential = await agent.createVerifiableCredential({

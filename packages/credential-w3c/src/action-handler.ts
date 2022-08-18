@@ -39,7 +39,7 @@ import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
 import { schema } from './'
 
-const enum CredentialType {
+const enum DocumentFormat {
   JWT,
   JSONLD,
   EIP712,
@@ -186,6 +186,11 @@ export interface IVerifyCredentialArgs {
   fetchRemoteContexts?: boolean
 
   /**
+   * Overrides specific aspects of credential verification, where possible.
+   */
+  policies?: VerificationPolicies
+
+  /**
    * Other options can be specified for verification.
    * They will be forwarded to the lower level modules. that performt the checks
    */
@@ -228,17 +233,15 @@ export interface IVerifyPresentationArgs {
    */
   fetchRemoteContexts?: boolean
 
-
   /**
-   * Verification Policies for the verifiable presentation
-   * These will also be forwarded to the lower level module
+   * Overrides specific aspects of credential verification, where possible.
    */
-  policies?: VerifyPresentationPolicies
+  policies?: VerificationPolicies
 
   /**
    * Other options can be specified for verification.
    * They will be forwarded to the lower level modules. that performt the checks
-    */
+   */
   [x: string]: any
 }
 
@@ -248,31 +251,36 @@ export interface IVerifyPresentationArgs {
  *
  * @beta
  */
-export interface VerifyPresentationPolicies {
+export interface VerificationPolicies {
   /**
-   * policy to over the now (current time) during the verification check
+   * policy to over the now (current time) during the verification check (UNIX time in seconds)
    */
   now?: number
 
   /**
-   * policy to override the issuanceDate (nbf) timestamp check
+   * policy to skip the issuanceDate (nbf) timestamp check when set to `false`
    */
   issuanceDate?: boolean
 
   /**
-   * policy to override the issuedAtDate (iat) timestamp check
-   */
-  issuedAtDate?: boolean
-
-  /**
-   * policy to override the expirationDate (exp) timestamp check
+   * policy to skip the expirationDate (exp) timestamp check when set to `false`
    */
   expirationDate?: boolean
 
   /**
+   * policy to skip the audience check when set to `false`
+   */
+  audience?: boolean
+
+  /**
+   * policy to skip the revocation check (credentialStatus) when set to `false`
+   */
+  credentialStatus: boolean
+
+  /**
    * Other options can be specified for verification.
    * They will be forwarded to the lower level modules that perform the checks
-    */
+   */
   [x: string]: any
 }
 
@@ -332,11 +340,12 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
+   * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
+   *   for details
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    */
-  verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<boolean>
+  verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<IVerifyResult>
 
   /**
    * Verifies a Verifiable Presentation JWT or LDS Format.
@@ -344,7 +353,8 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the boolean true on successful verification or rejects on error
+   * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
+   *   for details
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
@@ -552,59 +562,101 @@ export class CredentialIssuer implements IAgentPlugin {
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyCredential} */
-  async verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<boolean> {
+  async verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<IVerifyResult> {
     const credential = args.credential
     let verifiedCredential: VerifiableCredential
+    let verificationResult: IVerifyResult = { verified: false }
 
-    const type: CredentialType = detectCredentialType(credential)
-    if (type == CredentialType.JWT) {
+    const type: DocumentFormat = detectDocumentType(credential)
+    if (type == DocumentFormat.JWT) {
       let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
 
       const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
       try {
-        const verification = await verifyCredentialJWT(jwt, resolver)
-        verifiedCredential = verification.verifiableCredential
+        verificationResult = await verifyCredentialJWT(jwt, resolver, {
+          policies: {
+            nbf: args.policies?.issuanceDate,
+            iat: args.policies?.issuanceDate,
+            exp: args.policies?.expirationDate,
+            aud: args.policies?.audience,
+            ...args.policies,
+          },
+        })
+        verifiedCredential = verificationResult.verifiableCredential
       } catch (e: any) {
-        //TODO: return a more detailed reason for failure
-        return false
+        let { message, errorCode } = e
+        return {
+          verified: false,
+          error: {
+            message,
+            errorCode: errorCode ? errorCode : message.split(':')[0],
+          },
+        }
       }
-    } else if (type == CredentialType.EIP712) {
+    } else if (type == DocumentFormat.EIP712) {
       if (typeof context.agent.verifyCredentialEIP712 !== 'function') {
         throw new Error(
           'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
         )
       }
 
-      if (!(await context.agent.verifyCredentialEIP712(args))) {
-        return false
+      try {
+        const result = await context.agent.verifyCredentialEIP712(args)
+        if (result) {
+          verificationResult = {
+            verified: true,
+          }
+        } else {
+          verificationResult = {
+            verified: false,
+            error: {
+              message: "invalid_signature: The signature does not match any of the issuer signing keys",
+              errorCode: "invalid_signature"
+            }
+          }
+        }
+        verifiedCredential = <VerifiableCredential>credential
+      } catch (e: any) {
+        const { message, errorCode } = e
+        return {
+          verified: false,
+          error: {
+            message,
+            errorCode: errorCode ? errorCode : e.message.split(':')[0],
+          },
+        }
       }
-
-      verifiedCredential = <VerifiableCredential>credential
-    } else if (type == CredentialType.JSONLD) {
+    } else if (type == DocumentFormat.JSONLD) {
       if (typeof context.agent.verifyCredentialLD !== 'function') {
         throw new Error(
           'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
         )
       }
 
-      if (!(await context.agent.verifyCredentialLD(args))) return false
-
+      verificationResult = await context.agent.verifyCredentialLD(args)
       verifiedCredential = <VerifiableCredential>credential
     } else {
       throw new Error('Unknown credential type.')
     }
 
-    if (await isRevoked(verifiedCredential, context)) {
-      return false
+    if (args.policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context))) {
+      verificationResult = {
+        verified: false,
+        error: {
+          message: 'revoked: The credential was revoked by the issuer',
+          errorCode: 'revoked',
+        },
+      }
     }
 
-    return true
+    return verificationResult
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
   async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyResult> {
     const presentation = args.presentation
-    if (typeof presentation === 'string' || (<VerifiablePresentation>presentation)?.proof?.jwt) {
+    const type: DocumentFormat = detectDocumentType(presentation)
+    if (type === DocumentFormat.JWT) {
       // JWT
       let jwt: string
       if (typeof presentation === 'string') {
@@ -635,17 +687,53 @@ export class CredentialIssuer implements IAgentPlugin {
           audience,
           policies: {
             nbf: args.policies?.issuanceDate,
-            iat: args.policies?.issuedAtDate,
-            now: args.policies?.now,
-            exp: args.policies?.expirationDate
-          }
+            iat: args.policies?.issuanceDate,
+            exp: args.policies?.expirationDate,
+            ...args.policies,
+          },
         })
-        return { verified: true }
+        return verification
       } catch (e: any) {
-
-        // Need this logic for the errorCode because ErrorCodes are not being exported from did-jwt
-        // Uncase the code is not present the ErrorCode property will be undefined
-        return { verified: false, error: { message: e.message, errorCode: e.message.split(':')[0] } }
+        let { message, errorCode } = e
+        return {
+          verified: false,
+          error: {
+            message,
+            errorCode: errorCode ? errorCode : message.split(':')[0],
+          },
+        }
+      }
+    } else if (type === DocumentFormat.EIP712) {
+      // JSON-LD
+      if (typeof context.agent.verifyPresentationEIP712 !== 'function') {
+        throw new Error(
+          'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+        )
+      }
+      try {
+        const result = await context.agent.verifyPresentationEIP712(args)
+        if (result) {
+          return {
+            verified: true,
+          }
+        } else {
+          return {
+            verified: false,
+            error: {
+              message: "invalid_signature: The signature does not match any of the issuer signing keys",
+              errorCode: "invalid_signature"
+            }
+          }
+        }
+      } catch (e: any) {
+        const { message, errorCode } = e
+        return {
+          verified: false,
+          error: {
+            message,
+            errorCode: errorCode ? errorCode : e.message.split(':')[0],
+          },
+        }
       }
     } else {
       // JSON-LD
@@ -672,21 +760,22 @@ function wrapSigner(
   }
 }
 
-function detectCredentialType(credential: W3CVerifiableCredential): CredentialType {
-  if (typeof credential === 'string' || (<VerifiableCredential>credential)?.proof?.jwt)
-    return CredentialType.JWT
-  if ((<VerifiableCredential>credential)?.proof?.type === 'EthereumEip712Signature2021')
-    return CredentialType.EIP712
-  return CredentialType.JSONLD
+function detectDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): DocumentFormat {
+  if (typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt) return DocumentFormat.JWT
+  if ((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
+    return DocumentFormat.EIP712
+  return DocumentFormat.JSONLD
 }
 
-async function isRevoked(credential: VerifiableCredential, context: IAgentContext<any>): Promise<boolean> {
+async function isRevoked(credential: VerifiableCredential, context: IContext): Promise<boolean> {
   if (!credential.credentialStatus) return false
 
   if (typeof context.agent.checkCredentialStatus === 'function') {
     const status = await context.agent.checkCredentialStatus({ credential })
-    return status?.revoked == true
+    return status?.revoked == true || status?.verified === false
   }
 
-  throw new Error(`invalid_config: The credential status can't be verified by the agent`)
+  throw new Error(
+    `invalid_config: The credential status can't be verified because there is no ICredentialStatusVerifier plugin installed.`,
+  )
 }
