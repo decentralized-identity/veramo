@@ -113,6 +113,15 @@ export interface ICreateVerifiablePresentationArgs {
   keyRef?: string
 
   /**
+   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded.
+   * The context definitions SHOULD rather be provided at startup instead of being fetched.
+   *
+   * @default false
+   */
+  fetchRemoteContexts?: boolean
+
+  /**
    * Any other options that can be forwarded to the lower level libraries
    */
   [x: string]: any
@@ -164,6 +173,15 @@ export interface ICreateVerifiableCredentialArgs {
   keyRef?: string
 
   /**
+   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded.
+   * The context definitions SHOULD rather be provided at startup instead of being fetched.
+   *
+   * @default false
+   */
+  fetchRemoteContexts?: boolean
+
+  /**
    * Any other options that can be forwarded to the lower level libraries
    */
   [x: string]: any
@@ -188,7 +206,7 @@ export interface IVerifyCredentialArgs {
 
   /**
    * When dealing with JSON-LD you also MUST provide the proper contexts.
-   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded.
+   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded.
    * The context definitions SHOULD rather be provided at startup instead of being fetched.
    *
    * @default false

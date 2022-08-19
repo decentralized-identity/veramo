@@ -102,7 +102,7 @@ export class LdCredentialModule {
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiableCredential> {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
-    const documentLoader = this.getDocumentLoader(context)
+    const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     // some suites can modify the incoming credential (e.g. add required contexts)
     suite.preSigningCredModification(credential)
@@ -127,7 +127,7 @@ export class LdCredentialModule {
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiablePresentation> {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
-    const documentLoader = this.getDocumentLoader(context)
+    const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     suite.preSigningPresModification(presentation)
 

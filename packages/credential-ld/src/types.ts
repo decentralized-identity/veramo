@@ -121,6 +121,13 @@ export interface ICreateVerifiablePresentationLDArgs {
   keyRef?: string
 
   /**
+   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
+   *
+   * Defaults to `false`
+   */
+  fetchRemoteContexts?: boolean
+
+  /**
    * Any other options that can be forwarded to the lower level libraries
    */
   [x:string]: any
@@ -150,6 +157,13 @@ export interface ICreateVerifiableCredentialLDArgs {
   keyRef?: string,
 
   /**
+   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
+   *
+   * Defaults to `false`
+   */
+  fetchRemoteContexts?: boolean
+
+  /**
    * Any other options that can be forwarded to the lower level libraries
    */
   [x:string]: any
@@ -173,7 +187,7 @@ export interface IVerifyCredentialLDArgs {
   credential: VerifiableCredential
 
   /**
-   * Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.
+   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
    *
    * Defaults to `false`
    */
@@ -213,7 +227,7 @@ export interface IVerifyPresentationLDArgs {
   domain?: string
 
   /**
-   * Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.
+   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
    *
    * Defaults to `false`
    */

@@ -25,6 +25,11 @@
             "keyRef": {
               "type": "string",
               "description": "[Optional] The ID of the key that should sign this credential. If this is not specified, the first matching key will be used."
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
             }
           },
           "required": [
@@ -232,6 +237,11 @@
             "keyRef": {
               "type": "string",
               "description": "[Optional] The ID of the key that should sign this presentation. If this is not specified, the first matching key will be used."
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
             }
           },
           "required": [
@@ -376,7 +386,7 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
               "default": false
             },
             "policies": {

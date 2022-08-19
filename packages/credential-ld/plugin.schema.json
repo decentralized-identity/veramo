@@ -12,6 +12,10 @@
             "keyRef": {
               "type": "string",
               "description": "Optional. The key handle ( {@link  @veramo/core#IKey.kid | IKey.kid } ) from the internal database."
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
             }
           },
           "required": [
@@ -196,6 +200,10 @@
             "keyRef": {
               "type": "string",
               "description": "Optional. The key handle ( {@link  @veramo/core#IKey.kid | IKey.kid } ) from the internal database."
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
             }
           },
           "required": [
@@ -339,7 +347,7 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.\n\nDefaults to `false`"
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
             }
           },
           "required": [
@@ -367,7 +375,7 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.\n\nDefaults to `false`"
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
             }
           },
           "required": [
