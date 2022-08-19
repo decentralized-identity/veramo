@@ -275,7 +275,7 @@ export interface VerificationPolicies {
   /**
    * policy to skip the revocation check (credentialStatus) when set to `false`
    */
-  credentialStatus: boolean
+  credentialStatus?: boolean
 
   /**
    * Other options can be specified for verification.
@@ -443,7 +443,7 @@ export class CredentialIssuer implements IAgentPlugin {
           verifiablePresentation = await context.agent.createVerifiablePresentationLD(args)
         } else {
           throw new Error(
-            'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+            'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
           )
         }
       } else if (args.proofFormat === 'EthereumEip712Signature2021') {
@@ -451,7 +451,7 @@ export class CredentialIssuer implements IAgentPlugin {
           verifiablePresentation = await context.agent.createVerifiablePresentationEIP712(args)
         } else {
           throw new Error(
-            'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+            'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
           )
         }
       } else {
@@ -519,7 +519,7 @@ export class CredentialIssuer implements IAgentPlugin {
           verifiableCredential = await context.agent.createVerifiableCredentialLD(args as any)
         } else {
           throw new Error(
-            'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+            'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
           )
         }
       } else if (args.proofFormat === 'EthereumEip712Signature2021') {
@@ -527,7 +527,7 @@ export class CredentialIssuer implements IAgentPlugin {
           verifiableCredential = await context.agent.createVerifiableCredentialEIP712(args as any)
         } else {
           throw new Error(
-            'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+            'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
           )
         }
       } else {
@@ -575,9 +575,9 @@ export class CredentialIssuer implements IAgentPlugin {
       try {
         verificationResult = await verifyCredentialJWT(jwt, resolver, {
           policies: {
-            nbf: args.policies?.issuanceDate,
-            iat: args.policies?.issuanceDate,
-            exp: args.policies?.expirationDate,
+            nbf: args.policies?.issuanceDate || args.policies?.nbf,
+            iat: args.policies?.issuanceDate || args.policies?.iat,
+            exp: args.policies?.expirationDate || args.policies?.exp,
             aud: args.policies?.audience,
             ...args.policies,
           },
@@ -596,7 +596,7 @@ export class CredentialIssuer implements IAgentPlugin {
     } else if (type == DocumentFormat.EIP712) {
       if (typeof context.agent.verifyCredentialEIP712 !== 'function') {
         throw new Error(
-          'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+          'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
         )
       }
 
@@ -610,9 +610,9 @@ export class CredentialIssuer implements IAgentPlugin {
           verificationResult = {
             verified: false,
             error: {
-              message: "invalid_signature: The signature does not match any of the issuer signing keys",
-              errorCode: "invalid_signature"
-            }
+              message: 'invalid_signature: The signature does not match any of the issuer signing keys',
+              errorCode: 'invalid_signature',
+            },
           }
         }
         verifiedCredential = <VerifiableCredential>credential
@@ -629,14 +629,14 @@ export class CredentialIssuer implements IAgentPlugin {
     } else if (type == DocumentFormat.JSONLD) {
       if (typeof context.agent.verifyCredentialLD !== 'function') {
         throw new Error(
-          'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+          'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
         )
       }
 
       verificationResult = await context.agent.verifyCredentialLD(args)
       verifiedCredential = <VerifiableCredential>credential
     } else {
-      throw new Error('Unknown credential type.')
+      throw new Error('invalid_argument: Unknown credential type.')
     }
 
     if (args.policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context))) {
@@ -707,7 +707,7 @@ export class CredentialIssuer implements IAgentPlugin {
       // JSON-LD
       if (typeof context.agent.verifyPresentationEIP712 !== 'function') {
         throw new Error(
-          'invalid_configuration: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+          'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
         )
       }
       try {
@@ -720,9 +720,9 @@ export class CredentialIssuer implements IAgentPlugin {
           return {
             verified: false,
             error: {
-              message: "invalid_signature: The signature does not match any of the issuer signing keys",
-              errorCode: "invalid_signature"
-            }
+              message: 'invalid_signature: The signature does not match any of the issuer signing keys',
+              errorCode: 'invalid_signature',
+            },
           }
         }
       } catch (e: any) {
@@ -742,7 +742,7 @@ export class CredentialIssuer implements IAgentPlugin {
         return result
       } else {
         throw new Error(
-          'invalid_configuration: your agent does not seem to have ICredentialIssuerLD plugin installed',
+          'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
         )
       }
     }
@@ -776,6 +776,6 @@ async function isRevoked(credential: VerifiableCredential, context: IContext): P
   }
 
   throw new Error(
-    `invalid_config: The credential status can't be verified because there is no ICredentialStatusVerifier plugin installed.`,
+    `invalid_setup: The credential status can't be verified because there is no ICredentialStatusVerifier plugin installed.`,
   )
 }

@@ -235,7 +235,7 @@ export default (testContext: {
 
       // TODO It`s an exception flow an it'd be better to throw an exception instead of returning false
       await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(
-        `invalid_config: The credential status can't be verified because there is no ICredentialStatusVerifier plugin installed.`,
+        `invalid_setup: The credential status can't be verified because there is no ICredentialStatusVerifier plugin installed.`,
       )
     })
   })

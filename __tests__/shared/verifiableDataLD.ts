@@ -1,6 +1,14 @@
 // noinspection ES6PreferShortImport
 
-import { IDataStore, IDataStoreORM, IDIDManager, IIdentifier, TAgent } from '../../packages/core/src'
+import {
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IIdentifier,
+  TAgent,
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 
@@ -244,6 +252,64 @@ export default (testContext: {
       })
 
       expect(result.verified).toEqual(true)
+    })
+
+    describe('credential verification policies', () => {
+      it('can verify credential at a particular time', async () => {
+        const issuanceDate = '2019-08-19T09:15:20.000Z' // 1566206120
+        const expirationDate = '2019-08-20T10:42:31.000Z' // 1566297751
+        let credential = await agent.createVerifiableCredential({
+          proofFormat: 'lds',
+          credential: {
+            issuer: { id: didKeyIdentifier.did },
+            '@context': ['https://veramo.io/contexts/profile/v1'],
+            type: ['Profile'],
+            issuanceDate,
+            expirationDate,
+            credentialSubject: {
+              id: didKeyIdentifier.did,
+              name: 'hello',
+            },
+          },
+          now: 1566206120,
+        })
+
+        const result = await agent.verifyCredential({ credential })
+        expect(result.verified).toBe(false)
+
+        const result2 = await agent.verifyCredential({
+          credential,
+          policies: { now: 1566297000 },
+        })
+        expect(result2.verified).toBe(true)
+      })
+
+      it('can override credentialStatus check', async () => {
+        const cred = await agent.createVerifiableCredential({
+          proofFormat: 'lds',
+          credential: {
+            issuer: { id: didKeyIdentifier.did },
+            '@context': ['https://veramo.io/contexts/profile/v1'],
+            type: ['Profile'],
+            credentialSubject: {
+              id: didKeyIdentifier.did,
+              name: 'hello',
+            },
+            credentialStatus: {
+              id: 'override me',
+              type: 'ThisMethodDoesNotExist2022',
+            },
+          },
+          now: 1566206120,
+        })
+        await expect(agent.verifyCredential({ credential: cred })).rejects.toThrow(/^invalid_setup:/)
+
+        const result2 = await agent.verifyCredential({
+          credential: cred,
+          policies: { credentialStatus: false },
+        })
+        expect(result2.verified).toBe(true)
+      })
     })
   })
 }

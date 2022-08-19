@@ -7958,18 +7958,18 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-3.0.1.tgz#d390957ac54fbc6504cba5dbad6df410c54136f1"
-  integrity sha512-M4GvWC7WFXjyPXXVdxD+IP8+KUbyizxPFB2z8fErnYQfdQzWuPqz4PM4MkgI3I4V66lNKfn6bgUivXVTuP8i2Q==
+did-jwt-vc@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-3.1.0.tgz#aa7877c4c1f26ba11883604ac0ece30ca4fe78a4"
+  integrity sha512-8N54No9RQpbDM4a/aMiGc/tZWubtH8bqi7DLnO6B62AdWaNVKeS9ddcuANztSS1yTuypyzlyeeEtCTqEzpYgjA==
   dependencies:
-    did-jwt "^6.5.0"
+    did-jwt "^6.6.0"
     did-resolver "^4.0.0"
 
-did-jwt@^6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.3.0.tgz#6c7380a69fff97f95101ce03519fd34c0ee43594"
-  integrity sha512-kvwCDY6KZJZn9/LK+X4Co+X1brnZWr6fnP1NRVReTgSPFyA+20oZ+VCsmSnzzYUoPkQ/Pl54uOMlmRw69z5zBg==
+did-jwt@6.6.0, did-jwt@^6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.6.0.tgz#e7c932f7e3ff992b15aef7db3d530c81fb34902d"
+  integrity sha512-qSjXEEHS4fSbBHRCC/ObDzPVkCVvuXIfIiGWa03HNRr85gGkbxzBrxUsUbXfXo1CuzeCqmmZpK4nM4VWlZh6bQ==
   dependencies:
     "@stablelib/ed25519" "^1.0.2"
     "@stablelib/random" "^1.0.1"
@@ -7984,10 +7984,10 @@ did-jwt@^6.3.0:
     multiformats "^9.6.5"
     uint8arrays "^3.0.0"
 
-did-jwt@^6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.5.0.tgz#0179ed25db32c111a667563c0d7b54e5d6ecb939"
-  integrity sha512-yfdqk2N6+161Yeay4HMC5daic/HRIsc+W1r7JQlNtL14fmQyaPgJxnxpXdc7Qmwd+pMlfpi1oOEtraExDE6MzQ==
+did-jwt@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.3.0.tgz#6c7380a69fff97f95101ce03519fd34c0ee43594"
+  integrity sha512-kvwCDY6KZJZn9/LK+X4Co+X1brnZWr6fnP1NRVReTgSPFyA+20oZ+VCsmSnzzYUoPkQ/Pl54uOMlmRw69z5zBg==
   dependencies:
     "@stablelib/ed25519" "^1.0.2"
     "@stablelib/random" "^1.0.1"
