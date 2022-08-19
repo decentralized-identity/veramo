@@ -17,6 +17,9 @@
           "required": [
             "credential"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "CredentialPayload": {
@@ -198,6 +201,9 @@
           "required": [
             "presentation"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
         "PresentationPayload": {
@@ -339,6 +345,9 @@
           "required": [
             "credential"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "IVerifyPresentationLDArgs": {
@@ -364,6 +373,9 @@
           "required": [
             "presentation"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         }
       },

@@ -98,6 +98,7 @@ export class LdCredentialModule {
     issuerDid: string,
     key: IKey,
     verificationMethodId: string,
+    options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiableCredential> {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
@@ -107,6 +108,7 @@ export class LdCredentialModule {
     suite.preSigningCredModification(credential)
 
     return await vc.issue({
+      ...options,
       credential,
       suite: suite.getSuiteForSigning(key, issuerDid, verificationMethodId, context),
       documentLoader,
@@ -121,6 +123,7 @@ export class LdCredentialModule {
     verificationMethodId: string,
     challenge: string | undefined,
     domain: string | undefined,
+    options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiablePresentation> {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
@@ -129,6 +132,7 @@ export class LdCredentialModule {
     suite.preSigningPresModification(presentation)
 
     return await vc.signPresentation({
+      ...options,
       presentation,
       suite: suite.getSuiteForSigning(key, holderDid, verificationMethodId, context),
       challenge,
@@ -141,9 +145,11 @@ export class LdCredentialModule {
   async verifyCredential(
     credential: VerifiableCredential,
     fetchRemoteContexts: boolean = false,
+    options: any,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
     const result = await vc.verifyCredential({
+      ...options,
       credential,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
@@ -164,9 +170,11 @@ export class LdCredentialModule {
     challenge: string | undefined,
     domain: string | undefined,
     fetchRemoteContexts: boolean = false,
+    options: any,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
     const result = await vc.verify({
+      ...options,
       presentation,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),

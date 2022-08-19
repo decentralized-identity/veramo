@@ -119,6 +119,11 @@ export interface ICreateVerifiablePresentationLDArgs {
    * Optional. The key handle ({@link @veramo/core#IKey.kid | IKey.kid}) from the internal database.
    */
   keyRef?: string
+
+  /**
+   * Any other options that can be forwarded to the lower level libraries
+   */
+  [x:string]: any
 }
 
 /**
@@ -142,7 +147,12 @@ export interface ICreateVerifiableCredentialLDArgs {
   /**
    * Optional. The key handle ({@link @veramo/core#IKey.kid | IKey.kid}) from the internal database.
    */
-  keyRef?: string
+  keyRef?: string,
+
+  /**
+   * Any other options that can be forwarded to the lower level libraries
+   */
+  [x:string]: any
 }
 
 /**
@@ -168,6 +178,11 @@ export interface IVerifyCredentialLDArgs {
    * Defaults to `false`
    */
   fetchRemoteContexts?: boolean
+
+  /**
+   * Any other options that can be forwarded to the lower level libraries
+   */
+  [x:string]: any
 }
 
 /**
@@ -203,6 +218,11 @@ export interface IVerifyPresentationLDArgs {
    * Defaults to `false`
    */
   fetchRemoteContexts?: boolean
+
+  /**
+   * Any other options that can be forwarded to the lower level libraries
+   */
+  [x:string]: any
 }
 
 /**

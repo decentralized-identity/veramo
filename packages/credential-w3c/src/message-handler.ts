@@ -35,16 +35,6 @@ export const MessageTypes = {
  */
 export type IContext = IAgentContext<IResolver & ICredentialIssuer>
 
-const validityErrors: string[] = [
-  JWT_ERROR.INVALID_JWT,
-  JWT_ERROR.INVALID_AUDIENCE,
-  JWT_ERROR.INVALID_SIGNATURE,
-  JWT_ERROR.NO_SUITABLE_KEYS,
-  VC_ERROR.SCHEMA_ERROR,
-  VC_ERROR.FORMAT_ERROR,
-  VC_ERROR.AUTH_ERROR,
-]
-
 /**
  * An implementation of the {@link @veramo/message-handler#AbstractMessageHandler}.
  *

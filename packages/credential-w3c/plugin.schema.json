@@ -31,6 +31,9 @@
             "credential",
             "proofFormat"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "CredentialPayload": {
@@ -235,6 +238,9 @@
             "presentation",
             "proofFormat"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
         "PresentationPayload": {
@@ -382,7 +388,7 @@
             "credential"
           ],
           "additionalProperties": {
-            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
           },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
@@ -410,13 +416,10 @@
               "description": "policy to skip the revocation check (credentialStatus) when set to `false`"
             }
           },
-          "required": [
-            "credentialStatus"
-          ],
           "additionalProperties": {
             "description": "Other options can be specified for verification. They will be forwarded to the lower level modules that perform the checks"
           },
-          "description": "These optional settings can be used to override some of the default checks that are performed on Presentations during verification."
+          "description": "These optional settings can be used to override some default checks that are performed on Presentations during verification."
         },
         "IVerifyResult": {
           "type": "object",
@@ -469,7 +472,7 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
               "default": false
             },
             "policies": {
@@ -481,7 +484,7 @@
             "presentation"
           ],
           "additionalProperties": {
-            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
           },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
