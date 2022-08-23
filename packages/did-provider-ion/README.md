@@ -46,8 +46,7 @@ The ION DID provider uses Update keys when updating the DID document. The provid
 for every update. These are stored ordered by timestamp. When updating the DID Document if first resolves the current
 DID document to look at the ION/Sidetree update commitment value. It then looks up the local key with the same
 commitment value. The update request will be signed using the matched update key. At the same time a new update key is
-generated, and the new key's update commitment will also be part of the update request, so that this new key needs to be
-used
+generated, and the new key's update commitment will also be part of the update request, so that this new key needs to be used
 next time. The provider takes care of both the rotation and the selection of the correct update key.
 
 ## Recovery key(s) and rotation
