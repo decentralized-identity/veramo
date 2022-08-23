@@ -1,6 +1,6 @@
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
-import { ISelectiveDisclosureRequest } from '../types'
-import { SelectiveDisclosure } from '../action-handler'
+import { ISelectiveDisclosureRequest } from '../types.js'
+import { SelectiveDisclosure } from '../../build/action-handler.js'
 
 const actionHandler = new SelectiveDisclosure()
 

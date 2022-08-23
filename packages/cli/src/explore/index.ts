@@ -1,6 +1,6 @@
-import { getAgent } from '../setup'
+import { getAgent } from '../setup.js'
 import { program } from 'commander'
-import { renderMainScreen } from './main'
+import { renderMainScreen } from './main.js'
 
 program
   .command('explore')

@@ -1,7 +1,7 @@
 import express from 'express'
 import { program } from 'commander'
-import { getConfig } from './setup'
-import { createObjects } from './lib/objectCreator'
+import { getConfig } from './setup.js'
+import { createObjects } from './lib/objectCreator.js'
 
 program
   .command('server')

@@ -1,8 +1,8 @@
-import { DIDResolverPlugin } from '../resolver'
+import { DIDResolverPlugin } from '../resolver.js'
 import { Resolver } from 'did-resolver'
 import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
-import { getUniversalResolverFor } from '../universal-resolver'
+import { getUniversalResolverFor } from '../universal-resolver.js'
 
 jest.setTimeout(60000)
 

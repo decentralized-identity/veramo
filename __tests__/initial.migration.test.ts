@@ -14,13 +14,13 @@ import {
   IResolver,
   TAgent,
   VerifiableCredential,
-} from '../packages/core/src'
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
-import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, IDIDComm } from '../packages/did-comm/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+} from '../packages/core/src/index.js'
+import { DIDResolverPlugin } from '../packages/did-resolver/src/index.js'
+import { EthrDIDProvider } from '../packages/did-provider-ethr/src/index.js'
+import { WebDIDProvider } from '../packages/did-provider-web/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src/index.js'
+import { DIDComm, IDIDComm } from '../packages/did-comm/src/index.js'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src/index.js'
 import {
   DataStore,
   DataStoreORM,
@@ -29,10 +29,10 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store/src'
-import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager } from '../packages/did-manager/src'
-import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+} from '../packages/data-store/src/index.js'
+import { KeyManager } from '../packages/key-manager/src/index.js'
+import { DIDManager } from '../packages/did-manager/src/index.js'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
 
 import { DataSourceOptions, DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'

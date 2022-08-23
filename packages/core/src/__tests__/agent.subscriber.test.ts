@@ -1,6 +1,6 @@
-import { Agent } from '../agent'
-import { CoreEvents } from '../coreEvents'
-import { IEventListener } from '../types/IAgent'
+import { Agent } from '../agent.js'
+import { CoreEvents } from '../coreEvents.js'
+import { IEventListener } from '../types/IAgent.js'
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))

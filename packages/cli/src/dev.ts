@@ -10,7 +10,10 @@ import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
 import * as TJS from 'ts-json-schema-generator'
-const fs = require('fs')
+import fs from 'fs'
+
+// import { createRequire } from "module";
+// const require = createRequire(import.meta.url);
 
 interface Method {
   packageName: string
@@ -107,77 +110,77 @@ dev
       process.exitCode = 1
     }
 
-    const packageConfig = require(resolve(options.packageConfig))
-    const interfaces: any = {}
+    // const packageConfig = require(resolve(options.packageConfig))
+    // const interfaces: any = {}
 
-    for (const pluginInterfaceName in packageConfig?.veramo?.pluginInterfaces) {
-      const entryFile = packageConfig.veramo.pluginInterfaces[pluginInterfaceName]
-      const api = {
-        components: {
-          schemas: {},
-          methods: {},
-        },
-      }
+    // for (const pluginInterfaceName in packageConfig?.veramo?.pluginInterfaces) {
+    //   const entryFile = packageConfig.veramo.pluginInterfaces[pluginInterfaceName]
+    //   const api = {
+    //     components: {
+    //       schemas: {},
+    //       methods: {},
+    //     },
+    //   }
 
-      const generator = TJS.createGenerator({
-        path: resolve(entryFile),
-        encodeRefs: false,
-        additionalProperties: true,
-      })
+    //   const generator = TJS.createGenerator({
+    //     path: resolve(entryFile),
+    //     encodeRefs: false,
+    //     additionalProperties: true,
+    //   })
 
-      const apiModel: ApiModel = new ApiModel()
-      const apiPackage = apiModel.loadPackage(extractorConfig.apiJsonFilePath)
+    //   const apiModel: ApiModel = new ApiModel()
+    //   const apiPackage = apiModel.loadPackage(extractorConfig.apiJsonFilePath)
 
-      const entry = apiPackage.entryPoints[0]
+    //   const entry = apiPackage.entryPoints[0]
 
-      const pluginInterface = entry.findMembersByName(pluginInterfaceName)[0]
+    //   const pluginInterface = entry.findMembersByName(pluginInterfaceName)[0]
 
-      for (const member of pluginInterface.members) {
-        const method: Partial<Method> = {}
-        method.pluginInterfaceName = pluginInterfaceName
-        method.operationId = member.displayName
-        // console.log(member)
-        method.parameters = (member as ApiParameterListMixin).parameters[0]?.parameterTypeExcerpt?.text
-        method.response = (member as ApiReturnTypeMixin).returnTypeExcerpt.text
-          .replace('Promise<', '')
-          .replace('>', '')
+    //   for (const member of pluginInterface.members) {
+    //     const method: Partial<Method> = {}
+    //     method.pluginInterfaceName = pluginInterfaceName
+    //     method.operationId = member.displayName
+    //     // console.log(member)
+    //     method.parameters = (member as ApiParameterListMixin).parameters[0]?.parameterTypeExcerpt?.text
+    //     method.response = (member as ApiReturnTypeMixin).returnTypeExcerpt.text
+    //       .replace('Promise<', '')
+    //       .replace('>', '')
 
-        const methodSignature = member as ApiMethodSignature
-        method.description = methodSignature.tsdocComment?.summarySection
-          ?.getChildNodes()[0]
-          //@ts-ignore
-          ?.getChildNodes()[0]?.text
+    //     const methodSignature = member as ApiMethodSignature
+    //     method.description = methodSignature.tsdocComment?.summarySection
+    //       ?.getChildNodes()[0]
+    //       //@ts-ignore
+    //       ?.getChildNodes()[0]?.text
 
-        method.description = method.description || ''
+    //     method.description = method.description || ''
 
-        if (method.parameters) {
-          //@ts-ignore
-          api.components.schemas = {
-            //@ts-ignore
-            ...api.components.schemas,
-            ...createSchema(generator, method.parameters).components.schemas,
-          }
-        }
+    //     if (method.parameters) {
+    //       //@ts-ignore
+    //       api.components.schemas = {
+    //         //@ts-ignore
+    //         ...api.components.schemas,
+    //         ...createSchema(generator, method.parameters).components.schemas,
+    //       }
+    //     }
 
-        //@ts-ignore
-        api.components.schemas = {
-          //@ts-ignore
-          ...api.components.schemas,
-          ...createSchema(generator, method.response).components.schemas,
-        }
+    //     //@ts-ignore
+    //     api.components.schemas = {
+    //       //@ts-ignore
+    //       ...api.components.schemas,
+    //       ...createSchema(generator, method.response).components.schemas,
+    //     }
 
-        //@ts-ignore
-        api.components.methods[method.operationId] = {
-          description: method.description,
-          arguments: getReference(method.parameters),
-          returnType: getReference(method.response),
-        }
-      }
+    //     //@ts-ignore
+    //     api.components.methods[method.operationId] = {
+    //       description: method.description,
+    //       arguments: getReference(method.parameters),
+    //       returnType: getReference(method.response),
+    //     }
+    //   }
 
-      interfaces[pluginInterfaceName] = api
-    }
+    //   interfaces[pluginInterfaceName] = api
+    // }
 
-    writeFileSync(resolve('./plugin.schema.json'), JSON.stringify(interfaces, null, 2))
+    // writeFileSync(resolve('./plugin.schema.json'), JSON.stringify(interfaces, null, 2))
   })
 
 dev

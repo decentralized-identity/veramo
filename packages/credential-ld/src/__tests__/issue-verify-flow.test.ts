@@ -6,21 +6,21 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../../core/src'
-import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c/src'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { EthrDIDProvider } from '../../../did-provider-ethr/src'
-import { ContextDoc } from '../types'
-import { CredentialIssuerLD } from '../action-handler'
-import { LdDefaultContexts } from '../ld-default-contexts'
-import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018'
+} from '../../../core/src/index.js'
+import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../../kms-local/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
+import { EthrDIDProvider } from '../../../did-provider-ethr/src/index.js'
+import { ContextDoc } from '../types.js'
+import { CredentialIssuerLD } from '../action-handler.js'
+import { LdDefaultContexts } from '../ld-default-contexts.js'
+import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018.js'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
-import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020'
+import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
 
 jest.setTimeout(300000)
 

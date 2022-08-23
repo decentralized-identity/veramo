@@ -5,7 +5,7 @@ import { JsonRpcProvider, TransactionRequest } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { computePublicKey } from '@ethersproject/signing-key'
 import { computeAddress } from '@ethersproject/transactions'
-import { KmsEthereumSigner } from './kms-eth-signer'
+import { KmsEthereumSigner } from './kms-eth-signer.js'
 import Debug from 'debug'
 import { EthrDID } from 'ethr-did'
 

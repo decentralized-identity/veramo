@@ -1,6 +1,6 @@
 import { set, get } from 'jsonpointer'
 import parse from 'url-parse'
-const { resolve } = require('path')
+import { resolve } from 'path'
 
 export function createObjects(config: object, pointers: Record<string, string>): any {
   const objects = {}

@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne } from 'typeorm'
-import { Identifier } from './identifier'
+import { Identifier } from './identifier.js'
 
 /**
  * Represents some properties of a {@link did-resolver#ServiceEndpoint | ServiceEndpoint} as it is stored in a TypeORM

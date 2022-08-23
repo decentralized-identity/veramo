@@ -1,8 +1,9 @@
-import { DIDResolutionResult } from '@veramo/core'
-import { Message } from '@veramo/message-handler'
-import { W3cMessageHandler, MessageTypes } from '../index'
-import { IContext } from '../message-handler'
-import { blake2bHex } from 'blakejs'
+import { DIDResolutionResult } from '../../../core/build/index.js'
+import { Message } from '../../../message-handler/build/index.js'
+import { W3cMessageHandler, MessageTypes } from '../index.js'
+import { IContext } from '../message-handler.js'
+import pkg from 'blakejs'
+const { blake2bHex } = pkg
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()

@@ -1,9 +1,9 @@
 import { VerifiableCredential } from '@veramo/core'
 import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
-import { Identifier } from './identifier'
-import { Message } from './message'
-import { Presentation } from './presentation'
-import { Claim } from './claim'
+import { Identifier } from './identifier.js'
+import { Message } from './message.js'
+import { Presentation } from './presentation.js'
+import { Claim } from './claim.js'
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 
 /**

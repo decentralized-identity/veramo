@@ -38,5 +38,10 @@
   "author": "Oliver Terbu <oliver.terbu@mesh.xyz>",
   "contributors": [],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

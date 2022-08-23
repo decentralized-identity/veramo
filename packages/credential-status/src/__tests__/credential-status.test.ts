@@ -1,6 +1,6 @@
-import { createAgent, ICredentialStatusVerifier, VerifiableCredential } from '../../../core/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { CredentialStatusPlugin } from '../credential-status'
+import { createAgent, ICredentialStatusVerifier, VerifiableCredential } from '../../../core/build/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/build/index.js'
+import { CredentialStatusPlugin } from '../../build/credential-status.js'
 import { DIDDocument, DIDResolutionOptions, DIDResolutionResult, Resolvable } from 'did-resolver'
 
 describe('@veramo/credential-status', () => {

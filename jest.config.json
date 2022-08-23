@@ -12,8 +12,7 @@
   "coverageReporters": ["text", "lcov", "json"],
   "coverageDirectory": "./coverage",
   "transform": {
-    "\\.jsx?$": "babel-jest",
-    "\\.tsx?$": "ts-jest"
+    "\\.m?jsx?$": "jest-esm-transformer"
   },
   "testMatch": ["**/__tests__/**/*.test.*"],
   "globals": {

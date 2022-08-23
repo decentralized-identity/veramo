@@ -1,4 +1,4 @@
-import { asArray, isDefined } from '../type-utils'
+import { asArray, isDefined } from '../../build/type-utils.js'
 
 describe('@veramo/utils type utils', () => {
   it('isDefined should return correct results', () => {

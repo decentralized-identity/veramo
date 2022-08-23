@@ -1,6 +1,6 @@
-import { Agent, createAgent } from '../agent'
-import { IAgentPlugin } from '../types/IAgent'
-import { IResolver } from '../types/IResolver'
+import { Agent, createAgent } from '../agent.js'
+import { IAgentPlugin } from '../types/IAgent.js'
+import { IResolver } from '../types/IResolver.js'
 
 describe('core agent', () => {
   it('should use plugin methods', async () => {

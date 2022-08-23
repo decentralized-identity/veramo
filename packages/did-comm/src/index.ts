@@ -11,14 +11,16 @@ export {
   ISendMessageDIDCommAlpha1Args,
   IPackDIDCommMessageArgs,
   IUnpackDIDCommMessageArgs,
-} from './didcomm'
-export * from './types/message-types'
-export * from './types/utility-types'
-export * from './types/IDIDComm'
-export { DIDCommMessageHandler } from './message-handler'
-export * from './transports/transports'
+} from './didcomm.js'
+export * from './types/message-types.js'
+export * from './types/utility-types.js'
+export * from './types/IDIDComm.js'
+export { DIDCommMessageHandler } from './message-handler.js'
+export * from './transports/transports.js'
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-const schema = require('../plugin.schema.json')
+ import { createRequire } from "module";
+ const require = createRequire(import.meta.url);
+ const schema = require("../plugin.schema.json");
 export { schema }

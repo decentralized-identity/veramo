@@ -8,7 +8,7 @@
  * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
  * See didWithFakeDidFlow() for more details.
  */
-import 'cross-fetch/polyfill'
+// import 'cross-fetch/polyfill'
 import {
   Agent,
   createAgent,
@@ -21,32 +21,32 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../packages/core/src'
-import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager } from '../packages/key-manager/src'
-import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+} from '../packages/core/src/index.js'
+import { MessageHandler } from '../packages/message-handler/src/index.js'
+import { KeyManager } from '../packages/key-manager/src/index.js'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src/index.js'
+import { DIDResolverPlugin } from '../packages/did-resolver/src/index.js'
+import { JwtMessageHandler } from '../packages/did-jwt/src/index.js'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src/index.js'
+import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src/index.js'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
-} from '../packages/credential-ld/src'
-import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
-import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+} from '../packages/credential-ld/src/index.js'
+import { EthrDIDProvider } from '../packages/did-provider-ethr/src/index.js'
+import { WebDIDProvider } from '../packages/did-provider-web/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src/index.js'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src/index.js'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
   SelectiveDisclosure,
-} from '../packages/selective-disclosure/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
+} from '../packages/selective-disclosure/src/index.js'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src/index.js'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src/index.js'
 import {
   DataStore,
   DataStoreDiscoveryProvider,
@@ -56,11 +56,11 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store/src'
-import { AgentRestClient } from '../packages/remote-client/src'
-import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
-import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
-import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+} from '../packages/data-store/src/index.js'
+import { AgentRestClient } from '../packages/remote-client/src/index.js'
+import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src/index.js'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src/index.js'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
 
 import { DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
@@ -72,21 +72,21 @@ import { Server } from 'http'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 // Shared tests
-import verifiableDataJWT from './shared/verifiableDataJWT'
-import verifiableDataLD from './shared/verifiableDataLD'
-import verifiableDataEIP712 from './shared/verifiableDataEIP712'
-import handleSdrMessage from './shared/handleSdrMessage'
-import resolveDid from './shared/resolveDid'
-import webDidFlow from './shared/webDidFlow'
-import documentationExamples from './shared/documentationExamples'
-import keyManager from './shared/keyManager'
-import didManager from './shared/didManager'
-import didCommPacking from './shared/didCommPacking'
-import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
-import messageHandler from './shared/messageHandler'
-import didDiscovery from './shared/didDiscovery'
-import utils from './shared/utils'
-import credentialStatus from './shared/credentialStatus'
+import verifiableDataJWT from './shared/verifiableDataJWT.js'
+import verifiableDataLD from './shared/verifiableDataLD.js'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712.js'
+import handleSdrMessage from './shared/handleSdrMessage.js'
+import resolveDid from './shared/resolveDid.js'
+import webDidFlow from './shared/webDidFlow.js'
+import documentationExamples from './shared/documentationExamples.js'
+import keyManager from './shared/keyManager.js'
+import didManager from './shared/didManager.js'
+import didCommPacking from './shared/didCommPacking.js'
+import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow.js'
+import messageHandler from './shared/messageHandler.js'
+import didDiscovery from './shared/didDiscovery.js'
+import utils from './shared/utils.js'
+import credentialStatus from './shared/credentialStatus.js'
 
 jest.setTimeout(60000)
 

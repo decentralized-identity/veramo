@@ -1,5 +1,5 @@
-import { IPluginMethodMap } from './IAgent'
-import { TKeyType, IKey, KeyMetadata } from './IIdentifier'
+import { IPluginMethodMap } from './IAgent.js'
+import { TKeyType, IKey, KeyMetadata } from './IIdentifier.js'
 
 /**
  * Represents an object type where a subset of keys are required and everything else is optional.

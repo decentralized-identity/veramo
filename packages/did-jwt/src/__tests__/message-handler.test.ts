@@ -1,6 +1,6 @@
 import { DIDDocument, DIDResolutionResult } from '@veramo/core'
 import { Message } from '@veramo/message-handler'
-import { JwtMessageHandler, IContext } from '../message-handler'
+import { JwtMessageHandler, IContext } from '../message-handler.js'
 
 describe('@veramo/did-jwt', () => {
   const vcJwt =

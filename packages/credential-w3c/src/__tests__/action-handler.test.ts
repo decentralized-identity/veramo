@@ -11,7 +11,7 @@ jest.mock('did-jwt-vc', () => {
 })
 
 import { CredentialPayload, IIdentifier, IKey, PresentationPayload, VerifiableCredential } from '@veramo/core'
-import { CredentialIssuer, IContext } from '../action-handler'
+import { CredentialIssuer, IContext } from '../action-handler.js'
 
 const mockIdentifiers: IIdentifier[] = [
   {

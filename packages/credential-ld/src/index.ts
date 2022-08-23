@@ -10,10 +10,10 @@
  *
  * @packageDocumentation
  */
-export { CredentialIssuerLD } from './action-handler'
-export * from './types'
-export { LdDefaultContexts } from './ld-default-contexts'
-export { VeramoLdSignature } from './ld-suites'
+export { CredentialIssuerLD } from './action-handler.js'
+export * from './types.js'
+export { LdDefaultContexts } from './ld-default-contexts.js'
+export { VeramoLdSignature } from './ld-suites.js'
 export * from './suites/EcdsaSecp256k1RecoverySignature2020'
 export * from './suites/Ed25519Signature2018'
 
@@ -23,5 +23,7 @@ export * from './suites/Ed25519Signature2018'
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-const schema = require('../plugin.schema.json')
+ import { createRequire } from "module";
+ const require = createRequire(import.meta.url);
+ const schema = require("../plugin.schema.json");
 export { schema }

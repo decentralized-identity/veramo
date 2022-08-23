@@ -1,4 +1,4 @@
-import { KeyManagementSystem } from '../key-management-system'
+import { KeyManagementSystem } from '../../build/key-management-system.js'
 import { TKeyType } from '@veramo/core'
 import { MemoryPrivateKeyStore } from '@veramo/key-manager/src'
 

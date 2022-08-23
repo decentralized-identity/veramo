@@ -11,9 +11,9 @@ import fetch from 'cross-fetch'
 import Debug from 'debug'
 import { extendContextLoader } from '@digitalcredentials/jsonld-signatures'
 import * as vc from '@digitalcredentials/vc'
-import { LdContextLoader } from './ld-context-loader'
-import { LdSuiteLoader } from './ld-suite-loader'
-import { RequiredAgentMethods } from './ld-suites'
+import { LdContextLoader } from './ld-context-loader.js'
+import { LdSuiteLoader } from './ld-suite-loader.js'
+import { RequiredAgentMethods } from './ld-suites.js'
 
 const debug = Debug('veramo:w3c:ld-credential-module')
 

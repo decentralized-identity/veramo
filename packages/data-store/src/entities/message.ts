@@ -10,9 +10,9 @@ import {
   PrimaryColumn,
 } from 'typeorm'
 import { IMessage } from '@veramo/core'
-import { Identifier } from './identifier'
-import { createPresentationEntity, Presentation } from './presentation'
-import { createCredentialEntity, Credential } from './credential'
+import { Identifier } from './identifier.js'
+import { createPresentationEntity, Presentation } from './presentation.js'
+import { createCredentialEntity, Credential } from './credential.js'
 import { computeEntryHash } from '@veramo/utils'
 import { v4 as uuidv4 } from 'uuid'
 

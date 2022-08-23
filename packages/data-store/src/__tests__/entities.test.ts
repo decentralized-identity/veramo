@@ -1,9 +1,10 @@
-import { Credential, createCredentialEntity } from '../entities/credential'
-import { createPresentationEntity } from '../entities/presentation'
+import { Credential, createCredentialEntity } from '../entities/credential.js'
+import { createPresentationEntity } from '../entities/presentation.js'
 import { DataSource, In } from 'typeorm'
-import { Identifier, Message, Claim } from '../index'
-import { Entities } from '../index'
-import { blake2bHex } from 'blakejs'
+import { Identifier, Message, Claim } from '../index.js'
+import { Entities } from '../index.js'
+import pkg from 'blakejs'
+const { blake2bHex } = pkg
 import * as fs from 'fs'
 
 describe('DB entities test', () => {

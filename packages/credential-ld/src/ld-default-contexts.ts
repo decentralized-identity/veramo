@@ -1,4 +1,4 @@
-import { ContextDoc } from './types'
+import { ContextDoc } from './types.js'
 
 /**
  * Provides a hardcoded map of common Linked Data `@context` definitions.

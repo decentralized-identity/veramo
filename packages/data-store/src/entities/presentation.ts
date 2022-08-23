@@ -1,9 +1,9 @@
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 
 import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm'
-import { Identifier } from './identifier'
-import { Message } from './message'
-import { createCredentialEntity, Credential } from './credential'
+import { Identifier } from './identifier.js'
+import { Message } from './message.js'
+import { createCredentialEntity, Credential } from './credential.js'
 import { asArray, computeEntryHash } from '@veramo/utils'
 import { normalizeCredential } from 'did-jwt-vc'
 

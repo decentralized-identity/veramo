@@ -1,4 +1,4 @@
-import { getChainIdForDidEthr, getEthereumAddress } from '../did-utils'
+import { getChainIdForDidEthr, getEthereumAddress } from '../did-utils.js'
 
 describe('@veramo/utils did utils', () => {
   it(`should return correct chainId for did:ethr`, () => {
