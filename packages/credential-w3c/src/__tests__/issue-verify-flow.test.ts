@@ -16,7 +16,11 @@ import { DIDResolverPlugin } from '../../../did-resolver/build/index.js'
 import { EthrDIDProvider } from "../../../did-provider-ethr/build/index.js";
 import { ContextDoc } from '../../../credential-ld/build/types.js'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { getResolver } = require("ethr-did-resolver")
+const ethrDidResolver = getResolver
+import {jest} from '@jest/globals'
 
 jest.setTimeout(300000)
 

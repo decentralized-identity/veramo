@@ -64,7 +64,10 @@ import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../pa
 
 import { DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { getResolver } = require("ethr-did-resolver")
+const ethrDidResolver = getResolver
 import { getResolver as webDidResolver } from 'web-did-resolver'
 // @ts-ignore
 import express from 'express'
@@ -87,6 +90,7 @@ import messageHandler from './shared/messageHandler.js'
 import didDiscovery from './shared/didDiscovery.js'
 import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
+import {jest} from '@jest/globals'
 
 jest.setTimeout(60000)
 

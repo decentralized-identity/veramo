@@ -46,7 +46,10 @@ import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
 
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { getResolver } = require("ethr-did-resolver")
+const ethrDidResolver = getResolver
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
@@ -65,6 +68,7 @@ import didCommPacking from './shared/didCommPacking.js'
 import messageHandler from './shared/messageHandler.js'
 import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
+import {jest} from '@jest/globals'
 
 jest.setTimeout(60000)
 

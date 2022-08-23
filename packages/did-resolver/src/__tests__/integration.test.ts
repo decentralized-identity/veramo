@@ -1,8 +1,12 @@
 import { DIDResolverPlugin } from '../resolver.js'
 import { Resolver } from 'did-resolver'
-import { getResolver as getEthrResolver } from 'ethr-did-resolver'
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { getResolver } = require("ethr-did-resolver")
+const getEthrResolver = getResolver
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
 import { getUniversalResolverFor } from '../universal-resolver.js'
+import {jest} from '@jest/globals'
 
 jest.setTimeout(60000)
 

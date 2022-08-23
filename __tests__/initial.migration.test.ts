@@ -36,9 +36,13 @@ import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/ind
 
 import { DataSourceOptions, DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { getResolver } = require("ethr-did-resolver")
+const ethrDidResolver = getResolver
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
+import {jest} from '@jest/globals'
 
 jest.setTimeout(60000)
 
