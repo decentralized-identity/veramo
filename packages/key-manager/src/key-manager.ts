@@ -1,5 +1,5 @@
-import { AbstractKeyStore } from './abstract-key-store'
-import { AbstractKeyManagementSystem } from './abstract-key-management-system'
+import { AbstractKeyStore } from './abstract-key-store.js'
+import { AbstractKeyManagementSystem } from './abstract-key-management-system.js'
 import {
   IKey,
   IKeyManager,
@@ -11,13 +11,13 @@ import {
   IKeyManagerDecryptJWEArgs,
   IKeyManagerSignJWTArgs,
   IKeyManagerSignEthTXArgs,
-  schema,
   IKeyManagerSignArgs,
   IKeyManagerSharedSecretArgs,
   TKeyType,
   MinimalImportableKey,
   ManagedKeyInfo,
 } from '@veramo/core'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
 import * as u8a from 'uint8arrays'
 import { JWE, createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, ECDH } from 'did-jwt'
 import { arrayify, hexlify } from '@ethersproject/bytes'

@@ -1,8 +1,10 @@
-import { readdir, createReadStream, writeFile } from 'fs-extra'
 import { createInterface } from 'readline'
 import { join, parse } from 'path'
 import { exec } from 'child_process'
 import * as fs from 'fs'
+// fs-extra is "pure CommonJS" and doesn't support named exports in ESM - nickreynolds
+import fsExtra from 'fs-extra' 
+const { readdir, createReadStream, writeFile } = fsExtra
 
 const DOCS_DIR = './docs/api'
 

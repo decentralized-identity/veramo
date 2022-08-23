@@ -36,11 +36,15 @@ import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSourceOptions, DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
+import { jest } from '@jest/globals'
 
-jest.setTimeout(60000)
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+jest.setTimeout(30000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const dbEncryptionKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'

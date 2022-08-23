@@ -1,7 +1,7 @@
 import { DIDDocument } from 'did-resolver'
-import { IPluginMethodMap, IAgentContext } from './IAgent'
-import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier'
-import { IKeyManager } from './IKeyManager'
+import { IPluginMethodMap, IAgentContext } from './IAgent.js'
+import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier.js'
+import { IKeyManager } from './IKeyManager.js'
 
 /**
  * Input arguments for {@link IDIDManager.didManagerGet | didManagerGet}

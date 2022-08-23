@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm'
-import { PrivateKey } from '..'
-import { PreMigrationKey } from '../entities/PreMigrationEntities'
+import { PrivateKey } from '../index.js'
+import { PreMigrationKey } from '../entities/PreMigrationEntities.js'
 import Debug from 'debug'
 const debug = Debug('veramo:data-store:migrate-private-keys')
 

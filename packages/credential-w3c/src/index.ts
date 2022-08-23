@@ -8,8 +8,8 @@
  *
  * @packageDocumentation
  */
-export { W3cMessageHandler, MessageTypes } from './message-handler'
-import { CredentialPlugin } from './action-handler'
+export { W3cMessageHandler, MessageTypes } from './message-handler.js'
+import { CredentialPlugin } from './action-handler.js'
 
 /**
  * @deprecated please use {@link CredentialPlugin} instead

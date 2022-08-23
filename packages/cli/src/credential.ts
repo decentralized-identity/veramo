@@ -1,13 +1,12 @@
-import { getAgent } from './setup'
+import { getAgent } from './setup.js'
 import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
 import * as json5 from 'json5'
-import { readStdin } from './util'
+import { readStdin } from './util.js'
 import { CredentialPayload } from '@veramo/core'
-
-const fuzzy = require('fuzzy')
+import fuzzy from 'fuzzy'
 
 const credential = program.command('credential').description('W3C Verifiable Credential')
 

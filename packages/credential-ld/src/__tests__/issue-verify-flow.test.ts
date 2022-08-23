@@ -15,15 +15,16 @@ import { KeyManagementSystem } from '../../../kms-local/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { EthrDIDProvider } from '../../../did-provider-ethr/src'
-import { ContextDoc } from '../types'
-import { CredentialIssuerLD } from '../action-handler'
-import { LdDefaultContexts } from '../ld-default-contexts'
-import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018'
+import { ContextDoc } from '../types.js'
+import { CredentialIssuerLD } from '../action-handler.js'
+import { LdDefaultContexts } from '../ld-default-contexts.js'
+import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018.js'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
-import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020'
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
+import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
+import { jest } from '@jest/globals'
 
-jest.setTimeout(300000)
+jest.setTimeout(30000)
 
 const customContext: Record<string, ContextDoc> = {
   'custom:example.context': {

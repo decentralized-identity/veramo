@@ -1,7 +1,8 @@
 import { Message } from '@veramo/message-handler'
-import { UrlMessageHandler } from '../index'
+import { UrlMessageHandler } from '../index.js'
 import fetchMock, { MockParams } from 'jest-fetch-mock'
 import { IAgent } from '@veramo/core'
+import { jest } from '@jest/globals'
 fetchMock.enableMocks()
 
 const context = {
@@ -18,6 +19,7 @@ describe('@veramo/url-handler', () => {
 
   it('should reject unknown message type', async () => {
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
+    // @ts-ignore
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
   })
 
@@ -32,6 +34,7 @@ describe('@veramo/url-handler', () => {
         },
       ],
     })
+    // @ts-ignore
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
     expect(message.raw).toEqual(JWT)
   })
@@ -41,6 +44,7 @@ describe('@veramo/url-handler', () => {
     fetchMock.mockResponse('mockbody')
     expect.assertions(2)
 
+    // @ts-ignore
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
 
     expect(message.raw).toEqual('mockbody')
@@ -54,6 +58,7 @@ describe('@veramo/url-handler', () => {
     } as MockParams)
     expect.assertions(2)
 
+    // @ts-ignore
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
 
     expect(message.raw).toEqual('asdf')
@@ -67,6 +72,7 @@ describe('@veramo/url-handler', () => {
     } as MockParams)
     expect.assertions(2)
 
+    // @ts-ignore
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
 
     expect(message.raw).toEqual('otherbody')

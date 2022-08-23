@@ -9,9 +9,10 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
-import { schema, VeramoLdSignature } from './'
+import { VeramoLdSignature } from './index.js'
+import schema from "./plugin.schema.json" assert { type: 'json' }
 import Debug from 'debug'
-import { LdContextLoader } from './ld-context-loader'
+import { LdContextLoader } from './ld-context-loader.js'
 import {
   _ExtendedIKey,
   extractIssuer,
@@ -23,8 +24,8 @@ import {
   RecordLike,
 } from '@veramo/utils'
 
-import { LdCredentialModule } from './ld-credential-module'
-import { LdSuiteLoader } from './ld-suite-loader'
+import { LdCredentialModule } from './ld-credential-module.js'
+import { LdSuiteLoader } from './ld-suite-loader.js'
 import {
   ContextDoc,
   ICreateVerifiableCredentialLDArgs,
@@ -33,7 +34,7 @@ import {
   IRequiredContext,
   IVerifyCredentialLDArgs,
   IVerifyPresentationLDArgs,
-} from './types'
+} from './types.js'
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -44,7 +45,7 @@ const debug = Debug('veramo:w3c:action-handler')
  */
 export class CredentialIssuerLD implements IAgentPlugin {
   readonly methods: ICredentialIssuerLD
-  readonly schema = schema.ICredentialIssuer
+  readonly schema = schema.ICredentialIssuerLD
 
   private ldCredentialModule: LdCredentialModule
 

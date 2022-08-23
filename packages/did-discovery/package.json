@@ -3,6 +3,10 @@
   "description": "Veramo DID discovery plugin",
   "version": "3.1.4",
   "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./plugin.schema.json": "./src/plugin.schema.json"
+  },
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -44,5 +48,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

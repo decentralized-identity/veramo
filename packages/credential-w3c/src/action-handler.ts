@@ -12,7 +12,6 @@ import {
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
   IVerifyResult,
-  schema,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
@@ -40,6 +39,7 @@ import {
 } from '@veramo/utils'
 import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
+import schema from "@veramo/core/build/plugin.schema.json" assert { type: 'json' }
 
 const enum DocumentFormat {
   JWT,

@@ -10,7 +10,10 @@ import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
 import * as TJS from 'ts-json-schema-generator'
-const fs = require('fs')
+import fs from 'fs'
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
 interface Method {
   packageName: string
@@ -90,7 +93,7 @@ dev
     './package.json',
   )
 
-  .action(async (options) => {
+  .action(async (options: any) => {
     const apiExtractorJsonPath: string = resolve(options.extractorConfig)
     const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
 
@@ -123,6 +126,7 @@ dev
         path: resolve(entryFile),
         encodeRefs: false,
         additionalProperties: true,
+        skipTypeCheck: true,
       })
 
       const apiModel: ApiModel = new ApiModel()
@@ -177,7 +181,7 @@ dev
       interfaces[pluginInterfaceName] = api
     }
 
-    writeFileSync(resolve('./plugin.schema.json'), JSON.stringify(interfaces, null, 2))
+    writeFileSync(resolve('./src/plugin.schema.json'), JSON.stringify(interfaces, null, 2))
   })
 
 dev

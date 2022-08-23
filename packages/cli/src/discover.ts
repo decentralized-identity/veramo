@@ -1,4 +1,4 @@
-import { getAgent } from './setup'
+import { getAgent } from './setup.js'
 import { program } from 'commander'
 import { printTable } from 'console-table-printer'
 

@@ -47,27 +47,28 @@ import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 // Shared tests
-import verifiableDataJWT from './shared/verifiableDataJWT'
-import verifiableDataLD from './shared/verifiableDataLD'
-import verifiableDataEIP712 from './shared/verifiableDataEIP712'
-import handleSdrMessage from './shared/handleSdrMessage'
-import resolveDid from './shared/resolveDid'
-import webDidFlow from './shared/webDidFlow'
-import saveClaims from './shared/saveClaims'
-import documentationExamples from './shared/documentationExamples'
-import keyManager from './shared/keyManager'
-import didManager from './shared/didManager'
-import didCommPacking from './shared/didCommPacking'
-import messageHandler from './shared/messageHandler'
-import utils from './shared/utils'
-import credentialStatus from './shared/credentialStatus'
+import verifiableDataJWT from './shared/verifiableDataJWT.js'
+import verifiableDataLD from './shared/verifiableDataLD.js'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712.js'
+import handleSdrMessage from './shared/handleSdrMessage.js'
+import resolveDid from './shared/resolveDid.js'
+import webDidFlow from './shared/webDidFlow.js'
+import saveClaims from './shared/saveClaims.js'
+import documentationExamples from './shared/documentationExamples.js'
+import keyManager from './shared/keyManager.js'
+import didManager from './shared/didManager.js'
+import didCommPacking from './shared/didCommPacking.js'
+import messageHandler from './shared/messageHandler.js'
+import utils from './shared/utils.js'
+import credentialStatus from './shared/credentialStatus.js'
+import { jest } from '@jest/globals'
 
-jest.setTimeout(60000)
+jest.setTimeout(30000)
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
