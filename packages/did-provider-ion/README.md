@@ -10,8 +10,7 @@ An explorer can be found [here](https://identity.foundation/ion/explorer/).
 _WARNING: Although the update and removal functions for Keys and Services seem to yield a request with a valid response
 from the ION
 node, right now these update and delete operations are not reflected in the eventual DID Document after the anchor time
-has passed. We
-are actively looking to solve this issue_
+has passed when using Microsoft's Public ION node. We are actively looking to solve this issue_
 
 ## Long form and short form ION DIDs
 
@@ -47,7 +46,8 @@ The ION DID provider uses Update keys when updating the DID document. The provid
 for every update. These are stored ordered by timestamp. When updating the DID Document if first resolves the current
 DID document to look at the ION/Sidetree update commitment value. It then looks up the local key with the same
 commitment value. The update request will be signed using the matched update key. At the same time a new update key is
-generated, and the new key's update commitment will also be part of the update request, so that this new key needs to be used
+generated, and the new key's update commitment will also be part of the update request, so that this new key needs to be
+used
 next time. The provider takes care of both the rotation and the selection of the correct update key.
 
 ## Recovery key(s) and rotation
@@ -56,6 +56,36 @@ Recovery Keys are needed for deleting the Identifier and deactivating the DID. I
 above for the update keys.
 The ION update keys could also be used in case of loss of update keys. Currently, this provider does not expose methods
 to do this, although most of the methods and infra to do so should be present.
+
+## NodeJS and Browser notice
+
+When using the ION DID Provider in the browser or a Node environment, you can ignore the warning about the missing peer
+dependency for `@sphereon/react-native-argon2`. Obviously these are not needed for non react-native
+projects.
+
+## React Native notice
+
+Next to NodeJS and Browser support, the ION DID Provider also works with react-native. You do need to install the
+following
+package using your package manager. This has to do with auto-linking not being available for transitive dependencies. We
+need some native Argon2 Android/IOS modules on React Native because WASM isn't available. As such you will have to
+install the dependency directly into your app. You do not need to change settings or anything. The dependency will be
+picked up and used automatically.
+See [this ticket](https://github.com/react-native-community/cli/issues/870) for a discussion about this issue.
+
+npm: `npm install @sphereon/react-native-argon2`
+
+yarn: `yarn add @sphereon/react-native-argon2`
+
+## Different ION node and challenge/response settings
+
+The ION DID provider by default uses Microsoft's publicly hosted ION node(s)
+at: https://beta.ion.msidentity.com/api/v1.0/operations
+
+This Node uses a challenge/response system to prevent spam. The `challengeEnabled` option, defaults to true with
+a `challengeEndpoint` value of https://beta.ion.msidentity.com/api/v1.0/proof-of-work-challenge.
+If you are running your own node, you might want to change the `solutionEndpoint` constructor option, pointing to your
+ION node, together with setting the `challengeEnabled` constructor option to false.
 
 ## Creating an identifier
 
@@ -220,7 +250,8 @@ export interface IService {
 
 ### Adding a service
 
-Adding a service is straightforward. It requires a Service object which will end up in the DID Document, and it needs the
+Adding a service is straightforward. It requires a Service object which will end up in the DID Document, and it needs
+the
 DID value.
 
 ```typescript

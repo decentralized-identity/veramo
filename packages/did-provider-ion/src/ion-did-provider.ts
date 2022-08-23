@@ -47,10 +47,13 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
   private readonly defaultKms: string
   private readonly ionPoW: IonPoW
 
-  constructor(options: { defaultKms: string }) {
+  constructor(options: { defaultKms: string, challengeEnabled?: boolean, challengeEndpoint?: string, solutionEndpoint?: string}) {
     super()
     this.defaultKms = options.defaultKms
-    this.ionPoW = new IonPoW()
+    const challengeEnabled = options?.challengeEnabled === undefined ? true : options.challengeEnabled;
+    const challengeEndpoint = options?.challengeEndpoint
+    const solutionEndpoint = options?.solutionEndpoint
+    this.ionPoW = new IonPoW({challengeEnabled, challengeEndpoint, solutionEndpoint})
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerCreate} */
