@@ -1,6 +1,7 @@
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
-import { ISelectiveDisclosureRequest } from '../types'
-import { SelectiveDisclosure } from '../action-handler'
+import { ISelectiveDisclosureRequest } from '../types.js'
+import { SelectiveDisclosure } from '../../build/action-handler.js'
+import { jest } from '@jest/globals'
 
 const actionHandler = new SelectiveDisclosure()
 
@@ -89,6 +90,7 @@ describe('@veramo/selective-disclosure-helper', () => {
       },
     }
 
+    // @ts-ignore
     const result = await actionHandler.validatePresentationAgainstSdr({ presentation, sdr }, context)
 
     expect(result.claims[0].credentials[0].verifiableCredential.credentialSubject['firstName']).toEqual(
@@ -135,6 +137,7 @@ describe('@veramo/selective-disclosure-helper', () => {
         jwt: 'mock',
       },
     }
+    // @ts-ignore
     const result = await actionHandler.validatePresentationAgainstSdr({ presentation, sdr }, context)
 
     expect(result.valid).toEqual(false)

@@ -1,4 +1,4 @@
-import { KeyType } from './key'
+import { KeyType } from './key.js'
 import { Entity, Column, PrimaryColumn, BaseEntity } from 'typeorm'
 
 /**

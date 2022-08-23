@@ -1,5 +1,5 @@
-import { AbstractKeyStore } from './abstract-key-store'
-import { AbstractKeyManagementSystem } from './abstract-key-management-system'
+import { AbstractKeyStore } from './abstract-key-store.js'
+import { AbstractKeyManagementSystem } from './abstract-key-management-system.js'
 import {
   IKey,
   IKeyManager,

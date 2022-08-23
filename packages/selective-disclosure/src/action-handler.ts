@@ -18,8 +18,8 @@ import {
   ISelectiveDisclosure,
   ISelectiveDisclosureRequest,
   IValidatePresentationAgainstSdrArgs,
-} from './types'
-import { schema } from './'
+} from './types.js'
+import { schema } from './index.js'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 import {

@@ -2,7 +2,7 @@ import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
 import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types.js'
 import { serialize, deserialize } from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:private-key-store')

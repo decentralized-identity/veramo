@@ -9,7 +9,7 @@ import {
   VC_ERROR,
 } from 'did-jwt-vc'
 import { JWT_ERROR } from 'did-jwt'
-import { ICredentialIssuer } from './action-handler'
+import { ICredentialIssuer } from './action-handler.js'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
 

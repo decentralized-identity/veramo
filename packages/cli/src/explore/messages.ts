@@ -1,8 +1,8 @@
 import blessed, { Widgets } from 'blessed'
 import { IMessage } from '@veramo/core'
-import { shortDate, shortDid } from './utils'
-import { ConfiguredAgent } from '../setup'
-import { styles } from './styles'
+import { shortDate, shortDid } from './utils.js'
+import { ConfiguredAgent } from '../setup.js'
+import { styles } from './styles.js'
 
 export const getMessagesTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {
   screen.title = 'Messages'

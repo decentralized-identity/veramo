@@ -1,9 +1,10 @@
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import inquirer from 'inquirer'
-import { getAgent } from './setup'
-const fs = require('fs')
-const OasResolver = require('oas-resolver')
-const fuzzy = require('fuzzy')
+import { getAgent } from './setup.js'
+import fs from 'fs'
+import OasResolver from 'oas-resolver'
+import fuzzy from 'fuzzy'
 
 program
   .command('execute')

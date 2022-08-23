@@ -1,9 +1,9 @@
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm'
-import { Identifier } from './identifier'
-import { Message } from './message'
-import { createCredentialEntity, Credential } from './credential'
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn, Relation } from 'typeorm'
+import { Identifier } from './identifier.js'
+import { Message } from './message.js'
+import { createCredentialEntity, Credential } from './credential.js'
 import { asArray, computeEntryHash } from '@veramo/utils'
 import { normalizeCredential } from 'did-jwt-vc'
 
@@ -41,7 +41,7 @@ export class Presentation extends BaseEntity {
     onDelete: 'CASCADE',
   })
     //@ts-ignore
-  holder: Identifier
+  holder: Relation<Identifier>
 
   @ManyToMany((type) => Identifier, (identifier) => identifier?.receivedPresentations, {
     cascade: ['insert'],
@@ -50,7 +50,7 @@ export class Presentation extends BaseEntity {
   })
   @JoinTable()
     //@ts-ignore
-  verifier?: Identifier[]
+  verifier?: Relation<Identifier[]>
 
   @Column({ nullable: true })
   id?: String
@@ -75,11 +75,11 @@ export class Presentation extends BaseEntity {
   })
   @JoinTable()
     //@ts-ignore
-  credentials: Credential[]
+  credentials: Relation<Credential[]>
 
   @ManyToMany((type) => Message, (message) => message.presentations)
     //@ts-ignore
-  messages: Message[]
+  messages: Relation<Message[]>
 }
 
 export const createPresentationEntity = (vpi: VerifiablePresentation): Presentation => {

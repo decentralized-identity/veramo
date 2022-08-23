@@ -1,9 +1,13 @@
-import 'cross-fetch/polyfill'
-import { program } from 'commander'
+// import 'cross-fetch/polyfill'
+import { Command } from 'commander';
+const program = new Command();
 import { SecretBox } from '@veramo/kms-local'
-import { getAgent, getConfig } from './setup'
-const fs = require('fs')
-const { dirname } = require('path')
+import { getAgent, getConfig } from './setup.js'
+import fs from "fs"
+import { dirname } from 'path'
+
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 program.option('--config <path>', 'Configuration file', './agent.yml')
 

@@ -1,10 +1,10 @@
 import { IKey } from '@veramo/core'
-import { AbstractKeyStore } from './abstract-key-store'
+import { AbstractKeyStore } from './abstract-key-store.js'
 import {
   AbstractPrivateKeyStore,
   ImportablePrivateKey,
   ManagedPrivateKey,
-} from './abstract-private-key-store'
+} from './abstract-private-key-store.js'
 import { v4 as uuidv4 } from 'uuid'
 
 /**

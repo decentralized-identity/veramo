@@ -1,6 +1,6 @@
-import { KeyManagementSystem } from '../key-management-system'
+import { KeyManagementSystem } from '../../build/key-management-system.js'
 import { TKeyType } from '@veramo/core'
-import { MemoryPrivateKeyStore } from '@veramo/key-manager/src'
+import { MemoryPrivateKeyStore } from '@veramo/key-manager'
 
 describe('@veramo/kms-local', () => {
   it('should compute a shared secret Ed+Ed', async () => {

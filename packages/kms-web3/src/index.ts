@@ -5,5 +5,5 @@
  *
  * @packageDocumentation
  */
-export { Web3KeyManagementSystem } from './web3-key-management-system'
+export { Web3KeyManagementSystem } from './web3-key-management-system.js'
 

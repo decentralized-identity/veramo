@@ -13,12 +13,11 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
-import { createMessage, createMessageEntity, Message } from './entities/message.js'
-import { createCredentialEntity, Credential } from './entities/credential.js'
-import { Claim } from './entities/claim.js'
-import { createPresentationEntity, Presentation } from './entities/presentation.js'
+import { Message } from '../../../data-store'
+import { Credential } from '../../../data-store'
+import { Claim } from '../../../data-store'
+import { Presentation } from '../../../data-store'
 import { DataSource } from 'typeorm'
-import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
 
 /**
@@ -34,14 +33,11 @@ import { OrPromise } from '@veramo/utils'
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class DataStore implements IAgentPlugin {
+export class MockDataStore implements IAgentPlugin {
   readonly methods: IDataStore
   readonly schema = schema.IDataStore
-  private dbConnection: OrPromise<DataSource>
 
-  constructor(dbConnection: OrPromise<DataSource>) {
-    this.dbConnection = dbConnection
-
+  constructor() {
     this.methods = {
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
@@ -54,76 +50,36 @@ export class DataStore implements IAgentPlugin {
   }
 
   async dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string> {
-    const message = await (await getConnectedDb(this.dbConnection))
-      .getRepository(Message)
-      .save(createMessageEntity(args.message))
-    return message.id
+    return "1"
   }
 
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
-    const messageEntity = await (await getConnectedDb(this.dbConnection)).getRepository(Message).findOne({
-      where: { id: args.id },
-      relations: ['credentials', 'presentations'],
-    })
-    if (!messageEntity) throw new Error('not_found: Message not found')
-
-    return createMessage(messageEntity)
+    return { id: "x", type: "y"}
   }
 
   async dataStoreDeleteVerifiableCredential(
     args: IDataStoreDeleteVerifiableCredentialArgs,
   ): Promise<boolean> {
-    const credentialEntity = await (await getConnectedDb(this.dbConnection))
-      .getRepository(Credential)
-      .findOneBy({ hash: args.hash })
-    if (!credentialEntity) {
-      return false
-    }
-
-    const claims = await (await getConnectedDb(this.dbConnection))
-      .getRepository(Claim)
-      .find({ where: { credential: { id: credentialEntity.id } } })
-
-    await (await getConnectedDb(this.dbConnection)).getRepository(Claim).remove(claims)
-
-    await (await getConnectedDb(this.dbConnection)).getRepository(Credential).remove(credentialEntity)
-
     return true
   }
 
   async dataStoreSaveVerifiableCredential(args: IDataStoreSaveVerifiableCredentialArgs): Promise<string> {
-    const verifiableCredential = await (await getConnectedDb(this.dbConnection))
-      .getRepository(Credential)
-      .save(createCredentialEntity(args.verifiableCredential))
-    return verifiableCredential.hash
+    return "1"
   }
 
   async dataStoreGetVerifiableCredential(
     args: IDataStoreGetVerifiableCredentialArgs,
   ): Promise<VerifiableCredential> {
-    const credentialEntity = await (await getConnectedDb(this.dbConnection))
-      .getRepository(Credential)
-      .findOneBy({ hash: args.hash })
-    if (!credentialEntity) throw new Error('not_found: Verifiable credential not found')
-
-    return credentialEntity.raw
+    return { issuer: "x", "@context": "y", "issuanceDate": "z", credentialSubject: {}, proof: {}}
   }
 
   async dataStoreSaveVerifiablePresentation(args: IDataStoreSaveVerifiablePresentationArgs): Promise<string> {
-    const verifiablePresentation = await (await getConnectedDb(this.dbConnection))
-      .getRepository(Presentation)
-      .save(createPresentationEntity(args.verifiablePresentation))
-    return verifiablePresentation.hash
+    return ""
   }
 
   async dataStoreGetVerifiablePresentation(
     args: IDataStoreGetVerifiablePresentationArgs,
   ): Promise<VerifiablePresentation> {
-    const presentationEntity = await (await getConnectedDb(this.dbConnection))
-      .getRepository(Presentation)
-      .findOneBy({ hash: args.hash })
-    if (!presentationEntity) throw new Error('not_found: Verifiable presentation not found')
-
-    return presentationEntity.raw
+    return { holder: "x", "@context": "y", credentialSubject: {}, proof: {}}
   }
 }

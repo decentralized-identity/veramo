@@ -7,8 +7,8 @@ import {
   _ExtendedIKey,
   _ExtendedVerificationMethod,
   _NormalizedVerificationMethod,
-} from './types/utility-types'
-import { isDefined } from './type-utils'
+} from './types/utility-types.js'
+import { isDefined } from './type-utils.js'
 import * as u8a from 'uint8arrays'
 import Debug from 'debug'
 
