@@ -9,7 +9,8 @@ import {
 } from '@veramo/core'
 import fetch from 'cross-fetch'
 import Debug from 'debug'
-import { extendContextLoader } from '@digitalcredentials/jsonld-signatures'
+import jsonldSignatures from '@digitalcredentials/jsonld-signatures'
+const { extendContextLoader } = jsonldSignatures
 import * as vc from '@digitalcredentials/vc'
 import { LdContextLoader } from './ld-context-loader.js'
 import { LdSuiteLoader } from './ld-suite-loader.js'

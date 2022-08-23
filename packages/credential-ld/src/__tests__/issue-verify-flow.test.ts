@@ -6,14 +6,14 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../../core/src/index.js'
-import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c/src/index.js'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
-import { KeyManagementSystem } from '../../../kms-local/src/index.js'
-import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src/index.js'
-import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
-import { EthrDIDProvider } from '../../../did-provider-ethr/src/index.js'
+} from '../../../core/'
+import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c/'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/'
+import { KeyManagementSystem } from '../../../kms-local/'
+import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/'
+import { DIDResolverPlugin } from '../../../did-resolver/'
+import { EthrDIDProvider } from '../../../did-provider-ethr/'
 import { ContextDoc } from '../types.js'
 import { CredentialIssuerLD } from '../action-handler.js'
 import { LdDefaultContexts } from '../ld-default-contexts.js'

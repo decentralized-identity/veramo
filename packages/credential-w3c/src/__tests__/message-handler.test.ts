@@ -4,6 +4,7 @@ import { W3cMessageHandler, MessageTypes } from '../index.js'
 import { IContext } from '../message-handler.js'
 import pkg from 'blakejs'
 const { blake2bHex } = pkg
+import {jest} from '@jest/globals'
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()

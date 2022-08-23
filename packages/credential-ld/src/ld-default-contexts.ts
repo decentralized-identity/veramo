@@ -1,5 +1,6 @@
 import { ContextDoc } from './types.js'
-
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 /**
  * Provides a hardcoded map of common Linked Data `@context` definitions.
  *

@@ -3,6 +3,7 @@
   "description": "Veramo DID manager plugin",
   "version": "3.1.4",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",

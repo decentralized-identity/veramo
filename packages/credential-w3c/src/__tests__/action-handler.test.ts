@@ -1,3 +1,4 @@
+import {jest} from '@jest/globals'
 // Mock must come before imports with transitive dependency.
 jest.mock('did-jwt-vc', () => {
   const mockDidJwtVc = {
