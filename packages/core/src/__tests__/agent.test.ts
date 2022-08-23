@@ -1,7 +1,7 @@
-import { Agent, createAgent } from '../agent'
-import { IAgentPlugin } from '../types/IAgent'
-import { IResolver } from '../types/IResolver'
-
+import { Agent, createAgent } from '../agent.js'
+import { IAgentPlugin } from '../types/IAgent.js'
+import { IResolver } from '../types/IResolver.js'
+import { jest } from '@jest/globals'
 describe('core agent', () => {
   it('should use plugin methods', async () => {
     const plugin: IAgentPlugin = {
@@ -30,6 +30,7 @@ describe('core agent', () => {
     const agent = new Agent({
       plugins: [plugin],
       overrides: {
+        // @ts-ignore
         doSomething,
       },
     })
@@ -54,7 +55,9 @@ describe('core agent', () => {
       authorizedMethods: ['bar', 'baz'],
       plugins: [plugin],
       overrides: {
+        // @ts-ignore
         doSomething,
+        // @ts-ignore
         baz,
       },
     })

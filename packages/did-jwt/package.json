@@ -3,6 +3,7 @@
   "description": "Veramo message validator plugin for decoding and verifying JWT payloads.",
   "version": "4.0.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -37,5 +38,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

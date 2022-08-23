@@ -4,4 +4,4 @@
  *
  * @packageDocumentation
  */
-export { WebDIDProvider } from './web-did-provider'
+export { WebDIDProvider } from './web-did-provider.js'

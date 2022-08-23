@@ -14,9 +14,9 @@ import {
   VerifiablePresentation,
 } from '../../../core/src'
 import { DataSource } from 'typeorm'
-import { DataStoreORM } from '../data-store-orm'
-import { DataStore } from '../data-store'
-import { Entities } from '../index'
+import { DataStoreORM } from '../data-store-orm.js'
+import { DataStore } from '../data-store.js'
+import { Entities } from '../index.js'
 import * as fs from 'fs'
 
 const did1 = 'did:test:111'

@@ -1,4 +1,4 @@
-import { DIDResolverPlugin } from '../resolver'
+import { DIDResolverPlugin } from '../resolver.js'
 import { Resolver } from 'did-resolver'
 
 describe('@veramo/did-resolver', () => {

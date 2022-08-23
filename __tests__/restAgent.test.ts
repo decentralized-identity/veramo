@@ -8,7 +8,6 @@
  * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
  * See didWithFakeDidFlow() for more details.
  */
-import 'cross-fetch/polyfill'
 import {
   Agent,
   createAgent,
@@ -69,7 +68,7 @@ import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../pa
 
 import { DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
 // @ts-ignore
 import express from 'express'
@@ -77,23 +76,24 @@ import { Server } from 'http'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 // Shared tests
-import verifiableDataJWT from './shared/verifiableDataJWT'
-import verifiableDataLD from './shared/verifiableDataLD'
-import verifiableDataEIP712 from './shared/verifiableDataEIP712'
-import handleSdrMessage from './shared/handleSdrMessage'
-import resolveDid from './shared/resolveDid'
-import webDidFlow from './shared/webDidFlow'
-import documentationExamples from './shared/documentationExamples'
-import keyManager from './shared/keyManager'
-import didManager from './shared/didManager'
-import didCommPacking from './shared/didCommPacking'
-import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
-import messageHandler from './shared/messageHandler'
-import didDiscovery from './shared/didDiscovery'
-import utils from './shared/utils'
-import credentialStatus from './shared/credentialStatus'
+import verifiableDataJWT from './shared/verifiableDataJWT.js'
+import verifiableDataLD from './shared/verifiableDataLD.js'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712.js'
+import handleSdrMessage from './shared/handleSdrMessage.js'
+import resolveDid from './shared/resolveDid.js'
+import webDidFlow from './shared/webDidFlow.js'
+import documentationExamples from './shared/documentationExamples.js'
+import keyManager from './shared/keyManager.js'
+import didManager from './shared/didManager.js'
+import didCommPacking from './shared/didCommPacking.js'
+import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow.js'
+import messageHandler from './shared/messageHandler.js'
+import didDiscovery from './shared/didDiscovery.js'
+import utils from './shared/utils.js'
+import credentialStatus from './shared/credentialStatus.js'
+import { jest } from '@jest/globals'
 
-jest.setTimeout(60000)
+jest.setTimeout(30000)
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'

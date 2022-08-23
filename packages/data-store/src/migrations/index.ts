@@ -1,7 +1,7 @@
-import { CreateDatabase1447159020001 } from './1.createDatabase'
-import { SimplifyRelations1447159020002 } from './2.simplifyRelations'
-import { CreatePrivateKeyStorage1629293428674 } from './3.createPrivateKeyStorage'
-import { AllowNullIssuanceDateForPresentations1637237492913 } from './4.allowNullVPIssuanceDate'
+import { CreateDatabase1447159020001 } from './1.createDatabase.js'
+import { SimplifyRelations1447159020002 } from './2.simplifyRelations.js'
+import { CreatePrivateKeyStorage1629293428674 } from './3.createPrivateKeyStorage.js'
+import { AllowNullIssuanceDateForPresentations1637237492913 } from './4.allowNullVPIssuanceDate.js'
 
 /**
  * The migrations array that SHOULD be used when initializing a TypeORM database connection.

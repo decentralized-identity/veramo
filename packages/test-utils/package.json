@@ -4,6 +4,7 @@
   "description": "Helper methods for Veramo integration tests. This package is not meant to be used in production.",
   "version": "4.0.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc"
@@ -32,5 +33,10 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Mircea Nistor <mircea.nistor@mesh.xyz>",
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

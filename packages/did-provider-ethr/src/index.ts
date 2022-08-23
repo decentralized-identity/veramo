@@ -4,4 +4,4 @@
  *
  * @packageDocumentation
  */
-export { EthrDIDProvider } from './ethr-did-provider'
+export { EthrDIDProvider } from './ethr-did-provider.js'

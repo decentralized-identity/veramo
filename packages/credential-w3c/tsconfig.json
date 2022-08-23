@@ -12,5 +12,6 @@
     { "path": "../did-jwt" },
     { "path": "../message-handler" },
     { "path": "../utils" }
-  ]
+  ],
+  "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

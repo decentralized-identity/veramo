@@ -168,6 +168,13 @@
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Build Test React App",
+      "program": "${workspaceFolder}\\packages\\test-react-app\\scripts\\build.cjs",
+      "cwd": "${workspaceFolder}\\packages\\test-react-app"
     }
   ]
 }

@@ -9,7 +9,7 @@
  * @packageDocumentation
  */
 
-export { DataStoreJson } from './data-store-json'
+export { DataStoreJson } from './data-store-json.js'
 export {
   DiffCallback,
   ClaimTableEntry,
@@ -17,8 +17,8 @@ export {
   PresentationTableEntry,
   VeramoJsonCache,
   VeramoJsonStore,
-} from './types'
-export { DIDStoreJson } from './identifier/did-store'
-export { KeyStoreJson } from './identifier/key-store'
-export { PrivateKeyStoreJson } from './identifier/private-key-store'
-export { BrowserLocalStorageStore } from './browser-local-storage-store'
+} from './types.js'
+export { DIDStoreJson } from './identifier/did-store.js'
+export { KeyStoreJson } from './identifier/key-store.js'
+export { PrivateKeyStoreJson } from './identifier/private-key-store.js'
+export { BrowserLocalStorageStore } from './browser-local-storage-store.js'
