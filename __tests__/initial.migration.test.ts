@@ -44,6 +44,9 @@ import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
 import {jest} from '@jest/globals'
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 jest.setTimeout(10000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'

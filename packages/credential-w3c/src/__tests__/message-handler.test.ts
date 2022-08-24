@@ -1,5 +1,5 @@
-import { DIDResolutionResult } from '../../../core/build/index.js'
-import { Message } from '../../../message-handler/build/index.js'
+import { DIDResolutionResult } from '../../../core'
+import { Message } from '../../../message-handler'
 import { W3cMessageHandler, MessageTypes } from '../index.js'
 import { IContext } from '../message-handler.js'
 import pkg from 'blakejs'

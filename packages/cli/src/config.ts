@@ -6,6 +6,9 @@ import { getAgent, getConfig } from './setup.js'
 import fs from "fs"
 import { dirname } from 'path'
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 program.option('--config <path>', 'Configuration file', './agent.yml')
 
 const config = program.command('config').description('Agent configuration')
