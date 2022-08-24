@@ -6,6 +6,8 @@ reactSampleDir="$projectRoot/__browser_tests__/react-sample"
 packages=(
 "core"
 "credential-ld"
+"credential-status"
+"credential-status-list-2021"
 "credential-w3c"
 "data-store"
 "data-store-json"

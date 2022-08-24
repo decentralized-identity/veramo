@@ -6,6 +6,8 @@
   "dependencies": {
     "@veramo/core": "^3.1.0",
     "@veramo/credential-ld": "^3.1.0",
+    "@veramo/credential-status": "^3.1.0",
+    "@veramo/credential-status-list-2021": "^3.1.0",
     "@veramo/credential-w3c": "^3.1.0",
     "@veramo/data-store": "^3.1.0",
     "@veramo/did-comm": "^3.1.0",

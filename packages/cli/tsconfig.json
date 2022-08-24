@@ -7,6 +7,8 @@
   "references": [
     { "path": "../core" },
     { "path": "../credential-ld" },
+    { "path": "../credential-status" },
+    { "path": "../credential-status-list-2021" },
     { "path": "../credential-w3c" },
     { "path": "../data-store" },
     { "path": "../did-comm" },
