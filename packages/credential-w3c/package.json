@@ -3,6 +3,7 @@
   "description": "Veramo plugin for working with W3C Verifiable Credentials & Presentations.",
   "version": "3.1.4",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -20,7 +21,7 @@
     "@veramo/message-handler": "^3.1.4",
     "@veramo/utils": "^3.1.4",
     "debug": "^4.3.3",
-    "did-jwt-vc": "^2.1.14",
+    "did-jwt-vc": "^3.0.0",
     "did-resolver": "^4.0.0",
     "uint8arrays": "^3.0.0",
     "uuid": "^8.3.0"
@@ -51,5 +52,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

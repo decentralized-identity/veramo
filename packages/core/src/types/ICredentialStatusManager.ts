@@ -1,6 +1,6 @@
 export { DIDDocument, DIDResolutionOptions, DIDResolutionResult } from 'did-resolver'
-import { IPluginMethodMap } from './IAgent'
-import { CredentialStatusReference, VerifiableCredential } from './vc-data-model'
+import { IPluginMethodMap } from './IAgent.js'
+import { CredentialStatusReference, VerifiableCredential } from './vc-data-model.js'
 
 /**
  * The arguments expected by a plugin that implements a credential status type/method

@@ -6,23 +6,28 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../../core/src'
-import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c/src'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { EthrDIDProvider } from '../../../did-provider-ethr/src'
-import { ContextDoc } from '../types'
-import { CredentialIssuerLD } from '../action-handler'
-import { LdDefaultContexts } from '../ld-default-contexts'
-import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018'
+} from '../../../core/'
+import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c/'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/'
+import { KeyManagementSystem } from '../../../kms-local/'
+import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/'
+import { DIDResolverPlugin } from '../../../did-resolver/'
+import { EthrDIDProvider } from '../../../did-provider-ethr/'
+import { ContextDoc } from '../types.js'
+import { CredentialIssuerLD } from '../action-handler.js'
+import { LdDefaultContexts } from '../ld-default-contexts.js'
+import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018.js'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
-import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020'
+import { createRequire } from "module";
+// const require = createRequire(import.meta.url);
+// const { getResolver } = require("ethr-did-resolver")
+// const ethrDidResolver = getResolver
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
+import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
+import {jest} from '@jest/globals'
 
-jest.setTimeout(300000)
+jest.setTimeout(10000)
 
 const customContext: Record<string, ContextDoc> = {
   'custom:example.context': {

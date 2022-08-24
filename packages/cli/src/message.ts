@@ -1,6 +1,7 @@
-import { getAgent } from './setup'
-import { program } from 'commander'
-const fs = require('fs')
+import { getAgent } from './setup.js'
+import { Command } from 'commander';
+const program = new Command();
+import fs from 'fs'
 
 const message = program.command('message').description('Messages')
 
@@ -11,7 +12,7 @@ message
   .option('-f, --file <string>', 'Path to a file containing raw message')
   .option('--save <boolean>', 'Save message', true)
 
-  .action(async (options) => {
+  .action(async (options: any) => {
     const agent = getAgent(program.opts().config)
     try {
       let raw

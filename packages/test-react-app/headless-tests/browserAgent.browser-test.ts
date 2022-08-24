@@ -12,8 +12,9 @@ import documentationExamples from '../../../__tests__/shared/documentationExampl
 import didCommPacking from '../../../__tests__/shared/didCommPacking'
 import messageHandler from '../../../__tests__/shared/messageHandler'
 import utils from '../../../__tests__/shared/utils'
+import {jest} from '@jest/globals'
 
-jest.setTimeout(3 * 60 * 1000)
+jest.setTimeout(10000)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {

@@ -17,33 +17,33 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../packages/core/src'
-import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager } from '../packages/key-manager/src'
-import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+} from '../packages/core'
+import { MessageHandler } from '../packages/message-handler'
+import { KeyManager } from '../packages/key-manager'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager'
+import { DIDResolverPlugin } from '../packages/did-resolver'
+import { JwtMessageHandler } from '../packages/did-jwt'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c'
+import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
-} from '../packages/credential-ld/src'
-import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
-import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+} from '../packages/credential-ld'
+import { EthrDIDProvider } from '../packages/did-provider-ethr'
+import { WebDIDProvider } from '../packages/did-provider-web'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
   SelectiveDisclosure,
-} from '../packages/selective-disclosure/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
-import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
+} from '../packages/selective-disclosure'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
+import { Web3KeyManagementSystem } from '../packages/kms-web3'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery'
 
 import {
   DataStore,
@@ -54,37 +54,41 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store/src'
-import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+} from '../packages/data-store'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils'
 
 import { DataSource } from 'typeorm'
-import { createGanacheProvider } from './utils/ganache-provider'
-import { createEthersProvider } from './utils/ethers-provider'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { createGanacheProvider } from './utils/ganache-provider.js'
+import { createEthersProvider } from './utils/ethers-provider.js'
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { getResolver } = require("ethr-did-resolver")
+const ethrDidResolver = getResolver
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 // Shared tests
-import verifiableDataJWT from './shared/verifiableDataJWT'
-import verifiableDataLD from './shared/verifiableDataLD'
-import verifiableDataEIP712 from './shared/verifiableDataEIP712'
-import handleSdrMessage from './shared/handleSdrMessage'
-import resolveDid from './shared/resolveDid'
-import webDidFlow from './shared/webDidFlow'
-import saveClaims from './shared/saveClaims'
-import documentationExamples from './shared/documentationExamples'
-import keyManager from './shared/keyManager'
-import didManager from './shared/didManager'
-import didCommPacking from './shared/didCommPacking'
-import messageHandler from './shared/messageHandler'
-import didDiscovery from './shared/didDiscovery'
-import dbInitOptions from './shared/dbInitOptions'
-import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
-import utils from './shared/utils'
-import web3 from './shared/web3'
-import credentialStatus from './shared/credentialStatus'
+import verifiableDataJWT from './shared/verifiableDataJWT.js'
+import verifiableDataLD from './shared/verifiableDataLD.js'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712.js'
+import handleSdrMessage from './shared/handleSdrMessage.js'
+import resolveDid from './shared/resolveDid.js'
+import webDidFlow from './shared/webDidFlow.js'
+import saveClaims from './shared/saveClaims.js'
+import documentationExamples from './shared/documentationExamples.js'
+import keyManager from './shared/keyManager.js'
+import didManager from './shared/didManager.js'
+import didCommPacking from './shared/didCommPacking.js'
+import messageHandler from './shared/messageHandler.js'
+import didDiscovery from './shared/didDiscovery.js'
+import dbInitOptions from './shared/dbInitOptions.js'
+import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
+import utils from './shared/utils.js'
+import web3 from './shared/web3.js'
+import credentialStatus from './shared/credentialStatus.js'
+import {jest} from '@jest/globals'
 
-jest.setTimeout(60000)
+jest.setTimeout(10000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'

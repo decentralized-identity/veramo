@@ -7,7 +7,7 @@ import {
   validateJwtCredentialPayload,
   validateJwtPresentationPayload,
 } from 'did-jwt-vc'
-import { ICredentialIssuer } from './action-handler'
+import { ICredentialIssuer } from './action-handler.js'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
 

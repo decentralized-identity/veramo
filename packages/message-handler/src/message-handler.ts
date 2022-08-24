@@ -8,8 +8,8 @@ import {
   CoreEvents,
   IMessage,
 } from '@veramo/core'
-import { Message } from './message'
-import { AbstractMessageHandler } from './abstract-message-handler'
+import { Message } from './message.js'
+import { AbstractMessageHandler } from './abstract-message-handler.js'
 
 import Debug from 'debug'
 

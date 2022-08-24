@@ -1,4 +1,4 @@
-import 'cross-fetch/polyfill'
+// import 'cross-fetch/polyfill'
 import { v4 as uuidv4 } from 'uuid'
 
 /**

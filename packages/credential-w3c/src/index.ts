@@ -8,18 +8,20 @@
  *
  * @packageDocumentation
  */
-export { W3cMessageHandler, MessageTypes } from './message-handler'
+export { W3cMessageHandler, MessageTypes } from './message-handler.js'
 export {
   CredentialIssuer,
   ICredentialIssuer,
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,
   ProofFormat,
-} from './action-handler'
+} from './action-handler.js'
 /**
  * The parameter and return type schemas for the methods of the {@link @veramo/credential-w3c#ICredentialIssuer} plugin.
  *
  * @public
  */
-const schema = require('../plugin.schema.json')
+ import { createRequire } from "module";
+ const require = createRequire(import.meta.url);
+ const schema = require("../plugin.schema.json");
 export { schema }

@@ -1,9 +1,13 @@
-import 'cross-fetch/polyfill'
-import { program } from 'commander'
+// import 'cross-fetch/polyfill'
+import { Command } from 'commander';
+const program = new Command();
 import { SecretBox } from '@veramo/kms-local'
-import { getAgent, getConfig } from './setup'
-const fs = require('fs')
-const { dirname } = require('path')
+import { getAgent, getConfig } from './setup.js'
+import fs from "fs"
+import { dirname } from 'path'
+
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 program.option('--config <path>', 'Configuration file', './agent.yml')
 
@@ -15,7 +19,7 @@ config
   .option('--filename <string>', 'Config file name', './agent.yml')
   .option('--template <string>', 'Use template (default,client)', 'default')
 
-  .action(async (options) => {
+  .action(async (options: any) => {
     const { filename, template } = options
 
     const templateFile = __dirname + '/../default/' + template + '.yml'
@@ -43,7 +47,7 @@ config
   .alias('key-gen')
   .description('generate secret key')
   .option('-q, --quiet', 'Only print the raw key, no instructions', false)
-  .action(async (options) => {
+  .action(async (options: any) => {
     try {
       const dbEncryptionKey = await SecretBox.createSecretKey()
       if (options.quiet === true) {
@@ -69,7 +73,7 @@ config
   .description('Verify an agent config file syntax')
   .option('-f, --filename <string>', 'Config file name', './agent.yml')
   .option('-m, --method <string>', 'Check that a specific method is exposed by the agent.', 'execute')
-  .action(async (options) => {
+  .action(async (options: any) => {
     const agent = getAgent(options.filename)
     if (!agent) {
       console.error(

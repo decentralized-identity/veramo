@@ -3,8 +3,8 @@
     "strict": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "target": "es6",
-    "module": "commonjs",
+    "target": "es2020",
+    "module": "ES2020",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "downlevelIteration": true,
@@ -14,7 +14,8 @@
     "emitDecoratorMetadata": true,
     "useUnknownInCatchVariables": false,
     "experimentalDecorators": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "**/__tests__/**/*",

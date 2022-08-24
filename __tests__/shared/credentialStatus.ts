@@ -12,6 +12,7 @@ import {
 } from '../../packages/core/src'
 import { CredentialStatusPlugin } from '../../packages/credential-status/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+import {jest} from '@jest/globals'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 

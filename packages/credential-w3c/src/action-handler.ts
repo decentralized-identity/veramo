@@ -9,6 +9,7 @@ import {
   IKeyManager,
   IPluginMethodMap,
   IResolver,
+  IVerifyResult,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
@@ -36,7 +37,7 @@ import {
 } from '@veramo/utils'
 import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
-import { schema } from './'
+import { schema } from './index.js'
 
 const enum CredentialType {
   JWT,
@@ -227,12 +228,60 @@ export interface IVerifyPresentationArgs {
    */
   fetchRemoteContexts?: boolean
 
+
+  /**
+   * Verification Policies for the verifiable presentation
+   * These will also be forwarded to the lower level module
+   */
+  policies?: VerifyPresentationPolicies
+
   /**
    * Other options can be specified for verification.
    * They will be forwarded to the lower level modules. that performt the checks
-   */
+    */
   [x: string]: any
 }
+
+/**
+ * These optional settings can be used to override some of the default checks that are performed on
+ * Presentations during verification.
+ *
+ * @beta
+ */
+export interface VerifyPresentationPolicies {
+  /**
+   * policy to over the now (current time) during the verification check
+   */
+  now?: number
+
+  /**
+   * policy to override the issuanceDate (nbf) timestamp check
+   */
+  issuanceDate?: boolean
+
+  /**
+   * policy to override the issuedAtDate (iat) timestamp check
+   */
+  issuedAtDate?: boolean
+
+  /**
+   * policy to override the expirationDate (exp) timestamp check
+   */
+  expirationDate?: boolean
+
+  /**
+   * Other options can be specified for verification.
+   * They will be forwarded to the lower level modules that perform the checks
+    */
+  [x: string]: any
+}
+
+/**
+ * Encapsulates the response object to verifyPresentation method after verifying a
+ * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
+ *
+ * @public
+ */
 
 /**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
@@ -299,7 +348,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<boolean>
+  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyResult>
 }
 
 /**
@@ -553,7 +602,7 @@ export class CredentialIssuer implements IAgentPlugin {
   }
 
   /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
-  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<boolean> {
+  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyResult> {
     const presentation = args.presentation
     if (typeof presentation === 'string' || (<VerifiablePresentation>presentation)?.proof?.jwt) {
       // JWT
@@ -584,11 +633,19 @@ export class CredentialIssuer implements IAgentPlugin {
           challenge: args.challenge,
           domain: args.domain,
           audience,
+          policies: {
+            nbf: args.policies?.issuanceDate,
+            iat: args.policies?.issuedAtDate,
+            now: args.policies?.now,
+            exp: args.policies?.expirationDate
+          }
         })
-        return true
+        return { verified: true }
       } catch (e: any) {
-        //TODO: return a more detailed reason for failure
-        return false
+
+        // Need this logic for the errorCode because ErrorCodes are not being exported from did-jwt
+        // Uncase the code is not present the ErrorCode property will be undefined
+        return { verified: false, error: { message: e.message, errorCode: e.message.split(':')[0] } }
       }
     } else {
       // JSON-LD

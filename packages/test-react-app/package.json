@@ -76,5 +76,10 @@
     "react-scripts": "5.0.1",
     "ts-jest": "28.0.4",
     "typescript": "4.7.3"
-  }
+  },
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

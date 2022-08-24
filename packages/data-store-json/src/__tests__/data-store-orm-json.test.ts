@@ -12,9 +12,9 @@ import {
   TPresentationColumns,
   VerifiableCredential,
   VerifiablePresentation,
-} from '../../../core/src'
+} from '../../../core/src/index.js'
 import { DataStoreJson } from '../data-store-json'
-import { VeramoJsonStore } from '../types'
+import { VeramoJsonStore } from '../types.js'
 
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'

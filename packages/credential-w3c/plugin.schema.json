@@ -12,7 +12,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved.",
-              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\nthe credential after creating it."
+              "deprecated": "Please call\r\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\r\nthe credential after creating it."
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
@@ -208,7 +208,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved. <p/><p/>",
-              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\nsave the credential after creating it."
+              "deprecated": "Please call\r\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\r\nsave the credential after creating it."
             },
             "challenge": {
               "type": "string",
@@ -401,6 +401,10 @@
               "type": "boolean",
               "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
               "default": false
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerifyPresentationPolicies",
+              "description": "Verification Policies for the verifiable presentation These will also be forwarded to the lower level module"
             }
           },
           "required": [
@@ -421,6 +425,65 @@
             }
           ],
           "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+        },
+        "VerifyPresentationPolicies": {
+          "type": "object",
+          "properties": {
+            "now": {
+              "type": "number",
+              "description": "policy to over the now (current time) during the verification check"
+            },
+            "issuanceDate": {
+              "type": "boolean",
+              "description": "policy to override the issuanceDate (nbf) timestamp check"
+            },
+            "issuedAtDate": {
+              "type": "boolean",
+              "description": "policy to override the issuedAtDate (iat) timestamp check"
+            },
+            "expirationDate": {
+              "type": "boolean",
+              "description": "policy to override the expirationDate (exp) timestamp check"
+            }
+          },
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules that perform the checks"
+          },
+          "description": "These optional settings can be used to override some of the default checks that are performed on Presentations during verification."
+        },
+        "IVerifyResult": {
+          "type": "object",
+          "properties": {
+            "verified": {
+              "type": "boolean",
+              "description": "This value is used to transmit the result of verification."
+            },
+            "error": {
+              "$ref": "#/components/schemas/IError",
+              "description": "Optional Error object for the but currently the machine readable errors are not expored from DID-JWT package to be imported here"
+            }
+          },
+          "required": [
+            "verified"
+          ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+          },
+          "description": "Encapsulates the response object to verifyPresentation method after verifying a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+        },
+        "IError": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "The details of the error being throw or forwarded"
+            },
+            "errorCode": {
+              "type": "string",
+              "description": "The code for the error being throw"
+            }
+          },
+          "description": "An error object, which can contain a code."
         }
       },
       "methods": {
@@ -457,7 +520,7 @@
             "$ref": "#/components/schemas/IVerifyPresentationArgs"
           },
           "returnType": {
-            "type": "boolean"
+            "$ref": "#/components/schemas/IVerifyResult"
           }
         }
       }

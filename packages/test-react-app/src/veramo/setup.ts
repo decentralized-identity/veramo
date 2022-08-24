@@ -12,7 +12,10 @@ import {
 
 import { DIDResolverPlugin } from '@veramo/did-resolver'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { getResolver } = require("ethr-did-resolver")
+const ethrDidResolver = getResolver
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { MessageHandler } from '@veramo/message-handler'
 import { KeyManager } from '@veramo/key-manager'
