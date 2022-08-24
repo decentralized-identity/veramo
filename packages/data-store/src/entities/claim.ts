@@ -1,4 +1,4 @@
-import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, Relation } from 'typeorm'
 import { Identifier } from './identifier.js'
 import { Credential } from './credential.js'
 
@@ -22,19 +22,19 @@ export class Claim extends BaseEntity {
     onDelete: 'CASCADE',
   })
     //@ts-ignore
-  issuer: Identifier
+  issuer: Relation<Identifier>
 
   @ManyToOne((type) => Identifier, (identifier) => identifier.receivedClaims, {
     eager: true,
     nullable: true,
   })
-  subject?: Identifier
+  subject?: Relation<Identifier>
 
   @ManyToOne((type) => Credential, (credential) => credential.claims, {
     onDelete: 'CASCADE',
   })
     //@ts-ignore
-  credential: Credential
+  credential: Relation<Credential>
 
   @Column()
     //@ts-ignore

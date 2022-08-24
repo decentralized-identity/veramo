@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne } from 'typeorm'
+import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne, Relation } from 'typeorm'
 import { Identifier } from './identifier.js'
 
 /**
@@ -28,5 +28,5 @@ export class Service extends BaseEntity {
 
   @ManyToOne((type) => Identifier, (identifier) => identifier?.services, { onDelete: 'CASCADE' })
     //@ts-ignore
-  identifier?: Identifier
+  identifier?: Relation<Identifier>
 }

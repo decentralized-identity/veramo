@@ -1,5 +1,6 @@
 import { getAgent } from './setup.js'
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
@@ -16,7 +17,7 @@ credential
   .option('-s, --send', 'Send')
   .option('-j, --json', 'Output in JSON')
   .option('-q, --qrcode', 'Show qrcode')
-  .action(async (cmd) => {
+  .action(async (cmd: any) => {
     const agent = getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
 
@@ -37,7 +38,7 @@ credential
       {
         type: 'list',
         name: 'iss',
-        choices: identifiers.map((item) => ({
+        choices: identifiers.map((item: any) => ({
           name: `${item.did} ${item.alias}`,
           value: item.did,
         })),
@@ -167,7 +168,7 @@ credential
   .description('Verify a W3C Verifiable Credential provided as raw string, file or stdin')
   .option('-f, --filename <string>', 'Optional. Read the credential from a file instead of stdin')
   .option('-r, --raw <string>', 'Optional. Specify the credential as a parameter instead of file or stdin')
-  .action(async (options) => {
+  .action(async (options: any) => {
     const agent = getAgent(program.opts().config)
     let raw: string = ''
     if (options.raw) {
@@ -203,7 +204,7 @@ credential
 credential
   .command('output')
   .description('Print W3C Verifiable Credential to stdout')
-  .action(async (cmd) => {
+  .action(async (cmd: any) => {
     const agent = getAgent(program.opts().config)
 
     const credentials = await agent.dataStoreORMGetVerifiableCredentials()

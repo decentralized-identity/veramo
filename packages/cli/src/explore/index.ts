@@ -1,5 +1,6 @@
 import { getAgent } from '../setup.js'
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import { renderMainScreen } from './main.js'
 
 program

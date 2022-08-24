@@ -1,4 +1,5 @@
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import inquirer from 'inquirer'
 import { getAgent } from './setup.js'
 import fs from 'fs'
@@ -11,7 +12,7 @@ program
   .option('-m, --method <string>', 'Method name')
   .option('-a, --argsJSON <string>', 'Method arguments')
   .option('-f, --argsFile <string>', 'Path to a file containing method arguments in a JSON string')
-  .action(async (options) => {
+  .action(async (options: any) => {
     const agent = getAgent(program.opts().config)
 
     try {

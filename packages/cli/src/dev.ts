@@ -5,7 +5,8 @@ import {
   ApiParameterListMixin,
   ApiReturnTypeMixin,
 } from '@microsoft/api-extractor-model'
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
@@ -93,7 +94,7 @@ dev
     './package.json',
   )
 
-  .action(async (options) => {
+  .action(async (options: any) => {
     const apiExtractorJsonPath: string = resolve(options.extractorConfig)
     const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
 
@@ -187,7 +188,7 @@ dev
   .command('extract-api')
   .description('Extract API')
   .option('-c, --extractorConfig <string>', 'API Extractor config file', './api-extractor.json')
-  .action(async (options) => {
+  .action(async (options: any) => {
     const apiExtractorJsonPath: string = resolve(options.extractorConfig)
     const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
 

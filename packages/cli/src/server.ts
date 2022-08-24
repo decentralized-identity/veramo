@@ -1,5 +1,6 @@
 import express from 'express'
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import { getConfig } from './setup.js'
 import { createObjects } from './lib/objectCreator.js'
 
@@ -7,7 +8,7 @@ program
   .command('server')
   .description('Launch OpenAPI server')
   .option('-p, --port <number>', 'Optionally set port to override config')
-  .action(async (cmd) => {
+  .action(async (cmd: any) => {
     const app = express()
 
     let server: any

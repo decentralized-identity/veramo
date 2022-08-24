@@ -1,6 +1,6 @@
 import { KeyMetadata, TKeyType } from '@veramo/core'
-import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne } from 'typeorm'
-import { Identifier } from './identifier'
+import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne, Relation } from 'typeorm'
+import { Identifier } from './identifier.js'
 
 /**
  * Mirrors {@link @veramo/core#TKeyType | TKeyType}
@@ -52,5 +52,5 @@ export class Key extends BaseEntity {
   meta?: KeyMetadata | null
 
   @ManyToOne((type) => Identifier, (identifier) => identifier?.keys, { onDelete: 'CASCADE' })
-  identifier?: Identifier
+  identifier?: Relation<Identifier>
 }

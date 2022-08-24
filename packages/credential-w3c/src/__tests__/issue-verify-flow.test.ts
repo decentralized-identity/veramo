@@ -22,7 +22,7 @@ const { getResolver } = require("ethr-did-resolver")
 const ethrDidResolver = getResolver
 import {jest} from '@jest/globals'
 
-jest.setTimeout(300000)
+jest.setTimeout(10000)
 
 const customContext: Record<string, ContextDoc> = {
   'custom:example.context': {

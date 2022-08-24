@@ -1,4 +1,5 @@
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import inquirer from 'inquirer'
 import inquirer2 from 'inquirer-autocomplete-prompt'
 

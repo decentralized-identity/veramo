@@ -1,5 +1,6 @@
 import { getAgent } from './setup.js'
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { readStdin } from './util.js'
@@ -14,7 +15,7 @@ presentation
   .description('Create W3C Verifiable Presentation')
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
-  .action(async (cmd) => {
+  .action(async (cmd: any) => {
     const agent = getAgent(program.opts().config)
     const myIdentifiers = await agent.didManagerFind()
     if (myIdentifiers.length === 0) {
@@ -29,7 +30,7 @@ presentation
         name: 'Enter manually',
         value: 'manual',
       },
-      ...ids.map((id) => id.did),
+      ...ids.map((id: any) => id.did),
     ]
 
     let aud = null
@@ -37,7 +38,7 @@ presentation
       {
         type: 'list',
         name: 'iss',
-        choices: myIdentifiers.map((item) => ({
+        choices: myIdentifiers.map((item: any) => ({
           name: `${item.did} ${item.alias}`,
           value: item.did,
         })),
@@ -164,7 +165,7 @@ presentation
   .option('-d, --domain <string>', 'Optional. Specify a domain that the presentation should match.')
   .option('-f, --filename <string>', 'Optional. Read the presentation from a file instead of stdin')
   .option('-r, --raw <string>', 'Optional. Presentation as a parameter string instead of a file or stdin.')
-  .action(async (options) => {
+  .action(async (options: any) => {
     const agent = getAgent(program.opts().config)
     let raw: string = ''
     if (options.raw) {
@@ -201,7 +202,7 @@ presentation
   .command('output')
   .description('Print W3C Verifiable Presentation to stdout')
   .option('-t, --tag <string>', 'Optional. Specify the tag for the presentation.')
-  .action(async (options) => {
+  .action(async (options: any) => {
     const agent = getAgent(program.opts().config)
 
     const presentations = await agent.dataStoreORMGetVerifiablePresentations({})
@@ -211,7 +212,7 @@ presentation
       let selected = null
       const list: any = []
       if (options.tag) {
-        const matches = presentations.filter(pres => pres.verifiablePresentation.tag === options.tag)
+        const matches = presentations.filter((pres: any) => pres.verifiablePresentation.tag === options.tag)
         if (matches.length > 1) {
           console.log('Found multiple matching presentations. Only showing the first one.')
         }

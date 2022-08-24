@@ -84,7 +84,8 @@
   },
   "resolutions": {
     "@types/react": "^18.0.12",
-    "@types/eslint": "^8.4.3"
+    "@types/eslint": "^8.4.3",
+    "commander": "9.0.0"
   },
   "engines": {
     "node": ">= 16.16.0"
