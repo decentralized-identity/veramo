@@ -4,7 +4,7 @@ import {
   CredentialStatusReference,
   CredentialStatusUpdateArgs, IAgentContext, IAgentPlugin, ICheckCredentialStatusArgs, ICredentialStatus, IResolver, ProofType, UnsignedCredential
 } from '@veramo/core'
-import statusList from "@digitalcredentials/vc-status-list"
+import * as statusList from "@digitalcredentials/vc-status-list"
 import { ICredentialIssuer } from '@veramo/credential-w3c'
 
 const method: string = "StatusList2021Entry"
@@ -153,7 +153,7 @@ export class CredentialStatusList2021Plugin implements IAgentPlugin {
     let encodedList = await this.storage.get(statusListCredential); // Load the list if exists
     if (!encodedList) {
       // Creates a new list if not found
-      const list = statusList.createList({ length: Math.max(statusListIndex, 100000) })
+      const list = statusList.createList({ length: Math.max(statusListIndex | 0, 100000) })
       encodedList = await list.encode()
       if (!encodedList) throw new Error("illegal_state: the list should be encoded")
       await this.storage.set(statusListCredential, encodedList)

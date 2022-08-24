@@ -1,9 +1,8 @@
 import { createAgent, DIDDocument, ICredentialStatusManager, VerifiableCredential } from '@veramo/core'
-import { resolve } from 'path'
-import { StatusListStorage, CredentialStatusList2021Plugin } from '../credential-status-list-2021'
+import { CredentialStatusList2021Plugin, StatusListStorage } from '../credential-status-list-2021'
 
 
-describe('@veramo/credential-status-simple', () => {
+describe('@veramo/credential-status-list-2021', () => {
   const referenceDoc: DIDDocument = { id: 'did:example:1234' }
   const referenceCredential: VerifiableCredential = {
     '@context': [],
@@ -34,13 +33,13 @@ describe('@veramo/credential-status-simple', () => {
       expect.assertions(1)
 
       const result = await agent.credentialStatusGenerate({
-        type: 'SimpleStatus',
+        type: 'StatusList2021Entry',
         vc: referenceCredential,
         endpoint: "https://example.com"
       })
 
       expect(result).toStrictEqual({
-        type: "SimpleStatus",
+        type: "StatusList2021Entry",
         id: expect.stringContaining('https://')
       });
 
@@ -89,7 +88,7 @@ describe('@veramo/credential-status-simple', () => {
     it('Should fail updating VC status using another status method', async () => {
       expect.assertions(1)
 
-      const wrongMethod = "NotTheSimpleStatus"
+      const wrongMethod = "NotTheStatusList2021Entry"
       referenceCredential.credentialStatus = {
         type: wrongMethod,
         id: "any-id"
@@ -100,7 +99,7 @@ describe('@veramo/credential-status-simple', () => {
         options: {
           revoke: true
         }
-      })).rejects.toThrowError(`invalid_argument: unrecognized method '${wrongMethod}'. Expected 'SimpleStatus'.`)
+      })).rejects.toThrowError(`invalid_argument: unrecognized method '${wrongMethod}'. Expected 'StatusList2021Entry'.`)
     })
 
     it('Should fail updating VC without `credentialStatus` entry', async () => {
@@ -120,7 +119,7 @@ describe('@veramo/credential-status-simple', () => {
       expect.assertions(1)
 
       referenceCredential.credentialStatus = {
-        type: "SimpleStatus",
+        type: "StatusList2021Entry",
         id: "https://example.com/any-id"
       }
 
@@ -129,7 +128,7 @@ describe('@veramo/credential-status-simple', () => {
         options: {
           revoke: true
         }
-      })).rejects.toThrowError(`invalid_argument: invalid 'credentialStatus.id' for method 'SimpleStatus'`)
+      })).rejects.toThrowError(`invalid_state: the status list "undefined" was not found`)
     })
   })
 })
