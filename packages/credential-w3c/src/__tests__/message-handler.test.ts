@@ -1,82 +1,41 @@
-import { DIDResolutionResult } from '../../../core'
-import { Message } from '../../../message-handler'
+import { createAgent, DIDResolutionResult, GetDIDComponentArgs, IAgentPluginSchema, IMessageHandler, IPluginMethod, IResolver, RemoveContext, ResolveDidArgs } from '../../../core'
+import { Message, MessageHandler } from '../../../message-handler'
 import { W3cMessageHandler, MessageTypes } from '../index.js'
 import { IContext } from '../message-handler.js'
+import { ICreateVerifiableCredentialArgs, ICreateVerifiablePresentationArgs } from '../action-handler.js'
 import pkg from 'blakejs'
 const { blake2bHex } = pkg
 import {jest} from '@jest/globals'
+import fetchMock, { MockParams } from 'jest-fetch-mock'
+import { IAgent, Agent } from '@veramo/core'
+import { MockDIDResolverPlugin } from './mockResolver.js'
+
+const mockResolver = 
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()
   const didEthr = 'did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61'
   const didKey = 'did:key:z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'
+  const m = jest.fn()
+  const fake = (args: any) => {}
 
-  const context: IContext = {
-    agent: {
-      getSchema: jest.fn(),
-      execute: jest.fn(),
-      availableMethods: jest.fn(),
-      emit: jest.fn(),
-      resolveDid: async (args?): Promise<DIDResolutionResult> => {
-        if (!args?.didUrl) throw Error('DID required')
+  const resolveDid = async (args?: ResolveDidArgs) => Promise.resolve({ didResolutionMetadata: {}, didDocumentMetadata: {}, didDocument: { id: "4"}});
 
-        if (args?.didUrl === didEthr) {
-          return {
-            didResolutionMetadata: {},
-            didDocumentMetadata: {},
-            didDocument: {
-              '@context': 'https://w3id.org/did/v1',
-              id: args?.didUrl,
-              verificationMethod: [
-                {
-                  id: `${didEthr}#owner`,
-                  type: 'EcdsaSecp256k1RecoveryMethod2020',
-                  controller: args?.didUrl,
-                  blockchainAccountId: `eip155:1:${didEthr.slice(-42)}`,
-                },
-              ],
-              authentication: [`${didEthr}#owner`],
-            },
-          }
-        } else {
-          return {
-            didResolutionMetadata: {},
-            didDocumentMetadata: {},
-            didDocument: {
-              '@context': 'https://www.w3.org/ns/did/v1',
-              id: didKey,
-              verificationMethod: [
-                {
-                  id: '#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd',
-                  type: 'Ed25519VerificationKey2018',
-                  controller: didKey,
-                  publicKeyBase58: 'CHWxr7EA5adxzgiYUzq1Gn7zZxVudLR4wM47ioEcSd1F',
-                },
-                {
-                  id: '#z6LSkpCZ3cLP76M3Q26rhZe6q98vMdcSPTt4iML4r9UT7LVt',
-                  type: 'X25519KeyAgreementKey2019',
-                  controller: didKey,
-                  publicKeyBase58: 'A92PXJXX1ddJJdj6Av89WYvSWV5KgrhuqNcPMgpvPxj8',
-                },
-              ],
-              authentication: ['#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'],
-              assertionMethod: ['#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'],
-            },
-          }
-        }
-      },
-      createVerifiableCredential: jest.fn(),
-      createVerifiablePresentation: jest.fn(),
-      verifyCredential: jest.fn(),
-      verifyPresentation: jest.fn(),
-      getDIDComponentById: jest.fn(),
-    },
-  }
+  const agent = createAgent<IResolver & IMessageHandler>({ plugins: [
+    new MockDIDResolverPlugin(),
+    new MessageHandler({
+      messageHandlers: [
+        new W3cMessageHandler()
+      ]})
+  ]})
+
+  console.log("agent: ", agent)
+
 
   it('should reject unknown message type', async () => {
     expect.assertions(1)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    await expect(handler.handle(message, context)).rejects.toThrow('Unsupported message type')
+    await expect(handler.handle(message, agent.context as IContext)).rejects.toThrow('Unsupported message type')
   })
 
   const vcJwtSecp256k1 =
@@ -114,11 +73,12 @@ describe('@veramo/credential-w3c', () => {
 
   it('should return handled VC message (ES256K-R)', async () => {
     expect.assertions(6)
-    const message = new Message({ raw: vcJwtSecp256k1, metaData: [{ type: 'test' }] })
+    const message = new Message({ raw: vcJwtSecp256k1, metaData: [{ type: 'JWT' }] })
     // This would be done by '@veramo/did-jwt':
     message.data = vcPayloadSecp256k1
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
-    const handled = await handler.handle(message, context)
+    agent.context
+    const handled = await handler.handle(message, agent.context as IContext) //await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vcJwtSecp256k1))
     expect(handled.raw).toEqual(vcJwtSecp256k1)
@@ -135,7 +95,7 @@ describe('@veramo/credential-w3c', () => {
     message.data = vpPayloadSecp256k1
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpJwtSecp256k1))
     expect(handled.raw).toEqual(vpJwtSecp256k1)
@@ -185,7 +145,7 @@ describe('@veramo/credential-w3c', () => {
     // This would be done by '@veramo/did-jwt':
     message.data = vcPayloadEd25519
     message.addMetaData({ type: 'JWT', value: 'Ed25519' })
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vcJwtEd25519))
     expect(handled.raw).toEqual(vcJwtEd25519)
@@ -201,7 +161,7 @@ describe('@veramo/credential-w3c', () => {
     message.data = vpPayloadEd25519
     message.addMetaData({ type: 'JWT', value: 'Ed25519' })
 
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpJwtEd25519))
     expect(handled.raw).toEqual(vpJwtEd25519)
@@ -235,7 +195,7 @@ describe('@veramo/credential-w3c', () => {
     message.data = vpMultiAudPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpMultiAudJwt))
     expect(handled.raw).toEqual(vpMultiAudJwt)
@@ -272,7 +232,7 @@ describe('@veramo/credential-w3c', () => {
     }
     message.addMetaData({ type: 'JWT', value: 'ES256K' })
 
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
 
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(token))

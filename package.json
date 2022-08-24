@@ -13,7 +13,7 @@
     "test:integration-pretty": "prettier --write __tests__/shared/documentationExamples.ts",
     "test:integration": "yarn test:integration-build && yarn test:ci",
     "test:ci": "jest --config=jest.config.json --coverage=true",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config=jest.config.json",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --trace-warnings\" jest --config=jest.config.json --forceExit",
     "test:watch": "yarn test --watch --verbose",
     "test:browser": "cd packages/test-react-app && yarn test:browser",
     "veramo": "./packages/cli/bin/veramo.js",
