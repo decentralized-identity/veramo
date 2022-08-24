@@ -8,7 +8,7 @@
 /docs
 /report
 /node_modules
-website/node_modules
+w ebsite/node_modules
 
 **/build/
 **/*.log
@@ -37,3 +37,4 @@ temp
 agent.yml
 data
 .vscode-upload.json
+/tmp
