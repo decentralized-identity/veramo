@@ -1,16 +1,3 @@
-import {jest} from '@jest/globals'
-// Mock must come before imports with transitive dependency.
-// jest.unstable_mockModule('did-jwt-vc', () => {
-//   const mockDidJwtVc = {
-//     createVerifiableCredentialJwt: jest.fn().mockReturnValue('mockVcJwt'),
-//     createVerifiablePresentationJwt: jest.fn().mockReturnValue('mockVcJwt'),
-//     verifyCredential: jest.fn().mockReturnValue({ payload: {} }),
-//     normalizeCredential: jest.fn().mockReturnValue('mockCredential'),
-//     normalizePresentation: jest.fn().mockReturnValue('mockPresentation'),
-//   }
-//   return mockDidJwtVc
-// })
-
 import { createAgent, CredentialPayload, IDataStore, IDIDManager, IIdentifier, IKey, IKeyManager, IResolver, PresentationPayload, VerifiableCredential } from '../../../core'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager'
 import { AbstractKeyManagementSystem, KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager'
@@ -26,6 +13,9 @@ import { MockKeyManager } from './mockKeyManager.js'
 import { MockDIDResolverPlugin } from './mockResolver.js'
 import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 // import { getDidKeyResolver } from '../packages/did-provider-key'
+
+console.log("action 1")
+
 const mockIdentifiers: IIdentifier[] = [
   {
     did: 'did:example:111',
@@ -73,6 +63,7 @@ const mockIdentifiers: IIdentifier[] = [
 
 const w3c = new CredentialIssuer()
 
+console.log("action 2")
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 let agent = createAgent<IResolver & IDataStore & IDIDManager & IKeyManager>({ 
   plugins: [
@@ -103,12 +94,20 @@ let agent = createAgent<IResolver & IDataStore & IDIDManager & IKeyManager>({
     }),
   ]})
 
-await agent.didManagerCreate({alias: "test"})
-const testDid = await agent.didManagerFind({alias: "test"})
+//TODO(nickreynolds): Should be able to use top-level await
+//   console.log("action 3")
+// await agent.didManagerCreate({alias: "test"})
+// const testDid = await agent.didManagerFind({alias: "test"})
+let testDids: IIdentifier[]
 
 console.log("ACTION agent: ", agent)
 
 describe('@veramo/credential-w3c', () => {
+  beforeAll(async () => {
+    await agent.didManagerCreate({alias: "test"})
+    testDids = await agent.didManagerFind({alias: "test"})
+    console.log("testDids: ", testDids)
+  })
   it('handles createVerifiableCredential', async () => {
   // test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
     expect.assertions(1)
@@ -119,7 +118,7 @@ describe('@veramo/credential-w3c', () => {
     const credential: CredentialPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: { id: testDid[0].did },
+      issuer: { id: testDids[0].did },
       issuanceDate: new Date().toISOString(),
       id: 'vc1',
       credentialSubject: {
@@ -132,70 +131,70 @@ describe('@veramo/credential-w3c', () => {
         },
       },
     }
-
-    const vc = await w3c.createVerifiableCredential(
+    const vc = await agent.createVerifiableCredential(
       {
         credential,
         save: true,
         proofFormat: 'jwt',
       },
-      context,
     )
     // TODO Update these after refactoring did-jwt-vc
     // expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
     // expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
     //   verifiableCredential: 'mockCredential',
     // })
-    expect(vc).toEqual('mockCredential')
+    expect(vc.credentialSubject.name).toEqual('Alice')
   })
 
-  // test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
-  //   expect.assertions(3)
+  test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
+    expect.assertions(1)
 
-  //   agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
-  //   const context: IContext = { agent: agent }
+    const context: IContext = { agent: agent }
 
-  //   const credential: VerifiableCredential = {
-  //     '@context': ['https://www.w3.org/2018/credentials/v1'],
-  //     type: ['VerifiableCredential', 'PublicProfile'],
-  //     issuer: { id: mockIdentifier.did },
-  //     issuanceDate: new Date().toISOString(),
-  //     id: 'vc1',
-  //     credentialSubject: {
-  //       id: 'https://example.com/user/alice',
-  //       name: 'Alice',
-  //       profilePicture: 'https://example.com/a.png',
-  //       address: {
-  //         street: 'Some str.',
-  //         house: 1,
-  //       },
-  //     },
-  //     proof: {
-  //       jwt: 'mockJWT',
-  //     },
-  //   }
+    const credential: CredentialPayload = {
+      '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
+      type: ['VerifiableCredential', 'PublicProfile'],
+      issuer: { id: testDids[0].did },
+      issuanceDate: new Date().toISOString(),
+      id: 'vc1',
+      credentialSubject: {
+        id: 'https://example.com/user/alice',
+        name: 'Alice',
+        profilePicture: 'https://example.com/a.png',
+        address: {
+          street: 'Some str.',
+          house: 1,
+        },
+      },
+    }
+    const vc = await agent.createVerifiableCredential(
+      {
+        credential,
+        save: true,
+        proofFormat: 'jwt',
+      },
+    )
 
-  //   const presentation: PresentationPayload = {
-  //     '@context': ['https://www.w3.org/2018/credentials/v1'],
-  //     type: ['VerifiablePresentation'],
-  //     holder: mockIdentifier.did,
-  //     issuanceDate: new Date().toISOString(),
-  //     verifiableCredential: [credential],
-  //   }
+    const presentation: PresentationPayload = {
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      type: ['VerifiablePresentation'],
+      holder: testDids[0].did,
+      issuanceDate: new Date().toISOString(),
+      verifiableCredential: [vc],
+    }
 
-  //   const vp = await w3c.createVerifiablePresentation(
-  //     {
-  //       presentation,
-  //       save: true,
-  //       proofFormat: 'jwt',
-  //     },
-  //     context,
-  //   )
-
-  //   expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
-  //   expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith({
-  //     verifiablePresentation: 'mockPresentation',
-  //   })
-  //   expect(vp).toEqual('mockPresentation')
-  // })
+    const vp = await agent.createVerifiablePresentation(
+      {
+        presentation,
+        save: true,
+        proofFormat: 'jwt',
+      },
+    )
+      console.log("vp: ", vp)
+    // expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
+    // expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith({
+    //   verifiablePresentation: 'mockPresentation',
+    // })
+    expect(vp.holder).toEqual(testDids[0].did)
+  })
 })

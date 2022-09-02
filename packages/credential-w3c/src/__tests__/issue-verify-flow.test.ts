@@ -6,20 +6,21 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../../core/build/index.js'
-import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c/build/index.js'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/build/index.js'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/build/index.js'
-import { KeyManagementSystem } from '../../../kms-local/build/index.js'
-import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/build/index.js'
-import { DIDResolverPlugin } from '../../../did-resolver/build/index.js'
-import { EthrDIDProvider } from "../../../did-provider-ethr/build/index.js";
-import { ContextDoc } from '../../../credential-ld/build/types.js'
+} from '../../../core'
+import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager'
+import { KeyManagementSystem } from '../../../kms-local'
+import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key'
+import { DIDResolverPlugin } from '../../../did-resolver'
+import { EthrDIDProvider } from "../../../did-provider-ethr";
+import { ContextDoc } from '../../../credential-ld'
 import { Resolver } from 'did-resolver'
 import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const { getResolver } = require("ethr-did-resolver")
-const ethrDidResolver = getResolver
+// const require = createRequire(import.meta.url);
+// const { getResolver } = require("ethr-did-resolver")
+// const ethrDidResolver = getResolver
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import {jest} from '@jest/globals'
 
 jest.setTimeout(10000)

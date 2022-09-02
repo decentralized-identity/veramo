@@ -5,8 +5,6 @@ import { IContext } from '../message-handler.js'
 import { ICreateVerifiableCredentialArgs, ICreateVerifiablePresentationArgs } from '../action-handler.js'
 import pkg from 'blakejs'
 const { blake2bHex } = pkg
-import {jest} from '@jest/globals'
-import fetchMock, { MockParams } from 'jest-fetch-mock'
 import { IAgent, Agent } from '@veramo/core'
 import { MockDIDResolverPlugin } from './mockResolver.js'
 
@@ -16,7 +14,6 @@ describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()
   const didEthr = 'did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61'
   const didKey = 'did:key:z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'
-  const m = jest.fn()
   const fake = (args: any) => {}
 
   const resolveDid = async (args?: ResolveDidArgs) => Promise.resolve({ didResolutionMetadata: {}, didDocumentMetadata: {}, didDocument: { id: "4"}});
@@ -28,9 +25,6 @@ describe('@veramo/credential-w3c', () => {
         new W3cMessageHandler()
       ]})
   ]})
-
-  console.log("agent: ", agent)
-
 
   it('should reject unknown message type', async () => {
     expect.assertions(1)

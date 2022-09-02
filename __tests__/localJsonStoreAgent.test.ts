@@ -41,10 +41,7 @@ import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson, } from 
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
 
 import { Resolver } from 'did-resolver'
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const { getResolver } = require("ethr-did-resolver")
-const ethrDidResolver = getResolver
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
