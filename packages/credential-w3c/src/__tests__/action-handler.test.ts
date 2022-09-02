@@ -1,20 +1,9 @@
 import { createAgent, CredentialPayload, IDataStore, IDIDManager, IIdentifier, IKey, IKeyManager, IResolver, PresentationPayload, VerifiableCredential } from '../../../core'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager'
-import { AbstractKeyManagementSystem, KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager'
-import { Resolver } from 'did-resolver'
-import { EthrDIDProvider } from '../../../did-provider-ethr'
-import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key'
-import { DIDResolverPlugin } from '../../../did-resolver'
-import { KeyManagementSystem } from '../../../kms-local'
 import { CredentialIssuer, IContext } from '../action-handler.js'
 import { MockDataStore } from './mockDataStore.js'
 import { MockDIDManager } from './mockDidManager.js'
 import { MockKeyManager } from './mockKeyManager.js'
 import { MockDIDResolverPlugin } from './mockResolver.js'
-import { getResolver as ethrDidResolver } from "ethr-did-resolver"
-// import { getDidKeyResolver } from '../packages/did-provider-key'
-
-console.log("action 1")
 
 const mockIdentifiers: IIdentifier[] = [
   {
@@ -67,31 +56,11 @@ console.log("action 2")
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 let agent = createAgent<IResolver & IDataStore & IDIDManager & IKeyManager>({ 
   plugins: [
-    new DIDResolverPlugin({
-      resolver: new Resolver({
-        ...getDidKeyResolver(),
-        ...ethrDidResolver({ infuraProjectId }),
-      }),
-    }),
+    new MockDIDResolverPlugin(),
     w3c, 
     new MockDataStore(), 
-    new DIDManager({
-      providers: {
-        'did:key': new KeyDIDProvider({ defaultKms: 'local' }),
-        'did:ethr:goerli': new EthrDIDProvider({
-          defaultKms: 'local',
-          network: 'goerli',
-        }),
-      },
-      store: new MemoryDIDStore(),
-      defaultProvider: 'did:key',
-    }),
-    new KeyManager({
-      store: new MemoryKeyStore(),
-      kms: {
-        local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
-      },
-    }),
+    new MockDIDManager(),
+    new MockKeyManager(),
   ]})
 
 //TODO(nickreynolds): Should be able to use top-level await
@@ -108,42 +77,39 @@ describe('@veramo/credential-w3c', () => {
     testDids = await agent.didManagerFind({alias: "test"})
     console.log("testDids: ", testDids)
   })
-  it('handles createVerifiableCredential', async () => {
-  // test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
-    expect.assertions(1)
+  // it('handles createVerifiableCredential', async () => {
+    test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
+      expect.assertions(1)
 
-    // agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
-    const context = agent.context as IContext
-
-    const credential: CredentialPayload = {
-      '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
-      type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: { id: testDids[0].did },
-      issuanceDate: new Date().toISOString(),
-      id: 'vc1',
-      credentialSubject: {
-        id: 'https://example.com/user/alice',
-        name: 'Alice',
-        profilePicture: 'https://example.com/a.png',
-        address: {
-          street: 'Some str.',
-          house: 1,
+      const credential: CredentialPayload = {
+        '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
+        type: ['VerifiableCredential', 'PublicProfile'],
+        issuer: { id: mockIdentifier.did },
+        issuanceDate: new Date().toISOString(),
+        id: 'vc1',
+        credentialSubject: {
+          id: 'https://example.com/user/alice',
+          name: 'Alice',
+          profilePicture: 'https://example.com/a.png',
+          address: {
+            street: 'Some str.',
+            house: 1,
+          },
         },
-      },
-    }
-    const vc = await agent.createVerifiableCredential(
-      {
-        credential,
-        save: true,
-        proofFormat: 'jwt',
-      },
-    )
-    // TODO Update these after refactoring did-jwt-vc
-    // expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
-    // expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
-    //   verifiableCredential: 'mockCredential',
-    // })
-    expect(vc.credentialSubject.name).toEqual('Alice')
+      }
+      const vc = await agent.createVerifiableCredential(
+        {
+          credential,
+          save: true,
+          proofFormat: 'jwt',
+        },
+      )
+      // TODO Update these after refactoring did-jwt-vc
+      // expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
+      // expect(context.agent.dataStoreSaveVerifiableCredential).toBeCalledWith({
+      //   verifiableCredential: 'mockCredential',
+      expect(vc.credentialSubject.name).toEqual('Alice')
+    // })  
   })
 
   test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
@@ -154,7 +120,7 @@ describe('@veramo/credential-w3c', () => {
     const credential: CredentialPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: { id: testDids[0].did },
+      issuer: { id: mockIdentifier.did },
       issuanceDate: new Date().toISOString(),
       id: 'vc1',
       credentialSubject: {
@@ -178,7 +144,7 @@ describe('@veramo/credential-w3c', () => {
     const presentation: PresentationPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiablePresentation'],
-      holder: testDids[0].did,
+      holder: mockIdentifier.did,
       issuanceDate: new Date().toISOString(),
       verifiableCredential: [vc],
     }
@@ -195,6 +161,6 @@ describe('@veramo/credential-w3c', () => {
     // expect(context.agent.dataStoreSaveVerifiablePresentation).toBeCalledWith({
     //   verifiablePresentation: 'mockPresentation',
     // })
-    expect(vp.holder).toEqual(testDids[0].did)
+    expect(vp.holder).toEqual(mockIdentifier.did)
   })
 })
