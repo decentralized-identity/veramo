@@ -55,6 +55,7 @@ describe('@veramo/did-jwt', () => {
   }
 
   const context: IContext = {
+    // @ts-ignore
     agent: {
       getSchema: jest.fn(),
       execute: jest.fn(),
@@ -91,6 +92,7 @@ describe('@veramo/did-jwt', () => {
       handle: jest.fn().mockRejectedValue(new Error('Unsupported message type')),
     }
     const handler = new JwtMessageHandler()
+    // @ts-ignore
     handler.setNext(mockNextHandler)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
     await expect(handler.handle(message, context)).rejects.toThrow('Unsupported message type')
@@ -99,9 +101,11 @@ describe('@veramo/did-jwt', () => {
   it('should set data field for VC jwt', async () => {
     const mockNextHandler = {
       setNext: jest.fn(),
+      // @ts-ignore
       handle: jest.fn().mockResolvedValue(true),
     }
     const handler = new JwtMessageHandler()
+    // @ts-ignore
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
@@ -119,9 +123,11 @@ describe('@veramo/did-jwt', () => {
   it('should set data field for VP jwt', async () => {
     const mockNextHandler = {
       setNext: jest.fn(),
+      // @ts-ignore
       handle: jest.fn().mockResolvedValue(true),
     }
     const handler = new JwtMessageHandler()
+    // @ts-ignore
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
@@ -142,6 +148,7 @@ describe('@veramo/did-jwt', () => {
       handle: jest.fn(),
     }
     const handler = new JwtMessageHandler()
+    // @ts-ignore
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vpMultiAudJwt, metaData: [{ type: 'test' }] })

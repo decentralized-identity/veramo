@@ -80,6 +80,7 @@ describe('@veramo/credential-status', () => {
     const agent = createAgent({
       plugins: [
         new CredentialStatusPlugin({
+          // @ts-ignore
           ExoticStatusMethod2022: checkStatus,
         }),
       ],

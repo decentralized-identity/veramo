@@ -90,6 +90,7 @@ describe('@veramo/selective-disclosure-helper', () => {
       },
     }
 
+    // @ts-ignore
     const result = await actionHandler.validatePresentationAgainstSdr({ presentation, sdr }, context)
 
     expect(result.claims[0].credentials[0].verifiableCredential.credentialSubject['firstName']).toEqual(
@@ -136,6 +137,7 @@ describe('@veramo/selective-disclosure-helper', () => {
         jwt: 'mock',
       },
     }
+    // @ts-ignore
     const result = await actionHandler.validatePresentationAgainstSdr({ presentation, sdr }, context)
 
     expect(result.valid).toEqual(false)
