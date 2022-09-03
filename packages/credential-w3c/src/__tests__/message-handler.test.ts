@@ -1,22 +1,15 @@
-import { createAgent, DIDResolutionResult, GetDIDComponentArgs, IAgentPluginSchema, IMessageHandler, IPluginMethod, IResolver, RemoveContext, ResolveDidArgs } from '../../../core'
+import { createAgent, IMessageHandler, IResolver } from '../../../core'
 import { Message, MessageHandler } from '../../../message-handler'
 import { W3cMessageHandler, MessageTypes } from '../index.js'
 import { IContext } from '../message-handler.js'
-import { ICreateVerifiableCredentialArgs, ICreateVerifiablePresentationArgs } from '../action-handler.js'
 import pkg from 'blakejs'
 const { blake2bHex } = pkg
-import { IAgent, Agent } from '@veramo/core'
 import { MockDIDResolverPlugin } from './mockResolver.js'
-
-const mockResolver = 
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()
   const didEthr = 'did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61'
   const didKey = 'did:key:z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'
-  const fake = (args: any) => {}
-
-  const resolveDid = async (args?: ResolveDidArgs) => Promise.resolve({ didResolutionMetadata: {}, didDocumentMetadata: {}, didDocument: { id: "4"}});
 
   const agent = createAgent<IResolver & IMessageHandler>({ plugins: [
     new MockDIDResolverPlugin(),

@@ -69,50 +69,6 @@ mockIdentifiers.set('did:example:333', {
   ],
   services: [],
 })
-// const mockIdentifiers: Map<string, IIdentifier> = {
-//   'did:example:111': {
-//     did: 'did:example:111',
-//     provider: 'mock',
-//     controllerKeyId: 'kid1',
-//     keys: [
-//       {
-//         kid: 'kid1',
-//         publicKeyHex: 'pub',
-//         type: 'Secp256k1',
-//         kms: 'mock',
-//       },
-//     ],
-//     services: [],
-//   },
-//   'did:example:222': {
-//     did: 'did:example:222',
-//     provider: 'mock',
-//     controllerKeyId: 'kid2',
-//     keys: [
-//       {
-//         kid: 'kid2',
-//         publicKeyHex: 'pub',
-//         type: 'Secp256k1',
-//         kms: 'mock',
-//       },
-//     ],
-//     services: [],
-//   },
-//   'did:example:333': {
-//     did: 'did:example:333',
-//     provider: 'mock',
-//     controllerKeyId: 'kid3',
-//     keys: [
-//       {
-//         kid: 'kid3',
-//         publicKeyHex: 'pub',
-//         type: 'Ed25519',
-//         kms: 'mock',
-//       },
-//     ],
-//     services: [],
-//   },
-// }
 
 /**
  * Agent plugin that implements {@link @veramo/core#IDIDManager} interface
