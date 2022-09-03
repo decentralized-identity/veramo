@@ -1,7 +1,7 @@
 import { Agent } from '../agent.js'
 import { CoreEvents } from '../coreEvents.js'
 import { IEventListener } from '../types/IAgent.js'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))

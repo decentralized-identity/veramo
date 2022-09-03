@@ -21,7 +21,7 @@ import { createRequire } from "module";
 // const { getResolver } = require("ethr-did-resolver")
 // const ethrDidResolver = getResolver
 import { getResolver as ethrDidResolver } from "ethr-did-resolver"
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 jest.setTimeout(10000)
 

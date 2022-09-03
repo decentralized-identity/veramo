@@ -60,7 +60,7 @@ import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../pa
 import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider.js'
 import { createEthersProvider } from './utils/ethers-provider.js'
-import { getResolver as ethrDidResolver } from "ethr-did-resolver"
+import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
@@ -83,7 +83,7 @@ import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
 import utils from './shared/utils.js'
 import web3 from './shared/web3.js'
 import credentialStatus from './shared/credentialStatus.js'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 jest.setTimeout(10000)
 

@@ -10,11 +10,11 @@ const did = program.command('did').description('Decentralized identifiers')
 did
   .command('providers')
   .description('list available identifier providers')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     const providers = await agent.didManagerGetProviders()
-    const list = providers.map((provider: any) => ({ provider }))
+    const list = providers.map((provider) => ({ provider }))
 
     if (list.length > 0) {
       printTable(list)
@@ -26,13 +26,13 @@ did
 did
   .command('list', { isDefault: true })
   .description('list managed identifiers')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     const list = await agent.didManagerFind()
 
     if (list.length > 0) {
-      const dids = list.map((item: any) => ({ provider: item.provider, alias: item.alias, did: item.did }))
+      const dids = list.map((item) => ({ provider: item.provider, alias: item.alias, did: item.did }))
       printTable(dids)
     } else {
       console.log('No dids')
@@ -42,7 +42,7 @@ did
 did
   .command('create')
   .description('create an identifier')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     try {
@@ -80,7 +80,7 @@ did
 did
   .command('delete')
   .description('delete an identifier')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     try {
@@ -89,7 +89,7 @@ did
         {
           type: 'list',
           name: 'did',
-          choices: identifiers.map((item: any) => item.did),
+          choices: identifiers.map((item) => item.did),
           message: 'Delete DID',
         },
       ])
@@ -107,7 +107,7 @@ did
 did
   .command('add-service')
   .description('add a service endpoint to did document')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     try {
@@ -116,7 +116,7 @@ did
         {
           type: 'list',
           name: 'did',
-          choices: identifiers.map((item: any) => item.did),
+          choices: identifiers.map((item) => item.did),
           message: 'Select DID',
         },
         {
@@ -155,7 +155,7 @@ did
 did
   .command('remove-service')
   .description('remove a service endpoint from did document')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     try {
@@ -164,7 +164,7 @@ did
         {
           type: 'list',
           name: 'did',
-          choices: identifiers.map((item: any) => item.did),
+          choices: identifiers.map((item) => item.did),
           message: 'Select DID',
         },
         {
@@ -188,7 +188,7 @@ did
 did
   .command('add-key')
   .description('create and add a public key to did document')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     try {
@@ -198,7 +198,7 @@ did
         {
           type: 'list',
           name: 'did',
-          choices: identifiers.map((item: any) => item.did),
+          choices: identifiers.map((item) => item.did),
           message: 'Select DID',
         },
         {
@@ -234,7 +234,7 @@ did
 did
   .command('remove-key')
   .description('remove a key from did document')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     try {
@@ -243,7 +243,7 @@ did
         {
           type: 'list',
           name: 'did',
-          choices: identifiers.map((item: any) => item.did),
+          choices: identifiers.map((item) => item.did),
           message: 'Select DID',
         },
         {
@@ -267,7 +267,7 @@ did
 did
   .command('export')
   .description('export an identifier')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     try {
@@ -276,7 +276,7 @@ did
         {
           type: 'list',
           name: 'did',
-          choices: identifiers.map((item: any) => ({
+          choices: identifiers.map((item) => ({
             name: item.did + ' ' + item.alias,
             value: item.did,
           })),
@@ -295,7 +295,7 @@ did
 did
   .command('import')
   .description('import an identifier')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     try {
@@ -317,7 +317,7 @@ did
 did
   .command('resolve <didUrl>')
   .description('Resolve DID Document')
-  .action(async (didUrl: any) => {
+  .action(async (didUrl) => {
     const agent = getAgent(program.opts().config)
     try {
       const ddo = await agent.resolveDid({ didUrl })

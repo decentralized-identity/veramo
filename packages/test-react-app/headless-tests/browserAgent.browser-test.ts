@@ -12,7 +12,7 @@ import documentationExamples from '../../../__tests__/shared/documentationExampl
 import didCommPacking from '../../../__tests__/shared/didCommPacking'
 import messageHandler from '../../../__tests__/shared/messageHandler'
 import utils from '../../../__tests__/shared/utils'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 jest.setTimeout(10000)
 

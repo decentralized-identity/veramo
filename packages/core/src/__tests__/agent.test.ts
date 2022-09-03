@@ -1,7 +1,7 @@
 import { Agent, createAgent } from '../agent.js'
 import { IAgentPlugin } from '../types/IAgent.js'
 import { IResolver } from '../types/IResolver.js'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 describe('core agent', () => {
   it('should use plugin methods', async () => {
     const plugin: IAgentPlugin = {
@@ -18,8 +18,6 @@ describe('core agent', () => {
     expect(plugin.methods?.doSomething).toBeCalledWith({ foo: 'baz' }, { agent })
     await agent.execute('doSomething', { foo: 'bar' })
     expect(plugin.methods?.doSomething).toBeCalledWith({ foo: 'bar' }, { agent })
-    
-    expect(true).toBeTruthy()
   })
 
   it('should allow method overrides', async () => {
@@ -42,7 +40,6 @@ describe('core agent', () => {
     expect(doSomething).toBeCalledWith({ foo: 'baz' }, { agent })
     await agent.execute('doSomething', { foo: 'bar' })
     expect(doSomething).toBeCalledWith({ foo: 'bar' }, { agent })
-    expect(true).toBeTruthy()
   })
 
   it('should expose only authorized methods', async () => {

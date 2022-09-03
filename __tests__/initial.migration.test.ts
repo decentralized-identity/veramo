@@ -17,7 +17,7 @@ import {
 } from '../packages/core'
 import { DIDResolverPlugin } from '../packages/did-resolver'
 import { EthrDIDProvider } from '../packages/did-provider-ethr'
-import { WebDIDProvider } from '../packages/did-provider-web/src/index.js'
+import { WebDIDProvider } from '../packages/did-provider-web'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key'
 import { DIDComm, IDIDComm } from '../packages/did-comm'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
@@ -39,7 +39,7 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

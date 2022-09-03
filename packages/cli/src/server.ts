@@ -8,7 +8,7 @@ program
   .command('server')
   .description('Launch OpenAPI server')
   .option('-p, --port <number>', 'Optionally set port to override config')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const app = express()
 
     let server: any

@@ -10,14 +10,14 @@ discover
   .description('did discovery')
   .option('-q, --query <string>', 'Query string')
 
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
 
     const response = await agent.discoverDid({ query: cmd.query })
     const list: any = []
 
-    response.results.forEach((r: any) => {
-      r.matches.forEach((m: any) => {
+    response.results.forEach((r) => {
+      r.matches.forEach((m) => {
         list.push({
           provider: r.provider,
           did: m.did,

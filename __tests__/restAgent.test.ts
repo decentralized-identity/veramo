@@ -21,32 +21,32 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../packages/core/src/index.js'
-import { MessageHandler } from '../packages/message-handler/src/index.js'
-import { KeyManager } from '../packages/key-manager/src/index.js'
-import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src/index.js'
-import { DIDResolverPlugin } from '../packages/did-resolver/src/index.js'
-import { JwtMessageHandler } from '../packages/did-jwt/src/index.js'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src/index.js'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src/index.js'
+} from '../packages/core'
+import { MessageHandler } from '../packages/message-handler'
+import { KeyManager } from '../packages/key-manager'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager'
+import { DIDResolverPlugin } from '../packages/did-resolver'
+import { JwtMessageHandler } from '../packages/did-jwt'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c'
+import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
-} from '../packages/credential-ld/src/index.js'
-import { EthrDIDProvider } from '../packages/did-provider-ethr/src/index.js'
-import { WebDIDProvider } from '../packages/did-provider-web/src/index.js'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src/index.js'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src/index.js'
+} from '../packages/credential-ld'
+import { EthrDIDProvider } from '../packages/did-provider-ethr'
+import { WebDIDProvider } from '../packages/did-provider-web'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
   SelectiveDisclosure,
-} from '../packages/selective-disclosure/src/index.js'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src/index.js'
-import { Web3KeyManagementSystem } from '../packages/kms-web3/src/index.js'
+} from '../packages/selective-disclosure'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
+import { Web3KeyManagementSystem } from '../packages/kms-web3'
 import {
   DataStore,
   DataStoreDiscoveryProvider,
@@ -56,11 +56,11 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store/src/index.js'
-import { AgentRestClient } from '../packages/remote-client/src/index.js'
-import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src/index.js'
-import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src/index.js'
-import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
+} from '../packages/data-store'
+import { AgentRestClient } from '../packages/remote-client'
+import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils'
 
 import { DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
@@ -87,7 +87,7 @@ import messageHandler from './shared/messageHandler.js'
 import didDiscovery from './shared/didDiscovery.js'
 import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 jest.setTimeout(10000)
 

@@ -15,13 +15,13 @@ const sdr = program.command('sdr').description('Selective Disclosure Request')
 sdr
   .command('create', { isDefault: true })
   .description('create Selective Disclosure Request')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
 
     const knownDids = await agent.dataStoreORMGetIdentifiers()
 
-    const subjects = [...knownDids.map((id: any) => id.did)]
+    const subjects = [...knownDids.map((id) => id.did)]
 
     if (identifiers.length === 0) {
       console.error('No dids')
@@ -31,7 +31,7 @@ sdr
       {
         type: 'list',
         name: 'iss',
-        choices: identifiers.map((item: any) => item.did),
+        choices: identifiers.map((item) => item.did),
         message: 'Issuer DID',
       },
       {
@@ -265,14 +265,14 @@ sdr
 sdr
   .command('respond')
   .description('respond to Selective Disclosure Request')
-  .action(async (cmd: any) => {
+  .action(async (cmd) => {
     const agent = getAgent(program.opts().config)
     const sdrMessages = await agent.dataStoreORMGetMessages({
       where: [{ column: 'type', value: ['sdr'] }],
       order: [{ column: 'createdAt', direction: 'DESC' }],
     })
 
-    const list = sdrMessages.map((message: any) => ({
+    const list = sdrMessages.map((message) => ({
       //FIXME
       name:
         shortDate(message.createdAt) +
@@ -306,7 +306,7 @@ sdr
       questions.push({
         type: 'checkbox',
         name: item.claimType + ' ' + (item.essential ? '(essential)' : '') + item.reason,
-        choices: item.credentials.map((c: any) => ({
+        choices: item.credentials.map((c) => ({
           name:
             c.verifiableCredential.credentialSubject[item.claimType] +
             ' (' +

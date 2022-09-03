@@ -19,7 +19,7 @@ config
   .option('--filename <string>', 'Config file name', './agent.yml')
   .option('--template <string>', 'Use template (default,client)', 'default')
 
-  .action(async (options: any) => {
+  .action(async (options) => {
     const { filename, template } = options
 
     const templateFile = __dirname + '/../default/' + template + '.yml'
@@ -47,7 +47,7 @@ config
   .alias('key-gen')
   .description('generate secret key')
   .option('-q, --quiet', 'Only print the raw key, no instructions', false)
-  .action(async (options: any) => {
+  .action(async (options) => {
     try {
       const dbEncryptionKey = await SecretBox.createSecretKey()
       if (options.quiet === true) {
@@ -73,7 +73,7 @@ config
   .description('Verify an agent config file syntax')
   .option('-f, --filename <string>', 'Config file name', './agent.yml')
   .option('-m, --method <string>', 'Check that a specific method is exposed by the agent.', 'execute')
-  .action(async (options: any) => {
+  .action(async (options) => {
     const agent = getAgent(options.filename)
     if (!agent) {
       console.error(

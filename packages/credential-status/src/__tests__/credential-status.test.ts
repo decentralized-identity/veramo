@@ -2,7 +2,7 @@ import { createAgent, ICredentialStatusVerifier, VerifiableCredential } from '..
 import { DIDResolverPlugin } from '../../../did-resolver/build/index.js'
 import { CredentialStatusPlugin } from '../../build/credential-status.js'
 import { DIDDocument, DIDResolutionOptions, DIDResolutionResult, Resolvable } from 'did-resolver'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 describe('@veramo/credential-status', () => {
   const referenceDoc: DIDDocument = { id: 'did:example:1234' }

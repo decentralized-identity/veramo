@@ -3,7 +3,7 @@ import { Resolver } from 'did-resolver'
 import { getResolver as getEthrResolver } from "ethr-did-resolver"
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
 import { getUniversalResolverFor } from '../universal-resolver.js'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 jest.setTimeout(10000)
 

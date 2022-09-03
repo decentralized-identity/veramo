@@ -1,7 +1,7 @@
 import { createAgent, IAgentContext, IMessageHandler } from '@veramo/core'
 import { MessageHandler } from '..'
 import { AbstractMessageHandler, Message } from '../../build/index.js'
-import {jest} from '@jest/globals'
+import { jest } from '@jest/globals'
 
 jest.setTimeout(10000)
 
