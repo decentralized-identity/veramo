@@ -126,6 +126,7 @@ dev
         path: resolve(entryFile),
         encodeRefs: false,
         additionalProperties: true,
+        skipTypeCheck: true,
       })
 
       const apiModel: ApiModel = new ApiModel()
