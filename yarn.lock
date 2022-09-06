@@ -9644,28 +9644,12 @@ ethjs-util@0.1.6, ethjs-util@^0.1.6:
     is-hex-prefixed "1.0.0"
     strip-hex-prefix "1.0.0"
 
-ethr-did-registry@1.0.1, ethr-did-registry@^1.0.1:
+ethr-did-registry@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ethr-did-registry/-/ethr-did-registry-1.0.1.tgz#de6e9b5adaaffa8f97cf1351c6c57fbc58c88b96"
   integrity sha512-v80+PLzT6so4Zk8vxPT+vDgtO4QiN/50Xvz8Gxpj+D70Y+dGvFFEJ22pW3OzVuRGqQ9+7yRVz+v1mufFN6lxJw==
 
-ethr-did-resolver@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-6.1.0.tgz#9f72d1e186932941ca0b165a598f6929c34c81dd"
-  integrity sha512-nsTt4QHHNGxviAIn2z6de8wyEYdc48Hcx3VtSB4Vt3a1hXPin7GZaiSFRDsf/nT/U8RPKRwSgy8i21RV3mCsZw==
-  dependencies:
-    "@ethersproject/abi" "^5.6.3"
-    "@ethersproject/abstract-signer" "^5.6.2"
-    "@ethersproject/address" "^5.6.1"
-    "@ethersproject/basex" "^5.6.1"
-    "@ethersproject/bignumber" "^5.6.2"
-    "@ethersproject/contracts" "^5.6.2"
-    "@ethersproject/providers" "^5.6.8"
-    "@ethersproject/transactions" "^5.6.2"
-    did-resolver "^4.0.0"
-    ethr-did-registry "^1.0.0"
-
-ethr-did-resolver@^6.2.1:
+ethr-did-resolver@6.2.1, ethr-did-resolver@^6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-6.2.1.tgz#2edced98b2c165a29a01362cc1d9685edbdfa063"
   integrity sha512-vQCMWfNvkNSEPHpJby4sUIOVdf4pLN6WCrXFNNjfcrQHcZK0TON1/fLOe74E8GOleaRcai4MkAeJrZjU9rd+Zw==
@@ -9683,10 +9667,10 @@ ethr-did-resolver@^6.2.1:
     "@ethersproject/transactions" "^5.6.2"
     did-resolver "^4.0.0"
 
-ethr-did@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/ethr-did/-/ethr-did-2.2.4.tgz#ed9b7b7ad6221d122dda66ef792378c4c26b48ed"
-  integrity sha512-Vh0TSMccvscN/FQim8XS+U9gHhjVLmj8sdki+mlpWygr2REriADuso0mhQrIzNlcDpdsuUOJEcvXJGAJekVSDw==
+ethr-did@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/ethr-did/-/ethr-did-2.2.5.tgz#41e25adef79053636f8968a93cfcf85b1cf509d0"
+  integrity sha512-w6/+ic3YwqJemb0sYLHeRXvG1ipO1YOdEjUcT1UnBBiRY+BGFJHTdmxxyCHsoMyQ2PBn3KVoZAdfD/qwQAIJYg==
   dependencies:
     "@ethersproject/abstract-signer" "^5.6.2"
     "@ethersproject/base64" "^5.6.1"
@@ -9699,7 +9683,7 @@ ethr-did@^2.2.4:
     "@ethersproject/wallet" "^5.6.2"
     did-jwt "^6.3.0"
     did-resolver "^4.0.0"
-    ethr-did-resolver "^6.1.0"
+    ethr-did-resolver "^6.2.1"
 
 event-target-shim@^5.0.0:
   version "5.0.1"
