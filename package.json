@@ -9,10 +9,10 @@
     "build:schema": "cross-env NODE_OPTIONS=--experimental-vm-modules lerna run generate-plugin-schema --stream",
     "lint": "echo \"linting not yet enabled\"",
     "test:integration-build": "yarn test:integration-prepare && yarn test:integration-pretty",
-    "test:integration-prepare": "ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
+    "test:integration-prepare": "ts-node --esm --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
     "test:integration-pretty": "prettier --write __tests__/shared/documentationExamples.ts",
-    "test:integration": "yarn test:integration-build && yarn test:ci",
-    "test:ci": "jest --config=jest.config.json --coverage=true",
+    "test:integration": "cross-env NODE_OPTIONS=\"--experimental-vm-modules \" yarn test:integration-build && yarn test:ci",
+    "test:ci": "cross-env NODE_OPTIONS=\"--experimental-vm-modules \" jest --config=jest.config.json --coverage=true",
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules \" jest --config=jest.config.json --",
     "test:watch": "yarn test --watch --verbose",
     "test:browser": "cd packages/test-react-app && yarn test:browser",
@@ -85,7 +85,8 @@
   "resolutions": {
     "@types/react": "^18.0.12",
     "@types/eslint": "^8.4.3",
-    "commander": "9.0.0"
+    "commander": "9.0.0",
+    "ethr-did-resolver": "6.2.1"
   },
   "engines": {
     "node": ">= 16.16.0"
