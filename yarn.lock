@@ -7403,7 +7403,7 @@ create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
-credential-status@^2.0.5:
+credential-status@2.0.5, credential-status@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/credential-status/-/credential-status-2.0.5.tgz#59e34d30b85664160dd77a4357f1a1237cb7b2bc"
   integrity sha512-hh0pOcRidROn4MC1wF3vNURhPEMSzm3RcpFIl5PFVj5HWgCaZy16nXmrOl5cmr50Jhp2WV48cWbNMxh4OFWU+w==
@@ -7958,12 +7958,12 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
-did-jwt-vc@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-3.0.1.tgz#d390957ac54fbc6504cba5dbad6df410c54136f1"
-  integrity sha512-M4GvWC7WFXjyPXXVdxD+IP8+KUbyizxPFB2z8fErnYQfdQzWuPqz4PM4MkgI3I4V66lNKfn6bgUivXVTuP8i2Q==
+did-jwt-vc@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/did-jwt-vc/-/did-jwt-vc-3.1.0.tgz#aa7877c4c1f26ba11883604ac0ece30ca4fe78a4"
+  integrity sha512-8N54No9RQpbDM4a/aMiGc/tZWubtH8bqi7DLnO6B62AdWaNVKeS9ddcuANztSS1yTuypyzlyeeEtCTqEzpYgjA==
   dependencies:
-    did-jwt "^6.5.0"
+    did-jwt "^6.6.0"
     did-resolver "^4.0.0"
 
 did-jwt@^6.3.0:
@@ -7984,10 +7984,10 @@ did-jwt@^6.3.0:
     multiformats "^9.6.5"
     uint8arrays "^3.0.0"
 
-did-jwt@^6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.5.0.tgz#0179ed25db32c111a667563c0d7b54e5d6ecb939"
-  integrity sha512-yfdqk2N6+161Yeay4HMC5daic/HRIsc+W1r7JQlNtL14fmQyaPgJxnxpXdc7Qmwd+pMlfpi1oOEtraExDE6MzQ==
+did-jwt@^6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.6.0.tgz#e7c932f7e3ff992b15aef7db3d530c81fb34902d"
+  integrity sha512-qSjXEEHS4fSbBHRCC/ObDzPVkCVvuXIfIiGWa03HNRr85gGkbxzBrxUsUbXfXo1CuzeCqmmZpK4nM4VWlZh6bQ==
   dependencies:
     "@stablelib/ed25519" "^1.0.2"
     "@stablelib/random" "^1.0.1"
@@ -8002,7 +8002,7 @@ did-jwt@^6.5.0:
     multiformats "^9.6.5"
     uint8arrays "^3.0.0"
 
-did-resolver@^4.0.0:
+did-resolver@4.0.0, did-resolver@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-4.0.0.tgz#fc8f657b4cd7f44c2921051fb046599fbe7d4b31"
   integrity sha512-/roxrDr9EnAmLs+s9T+8+gcpilMo+IkeytcsGO7dcxvTmVJ+0Rt60HtV8o0UXHhGBo0Q+paMH/0ffXz1rqGFYg==

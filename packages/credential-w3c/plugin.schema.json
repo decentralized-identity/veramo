@@ -25,12 +25,20 @@
             "keyRef": {
               "type": "string",
               "description": "[Optional] The ID of the key that should sign this credential. If this is not specified, the first matching key will be used."
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
             }
           },
           "required": [
             "credential",
             "proofFormat"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "CredentialPayload": {
@@ -229,12 +237,20 @@
             "keyRef": {
               "type": "string",
               "description": "[Optional] The ID of the key that should sign this presentation. If this is not specified, the first matching key will be used."
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
             }
           },
           "required": [
             "presentation",
             "proofFormat"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
         "PresentationPayload": {
@@ -370,86 +386,50 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
               "default": false
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerificationPolicies",
+              "description": "Overrides specific aspects of credential verification, where possible."
             }
           },
           "required": [
             "credential"
           ],
           "additionalProperties": {
-            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
           },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
-        "IVerifyPresentationArgs": {
-          "type": "object",
-          "properties": {
-            "presentation": {
-              "$ref": "#/components/schemas/W3CVerifiablePresentation",
-              "description": "The Verifiable Presentation object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
-            },
-            "challenge": {
-              "type": "string",
-              "description": "Optional (only for JWT) string challenge parameter to verify the verifiable presentation against"
-            },
-            "domain": {
-              "type": "string",
-              "description": "Optional (only for JWT) string domain parameter to verify the verifiable presentation against"
-            },
-            "fetchRemoteContexts": {
-              "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not pre-loaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
-              "default": false
-            },
-            "policies": {
-              "$ref": "#/components/schemas/VerifyPresentationPolicies",
-              "description": "Verification Policies for the verifiable presentation These will also be forwarded to the lower level module"
-            }
-          },
-          "required": [
-            "presentation"
-          ],
-          "additionalProperties": {
-            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
-          },
-          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
-        },
-        "W3CVerifiablePresentation": {
-          "anyOf": [
-            {
-              "$ref": "#/components/schemas/VerifiablePresentation"
-            },
-            {
-              "$ref": "#/components/schemas/CompactJWT"
-            }
-          ],
-          "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
-        },
-        "VerifyPresentationPolicies": {
+        "VerificationPolicies": {
           "type": "object",
           "properties": {
             "now": {
               "type": "number",
-              "description": "policy to over the now (current time) during the verification check"
+              "description": "policy to over the now (current time) during the verification check (UNIX time in seconds)"
             },
             "issuanceDate": {
               "type": "boolean",
-              "description": "policy to override the issuanceDate (nbf) timestamp check"
-            },
-            "issuedAtDate": {
-              "type": "boolean",
-              "description": "policy to override the issuedAtDate (iat) timestamp check"
+              "description": "policy to skip the issuanceDate (nbf) timestamp check when set to `false`"
             },
             "expirationDate": {
               "type": "boolean",
-              "description": "policy to override the expirationDate (exp) timestamp check"
+              "description": "policy to skip the expirationDate (exp) timestamp check when set to `false`"
+            },
+            "audience": {
+              "type": "boolean",
+              "description": "policy to skip the audience check when set to `false`"
+            },
+            "credentialStatus": {
+              "type": "boolean",
+              "description": "policy to skip the revocation check (credentialStatus) when set to `false`"
             }
           },
           "additionalProperties": {
             "description": "Other options can be specified for verification. They will be forwarded to the lower level modules that perform the checks"
           },
-          "description": "These optional settings can be used to override some of the default checks that are performed on Presentations during verification."
+          "description": "These optional settings can be used to override some default checks that are performed on Presentations during verification."
         },
         "IVerifyResult": {
           "type": "object",
@@ -484,6 +464,50 @@
             }
           },
           "description": "An error object, which can contain a code."
+        },
+        "IVerifyPresentationArgs": {
+          "type": "object",
+          "properties": {
+            "presentation": {
+              "$ref": "#/components/schemas/W3CVerifiablePresentation",
+              "description": "The Verifiable Presentation object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
+            },
+            "challenge": {
+              "type": "string",
+              "description": "Optional (only for JWT) string challenge parameter to verify the verifiable presentation against"
+            },
+            "domain": {
+              "type": "string",
+              "description": "Optional (only for JWT) string domain parameter to verify the verifiable presentation against"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.",
+              "default": false
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerificationPolicies",
+              "description": "Overrides specific aspects of credential verification, where possible."
+            }
+          },
+          "required": [
+            "presentation"
+          ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
+          },
+          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+        },
+        "W3CVerifiablePresentation": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiablePresentation"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         }
       },
       "methods": {
@@ -511,7 +535,7 @@
             "$ref": "#/components/schemas/IVerifyCredentialArgs"
           },
           "returnType": {
-            "type": "boolean"
+            "$ref": "#/components/schemas/IVerifyResult"
           }
         },
         "verifyPresentation": {

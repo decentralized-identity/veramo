@@ -21,7 +21,7 @@
     "@veramo/utils": "^3.1.4",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
-    "did-jwt": "^6.3.0",
+    "did-jwt": "^6.6.0",
     "did-resolver": "^4.0.0",
     "uint8arrays": "^3.0.0",
     "uuid": "^8.3.0"
