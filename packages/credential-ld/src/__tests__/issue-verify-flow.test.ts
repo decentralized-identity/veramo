@@ -91,11 +91,11 @@ describe('credential-LD full flow', () => {
 
     expect(verifiableCredential).toBeDefined()
 
-    const verified = await agent.verifyCredential({
+    const result = await agent.verifyCredential({
       credential: verifiableCredential,
     })
 
-    expect(verified).toBe(true)
+    expect(result.verified).toBe(true)
   })
 
   it('works with EcdsaSecp256k1RecoveryMethod2020 credentials', async () => {
@@ -113,11 +113,11 @@ describe('credential-LD full flow', () => {
 
     expect(verifiableCredential).toBeDefined()
 
-    const verified = await agent.verifyCredential({
+    const result = await agent.verifyCredential({
       credential: verifiableCredential,
     })
 
-    expect(verified).toBe(true)
+    expect(result.verified).toBe(true)
   })
 
   it('works with Ed25519Signature2018 credential and presentation', async () => {
@@ -144,12 +144,12 @@ describe('credential-LD full flow', () => {
 
     expect(verifiablePresentation).toBeDefined()
 
-    const verified = await agent.verifyPresentation({
+    const result = await agent.verifyPresentation({
       presentation: verifiablePresentation,
       challenge: 'VERAMO',
     })
 
-    expect(verified).toBe(true)
+    expect(result.verified).toBe(true)
   })
 
   it('works with EcdsaSecp256k1RecoveryMethod2020 credential and presentation', async () => {
@@ -179,11 +179,11 @@ describe('credential-LD full flow', () => {
 
     expect(verifiablePresentation).toBeDefined()
 
-    const verified = await agent.verifyPresentation({
+    const result = await agent.verifyPresentation({
       presentation: verifiablePresentation,
       challenge: 'VERAMO',
     })
 
-    expect(verified).toBe(true)
+    expect(result.verified).toBe(true)
   })
 })

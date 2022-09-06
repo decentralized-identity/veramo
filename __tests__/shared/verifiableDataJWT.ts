@@ -7,9 +7,12 @@ import {
   IIdentifier,
   TAgent,
   TKeyType,
+  VerifiableCredential,
+  VerifiablePresentation,
 } from '../../packages/core/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { decodeJWT } from 'did-jwt'
+import { VC_JWT_ERROR } from 'did-jwt-vc'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 
@@ -25,13 +28,9 @@ export default (testContext: {
     beforeAll(async () => {
       await testContext.setup()
       agent = testContext.getAgent()
+      identifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:key' })
     })
     afterAll(testContext.tearDown)
-
-    it('should create identifier', async () => {
-      identifier = await agent.didManagerCreate({ kms: 'local' })
-      expect(identifier).toHaveProperty('did')
-    })
 
     it('should create verifiable credential in JWT', async () => {
       const verifiableCredential = await agent.createVerifiableCredential({
@@ -274,7 +273,7 @@ export default (testContext: {
       }
 
       beforeAll(async () => {
-        const imported = await agent.didManagerImport(importedDID)
+        await agent.didManagerImport(importedDID)
       })
 
       it('signs JWT with ES256K', async () => {
@@ -297,6 +296,173 @@ export default (testContext: {
           type: ['VerifiableCredential', 'Example'],
           '@context': ['https://www.w3.org/2018/credentials/v1'],
         })
+      })
+    })
+
+    describe('credential verification policies', () => {
+      let credential: VerifiableCredential
+
+      beforeAll(async () => {
+        const issuanceDate = '2019-08-19T09:15:20.000Z' // 1566206120
+        const expirationDate = '2019-08-20T10:42:31.000Z' // 1566297751
+        credential = await agent.createVerifiableCredential({
+          proofFormat: 'jwt',
+          credential: {
+            issuer: identifier.did,
+            issuanceDate,
+            expirationDate,
+            credentialSubject: {
+              hello: 'world',
+            },
+          },
+        })
+      })
+
+      it('can verify credential at a particular time', async () => {
+        const result = await agent.verifyCredential({ credential })
+        expect(result.verified).toBe(false)
+        expect(result?.error?.errorCode).toEqual(VC_JWT_ERROR.INVALID_JWT)
+
+        const result2 = await agent.verifyCredential({
+          credential,
+          policies: { now: 1566297000 },
+        })
+        expect(result2.verified).toBe(true)
+      })
+
+      it('can override expiry check', async () => {
+        const result = await agent.verifyCredential({
+          credential,
+          policies: { expirationDate: false },
+        })
+        expect(result.verified).toBe(true)
+      })
+
+      it('can override issuance check', async () => {
+        const result = await agent.verifyCredential({
+          credential,
+          policies: { issuanceDate: false, now: 1565000000 },
+        })
+        expect(result.verified).toBe(true)
+      })
+
+      it('can override audience check', async () => {
+        const cred = await agent.createVerifiableCredential({
+          proofFormat: 'jwt',
+          credential: {
+            issuer: identifier.did,
+            aud: 'override me',
+            credentialSubject: {
+              hello: 'world',
+            },
+          },
+        })
+        const result = await agent.verifyCredential({ credential: cred })
+        expect(result.verified).toBe(false)
+        expect(result.error?.errorCode).toEqual(VC_JWT_ERROR.INVALID_AUDIENCE)
+
+        const result2 = await agent.verifyCredential({ credential: cred, policies: { audience: false } })
+        expect(result2.verified).toBe(true)
+      })
+
+      it('can override credentialStatus check', async () => {
+        const cred = await agent.createVerifiableCredential({
+          proofFormat: 'jwt',
+          credential: {
+            issuer: identifier.did,
+            credentialSubject: {
+              hello: 'world',
+            },
+            credentialStatus: {
+              id: 'override me',
+              type: 'ThisMethodDoesNotExist2022',
+            },
+          },
+        })
+        await expect(agent.verifyCredential({ credential: cred })).rejects.toThrow(/^invalid_setup:/)
+
+        const result2 = await agent.verifyCredential({
+          credential: cred,
+          policies: { credentialStatus: false },
+        })
+        expect(result2.verified).toBe(true)
+      })
+    })
+
+    describe('presentation verification policies', () => {
+      let credential: VerifiableCredential
+      let presentation: VerifiablePresentation
+
+      beforeAll(async () => {
+        const issuanceDate = '2019-08-19T09:15:20.000Z' // 1566206120
+        const expirationDate = '2019-08-20T10:42:31.000Z' // 1566297751
+        credential = await agent.createVerifiableCredential({
+          proofFormat: 'jwt',
+          credential: {
+            issuer: identifier.did,
+            credentialSubject: {
+              hello: 'world',
+            },
+          },
+        })
+        presentation = await agent.createVerifiablePresentation({
+          proofFormat: 'jwt',
+          presentation: {
+            holder: identifier.did,
+            verifiableCredential: [credential],
+            issuanceDate,
+            expirationDate,
+          },
+        })
+      })
+
+      it('can verify presentation at a particular time', async () => {
+        const result = await agent.verifyPresentation({ presentation })
+        expect(result.verified).toBe(false)
+        expect(result?.error?.errorCode).toEqual(VC_JWT_ERROR.INVALID_JWT)
+
+        const result2 = await agent.verifyPresentation({
+          presentation,
+          policies: { now: 1566297000 },
+        })
+        expect(result2.verified).toBe(true)
+      })
+
+      it('can override expiry check', async () => {
+        const result = await agent.verifyPresentation({
+          presentation,
+          policies: { expirationDate: false },
+        })
+        expect(result.verified).toBe(true)
+      })
+
+      it('can override issuance check', async () => {
+        const result = await agent.verifyPresentation({
+          presentation,
+          policies: { issuanceDate: false, now: 1565000000 },
+        })
+        expect(result.verified).toBe(true)
+      })
+
+      it('can override audience check', async () => {
+        const pres = await agent.createVerifiablePresentation({
+          proofFormat: 'jwt',
+          presentation: {
+            holder: identifier.did,
+            verifiableCredential: [credential],
+          },
+          challenge: '1234',
+          domain: 'example.com',
+        })
+        const result = await agent.verifyPresentation({ presentation: pres })
+        expect(result.verified).toBe(false)
+        expect(result.error?.errorCode).toEqual(VC_JWT_ERROR.INVALID_AUDIENCE)
+
+        const result2 = await agent.verifyPresentation({
+          presentation: pres,
+          policies: { audience: false },
+        })
+        expect(result2.verified).toBe(true)
       })
     })
   })

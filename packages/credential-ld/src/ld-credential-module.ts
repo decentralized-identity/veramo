@@ -28,6 +28,7 @@ export class LdCredentialModule {
 
   private ldContextLoader: LdContextLoader
   ldSuiteLoader: LdSuiteLoader
+
   constructor(options: { ldContextLoader: LdContextLoader; ldSuiteLoader: LdSuiteLoader }) {
     this.ldContextLoader = options.ldContextLoader
     this.ldSuiteLoader = options.ldSuiteLoader
@@ -97,15 +98,17 @@ export class LdCredentialModule {
     issuerDid: string,
     key: IKey,
     verificationMethodId: string,
+    options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiableCredential> {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
-    const documentLoader = this.getDocumentLoader(context)
+    const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     // some suites can modify the incoming credential (e.g. add required contexts)
     suite.preSigningCredModification(credential)
 
     return await vc.issue({
+      ...options,
       credential,
       suite: suite.getSuiteForSigning(key, issuerDid, verificationMethodId, context),
       documentLoader,
@@ -120,14 +123,16 @@ export class LdCredentialModule {
     verificationMethodId: string,
     challenge: string | undefined,
     domain: string | undefined,
+    options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiablePresentation> {
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
-    const documentLoader = this.getDocumentLoader(context)
+    const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     suite.preSigningPresModification(presentation)
 
     return await vc.signPresentation({
+      ...options,
       presentation,
       suite: suite.getSuiteForSigning(key, holderDid, verificationMethodId, context),
       challenge,
@@ -140,9 +145,11 @@ export class LdCredentialModule {
   async verifyCredential(
     credential: VerifiableCredential,
     fetchRemoteContexts: boolean = false,
+    options: any,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
     const result = await vc.verifyCredential({
+      ...options,
       credential,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
@@ -150,13 +157,12 @@ export class LdCredentialModule {
       checkStatus: async () => Promise.resolve({ verified: true }), // Fake method
     })
 
-    if (result.verified) return true
+    if (!result.verified) {
+      // result can include raw Error
+      debug(`Error verifying LD Credential: ${JSON.stringify(result, null, 2)}`)
+    }
 
-    // NOT verified.    
-    // result can include raw Error
-    debug(`Error verifying LD Verifiable Credential: ${JSON.stringify(result, null, 2)}`)
-    // console.log(JSON.stringify(result, null, 2));
-    throw Error('Error verifying LD Verifiable Credential')
+    return result
   }
 
   async verifyPresentation(
@@ -164,9 +170,11 @@ export class LdCredentialModule {
     challenge: string | undefined,
     domain: string | undefined,
     fetchRemoteContexts: boolean = false,
+    options: any,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
     const result = await vc.verify({
+      ...options,
       presentation,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
@@ -175,13 +183,10 @@ export class LdCredentialModule {
       compactProof: false,
     })
 
-    if (result.verified) return true
-
-    // NOT verified.
-
-    // result can include raw Error
-    console.log(`Error verifying LD Verifiable Presentation`)
-    console.log(JSON.stringify(result, null, 2))
-    throw Error('Error verifying LD Verifiable Presentation')
+    if (!result.verified) {
+      // result can include raw Error
+      debug(`Error verifying LD Presentation: ${JSON.stringify(result, null, 2)}`)
+    }
+    return result
   }
 }

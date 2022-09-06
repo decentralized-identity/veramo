@@ -190,7 +190,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const network = this.getNetworkFor(networkSpecifier)
     if (!network) {
       throw new Error(
-        `invalid_config: Cannot create did:ethr. There is no known configuration for network=${networkSpecifier}'`,
+        `invalid_setup: Cannot create did:ethr. There is no known configuration for network=${networkSpecifier}'`,
       )
     }
     if (typeof networkSpecifier === 'number') {

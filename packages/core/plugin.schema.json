@@ -1119,7 +1119,8 @@
             {
               "type": "object"
             }
-          ]
+          ],
+          "description": "Represents a service endpoint URL or a map of URLs"
         },
         "IDIDManagerCreateArgs": {
           "type": "object",
@@ -2347,7 +2348,8 @@
             {
               "type": "object"
             }
-          ]
+          ],
+          "description": "Represents a service endpoint URL or a map of URLs"
         },
         "FindMessagesArgs": {
           "$ref": "#/components/schemas/FindArgs-TMessageColumns",

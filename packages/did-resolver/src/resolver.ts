@@ -36,7 +36,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
       this.didResolver = new Resolver(resolverMap as Record<string, DIDResolver>)
     } else {
       throw Error(
-        'invalid_config: The DIDResolverPlugin must be initialized with a Resolvable or a map of methods to DIDResolver implementations',
+        'invalid_setup: The DIDResolverPlugin must be initialized with a Resolvable or a map of methods to DIDResolver implementations',
       )
     }
 
