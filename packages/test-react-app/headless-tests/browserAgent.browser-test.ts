@@ -14,7 +14,7 @@ import messageHandler from '../../../__tests__/shared/messageHandler'
 import utils from '../../../__tests__/shared/utils'
 import { jest } from '@jest/globals'
 
-jest.setTimeout(10000)
+jest.setTimeout(30000)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {

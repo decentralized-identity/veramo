@@ -23,7 +23,7 @@ import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
 import { jest } from '@jest/globals'
 
-jest.setTimeout(10000)
+jest.setTimeout(30000)
 
 const customContext: Record<string, ContextDoc> = {
   'custom:example.context': {

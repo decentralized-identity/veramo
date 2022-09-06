@@ -67,7 +67,7 @@ import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
 
-jest.setTimeout(10000)
+jest.setTimeout(30000)
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
