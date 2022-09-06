@@ -1,6 +1,5 @@
 import { getAgent } from './setup.js'
-import { Command } from 'commander';
-const program = new Command();
+import { program } from 'commander';
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
