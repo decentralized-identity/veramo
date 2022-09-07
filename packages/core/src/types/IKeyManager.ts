@@ -194,7 +194,7 @@ export interface IKeyManagerSignEthTXArgs {
  *
  * The methods of this plugin are used automatically by other plugins, such as
  * {@link @veramo/did-manager#DIDManager | DIDManager},
- * {@link @veramo/credential-w3c#CredentialIssuer | CredentialIssuer}, or {@link @veramo/did-comm#DIDComm | DIDComm} to
+ * {@link @veramo/credential-w3c#CredentialPlugin | CredentialPlugin}, or {@link @veramo/did-comm#DIDComm | DIDComm} to
  * perform their required cryptographic operations using the managed keys.
  *
  * @public

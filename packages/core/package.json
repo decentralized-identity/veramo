@@ -16,6 +16,9 @@
       "IDataStore": "./src/types/IDataStore.ts",
       "IDataStoreORM": "./src/types/IDataStoreORM.ts",
       "IMessageHandler": "./src/types/IMessageHandler.ts",
+      "ICredentialIssuer": "./src/types/ICredentialIssuer.ts",
+      "ICredentialVerifier": "./src/types/ICredentialVerifier.ts",
+      "ICredentialPlugin": "./src/types/ICredentialPlugin.ts",
       "ICredentialStatus": "./src/types/ICredentialStatus.ts",
       "ICredentialStatusVerifier": "./src/types/ICredentialStatusVerifier.ts",
       "ICredentialStatusManager": "./src/types/ICredentialStatusManager.ts"

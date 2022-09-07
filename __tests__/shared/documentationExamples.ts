@@ -8,8 +8,14 @@
  * `generate-plugin-schema`.
  */
 
-import { IDataStore, IDataStoreORM, IDIDManager, IMessageHandler, TAgent } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+import {
+  ICredentialIssuer,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IMessageHandler,
+  TAgent,
+} from '../../packages/core/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
 
 type ConfiguredAgent = TAgent<

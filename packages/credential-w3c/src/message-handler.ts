@@ -1,4 +1,10 @@
-import { IAgentContext, IResolver, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
+import {
+  IAgentContext,
+  ICredentialVerifier,
+  IResolver,
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import { asArray, computeEntryHash, decodeCredentialToObject, extractIssuer } from '@veramo/utils'
 import {
@@ -6,10 +12,7 @@ import {
   normalizePresentation,
   validateJwtCredentialPayload,
   validateJwtPresentationPayload,
-  VC_ERROR,
 } from 'did-jwt-vc'
-import { JWT_ERROR } from 'did-jwt'
-import { ICredentialIssuer } from './action-handler'
 import { v4 as uuidv4 } from 'uuid'
 import Debug from 'debug'
 
@@ -33,7 +36,7 @@ export const MessageTypes = {
  *
  * This interface can be used for static type checks, to make sure your application is properly initialized.
  */
-export type IContext = IAgentContext<IResolver & ICredentialIssuer>
+export type IContext = IAgentContext<IResolver & ICredentialVerifier>
 
 /**
  * An implementation of the {@link @veramo/message-handler#AbstractMessageHandler}.

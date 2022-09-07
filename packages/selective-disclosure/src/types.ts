@@ -7,7 +7,7 @@ import {
   UniqueVerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
-import { ICredentialIssuer } from '@veramo/credential-w3c'
+import { ICredentialIssuer } from '@veramo/core'
 
 /**
  * Used for requesting Credentials using Selective Disclosure.

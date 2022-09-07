@@ -1,5 +1,5 @@
-import { DIDResolutionResult } from '@veramo/core'
-import { Message } from '@veramo/message-handler'
+import { DIDResolutionResult } from '../../../core/src'
+import { Message } from '../../../message-handler/src'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { IContext } from '../message-handler'
 import { blake2bHex } from 'blakejs'

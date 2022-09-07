@@ -1,7 +1,7 @@
 /**
- * Provides a {@link @veramo/credential-w3c#CredentialIssuer | plugin} for the {@link @veramo/core#Agent} that
+ * Provides a {@link @veramo/credential-w3c#CredentialPlugin | plugin} for the {@link @veramo/core#Agent} that
  * implements
- * {@link @veramo/credential-w3c#ICredentialIssuer} interface.
+ * {@link @veramo/core#ICredentialIssuer} interface.
  *
  * Provides a {@link @veramo/credential-w3c#W3cMessageHandler | plugin} for the
  * {@link @veramo/message-handler#MessageHandler} that verifies Credentials and Presentations in a message.
@@ -9,17 +9,14 @@
  * @packageDocumentation
  */
 export { W3cMessageHandler, MessageTypes } from './message-handler'
-export {
-  CredentialIssuer,
-  ICredentialIssuer,
-  ICreateVerifiableCredentialArgs,
-  ICreateVerifiablePresentationArgs,
-  ProofFormat,
-} from './action-handler'
+import { CredentialPlugin } from './action-handler'
+
 /**
- * The parameter and return type schemas for the methods of the {@link @veramo/credential-w3c#ICredentialIssuer} plugin.
- *
+ * @deprecated please use {@link CredentialPlugin} instead
  * @public
  */
-const schema = require('../plugin.schema.json')
-export { schema }
+const CredentialIssuer = CredentialPlugin
+export { CredentialIssuer, CredentialPlugin }
+
+// For backward compatibility, re-export the plugin types that were moved to core in v4
+export { ICredentialIssuer, ICredentialVerifier } from '@veramo/core'

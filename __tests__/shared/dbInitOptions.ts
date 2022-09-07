@@ -2,6 +2,7 @@
 
 import {
   IAgentOptions,
+  ICredentialIssuer,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -12,7 +13,6 @@ import {
   IResolver,
   TAgent,
 } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
 import { extractIssuer } from '../../packages/utils/src'
 

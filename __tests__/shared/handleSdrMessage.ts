@@ -1,6 +1,7 @@
 // noinspection ES6PreferShortImport
 
 import {
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -8,11 +9,10 @@ import {
   IMessageHandler,
   TAgent,
 } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { ISelectiveDisclosure, SelectiveDisclosure } from '../../packages/selective-disclosure/src'
 
 type ConfiguredAgent = TAgent<
-  IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
+  IDIDManager & ICredentialPlugin & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
 >
 
 export default (testContext: {

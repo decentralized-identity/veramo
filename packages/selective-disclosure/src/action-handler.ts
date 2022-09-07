@@ -8,7 +8,7 @@ import {
   TClaimsColumns,
   VerifiablePresentation,
 } from '@veramo/core'
-import { ICredentialIssuer } from '@veramo/credential-w3c'
+import { ICredentialIssuer } from '@veramo/core'
 import {
   ICreateProfileCredentialsArgs,
   ICreateSelectiveDisclosureRequestArgs,

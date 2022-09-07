@@ -1,6 +1,7 @@
 // noinspection ES6PreferShortImport
 
 import {
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -10,11 +11,10 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { decodeJWT } from 'did-jwt'
 import { VC_JWT_ERROR } from 'did-jwt-vc'
 
-type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
+type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent

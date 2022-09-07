@@ -1,6 +1,7 @@
 // noinspection ES6PreferShortImport
 
 import {
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -9,11 +10,10 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { ICredentialIssuerEIP712 } from '../../packages/credential-eip712/src'
 
 type ConfiguredAgent = TAgent<
-  IDIDManager & ICredentialIssuer & ICredentialIssuerEIP712 & IDataStore & IDataStoreORM
+  IDIDManager & ICredentialPlugin & ICredentialIssuerEIP712 & IDataStore & IDataStoreORM
 >
 
 export default (testContext: {
