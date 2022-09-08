@@ -1,18 +1,21 @@
 // noinspection ES6PreferShortImport
 
 import {
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
   IIdentifier,
+  IMessageHandler,
   TAgent,
   VerifiableCredential,
   VerifiablePresentation,
 } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 
-type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM & IDIDComm>
+type ConfiguredAgent = TAgent<
+  IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM & IDIDComm & IMessageHandler
+>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent

@@ -1,6 +1,7 @@
 import 'cross-fetch/polyfill'
 import yaml from 'yaml'
 import {
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -9,7 +10,6 @@ import {
   IResolver,
   TAgent,
 } from '@veramo/core'
-import { ICredentialIssuer } from '@veramo/credential-w3c'
 import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
 import { IDIDDiscovery } from '@veramo/did-discovery'
@@ -40,13 +40,13 @@ export type EnabledInterfaces = IDIDManager &
   IResolver &
   IMessageHandler &
   IDIDComm &
-  ICredentialIssuer &
+  ICredentialPlugin &
   ISelectiveDisclosure &
   IDIDDiscovery
 
 export type ConfiguredAgent = TAgent<EnabledInterfaces>
 
-export function getAgent(fileName: string) {
+export function getAgent(fileName: string): ConfiguredAgent {
   try {
     return createAgentFromConfig<EnabledInterfaces>(getConfig(fileName))
   } catch (e: any) {

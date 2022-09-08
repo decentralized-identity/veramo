@@ -5,7 +5,7 @@
  *
  * This plugin adds support for working with JSON-LD credentials.
  * When installed, this plugin will be automatically used by
- * {@link @veramo/credential-w3c#CredentialIssuer | CredentialIssuer} if the user requests the credential to be signed
+ * {@link @veramo/credential-w3c#CredentialPlugin | CredentialPlugin} if the user requests the credential to be signed
  * by one of the installed signature suites.
  *
  * @packageDocumentation

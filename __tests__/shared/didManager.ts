@@ -51,8 +51,8 @@ export default (testContext: {
         options: {
           // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:rinkeby` network specifier
           // because the configured network has that name
-          network: 421611
-        }
+          network: 421611,
+        },
       })
       expect(identifier.provider).toEqual('did:ethr')
       expect(identifier.did).toMatch(/^did:ethr:arbitrum:rinkeby:0x.*$/)

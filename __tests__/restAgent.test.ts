@@ -27,7 +27,12 @@ import { KeyManager } from '../packages/key-manager/src'
 import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import {
+  CredentialIssuer,
+  ICredentialIssuer,
+  ICredentialVerifier,
+  W3cMessageHandler,
+} from '../packages/credential-w3c/src'
 import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
 import {
   CredentialIssuerLD,
@@ -109,7 +114,8 @@ const getAgent = (options?: IAgentOptions) =>
       IResolver &
       IMessageHandler &
       IDIDComm &
-      ICredentialIssuer &
+      ICredentialIssuer & // import from old package to check compatibility
+      ICredentialVerifier &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
       ISelectiveDisclosure &
@@ -200,6 +206,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm([new DIDCommHttpTransport()]),
+      // intentionally use the deprecated name to test compatibility
       new CredentialIssuer(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({

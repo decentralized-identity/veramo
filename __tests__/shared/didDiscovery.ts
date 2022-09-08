@@ -1,8 +1,7 @@
 // noinspection ES6PreferShortImport
 
 import { IDIDDiscovery } from '../../packages/did-discovery/src'
-import { IAgentOptions, IDataStoreORM, IDIDManager, TAgent } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+import { IAgentOptions, ICredentialIssuer, IDataStoreORM, IDIDManager, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IDIDDiscovery & IDataStoreORM & ICredentialIssuer>
 

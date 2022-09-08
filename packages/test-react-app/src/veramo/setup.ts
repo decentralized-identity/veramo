@@ -1,13 +1,14 @@
 import {
   createAgent,
   IAgentOptions,
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
   IKeyManager,
   IMessageHandler,
   IResolver,
-  TAgent
+  TAgent,
 } from '@veramo/core'
 
 import { DIDResolverPlugin } from '@veramo/did-resolver'
@@ -18,13 +19,13 @@ import { MessageHandler } from '@veramo/message-handler'
 import { KeyManager } from '@veramo/key-manager'
 import { DIDManager } from '@veramo/did-manager'
 import { JwtMessageHandler } from '@veramo/did-jwt'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '@veramo/credential-w3c'
+import { CredentialPlugin, W3cMessageHandler } from '@veramo/credential-w3c'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
-  VeramoEd25519Signature2018
+  VeramoEd25519Signature2018,
 } from '@veramo/credential-ld'
 import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
@@ -33,30 +34,28 @@ import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
 import { Web3KeyManagementSystem } from '@veramo/kms-web3'
 import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { WebDIDProvider } from '@veramo/did-provider-web'
-import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from "@veramo/data-store-json";
-import { FakeDidProvider, FakeDidResolver } from "@veramo/test-utils";
+import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from '@veramo/data-store-json'
+import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
 
 const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
 const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
 
 const memoryJsonStore = {
-  notifyUpdate: () => Promise.resolve()
+  notifyUpdate: () => Promise.resolve(),
 }
 
-type InstalledPlugins =
-  IResolver
-  & IKeyManager
-  & IDIDManager
-  & ICredentialIssuer
-  & ICredentialIssuerLD
-  & IDataStoreORM
-  & IDataStore
-  & IMessageHandler
-  & ISelectiveDisclosure
-  & IDIDComm
+type InstalledPlugins = IResolver &
+  IKeyManager &
+  IDIDManager &
+  ICredentialPlugin &
+  ICredentialIssuerLD &
+  IDataStoreORM &
+  IDataStore &
+  IMessageHandler &
+  ISelectiveDisclosure &
+  IDIDComm
 
 export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
-
   const agent: TAgent<InstalledPlugins> = createAgent<InstalledPlugins>({
     ...options,
     plugins: [
@@ -71,8 +70,10 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
       new KeyManager({
         store: new KeyStoreJson(memoryJsonStore),
         kms: {
-          local: new KeyManagementSystem(new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(DB_SECRET_KEY))),
-          web3: new Web3KeyManagementSystem({})
+          local: new KeyManagementSystem(
+            new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(DB_SECRET_KEY)),
+          ),
+          web3: new Web3KeyManagementSystem({}),
         },
       }),
       new DIDManager({
@@ -118,13 +119,10 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
         ],
       }),
       new DIDComm(),
-      new CredentialIssuer(),
+      new CredentialPlugin(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018()
-        ],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
       }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),

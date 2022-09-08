@@ -1,18 +1,21 @@
 import {
-  CredentialPayload,
   IAgentContext,
   IAgentPlugin,
-  IDataStore,
-  IDIDManager,
+  ICreateVerifiableCredentialArgs,
+  ICreateVerifiablePresentationArgs,
+  ICredentialPlugin,
+  ICredentialStatusVerifier,
   IIdentifier,
   IKey,
   IKeyManager,
-  IPluginMethodMap,
-  IResolver,
+  IssuerAgentContext,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
   IVerifyResult,
-  PresentationPayload,
+  schema,
   VerifiableCredential,
   VerifiablePresentation,
+  VerifierAgentContext,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core'
@@ -37,7 +40,6 @@ import {
 } from '@veramo/utils'
 import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
-import { schema } from './'
 
 const enum DocumentFormat {
   JWT,
@@ -48,368 +50,13 @@ const enum DocumentFormat {
 const debug = Debug('veramo:w3c:action-handler')
 
 /**
- * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
- *
- * Only `jwt` and `lds` is supported at the moment.
+ * A Veramo plugin that implements the {@link @veramo/core#ICredentialPlugin | ICredentialPlugin} methods.
  *
  * @public
  */
-export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021'
-
-/**
- * Encapsulates the parameters required to create a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @public
- */
-export interface ICreateVerifiablePresentationArgs {
-  /**
-   * The JSON payload of the Presentation according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
-   *
-   * The signer of the Presentation is chosen based on the `holder` property
-   * of the `presentation`
-   *
-   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
-   */
-  presentation: PresentationPayload
-
-  /**
-   * If this parameter is true, the resulting VerifiablePresentation is sent to the
-   * {@link @veramo/core#IDataStore | storage plugin} to be saved.
-   * <p/><p/>
-   * @deprecated Please call
-   *   {@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to
-   *   save the credential after creating it.
-   */
-  save?: boolean
-
-  /**
-   * Optional (only JWT) string challenge parameter to add to the verifiable presentation.
-   */
-  challenge?: string
-
-  /**
-   * Optional string domain parameter to add to the verifiable presentation.
-   */
-  domain?: string
-
-  /**
-   * The desired format for the VerifiablePresentation to be created.
-   * Currently, only JWT is supported
-   */
-  proofFormat: ProofFormat
-
-  /**
-   * Remove payload members during JWT-JSON transformation. Defaults to `true`.
-   * See https://www.w3.org/TR/vc-data-model/#jwt-encoding
-   */
-  removeOriginalFields?: boolean
-
-  /**
-   * [Optional] The ID of the key that should sign this presentation.
-   * If this is not specified, the first matching key will be used.
-   */
-  keyRef?: string
-
-  /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
-   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded.
-   * The context definitions SHOULD rather be provided at startup instead of being fetched.
-   *
-   * @default false
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Any other options that can be forwarded to the lower level libraries
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to create a
- * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
- *
- * @public
- */
-export interface ICreateVerifiableCredentialArgs {
-  /**
-   * The JSON payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-   *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
-   *
-   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
-   */
-  credential: CredentialPayload
-
-  /**
-   * If this parameter is true, the resulting VerifiablePresentation is sent to the
-   * {@link @veramo/core#IDataStore | storage plugin} to be saved.
-   *
-   * @deprecated Please call
-   *   {@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save
-   *   the credential after creating it.
-   */
-  save?: boolean
-
-  /**
-   * The desired format for the VerifiablePresentation to be created.
-   */
-  proofFormat: ProofFormat
-
-  /**
-   * Remove payload members during JWT-JSON transformation. Defaults to `true`.
-   * See https://www.w3.org/TR/vc-data-model/#jwt-encoding
-   */
-  removeOriginalFields?: boolean
-
-  /**
-   * [Optional] The ID of the key that should sign this credential.
-   * If this is not specified, the first matching key will be used.
-   */
-  keyRef?: string
-
-  /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
-   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded.
-   * The context definitions SHOULD rather be provided at startup instead of being fetched.
-   *
-   * @default false
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Any other options that can be forwarded to the lower level libraries
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to verify a
- * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
- *
- * @public
- */
-export interface IVerifyCredentialArgs {
-  /**
-   * The Verifiable Credential object according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model} or the JWT representation.
-   *
-   * The signer of the Credential is verified based on the `issuer.id` property
-   * of the `credential` or the `iss` property of the JWT payload respectively
-   *
-   */
-  credential: W3CVerifiableCredential
-
-  /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
-   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded.
-   * The context definitions SHOULD rather be provided at startup instead of being fetched.
-   *
-   * @default false
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Overrides specific aspects of credential verification, where possible.
-   */
-  policies?: VerificationPolicies
-
-  /**
-   * Other options can be specified for verification.
-   * They will be forwarded to the lower level modules. that perform the checks
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to verify a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @public
- */
-export interface IVerifyPresentationArgs {
-  /**
-   * The Verifiable Presentation object according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.
-   *
-   * The signer of the Presentation is verified based on the `holder` property
-   * of the `presentation` or the `iss` property of the JWT payload respectively
-   *
-   */
-  presentation: W3CVerifiablePresentation
-
-  /**
-   * Optional (only for JWT) string challenge parameter to verify the verifiable presentation against
-   */
-  challenge?: string
-
-  /**
-   * Optional (only for JWT) string domain parameter to verify the verifiable presentation against
-   */
-  domain?: string
-
-  /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
-   * Set this to `true` ONLY if you want the '@context' URLs to be fetched in case they are not preloaded.
-   * The context definitions SHOULD rather be provided at startup instead of being fetched.
-   *
-   * @default false
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Overrides specific aspects of credential verification, where possible.
-   */
-  policies?: VerificationPolicies
-
-  /**
-   * Other options can be specified for verification.
-   * They will be forwarded to the lower level modules. that perform the checks
-   */
-  [x: string]: any
-}
-
-/**
- * These optional settings can be used to override some default checks that are performed on Presentations during
- * verification.
- *
- * @beta
- */
-export interface VerificationPolicies {
-  /**
-   * policy to over the now (current time) during the verification check (UNIX time in seconds)
-   */
-  now?: number
-
-  /**
-   * policy to skip the issuanceDate (nbf) timestamp check when set to `false`
-   */
-  issuanceDate?: boolean
-
-  /**
-   * policy to skip the expirationDate (exp) timestamp check when set to `false`
-   */
-  expirationDate?: boolean
-
-  /**
-   * policy to skip the audience check when set to `false`
-   */
-  audience?: boolean
-
-  /**
-   * policy to skip the revocation check (credentialStatus) when set to `false`
-   */
-  credentialStatus?: boolean
-
-  /**
-   * Other options can be specified for verification.
-   * They will be forwarded to the lower level modules that perform the checks
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the response object to verifyPresentation method after verifying a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @public
- */
-
-/**
- * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
- *
- * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
- *
- * @public
- */
-export interface ICredentialIssuer extends IPluginMethodMap {
-  /**
-   * Creates a Verifiable Presentation.
-   * The payload, signer and format are chosen based on the `args` parameter.
-   *
-   * @param args - Arguments necessary to create the Presentation.
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiablePresentation} that was requested or
-   *   rejects with an error if there was a problem with the input or while getting the key to sign
-   *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
-   *   }
-   */
-  createVerifiablePresentation(
-    args: ICreateVerifiablePresentationArgs,
-    context: IContext,
-  ): Promise<VerifiablePresentation>
-
-  /**
-   * Creates a Verifiable Credential.
-   * The payload, signer and format are chosen based on the `args` parameter.
-   *
-   * @param args - Arguments necessary to create the Presentation.
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiableCredential} that was requested or rejects
-   *   with an error if there was a problem with the input or while getting the key to sign
-   *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
-   */
-  createVerifiableCredential(
-    args: ICreateVerifiableCredentialArgs,
-    context: IContext,
-  ): Promise<VerifiableCredential>
-
-  /**
-   * Verifies a Verifiable Credential JWT, LDS Format or EIP712.
-   *
-   * @param args - Arguments necessary to verify a VerifiableCredential
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
-   *   for details
-   *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
-   */
-  verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<IVerifyResult>
-
-  /**
-   * Verifies a Verifiable Presentation JWT or LDS Format.
-   *
-   * @param args - Arguments necessary to verify a VerifiableCredential
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
-   *   for details
-   *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
-   */
-  verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyResult>
-}
-
-/**
- * Represents the requirements that this plugin has.
- * The agent that is using this plugin is expected to provide these methods.
- *
- * This interface can be used for static type checks, to make sure your application is properly initialized.
- */
-export type IContext = IAgentContext<
-  IResolver &
-    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
->
-
-/**
- * A Veramo plugin that implements the {@link ICredentialIssuer} methods.
- *
- * @public
- */
-export class CredentialIssuer implements IAgentPlugin {
-  readonly methods: ICredentialIssuer
-  readonly schema = schema.ICredentialIssuer
+export class CredentialPlugin implements IAgentPlugin {
+  readonly methods: ICredentialPlugin
+  readonly schema = schema.ICredentialPlugin
 
   constructor() {
     this.methods = {
@@ -420,10 +67,10 @@ export class CredentialIssuer implements IAgentPlugin {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentation} */
+  /** {@inheritdoc @veramo/core#ICredentialIssuer.createVerifiablePresentation} */
   async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
-    context: IContext,
+    context: IssuerAgentContext,
   ): Promise<VerifiablePresentation> {
     let {
       presentation,
@@ -522,10 +169,10 @@ export class CredentialIssuer implements IAgentPlugin {
     return verifiablePresentation
   }
 
-  /** {@inheritdoc ICredentialIssuer.createVerifiableCredential} */
+  /** {@inheritdoc @veramo/core#ICredentialIssuer.createVerifiableCredential} */
   async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
-    context: IContext,
+    context: IssuerAgentContext,
   ): Promise<VerifiableCredential> {
     let { credential, proofFormat, keyRef, removeOriginalFields, save, now, ...otherOptions } = args
     const credentialContext = processEntryToArray(credential['@context'], MANDATORY_CREDENTIAL_CONTEXT)
@@ -604,8 +251,8 @@ export class CredentialIssuer implements IAgentPlugin {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.verifyCredential} */
-  async verifyCredential(args: IVerifyCredentialArgs, context: IContext): Promise<IVerifyResult> {
+  /** {@inheritdoc @veramo/core#ICredentialVerifier.verifyCredential} */
+  async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     let { credential, policies, ...otherOptions } = args
     let verifiedCredential: VerifiableCredential
     let verificationResult: IVerifyResult = { verified: false }
@@ -683,7 +330,7 @@ export class CredentialIssuer implements IAgentPlugin {
       throw new Error('invalid_argument: Unknown credential type.')
     }
 
-    if (policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context))) {
+    if (policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context as any))) {
       verificationResult = {
         verified: false,
         error: {
@@ -696,8 +343,11 @@ export class CredentialIssuer implements IAgentPlugin {
     return verificationResult
   }
 
-  /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
-  async verifyPresentation(args: IVerifyPresentationArgs, context: IContext): Promise<IVerifyResult> {
+  /** {@inheritdoc @veramo/core#ICredentialVerifier.verifyPresentation} */
+  async verifyPresentation(
+    args: IVerifyPresentationArgs,
+    context: VerifierAgentContext,
+  ): Promise<IVerifyResult> {
     let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
     const type: DocumentFormat = detectDocumentType(presentation)
     if (type === DocumentFormat.JWT) {
@@ -736,7 +386,7 @@ export class CredentialIssuer implements IAgentPlugin {
             exp: policies?.exp ?? policies?.expirationDate,
             aud: policies?.aud ?? policies?.audience,
           },
-          ...otherOptions
+          ...otherOptions,
         })
       } catch (e: any) {
         let { message, errorCode } = e
@@ -812,7 +462,10 @@ function detectDocumentType(document: W3CVerifiableCredential | W3CVerifiablePre
   return DocumentFormat.JSONLD
 }
 
-async function isRevoked(credential: VerifiableCredential, context: IContext): Promise<boolean> {
+async function isRevoked(
+  credential: VerifiableCredential,
+  context: IAgentContext<ICredentialStatusVerifier>,
+): Promise<boolean> {
   if (!credential.credentialStatus) return false
 
   if (typeof context.agent.checkCredentialStatus === 'function') {

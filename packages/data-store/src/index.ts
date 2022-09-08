@@ -57,3 +57,6 @@ export {
   PreMigrationKey,
 }
 export { migrations } from './migrations'
+
+// re-export the interfaces that were moved to core for backward compatibility
+export { IDataStore, IDataStoreORM } from '@veramo/core'

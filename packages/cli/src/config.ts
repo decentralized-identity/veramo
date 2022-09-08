@@ -1,7 +1,8 @@
 import 'cross-fetch/polyfill'
 import { program } from 'commander'
 import { SecretBox } from '@veramo/kms-local'
-import { getAgent, getConfig } from './setup'
+import { getAgent } from './setup'
+
 const fs = require('fs')
 const { dirname } = require('path')
 

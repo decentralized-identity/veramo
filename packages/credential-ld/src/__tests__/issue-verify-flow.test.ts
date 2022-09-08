@@ -1,13 +1,14 @@
 import {
   createAgent,
   CredentialPayload,
+  ICredentialPlugin,
   IDIDManager,
   IIdentifier,
   IKeyManager,
   IResolver,
   TAgent,
 } from '../../../core/src'
-import { CredentialIssuer, ICredentialIssuer } from '../../../credential-w3c/src'
+import { CredentialPlugin } from '../../../credential-w3c/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'
@@ -37,7 +38,7 @@ const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 describe('credential-LD full flow', () => {
   let didKeyIdentifier: IIdentifier
   let didEthrIdentifier: IIdentifier
-  let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialIssuer>
+  let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
   beforeAll(async () => {
     agent = createAgent({
@@ -65,7 +66,7 @@ describe('credential-LD full flow', () => {
             ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
-        new CredentialIssuer(),
+        new CredentialPlugin(),
         new CredentialIssuerLD({
           contextMaps: [LdDefaultContexts, customContext],
           suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],

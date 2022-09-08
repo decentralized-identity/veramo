@@ -8,6 +8,7 @@
 import {
   createAgent,
   IAgentOptions,
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -22,7 +23,7 @@ import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
 import { DataSource } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
 import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
 import {
   CredentialIssuerLD,
@@ -79,7 +80,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
-    ICredentialIssuer &
+    ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
     ISelectiveDisclosure
@@ -107,7 +108,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
-      ICredentialIssuer &
+      ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
       ISelectiveDisclosure
@@ -176,7 +177,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new CredentialIssuer(),
+      new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
