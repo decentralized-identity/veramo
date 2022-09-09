@@ -1,5 +1,5 @@
 import { TAgent, IPluginMethodMap } from '@veramo/core'
-import { createObjects } from './objectCreator'
+import { createObjects } from './objectCreator.js'
 
 export function createAgentFromConfig<T extends IPluginMethodMap>(config: object): TAgent<T> {
   //@ts-ignore

@@ -3,6 +3,7 @@
   "description": "Veramo plugin for resolving a credential status",
   "version": "3.1.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -12,7 +13,7 @@
     "@veramo/core": "^3.1.0",
     "@veramo/utils": "^3.1.0",
     "credential-status": "^2.0.5",
-    "did-jwt": "^6.3.0",
+    "did-jwt": "^6.6.0",
     "did-resolver": "^4.0.0"
   },
   "devDependencies": {
@@ -33,5 +34,10 @@
   "author": "Konstantin Tsabolov <konstantin.tsabolov@spherity.com>",
   "contributors": [],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

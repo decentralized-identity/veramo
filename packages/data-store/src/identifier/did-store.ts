@@ -1,15 +1,15 @@
 import { IIdentifier, IKey } from '@veramo/core'
 import { AbstractDIDStore } from '@veramo/did-manager'
-import { Identifier } from '../entities/identifier'
-import { Credential } from '../entities/credential'
-import { Key } from '../entities/key'
-import { Service } from '../entities/service'
+import { Identifier } from '../entities/identifier.js'
+import { Credential } from '../entities/credential.js'
+import { Key } from '../entities/key.js'
+import { Service } from '../entities/service.js'
 import { DataSource, IsNull, Not } from 'typeorm'
 
 import Debug from 'debug'
-import { Presentation } from '../entities/presentation'
+import { Presentation } from '../entities/presentation.js'
 import { OrPromise } from "@veramo/utils";
-import { getConnectedDb } from "../utils";
+import { getConnectedDb } from "../utils.js";
 
 const debug = Debug('veramo:typeorm:identifier-store')
 

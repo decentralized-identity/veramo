@@ -3,6 +3,7 @@
   "description": "Veramo Core Logic & Interfaces.",
   "version": "3.1.4",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -23,14 +24,14 @@
   },
   "dependencies": {
     "debug": "^4.3.3",
-    "did-jwt-vc": "^2.1.14",
+    "did-jwt-vc": "^3.1.0",
     "events": "^3.2.0",
     "z-schema": "^5.0.2"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "did-resolver": "^4.0.0",
-    "credential-status": "^2.0.5",
+    "credential-status": "2.0.5",
+    "did-resolver": "4.0.0",
     "typescript": "4.7.3"
   },
   "files": [
@@ -49,5 +50,10 @@
     "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

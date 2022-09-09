@@ -1,7 +1,8 @@
 import { IDIDManagerCreateArgs } from '@veramo/core'
-import { getAgent } from './setup'
+import { getAgent } from './setup.js'
 import inquirer from 'inquirer'
-import { program } from 'commander'
+import { Command } from 'commander';
+const program = new Command();
 import { printTable } from 'console-table-printer'
 
 const did = program.command('did').description('Decentralized identifiers')

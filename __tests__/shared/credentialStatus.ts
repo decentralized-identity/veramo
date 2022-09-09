@@ -12,6 +12,7 @@ import {
 } from '../../packages/core/src'
 import { CredentialStatusPlugin } from '../../packages/credential-status/src'
 import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+import { jest } from '@jest/globals'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
 
@@ -102,9 +103,9 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.jwt')
 
-      const verified = await agent.verifyCredential({ credential: vc })
+      const result = await agent.verifyCredential({ credential: vc })
       expect(callsCounter).toHaveBeenCalledTimes(1)
-      expect(verified).toBeTruthy()
+      expect(result.verified).toEqual(true)
     })
 
     it('should check credentialStatus for revoked JWT credential', async () => {
@@ -114,9 +115,9 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.jwt')
 
-      const verified = await agent.verifyCredential({ credential: vc })
+      const result = await agent.verifyCredential({ credential: vc })
       expect(callsCounter).toHaveBeenCalledTimes(1)
-      expect(verified).toBeFalsy()
+      expect(result.verified).toEqual(false)
     })
 
     it('should fail checking credentialStatus with exception during verification', async () => {
@@ -152,9 +153,9 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.jws')
 
-      const verified = await agent.verifyCredential({ credential: vc })
+      const result = await agent.verifyCredential({ credential: vc })
       expect(callsCounter).toHaveBeenCalledTimes(1)
-      expect(verified).toBeTruthy()
+      expect(result.verified).toEqual(true)
     })
 
     it('should check credentialStatus for revoked JSON-LD credential', async () => {
@@ -164,9 +165,9 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.jws')
 
-      const verified = await agent.verifyCredential({ credential: vc })
+      const result = await agent.verifyCredential({ credential: vc })
       expect(callsCounter).toHaveBeenCalledTimes(1)
-      expect(verified).toBeFalsy()
+      expect(result.verified).toEqual(false)
     })
 
     it('should check credentialStatus for EIP712 credential', async () => {
@@ -176,9 +177,9 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.proofValue')
 
-      const verified = await agent.verifyCredential({ credential: vc })
+      const result = await agent.verifyCredential({ credential: vc })
       expect(callsCounter).toHaveBeenCalledTimes(1)
-      expect(verified).toBeTruthy()
+      expect(result.verified).toEqual(true)
     })
 
     it('should check credentialStatus for revoked EIP712 credential', async () => {
@@ -188,9 +189,9 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.proofValue')
 
-      const verified = await agent.verifyCredential({ credential: vc })
+      const result = await agent.verifyCredential({ credential: vc })
       expect(callsCounter).toHaveBeenCalledTimes(1)
-      expect(verified).toBeFalsy()
+      expect(result.verified).toEqual(false)
     })
   })
 
@@ -235,7 +236,7 @@ export default (testContext: {
 
       // TODO It`s an exception flow an it'd be better to throw an exception instead of returning false
       await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(
-        `The credential status can't be verified by the agent`,
+        `invalid_setup: The credential status can't be verified because there is no ICredentialStatusVerifier plugin installed.`,
       )
     })
   })

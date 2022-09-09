@@ -1,4 +1,4 @@
-import { MinimalImportableKey } from './IKeyManager'
+import { MinimalImportableKey } from './IKeyManager.js'
 
 /**
  * Identifier interface
@@ -131,4 +131,10 @@ export interface IService {
   description?: string
 }
 
+/**
+ * Represents a service endpoint URL or a map of URLs
+ * @see {@link https://www.w3.org/TR/did-core/#dfn-serviceendpoint | serviceEndpoint data model}
+ *
+ * @public
+ */
 export type IServiceEndpoint = string | Record<string, any>

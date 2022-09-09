@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne } from 'typeorm'
-import { Identifier } from './identifier'
+import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne, Relation } from 'typeorm'
+import { Identifier } from './identifier.js'
 
 /**
  * Represents some properties of a {@link did-resolver#ServiceEndpoint | ServiceEndpoint} as it is stored in a TypeORM
@@ -28,5 +28,5 @@ export class Service extends BaseEntity {
 
   @ManyToOne((type) => Identifier, (identifier) => identifier?.services, { onDelete: 'CASCADE' })
     //@ts-ignore
-  identifier?: Identifier
+  identifier?: Relation<Identifier>
 }

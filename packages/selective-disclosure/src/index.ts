@@ -7,9 +7,12 @@
  *
  * @packageDocumentation
  */
-export { SdrMessageHandler, MessageTypes } from './message-handler'
-export { SelectiveDisclosure } from './action-handler'
-export * from './types'
+export { SdrMessageHandler, MessageTypes } from './message-handler.js'
+export { SelectiveDisclosure } from './action-handler.js'
+export * from './types.js'
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
 /**
  * The parameter and return types schemas for the {@link @veramo/selective-disclosure#SelectiveDisclosure} plugin

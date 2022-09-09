@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-18.04
     services:
       postgres:
-        image: postgres:10.10
+        image: postgres:14.5
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
@@ -20,7 +20,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
+          node-version: '16.x'
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path

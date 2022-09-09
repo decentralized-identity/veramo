@@ -14,13 +14,13 @@ import {
   IResolver,
   TAgent,
   VerifiableCredential,
-} from '../packages/core/src'
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
-import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, IDIDComm } from '../packages/did-comm/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+} from '../packages/core'
+import { DIDResolverPlugin } from '../packages/did-resolver'
+import { EthrDIDProvider } from '../packages/did-provider-ethr'
+import { WebDIDProvider } from '../packages/did-provider-web'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key'
+import { DIDComm, IDIDComm } from '../packages/did-comm'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
 import {
   DataStore,
   DataStoreORM,
@@ -29,18 +29,22 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store/src'
-import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager } from '../packages/did-manager/src'
-import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+} from '../packages/data-store'
+import { KeyManager } from '../packages/key-manager'
+import { DIDManager } from '../packages/did-manager'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils'
 
 import { DataSourceOptions, DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
+import { jest } from '@jest/globals'
 
-jest.setTimeout(60000)
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+jest.setTimeout(30000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const dbEncryptionKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'

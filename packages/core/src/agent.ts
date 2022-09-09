@@ -1,9 +1,9 @@
-import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } from './types/IAgent'
-import { validateArguments, validateReturnType } from './validator'
-import ValidationErrorSchema from './schemas/ValidationError'
+import { IAgent, IPluginMethodMap, IAgentPlugin, TAgent, IAgentPluginSchema } from './types/IAgent.js'
+import { validateArguments, validateReturnType } from './validator.js'
+import ValidationErrorSchema from './schemas/ValidationError.js'
 import Debug from 'debug'
 import { EventEmitter } from 'events'
-import { CoreEvents } from './coreEvents'
+import { CoreEvents } from './coreEvents.js'
 
 /**
  * Filters unauthorized methods. By default all methods are authorized

@@ -17,6 +17,7 @@ import * as u8a from 'uint8arrays'
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
+import { jest } from '@jest/globals'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 

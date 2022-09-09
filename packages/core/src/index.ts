@@ -3,22 +3,24 @@
  *
  * @packageDocumentation
  */
-export { Agent, createAgent, IAgentOptions } from './agent'
-export { ValidationError } from './validator'
-export { CoreEvents } from './coreEvents'
-export * from './types/IAgent'
-export * from './types/ICredentialStatus'
-export * from './types/ICredentialStatusManager'
-export * from './types/ICredentialStatusVerifier'
-export * from './types/IDataStore'
-export * from './types/IDataStoreORM'
-export * from './types/IIdentifier'
-export * from './types/IDIDManager'
-export * from './types/IKeyManager'
-export * from './types/IMessage'
-export * from './types/IMessageHandler'
-export * from './types/IResolver'
-export * from './types/vc-data-model'
+export { Agent, createAgent, IAgentOptions } from './agent.js'
+export { ValidationError } from './validator.js'
+export { CoreEvents } from './coreEvents.js'
+export * from './types/IAgent.js'
+export * from './types/ICredentialStatus.js'
+export * from './types/ICredentialStatusManager.js'
+export * from './types/ICredentialStatusVerifier.js'
+export * from './types/IDataStore.js'
+export * from './types/IDataStoreORM.js'
+export * from './types/IIdentifier.js'
+export * from './types/IDIDManager.js'
+export * from './types/IKeyManager.js'
+export * from './types/IMessage.js'
+export * from './types/IMessageHandler.js'
+export * from './types/IResolver.js'
+export * from './types/IError.js'
+export * from './types/IVerifyResult.js'
+export * from './types/vc-data-model.js'
 
 /**
  * This represents the collection of schemas for the core plugins.
@@ -26,5 +28,10 @@ export * from './types/vc-data-model'
  *
  * @public
  */
-const schema = require('../plugin.schema.json')
+
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const schema = require("../plugin.schema.json");
+
 export { schema }

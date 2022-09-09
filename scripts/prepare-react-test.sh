@@ -7,6 +7,8 @@ packages=(
 "core"
 "credential-ld"
 "credential-w3c"
+"credential-status"
+"credential-status-list-2021"
 "data-store"
 "data-store-json"
 "did-comm"

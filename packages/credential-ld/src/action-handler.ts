@@ -9,9 +9,9 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
-import { schema, VeramoLdSignature } from './'
+import { schema, VeramoLdSignature } from './index.js'
 import Debug from 'debug'
-import { LdContextLoader } from './ld-context-loader'
+import { LdContextLoader } from './ld-context-loader.js'
 import {
   _ExtendedIKey,
   extractIssuer,
@@ -23,8 +23,8 @@ import {
   RecordLike,
 } from '@veramo/utils'
 
-import { LdCredentialModule } from './ld-credential-module'
-import { LdSuiteLoader } from './ld-suite-loader'
+import { LdCredentialModule } from './ld-credential-module.js'
+import { LdSuiteLoader } from './ld-suite-loader.js'
 import {
   ContextDoc,
   ICreateVerifiableCredentialLDArgs,
@@ -33,7 +33,7 @@ import {
   IRequiredContext,
   IVerifyCredentialLDArgs,
   IVerifyPresentationLDArgs,
-} from './types'
+} from './types.js'
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -110,13 +110,19 @@ export class CredentialIssuerLD implements IAgentPlugin {
         args.keyRef,
       )
 
+      let { now } = args
+      if (typeof now === 'number') {
+        now = new Date(now * 1000)
+      }
+
       return await this.ldCredentialModule.signLDVerifiablePresentation(
         presentation,
         identifier.did,
         signingKey,
         verificationMethodId,
-        args.challenge,
-        args.domain,
+        args.challenge || '',
+        args.domain || '',
+        { ...args, now },
         context,
       )
     } catch (error) {
@@ -135,15 +141,10 @@ export class CredentialIssuerLD implements IAgentPlugin {
       MANDATORY_CREDENTIAL_CONTEXT,
     )
     const credentialType = processEntryToArray(args?.credential?.type, 'VerifiableCredential')
-    let issuanceDate = args?.credential?.issuanceDate || new Date().toISOString()
-    if (issuanceDate instanceof Date) {
-      issuanceDate = issuanceDate.toISOString()
-    }
     const credential: CredentialPayload = {
       ...args?.credential,
       '@context': credentialContext,
       type: credentialType,
-      issuanceDate,
     }
 
     const issuer = extractIssuer(credential)
@@ -164,11 +165,17 @@ export class CredentialIssuerLD implements IAgentPlugin {
         args.keyRef,
       )
 
+      let { now } = args
+      if (typeof now === 'number') {
+        now = new Date(now * 1000)
+      }
+
       return await this.ldCredentialModule.issueLDVerifiableCredential(
         credential,
         identifier.did,
         signingKey,
         verificationMethodId,
+        { ...args.options, now },
         context,
       )
     } catch (error) {
@@ -183,7 +190,18 @@ export class CredentialIssuerLD implements IAgentPlugin {
     context: IRequiredContext,
   ): Promise<boolean> {
     const credential = args.credential
-    return this.ldCredentialModule.verifyCredential(credential, args.fetchRemoteContexts || false, context)
+
+    let { now } = args
+    if (typeof now === 'number') {
+      now = new Date(now * 1000)
+    }
+
+    return this.ldCredentialModule.verifyCredential(
+      credential,
+      args.fetchRemoteContexts || false,
+      { ...args.options, now },
+      context,
+    )
   }
 
   /** {@inheritdoc ICredentialIssuerLD.verifyPresentationLD} */
@@ -192,11 +210,16 @@ export class CredentialIssuerLD implements IAgentPlugin {
     context: IRequiredContext,
   ): Promise<boolean> {
     const presentation = args.presentation
+    let { now } = args
+    if (typeof now === 'number') {
+      now = new Date(now * 1000)
+    }
     return this.ldCredentialModule.verifyPresentation(
       presentation,
       args.challenge,
       args.domain,
       args.fetchRemoteContexts || false,
+      { ...args.options, now },
       context,
     )
   }

@@ -1,13 +1,13 @@
-import { getAgent } from './setup'
-import { program } from 'commander'
+import { getAgent } from './setup.js'
+import { Command } from 'commander';
+const program = new Command();
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
 import * as json5 from 'json5'
-import { readStdin } from './util'
+import { readStdin } from './util.js'
 import { CredentialPayload } from '@veramo/core'
-
-const fuzzy = require('fuzzy')
+import fuzzy from 'fuzzy'
 
 const credential = program.command('credential').description('W3C Verifiable Credential')
 
@@ -191,7 +191,7 @@ credential
     }
     try {
       const result = await agent.verifyCredential({ credential: credentialAsJSON })
-      if (result === true) {
+      if (result.verified === true) {
         console.log('Credential was verified successfully.')
       } else {
         console.error('Credential could not be verified.')

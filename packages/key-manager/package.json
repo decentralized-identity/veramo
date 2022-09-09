@@ -3,6 +3,7 @@
   "description": "Key Manager plugin for Veramo",
   "version": "3.1.4",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -14,12 +15,12 @@
     "@ethersproject/transactions": "^5.6.2",
     "@stablelib/ed25519": "^1.0.2",
     "@veramo/core": "^3.1.4",
-    "did-jwt": "^6.3.0",
+    "did-jwt": "^6.6.0",
     "uint8arrays": "^3.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@ethersproject/abstract-signer": "^5.6.2",
+    "@ethersproject/abstract-signer": "5.6.2",
     "typescript": "4.7.3"
   },
   "files": [
@@ -40,5 +41,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

@@ -1,4 +1,4 @@
-import 'cross-fetch/polyfill'
+// import 'cross-fetch/polyfill'
 import yaml from 'yaml'
 import {
   IDataStore,
@@ -13,9 +13,8 @@ import { ICredentialIssuer } from '@veramo/credential-w3c'
 import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
 import { IDIDDiscovery } from '@veramo/did-discovery'
-import { createAgentFromConfig } from './lib/agentCreator'
-
-const fs = require('fs')
+import { createAgentFromConfig } from './lib/agentCreator.js'
+import fs from "fs"
 
 export const getConfig = (fileName: string): any => {
   if (!fs.existsSync(fileName)) {

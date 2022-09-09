@@ -12,11 +12,18 @@
             "keyRef": {
               "type": "string",
               "description": "Optional. The key handle ( {@link  @veramo/core#IKey.kid | IKey.kid } ) from the internal database."
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
             }
           },
           "required": [
             "credential"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "CredentialPayload": {
@@ -193,11 +200,18 @@
             "keyRef": {
               "type": "string",
               "description": "Optional. The key handle ( {@link  @veramo/core#IKey.kid | IKey.kid } ) from the internal database."
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
             }
           },
           "required": [
             "presentation"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
         "PresentationPayload": {
@@ -333,12 +347,15 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.\n\nDefaults to `false`"
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
             }
           },
           "required": [
             "credential"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "IVerifyPresentationLDArgs": {
@@ -358,12 +375,15 @@
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not pre-loaded.\n\nDefaults to `false`"
+              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
             }
           },
           "required": [
             "presentation"
           ],
+          "additionalProperties": {
+            "description": "Any other options that can be forwarded to the lower level libraries"
+          },
           "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         }
       },

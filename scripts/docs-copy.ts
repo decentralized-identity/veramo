@@ -2,6 +2,9 @@ import * as path from 'path'
 import { resolve } from 'path'
 import { existsSync, readdirSync, copyFileSync, mkdirSync, unlinkSync } from 'fs'
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 const outputFolder = './temp'
 const { documentPackages } = require('../docsconfig.json')
 

@@ -33,7 +33,7 @@ import {
   PresentationTableEntry,
   VeramoJsonCache,
   VeramoJsonStore,
-} from './types'
+} from './types.js'
 import { normalizeCredential } from 'did-jwt-vc'
 
 type LocalRecords = Required<Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>>

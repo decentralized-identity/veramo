@@ -1,6 +1,7 @@
-import { getAgent } from './setup'
-import { program } from 'commander'
-const fs = require('fs')
+import { getAgent } from './setup.js'
+import { Command } from 'commander';
+const program = new Command();
+import fs from 'fs'
 
 const message = program.command('message').description('Messages')
 

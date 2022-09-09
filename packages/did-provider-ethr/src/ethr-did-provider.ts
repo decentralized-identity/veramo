@@ -5,7 +5,7 @@ import { JsonRpcProvider, TransactionRequest } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { computePublicKey } from '@ethersproject/signing-key'
 import { computeAddress } from '@ethersproject/transactions'
-import { KmsEthereumSigner } from './kms-eth-signer'
+import { KmsEthereumSigner } from './kms-eth-signer.js'
 import Debug from 'debug'
 import { EthrDID } from 'ethr-did'
 
@@ -190,7 +190,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const network = this.getNetworkFor(networkSpecifier)
     if (!network) {
       throw new Error(
-        `invalid_config: Cannot create did:ethr. There is no known configuration for network=${networkSpecifier}'`,
+        `invalid_setup: Cannot create did:ethr. There is no known configuration for network=${networkSpecifier}'`,
       )
     }
     if (typeof networkSpecifier === 'number') {

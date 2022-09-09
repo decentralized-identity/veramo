@@ -1,8 +1,9 @@
-import { getAgent } from './setup'
-import { program } from 'commander'
+import { getAgent } from './setup.js'
+import { Command } from 'commander';
+const program = new Command();
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
-import { readStdin } from './util'
+import { readStdin } from './util.js'
 import * as fs from 'fs'
 import * as json5 from 'json5'
 import { extractIssuer } from '@veramo/utils'
@@ -190,7 +191,7 @@ presentation
       challenge: options.challenge,
       domain: options.domain,
     })
-    if (result === true) {
+    if (result.verified === true) {
       console.log('Presentation was verified successfully.')
     } else {
       console.error('Presentation could not be verified.')
@@ -211,7 +212,7 @@ presentation
       let selected = null
       const list: any = []
       if (options.tag) {
-        const matches = presentations.filter(pres => pres.verifiablePresentation.tag === options.tag)
+        const matches = presentations.filter((pres) => pres.verifiablePresentation.tag === options.tag)
         if (matches.length > 1) {
           console.log('Found multiple matching presentations. Only showing the first one.')
         }

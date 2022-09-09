@@ -1119,7 +1119,8 @@
             {
               "type": "object"
             }
-          ]
+          ],
+          "description": "Represents a service endpoint URL or a map of URLs"
         },
         "IDIDManagerCreateArgs": {
           "type": "object",
@@ -2347,7 +2348,8 @@
             {
               "type": "object"
             }
-          ]
+          ],
+          "description": "Represents a service endpoint URL or a map of URLs"
         },
         "FindMessagesArgs": {
           "$ref": "#/components/schemas/FindArgs-TMessageColumns",
@@ -3222,7 +3224,7 @@
             "save": {
               "type": "boolean",
               "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
-              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
+              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\r\nhandling the message and determining that it must be saved."
             }
           },
           "required": [
