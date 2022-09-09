@@ -8,7 +8,7 @@ import {
   IMessageHandler,
   IResolver,
   TAgent
-} from '../../../core'
+} from '@veramo/core'
 
 import { DIDResolverPlugin } from '@veramo/did-resolver'
 import { Resolver } from 'did-resolver'
