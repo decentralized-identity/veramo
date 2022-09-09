@@ -37,7 +37,7 @@
     "buildz": "react-scripts build",
     "testz": "react-scripts test",
     "ejectz": "react-scripts eject",
-    "test:browser": "NODE_OPTIONS=--experimental-vm-modules jest -c jest-integration.config.js"
+    "test:browser": "cross-env NODE_OPTIONS=--experimental-vm-modules JEST_PUPPETEER_CONFIG=jest-puppeteer.config.cjs jest -c jest-integration.config.cjs"
   },
   "eslintConfig": {
     "extends": [
