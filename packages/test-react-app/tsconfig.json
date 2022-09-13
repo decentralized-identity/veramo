@@ -1,8 +1,8 @@
 {
   "extends": "../tsconfig.settings.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2022",
+    "target": "esnext",
+    "module": "esnext",
     "lib": [
       "dom",
       "dom.iterable",

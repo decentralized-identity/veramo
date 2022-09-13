@@ -16,7 +16,7 @@ import { DIDResolverPlugin } from '../../../did-resolver'
 import { EthrDIDProvider } from "../../../did-provider-ethr";
 import { ContextDoc } from '../../../credential-ld'
 import { Resolver } from 'did-resolver'
-import { createRequire } from "module";
+// import { createRequire } from "module";
 // const require = createRequire(import.meta.url);
 // const { getResolver } = require("ethr-did-resolver")
 // const ethrDidResolver = getResolver

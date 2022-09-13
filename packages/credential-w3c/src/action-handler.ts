@@ -37,7 +37,7 @@ import {
 } from '@veramo/utils'
 import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
-import { schema } from './index.js'
+import schema from "./plugin.schema.json" assert { type: 'json' }
 
 const enum DocumentFormat {
   JWT,

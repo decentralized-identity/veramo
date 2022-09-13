@@ -30,8 +30,10 @@ export * from './types/vc-data-model.js'
  */
 
 
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const schema = require("../plugin.schema.json");
+// import { createRequire } from "module";
+// const require = createRequire(import.meta.url);
+// const schema = require("../plugin.schema.json");
 
-export { schema }
+// export { schema }
+// import schema from "./plugin.schema.json" assert { type: "json" }
+// export { schema }

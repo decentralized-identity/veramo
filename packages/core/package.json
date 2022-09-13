@@ -3,7 +3,10 @@
   "description": "Veramo Core Logic & Interfaces.",
   "version": "3.1.4",
   "main": "build/index.js",
-  "exports": "./build/index.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./build/plugin.schema.json": "./build/plugin.schema.json"
+  },
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",

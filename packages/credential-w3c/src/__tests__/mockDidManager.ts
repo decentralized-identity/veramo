@@ -17,9 +17,9 @@ import {
   IDIDManagerRemoveServiceArgs,
   IDIDManagerFindArgs,
   IDIDManagerSetAliasArgs,
-  schema,
   MinimalImportableIdentifier,
 } from '@veramo/core'
+import schema from "@veramo/core/build/plugin.schema.json" assert { type: 'json' }
 
 const mockIdentifiers = new Map()
 mockIdentifiers.set('did:example:111', {

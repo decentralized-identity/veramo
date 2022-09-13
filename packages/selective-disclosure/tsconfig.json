@@ -10,5 +10,6 @@
     { "path": "../credential-w3c" },
     { "path": "../did-jwt" },
     { "path": "../message-handler" }
-  ]
+  ],
+  "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

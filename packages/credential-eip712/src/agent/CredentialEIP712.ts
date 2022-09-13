@@ -16,7 +16,7 @@ import {
   processEntryToArray,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import { schema } from '../index.js'
+import schema from "../plugin.schema.json" assert { type: 'json' }
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {

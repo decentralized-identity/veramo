@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "cross-env NODE_OPTIONS=--experimental-vm-modules yarn build:js && yarn build:api && yarn build:schema",
+    "build": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" yarn build:js && yarn build:api && yarn build:schema",
     "build:js": "lerna run build --stream",
     "build:api": "lerna run extract-api --stream",
     "build:schema": "lerna run generate-plugin-schema --stream",

@@ -20,7 +20,4 @@ export * from './transports/transports.js'
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
- import { createRequire } from "module";
- const require = createRequire(import.meta.url);
- const schema = require("../plugin.schema.json");
-export { schema }
+

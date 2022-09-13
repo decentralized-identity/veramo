@@ -9,10 +9,10 @@ import {
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
   IMessage,
-  schema,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
 import { createCredentialEntity, Credential } from './entities/credential.js'
 import { Claim } from './entities/claim.js'

@@ -21,7 +21,3 @@ export {
  *
  * @public
  */
- import { createRequire } from "module";
- const require = createRequire(import.meta.url);
- const schema = require("../plugin.schema.json");
-export { schema }

@@ -6,7 +6,6 @@ import {
   IIdentifier,
   IMessage,
   PartialIdentifier,
-  schema,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -16,6 +15,7 @@ import {
   UniqueVerifiablePresentation,
   Where,
 } from '@veramo/core'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, Message } from './entities/message.js'
 import { Claim } from './entities/claim.js'
 import { Credential } from './entities/credential.js'

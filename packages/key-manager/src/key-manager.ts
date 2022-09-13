@@ -11,13 +11,13 @@ import {
   IKeyManagerDecryptJWEArgs,
   IKeyManagerSignJWTArgs,
   IKeyManagerSignEthTXArgs,
-  schema,
   IKeyManagerSignArgs,
   IKeyManagerSharedSecretArgs,
   TKeyType,
   MinimalImportableKey,
   ManagedKeyInfo,
 } from '@veramo/core'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
 import * as u8a from 'uint8arrays'
 import { JWE, createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, ECDH } from 'did-jwt'
 import { arrayify, hexlify } from '@ethersproject/bytes'

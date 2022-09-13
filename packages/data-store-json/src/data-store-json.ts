@@ -13,7 +13,6 @@ import {
   IDataStoreSaveVerifiablePresentationArgs,
   IIdentifier,
   IMessage,
-  schema,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -24,6 +23,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 import { serialize, deserialize } from '@ungap/structured-clone'
 import {

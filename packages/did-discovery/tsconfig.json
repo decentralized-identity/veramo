@@ -8,5 +8,6 @@
   "references": [
     { "path": "../core" },
     { "path": "../data-store" },
-  ]
+  ],
+  "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }
