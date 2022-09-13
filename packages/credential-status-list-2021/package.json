@@ -14,9 +14,6 @@
     "@digitalcredentials/vc-status-list": "^5.0.2",
     "credential-status": "^2.0.5"
   },
-  "resolutions": {
-    "@digitalcredentials/vc-status-list": "npm:@digitalcredentials/vc-status-list@^5.0.2"
-  },
   "devDependencies": {
     "@types/debug": "4.1.7",
     "typescript": "4.7.3"

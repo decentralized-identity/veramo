@@ -14,8 +14,8 @@ describe('@veramo/credential-status-list-2021', () => {
 
   const ids = new Map<string, string>()
   const memoryStorage: StatusListStorage = {
-    set: (id: string, value: string): Promise<void> => new Promise(function (resolve) { ids.set(id, value); resolve(); }),
-    get: (id: string): Promise<string | undefined> => new Promise(function (resolve) { resolve(ids.get(id)); }),
+    set: async (id: string, value: string): Promise<void> => new Promise(function (resolve) { ids.set(id, value); resolve(); }),
+    get: async (id: string): Promise<string | undefined> => new Promise(function (resolve) { resolve(ids.get(id)); }),
     keys: () => Array.from(ids.keys())
   }
 
@@ -28,22 +28,39 @@ describe('@veramo/credential-status-list-2021', () => {
   })
 
   describe('Full succesfull credential revocation flow', () => {
-
     it('Should generate a `credentialStatus` field for a VC', async () => {
-      expect.assertions(1)
+      expect.assertions(4)
 
-      const result = await agent.credentialStatusGenerate({
+      const statusUrl = "https://example.com"
+      const args = {
         type: 'StatusList2021Entry',
         vc: referenceCredential,
-        endpoint: "https://example.com"
-      })
+        statusListCredentialUrl: statusUrl
+      }
 
+      const result = await agent.credentialStatusGenerate(args)
       expect(result).toStrictEqual({
         type: "StatusList2021Entry",
-        id: expect.stringContaining('https://')
+        id: expect.stringContaining(statusUrl),
+        statusListCredential: statusUrl,
+        statusPurpose: 'revocation',
+        statusListIndex: 0
       });
 
+      // For next test
       referenceCredential.credentialStatus = result
+
+      // Should bring index incremented
+      const result2 = await agent.credentialStatusGenerate(args)
+      expect(result2.statusListIndex).toEqual(1);
+
+      // Should bring index incremented
+      const result3 = await agent.credentialStatusGenerate(args)
+      expect(result3.statusListIndex).toEqual(2);
+
+      // Should bring index passed as argument
+      const result4 = await agent.credentialStatusGenerate({ ...args, statusListIndex: 7 })
+      expect(result4.statusListIndex).toEqual(7);
     })
 
     it('Check if the VC is not revoked before any status update', async () => {
@@ -64,7 +81,7 @@ describe('@veramo/credential-status-list-2021', () => {
       const result = await agent.credentialStatusUpdate({
         vc: referenceCredential,
         options: {
-          verified: false
+          value: false
         }
       })
 
@@ -97,7 +114,7 @@ describe('@veramo/credential-status-list-2021', () => {
       expect(agent.credentialStatusUpdate({
         vc: referenceCredential,
         options: {
-          revoke: true
+          value: true
         }
       })).rejects.toThrowError(`invalid_argument: unrecognized method '${wrongMethod}'. Expected 'StatusList2021Entry'.`)
     })
@@ -110,25 +127,31 @@ describe('@veramo/credential-status-list-2021', () => {
       expect(agent.credentialStatusUpdate({
         vc: referenceCredential,
         options: {
-          revoke: true
+          value: true
         }
       })).rejects.toThrowError("invalid_argument: `credentialStatus.id` must be defined in the credential")
     })
 
     it('Should fail if `credentialStatus` references and invalid ID', async () => {
-      expect.assertions(1)
+      expect.assertions(2)
 
+      const statusListCredentialUrl = "https://example.com/credentials/status/3"
       referenceCredential.credentialStatus = {
+        id: `${statusListCredentialUrl}#94567`,
         type: "StatusList2021Entry",
-        id: "https://example.com/any-id"
+        statusPurpose: "revocation",
+        statusListIndex: "94567",
+        statusListCredential: statusListCredentialUrl
       }
+
+      expect(await memoryStorage.get(statusListCredentialUrl)).toBeUndefined()
 
       expect(agent.credentialStatusUpdate({
         vc: referenceCredential,
         options: {
-          revoke: true
+          value: true
         }
-      })).rejects.toThrowError(`invalid_state: the status list "undefined" was not found`)
+      })).rejects.toThrowError(`invalid_state: the status list "${statusListCredentialUrl}" was not found`)
     })
   })
 })

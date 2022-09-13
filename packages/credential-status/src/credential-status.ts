@@ -38,7 +38,9 @@ export class CredentialStatusPlugin implements IAgentPlugin {
     }
   }
 
-  private async checkCredentialStatus(args: ICheckCredentialStatusArgs, context: IAgentContext<IResolver>) {
+  private async checkCredentialStatus(args: ICheckCredentialStatusArgs, context: IAgentContext<IResolver>): Promise<CredentialStatus> {
+    if (!isDefined(args.credential.credentialStatus)) return { verified: true };
+
     let didDoc = args.didDocumentOverride
 
     if (!didDoc) {
@@ -58,7 +60,7 @@ export class CredentialStatusPlugin implements IAgentPlugin {
         )}`,
       )
     }
-    
+
     return statusCheck
   }
 }

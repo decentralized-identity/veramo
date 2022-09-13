@@ -1,13 +1,21 @@
+import { createList, StatusList } from "@digitalcredentials/vc-status-list"
 import {
   CredentialStatus,
   CredentialStatusGenerateArgs,
   CredentialStatusReference,
   CredentialStatusUpdateArgs, IAgentContext, IAgentPlugin, ICheckCredentialStatusArgs, ICredentialStatus, IResolver, ProofType, UnsignedCredential
 } from '@veramo/core'
-import * as statusList from "@digitalcredentials/vc-status-list"
 import { ICredentialIssuer } from '@veramo/credential-w3c'
 
 const method: string = "StatusList2021Entry"
+
+/**
+ * The length of all status list created by this agent.
+ * 
+ * TODO: Improve this by allowing any size of status list and storing the size of each list separately.
+ */
+const statusListLength = 100000
+
 
 /**
  * 
@@ -37,7 +45,7 @@ export interface CredentialStatusList2021Reference extends CredentialStatusRefer
   /**
    * 	Identify the bit position of the status of the verifiable credential (arbitrary integer >= 0).
    */
-  statusListIndex: string
+  statusListIndex: number
 
   /**
    * 	URL to the `StatusList2021Credential` credential.
@@ -50,14 +58,18 @@ export interface CredentialStatusList2021Reference extends CredentialStatusRefer
  */
 export interface StatusList2021GenerateArgs extends CredentialStatusGenerateArgs {
   /**
-   * The `credentialStatus.id` URL prefix (NOT the entry index)
+   * The `credentialStatus.statusListCredentia` URL, which will prefix the `credentialStatus.id`.
+   * 
+   * @example If the `credentialStatus`.`id` will be something like `https://example.com/credentials/status/3#94567`,
+   *    then `statusListCredentialUrl` should be `https://example.com/credentials/status/3`
    */
-  statusListCredential: string
+  statusListCredentialUrl: string
 
   /**
-   * The credential status index in the list (greater than 0)
+   * The index in the status list which will be assigned to the credential.
+   * If not informed, an unallocatev index will be used instead.
    */
-  statusListIndex: number
+  statusListIndex?: number;
 
   /**
    * The purpose of the status entry
@@ -148,25 +160,80 @@ export class CredentialStatusList2021Plugin implements IAgentPlugin {
   async credentialStatusGenerate(args: StatusList2021GenerateArgs): Promise<CredentialStatusList2021Reference> {
     if (args.type !== method) throw new Error(`invalid_argument: unrecognized method '${args.type}'. Expected '${method}'.`)
 
-    const statusListCredential = args.statusListCredential
-    const statusListIndex = args.statusListIndex
-    let encodedList = await this.storage.get(statusListCredential); // Load the list if exists
-    if (!encodedList) {
-      // Creates a new list if not found
-      const list = statusList.createList({ length: Math.max(statusListIndex | 0, 100000) })
-      encodedList = await list.encode()
-      if (!encodedList) throw new Error("illegal_state: the list should be encoded")
-      await this.storage.set(statusListCredential, encodedList)
+    const statusListCredentialUrl = args.statusListCredentialUrl
+    const allocationListName = `${statusListCredentialUrl}#_____allocation`
+
+    // Load or create the staus list and the allocation list
+    await this.getList(statusListCredentialUrl)
+    const allocationList = await this.getList(allocationListName)
+
+    // Look for an unallocated index in the status list and assign it to this credential
+    const index: number = this.defineIndex(args.statusListIndex, allocationList)
+    allocationList.setStatus(index, true); // allocate the index
+    this.setList(allocationListName, allocationList); // persist the new allocation state
+
+    const statusPurpose: StatusPurpose = args.statusPurpose || 'revocation'
+    return {
+      id: `${statusListCredentialUrl}#${index}`,
+      type: "StatusList2021Entry",
+      statusListIndex: index,
+      statusPurpose,
+      statusListCredential: `${statusListCredentialUrl}`,
+    }
+  }
+
+  private defineIndex(index: number | undefined, allocationList: any) {
+    if (index !== undefined && index >= statusListLength)
+      throw new Error(`illegal_state: index is greater than list size (${statusListLength})`)
+
+    if (index !== undefined) return index
+
+    // Get the first index unallocated
+    for (let i = 0; i < statusListLength; i++) {
+      const allocated: boolean = !allocationList.getStatus(i)
+      if (allocated) {
+        return i
+      }
     }
 
-    const statusPurpose = args.statusPurpose
-    return {
-      id: `${statusListCredential}#${statusListIndex}`,
-      type: "StatusList2021Entry",
-      statusListIndex: `"${statusListIndex}"`,
-      statusPurpose,
-      statusListCredential: `${statusListCredential}`,
-    }
+    throw new Error("illegal_state: no position available in the status list")
+  }
+
+  /**
+   * 
+   * Gets a list by name, creating it if it doesn't exist.
+   * 
+   * @param listName The list to be retrieved
+   * @returns 
+   */
+  private async getList(listName: string) {
+    let encodedList = await this.storage.get(listName)
+    const exists = encodedList !== undefined
+    const list = exists ?
+      await StatusList.decode({ encodedList }) // decode an existent list
+      : await this.createList(listName, statusListLength) // create a new list
+    return list
+  }
+
+  /**
+   * Creates and persist a new list of bolleans with a defined length.
+   * 
+   * @param listName Name used to save (persist) the list
+   * @param length 
+   * @returns a boolean list with the define length
+   */
+  private async createList(listName: string, length: number) {
+    const list = await createList({ length: length })
+    await this.setList(listName, list)
+    return list
+  }
+
+  private async setList(listName: string, list: any) {
+    const encodedList = await list.encode()
+    if (!encodedList)
+      throw new Error("illegal_state: the list should be encoded")
+    await this.storage.set(listName, encodedList)
+    return encodedList
   }
 
   /**
@@ -180,8 +247,8 @@ export class CredentialStatusList2021Plugin implements IAgentPlugin {
     const encodedList = await this.storage.get(statusListCredential)
     if (!encodedList) throw new Error(`invalid_state: no status list found at '${statusReference.statusListCredential}'`)
 
-    const list = await statusList.decode(encodedList)
-    const verified: boolean = await list.getStatus(statusReference.statusListIndex)
+    const list = await StatusList.decode(encodedList)
+    const verified: boolean = list.getStatus(statusReference.statusListIndex)
     return { verified }
   }
 
@@ -198,10 +265,12 @@ export class CredentialStatusList2021Plugin implements IAgentPlugin {
     const statusReference = <CredentialStatusList2021Reference>vc.credentialStatus
 
     let encodedList = await this.storage.get(statusReference.statusListCredential)
-    if (!encodedList) throw new Error(`invalid_state: the status list "${statusReference.statusListCredential}" was not found`)
+    if (encodedList === undefined) throw new Error(`invalid_state: the status list "${statusReference.statusListCredential}" was not found`)
 
     const statusListIndex = statusReference.statusListIndex
-    const list = await statusList.decode(encodedList)
+    if (!statusListIndex) throw new Error(`illegal_state: the credential status implementing statuls-list-2021 needs an index defined.`)
+
+    const list = await StatusList.decode({ encodedList })
     list.setStatus(statusListIndex, args.options.value)
     encodedList = await list.encode()
     if (!encodedList) throw new Error("illegal_state: the list should be encoded")
@@ -219,8 +288,8 @@ export class CredentialStatusList2021Plugin implements IAgentPlugin {
     const encodedList = await this.storage.get(statusListCredential)
     if (!encodedList) throw new Error(`invalid_state: no status list found at '${statusReference.statusListCredential}'`)
 
-    const list = await statusList.decode(encodedList)
-    const verified: boolean = await list.getStatus(statusReference.statusListIndex)
+    const list = await StatusList.decode({ encodedList })
+    const verified: boolean = list.getStatus(statusReference.statusListIndex)
 
     const issuer: string = "" // TODO: 
     const unsignedStatusListCredential = buildStatusList2021Credential(statusListCredential, issuer, statusReference.statusPurpose, encodedList)

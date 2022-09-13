@@ -91,10 +91,7 @@ describe('@veramo/credential-status', () => {
       didDocumentOverride: referenceDoc,
     })
 
-    expect(result).toEqual({
-      message: 'credentialStatus property was not set on the original credential',
-      verified: true,
-    })
+    expect(result).toEqual({ verified: true })
     expect(checkStatus).toBeCalledTimes(0)
   })
 
