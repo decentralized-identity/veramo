@@ -3,7 +3,7 @@ import {
   CredentialStatus,
   CredentialStatusGenerateArgs,
   CredentialStatusReference,
-  CredentialStatusUpdateArgs, IAgentContext, IAgentPlugin, ICheckCredentialStatusArgs, ICredentialStatus, IResolver, ProofType, UnsignedCredential
+  CredentialStatusUpdateArgs, IAgentContext, IAgentPlugin, ICheckCredentialStatusArgs, ICredentialStatus, IResolver, IssuerType, ProofType, UnsignedCredential, VerifiableCredential
 } from '@veramo/core'
 import { ICredentialIssuer } from '@veramo/credential-w3c'
 
@@ -94,11 +94,11 @@ export interface StatusList2021UpdateArgs extends CredentialStatusUpdateArgs {
  */
 export interface CredentialStatusRequestArgs {
   /**
-   * The credential status reference
+   * The credential with a defined credential status
    * 
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  credentialStatus: CredentialStatusReference
+  credential: VerifiableCredential & { credentialStatus: CredentialStatusReference }
 }
 
 /**
@@ -244,11 +244,8 @@ export class CredentialStatusList2021Plugin implements IAgentPlugin {
     const statusReference = <CredentialStatusList2021Reference>vc.credentialStatus
 
     const statusListCredential = statusReference.statusListCredential
-    const encodedList = await this.storage.get(statusListCredential)
-    if (!encodedList) throw new Error(`invalid_state: no status list found at '${statusReference.statusListCredential}'`)
-
-    const list = await StatusList.decode(encodedList)
-    const verified: boolean = list.getStatus(statusReference.statusListIndex)
+    const list = await this.getList(statusListCredential);
+    const verified: boolean = !list.getStatus(statusReference.statusListIndex)
     return { verified }
   }
 
@@ -282,20 +279,17 @@ export class CredentialStatusList2021Plugin implements IAgentPlugin {
    * Reads the credential status
    */
   async credentialStatusRead(args: CredentialStatusRequestArgs, context: IAgentContext<ICredentialIssuer>): Promise<StatusList2021CredentialSigned> {
-    const statusReference = <CredentialStatusList2021Reference>args.credentialStatus
+    const credential = args.credential
+    const statusReference = <CredentialStatusList2021Reference>credential.credentialStatus
 
-    const statusListCredential = statusReference.statusListCredential
-    const encodedList = await this.storage.get(statusListCredential)
-    if (!encodedList) throw new Error(`invalid_state: no status list found at '${statusReference.statusListCredential}'`)
+    const statusListCredentialUrl = statusReference.statusListCredential
+    const list = await this.getList(statusListCredentialUrl);
+    const verified: boolean = !list.getStatus(statusReference.statusListIndex)
 
-    const list = await StatusList.decode({ encodedList })
-    const verified: boolean = list.getStatus(statusReference.statusListIndex)
-
-    const issuer: string = "" // TODO: 
-    const unsignedStatusListCredential = buildStatusList2021Credential(statusListCredential, issuer, statusReference.statusPurpose, encodedList)
+    const unsignedStatusListCredential = buildStatusList2021Credential(statusListCredentialUrl, credential.issuer, statusReference.statusPurpose, list.encode())
     const signed = <StatusList2021CredentialSigned>await context.agent.createVerifiableCredential({
       credential: unsignedStatusListCredential,
-      proofFormat: 'lds',
+      proofFormat: 'jwt',
     })
 
     return signed
@@ -316,7 +310,6 @@ export interface StatusList2021Credential extends UnsignedCredential {
   ],
   id: string,
   type: ["VerifiableCredential", "StatusList2021Credential"],
-  issuer: string,
   issuanceDate: string,
   credentialSubject: {
     id: string,
@@ -341,7 +334,7 @@ export type StatusList2021CredentialSigned = StatusList2021Credential & { proof:
  *                    The uncompressed bitstring MUST be at least 16KB in size.
  * @returns 
  */
-function buildStatusList2021Credential(statusListCredential: string, issuer: string, statusPurpose: StatusPurpose, encodedList: string): StatusList2021Credential {
+function buildStatusList2021Credential(statusListCredential: string, issuer: IssuerType, statusPurpose: StatusPurpose, encodedList: string): StatusList2021Credential {
   return {
     "@context": [
       "https://www.w3.org/2018/credentials/v1",
