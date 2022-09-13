@@ -14,8 +14,8 @@ export { CredentialIssuerLD } from './action-handler.js'
 export * from './types.js'
 export { LdDefaultContexts } from './ld-default-contexts.js'
 export { VeramoLdSignature } from './ld-suites.js'
-export * from './suites/EcdsaSecp256k1RecoverySignature2020'
-export * from './suites/Ed25519Signature2018'
+export * from './suites/EcdsaSecp256k1RecoverySignature2020.js'
+export * from './suites/Ed25519Signature2018.js'
 
 /**
  * The parameter and return types schemas for the {@link @veramo/credential-ld#CredentialIssuerLD | CredentialIssuerLD}
