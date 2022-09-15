@@ -1,19 +1,19 @@
-// import { getAgent } from '../src/veramo/setup.js'
-import {
-  createAgent,
-  IAgentOptions,
-  IDataStore,
-  IDataStoreORM,
-  IDIDManager,
-  IKeyManager,
-  IMessageHandler,
-  IResolver,
-  TAgent
-} from '@veramo/core'
-import { DIDResolverPlugin } from '@veramo/did-resolver'
-import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from "ethr-did-resolver"
-import { getResolver as webDidResolver } from 'web-did-resolver'
+import { getAgent } from '../src/veramo/setup.js'
+// import {
+//   createAgent,
+//   IAgentOptions,
+//   IDataStore,
+//   IDataStoreORM,
+//   IDIDManager,
+//   IKeyManager,
+//   IMessageHandler,
+//   IResolver,
+//   TAgent
+// } from '@veramo/core'
+// import { DIDResolverPlugin } from '@veramo/did-resolver'
+// import { Resolver } from 'did-resolver'
+// import { getResolver as ethrDidResolver } from "ethr-did-resolver"
+// import { getResolver as webDidResolver } from 'web-did-resolver'
 // import { MessageHandler } from '@veramo/message-handler'
 // import { KeyManager } from '@veramo/key-manager'
 // import { DIDManager } from '@veramo/did-manager'
@@ -26,7 +26,7 @@ import { getResolver as webDidResolver } from 'web-did-resolver'
 //   VeramoEcdsaSecp256k1RecoverySignature2020,
 //   VeramoEd25519Signature2018
 // } from '@veramo/credential-ld'
-import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
+// import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 // import { DIDComm, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
 // import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure } from '@veramo/selective-disclosure'
 // import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
@@ -35,7 +35,7 @@ import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 // import { WebDIDProvider } from '@veramo/did-provider-web'
 // import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from "@veramo/data-store-json";
 // import { FakeDidProvider, FakeDidResolver } from "@veramo/test-utils";
-// import keyManager from '../../../__tests__/shared/keyManager.js'
+import keyManager from '../../../__tests__/shared/keyManager.js'
 // import didManager from '../../../__tests__/shared/didManager.js'
 // import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT.js'
 // import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD.js'
@@ -47,6 +47,8 @@ import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 // import didCommPacking from '../../../__tests__/shared/didCommPacking.js'
 // import messageHandler from '../../../__tests__/shared/messageHandler.js'
 // import utils from '../../../__tests__/shared/utils.js'
+import { v1 as uuidv1 } from "uuid"
+console.log("v1: ", uuidv1);
 import { jest } from '@jest/globals'
 
 jest.setTimeout(30000)
@@ -57,36 +59,30 @@ const memoryJsonStore = {
   notifyUpdate: () => Promise.resolve()
 }
 
-type InstalledPlugins = 
-  IResolver
-  & IKeyManager
+// type InstalledPlugins = 
+//   IResolver
+//   & IKeyManager
 
 describe('Browser integration tests', () => {
   let agent
 
 
   describe('shared tests', () => {
-    beforeAll(async () => {
-      agent = createAgent<InstalledPlugins>({
-        plugins: [
-          new DIDResolverPlugin({
-            resolver: new Resolver({
-              ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID}),
-              ...webDidResolver(),
-              ...getDidKeyResolver(),
-              // ...new FakeDidResolver(() => agent as TAgent<IDIDManager>).getDidFakeResolver(),
-            })
-          }),
-          // new KeyManager({
-          //   store: new KeyStoreJson(memoryJsonStore),
-          //   kms: {
-          //     local: new KeyManagementSystem(new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(DB_SECRET_KEY))),
-          //     web3: new Web3KeyManagementSystem({})
-          //   },
-          // }),
-        ]
-      })
-    })
+  describe('shared tests', () => {
+    const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
+    // verifiableDataJWT(testContext)
+    // verifiableDataLD(testContext)
+    // handleSdrMessage(testContext)
+    // resolveDid(testContext)
+    // webDidFlow(testContext)
+    // saveClaims(testContext)
+    // documentationExamples(testContext)
+    keyManager(testContext)
+    // didManager(testContext)
+    // messageHandler(testContext)
+    // utils(testContext)
+    // didCommPacking(testContext)
+  })
     // const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
   //   verifiableDataJWT(testContext)
   //   verifiableDataLD(testContext)
