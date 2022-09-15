@@ -81,11 +81,11 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" node scripts/start.js",
+    "start": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" GENERATE_SOURCEMAP=false node scripts/start.cjs",
     "buildz": "node scripts/build.js",
     "testz": "node scripts/test.js",
     "ejectz": "node scripts/eject.js",
-    "test:browser": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" JEST_PUPPETEER_CONFIG=jest-puppeteer.config.cjs jest -c jest-integration.config.cjs"
+    "test:browser": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" GENERATE_SOURCEMAP=false JEST_PUPPETEER_CONFIG=jest-puppeteer.config.cjs jest -c jest-integration.config.cjs"
   },
   "eslintConfig": {
     "extends": [
@@ -130,6 +130,7 @@
     "node_modules",
     "src"
   ],
+  "type": "module",
   "jest": {
     "roots": [
       "<rootDir>/src"
