@@ -5,7 +5,10 @@ module.exports = {
   testRegex: './*\\.browser-test\\.(ts|tsx?)$',
   transform: {},
   testTimeout: 10000,
-  testRunner: 'jest-jasmine2',
+  testRunner: 'jest-jasmine2',  
+  "globalSetup": "jest-environment-puppeteer/setup",
+  "globalTeardown": "jest-environment-puppeteer/teardown",
+  "testEnvironment": "jest-environment-puppeteer",
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1"
   },

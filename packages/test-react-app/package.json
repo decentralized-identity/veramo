@@ -118,7 +118,7 @@
     "@types/react-dom": "18.0.5",
     "@craco/craco": "^6.4.5",
     "jest": "28.1.1",
-    "jest-environment-puppeteer": "6.0.3",
+    "jest-environment-puppeteer": "6.1.1",
     "jest-environment-puppeteer-jsdom": "6.0.0",
     "jest-jasmine2": "28.1.1",
     "jest-puppeteer": "6.1.0",
@@ -148,7 +148,9 @@
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
-    "testEnvironment": "jsdom",
+    "globalSetup": "jest-environment-puppeteer/setup",
+    "globalTeardown": "jest-environment-puppeteer/teardown",
+    "testEnvironment": "jest-environment-puppeteer",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",

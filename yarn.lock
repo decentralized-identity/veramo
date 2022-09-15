@@ -11766,6 +11766,19 @@ jest-dev-server@^6.0.0, jest-dev-server@^6.0.3:
     tree-kill "^1.2.2"
     wait-on "^6.0.0"
 
+jest-dev-server@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/jest-dev-server/-/jest-dev-server-6.1.1.tgz#44262a63f4b978c6af7ca323129331256c868ed7"
+  integrity sha512-z5LnaGDvlIkdMv/rppSO4+rq+GyQKf1xI9oiBxf9/2EBeN2hxRaWiMvaLNDnHPZj2PAhBXsycrKslDDoZO2Xtw==
+  dependencies:
+    chalk "^4.1.2"
+    cwd "^0.10.0"
+    find-process "^1.4.7"
+    prompts "^2.4.2"
+    spawnd "^6.0.2"
+    tree-kill "^1.2.2"
+    wait-on "^6.0.1"
+
 jest-diff@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-27.5.1.tgz#a07f5011ac9e6643cf8a95a462b7b1ecf6680def"
@@ -11866,7 +11879,18 @@ jest-environment-puppeteer-jsdom@6.0.0:
     jest-environment-jsdom "^27.0.1"
     merge-deep "^3.0.3"
 
-jest-environment-puppeteer@6.0.3, jest-environment-puppeteer@^6.0.3:
+jest-environment-puppeteer@6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/jest-environment-puppeteer/-/jest-environment-puppeteer-6.1.1.tgz#2d4f862745bb799777c29768b03aeda0f609f07f"
+  integrity sha512-Ces37g8Gdj7QaVxszeoXlvmsZxcEJN9EPUdJt8fGMLA+6ARVFKyVmFgP9xVeGyjTvzsXdtIiJdeOKMLMeD8r2A==
+  dependencies:
+    chalk "^4.1.2"
+    cwd "^0.10.0"
+    jest-dev-server "^6.1.1"
+    jest-environment-node "^27.4.4"
+    merge-deep "^3.0.3"
+
+jest-environment-puppeteer@^6.0.3:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/jest-environment-puppeteer/-/jest-environment-puppeteer-6.0.3.tgz#45734fe8389c99b1a58d49cfd2a35f0fb4bf5a59"
   integrity sha512-oZE/W8swhDSZpZ+Vm1C2JyoKECsvqcFOlaf3/+G0AtizZfGNkRILdi1U7k9MHLOqGEB5sfFWXG0vpJ8bTNP1dQ==
@@ -18457,7 +18481,7 @@ w3c-xmlserializer@^3.0.0:
   dependencies:
     xml-name-validator "^4.0.0"
 
-wait-on@^6.0.0:
+wait-on@^6.0.0, wait-on@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/wait-on/-/wait-on-6.0.1.tgz#16bbc4d1e4ebdd41c5b4e63a2e16dbd1f4e5601e"
   integrity sha512-zht+KASY3usTY5u2LgaNqn/Cd8MukxLGjdcZxT2ns5QzDmTFc4XoWBgC+C/na+sMRZTuVygQoMYwdcVjHnYIVw==
