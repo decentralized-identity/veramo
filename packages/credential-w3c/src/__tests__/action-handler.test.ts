@@ -71,7 +71,6 @@ describe('@veramo/credential-w3c', () => {
   beforeAll(async () => {
     await agent.didManagerCreate({alias: "test"})
     testDids = await agent.didManagerFind({alias: "test"})
-    console.log("testDids: ", testDids)
   })
 
   test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {

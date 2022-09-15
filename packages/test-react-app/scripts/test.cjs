@@ -18,7 +18,6 @@ require('../config/env.cjs');
 const jest = require('jest');
 const execSync = require('child_process').execSync;
 let argv = process.argv.slice(2);
-console.log("something 1")
 function isInGitRepository() {
   try {
     execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
@@ -48,8 +47,6 @@ if (
   // argv.push(hasSourceControl ? '--watch' : '--watchAll');
 }
 
-console.log("something 2")
 argv.push('-c ./../jest-integration.config.cjs')
 
-console.log("something 3")
 jest.run(argv);
