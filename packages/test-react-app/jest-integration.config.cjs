@@ -3,7 +3,9 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "jsonld"],
   rootDir: 'headless-tests',
   testRegex: './*\\.browser-test\\.(ts|tsx?)$',
-  transform: {},
+  transform: {
+  },
+  transformIgnorePatterns: ["/node_modules/"],
   testTimeout: 10000,
   testRunner: 'jest-jasmine2',  
   "globalSetup": "jest-environment-puppeteer/setup",

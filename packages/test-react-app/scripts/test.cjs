@@ -4,7 +4,7 @@
 process.env.BABEL_ENV = 'test';
 process.env.NODE_ENV = 'test';
 process.env.PUBLIC_URL = '';
-
+// console.log("test env: ", process.env)
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
@@ -13,12 +13,12 @@ process.on('unhandledRejection', err => {
 });
 
 // Ensure environment variables are read.
-require('../config/env');
+require('../config/env.cjs');
 
 const jest = require('jest');
 const execSync = require('child_process').execSync;
 let argv = process.argv.slice(2);
-
+console.log("something 1")
 function isInGitRepository() {
   try {
     execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
@@ -45,8 +45,11 @@ if (
 ) {
   // https://github.com/facebook/create-react-app/issues/5210
   const hasSourceControl = isInGitRepository() || isInMercurialRepository();
-  argv.push(hasSourceControl ? '--watch' : '--watchAll');
+  // argv.push(hasSourceControl ? '--watch' : '--watchAll');
 }
 
+console.log("something 2")
+argv.push('-c ./../jest-integration.config.cjs')
 
+console.log("something 3")
 jest.run(argv);

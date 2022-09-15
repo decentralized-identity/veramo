@@ -1,5 +1,40 @@
 // import { getAgent } from '../src/veramo/setup.js'
-
+import {
+  createAgent,
+  IAgentOptions,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  IMessageHandler,
+  IResolver,
+  TAgent
+} from '@veramo/core'
+import { DIDResolverPlugin } from '@veramo/did-resolver'
+import { Resolver } from 'did-resolver'
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
+import { getResolver as webDidResolver } from 'web-did-resolver'
+// import { MessageHandler } from '@veramo/message-handler'
+// import { KeyManager } from '@veramo/key-manager'
+// import { DIDManager } from '@veramo/did-manager'
+// import { JwtMessageHandler } from '@veramo/did-jwt'
+// import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '@veramo/credential-w3c'
+// import {
+//   CredentialIssuerLD,
+//   ICredentialIssuerLD,
+//   LdDefaultContexts,
+//   VeramoEcdsaSecp256k1RecoverySignature2020,
+//   VeramoEd25519Signature2018
+// } from '@veramo/credential-ld'
+import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
+// import { DIDComm, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
+// import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure } from '@veramo/selective-disclosure'
+// import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
+// import { Web3KeyManagementSystem } from '@veramo/kms-web3'
+// import { EthrDIDProvider } from '@veramo/did-provider-ethr'
+// import { WebDIDProvider } from '@veramo/did-provider-web'
+// import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from "@veramo/data-store-json";
+// import { FakeDidProvider, FakeDidResolver } from "@veramo/test-utils";
 // import keyManager from '../../../__tests__/shared/keyManager.js'
 // import didManager from '../../../__tests__/shared/didManager.js'
 // import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT.js'
@@ -16,9 +51,43 @@ import { jest } from '@jest/globals'
 
 jest.setTimeout(30000)
 
+const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
+const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
+const memoryJsonStore = {
+  notifyUpdate: () => Promise.resolve()
+}
+
+type InstalledPlugins = 
+  IResolver
+  & IKeyManager
+
 describe('Browser integration tests', () => {
-  // describe('shared tests', () => {
-  //   const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
+  let agent
+
+
+  describe('shared tests', () => {
+    beforeAll(async () => {
+      agent = createAgent<InstalledPlugins>({
+        plugins: [
+          new DIDResolverPlugin({
+            resolver: new Resolver({
+              ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID}),
+              ...webDidResolver(),
+              ...getDidKeyResolver(),
+              // ...new FakeDidResolver(() => agent as TAgent<IDIDManager>).getDidFakeResolver(),
+            })
+          }),
+          // new KeyManager({
+          //   store: new KeyStoreJson(memoryJsonStore),
+          //   kms: {
+          //     local: new KeyManagementSystem(new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(DB_SECRET_KEY))),
+          //     web3: new Web3KeyManagementSystem({})
+          //   },
+          // }),
+        ]
+      })
+    })
+    // const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
   //   verifiableDataJWT(testContext)
   //   verifiableDataLD(testContext)
   //   handleSdrMessage(testContext)
@@ -31,7 +100,7 @@ describe('Browser integration tests', () => {
   //   messageHandler(testContext)
   //   utils(testContext)
   //   didCommPacking(testContext)
-  // })
+  })
 
   describe('should intialize in the react app', () => {
     beforeAll(async () => {
