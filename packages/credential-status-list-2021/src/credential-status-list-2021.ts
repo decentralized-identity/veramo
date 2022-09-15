@@ -265,7 +265,9 @@ export class CredentialStatusList2021Plugin implements IAgentPlugin {
     if (encodedList === undefined) throw new Error(`invalid_state: the status list "${statusReference.statusListCredential}" was not found`)
 
     const statusListIndex = statusReference.statusListIndex
-    if (!statusListIndex) throw new Error(`illegal_state: the credential status implementing statuls-list-2021 needs an index defined.`)
+    if (statusListIndex === undefined) {
+      throw new Error(`illegal_state: the credential status implementing StatusList2021 needs a 'statusListIndex' defined.`)
+    }
 
     const list = await StatusList.decode({ encodedList })
     list.setStatus(statusListIndex, args.options.value)
