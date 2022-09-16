@@ -23,8 +23,8 @@
     "publish:next": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
     "publish:unstable": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid unstable --pre-dist-tag unstable --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
     "docs": "yarn docs:copy && yarn docs:build",
-    "docs:copy": "ts-node ./scripts/docs-copy.ts",
-    "docs:build": "ts-node ./scripts/docs-build.ts && yarn docs:pretty",
+    "docs:copy": "ts-node --esm --project packages/tsconfig.settings.json ./scripts/docs-copy.ts",
+    "docs:build": "ts-node --esm --project packages/tsconfig.settings.json ./scripts/docs-build.ts && yarn docs:pretty",
     "docs:pretty": "pretty-quick"
   },
   "workspaces": [
