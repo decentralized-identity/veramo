@@ -82,7 +82,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" GENERATE_SOURCEMAP=false node scripts/start.cjs",
-    "build": "node scripts/build.cjs",
+    "buildz": "node scripts/build.cjs",
     "test:browser": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" GENERATE_SOURCEMAP=false JEST_PUPPETEER_CONFIG=jest-puppeteer.config.cjs node scripts/test.cjs"
   },
   "eslintConfig": {
