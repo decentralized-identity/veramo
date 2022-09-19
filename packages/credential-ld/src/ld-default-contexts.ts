@@ -1,6 +1,3 @@
-// import { createRequire } from 'module';
-// const require = createRequire(import.meta.url);
-
 import contextCredentialV1 from "./contexts/www.w3.org_2018_credentials_v1.json" assert { type: 'json' }
 import contextDidV1 from "./contexts/www.w3.org_ns_did_v1.json" assert { type: 'json' }
 import contextSecurityV1 from "./contexts/w3id.org_security_v1.json" assert { type: 'json' }
@@ -21,8 +18,9 @@ import contextSuitesSecp from "./contexts/w3id.org_security_suites_secp256k1reco
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
+// @ts-ignore
 export const LdDefaultContexts = new Map([
-  ['https://www.w3.org/2018/credentials/v1', contextCredentialV1 as any],
+  ['https://www.w3.org/2018/credentials/v1', contextCredentialV1],
   ['https://www.w3.org/ns/did/v1', contextDidV1],
   ['https://w3id.org/security/v1', contextSecurityV1],
   ['https://w3id.org/security/v2', contextSecurityV2],

@@ -16,22 +16,10 @@ import { DIDResolverPlugin } from '../../../did-resolver'
 import { EthrDIDProvider } from "../../../did-provider-ethr";
 import { ContextDoc } from '../../../credential-ld'
 import { Resolver } from 'did-resolver'
-// import { createRequire } from "module";
-// const require = createRequire(import.meta.url);
-// const { getResolver } = require("ethr-did-resolver")
-// const ethrDidResolver = getResolver
 import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { jest } from '@jest/globals'
 
 jest.setTimeout(30000)
-
-const customContext: Record<string, ContextDoc> = {
-  'custom:example.context': {
-    '@context': {
-      nothing: 'custom:example.context#blank',
-    },
-  },
-}
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 

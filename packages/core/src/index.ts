@@ -21,19 +21,3 @@ export * from './types/IResolver.js'
 export * from './types/IError.js'
 export * from './types/IVerifyResult.js'
 export * from './types/vc-data-model.js'
-
-/**
- * This represents the collection of schemas for the core plugins.
- * Implementations of these schemas can be provided by other packages.
- *
- * @public
- */
-
-
-// import { createRequire } from "module";
-// const require = createRequire(import.meta.url);
-// const schema = require("../plugin.schema.json");
-
-// export { schema }
-// import schema from "./plugin.schema.json" assert { type: "json" }
-// export { schema }

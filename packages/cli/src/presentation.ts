@@ -1,5 +1,5 @@
 import { getAgent } from './setup.js'
-import { program } from 'commander';
+import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { readStdin } from './util.js'

@@ -16,8 +16,3 @@ export {
   ICreateVerifiablePresentationArgs,
   ProofFormat,
 } from './action-handler.js'
-/**
- * The parameter and return type schemas for the methods of the {@link @veramo/credential-w3c#ICredentialIssuer} plugin.
- *
- * @public
- */

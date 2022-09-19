@@ -1,5 +1,5 @@
 import express from 'express'
-import { program } from 'commander';
+import { program } from 'commander'
 import { getConfig } from './setup.js'
 import { createObjects } from './lib/objectCreator.js'
 

@@ -1,4 +1,4 @@
-import { program } from 'commander';
+import { program } from 'commander'
 import inquirer from 'inquirer'
 import inquirer2 from 'inquirer-autocomplete-prompt'
 

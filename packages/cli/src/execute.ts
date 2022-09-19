@@ -1,11 +1,9 @@
-import { program } from 'commander';
-// const program = new program();
+import { program } from 'commander'
 import inquirer from 'inquirer'
 import { getAgent } from './setup.js'
 import fs from 'fs'
 import OasResolver from 'oas-resolver'
 import fuzzy from 'fuzzy'
-//import { program } from 'blessed';
 
 program
   .command('execute')

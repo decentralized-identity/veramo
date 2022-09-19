@@ -8,7 +8,6 @@
  * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
  * See didWithFakeDidFlow() for more details.
  */
-// import 'cross-fetch/polyfill'
 import {
   Agent,
   createAgent,

@@ -1,5 +1,5 @@
 import { getAgent } from './setup.js'
-import { program } from 'commander';
+import { program } from 'commander'
 import fs from 'fs'
 
 const message = program.command('message').description('Messages')
