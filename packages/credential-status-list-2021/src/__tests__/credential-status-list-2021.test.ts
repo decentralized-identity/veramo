@@ -84,7 +84,7 @@ describe('@veramo/credential-status-list-2021', () => {
         id: expect.stringContaining(statusUrl),
         statusListCredential: statusUrl,
         statusPurpose: 'revocation',
-        statusListIndex: 0
+        statusListIndex: '0'
       });
 
       // For next test
@@ -92,15 +92,15 @@ describe('@veramo/credential-status-list-2021', () => {
 
       // Should bring index incremented
       const result2 = await agent.credentialStatusGenerate(args)
-      expect(result2.statusListIndex).toEqual(1);
+      expect(result2.statusListIndex).toEqual('1');
 
       // Should bring index incremented
       const result3 = await agent.credentialStatusGenerate(args)
-      expect(result3.statusListIndex).toEqual(2);
+      expect(result3.statusListIndex).toEqual('2');
 
       // Should bring index passed as argument
       const result4 = await agent.credentialStatusGenerate({ ...args, statusListIndex: 7 })
-      expect(result4.statusListIndex).toEqual(7);
+      expect(result4.statusListIndex).toEqual('7');
     })
 
     it('Check if the VC is not revoked before any status update', async () => {
@@ -126,7 +126,7 @@ describe('@veramo/credential-status-list-2021', () => {
 
       const result = await agent.credentialStatusUpdate({
         vc: referenceCredential,
-        options: { value: false }
+        options: { value: true }
       })
 
       expect(result).toBeUndefined()
@@ -135,11 +135,11 @@ describe('@veramo/credential-status-list-2021', () => {
     it('Confirm VC revocation by verifying its status', async () => {
       expect.assertions(1)
 
-      const result1 = await agent.credentialStatusRead({
-        credentialStatus: referenceCredential.credentialStatus
+      const result1 = await agent.checkCredentialStatus({
+        credential: referenceCredential
       })
 
-      expect(result1).toStrictEqual({
+      expect(result1).toMatchObject({
         verified: false
       })
     })
@@ -184,7 +184,7 @@ describe('@veramo/credential-status-list-2021', () => {
         id: `${statusListCredentialUrl}#94567`,
         type: "StatusList2021Entry",
         statusPurpose: "revocation",
-        statusListIndex: "94567",
+        statusListIndex: '94567',
         statusListCredential: statusListCredentialUrl
       }
 
@@ -195,7 +195,7 @@ describe('@veramo/credential-status-list-2021', () => {
         options: {
           value: true
         }
-      })).rejects.toThrowError(`invalid_state: the status list "${statusListCredentialUrl}" was not found`)
+      })).rejects.toThrowError(`not_found: no status list found with the name ${statusListCredentialUrl}`)
     })
   })
 })
