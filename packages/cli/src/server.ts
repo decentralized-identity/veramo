@@ -1,6 +1,5 @@
 import express from 'express'
-import { Command } from 'commander';
-const program = new Command();
+import { program } from 'commander'
 import { getConfig } from './setup.js'
 import { createObjects } from './lib/objectCreator.js'
 

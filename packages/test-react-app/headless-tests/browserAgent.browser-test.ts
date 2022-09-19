@@ -1,17 +1,18 @@
-import { getAgent } from '../src/veramo/setup'
+import { getAgent } from '../src/veramo/setup.js'
 
-import keyManager from '../../../__tests__/shared/keyManager'
-import didManager from '../../../__tests__/shared/didManager'
-import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT'
-import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD'
-import handleSdrMessage from '../../../__tests__/shared/handleSdrMessage'
-import resolveDid from '../../../__tests__/shared/resolveDid'
-import webDidFlow from '../../../__tests__/shared/webDidFlow'
-import saveClaims from '../../../__tests__/shared/saveClaims'
-import documentationExamples from '../../../__tests__/shared/documentationExamples'
-import didCommPacking from '../../../__tests__/shared/didCommPacking'
-import messageHandler from '../../../__tests__/shared/messageHandler'
-import utils from '../../../__tests__/shared/utils'
+import keyManager from '../../../__tests__/shared/keyManager.js'
+import didManager from '../../../__tests__/shared/didManager.js'
+import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT.js'
+import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD.js'
+import handleSdrMessage from '../../../__tests__/shared/handleSdrMessage.js'
+import resolveDid from '../../../__tests__/shared/resolveDid.js'
+import webDidFlow from '../../../__tests__/shared/webDidFlow.js'
+import saveClaims from '../../../__tests__/shared/saveClaims.js'
+import documentationExamples from '../../../__tests__/shared/documentationExamples.js'
+import didCommPacking from '../../../__tests__/shared/didCommPacking.js'
+import messageHandler from '../../../__tests__/shared/messageHandler.js'
+import utils from '../../../__tests__/shared/utils.js'
+
 import { jest } from '@jest/globals'
 
 jest.setTimeout(30000)
@@ -68,8 +69,8 @@ describe('Browser integration tests', () => {
       }
 
       await page.waitForSelector('#result').then(async (element) => {
-        let result = await element!.evaluate((el) => el.textContent)
-        let parsedResult = JSON.parse(result!)
+        let result = await (element ? element.evaluate((el) => el.textContent) : undefined)
+        let parsedResult = JSON.parse(result || "")
         await expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })
@@ -85,8 +86,8 @@ describe('Browser integration tests', () => {
       }
 
       await page.waitForSelector('#invalid-result').then(async (element) => {
-        let result = await element!.evaluate((el) => el.textContent)
-        let parsedResult = JSON.parse(result!)
+        let result = await (element ? element.evaluate((el) => el.textContent) : undefined)
+        let parsedResult = JSON.parse(result || "")
         await expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })

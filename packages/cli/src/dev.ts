@@ -5,8 +5,7 @@ import {
   ApiParameterListMixin,
   ApiReturnTypeMixin,
 } from '@microsoft/api-extractor-model'
-import { Command } from 'commander';
-const program = new Command();
+import { program } from 'commander'
 import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
@@ -127,6 +126,7 @@ dev
         path: resolve(entryFile),
         encodeRefs: false,
         additionalProperties: true,
+        skipTypeCheck: true,
       })
 
       const apiModel: ApiModel = new ApiModel()
@@ -181,7 +181,7 @@ dev
       interfaces[pluginInterfaceName] = api
     }
 
-    writeFileSync(resolve('./plugin.schema.json'), JSON.stringify(interfaces, null, 2))
+    writeFileSync(resolve('./src/plugin.schema.json'), JSON.stringify(interfaces, null, 2))
   })
 
 dev

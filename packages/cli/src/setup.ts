@@ -1,4 +1,3 @@
-// import 'cross-fetch/polyfill'
 import yaml from 'yaml'
 import {
   IDataStore,

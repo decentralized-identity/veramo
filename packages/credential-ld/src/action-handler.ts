@@ -9,7 +9,8 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
-import { schema, VeramoLdSignature } from './index.js'
+import { VeramoLdSignature } from './index.js'
+import schema from "./plugin.schema.json" assert { type: 'json' }
 import Debug from 'debug'
 import { LdContextLoader } from './ld-context-loader.js'
 import {
@@ -44,7 +45,7 @@ const debug = Debug('veramo:w3c:action-handler')
  */
 export class CredentialIssuerLD implements IAgentPlugin {
   readonly methods: ICredentialIssuerLD
-  readonly schema = schema.ICredentialIssuer
+  readonly schema = schema.ICredentialIssuerLD
 
   private ldCredentialModule: LdCredentialModule
 

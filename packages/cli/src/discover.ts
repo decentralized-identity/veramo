@@ -1,6 +1,5 @@
 import { getAgent } from './setup.js'
-import { Command } from 'commander';
-const program = new Command();
+import { program } from 'commander'
 import { printTable } from 'console-table-printer'
 
 const discover = program.command('discover').description('Discovery')

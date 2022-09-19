@@ -17,11 +17,11 @@ import {
   IDIDManagerRemoveServiceArgs,
   IDIDManagerFindArgs,
   IDIDManagerSetAliasArgs,
-  schema,
   MinimalImportableIdentifier,
   IKey,
   IService,
 } from '@veramo/core'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
 import { AbstractDIDStore } from './abstract-identifier-store.js'
 
 /**

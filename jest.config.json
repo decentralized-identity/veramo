@@ -12,6 +12,7 @@
   ],
   "coverageReporters": ["text", "lcov", "json"],
   "coverageDirectory": "./coverage",
+  "coverageProvider": "v8", 
   "transform": {
   },
   "testMatch": ["**/__tests__/**/*.test.*"],

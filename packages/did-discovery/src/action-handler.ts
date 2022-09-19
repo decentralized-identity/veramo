@@ -7,7 +7,7 @@ import {
   IDIDDiscoveryDiscoverDidResult,
 } from './types'
 import { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider.js'
-import { schema } from './index.js'
+import schema from "./plugin.schema.json" assert { type: 'json' }
 import Debug from 'debug'
 const debug = Debug('veramo:did-discovery')
 

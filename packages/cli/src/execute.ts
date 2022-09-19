@@ -1,5 +1,4 @@
-import { Command } from 'commander';
-const program = new Command();
+import { program } from 'commander'
 import inquirer from 'inquirer'
 import { getAgent } from './setup.js'
 import fs from 'fs'

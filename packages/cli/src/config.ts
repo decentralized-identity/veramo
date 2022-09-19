@@ -1,6 +1,4 @@
-// import 'cross-fetch/polyfill'
-import { Command } from 'commander';
-const program = new Command();
+import { program } from 'commander'
 import { SecretBox } from '@veramo/kms-local'
 import { getAgent, getConfig } from './setup.js'
 import fs from "fs"

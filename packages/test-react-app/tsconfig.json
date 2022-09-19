@@ -1,6 +1,8 @@
 {
   "extends": "../tsconfig.settings.json",
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -9,6 +11,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "isolatedModules": true,
     "noEmit": true,

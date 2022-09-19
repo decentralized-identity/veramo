@@ -14,16 +14,5 @@ export { CredentialIssuerLD } from './action-handler.js'
 export * from './types.js'
 export { LdDefaultContexts } from './ld-default-contexts.js'
 export { VeramoLdSignature } from './ld-suites.js'
-export * from './suites/EcdsaSecp256k1RecoverySignature2020'
-export * from './suites/Ed25519Signature2018'
-
-/**
- * The parameter and return types schemas for the {@link @veramo/credential-ld#CredentialIssuerLD | CredentialIssuerLD}
- * plugin methods.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const schema = require("../plugin.schema.json");
-export { schema }
+export * from './suites/EcdsaSecp256k1RecoverySignature2020.js'
+export * from './suites/Ed25519Signature2018.js'
