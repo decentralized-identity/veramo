@@ -21,32 +21,32 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../packages/core'
-import { MessageHandler } from '../packages/message-handler'
-import { KeyManager } from '../packages/key-manager'
-import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager'
-import { DIDResolverPlugin } from '../packages/did-resolver'
-import { JwtMessageHandler } from '../packages/did-jwt'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712'
+} from '../packages/core/src'
+import { MessageHandler } from '../packages/message-handler/src'
+import { KeyManager } from '../packages/key-manager/src'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
+import { DIDResolverPlugin } from '../packages/did-resolver/src'
+import { JwtMessageHandler } from '../packages/did-jwt/src'
+import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
-} from '../packages/credential-ld'
-import { EthrDIDProvider } from '../packages/did-provider-ethr'
-import { WebDIDProvider } from '../packages/did-provider-web'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm'
+} from '../packages/credential-ld/src'
+import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
+import { WebDIDProvider } from '../packages/did-provider-web/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
   SelectiveDisclosure,
-} from '../packages/selective-disclosure'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
-import { Web3KeyManagementSystem } from '../packages/kms-web3'
+} from '../packages/selective-disclosure/src'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import {
   DataStore,
   DataStoreDiscoveryProvider,
@@ -56,11 +56,11 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store'
-import { AgentRestClient } from '../packages/remote-client'
-import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server'
-import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery'
-import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils'
+} from '../packages/data-store/src'
+import { AgentRestClient } from '../packages/remote-client/src'
+import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'

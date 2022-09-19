@@ -14,13 +14,13 @@ import {
   IResolver,
   TAgent,
   VerifiableCredential,
-} from '../packages/core'
-import { DIDResolverPlugin } from '../packages/did-resolver'
-import { EthrDIDProvider } from '../packages/did-provider-ethr'
-import { WebDIDProvider } from '../packages/did-provider-web'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key'
-import { DIDComm, IDIDComm } from '../packages/did-comm'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local'
+} from '../packages/core/src'
+import { DIDResolverPlugin } from '../packages/did-resolver/src'
+import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
+import { WebDIDProvider } from '../packages/did-provider-web/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
+import { DIDComm, IDIDComm } from '../packages/did-comm/src'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import {
   DataStore,
   DataStoreORM,
@@ -29,10 +29,10 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store'
-import { KeyManager } from '../packages/key-manager'
-import { DIDManager } from '../packages/did-manager'
-import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils'
+} from '../packages/data-store/src'
+import { KeyManager } from '../packages/key-manager/src'
+import { DIDManager } from '../packages/did-manager/src'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSourceOptions, DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
