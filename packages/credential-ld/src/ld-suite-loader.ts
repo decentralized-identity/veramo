@@ -9,6 +9,8 @@ export class LdSuiteLoader {
     options.veramoLdSignatures.forEach((obj) => {
       this.signatureMap[obj.getSupportedVeramoKeyType()] = obj
     })
+
+    console.log(this.signatureMap)
   }
   private signatureMap: Record<string, VeramoLdSignature> = {}
 

@@ -158,6 +158,7 @@ export async function mapIdentifierKeysToDoc(
   context: IAgentContext<IResolver>,
 ): Promise<_ExtendedIKey[]> {
   const didDocument = await resolveDidOrThrow(identifier.did, context)
+  didDocument.assertionMethod = didDocument.verificationMethod ? [ didDocument.verificationMethod[0].id] : []
   // dereference all key agreement keys from DID document and normalize
   const documentKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,
@@ -175,7 +176,7 @@ export async function mapIdentifierKeysToDoc(
   const extendedKeys: _ExtendedIKey[] = documentKeys
     .map((verificationMethod) => {
       const localKey = localKeys.find(
-        (localKey) =>
+        (localKey) => // Fails at this step
           localKey.publicKeyHex === verificationMethod.publicKeyHex ||
           compareBlockchainAccountId(localKey, verificationMethod),
       )
@@ -283,6 +284,8 @@ export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: bo
     keyBytes = u8a.fromString(pk.publicKeyHex, 'base16')
   } else if (pk.publicKeyBase58) {
     keyBytes = u8a.fromString(pk.publicKeyBase58, 'base58btc')
+  } else if (pk.publicKeyMultibase) {
+    keyBytes = u8a.fromString(pk.publicKeyMultibase, 'base58btc')
   } else if (pk.publicKeyBase64) {
     keyBytes = u8a.fromString(pk.publicKeyBase64, 'base64pad')
   } else return ''
@@ -293,5 +296,5 @@ export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: bo
       return ''
     }
   }
-  return u8a.toString(keyBytes, 'base16')
+  return u8a.toString(keyBytes, 'hex')
 }

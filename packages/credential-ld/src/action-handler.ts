@@ -250,7 +250,6 @@ export class CredentialIssuerLD implements IAgentPlugin {
       }
       signingKey = extendedKeys.find((k) => supportedTypes.includes(k.meta.verificationMethod.type))
     }
-
     if (!signingKey) throw Error(`key_not_found: No suitable signing key found for ${identifier.did}`)
     verificationMethodId = signingKey.meta.verificationMethod.id
     return { signingKey, verificationMethodId }
