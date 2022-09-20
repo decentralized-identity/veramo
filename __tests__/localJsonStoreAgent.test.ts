@@ -34,7 +34,7 @@ import {
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDComm, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -68,13 +68,22 @@ import documentationExamples from './shared/documentationExamples.js'
 import keyManager from './shared/keyManager.js'
 import didManager from './shared/didManager.js'
 import didCommPacking from './shared/didCommPacking.js'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import messageHandler from './shared/messageHandler.js'
 import utils from './shared/utils.js'
 import { JsonFileStore } from './utils/json-file-store.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
+import { Libp2p } from 'libp2p'
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
+import { createGanacheProvider } from './utils/ganache-provider.js'
+import { createEthersProvider } from './utils/ethers-provider.js'
+import { Web3Provider } from '@ethersproject/providers'
+import { ListenerID } from './utils/libp2p-peerIds.js'
+import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 
-jest.setTimeout(30000)
+jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -87,6 +96,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
+    IAgentLibp2pClient &
     ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
@@ -94,6 +104,8 @@ let agent: TAgent<
 >
 
 let databaseFile: string
+let libnode: Libp2p
+let libnode2: Libp2p
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // This test suite uses a plain JSON file for storage for each agent created.
@@ -103,6 +115,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
 
+  libnode = await createLibp2pNode()
+  const peerId = await ListenerID()
+  libnode2 = await createLibp2pNode(peerId)
+  const libp2pPlugin = await createLibp2pClientPlugin(undefined, peerId)
+
   agent = createAgent<
     IDIDManager &
       IKeyManager &
@@ -111,6 +128,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
+      IAgentLibp2pClient &
       ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
@@ -178,7 +196,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm(),
+      new DIDComm([new DIDCommLibp2pTransport(libnode)]),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
@@ -186,9 +204,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
       }),
       new SelectiveDisclosure(),
+      libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
+  await libp2pPlugin.setupLibp2p({ agent }, libnode2)
   return true
 }
 
@@ -204,6 +224,12 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     //nop
   }
+  await agent.libp2pShutdown()
+  try {
+    await libnode.stop()
+   } catch (e) {
+     //nop
+   }
   return true
 }
 
@@ -226,4 +252,5 @@ describe('Local json-data-store integration tests', () => {
   didCommPacking(testContext)
   utils(testContext)
   credentialStatus(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
 })

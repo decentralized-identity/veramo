@@ -18,6 +18,12 @@
     }
   },
   "dependencies": {
+    "@libp2p/websockets": "^3.0.3",
+    "@chainsafe/libp2p-noise": "8.0.1",
+    "@libp2p/mplex": "^5.2.2",
+    "@libp2p/bootstrap": "^2.0.0",
+    "@libp2p/tcp": "3.1.0",
+    "libp2p": "0.38.0",
     "@ethersproject/signing-key": "^5.5.0",
     "@stablelib/ed25519": "^1.0.2",
     "@veramo/core": "^4.0.0",
@@ -27,7 +33,7 @@
     "debug": "^4.3.3",
     "did-jwt": "^6.6.0",
     "did-resolver": "^4.0.0",
-    "uint8arrays": "^3.0.0",
+    "uint8arrays": "^3.1.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

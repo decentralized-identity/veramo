@@ -28,7 +28,7 @@ import {
   VeramoEd25519Signature2018,
 } from '@veramo/credential-ld'
 import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
+import { DIDComm, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
 import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure } from '@veramo/selective-disclosure'
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
 import { Web3KeyManagementSystem } from '@veramo/kms-web3'
@@ -36,6 +36,8 @@ import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { WebDIDProvider } from '@veramo/did-provider-web'
 import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from '@veramo/data-store-json'
 import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
+import { createLibp2pClientPlugin, IAgentLibp2pClient } from '@veramo/libp2p-client'
+import { createBrowserLibp2pNode } from '@veramo/libp2p-utils-browser'
 
 const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
 const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
@@ -53,10 +55,23 @@ type InstalledPlugins = IResolver &
   IDataStore &
   IMessageHandler &
   ISelectiveDisclosure &
-  IDIDComm
+  IDIDComm &
+  IAgentLibp2pClient
+
+let agent: TAgent<InstalledPlugins> 
 
 export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
-  const agent: TAgent<InstalledPlugins> = createAgent<InstalledPlugins>({
+  return agent
+}
+
+export async function setup(options?: IAgentOptions): Promise<boolean> {
+  // cannot run browser tests with libp2p client because jsdom (browser test env) does not support WebRTC
+  // can uncomment libp2p lines here and run `yarn start` at package root to see that libp2p client can
+  // be created in browser
+  //
+  // const libnode = await createBrowserLibp2pNode()
+  // const libp2pPlugin = await createLibp2pClientPlugin()
+  agent = createAgent<InstalledPlugins>({
     ...options,
     plugins: [
       new DIDResolverPlugin({
@@ -118,15 +133,17 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm(),
+      new DIDComm([/*new DIDCommLibp2pTransport(libnode)*/]),
       new CredentialPlugin(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts],
         suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
       }),
       new SelectiveDisclosure(),
+      // libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
-  return agent
+  // await libp2pPlugin.setupLibp2p({ agent }, libnode)
+  return true
 }

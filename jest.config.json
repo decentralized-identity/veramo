@@ -1,6 +1,6 @@
 {
   "preset": "ts-jest/presets/default-esm",
-  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "jsonld"],
+  "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json", "jsonld"],
   "collectCoverage": false,
   "collectCoverageFrom": [
     "packages/**/src/**/*.ts",

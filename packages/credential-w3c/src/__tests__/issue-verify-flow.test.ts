@@ -20,7 +20,7 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { jest } from '@jest/globals'
 
-jest.setTimeout(30000)
+jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 

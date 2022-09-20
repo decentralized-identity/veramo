@@ -45,7 +45,7 @@ import {
 
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm.js'
-import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports.js'
+import { IDIDCommTransport } from './transports/transports.js'
 import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,
@@ -61,6 +61,7 @@ import {
   _FlattenedJWS,
   _GenericJWS,
 } from './types/utility-types.js'
+import { DIDCommHttpTransport } from './transports/httpTransport.js'
 
 const debug = Debug('veramo:did-comm:action-handler')
 

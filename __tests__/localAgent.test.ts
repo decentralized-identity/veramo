@@ -36,7 +36,7 @@ import {
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -57,7 +57,8 @@ import {
   PrivateKeyStore,
 } from '../packages/data-store/src'
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
 import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider.js'
 import { createEthersProvider } from './utils/ethers-provider.js'
@@ -81,12 +82,17 @@ import messageHandler from './shared/messageHandler.js'
 import didDiscovery from './shared/didDiscovery.js'
 import dbInitOptions from './shared/dbInitOptions.js'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import utils from './shared/utils.js'
 import web3 from './shared/web3.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
+import { Libp2p } from 'libp2p'
+import { Web3Provider } from '@ethersproject/providers'
+import { ListenerID } from './utils/libp2p-peerIds.js'
+import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 
-jest.setTimeout(30000)
+jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -99,6 +105,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
+    IAgentLibp2pClient &
     ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
@@ -107,7 +114,10 @@ let agent: TAgent<
 >
 let dbConnection: Promise<DataSource>
 let databaseFile: string
-
+let libnode: Libp2p
+let libnode2: Libp2p
+let provider: Web3Provider
+let registry: any
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile =
     options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
@@ -123,9 +133,15 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
   }).initialize()
-
-  const { provider, registry } = await createGanacheProvider()
+  const ganache = await createGanacheProvider()
+  provider = ganache.provider
+  registry = ganache.registry
   const ethersProvider = createEthersProvider()
+
+  libnode = await createLibp2pNode()
+  const peerId = await ListenerID()  
+  libnode2 = await createLibp2pNode(peerId)
+  const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
   agent = createAgent<
     IDIDManager &
@@ -135,6 +151,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
+      IAgentLibp2pClient &
       ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
@@ -220,7 +237,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm([
+        new DIDCommHttpTransport(), 
+        new DIDCommLibp2pTransport(libnode)
+      ]),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
@@ -235,9 +255,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new BrokenDiscoveryProvider(),
         ],
       }),
+      libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
+  await libp2pPlugin.setupLibp2p({ agent }, libnode2)
   return true
 }
 
@@ -253,6 +275,18 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     // nop
   }
+  try {
+    await agent.libp2pShutdown()
+    await libnode.stop()
+  } catch (e) {
+    //nop
+  }
+  try {
+    provider.removeAllListeners()
+  } catch (e) {
+    // nop
+  }
+
   return true
 }
 
@@ -278,5 +312,6 @@ describe('Local integration tests', () => {
   utils(testContext)
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
   credentialStatus(testContext)
 })

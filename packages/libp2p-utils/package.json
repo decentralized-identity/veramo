@@ -1,0 +1,40 @@
+{
+  "name": "@veramo/libp2p-utils",
+  "description": "Helper methods for Veramo libp2p plugins",
+  "version": "3.1.4",
+  "main": "build/index.js",
+  "exports": "./build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@libp2p/websockets": "^3.0.3",
+    "@chainsafe/libp2p-noise": "8.0.1",
+    "@libp2p/mplex": "^5.2.2",
+    "@libp2p/bootstrap": "^2.0.0",
+    "@libp2p/interface-peer-id": "^1.0.4",
+    "@libp2p/tcp": "3.1.0",
+    "@libp2p/webrtc-star": "3.0.0",
+    "debug": "^4.3.3",
+    "libp2p": "0.38.0"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Nick Reynolds <nick.reynolds@mesh.xyz>",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}

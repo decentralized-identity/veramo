@@ -36,6 +36,8 @@
     { "path": "../did-resolver" },
     { "path": "../key-manager" },
     { "path": "../kms-local" },
+    { "path": "../libp2p-client" },
+    { "path": "../libp2p-utils-browser" },
     { "path": "../message-handler" },
     { "path": "../remote-client" },
     { "path": "../remote-server" },
