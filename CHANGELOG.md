@@ -3,6 +3,127 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/uport-project/veramo/compare/v3.1.5...v4.0.0) (2022-09-22)
+
+
+### Bug Fixes
+
+* **build:** update lockfile and autogen tests ([ea4966a](https://github.com/uport-project/veramo/commit/ea4966a6b79dc4653a2aff9147c096ee22bb47df))
+* **cli:** fix typo in command description ([#913](https://github.com/uport-project/veramo/issues/913)) ([bfc61f3](https://github.com/uport-project/veramo/commit/bfc61f3a52b15e30bae0de681e5782f611900178))
+* **cli:** update default CLI config to account for renamed class ([#919](https://github.com/uport-project/veramo/issues/919)) ([d66c366](https://github.com/uport-project/veramo/commit/d66c36654fbc9ba02ed5914e18359180c0087cf9))
+* **core:** plugin schema ([e5a48ad](https://github.com/uport-project/veramo/commit/e5a48ad85590b21c6256604e2769f19039fe1603))
+* **credential-eip712:** update plugin schema ([#915](https://github.com/uport-project/veramo/issues/915)) ([3a0765e](https://github.com/uport-project/veramo/commit/3a0765ef632aae29701004cbfbeb38a2de7bc847))
+* **credential-ld:** fix EcdsaSecp256k1RecoverySignature2020 suite context ([#909](https://github.com/uport-project/veramo/issues/909)) ([48fbee3](https://github.com/uport-project/veramo/commit/48fbee3e62eab3df4225ae0bdb3a92f5665eb171))
+* **credential-ld:** include credential context and fix context loader Map ([ef7797d](https://github.com/uport-project/veramo/commit/ef7797d4c5f20b22e4e39a5ad60a851fa1c4f2ed))
+* **credential-ld:** include LDDefaultContexts in npm bundle ([3e2cf29](https://github.com/uport-project/veramo/commit/3e2cf29ecc7aecf0a3750beec7490306ceb79dab))
+* **credential-ld:** remove fs dependency for JSON LD default contexts ([#868](https://github.com/uport-project/veramo/issues/868)) ([2f75935](https://github.com/uport-project/veramo/commit/2f75935f049e4545ba77b0038c74668147e5e6de)), closes [#837](https://github.com/uport-project/veramo/issues/837)
+* **credential-status:** check credential status for all credential types ([#949](https://github.com/uport-project/veramo/issues/949)) ([877c513](https://github.com/uport-project/veramo/commit/877c513a5bc253ed30c74ace00ce988197d12a2d)), closes [#934](https://github.com/uport-project/veramo/issues/934)
+* **credential-status:** simplify credential-status scripts ([45b8c1f](https://github.com/uport-project/veramo/commit/45b8c1f1a5ce39f48fb9e093c26b8766d9cd5325))
+* **credential-w3c:** forward domain and challenge args to createVerifiablePresentationJwt ([#887](https://github.com/uport-project/veramo/issues/887)) ([2374c71](https://github.com/uport-project/veramo/commit/2374c71251b94bc178c669b9c0ef3cd98e74a017))
+* **data-store-json:** structuredClone ([5369c28](https://github.com/uport-project/veramo/commit/5369c28517bd6539870fd2f4fafd9e3a357a6cf3))
+* **data-store-json:** structuredClone ([#885](https://github.com/uport-project/veramo/issues/885)) ([cf14cae](https://github.com/uport-project/veramo/commit/cf14caecda1248af431e60841170611bc3d1e3b9)), closes [#857](https://github.com/uport-project/veramo/issues/857)
+* deprecate the `save` parameter ([#975](https://github.com/uport-project/veramo/issues/975)) ([598c0e1](https://github.com/uport-project/veramo/commit/598c0e1e3f37d1b30c865fa01b93b7657f43d795)), closes [#966](https://github.com/uport-project/veramo/issues/966)
+* **deps:** Bump `did-jwt`, `did-jwt-vc` as direct package deps ([#955](https://github.com/uport-project/veramo/issues/955)) ([e57edb3](https://github.com/uport-project/veramo/commit/e57edb34cfbaee6bba1d944497d688104f32c698))
+* **deps:** pin dependencies ([31c517c](https://github.com/uport-project/veramo/commit/31c517cf5fc2df6879c68db50fc47278db5140bd))
+* **deps:** pin dependencies ([f895dee](https://github.com/uport-project/veramo/commit/f895dee9b6e7262d2a8ef3d67bcf718a0c16d234))
+* **deps:** pin dependency typescript to 4.5.5 ([302e5f0](https://github.com/uport-project/veramo/commit/302e5f06f089119802703c1e01af93e5e6f2f443))
+* **deps:** replace @transmute/lds-ecdsa-secp256k1-recovery2020 with fork ([#953](https://github.com/uport-project/veramo/issues/953)) ([573a0ef](https://github.com/uport-project/veramo/commit/573a0efe8d28653bd0389e401c25a2dd9c361a96)), closes [#952](https://github.com/uport-project/veramo/issues/952)
+* **deps:** update all non-major dependencies ([b537187](https://github.com/uport-project/veramo/commit/b537187ba04ba41cd45c18dfb58c92725b65b084))
+* **deps:** update all non-major dependencies ([a7a5b5d](https://github.com/uport-project/veramo/commit/a7a5b5dc3a2d90670927f4367bef2055a6d39f3b))
+* **deps:** update all non-major dependencies ([04c0053](https://github.com/uport-project/veramo/commit/04c00530963b1c4496374532bf74b73f3b22c825))
+* **deps:** update all non-major dependencies ([d8aa16a](https://github.com/uport-project/veramo/commit/d8aa16a36d2e63c65177bbf281f8d15fcc9dcb5a))
+* **deps:** update all non-major dependencies ([183b4bc](https://github.com/uport-project/veramo/commit/183b4bc5ca3dcf11dd111e7e1ae19636909ff4c7))
+* **deps:** update builders-and-testers ([a13f5f8](https://github.com/uport-project/veramo/commit/a13f5f8a01a8bd2d7ec2bb0e19b052b1a108881c))
+* **deps:** update builders-and-testers ([509001f](https://github.com/uport-project/veramo/commit/509001f6853c36dc49f5995508e9eb4167676c11))
+* **deps:** update builders-and-testers ([a72b33c](https://github.com/uport-project/veramo/commit/a72b33cf8dc6215311d7926f622be2d5b9fc516c))
+* **deps:** update builders-and-testers ([ef08c52](https://github.com/uport-project/veramo/commit/ef08c527198df36283b2a2987ea6c8080fd2867d))
+* **deps:** update builders-and-testers ([8a1884b](https://github.com/uport-project/veramo/commit/8a1884ba38f436c3eb7246a04a6c1e387dd71467))
+* **deps:** update builders-and-testers ([60b8f79](https://github.com/uport-project/veramo/commit/60b8f791a3af73bbe7c944bca719f2bdf34e60be))
+* **deps:** update builders-and-testers ([5202ef1](https://github.com/uport-project/veramo/commit/5202ef1dd51fd3b7ad57591fd726fdc571bc8492))
+* **deps:** update builders-and-testers ([4d5e912](https://github.com/uport-project/veramo/commit/4d5e912ee0aefb79e9198cb045cb9106af16a4b1))
+* **deps:** update builders-and-testers ([#930](https://github.com/uport-project/veramo/issues/930)) ([b3a5c52](https://github.com/uport-project/veramo/commit/b3a5c52d05061943e7cc01f06536c1761724017b))
+* **deps:** Update dependency @digitalcredentials/vc to v4 ([9ea90d3](https://github.com/uport-project/veramo/commit/9ea90d38137631d186c042de1fcf855be50f2144))
+* **deps:** update dependency @ethersproject/random to v5.5.1 ([b5fcdb5](https://github.com/uport-project/veramo/commit/b5fcdb5f083e266a1f865b85e805de1a1ef5baa5))
+* **deps:** update dependency @microsoft/api-extractor to v7.23.1 ([4081051](https://github.com/uport-project/veramo/commit/408105191efe63cc8ab5caf8baa8f0cbb349ed63))
+* **deps:** update dependency @types/react to v18 ([c93bdea](https://github.com/uport-project/veramo/commit/c93bdeaf01682b55db64a363cb857e2df7d28b6b))
+* **deps:** update dependency @types/react-dom to v18 ([0712b8c](https://github.com/uport-project/veramo/commit/0712b8c1d1e404efbde23968c144f25b36824a81))
+* **deps:** update dependency @ungap/structured-clone to v1 ([3d2a57b](https://github.com/uport-project/veramo/commit/3d2a57ba10d096af5dea19a59fc790c39fa94a5d))
+* **deps:** update dependency commander to v9 ([28c35e1](https://github.com/uport-project/veramo/commit/28c35e187caa9e5d56e149e5be220f6c9e14e0fb))
+* **deps:** update dependency did-jwt to v5.12.0 ([5b414d7](https://github.com/uport-project/veramo/commit/5b414d7d720e7c59cf3f56c35da5fe247e21bf26))
+* **deps:** update dependency did-jwt-vc to v2.1.8 ([d4520be](https://github.com/uport-project/veramo/commit/d4520be7f8ca140a5c8eafd7effb38812d51f2b4))
+* **deps:** Update dependency did-jwt-vc to v3 ([014c1ab](https://github.com/uport-project/veramo/commit/014c1ab974647d44d7ef1de0f931625348c4c98b))
+* **deps:** update dependency dotenv to v12 ([ea7641e](https://github.com/uport-project/veramo/commit/ea7641e4e21da0fc02535848c40ff81e644c069e))
+* **deps:** update dependency dotenv to v14 ([88bd6dc](https://github.com/uport-project/veramo/commit/88bd6dce4fc364e02c97aff7130c2685640f48cf))
+* **deps:** update dependency dotenv to v16 ([0ee5454](https://github.com/uport-project/veramo/commit/0ee545455deaeeca648c7f1c2266c34f094db053))
+* **deps:** Update dependency ethr-did-resolver to v6.0.2 ([#964](https://github.com/uport-project/veramo/issues/964)) ([48b937e](https://github.com/uport-project/veramo/commit/48b937ee13045736fdc495472847b0b0ee615814))
+* **deps:** update dependency express-handlebars to v6 ([4444828](https://github.com/uport-project/veramo/commit/4444828eddd68b7547cb5160a1970f35af0698b7))
+* **deps:** update dependency inquirer-autocomplete-prompt to v2 ([9bf0d0b](https://github.com/uport-project/veramo/commit/9bf0d0b0c95ad54404f39ffb54fd97880a569352))
+* **deps:** update dependency openapi-types to v10 ([3d9cf88](https://github.com/uport-project/veramo/commit/3d9cf8810cd04dbde394248a818e1e59eb251c67))
+* **deps:** update dependency openapi-types to v11 ([992ad40](https://github.com/uport-project/veramo/commit/992ad4041f54634203bd3017fd984f45a7c92012))
+* **deps:** update dependency openapi-types to v12 ([b8401f5](https://github.com/uport-project/veramo/commit/b8401f526b0771a98ab7987b773b9e9113710e9e))
+* **deps:** update dependency ts-json-schema-generator to v1 ([74d0a66](https://github.com/uport-project/veramo/commit/74d0a66a477ce7d425191a2d3343bc6192ba263a))
+* **deps:** update dependency typeorm to v0.2.41 ([61a8103](https://github.com/uport-project/veramo/commit/61a8103c15849dfd8574dda69692a7d8f7fa534e))
+* **deps:** update dependency typescript to v4.6.3 ([6e54d07](https://github.com/uport-project/veramo/commit/6e54d07288927155931ce949ccc2a10d69bfa9ff))
+* **deps:** update dependency typescript to v4.6.4 ([dddaebd](https://github.com/uport-project/veramo/commit/dddaebdb479fbcbc4fe345ba0316633a83a1af3e))
+* **deps:** update dependency web-did-resolver to v2.0.15 ([c574d05](https://github.com/uport-project/veramo/commit/c574d05904642720cfdead7029e69df51131359e))
+* **deps:** update dependency web-did-resolver to v2.0.16 ([8fd46af](https://github.com/uport-project/veramo/commit/8fd46af173ba18fe07679decc3d312972e0f889b))
+* **deps:** Update dependency web-did-resolver to v2.0.19 ([aec6bea](https://github.com/uport-project/veramo/commit/aec6bea5ed6a9cda0f8d78660750bea719e929f7))
+* **deps:** update dependency yaml to v2 ([9d5ee7c](https://github.com/uport-project/veramo/commit/9d5ee7cb3963cae46c9f0f1fbbfcea20cae415b2))
+* **deps:** update did-libraries ([219cde2](https://github.com/uport-project/veramo/commit/219cde250e8d4f06d7978afcc38a04471342fd21))
+* **deps:** update did-libraries ([42e3d77](https://github.com/uport-project/veramo/commit/42e3d7773a5a93c83a63378b29f498edbe05a8ae))
+* **deps:** update did-libraries ([e28a6b5](https://github.com/uport-project/veramo/commit/e28a6b5e27b482daa4ed50643c59c3a5e881e79e))
+* **deps:** update react monorepo to v18 ([5150b0e](https://github.com/uport-project/veramo/commit/5150b0ece65a924378e2f266ee96b86ca1e6d036))
+* **deps:** use did-jwt v6 and ethr-did-resolver v6 ([#925](https://github.com/uport-project/veramo/issues/925)) ([0c77d03](https://github.com/uport-project/veramo/commit/0c77d03ec5ec9e2091de3f74f67ab86a22cde197)), closes [#923](https://github.com/uport-project/veramo/issues/923) [#848](https://github.com/uport-project/veramo/issues/848)
+* **did-resolver:** use interface `Resolvable` instead of the `Resolver` class ([9c2e59f](https://github.com/uport-project/veramo/commit/9c2e59f3f23f808511c6c0e8e440b4d53ba5cb00))
+* **docs:** fix relevant errors and warnings in TSDoc to enable proper docs generation on `[@next](https://github.com/next)` branch ([79c3872](https://github.com/uport-project/veramo/commit/79c387230219c92c1951d19b8ddf716308a46c5b))
+* fix inquirer prompt for subject DID during SDR ([20d6cab](https://github.com/uport-project/veramo/commit/20d6cabe1a86e0ba4521a9c8867471ea6840bf08)), closes [#790](https://github.com/uport-project/veramo/issues/790)
+* **key-manager:** add missing uuid dependency ([#807](https://github.com/uport-project/veramo/issues/807)) ([b6d9738](https://github.com/uport-project/veramo/commit/b6d973848c0cc3f61eaf4fa9e572d7fe2d522fda))
+* **kms-web3:** use ethers _signTypedData ([#939](https://github.com/uport-project/veramo/issues/939)) ([f198997](https://github.com/uport-project/veramo/commit/f198997d08f65b758bd9471bd4cf170ac8620e82)), closes [#938](https://github.com/uport-project/veramo/issues/938)
+* **remote-server:** api-key-auth ([#772](https://github.com/uport-project/veramo/issues/772)) ([cbe6f35](https://github.com/uport-project/veramo/commit/cbe6f35e31c3a9e062d7f9c593253cb53b988e46)), closes [#771](https://github.com/uport-project/veramo/issues/771)
+* **remote-server:** web-did-doc-router options ([#777](https://github.com/uport-project/veramo/issues/777)) ([cc1ec7a](https://github.com/uport-project/veramo/commit/cc1ec7a0c510fcc2329bffcb33ee91fe8739ae5a))
+* update and fix inline documentation of all exported types ([#921](https://github.com/uport-project/veramo/issues/921)) ([63e64e0](https://github.com/uport-project/veramo/commit/63e64e0e2693808c4704dca8cc511dc0bab3f3b1))
+
+
+### Features
+
+* add key type definitions: 'Bls12381G1Key2020' and 'Bls12381G2Key2020' ([#839](https://github.com/uport-project/veramo/issues/839)) ([0f0f517](https://github.com/uport-project/veramo/commit/0f0f517d97230fd5334d604d4f20d575a14f8670))
+* add partial match for dids and aliases in did discovery provider for data store ([92b793e](https://github.com/uport-project/veramo/commit/92b793e8b45f005b87717393419cf5f84a5ca0ec))
+* add support for serviceEndpoint property as defined in latest DID Spec ([#988](https://github.com/uport-project/veramo/issues/988)) ([9bed70b](https://github.com/uport-project/veramo/commit/9bed70ba658aed34a97944e0dee27bca6c81d700))
+* **cli:** add choices when selecting credential Subject in CLI ([#898](https://github.com/uport-project/veramo/issues/898)) ([c47c08e](https://github.com/uport-project/veramo/commit/c47c08e2ce9ef676cc429bcaf063bbe8e38a352c))
+* **cli:** in explore, allow copy to clipboard the text of identifier or credential or presentation ([#902](https://github.com/uport-project/veramo/issues/902)) ([d3b87f5](https://github.com/uport-project/veramo/commit/d3b87f52f2707253449867d3a872ec60aa3fbc35))
+* create DIDComm JWE with multiple recipients ([#888](https://github.com/uport-project/veramo/issues/888)) ([06acacb](https://github.com/uport-project/veramo/commit/06acacb400264d0e7f83fe31935a8ff52593f21f))
+* **credential-ld:** add option to fetch remote contexts ([60226a1](https://github.com/uport-project/veramo/commit/60226a1a64d7f06e3869ff0087f4773376b4160e))
+* **credential-ld:** add support for browser environments ([#916](https://github.com/uport-project/veramo/issues/916)) ([435e4d2](https://github.com/uport-project/veramo/commit/435e4d260b1774f96b182c1a75ab2f1c993f2291))
+* **credential-status:** add credential status check plugin for Veramo ([#874](https://github.com/uport-project/veramo/issues/874)) ([cf62dfe](https://github.com/uport-project/veramo/commit/cf62dfe21ebc76bc95e98fc55bfe1113e80c138b))
+* **credential-status:** expect revoked boolean property from StatusMethods ([e00daa4](https://github.com/uport-project/veramo/commit/e00daa47865ea42d7bd8667f37c6e12fc21fd4b9))
+* **credential-status:** rename plugin interfaces and methods ([a5adaba](https://github.com/uport-project/veramo/commit/a5adaba21a97f525bf69d156df991afc234896ab)), closes [#981](https://github.com/uport-project/veramo/issues/981)
+* **credential-w3c:** add ICredentialPlugin interface in core package ([#1001](https://github.com/uport-project/veramo/issues/1001)) ([7b6d195](https://github.com/uport-project/veramo/commit/7b6d1950364c8b741dd958d29e506b95fa5b1cec)), closes [#941](https://github.com/uport-project/veramo/issues/941)
+* **credential-w3c:** add override policies to verifyPresentation ([#990](https://github.com/uport-project/veramo/issues/990)) ([06b3147](https://github.com/uport-project/veramo/commit/06b314717cbe35f696e706b1ebf5e54438115493)), closes [#375](https://github.com/uport-project/veramo/issues/375) [#954](https://github.com/uport-project/veramo/issues/954)
+* **credential-w3c:** align verification API between formats ([#996](https://github.com/uport-project/veramo/issues/996)) ([b987fc0](https://github.com/uport-project/veramo/commit/b987fc0903a31d3bbffb43fef872be4d6c62c2ad)), closes [#935](https://github.com/uport-project/veramo/issues/935) [#954](https://github.com/uport-project/veramo/issues/954) [#375](https://github.com/uport-project/veramo/issues/375) [#989](https://github.com/uport-project/veramo/issues/989)
+* CredentialIssuerEIP712 ([#899](https://github.com/uport-project/veramo/issues/899)) ([5d62c52](https://github.com/uport-project/veramo/commit/5d62c52e28a504470f8ba2c2cbd3c38eed7f435f))
+* **data-store-json:** BrowserLocalStorageStore ([#914](https://github.com/uport-project/veramo/issues/914)) ([7b520ab](https://github.com/uport-project/veramo/commit/7b520ab311bf55107bb0b4e6693695337b3fe200))
+* **data-store:** use DataSource instead of Connection ([#970](https://github.com/uport-project/veramo/issues/970)) ([3377930](https://github.com/uport-project/veramo/commit/3377930189bcbd43dfd155992093d2bbeb883335)), closes [#947](https://github.com/uport-project/veramo/issues/947)
+* **date-store-json:** add JSON object storage implementation ([#819](https://github.com/uport-project/veramo/issues/819)) ([934b34a](https://github.com/uport-project/veramo/commit/934b34a18b194928f90e7797289cc6f2243789ec))
+* define an interface for credential status manager ([#956](https://github.com/uport-project/veramo/issues/956)) ([6fbd22f](https://github.com/uport-project/veramo/commit/6fbd22fa6ba7bb1d4092afbded0f95c0d841bd97)), closes [#937](https://github.com/uport-project/veramo/issues/937) [#981](https://github.com/uport-project/veramo/issues/981)
+* **did-manager:** add`didManagerUpdate` method for full DID document updates ([#974](https://github.com/uport-project/veramo/issues/974)) ([5682b25](https://github.com/uport-project/veramo/commit/5682b2566b7c4f8f9bfda10e8d06a8d2624c2a1b)), closes [#971](https://github.com/uport-project/veramo/issues/971) [#960](https://github.com/uport-project/veramo/issues/960) [#948](https://github.com/uport-project/veramo/issues/948)
+* **did-provider-ethr:** use multiple networks per EthrDIDProvider ([#969](https://github.com/uport-project/veramo/issues/969)) ([0a88058](https://github.com/uport-project/veramo/commit/0a88058a5efddfe09f9f35510cc1bbc21149bf18)), closes [#968](https://github.com/uport-project/veramo/issues/968) [#893](https://github.com/uport-project/veramo/issues/893)
+* **did-provider-ethr:** Using meta account ([994e5af](https://github.com/uport-project/veramo/commit/994e5afb2789840bfb550cb00f5e9e3152669b94))
+* **did-resolver:** simplify DIDResolverPlugin constructor ([#986](https://github.com/uport-project/veramo/issues/986)) ([3a7eb0c](https://github.com/uport-project/veramo/commit/3a7eb0cccb1ed51dde19ae31602971ac930f24ae)), closes [#976](https://github.com/uport-project/veramo/issues/976)
+* **kms-web3:** add a KMS implementation backed by a web3 provider ([#924](https://github.com/uport-project/veramo/issues/924)) ([14f71af](https://github.com/uport-project/veramo/commit/14f71afbb72dca8274790d3b20b518ddfe4f2585)), closes [#688](https://github.com/uport-project/veramo/issues/688)
+* **kms-web3:** add ability to list provider accounts as keys ([#965](https://github.com/uport-project/veramo/issues/965)) ([31e3946](https://github.com/uport-project/veramo/commit/31e3946af3e281f823b41ee3f1c389d6cbc88c29)), closes [#933](https://github.com/uport-project/veramo/issues/933)
+* update did-discover-provider to search by DID likeness in addition to name ([3696a7a](https://github.com/uport-project/veramo/commit/3696a7aa275e97de0cd1048a7d32ead57abf9e7c))
+* **utils:** add 2 utility functions for inspecting ethr dids ([#842](https://github.com/uport-project/veramo/issues/842)) ([473e7fa](https://github.com/uport-project/veramo/commit/473e7fa08e33b3fb643bcc11cd1e3f6094099d7d))
+
+
+### BREAKING CHANGES
+
+* the `did-resolver` and connected libraries change the data-type for `ServiceEndpoint` to `Service` and the previous semantic has changed. Services can have multiple endpoints, not just a single string.
+* **cli:** ProfileDiscoveryProvider has been renamed to DataStoreDiscoveryProvider in #597. Please update your config accordingly
+
+
+
+
+
 ## [3.1.5](https://github.com/uport-project/veramo/compare/v3.1.4...v3.1.5) (2022-06-10)
 
 

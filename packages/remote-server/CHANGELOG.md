@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/uport-project/veramo/compare/v3.1.5...v4.0.0) (2022-09-22)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([b537187](https://github.com/uport-project/veramo/commit/b537187ba04ba41cd45c18dfb58c92725b65b084))
+* **did-resolver:** use interface `Resolvable` instead of the `Resolver` class ([9c2e59f](https://github.com/uport-project/veramo/commit/9c2e59f3f23f808511c6c0e8e440b4d53ba5cb00))
+* **remote-server:** api-key-auth ([#772](https://github.com/uport-project/veramo/issues/772)) ([cbe6f35](https://github.com/uport-project/veramo/commit/cbe6f35e31c3a9e062d7f9c593253cb53b988e46)), closes [#771](https://github.com/uport-project/veramo/issues/771)
+* **remote-server:** web-did-doc-router options ([#777](https://github.com/uport-project/veramo/issues/777)) ([cc1ec7a](https://github.com/uport-project/veramo/commit/cc1ec7a0c510fcc2329bffcb33ee91fe8739ae5a))
+* update and fix inline documentation of all exported types ([#921](https://github.com/uport-project/veramo/issues/921)) ([63e64e0](https://github.com/uport-project/veramo/commit/63e64e0e2693808c4704dca8cc511dc0bab3f3b1))
+
+
+### Features
+
+* add key type definitions: 'Bls12381G1Key2020' and 'Bls12381G2Key2020' ([#839](https://github.com/uport-project/veramo/issues/839)) ([0f0f517](https://github.com/uport-project/veramo/commit/0f0f517d97230fd5334d604d4f20d575a14f8670))
+* add support for serviceEndpoint property as defined in latest DID Spec ([#988](https://github.com/uport-project/veramo/issues/988)) ([9bed70b](https://github.com/uport-project/veramo/commit/9bed70ba658aed34a97944e0dee27bca6c81d700))
+* **credential-ld:** add support for browser environments ([#916](https://github.com/uport-project/veramo/issues/916)) ([435e4d2](https://github.com/uport-project/veramo/commit/435e4d260b1774f96b182c1a75ab2f1c993f2291))
+
+
+### BREAKING CHANGES
+
+* the `did-resolver` and connected libraries change the data-type for `ServiceEndpoint` to `Service` and the previous semantic has changed. Services can have multiple endpoints, not just a single string.
+
+
+
+
+
 ## [3.1.3](https://github.com/uport-project/veramo/compare/v3.1.2...v3.1.3) (2022-06-01)
 
 **Note:** Version bump only for package @veramo/remote-server
