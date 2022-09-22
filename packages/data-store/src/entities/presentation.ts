@@ -1,14 +1,25 @@
-import { VerifiablePresentation } from '@veramo/core'
-import { blake2bHex } from 'blakejs'
-import { Entity, Column, BaseEntity, ManyToOne, JoinTable, PrimaryColumn, ManyToMany } from 'typeorm'
+import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
+
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm'
 import { Identifier } from './identifier'
 import { Message } from './message'
-import { Credential, createCredentialEntity } from './credential'
+import { createCredentialEntity, Credential } from './credential'
+import { asArray, computeEntryHash } from '@veramo/utils'
+import { normalizeCredential } from 'did-jwt-vc'
 
+/**
+ * Represents some common properties of a Verifiable Presentation that are stored in a TypeORM database for querying.
+ *
+ * @see {@link @veramo/core#IDataStoreORM.dataStoreORMGetVerifiablePresentations | dataStoreORMGetVerifiablePresentations} for the interface defining how this can be queried.
+ *
+ * @see {@link @veramo/data-store#DataStoreORM | DataStoreORM} for the implementation of the query interface.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 @Entity('presentation')
 export class Presentation extends BaseEntity {
   @PrimaryColumn()
-  //@ts-ignore
+    //@ts-ignore
   hash: string
 
   //@ts-ignore
@@ -16,7 +27,7 @@ export class Presentation extends BaseEntity {
 
   set raw(raw: VerifiablePresentation) {
     this._raw = raw
-    this.hash = blake2bHex(JSON.stringify(raw))
+    this.hash = computeEntryHash(raw)
   }
 
   @Column({ type: 'simple-json' })
@@ -29,7 +40,7 @@ export class Presentation extends BaseEntity {
     eager: true,
     onDelete: 'CASCADE',
   })
-  //@ts-ignore
+    //@ts-ignore
   holder: Identifier
 
   @ManyToMany((type) => Identifier, (identifier) => identifier?.receivedPresentations, {
@@ -38,43 +49,44 @@ export class Presentation extends BaseEntity {
     nullable: true,
   })
   @JoinTable()
-  //@ts-ignore
+    //@ts-ignore
   verifier?: Identifier[]
 
   @Column({ nullable: true })
   id?: String
 
   @Column()
-  //@ts-ignore
+    //@ts-ignore
   issuanceDate: Date
 
   @Column({ nullable: true })
   expirationDate?: Date
 
   @Column('simple-array')
-  //@ts-ignore
+    //@ts-ignore
   context: string[]
 
   @Column('simple-array')
-  //@ts-ignore
+    //@ts-ignore
   type: string[]
 
   @ManyToMany((type) => Credential, (credential) => credential.presentations, {
     cascade: true,
   })
   @JoinTable()
-  //@ts-ignore
+    //@ts-ignore
   credentials: Credential[]
 
   @ManyToMany((type) => Message, (message) => message.presentations)
-  //@ts-ignore
+    //@ts-ignore
   messages: Message[]
 }
 
-export const createPresentationEntity = (vp: VerifiablePresentation): Presentation => {
+export const createPresentationEntity = (vpi: VerifiablePresentation): Presentation => {
+  const vp = vpi
   const presentation = new Presentation()
-  presentation.context = vp['@context']
-  presentation.type = vp.type
+  presentation.context = asArray(vp['@context'])
+  presentation.type = asArray(vp.type || [])
   presentation.id = vp.id
 
   if (vp.issuanceDate) {
@@ -89,14 +101,22 @@ export const createPresentationEntity = (vp: VerifiablePresentation): Presentati
   holder.did = vp.holder
   presentation.holder = holder
 
-  presentation.verifier = vp.verifier?.map((verifierDid) => {
+  presentation.verifier = asArray(vp.verifier || []).map((verifierDid) => {
     const id = new Identifier()
     id.did = verifierDid
     return id
   })
 
-  presentation.raw = vp
+  presentation.raw = vpi
 
-  presentation.credentials = (vp.verifiableCredential || []).map(createCredentialEntity)
+  presentation.credentials = (vp.verifiableCredential || [])
+    .map((cred) => {
+      if (typeof cred === 'string') {
+        return normalizeCredential(cred)
+      } else {
+        return <VerifiableCredential>cred
+      }
+    })
+    .map(createCredentialEntity)
   return presentation
 }

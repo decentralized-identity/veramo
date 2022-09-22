@@ -1,7 +1,9 @@
 import { IAgentContext, IPluginMethodMap } from '@veramo/core'
 
 /**
- * Contains the parameters of a DID Discovery Request
+ * Contains the parameters of a DID Discovery Request.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDDiscoveryDiscoverDidArgs {
   /**
@@ -16,7 +18,9 @@ export interface IDIDDiscoveryDiscoverDidArgs {
 }
 
 /**
- * A single discovery match
+ * A single discovery match.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDDiscoverMatch {
   /**
@@ -31,7 +35,9 @@ export interface IDIDDiscoverMatch {
 }
 
 /**
- * Discovery results from one provider
+ * Discovery results from one provider.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDDiscoveryProviderResult {
   /**
@@ -46,7 +52,9 @@ export interface IDIDDiscoveryProviderResult {
 }
 
 /**
- * DID Discovery results
+ * DID Discovery results.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDDiscoveryDiscoverDidResult extends Partial<IDIDDiscoveryDiscoverDidArgs> {
   /**
@@ -61,7 +69,9 @@ export interface IDIDDiscoveryDiscoverDidResult extends Partial<IDIDDiscoveryDis
 }
 
 /**
- * Describes the interface of DID discovery plugin
+ * Describes the interface of DID discovery plugin.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDDiscovery extends IPluginMethodMap {
   discoverDid(

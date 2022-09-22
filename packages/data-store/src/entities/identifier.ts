@@ -17,19 +17,29 @@ import { Presentation } from './presentation'
 import { Credential } from './credential'
 import { Claim } from './claim'
 
+/**
+ * Represents some properties and relationships of an {@link @veramo/core#IIdentifier} that are stored in a TypeORM
+ * database for the purpose of keeping track of keys and services associated with a DID managed by a Veramo agent.
+ *
+ * @see {@link @veramo/data-store#DIDStore | DIDStore} for the implementation used by the
+ *   {@link @veramo/did-manager#DIDManager | DIDManager}.
+ * @see {@link @veramo/data-store#DataStoreORM | DataStoreORM} for the implementation of the query interface.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 @Entity('identifier')
 @Index(['alias', 'provider'], { unique: true })
 export class Identifier extends BaseEntity {
   @PrimaryColumn()
-  //@ts-ignore
+    //@ts-ignore
   did: string
 
   @Column({ nullable: true })
-  //@ts-ignore
+    //@ts-ignore
   provider?: string
 
   @Column({ nullable: true })
-  //@ts-ignore
+    //@ts-ignore
   alias?: string
 
   @BeforeInsert()
@@ -44,69 +54,74 @@ export class Identifier extends BaseEntity {
   }
 
   @Column({ select: false })
-  //@ts-ignore
+    //@ts-ignore
   saveDate: Date
 
   @Column({ select: false })
-  //@ts-ignore
+    //@ts-ignore
   updateDate: Date
 
   @Column({ nullable: true })
-  //@ts-ignore
+    //@ts-ignore
   controllerKeyId?: string
 
   @OneToMany((type) => Key, (key) => key.identifier)
-  //@ts-ignore
+    //@ts-ignore
   keys: Key[]
 
   @OneToMany((type) => Service, (service) => service.identifier, {
     cascade: true,
   })
-  //@ts-ignore
+    //@ts-ignore
   services: Service[]
 
   @OneToMany((type) => Message, (message) => message.from)
-  //@ts-ignore
+    //@ts-ignore
   sentMessages: Message[]
 
   @OneToMany((type) => Message, (message) => message.to)
-  //@ts-ignore
+    //@ts-ignore
   receivedMessages: Message[]
 
   @OneToMany((type) => Presentation, (presentation) => presentation.holder)
-  //@ts-ignore
+    //@ts-ignore
   issuedPresentations: Presentation[]
 
   @ManyToMany((type) => Presentation, (presentation) => presentation.verifier)
-  //@ts-ignore
+    //@ts-ignore
   receivedPresentations: Presentation[]
 
   @OneToMany((type) => Credential, (credential) => credential.issuer)
-  //@ts-ignore
+    //@ts-ignore
   issuedCredentials: Credential[]
 
   @OneToMany((type) => Credential, (credential) => credential.subject)
-  //@ts-ignore
+    //@ts-ignore
   receivedCredentials: Credential[]
 
   @OneToMany((type) => Claim, (claim) => claim.issuer)
-  //@ts-ignore
+    //@ts-ignore
   issuedClaims: Claim[]
 
   @OneToMany((type) => Claim, (claim) => claim.subject)
-  //@ts-ignore
+    //@ts-ignore
   receivedClaims: Claim[]
 
   /**
-   * Convenience method
+   * Convenience method to get the most recent information about a subject DID as described by Verifiable Credential
+   * claims.
    *
+   * Example:
+   * ```typescript
+   * // get the latest claim value for credentials containing `credentialSubject.name` and this Identifier as subject.
    * const name = await identifier.getLatestClaimValue({type: 'name'})
+   * ```
    *
-   * @param where
+   * @param where - The TypeORM `where` filter to use.
    */
   async getLatestClaimValue(
     dbConnection: Promise<Connection>,
-    where: { type: string },
+    where: any,
   ): Promise<string | null | undefined> {
     const claim = await (await dbConnection).getRepository(Claim).findOne({
       where: {

@@ -1,6 +1,11 @@
 import { IIdentifier } from '@veramo/core'
 import { AbstractDIDStore } from './abstract-identifier-store'
 
+/**
+ * An implementation of {@link AbstractDIDStore} that stores everything in memory.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export class MemoryDIDStore extends AbstractDIDStore {
   private identifiers: Record<string, IIdentifier> = {}
 

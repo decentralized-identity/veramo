@@ -24,10 +24,14 @@ export interface MessagingRouterOptions {
 }
 
 /**
- * Creates a router for handling incoming messages
+ * Creates a router for handling incoming messages.
+ *
+ * Messages posted to this router get sent to the `handleMessage` method of the associated agent where this is used.
  *
  * @param options - Initialization option
  * @returns Expressjs router
+ *
+ * @public
  */
 export const MessagingRouter = (options: MessagingRouterOptions): Router => {
   const router = Router()
@@ -37,7 +41,7 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
       const message = await req.agent?.handleMessage({
         raw: req.body as any as string,
         metaData: [options.metaData],
-        save: typeof options.save === 'undefined'  ? true : options.save,
+        save: typeof options.save === 'undefined' ? true : options.save,
       })
 
       if (message) {

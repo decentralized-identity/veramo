@@ -1,68 +1,85 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This runs a suite of ./shared tests using an agent configured for remote operations.
- * There is a local agent that only uses @veramo/remove-client and a remote agent that provides the actual functionality.
- * 
+ * There is a local agent that only uses @veramo/remove-client and a remote agent that provides the actual
+ * functionality.
+ *
  * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
  * See didWithFakeDidFlow() for more details.
  */
 import 'cross-fetch/polyfill'
 import {
   Agent,
-  IAgent,
   createAgent,
-  IDIDManager,
-  IResolver,
-  IKeyManager,
-  IDataStore,
-  IMessageHandler,
+  IAgent,
   IAgentOptions,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  IMessageHandler,
+  IResolver,
   TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import {
+  CredentialIssuer,
+  ICredentialIssuer,
+  ICredentialVerifier,
+  W3cMessageHandler,
+} from '../packages/credential-w3c/src'
+import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+} from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm, DIDCommHttpTransport } from '../packages/did-comm/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
-  SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
+  SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import {
+  DataStore,
+  DataStoreDiscoveryProvider,
+  DataStoreORM,
+  DIDStore,
   Entities,
   KeyStore,
-  DIDStore,
-  IDataStoreORM,
-  DataStore,
-  DataStoreORM,
-  ProfileDiscoveryProvider,
-  PrivateKeyStore,
   migrations,
+  PrivateKeyStore,
 } from '../packages/data-store/src'
-import { createConnection, Connection } from 'typeorm'
 import { AgentRestClient } from '../packages/remote-client/src'
-import { AgentRouter, RequestWithAgentRouter, MessagingRouter } from '../packages/remote-server/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
-import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { AgentRouter, MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
+import { DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
+// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import fs from 'fs'
-
-jest.setTimeout(30000)
-
+import { contexts as credential_contexts } from '@transmute/credentials-context'
+import * as fs from 'fs'
 // Shared tests
-import verifiableData from './shared/verifiableData'
+import verifiableDataJWT from './shared/verifiableDataJWT'
+import verifiableDataLD from './shared/verifiableDataLD'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
@@ -73,6 +90,10 @@ import didCommPacking from './shared/didCommPacking'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
+import utils from './shared/utils'
+import credentialStatus from './shared/credentialStatus'
+
+jest.setTimeout(60000)
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
@@ -80,7 +101,7 @@ const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa8
 const port = 3002
 const basePath = '/agent'
 
-let dbConnection: Promise<Connection>
+let dbConnection: Promise<DataSource>
 let serverAgent: IAgent
 let restServer: Server
 
@@ -93,7 +114,10 @@ const getAgent = (options?: IAgentOptions) =>
       IResolver &
       IMessageHandler &
       IDIDComm &
-      ICredentialIssuer &
+      ICredentialIssuer & // import from old package to check compatibility
+      ICredentialVerifier &
+      ICredentialIssuerLD &
+      ICredentialIssuerEIP712 &
       ISelectiveDisclosure &
       IDIDDiscovery
   >({
@@ -108,7 +132,7 @@ const getAgent = (options?: IAgentOptions) =>
   })
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  dbConnection = createConnection({
+  dbConnection = new DataSource({
     name: options?.context?.['dbName'] || 'sqlite-test',
     type: 'sqlite',
     database: databaseFile,
@@ -117,7 +141,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     migrationsRun: true,
     logging: false,
     entities: Entities,
-  })
+  }).initialize()
 
   serverAgent = new Agent({
     ...options,
@@ -126,6 +150,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStore(dbConnection),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
+          web3: new Web3KeyManagementSystem({}),
         },
       }),
       new DIDManager({
@@ -134,23 +159,23 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
-            network: 'mainnet',
-            rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:rinkeby': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 'rinkeby',
-            rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
-            ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:421611': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 421611,
-            rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
-            registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+            networks: [
+              {
+                name: 'mainnet',
+                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                name: 'rinkeby',
+                rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                chainId: 421611,
+                name: 'arbitrum:rinkeby',
+                rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
+                registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+              },
+            ],
           }),
           'did:web': new WebDIDProvider({
             defaultKms: 'local',
@@ -181,10 +206,20 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm([new DIDCommHttpTransport()]),
+      // intentionally use the deprecated name to test compatibility
       new CredentialIssuer(),
+      new CredentialIssuerEIP712(),
+      new CredentialIssuerLD({
+        contextMaps: [LdDefaultContexts, credential_contexts as any],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+      }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
+        providers: [
+          new AliasDiscoveryProvider(),
+          new DataStoreDiscoveryProvider(),
+          new BrokenDiscoveryProvider(),
+        ],
       }),
       ...(options?.plugins || []),
     ],
@@ -233,7 +268,9 @@ const tearDown = async (): Promise<boolean> => {
 const testContext = { getAgent, setup, tearDown }
 
 describe('REST integration tests', () => {
-  verifiableData(testContext)
+  verifiableDataJWT(testContext)
+  verifiableDataLD(testContext)
+  verifiableDataEIP712(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)
@@ -244,4 +281,6 @@ describe('REST integration tests', () => {
   didCommPacking(testContext)
   didWithFakeDidFlow(testContext)
   didDiscovery(testContext)
+  utils(testContext)
+  credentialStatus(testContext)
 })

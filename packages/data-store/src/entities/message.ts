@@ -1,36 +1,57 @@
 import {
-  Entity,
-  Column,
   BaseEntity,
-  ManyToOne,
-  ManyToMany,
-  PrimaryColumn,
-  JoinTable,
   BeforeInsert,
   BeforeUpdate,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryColumn,
 } from 'typeorm'
-import { blake2bHex } from 'blakejs'
 import { IMessage } from '@veramo/core'
 import { Identifier } from './identifier'
-import { Presentation, createPresentationEntity } from './presentation'
-import { Credential, createCredentialEntity } from './credential'
+import { createPresentationEntity, Presentation } from './presentation'
+import { createCredentialEntity, Credential } from './credential'
+import { computeEntryHash } from '@veramo/utils'
+import { v4 as uuidv4 } from 'uuid'
 
+/**
+ * Represents message metadata as it is stored by {@link @veramo/data-store#DataStore | DataStore}.
+ *
+ * This metadata is most often used by {@link @veramo/message-handler#MessageHandler | MessageHandler} and
+ * {@link @veramo/core#IMessageHandler | IMessageHandler} implementations to decorate messages that are interpreted and
+ * decoded, but not returned as final, as they pass through the message handler chain.
+ *
+ * @beta - This API may change without a BREAKING CHANGE notice.
+ */
 export interface MetaData {
   type: string
   value?: string
 }
 
+/**
+ * Represents some common properties of an {@link @veramo/core#IMessage} that are stored in a TypeORM database for
+ * querying.
+ *
+ * @see {@link @veramo/core#IDataStoreORM.dataStoreORMGetMessages | dataStoreORMGetMessages}
+ *   for the interface defining how this can be queried
+ *
+ * @see {@link @veramo/data-store#DataStoreORM | DataStoreORM} for the implementation of the query interface.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 @Entity('message')
 export class Message extends BaseEntity {
   @BeforeInsert()
   setId() {
     if (!this.id) {
-      this.id = blake2bHex(this.raw)
+      this.id = computeEntryHash(this.raw || uuidv4())
     }
   }
 
   @PrimaryColumn()
-  //@ts-ignore
+    //@ts-ignore
   id: string
 
   @BeforeInsert()
@@ -45,11 +66,11 @@ export class Message extends BaseEntity {
   }
 
   @Column({ select: false })
-  //@ts-ignore
+    //@ts-ignore
   saveDate: Date
 
   @Column({ select: false })
-  //@ts-ignore
+    //@ts-ignore
   updateDate: Date
 
   @Column({ nullable: true })
@@ -62,7 +83,7 @@ export class Message extends BaseEntity {
   threadId?: string
 
   @Column()
-  //@ts-ignore
+    //@ts-ignore
   type: string
 
   @Column({ nullable: true })
@@ -102,12 +123,12 @@ export class Message extends BaseEntity {
     cascade: true,
   })
   @JoinTable()
-  //@ts-ignore
+    //@ts-ignore
   presentations: Presentation[]
 
   @ManyToMany((type) => Credential, (credential) => credential.messages, { cascade: true })
   @JoinTable()
-  //@ts-ignore
+    //@ts-ignore
   credentials: Credential[]
 }
 

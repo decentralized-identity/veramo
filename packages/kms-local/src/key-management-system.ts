@@ -1,5 +1,5 @@
 import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly } from '@veramo/core'
-import { AbstractKeyManagementSystem, AbstractPrivateKeyStore } from '@veramo/key-manager'
+import { AbstractKeyManagementSystem, AbstractPrivateKeyStore, Eip712Payload } from '@veramo/key-manager'
 import { ManagedPrivateKey } from '@veramo/key-manager'
 
 import { EdDSASigner, ES256KSigner } from 'did-jwt'
@@ -14,7 +14,6 @@ import {
   generateKeyPairFromSeed as generateEncryptionKeyPairFromSeed,
   sharedKey,
 } from '@stablelib/x25519'
-import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { toUtf8String } from '@ethersproject/strings'
 import { parse } from '@ethersproject/transactions'
@@ -24,8 +23,18 @@ import { randomBytes } from '@ethersproject/random'
 import { arrayify, hexlify } from '@ethersproject/bytes'
 import * as u8a from 'uint8arrays'
 import Debug from 'debug'
+
 const debug = Debug('veramo:kms:local')
 
+/**
+ * This is an implementation of {@link @veramo/key-manager#AbstractKeyManagementSystem | AbstractKeyManagementSystem}
+ * that uses a local {@link @veramo/key-manager#AbstractPrivateKeyStore | AbstractPrivateKeyStore} to hold private key
+ * material.
+ *
+ * The key material is used to provide local implementations of various cryptographic algorithms.
+ *
+ * @public
+ */
 export class KeyManagementSystem extends AbstractKeyManagementSystem {
   private readonly keyStore: AbstractPrivateKeyStore
 
@@ -92,10 +101,10 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   async sign({
-    keyRef,
-    algorithm,
-    data,
-  }: {
+               keyRef,
+               algorithm,
+               data,
+             }: {
     keyRef: Pick<IKey, 'kid'>
     algorithm?: string
     data: Uint8Array
@@ -188,6 +197,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
       )
     }
+    delete(msgTypes.EIP712Domain)
     const wallet = new Wallet(privateKeyHex)
 
     const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
@@ -214,7 +224,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     if (from) {
       debug('WARNING: executing a transaction signing request with a `from` field.')
       if (wallet.address.toLowerCase() !== from.toLowerCase()) {
-        const msg = "invalid_arguments: eth_signTransaction `from` field does not match the chosen key. `from` field should be omitted."
+        const msg =
+          'invalid_arguments: eth_signTransaction `from` field does not match the chosen key. `from` field should be omitted.'
         debug(msg)
         throw new Error(msg)
       }
@@ -228,7 +239,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a base64url encoded signature for the `EdDSA` alg
    */
   private async signEdDSA(key: string, data: Uint8Array): Promise<string> {
-    const signer = EdDSASigner(key)
+    const signer = EdDSASigner(arrayify(key, { allowMissingPrefix: true }))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -242,14 +253,14 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     alg: string | undefined,
     data: Uint8Array,
   ): Promise<string> {
-    const signer = ES256KSigner(privateKeyHex, alg === 'ES256K-R')
+    const signer = ES256KSigner(arrayify(privateKeyHex, { allowMissingPrefix: true }), alg === 'ES256K-R')
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
   }
 
   /**
-   * Converts a {@link ManagedPrivateKey} to {@link ManagedKeyInfo}
+   * Converts a {@link @veramo/key-manager#ManagedPrivateKey | ManagedPrivateKey} to {@link @veramo/core#ManagedKeyInfo}
    */
   private asManagedKeyInfo(args: RequireOnly<ManagedPrivateKey, 'privateKeyHex' | 'type'>): ManagedKeyInfo {
     let key: Partial<ManagedKeyInfo>
@@ -300,11 +311,4 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     }
     return key as ManagedKeyInfo
   }
-}
-
-type Eip712Payload = {
-  domain: TypedDataDomain
-  types: Record<string, TypedDataField[]>
-  primaryType: string
-  message: Record<string, any>
 }

@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 /**
  * Result interface for sending DIDComm messages through
  * {@link IDIDCommTransport.send}.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDCommTransportResult {
   result?: string
@@ -14,7 +15,8 @@ export interface IDIDCommTransportResult {
 /**
  * Common interface for transports that can be used in the
  * {@link DIDComm} module.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDCommTransport {
   /**
@@ -26,8 +28,9 @@ export interface IDIDCommTransport {
   /**
    * Returns `true` if this transport is suitable for the provided
    * DID Document service section, otherwise `false`.
-   * @param service The DID Document service section
-   * @beta
+   * @param service - The DID Document service section
+   *
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   isServiceSupported(service: any): boolean
 
@@ -36,17 +39,19 @@ export interface IDIDCommTransport {
    * the service endpoint defined in the provided DID Document service
    * section.
    *
-   * @param service The DID Document service section that contains
+   * @param service - The DID Document service section that contains
    * a `serviceEndpoint` entry.
-   * @param message The message to be sent.
-   * @beta
+   * @param message - The message to be sent.
+   *
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   send(service: any, message: string): Promise<IDIDCommTransportResult>
 }
 
 /**
  * Abstract implementation of {@link IDIDCommTransport}.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export abstract class AbstractDIDCommTransport implements IDIDCommTransport {
   id: string
@@ -54,8 +59,10 @@ export abstract class AbstractDIDCommTransport implements IDIDCommTransport {
   /**
    * Shared constructor that takes an optional identifier (for reusing) for
    * this {@link IDIDCommTransport}.
-   * @param id An optional identifier for this {@link IDIDCommTransport}.
-   * @beta
+   *
+   * @param id - An optional identifier for this {@link IDIDCommTransport}.
+   *
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   constructor(id?: string) {
     this.id = id || uuidv4()
@@ -71,7 +78,8 @@ export abstract class AbstractDIDCommTransport implements IDIDCommTransport {
 /**
  * Implementation of {@link IDIDCommTransport} to provide a simple
  * transport based on HTTP(S) requests.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class DIDCommHttpTransport extends AbstractDIDCommTransport {
   /**
@@ -82,7 +90,7 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
   /**
    * Creates a new {@link DIDCommHttpTransport}.
-   * @param httpMethod Default HTTP method if not specified in the service
+   * @param httpMethod - Default HTTP method if not specified in the service
    * section.
    */
   constructor(httpMethod?: 'post' | 'get') {
@@ -92,17 +100,43 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
   /** {@inheritdoc AbstractDIDCommTransport.isServiceSupported} */
   isServiceSupported(service: any) {
-    // FIXME: TODO: addtionally handle serviceEndpoint objects in did docs
+    // serviceEndpoint can be a string, a ServiceEndpoint object, or an array of strings or ServiceEndpoint objects
     return (
-      typeof service.serviceEndpoint === 'string' &&
-      (service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://'))
+      (typeof service.serviceEndpoint === 'string'  && (
+        service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.uri &&  typeof service.serviceEndpoint.uri === 'string' && (
+        service.serviceEndpoint.uri.startsWith('http://') || service.serviceEndpoint.uri.startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0] === 'string' && (
+        service.serviceEndpoint[0].startsWith('http://') || service.serviceEndpoint[0].startsWith('https://')
+      ))
+      || 
+      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0].uri === 'string' && (
+        service.serviceEndpoint[0].uri.startsWith('http://') || service.serviceEndpoint[0].uri.startsWith('https://')
+      ))
     )
   }
 
   /** {@inheritdoc AbstractDIDCommTransport.send} */
   async send(service: any, message: string): Promise<IDIDCommTransportResult> {
+    let serviceEndpointUrl = ''
+    if (typeof service.serviceEndpoint === 'string') {
+      serviceEndpointUrl = service.serviceEndpoint
+    } else if (service.serviceEndpoint.uri) {
+      serviceEndpointUrl = service.serviceEndpoint.uri
+    } else if (service.serviceEndpoint.length > 0) {
+      if (typeof service.serviceEndpoint[0] === 'string') {
+        serviceEndpointUrl = service.serviceEndpoint[0]
+      } else if (service.serviceEndpoint[0].uri) {
+        serviceEndpointUrl = service.serviceEndpoint[0].uri
+      }
+    }
+    
     try {
-      const response = await fetch(service.serviceEndpoint, {
+      const response = await fetch(serviceEndpointUrl, {
         method: this.httpMethod,
         body: message,
       })

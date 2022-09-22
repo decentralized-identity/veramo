@@ -1,31 +1,45 @@
-import { IAgentContext, IDIDManager, IKeyManager, IAgentPlugin, VerifiablePresentation } from '@veramo/core'
-import { IDataStoreORM, TClaimsColumns, FindArgs } from '@veramo/data-store'
-import { ICredentialIssuer } from '@veramo/credential-w3c'
 import {
+  FindArgs,
+  IAgentContext,
+  IAgentPlugin,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  TClaimsColumns,
+  VerifiablePresentation,
+} from '@veramo/core'
+import { ICredentialIssuer } from '@veramo/core'
+import {
+  ICreateProfileCredentialsArgs,
+  ICreateSelectiveDisclosureRequestArgs,
   ICredentialsForSdr,
+  IGetVerifiableCredentialsForSdrArgs,
   IPresentationValidationResult,
   ISelectiveDisclosure,
-  ICreateSelectiveDisclosureRequestArgs,
-  IGetVerifiableCredentialsForSdrArgs,
-  IValidatePresentationAgainstSdrArgs,
   ISelectiveDisclosureRequest,
-  ICreateProfileCredentialsArgs,
+  IValidatePresentationAgainstSdrArgs,
 } from './types'
 import { schema } from './'
 import { createJWT } from 'did-jwt'
-import { blake2bHex } from 'blakejs'
 import Debug from 'debug'
+import {
+  asArray,
+  bytesToBase64,
+  computeEntryHash,
+  decodeCredentialToObject,
+  extractIssuer,
+} from '@veramo/utils'
 
 /**
  * This class adds support for creating
- * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure} requests
- * and interpret the responses received.
+ * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
+ * requests and interpret the responses received.
  *
  * This implementation of the uPort protocol uses
  * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Presentation}
  * as the response encoding instead of a `shareReq`.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class SelectiveDisclosure implements IAgentPlugin {
   readonly methods: ISelectiveDisclosure
@@ -43,12 +57,14 @@ export class SelectiveDisclosure implements IAgentPlugin {
   /**
    * Creates a Selective disclosure request, encoded as a JWT.
    *
-   * @remarks See {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
+   * @remarks See
+   *   {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
    *
-   * @param args - The param object with the properties necessary to create the request. See {@link ISelectiveDisclosureRequest}
+   * @param args - The param object with the properties necessary to create the request. See
+   *   {@link ISelectiveDisclosureRequest}
    * @param context - *RESERVED* This is filled by the framework when the method is called.
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   async createSelectiveDisclosureRequest(
     args: ICreateSelectiveDisclosureRequestArgs,
@@ -63,12 +79,12 @@ export class SelectiveDisclosure implements IAgentPlugin {
       const key = identifier.keys.find((k) => k.type === 'Secp256k1')
       if (!key) throw Error('Signing key not found')
       const signer = (data: string | Uint8Array) => {
-        let dataString, encoding: 'base16' | undefined
+        let dataString, encoding: 'base64' | undefined
         if (typeof data === 'string') {
           dataString = data
           encoding = undefined
         } else {
-          ;(dataString = Buffer.from(data).toString('hex')), (encoding = 'base16')
+          ;(dataString = bytesToBase64(data)), (encoding = 'base64')
         }
         return context.agent.keyManagerSign({ keyRef: key.kid, data: dataString, encoding })
       }
@@ -91,13 +107,13 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
   /**
    * Gathers the required credentials necessary to fulfill a Selective Disclosure Request.
-   * It uses the {@link @veramo/data-store#IDataStoreORM} plugin to query the local database for
+   * It uses a {@link @veramo/core#IDataStoreORM} plugin implementation to query the local database for
    * the required credentials.
    *
    * @param args - Contains the Request to be fulfilled and the DID of the subject
    * @param context - *RESERVED* This is filled by the framework when the method is called.
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   async getVerifiableCredentialsForSdr(
     args: IGetVerifiableCredentialsForSdrArgs,
@@ -150,13 +166,12 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
   /**
    * Validates a
-   * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure response}
-   * encoded as a `Presentation`
+   * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure response} encoded as a `Presentation`
    *
    * @param args - Contains the request and the response `Presentation` that needs to be checked.
    * @param context - *RESERVED* This is filled by the framework when the method is called.
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   async validatePresentationAgainstSdr(
     args: IValidatePresentationAgainstSdrArgs,
@@ -165,42 +180,47 @@ export class SelectiveDisclosure implements IAgentPlugin {
     let valid = true
     let claims = []
     for (const credentialRequest of args.sdr.claims) {
-      let credentials = (args.presentation?.verifiableCredential || []).filter((credential) => {
-        if (
-          credentialRequest.claimType &&
-          credentialRequest.claimValue &&
-          credential.credentialSubject[credentialRequest.claimType] !== credentialRequest.claimValue
-        ) {
-          return false
-        }
+      let credentials = (args.presentation?.verifiableCredential || [])
+        .map(decodeCredentialToObject)
+        .filter((credential) => {
+          if (
+            credentialRequest.claimType &&
+            credentialRequest.claimValue &&
+            credential.credentialSubject[credentialRequest.claimType] !== credentialRequest.claimValue
+          ) {
+            return false
+          }
 
-        if (
-          credentialRequest.claimType &&
-          !credentialRequest.claimValue &&
-          credential.credentialSubject[credentialRequest.claimType] === undefined
-        ) {
-          return false
-        }
+          if (
+            credentialRequest.claimType &&
+            !credentialRequest.claimValue &&
+            credential.credentialSubject[credentialRequest.claimType] === undefined
+          ) {
+            return false
+          }
 
-        if (
-          credentialRequest.issuers &&
-          !credentialRequest.issuers.map((i) => i.did).includes(credential.issuer.id)
-        ) {
-          return false
-        }
-        if (
-          credentialRequest.credentialContext &&
-          !credential['@context'].includes(credentialRequest.credentialContext)
-        ) {
-          return false
-        }
+          if (
+            credentialRequest.issuers &&
+            !credentialRequest.issuers.map((i) => i.did).includes(extractIssuer(credential))
+          ) {
+            return false
+          }
+          if (
+            credentialRequest.credentialContext &&
+            !asArray(credential['@context'] || []).includes(credentialRequest.credentialContext)
+          ) {
+            return false
+          }
 
-        if (credentialRequest.credentialType && !credential.type.includes(credentialRequest.credentialType)) {
-          return false
-        }
+          if (
+            credentialRequest.credentialType &&
+            !asArray(credential.type || []).includes(credentialRequest.credentialType)
+          ) {
+            return false
+          }
 
-        return true
-      })
+          return true
+        })
 
       if (credentialRequest.essential === true && credentials.length == 0) {
         valid = false
@@ -209,7 +229,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
       claims.push({
         ...credentialRequest,
         credentials: credentials.map((vc) => ({
-          hash: blake2bHex(JSON.stringify(vc)),
+          hash: computeEntryHash(vc),
           verifiableCredential: vc,
         })),
       })
@@ -220,7 +240,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
   /**
    * Creates profile credentials
    *
-   * @beta
+   * @beta This API may change without a BREAKING CHANGE notice.
    */
   async createProfilePresentation(
     args: ICreateProfileCredentialsArgs,
@@ -252,9 +272,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
       const credential = await context.agent.createVerifiableCredential({
         credential: {
           issuer: { id: identifier.did },
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential', 'Profile'],
-          issuanceDate: new Date().toISOString(),
+          type: ['Profile'],
           credentialSubject: {
             id: identifier.did,
             picture: args.picture,
@@ -270,9 +288,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
       const credential = await context.agent.createVerifiableCredential({
         credential: {
           issuer: { id: identifier.did },
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential', 'Profile'],
-          issuanceDate: new Date().toISOString(),
+          type: ['Profile'],
           credentialSubject: {
             id: identifier.did,
             url: args.url,
@@ -288,9 +304,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
       presentation: {
         verifier: args.holder ? [args.holder] : [],
         holder: identifier.did,
-        '@context': ['https://www.w3.org/2018/credentials/v1'],
-        type: ['VerifiablePresentation', 'Profile'],
-        issuanceDate: new Date().toISOString(),
+        type: ['Profile'],
         verifiableCredential: credentials,
       },
       proofFormat: 'jwt',

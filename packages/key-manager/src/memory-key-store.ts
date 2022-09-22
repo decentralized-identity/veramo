@@ -7,6 +7,14 @@ import {
 } from './abstract-private-key-store'
 import { v4 as uuidv4 } from 'uuid'
 
+/**
+ * An implementation of {@link AbstractKeyStore} that holds everything in memory.
+ *
+ * This is usable by {@link @veramo/key-manager#KeyManager | KeyManager} to hold the key metadata and relationship to
+ * the KMS implementation.
+ *
+ * @public
+ */
 export class MemoryKeyStore extends AbstractKeyStore {
   private keys: Record<string, IKey> = {}
 
@@ -37,8 +45,10 @@ export class MemoryKeyStore extends AbstractKeyStore {
 
 /**
  * An implementation of {@link AbstractPrivateKeyStore} that holds everything in memory.
- * 
- * This is usable by {@link @veramo/kms-local} to hold the private key data.
+ *
+ * This is usable by {@link @veramo/kms-local#KeyManagementSystem} to hold the private key data.
+ *
+ * @public
  */
 export class MemoryPrivateKeyStore extends AbstractPrivateKeyStore {
   private privateKeys: Record<string, ManagedPrivateKey> = {}

@@ -1,5 +1,6 @@
-import { TAgent, IDIDManager, IIdentifier, IKey } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+// noinspection ES6PreferShortImport
+
+import { ICredentialIssuer, IDIDManager, IIdentifier, IKey, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer>
 
@@ -65,18 +66,18 @@ export default (testContext: {
     it('should create identifier with alias: alice', async () => {
       alice = await agent.didManagerGetOrCreate({
         alias: 'alice',
-        provider: 'did:ethr:rinkeby'
+        provider: 'did:ethr:rinkeby',
       })
-      
+
       expect(alice.provider).toEqual('did:ethr:rinkeby')
       expect(alice.alias).toEqual('alice')
       expect(alice.did).toBeDefined()
     })
-    
+
     it('should create identifier with alias: bob', async () => {
       bob = await agent.didManagerGetOrCreate({
         alias: 'bob',
-        provider: 'did:ethr:rinkeby'
+        provider: 'did:ethr:rinkeby',
       })
 
       expect(bob.provider).toEqual('did:ethr:rinkeby')

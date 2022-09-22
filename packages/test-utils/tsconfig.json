@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "declarationDir": "build"
+  },
+  "references": [
+    { "path": "../core" },
+    { "path": "../data-store-json" },
+    { "path": "../did-discovery" },
+    { "path": "../did-manager" },
+    { "path": "../key-manager" },
+    { "path": "../utils" },
+  ]
+}

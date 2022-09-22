@@ -3,10 +3,18 @@ import { arrayify } from '@ethersproject/bytes'
 import { serialize } from '@ethersproject/transactions'
 import * as u8a from 'uint8arrays'
 
+/**
+ * This base abstract class should be extended to provide cryptographic functions to other Veramo plugins.
+ *
+ * @public
+ */
 export abstract class AbstractKeyManagementSystem {
   abstract importKey(args: Exclude<MinimalImportableKey, 'kms'>): Promise<ManagedKeyInfo>
+
   abstract listKeys(): Promise<Array<ManagedKeyInfo>>
+
   abstract createKey(args: { type: TKeyType; meta?: any }): Promise<ManagedKeyInfo>
+
   abstract deleteKey(args: { kid: string }): Promise<boolean>
 
   /**@deprecated please use `sign({key, alg: 'eth_signTransaction', data: arrayify(serialize(transaction))})` instead */

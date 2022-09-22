@@ -1,5 +1,12 @@
 import { IMessage, IMetaData, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
 
+/**
+ * A class implementing {@link @veramo/core#IMessage | IMessage}.
+ *
+ * This is used by {@link @veramo/message-handler#MessageHandler | MessageHandler}.
+ *
+ * @public
+ */
 export class Message implements IMessage {
   constructor(data?: { raw: string; metaData?: IMetaData[] }) {
     if (data?.raw) {

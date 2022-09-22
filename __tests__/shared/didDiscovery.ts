@@ -1,9 +1,7 @@
+// noinspection ES6PreferShortImport
+
 import { IDIDDiscovery } from '../../packages/did-discovery/src'
-import { TAgent, IDIDManager, IKeyManager, IIdentifier } from '../../packages/core/src'
-import { IDataStoreORM } from '../../packages/data-store/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
-import { getConnection } from 'typeorm'
-import { IAgentOptions } from '@veramo/core'
+import { IAgentOptions, ICredentialIssuer, IDataStoreORM, IDIDManager, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IDIDDiscovery & IDataStoreORM & ICredentialIssuer>
 
@@ -84,10 +82,9 @@ export default (testContext: {
       })
 
       const result = await agent.discoverDid({ query: 'bob' })
-
       expect(result.results).toHaveLength(2)
       expect(result.results[0].matches).toHaveLength(1)
-      expect(result.results[1].matches).toHaveLength(2)
+      expect(result.results[1].matches).toHaveLength(3)
 
       expect(result.results[0].matches[0]).toEqual({
         did: identifier.did,
@@ -100,14 +97,31 @@ export default (testContext: {
         did: identifier.did,
         metaData: { verifiableCredential },
       })
+
+      expect(result.results[1].matches[2]).toEqual({
+        did: identifier.did,
+        metaData: {
+          alias: 'bob',
+        },
+      })
+
+      const byDIDFragmentResult = await agent.discoverDid({
+        query: identifier.did.substring(3, identifier.did.length - 3),
+      })
+      expect(byDIDFragmentResult.results).toHaveLength(1)
+      expect(byDIDFragmentResult.results[0].matches).toHaveLength(2)
+
+      expect(byDIDFragmentResult.results[0].matches[1]).toEqual({
+        did: identifier.did,
+        metaData: {
+          alias: 'bob',
+        },
+      })
     })
 
-    // THIS HAS TO BE THE LAST TEST IN THIS FILE!
     it('should return errors', async () => {
-      const connection = getConnection('did-discovery-test')
-      await connection.close()
-      const result = await agent.discoverDid({ query: 'bob' })
-      expect(result?.errors?.profile).toMatch(/(Connection with sqlite database is not established)|(Cannot read property 'connect' of undefined)/)
+      const result = await agent.discoverDid({ query: 'broken' })
+      expect(result!.errors!['broken-discovery']).toMatch(/test_error/)
     })
   })
 }

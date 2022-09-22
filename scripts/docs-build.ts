@@ -46,8 +46,8 @@ async function main() {
             title = titleLine[1]
           }
         }
-        const indexHomeLink = line.match(/\[Home\]\(.\/index\.md\)/)
-        const homeLink = line.match(/\[Home\]\(.\/index\.md\) &gt; (.*)/)
+        const indexHomeLink = line.match(/\[Home]\(.\/index\.md\)/)
+        const homeLink = line.match(/\[Home]\(.\/index\.md\) &gt; (.*)/)
         if (homeLink) {
           line = line.replace('Home', 'Packages')
         }

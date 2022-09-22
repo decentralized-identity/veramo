@@ -1,63 +1,74 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials, presentations, messages as well as keys and DIDs.
- * 
+ *
  * This suite also runs a ganache local blockchain to run through some examples of DIDComm using did:ethr identifiers.
  */
 
 import {
   createAgent,
-  TAgent,
-  IDIDManager,
-  IResolver,
-  IKeyManager,
-  IDataStore,
-  IMessageHandler,
   IAgentOptions,
+  ICredentialPlugin,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  IMessageHandler,
+  IResolver,
+  TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager, AliasDiscoveryProvider } from '../packages/did-manager/src'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+} from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm, DIDCommHttpTransport } from '../packages/did-comm/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
-  SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
+  SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import { IDIDDiscovery, DIDDiscovery } from '../packages/did-discovery/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 
 import {
+  DataStore,
+  DataStoreDiscoveryProvider,
+  DataStoreORM,
+  DIDStore,
   Entities,
   KeyStore,
-  DIDStore,
-  IDataStoreORM,
-  DataStore,
-  DataStoreORM,
-  ProfileDiscoveryProvider,
-  PrivateKeyStore,
   migrations,
+  PrivateKeyStore,
 } from '../packages/data-store/src'
-import { createConnection, Connection } from 'typeorm'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider'
-import { Resolver } from 'did-resolver'
+import { createEthersProvider } from './utils/ethers-provider'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import fs from 'fs'
-
-jest.setTimeout(30000)
-
+import { contexts as credential_contexts } from '@transmute/credentials-context'
+import * as fs from 'fs'
 // Shared tests
-import verifiableData from './shared/verifiableData'
+import verifiableDataJWT from './shared/verifiableDataJWT'
+import verifiableDataLD from './shared/verifiableDataLD'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
@@ -70,6 +81,11 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
+import utils from './shared/utils'
+import web3 from './shared/web3'
+import credentialStatus from './shared/credentialStatus'
+
+jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -82,16 +98,19 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
-    ICredentialIssuer &
+    ICredentialPlugin &
+    ICredentialIssuerLD &
+    ICredentialIssuerEIP712 &
     ISelectiveDisclosure &
     IDIDDiscovery
 >
-let dbConnection: Promise<Connection>
+let dbConnection: Promise<DataSource>
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
-  dbConnection = createConnection({
+  databaseFile =
+    options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
+  dbConnection = new DataSource({
     name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',
     database: databaseFile,
@@ -102,9 +121,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
-  })
+  }).initialize()
 
   const { provider, registry } = await createGanacheProvider()
+  const ethersProvider = createEthersProvider()
 
   agent = createAgent<
     IDIDManager &
@@ -114,19 +134,24 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
-      ICredentialIssuer &
+      ICredentialPlugin &
+      ICredentialIssuerLD &
+      ICredentialIssuerEIP712 &
       ISelectiveDisclosure &
       IDIDDiscovery
   >({
     ...options,
     context: {
-      // authenticatedDid: 'did:example:3456'
+      // authorizedDID: 'did:example:3456'
     },
     plugins: [
       new KeyManager({
         store: new KeyStore(dbConnection),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
+          web3: new Web3KeyManagementSystem({
+            ethers: ethersProvider,
+          }),
         },
       }),
       new DIDManager({
@@ -135,29 +160,29 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
-            network: 'mainnet',
-            rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:rinkeby': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 'rinkeby',
-            rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
-            ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:421611': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 421611,
-            rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
-            registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
-          }),
-          'did:ethr:ganache': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 1337,
-            web3Provider: provider,
-            registry,
+            networks: [
+              {
+                name: 'mainnet',
+                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                name: 'rinkeby',
+                rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                chainId: 421611,
+                name: 'arbitrum:rinkeby',
+                rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
+                registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+              },
+              {
+                chainId: 1337,
+                name: 'ganache',
+                provider,
+                registry,
+              },
+            ],
           }),
           'did:web': new WebDIDProvider({
             defaultKms: 'local',
@@ -169,22 +194,20 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         },
       }),
       new DIDResolverPlugin({
-        resolver: new Resolver({
-          ...ethrDidResolver({
-            infuraProjectId,
-            networks: [
-              {
-                name: 'ganache',
-                chainId: 1337,
-                provider,
-                registry,
-              },
-            ],
-          }),
-          ...webDidResolver(),
-          ...getDidKeyResolver(),
-          ...new FakeDidResolver(() => agent).getDidFakeResolver(),
+        ...ethrDidResolver({
+          infuraProjectId,
+          networks: [
+            {
+              name: 'ganache',
+              chainId: 1337,
+              provider,
+              registry,
+            },
+          ],
         }),
+        ...webDidResolver(),
+        ...getDidKeyResolver(),
+        ...new FakeDidResolver(() => agent).getDidFakeResolver(),
       }),
       new DataStore(dbConnection),
       new DataStoreORM(dbConnection),
@@ -197,10 +220,19 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm([new DIDCommHttpTransport()]),
-      new CredentialIssuer(),
+      new CredentialPlugin(),
+      new CredentialIssuerEIP712(),
+      new CredentialIssuerLD({
+        contextMaps: [LdDefaultContexts, credential_contexts as any],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+      }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
-        providers: [new AliasDiscoveryProvider(), new ProfileDiscoveryProvider()],
+        providers: [
+          new AliasDiscoveryProvider(),
+          new DataStoreDiscoveryProvider(),
+          new BrokenDiscoveryProvider(),
+        ],
       }),
       ...(options?.plugins || []),
     ],
@@ -228,7 +260,9 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local integration tests', () => {
-  verifiableData(testContext)
+  verifiableDataJWT(testContext)
+  verifiableDataLD(testContext)
+  verifiableDataEIP712(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)
@@ -240,5 +274,8 @@ describe('Local integration tests', () => {
   didCommPacking(testContext)
   didDiscovery(testContext)
   dbInitOptions(testContext)
+  utils(testContext)
+  web3(testContext)
   didCommWithEthrDidFlow(testContext)
+  credentialStatus(testContext)
 })

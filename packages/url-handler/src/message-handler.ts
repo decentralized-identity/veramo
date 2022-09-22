@@ -1,10 +1,18 @@
+import 'cross-fetch/polyfill'
 import { IAgentContext } from '@veramo/core'
 import { Message, AbstractMessageHandler } from '@veramo/message-handler'
 import parse = require('url-parse')
 
 import Debug from 'debug'
+
 const debug = Debug('veramo:url:message-handler')
 
+/**
+ * An implementation of {@link @veramo/message-handler#AbstractMessageHandler | AbstractMessageHandler} that can
+ * extract a message from a URL.
+ *
+ * @public
+ */
 export class UrlMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<{}>): Promise<Message> {
     if (message.raw) {

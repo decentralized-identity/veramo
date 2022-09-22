@@ -1,15 +1,16 @@
 import { IAgentContext, IMessageHandler } from '@veramo/core'
 import { Message, AbstractMessageHandler } from '@veramo/message-handler'
-import { blake2bHex } from 'blakejs'
+import { v4 as uuidv4 } from 'uuid'
 
 import Debug from 'debug'
+import { asArray, computeEntryHash } from '@veramo/utils'
 const debug = Debug('veramo:selective-disclosure:message-handler')
 
 /**
  * Identifies a {@link @veramo/core#IMessage} that represents a Selective Disclosure Request
  *
  * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export const MessageTypes = {
   sdr: 'sdr',
@@ -19,7 +20,7 @@ export const MessageTypes = {
  * A Veramo message handler plugin that can decode an incoming Selective Disclosure Response
  * into the internal Message representation.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class SdrMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message> {
@@ -28,16 +29,12 @@ export class SdrMessageHandler extends AbstractMessageHandler {
     if (message?.data?.type == MessageTypes.sdr && message?.data?.claims) {
       debug('Message type is', MessageTypes.sdr)
 
-      message.id = blake2bHex(message.raw)
+      message.id = computeEntryHash(message.raw || message.id || uuidv4())
       message.type = MessageTypes.sdr
       message.from = message.data.iss
 
       if (message.data.replyTo) {
-        message.replyTo = Array.isArray(message.data.replyTo)
-          ? message.data.replyTo
-          : message.data.replyTo
-          ? [message.data.replyTo]
-          : undefined
+        message.replyTo = asArray(message.data.replyTo)
       }
 
       if (message.data.replyUrl) {

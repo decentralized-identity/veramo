@@ -1,8 +1,9 @@
 import blessed, { Widgets } from 'blessed'
-import { UniqueVerifiablePresentation } from '@veramo/data-store'
-import { shortDate, shortDid } from './utils'
+import { UniqueVerifiablePresentation } from '@veramo/core'
+import { shortDate, shortDid, copyToClipboard } from './utils'
 import { ConfiguredAgent } from '../setup'
 import { styles } from './styles'
+import { asArray } from '@veramo/utils'
 
 export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {
   screen.title = 'Presentations'
@@ -25,9 +26,9 @@ export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widg
     [['Created', 'Type', 'Holder', 'Verifier']].concat(
       presentations.map(({ verifiablePresentation: m }) => [
         shortDate(m.issuanceDate),
-        m.type.join(','),
+        asArray(m.type || []).join(','),
         shortDid(m.holder),
-        shortDid(m.verifier.join(',')),
+        shortDid(asArray(m.verifier || []).join(',')),
       ]),
     ),
   )
@@ -62,6 +63,23 @@ export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widg
       },
 
       content: JSON.stringify(presentation, null, 2),
+    })
+    presentationBox.key(['c'], function (ch, key) {
+      var messageBox = blessed.message({
+        parent: screen,
+        top: 'center',
+        left: 'center',
+        height: 'shrink',
+        width: 'shrink',
+        border: 'line',
+        shadow: true,
+        style: {
+          fg: 'green'
+        },
+      })
+      const success = copyToClipboard(JSON.stringify(presentation, null, 2))
+      const message = success ? 'Copied to clipboard.' : 'Could not copy to clipboard.'
+      messageBox.display(message, () => {})
     })
     presentationBox.key(['escape'], function (ch, key) {
       presentationBox.destroy()

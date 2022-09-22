@@ -2,8 +2,12 @@
   "files": [],
   "references": [
     { "path": "core" },
+    { "path": "credential-eip712" },
+    { "path": "credential-ld" },
+    { "path": "credential-status"},
     { "path": "credential-w3c" },
     { "path": "data-store" },
+    { "path": "data-store-json" },
     { "path": "did-comm" },
     { "path": "did-discovery" },
     { "path": "did-jwt" },
@@ -14,10 +18,12 @@
     { "path": "did-resolver" },
     { "path": "key-manager" },
     { "path": "kms-local" },
+    { "path": "kms-web3" },
     { "path": "message-handler" },
     { "path": "remote-client" },
     { "path": "remote-server" },
     { "path": "selective-disclosure" },
-    { "path": "url-handler" }
+    { "path": "url-handler" },
+    { "path": "utils" }
   ]
 }

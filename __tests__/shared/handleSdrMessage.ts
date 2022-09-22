@@ -1,10 +1,18 @@
-import { TAgent, IDIDManager, IIdentifier, IDataStore, IMessageHandler } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+// noinspection ES6PreferShortImport
+
+import {
+  ICredentialPlugin,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IIdentifier,
+  IMessageHandler,
+  TAgent,
+} from '../../packages/core/src'
 import { ISelectiveDisclosure, SelectiveDisclosure } from '../../packages/selective-disclosure/src'
-import { IDataStoreORM } from '../../packages/data-store/src'
 
 type ConfiguredAgent = TAgent<
-  IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
+  IDIDManager & ICredentialPlugin & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
 >
 
 export default (testContext: {
@@ -118,7 +126,7 @@ export default (testContext: {
       })
 
       expect(credentials[0].credentials[0]).toHaveProperty('hash')
-      expect(credentials[0].credentials[0]).toHaveProperty('verifiableCredential.proof.jwt')
+      expect(credentials[0].credentials[0]).toHaveProperty('verifiableCredential.proof')
     })
 
     it('should create verifiable presentation', async () => {

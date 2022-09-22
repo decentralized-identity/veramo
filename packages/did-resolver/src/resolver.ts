@@ -1,29 +1,44 @@
 import { DIDDocumentSection, IAgentPlugin, IResolver, schema } from '@veramo/core'
+import { isDefined } from '@veramo/utils'
 import {
-  Resolver,
   DIDDocument,
-  DIDResolutionResult,
   DIDResolutionOptions,
-  VerificationMethod,
-  ServiceEndpoint,
+  DIDResolutionResult,
+  DIDResolver,
   parse as parseDID,
+  Resolvable,
+  Resolver,
+  ServiceEndpoint,
+  VerificationMethod,
 } from 'did-resolver'
-export { DIDDocument }
 import Debug from 'debug'
+
 const debug = Debug('veramo:resolver')
 
-interface Options {
-  resolver: Resolver
-}
-
+/**
+ * A Veramo Plugin that enables users to resolve DID documents.
+ *
+ * This plugin is used automatically by plugins that create or verify Verifiable Credentials or Presentations or when
+ * working with DIDComm
+ *
+ * @public
+ */
 export class DIDResolverPlugin implements IAgentPlugin {
   readonly methods: IResolver
   readonly schema = schema.IResolver
-  private didResolver: Resolver
+  private didResolver: Resolvable
 
-  constructor(options: Options) {
-    if (!options.resolver) throw Error('Missing resolver')
-    this.didResolver = options.resolver
+  constructor(options: { resolver?: Resolvable } | { [didMethod: string]: DIDResolver }) {
+    const { resolver, ...resolverMap } = options
+    if (isDefined(resolver)) {
+      this.didResolver = resolver as Resolvable
+    } else if (Object.keys(resolverMap).length > 0) {
+      this.didResolver = new Resolver(resolverMap as Record<string, DIDResolver>)
+    } else {
+      throw Error(
+        'invalid_setup: The DIDResolverPlugin must be initialized with a Resolvable or a map of methods to DIDResolver implementations',
+      )
+    }
 
     this.methods = {
       resolveDid: this.resolveDid.bind(this),
@@ -44,7 +59,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
       accept: 'application/did+ld+json',
       ...options,
     }
-    
+
     // ensure the required fields are present, even if the resolver is not compliant
     const cannedResponse: DIDResolutionResult = {
       didDocumentMetadata: {},
@@ -53,7 +68,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     }
 
     const resolution = await this.didResolver.resolve(didUrl, resolverOptions)
-    
+
     return {
       ...cannedResponse,
       ...resolution,

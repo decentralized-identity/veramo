@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "lib": [
+      "dom",
+      "esnext"
+    ]
+  },
+  "references": [
+    { "path": "../core" },
+    { "path": "../did-manager" },
+    { "path": "../key-manager" },
+    { "path": "../utils" }
+  ]
+}

@@ -1,48 +1,60 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This runs a suite of ./shared tests using an agent configured for local operations,
  * using a SQLite db for storage of credentials and an in-memory store for keys and DIDs.
- * 
+ *
  */
 import {
   createAgent,
-  TAgent,
-  IDIDManager,
-  IResolver,
-  IKeyManager,
-  IDataStore,
-  IMessageHandler,
   IAgentOptions,
+  ICredentialPlugin,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  IMessageHandler,
+  IResolver,
+  TAgent,
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src'
 import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
-import { createConnection, Connection } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+} from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
-  SelectiveDisclosure,
   ISelectiveDisclosure,
   SdrMessageHandler,
+  SelectiveDisclosure,
 } from '../packages/selective-disclosure/src'
 import { KeyManagementSystem } from '../packages/kms-local/src'
-import { Entities, IDataStoreORM, DataStore, DataStoreORM, migrations } from '../packages/data-store/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
+import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import fs from 'fs'
-
-jest.setTimeout(30000)
-
+import { contexts as credential_contexts } from '@transmute/credentials-context'
+import * as fs from 'fs'
 // Shared tests
-import verifiableData from './shared/verifiableData'
+import verifiableDataJWT from './shared/verifiableDataJWT'
+import verifiableDataLD from './shared/verifiableDataLD'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
@@ -52,6 +64,10 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import messageHandler from './shared/messageHandler'
+import utils from './shared/utils'
+import credentialStatus from './shared/credentialStatus'
+
+jest.setTimeout(60000)
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
@@ -64,19 +80,22 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
-    ICredentialIssuer &
+    ICredentialPlugin &
+    ICredentialIssuerLD &
+    ICredentialIssuerEIP712 &
     ISelectiveDisclosure
 >
-let dbConnection: Promise<Connection>
+let dbConnection: DataSource
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  dbConnection = createConnection({
+  // intentionally not initializing here to test compatibility
+  dbConnection = new DataSource({
     name: 'test',
     type: 'sqlite',
     database: databaseFile,
     synchronize: false,
     migrations: migrations,
-    migrationsRun:true,
+    migrationsRun: true,
     logging: false,
     entities: Entities,
   })
@@ -89,18 +108,21 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
-      ICredentialIssuer &
+      ICredentialPlugin &
+      ICredentialIssuerLD &
+      ICredentialIssuerEIP712 &
       ISelectiveDisclosure
   >({
     ...options,
     context: {
-      // authenticatedDid: 'did:example:3456'
+      // authorizedDID: 'did:example:3456'
     },
     plugins: [
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
           local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
+          web3: new Web3KeyManagementSystem({}),
         },
       }),
       new DIDManager({
@@ -109,23 +131,23 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
-            network: 'mainnet',
-            rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:rinkeby': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 'rinkeby',
-            rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
-            gas: 1000001,
-            ttl: 60 * 60 * 24 * 30 * 12 + 1,
-          }),
-          'did:ethr:421611': new EthrDIDProvider({
-            defaultKms: 'local',
-            network: 421611,
-            rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
-            registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+            networks: [
+              {
+                name: 'mainnet',
+                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                name: 'rinkeby',
+                rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+              },
+              {
+                chainId: 421611,
+                name: 'arbitrum:rinkeby',
+                rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
+                registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+              },
+            ],
           }),
           'did:web': new WebDIDProvider({
             defaultKms: 'local',
@@ -155,7 +177,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new CredentialIssuer(),
+      new CredentialPlugin(),
+      new CredentialIssuerEIP712(),
+      new CredentialIssuerLD({
+        contextMaps: [LdDefaultContexts, credential_contexts as any],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+      }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],
@@ -170,7 +197,7 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     // nop
   }
-  try{
+  try {
     fs.unlinkSync(databaseFile)
   } catch (e) {
     //nop
@@ -183,7 +210,9 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local in-memory integration tests', () => {
-  verifiableData(testContext)
+  verifiableDataJWT(testContext)
+  verifiableDataLD(testContext)
+  verifiableDataEIP712(testContext)
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)
@@ -193,4 +222,6 @@ describe('Local in-memory integration tests', () => {
   didManager(testContext)
   messageHandler(testContext)
   didCommPacking(testContext)
+  utils(testContext)
+  credentialStatus(testContext)
 })

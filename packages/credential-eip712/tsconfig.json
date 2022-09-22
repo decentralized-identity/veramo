@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "declarationDir": "build",
+    // https://github.com/transmute-industries/vc.js/issues/60
+    "skipLibCheck": true
+  },
+  "references": [
+    { "path": "../core" },
+    { "path": "../utils" }
+  ]
+}

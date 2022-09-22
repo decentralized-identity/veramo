@@ -11,7 +11,7 @@ type IContext = IAgentContext<IKeyManager>
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:key` identifiers
  *
- * @alpha
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class KeyDIDProvider extends AbstractIdentifierProvider {
   private defaultKms: string
@@ -44,6 +44,10 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     return identifier
   }
 
+  async updateIdentifier(args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any }, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
+    throw new Error('KeyDIDProvider updateIdentifier not supported yet.')
+  }
+
   async deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean> {
     for (const { kid } of identifier.keys) {
       await context.agent.keyManagerDelete({ kid })
@@ -55,7 +59,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext,
   ): Promise<any> {
-    throw Error('KeyDIDProvider deleteIdentity not supported')
+    throw Error('KeyDIDProvider addKey not supported')
   }
 
   async addService(

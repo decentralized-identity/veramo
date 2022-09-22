@@ -1,16 +1,18 @@
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
+import { Web3Provider } from '@ethersproject/providers'
 import { Contract, ContractFactory } from '@ethersproject/contracts'
+// @ts-ignore
 import DidRegistryContract from 'ethr-did-registry'
-import ganache from 'ganache-cli'
+import ganache from 'ganache'
 
 /**
  * Creates a Web3Provider that connects to a local ganache instance with a bunch of known keys and an ERC1056 contract.
- * 
+ *
  * This provider can only be used in a single test suite, because of some concurrency issues with ganache.
  */
-export async function createGanacheProvider(): Promise<{ provider: JsonRpcProvider; registry: string }> {
+export async function createGanacheProvider(): Promise<{ provider: Web3Provider; registry: string }> {
   const provider = new Web3Provider(
     ganache.provider({
+      logging: { quiet: true },
       accounts: [
         {
           secretKey: '0x278a5de700e29faae8e40e366ec5012b5ec63d36ec77e8a2417154cc1d25383f',
@@ -53,7 +55,7 @@ export async function createGanacheProvider(): Promise<{ provider: JsonRpcProvid
           balance: `0x1000000000000000000000`,
         },
       ],
-    }),
+    }) as any
   )
   await provider.ready
   const factory = ContractFactory.fromSolidity(DidRegistryContract).connect(provider.getSigner(0))

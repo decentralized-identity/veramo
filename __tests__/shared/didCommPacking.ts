@@ -1,4 +1,6 @@
-import { TAgent, IDIDManager, IKeyManager, IIdentifier, IResolver } from '../../packages/core/src'
+// noinspection ES6PreferShortImport
+
+import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
@@ -128,6 +130,75 @@ export default (testContext: {
       const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
       expect(unpackedMessage.message).toEqual(message)
       expect(unpackedMessage.metaData).toEqual({ packing: 'authcrypt' })
+    })
+
+    it('should pack and unpack message with multiple bcc recipients', async () => {
+      expect.assertions(2)
+
+      const originator = await agent.didManagerCreate({
+        provider: 'did:key',
+      })
+      const beneficiary1 = await agent.didManagerCreate({
+        provider: 'did:key',
+      })
+      const beneficiary2 = await agent.didManagerCreate({
+        provider: 'did:key',
+      })
+
+      const message = {
+        type: 'test',
+        from: originator.did,
+        to: originator.did,
+        id: 'test',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message,
+        options: { bcc: [beneficiary1.did, beneficiary2.did] },
+      })
+
+      // delete originator's key from local KMS
+      await agent.didManagerDelete({ did: originator.did })
+
+      // bcc'd beneficiaries should be able to decrypt
+      const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
+      expect(unpackedMessage.message).toEqual(message)
+      expect(unpackedMessage.metaData).toEqual({ packing: 'authcrypt' })
+    })
+
+    it('should pack and fail unpacking message with multiple bcc recipients', async () => {
+      const originator = await agent.didManagerCreate({
+        provider: 'did:key',
+      })
+      const beneficiary1 = await agent.didManagerCreate({
+        provider: 'did:key',
+      })
+      const beneficiary2 = await agent.didManagerCreate({
+        provider: 'did:key',
+      })
+
+      const message = {
+        type: 'test',
+        from: originator.did,
+        to: originator.did,
+        id: 'test',
+        body: { hello: 'world' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message,
+        options: { bcc: [beneficiary1.did, beneficiary2.did] },
+      })
+
+      // delete all keys
+      await agent.didManagerDelete({ did: originator.did })
+      await agent.didManagerDelete({ did: beneficiary1.did })
+      await agent.didManagerDelete({ did: beneficiary2.did })
+
+      await expect(agent.unpackDIDCommMessage(packedMessage)).rejects.toThrowError(
+        'unable to decrypt DIDComm message with any of the locally managed keys',
+      )
     })
   })
 }

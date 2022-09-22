@@ -1,22 +1,22 @@
 import { Credential, createCredentialEntity } from '../entities/credential'
 import { createPresentationEntity } from '../entities/presentation'
-import { createConnection, Connection, In } from 'typeorm'
+import { DataSource, In } from 'typeorm'
 import { Identifier, Message, Claim } from '../index'
 import { Entities } from '../index'
 import { blake2bHex } from 'blakejs'
-import fs from 'fs'
+import * as fs from 'fs'
 
 describe('DB entities test', () => {
-  let connection: Connection
+  let connection: DataSource
   const databaseFile = './tmp/test-db.sqlite'
 
   beforeAll(
     async () =>
-      (connection = await createConnection({
+      (connection = await new DataSource({
         type: 'sqlite',
         database: databaseFile,
         entities: Entities,
-      })),
+      }).initialize()),
   )
 
   beforeEach(async () => {
@@ -34,7 +34,7 @@ describe('DB entities test', () => {
     identifier.did = 'did:test:123'
     await identifier.save()
 
-    const fromDb = await Identifier.findOne(identifier.did)
+    const fromDb = await Identifier.findOneBy({ did: identifier.did })
     expect(fromDb?.did).toEqual(identifier.did)
   })
 
@@ -62,7 +62,8 @@ describe('DB entities test', () => {
     })
     await entity.save()
 
-    const credential = await Credential.findOne(entity.hash, {
+    const credential = await Credential.findOne({
+      where: { hash: entity.hash },
       relations: ['issuer', 'subject', 'claims', 'claims.issuer', 'claims.subject'],
     })
     expect(credential?.issuer.did).toEqual(did1)
@@ -135,7 +136,8 @@ describe('DB entities test', () => {
 
     await m.save()
 
-    const message = await Message.findOne(m.id, {
+    const message = await Message.findOne({
+      where: { id: m.id },
       relations: [
         'credentials',
         'credentials.issuer',
@@ -173,7 +175,7 @@ describe('DB entities test', () => {
 
     await message.save()
 
-    const fromDb = await Message.findOne(customId)
+    const fromDb = await Message.findOneBy({ id: customId })
 
     expect(fromDb?.id).toEqual(customId)
     expect(fromDb?.type).toEqual('custom')

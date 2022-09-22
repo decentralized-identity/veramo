@@ -1,14 +1,21 @@
 import 'cross-fetch/polyfill'
 import yaml from 'yaml'
-import { IDataStore, IDIDManager, IMessageHandler, IKeyManager, IResolver, TAgent } from '@veramo/core'
-import { ICredentialIssuer } from '@veramo/credential-w3c'
+import {
+  ICredentialPlugin,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  IMessageHandler,
+  IResolver,
+  TAgent,
+} from '@veramo/core'
 import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
-import { IDataStoreORM } from '@veramo/data-store'
 import { IDIDDiscovery } from '@veramo/did-discovery'
+import { createAgentFromConfig } from './lib/agentCreator'
 
 const fs = require('fs')
-import { createAgentFromConfig } from './lib/agentCreator'
 
 export const getConfig = (fileName: string): any => {
   if (!fs.existsSync(fileName)) {
@@ -33,13 +40,13 @@ export type EnabledInterfaces = IDIDManager &
   IResolver &
   IMessageHandler &
   IDIDComm &
-  ICredentialIssuer &
+  ICredentialPlugin &
   ISelectiveDisclosure &
   IDIDDiscovery
 
 export type ConfiguredAgent = TAgent<EnabledInterfaces>
 
-export function getAgent(fileName: string) {
+export function getAgent(fileName: string): ConfiguredAgent {
   try {
     return createAgentFromConfig<EnabledInterfaces>(getConfig(fileName))
   } catch (e: any) {

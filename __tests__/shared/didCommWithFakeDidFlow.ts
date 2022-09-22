@@ -1,11 +1,13 @@
+// noinspection ES6PreferShortImport
+
 import {
-  TAgent,
-  IDIDManager,
-  IKeyManager,
-  IIdentifier,
-  IResolver,
-  IEventListener,
   IAgentOptions,
+  IDIDManager,
+  IEventListener,
+  IIdentifier,
+  IKeyManager,
+  IResolver,
+  TAgent,
 } from '../../packages/core/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 

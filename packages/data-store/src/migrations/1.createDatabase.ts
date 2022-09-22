@@ -4,6 +4,8 @@ const debug = Debug('veramo:data-store:initial-migration')
 
 /**
  * Create the database layout for Veramo 3.0
+ *
+ * @public
  */
 export class CreateDatabase1447159020001 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {

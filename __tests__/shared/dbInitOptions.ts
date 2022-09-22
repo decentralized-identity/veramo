@@ -1,17 +1,20 @@
+// noinspection ES6PreferShortImport
+
 import {
-  TAgent,
-  IDIDManager,
-  IKeyManager,
-  IIdentifier,
   IAgentOptions,
-  IKey,
+  ICredentialIssuer,
   IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IIdentifier,
+  IKey,
+  IKeyManager,
   IMessageHandler,
   IResolver,
-} from '@veramo/core/src'
-import { IDataStoreORM } from '@veramo/data-store/src'
-import { ICredentialIssuer } from '@veramo/credential-w3c/src'
+  TAgent,
+} from '../../packages/core/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
+import { extractIssuer } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<
   IDataStoreORM &
@@ -145,6 +148,7 @@ export default (testContext: {
             proofFormat: 'jwt',
             credential: {
               credentialSubject: { id: identifier.did, pseudonym: 'FakeAlice' },
+              type: ['Example'],
               issuer: identifier.did,
             },
           })
@@ -155,7 +159,7 @@ export default (testContext: {
             hash: credentialId,
           })
           credentialRaw = retrieved.proof.jwt
-          expect(retrieved.issuer.id).toEqual(identifier.did)
+          expect(extractIssuer(retrieved)).toEqual(identifier.did)
         })
 
         let packedMessage: IPackedDIDCommMessage
@@ -182,6 +186,7 @@ export default (testContext: {
           const incomingCredential = await agent.createVerifiableCredential({
             proofFormat: 'jwt',
             credential: {
+              type: ['Example'],
               credentialSubject: {
                 incoming: 'yes',
               },

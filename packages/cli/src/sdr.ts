@@ -5,6 +5,8 @@ import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { shortDate, shortDid } from './explore/utils'
 import { VerifiableCredential } from '@veramo/core'
+import { asArray, extractIssuer } from '@veramo/utils'
+
 const fuzzy = require('fuzzy')
 
 const sdr = program.command('sdr').description('Selective Disclosure Request')
@@ -36,14 +38,16 @@ sdr
         message: 'Subject DID',
         type: 'autocomplete',
         pageSize: 15,
-        suggestOnly: true,
         source: async (answers: any, input: string) => {
           const res = fuzzy
             .filter(input, subjects)
             .map((el: any) => (typeof el === 'string' ? el : el.original))
           return res
         },
-        validate(val) {
+        validate: (val) => {
+          if (val && typeof val !== 'string') {
+            val = val.value
+          }
           if (!val || !val.startsWith('did:')) {
             return "Subject DID does not start with 'did:'..."
           }
@@ -173,7 +177,7 @@ sdr
             name:
               JSON.stringify(credential.verifiableCredential.credentialSubject) +
               ' | Issuer: ' +
-              credential.verifiableCredential.issuer.id,
+              extractIssuer(credential.verifiableCredential),
             value: credential.verifiableCredential.proof.jwt,
           })
         }
@@ -305,9 +309,9 @@ sdr
           name:
             c.verifiableCredential.credentialSubject[item.claimType] +
             ' (' +
-            c.verifiableCredential.type.join(',') +
+            asArray(c.verifiableCredential.type || []).join(',') +
             ') issued by: ' +
-            c.verifiableCredential.issuer.id +
+            extractIssuer(c.verifiableCredential) +
             ' ' +
             shortDate(c.verifiableCredential.issuanceDate) +
             ' ago',

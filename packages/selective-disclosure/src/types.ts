@@ -1,18 +1,19 @@
 import {
   IAgentContext,
+  IDataStoreORM,
   IDIDManager,
   IKeyManager,
   IPluginMethodMap,
+  UniqueVerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core'
-import { IDataStoreORM, UniqueVerifiableCredential } from '@veramo/data-store'
-import { ICredentialIssuer } from '@veramo/credential-w3c'
+import { ICredentialIssuer } from '@veramo/core'
 
 /**
  * Used for requesting Credentials using Selective Disclosure.
  * Represents an accepted issuer of a credential.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface Issuer {
   /**
@@ -29,10 +30,10 @@ export interface Issuer {
 /**
  * Represents the Selective Disclosure request parameters.
  *
- * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ * @remarks See
+ *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
  *
- * @beta
- */
+ * @beta This API may change without a BREAKING CHANGE notice. */
 export interface ISelectiveDisclosureRequest {
   /**
    * The issuer of the request
@@ -63,10 +64,10 @@ export interface ISelectiveDisclosureRequest {
 /**
  * Describes a particular credential that is being requested
  *
- * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ * @remarks See
+ *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
  *
- * @beta
- */
+ * @beta This API may change without a BREAKING CHANGE notice. */
 export interface ICredentialRequestInput {
   /**
    * Motive for requiring this credential.
@@ -107,9 +108,10 @@ export interface ICredentialRequestInput {
 /**
  * The credentials that make up a response of a Selective Disclosure
  *
- * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ * @remarks See
+ *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICredentialsForSdr extends ICredentialRequestInput {
   credentials: UniqueVerifiableCredential[]
@@ -118,7 +120,7 @@ export interface ICredentialsForSdr extends ICredentialRequestInput {
 /**
  * The result of a selective disclosure response validation.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IPresentationValidationResult {
   valid: boolean
@@ -128,10 +130,11 @@ export interface IPresentationValidationResult {
 /**
  * Contains the parameters of a Selective Disclosure Request.
  *
- * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- * specs
+ * @remarks See
+ *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ *   specs
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICreateSelectiveDisclosureRequestArgs {
   data: ISelectiveDisclosureRequest
@@ -140,10 +143,11 @@ export interface ICreateSelectiveDisclosureRequestArgs {
 /**
  * Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request.
  *
- * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- * specs
+ * @remarks See
+ *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ *   specs
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IGetVerifiableCredentialsForSdrArgs {
   /**
@@ -161,7 +165,7 @@ export interface IGetVerifiableCredentialsForSdrArgs {
  * A tuple used to verify a Selective Disclosure Response.
  * Encapsulates the response(`presentation`) and the corresponding request (`sdr`) that made it.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IValidatePresentationAgainstSdrArgs {
   presentation: VerifiablePresentation
@@ -171,7 +175,7 @@ export interface IValidatePresentationAgainstSdrArgs {
 /**
  * Profile data
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ICreateProfileCredentialsArgs {
   /**
@@ -207,23 +211,27 @@ export interface ICreateProfileCredentialsArgs {
 /**
  * Describes the interface of a Selective Disclosure plugin.
  *
- * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ * @remarks See
+ *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ISelectiveDisclosure extends IPluginMethodMap {
   createSelectiveDisclosureRequest(
     args: ICreateSelectiveDisclosureRequestArgs,
     context: IAgentContext<IDIDManager & IKeyManager>,
   ): Promise<string>
+
   getVerifiableCredentialsForSdr(
     args: IGetVerifiableCredentialsForSdrArgs,
     context: IAgentContext<IDataStoreORM>,
   ): Promise<Array<ICredentialsForSdr>>
+
   validatePresentationAgainstSdr(
     args: IValidatePresentationAgainstSdrArgs,
     context: IAgentContext<{}>,
   ): Promise<IPresentationValidationResult>
+
   createProfilePresentation(
     args: ICreateProfileCredentialsArgs,
     context: IAgentContext<ICredentialIssuer & IDIDManager>,

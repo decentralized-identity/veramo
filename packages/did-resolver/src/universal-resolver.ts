@@ -7,6 +7,8 @@ interface Options {
 
 /**
  * @deprecated please use `getUniresolver(url)` or `getUniresolverFor(methods, url)` instead
+ *
+ * @internal
  */
 export class UniversalResolver {
   constructor(options: Options) {
@@ -27,8 +29,10 @@ export class UniversalResolver {
  * })
  * ```
  *
- * @param url the URL for the universal resolver instance (See https://uniresolver.io )
+ * @param url - the URL for the universal resolver instance (See https://uniresolver.io )
  * @returns `DIDResolver`
+ *
+ * @public
  */
 export function getUniversalResolver(
   url: string = 'https://dev.uniresolver.io/1.0/identifiers/',
@@ -62,9 +66,11 @@ export function getUniversalResolver(
  * })
  * ```
  *
- * @param methods an array of DID methods that should be resolved by this universal resolver
- * @param url the URL for the universal resolver instance (See https://uniresolver.io )
+ * @param methods - an array of DID methods that should be resolved by this universal resolver
+ * @param url - the URL for the universal resolver instance (See https://uniresolver.io )
  * @returns `Record<string, DIDResolver>` a mapping of the given methods to an instance of `DIDResolver`
+ *
+ * @public
  */
 export function getUniversalResolverFor(
   methods: string[],

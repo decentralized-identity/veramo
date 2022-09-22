@@ -1,7 +1,11 @@
-import { TAgent, IDIDManager, IKeyManager, IAgentOptions, IKey, TKeyType } from '../../packages/core/src'
-import { serialize, computeAddress } from '@ethersproject/transactions'
+// noinspection ES6PreferShortImport
 
-type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
+import { IAgentOptions, IDIDManager, IKeyManager, IResolver, TAgent, TKeyType } from '../../packages/core/src'
+import { computeAddress, serialize } from '@ethersproject/transactions'
+import { mapIdentifierKeysToDoc } from '../../packages/utils/src'
+import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
+
+type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -20,7 +24,7 @@ export default (testContext: {
 
     it('should get a list of available key management systems', async () => {
       const keyManagementSystems = await agent.keyManagerGetKeyManagementSystems()
-      expect(keyManagementSystems).toEqual(['local'])
+      expect(keyManagementSystems).toEqual(['local', 'web3'])
     })
 
     it('should create Secp256k1 key', async () => {
@@ -307,7 +311,7 @@ export default (testContext: {
 
     describe('using Secp256k1 test vectors', () => {
       const importedKey = {
-        kid: '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
+        kid: 'imported',
         kms: 'local',
         type: <TKeyType>'Secp256k1',
         publicKeyHex:
@@ -415,5 +419,186 @@ export default (testContext: {
         )
       })
     })
+
+    it('should sign with eth_signTypedData', async () => {
+      // https://github.com/MetaMask/test-dapp/blob/5719808b2a589be92b50fecc1d479fb1e63341c1/src/index.js#L1097
+      const msgParams = {
+        domain: {
+          chainId: 4,
+          name: 'Ether Mail',
+          verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+          version: '1',
+        },
+        message: {
+          contents: 'Hello, Bob!',
+          from: {
+            name: 'Cow',
+            wallets: [
+              '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+              '0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF',
+            ],
+          },
+          to: [
+            {
+              name: 'Bob',
+              wallets: [
+                '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+                '0xB0BdaBea57B0BDABeA57b0bdABEA57b0BDabEa57',
+                '0xB0B0b0b0b0b0B000000000000000000000000000',
+              ],
+            },
+          ],
+        },
+        types: {
+
+          Mail: [
+            { name: 'from', type: 'Person' },
+            { name: 'to', type: 'Person[]' },
+            { name: 'contents', type: 'string' },
+          ],
+          Person: [
+            { name: 'name', type: 'string' },
+            { name: 'wallets', type: 'address[]' },
+          ],
+        },
+      };
+
+      const identifier = await agent.didManagerCreate({ kms: 'local' })
+
+      const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
+      const extendedKey = extendedKeys[0]
+
+      const signature = await agent.keyManagerSign({
+        data: JSON.stringify(msgParams),
+        keyRef: extendedKey.kid,
+        algorithm: 'eth_signTypedData'
+      })
+
+      const address = extendedKey.meta.ethereumAddress
+
+      const data = {
+        ...msgParams,
+        primaryType: 'Mail',
+        types: {
+          ...msgParams.types,
+          EIP712Domain: [
+            // Order of these elements matters!
+            // https://github.com/ethers-io/ethers.js/blob/a71f51825571d1ea0fa997c1352d5b4d85643416/packages/hash/src.ts/typed-data.ts#L385
+            { name: 'name', type: 'string' },
+            { name: 'version', type: 'string' },
+            { name: 'chainId', type: 'uint256' },
+            { name: 'verifyingContract', type: 'address' },
+          ],
+        },
+      }
+
+      //@ts-ignore
+      const recovered = recoverTypedSignature({data, signature: signature, version: SignTypedDataVersion.V4})
+      expect(address.toLowerCase()).toEqual(recovered)
+    })
+
+    it('should sign credential with eth_signTypedData', async () => {
+      const msgParams = {
+        "domain": {
+          "chainId": 4,
+          "name": "VerifiableCredential",
+          "version": "1"
+        },
+        "types": {
+          "CredentialSubject": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "you",
+              "type": "string"
+            }
+          ],
+          "Issuer": [
+            {
+              "name": "id",
+              "type": "string"
+            }
+          ],
+          "VerifiableCredential": [
+            {
+              "name": "@context",
+              "type": "string[]"
+            },
+            {
+              "name": "credentialSubject",
+              "type": "CredentialSubject"
+            },
+            {
+              "name": "issuanceDate",
+              "type": "string"
+            },
+            {
+              "name": "issuer",
+              "type": "Issuer"
+            },
+            {
+              "name": "type",
+              "type": "string[]"
+            }
+          ]
+        },
+        "message": {
+          "issuer": {
+            "id": "did:fake:123"
+          },
+          "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            "https://example.com/1/2/3"
+          ],
+          "type": [
+            "VerifiableCredential",
+            "Custom"
+          ],
+          "issuanceDate": "2022-05-31T14:02:06.109Z",
+          "credentialSubject": {
+            "id": "did:web:example.com",
+            "you": "Rock"
+          }
+        }
+      }
+
+      const identifier = await agent.didManagerCreate({ kms: 'local' })
+
+      const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
+      const extendedKey = extendedKeys[0]
+
+      const signature = await agent.keyManagerSign({
+        data: JSON.stringify(msgParams),
+        keyRef: extendedKey.kid,
+        algorithm: 'eth_signTypedData'
+      })
+
+      const address = extendedKey.meta.ethereumAddress
+
+      const data = {
+        ...msgParams,
+        primaryType: 'VerifiableCredential',
+        types: {
+          ...msgParams.types,
+          EIP712Domain: [
+            // Order of these elements matters!
+            // https://github.com/ethers-io/ethers.js/blob/a71f51825571d1ea0fa997c1352d5b4d85643416/packages/hash/src.ts/typed-data.ts#L385
+            { name: 'name', type: 'string' },
+            { name: 'version', type: 'string' },
+            { name: 'chainId', type: 'uint256' },
+          ],
+        },
+      }
+
+      const args = {data, signature: signature, version: SignTypedDataVersion.V4}
+      //@ts-ignore
+      const recovered = recoverTypedSignature(args)
+      expect(address.toLowerCase()).toEqual(recovered)
+    })
+
   })
+
+
 }

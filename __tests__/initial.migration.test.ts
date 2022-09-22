@@ -1,37 +1,46 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This suite runs through a few agent operations using data that was created before
  * TypeORM migrations were available (before Veramo 3.0.0)
  */
 
-import { createAgent, TAgent, IDIDManager, IResolver, IKeyManager, IDataStore } from '../packages/core/src'
+import {
+  createAgent,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IKeyManager,
+  IResolver,
+  TAgent,
+  VerifiableCredential,
+} from '../packages/core/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { KeyDIDProvider } from '../packages/did-provider-key/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, IDIDComm } from '../packages/did-comm/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import {
-  Entities,
-  IDataStoreORM,
   DataStore,
   DataStoreORM,
-  KeyStore,
   DIDStore,
+  Entities,
+  KeyStore,
   migrations,
   PrivateKeyStore,
 } from '../packages/data-store/src'
-import { getDidKeyResolver } from '../packages/did-provider-key/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
-import { FakeDidProvider, FakeDidResolver } from './utils/fake-did'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
-import { createConnection, Connection, ConnectionOptions } from 'typeorm'
+import { DataSourceOptions, DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import fs from 'fs'
+import * as fs from 'fs'
 
-jest.setTimeout(30000)
+jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const dbEncryptionKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -51,18 +60,19 @@ describe('database initial migration tests', () => {
 
   function createTestsUsingOptions(
     databaseBeforeFile: string,
-    connectionOverrides: Partial<ConnectionOptions>,
+    connectionOverrides: Partial<DataSourceOptions>,
   ) {
     describe('using pre-migration database fixture', () => {
       const databaseFile = databaseBeforeFile + '.tmp'
       type TestingAgentPlugins = IDIDManager & IKeyManager & IDataStore & IDataStoreORM & IResolver & IDIDComm
       let agent: TAgent<TestingAgentPlugins>
-      let dbConnection: Promise<Connection>
+      let dbConnection: DataSource
 
       beforeAll(async () => {
         fs.copyFileSync(databaseBeforeFile, databaseFile)
 
-        dbConnection = createConnection({
+        // intentionally using DataSource instead of Promise<DataSource> to test compatibility
+        dbConnection = new DataSource({
           name: 'test',
           type: 'sqlite',
           database: databaseFile,
@@ -72,11 +82,11 @@ describe('database initial migration tests', () => {
           logging: false,
           entities: Entities,
           ...connectionOverrides,
-        } as ConnectionOptions)
+        } as DataSourceOptions)
 
         agent = createAgent<TestingAgentPlugins>({
           context: {
-            // authenticatedDid: 'did:example:3456'
+            // authorizedDID: 'did:example:3456'
           },
           plugins: [
             new KeyManager({
@@ -91,6 +101,7 @@ describe('database initial migration tests', () => {
               store: new DIDStore(dbConnection),
               defaultProvider: 'did:ethr:goerli',
               providers: {
+                // intentionally using deprecated config for backward compatibility checks
                 'did:ethr:goerli': new EthrDIDProvider({
                   defaultKms: 'local',
                   network: 'goerli',
@@ -196,10 +207,11 @@ describe('database initial migration tests', () => {
       })
 
       it('reads a presentation by hash', async () => {
-        const cred = await agent.dataStoreGetVerifiablePresentation({
+        const presentation = await agent.dataStoreGetVerifiablePresentation({
           hash: '4cfe965596a0d343ff2cc02afd32068bced34caa2b1e7e3f253b23e420de106b58a613f06f55d9d9cbbdbe0b0f051a45d44404020b123c58f0ee48bdaeafdc90',
         })
-        expect(cred?.verifiableCredential?.[0]?.credentialSubject?.name).toEqual('Alice')
+        const cred0: VerifiableCredential = presentation?.verifiableCredential?.[0] as VerifiableCredential
+        expect(cred0.credentialSubject?.name).toEqual('Alice')
       })
 
       it('reads existing messages', async () => {

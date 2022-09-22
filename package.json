@@ -2,56 +2,63 @@
   "name": "veramo",
   "private": true,
   "scripts": {
-    "build": "lerna run build && yarn build:schema-api",
     "bootstrap": "lerna bootstrap",
-    "build:schema-api": "lerna run extract-api && lerna run generate-plugin-schema",
+    "build": "yarn build:js && yarn build:api && yarn build:schema",
+    "build:js": "lerna run build --stream",
+    "build:api": "lerna run extract-api --stream",
+    "build:schema": "lerna run generate-plugin-schema --stream",
     "lint": "echo \"linting not yet enabled\"",
     "test:integration-build": "yarn test:integration-prepare && yarn test:integration-pretty",
     "test:integration-prepare": "ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
     "test:integration-pretty": "prettier --write __tests__/shared/documentationExamples.ts",
     "test:integration": "yarn test:integration-build && yarn test:ci",
-    "test:ci": "jest --config=jest.json",
-    "test": "jest --config=jest.json --coverage=false",
+    "test:ci": "jest --config=jest.config.json --coverage=true",
+    "test": "jest --config=jest.config.json",
     "test:watch": "yarn test --watch --verbose",
+    "test:browser": "cd packages/test-react-app && yarn test:browser",
     "veramo": "./packages/cli/bin/veramo.js",
-    "prettier": "prettier --write '{packages,docs,__tests__, !build}/**/*.{ts,js,json,md,yml}'",
+    "prettier": "prettier --write '{packages,docs,__tests__,!build}/**/*.{ts,js,json,md,yml}'",
     "build-clean": "rimraf ./packages/*/build ./packages/*/api ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo && jest --clearCache",
     "publish:latest": "lerna publish --conventional-commits --include-merged-tags --create-release github --yes --dist-tag latest --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
     "publish:next": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
     "publish:unstable": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid unstable --pre-dist-tag unstable --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
     "docs": "yarn docs:copy && yarn docs:build",
     "docs:copy": "ts-node ./scripts/docs-copy.ts",
-    "docs:build": "ts-node ./scripts/docs-build.ts && yarn docs:pretty",    
+    "docs:build": "ts-node ./scripts/docs-build.ts && yarn docs:pretty",
     "docs:pretty": "pretty-quick"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "__browser_tests__/*"
   ],
-  "devDependencies": {    
-    "@microsoft/api-documenter": "^7.17.17",
-    "@microsoft/api-extractor": "^7.25.0",
-    "@microsoft/api-extractor-model": "^7.18.0",
-    "@types/fs-extra": "^9.0.13",
-    "@types/jest": "27.0.2",
+  "devDependencies": {
+    "@microsoft/api-documenter": "7.17.17",
+    "@microsoft/api-extractor": "7.25.0",
+    "@microsoft/api-extractor-model": "7.18.0",
+    "@types/fs-extra": "9.0.13",
+    "@types/jest": "28.1.1",
+    "@types/node": "17.0.35",
     "codecov": "3.8.3",
-    "cross-fetch": "3.1.4",
+    "cross-fetch": "3.1.5",
     "ethr-did-registry": "0.0.3",
-    "ganache-cli": "6.12.2",
-    "jest": "27.3.1",
+    "ganache": "7.3.0",
+    "jest": "28.1.1",
+    "jest-environment-jsdom": "28.1.1",
+    "jest-environment-node": "28.1.1",
     "jest-fetch-mock": "3.0.3",
     "json-schema": "0.4.0",
-    "lerna": "4.0.0",
+    "lerna": "5.1.1",
     "lerna-changelog": "2.2.0",
     "oas-resolver": "2.5.6",
-    "openapi-types": "9.3.0",
-    "prettier": "2.4.1",
-    "pretty-quick": "3.1.1",
+    "openapi-types": "12.0.0",
+    "prettier": "2.6.2",
+    "pretty-quick": "3.1.3",
     "rimraf": "3.0.2",
-    "semantic-release": "18.0.0",
-    "ts-jest": "27.0.7",
+    "semantic-release": "19.0.3",
+    "ts-jest": "28.0.4",
     "ts-json-schema-generator": "1.0.0",
-    "ts-node": "10.8.0",
-    "typescript": "4.6.3"
+    "ts-node": "10.8.1",
+    "typescript": "4.7.3"
   },
   "repository": {
     "type": "git",
@@ -69,8 +76,9 @@
       }
     ]
   },
-  "dependencies": {
-    "rimraf": "3.0.2"
+  "resolutions": {
+    "@types/react": "^18.0.12",
+    "@types/eslint": "^8.4.3"
   },
   "engines": {
     "node": ">= 14.0.0"

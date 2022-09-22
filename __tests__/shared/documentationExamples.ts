@@ -1,14 +1,22 @@
+// noinspection ES6PreferShortImport
+
 /**
  * This test suite runs the examples from the documentation in various test contexts.
  *
  * Documentation examples are extracted from the tsdoc of the relevant source code.
- * To document a new package, add it to docsconfig.json array and have it processed with `extract-api` or `generate-plugin-schema`.
+ * To document a new package, add it to docsconfig.json array and have it processed with `extract-api` or
+ * `generate-plugin-schema`.
  */
 
-import { TAgent, IDIDManager, IDataStore, IMessageHandler } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+import {
+  ICredentialIssuer,
+  IDataStore,
+  IDataStoreORM,
+  IDIDManager,
+  IMessageHandler,
+  TAgent,
+} from '../../packages/core/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
-import { IDataStoreORM } from '../../packages/data-store/src'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
@@ -42,7 +50,7 @@ export default (testContext: {
         id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
         type: 'EcdsaSecp256k1RecoveryMethod2020',
         controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
-        blockchainAccountId: '0xb09B66026bA5909A7CFE99b76875431D2b8D5190@eip155:4',
+        blockchainAccountId: 'eip155:4:0xb09B66026bA5909A7CFE99b76875431D2b8D5190',
       })
     })
 
@@ -53,7 +61,7 @@ export default (testContext: {
       expect(doc.didDocument).toEqual({
         '@context': [
           'https://www.w3.org/ns/did/v1',
-          'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+          'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
         ],
         id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
         verificationMethod: [
@@ -61,7 +69,7 @@ export default (testContext: {
             id: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
             type: 'EcdsaSecp256k1RecoveryMethod2020',
             controller: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
-            blockchainAccountId: '0xb09B66026bA5909A7CFE99b76875431D2b8D5190@eip155:4',
+            blockchainAccountId: 'eip155:4:0xb09B66026bA5909A7CFE99b76875431D2b8D5190',
           },
         ],
         authentication: ['did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'],
@@ -100,6 +108,10 @@ export default (testContext: {
         did: identifier.did,
         alias: 'carol',
       })
+    })
+
+    it('did-comm-IDIDComm-getDIDCommMessageMediaType example', async () => {
+      undefined
     })
 
     //DO NOT EDIT MANUALLY END

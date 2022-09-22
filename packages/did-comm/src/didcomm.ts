@@ -22,23 +22,27 @@ import {
   Encrypter,
   verifyJWS,
 } from 'did-jwt'
-import { DIDDocument, parse as parseDidUrl, VerificationMethod } from 'did-resolver'
+import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod } from 'did-resolver'
 import { schema } from '.'
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
-import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
 import {
-  isDefined,
-  mapIdentifierKeysToDoc,
-  encodeJoseBlob,
   createEcdhWrapper,
-  resolveDidOrThrow,
-  dereferenceDidKeys,
-  decodeJoseBlob,
   extractSenderEncryptionKey,
   extractManagedRecipients,
   mapRecipientsToLocalKeys,
 } from './utils'
+
+import {
+  decodeJoseBlob,
+  dereferenceDidKeys,
+  encodeJoseBlob,
+  isDefined,
+  mapIdentifierKeysToDoc,
+  resolveDidOrThrow,
+  _ExtendedIKey,
+  _NormalizedVerificationMethod,
+} from '@veramo/utils'
 
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm'
@@ -47,6 +51,7 @@ import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,
   IDIDCommMessage,
+  IDIDCommOptions,
   IPackedDIDCommMessage,
   IUnpackedDIDCommMessage,
 } from './types/message-types'
@@ -54,17 +59,17 @@ import {
   _DIDCommEncryptedMessage,
   _DIDCommPlainMessage,
   _DIDCommSignedMessage,
-  _ExtendedIKey,
   _FlattenedJWS,
   _GenericJWS,
-  _NormalizedVerificationMethod,
 } from './types/utility-types'
+
 const debug = Debug('veramo:did-comm:action-handler')
 
 /**
  * @deprecated Please use {@link IDIDComm.sendDIDCommMessage} instead. This will be removed in Veramo 4.0.
  * Input arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ISendMessageDIDCommAlpha1Args {
   url?: string
@@ -83,26 +88,30 @@ export interface ISendMessageDIDCommAlpha1Args {
 
 /**
  * The input to the {@link DIDComm.unpackDIDCommMessage} method.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type IUnpackDIDCommMessageArgs = IPackedDIDCommMessage
 
 /**
  * The input to the {@link DIDComm.packDIDCommMessage} method.
  * When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IPackDIDCommMessageArgs {
   message: IDIDCommMessage
   packing: DIDCommMessagePacking
   keyRef?: string
+  options?: IDIDCommOptions
 }
 
 /**
  * The input to the {@link DIDComm.sendDIDCommMessage} method.
  * The provided `messageId` will be used in the emitted
  * event to allow event/message correlation.
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface ISendDIDCommMessageArgs {
   packedMessage: IPackedDIDCommMessage
@@ -114,11 +123,12 @@ export interface ISendDIDCommMessageArgs {
 /**
  * DID Comm plugin for {@link @veramo/core#Agent}
  *
- * This plugin provides a method of creating an encrypted message according to the initial {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
+ * This plugin provides a method of creating an encrypted message according to the initial
+ * {@link https://github.com/decentralized-identifier/DIDComm-js | DIDComm-js} implementation.
  *
  * @remarks Be advised that this spec is still not final and that this protocol may need to change.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class DIDComm implements IAgentPlugin {
   readonly transports: IDIDCommTransport[]
@@ -129,7 +139,8 @@ export class DIDComm implements IAgentPlugin {
 
   /**
    * Constructor that takes a list of {@link IDIDCommTransport} objects.
-   * @param transports A list of {@link IDIDCommTransport} objects.
+   * @param transports - A list of {@link IDIDCommTransport} objects. Defaults to
+   *   {@link @veramo/did-comm#DIDCommHttpTransport | DIDCommHttpTransport}
    */
   constructor(transports: IDIDCommTransport[] = [new DIDCommHttpTransport()]) {
     this.transports = transports
@@ -268,40 +279,61 @@ export class DIDComm implements IAgentPlugin {
       }
     }
 
-    // 2. resolve DID for args.message.to
-    const didDocument: DIDDocument = await resolveDidOrThrow(args?.message?.to, context)
-
-    // 2.1 extract all recipient key agreement keys and normalize them
-    const keyAgreementKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
-      didDocument,
-      'keyAgreement',
-      context,
-    )
-
-    if (keyAgreementKeys.length === 0) {
-      throw new Error(`key_not_found: no key agreement keys found for recipient ${args?.message?.to}`)
+    // 2: compute recipients
+    interface IRecipient {
+      kid: string
+      publicKeyBytes: Uint8Array
     }
 
-    // 2.2 get public key bytes and key IDs for supported recipient keys
-    const recipients: { kid: string; publicKeyBytes: Uint8Array }[] = keyAgreementKeys
-      .map((pk) => ({ kid: pk.id, publicKeyBytes: u8a.fromString(pk.publicKeyHex!, 'base16') }))
-      .filter(isDefined)
+    let recipients: IRecipient[] = []
 
-    if (recipients.length === 0) {
-      throw new Error(`not_supported: no compatible key agreement keys found for recipient ${args?.message?.to}`)
+    async function computeRecipients(to: string): Promise<IRecipient[]> {
+      // 2.1 resolve DID for "to"
+      const didDocument: DIDDocument = await resolveDidOrThrow(to, context)
+
+      // 2.2 extract all recipient key agreement keys and normalize them
+      const keyAgreementKeys: _NormalizedVerificationMethod[] = (
+        await dereferenceDidKeys(didDocument, 'keyAgreement', context)
+      ).filter((k) => k.publicKeyHex?.length! > 0)
+
+      if (keyAgreementKeys.length === 0) {
+        throw new Error(`key_not_found: no key agreement keys found for recipient ${to}`)
+      }
+
+      // 2.3 get public key bytes and key IDs for supported recipient keys
+      const tempRecipients = keyAgreementKeys
+        .map((pk) => ({ kid: pk.id, publicKeyBytes: u8a.fromString(pk.publicKeyHex!, 'base16') }))
+        .filter(isDefined)
+
+      if (tempRecipients.length === 0) {
+        throw new Error(`not_supported: no compatible key agreement keys found for recipient ${to}`)
+      }
+      return tempRecipients
+    }
+
+    // add primary recipient
+    recipients.push(...(await computeRecipients(args.message.to)))
+
+    // add bcc recipients (optional)
+    for (const to of args.options?.bcc || []) {
+      recipients.push(...(await computeRecipients(to)))
     }
 
     // 3. create Encrypter for each recipient
-    const encrypters: Encrypter[] = recipients.map((recipient) => {
-      if (args.packing === 'authcrypt') {
-        return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
-      } else {
-        return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
-      }
-    }).filter(isDefined)
+    const encrypters: Encrypter[] = recipients
+      .map((recipient) => {
+        if (args.packing === 'authcrypt') {
+          return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
+        } else {
+          return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
+        }
+      })
+      .filter(isDefined)
 
     if (encrypters.length === 0) {
-      throw new Error(`not_supported: could not create suitable encryption for recipient ${args?.message?.to}`)
+      throw new Error(
+        `not_supported: could not create suitable encryption for recipient ${args?.message?.to}`,
+      )
     }
 
     // 4. createJWE
@@ -567,10 +599,13 @@ export class DIDComm implements IAgentPlugin {
           })
 
           debug('Encrypted:', postPayload)
-        } catch (e) {}
+        } catch (e) {
+        }
 
         debug('Sending to %s', serviceEndpoint)
-        const res = await fetch(serviceEndpoint, {
+        const endpointUri = (typeof serviceEndpoint === 'string') ? serviceEndpoint : serviceEndpoint.uri
+
+        const res = await fetch(endpointUri, {
           method: 'POST',
           body: postPayload,
           headers,

@@ -2,6 +2,13 @@ import passport from 'passport'
 import Bearer from 'passport-http-bearer'
 import { Router } from 'express'
 
+/**
+ * This provides a simple authorization mechanism based on a single pre-shared API key.
+ *
+ * @param apiKey - the pre-shared API key
+ *
+ * @public
+ */
 export function apiKeyAuth({ apiKey }: { apiKey: string }) {
   const router = Router()
   router.use(passport.initialize())

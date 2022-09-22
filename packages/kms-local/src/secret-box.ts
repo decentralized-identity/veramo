@@ -6,6 +6,16 @@ import { toUtf8Bytes, toUtf8String } from '@ethersproject/strings'
 
 const NONCE_BYTES = 24
 
+/**
+ * This is an implementation of {@link @veramo/key-manager#AbstractSecretBox | AbstractSecretBox} that uses a JavaScript
+ * {@link https://nacl.cr.yp.to/secretbox.html | nacl secretBox} implementation for encryption.
+ *
+ * See {@link @veramo/data-store#PrivateKeyStore}
+ * See {@link @veramo/data-store-json#PrivateKeyStoreJson}
+ * See {@link @veramo/key-manager#AbstractSecretBox}
+ *
+ * @public
+ */
 export class SecretBox extends AbstractSecretBox {
   constructor(private secretKey: string) {
     super()

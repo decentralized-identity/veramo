@@ -2,7 +2,7 @@
  * The DIDComm message structure.
  * See https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDCommMessage {
   type: string
@@ -19,16 +19,28 @@ export interface IDIDCommMessage {
 }
 
 /**
- * Represents different DIDComm v2 message encapsulation
+ * Extra options when packing a DIDComm message.
  *
- * @beta
+ * @beta - This API may change without a BREAKING CHANGE notice.
+ */
+export interface IDIDCommOptions {
+  /**
+   * Add extra recipients for the packed message.
+   */
+  bcc?: string[]
+}
+
+/**
+ * Represents different DIDComm v2 message encapsulation.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export enum DIDCommMessageMediaType {
   /**
    * A plain JSON DIDComm message
    */
   PLAIN = 'application/didcomm-plain+json',
-  
+
   /**
    * A JWS signed DIDComm message
    */
@@ -44,13 +56,13 @@ export enum DIDCommMessageMediaType {
  * The possible types of message packing.
  *
  * `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce `DIDCommMessageMediaType.ENCRYPTED` messages.
- * 
+ *
  * `jws` will produce `DIDCommMessageMediaType.SIGNED` messages.
- * 
+ *
  * `none` will produce `DIDCommMessageMediaType.PLAIN` messages.
  *
- * 
- * @beta
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type DIDCommMessagePacking =
   | 'authcrypt'
@@ -61,9 +73,9 @@ export type DIDCommMessagePacking =
   | 'anoncrypt+jws'
 
 /**
- * Metadata resulting from unpacking a DIDComm v2 message
+ * Metadata resulting from unpacking a DIDComm v2 message.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDCommMessageMetaData {
   packing: DIDCommMessagePacking
@@ -71,9 +83,9 @@ export interface IDIDCommMessageMetaData {
 }
 
 /**
- * The result of unpacking a DIDComm v2 message
+ * The result of unpacking a DIDComm v2 message.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IUnpackedDIDCommMessage {
   metaData: IDIDCommMessageMetaData
@@ -84,7 +96,7 @@ export interface IUnpackedDIDCommMessage {
  * The result of packing a DIDComm v2 message.
  * The message is always serialized as string.
  *
- * @beta
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IPackedDIDCommMessage {
   message: string

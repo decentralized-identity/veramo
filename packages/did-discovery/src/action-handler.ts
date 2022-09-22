@@ -13,6 +13,8 @@ const debug = Debug('veramo:did-discovery')
 
 /**
  * This class adds support for discovering DIDs.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class DIDDiscovery implements IAgentPlugin {
   readonly methods: IDIDDiscovery

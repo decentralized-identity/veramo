@@ -6,6 +6,7 @@
   },
   "references": [
     { "path": "../core" },
+    { "path": "../credential-ld" },
     { "path": "../credential-w3c" },
     { "path": "../data-store" },
     { "path": "../did-comm" },

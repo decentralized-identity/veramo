@@ -6,18 +6,25 @@ interface RequestWithAgentDIDManager extends Request {
   agent?: TAgent<IDIDManager>
 }
 
+/**
+ * The URL path to the DID document, used by did:web when the identifier is a hostname.
+ *
+ * @public
+ */
 export const didDocEndpoint = '/.well-known/did.json'
 
 const keyMapping: Record<TKeyType, string> = {
   Secp256k1: 'EcdsaSecp256k1VerificationKey2019',
   Ed25519: 'Ed25519VerificationKey2018',
   X25519: 'X25519KeyAgreementKey2019',
+  Bls12381G1: 'Bls12381G1Key2020',
+  Bls12381G2: 'Bls12381G2Key2020',
 }
 
 /**
  * @public
  */
- export interface WebDidDocRouterOptions {
+export interface WebDidDocRouterOptions {
   services?: ServiceEndpoint[]
 }
 
@@ -26,6 +33,8 @@ const keyMapping: Record<TKeyType, string> = {
  *
  * @param options - Initialization option
  * @returns Expressjs router
+ *
+ * @public
  */
 export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
   const router = Router()

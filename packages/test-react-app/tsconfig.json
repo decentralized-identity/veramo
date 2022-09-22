@@ -1,0 +1,44 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src/**/*.ts[x]?"
+  ],
+  "references": [
+    { "path": "../core" },
+    { "path": "../credential-ld" },
+    { "path": "../credential-w3c" },
+    { "path": "../data-store" },
+    { "path": "../data-store-json" },
+    { "path": "../did-comm" },
+    { "path": "../did-discovery" },
+    { "path": "../did-jwt" },
+    { "path": "../did-manager" },
+    { "path": "../did-provider-ethr" },
+    { "path": "../did-provider-key" },
+    { "path": "../did-provider-web" },
+    { "path": "../did-resolver" },
+    { "path": "../key-manager" },
+    { "path": "../kms-local" },
+    { "path": "../message-handler" },
+    { "path": "../remote-client" },
+    { "path": "../remote-server" },
+    { "path": "../selective-disclosure" },
+    { "path": "../url-handler" },
+    { "path": "../test-utils" },
+    { "path": "../utils" }
+  ]
+}

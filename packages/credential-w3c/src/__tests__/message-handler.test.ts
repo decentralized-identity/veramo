@@ -1,5 +1,5 @@
-import { DIDDocument, DIDResolutionResult } from '@veramo/core'
-import { Message } from '@veramo/message-handler'
+import { DIDResolutionResult } from '../../../core/src'
+import { Message } from '../../../message-handler/src'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { IContext } from '../message-handler'
 import { blake2bHex } from 'blakejs'
@@ -30,7 +30,7 @@ describe('@veramo/credential-w3c', () => {
                   id: `${didEthr}#owner`,
                   type: 'EcdsaSecp256k1RecoveryMethod2020',
                   controller: args?.didUrl,
-                  blockchainAccountId: `${didEthr.slice(-42)}@eip155:1`,
+                  blockchainAccountId: `eip155:1:${didEthr.slice(-42)}`,
                 },
               ],
               authentication: [`${didEthr}#owner`],
@@ -63,6 +63,10 @@ describe('@veramo/credential-w3c', () => {
           }
         }
       },
+      createVerifiableCredential: jest.fn(),
+      createVerifiablePresentation: jest.fn(),
+      verifyCredential: jest.fn(),
+      verifyPresentation: jest.fn(),
       getDIDComponentById: jest.fn(),
     },
   }
