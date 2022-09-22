@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/uport-project/veramo/compare/v3.1.5...v4.0.0) (2022-09-22)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([a7a5b5d](https://github.com/uport-project/veramo/commit/a7a5b5dc3a2d90670927f4367bef2055a6d39f3b))
+* **deps:** update all non-major dependencies ([04c0053](https://github.com/uport-project/veramo/commit/04c00530963b1c4496374532bf74b73f3b22c825))
+* **deps:** update all non-major dependencies ([d8aa16a](https://github.com/uport-project/veramo/commit/d8aa16a36d2e63c65177bbf281f8d15fcc9dcb5a))
+* **deps:** update all non-major dependencies ([183b4bc](https://github.com/uport-project/veramo/commit/183b4bc5ca3dcf11dd111e7e1ae19636909ff4c7))
+* **deps:** update dependency typeorm to v0.2.41 ([61a8103](https://github.com/uport-project/veramo/commit/61a8103c15849dfd8574dda69692a7d8f7fa534e))
+* **did-resolver:** use interface `Resolvable` instead of the `Resolver` class ([9c2e59f](https://github.com/uport-project/veramo/commit/9c2e59f3f23f808511c6c0e8e440b4d53ba5cb00))
+* **docs:** fix relevant errors and warnings in TSDoc to enable proper docs generation on `[@next](https://github.com/next)` branch ([79c3872](https://github.com/uport-project/veramo/commit/79c387230219c92c1951d19b8ddf716308a46c5b))
+* update and fix inline documentation of all exported types ([#921](https://github.com/uport-project/veramo/issues/921)) ([63e64e0](https://github.com/uport-project/veramo/commit/63e64e0e2693808c4704dca8cc511dc0bab3f3b1))
+
+
+### Features
+
+* add partial match for dids and aliases in did discovery provider for data store ([92b793e](https://github.com/uport-project/veramo/commit/92b793e8b45f005b87717393419cf5f84a5ca0ec))
+* add support for serviceEndpoint property as defined in latest DID Spec ([#988](https://github.com/uport-project/veramo/issues/988)) ([9bed70b](https://github.com/uport-project/veramo/commit/9bed70ba658aed34a97944e0dee27bca6c81d700))
+* **credential-ld:** add support for browser environments ([#916](https://github.com/uport-project/veramo/issues/916)) ([435e4d2](https://github.com/uport-project/veramo/commit/435e4d260b1774f96b182c1a75ab2f1c993f2291))
+* **credential-w3c:** add ICredentialPlugin interface in core package ([#1001](https://github.com/uport-project/veramo/issues/1001)) ([7b6d195](https://github.com/uport-project/veramo/commit/7b6d1950364c8b741dd958d29e506b95fa5b1cec)), closes [#941](https://github.com/uport-project/veramo/issues/941)
+* **data-store:** use DataSource instead of Connection ([#970](https://github.com/uport-project/veramo/issues/970)) ([3377930](https://github.com/uport-project/veramo/commit/3377930189bcbd43dfd155992093d2bbeb883335)), closes [#947](https://github.com/uport-project/veramo/issues/947)
+* **date-store-json:** add JSON object storage implementation ([#819](https://github.com/uport-project/veramo/issues/819)) ([934b34a](https://github.com/uport-project/veramo/commit/934b34a18b194928f90e7797289cc6f2243789ec))
+* update did-discover-provider to search by DID likeness in addition to name ([3696a7a](https://github.com/uport-project/veramo/commit/3696a7aa275e97de0cd1048a7d32ead57abf9e7c))
+
+
+### BREAKING CHANGES
+
+* the `did-resolver` and connected libraries change the data-type for `ServiceEndpoint` to `Service` and the previous semantic has changed. Services can have multiple endpoints, not just a single string.
+
+
+
+
+
 ## [3.1.4](https://github.com/uport-project/veramo/compare/v3.1.3...v3.1.4) (2022-06-02)
 
 
