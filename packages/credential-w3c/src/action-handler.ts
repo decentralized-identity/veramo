@@ -56,7 +56,18 @@ const debug = Debug('veramo:w3c:action-handler')
  */
 export class CredentialPlugin implements IAgentPlugin {
   readonly methods: ICredentialPlugin
-  readonly schema = schema.ICredentialPlugin
+  readonly schema = { 
+    components: {
+      schemas: {
+        ...schema.ICredentialIssuer.components.schemas,
+        ...schema.ICredentialVerifier.components.schemas,
+      },
+      methods: {
+        ...schema.ICredentialIssuer.components.methods,
+        ...schema.ICredentialVerifier.components.methods
+      }
+    }
+  }
 
   constructor() {
     this.methods = {
