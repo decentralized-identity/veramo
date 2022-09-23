@@ -1,12 +1,12 @@
 {
   "name": "@veramo/test-react-app",
   "description": "This package is only meant for testing that veramo core dependencies function in a react environment.",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "private": true,
   "dependencies": {
     "@veramo/core": "^4.0.0",
     "@veramo/credential-ld": "^4.0.0",
-    "@veramo/credential-w3c": "^4.0.0",
+    "@veramo/credential-w3c": "^4.0.1",
     "@veramo/data-store": "^4.0.0",
     "@veramo/did-comm": "^4.0.0",
     "@veramo/did-jwt": "^4.0.0",
@@ -18,7 +18,7 @@
     "@veramo/key-manager": "^4.0.0",
     "@veramo/kms-local": "^4.0.0",
     "@veramo/message-handler": "^4.0.0",
-    "@veramo/selective-disclosure": "^4.0.0",
+    "@veramo/selective-disclosure": "^4.0.1",
     "@veramo/test-utils": "^4.0.0",
     "@veramo/url-handler": "^4.0.0",
     "@veramo/utils": "^4.0.0",

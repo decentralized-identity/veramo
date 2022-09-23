@@ -1,7 +1,7 @@
 {
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -19,7 +19,7 @@
     "@types/blessed": "^0.1.17",
     "@types/swagger-ui-express": "^4.1.3",
     "@veramo/core": "^4.0.0",
-    "@veramo/credential-w3c": "^4.0.0",
+    "@veramo/credential-w3c": "^4.0.1",
     "@veramo/data-store": "^4.0.0",
     "@veramo/did-comm": "^4.0.0",
     "@veramo/did-discovery": "^4.0.0",
@@ -34,7 +34,7 @@
     "@veramo/message-handler": "^4.0.0",
     "@veramo/remote-client": "^4.0.0",
     "@veramo/remote-server": "^4.0.0",
-    "@veramo/selective-disclosure": "^4.0.0",
+    "@veramo/selective-disclosure": "^4.0.1",
     "@veramo/url-handler": "^4.0.0",
     "blessed": "^0.1.81",
     "commander": "^9.0.0",
