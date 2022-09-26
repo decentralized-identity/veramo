@@ -20,7 +20,7 @@
     "@veramo/message-handler": "^4.0.0",
     "debug": "^4.3.3",
     "did-jwt": "^6.6.0",
-    "uuid": "^8.3.0"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

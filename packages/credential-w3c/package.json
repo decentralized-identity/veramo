@@ -18,7 +18,7 @@
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.0",
     "uint8arrays": "^3.0.0",
-    "uuid": "^8.3.0"
+    "uuid": "^9.0.0"
   },
   "optionalDependencies": {
     "@veramo/credential-ld": "^4.0.0"
