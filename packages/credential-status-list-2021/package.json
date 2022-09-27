@@ -3,6 +3,7 @@
   "description": "Veramo plugin implementing Status List 2021, a privacy-preserving, space-efficient, and high-performance mechanism for publishing status information such as suspension or revocation of Verifiable Credentials",
   "version": "3.1.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -32,5 +33,10 @@
   "author": "Italo Borssatto <italo.borssatto@mesh.xyz>",
   "contributors": [],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }
