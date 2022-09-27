@@ -35,14 +35,11 @@ import { Bootstrap } from '@libp2p/bootstrap'
    * @param libp2pNodeConfig - Config used for "dialer" node.
    */
   constructor(libp2pNode: Libp2p, id?: string) {
-    console.log("DIDCommLibp2pTransport constructor. 1")
     this.id = id || uuidv4()
     
-    console.log("DIDCommLibp2pTransport constructor. 2")
     // const webRtcStar = new WebRTCStar()
     this.libp2pNode = libp2pNode
     
-    console.log("DIDCommLibp2pTransport constructor. 3")
   }
 
   /** {@inheritdoc AbstractDIDCommTransport.isServiceSupported} */

@@ -36,7 +36,7 @@ import {
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -57,7 +57,7 @@ import {
   PrivateKeyStore,
 } from '../packages/data-store/src'
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-
+import { createLibp2pNode } from '../packages/libp2p-client/src'
 import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider.js'
 import { createEthersProvider } from './utils/ethers-provider.js'
@@ -81,6 +81,7 @@ import messageHandler from './shared/messageHandler.js'
 import didDiscovery from './shared/didDiscovery.js'
 import dbInitOptions from './shared/dbInitOptions.js'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
+import didCommWithLibp2pFlow from './shared/didCommWithLibp2pFlow.js'
 import utils from './shared/utils.js'
 import web3 from './shared/web3.js'
 import credentialStatus from './shared/credentialStatus.js'
@@ -128,7 +129,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   const ethersProvider = createEthersProvider()
 
 
-  // console.log("libp2p: ", libp2p)
+  console.log("go get createLibp2pNode.")
+  const libnode = await createLibp2pNode()
+  console.log("libnode: ", libnode)
 
   agent = createAgent<
     IDIDManager &
@@ -223,7 +226,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm([
+        new DIDCommHttpTransport(), 
+        new DIDCommLibp2pTransport(libnode)
+      ]),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
@@ -264,22 +270,23 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local integration tests', () => {
-  verifiableDataJWT(testContext)
-  verifiableDataLD(testContext)
-  verifiableDataEIP712(testContext)
-  handleSdrMessage(testContext)
-  resolveDid(testContext)
-  webDidFlow(testContext)
-  saveClaims(testContext)
-  documentationExamples(testContext)
+  // verifiableDataJWT(testContext)
+  // verifiableDataLD(testContext)
+  // verifiableDataEIP712(testContext)
+  // handleSdrMessage(testContext)
+  // resolveDid(testContext)
+  // webDidFlow(testContext)
+  // saveClaims(testContext)
+  // documentationExamples(testContext)
   keyManager(testContext)
-  didManager(testContext)
-  messageHandler(testContext)
-  didCommPacking(testContext)
-  didDiscovery(testContext)
-  dbInitOptions(testContext)
-  utils(testContext)
-  web3(testContext)
-  didCommWithEthrDidFlow(testContext)
-  credentialStatus(testContext)
+  // didManager(testContext)
+  // messageHandler(testContext)
+  // didCommPacking(testContext)
+  // didDiscovery(testContext)
+  // dbInitOptions(testContext)
+  // utils(testContext)
+  // web3(testContext)
+  // didCommWithEthrDidFlow(testContext)
+  didCommWithLibp2pFlow(testContext)
+  // credentialStatus(testContext)
 })

@@ -16,6 +16,7 @@
     "@chainsafe/libp2p-noise": "8.0.1",
     "@libp2p/mplex": "^5.2.2",
     "@libp2p/bootstrap": "^2.0.0",
+    "@libp2p/tcp": "3.1.1",
     "debug": "^4.3.3",
     "libp2p": "^0.39.1"
   },

@@ -13,6 +13,7 @@ import {
   createAgent,
   IAgent,
   IAgentOptions,
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -28,6 +29,7 @@ import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import {
   CredentialIssuer,
+  CredentialPlugin,
   ICredentialIssuer,
   ICredentialVerifier,
   W3cMessageHandler,
@@ -68,6 +70,8 @@ import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSource } from 'typeorm'
+import { createGanacheProvider } from './utils/ganache-provider.js'
+import { createEthersProvider } from './utils/ethers-provider.js'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -88,6 +92,7 @@ import keyManager from './shared/keyManager.js'
 import didManager from './shared/didManager.js'
 import didCommPacking from './shared/didCommPacking.js'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow.js'
+import didCommWithLibp2pFlow from './shared/didCommWithLibp2pFlow.js'
 import messageHandler from './shared/messageHandler.js'
 import didDiscovery from './shared/didDiscovery.js'
 import utils from './shared/utils.js'
@@ -95,6 +100,9 @@ import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
 
 jest.setTimeout(30000)
+
+const { provider, registry } = await createGanacheProvider()
+const ethersProvider = createEthersProvider()
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
@@ -144,18 +152,33 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
   }).initialize()
 
-  console.log("go get createLibp2pNode.")
+  // console.log("go get createLibp2pNode.")
   const libnode = await createLibp2pNode()
-  console.log("libnode: ", libnode)
+  // console.log("libnode: ", libnode)
 
-  serverAgent = new Agent({
+  serverAgent = createAgent<
+  IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialPlugin &
+    ICredentialIssuerLD &
+    ICredentialIssuerEIP712 &
+    ISelectiveDisclosure &
+    IDIDDiscovery
+>({
     ...options,
     plugins: [
       new KeyManager({
         store: new KeyStore(dbConnection),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
-          web3: new Web3KeyManagementSystem({}),
+          web3: new Web3KeyManagementSystem({
+            ethers: ethersProvider
+          }),
         },
       }),
       new DIDManager({
@@ -180,6 +203,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
                 registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
               },
+              {
+                chainId: 1337,
+                name: 'ganache',
+                provider,
+                registry,
+              },
             ],
           }),
           'did:web': new WebDIDProvider({
@@ -193,7 +222,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId }),
+          ...ethrDidResolver({
+            infuraProjectId,
+            networks: [
+              {
+                name: 'ganache',
+                chainId: 1337,
+                provider,
+                registry,
+              },
+            ],
+          }),
           ...webDidResolver(),
           // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
           ...getDidKeyResolver(),
@@ -216,6 +255,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ]),
       // intentionally use the deprecated name to test compatibility
       new CredentialIssuer(),
+      new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
@@ -276,19 +316,20 @@ const tearDown = async (): Promise<boolean> => {
 const testContext = { getAgent, setup, tearDown }
 
 describe('REST integration tests', () => {
-  verifiableDataJWT(testContext)
-  verifiableDataLD(testContext)
-  verifiableDataEIP712(testContext)
-  handleSdrMessage(testContext)
-  resolveDid(testContext)
-  webDidFlow(testContext)
-  documentationExamples(testContext)
+  // verifiableDataJWT(testContext)
+  // verifiableDataLD(testContext)
+  // verifiableDataEIP712(testContext)
+  // handleSdrMessage(testContext)
+  // resolveDid(testContext)
+  // webDidFlow(testContext)
+  // documentationExamples(testContext)
   keyManager(testContext)
-  didManager(testContext)
-  messageHandler(testContext)
-  didCommPacking(testContext)
-  didWithFakeDidFlow(testContext)
-  didDiscovery(testContext)
-  utils(testContext)
-  credentialStatus(testContext)
+  // didManager(testContext)
+  // messageHandler(testContext)
+  // didCommPacking(testContext)
+  // didWithFakeDidFlow(testContext)
+  didCommWithLibp2pFlow(testContext)
+  // didDiscovery(testContext)
+  // utils(testContext)
+  // credentialStatus(testContext)
 })
