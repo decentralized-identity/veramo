@@ -8,17 +8,17 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Libp2p } from "libp2p"
 
 import { createLibp2p } from 'libp2p'
-console.log("createLibp2p: ", createLibp2p)
+// console.log("createLibp2p: ", createLibp2p)
 import { WebSockets } from '@libp2p/websockets'
-console.log("WebSockets: ", WebSockets)
+// console.log("WebSockets: ", WebSockets)
 import { WebRTCStar } from '@libp2p/webrtc-star'
-console.log("WebRTCStar: ", WebRTCStar)
+// console.log("WebRTCStar: ", WebRTCStar)
 import { Noise } from '@chainsafe/libp2p-noise'
-console.log("Noise: ", Noise)
+// console.log("Noise: ", Noise)
 import { Mplex } from '@libp2p/mplex'
-console.log("Mplex: ", Mplex)
+// console.log("Mplex: ", Mplex)
 import { Bootstrap } from '@libp2p/bootstrap'
-console.log("Bootstrap: ", Bootstrap)
+// console.log("Bootstrap: ", Bootstrap)
 
 /**
  * Implementation of {@link IDIDCommTransport} to provide a
@@ -35,10 +35,14 @@ console.log("Bootstrap: ", Bootstrap)
    * @param libp2pNodeConfig - Config used for "dialer" node.
    */
   constructor(libp2pNode: Libp2p, id?: string) {
+    console.log("DIDCommLibp2pTransport constructor. 1")
     this.id = id || uuidv4()
     
+    console.log("DIDCommLibp2pTransport constructor. 2")
     // const webRtcStar = new WebRTCStar()
     this.libp2pNode = libp2pNode
+    
+    console.log("DIDCommLibp2pTransport constructor. 3")
   }
 
   /** {@inheritdoc AbstractDIDCommTransport.isServiceSupported} */

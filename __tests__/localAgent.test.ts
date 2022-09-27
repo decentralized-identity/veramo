@@ -128,7 +128,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   const ethersProvider = createEthersProvider()
 
 
-  console.log("libp2p: ", libp2p)
+  // console.log("libp2p: ", libp2p)
 
   agent = createAgent<
     IDIDManager &
