@@ -45,10 +45,11 @@ import { Bootstrap } from '@libp2p/bootstrap'
   /** {@inheritdoc AbstractDIDCommTransport.isServiceSupported} */
   isServiceSupported(service: any) {
     return (
-      typeof service.serviceEndpoint === 'string' &&
+      typeof service.serviceEndpoint !== 'string' &&
       service.serviceEndpoint.transportType === 'libp2p' &&
-      (service.serviceEndpoint.multiAddr || 
-        (service.serviceEndpoint.peerId && service.serviceEndpoint.routingKeys)
+      (service.serviceEndpoint.multiAddr/* || 
+        (service.serviceEndpoint.peerId && service.serviceEndpoint.routingKeys)*/
+        // TODO(nickreynolds): support peerId+routingKeys
       )
     )
   }
@@ -67,7 +68,7 @@ import { Bootstrap } from '@libp2p/bootstrap'
         stream.sink
       )
       stream.close()
-    
+      console.log("get ready to return success.")
       return {
         result: 'successfully sent message over libp2p',
       }
