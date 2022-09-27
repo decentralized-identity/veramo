@@ -148,9 +148,17 @@ export default (testContext: {
       })
       expect(result.substr(0, 2)).toEqual('0x')
 
-      // const resolution = await agent.resolveDid({ didUrl: alice.did })
-
-      // expect(resolution?.didDocument?.service?.[0].serviceEndpoint['multiAddr']).toEqual(
+      const resolution = await agent.resolveDid({ didUrl: alice.did })
+      const service = resolution.didDocument?.service
+      const serv = service![0]
+      const endpoint = serv.serviceEndpoint
+      const multiAddr = (endpoint as any).multiAddr
+      expect(multiAddr).toEqual(listenerMultiAddr)
+      // expect(service).toBeDefined()
+      // expect(service?.length).toBeGreaterThanOrEqual(1)
+      // console.log("service![0].serviceEndpoint['multiAddr']: ", service![0].serviceEndpoint['multiAddr'])
+      // expect(service![0].serviceEndpoint['multiAddr']).toEqual(listenerMultiAddr)
+      // expect(resolution?.didDocument?.service?[0].serviceEndpoint['multiAddr']).toEqual(
       //   listenerMultiAddr,
       // )
     })

@@ -1,10 +1,8 @@
 import { createLibp2p } from 'libp2p'
 import { WebSockets } from '@libp2p/websockets'
-import { WebRTCStar } from '@libp2p/webrtc-star'
 import { Noise } from '@chainsafe/libp2p-noise'
 import { Mplex } from '@libp2p/mplex'
 import { Bootstrap } from '@libp2p/bootstrap'
-// @ts-ignore
 import { TCP } from '@libp2p/tcp'
 console.log("TCP: ", TCP)
 
@@ -15,7 +13,6 @@ export const createLibp2pNode = async () => {
       listen: ['/ip4/0.0.0.0/tcp/10333']
     },
     transports: [
-      // @ts-ignore
       new TCP(), // TODO(nickreynolds): investigate why we need to ts-ignore this line
       new WebSockets()
     ],

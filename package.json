@@ -46,9 +46,9 @@
     "@jest/test-result": "^27.5.1",
     "@jest/test-sequencer": "^27.5.1",
     "@libp2p/websockets": "^3.0.3",
-    "@libp2p/webrtc-star": "^3.0.1",
     "@chainsafe/libp2p-noise": "8.0.1",
     "@libp2p/mplex": "^5.2.2",
+    "@libp2p/tcp": "3.1.0",
     "@libp2p/bootstrap": "^2.0.0",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "28.1.1",
@@ -70,7 +70,7 @@
     "json-schema": "0.4.0",
     "lerna": "5.1.1",
     "lerna-changelog": "2.2.0",
-    "libp2p": "^0.39.1",
+    "libp2p": "0.38.0",
     "oas-resolver": "2.5.6",
     "openapi-types": "12.0.0",
     "prettier": "2.6.2",
@@ -103,7 +103,8 @@
     "@types/react": "^18.0.12",
     "@types/eslint": "^8.4.3",
     "commander": "9.0.0",
-    "ethr-did-resolver": "6.2.1"
+    "ethr-did-resolver": "6.2.1",
+    "@libp2p/interface-connection": "3.0.2"
   },
   "engines": {
     "node": ">= 16.16.0"

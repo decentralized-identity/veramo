@@ -19,11 +19,11 @@
   },
   "dependencies": {
     "@libp2p/websockets": "^3.0.3",
-    "@libp2p/webrtc-star": "^3.0.1",
     "@chainsafe/libp2p-noise": "8.0.1",
     "@libp2p/mplex": "^5.2.2",
     "@libp2p/bootstrap": "^2.0.0",
-    "libp2p": "^0.39.1",
+    "@libp2p/tcp": "3.1.0",
+    "libp2p": "0.38.0",
     "@ethersproject/signing-key": "^5.5.0",
     "@stablelib/ed25519": "^1.0.2",
     "@veramo/core": "^3.1.4",

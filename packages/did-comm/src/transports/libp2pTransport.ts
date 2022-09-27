@@ -11,7 +11,7 @@ import { createLibp2p } from 'libp2p'
 // console.log("createLibp2p: ", createLibp2p)
 import { WebSockets } from '@libp2p/websockets'
 // console.log("WebSockets: ", WebSockets)
-import { WebRTCStar } from '@libp2p/webrtc-star'
+// import { WebRTCStar } from '@libp2p/webrtc-star'
 // console.log("WebRTCStar: ", WebRTCStar)
 import { Noise } from '@chainsafe/libp2p-noise'
 // console.log("Noise: ", Noise)
