@@ -1,17 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
-import { createLibp2p } from 'libp2p'
-console.log("createLibp2p: ", createLibp2p)
-import { WebSockets } from '@libp2p/websockets'
-console.log("WebSockets: ", WebSockets)
-import { WebRTCStar } from '@libp2p/webrtc-star'
-console.log("WebRTCStar: ", WebRTCStar)
-import { Noise } from '@chainsafe/libp2p-noise'
-console.log("Noise: ", Noise)
-import { Mplex } from '@libp2p/mplex'
-console.log("Mplex: ", Mplex)
-import { Bootstrap } from '@libp2p/bootstrap'
-console.log("Bootstrap: ", Bootstrap)
-
 /**
  * Result interface for sending DIDComm messages through
  * {@link IDIDCommTransport.send}.
@@ -57,31 +43,4 @@ export interface IDIDCommTransport {
    * @beta This API may change without a BREAKING CHANGE notice.
    */
   send(service: any, message: string): Promise<IDIDCommTransportResult>
-}
-
-/**
- * Abstract implementation of {@link IDIDCommTransport}.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export abstract class AbstractDIDCommTransport implements IDIDCommTransport {
-  id: string
-
-  /**
-   * Shared constructor that takes an optional identifier (for reusing) for
-   * this {@link IDIDCommTransport}.
-   *
-   * @param id - An optional identifier for this {@link IDIDCommTransport}.
-   *
-   * @beta This API may change without a BREAKING CHANGE notice.
-   */
-  constructor(id?: string) {
-    this.id = id || uuidv4()
-  }
-
-  /** {@inheritdoc IDIDCommTransport.isServiceSupported} */
-  abstract isServiceSupported(service: any): boolean
-
-  /** {@inheritdoc IDIDCommTransport.send} */
-  abstract send(service: any, message: string): Promise<IDIDCommTransportResult>
 }
