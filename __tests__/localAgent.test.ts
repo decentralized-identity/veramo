@@ -86,6 +86,8 @@ import utils from './shared/utils.js'
 import web3 from './shared/web3.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
+import { Libp2p } from 'libp2p'
+import { Web3Provider } from '@ethersproject/providers'
 
 jest.setTimeout(30000)
 
@@ -108,7 +110,9 @@ let agent: TAgent<
 >
 let dbConnection: Promise<DataSource>
 let databaseFile: string
-
+let libnode: Libp2p
+let provider: Web3Provider
+let registry: any
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile =
     options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
@@ -125,12 +129,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     ...options?.context?.dbConnectionOptions,
   }).initialize()
 
-  const { provider, registry } = await createGanacheProvider()
+  const ganacheProvider = await createGanacheProvider()
+  provider = ganacheProvider.provider
+  registry = ganacheProvider.registry
   const ethersProvider = createEthersProvider()
 
 
   console.log("go get createLibp2pNode.")
-  const libnode = await createLibp2pNode()
+  libnode = await createLibp2pNode()
   console.log("libnode: ", libnode)
 
   agent = createAgent<
@@ -262,6 +268,9 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     // nop
   }
+  await libnode.stop()
+  provider.removeAllListeners()
+  console.log("provider: ", provider)
   return true
 }
 

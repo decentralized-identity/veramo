@@ -98,10 +98,12 @@ import didDiscovery from './shared/didDiscovery.js'
 import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
+import { Libp2p } from 'libp2p'
+import { Web3Provider } from '@ethersproject/providers'
 
 jest.setTimeout(30000)
 
-const { provider, registry } = await createGanacheProvider()
+
 const ethersProvider = createEthersProvider()
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
@@ -113,6 +115,13 @@ const basePath = '/agent'
 let dbConnection: Promise<DataSource>
 let serverAgent: IAgent
 let restServer: Server
+let libnode: Libp2p
+let provider: Web3Provider
+let registry: any
+
+const ganacheProvider = await createGanacheProvider()
+  provider = ganacheProvider.provider
+  registry = ganacheProvider.registry
 
 const getAgent = (options?: IAgentOptions) =>
   createAgent<
@@ -153,7 +162,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   }).initialize()
 
   // console.log("go get createLibp2pNode.")
-  const libnode = await createLibp2pNode()
+  libnode = await createLibp2pNode()
   // console.log("libnode: ", libnode)
 
   serverAgent = createAgent<
@@ -310,6 +319,8 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     //nop
   }
+  await libnode.stop()
+  provider.removeAllListeners()
   return true
 }
 

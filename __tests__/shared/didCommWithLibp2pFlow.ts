@@ -26,6 +26,7 @@ import { pipe } from 'it-pipe'
 import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
 import * as lp from 'it-length-prefixed'
 import map from 'it-map'
+import { Uint8ArrayList } from 'uint8arraylist'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 
@@ -106,13 +107,13 @@ export default (testContext: {
           // Decode length-prefixed data
           lp.decode(),
           // Turn buffers into strings
-          // @ts-ignore
-          (source) => map(source, (buf) => uint8ArrayToString(buf)),
+          (source) => map(source, (buf: Uint8ArrayList) => uint8ArrayToString(buf.slice())),
           // Sink function
           async function (source) {
             // For each chunk of data
             let message = ""
             for await (const msg of source) {
+              // console.log("msg of source: ", msg)
               message = message + (msg.toString().replace('\n',''))
             }
             streamChunkReceivedCb(message)
@@ -164,7 +165,7 @@ export default (testContext: {
     })
 
     it('should send an signed message from bob to alice with serviceEndpoint as string', async () => {
-      expect.assertions(3)
+      expect.assertions(2)
 
       const message = {
         type: 'test',
@@ -177,13 +178,21 @@ export default (testContext: {
         packing: 'jws',
         message,
       })
+      console.log("packedMessage: ", packedMessage)
+      expect(packedMessage.message).toEqual(
+        JSON.stringify({
+          "protected":"eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6ZXRocjpnYW5hY2hlOjB4MDJjNjA0N2Y5NDQxZWQ3ZDZkMzA0NTQwNmU5NWMwN2NkODVjNzc4ZTRiOGNlZjNjYTdhYmFjMDliOTVjNzA5ZWU1I2NvbnRyb2xsZXIiLCJ0eXAiOiJhcHBsaWNhdGlvbi9kaWRjb21tLXNpZ25lZCtqc29uIn0",
+          "payload":"eyJ0eXBlIjoidGVzdCIsInRvIjoiZGlkOmV0aHI6Z2FuYWNoZToweDAyNzliZTY2N2VmOWRjYmJhYzU1YTA2Mjk1Y2U4NzBiMDcwMjliZmNkYjJkY2UyOGQ5NTlmMjgxNWIxNmY4MTc5OCIsImZyb20iOiJkaWQ6ZXRocjpnYW5hY2hlOjB4MDJjNjA0N2Y5NDQxZWQ3ZDZkMzA0NTQwNmU5NWMwN2NkODVjNzc4ZTRiOGNlZjNjYTdhYmFjMDliOTVjNzA5ZWU1IiwiaWQiOiJ0ZXN0LWp3cy1zdWNjZXNzIiwiYm9keSI6eyJoZWxsbyI6IndvcmxkIn19",
+          "signature":"al8yQ2XqV8y7Sj99zPmG6bwQyS68c9Rqg_IkhWOp7_1_rVO1wGICUnas1Bt7h3MQSGbkgmYtJ3Br5LdLXpSfyg"
+        })
+      )
       const result = await agent.sendDIDCommMessage({
         messageId: 'test-jws-success',
         packedMessage,
         recipientDidUrl: alice.did,
       })
       console.log("result: ", result)
-      expect(true).toBeTruthy()
+      expect(result).toBeTruthy()
       // expect(result).toBeTruthy()
       // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
       //   { data: 'test-jws-success', type: 'DIDCommV2Message-sent' },
