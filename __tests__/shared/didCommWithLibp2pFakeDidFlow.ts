@@ -85,7 +85,7 @@ export default (testContext: {
           // Decode length-prefixed data
           lp.decode(),
           // Turn buffers into strings
-          (source) => map(source, (buf: Uint8ArrayList) => uint8ArrayToString(buf.slice())),
+          (source) => map(source, (buf: Uint8ArrayList) => uint8ArrayToString(buf.subarray())),
           // Sink function
           async function (source) {
             // For each chunk of data
@@ -136,7 +136,7 @@ export default (testContext: {
     })
     afterAll(async () => {
       await didCommEndpointLibp2pNode.stop()
-      testContext.tearDown()
+      await testContext.tearDown()
     })
 
     it('should send a message', async () => {

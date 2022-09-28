@@ -60,7 +60,7 @@ import { Bootstrap } from '@libp2p/bootstrap'
       const stream = await this.libp2pNode.dialProtocol(service.serviceEndpoint.multiAddr, 'didcomm/v2')
 
       // TODO(nickreynolds): add support for serviceEndpoint.routingKeys
-
+      console.log("message: ", message)
       await pipe(
         message, 
         (source) => map(source, (string) => uint8ArrayFromString(string)),
