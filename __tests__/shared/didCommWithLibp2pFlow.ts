@@ -129,6 +129,7 @@ export default (testContext: {
     afterAll(async () => {
       // shut down libp2p?
       await didCommEndpointLibp2pNode.stop()
+      testContext.tearDown()
     })
 
     it('should have dummy test', async () => {

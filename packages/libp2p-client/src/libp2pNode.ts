@@ -4,7 +4,6 @@ import { Noise } from '@chainsafe/libp2p-noise'
 import { Mplex } from '@libp2p/mplex'
 import { Bootstrap } from '@libp2p/bootstrap'
 import { TCP } from '@libp2p/tcp'
-console.log("TCP: ", TCP)
 
 export const createLibp2pNode = async () => {
   const libp2p = await createLibp2p({
@@ -13,7 +12,7 @@ export const createLibp2pNode = async () => {
       listen: ['/ip4/0.0.0.0/tcp/10333']
     },
     transports: [
-      new TCP(), // TODO(nickreynolds): investigate why we need to ts-ignore this line
+      new TCP(),
       new WebSockets()
     ],
     streamMuxers: [

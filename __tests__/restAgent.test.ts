@@ -70,8 +70,6 @@ import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSource } from 'typeorm'
-import { createGanacheProvider } from './utils/ganache-provider.js'
-import { createEthersProvider } from './utils/ethers-provider.js'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -92,7 +90,9 @@ import keyManager from './shared/keyManager.js'
 import didManager from './shared/didManager.js'
 import didCommPacking from './shared/didCommPacking.js'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow.js'
+import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
 import didCommWithLibp2pFlow from './shared/didCommWithLibp2pFlow.js'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import messageHandler from './shared/messageHandler.js'
 import didDiscovery from './shared/didDiscovery.js'
 import utils from './shared/utils.js'
@@ -104,7 +104,6 @@ import { Web3Provider } from '@ethersproject/providers'
 jest.setTimeout(30000)
 
 
-const ethersProvider = createEthersProvider()
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
@@ -118,10 +117,6 @@ let restServer: Server
 let libnode: Libp2p
 let provider: Web3Provider
 let registry: any
-
-const ganacheProvider = await createGanacheProvider()
-  provider = ganacheProvider.provider
-  registry = ganacheProvider.registry
 
 const getAgent = (options?: IAgentOptions) =>
   createAgent<
@@ -165,20 +160,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   libnode = await createLibp2pNode()
   // console.log("libnode: ", libnode)
 
-  serverAgent = createAgent<
-  IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialPlugin &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
-    ISelectiveDisclosure &
-    IDIDDiscovery
->({
+  serverAgent = new Agent({
     ...options,
     plugins: [
       new KeyManager({
@@ -186,7 +168,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
           web3: new Web3KeyManagementSystem({
-            ethers: ethersProvider
           }),
         },
       }),
@@ -212,12 +193,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
                 registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
               },
-              {
-                chainId: 1337,
-                name: 'ganache',
-                provider,
-                registry,
-              },
             ],
           }),
           'did:web': new WebDIDProvider({
@@ -233,14 +208,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         resolver: new Resolver({
           ...ethrDidResolver({
             infuraProjectId,
-            networks: [
-              {
-                name: 'ganache',
-                chainId: 1337,
-                provider,
-                registry,
-              },
-            ],
           }),
           ...webDidResolver(),
           // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
@@ -320,7 +287,6 @@ const tearDown = async (): Promise<boolean> => {
     //nop
   }
   await libnode.stop()
-  provider.removeAllListeners()
   return true
 }
 
@@ -339,7 +305,9 @@ describe('REST integration tests', () => {
   // messageHandler(testContext)
   // didCommPacking(testContext)
   // didWithFakeDidFlow(testContext)
-  didCommWithLibp2pFlow(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
+  // didCommWithEthrDidFlow(testContext)
+  // didCommWithLibp2pFlow(testContext)
   // didDiscovery(testContext)
   // utils(testContext)
   // credentialStatus(testContext)

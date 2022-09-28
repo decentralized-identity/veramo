@@ -81,6 +81,7 @@ import messageHandler from './shared/messageHandler.js'
 import didDiscovery from './shared/didDiscovery.js'
 import dbInitOptions from './shared/dbInitOptions.js'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import didCommWithLibp2pFlow from './shared/didCommWithLibp2pFlow.js'
 import utils from './shared/utils.js'
 import web3 from './shared/web3.js'
@@ -269,8 +270,8 @@ const tearDown = async (): Promise<boolean> => {
     // nop
   }
   await libnode.stop()
-  provider.removeAllListeners()
-  console.log("provider: ", provider)
+  // provider.removeAllListeners()
+  // console.log("provider: ", provider)
   return true
 }
 
@@ -295,7 +296,8 @@ describe('Local integration tests', () => {
   // dbInitOptions(testContext)
   // utils(testContext)
   // web3(testContext)
-  // didCommWithEthrDidFlow(testContext)
-  didCommWithLibp2pFlow(testContext)
+  didCommWithEthrDidFlow(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
+  // didCommWithLibp2pFlow(testContext)
   // credentialStatus(testContext)
 })
