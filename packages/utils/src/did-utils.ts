@@ -10,7 +10,10 @@ import {
 } from './types/utility-types'
 import { isDefined } from './type-utils'
 import * as u8a from 'uint8arrays'
+import elliptic from 'elliptic'
 import Debug from 'debug'
+import sha3 from 'js-sha3'
+import { publicKeyConvert } from 'secp256k1'
 
 const debug = Debug('veramo:utils')
 
@@ -80,11 +83,12 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-function compareBlockchainAccountId(
-  localKey: IKey,
-  verificationMethod: _NormalizedVerificationMethod,
-): boolean {
-  if (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' || localKey.type !== 'Secp256k1') {
+function compareBlockchainAccountId(localKey: IKey, verificationMethod: VerificationMethod): boolean {
+  if (
+    (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' &&
+      verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2019') ||
+    localKey.type !== 'Secp256k1'
+  ) {
     return false
   }
   let vmEthAddr = getEthereumAddress(verificationMethod)
@@ -105,16 +109,95 @@ function compareBlockchainAccountId(
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function getEthereumAddress(verificationMethod: _NormalizedVerificationMethod): string | undefined {
+export function getEthereumAddress(verificationMethod: VerificationMethod): string | undefined {
   let vmEthAddr = verificationMethod.ethereumAddress?.toLowerCase()
   if (!vmEthAddr) {
     if (verificationMethod.blockchainAccountId?.includes('@eip155')) {
       vmEthAddr = verificationMethod.blockchainAccountId?.split('@eip155')[0].toLowerCase()
     } else if (verificationMethod.blockchainAccountId?.startsWith('eip155')) {
       vmEthAddr = verificationMethod.blockchainAccountId.split(':')[2]?.toLowerCase()
+    } else if (
+      verificationMethod.publicKeyHex ||
+      verificationMethod.publicKeyBase58 ||
+      verificationMethod.publicKeyBase64
+    ) {
+      const pbBytes = extractPublicKeyBytes(verificationMethod)
+      let pbHex = bytesToHex(pbBytes)
+      if (pbHex.substring(0, 2) === '02' || pbHex.substring(0, 2) === '03') {
+        pbHex = getUncompressedPublicKey(pbHex as string)
+      }
+      vmEthAddr = toEthereumAddress(pbHex).toLowerCase()
     }
   }
   return vmEthAddr
+}
+interface LegacyVerificationMethod extends VerificationMethod {
+  publicKeyBase64: string
+}
+
+function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
+  if (pk.publicKeyBase58) {
+    return base58ToBytes(pk.publicKeyBase58)
+  } else if ((<LegacyVerificationMethod>pk).publicKeyBase64) {
+    return base64ToBytes((<LegacyVerificationMethod>pk).publicKeyBase64)
+  } else if (pk.publicKeyHex) {
+    return hexToBytes(pk.publicKeyHex)
+  } else if (
+    pk.publicKeyJwk &&
+    pk.publicKeyJwk.crv === 'secp256k1' &&
+    pk.publicKeyJwk.x &&
+    pk.publicKeyJwk.y
+  ) {
+    const secp256k1 = new elliptic.ec('secp256k1')
+    return hexToBytes(
+      secp256k1
+        .keyFromPublic({
+          x: bytesToHex(base64ToBytes(pk.publicKeyJwk.x)),
+          y: bytesToHex(base64ToBytes(pk.publicKeyJwk.y)),
+        })
+        .getPublic('hex'),
+    )
+  }
+  return new Uint8Array()
+}
+
+function base64ToBytes(s: string): Uint8Array {
+  const inputBase64Url = s.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+  return u8a.fromString(inputBase64Url, 'base64url')
+}
+
+function base58ToBytes(s: string): Uint8Array {
+  return u8a.fromString(s, 'base58btc')
+}
+
+function hexToBytes(s: string): Uint8Array {
+  const input = s.startsWith('0x') ? s.substring(2) : s
+  return u8a.fromString(input.toLowerCase(), 'base16')
+}
+
+function bytesToHex(b: Uint8Array): string {
+  return u8a.toString(b, 'base16')
+}
+
+function toEthereumAddress(hexPublicKey: string): string {
+  const hashInput = u8a.fromString(hexPublicKey.slice(2), 'base16')
+  return `0x${u8a.toString(keccak(hashInput).slice(-20), 'base16')}`
+}
+
+function keccak(data: Uint8Array): Uint8Array {
+  return new Uint8Array(sha3.keccak_256.arrayBuffer(data))
+}
+
+export function getUncompressedPublicKey(publicKey: string): string {
+  console.log('publicKey', publicKey)
+  return _uint8ArrayToHex(publicKeyConvert(_hexToUnit8Array(publicKey), false))
+}
+export function _uint8ArrayToHex(arr: any) {
+  return Buffer.from(arr).toString('hex')
+}
+
+export function _hexToUnit8Array(str: any) {
+  return new Uint8Array(Buffer.from(str, 'hex'))
 }
 
 /**
