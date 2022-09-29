@@ -14,6 +14,7 @@ import elliptic from 'elliptic'
 import Debug from 'debug'
 import sha3 from 'js-sha3'
 import { publicKeyConvert } from 'secp256k1'
+import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings'
 
 const debug = Debug('veramo:utils')
 
@@ -122,11 +123,9 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
       verificationMethod.publicKeyBase64
     ) {
       const pbBytes = extractPublicKeyBytes(verificationMethod)
-      let pbHex = bytesToHex(pbBytes)
-      if (pbHex.substring(0, 2) === '02' || pbHex.substring(0, 2) === '03') {
-        pbHex = getUncompressedPublicKey(pbHex as string)
-      }
-      vmEthAddr = toEthereumAddress(pbHex).toLowerCase()
+      const pbHex = computePublicKey(pbBytes, false)
+
+      vmEthAddr = computeAddress(pbHex).toLowerCase()
     }
   }
   return vmEthAddr
@@ -159,45 +158,6 @@ function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
     )
   }
   return new Uint8Array()
-}
-
-function base64ToBytes(s: string): Uint8Array {
-  const inputBase64Url = s.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
-  return u8a.fromString(inputBase64Url, 'base64url')
-}
-
-function base58ToBytes(s: string): Uint8Array {
-  return u8a.fromString(s, 'base58btc')
-}
-
-function hexToBytes(s: string): Uint8Array {
-  const input = s.startsWith('0x') ? s.substring(2) : s
-  return u8a.fromString(input.toLowerCase(), 'base16')
-}
-
-function bytesToHex(b: Uint8Array): string {
-  return u8a.toString(b, 'base16')
-}
-
-function toEthereumAddress(hexPublicKey: string): string {
-  const hashInput = u8a.fromString(hexPublicKey.slice(2), 'base16')
-  return `0x${u8a.toString(keccak(hashInput).slice(-20), 'base16')}`
-}
-
-function keccak(data: Uint8Array): Uint8Array {
-  return new Uint8Array(sha3.keccak_256.arrayBuffer(data))
-}
-
-export function getUncompressedPublicKey(publicKey: string): string {
-  console.log('publicKey', publicKey)
-  return _uint8ArrayToHex(publicKeyConvert(_hexToUnit8Array(publicKey), false))
-}
-export function _uint8ArrayToHex(arr: any) {
-  return Buffer.from(arr).toString('hex')
-}
-
-export function _hexToUnit8Array(str: any) {
-  return new Uint8Array(Buffer.from(str, 'hex'))
 }
 
 /**
