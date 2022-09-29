@@ -34,7 +34,7 @@ import {
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDComm, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -68,11 +68,14 @@ import documentationExamples from './shared/documentationExamples.js'
 import keyManager from './shared/keyManager.js'
 import didManager from './shared/didManager.js'
 import didCommPacking from './shared/didCommPacking.js'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import messageHandler from './shared/messageHandler.js'
 import utils from './shared/utils.js'
 import { JsonFileStore } from './utils/json-file-store.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
+import { Libp2p } from 'libp2p'
+import { createLibp2pNode } from '../packages/libp2p-client/src'
 
 jest.setTimeout(30000)
 
@@ -94,6 +97,7 @@ let agent: TAgent<
 >
 
 let databaseFile: string
+let libnode: Libp2p
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // This test suite uses a plain JSON file for storage for each agent created.
@@ -102,6 +106,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.json`
 
   const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
+  libnode = await createLibp2pNode()
 
   agent = createAgent<
     IDIDManager &
@@ -178,7 +183,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm(),
+      new DIDComm([new DIDCommLibp2pTransport(libnode)]),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
@@ -204,6 +209,7 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     //nop
   }
+  await libnode.stop()
   return true
 }
 
@@ -226,4 +232,5 @@ describe('Local json-data-store integration tests', () => {
   // didCommPacking(testContext)
   // utils(testContext)
   // credentialStatus(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
 })
