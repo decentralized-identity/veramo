@@ -12,8 +12,6 @@ import { isDefined } from './type-utils'
 import * as u8a from 'uint8arrays'
 import elliptic from 'elliptic'
 import Debug from 'debug'
-import sha3 from 'js-sha3'
-import { publicKeyConvert } from 'secp256k1'
 import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings'
 
 const debug = Debug('veramo:utils')
