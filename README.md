@@ -101,6 +101,10 @@ this automation will depend on the tests you write for your new plugin.
 Depending on what functionality you intend to develop, some code from the template can be safely removed. The embedded
 comments should guide you, but if something does not make sense, please reach out.
 
+## Who's using Veramo?
+
+Check out the [awesome list of awesome projects](./AWESOME.md) using or extending Veramo.
+
 ## Let's make it better
 
 This framework can be used to build permissionless collaboration tools for the world. This is not an easy task, and we
