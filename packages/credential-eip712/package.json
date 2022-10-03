@@ -16,9 +16,9 @@
   "dependencies": {
     "@metamask/eth-sig-util": "^5.0.0",
     "@veramo/core": "^4.0.0",
-    "@veramo/utils": "^4.0.0",
     "debug": "^4.3.3",
-    "eip-712-types-generation": "^0.1.6"
+    "eip-712-types-generation": "^0.1.6",
+    "@veramo/utils": "^4.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
