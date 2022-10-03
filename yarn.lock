@@ -4645,6 +4645,7 @@
   dependencies:
     "@types/node" "*"
 
+
 "@types/bn.js@*":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-5.1.1.tgz#b51e1b55920a4ca26e9285ff79936bbdec910682"
