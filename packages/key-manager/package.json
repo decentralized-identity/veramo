@@ -16,7 +16,7 @@
     "@veramo/core": "^4.0.0",
     "did-jwt": "^6.6.0",
     "uint8arrays": "^3.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@ethersproject/abstract-signer": "5.6.2",
