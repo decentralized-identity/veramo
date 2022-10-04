@@ -38,8 +38,17 @@ for (const inputFolder of inputFolders) {
 const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
-  core: ['IResolver', 'IDIDManager', 'IMessageHandler', 'IDataStore', 'IDataStoreORM', 'IKeyManager'],
-  'credential-w3c': ['ICredentialIssuer'],
+  core: [
+    'IResolver',
+    'IDIDManager',
+    'IMessageHandler',
+    'IDataStore',
+    'IDataStoreORM',
+    'IKeyManager',
+    'ICredentialIssuer',
+    'ICredentialVerifier',
+    'ICredentialPlugin',
+  ],
   'selective-disclosure': ['ISelectiveDisclosure'],
   'did-comm': ['IDIDComm'],
 }
@@ -61,7 +70,7 @@ for (const packageName of Object.keys(agentPlugins)) {
     path: resolve('packages/' + packageName + '/src/index.ts'),
     encodeRefs: false,
     // TODO: https://github.com/transmute-industries/vc.js/issues/60
-    skipTypeCheck: true
+    skipTypeCheck: true,
   })
 
   const apiModel: ApiModel = new ApiModel()
@@ -92,7 +101,8 @@ for (const packageName of Object.keys(agentPlugins)) {
         //@ts-ignore
         ?.getChildNodes()[0]?.text
 
-      method.example = (methodSignature.tsdocComment?.customBlocks[0]?.content?.getChildNodes()[1] as unknown) as DocFencedCode
+      method.example =
+        methodSignature.tsdocComment?.customBlocks[0]?.content?.getChildNodes()[1] as unknown as DocFencedCode
 
       method.description = method.description || ''
 

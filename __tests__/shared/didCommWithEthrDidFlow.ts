@@ -140,7 +140,7 @@ export default (testContext: {
         service: {
           id: 'localhost-useless-endpoint-2',
           type: 'DIDComm',
-          serviceEndpoint: {uri: `http://localhost:${listeningPort}/foobar`},
+          serviceEndpoint: { uri: `http://localhost:${listeningPort}/foobar` },
           description: 'this endpoint will be removed',
         },
       })
@@ -148,9 +148,9 @@ export default (testContext: {
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
-        {uri: `http://localhost:${listeningPort}/foobar`},
-      )
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual({
+        uri: `http://localhost:${listeningPort}/foobar`,
+      })
     })
 
     it('should remove dummy service 2 from identifier', async () => {
@@ -167,14 +167,13 @@ export default (testContext: {
       expect([...(resolution?.didDocument?.service || [])]).toEqual([])
     })
 
-    
     it('should add dummy service 3 to identifier', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
         service: {
           id: 'localhost-useless-endpoint-3',
           type: 'DIDComm',
-          serviceEndpoint: [{uri: `http://localhost:${listeningPort}/foobar`}],
+          serviceEndpoint: [{ uri: `http://localhost:${listeningPort}/foobar` }],
           description: 'this endpoint will be removed',
         },
       })
@@ -182,9 +181,9 @@ export default (testContext: {
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
-        [{uri: `http://localhost:${listeningPort}/foobar`}],
-      )
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual([
+        { uri: `http://localhost:${listeningPort}/foobar` },
+      ])
     })
 
     it('should remove dummy service 3 from identifier', async () => {
@@ -215,9 +214,9 @@ export default (testContext: {
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
-        [`http://localhost:${listeningPort}/foobar`],
-      )
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual([
+        `http://localhost:${listeningPort}/foobar`,
+      ])
     })
 
     it('should remove dummy service 4 from identifier', async () => {
@@ -325,7 +324,7 @@ export default (testContext: {
         expect.anything(),
       )
     })
-    
+
     it('should remove DIDComm service from receiver', async () => {
       const result = await agent.didManagerRemoveService({
         did: alice.did,
@@ -340,7 +339,6 @@ export default (testContext: {
       expect([...(resolution?.didDocument?.service || [])]).toEqual([])
     })
 
-    
     it('should add DIDComm service to receiver DID with serviceEndpoint as array of strings', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
@@ -355,9 +353,9 @@ export default (testContext: {
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
-        [`http://localhost:${listeningPort}/messaging`],
-      )
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual([
+        `http://localhost:${listeningPort}/messaging`,
+      ])
     })
 
     it('should send an signed message from bob to alice with serviceEndpoint as array of strings', async () => {
@@ -404,7 +402,6 @@ export default (testContext: {
       )
     })
 
-    
     it('should remove DIDComm service from receiver', async () => {
       const result = await agent.didManagerRemoveService({
         did: alice.did,
@@ -418,7 +415,7 @@ export default (testContext: {
       expect(resolution?.didDocument).not.toBeNull()
       expect([...(resolution?.didDocument?.service || [])]).toEqual([])
     })
-    
+
     it('should add DIDComm service to receiver DID with ServiceEndpoint as object', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
@@ -433,9 +430,9 @@ export default (testContext: {
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
-        { uri: `http://localhost:${listeningPort}/messaging` },
-      )
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual({
+        uri: `http://localhost:${listeningPort}/messaging`,
+      })
     })
 
     it('should send an signed message from bob to alice with ServiceEndpoint as object', async () => {
@@ -482,7 +479,6 @@ export default (testContext: {
       )
     })
 
-    
     it('should remove DIDComm service from receiver', async () => {
       const result = await agent.didManagerRemoveService({
         did: alice.did,
@@ -496,7 +492,7 @@ export default (testContext: {
       expect(resolution?.didDocument).not.toBeNull()
       expect([...(resolution?.didDocument?.service || [])]).toEqual([])
     })
-    
+
     it('should add DIDComm service to receiver DID with serviceEndpoint as array of ServiceEndpoint objects', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
@@ -511,9 +507,9 @@ export default (testContext: {
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(
-        [{ uri: `http://localhost:${listeningPort}/messaging` }],
-      )
+      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual([
+        { uri: `http://localhost:${listeningPort}/messaging` },
+      ])
     })
 
     it('should send an signed message from bob to alice with serviceEndpoint as array of ServiceEndpoint objects', async () => {
@@ -675,7 +671,7 @@ export default (testContext: {
         id: 'test-authcrypt-fail',
         body: { hello: 'world' },
       }
-      const packedMessage = await await expect(
+      const packedMessage = await expect(
         agent.packDIDCommMessage({
           packing: 'authcrypt',
           message,

@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-comm",
   "description": "Veramo messaging plugin implementing DIDComm v2.",
-  "version": "3.1.4",
+  "version": "4.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -16,15 +16,15 @@
   "dependencies": {
     "@ethersproject/signing-key": "^5.5.0",
     "@stablelib/ed25519": "^1.0.2",
-    "@veramo/core": "^3.1.4",
-    "@veramo/message-handler": "^3.1.4",
-    "@veramo/utils": "^3.1.4",
+    "@veramo/core": "^4.0.0",
+    "@veramo/message-handler": "^4.0.0",
+    "@veramo/utils": "^4.0.0",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
     "did-jwt": "^6.6.0",
     "did-resolver": "^4.0.0",
     "uint8arrays": "^3.0.0",
-    "uuid": "^8.3.0"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

@@ -8,6 +8,7 @@
 import {
   createAgent,
   IAgentOptions,
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -21,7 +22,7 @@ import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialIssuer, ICredentialIssuer, W3cMessageHandler } from '../packages/credential-w3c/src'
+import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
 import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
 import {
   CredentialIssuerLD,
@@ -34,10 +35,19 @@ import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure, } from '../packages/selective-disclosure/src'
+import {
+  ISelectiveDisclosure,
+  SdrMessageHandler,
+  SelectiveDisclosure,
+} from '../packages/selective-disclosure/src'
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
 import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
-import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson, } from '../packages/data-store-json/src'
+import {
+  DataStoreJson,
+  DIDStoreJson,
+  KeyStoreJson,
+  PrivateKeyStoreJson,
+} from '../packages/data-store-json/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { Resolver } from 'did-resolver'
@@ -76,7 +86,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
-    ICredentialIssuer &
+    ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
     ISelectiveDisclosure
@@ -100,7 +110,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
-      ICredentialIssuer &
+      ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
       ISelectiveDisclosure
@@ -168,7 +178,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new CredentialIssuer(),
+      new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],

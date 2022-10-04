@@ -302,7 +302,7 @@ agent:
         - $ref: /didDiscovery
         - $ref: /messageHandler
         - $require: '@veramo/did-comm#DIDComm'
-        - $require: '@veramo/credential-w3c#CredentialIssuer'
+        - $require: '@veramo/credential-w3c#CredentialPlugin'
         - $ref: /credentialIssuerLD
         - $require: '@veramo/selective-disclosure#SelectiveDisclosure'
         - $require: '@veramo/data-store#DataStore'

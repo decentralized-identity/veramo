@@ -10,8 +10,20 @@ jest.mock('did-jwt-vc', () => {
   return mockDidJwtVc
 })
 
-import { CredentialPayload, IIdentifier, IKey, PresentationPayload, VerifiableCredential } from '@veramo/core'
-import { CredentialIssuer, IContext } from '../action-handler'
+import {
+  CredentialPayload,
+  ICredentialPlugin,
+  IDataStore,
+  IDIDManager,
+  IIdentifier,
+  IKey,
+  IKeyManager,
+  IResolver,
+  PresentationPayload,
+  TAgent,
+  VerifiableCredential,
+} from '@veramo/core'
+import { CredentialPlugin } from '../action-handler'
 
 const mockIdentifiers: IIdentifier[] = [
   {
@@ -58,7 +70,7 @@ const mockIdentifiers: IIdentifier[] = [
   },
 ]
 
-const w3c = new CredentialIssuer()
+const w3c = new CredentialPlugin()
 
 let agent = {
   execute: jest.fn(),
@@ -84,14 +96,14 @@ let agent = {
   createVerifiablePresentationLD: jest.fn(),
   verifyCredentialLD: jest.fn(),
   verifyPresentationLD: jest.fn(),
-}
+} as any as TAgent<IResolver & IDIDManager & IKeyManager & ICredentialPlugin & IDataStore>
 
 describe('@veramo/credential-w3c', () => {
   test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
     expect.assertions(3)
 
     agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
-    const context: IContext = { agent: agent }
+    const context = { agent }
 
     const credential: CredentialPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
@@ -130,7 +142,7 @@ describe('@veramo/credential-w3c', () => {
     expect.assertions(3)
 
     agent.didManagerGet = jest.fn().mockImplementation(async (args): Promise<IIdentifier> => mockIdentifier)
-    const context: IContext = { agent: agent }
+    const context = { agent }
 
     const credential: VerifiableCredential = {
       '@context': ['https://www.w3.org/2018/credentials/v1'],

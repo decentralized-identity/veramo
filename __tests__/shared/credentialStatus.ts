@@ -4,6 +4,7 @@ import { CredentialStatus } from 'credential-status'
 import {
   CredentialPayload,
   IAgentOptions,
+  ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -11,9 +12,8 @@ import {
   TAgent,
 } from '../../packages/core/src'
 import { CredentialStatusPlugin } from '../../packages/credential-status/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
 
-type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer & IDataStore & IDataStoreORM>
+type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 
 // Constant used to simulate exception flows
 const simulateStatusVerificationFailure = 'Any unexpected failure during status verification.'

@@ -1,7 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { IDIDManager, IIdentifier, IKey, TAgent } from '../../packages/core/src'
-import { ICredentialIssuer } from '../../packages/credential-w3c/src'
+import { ICredentialIssuer, IDIDManager, IIdentifier, IKey, TAgent } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialIssuer>
 
