@@ -15,7 +15,7 @@
     "@veramo/key-manager": "^4.0.0",
     "@veramo/utils": "^4.0.0",
     "debug": "^4.3.3",
-    "typeorm": "0.3.6"
+    "typeorm": "^0.3.10"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
@@ -34,7 +34,7 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
   "contributors": [
-    "Mircea Nistor mircea.nistor@mesh.xyz"
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
   "license": "Apache-2.0",
   "keywords": []
