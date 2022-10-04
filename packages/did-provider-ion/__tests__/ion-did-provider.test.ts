@@ -1,8 +1,8 @@
-import { createAgent, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core'
-import { DIDManager, MemoryDIDStore } from '@veramo/did-manager'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '@veramo/key-manager'
+import { createAgent, IIdentifier, IKey, IKeyManager, IService } from '../../core/src'
+import { DIDManager, MemoryDIDStore } from '../../did-manager/src'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src'
 import { IonPublicKeyPurpose } from '@decentralized-identity/ion-sdk'
-import { KeyManagementSystem } from '@veramo/kms-local'
+import { KeyManagementSystem } from '../../kms-local/src'
 import { IonDIDProvider } from '../src'
 import { ICreateIdentifierOpts } from '../src/types/ion-provider-types'
 
