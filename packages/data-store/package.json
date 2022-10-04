@@ -1,7 +1,7 @@
 {
   "name": "@veramo/data-store",
   "description": "Veramo data storage plugin based on TypeORM database drivers",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -12,8 +12,8 @@
     "@veramo/core": "^4.0.0",
     "@veramo/did-discovery": "^4.0.0",
     "@veramo/did-manager": "^4.0.0",
-    "@veramo/key-manager": "^4.0.0",
-    "@veramo/utils": "^4.0.0",
+    "@veramo/key-manager": "^4.0.2",
+    "@veramo/utils": "^4.0.2",
     "debug": "^4.3.3",
     "typeorm": "^0.3.10"
   },
