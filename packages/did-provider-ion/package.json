@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-ion",
   "description": "Veramo ion-did based identity controller plugin.",
-  "version": "3.1.4",
+  "version": "4.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -16,10 +16,10 @@
     "@stablelib/ed25519": "^1.0.2",
     "uint8arrays": "^3.0.0",
     "base64url": "^3.0.1",
-    "@veramo/core": "^3.1.4",
-    "@veramo/did-manager": "^3.1.4",
-    "@veramo/key-manager": "^3.1.4",
-    "@veramo/kms-local": "^3.1.4",
+    "@veramo/core": "^4.0.0",
+    "@veramo/did-manager": "^4.0.0",
+    "@veramo/key-manager": "^4.0.0",
+    "@veramo/kms-local": "^4.0.0",
     "debug": "^4.3.3"
   },
   "devDependencies": {
