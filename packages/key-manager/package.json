@@ -1,7 +1,7 @@
 {
   "name": "@veramo/key-manager",
   "description": "Key Manager plugin for Veramo",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
