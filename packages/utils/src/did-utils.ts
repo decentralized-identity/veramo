@@ -10,7 +10,9 @@ import {
 } from './types/utility-types'
 import { isDefined } from './type-utils'
 import * as u8a from 'uint8arrays'
+import elliptic from 'elliptic'
 import Debug from 'debug'
+import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings'
 
 const debug = Debug('veramo:utils')
 
@@ -80,11 +82,12 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-function compareBlockchainAccountId(
-  localKey: IKey,
-  verificationMethod: _NormalizedVerificationMethod,
-): boolean {
-  if (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' || localKey.type !== 'Secp256k1') {
+function compareBlockchainAccountId(localKey: IKey, verificationMethod: VerificationMethod): boolean {
+  if (
+    (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' &&
+      verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2019') ||
+    localKey.type !== 'Secp256k1'
+  ) {
     return false
   }
   let vmEthAddr = getEthereumAddress(verificationMethod)
@@ -105,16 +108,54 @@ function compareBlockchainAccountId(
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function getEthereumAddress(verificationMethod: _NormalizedVerificationMethod): string | undefined {
+export function getEthereumAddress(verificationMethod: VerificationMethod): string | undefined {
   let vmEthAddr = verificationMethod.ethereumAddress?.toLowerCase()
   if (!vmEthAddr) {
     if (verificationMethod.blockchainAccountId?.includes('@eip155')) {
       vmEthAddr = verificationMethod.blockchainAccountId?.split('@eip155')[0].toLowerCase()
     } else if (verificationMethod.blockchainAccountId?.startsWith('eip155')) {
       vmEthAddr = verificationMethod.blockchainAccountId.split(':')[2]?.toLowerCase()
+    } else if (
+      verificationMethod.publicKeyHex ||
+      verificationMethod.publicKeyBase58 ||
+      verificationMethod.publicKeyBase64
+    ) {
+      const pbBytes = extractPublicKeyBytes(verificationMethod)
+      const pbHex = computePublicKey(pbBytes, false)
+
+      vmEthAddr = computeAddress(pbHex).toLowerCase()
     }
   }
   return vmEthAddr
+}
+interface LegacyVerificationMethod extends VerificationMethod {
+  publicKeyBase64: string
+}
+
+function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
+  if (pk.publicKeyBase58) {
+    return base58ToBytes(pk.publicKeyBase58)
+  } else if ((<LegacyVerificationMethod>pk).publicKeyBase64) {
+    return base64ToBytes((<LegacyVerificationMethod>pk).publicKeyBase64)
+  } else if (pk.publicKeyHex) {
+    return hexToBytes(pk.publicKeyHex)
+  } else if (
+    pk.publicKeyJwk &&
+    pk.publicKeyJwk.crv === 'secp256k1' &&
+    pk.publicKeyJwk.x &&
+    pk.publicKeyJwk.y
+  ) {
+    const secp256k1 = new elliptic.ec('secp256k1')
+    return hexToBytes(
+      secp256k1
+        .keyFromPublic({
+          x: bytesToHex(base64ToBytes(pk.publicKeyJwk.x)),
+          y: bytesToHex(base64ToBytes(pk.publicKeyJwk.y)),
+        })
+        .getPublic('hex'),
+    )
+  }
+  return new Uint8Array()
 }
 
 /**

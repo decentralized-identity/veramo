@@ -85,7 +85,9 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     if (!extendedKey)
       throw Error('key_not_found: The signing key is not available in the issuer DID document')
 
-    const chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
+    let chainId = 1
+    if (identifier.did.split(':')[1] === 'ethr')
+      chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
 
     const credential: CredentialPayload = {
       ...args?.credential,
@@ -235,8 +237,9 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     const extendedKey = extendedKeys.find((key) => key.kid === keyRef)
     if (!extendedKey)
       throw Error('key_not_found: The signing key is not available in the issuer DID document')
-
-    const chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
+    let chainId = 1
+    if (identifier.did.split(':')[1] === 'ethr')
+      chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
     presentation['proof'] = {
       verificationMethod: extendedKey.meta.verificationMethod.id,
       created: issuanceDate,
