@@ -1,4 +1,4 @@
-import { ManagedKeyInfo } from '@veramo/core'
+import { ManagedKeyInfo } from '../../core/src'
 import { generatePrivateKeyHex, tempMemoryKey, toIonPrivateKeyJwk } from '../src/functions'
 import { KeyIdentifierRelation, KeyType } from '../src/types/ion-provider-types'
 
