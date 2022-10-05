@@ -230,6 +230,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
+  await libp2pPlugin.setupLibp2p({ agent })
   return true
 }
 

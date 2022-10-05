@@ -148,7 +148,7 @@ export default (testContext: {
       expect(true).toBeTruthy()
     })
     it('should send a message', async () => {
-      expect.assertions(2)
+      expect.assertions(3)
 
       const message = {
         type: 'test',
@@ -172,22 +172,22 @@ export default (testContext: {
         { data: '123', type: 'DIDCommV2Message-sent' },
         expect.anything(),
       )
-      // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      //   {
-      //     data: {
-      //       message: {
-      //         body: { hello: 'world' },
-      //         from: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
-      //         id: 'test',
-      //         to: 'did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
-      //         type: 'test',
-      //       },
-      //       metaData: { packing: 'authcrypt' },
-      //     },
-      //     type: 'DIDCommV2Message-received',
-      //   },
-      //   expect.anything(),
-      // )
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { hello: 'world' },
+              from: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+              id: 'test',
+              to: 'did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
+              type: 'test',
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
     })
       // // in our case, it is the same agent that is receiving the messages
       // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(

@@ -1,4 +1,4 @@
-import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema, IAgentContext, IDIDManager, IKeyManager } from '@veramo/core'
+import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema, IAgentContext, IDIDManager, IKeyManager, IMessageHandler } from '@veramo/core'
 import { IDIDComm } from '@veramo/did-comm'
 import { Libp2p } from 'libp2p'
 import { createLibp2pNode } from './libp2pNode.js'
@@ -13,7 +13,7 @@ import map from 'it-map'
 import { Uint8ArrayList } from 'uint8arraylist'
 import { IAgentLibp2pClient } from './types/IAgentLibp2pClient.js';
 
-type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm>
+type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IMessageHandler>
 
 /**
  * The libp2p agent should be provided by {@link @veramo/remote-server#AgentRouter | AgentRouter}, or a similar
@@ -24,7 +24,7 @@ type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm>
  *
  * @public
  */
-class AgentLibp2pClient implements IAgentPlugin {
+export class AgentLibp2pClient implements IAgentPlugin {
   readonly methods?: IAgentLibp2pClient
   libp2p?: Libp2p = undefined
   peerId?: PeerId = undefined
@@ -51,12 +51,12 @@ class AgentLibp2pClient implements IAgentPlugin {
     await this.libp2p?.stop()
   }
 
-  setupLibp2p = async (context?: IContext) => {
-    console.log("setupLibp2p context: ", context)
+  public async setupLibp2p(context?:IContext): Promise<void> {
+    // console.log("setupLibp2p context: ", context)
     try {
-      console.log("setupLibp2p 1")
+      // console.log("setupLibp2p 1")
       this.libp2p = await createLibp2pNode(this.peerId)
-      console.log("setupLibp2p 2")
+      // console.log("setupLibp2p 2")
       this.libp2p.handle('didcomm/v2', async ({ stream }) => {
         // // Send stdin to the stream
         // stdinToStream(stream)
@@ -81,14 +81,15 @@ class AgentLibp2pClient implements IAgentPlugin {
               message = message + (msg.toString().replace('\n',''))
             }
             // streamChunkReceivedCb(message)
-            console.log("THE CLIENT RECEIVED THE MESSAGE: ", message)
-            context?.agent.emit('DIDCommV2Message-received', message)
+            // console.log("THE CLIENT RECEIVED THE MESSAGE: ", message)
+            // context?.agent.emit('DIDCommV2Message-received', message)
+            context?.agent.handleMessage({ raw: message })
           }
         )
       })
-      console.log("setupLibp2p 3")
+      // console.log("setupLibp2p 3")
       await this.libp2p.start()
-      console.log("setupLibp2p 4")
+      // console.log("setupLibp2p 4")
     } catch (ex) {
       console.error("some kind of ex: ", ex)
     }
@@ -104,6 +105,6 @@ export const createLibp2pClientPlugin = async (
     // get it from data source, possibly create it
   }
   const plugin = new AgentLibp2pClient({ peerId })
-  await plugin.setupLibp2p()
+  // await plugin.setupLibp2p()
   return plugin
 }
