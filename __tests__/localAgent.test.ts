@@ -91,7 +91,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import { ListenerID } from './utils/libp2p-peerIds.js'
 import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 
-jest.setTimeout(10000)
+jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -131,7 +131,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
   }).initialize()
-  const { provider, registry } = await createGanacheProvider()
+  const ganache = await createGanacheProvider()
+  provider = ganache.provider
+  registry = ganache.registry
   const ethersProvider = createEthersProvider()
 
   libnode = await createLibp2pNode()
@@ -275,6 +277,11 @@ const tearDown = async (): Promise<boolean> => {
     await libnode.stop()
   } catch (e) {
     //nop
+  }
+  try {
+    provider.removeAllListeners()
+  } catch (e) {
+    // nop
   }
 
   return true

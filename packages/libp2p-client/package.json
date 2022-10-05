@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@veramo/core": "^3.1.4",
+    "@veramo/did-comm": "^3.1.4",
     "@veramo/utils": "^3.1.4",
     "@libp2p/websockets": "^3.0.3",
     "@chainsafe/libp2p-noise": "8.0.1",

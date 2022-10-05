@@ -5,7 +5,7 @@ import { WebSockets } from '@libp2p/websockets'
 import { Mplex } from '@libp2p/mplex'
 import { jest } from '@jest/globals'
 
-jest.setTimeout(1000)
+jest.setTimeout(6000)
 
 
 describe('libp2p-client', () => {

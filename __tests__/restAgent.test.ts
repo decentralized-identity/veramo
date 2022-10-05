@@ -104,7 +104,7 @@ import { createEthersProvider } from './utils/ethers-provider.js'
 import { ListenerID } from './utils/libp2p-peerIds.js'
 import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 
-jest.setTimeout(10000)
+jest.setTimeout(60000)
 
 
 
