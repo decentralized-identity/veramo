@@ -1,4 +1,4 @@
-import { getAgent } from '../src/veramo/setup.js'
+import { getAgent, setup } from '../src/veramo/setup.js'
 
 import keyManager from '../../../__tests__/shared/keyManager.js'
 import didManager from '../../../__tests__/shared/didManager.js'
@@ -11,6 +11,7 @@ import saveClaims from '../../../__tests__/shared/saveClaims.js'
 import documentationExamples from '../../../__tests__/shared/documentationExamples.js'
 import didCommPacking from '../../../__tests__/shared/didCommPacking.js'
 import messageHandler from '../../../__tests__/shared/messageHandler.js'
+import didCommWithLibp2pFakeFlow from '../../../__tests__/shared/didCommWithLibp2pFakeDidFlow.js'
 import utils from '../../../__tests__/shared/utils.js'
 
 import { jest } from '@jest/globals'
@@ -19,7 +20,7 @@ jest.setTimeout(30000)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {
-    const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
+    const testContext = { getAgent, setup, tearDown: async () => true }
     verifiableDataJWT(testContext)
     verifiableDataLD(testContext)
     handleSdrMessage(testContext)
@@ -32,6 +33,7 @@ describe('Browser integration tests', () => {
     messageHandler(testContext)
     utils(testContext)
     didCommPacking(testContext)
+    didCommWithLibp2pFakeFlow(testContext)
   })
 
   describe('should intialize in the react app', () => {

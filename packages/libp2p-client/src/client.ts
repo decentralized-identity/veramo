@@ -1,7 +1,7 @@
 import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema, IAgentContext, IDIDManager, IKeyManager, IMessageHandler } from '@veramo/core'
 import { IDIDComm } from '@veramo/did-comm'
 import { Libp2p } from 'libp2p'
-import { createLibp2pNode } from './libp2pNode.js'
+// import { createBrowserLibp2pNode, createLibp2pNode } from './libp2pNode.js'
 import { DataSource } from 'typeorm'
 import { OrPromise } from "@veramo/utils";
 import type { PeerId } from '@libp2p/interface-peer-id'
@@ -51,9 +51,14 @@ export class AgentLibp2pClient implements IAgentPlugin {
     await this.libp2p?.stop()
   }
 
-  public async setupLibp2p(context?:IContext): Promise<void> {
+  public async setupLibp2p(context:IContext, libp2p: Libp2p): Promise<void> {
     try {
-      this.libp2p = await createLibp2pNode(this.peerId)
+      // if (browser) {
+      //   this.libp2p = await createBrowserLibp2pNode(this.peerId)
+      // } else {
+      //   this.libp2p = await createLibp2pNode(this.peerId)
+      // }
+      this.libp2p = libp2p
       this.libp2p.handle('didcomm/v2', async ({ stream }) => {
         pipe(
           // Read from the stream (the source)

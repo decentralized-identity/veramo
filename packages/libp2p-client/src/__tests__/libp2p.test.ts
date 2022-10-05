@@ -1,6 +1,6 @@
-import { createLibp2pNode } from '../libp2pNode.js'
+import { createLibp2pNode } from '../../../libp2p-utils/src'
 import { Noise } from "@chainsafe/libp2p-noise"
-import { TCP } from "@libp2p/tcp"
+// import { TCP } from "@libp2p/tcp"
 import { WebSockets } from '@libp2p/websockets'
 import { Mplex } from '@libp2p/mplex'
 import { jest } from '@jest/globals'
@@ -13,10 +13,10 @@ describe('libp2p-client', () => {
     const noise = new Noise()
     expect(noise).toBeDefined()
   })
-  it('should create TCP', async () => {
-    const tcp = new TCP()
-    expect(tcp).toBeDefined()
-  })
+  // it('should create TCP', async () => {
+  //   const tcp = new TCP()
+  //   expect(tcp).toBeDefined()
+  // })
   it('should create WebSockets', async () => {
     const websockets = new WebSockets()
     expect(websockets).toBeDefined()

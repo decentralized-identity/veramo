@@ -57,7 +57,8 @@ import {
   PrivateKeyStore,
 } from '../packages/data-store/src'
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-import { createLibp2pNode, createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
 import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider.js'
 import { createEthersProvider } from './utils/ethers-provider.js'
@@ -114,6 +115,7 @@ let agent: TAgent<
 let dbConnection: Promise<DataSource>
 let databaseFile: string
 let libnode: Libp2p
+let libnode2: Libp2p
 let provider: Web3Provider
 let registry: any
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
@@ -137,7 +139,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   const ethersProvider = createEthersProvider()
 
   libnode = await createLibp2pNode()
-  const peerId = await ListenerID()
+  const peerId = await ListenerID()  
+  libnode2 = await createLibp2pNode(peerId)
   const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
   agent = createAgent<
@@ -256,7 +259,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
-  await agent.setupLibp2p({ agent })
+  await libp2pPlugin.setupLibp2p({ agent }, libnode2)
   return true
 }
 

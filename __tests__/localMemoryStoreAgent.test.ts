@@ -69,7 +69,8 @@ import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
 import { Libp2p } from 'libp2p'
-import { createLibp2pNode, createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
 import { Web3Provider } from '@ethersproject/providers'
 import { createGanacheProvider } from './utils/ganache-provider.js'
 import { createEthersProvider } from './utils/ethers-provider.js'
@@ -97,6 +98,7 @@ let agent: TAgent<
 >
 let dbConnection: DataSource
 let libnode: Libp2p
+let libnode2: Libp2p
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // intentionally not initializing here to test compatibility
@@ -113,6 +115,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   const peerId = await ListenerID()
   libnode = await createLibp2pNode()
+  libnode2 = await createLibp2pNode(peerId)
 
   const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
@@ -205,7 +208,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
-  await libp2pPlugin.setupLibp2p({ agent })
+  await libp2pPlugin.setupLibp2p({ agent }, libnode2)
   return true
 }
 

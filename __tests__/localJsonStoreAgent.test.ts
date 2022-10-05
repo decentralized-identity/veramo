@@ -75,7 +75,8 @@ import { JsonFileStore } from './utils/json-file-store.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
 import { Libp2p } from 'libp2p'
-import { createLibp2pNode, createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
 import { createGanacheProvider } from './utils/ganache-provider.js'
 import { createEthersProvider } from './utils/ethers-provider.js'
 import { Web3Provider } from '@ethersproject/providers'
@@ -104,6 +105,7 @@ let agent: TAgent<
 
 let databaseFile: string
 let libnode: Libp2p
+let libnode2: Libp2p
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // This test suite uses a plain JSON file for storage for each agent created.
@@ -115,6 +117,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   libnode = await createLibp2pNode()
   const peerId = await ListenerID()
+  libnode2 = await createLibp2pNode(peerId)
   const libp2pPlugin = await createLibp2pClientPlugin(undefined, peerId)
 
   agent = createAgent<
@@ -205,7 +208,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
-  await libp2pPlugin.setupLibp2p({ agent })
+  await libp2pPlugin.setupLibp2p({ agent }, libnode2)
   return true
 }
 

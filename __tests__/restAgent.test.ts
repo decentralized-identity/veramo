@@ -46,7 +46,8 @@ import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommHttpTransport, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import { createLibp2pNode, createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -118,6 +119,7 @@ let dbConnection: Promise<DataSource>
 let serverAgent: IAgent
 let restServer: Server
 let libnode: Libp2p
+let libnode2: Libp2p
 
 const getAgent = (options?: IAgentOptions) =>
   createAgent<
@@ -159,7 +161,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   }).initialize()
 
   libnode = await createLibp2pNode()
-  const peerId = await ListenerID()
+  const peerId = await ListenerID()  
+  libnode2 = await createLibp2pNode(peerId)
+
   const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
   serverAgent = createAgent<
@@ -263,7 +267,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
-  await libp2pPlugin.setupLibp2p({ agent: serverAgent as TAgent<IMessageHandler> })
+  await libp2pPlugin.setupLibp2p({ agent: serverAgent as TAgent<IMessageHandler> }, libnode2)
 
   const agentRouter = AgentRouter({
     exposedMethods: serverAgent.availableMethods(),
