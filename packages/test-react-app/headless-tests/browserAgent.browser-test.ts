@@ -11,7 +11,7 @@ import saveClaims from '../../../__tests__/shared/saveClaims.js'
 import documentationExamples from '../../../__tests__/shared/documentationExamples.js'
 import didCommPacking from '../../../__tests__/shared/didCommPacking.js'
 import messageHandler from '../../../__tests__/shared/messageHandler.js'
-import didCommWithLibp2pFakeFlow from '../../../__tests__/shared/didCommWithLibp2pFakeDidFlow.js'
+// import didCommWithLibp2pFakeFlow from '../../../__tests__/shared/didCommWithLibp2pFakeDidFlow.js'
 import utils from '../../../__tests__/shared/utils.js'
 
 import { jest } from '@jest/globals'
@@ -33,7 +33,7 @@ describe('Browser integration tests', () => {
     messageHandler(testContext)
     utils(testContext)
     didCommPacking(testContext)
-    didCommWithLibp2pFakeFlow(testContext)
+    // didCommWithLibp2pFakeFlow(testContext)
   })
 
   describe('should intialize in the react app', () => {
