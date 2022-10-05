@@ -11,17 +11,7 @@ import {
 } from '../../packages/core/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 import { jest } from '@jest/globals'
-
-import { createLibp2pNode } from '../../packages/libp2p-client/src'
-import { Libp2p } from 'libp2p'
-
-import { pipe } from 'it-pipe'
-// import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
-import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
-import * as lp from 'it-length-prefixed'
-import map from 'it-map'
-import { Uint8ArrayList } from 'uint8arraylist'
-import { IAgentLibp2pClient } from '../../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
+import { IAgentLibp2pClient } from '../../packages/libp2p-client/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IAgentLibp2pClient>
 
@@ -39,17 +29,9 @@ export default (testContext: {
     let agent: ConfiguredAgent
     let sender: IIdentifier
     let receiver: IIdentifier
-
-    
     let listenerMultiAddr: string
 
-    // const streamChunkReceivedCb = (msg: any) => {
-    //   console.log("called back msg: ", msg)
-    // }
-    // let didCommEndpointLibp2pNode: Libp2p
-
     beforeAll(async () => {
-      console.log("ok")
       await testContext.setup({ plugins: [DIDCommEventSniffer] })
       agent = testContext.getAgent()
 
@@ -69,48 +51,8 @@ export default (testContext: {
         alias: 'sender',
       })
 
-
-      // didCommEndpointLibp2pNode = await createLibp2pNode()
-      // console.log("didCommEndpointLibp2pNode: ", didCommEndpointLibp2pNode)
-      // didCommEndpointLibp2pNode.handle('didcomm/v2', async ({ stream }) => {
-      //   // // Send stdin to the stream
-      //   // stdinToStream(stream)
-      //   // // Read the stream and output to console
-      //   // streamToConsole(stream)
-      //   console.log("handle stream: ", stream)
-      //   console.log("HOLY CRAP")
-    
-    
-      //   pipe(
-      //     // Read from the stream (the source)
-      //     stream.source,
-      //     // Decode length-prefixed data
-      //     lp.decode(),
-      //     // Turn buffers into strings
-      //     (source) => map(source, (buf: Uint8ArrayList) => uint8ArrayToString(buf.subarray())),
-      //     // Sink function
-      //     async function (source) {
-      //       // For each chunk of data
-      //       let message = ""
-      //       for await (const msg of source) {
-      //         // console.log("msg of source: ", msg)
-      //         message = message + (msg.toString().replace('\n',''))
-      //       }
-      //       streamChunkReceivedCb(message)
-      //     }
-      //   )
-      // })
-
-      // console.log("prestart")
-      // await didCommEndpointLibp2pNode.start()
-      // console.log("post start")
-      // listenerMultiAddr = didCommEndpointLibp2pNode.getMultiaddrs()[0].toString()
-      // console.log("listenerMultiAddr: ", listenerMultiAddr)
-      console.log("agent: ", agent)
       const addrs = await agent.getListenerMultiAddrs()
-      console.log("addrs: ", addrs)
       listenerMultiAddr = addrs[0].toString()
-      console.log("listenerMultiAddr: ", listenerMultiAddr)
       receiver = await agent.didManagerImport({
         did: 'did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
         keys: [
@@ -139,14 +81,11 @@ export default (testContext: {
 
       return true
     })
+
     afterAll(async () => {
-      // await didCommEndpointLibp2pNode.stop()
       await testContext.tearDown()
     })
 
-    it('should run a dummy test', async () => {
-      expect(true).toBeTruthy()
-    })
     it('should send a message', async () => {
       expect.assertions(3)
 
@@ -189,27 +128,5 @@ export default (testContext: {
         expect.anything(),
       )
     })
-      // // in our case, it is the same agent that is receiving the messages
-      // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      //   {
-      //     data: {
-      //       message: {
-      //         body: { hello: 'world' },
-      //         from: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
-      //         id: 'test',
-      //         to: 'did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
-      //         type: 'test',
-      //       },
-      //       metaData: { packing: 'authcrypt' },
-      //     },
-      //     type: 'DIDCommV2Message-received',
-      //   },
-      //   expect.anything(),
-      // )
-    // })
-
-    // it('should receive a message', async () => {
-
-    // })
   })
 }

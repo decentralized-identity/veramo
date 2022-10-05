@@ -91,7 +91,6 @@ import didManager from './shared/didManager.js'
 import didCommPacking from './shared/didCommPacking.js'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow.js'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
-import didCommWithLibp2pFlow from './shared/didCommWithLibp2pFlow.js'
 import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import messageHandler from './shared/messageHandler.js'
 import didDiscovery from './shared/didDiscovery.js'
@@ -116,7 +115,7 @@ const port = 3002
 const basePath = '/agent'
 
 let dbConnection: Promise<DataSource>
-let serverAgent: any
+let serverAgent: IAgent
 let restServer: Server
 let libnode: Libp2p
 let provider: Web3Provider
@@ -131,7 +130,7 @@ const getAgent = (options?: IAgentOptions) =>
       IResolver &
       IMessageHandler &
       IDIDComm &
-      // IAgentLibp2pClient &
+      IAgentLibp2pClient &
       ICredentialIssuer & // import from old package to check compatibility
       ICredentialVerifier &
       ICredentialIssuerLD &
@@ -167,9 +166,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // const ethersProvider = createEthersProvider()
   // console.log("go get createLibp2pNode.")
   libnode = await createLibp2pNode()
-  // console.log("libnode: ", libnode)
   const peerId = await ListenerID()
-  console.log("4 peerId: ", peerId)
   const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
   serverAgent = createAgent<
@@ -180,7 +177,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     IResolver &
     IMessageHandler &
     IDIDComm &
-    // IAgentLibp2pClient &
+    IAgentLibp2pClient &
     ICredentialIssuer & // import from old package to check compatibility
     ICredentialVerifier &
     ICredentialIssuerLD &
@@ -291,7 +288,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
-  await libp2pPlugin.setupLibp2p({ agent: serverAgent })
+  await libp2pPlugin.setupLibp2p({ agent: serverAgent as TAgent<IMessageHandler> })
 
   const agentRouter = AgentRouter({
     exposedMethods: serverAgent.availableMethods(),
