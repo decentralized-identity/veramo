@@ -105,7 +105,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
-    // IAgentLibp2pClient &
+    IAgentLibp2pClient &
     ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
@@ -155,7 +155,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
-      // IAgentLibp2pClient &
+      IAgentLibp2pClient &
       ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
@@ -263,6 +263,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
+  await agent.setupLibp2p({ agent })
   return true
 }
 
@@ -311,7 +312,7 @@ describe('Local integration tests', () => {
   // utils(testContext)
   // web3(testContext)
   // didCommWithEthrDidFlow(testContext)
-  // didCommWithLibp2pFakeFlow(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
   // didCommWithLibp2pFlow(testContext)
   // credentialStatus(testContext)
 })

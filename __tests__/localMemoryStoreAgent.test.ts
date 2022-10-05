@@ -63,7 +63,7 @@ import documentationExamples from './shared/documentationExamples.js'
 import keyManager from './shared/keyManager.js'
 import didManager from './shared/didManager.js'
 import didCommPacking from './shared/didCommPacking.js'
-import didCommWithLibp2pFlow from './shared/didCommWithLibp2pFlow.js'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import messageHandler from './shared/messageHandler.js'
 import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
@@ -89,7 +89,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
-    // IAgentLibp2pClient &
+    IAgentLibp2pClient &
     ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
@@ -131,7 +131,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
-      // IAgentLibp2pClient &
+      IAgentLibp2pClient &
       ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
@@ -230,6 +230,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
+  await libp2pPlugin.setupLibp2p({ agent })
   return true
 }
 
@@ -273,5 +274,5 @@ describe('Local in-memory integration tests', () => {
   // didCommPacking(testContext)
   // utils(testContext)
   // credentialStatus(testContext)
-  // didCommWithLibp2pFlow(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
 })

@@ -116,7 +116,7 @@ const port = 3002
 const basePath = '/agent'
 
 let dbConnection: Promise<DataSource>
-let serverAgent: IAgent
+let serverAgent: any
 let restServer: Server
 let libnode: Libp2p
 let provider: Web3Provider
@@ -172,7 +172,22 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   console.log("4 peerId: ", peerId)
   const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
-  serverAgent = new Agent({
+  serverAgent = createAgent<
+    IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    // IAgentLibp2pClient &
+    ICredentialIssuer & // import from old package to check compatibility
+    ICredentialVerifier &
+    ICredentialIssuerLD &
+    ICredentialIssuerEIP712 &
+    ISelectiveDisclosure &
+    IDIDDiscovery
+  >({
     ...options,
     plugins: [
       new KeyManager({
@@ -276,6 +291,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ...(options?.plugins || []),
     ],
   })
+  await libp2pPlugin.setupLibp2p({ agent: serverAgent })
 
   const agentRouter = AgentRouter({
     exposedMethods: serverAgent.availableMethods(),

@@ -11,9 +11,9 @@ import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
 import * as lp from 'it-length-prefixed'
 import map from 'it-map'
 import { Uint8ArrayList } from 'uint8arraylist'
-import { IAgentLibp2pClient } from './types/IAgentLibp2pClient.js';
+import { IAgentLibp2pClient, IContext } from './types/IAgentLibp2pClient.js';
 
-type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IMessageHandler>
+// type IContext = IAgentContext<IMessageHandler>
 
 /**
  * The libp2p agent should be provided by {@link @veramo/remote-server#AgentRouter | AgentRouter}, or a similar
@@ -52,19 +52,9 @@ export class AgentLibp2pClient implements IAgentPlugin {
   }
 
   public async setupLibp2p(context?:IContext): Promise<void> {
-    // console.log("setupLibp2p context: ", context)
     try {
-      // console.log("setupLibp2p 1")
       this.libp2p = await createLibp2pNode(this.peerId)
-      // console.log("setupLibp2p 2")
       this.libp2p.handle('didcomm/v2', async ({ stream }) => {
-        // // Send stdin to the stream
-        // stdinToStream(stream)
-        // // Read the stream and output to console
-        // streamToConsole(stream)
-        // console.log("handle stream: ", stream)
-        console.log("LIBP2P CLIENT HOLY CRAP")
-    
         pipe(
           // Read from the stream (the source)
           stream.source,
@@ -80,16 +70,11 @@ export class AgentLibp2pClient implements IAgentPlugin {
               // console.log("msg of source: ", msg)
               message = message + (msg.toString().replace('\n',''))
             }
-            // streamChunkReceivedCb(message)
-            // console.log("THE CLIENT RECEIVED THE MESSAGE: ", message)
-            // context?.agent.emit('DIDCommV2Message-received', message)
             context?.agent.handleMessage({ raw: message })
           }
         )
       })
-      // console.log("setupLibp2p 3")
       await this.libp2p.start()
-      // console.log("setupLibp2p 4")
     } catch (ex) {
       console.error("some kind of ex: ", ex)
     }
