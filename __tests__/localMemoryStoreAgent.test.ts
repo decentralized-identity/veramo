@@ -97,8 +97,6 @@ let agent: TAgent<
 >
 let dbConnection: DataSource
 let libnode: Libp2p
-let provider: Web3Provider
-let registry: any
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // intentionally not initializing here to test compatibility
@@ -113,12 +111,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
   })
 
-  // const ganacheProvider = await createGanacheProvider()
-  // provider = ganacheProvider.provider
-  // registry = ganacheProvider.registry
-  // const ethersProvider = createEthersProvider()
   const peerId = await ListenerID()
-  console.log("2 peerId: ", peerId)
   libnode = await createLibp2pNode()
 
   const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
@@ -146,9 +139,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new MemoryKeyStore(),
         kms: {
           local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
-          web3: new Web3KeyManagementSystem({
-            // ethers: ethersProvider,
-          }),
+          web3: new Web3KeyManagementSystem({}),
         },
       }),
       new DIDManager({
@@ -173,12 +164,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
                 registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
               },
-              // {
-              //   chainId: 1337,
-              //   name: 'ganache',
-              //   provider,
-              //   registry,
-              // },
             ],
           }),
           'did:web': new WebDIDProvider({
@@ -192,17 +177,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({
-            infuraProjectId,
-            // networks: [
-            //   {
-            //     name: 'ganache',
-            //     chainId: 1337,
-            //     provider,
-            //     registry,
-            //   },
-            // ],
-          }),
+          ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),
@@ -260,19 +235,19 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local in-memory integration tests', () => {
-  // verifiableDataJWT(testContext)
-  // verifiableDataLD(testContext)
-  // verifiableDataEIP712(testContext)
-  // handleSdrMessage(testContext)
-  // resolveDid(testContext)
-  // webDidFlow(testContext)
-  // saveClaims(testContext)
-  // documentationExamples(testContext)
+  verifiableDataJWT(testContext)
+  verifiableDataLD(testContext)
+  verifiableDataEIP712(testContext)
+  handleSdrMessage(testContext)
+  resolveDid(testContext)
+  webDidFlow(testContext)
+  saveClaims(testContext)
+  documentationExamples(testContext)
   keyManager(testContext)
-  // didManager(testContext)
-  // messageHandler(testContext)
-  // didCommPacking(testContext)
-  // utils(testContext)
-  // credentialStatus(testContext)
+  didManager(testContext)
+  messageHandler(testContext)
+  didCommPacking(testContext)
+  utils(testContext)
+  credentialStatus(testContext)
   didCommWithLibp2pFakeFlow(testContext)
 })

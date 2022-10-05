@@ -131,20 +131,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
   }).initialize()
-  console.warn("setup 1")
-  // const ganacheProvider = await createGanacheProvider()
-  // provider = ganacheProvider.provider
-  // registry = ganacheProvider.registry
-  // const ethersProvider = createEthersProvider()
-  // let libp2pPlugin
+  const { provider, registry } = await createGanacheProvider()
+  const ethersProvider = createEthersProvider()
 
-  console.log("go get createLibp2pNode.")
   libnode = await createLibp2pNode()
-  console.log("libnode: ", libnode)
   const peerId = await ListenerID()
-  console.log("peerId: ", peerId)
   const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
-  console.log("libp2pPlugin: ", libp2pPlugin)
 
   agent = createAgent<
     IDIDManager &
@@ -171,7 +163,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
           web3: new Web3KeyManagementSystem({
-            // ethers: ethersProvider,
+            ethers: ethersProvider,
           }),
         },
       }),
@@ -197,12 +189,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
                 registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
               },
-              // {
-              //   chainId: 1337,
-              //   name: 'ganache',
-              //   provider,
-              //   registry,
-              // },
+              {
+                chainId: 1337,
+                name: 'ganache',
+                provider,
+                registry,
+              },
             ],
           }),
           'did:web': new WebDIDProvider({
@@ -217,14 +209,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDResolverPlugin({
         ...ethrDidResolver({
           infuraProjectId,
-          // networks: [
-          //   {
-          //     name: 'ganache',
-          //     chainId: 1337,
-          //     provider,
-          //     registry,
-          //   },
-          // ],
+          networks: [
+            {
+              name: 'ganache',
+              chainId: 1337,
+              provider,
+              registry,
+            },
+          ],
         }),
         ...webDidResolver(),
         ...getDidKeyResolver(),
@@ -284,8 +276,7 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     //nop
   }
-  // provider.removeAllListeners()
-  // console.log("provider: ", provider)
+
   return true
 }
 
@@ -294,24 +285,23 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local integration tests', () => {
-  // verifiableDataJWT(testContext)
-  // verifiableDataLD(testContext)
-  // verifiableDataEIP712(testContext)
-  // handleSdrMessage(testContext)
-  // resolveDid(testContext)
-  // webDidFlow(testContext)
-  // saveClaims(testContext)
-  // documentationExamples(testContext)
+  verifiableDataJWT(testContext)
+  verifiableDataLD(testContext)
+  verifiableDataEIP712(testContext)
+  handleSdrMessage(testContext)
+  resolveDid(testContext)
+  webDidFlow(testContext)
+  saveClaims(testContext)
+  documentationExamples(testContext)
   keyManager(testContext)
-  // didManager(testContext)
-  // messageHandler(testContext)
-  // didCommPacking(testContext)
-  // didDiscovery(testContext)
-  // dbInitOptions(testContext)
-  // utils(testContext)
-  // web3(testContext)
-  // didCommWithEthrDidFlow(testContext)
+  didManager(testContext)
+  messageHandler(testContext)
+  didCommPacking(testContext)
+  didDiscovery(testContext)
+  dbInitOptions(testContext)
+  utils(testContext)
+  web3(testContext)
+  didCommWithEthrDidFlow(testContext)
   didCommWithLibp2pFakeFlow(testContext)
-  // didCommWithLibp2pFlow(testContext)
-  // credentialStatus(testContext)
+  credentialStatus(testContext)
 })
