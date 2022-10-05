@@ -5,7 +5,7 @@ import { getResolver as getWebDidResolver } from 'web-did-resolver'
 import { getUniversalResolverFor } from '../universal-resolver.js'
 import { jest } from '@jest/globals'
 
-jest.setTimeout(30000)
+jest.setTimeout(10000)
 
 const providerConfig = {
   networks: [

@@ -75,9 +75,14 @@ import { JsonFileStore } from './utils/json-file-store.js'
 import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
 import { Libp2p } from 'libp2p'
-import { createLibp2pNode } from '../packages/libp2p-client/src'
+import { createLibp2pNode, createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createGanacheProvider } from './utils/ganache-provider.js'
+import { createEthersProvider } from './utils/ethers-provider.js'
+import { Web3Provider } from '@ethersproject/providers'
+import { ListenerID } from './utils/libp2p-peerIds.js'
+import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 
-jest.setTimeout(30000)
+jest.setTimeout(10000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -90,6 +95,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
+    IAgentLibp2pClient &
     ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
@@ -98,6 +104,8 @@ let agent: TAgent<
 
 let databaseFile: string
 let libnode: Libp2p
+let provider: Web3Provider
+let registry: any
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // This test suite uses a plain JSON file for storage for each agent created.
@@ -106,7 +114,15 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.json`
 
   const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
+
+  // const ganacheProvider = await createGanacheProvider()
+  // provider = ganacheProvider.provider
+  // registry = ganacheProvider.registry
+  // const ethersProvider = createEthersProvider()
   libnode = await createLibp2pNode()
+  const peerId = await ListenerID()
+  console.log("3 peerId: ", peerId)
+  const libp2pPlugin = await createLibp2pClientPlugin(undefined, peerId)
 
   agent = createAgent<
     IDIDManager &
@@ -116,6 +132,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
+      IAgentLibp2pClient &
       ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
@@ -130,7 +147,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new KeyStoreJson(jsonFileStore),
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStoreJson(jsonFileStore, new SecretBox(secretKey))),
-          web3: new Web3KeyManagementSystem({}),
+          web3: new Web3KeyManagementSystem({
+            // ethers: ethersProvider,
+          }),
         },
       }),
       new DIDManager({
@@ -155,6 +174,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
                 registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
               },
+              // {
+              //   chainId: 1337,
+              //   name: 'ganache',
+              //   provider,
+              //   registry,
+              // },
             ],
           }),
           'did:web': new WebDIDProvider({
@@ -168,7 +193,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId }),
+          ...ethrDidResolver({
+            infuraProjectId,
+            // networks: [
+            //   {
+            //     name: 'ganache',
+            //     chainId: 1337,
+            //     provider,
+            //     registry,
+            //   },
+            // ],
+          }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),
@@ -191,6 +226,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
       }),
       new SelectiveDisclosure(),
+      libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
@@ -209,7 +245,12 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     //nop
   }
-  await libnode.stop()
+  await agent.libp2pShutdown()
+  try {
+    await libnode.stop()
+   } catch (e) {
+     //nop
+   }
   return true
 }
 

@@ -57,7 +57,7 @@ import {
   PrivateKeyStore,
 } from '../packages/data-store/src'
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-import { createLibp2pNode } from '../packages/libp2p-client/src'
+import { createLibp2pNode, createLibp2pClientPlugin } from '../packages/libp2p-client/src'
 import { DataSource } from 'typeorm'
 import { createGanacheProvider } from './utils/ganache-provider.js'
 import { createEthersProvider } from './utils/ethers-provider.js'
@@ -89,8 +89,10 @@ import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
 import { Libp2p } from 'libp2p'
 import { Web3Provider } from '@ethersproject/providers'
+import { ListenerID } from './utils/libp2p-peerIds.js'
+import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 
-jest.setTimeout(30000)
+jest.setTimeout(10000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -103,6 +105,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
+    // IAgentLibp2pClient &
     ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
@@ -129,16 +132,20 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
   }).initialize()
-
-  const ganacheProvider = await createGanacheProvider()
-  provider = ganacheProvider.provider
-  registry = ganacheProvider.registry
-  const ethersProvider = createEthersProvider()
-
+  console.warn("setup 1")
+  // const ganacheProvider = await createGanacheProvider()
+  // provider = ganacheProvider.provider
+  // registry = ganacheProvider.registry
+  // const ethersProvider = createEthersProvider()
+  // let libp2pPlugin
 
   console.log("go get createLibp2pNode.")
   libnode = await createLibp2pNode()
   console.log("libnode: ", libnode)
+  const peerId = await ListenerID()
+  console.log("peerId: ", peerId)
+  const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
+  console.log("libp2pPlugin: ", libp2pPlugin)
 
   agent = createAgent<
     IDIDManager &
@@ -148,6 +155,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
+      // IAgentLibp2pClient &
       ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
@@ -164,7 +172,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
           web3: new Web3KeyManagementSystem({
-            ethers: ethersProvider,
+            // ethers: ethersProvider,
           }),
         },
       }),
@@ -190,12 +198,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
                 registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
               },
-              {
-                chainId: 1337,
-                name: 'ganache',
-                provider,
-                registry,
-              },
+              // {
+              //   chainId: 1337,
+              //   name: 'ganache',
+              //   provider,
+              //   registry,
+              // },
             ],
           }),
           'did:web': new WebDIDProvider({
@@ -210,14 +218,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDResolverPlugin({
         ...ethrDidResolver({
           infuraProjectId,
-          networks: [
-            {
-              name: 'ganache',
-              chainId: 1337,
-              provider,
-              registry,
-            },
-          ],
+          // networks: [
+          //   {
+          //     name: 'ganache',
+          //     chainId: 1337,
+          //     provider,
+          //     registry,
+          //   },
+          // ],
         }),
         ...webDidResolver(),
         ...getDidKeyResolver(),
@@ -251,6 +259,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new BrokenDiscoveryProvider(),
         ],
       }),
+      libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
@@ -269,7 +278,12 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     // nop
   }
-  await libnode.stop()
+  try {
+    await agent.libp2pShutdown()
+    await libnode.stop()
+  } catch (e) {
+    //nop
+  }
   // provider.removeAllListeners()
   // console.log("provider: ", provider)
   return true
@@ -296,8 +310,8 @@ describe('Local integration tests', () => {
   // dbInitOptions(testContext)
   // utils(testContext)
   // web3(testContext)
-  didCommWithEthrDidFlow(testContext)
-  didCommWithLibp2pFakeFlow(testContext)
+  // didCommWithEthrDidFlow(testContext)
+  // didCommWithLibp2pFakeFlow(testContext)
   // didCommWithLibp2pFlow(testContext)
   // credentialStatus(testContext)
 })

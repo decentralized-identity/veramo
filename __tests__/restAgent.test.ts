@@ -46,7 +46,7 @@ import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, DIDCommHttpTransport, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
-import { createLibp2pNode } from '../packages/libp2p-client/src'
+import { createLibp2pNode, createLibp2pClientPlugin } from '../packages/libp2p-client/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -100,8 +100,12 @@ import credentialStatus from './shared/credentialStatus.js'
 import { jest } from '@jest/globals'
 import { Libp2p } from 'libp2p'
 import { Web3Provider } from '@ethersproject/providers'
+import { createGanacheProvider } from './utils/ganache-provider.js'
+import { createEthersProvider } from './utils/ethers-provider.js'
+import { ListenerID } from './utils/libp2p-peerIds.js'
+import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 
-jest.setTimeout(30000)
+jest.setTimeout(10000)
 
 
 
@@ -127,6 +131,7 @@ const getAgent = (options?: IAgentOptions) =>
       IResolver &
       IMessageHandler &
       IDIDComm &
+      // IAgentLibp2pClient &
       ICredentialIssuer & // import from old package to check compatibility
       ICredentialVerifier &
       ICredentialIssuerLD &
@@ -156,9 +161,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
   }).initialize()
 
+  // const ganacheProvider = await createGanacheProvider()
+  // provider = ganacheProvider.provider
+  // registry = ganacheProvider.registry
+  // const ethersProvider = createEthersProvider()
   // console.log("go get createLibp2pNode.")
   libnode = await createLibp2pNode()
   // console.log("libnode: ", libnode)
+  const peerId = await ListenerID()
+  console.log("4 peerId: ", peerId)
+  const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
   serverAgent = new Agent({
     ...options,
@@ -168,6 +180,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
           web3: new Web3KeyManagementSystem({
+            // ethersProvider
           }),
         },
       }),
@@ -193,6 +206,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
                 registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
               },
+              // {
+              //   chainId: 1337,
+              //   name: 'ganache',
+              //   provider,
+              //   registry,
+              // },
             ],
           }),
           'did:web': new WebDIDProvider({
@@ -208,6 +227,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         resolver: new Resolver({
           ...ethrDidResolver({
             infuraProjectId,
+            // networks: [
+            //   {
+            //     name: 'ganache',
+            //     chainId: 1337,
+            //     provider,
+            //     registry,
+            //   },
+            // ],
           }),
           ...webDidResolver(),
           // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
@@ -245,6 +272,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new BrokenDiscoveryProvider(),
         ],
       }),
+      libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
@@ -286,7 +314,12 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     //nop
   }
-  await libnode.stop()
+  await (serverAgent as TAgent<IAgentLibp2pClient>).libp2pShutdown()
+  try {
+    await libnode.stop()
+   } catch (e) {
+     //nop
+   }
   return true
 }
 
@@ -305,7 +338,7 @@ describe('REST integration tests', () => {
   // messageHandler(testContext)
   // didCommPacking(testContext)
   // didWithFakeDidFlow(testContext)
-  didCommWithLibp2pFakeFlow(testContext)
+  // didCommWithLibp2pFakeFlow(testContext)
   // didCommWithEthrDidFlow(testContext)
   // didCommWithLibp2pFlow(testContext)
   // didDiscovery(testContext)

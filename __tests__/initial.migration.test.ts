@@ -44,7 +44,7 @@ import { jest } from '@jest/globals'
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-jest.setTimeout(30000)
+jest.setTimeout(10000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const dbEncryptionKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
