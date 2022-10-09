@@ -1,12 +1,14 @@
-import { createAgent, ICredentialStatusVerifier, VerifiableCredential } from '../../../core/build/index.js'
-import { DIDResolverPlugin } from '../../../did-resolver/build/index.js'
-import { CredentialStatusPlugin } from '../../build/credential-status.js'
+import { createAgent, VerifiableCredential } from '@veramo/core'
+import { ICredentialStatusVerifier } from '@veramo/core/src/types/ICredentialStatusVerifier.js'
+import { DIDResolverPlugin } from '@veramo/did-resolver'
+import { CredentialStatusPlugin } from '../credential-status'
 import { DIDDocument, DIDResolutionOptions, DIDResolutionResult, Resolvable } from 'did-resolver'
 import { jest } from '@jest/globals'
+import { CredentialStatusReference } from '@veramo/core/src/types/vc-data-model.js'
 
 describe('@veramo/credential-status', () => {
   const referenceDoc: DIDDocument = { id: 'did:example:1234' }
-  const referenceCredential: VerifiableCredential = {
+  const referenceCredential: VerifiableCredential & { credentialStatus: CredentialStatusReference } = {
     '@context': [],
     issuanceDate: new Date().toISOString(),
     proof: {},
