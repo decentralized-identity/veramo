@@ -1,5 +1,5 @@
 import { TransactionRequest, Provider } from '@ethersproject/abstract-provider'
-import { Signer } from '@ethersproject/abstract-signer'
+import { Signer, TypedDataSigner, TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 import { getAddress } from '@ethersproject/address'
 import { Bytes } from '@ethersproject/bytes'
 import { Deferrable, resolveProperties } from '@ethersproject/properties'
@@ -11,7 +11,7 @@ import { IKey } from '@veramo/core'
  * Creates an `@ethersproject/abstract-signer` implementation by wrapping
  * a veramo agent with a key-manager that should be capable of `eth_signTransaction`
  */
-export class KmsEthereumSigner extends Signer {
+export class KmsEthereumSigner extends Signer implements TypedDataSigner {
   private context: IRequiredContext
   private controllerKey: IKey
   readonly provider?: Provider
@@ -49,11 +49,28 @@ export class KmsEthereumSigner extends Signer {
     return signature
   }
 
+  async _signTypedData(
+      domain: TypedDataDomain,
+      types: Record<string, Array<TypedDataField>>,
+      value: Record<string, any>,
+  ): Promise<string> {
+    const data = JSON.stringify({
+      domain: domain,
+      types: types,
+      message: value,
+    });
+    return this.context.agent.keyManagerSign({
+      keyRef: this.controllerKey.kid,
+      algorithm: 'eth_signTypedData',
+      data: data,
+    });
+  }
+
   signMessage(message: string | Bytes): Promise<string> {
     throw new Error('not_implemented: signMessage() Method not implemented by KmsEthereumSigner.')
   }
 
-  connect(provider: Provider): Signer {
+  connect(provider: Provider): KmsEthereumSigner {
     return new KmsEthereumSigner(this.controllerKey, this.context, provider)
   }
 }
