@@ -110,7 +110,8 @@ credential
           type: 'input',
           name: 'id',
           message: 'Credential status ID',
-          default: 'rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348',
+          // TODO(nickreynolds): deploy
+          default: 'goerli:0x97fd27892cdcD035dAe1fe71235c636044B59348',
         },
       ])
 
