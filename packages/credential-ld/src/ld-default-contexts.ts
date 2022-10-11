@@ -16,6 +16,8 @@ export const LdDefaultContexts = new Map([
   ['https://w3id.org/security/v3-unstable', require('./contexts/w3id.org_security_v3-unstable.json')],
   ['https://w3id.org/security/suites/ed25519-2018/v1', require('./contexts/w3id.org_security_suites_ed25519-2018_v1.json')],
   ['https://w3id.org/security/suites/x25519-2019/v1', require('./contexts/w3id.org_security_suites_x25519-2019_v1.json')],
+  ['https://w3id.org/security/suites/ed25519-2020/v1', require('./contexts/ed25519-signature-2020-v1.json')],
+  ['https://w3id.org/security/suites/jws-2020/v1', require('./contexts/json-web-signature-2020-v1.json')],
   // ['https://w3id.org/did/v0.11', require('./contexts/did_v0.11.json')],
   // ['https://veramo.io/contexts/socialmedia/v1', require('./contexts/socialmedia-v1.json')],
   // ['https://veramo.io/contexts/kyc/v1', require('./contexts/kyc-v1.json')],
