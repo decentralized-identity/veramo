@@ -21,21 +21,21 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should get chainId for ethr did', async () => {
-      const didUrl = 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
+      const didUrl = 'did:ethr:goerli:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
       const didDoc = await resolveDidOrThrow(didUrl, { agent })
       if (didDoc.verificationMethod) {
         const chainId = getChainIdForDidEthr(didDoc.verificationMethod[0])
-        expect(chainId).toEqual(4)
+        expect(chainId).toEqual(5)
       }
     })
 
     it('should map identifier keys to did doc', async () => {
       const account = `0xb09b66026ba5909a7cfe99b76875431d2b8d5190`
-      const did = `did:ethr:0x4:${account}`
+      const did = `did:ethr:0x5:${account}`
       const controllerKeyId = `metamask-${account}`
       await agent.didManagerImport({
         did,
-        provider: 'did:ethr:rinkeby',
+        provider: 'did:ethr:goerli',
         controllerKeyId,
         keys: [
           {
@@ -56,7 +56,7 @@ export default (testContext: {
       const identifier = await agent.didManagerGet({ did })
       const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
       expect(extendedKeys[0].meta.verificationMethod?.blockchainAccountId?.toLocaleLowerCase()).toEqual(
-        `eip155:4:${account}`,
+        `eip155:5:${account}`,
       )
     })
   })

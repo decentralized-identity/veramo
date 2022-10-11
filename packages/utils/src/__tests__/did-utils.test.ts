@@ -23,9 +23,9 @@ describe('@veramo/utils did utils', () => {
     expect(getChainIdForDidEthr({
       'id': 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
       'type': 'EcdsaSecp256k1RecoveryMethod2020',
-      'controller': 'did:ethr:rinkeby:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
-      'blockchainAccountId':'eip155:4:0x1B54DaD834f2017ab66C1a1ffF74425889141e51'
-    })).toEqual(4)
+      'controller': 'did:ethr:goerli:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
+      'blockchainAccountId':'eip155:5:0x1B54DaD834f2017ab66C1a1ffF74425889141e51'
+    })).toEqual(5)
   })
 
   it('should return blockchainAccountId for did:ethr', () => {

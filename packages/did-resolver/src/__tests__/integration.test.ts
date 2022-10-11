@@ -9,7 +9,7 @@ jest.setTimeout(60000)
 
 const providerConfig = {
   networks: [
-    { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/3586660d179141e3801c3895de1c2eba' },
+    { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/3586660d179141e3801c3895de1c2eba' },
     { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/3586660d179141e3801c3895de1c2eba' },
     { name: 'development', rpcUrl: 'http://localhost:7545' },
     // FIXME: add this example
@@ -69,24 +69,24 @@ describe('@veramo/did-resolver', () => {
   it('should resolve ethr-did with RPC URL', async () => {
     expect.assertions(1)
     await expect(
-      resolverPlugin.resolveDid({ didUrl: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6' }),
+      resolverPlugin.resolveDid({ didUrl: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6' }),
     ).resolves.toEqual({
       didDocument: {
         '@context': [
           'https://www.w3.org/ns/did/v1',
           'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
         ],
-        id: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+        id: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
         verificationMethod: [
           {
-            id: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller',
+            id: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller',
             type: 'EcdsaSecp256k1RecoveryMethod2020',
-            controller: 'did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
-            blockchainAccountId: 'eip155:4:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+            controller: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+            blockchainAccountId: 'eip155:5:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
           },
         ],
-        authentication: ['did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
-        assertionMethod: ['did:ethr:rinkeby:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
+        authentication: ['did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
+        assertionMethod: ['did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
       },
       didDocumentMetadata: {},
       didResolutionMetadata: { contentType: 'application/did+ld+json' },

@@ -16,7 +16,7 @@
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules \" jest --config=jest.config.json --detectOpenHandles",
     "test:watch": "yarn test --watch --verbose",
     "test:browser": "cd packages/test-react-app && yarn test:browser",
-    "veramo": "./packages/cli/bin/veramo.js",
+    "veramo": "cross-env ./packages/cli/bin/veramo.js",
     "prettier": "prettier --write '{packages,docs,__tests__,!build}/**/*.{ts,js,json,md,yml}'",
     "build-clean": "rimraf ./packages/*/build ./packages/*/api ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo && jest --clearCache",
     "publish:latest": "lerna publish --conventional-commits --include-merged-tags --create-release github --yes --dist-tag latest --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",

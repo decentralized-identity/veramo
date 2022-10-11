@@ -32,7 +32,7 @@ presentation
       ...ids.map((id) => id.did),
     ]
 
-    let aud = null
+    let aud:string[] = []
     const answers = await inquirer.prompt([
       {
         type: 'list',
@@ -51,10 +51,10 @@ presentation
         default: 'xyz123',
       },
       {
-        type: 'list',
-        name: 'aud',
-        message: 'Verifier DID',
-        choices: identifiers,
+        type: 'input',
+        name: 'audnum',
+        message: 'Number of Verifiers',
+        default: 1,
       },
       {
         type: 'input',
@@ -64,17 +64,28 @@ presentation
       },
     ])
 
-    if (answers.aud === 'manual') {
+    for (let i = 0; i < answers.audnum; i++) {
+      let answer = null
       const audAnswer = await inquirer.prompt([
         {
-          type: 'input',
+          type: 'list',
           name: 'aud',
-          message: 'Enter Verifier DID',
-        },
+          message: 'Select Verifier or enter manually',
+          choices: identifiers
+        }
       ])
-      aud = audAnswer.aud
-    } else {
-      aud = answers.aud
+      answer = audAnswer.aud
+      if (answer === 'manual') {
+        const manualAnswer = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'aud',
+            message: 'Enter Verifier DID',
+          },
+        ])
+        answer = manualAnswer.aud
+      }
+      aud = [...aud, answer]
     }
 
     const credentials = await agent.dataStoreORMGetVerifiableCredentials({
@@ -122,7 +133,7 @@ presentation
         save: true,
         presentation: {
           holder: answers.iss,
-          verifier: [aud],
+          verifier: aud,
           tag: answers.tag,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: answers.type.split(','),
@@ -133,19 +144,21 @@ presentation
       })
 
       if (cmd.send) {
-        try {
-          const message = await agent.sendMessageDIDCommAlpha1({
-            save: true,
-            data: {
-              from: answers.iss,
-              to: aud,
-              type: 'jwt',
-              body: verifiablePresentation.proof.jwt,
-            },
-          })
-          console.dir(message, { depth: 10 })
-        } catch (e) {
-          console.error(e)
+        for(var verifier in aud) {
+          try {
+            const message = await agent.sendMessageDIDCommAlpha1({
+              save: true,
+              data: {
+                from: answers.iss,
+                to: verifier,
+                type: 'jwt',
+                body: verifiablePresentation.proof.jwt,
+              },
+            })
+            console.dir(message, { depth: 10 })
+          } catch (e) {
+            console.error(e)
+          }
         }
       }
 
