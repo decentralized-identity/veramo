@@ -13,14 +13,16 @@ program
     let server: any
 
     try {
-      const config = createObjects(getConfig(program.opts().config), { server: '/server' })
+      const config = await createObjects(getConfig(program.opts().config), { server: '/server' })
       server = config.server
     } catch (e: any) {
       console.log(e.message)
       process.exit(1)
     }
 
+    console.log("server: ", server)
     for (let router of server.use) {
+      console.log("router: ", router)
       app.use(...router)
     }
 

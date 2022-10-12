@@ -45,7 +45,7 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
-    it('should create identifier using chainId 3', async () => {
+    it('should create identifier using chainId 421613', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:ethr',
         options: {

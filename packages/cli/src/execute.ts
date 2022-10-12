@@ -12,7 +12,7 @@ program
   .option('-a, --argsJSON <string>', 'Method arguments')
   .option('-f, --argsFile <string>', 'Path to a file containing method arguments in a JSON string')
   .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       let method = options.method

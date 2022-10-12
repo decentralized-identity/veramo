@@ -44,7 +44,7 @@ export type EnabledInterfaces = IDIDManager &
 
 export type ConfiguredAgent = TAgent<EnabledInterfaces>
 
-export function getAgent(fileName: string): ConfiguredAgent {
+export async function getAgent(fileName: string): Promise<ConfiguredAgent> {
   try {
     return createAgentFromConfig<EnabledInterfaces>(getConfig(fileName))
   } catch (e: any) {

@@ -72,7 +72,7 @@ config
   .option('-f, --filename <string>', 'Config file name', './agent.yml')
   .option('-m, --method <string>', 'Check that a specific method is exposed by the agent.', 'execute')
   .action(async (options) => {
-    const agent = getAgent(options.filename)
+    const agent = await getAgent(options.filename)
     if (!agent) {
       console.error(
         'unknown error while creating the agent from your config. Consider running `veramo config create` to generate a new configuration file, or to manually compare differences.',

@@ -10,7 +10,7 @@ discover
   .option('-q, --query <string>', 'Query string')
 
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     const response = await agent.discoverDid({ query: cmd.query })
     const list: any = []

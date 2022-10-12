@@ -17,7 +17,7 @@ credential
   .option('-j, --json', 'Output in JSON')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
 
     const knownDids = await agent.dataStoreORMGetIdentifiers()
@@ -169,7 +169,7 @@ credential
   .option('-f, --filename <string>', 'Optional. Read the credential from a file instead of stdin')
   .option('-r, --raw <string>', 'Optional. Specify the credential as a parameter instead of file or stdin')
   .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     let raw: string = ''
     if (options.raw) {
       raw = options.raw
@@ -205,7 +205,7 @@ credential
   .command('output')
   .description('Print W3C Verifiable Credential to stdout')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     const credentials = await agent.dataStoreORMGetVerifiableCredentials()
 

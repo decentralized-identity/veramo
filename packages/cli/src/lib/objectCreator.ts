@@ -2,14 +2,14 @@ import { set, get } from 'jsonpointer'
 import parse from 'url-parse'
 import { resolve } from 'path'
 
-export function createObjects(config: object, pointers: Record<string, string>): any {
+export async function createObjects(config: object, pointers: Record<string, string>): Promise<any> {
   const objects = {}
 
-  function resolveRefs(input: any): any {
+  async function resolveRefs(input: any): Promise<any> {
     if (Array.isArray(input)) {
       const resolved = []
       for (const item of input) {
-        resolved.push(resolveRefs(item))
+        resolved.push(await resolveRefs(item))
       }
       return resolved
     }
@@ -20,13 +20,13 @@ export function createObjects(config: object, pointers: Record<string, string>):
         if (input.hasOwnProperty(property)) {
           if (property === '$ref') {
             const pointer = input[property]
-            return objectFromPointer(pointer)
+            return await objectFromPointer(pointer)
           } else if (property === '$require') {
-            return objectFromConfig(input)
+            return await objectFromConfig(input)
           } else if (property === '$env') {
             return process.env[input[property]]
           } else {
-            resolved[property] = resolveRefs(input[property])
+            resolved[property] = await resolveRefs(input[property])
           }
         }
       }
@@ -36,7 +36,7 @@ export function createObjects(config: object, pointers: Record<string, string>):
     return input
   }
 
-  function objectFromConfig(objectConfig: any) {
+  async function objectFromConfig(objectConfig: any) {
     let object
     // console.log('Requiring', objectConfig['$require'])
     const parsed = parse(objectConfig['$require'], {}, true)
@@ -45,15 +45,15 @@ export function createObjects(config: object, pointers: Record<string, string>):
     const type = parsed.query['t'] || 'class'
     const pointer = parsed.query['p']
     const args = objectConfig['$args']
-    // console.log({module, member, type, query: parsed.query})
+    // console.log({module, member, type, query: parsed.query, args, pointer})
 
     if (module.slice(0, 2) === './') {
       module = resolve(module)
     }
 
-    const resolvedArgs = args !== undefined ? resolveRefs(args) : []
+    const resolvedArgs = args !== undefined ? await resolveRefs(args) : []
     try {
-      let required = member ? require(module)[member] : require(module)
+      let required = member ? (await import(module))[member] : (await import(module)).default
       if (type === 'class') {
         object = new required(...resolvedArgs)
       } else if (type === 'function') {
@@ -70,7 +70,7 @@ export function createObjects(config: object, pointers: Record<string, string>):
     return object
   }
 
-  function objectFromPointer(pointer: string) {
+  async function objectFromPointer(pointer: string) {
     const existingObject = get(objects, pointer)
     if (existingObject) {
       // console.log('Existing', pointer)
@@ -82,11 +82,11 @@ export function createObjects(config: object, pointers: Record<string, string>):
       try {
         let object
         if (objectConfig['$require']) {
-          object = objectFromConfig(objectConfig)
+          object = await objectFromConfig(objectConfig)
         } else if (objectConfig['$env']) {
           object = process.env[objectConfig['$env']]
         } else {
-          object = resolveRefs(objectConfig)
+          object = await resolveRefs(objectConfig)
         }
         set(objects, pointer, object)
         return object
@@ -99,7 +99,7 @@ export function createObjects(config: object, pointers: Record<string, string>):
   const result: any = {}
   for (const key of Object.keys(pointers)) {
     if (pointers.hasOwnProperty(key)) {
-      result[key] = objectFromPointer(pointers[key])
+      result[key] = await objectFromPointer(pointers[key])
     }
   }
   return result

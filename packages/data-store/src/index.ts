@@ -56,7 +56,7 @@ export {
   PrivateKey,
   PreMigrationKey,
 }
-export { migrations } from './migrations'
+export { migrations } from './migrations/index.js'
 
 // re-export the interfaces that were moved to core for backward compatibility
 export { IDataStore, IDataStoreORM } from '@veramo/core'
