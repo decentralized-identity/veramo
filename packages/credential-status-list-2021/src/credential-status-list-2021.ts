@@ -3,7 +3,17 @@ import {
   CredentialStatus,
   CredentialStatusGenerateArgs,
   CredentialStatusReference,
-  CredentialStatusUpdateArgs, IAgentContext, IAgentPlugin, ICheckCredentialStatusArgs, ICredentialStatus, IResolver, IssuerType, ProofType, UnsignedCredential, VerifiableCredential
+  CredentialStatusUpdateArgs,
+  CredentialStatusRequestArgs,
+  IAgentContext,
+  IAgentPlugin,
+  ICheckCredentialStatusArgs,
+  ICredentialStatus,
+  IResolver,
+  IssuerType,
+  ProofType,
+  UnsignedCredential,
+  VerifiableCredential,
 } from '@veramo/core'
 import { ICredentialIssuer } from '@veramo/credential-w3c'
 
@@ -88,20 +98,6 @@ export interface StatusList2021UpdateArgs extends CredentialStatusUpdateArgs {
     purpose: StatusPurpose
     value: boolean
   }
-}
-
-/**
- * Arguments to request the verifiable credential status value.
- * 
- * @beta This API may change without a BREAKING CHANGE notice. 
- */
-export interface CredentialStatusRequestArgs {
-  /**
-   * The credential with a defined credential status
-   * 
-   * @beta This API may change without a BREAKING CHANGE notice.
-   */
-  credential: VerifiableCredential & { credentialStatus: CredentialStatusReference }
 }
 
 /**

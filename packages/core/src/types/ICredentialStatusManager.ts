@@ -1,5 +1,5 @@
 export { DIDDocument, DIDResolutionOptions, DIDResolutionResult } from 'did-resolver'
-import { IPluginMethodMap } from './IAgent.js'
+import { IAgentContext, IPluginMethodMap } from './IAgent.js'
 import { CredentialStatusReference, VerifiableCredential } from './vc-data-model.js'
 
 /**
@@ -55,10 +55,29 @@ export interface CredentialStatusGenerateArgs {
 }
 
 /**
+ * Arguments to request the verifiable credential status value.
+ * 
+ * @beta This API may change without a BREAKING CHANGE notice. 
+ */
+export interface CredentialStatusRequestArgs {
+  /**
+   * The credential with a defined credential status
+   * 
+   * @beta This API may change without a BREAKING CHANGE notice.
+   */
+  credential: VerifiableCredential & { credentialStatus: CredentialStatusReference }
+}
+
+/**
  * Credential status manager interface
  * @beta
  */
 export interface ICredentialStatusManager extends IPluginMethodMap {
+  /**
+   * 
+   */
+  credentialStatusRead(args: CredentialStatusRequestArgs, context: IAgentContext<any>): Promise<VerifiableCredential>
+
   /**
    * Changes the status of an existing {@link VerifiableCredential}.
    * Commonly used to revoke an existing credential.
