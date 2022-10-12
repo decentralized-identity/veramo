@@ -598,7 +598,28 @@ export default (testContext: {
       expect(address.toLowerCase()).toEqual(recovered)
     })
 
+    it('should sign keccak hash with eth_rawSign', async () => {
+      const importedKey = {
+        kid: 'imported_raw',
+        kms: 'local',
+        type: <TKeyType>'Secp256k1',
+        publicKeyHex:
+          '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
+        privateKeyHex: '31d1ec15ff8110442012fef0d1af918c0e09b2e2ab821bba52ecc85f8655ec63',
+      }
+
+      const key = await agent.keyManagerImport(importedKey)
+
+      const signature = await agent.keyManagerSign({
+        algorithm: 'eth_rawSign',
+        data: '9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
+        encoding: 'hex',
+        keyRef: key.kid,
+      })
+
+      expect(signature).toEqual(
+        '0x9d9e6c705cfa5f348de0c5174e70234c3b372d6bfca05fd11ffc5fe46eab996a3e4780d403b611395fd8548f2b101c3542c5e43848e486ea238da18fe0ffe6d0',
+      )
+    })
   })
-
-
 }

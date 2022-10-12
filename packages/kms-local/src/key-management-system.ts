@@ -130,6 +130,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         return await this.eth_signMessage(managedKey.privateKeyHex, data)
       } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)) {
         return await this.eth_signTypedData(managedKey.privateKeyHex, data)
+      } else if (['eth_rawSign'].includes(algorithm)) {
+        return new SigningKey("0x" + managedKey.privateKeyHex).signDigest(data).compact
       }
     }
     throw Error(`not_supported: Cannot sign ${algorithm} using key of type ${managedKey.type}`)
