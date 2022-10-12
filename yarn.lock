@@ -5228,7 +5228,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.12", "@types/react@^18.0.21":
+"@types/react@*", "@types/react@^18.0.21":
   version "18.0.21"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.21.tgz#b8209e9626bb00a34c76f55482697edd2b43cc67"
   integrity sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==
@@ -13609,10 +13609,10 @@ multicodec@^3.2.1:
     uint8arrays "^3.0.0"
     varint "^6.0.0"
 
-multiformats@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-10.0.0.tgz#7142de54a296c694e8eededbdfc63743b396d2a6"
-  integrity sha512-qEj/ansAK86ufzupmp8B/JbiNSLJhNFcqW2Aa1dWxQc0OfoorpknwKkJeXAbtZ62AJlA6qKsGrCY3OjdFWZOrQ==
+multiformats@9.7.1:
+  version "9.7.1"
+  resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.7.1.tgz#ab348e5fd6f8e7fb3fd56033211bda48854e2173"
+  integrity sha512-TaVmGEBt0fhxiNJMGphBfB+oGvUxFs8KgGvgl8d3C+GWtrFcvXdJ2196eg+dYhmSFClmgFfSfJEklo+SZzdNuw==
 
 multiformats@^9.4.2:
   version "9.4.5"
