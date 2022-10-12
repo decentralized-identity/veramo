@@ -18,13 +18,14 @@
     "did-jwt": "^6.6.0",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.0",
-    "uint8arrays": "^3.0.0",
-    "elliptic": "^6.5.4"
+    "elliptic": "^6.5.4",
+    "multiformats": "^10.0.0",
+    "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/uuid": "8.3.4",
-    "@types/elliptic": "6.4.14"
+    "@types/elliptic": "6.4.14",
+    "@types/uuid": "8.3.4"
   },
   "files": [
     "build/**/*",
