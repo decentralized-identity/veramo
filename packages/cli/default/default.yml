@@ -219,7 +219,7 @@ didManager:
         $require: '@veramo/data-store#DIDStore'
         $args:
           - $ref: /dbConnection
-      defaultProvider: did:ethr:rinkeby
+      defaultProvider: did:ethr:goerli
       providers:
         did:ethr:
           $require: '@veramo/did-provider-ethr#EthrDIDProvider'
@@ -227,22 +227,6 @@ didManager:
             - defaultKms: local
               network: mainnet
               rpcUrl: https://mainnet.infura.io/v3/3586660d179141e3801c3895de1c2eba
-              gas: 1000001
-              ttl: 31104001
-        did:ethr:rinkeby:
-          $require: '@veramo/did-provider-ethr#EthrDIDProvider'
-          $args:
-            - defaultKms: local
-              network: rinkeby
-              rpcUrl: https://rinkeby.infura.io/v3/3586660d179141e3801c3895de1c2eba
-              gas: 1000001
-              ttl: 31104001
-        did:ethr:ropsten:
-          $require: '@veramo/did-provider-ethr#EthrDIDProvider'
-          $args:
-            - defaultKms: local
-              network: ropsten
-              rpcUrl: https://ropsten.infura.io/v3/3586660d179141e3801c3895de1c2eba
               gas: 1000001
               ttl: 31104001
         did:ethr:kovan:

@@ -33,29 +33,29 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
-    it('should create identifier using did:ethr:arbitrum:rinkeby provider', async () => {
+    it('should create identifier using did:ethr:arbitrum:goerli provider', async () => {
       identifier = await agent.didManagerCreate({
-        // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:rinkeby` network specifier
-        provider: 'did:ethr:arbitrum:rinkeby',
+        // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
+        provider: 'did:ethr:arbitrum:goerli',
       })
-      expect(identifier.provider).toEqual('did:ethr:arbitrum:rinkeby')
-      expect(identifier.did).toMatch(/^did:ethr:arbitrum:rinkeby:0x.*$/)
+      expect(identifier.provider).toEqual('did:ethr:arbitrum:goerli')
+      expect(identifier.did).toMatch(/^did:ethr:arbitrum:goerli:0x.*$/)
       expect(identifier.keys.length).toEqual(1)
       expect(identifier.services.length).toEqual(0)
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
-    it('should create identifier using chainId 421611', async () => {
+    it('should create identifier using chainId 3', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:ethr',
         options: {
-          // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:rinkeby` network specifier
+          // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
           // because the configured network has that name
-          network: 421611,
+          network: 421613,
         },
       })
       expect(identifier.provider).toEqual('did:ethr')
-      expect(identifier.did).toMatch(/^did:ethr:arbitrum:rinkeby:0x.*$/)
+      expect(identifier.did).toMatch(/^did:ethr:arbitrum:goerli:0x.*$/)
       expect(identifier.keys.length).toEqual(1)
       expect(identifier.services.length).toEqual(0)
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
@@ -88,12 +88,12 @@ export default (testContext: {
     it('should get or create identifier', async () => {
       const identifier3 = await agent.didManagerGetOrCreate({
         alias: 'alice',
-        provider: 'did:ethr:rinkeby',
+        provider: 'did:ethr:goerli',
       })
 
       const identifier4 = await agent.didManagerGetOrCreate({
         alias: 'alice',
-        provider: 'did:ethr:rinkeby',
+        provider: 'did:ethr:goerli',
       })
 
       expect(identifier3).toEqual(identifier4)
@@ -126,7 +126,7 @@ export default (testContext: {
 
       const identifier7 = await agent.didManagerGetByAlias({
         alias: 'alice',
-        // default provider is 'did:ethr:rinkeby'
+        // default provider is 'did:ethr:goerli'
       })
 
       expect(identifier7).toEqual(identifier4)
@@ -141,18 +141,18 @@ export default (testContext: {
       })
       expect(aliceIdentifiers.length).toEqual(2)
 
-      const rinkebyIdentifiers = await agent.didManagerFind({
-        provider: 'did:ethr:rinkeby',
+      const goerliIdentifiers = await agent.didManagerFind({
+        provider: 'did:ethr:goerli',
       })
-      expect(rinkebyIdentifiers.length).toBeGreaterThanOrEqual(1)
+      expect(goerliIdentifiers.length).toBeGreaterThanOrEqual(1)
 
-      // Default provider 'did:ethr:rinkeby'
-      await agent.didManagerCreate({ provider: 'did:ethr:rinkeby' })
+      // Default provider 'did:ethr:goerli'
+      await agent.didManagerCreate({ provider: 'did:ethr:goerli' })
 
-      const rinkebyIdentifiers2 = await agent.didManagerFind({
-        provider: 'did:ethr:rinkeby',
+      const goerliIdentifiers2 = await agent.didManagerFind({
+        provider: 'did:ethr:goerli',
       })
-      expect(rinkebyIdentifiers2.length).toEqual(rinkebyIdentifiers.length + 1)
+      expect(goerliIdentifiers2.length).toEqual(goerliIdentifiers.length + 1)
     })
 
     it('should delete identifier', async () => {
