@@ -82,13 +82,19 @@ export default (testContext: {
           serviceEndpoint: `http://localhost:${listeningPort}/foobar`,
           description: 'this endpoint will be removed',
         }, options: {
-          metaIdentifierKeyId: bob.did
+          metaIdentifierKeyId: bob.controllerKeyId
         }
       })
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toEqual(`http://localhost:${listeningPort}/foobar`)
+      expect(resolution.didDocument).toEqual(expect.objectContaining({
+        service: expect.arrayContaining([
+          expect.objectContaining({
+            serviceEndpoint: `http://localhost:${listeningPort}/foobar`
+          })
+        ])
+      }))
     })
 
     it('should remove dummy service to alice did with bob sending the tx', async () => {
@@ -100,7 +106,7 @@ export default (testContext: {
           serviceEndpoint: `http://localhost:${listeningPort}/foobar`,
           description: 'this endpoint will be removed',
         }, options: {
-          metaIdentifierKeyId: bob.did
+          metaIdentifierKeyId: bob.controllerKeyId
         }
       })
 
@@ -108,7 +114,7 @@ export default (testContext: {
         did: alice.did,
         id: "localhost-useless-endpoint",
         options: {
-          metaIdentifierKeyId: bob.did
+          metaIdentifierKeyId: bob.controllerKeyId
         }
       })
 
@@ -116,17 +122,14 @@ export default (testContext: {
       expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toBeFalsy()
     })
 
-    //TODO: Upgrade to ethr-did 2.3.1 and actually write this test + removal cases
     it('should add verification key to alice did with bob sending the tx', async () => {
       const keyToAdd = await agent.keyManagerCreate({type: 'Secp256k1', kms: 'local'})
-
-      const didBeforeChange = await agent.resolveDid({ didUrl: alice.did })
 
       await agent.didManagerAddKey({
         did: alice.did,
         key: keyToAdd,
         options: {
-          metaIdentifierKeyId: bob.did
+          metaIdentifierKeyId: bob.controllerKeyId
         }
       })
 
@@ -134,7 +137,14 @@ export default (testContext: {
       await sleep(1000)
 
       const didAfterchange = await agent.resolveDid({ didUrl: alice.did })
-      expect(didAfterchange?.didDocument?.service?.[0].serviceEndpoint).toBeFalsy()
+      expect(didAfterchange).toBeTruthy()
+      expect(didAfterchange.didDocument).toEqual(expect.objectContaining({
+        verificationMethod: expect.arrayContaining([
+          expect.objectContaining({
+            publicKeyHex: keyToAdd.publicKeyHex
+          })
+        ])
+      }))
     })
   })
 }
