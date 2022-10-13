@@ -131,7 +131,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
       } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)) {
         return await this.eth_signTypedData(managedKey.privateKeyHex, data)
       } else if (['eth_rawSign'].includes(algorithm)) {
-        return new SigningKey("0x" + managedKey.privateKeyHex).signDigest(data).compact
+        return this.eth_rawSign(managedKey.privateKeyHex, data);
       }
     }
     throw Error(`not_supported: Cannot sign ${algorithm} using key of type ${managedKey.type}`)
@@ -238,6 +238,13 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   /**
+   * @returns a `0x` prefixed hex string representing the signed digest in compact format
+   */
+  private eth_rawSign(managedKey: string, data: Uint8Array) {
+    return new SigningKey("0x" + managedKey).signDigest(data).compact
+  }
+
+  /**
    * @returns a base64url encoded signature for the `EdDSA` alg
    */
   private async signEdDSA(key: string, data: Uint8Array): Promise<string> {
@@ -289,7 +296,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           kid: args.alias || publicKeyHex,
           publicKeyHex,
           meta: {
-            algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage'],
+            algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage', 'eth_rawSign'],
           },
         }
         break
