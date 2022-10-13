@@ -82,7 +82,7 @@ export default (testContext: {
           serviceEndpoint: `http://localhost:${listeningPort}/foobar`,
           description: 'this endpoint will be removed',
         }, options: {
-          metaIdentifier: bob.did
+          metaIdentifierKeyId: bob.did
         }
       })
 
@@ -100,7 +100,7 @@ export default (testContext: {
           serviceEndpoint: `http://localhost:${listeningPort}/foobar`,
           description: 'this endpoint will be removed',
         }, options: {
-          metaIdentifier: bob.did
+          metaIdentifierKeyId: bob.did
         }
       })
 
@@ -108,7 +108,7 @@ export default (testContext: {
         did: alice.did,
         id: "localhost-useless-endpoint",
         options: {
-          metaIdentifier: bob.did
+          metaIdentifierKeyId: bob.did
         }
       })
 
@@ -116,6 +116,7 @@ export default (testContext: {
       expect(resolution?.didDocument?.service?.[0].serviceEndpoint).toBeFalsy()
     })
 
+    //TODO: Upgrade to ethr-did 2.3.1 and actually write this test + removal cases
     it('should add verification key to alice did with bob sending the tx', async () => {
       const keyToAdd = await agent.keyManagerCreate({type: 'Secp256k1', kms: 'local'})
 
@@ -125,7 +126,7 @@ export default (testContext: {
         did: alice.did,
         key: keyToAdd,
         options: {
-          metaIdentifier: bob.did
+          metaIdentifierKeyId: bob.did
         }
       })
 

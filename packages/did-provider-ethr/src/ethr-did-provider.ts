@@ -50,7 +50,7 @@ export interface CreateDidEthrOptions {
 export interface TransactionOptions extends TransactionRequest {
   ttl?: number
   encoding?: string
-  metaIdentifier?: IIdentifier
+  metaIdentifierKeyId?: string
 }
 
 /**
@@ -241,7 +241,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     return network
   }
 
-  private async getEthrDidController(identifier: IIdentifier, context: IRequiredContext, metaIdentifier?: IIdentifier): Promise<EthrDID> {
+  private async getEthrDidController(identifier: IIdentifier, context: IRequiredContext, metaIdentifierKeyId?: string): Promise<EthrDID> {
     if (identifier.controllerKeyId == null) {
       throw new Error('invalid_argument: identifier does not list a `controllerKeyId`')
     }
@@ -258,8 +258,8 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       throw new Error(`invalid_argument: cannot find network for ${identifier.did}`)
     }
 
-    if (metaIdentifier && metaIdentifier.controllerKeyId) {
-      const metaControllerKey = await context.agent.keyManagerGet({ kid: metaIdentifier.controllerKeyId })
+    if (metaIdentifierKeyId) {
+      const metaControllerKey = await context.agent.keyManagerGet({ kid: metaIdentifierKeyId })
       if (typeof metaControllerKey === 'undefined') {
         throw new Error('invalid_argument: identifier.controllerKeyId is not managed by this agent')
       }
@@ -307,13 +307,13 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const attrValue = "0x" + key.publicKeyHex
     const ttl = options?.ttl || this.ttl || 86400
     const gasLimit = options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
-    if(options?.metaIdentifier) {
+    if(options?.metaIdentifierKeyId) {
       const metaHash = await ethrDid.createSetAttributeHash(attrName, attrValue , ttl)
       const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, identifier, metaHash);
 
-      const metaEthrDid = await this.getEthrDidController(identifier, context, options.metaIdentifier!)
+      const metaEthrDid = await this.getEthrDidController(identifier, context, options.metaIdentifierKeyId!)
       debug('ethrDid.addKeySigned %o', { attrName, attrValue, ttl, gasLimit })
-      delete options.metaIdentifier
+      delete options.metaIdentifierKeyId
       const txHash =  await metaEthrDid.setAttributeSigned(attrName, attrValue, ttl,
         {sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s },
         {
@@ -351,13 +351,13 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
 
     debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
 
-    if(options?.metaIdentifier) {
+    if(options?.metaIdentifierKeyId) {
       const metaHash = await ethrDid.createSetAttributeHash(attrName, attrValue, ttl)
       const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, identifier, metaHash);
 
-      const metaEthrDid = await this.getEthrDidController(identifier, context, options.metaIdentifier!)
+      const metaEthrDid = await this.getEthrDidController(identifier, context, options.metaIdentifierKeyId!)
       debug('ethrDid.addServiceSigned %o', { attrName, attrValue, ttl, gasLimit })
-      delete options.metaIdentifier
+      delete options.metaIdentifierKeyId
       const txHash =  await metaEthrDid.setAttributeSigned(attrName, attrValue, ttl,
         {sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s },
         {
@@ -392,13 +392,13 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const attrValue = '0x' + key.publicKeyHex
     const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
-    if(args.options?.metaIdentifier) {
+    if(args.options?.metaIdentifierKeyId) {
       const metaHash = await ethrDid.createRevokeAttributeHash(attrName, attrValue)
       const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, args.identifier, metaHash);
 
-      const metaEthrDid = await this.getEthrDidController(args.identifier, context, args.options.metaIdentifier!)
+      const metaEthrDid = await this.getEthrDidController(args.identifier, context, args.options.metaIdentifierKeyId!)
       debug('ethrDid.revokeAttributeSigned %o', { attrName, attrValue, gasLimit })
-      delete args.options.metaIdentifier
+      delete args.options.metaIdentifierKeyId
       const txHash =  await metaEthrDid.revokeAttributeSigned(attrName, attrValue,
         {sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s },
         {
@@ -432,13 +432,13 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const attrValue = (typeof service.serviceEndpoint === 'string') ? service.serviceEndpoint : JSON.stringify(service.serviceEndpoint)
     const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
-    if(args.options?.metaIdentifier) {
+    if(args.options?.metaIdentifierKeyId) {
       const metaHash = await ethrDid.createRevokeAttributeHash(attrName, attrValue)
       const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, args.identifier, metaHash);
 
-      const metaEthrDid = await this.getEthrDidController(args.identifier, context, args.options.metaIdentifier!)
+      const metaEthrDid = await this.getEthrDidController(args.identifier, context, args.options.metaIdentifierKeyId!)
       debug('ethrDid.revokeAttributeSigned %o', { attrName, attrValue, gasLimit })
-      delete args.options.metaIdentifier
+      delete args.options.metaIdentifierKeyId
       const txHash =  await metaEthrDid.revokeAttributeSigned(attrName, attrValue,
         {sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s },
         {
