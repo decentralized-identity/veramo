@@ -1,13 +1,13 @@
 import { ICredentialRequestInput } from '@veramo/selective-disclosure'
-import { getAgent } from './setup'
+import { getAgent } from './setup.js'
 import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
-import { shortDate, shortDid } from './explore/utils'
+import { shortDate, shortDid } from './explore/utils.js'
 import { VerifiableCredential } from '@veramo/core'
 import { asArray, extractIssuer } from '@veramo/utils'
 
-const fuzzy = require('fuzzy')
+import fuzzy from 'fuzzy'
 
 const sdr = program.command('sdr').description('Selective Disclosure Request')
 
@@ -15,7 +15,7 @@ sdr
   .command('create', { isDefault: true })
   .description('create Selective Disclosure Request')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
 
     const knownDids = await agent.dataStoreORMGetIdentifiers()
@@ -265,7 +265,7 @@ sdr
   .command('respond')
   .description('respond to Selective Disclosure Request')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     const sdrMessages = await agent.dataStoreORMGetMessages({
       where: [{ column: 'type', value: ['sdr'] }],
       order: [{ column: 'createdAt', direction: 'DESC' }],

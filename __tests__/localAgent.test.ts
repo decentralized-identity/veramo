@@ -36,7 +36,7 @@ import {
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -57,33 +57,40 @@ import {
   PrivateKeyStore,
 } from '../packages/data-store/src'
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
 import { DataSource } from 'typeorm'
-import { createGanacheProvider } from './utils/ganache-provider'
-import { createEthersProvider } from './utils/ethers-provider'
+import { createGanacheProvider } from './utils/ganache-provider.js'
+import { createEthersProvider } from './utils/ethers-provider.js'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 // Shared tests
-import verifiableDataJWT from './shared/verifiableDataJWT'
-import verifiableDataLD from './shared/verifiableDataLD'
-import verifiableDataEIP712 from './shared/verifiableDataEIP712'
-import handleSdrMessage from './shared/handleSdrMessage'
-import resolveDid from './shared/resolveDid'
-import webDidFlow from './shared/webDidFlow'
-import saveClaims from './shared/saveClaims'
-import documentationExamples from './shared/documentationExamples'
-import keyManager from './shared/keyManager'
-import didManager from './shared/didManager'
-import didCommPacking from './shared/didCommPacking'
-import messageHandler from './shared/messageHandler'
-import didDiscovery from './shared/didDiscovery'
-import dbInitOptions from './shared/dbInitOptions'
-import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
-import utils from './shared/utils'
-import web3 from './shared/web3'
-import credentialStatus from './shared/credentialStatus'
+import verifiableDataJWT from './shared/verifiableDataJWT.js'
+import verifiableDataLD from './shared/verifiableDataLD.js'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712.js'
+import handleSdrMessage from './shared/handleSdrMessage.js'
+import resolveDid from './shared/resolveDid.js'
+import webDidFlow from './shared/webDidFlow.js'
+import saveClaims from './shared/saveClaims.js'
+import documentationExamples from './shared/documentationExamples.js'
+import keyManager from './shared/keyManager.js'
+import didManager from './shared/didManager.js'
+import didCommPacking from './shared/didCommPacking.js'
+import messageHandler from './shared/messageHandler.js'
+import didDiscovery from './shared/didDiscovery.js'
+import dbInitOptions from './shared/dbInitOptions.js'
+import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
+import utils from './shared/utils.js'
+import web3 from './shared/web3.js'
+import credentialStatus from './shared/credentialStatus.js'
+import { jest } from '@jest/globals'
+import { Libp2p } from 'libp2p'
+import { Web3Provider } from '@ethersproject/providers'
+import { ListenerID } from './utils/libp2p-peerIds.js'
+import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 
 jest.setTimeout(60000)
 
@@ -98,6 +105,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
+    IAgentLibp2pClient &
     ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
@@ -106,7 +114,10 @@ let agent: TAgent<
 >
 let dbConnection: Promise<DataSource>
 let databaseFile: string
-
+let libnode: Libp2p
+let libnode2: Libp2p
+let provider: Web3Provider
+let registry: any
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile =
     options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
@@ -122,9 +133,15 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     // allow shared tests to override connection options
     ...options?.context?.dbConnectionOptions,
   }).initialize()
-
-  const { provider, registry } = await createGanacheProvider()
+  const ganache = await createGanacheProvider()
+  provider = ganache.provider
+  registry = ganache.registry
   const ethersProvider = createEthersProvider()
+
+  libnode = await createLibp2pNode()
+  const peerId = await ListenerID()  
+  libnode2 = await createLibp2pNode(peerId)
+  const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
   agent = createAgent<
     IDIDManager &
@@ -134,6 +151,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
+      IAgentLibp2pClient &
       ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
@@ -156,7 +174,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDManager({
         store: new DIDStore(dbConnection),
-        defaultProvider: 'did:ethr:rinkeby',
+        defaultProvider: 'did:ethr:goerli',
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
@@ -167,14 +185,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
               },
               {
-                name: 'rinkeby',
-                rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+                name: 'goerli',
+                rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
               },
               {
-                chainId: 421611,
-                name: 'arbitrum:rinkeby',
-                rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
-                registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+                chainId: 421613,
+                name: 'arbitrum:goerli',
+                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
+                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
               },
               {
                 chainId: 1337,
@@ -219,7 +237,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm([
+        new DIDCommHttpTransport(), 
+        new DIDCommLibp2pTransport(libnode)
+      ]),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
@@ -234,9 +255,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new BrokenDiscoveryProvider(),
         ],
       }),
+      libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
+  await libp2pPlugin.setupLibp2p({ agent }, libnode2)
   return true
 }
 
@@ -252,6 +275,18 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     // nop
   }
+  try {
+    await agent.libp2pShutdown()
+    await libnode.stop()
+  } catch (e) {
+    //nop
+  }
+  try {
+    provider.removeAllListeners()
+  } catch (e) {
+    // nop
+  }
+
   return true
 }
 
@@ -277,5 +312,6 @@ describe('Local integration tests', () => {
   utils(testContext)
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
   credentialStatus(testContext)
 })

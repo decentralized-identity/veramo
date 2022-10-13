@@ -1,7 +1,8 @@
-import { createAgent, ICredentialStatusVerifier, VerifiableCredential } from '../../../core/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { CredentialStatusPlugin } from '../credential-status'
+import { createAgent, ICredentialStatusVerifier, VerifiableCredential } from '../../../core/build/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/build/index.js'
+import { CredentialStatusPlugin } from '../../build/credential-status.js'
 import { DIDDocument, DIDResolutionOptions, DIDResolutionResult, Resolvable } from 'did-resolver'
+import { jest } from '@jest/globals'
 
 describe('@veramo/credential-status', () => {
   const referenceDoc: DIDDocument = { id: 'did:example:1234' }
@@ -79,6 +80,7 @@ describe('@veramo/credential-status', () => {
     const agent = createAgent({
       plugins: [
         new CredentialStatusPlugin({
+          // @ts-ignore
           ExoticStatusMethod2022: checkStatus,
         }),
       ],

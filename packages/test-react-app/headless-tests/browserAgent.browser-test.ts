@@ -1,23 +1,26 @@
-import { getAgent } from '../src/veramo/setup'
+import { getAgent, setup } from '../src/veramo/setup.js'
 
-import keyManager from '../../../__tests__/shared/keyManager'
-import didManager from '../../../__tests__/shared/didManager'
-import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT'
-import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD'
-import handleSdrMessage from '../../../__tests__/shared/handleSdrMessage'
-import resolveDid from '../../../__tests__/shared/resolveDid'
-import webDidFlow from '../../../__tests__/shared/webDidFlow'
-import saveClaims from '../../../__tests__/shared/saveClaims'
-import documentationExamples from '../../../__tests__/shared/documentationExamples'
-import didCommPacking from '../../../__tests__/shared/didCommPacking'
-import messageHandler from '../../../__tests__/shared/messageHandler'
-import utils from '../../../__tests__/shared/utils'
+import keyManager from '../../../__tests__/shared/keyManager.js'
+import didManager from '../../../__tests__/shared/didManager.js'
+import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT.js'
+import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD.js'
+import handleSdrMessage from '../../../__tests__/shared/handleSdrMessage.js'
+import resolveDid from '../../../__tests__/shared/resolveDid.js'
+import webDidFlow from '../../../__tests__/shared/webDidFlow.js'
+import saveClaims from '../../../__tests__/shared/saveClaims.js'
+import documentationExamples from '../../../__tests__/shared/documentationExamples.js'
+import didCommPacking from '../../../__tests__/shared/didCommPacking.js'
+import messageHandler from '../../../__tests__/shared/messageHandler.js'
+// import didCommWithLibp2pFakeFlow from '../../../__tests__/shared/didCommWithLibp2pFakeDidFlow.js'
+import utils from '../../../__tests__/shared/utils.js'
 
-jest.setTimeout(3 * 60 * 1000)
+import { jest } from '@jest/globals'
+
+jest.setTimeout(30000)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {
-    const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
+    const testContext = { getAgent, setup, tearDown: async () => true }
     verifiableDataJWT(testContext)
     verifiableDataLD(testContext)
     handleSdrMessage(testContext)
@@ -30,6 +33,7 @@ describe('Browser integration tests', () => {
     messageHandler(testContext)
     utils(testContext)
     didCommPacking(testContext)
+    // didCommWithLibp2pFakeFlow(testContext)
   })
 
   describe('should intialize in the react app', () => {
@@ -52,23 +56,23 @@ describe('Browser integration tests', () => {
             'https://www.w3.org/ns/did/v1',
             'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
           ],
-          id: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+          id: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
           verificationMethod: [
             {
-              id: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
+              id: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
               type: 'EcdsaSecp256k1RecoveryMethod2020',
-              controller: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
-              blockchainAccountId: 'eip155:4:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
+              controller: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+              blockchainAccountId: 'eip155:5:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
             },
           ],
-          authentication: ['did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
-          assertionMethod: ['did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          authentication: ['did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          assertionMethod: ['did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
         },
       }
 
       await page.waitForSelector('#result').then(async (element) => {
-        let result = await element!.evaluate((el) => el.textContent)
-        let parsedResult = JSON.parse(result!)
+        let result = await (element ? element.evaluate((el) => el.textContent) : undefined)
+        let parsedResult = JSON.parse(result || "")
         await expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })
@@ -78,14 +82,14 @@ describe('Browser integration tests', () => {
         didDocumentMetadata: {},
         didResolutionMetadata: {
           error: 'invalidDid',
-          message: 'Not a valid did:ethr: rinkeby:0x6acf3bb1ef0ee8459de2bc2bd9d91532062a730',
+          message: 'Not a valid did:ethr: goerli:0x6acf3bb1ef0ee8459de2bc2bd9d91532062a730',
         },
         didDocument: null,
       }
 
       await page.waitForSelector('#invalid-result').then(async (element) => {
-        let result = await element!.evaluate((el) => el.textContent)
-        let parsedResult = JSON.parse(result!)
+        let result = await (element ? element.evaluate((el) => el.textContent) : undefined)
+        let parsedResult = JSON.parse(result || "")
         await expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })

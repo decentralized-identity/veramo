@@ -1,5 +1,5 @@
 import { IAgentContext } from '@veramo/core'
-import { Message } from './message'
+import { Message } from './message.js'
 
 export const unsupportedMessageTypeError = new Error('Unsupported message type')
 

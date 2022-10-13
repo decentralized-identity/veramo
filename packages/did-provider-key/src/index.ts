@@ -4,5 +4,5 @@
  *
  * @packageDocumentation
  */
-export { KeyDIDProvider } from './key-did-provider'
-export { getDidKeyResolver } from './resolver'
+export { KeyDIDProvider } from './key-did-provider.js'
+export { getDidKeyResolver } from './resolver.js'

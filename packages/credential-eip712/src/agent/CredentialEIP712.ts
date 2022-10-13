@@ -16,7 +16,7 @@ import {
   processEntryToArray,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import { schema } from '../index'
+import schema from "../plugin.schema.json" assert { type: 'json' }
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {
@@ -26,7 +26,7 @@ import {
   IRequiredContext,
   IVerifyCredentialEIP712Args,
   IVerifyPresentationEIP712Args,
-} from '../types/ICredentialEIP712'
+} from '../types/ICredentialEIP712.js'
 
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
 

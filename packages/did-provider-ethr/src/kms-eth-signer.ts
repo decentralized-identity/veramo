@@ -4,7 +4,7 @@ import { getAddress } from '@ethersproject/address'
 import { Bytes } from '@ethersproject/bytes'
 import { Deferrable, resolveProperties } from '@ethersproject/properties'
 import { computeAddress, serialize, UnsignedTransaction } from '@ethersproject/transactions'
-import { IRequiredContext } from './ethr-did-provider'
+import { IRequiredContext } from './ethr-did-provider.js'
 import { IKey } from '@veramo/core'
 
 /**

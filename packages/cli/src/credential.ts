@@ -1,13 +1,12 @@
-import { getAgent } from './setup'
+import { getAgent } from './setup.js'
 import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
 import * as json5 from 'json5'
-import { readStdin } from './util'
+import { readStdin } from './util.js'
 import { CredentialPayload } from '@veramo/core'
-
-const fuzzy = require('fuzzy')
+import fuzzy from 'fuzzy'
 
 const credential = program.command('credential').description('W3C Verifiable Credential')
 
@@ -18,7 +17,7 @@ credential
   .option('-j, --json', 'Output in JSON')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     const identifiers = await agent.didManagerFind()
 
     const knownDids = await agent.dataStoreORMGetIdentifiers()
@@ -110,7 +109,8 @@ credential
           type: 'input',
           name: 'id',
           message: 'Credential status ID',
-          default: 'rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348',
+          // TODO(nickreynolds): deploy
+          default: 'goerli:0x97fd27892cdcD035dAe1fe71235c636044B59348',
         },
       ])
 
@@ -169,7 +169,7 @@ credential
   .option('-f, --filename <string>', 'Optional. Read the credential from a file instead of stdin')
   .option('-r, --raw <string>', 'Optional. Specify the credential as a parameter instead of file or stdin')
   .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     let raw: string = ''
     if (options.raw) {
       raw = options.raw
@@ -205,7 +205,7 @@ credential
   .command('output')
   .description('Print W3C Verifiable Credential to stdout')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     const credentials = await agent.dataStoreORMGetVerifiableCredentials()
 

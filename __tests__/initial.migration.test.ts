@@ -36,9 +36,13 @@ import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSourceOptions, DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { getResolver as ethrDidResolver } from "ethr-did-resolver"
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
+import { jest } from '@jest/globals'
+
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 jest.setTimeout(60000)
 

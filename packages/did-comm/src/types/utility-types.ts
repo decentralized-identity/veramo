@@ -1,5 +1,5 @@
 import { JWE } from 'did-jwt'
-import { DIDCommMessageMediaType, IDIDCommMessage } from './message-types'
+import { DIDCommMessageMediaType, IDIDCommMessage } from './message-types.js'
 
 /**
  * Represents a plaintext DIDComm v2 message object.

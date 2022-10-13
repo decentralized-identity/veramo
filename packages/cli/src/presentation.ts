@@ -1,8 +1,8 @@
-import { getAgent } from './setup'
+import { getAgent } from './setup.js'
 import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
-import { readStdin } from './util'
+import { readStdin } from './util.js'
 import * as fs from 'fs'
 import * as json5 from 'json5'
 import { extractIssuer } from '@veramo/utils'
@@ -15,7 +15,7 @@ presentation
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     const myIdentifiers = await agent.didManagerFind()
     if (myIdentifiers.length === 0) {
       console.error('No dids')
@@ -32,7 +32,7 @@ presentation
       ...ids.map((id) => id.did),
     ]
 
-    let aud = null
+    let aud:string[] = []
     const answers = await inquirer.prompt([
       {
         type: 'list',
@@ -51,10 +51,10 @@ presentation
         default: 'xyz123',
       },
       {
-        type: 'list',
-        name: 'aud',
-        message: 'Verifier DID',
-        choices: identifiers,
+        type: 'input',
+        name: 'audnum',
+        message: 'Number of Verifiers',
+        default: 1,
       },
       {
         type: 'input',
@@ -64,17 +64,28 @@ presentation
       },
     ])
 
-    if (answers.aud === 'manual') {
+    for (let i = 0; i < answers.audnum; i++) {
+      let answer = null
       const audAnswer = await inquirer.prompt([
         {
-          type: 'input',
+          type: 'list',
           name: 'aud',
-          message: 'Enter Verifier DID',
-        },
+          message: 'Select Verifier or enter manually',
+          choices: identifiers
+        }
       ])
-      aud = audAnswer.aud
-    } else {
-      aud = answers.aud
+      answer = audAnswer.aud
+      if (answer === 'manual') {
+        const manualAnswer = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'aud',
+            message: 'Enter Verifier DID',
+          },
+        ])
+        answer = manualAnswer.aud
+      }
+      aud = [...aud, answer]
     }
 
     const credentials = await agent.dataStoreORMGetVerifiableCredentials({
@@ -122,7 +133,7 @@ presentation
         save: true,
         presentation: {
           holder: answers.iss,
-          verifier: [aud],
+          verifier: aud,
           tag: answers.tag,
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: answers.type.split(','),
@@ -133,19 +144,21 @@ presentation
       })
 
       if (cmd.send) {
-        try {
-          const message = await agent.sendMessageDIDCommAlpha1({
-            save: true,
-            data: {
-              from: answers.iss,
-              to: aud,
-              type: 'jwt',
-              body: verifiablePresentation.proof.jwt,
-            },
-          })
-          console.dir(message, { depth: 10 })
-        } catch (e) {
-          console.error(e)
+        for(var verifier in aud) {
+          try {
+            const message = await agent.sendMessageDIDCommAlpha1({
+              save: true,
+              data: {
+                from: answers.iss,
+                to: verifier,
+                type: 'jwt',
+                body: verifiablePresentation.proof.jwt,
+              },
+            })
+            console.dir(message, { depth: 10 })
+          } catch (e) {
+            console.error(e)
+          }
         }
       }
 
@@ -165,7 +178,7 @@ presentation
   .option('-f, --filename <string>', 'Optional. Read the presentation from a file instead of stdin')
   .option('-r, --raw <string>', 'Optional. Presentation as a parameter string instead of a file or stdin.')
   .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     let raw: string = ''
     if (options.raw) {
       raw = options.raw
@@ -202,7 +215,7 @@ presentation
   .description('Print W3C Verifiable Presentation to stdout')
   .option('-t, --tag <string>', 'Optional. Specify the tag for the presentation.')
   .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     const presentations = await agent.dataStoreORMGetVerifiablePresentations({})
 
@@ -211,7 +224,7 @@ presentation
       let selected = null
       const list: any = []
       if (options.tag) {
-        const matches = presentations.filter(pres => pres.verifiablePresentation.tag === options.tag)
+        const matches = presentations.filter((pres) => pres.verifiablePresentation.tag === options.tag)
         if (matches.length > 1) {
           console.log('Found multiple matching presentations. Only showing the first one.')
         }

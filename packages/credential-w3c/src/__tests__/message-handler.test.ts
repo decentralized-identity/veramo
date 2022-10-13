@@ -1,80 +1,29 @@
-import { DIDResolutionResult } from '../../../core/src'
-import { Message } from '../../../message-handler/src'
-import { W3cMessageHandler, MessageTypes } from '../index'
-import { IContext } from '../message-handler'
-import { blake2bHex } from 'blakejs'
+import { createAgent, IMessageHandler, IResolver } from '../../../core/src'
+import { Message, MessageHandler } from '../../../message-handler/src'
+import { W3cMessageHandler, MessageTypes } from '../index.js'
+import { IContext } from '../message-handler.js'
+import pkg from 'blakejs'
+const { blake2bHex } = pkg
+import { MockDIDResolverPlugin } from './mockResolver.js'
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()
+  // don't need to replace rinkeby since test has mock resolver
   const didEthr = 'did:ethr:rinkeby:0x3c357ba458933a19c1df1c7f6b473b3302bbbe61'
   const didKey = 'did:key:z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'
 
-  const context: IContext = {
-    agent: {
-      getSchema: jest.fn(),
-      execute: jest.fn(),
-      availableMethods: jest.fn(),
-      emit: jest.fn(),
-      resolveDid: async (args?): Promise<DIDResolutionResult> => {
-        if (!args?.didUrl) throw Error('DID required')
-
-        if (args?.didUrl === didEthr) {
-          return {
-            didResolutionMetadata: {},
-            didDocumentMetadata: {},
-            didDocument: {
-              '@context': 'https://w3id.org/did/v1',
-              id: args?.didUrl,
-              verificationMethod: [
-                {
-                  id: `${didEthr}#owner`,
-                  type: 'EcdsaSecp256k1RecoveryMethod2020',
-                  controller: args?.didUrl,
-                  blockchainAccountId: `eip155:1:${didEthr.slice(-42)}`,
-                },
-              ],
-              authentication: [`${didEthr}#owner`],
-            },
-          }
-        } else {
-          return {
-            didResolutionMetadata: {},
-            didDocumentMetadata: {},
-            didDocument: {
-              '@context': 'https://www.w3.org/ns/did/v1',
-              id: didKey,
-              verificationMethod: [
-                {
-                  id: '#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd',
-                  type: 'Ed25519VerificationKey2018',
-                  controller: didKey,
-                  publicKeyBase58: 'CHWxr7EA5adxzgiYUzq1Gn7zZxVudLR4wM47ioEcSd1F',
-                },
-                {
-                  id: '#z6LSkpCZ3cLP76M3Q26rhZe6q98vMdcSPTt4iML4r9UT7LVt',
-                  type: 'X25519KeyAgreementKey2019',
-                  controller: didKey,
-                  publicKeyBase58: 'A92PXJXX1ddJJdj6Av89WYvSWV5KgrhuqNcPMgpvPxj8',
-                },
-              ],
-              authentication: ['#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'],
-              assertionMethod: ['#z6Mkqjn1SMUbR88S7BZFAZnr7sfzPXmm3DfRdMy3Z5CdMqnd'],
-            },
-          }
-        }
-      },
-      createVerifiableCredential: jest.fn(),
-      createVerifiablePresentation: jest.fn(),
-      verifyCredential: jest.fn(),
-      verifyPresentation: jest.fn(),
-      getDIDComponentById: jest.fn(),
-    },
-  }
+  const agent = createAgent<IResolver & IMessageHandler>({ plugins: [
+    new MockDIDResolverPlugin(),
+    new MessageHandler({
+      messageHandlers: [
+        new W3cMessageHandler()
+      ]})
+  ]})
 
   it('should reject unknown message type', async () => {
     expect.assertions(1)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
-    await expect(handler.handle(message, context)).rejects.toThrow('Unsupported message type')
+    await expect(handler.handle(message, agent.context as IContext)).rejects.toThrow('Unsupported message type')
   })
 
   const vcJwtSecp256k1 =
@@ -112,11 +61,12 @@ describe('@veramo/credential-w3c', () => {
 
   it('should return handled VC message (ES256K-R)', async () => {
     expect.assertions(6)
-    const message = new Message({ raw: vcJwtSecp256k1, metaData: [{ type: 'test' }] })
+    const message = new Message({ raw: vcJwtSecp256k1, metaData: [{ type: 'JWT' }] })
     // This would be done by '@veramo/did-jwt':
     message.data = vcPayloadSecp256k1
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
-    const handled = await handler.handle(message, context)
+    agent.context
+    const handled = await handler.handle(message, agent.context as IContext) //await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vcJwtSecp256k1))
     expect(handled.raw).toEqual(vcJwtSecp256k1)
@@ -133,7 +83,7 @@ describe('@veramo/credential-w3c', () => {
     message.data = vpPayloadSecp256k1
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpJwtSecp256k1))
     expect(handled.raw).toEqual(vpJwtSecp256k1)
@@ -183,7 +133,7 @@ describe('@veramo/credential-w3c', () => {
     // This would be done by '@veramo/did-jwt':
     message.data = vcPayloadEd25519
     message.addMetaData({ type: 'JWT', value: 'Ed25519' })
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vcJwtEd25519))
     expect(handled.raw).toEqual(vcJwtEd25519)
@@ -199,7 +149,7 @@ describe('@veramo/credential-w3c', () => {
     message.data = vpPayloadEd25519
     message.addMetaData({ type: 'JWT', value: 'Ed25519' })
 
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpJwtEd25519))
     expect(handled.raw).toEqual(vpJwtEd25519)
@@ -210,20 +160,18 @@ describe('@veramo/credential-w3c', () => {
   })
 
   const vpMultiAudJwt =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODg2NzY3MzksInZwIjp7IkBjb250ZXh0IjpbImh0dHBzOi8vd3d3LnczLm9yZy8yMDE4L2NyZWRlbnRpYWxzL3YxIl0sInR5cGUiOlsiVmVyaWZpYWJsZVByZXNlbnRhdGlvbiJdLCJ2ZXJpZmlhYmxlQ3JlZGVudGlhbCI6WyJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpGVXpJMU5rc3RVaUo5LmV5SnBZWFFpT2pFMU9ESTJNVGsyTnpZc0luTjFZaUk2SW1ScFpEcGxkR2h5T25KcGJtdGxZbms2TUhnell6TTFOMkpoTkRVNE9UTXpZVEU1WXpGa1pqRmpOMlkyWWpRM00ySXpNekF5WW1KaVpUWXhJaXdpZG1NaU9uc2lRR052Ym5SbGVIUWlPbHNpYUhSMGNITTZMeTkzZDNjdWR6TXViM0puTHpJd01UZ3ZZM0psWkdWdWRHbGhiSE12ZGpFaVhTd2lkSGx3WlNJNld5SldaWEpwWm1saFlteGxRM0psWkdWdWRHbGhiQ0pkTENKamNtVmtaVzUwYVdGc1UzVmlhbVZqZENJNmV5SnVZVzFsSWpvaVFXeHBZMlVpZlgwc0ltbHpjeUk2SW1ScFpEcGxkR2h5T25KcGJtdGxZbms2TUhnell6TTFOMkpoTkRVNE9UTXpZVEU1WXpGa1pqRmpOMlkyWWpRM00ySXpNekF5WW1KaVpUWXhJbjAuSUdGMUxGT2M0X1BjR1ZlcTdZdzdPR3o0R2o3eFhaSzZwOGJQOUNTRUlYejdtTkZQTTB2MG51ZXZUWjQ3YTBJOFhnTGZDRk5rVXJJSXNjakg4TUZ4X3dFIl19LCJ0YWciOiJ0YWcxMjMiLCJhdWQiOlsiZGlkOmV4YW1wbGU6MzQ1NiIsImRpZDp3ZWI6dXBvcnQubWUiXSwiaXNzIjoiZGlkOmV0aHI6cmlua2VieToweGIwOWI2NjAyNmJhNTkwOWE3Y2ZlOTliNzY4NzU0MzFkMmI4ZDUxOTAifQ.4SWpp8siCBHP47KrOT_28IJIQPZLCWO9VS0Ir-VVYOGUAVj7vHtXLxl3Y6lLAxYeNqWrRPCAVkDArBFCNRjYUgA'
+    'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2cCI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVQcmVzZW50YXRpb24iXSwidmVyaWZpYWJsZUNyZWRlbnRpYWwiOlsiZXlKaGJHY2lPaUpGVXpJMU5rc2lMQ0owZVhBaU9pSktWMVFpZlEuZXlKMll5STZleUpBWTI5dWRHVjRkQ0k2V3lKb2RIUndjem92TDNkM2R5NTNNeTV2Y21jdk1qQXhPQzlqY21Wa1pXNTBhV0ZzY3k5Mk1TSXNJbWgwZEhCek9pOHZkbVZ5WVcxdkxtbHZMMk52Ym5SbGVIUnpMM0J5YjJacGJHVXZkakVpWFN3aWRIbHdaU0k2V3lKV1pYSnBabWxoWW14bFEzSmxaR1Z1ZEdsaGJDSmRMQ0pqY21Wa1pXNTBhV0ZzVTNWaWFtVmpkQ0k2ZXlKdVlXMWxJam9pUVd4cFkyVWlmWDBzSW5OMVlpSTZJbVJwWkRwbGRHaHlPbWR2WlhKc2FUb3dlREF5WkdJMllqZ3pZVE00WlRNeFpHVmtabU5rTURBeE4yRTBPRE5qT0dJd01EY3pZV1EwTURRNU5UZG1OV1l6TXpjNFpEVmtPR1l6WkRneU5USXhNRFE0T1NJc0ltNWlaaUk2TVRZMk5UUTFNalUwT0N3aWFYTnpJam9pWkdsa09tVjBhSEk2WjI5bGNteHBPakI0TURKa1lqWmlPRE5oTXpobE16RmtaV1JtWTJRd01ERTNZVFE0TTJNNFlqQXdOek5oWkRRd05EazFOMlkxWmpNek56aGtOV1E0WmpOa09ESTFNakV3TkRnNUluMC56ZXRBSXVTVWtxNGlmbmxhelg3c1RodTlpd3VzNjZDVHBfaDVObW0xc2RyZXZ4ck02WklSZGJEVExrZlZ6MmxGR3BxeU1aLW9tMVBtUHNOOFluY2ZSZyJdfSwidGFnIjoidGFnMTIzIiwibmJmIjoxNjY1NDUzMDYwLCJpc3MiOiJkaWQ6ZXRocjpnb2VybGk6MHgwMmRiNmI4M2EzOGUzMWRlZGZjZDAwMTdhNDgzYzhiMDA3M2FkNDA0OTU3ZjVmMzM3OGQ1ZDhmM2Q4MjUyMTA0ODkiLCJhdWQiOlsiZGlkOmV4YW1wbGU6MzQ1NiIsImRpZDp3ZWI6dXBvcnQubWUiXX0.NfQjQb3_mo956o5guLTV5iKF9mna-Yy70MBZQlNDu9OujpDhbsaQ5MHFw5GGG1M47_74ZAaMTOx9Wc7iY7eLZw'
 
   const vpMultiAudPayload = {
     iat: 1588676739,
     vp: {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiablePresentation'],
-      verifiableCredential: [
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1ODI2MTk2NzYsInN1YiI6ImRpZDpldGhyOnJpbmtlYnk6MHgzYzM1N2JhNDU4OTMzYTE5YzFkZjFjN2Y2YjQ3M2IzMzAyYmJiZTYxIiwidmMiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCJdLCJjcmVkZW50aWFsU3ViamVjdCI6eyJuYW1lIjoiQWxpY2UifX0sImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgzYzM1N2JhNDU4OTMzYTE5YzFkZjFjN2Y2YjQ3M2IzMzAyYmJiZTYxIn0.IGF1LFOc4_PcGVeq7Yw7OGz4Gj7xXZK6p8bP9CSEIXz7mNFPM0v0nuevTZ47a0I8XgLfCFNkUrIIscjH8MFx_wE',
-      ],
+      verifiableCredential: [vpMultiAudJwt],
     },
     tag: 'tag123',
     aud: ['did:example:3456', 'did:web:uport.me'],
-    iss: 'did:ethr:rinkeby:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+    iss: 'did:ethr:goerli:0x02db6b83a38e31dedfcd0017a483c8b0073ad404957f5f3378d5d8f3d825210489',
   }
 
   it('should use the first audience did as a message.to field', async () => {
@@ -233,7 +181,7 @@ describe('@veramo/credential-w3c', () => {
     message.data = vpMultiAudPayload
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
 
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(vpMultiAudJwt))
     expect(handled.raw).toEqual(vpMultiAudJwt)
@@ -264,13 +212,14 @@ describe('@veramo/credential-w3c', () => {
       },
       credentialStatus: {
         type: 'EthrStatusRegistry2019',
-        id: 'rinkeby:0x97fd27892cdcD035dAe1fe71235c636044B59348',
+        // TODO(nickreynolds): deploy
+        id: 'goerli:0x97fd27892cdcD035dAe1fe71235c636044B59348',
       },
       iss: 'did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e',
     }
     message.addMetaData({ type: 'JWT', value: 'ES256K' })
 
-    const handled = await handler.handle(message, context)
+    const handled = await handler.handle(message, agent.context as IContext)
 
     expect(handled.isValid()).toEqual(true)
     expect(handled.id).toEqual(blake2bHex(token))

@@ -12,13 +12,13 @@ import {
   ISendDIDCommMessageArgs,
   ISendMessageDIDCommAlpha1Args,
   IUnpackDIDCommMessageArgs,
-} from '../didcomm'
+} from '../didcomm.js'
 import {
   DIDCommMessageMediaType,
   IDIDCommOptions,
   IPackedDIDCommMessage,
   IUnpackedDIDCommMessage,
-} from './message-types'
+} from './message-types.js'
 
 /**
  * DID Comm plugin interface for {@link @veramo/core#Agent}

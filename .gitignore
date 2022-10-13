@@ -33,6 +33,7 @@ key-store.json
 .vscode/
 node_modules
 temp
+tmp
 
 agent.yml
 data

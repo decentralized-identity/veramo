@@ -19,6 +19,7 @@
     { "path": "key-manager" },
     { "path": "kms-local" },
     { "path": "kms-web3" },
+    { "path": "libp2p-client"},
     { "path": "message-handler" },
     { "path": "remote-client" },
     { "path": "remote-server" },

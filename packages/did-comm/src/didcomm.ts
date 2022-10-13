@@ -1,4 +1,3 @@
-import 'cross-fetch/polyfill'
 import {
   IAgentContext,
   IResolver,
@@ -23,7 +22,7 @@ import {
   verifyJWS,
 } from 'did-jwt'
 import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod } from 'did-resolver'
-import { schema } from '.'
+import schema from "./plugin.schema.json" assert { type: 'json' }
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
 import {
@@ -31,7 +30,7 @@ import {
   extractSenderEncryptionKey,
   extractManagedRecipients,
   mapRecipientsToLocalKeys,
-} from './utils'
+} from './utils.js'
 
 import {
   decodeJoseBlob,
@@ -45,8 +44,8 @@ import {
 } from '@veramo/utils'
 
 import Debug from 'debug'
-import { IDIDComm } from './types/IDIDComm'
-import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports'
+import { IDIDComm } from './types/IDIDComm.js'
+import { IDIDCommTransport } from './transports/transports.js'
 import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,
@@ -54,14 +53,15 @@ import {
   IDIDCommOptions,
   IPackedDIDCommMessage,
   IUnpackedDIDCommMessage,
-} from './types/message-types'
+} from './types/message-types.js'
 import {
   _DIDCommEncryptedMessage,
   _DIDCommPlainMessage,
   _DIDCommSignedMessage,
   _FlattenedJWS,
   _GenericJWS,
-} from './types/utility-types'
+} from './types/utility-types.js'
+import { DIDCommHttpTransport } from './transports/httpTransport.js'
 
 const debug = Debug('veramo:did-comm:action-handler')
 

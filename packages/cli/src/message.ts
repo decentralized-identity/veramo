@@ -1,6 +1,6 @@
-import { getAgent } from './setup'
+import { getAgent } from './setup.js'
 import { program } from 'commander'
-const fs = require('fs')
+import fs from 'fs'
 
 const message = program.command('message').description('Messages')
 
@@ -12,7 +12,7 @@ message
   .option('--save <boolean>', 'Save message', true)
 
   .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     try {
       let raw
 

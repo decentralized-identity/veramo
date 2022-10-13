@@ -1,7 +1,7 @@
 import { DIDDocument } from 'did-resolver'
-import { IPluginMethodMap, IAgentContext } from './IAgent'
-import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier'
-import { IKeyManager } from './IKeyManager'
+import { IPluginMethodMap, IAgentContext } from './IAgent.js'
+import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier.js'
+import { IKeyManager } from './IKeyManager.js'
 
 /**
  * Input arguments for {@link IDIDManager.didManagerGet | didManagerGet}
@@ -258,8 +258,8 @@ export interface IDIDManager extends IPluginMethodMap {
    *   alias: 'alice'
    * })
    *
-   * const rinkebyIdentifiers = await agent.didManagerFind({
-   *   provider: 'did:ethr:rinkeby'
+   * const goerliIdentifiers = await agent.didManagerFind({
+   *   provider: 'did:ethr:goerli'
    * })
    * ```
    */
@@ -279,7 +279,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * ```typescript
    * const identifier = await agent.didManagerGetByAlias({
    *   alias: 'charlie',
-   *   provider: 'did:ethr:rinkeby'
+   *   provider: 'did:ethr:goerli'
    * })
    * ```
    */
@@ -297,7 +297,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * ```typescript
    * const identifier = await agent.didManagerCreate({
    *   alias: 'charlie',
-   *   provider: 'did:ethr:rinkeby',
+   *   provider: 'did:ethr:goerli',
    *   kms: 'local'
    * })
    * ```

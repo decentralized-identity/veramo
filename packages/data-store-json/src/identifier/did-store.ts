@@ -2,7 +2,7 @@ import { IIdentifier } from '@veramo/core'
 import { AbstractDIDStore } from '@veramo/did-manager'
 
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types.js'
 import { serialize, deserialize } from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:did-store')

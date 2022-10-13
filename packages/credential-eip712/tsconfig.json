@@ -10,5 +10,6 @@
   "references": [
     { "path": "../core" },
     { "path": "../utils" }
-  ]
+  ],
+  "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

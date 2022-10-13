@@ -1,10 +1,11 @@
-import 'cross-fetch/polyfill'
 import { program } from 'commander'
 import { SecretBox } from '@veramo/kms-local'
-import { getAgent } from './setup'
+import { getAgent } from './setup.js'
+import fs from "fs"
+import { dirname } from 'path'
 
-const fs = require('fs')
-const { dirname } = require('path')
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 program.option('--config <path>', 'Configuration file', './agent.yml')
 
@@ -71,7 +72,7 @@ config
   .option('-f, --filename <string>', 'Config file name', './agent.yml')
   .option('-m, --method <string>', 'Check that a specific method is exposed by the agent.', 'execute')
   .action(async (options) => {
-    const agent = getAgent(options.filename)
+    const agent = await getAgent(options.filename)
     if (!agent) {
       console.error(
         'unknown error while creating the agent from your config. Consider running `veramo config create` to generate a new configuration file, or to manually compare differences.',

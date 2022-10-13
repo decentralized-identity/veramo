@@ -1,4 +1,5 @@
-import { DIDDocumentSection, IAgentPlugin, IResolver, schema } from '@veramo/core'
+import { DIDDocumentSection, IAgentPlugin, IResolver } from '@veramo/core'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
 import { isDefined } from '@veramo/utils'
 import {
   DIDDocument,
