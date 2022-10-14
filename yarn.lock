@@ -6836,50 +6836,6 @@
     crypto-ld "^7.0.0"
     json-stringify-deterministic "^1.0.7"
 
-"@veramo/core@^3.1.4":
-  version "4.0.2-next.14"
-  resolved "https://registry.yarnpkg.com/@veramo/core/-/core-4.0.2-next.14.tgz#6f63b473588db52645d2dc45d0c30612c40a839b"
-  integrity sha512-Zr8f5iNwzvTumX2UaOlAVp8DY7c5zCuIjFF4S6ZdJp8YfAKCQavAp9RW7uJcADpUS2eEkyNohbxD2vbgCaq2Hw==
-  dependencies:
-    debug "^4.3.3"
-    did-jwt-vc "^3.1.0"
-    events "^3.2.0"
-    z-schema "^5.0.2"
-
-"@veramo/did-comm@^3.1.4":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@veramo/did-comm/-/did-comm-4.0.2.tgz#4d669551d2a3bc06b56329e69ab5ce311b166921"
-  integrity sha512-2MHXS9qQqMcDWTl5b7XatAJqb4HUhqz+RepQOjD1Eeuwr/4SdRT+Ow0j9hJPDucpkbUyMCakjtkmTpfqP00nNw==
-  dependencies:
-    "@ethersproject/signing-key" "^5.5.0"
-    "@stablelib/ed25519" "^1.0.2"
-    "@veramo/core" "^4.0.0"
-    "@veramo/message-handler" "^4.0.0"
-    "@veramo/utils" "^4.0.2"
-    cross-fetch "^3.1.4"
-    debug "^4.3.3"
-    did-jwt "^6.6.0"
-    did-resolver "^4.0.0"
-    uint8arrays "^3.0.0"
-    uuid "^9.0.0"
-
-"@veramo/utils@^3.1.4", "@veramo/utils@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@veramo/utils/-/utils-4.0.2.tgz#b518ae296f4a7b7044360c1ed7cbe45f276dfdbb"
-  integrity sha512-AWWSiCllR+yz5iUEy03W1OZA+VJiEtRkjZpSq5jTi+l3kc8IxTo6kR0r1ppKRCs5Cj32Awcapt81kFMnsVTsjQ==
-  dependencies:
-    "@ethersproject/transactions" "^5.5.0"
-    "@stablelib/ed25519" "^1.0.2"
-    "@veramo/core" "^4.0.0"
-    blakejs "^1.1.1"
-    cross-fetch "^3.1.4"
-    debug "^4.3.3"
-    did-jwt "^6.6.0"
-    did-jwt-vc "^3.1.0"
-    did-resolver "^4.0.0"
-    elliptic "^6.5.4"
-    uint8arrays "^3.0.0"
-
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -20182,11 +20138,6 @@ uuid@^8.0.0, uuid@^8.3.0, uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
-
-uuid@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
-  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
 
 v8-compile-cache-lib@^3.0.1:
   version "3.0.1"
