@@ -55,11 +55,13 @@ export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
             },
         })
 
-        verificationKey.signer = signer
+        verificationKey.signer = () => signer
 
-        return new JsonWebSignature({
+        const suite = new JsonWebSignature({
             key: verificationKey,
         })
+
+        return suite
     }
 
     getSuiteForVerification(): any {
@@ -67,7 +69,7 @@ export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
     }
 
     preSigningCredModification(credential: CredentialPayload): void {
-        // do nothing
+        credential['@context'] = [...credential['@context'] || [], 'https://w3id.org/security/suites/jws-2020/v1']
     }
 
     preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {

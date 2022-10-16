@@ -5,7 +5,7 @@ import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020
 import { Ed25519VerificationKey2020 } from '@digitalcredentials/ed25519-verification-key-2020'
 import { TextEncoder } from 'util'
 /**
- * Veramo wrapper for the Ed25519Signature2020 suite by @digitalcredentials
+ * Veramo wrapper for the Ed25519Signature2020 suite by digitalcredentials
  *
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */

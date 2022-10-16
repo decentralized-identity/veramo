@@ -110,7 +110,7 @@ export class LdCredentialModule {
     return await vc.issue({
       ...options,
       credential,
-      suite: suite.getSuiteForSigning(key, issuerDid, verificationMethodId, context),
+      suite: await suite.getSuiteForSigning(key, issuerDid, verificationMethodId, context),
       documentLoader,
       compactProof: false,
     })
@@ -134,7 +134,7 @@ export class LdCredentialModule {
     return await vc.signPresentation({
       ...options,
       presentation,
-      suite: suite.getSuiteForSigning(key, holderDid, verificationMethodId, context),
+      suite: await suite.getSuiteForSigning(key, holderDid, verificationMethodId, context),
       challenge,
       domain,
       documentLoader,
