@@ -2,7 +2,7 @@ import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from "@
 import { RequiredAgentMethods, VeramoLdSignature } from "../ld-suites";
 import * as u8a from "uint8arrays";
 import { JsonWebKey, JsonWebSignature } from "@transmute/json-web-signature";
-import { base64ToBytes } from "@veramo/utils";
+import { encodeJoseBlob } from "@veramo/utils";
 
 
 /**
@@ -32,15 +32,22 @@ export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
 
         const signer = {
             // returns a JWS detached
-            sign: async (args: { data: Uint8Array }): Promise<Uint8Array> => {
-                const messageString = u8a.toString(args.data, 'base64')
+            sign: async (args: { data: Uint8Array }): Promise<string> => {
+                const header = {
+                    alg: 'EdDSA',
+                    b64: false,
+                    crit: ['b64'],
+                }
+                const headerString = encodeJoseBlob(header)
+                const messageBuffer = u8a.concat([u8a.fromString(`${headerString}.`, 'utf-8'), args.data])
+                const messageString = u8a.toString(messageBuffer, 'base64')
                 const signature = await context.agent.keyManagerSign({
                     keyRef: key.kid,
                     algorithm: 'EdDSA',
                     data: messageString,
                     encoding: 'base64',
                 })
-                return base64ToBytes(signature)
+                return `${headerString}..${signature}`
             },
         }
 
