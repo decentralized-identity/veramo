@@ -14,6 +14,7 @@ export type IContext = IAgentContext<IResolver>
  */
 export class JwtMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {
+    console.log("JwtMessageHandler.")
     if (message.raw) {
       try {
         const decoded = decodeJWT(message.raw)

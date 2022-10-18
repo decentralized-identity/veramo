@@ -60,6 +60,7 @@ export class AgentLibp2pClient implements IAgentPlugin {
       // }
       this.libp2p = libp2p
       this.libp2p.handle('didcomm/v2', async ({ stream }) => {
+        console.log("a stream has been started. stream: ", stream)
         pipe(
           // Read from the stream (the source)
           stream.source,
@@ -75,11 +76,17 @@ export class AgentLibp2pClient implements IAgentPlugin {
               // console.log("msg of source: ", msg)
               message = message + (msg.toString().replace('\n',''))
             }
+            console.log("go handle message: ", message)
             context?.agent.handleMessage({ raw: message })
           }
         )
       })
       await this.libp2p.start()
+      const multiAddrs = await this.libp2p.getMultiaddrs()
+      console.log("listening on: ")
+      multiAddrs.forEach(m => {
+        console.log(m.toString())
+      })
     } catch (ex) {
       console.error("some kind of ex: ", ex)
     }

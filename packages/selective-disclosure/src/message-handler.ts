@@ -24,6 +24,7 @@ export const MessageTypes = {
  */
 export class SdrMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message> {
+    console.log("selective.")
     const meta = message.getLastMetaData()
 
     if (message?.data?.type == MessageTypes.sdr && message?.data?.claims) {

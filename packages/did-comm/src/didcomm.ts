@@ -193,20 +193,30 @@ export class DIDComm implements IAgentPlugin {
       throw new Error('invalid_argument: `from` field must be a DID managed by this agent')
     }
 
+    // let extraKey = null
+    const extraKey2 = await context.agent.keyManagerGetWhere({ type: 'Ed25519', did: message.from })
+    const extraKey = await context.agent.keyManagerGet({ kid: extraKey2.kid })
+    console.log("extraKey: ", extraKey)
+    // if (extraKeys)
+    // try {
+    //   const something = await context.agent.keyManager
+    // }
+    console.log("managedSender: ", managedSender)
     // obtain sender signing key(s) from authentication section
     const senderKeys = await mapIdentifierKeysToDoc(managedSender, 'authentication', context)
+    console.log("senderKeys: ", senderKeys)
     // try to find a managed signing key that matches keyRef
     let signingKey = null
     if (isDefined(keyRef)) {
-      signingKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)
+      signingKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)// || await context.agent.keyManagerGet()
     }
     // otherwise use the first available one.
-    signingKey = signingKey ? signingKey : senderKeys[0]
+    signingKey = extraKey ? extraKey : (signingKey ? signingKey : senderKeys[0])
 
     if (!signingKey) {
       throw new Error(`key_not_found: could not locate a suitable signing key for ${message.from}`)
     } else {
-      kid = signingKey.meta.verificationMethod.id
+      kid = extraKey ? extraKey.kid : signingKey.meta?.verificationMethod.id
     }
     let alg: string
     if (signingKey.type === 'Ed25519') {

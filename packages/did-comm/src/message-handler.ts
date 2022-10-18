@@ -18,10 +18,13 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
   private async handleDIDCommAlpha(message: Message, context: IContext): Promise<Message> {
     if (message.raw) {
       try {
+        console.log("handle 6")
         const parsed = JSON.parse(message.raw)
         if (parsed.ciphertext && parsed.protected) {
+          console.log("handle 7")
           const identifiers = await context.agent.didManagerFind()
           for (const identifier of identifiers) {
+            console.log("handle 8")
             let decrypted
             try {
               const key = identifier.keys.find((k) => k.type === 'Ed25519')
@@ -56,16 +59,18 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
             }
           }
         } else if (parsed.type === 'jwt') {
+          console.log("handle 9")
           message.raw = parsed.body
           if (parsed['id']) message.id = parsed['id']
           message.addMetaData({ type: 'DIDComm' })
           return super.handle(message, context)
         } else {
+          console.log("handle 10")
           message.data = parsed.body
           if (parsed['id']) message.id = parsed['id']
           if (parsed['type']) message.type = parsed['type']
           message.addMetaData({ type: 'DIDComm' })
-          debug('JSON message with id and type', message)
+          console.log('JSON message with id and type', message)
           return super.handle(message, context)
         }
       } catch (e) {
@@ -84,15 +89,18 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
    */
   async handle(message: Message, context: IContext): Promise<Message> {
     const rawMessage = message.raw
+    console.log("DIDComm handle 1")
     if (rawMessage) {
       // check whether message is DIDCommV2
       let didCommMessageType = undefined
       try {
+        console.log("handle 2")
         didCommMessageType = await context.agent.getDIDCommMessageMediaType({ message: rawMessage })
       } catch (e) {
         debug(`Could not parse message as DIDComm v2: ${e}`)
       }
       if (didCommMessageType) {
+        console.log("handle 3")
         try {
           const unpackedMessage = await context.agent.unpackDIDCommMessage({
             message: rawMessage,
@@ -118,6 +126,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           message.expiresAt = expiresAt
           message.data = data
 
+          console.log("handle 4")
           message.addMetaData({ type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData) })
           context.agent.emit('DIDCommV2Message-received', unpackedMessage)
 
@@ -128,6 +137,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
       }
     }
 
+    console.log("handle 5")
     return this.handleDIDCommAlpha(message, context)
   }
 }

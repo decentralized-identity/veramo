@@ -666,6 +666,21 @@
           ],
           "description": "Cryptographic key"
         },
+        "IKeyManagerGetWhereArgs": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "did": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "did"
+          ]
+        },
         "MinimalImportableKey": {
           "$ref": "#/components/schemas/RequireOnly<IKey,(\"privateKeyHex\"|\"type\"|\"kms\")>",
           "description": "Represents the properties required to import a key."
@@ -911,6 +926,15 @@
             "items": {
               "type": "string"
             }
+          }
+        },
+        "keyManagerGetWhere": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IKeyManagerGetWhereArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/ManagedKeyInfo"
           }
         },
         "keyManagerImport": {

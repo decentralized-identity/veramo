@@ -55,6 +55,11 @@ export interface IKeyManagerGetArgs {
   kid: string
 }
 
+export interface IKeyManagerGetWhereArgs {
+  type: string
+  did: string
+}
+
 /**
  * Input arguments for {@link IKeyManager.keyManagerDelete | keyManagerDelete}
  * @public
@@ -214,6 +219,9 @@ export interface IKeyManager extends IPluginMethodMap {
    * Returns an existing key
    */
   keyManagerGet(args: IKeyManagerGetArgs): Promise<IKey>
+  keyManagerGetWhere(args: IKeyManagerGetWhereArgs): Promise<ManagedKeyInfo>
+
+  // keyManagerList(): Promise<ManagedKeyInfo[]>
 
   /**
    * Deletes a key
