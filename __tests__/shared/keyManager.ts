@@ -567,13 +567,6 @@ export default (testContext: {
           },
           '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
           type: ['VerifiableCredential', 'Custom'],
-        },
-        message: {
-          issuer: {
-            id: 'did:fake:123',
-          },
-          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
-          type: ['VerifiableCredential', 'Custom'],
           issuanceDate: '2022-05-31T14:02:06.109Z',
           credentialSubject: {
             id: 'did:web:example.com',
