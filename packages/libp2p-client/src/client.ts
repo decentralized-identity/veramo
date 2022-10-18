@@ -77,7 +77,7 @@ export class AgentLibp2pClient implements IAgentPlugin {
               message = message + (msg.toString().replace('\n',''))
             }
             console.log("go handle message: ", message)
-            context?.agent.handleMessage({ raw: message })
+            context?.agent.handleMessage({ raw: message, save: true })
           }
         )
       })

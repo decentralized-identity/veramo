@@ -129,9 +129,10 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           console.log("handle 4")
           message.addMetaData({ type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData) })
           context.agent.emit('DIDCommV2Message-received', unpackedMessage)
-
+          console.log("emit message received. unpacked: ", unpackedMessage)
           return message
         } catch (e) {
+          console.log("failed to unpack")
           debug(`Could not unpack message as DIDComm v2: ${e}`)
         }
       }
