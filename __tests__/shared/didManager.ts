@@ -309,6 +309,7 @@ export default (testContext: {
                 'eth_signTransaction',
                 'eth_signTypedData',
                 'eth_signMessage',
+                'eth_rawSign',
               ],
             },
             publicKeyHex:

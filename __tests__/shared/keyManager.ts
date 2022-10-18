@@ -107,7 +107,14 @@ export default (testContext: {
       expect(key.meta).toEqual({
         foo: 'bar',
         bar: 'baz',
-        algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage'],
+        algorithms: [
+          'ES256K',
+          'ES256K-R',
+          'eth_signTransaction',
+          'eth_signTypedData',
+          'eth_signMessage',
+          'eth_rawSign',
+        ],
       })
     })
 
@@ -170,7 +177,14 @@ export default (testContext: {
         publicKeyHex:
           '04dd467afb12bdb797303e7f3f0c8cd0ba80d518dc4e339e0e2eb8f2d99a9415cac537854a30d31a854b7af0b4fcb54c3954047390fa9500d3cc2e15a3e09017bb',
         meta: {
-          algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage'],
+          algorithms: [
+            'ES256K',
+            'ES256K-R',
+            'eth_signTransaction',
+            'eth_signTypedData',
+            'eth_signMessage',
+            'eth_rawSign',
+          ],
           foo: 'bar',
         },
       }
@@ -450,7 +464,6 @@ export default (testContext: {
           ],
         },
         types: {
-
           Mail: [
             { name: 'from', type: 'Person' },
             { name: 'to', type: 'Person[]' },
@@ -461,7 +474,7 @@ export default (testContext: {
             { name: 'wallets', type: 'address[]' },
           ],
         },
-      };
+      }
 
       const identifier = await agent.didManagerCreate({ kms: 'local' })
 
@@ -471,7 +484,7 @@ export default (testContext: {
       const signature = await agent.keyManagerSign({
         data: JSON.stringify(msgParams),
         keyRef: extendedKey.kid,
-        algorithm: 'eth_signTypedData'
+        algorithm: 'eth_signTypedData',
       })
 
       const address = extendedKey.meta.ethereumAddress
@@ -493,75 +506,80 @@ export default (testContext: {
       }
 
       //@ts-ignore
-      const recovered = recoverTypedSignature({data, signature: signature, version: SignTypedDataVersion.V4})
+      const recovered = recoverTypedSignature({
+        data: data as any,
+        signature: signature,
+        version: SignTypedDataVersion.V4,
+      })
       expect(address.toLowerCase()).toEqual(recovered)
     })
 
     it('should sign credential with eth_signTypedData', async () => {
       const msgParams = {
-        "domain": {
-          "chainId": 4,
-          "name": "VerifiableCredential",
-          "version": "1"
+        domain: {
+          chainId: 4,
+          name: 'VerifiableCredential',
+          version: '1',
         },
-        "types": {
-          "CredentialSubject": [
+        types: {
+          CredentialSubject: [
             {
-              "name": "id",
-              "type": "string"
+              name: 'id',
+              type: 'string',
             },
             {
-              "name": "you",
-              "type": "string"
-            }
+              name: 'you',
+              type: 'string',
+            },
           ],
-          "Issuer": [
+          Issuer: [
             {
-              "name": "id",
-              "type": "string"
-            }
+              name: 'id',
+              type: 'string',
+            },
           ],
-          "VerifiableCredential": [
+          VerifiableCredential: [
             {
-              "name": "@context",
-              "type": "string[]"
+              name: '@context',
+              type: 'string[]',
             },
             {
-              "name": "credentialSubject",
-              "type": "CredentialSubject"
+              name: 'credentialSubject',
+              type: 'CredentialSubject',
             },
             {
-              "name": "issuanceDate",
-              "type": "string"
+              name: 'issuanceDate',
+              type: 'string',
             },
             {
-              "name": "issuer",
-              "type": "Issuer"
+              name: 'issuer',
+              type: 'Issuer',
             },
             {
-              "name": "type",
-              "type": "string[]"
-            }
-          ]
+              name: 'type',
+              type: 'string[]',
+            },
+          ],
         },
-        "message": {
-          "issuer": {
-            "id": "did:fake:123"
+        message: {
+          issuer: {
+            id: 'did:fake:123',
           },
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://example.com/1/2/3"
-          ],
-          "type": [
-            "VerifiableCredential",
-            "Custom"
-          ],
-          "issuanceDate": "2022-05-31T14:02:06.109Z",
-          "credentialSubject": {
-            "id": "did:web:example.com",
-            "you": "Rock"
-          }
-        }
+          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
+          type: ['VerifiableCredential', 'Custom'],
+        },
+        message: {
+          issuer: {
+            id: 'did:fake:123',
+          },
+          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
+          type: ['VerifiableCredential', 'Custom'],
+          issuanceDate: '2022-05-31T14:02:06.109Z',
+          credentialSubject: {
+            id: 'did:web:example.com',
+            you: 'Rock',
+          },
+        },
       }
 
       const identifier = await agent.didManagerCreate({ kms: 'local' })
@@ -572,7 +590,7 @@ export default (testContext: {
       const signature = await agent.keyManagerSign({
         data: JSON.stringify(msgParams),
         keyRef: extendedKey.kid,
-        algorithm: 'eth_signTypedData'
+        algorithm: 'eth_signTypedData',
       })
 
       const address = extendedKey.meta.ethereumAddress
@@ -592,7 +610,7 @@ export default (testContext: {
         },
       }
 
-      const args = {data, signature: signature, version: SignTypedDataVersion.V4}
+      const args = { data, signature: signature, version: SignTypedDataVersion.V4 }
       //@ts-ignore
       const recovered = recoverTypedSignature(args)
       expect(address.toLowerCase()).toEqual(recovered)
