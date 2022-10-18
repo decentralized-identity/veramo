@@ -327,12 +327,11 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     context: IRequiredContext,
   ): Promise<any> {
     const ethrDid = await this.getEthrDidController(args.identifier, context)
-
     const key = args.identifier.keys.find((k) => k.kid === args.kid)
     if (!key) throw Error('Key not found')
 
-    const usg = key.type === 'X25519' ? 'enc' : 'veriKey'
-    const encoding = key.type === 'X25519' ? 'base58' : args.options?.encoding || 'hex'
+    const usg = (key.type === 'X25519' || key.type === 'Ed25519') ? 'enc' : 'veriKey'
+    const encoding = (key.type === 'X25519' || key.type === 'Ed25519') ? 'base58' : args.options?.encoding || 'hex'
     const attrName = `did/pub/${key.type}/${usg}/${encoding}`
     const attrValue = '0x' + key.publicKeyHex
     const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT

@@ -194,11 +194,14 @@ export class DIDComm implements IAgentPlugin {
     }
 
     // obtain sender signing key(s) from authentication section
-    const senderKeys = await mapIdentifierKeysToDoc(managedSender, 'authentication', context)
+
+    // can't sign did-comm message using web3 kms
+    const senderKeys = (await mapIdentifierKeysToDoc(managedSender, 'verificationMethod', context)).filter(k => k.kms !== 'web3')
+
     // try to find a managed signing key that matches keyRef
     let signingKey = null
     if (isDefined(keyRef)) {
-      signingKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)
+      signingKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)// || await context.agent.keyManagerGet()
     }
     // otherwise use the first available one.
     signingKey = signingKey ? signingKey : senderKeys[0]
@@ -206,7 +209,7 @@ export class DIDComm implements IAgentPlugin {
     if (!signingKey) {
       throw new Error(`key_not_found: could not locate a suitable signing key for ${message.from}`)
     } else {
-      kid = signingKey.meta.verificationMethod.id
+      kid = signingKey.meta?.verificationMethod.id
     }
     let alg: string
     if (signingKey.type === 'Ed25519') {
@@ -263,17 +266,18 @@ export class DIDComm implements IAgentPlugin {
       //    1.1 check that args.message.from is a managed DID
       const sender: IIdentifier = await context.agent.didManagerGet({ did: args?.message?.from })
       //    1.2 match key agreement keys from DID to managed keys
-      const senderKeys: _ExtendedIKey[] = await mapIdentifierKeysToDoc(sender, 'keyAgreement', context)
+      const senderKeys: _ExtendedIKey[] = (await mapIdentifierKeysToDoc(sender, 'verificationMethod', context)).filter(k => k.kms !== 'web3')
       // try to find a sender key by keyRef, otherwise pick the first one
       let senderKey
       if (isDefined(keyRef)) {
         senderKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)
       }
+
       senderKey = senderKey || senderKeys[0]
       //    1.3 use kid from DID doc(skid) + local IKey to bundle a sender key
       if (senderKey) {
         senderECDH = createEcdhWrapper(senderKey.kid, context)
-        protectedHeader = { ...protectedHeader, skid: senderKey.meta.verificationMethod.id }
+        protectedHeader = { ...protectedHeader, skid: senderKey.meta?.verificationMethod.id }
       } else {
         throw new Error(`key_not_found: could not map an agent key to an skid for ${args?.message?.from}`)
       }
@@ -290,7 +294,6 @@ export class DIDComm implements IAgentPlugin {
     async function computeRecipients(to: string): Promise<IRecipient[]> {
       // 2.1 resolve DID for "to"
       const didDocument: DIDDocument = await resolveDidOrThrow(to, context)
-
       // 2.2 extract all recipient key agreement keys and normalize them
       const keyAgreementKeys: _NormalizedVerificationMethod[] = (
         await dereferenceDidKeys(didDocument, 'keyAgreement', context)
@@ -387,17 +390,22 @@ export class DIDComm implements IAgentPlugin {
     }
     const message = <IDIDCommMessage>decodeJoseBlob(jws.payload)
     const header = decodeJoseBlob(headerEncoded)
-    const sender = parseDidUrl(header.kid)?.did
+    const sender = parseDidUrl(header.kid)?.did || message.from
     if (!isDefined(sender) || sender !== message.from) {
       throw new Error('invalid_jws: sender is not a DID or does not match the `kid`')
     }
     const senderDoc = await resolveDidOrThrow(sender, context)
-    const senderKey = (await context.agent.getDIDComponentById({
+    let senderKey = null
+    try{ 
+      senderKey = (await context.agent.getDIDComponentById({
       didDocument: senderDoc,
       didUrl: header.kid,
-      section: 'authentication',
-    })) as VerificationMethod
-    const verifiedSenderKey = verifyJWS(`${headerEncoded}.${jws.payload}.${signatureEncoded}`, senderKey)
+      section: 'verificationMethod',
+      })) as VerificationMethod
+    } catch (ex) {
+      console.error("unpack ex: ", ex)
+    }
+    const verifiedSenderKey = verifyJWS(`${headerEncoded}.${jws.payload}.${signatureEncoded}`, senderKey!)
     if (isDefined(verifiedSenderKey)) {
       return { message, metaData: { packing: 'jws' } }
     } else {

@@ -53,13 +53,9 @@ export class AgentLibp2pClient implements IAgentPlugin {
 
   public async setupLibp2p(context:IContext, libp2p: Libp2p): Promise<void> {
     try {
-      // if (browser) {
-      //   this.libp2p = await createBrowserLibp2pNode(this.peerId)
-      // } else {
-      //   this.libp2p = await createLibp2pNode(this.peerId)
-      // }
       this.libp2p = libp2p
       this.libp2p.handle('didcomm/v2', async ({ stream }) => {
+        console.log("a stream has been started. stream: ", stream)
         pipe(
           // Read from the stream (the source)
           stream.source,
@@ -75,11 +71,16 @@ export class AgentLibp2pClient implements IAgentPlugin {
               // console.log("msg of source: ", msg)
               message = message + (msg.toString().replace('\n',''))
             }
-            context?.agent.handleMessage({ raw: message })
+            context?.agent.handleMessage({ raw: message, save: true })
           }
         )
       })
       await this.libp2p.start()
+      const multiAddrs = await this.libp2p.getMultiaddrs()
+      console.log("listening on: ")
+      multiAddrs.forEach(m => {
+        console.log(m.toString())
+      })
     } catch (ex) {
       console.error("some kind of ex: ", ex)
     }

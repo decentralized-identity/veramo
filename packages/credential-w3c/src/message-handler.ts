@@ -52,6 +52,7 @@ export type IContext = IAgentContext<IResolver & ICredentialVerifier>
  */
 export class W3cMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IContext): Promise<Message> {
+    console.log("W3cMessageHandler.")
     const meta = message.getLastMetaData()
 
     // console.log(JSON.stringify(message, null,  2))
