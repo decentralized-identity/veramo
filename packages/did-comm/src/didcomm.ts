@@ -196,12 +196,21 @@ export class DIDComm implements IAgentPlugin {
     // obtain sender signing key(s) from authentication section
 
     // can't sign did-comm message using web3 kms
-    const senderKeys = (await mapIdentifierKeysToDoc(managedSender, 'verificationMethod', context)).filter(k => k.kms !== 'web3')
+    let senderKeys: _ExtendedIKey[] = (await mapIdentifierKeysToDoc(managedSender, 'verificationMethod', context)) //.filter(k => k.kms !== 'web3')
+    if (senderKeys.length < 1) {
+      senderKeys = (await mapIdentifierKeysToDoc(managedSender, 'authentication', context)) //.filter(k => k.kms !== 'web3')
+    }
+    // if (senderKeys.length < 1) {
+    //   senderKeys = (await mapIdentifierKeysToDoc(managedSender, 'keyAgreement', context)).filter(k => k.kms !== 'web3')
+    //   if (senderKeys.length < 1) {
+    //     senderKeys = (await mapIdentifierKeysToDoc(managedSender, 'authentication', context)).filter(k => k.kms !== 'web3')
+    //   }
+    // }
 
     // try to find a managed signing key that matches keyRef
     let signingKey = null
     if (isDefined(keyRef)) {
-      signingKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)// || await context.agent.keyManagerGet()
+      signingKey = senderKeys.find((key) => key.kid === keyRef || key.meta.verificationMethod.id === keyRef)
     }
     // otherwise use the first available one.
     signingKey = signingKey ? signingKey : senderKeys[0]
@@ -266,7 +275,13 @@ export class DIDComm implements IAgentPlugin {
       //    1.1 check that args.message.from is a managed DID
       const sender: IIdentifier = await context.agent.didManagerGet({ did: args?.message?.from })
       //    1.2 match key agreement keys from DID to managed keys
-      const senderKeys: _ExtendedIKey[] = (await mapIdentifierKeysToDoc(sender, 'verificationMethod', context)).filter(k => k.kms !== 'web3')
+      let senderKeys: _ExtendedIKey[] = (await mapIdentifierKeysToDoc(sender, 'verificationMethod', context)) //.filter(k => k.kms !== 'web3')
+      // if (senderKeys.length < 1) {
+      //   senderKeys = (await mapIdentifierKeysToDoc(sender, 'keyAgreement', context)).filter(k => k.kms !== 'web3')
+      //   if (senderKeys.length < 1) {
+      //     senderKeys = (await mapIdentifierKeysToDoc(sender, 'authentication', context)).filter(k => k.kms !== 'web3')
+      //   }
+      // }
       // try to find a sender key by keyRef, otherwise pick the first one
       let senderKey
       if (isDefined(keyRef)) {
@@ -390,21 +405,26 @@ export class DIDComm implements IAgentPlugin {
     }
     const message = <IDIDCommMessage>decodeJoseBlob(jws.payload)
     const header = decodeJoseBlob(headerEncoded)
-    const sender = parseDidUrl(header.kid)?.did || message.from
+    console.log("unpack jws header: ", header)
+    const sender = parseDidUrl(header.kid)?.did// || message.from
     if (!isDefined(sender) || sender !== message.from) {
       throw new Error('invalid_jws: sender is not a DID or does not match the `kid`')
     }
     const senderDoc = await resolveDidOrThrow(sender, context)
-    let senderKey = null
-    try{ 
-      senderKey = (await context.agent.getDIDComponentById({
+    let senderKey = (await context.agent.getDIDComponentById({
       didDocument: senderDoc,
       didUrl: header.kid,
       section: 'verificationMethod',
       })) as VerificationMethod
-    } catch (ex) {
-      console.error("unpack ex: ", ex)
-    }
+
+    // if (!senderKey) {
+    //   senderKey = (await context.agent.getDIDComponentById({
+    //     didDocument: senderDoc,
+    //     didUrl: header.kid,
+    //     section: 'verificationMethod',
+    //   })) as VerificationMethod
+    // }
+
     const verifiedSenderKey = verifyJWS(`${headerEncoded}.${jws.payload}.${signatureEncoded}`, senderKey!)
     if (isDefined(verifiedSenderKey)) {
       return { message, metaData: { packing: 'jws' } }

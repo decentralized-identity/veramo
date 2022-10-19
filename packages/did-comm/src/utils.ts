@@ -39,7 +39,7 @@ export async function extractSenderEncryptionKey(
     const sKey = (await context.agent.getDIDComponentById({
       didDocument: senderDoc,
       didUrl: protectedHeader.skid,
-      section: 'keyAgreement',
+      section: 'verificationMethod',
     })) as _ExtendedVerificationMethod
     if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019'].includes(sKey.type)) {
       throw new Error(`not_supported: sender key of type ${sKey.type} is not supported`)
@@ -89,7 +89,7 @@ export async function mapRecipientsToLocalKeys(
   const potentialKeys = await Promise.all(
     managedKeys.map(async ({ recipient, kid, identifier }) => {
       // TODO: use caching, since all recipients are supposed to belong to the same identifier
-      const identifierKeys = await mapIdentifierKeysToDoc(identifier, 'keyAgreement', context)
+      const identifierKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', context)
       const localKey = identifierKeys.find((key) => key.meta.verificationMethod.id === kid)
       if (localKey) {
         return { localKeyRef: localKey.kid, recipient }

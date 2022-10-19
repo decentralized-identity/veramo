@@ -55,7 +55,7 @@ export class AgentLibp2pClient implements IAgentPlugin {
     try {
       this.libp2p = libp2p
       this.libp2p.handle('didcomm/v2', async ({ stream }) => {
-        console.log("a stream has been started. stream: ", stream)
+        // console.log("a stream has been started. stream: ", stream)
         pipe(
           // Read from the stream (the source)
           stream.source,

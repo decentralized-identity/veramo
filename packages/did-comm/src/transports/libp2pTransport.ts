@@ -57,9 +57,9 @@ import { Bootstrap } from '@libp2p/bootstrap'
   /** {@inheritdoc AbstractDIDCommTransport.send} */
   async send(service: any, message: string): Promise<IDIDCommTransportResult> {
     try {
-      console.log("about to dial with multiAddr: ", service.serviceEndpoint.multiAddr)
+      // console.log("about to dial with multiAddr: ", service.serviceEndpoint.multiAddr)
       const stream = await this.libp2pNode.dialProtocol(service.serviceEndpoint.multiAddr, 'didcomm/v2')
-      console.log("stream created: ", stream)
+      // console.log("stream created: ", stream)
       // TODO(nickreynolds): add support for serviceEndpoint.routingKeys
       await pipe(
         message, 

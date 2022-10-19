@@ -104,7 +104,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     }
 
     if (!result) {
-      const err = `not_found: DID document fragment (${didUrl}) could not be located.`
+      const err = `not_found: DID document fragment (section: ${section}) could not be located for given DID - (didUrl: ${didUrl}) .`
       debug(err)
       throw new Error(err)
     } else if (result.id.startsWith('#')) {

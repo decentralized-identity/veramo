@@ -201,7 +201,7 @@ export class DIDManager implements IAgentPlugin {
       keys,
       services,
     }
-    console.log("importedDID: ", importedDID)
+    // console.log("importedDID: ", importedDID)
     await this.store.import(importedDID)
     return importedDID
   }
