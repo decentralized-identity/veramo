@@ -185,10 +185,16 @@ export class DIDManager implements IAgentPlugin {
     identifier: MinimalImportableIdentifier,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier> {
+    console.log("didManagerImport identifier: ", identifier)
     const keys: IKey[] = []
     for (const key of identifier.keys) {
-      const importedKey = await context.agent.keyManagerImport(key)
-      keys.push(importedKey)
+      try {
+        const importedKey = await context.agent.keyManagerImport(key)
+        keys.push(importedKey)
+      } catch (ex) {
+        console.warn("failed to import key: ", key)
+        keys.push(key as IKey)
+      }
     }
     const services: IService[] = [...(identifier?.services || [])]
     const importedDID = {
@@ -196,6 +202,7 @@ export class DIDManager implements IAgentPlugin {
       keys,
       services,
     }
+    console.log("importedDID: ", importedDID)
     await this.store.import(importedDID)
     return importedDID
   }
