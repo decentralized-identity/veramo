@@ -1,12 +1,13 @@
 import {
   IAgentContext,
+  IDataStore,
   IMessageHandler,
   IPluginMethodMap,
 } from '@veramo/core'
 import { Multiaddr } from '@multiformats/multiaddr'
 import { Libp2p } from 'libp2p'
 
-export type IContext = IAgentContext<IMessageHandler>
+export type IContext = IAgentContext<IMessageHandler | IDataStore>
 /**
  * DID Comm plugin interface for {@link @veramo/core#Agent}
  *

@@ -187,8 +187,13 @@ export class DIDManager implements IAgentPlugin {
   ): Promise<IIdentifier> {
     const keys: IKey[] = []
     for (const key of identifier.keys) {
-      const importedKey = await context.agent.keyManagerImport(key)
-      keys.push(importedKey)
+      try {
+        const importedKey = await context.agent.keyManagerImport(key)
+        keys.push(importedKey)
+      } catch (ex) {
+        console.warn("failed to import key: ", key)
+        keys.push(key as IKey)
+      }
     }
     const services: IService[] = [...(identifier?.services || [])]
     const importedDID = {

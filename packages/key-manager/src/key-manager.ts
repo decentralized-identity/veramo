@@ -16,6 +16,7 @@ import {
   TKeyType,
   MinimalImportableKey,
   ManagedKeyInfo,
+  IKeyManagerGetWhereArgs,
 } from '@veramo/core'
 import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
 import * as u8a from 'uint8arrays'
@@ -61,6 +62,7 @@ export class KeyManager implements IAgentPlugin {
       keyManagerGetKeyManagementSystems: this.keyManagerGetKeyManagementSystems.bind(this),
       keyManagerCreate: this.keyManagerCreate.bind(this),
       keyManagerGet: this.keyManagerGet.bind(this),
+      keyManagerGetWhere: this.keyManagerGetWhere.bind(this),
       keyManagerDelete: this.keyManagerDelete.bind(this),
       keyManagerImport: this.keyManagerImport.bind(this),
       keyManagerEncryptJWE: this.keyManagerEncryptJWE.bind(this),
@@ -103,6 +105,12 @@ export class KeyManager implements IAgentPlugin {
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerGet} */
   async keyManagerGet({ kid }: IKeyManagerGetArgs): Promise<IKey> {
     return this.store.get({ kid })
+  }
+
+  // TODO(nickreynolds): need better way of doing this. wasn't able to return array of ManagedKeyInfo due to schema generation issue
+  async keyManagerGetWhere({ type, did }: IKeyManagerGetWhereArgs): Promise<ManagedKeyInfo> {
+    const list = (await this.store.list({})).filter(k => k.type === type && k.meta?.did === did)
+    return list[0]
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerDelete} */

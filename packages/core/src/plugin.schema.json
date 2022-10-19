@@ -666,6 +666,21 @@
           ],
           "description": "Cryptographic key"
         },
+        "IKeyManagerGetWhereArgs": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "did": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "did"
+          ]
+        },
         "MinimalImportableKey": {
           "$ref": "#/components/schemas/RequireOnly<IKey,(\"privateKeyHex\"|\"type\"|\"kms\")>",
           "description": "Represents the properties required to import a key."
@@ -911,6 +926,15 @@
             "items": {
               "type": "string"
             }
+          }
+        },
+        "keyManagerGetWhere": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IKeyManagerGetWhereArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/ManagedKeyInfo"
           }
         },
         "keyManagerImport": {
@@ -3224,7 +3248,7 @@
             "save": {
               "type": "boolean",
               "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
-              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
+              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\r\nhandling the message and determining that it must be saved."
             }
           },
           "required": [
@@ -3560,7 +3584,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved.",
-              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\nthe credential after creating it."
+              "deprecated": "Please call\r\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\r\nthe credential after creating it."
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
@@ -3763,7 +3787,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved. <p/><p/>",
-              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\nsave the credential after creating it."
+              "deprecated": "Please call\r\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\r\nsave the credential after creating it."
             },
             "challenge": {
               "type": "string",

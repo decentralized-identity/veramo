@@ -37,6 +37,9 @@
             },
             "options": {
               "$ref": "#/components/schemas/IDIDCommOptions"
+            },
+            "section": {
+              "$ref": "#/components/schemas/DIDDocumentSection"
             }
           },
           "required": [
@@ -113,6 +116,20 @@
           },
           "description": "Extra options when packing a DIDComm message."
         },
+        "DIDDocumentSection": {
+          "type": "string",
+          "enum": [
+            "verificationMethod",
+            "publicKey",
+            "service",
+            "authentication",
+            "assertionMethod",
+            "keyAgreement",
+            "capabilityInvocation",
+            "capabilityDelegation"
+          ],
+          "description": "Refers to a section of a DID document. Either the list of verification methods or services or one of the verification relationships.\n\nSee  {@link  https://www.w3.org/TR/did-core/#verification-relationships | verification relationships }"
+        },
         "ISendDIDCommMessageArgs": {
           "type": "object",
           "properties": {
@@ -188,7 +205,7 @@
           "required": [
             "data"
           ],
-          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
+          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\r\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
         },
         "IMessage": {
           "type": "object",
