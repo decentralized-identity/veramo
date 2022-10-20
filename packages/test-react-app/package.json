@@ -33,7 +33,8 @@
     "web-vitals": "^2.1.4",
     "util": "npm:util",
     "path": "npm:path-browserify",
-    "process": "npm:process"
+    "process": "npm:process",
+    "buffer": "npm:buffer"
   },
   "scripts": {
     "start": "react-scripts start",
