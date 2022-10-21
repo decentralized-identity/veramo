@@ -7,23 +7,25 @@ import { TKeyType } from '@veramo/core'
 export class LdSuiteLoader {
   constructor(options: { veramoLdSignatures: VeramoLdSignature[] }) {
     options.veramoLdSignatures.forEach((obj) => {
-      this.signatureMap[obj.getSupportedVeramoKeyType()] = obj
+      const keyType = obj.getSupportedVeramoKeyType()
+      const verificationType = obj.getSupportedVerificationType()
+      return this.signatureMap[keyType] = { ...this.signatureMap[keyType], [verificationType]: obj }
     })
   }
-  private signatureMap: Record<string, VeramoLdSignature> = {}
+  private signatureMap: Record<string, Record<string, VeramoLdSignature>> = {}
 
-  getSignatureSuiteForKeyType(type: TKeyType) {
-    const suite = this.signatureMap[type]
+  getSignatureSuiteForKeyType(type: TKeyType, verificationType: string) {
+    const suite = this.signatureMap[type]?.[verificationType]
     if (suite) return suite
 
     throw new Error('No Veramo LD Signature Suite for ' + type)
   }
 
-  getAllSignatureSuites() {
-    return Object.values(this.signatureMap)
+  getAllSignatureSuites(): VeramoLdSignature[] {
+    return Object.values(this.signatureMap).map((x) => Object.values(x)).flat()
   }
 
   getAllSignatureSuiteTypes() {
-    return Object.values(this.signatureMap).map((x) => x.getSupportedVerificationType())
+    return Object.values(this.signatureMap).map((x) => Object.keys(x)).flat()
   }
 }
