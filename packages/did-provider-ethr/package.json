@@ -19,7 +19,7 @@
     "@veramo/core": "^4.0.0",
     "@veramo/did-manager": "^4.0.0",
     "debug": "^4.3.3",
-    "ethr-did": "^2.2.4"
+    "ethr-did": "^2.3.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

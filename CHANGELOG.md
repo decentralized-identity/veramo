@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/uport-project/veramo/compare/v4.0.0...v4.0.1) (2022-09-23)
+
+
+### Bug Fixes
+
+* **ci:** add GH_TOKEN for checkout and auto-release ([#1009](https://github.com/uport-project/veramo/issues/1009)) ([1268bd2](https://github.com/uport-project/veramo/commit/1268bd28e5e6c84255d5f67b46fc88e004dd8fea))
+* **credential-w3c:** manually merge schemas for ICredentialPlugin ([#1008](https://github.com/uport-project/veramo/issues/1008)) ([cff1765](https://github.com/uport-project/veramo/commit/cff1765ea052960d2e0ca88042c4b9a9d4db7fad)), closes [#1007](https://github.com/uport-project/veramo/issues/1007)
+
+
+
+
+
 # [4.0.0](https://github.com/uport-project/veramo/compare/v3.1.5...v4.0.0) (2022-09-22)
 
 

@@ -1,0 +1,45 @@
+{
+  "name": "@veramo/did-provider-ion",
+  "description": "Veramo ion-did based identity controller plugin.",
+  "version": "4.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
+  },
+  "dependencies": {
+    "@decentralized-identity/ion-sdk": "^0.5.0",
+    "@sphereon/ion-pow": "^0.2.0",
+    "@transmute/did-key-secp256k1": "0.2.1-unstable.42",
+    "@ethersproject/random": "^5.6.1",
+    "@stablelib/ed25519": "^1.0.2",
+    "uint8arrays": "^3.0.0",
+    "base64url": "^3.0.1",
+    "@veramo/core": "^4.0.0",
+    "@veramo/did-manager": "^4.0.0",
+    "@veramo/key-manager": "^4.0.0",
+    "@veramo/kms-local": "^4.0.0",
+    "debug": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "typescript": "4.4.3"
+  },
+  "peerDependencies": {
+    "@sphereon/react-native-argon2": "^2.0.7"
+  },
+  "files": [
+    "dist/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:Sphereon-OpenSource/ssi-sdk.git",
+  "author": "Sphereon <dev@sphereon.com>",
+  "license": "Apache-2.0",
+  "keywords": []
+}

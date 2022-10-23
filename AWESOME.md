@@ -9,6 +9,9 @@ Please help us improve the contents or format of this list by creating a pull re
   * [VC Manager plugin](https://github.com/blockchain-lab-um/veramo-vc-manager)
   * [SSI using Metamask snap](https://blockchain-lab-um.github.io/ssi-snap-docs/)
   * [Plugin for did:cheqd](https://github.com/cheqd/did-provider-cheqd)
+  * [Spherity VC revocation plugin based on ethereum](https://github.com/spherity/ethr-revocation-registry-veramo-plugin)
+  * [RN app with credential signing](https://github.com/symfoni/identity-wallet)
+  * [ID Pocket digital identity wallet](https://rktechworks.com/idpocket)
   * add your own project here!
 
 ## Disclaimer
