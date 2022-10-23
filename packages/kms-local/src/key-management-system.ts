@@ -2,7 +2,7 @@ import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly } fro
 import { AbstractKeyManagementSystem, AbstractPrivateKeyStore, Eip712Payload } from '@veramo/key-manager'
 import { ManagedPrivateKey } from '@veramo/key-manager'
 
-import { EdDSASigner, ES256KSigner } from 'did-jwt'
+import { EdDSASigner, ES256KSigner, ES256Signer } from 'did-jwt'
 import {
   generateKeyPair as generateSigningKeyPair,
   convertPublicKeyToX25519,
@@ -23,6 +23,7 @@ import { randomBytes } from '@ethersproject/random'
 import { arrayify, hexlify } from '@ethersproject/bytes'
 import * as u8a from 'uint8arrays'
 import Debug from 'debug'
+import elliptic from 'elliptic'
 
 const debug = Debug('veramo:kms:local')
 
@@ -71,6 +72,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         })
         break
       }
+      case 'Secp256r1': // Generation uses exactly the same input mechanism for both Secp256k1 and Secp256r1
       case 'Secp256k1': {
         const privateBytes = randomBytes(32)
         key = await this.importKey({
@@ -131,7 +133,12 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
       } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)) {
         return await this.eth_signTypedData(managedKey.privateKeyHex, data)
       }
+    } else if (managedKey.type === 'Secp256r1' &&
+       (typeof algorithm === 'undefined' || ['ES256', 'ES256-R'].includes(algorithm))
+    ) {
+      return await this.signES256(managedKey.privateKeyHex, algorithm, data)
     }
+
     throw Error(`not_supported: Cannot sign ${algorithm} using key of type ${managedKey.type}`)
   }
 
@@ -260,6 +267,20 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   /**
+   * @returns a base64url encoded signature for the `ES256` or `ES256-R` alg
+   */
+  private async signES256(
+    privateKeyHex: string,
+    alg: string | undefined,
+    data: Uint8Array,
+  ): Promise<string> {
+    const signer = ES256Signer(arrayify(privateKeyHex, { allowMissingPrefix: true }), alg === 'ES256-R')
+    const signature = await signer(data)
+    // base64url encoded string
+    return signature as string
+  }
+
+  /**
    * Converts a {@link @veramo/key-manager#ManagedPrivateKey | ManagedPrivateKey} to {@link @veramo/core#ManagedKeyInfo}
    */
   private asManagedKeyInfo(args: RequireOnly<ManagedPrivateKey, 'privateKeyHex' | 'type'>): ManagedKeyInfo {
@@ -288,6 +309,21 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           publicKeyHex,
           meta: {
             algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage'],
+          },
+        }
+        break
+      }
+      case 'Secp256r1': {
+        const privateBytes = u8a.fromString(args.privateKeyHex.toLowerCase(), 'base16')
+        const secp256r1 = new elliptic.ec('p256')
+        const keyPair: elliptic.ec.KeyPair = secp256r1.keyFromPrivate(privateBytes)
+        const publicKeyHex = keyPair.getPublic(true, 'hex').substring(2) // We remove the 'compressed' type 03 prefix
+        key = {
+          type: args.type,
+          kid: args.alias || publicKeyHex,
+          publicKeyHex,
+          meta: {
+            algorithms: ['ES256', 'ES256-R'],
           },
         }
         break

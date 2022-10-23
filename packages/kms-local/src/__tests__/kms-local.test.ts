@@ -1,6 +1,7 @@
 import { KeyManagementSystem } from '../key-management-system'
-import { TKeyType } from '@veramo/core'
-import { MemoryPrivateKeyStore } from '@veramo/key-manager/src'
+import { TKeyType } from '../../../core/src'
+import { MemoryPrivateKeyStore } from '../../../key-manager/src'
+import * as u8a from 'uint8arrays'
 
 describe('@veramo/kms-local', () => {
   it('should compute a shared secret Ed+Ed', async () => {
@@ -97,5 +98,46 @@ describe('@veramo/kms-local', () => {
     }
 
     expect(kms.sharedSecret({ myKeyRef, theirKey })).rejects.toThrow('not_supported')
+  })
+})
+
+describe('@veramo/kms-local Secp256r1 support', () => {
+  it('should generate a managed key', async () => {
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
+    const key = await kms.createKey({type: 'Secp256r1'})
+    expect(key.type).toEqual('Secp256r1')
+    expect(key.publicKeyHex).toHaveLength(64)
+    expect(key.kid).toBeDefined()
+    expect(key.meta).toEqual({
+      "algorithms": [
+        "ES256",
+        "ES256-R"
+      ]
+    })
+  })
+
+  it('should import a private key', async () => {
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
+    const privateKeyHex = '96fe4d2b4a5d3abc4679fe39aa5d4b76990ff416e6ff403a58bd722cf8352f94'
+    const key = await kms.importKey({kid: 'test', privateKeyHex, type: 'Secp256r1'})
+    expect(key.type).toEqual('Secp256r1')
+    expect(key.publicKeyHex).toEqual('930fc234a12c939ccb1591a7c394088a30a32e81ac832ed8a0136e32bd73f792')
+    expect(key.kid).toEqual('test')
+    expect(key.meta).toEqual({
+      "algorithms": [
+        "ES256",
+        "ES256-R"
+      ]
+    })
+  })
+
+  it('should sign input data', async () => {
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
+    const privateKeyHex = '96fe4d2b4a5d3abc4679fe39aa5d4b76990ff416e6ff403a58bd722cf8352f94'
+    const data = u8a.fromString("test", 'utf-8');
+
+    const key = await kms.importKey({kid: 'test', privateKeyHex, type: 'Secp256r1'})
+    const signature = await kms.sign({keyRef: key, data, algorithm: 'ES256'})
+    expect(signature).toEqual('tTHhkwVSNk-C84zHS_ObzpyMNVoFopwUkR_pKxSC4kPyEIZrB5L36AFWHQQhp827D9aUSMKi38yiCrSfI4h7VA')
   })
 })
