@@ -15,16 +15,16 @@
     "blakejs": "^1.1.1",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
-    "did-jwt": "^6.6.0",
+    "did-jwt": "^6.9.0",
     "did-jwt-vc": "^3.1.0",
-    "did-resolver": "^4.0.0",
-    "uint8arrays": "^3.0.0",
-    "elliptic": "^6.5.4"
+    "did-resolver": "^4.0.1",
+    "elliptic": "^6.5.4",
+    "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/uuid": "8.3.4",
-    "@types/elliptic": "6.4.14"
+    "@types/elliptic": "6.4.14",
+    "@types/uuid": "8.3.4"
   },
   "files": [
     "build/**/*",

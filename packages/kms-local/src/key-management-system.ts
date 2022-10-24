@@ -138,7 +138,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     } else if (managedKey.type === 'Secp256r1' &&
        (typeof algorithm === 'undefined' || algorithm === 'ES256')
     ) {
-      return await this.signES256(managedKey.privateKeyHex, algorithm, data)
+      return await this.signES256(managedKey.privateKeyHex, data)
     }
 
     throw Error(`not_supported: Cannot sign ${algorithm} using key of type ${managedKey.type}`)
@@ -280,10 +280,9 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    */
   private async signES256(
     privateKeyHex: string,
-    alg: string | undefined,
     data: Uint8Array,
   ): Promise<string> {
-    const signer = ES256Signer(arrayify(privateKeyHex, { allowMissingPrefix: true }), false)
+    const signer = ES256Signer(arrayify(privateKeyHex, { allowMissingPrefix: true }))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string

@@ -8142,6 +8142,24 @@ did-jwt@^6.6.0:
     multiformats "^9.6.5"
     uint8arrays "^3.0.0"
 
+did-jwt@^6.9.0:
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.9.0.tgz#92e05b9f947378004946e21e13b983db4413dd79"
+  integrity sha512-kZ8pakovM2VkG0pia6x0SA9/1rl9dOUti4i2FL3xg7arJDWW7dACJxX+6gQK7iR/DvXrfFo8F784ejHVbw9ryA==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.2"
+    "@stablelib/random" "^1.0.1"
+    "@stablelib/sha256" "^1.0.1"
+    "@stablelib/x25519" "^1.0.2"
+    "@stablelib/xchacha20poly1305" "^1.0.1"
+    bech32 "^2.0.0"
+    canonicalize "^1.0.8"
+    did-resolver "^4.0.0"
+    elliptic "^6.5.4"
+    js-sha3 "^0.8.0"
+    multiformats "^9.6.5"
+    uint8arrays "^3.0.0"
+
 did-resolver@4.0.1, did-resolver@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-4.0.1.tgz#11bb3f19ed1c8f53f4af4702912fa9f7852fc305"
@@ -8877,28 +8895,7 @@ ethr-did-registry@0.0.3:
   resolved "https://registry.yarnpkg.com/ethr-did-registry/-/ethr-did-registry-0.0.3.tgz#f363d2c73cb9572b57bd7a5c9c90c88485feceb5"
   integrity sha512-4BPvMGkxAK9vTduCq6D5b8ZqjteD2cvDIPPriXP6nnmPhWKFSxypo+AFvyQ0omJGa0cGTR+dkdI/8jiF7U/qaw==
 
-ethr-did-registry@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ethr-did-registry/-/ethr-did-registry-1.0.0.tgz#9fc076c5dd06288d79d4682ad7dd9b05832e8661"
-  integrity sha512-9Gl3WcogECcdIjCjFbTKtmkz18VlQf50qE9iELnLIYVsEZo+hB38ApwOd83sYMGAjSs2c1dlzUI96H9kyvfl7w==
-
-ethr-did-resolver@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-6.1.0.tgz#9f72d1e186932941ca0b165a598f6929c34c81dd"
-  integrity sha512-nsTt4QHHNGxviAIn2z6de8wyEYdc48Hcx3VtSB4Vt3a1hXPin7GZaiSFRDsf/nT/U8RPKRwSgy8i21RV3mCsZw==
-  dependencies:
-    "@ethersproject/abi" "^5.6.3"
-    "@ethersproject/abstract-signer" "^5.6.2"
-    "@ethersproject/address" "^5.6.1"
-    "@ethersproject/basex" "^5.6.1"
-    "@ethersproject/bignumber" "^5.6.2"
-    "@ethersproject/contracts" "^5.6.2"
-    "@ethersproject/providers" "^5.6.8"
-    "@ethersproject/transactions" "^5.6.2"
-    did-resolver "^4.0.0"
-    ethr-did-registry "^1.0.0"
-
-ethr-did-resolver@^7.0.0:
+ethr-did-resolver@7.0.1, ethr-did-resolver@^7.0.0, ethr-did-resolver@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-7.0.1.tgz#3df8fb9b81886776afda5b54eeb7c62038edd393"
   integrity sha512-7/ifFxchMIyLRb+wOqS56Mo/UxHfHCd43T2ZTUAJNYZKMnUD25U2Sdpva/HsslfwFvmkDEK4+6GJjFRNvk2mzQ==
@@ -18135,18 +18132,10 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-did-resolver@2.0.21:
+web-did-resolver@2.0.21, web-did-resolver@^2.0.21:
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.21.tgz#065797dee3e37cd9f19261d04a90144fe576e5df"
   integrity sha512-vKYz0s9spYfYrKhrF88F44lkofS1yj6TCF40+i077a7boru2BNROl5VZEIVL9jJRUDsNzvmVSKkq3kS8kZnB2Q==
-  dependencies:
-    cross-fetch "^3.1.5"
-    did-resolver "^4.0.0"
-
-web-did-resolver@^2.0.20:
-  version "2.0.20"
-  resolved "https://registry.yarnpkg.com/web-did-resolver/-/web-did-resolver-2.0.20.tgz#22e053b0f8bc1f4ab03da05989ce934852b7623f"
-  integrity sha512-qGcrm01B+ytCZUYhxH0mGOk0Ldf67kXUXLsNth6F3sx3fhUKNSIE8D+MnMFRugQm7j87mDHqUTDLmW9c90g3nw==
   dependencies:
     cross-fetch "^3.1.5"
     did-resolver "^4.0.0"
