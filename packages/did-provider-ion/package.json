@@ -2,8 +2,8 @@
   "name": "@veramo/did-provider-ion",
   "description": "Veramo ion-did based identity controller plugin.",
   "version": "4.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
     "extract-api": "yarn veramo dev extract-api"
@@ -30,7 +30,7 @@
     "@sphereon/react-native-argon2": "^2.0.7"
   },
   "files": [
-    "dist/**/*",
+    "build/**/*",
     "src/**/*",
     "README.md",
     "LICENSE"

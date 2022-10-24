@@ -15,7 +15,7 @@
     "@veramo/did-manager": "^4.0.0",
     "@veramo/key-manager": "^4.0.0",
     "@veramo/utils": "^4.0.0",
-    "did-resolver": "^4.0.0"
+    "did-resolver": "^4.0.1"
   },
   "devDependencies": {
     "typescript": "4.7.3"

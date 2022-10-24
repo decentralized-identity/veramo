@@ -24,7 +24,7 @@
     "@veramo/did-resolver": "^4.0.0",
     "@veramo/utils": "^4.0.0",
     "debug": "^4.3.3",
-    "did-resolver": "^4.0.0",
+    "did-resolver": "^4.0.1",
     "uint8arrays": "^3.0.0"
   },
   "resolutions": {
