@@ -110,8 +110,7 @@ describe('@veramo/kms-local Secp256r1 support', () => {
     expect(key.kid).toBeDefined()
     expect(key.meta).toEqual({
       "algorithms": [
-        "ES256",
-        "ES256-R"
+        "ES256"
       ]
     })
   })
@@ -125,8 +124,7 @@ describe('@veramo/kms-local Secp256r1 support', () => {
     expect(key.kid).toEqual('test')
     expect(key.meta).toEqual({
       "algorithms": [
-        "ES256",
-        "ES256-R"
+        "ES256"
       ]
     })
   })

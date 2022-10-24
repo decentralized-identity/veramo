@@ -136,7 +136,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         return this.eth_rawSign(managedKey.privateKeyHex, data);
       }
     } else if (managedKey.type === 'Secp256r1' &&
-       (typeof algorithm === 'undefined' || ['ES256', 'ES256-R'].includes(algorithm))
+       (typeof algorithm === 'undefined' || algorithm === 'ES256')
     ) {
       return await this.signES256(managedKey.privateKeyHex, algorithm, data)
     }
@@ -283,7 +283,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     alg: string | undefined,
     data: Uint8Array,
   ): Promise<string> {
-    const signer = ES256Signer(arrayify(privateKeyHex, { allowMissingPrefix: true }), alg === 'ES256-R')
+    const signer = ES256Signer(arrayify(privateKeyHex, { allowMissingPrefix: true }), false)
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -332,7 +332,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           kid: args.alias || publicKeyHex,
           publicKeyHex,
           meta: {
-            algorithms: ['ES256', 'ES256-R'],
+            algorithms: ['ES256'],
           },
         }
         break
