@@ -276,7 +276,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   /**
-   * @returns a base64url encoded signature for the `ES256` or `ES256-R` alg
+   * @returns a base64url encoded signature for the `ES256` alg
    */
   private async signES256(
     privateKeyHex: string,
