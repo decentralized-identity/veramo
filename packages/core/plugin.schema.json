@@ -153,8 +153,7 @@
           },
           "required": [
             "id"
-          ],
-          "description": "Represents a DID document."
+          ]
         },
         "VerificationMethod": {
           "type": "object",
@@ -194,8 +193,7 @@
             "id",
             "type",
             "controller"
-          ],
-          "description": "Represents the properties of a Verification Method listed in a DID document.\n\nThis data type includes public key representations that are no longer present in the spec but are still used by several DID methods / resolvers and kept for backward compatibility."
+          ]
         },
         "JsonWebKey": {
           "type": "object",
@@ -269,8 +267,7 @@
             "id",
             "type",
             "serviceEndpoint"
-          ],
-          "description": "Represents a Service entry in a  {@link  https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
+          ]
         },
         "ServiceEndpoint": {
           "anyOf": [
@@ -280,8 +277,7 @@
             {
               "type": "object"
             }
-          ],
-          "description": "Represents an endpoint of a Service entry in a DID document."
+          ]
         },
         "DIDDocumentSection": {
           "type": "string",
@@ -331,8 +327,7 @@
             "accept": {
               "type": "string"
             }
-          },
-          "description": "Describes the options forwarded to the resolver when executing a  {@link  Resolvable.resolve }  operation."
+          }
         },
         "DIDResolutionResult": {
           "type": "object",
@@ -375,8 +370,7 @@
             "didResolutionMetadata",
             "didDocument",
             "didDocumentMetadata"
-          ],
-          "description": "Defines the result of a DID resolution operation."
+          ]
         },
         "DIDResolutionMetadata": {
           "type": "object",
@@ -387,8 +381,7 @@
             "error": {
               "type": "string"
             }
-          },
-          "description": "Encapsulates the resolution metadata resulting from a  {@link  Resolvable.resolve }  operation."
+          }
         },
         "DIDDocumentMetadata": {
           "type": "object",
@@ -417,8 +410,7 @@
             "canonicalId": {
               "type": "string"
             }
-          },
-          "description": "Represents metadata about the DID document resulting from a  {@link  Resolvable.resolve }  operation."
+          }
         }
       },
       "methods": {
@@ -3235,7 +3227,7 @@
             "save": {
               "type": "boolean",
               "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
-              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\r\nhandling the message and determining that it must be saved."
+              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
             }
           },
           "required": [
@@ -3571,7 +3563,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved.",
-              "deprecated": "Please call\r\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\r\nthe credential after creating it."
+              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\nthe credential after creating it."
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
@@ -3774,7 +3766,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved. <p/><p/>",
-              "deprecated": "Please call\r\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\r\nsave the credential after creating it."
+              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\nsave the credential after creating it."
             },
             "challenge": {
               "type": "string",
@@ -4579,8 +4571,7 @@
           },
           "required": [
             "id"
-          ],
-          "description": "Represents a DID document."
+          ]
         },
         "VerificationMethod": {
           "type": "object",
@@ -4620,8 +4611,7 @@
             "id",
             "type",
             "controller"
-          ],
-          "description": "Represents the properties of a Verification Method listed in a DID document.\n\nThis data type includes public key representations that are no longer present in the spec but are still used by several DID methods / resolvers and kept for backward compatibility."
+          ]
         },
         "JsonWebKey": {
           "type": "object",
@@ -4695,8 +4685,7 @@
             "id",
             "type",
             "serviceEndpoint"
-          ],
-          "description": "Represents a Service entry in a  {@link  https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
+          ]
         },
         "ServiceEndpoint": {
           "anyOf": [
@@ -4706,8 +4695,7 @@
             {
               "type": "object"
             }
-          ],
-          "description": "Represents an endpoint of a Service entry in a DID document."
+          ]
         },
         "CredentialStatus": {
           "type": "object",
