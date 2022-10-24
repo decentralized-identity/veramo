@@ -13,7 +13,8 @@ import didCommPacking from '../../../__tests__/shared/didCommPacking'
 import messageHandler from '../../../__tests__/shared/messageHandler'
 import utils from '../../../__tests__/shared/utils'
 
-jest.setTimeout(3 * 60 * 1000)
+const JEST_TIMEOUT = 3 * 60 * 1000
+jest.setTimeout(JEST_TIMEOUT)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {
@@ -66,7 +67,7 @@ describe('Browser integration tests', () => {
         },
       }
 
-      await page.waitForSelector('#result').then(async (element) => {
+      await page.waitForSelector('#result', { timeout: JEST_TIMEOUT }).then(async (element) => {
         let result = await element!.evaluate((el) => el.textContent)
         let parsedResult = JSON.parse(result!)
         await expect(parsedResult).toMatchObject(resultSnapshot)
@@ -83,7 +84,7 @@ describe('Browser integration tests', () => {
         didDocument: null,
       }
 
-      await page.waitForSelector('#invalid-result').then(async (element) => {
+      await page.waitForSelector('#invalid-result', { timeout: JEST_TIMEOUT }).then(async (element) => {
         let result = await element!.evaluate((el) => el.textContent)
         let parsedResult = JSON.parse(result!)
         await expect(parsedResult).toMatchObject(resultSnapshot)
