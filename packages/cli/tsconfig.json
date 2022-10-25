@@ -23,6 +23,7 @@
     { "path": "../remote-server" },
     { "path": "../remote-client" },
     { "path": "../selective-disclosure" },
-    { "path": "../url-handler" }
+    { "path": "../url-handler" },
+    { "path": "../utils" }
   ]
 }
