@@ -66,12 +66,12 @@ describe('@sphereon/ion-did-provider', () => {
       did: identifier.did,
       key: newKey,
       kid: 'test-add-key-' + Date.now(),
-      options: { purposes: [IonPublicKeyPurpose.AssertionMethod, IonPublicKeyPurpose.Authentication], anchor: true },
+      options: { purposes: [IonPublicKeyPurpose.AssertionMethod, IonPublicKeyPurpose.Authentication], anchor: false },
     })
     try {
-      await expect(resultPromise).resolves.toMatchObject({})
+      expect(await resultPromise).toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(error.message).toMatch('An operation request already exists in queue for DID')
     }
   })
 
@@ -92,12 +92,12 @@ describe('@sphereon/ion-did-provider', () => {
     const resultPromise = agent.didManagerAddService({
       did: identifier.did,
       service,
-      options: { anchor: true },
+      options: { anchor: false },
     })
     try {
-      await expect(resultPromise).resolves.toMatchObject({})
+      expect(await resultPromise).toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(error.message).toMatch('An operation request already exists in queue for DID')
     }
   })
 
@@ -115,9 +115,9 @@ describe('@sphereon/ion-did-provider', () => {
       options: { anchor: false },
     })
     try {
-      await expect(resultPromise).resolves.toMatchObject({})
+      expect(await resultPromise).toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(error.message).toMatch('An operation request already exists in queue for DID')
     }
   })
 
@@ -141,9 +141,9 @@ describe('@sphereon/ion-did-provider', () => {
       options: { anchor: false },
     })
     try {
-      await expect(addPromise).resolves.toMatchObject({})
+      expect(await addPromise).toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(error.message).toMatch('An operation request already exists in queue for DID')
     }
 
     const removePromise = agent.didManagerRemoveService({
@@ -152,9 +152,9 @@ describe('@sphereon/ion-did-provider', () => {
       options: { anchor: false },
     })
     try {
-      await expect(removePromise).resolves.toMatchObject({})
+      expect(await removePromise).toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(error.message).toMatch('An operation request already exists in queue for DID')
     }
   })
 
@@ -166,9 +166,9 @@ describe('@sphereon/ion-did-provider', () => {
 
     const deletePromise = agent.didManagerDelete({ did: identifier.did, options: { anchor: false } })
     try {
-      await expect(deletePromise).resolves.toBeTruthy()
+      expect(await deletePromise).toBeTruthy()
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(error.message).toMatch('An operation request already exists in queue for DID')
     }
   })
 })

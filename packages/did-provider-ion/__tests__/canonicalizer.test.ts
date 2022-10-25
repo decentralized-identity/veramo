@@ -15,7 +15,7 @@ describe('canonicalizer result should be', () => {
       JsonCanonicalizer.asString({
         test1: 'test1',
         test2: 'test2',
-      })
+      }),
     ).toEqual('{"test1":"test1","test2":"test2"}')
   })
   it('a json string with properties reordered', () => {
@@ -23,7 +23,7 @@ describe('canonicalizer result should be', () => {
       JsonCanonicalizer.asString({
         test2: 'test2',
         test1: 'test1',
-      })
+      }),
     ).toEqual('{"test1":"test1","test2":"test2"}')
   })
   it('a json string with null values intact', () => {
@@ -31,7 +31,7 @@ describe('canonicalizer result should be', () => {
       JsonCanonicalizer.asString({
         test1: 'test1',
         test2: null,
-      })
+      }),
     ).toEqual('{"test1":"test1","test2":null}')
   })
   it('a json string with undefined property values removed', () => {
@@ -39,7 +39,7 @@ describe('canonicalizer result should be', () => {
       JsonCanonicalizer.asString({
         test1: 'test1',
         test2: undefined,
-      })
+      }),
     ).toEqual('{"test1":"test1"}')
   })
   it('a json string with undefined property values removed if nested', () => {
@@ -49,7 +49,7 @@ describe('canonicalizer result should be', () => {
           test2: 'test2',
           test3: undefined,
         },
-      })
+      }),
     ).toEqual('{"test1":{"test2":"test2"}}')
   })
 })

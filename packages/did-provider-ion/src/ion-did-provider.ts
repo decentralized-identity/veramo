@@ -53,7 +53,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     const challengeEnabled = options?.challengeEnabled === undefined ? true : options.challengeEnabled;
     const challengeEndpoint = options?.challengeEndpoint
     const solutionEndpoint = options?.solutionEndpoint
-    this.ionPoW = new IonPoW({challengeEnabled, challengeEndpoint, solutionEndpoint})
+    this.ionPoW = new IonPoW({ challengeEnabled, challengeEndpoint, solutionEndpoint })
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerCreate} */
@@ -179,7 +179,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       return request
     } catch (error) {
       // It would have been nicer if we hadn't stored the new update key yet
-      await context.agent.keyManagerDelete({ kid: rotation.nextVeramoKey.kid })
+      await this.deleteKeyOnError(rotation.nextVeramoKey.kid, context)
       throw error
     }
   }
@@ -208,7 +208,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       return request
     } catch (error) {
       // It would have been nicer if we hadn't stored the new update key yet
-      await context.agent.keyManagerDelete({ kid: rotation.nextVeramoKey.kid })
+      await this.deleteKeyOnError(rotation.nextVeramoKey.kid, context)
       throw error
     }
   }
@@ -230,7 +230,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       return request
     } catch (error) {
       // It would have been nicer if we hadn't stored the new update key yet
-      await context.agent.keyManagerDelete({ kid: rotation.nextVeramoKey.kid })
+      await this.deleteKeyOnError(rotation.nextVeramoKey.kid, context)
       throw error
     }
   }
@@ -252,7 +252,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       return request
     } catch (error) {
       // It would have been nicer if we hadn't stored the new update key yet
-      await context.agent.keyManagerDelete({ kid: rotation.nextVeramoKey.kid })
+      await this.deleteKeyOnError(rotation.nextVeramoKey.kid, context)
       throw error
     }
   }
@@ -306,7 +306,9 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     context: IAgentContext<IKeyManager>
   ): Promise<IKeyRotation> {
     const currentVeramoKey =
-      relation == KeyIdentifierRelation.UPDATE ? getVeramoUpdateKey(identifier.keys, commitment) : getVeramoRecoveryKey(identifier.keys, commitment)
+      relation == KeyIdentifierRelation.UPDATE
+        ? getVeramoUpdateKey(identifier.keys, commitment)
+        : getVeramoRecoveryKey(identifier.keys, commitment)
     const currentIonKey = toIonPublicKey(currentVeramoKey)
     const currentJwk = toIonPublicKeyJwk(currentVeramoKey.publicKeyHex)
     //todo alias?
@@ -386,7 +388,11 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     context: IAgentContext<IKeyManager>
   ): Promise<IKey> {
     const kid = options?.kid ? options.kid : options?.key?.kid
-    const type = options?.type ? options.type : options?.key?.type ? (options.key.type as KeyType) : KeyType.Secp256k1
+    const type = options?.type
+      ? options.type
+      : options?.key?.type
+      ? (options.key.type as KeyType)
+      : KeyType.Secp256k1
 
     const meta = options?.key?.meta ? options.key.meta : {}
     const ionMeta: IonKeyMetadata = {
@@ -440,6 +446,20 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       await this.ionPoW.submit(JSON.stringify(request))
     } else {
       debug(`Not anchoring as anchoring was not enabled`)
+    }
+  }
+
+  /**
+   * Deletes a key (typically a rotation key) on error. As this happens in an exception flow, any issues with deletion are only debug logged.
+   *
+   * @param kid
+   * @private
+   */
+  private async deleteKeyOnError(kid: string, context: IAgentContext<IKeyManager>) {
+    try {
+      await context.agent.keyManagerDelete({ kid })
+    } catch (ignore) {
+      debug(ignore.message)
     }
   }
 }
