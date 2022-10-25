@@ -12,8 +12,8 @@
     "@veramo/core": "^4.0.0",
     "@veramo/message-handler": "^4.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^6.6.0",
-    "did-resolver": "^4.0.0"
+    "did-jwt": "^6.9.0",
+    "did-resolver": "^4.0.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

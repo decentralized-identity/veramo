@@ -15,6 +15,7 @@ export const didDocEndpoint = '/.well-known/did.json'
 
 const keyMapping: Record<TKeyType, string> = {
   Secp256k1: 'EcdsaSecp256k1VerificationKey2019',
+  Secp256r1: 'EcdsaSecp256r1VerificationKey2019',
   Ed25519: 'Ed25519VerificationKey2018',
   X25519: 'X25519KeyAgreementKey2019',
   Bls12381G1: 'Bls12381G1Key2020',
