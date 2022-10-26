@@ -16,8 +16,12 @@ export const resolveDidIon: DIDResolver = async (didUrl: string, options?: DIDRe
 }
 
 const resolve = async (didUrl: string, options?: DIDResolutionOptions) => {
-  return fetch((options?.nodeEndpoint || 'https://beta.discover.did.microsoft.com/1.0/identifiers/') + didUrl).then((response) => {
-    if (response.status >= 400) throw new Error('Not Found')
+  return fetch(
+    (options?.nodeEndpoint || 'https://beta.discover.did.microsoft.com/1.0/identifiers/') + didUrl,
+  ).then(async (response) => {
+    if (response.status >= 400) {
+      throw new Error(`Not Found:\r\n${didUrl}\r\n${JSON.stringify(await response.json())}`)
+    }
     return response.json()
   })
 }

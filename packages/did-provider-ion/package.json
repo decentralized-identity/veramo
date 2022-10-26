@@ -38,8 +38,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:Sphereon-OpenSource/ssi-sdk.git",
+  "repository": "git@github.com:uport-project/veramo.git",
   "author": "Sphereon <dev@sphereon.com>",
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": ["Veramo", "ION", "DID"]
 }
