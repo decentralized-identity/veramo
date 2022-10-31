@@ -12,7 +12,7 @@
     "@decentralized-identity/ion-sdk": "^0.5.0",
     "@sphereon/ion-pow": "^0.2.0",
     "@transmute/did-key-secp256k1": "0.2.1-unstable.42",
-    "@ethersproject/random": "^5.6.1",
+    "@ethersproject/random": "^5.7.0",
     "@stablelib/ed25519": "^1.0.2",
     "uint8arrays": "^3.0.0",
     "base64url": "^3.0.1",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.4.3"
+    "typescript": "4.8.4"
   },
   "peerDependencies": {
     "@sphereon/react-native-argon2": "^2.0.7"
