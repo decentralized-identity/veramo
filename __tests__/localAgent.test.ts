@@ -84,6 +84,7 @@ import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
+import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
 
 jest.setTimeout(60000)
 
@@ -156,7 +157,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDManager({
         store: new DIDStore(dbConnection),
-        defaultProvider: 'did:ethr:rinkeby',
+        defaultProvider: 'did:ethr:goerli',
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
@@ -167,14 +168,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
               },
               {
-                name: 'rinkeby',
-                rpcUrl: 'https://rinkeby.infura.io/v3/' + infuraProjectId,
+                name: 'goerli',
+                rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
               },
               {
-                chainId: 421611,
-                name: 'arbitrum:rinkeby',
-                rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + infuraProjectId,
-                registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+                chainId: 421613,
+                name: 'arbitrum:goerli',
+                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
+                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
               },
               {
                 chainId: 1337,
@@ -278,4 +279,5 @@ describe('Local integration tests', () => {
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
   credentialStatus(testContext)
+  ethrDidFlowSigned(testContext)
 })

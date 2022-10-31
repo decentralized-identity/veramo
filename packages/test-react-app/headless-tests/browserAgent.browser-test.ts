@@ -13,7 +13,8 @@ import didCommPacking from '../../../__tests__/shared/didCommPacking'
 import messageHandler from '../../../__tests__/shared/messageHandler'
 import utils from '../../../__tests__/shared/utils'
 
-jest.setTimeout(3 * 60 * 1000)
+const JEST_TIMEOUT = 3 * 60 * 1000
+jest.setTimeout(JEST_TIMEOUT)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {
@@ -52,21 +53,21 @@ describe('Browser integration tests', () => {
             'https://www.w3.org/ns/did/v1',
             'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
           ],
-          id: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+          id: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
           verificationMethod: [
             {
-              id: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
+              id: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
               type: 'EcdsaSecp256k1RecoveryMethod2020',
-              controller: 'did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
-              blockchainAccountId: 'eip155:4:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
+              controller: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+              blockchainAccountId: 'eip155:5:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
             },
           ],
-          authentication: ['did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
-          assertionMethod: ['did:ethr:rinkeby:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          authentication: ['did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          assertionMethod: ['did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
         },
       }
 
-      await page.waitForSelector('#result').then(async (element) => {
+      await page.waitForSelector('#result', { timeout: JEST_TIMEOUT }).then(async (element) => {
         let result = await element!.evaluate((el) => el.textContent)
         let parsedResult = JSON.parse(result!)
         await expect(parsedResult).toMatchObject(resultSnapshot)
@@ -78,12 +79,12 @@ describe('Browser integration tests', () => {
         didDocumentMetadata: {},
         didResolutionMetadata: {
           error: 'invalidDid',
-          message: 'Not a valid did:ethr: rinkeby:0x6acf3bb1ef0ee8459de2bc2bd9d91532062a730',
+          message: 'Not a valid did:ethr: goerli:0x6acf3bb1ef0ee8459de2bc2bd9d91532062a730',
         },
         didDocument: null,
       }
 
-      await page.waitForSelector('#invalid-result').then(async (element) => {
+      await page.waitForSelector('#invalid-result', { timeout: JEST_TIMEOUT }).then(async (element) => {
         let result = await element!.evaluate((el) => el.textContent)
         let parsedResult = JSON.parse(result!)
         await expect(parsedResult).toMatchObject(resultSnapshot)

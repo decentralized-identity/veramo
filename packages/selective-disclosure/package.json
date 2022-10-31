@@ -15,16 +15,16 @@
   },
   "dependencies": {
     "@veramo/core": "^4.0.0",
-    "@veramo/credential-w3c": "^4.0.2",
+    "@veramo/credential-w3c": "^4.0.0",
     "@veramo/did-jwt": "^4.0.0",
     "@veramo/message-handler": "^4.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^6.6.0",
+    "did-jwt": "^6.9.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.7.3"
+    "typescript": "4.8.4"
   },
   "files": [
     "build/**/*",

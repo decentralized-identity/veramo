@@ -78,7 +78,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
       }),
       new DIDManager({
         store: new DIDStoreJson(memoryJsonStore),
-        defaultProvider: 'did:ethr:rinkeby',
+        defaultProvider: 'did:ethr:goerli',
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
@@ -89,14 +89,14 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
                 rpcUrl: 'https://mainnet.infura.io/v3/' + INFURA_PROJECT_ID,
               },
               {
-                name: 'rinkeby',
-                rpcUrl: 'https://rinkeby.infura.io/v3/' + INFURA_PROJECT_ID,
+                name: 'goerli',
+                rpcUrl: 'https://goerli.infura.io/v3/' + INFURA_PROJECT_ID,
               },
               {
-                chainId: 421611,
-                name: 'arbitrum:rinkeby',
-                rpcUrl: 'https://arbitrum-rinkeby.infura.io/v3/' + INFURA_PROJECT_ID,
-                registry: '0x8f54f62CA28D481c3C30b1914b52ef935C1dF820',
+                chainId: 421613,
+                name: 'arbitrum:goerli',
+                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + INFURA_PROJECT_ID,
+                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
               },
             ],
           }),

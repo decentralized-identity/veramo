@@ -14,7 +14,7 @@ describe('dummy', () => {
 
 // describe('@veramo/did-provider-ethr', () => {
 // const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
-// const rpcUrl = 'https://rinkeby.infura.io/v3/' + infuraProjectId
+// const rpcUrl = 'https://goerli.infura.io/v3/' + infuraProjectId
 // const resolver = new DIDResolverPlugin({ infuraProjectId })
 // const key = {
 //   privateKey: 'da1ed1d75b6e3d28d306af4dcab9b893189cf248e52fe526e264b39b5e587ccf',
@@ -24,13 +24,13 @@ describe('dummy', () => {
 // }
 
 // const serialized = {
-//   did: 'did:ethr:rinkeby:0x76d331386cec35862a73aabdbfa5ef97cdac58cf',
+//   did: 'did:ethr:goerli:0x76d331386cec35862a73aabdbfa5ef97cdac58cf',
 //   controller: key,
 //   keys: [key],
 // }
 
 // const fileName = './store.json'
-// const network = 'rinkeby'
+// const network = 'goerli'
 // const identifierProvider = new IdentifierProvider({
 //   fileName,
 //   network,
