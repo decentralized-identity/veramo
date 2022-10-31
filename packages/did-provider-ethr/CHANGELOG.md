@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/uport-project/veramo/compare/v4.0.2...v4.1.0) (2022-10-31)
+
+
+### Bug Fixes
+
+* remove deprecated testnets ([#1028](https://github.com/uport-project/veramo/issues/1028)) ([2823738](https://github.com/uport-project/veramo/commit/28237383d0cc2eb20bcf8e10562221ea2ab32f94)), closes [#1025](https://github.com/uport-project/veramo/issues/1025)
+
+
+### Features
+
+* add support for did:ethr signed/meta transactions ([#1031](https://github.com/uport-project/veramo/issues/1031)) ([88f1da9](https://github.com/uport-project/veramo/commit/88f1da9a39f6d249fbed301e2d77ea3cee167e33))
+* **did-provider-ethr:** implement TypedDataSigner in KmsEthereumSigner ([#1026](https://github.com/uport-project/veramo/issues/1026)) ([4371cb9](https://github.com/uport-project/veramo/commit/4371cb920ddbafa8dafb73b6bcce1e0408ff3d03))
+
+
+
+
+
 # [4.0.0](https://github.com/uport-project/veramo/compare/v3.1.5...v4.0.0) (2022-09-22)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "@veramo/credential-status",
   "description": "Veramo plugin for resolving a credential status",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.0.0",
-    "@veramo/utils": "^4.0.2",
+    "@veramo/core": "^4.1.0",
+    "@veramo/utils": "^4.1.0",
     "credential-status": "^2.0.5",
     "did-jwt": "^6.9.0",
     "did-resolver": "^4.0.1"
