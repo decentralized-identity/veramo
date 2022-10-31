@@ -6,7 +6,7 @@
   "dependencies": {
     "@veramo/core": "^4.0.0",
     "@veramo/credential-ld": "^4.0.0",
-    "@veramo/credential-w3c": "^4.0.1",
+    "@veramo/credential-w3c": "^4.0.0",
     "@veramo/data-store": "^4.0.0",
     "@veramo/did-comm": "^4.0.0",
     "@veramo/did-jwt": "^4.0.0",
@@ -18,7 +18,7 @@
     "@veramo/key-manager": "^4.0.0",
     "@veramo/kms-local": "^4.0.0",
     "@veramo/message-handler": "^4.0.0",
-    "@veramo/selective-disclosure": "^4.0.1",
+    "@veramo/selective-disclosure": "^4.0.0",
     "@veramo/test-utils": "^4.0.0",
     "@veramo/url-handler": "^4.0.0",
     "@veramo/utils": "^4.0.0",
@@ -75,6 +75,6 @@
     "puppeteer": "14.3.0",
     "react-scripts": "5.0.1",
     "ts-jest": "28.0.4",
-    "typescript": "4.7.3"
+    "typescript": "4.8.4"
   }
 }
