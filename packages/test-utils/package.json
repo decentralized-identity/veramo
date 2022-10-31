@@ -2,7 +2,7 @@
   "name": "@veramo/test-utils",
   "private": true,
   "description": "Helper methods for Veramo integration tests. This package is not meant to be used in production.",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

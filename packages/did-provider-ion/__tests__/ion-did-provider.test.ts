@@ -53,6 +53,8 @@ describe('@sphereon/ion-did-provider', () => {
     })
   })
 
+  // This is failing in CI with `"error":{"code":"discovery_service.not_found","message":"discovery_service.not_found"}`
+  // Is the microsoft node unstable, or another problem here?
   it('should add key', async () => {
     // This DID is known in ION, hence no anchoring
     const identifier: IIdentifier = await agent.didManagerCreate(existingDidConfig(false, 'did1-test2', PRIVATE_DID1_KEY_HEX))
