@@ -1,7 +1,7 @@
 {
   "name": "@veramo/data-store-json",
   "description": "Veramo data storage based on a JSON tree",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@ungap/structured-clone": "^1.0.0",
-    "@veramo/core": "^4.0.0",
-    "@veramo/data-store": "^4.0.2",
-    "@veramo/did-discovery": "^4.0.0",
-    "@veramo/did-manager": "^4.0.0",
-    "@veramo/key-manager": "^4.0.2",
-    "@veramo/utils": "^4.0.2",
+    "@veramo/core": "^4.1.0",
+    "@veramo/data-store": "^4.1.0",
+    "@veramo/did-discovery": "^4.1.0",
+    "@veramo/did-manager": "^4.1.0",
+    "@veramo/key-manager": "^4.1.0",
+    "@veramo/utils": "^4.1.0",
     "debug": "^4.3.3"
   },
   "devDependencies": {

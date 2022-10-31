@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-ion",
   "description": "Veramo ion-did based identity controller plugin.",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -10,17 +10,17 @@
   },
   "dependencies": {
     "@decentralized-identity/ion-sdk": "^0.5.0",
-    "@sphereon/ion-pow": "^0.2.0",
-    "@transmute/did-key-secp256k1": "0.2.1-unstable.42",
     "@ethersproject/random": "^5.7.0",
+    "@sphereon/ion-pow": "^0.2.0",
     "@stablelib/ed25519": "^1.0.2",
-    "uint8arrays": "^3.0.0",
+    "@transmute/did-key-secp256k1": "0.2.1-unstable.42",
+    "@veramo/core": "^4.1.0",
+    "@veramo/did-manager": "^4.1.0",
+    "@veramo/key-manager": "^4.1.0",
+    "@veramo/kms-local": "^4.1.0",
     "base64url": "^3.0.1",
-    "@veramo/core": "^4.0.0",
-    "@veramo/did-manager": "^4.0.0",
-    "@veramo/key-manager": "^4.0.0",
-    "@veramo/kms-local": "^4.0.0",
-    "debug": "^4.3.3"
+    "debug": "^4.3.3",
+    "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
@@ -41,5 +41,9 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Sphereon <dev@sphereon.com>",
   "license": "Apache-2.0",
-  "keywords": ["Veramo", "ION", "DID"]
+  "keywords": [
+    "Veramo",
+    "ION",
+    "DID"
+  ]
 }

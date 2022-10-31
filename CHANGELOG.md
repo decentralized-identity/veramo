@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/uport-project/veramo/compare/v4.0.2...v4.1.0) (2022-10-31)
+
+
+### Bug Fixes
+
+* **deps:** add @veramo/credential-ld to the CLI dependencies ([#1043](https://github.com/uport-project/veramo/issues/1043)) ([0698185](https://github.com/uport-project/veramo/commit/0698185319382a173a3d10c197f785bdadb070c2)), closes [#1042](https://github.com/uport-project/veramo/issues/1042)
+* **deps:** Update dependency ethr-did-resolver to v7 ([#1038](https://github.com/uport-project/veramo/issues/1038)) ([d421c0f](https://github.com/uport-project/veramo/commit/d421c0f9f5934829df2930e58e98bcfce813ce84))
+* **deps:** Update did-vc-libraries ([6fa13ab](https://github.com/uport-project/veramo/commit/6fa13ab7fbab979db2d41e84e445a52cf9319003))
+* **did-provider-ion:** delete new keys if addKey fails([#1045](https://github.com/uport-project/veramo/issues/1045)) ([db02742](https://github.com/uport-project/veramo/commit/db027423d709930dccfb7246738670726a33ab9f))
+* remove deprecated testnets ([#1028](https://github.com/uport-project/veramo/issues/1028)) ([2823738](https://github.com/uport-project/veramo/commit/28237383d0cc2eb20bcf8e10562221ea2ab32f94)), closes [#1025](https://github.com/uport-project/veramo/issues/1025)
+
+
+### Features
+
+* add ION DID Provider implementation ([#987](https://github.com/uport-project/veramo/issues/987)) ([594571c](https://github.com/uport-project/veramo/commit/594571cf378ac59a91e2f93484c37285ec593999)), closes [#336](https://github.com/uport-project/veramo/issues/336) [#440](https://github.com/uport-project/veramo/issues/440)
+* add support for did:ethr signed/meta transactions ([#1031](https://github.com/uport-project/veramo/issues/1031)) ([88f1da9](https://github.com/uport-project/veramo/commit/88f1da9a39f6d249fbed301e2d77ea3cee167e33))
+* add support for NIST Secp256r1 keys and ES256 signatures ([#1039](https://github.com/uport-project/veramo/issues/1039)) ([61eb369](https://github.com/uport-project/veramo/commit/61eb369cfcde7372babf3f68fb65ea2055b5bf70))
+* **did-provider-ethr:** implement TypedDataSigner in KmsEthereumSigner ([#1026](https://github.com/uport-project/veramo/issues/1026)) ([4371cb9](https://github.com/uport-project/veramo/commit/4371cb920ddbafa8dafb73b6bcce1e0408ff3d03))
+
+
+
+
+
 ## [4.0.2](https://github.com/uport-project/veramo/compare/v4.0.1...v4.0.2) (2022-10-04)
 
 
