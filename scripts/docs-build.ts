@@ -85,8 +85,11 @@ async function main() {
       input.close()
 
       const header = ['---', `id: ${id}`, `title: ${title}`, `hide_title: true`, '---']
+      let outputString = header.concat(output).join('\n')
 
-      await writeFile(docPath, header.concat(output).join('\n'))
+      outputString = outputString.replace(/<a\nhref=/g, '<a href=')
+
+      await writeFile(docPath, outputString)
     } catch (err) {
       console.error(`Could not process ${docFile}: ${err}`)
     }
