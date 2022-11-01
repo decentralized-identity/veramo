@@ -289,8 +289,8 @@ export interface IDIDManager extends IPluginMethodMap {
    * Creates and returns a new identifier
    *
    * @param args - Required. Arguments to create the identifier
-   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's <a
-   *   href="/docs/agent/plugins#executing-plugin-methods">Execution context</a> requires an `agent` that has
+   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's
+   *    <a href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
    *   {@link @veramo/core#IKeyManager} methods.
    *
    * @example
@@ -324,9 +324,10 @@ export interface IDIDManager extends IPluginMethodMap {
 
   /**
    * Returns an existing identifier or creates a new one for a specific alias
-   * @param args - The alias used for the search and the provider/kms/options used to create the DID when none is found.
-   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's <a
-   *   href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
+   * @param args - The alias used for the search and the provider/kms/options used to create the DID when none is
+   *   found.
+   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's
+   *    <a href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
    *   {@link @veramo/core#IKeyManager} methods.
    */
   didManagerGetOrCreate(
@@ -337,8 +338,8 @@ export interface IDIDManager extends IPluginMethodMap {
   /**
    * Updates the DID document of a managed {@link @veramo/core#IIdentifier | DID}.
    * @param args - the arguments necessary for the update. The options are specific for each DID provider.
-   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's <a
-   *   href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
+   * @param context - *RESERVED* This is filled by the framework when the method is called. This method's
+   *   <a href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
    *   {@link @veramo/core#IKeyManager} methods.
    */
   didManagerUpdate(args: IDIDManagerUpdateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
