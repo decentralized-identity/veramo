@@ -1,7 +1,7 @@
 {
   "name": "@veramo/key-manager",
   "description": "Key Manager plugin for Veramo",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -13,7 +13,7 @@
     "@ethersproject/strings": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
     "@stablelib/ed25519": "^1.0.2",
-    "@veramo/core": "^4.1.0",
+    "@veramo/core": "^4.1.1",
     "did-jwt": "^6.9.0",
     "uint8arrays": "^3.0.0",
     "uuid": "^9.0.0"
