@@ -9,7 +9,7 @@ export default (testContext: {
   setup: () => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
-  describe('web did flow', () => {
+  describe('ens did flow', () => {
     let agent: ConfiguredAgent
     let serviceIdentifier: IIdentifier
     let serviceIdentifierKey: IKey
@@ -24,31 +24,30 @@ export default (testContext: {
 
     it('should create service identifier', async () => {
       serviceIdentifier = await agent.didManagerGetOrCreate({
-        provider: 'did:web',
-        alias: 'webdidflow.example.com',
+        provider: 'did:ens',
+        alias: 'example.eth',
       })
 
-      expect(serviceIdentifier.provider).toEqual('did:web')
-      expect(serviceIdentifier.alias).toEqual('webdidflow.example.com')
-      expect(serviceIdentifier.did).toEqual('did:web:webdidflow.example.com')
+      expect(serviceIdentifier.provider).toEqual('did:ens')
+      expect(serviceIdentifier.alias).toEqual('example.eth')
+      expect(serviceIdentifier.did).toEqual('did:ens:example.eth')
       serviceIdentifierKey = serviceIdentifier.keys[0]
     })
 
-    it('should add service endpoint', async () => {
+    it('should fail to add service endpoint', async () => {
       const service = {
-        id: 'did:web:webdidflow.example.com#1',
+        id: 'did:ens:example.eth#1',
         type: 'Messaging',
         description: 'Post any RAW message here',
         serviceEndpoint: 'https://example.com/messaging',
       }
 
-      await agent.didManagerAddService({
-        did: 'did:web:webdidflow.example.com',
+      const res = await agent.didManagerAddService({
+        did: 'did:ens:example.eth',
         service,
       })
 
-      const testIdentifier = await agent.didManagerGet({ did: 'did:web:webdidflow.example.com' })
-      expect(testIdentifier.services[0]).toEqual(service)
+      expect(res).toEqual({ result: false })
     })
 
     it('should get existing service identifier', async () => {
@@ -74,24 +73,13 @@ export default (testContext: {
       expect(alice.did).toBeDefined()
     })
 
-    it('should create identifier with alias: bob', async () => {
-      bob = await agent.didManagerGetOrCreate({
-        alias: 'bob',
-        provider: 'did:ethr:goerli',
-      })
-
-      expect(bob.provider).toEqual('did:ethr:goerli')
-      expect(bob.alias).toEqual('bob')
-      expect(bob.did).toBeDefined()
-    })
-
     it('should query identifiers', async () => {
       const identifiers = await agent.didManagerFind()
-      expect(identifiers.length).toBeGreaterThanOrEqual(3)
+      expect(identifiers.length).toBeGreaterThanOrEqual(2)
     })
 
     describe('should create verifiable credential', () => {
-      it('issuer: serviceIdentifier (did:web)', async () => {
+      it('issuer: serviceIdentifier (did:ens)', async () => {
         const verifiableCredential = await agent.createVerifiableCredential({
           save: true,
           credential: {
@@ -110,47 +98,6 @@ export default (testContext: {
         expect(verifiableCredential.issuer).toEqual({ id: serviceIdentifier.did })
         expect(verifiableCredential.credentialSubject).toEqual({ id: alice.did, name: 'Alice' })
         expect(verifiableCredential).toHaveProperty('proof.jwt')
-      })
-
-      it('issuer - Alice, subject - Bob', async () => {
-        const a = await agent.didManagerGetOrCreate({
-          alias: 'alice',
-        })
-
-        const b = await agent.didManagerGetOrCreate({
-          alias: 'bob',
-        })
-
-        const verifiableCredential = await agent.createVerifiableCredential({
-          save: true,
-          credential: {
-            issuer: { id: a.did },
-            '@context': ['https://www.w3.org/2018/credentials/v1'],
-            type: ['VerifiableCredential'],
-            issuanceDate: new Date().toISOString(),
-            credentialSubject: {
-              id: b.did,
-              name: 'Bob',
-            },
-          },
-          proofFormat: 'jwt',
-        })
-
-        expect(verifiableCredential.issuer).toEqual({ id: alice.did })
-        expect(verifiableCredential.credentialSubject).toEqual({ id: bob.did, name: 'Bob' })
-        expect(verifiableCredential).toHaveProperty('proof.jwt')
-      })
-
-      it('should be able to query credentials', async () => {
-        const credentials = await agent.dataStoreORMGetVerifiableCredentials({
-          where: [
-            { column: 'subject', value: [alice.did], op: 'Equal' },
-            { column: 'type', value: ['VerifiableCredential,Profile'], op: 'Equal' },
-          ],
-          order: [{ column: 'issuanceDate', direction: 'DESC' }],
-        })
-
-        expect(credentials.length).toEqual(1)
       })
     })
   })

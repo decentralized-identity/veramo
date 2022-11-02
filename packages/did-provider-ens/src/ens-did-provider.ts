@@ -50,27 +50,27 @@ export class EnsDIDProvider extends AbstractIdentifierProvider {
     { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext,
   ): Promise<any> {
-    return { success: true }
+    return { success: false }
   }
 
   async addService(
     { identifier, service, options }: { identifier: IIdentifier; service: IService; options?: any },
     context: IContext,
   ): Promise<any> {
-    return { success: true }
+    return { success: false }
   }
 
   async removeKey(
     args: { identifier: IIdentifier; kid: string; options?: any },
     context: IContext,
   ): Promise<any> {
-    return { success: true }
+    return { success: false }
   }
 
   async removeService(
     args: { identifier: IIdentifier; id: string; options?: any },
     context: IContext,
   ): Promise<any> {
-    return { success: true }
+    return { success: false }
   }
 }
