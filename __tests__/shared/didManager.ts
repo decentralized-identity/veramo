@@ -33,6 +33,19 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
+    it('should create pkh identifier using did:pkh provider', async () => {
+      identifier = await agent.didManagerCreate({
+        // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
+        provider: 'did:pkh',
+        options: { network: "mainnet"}
+      })
+      expect(identifier.provider).toEqual('did:pkh')
+      //expect(identifier.did).toMatch(/^did:pkh:eip155:*$/)
+      expect(identifier.keys.length).toEqual(1)
+      expect(identifier.services.length).toEqual(0)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
     it('should create identifier using did:ethr:arbitrum:goerli provider', async () => {
       identifier = await agent.didManagerCreate({
         // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
