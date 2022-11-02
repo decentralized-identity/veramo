@@ -1,0 +1,33 @@
+{
+  "name": "@veramo/did-provider-ens",
+  "description": "Veramo plugin that can enable creation and control of did:ens identifiers.",
+  "version": "4.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
+  },
+  "dependencies": {
+    "@veramo/core": "^4.0.0",
+    "@veramo/did-manager": "^4.0.0",
+    "debug": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "typescript": "4.7.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Nick Reynolds <nick.reynolds@mesh.xyz>",
+  "license": "Apache-2.0",
+  "keywords": []
+}
