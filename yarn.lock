@@ -6747,6 +6747,11 @@ cacache@^16.0.0, cacache@^16.0.6, cacache@^16.1.0:
     tar "^6.1.11"
     unique-filename "^1.1.1"
 
+caip@~1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/caip/-/caip-1.1.0.tgz#0ccd5bf1bff822459389ccec0a8555712a30c374"
+  integrity sha512-yOO3Fu4ygyKYAdznuoaqschMKIZzcdgyMpBNtrIfrUhnOeaOWG+dh0c13wcOS6B/46IGGbncoyzJlio79jU7rw==
+
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/call-bind/-/call-bind-1.0.2.tgz#b1d4e89e688119c3c9a903ad30abb2f6a919be3c"
@@ -14574,6 +14579,13 @@ pkg-up@^3.1.0:
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
   dependencies:
     find-up "^3.0.0"
+
+pkh-did-resolver@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/pkh-did-resolver/-/pkh-did-resolver-1.0.10.tgz#f0144aaaf88af4d573ac23b050d77d8edaa879e8"
+  integrity sha512-GYfZxFQXFfuVUcztZJuf73tjr3L9nRvzvnoAtKIGREHkpEzj801WQ41OJ7PmsTyIDakaHfXyI3WyX33DUsenTw==
+  dependencies:
+    caip "~1.1.0"
 
 postcss-attribute-case-insensitive@^5.0.1:
   version "5.0.1"
