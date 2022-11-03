@@ -1,7 +1,7 @@
 {
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "main": "build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
@@ -26,7 +26,7 @@
     "@veramo/did-discovery": "^4.1.1",
     "@veramo/did-jwt": "^4.1.1",
     "@veramo/did-manager": "^4.1.1",
-    "@veramo/did-provider-ethr": "^4.1.1",
+    "@veramo/did-provider-ethr": "^4.1.2",
     "@veramo/did-provider-key": "^4.1.1",
     "@veramo/did-provider-web": "^4.1.1",
     "@veramo/did-resolver": "^4.1.1",
