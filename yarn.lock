@@ -8998,7 +8998,7 @@ ethr-did-registry@0.0.3:
   resolved "https://registry.yarnpkg.com/ethr-did-registry/-/ethr-did-registry-0.0.3.tgz#f363d2c73cb9572b57bd7a5c9c90c88485feceb5"
   integrity sha512-4BPvMGkxAK9vTduCq6D5b8ZqjteD2cvDIPPriXP6nnmPhWKFSxypo+AFvyQ0omJGa0cGTR+dkdI/8jiF7U/qaw==
 
-ethr-did-resolver@^7.0.1, ethr-did-resolver@^7.0.2:
+ethr-did-resolver@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-7.0.2.tgz#628f9e7f290ec563b7ce31eca27a55ae3188a755"
   integrity sha512-l4TlISn8tDtBssbxlLz0bky48aQP2k7QGXiwcU1aatqLhz6Mgau2SuCy2N6zBRBPbprkYv5rrWeReHfmegQNuw==
@@ -9016,10 +9016,10 @@ ethr-did-resolver@^7.0.1, ethr-did-resolver@^7.0.2:
     "@ethersproject/transactions" "^5.6.2"
     did-resolver "^4.0.1"
 
-ethr-did@^2.3.4:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/ethr-did/-/ethr-did-2.3.4.tgz#1bc1b5cac72370c153a4968bfbb88dcae7dc04ae"
-  integrity sha512-W2FqYi7T0YPlODNAJJL/ENDFgUVEhUOENkKTEkV2XetbxF3Xk1Cc5o1GWiR7Tq6KrREgnWlFHtp6BIv0vEVdqw==
+ethr-did@^2.3.6:
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/ethr-did/-/ethr-did-2.3.6.tgz#567173791040291e44fd3d63cea17e7dbcea4516"
+  integrity sha512-rvDMqbnTuRqMY/2uU40IoqxN03SIqGwvjNNqxxUlr+CUaWZVgz2ZkOCygyRtTRfRLY7NAJQBFi6gXjDyBOSxrg==
   dependencies:
     "@ethersproject/abstract-signer" "^5.7.0"
     "@ethersproject/base64" "^5.7.0"
@@ -9032,7 +9032,7 @@ ethr-did@^2.3.4:
     "@ethersproject/wallet" "^5.7.0"
     did-jwt "^6.9.0"
     did-resolver "^4.0.1"
-    ethr-did-resolver "^7.0.1"
+    ethr-did-resolver "^7.0.2"
 
 event-target-shim@^5.0.0:
   version "5.0.1"
