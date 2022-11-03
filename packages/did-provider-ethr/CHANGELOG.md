@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.2](https://github.com/uport-project/veramo/compare/v4.1.1...v4.1.2) (2022-11-03)
+
+
+### Bug Fixes
+
+* **deps:** bump ethr-did to 2.3.6 and cosmetic changes in CLI config ([#1054](https://github.com/uport-project/veramo/issues/1054)) ([eb03b63](https://github.com/uport-project/veramo/commit/eb03b637ef5aecf57b0ee130d08689094b1956df))
+
+
+
+
+
 ## [4.1.1](https://github.com/uport-project/veramo/compare/v4.1.0...v4.1.1) (2022-11-01)
 
 **Note:** Version bump only for package @veramo/did-provider-ethr
