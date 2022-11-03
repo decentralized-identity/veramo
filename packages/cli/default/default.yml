@@ -229,14 +229,6 @@ didManager:
               rpcUrl: https://mainnet.infura.io/v3/3586660d179141e3801c3895de1c2eba
               gas: 1000001
               ttl: 31104001
-        did:ethr:kovan:
-          $require: '@veramo/did-provider-ethr#EthrDIDProvider'
-          $args:
-            - defaultKms: local
-              network: kovan
-              rpcUrl: https://kovan.infura.io/v3/3586660d179141e3801c3895de1c2eba
-              gas: 1000001
-              ttl: 31104001
         did:ethr:goerli:
           $require: '@veramo/did-provider-ethr#EthrDIDProvider'
           $args:

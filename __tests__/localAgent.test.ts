@@ -165,10 +165,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             networks: [
               {
                 name: 'mainnet',
+                chainId: 1,
                 rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
               },
               {
                 name: 'goerli',
+                chainId: 5,
                 rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
               },
               {
