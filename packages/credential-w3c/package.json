@@ -8,6 +8,9 @@
     "build": "tsc",
     "extract-api": "yarn veramo dev extract-api"
   },
+  "resolutions": {
+    "did-jwt-vc": "3.1.0"
+  },
   "dependencies": {
     "@veramo/core": "^4.1.1",
     "@veramo/did-jwt": "^4.1.1",

@@ -29,6 +29,12 @@ import {
   verifyPresentation as verifyPresentationJWT,
 } from 'did-jwt-vc'
 
+console.log("@veramo/credential-w3c - createVerifiableCredentialJwt: ", createVerifiableCredentialJwt)
+
+
+import importedDidJwtVc from "did-jwt-vc"
+console.log("@veramo/credential-w3c - importedDidJwtVc: ", importedDidJwtVc)
+
 import { decodeJWT } from 'did-jwt'
 
 import {
@@ -242,6 +248,7 @@ export class CredentialPlugin implements IAgentPlugin {
           alg = 'EdDSA'
         }
         const signer = wrapSigner(context, key, alg)
+        console.log("createVerifiableCredentialJwt: ", createVerifiableCredentialJwt)
         const jwt = await createVerifiableCredentialJwt(
           credential as any,
           { did: identifier.did, signer, alg },

@@ -23,6 +23,9 @@
     "@veramo/url-handler": "^4.1.1",
     "@veramo/utils": "^4.1.1",
     "crypto": "npm:crypto-browserify",
+    "crypto-browserify": "^3.12.0",
+    "stream-browserify": "^3.0.0",
+    "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.1",
     "ethr-did-resolver": "^7.0.2",
     "react": "18.1.0",
@@ -33,11 +36,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "buildz": "react-scripts build",
-    "testz": "react-scripts test",
+    "start": "craco start",
+    "buildz": "craco build",
+    "testz": "craco test",
     "ejectz": "react-scripts eject",
-    "test:browser": "NODE_OPTIONS=--experimental-vm-modules jest -c jest-integration.config.js"
+    "test:browser": "cross-env NODE_OPTIONS=--experimental-vm-modules jest -c jest-integration.config.js"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +62,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "7.17.12",
+    "@craco/craco": "^6.4.5",
     "@types/eslint": "8.4.3",
     "@types/expect-puppeteer": "4.4.7",
     "@types/jest": "28.1.1",
@@ -67,6 +71,7 @@
     "@types/puppeteer": "5.4.6",
     "@types/react": "18.0.12",
     "@types/react-dom": "18.0.5",
+    "cross-env": "^7.0.3",
     "jest": "28.1.1",
     "jest-environment-puppeteer": "6.0.3",
     "jest-environment-puppeteer-jsdom": "6.0.0",

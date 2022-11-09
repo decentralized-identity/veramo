@@ -91,4 +91,15 @@ describe('Browser integration tests', () => {
       })
     })
   })
+
+  
+  it('should get result of issued & validated JWT', async () => {
+    let resultSnapshot = "yes"
+
+    await page.waitForSelector('#res', { timeout: JEST_TIMEOUT }).then(async (element) => {
+      let result = await element!.evaluate((el) => el.textContent)
+      let parsedResult = JSON.parse(result!)
+      await expect(parsedResult).toMatchObject(resultSnapshot)
+    })
+  })
 })
