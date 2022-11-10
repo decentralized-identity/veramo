@@ -121,9 +121,19 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           message.addMetaData({ type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData) })
           context.agent.emit('DIDCommV2Message-received', unpackedMessage)
 
-          return message
+          // DIDCommMessageHandler should attempt to forward message to next handler, but 
+          // shouldn't throw an error if other handlers fail
+          let superHandled
+          try {
+            superHandled = await super.handle(message, context)
+          } catch (e) {
+            debug(`Could not handle DIDCommV2Message in downstream handlers: ${e}`)
+          }
+          
+          // if downstream message handlers failed, still treat original unpacked DIDCommV2Message as good
+          return superHandled || message
         } catch (e) {
-          debug(`Could not unpack message as DIDComm v2: ${e}`)
+          debug(`Could not unpack message as DIDCommV2Message: ${e}`)
         }
       }
     }
