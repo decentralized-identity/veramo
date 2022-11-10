@@ -59,6 +59,7 @@ export default (testContext: {
       const allMessages = await agent.dataStoreORMGetMessages()
       const count = await agent.dataStoreORMGetMessagesCount()
       expect(allMessages.length).toEqual(count)
+      expect(count).toEqual(1)
     })
   })
 }
