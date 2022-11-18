@@ -101,7 +101,7 @@ export class LdCredentialModule {
     options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiableCredential> {
-    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
+    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type, key.meta?.verificationMethod?.type ?? '')
     const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     // some suites can modify the incoming credential (e.g. add required contexts)
@@ -110,7 +110,7 @@ export class LdCredentialModule {
     return await vc.issue({
       ...options,
       credential,
-      suite: suite.getSuiteForSigning(key, issuerDid, verificationMethodId, context),
+      suite: await suite.getSuiteForSigning(key, issuerDid, verificationMethodId, context),
       documentLoader,
       compactProof: false,
     })
@@ -126,7 +126,7 @@ export class LdCredentialModule {
     options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiablePresentation> {
-    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type)
+    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type, key.meta?.verificationMethod?.type ?? '')
     const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     suite.preSigningPresModification(presentation)
@@ -134,7 +134,7 @@ export class LdCredentialModule {
     return await vc.signPresentation({
       ...options,
       presentation,
-      suite: suite.getSuiteForSigning(key, holderDid, verificationMethodId, context),
+      suite: await suite.getSuiteForSigning(key, holderDid, verificationMethodId, context),
       challenge,
       domain,
       documentLoader,
