@@ -1,76 +1,51 @@
-# Contributor Covenant Code of Conduct
+# Code of Conduct
 
-## Our Pledge
+We are committed to providing a friendly, safe and welcoming environment for all, regardless of the level of experience, gender identity and expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, religion, nationality, or other similar characteristics.
 
-In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to making participation in our project and
-our community a harassment-free experience for everyone, regardless of age, body
-size, disability, ethnicity, sex characteristics, gender identity and expression,
-level of experience, education, socio-economic status, nationality, personal
-appearance, race, religion, or sexual identity and orientation.
-
-## Our Standards
-
-Examples of behavior that contributes to creating a positive environment
-include:
-
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+Examples of behavior that contributes to creating a positive environment include:
+- Being kind and courteous to others
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Collaborating with other community members
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+- Showing empathy towards other community members
 
 Examples of unacceptable behavior by participants include:
+- The use of sexualized language or imagery and sexual attention or advances
+- The use of inappropriate images, including in a community member's avatar
+- The use of inappropriate language, including in a community member's nickname
+- Any spamming, flaming, baiting, or other attention-stealing behavior
+- Trolling, insulting/derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical or electronic address, without explicit permission
+- Discussing topics that are overly polarizing, sensitive, or incite arguments. This includes the discussion of polarizing political views, violence, suicide, and rape.
+- Responding with “RTFM”, "just google it” or similar phrases in response to help requests
+- Other conduct which could reasonably be considered inappropriate
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
- advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
- address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
- professional setting
+## Our Goals
+The goal of this document is to set the overall tone for our community. This isn’t an exhaustive list of things you can and can't do. Rather, take this document in the spirit in which it’s intended, and try to be your best self.
+We value many things beyond technical expertise, including collaboration and supporting others within our community. Providing a positive experience for other community members can have a much more significant impact than simply providing the correct answer.
 
-## Our Responsibilities
-
-Project maintainers are responsible for clarifying the standards of acceptable
-behavior and are expected to take appropriate and fair corrective action in
-response to any instances of unacceptable behavior.
-
-Project maintainers have the right and responsibility to remove, edit, or
-reject comments, commits, code, wiki edits, issues, and other contributions
-that are not aligned to this Code of Conduct, or to ban temporarily or
-permanently any contributor for other behaviors that they deem inappropriate,
-threatening, offensive, or harmful.
 
 ## Scope
 
-This Code of Conduct applies both within project spaces and in public spaces
-when an individual is representing the project or its community. Examples of
-representing a project or community include using an official project e-mail
-address, posting via an official social media account, or acting as an appointed
-representative at an online or offline event. Representation of a project may be
-further defined and clarified by project maintainers.
+This Code of Conduct applies to all spaces managed by Veramo. This includes, but is not limited to, the Discord server, our repositories on GitHub, and meet-ups. In addition, violations of this code outside these spaces may affect a person's ability to participate within them.
+The Veramo Code of Conduct applies equally to all members of the community, including staff.
 
-## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at info@uport.me. All
-complaints will be reviewed and investigated and will result in a response that
-is deemed necessary and appropriate to the circumstances. The project team is
-obligated to maintain confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.
+## Code of Conduct Policies
 
-Project maintainers who do not follow or enforce the Code of Conduct in good
-faith may face temporary or permanent repercussions as determined by other
-members of the project's leadership.
+### Moderation Policies
+These are the policies for upholding our community’s rules and the code of conduct. If you want to report a situation that needs to be reviewed by our team, please see our reporting guide below.
+
+
+### Reporting Guide
+Instances of behaviors that violate the Veramo Code of Conduct or rules may be reported by any member of the community. Community members are encouraged to report these situations, including situations they witness involving other community members.
+You may report in the following ways:
+* By tagging the @veramoteam role on the Discord server in situations that require immediate attention.
+* By sending a direct message (DM) to the community manager [@emmanuellar](https://github.com/emmanuellar).
+* By sending an email to [hello@veramo.io](mailto:hello@veramo.io).
 
 ## Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
-available at https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
-
-[homepage]: https://www.contributor-covenant.org
-
-For answers to common questions about this code of conduct, see
-https://www.contributor-covenant.org/faq
+This Code of Conduct and parts of the policies are adapted from the [Adafruit Community Code of Conduct](https://github.com/adafruit/Adafruit_Community_Code_of_Conduct/blob/master/code-of-conduct.md) and [Django Code of Conduct](https://www.djangoproject.com/conduct/)

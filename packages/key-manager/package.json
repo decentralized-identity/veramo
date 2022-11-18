@@ -1,7 +1,7 @@
 {
   "name": "@veramo/key-manager",
   "description": "Key Manager plugin for Veramo",
-  "version": "4.0.0",
+  "version": "4.1.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,18 +9,18 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@ethersproject/bytes": "^5.6.1",
-    "@ethersproject/strings": "^5.6.1",
-    "@ethersproject/transactions": "^5.6.2",
+    "@ethersproject/bytes": "^5.7.0",
+    "@ethersproject/strings": "^5.7.0",
+    "@ethersproject/transactions": "^5.7.0",
     "@stablelib/ed25519": "^1.0.2",
-    "@veramo/core": "^4.0.0",
-    "did-jwt": "^6.6.0",
+    "@veramo/core": "^4.1.1",
+    "did-jwt": "^6.9.0",
     "uint8arrays": "^3.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@ethersproject/abstract-signer": "5.6.2",
-    "typescript": "4.7.3"
+    "@ethersproject/abstract-signer": "5.7.0",
+    "typescript": "4.8.4"
   },
   "files": [
     "build/**/*",

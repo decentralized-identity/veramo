@@ -1,7 +1,7 @@
 {
   "name": "@veramo/utils",
   "description": "Helper methods for Veramo plugins",
-  "version": "4.0.0",
+  "version": "4.1.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,15 +9,17 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@ethersproject/transactions": "^5.5.0",
+    "@ethersproject/transactions": "^5.7.0",
     "@stablelib/ed25519": "^1.0.2",
-    "@veramo/core": "^4.0.0",
+    "@veramo/core": "^4.1.1",
     "blakejs": "^1.1.1",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
-    "did-jwt": "^6.6.0",
+    "did-jwt": "^6.9.0",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.0",
+    "elliptic": "^6.5.4",
+    "did-resolver": "^4.0.1",
     "elliptic": "^6.5.4",
     "multiformats": "9.7.1",
     "uint8arrays": "^3.0.0"

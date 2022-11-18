@@ -84,6 +84,7 @@ import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
+import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
 
 jest.setTimeout(60000)
 
@@ -164,10 +165,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             networks: [
               {
                 name: 'mainnet',
+                chainId: 1,
                 rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
               },
               {
                 name: 'goerli',
+                chainId: 5,
                 rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
               },
               {
@@ -278,4 +281,5 @@ describe('Local integration tests', () => {
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
   credentialStatus(testContext)
+  ethrDidFlowSigned(testContext)
 })

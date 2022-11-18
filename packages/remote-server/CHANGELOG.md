@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/uport-project/veramo/compare/v4.1.0...v4.1.1) (2022-11-01)
+
+**Note:** Version bump only for package @veramo/remote-server
+
+
+
+
+
+# [4.1.0](https://github.com/uport-project/veramo/compare/v4.0.2...v4.1.0) (2022-10-31)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency ethr-did-resolver to v7 ([#1038](https://github.com/uport-project/veramo/issues/1038)) ([d421c0f](https://github.com/uport-project/veramo/commit/d421c0f9f5934829df2930e58e98bcfce813ce84))
+
+
+### Features
+
+* add support for NIST Secp256r1 keys and ES256 signatures ([#1039](https://github.com/uport-project/veramo/issues/1039)) ([61eb369](https://github.com/uport-project/veramo/commit/61eb369cfcde7372babf3f68fb65ea2055b5bf70))
+
+
+
+
+
 # [4.0.0](https://github.com/uport-project/veramo/compare/v3.1.5...v4.0.0) (2022-09-22)
 
 

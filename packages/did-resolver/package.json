@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-resolver",
   "description": "A DID resolver plugin for Veramo",
-  "version": "4.0.0",
+  "version": "4.1.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,17 +9,17 @@
     "extract-api": "yarn veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.0.0",
-    "@veramo/utils": "^4.0.0",
+    "@veramo/core": "^4.1.1",
+    "@veramo/utils": "^4.1.1",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
-    "did-resolver": "^4.0.0"
+    "did-resolver": "^4.0.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "ethr-did-resolver": "^6.1.0",
-    "typescript": "4.7.3",
-    "web-did-resolver": "2.0.20"
+    "ethr-did-resolver": "^7.0.2",
+    "typescript": "4.8.4",
+    "web-did-resolver": "^2.0.21"
   },
   "files": [
     "build/**/*",

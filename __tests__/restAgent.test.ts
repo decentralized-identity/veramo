@@ -88,6 +88,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
+import didCommAndDataStoreWithCredentials from './shared/didCommAndDataStoreWithCredentials'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
@@ -280,6 +281,7 @@ describe('REST integration tests', () => {
   messageHandler(testContext)
   didCommPacking(testContext)
   didWithFakeDidFlow(testContext)
+  didCommAndDataStoreWithCredentials(testContext)
   didDiscovery(testContext)
   utils(testContext)
   credentialStatus(testContext)
