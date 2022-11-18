@@ -32,7 +32,7 @@
     "web-did-resolver": "^2.0.20",
     "web-vitals": "^2.1.4",
     "web-did-resolver": "^2.0.21",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
     "util": "npm:util",
     "path": "npm:path-browserify",
     "process": "npm:process",
