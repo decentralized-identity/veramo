@@ -37,7 +37,7 @@ export default (testContext: {
       challenge = 'TEST_CHALLENGE_STRING'
       didEthrIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:ethr' })
       didKeyIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:key' })
-      pkhIdentifier = await agent.didManagerCreate({ kms: 'local', provider: "did:pkh", options: { network: "mainnet"} })
+      pkhIdentifier = await agent.didManagerCreate({ kms: 'local', provider: "did:pkh", options: { chainId: "1"} })
     })
     afterAll(testContext.tearDown)
 
@@ -261,10 +261,6 @@ export default (testContext: {
     })
 
     it('should create verifiable credential in LD with did:pkh', async () => {
-
-      
-
-
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: pkhIdentifier.did },
@@ -282,23 +278,13 @@ export default (testContext: {
       // Check credential:
       expect(verifiableCredential).toHaveProperty('proof')
       expect(verifiableCredential).toHaveProperty('proof.jws')
-      // expect(verifiableCredential.proof.verificationMethod).toEqual(
-      //   `${didKeyIdentifier.did}#${didKeyIdentifier.did.substring(
-      //     didKeyIdentifier.did.lastIndexOf(':') + 1,
-      //   )}`,
-      // )
-
-      expect(verifiableCredential['@context']).toEqual([
-        'https://www.w3.org/2018/credentials/v1',
-        'https://veramo.io/contexts/profile/v1',
-      ])
       expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'Profile'])
 
       storedPkhCredentialHash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
       expect(typeof storedPkhCredentialHash).toEqual('string')
 
       const verifiableCredential2 = await agent.dataStoreGetVerifiableCredential({
-        hash: storedCredentialHash,
+        hash: storedPkhCredentialHash,
       })
       expect(verifiableCredential).toEqual(verifiableCredential2)
     })
