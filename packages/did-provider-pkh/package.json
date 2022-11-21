@@ -14,9 +14,7 @@
     "@ethersproject/transactions": "^5.7.0",
     "@veramo/core": "^4.0.0",
     "@veramo/did-manager": "^4.0.0",
-    "debug": "^4.3.3",
-    "multibase": "^4.0.6",
-    "multicodec": "^3.2.1"
+    "debug": "^4.3.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
