@@ -37,7 +37,7 @@ export default (testContext: {
       identifier = await agent.didManagerCreate({
         // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
         provider: 'did:pkh',
-        options: { network: "mainnet"}
+        options: { chainId: "1"}
       })
       expect(identifier.provider).toEqual('did:pkh')
       //expect(identifier.did).toMatch(/^did:pkh:eip155:*$/)
