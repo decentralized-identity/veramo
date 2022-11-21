@@ -26,30 +26,14 @@ type IContext = IAgentContext<IKeyManager>
 
 }
 
-// export interface EthrNetworkConfiguration {
-//   /**
-//    * The chain ID for the ethereum network being configured. This can be a hex-encoded string starting with `0x`.
-//    * If `name` is not specified, then the hex encoded `chainId` will be used when creating DIDs, according to the
-//    * `did:pkh` spec.
-//    *
-//    * Example, chainId==42 and name==undefined => DIDs are prefixed with `did:ethr:0x2a:`
-//    */
-//   chainId?: string | number
-
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   [index: string]: any
-// }
-
-
-
-  /**
+ /**
  * Helper method that can computes the ethereumAddress corresponding to a Secp256k1 public key.
  * @param hexPublicKey A hex encoded public key, optionally prefixed with `0x`
  */
-   export function toEthereumAddress(hexPublicKey: string): string {
+  export function toEthereumAddress(hexPublicKey: string): string {
     const publicKey = hexPublicKey.startsWith('0x') ? hexPublicKey : '0x' + hexPublicKey
     return computeAddress(publicKey)
-    }
+  }
 
 
 /**
