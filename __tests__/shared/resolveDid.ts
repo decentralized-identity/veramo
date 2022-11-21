@@ -39,7 +39,7 @@ export default (testContext: {
       let identifier: IIdentifier = await agent.didManagerCreate({
         // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
         provider: 'did:pkh',
-        options: { network: "mainnet"}
+        options: { chainId: "1"}
       });
 
       const result = await agent.resolveDid({ didUrl: identifier.did});
