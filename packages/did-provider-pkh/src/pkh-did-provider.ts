@@ -22,8 +22,6 @@ type IContext = IAgentContext<IKeyManager>
    * If this is not specified, `1` is assumed.
    */
   chainId?: string | number
-
-
 }
 
  /**
@@ -43,18 +41,13 @@ type IContext = IAgentContext<IKeyManager>
  */
 export class PkhDIDProvider extends AbstractIdentifierProvider {
     private defaultKms: string
-    //private networks: EthrNetworkConfiguration[] | undefined
 
     constructor(options: {
       defaultKms: string
-      //networks?: EthrNetworkConfiguration[]
     })
     {
       super()
       this.defaultKms = options.defaultKms
-      // if (options.networks) {
-      //   this.networks = options.networks
-      // }
     }
 
 
@@ -66,12 +59,8 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
 
     const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
     const publicAddress = toEthereumAddress(key.publicKeyHex);
-    // let networkSpecifier =
-    //   options?.network ||
-    //   (options?.providerName?.match(/^did:pkh:eip155.+$/) ? options?.providerName?.substring(9) : undefined)
 
-
-    const network = options?.chainId; // this.getNetworkFor(networkSpecifier)
+    const network = options?.chainId; 
     if (!network) {
       throw new Error(
         `invalid_setup: Cannot create did:pkh. There is no known configuration for network=${network}'`,
