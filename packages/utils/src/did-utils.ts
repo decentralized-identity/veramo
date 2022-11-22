@@ -328,22 +328,7 @@ export async function dereferenceDidKeys(
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: boolean = false): string {
-  let keyBytes: Uint8Array
-  if (pk.publicKeyHex) {
-    keyBytes = u8a.fromString(pk.publicKeyHex, 'base16')
-  } else if (pk.publicKeyBase58) {
-    keyBytes = u8a.fromString(pk.publicKeyBase58, 'base58btc')
-  } else if (pk.publicKeyMultibase) {
-    keyBytes = bases['base58btc'].decode(pk.publicKeyMultibase)
-  } else if (pk.publicKeyBase64) {
-    keyBytes = u8a.fromString(pk.publicKeyBase64, 'base64pad')
-  } else if (
-    pk.publicKeyJwk &&
-    pk.publicKeyJwk.crv === 'Ed25519' &&
-    pk.publicKeyJwk.x
-  ) {
-    keyBytes = base64ToBytes(pk.publicKeyJwk.x)
-  } else return ''
+  let keyBytes = extractPublicKeyBytes(pk)
   if (convert) {
     if (['Ed25519', 'Ed25519VerificationKey2018'].includes(pk.type)) {
       keyBytes = convertPublicKeyToX25519(keyBytes)
