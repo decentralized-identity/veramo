@@ -299,7 +299,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
           if(canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
             verificationResult.verified = false
-            verificationResult.error = new Error('Credential does not match JWT signature')
+            verificationResult.error = new Error('Credential does not match JWT')
           }
         }
       } catch (e: any) {
