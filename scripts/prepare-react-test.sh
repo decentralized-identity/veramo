@@ -15,6 +15,7 @@ packages=(
 "did-manager"
 "did-provider-ethr"
 "did-provider-key"
+"did-provider-pkh"
 "did-provider-web"
 "did-resolver"
 "key-manager"
