@@ -1,8 +1,14 @@
-import { IonKeyMetadata, KeyIdentifierRelation, KeyType } from './types/ion-provider-types'
+import {
+  IonKeyMetadata,
+  ISecp256k1PrivateKeyJwk,
+  ISecp256k1PublicKeyJwk,
+  KeyIdentifierRelation,
+  KeyType,
+} from './types/ion-provider-types'
 import { IonDid, IonDocumentModel, IonPublicKeyModel, IonPublicKeyPurpose, JwkEs256k } from '@decentralized-identity/ion-sdk'
 import { IKey, ManagedKeyInfo } from '@veramo/core'
-import { keyUtils as secp256k1KeyUtils } from '@transmute/did-key-secp256k1'
-
+// import { keyUtils as secp256k1KeyUtils } from '@transmute/did-key-secp256k1'
+import keyto from '@trust/keyto';
 import { randomBytes } from '@ethersproject/random'
 import * as u8a from 'uint8arrays'
 import { generateKeyPair as generateSigningKeyPair } from '@stablelib/ed25519'
@@ -12,6 +18,8 @@ import crypto from 'crypto'
 import base64url from 'base64url'
 import { MemoryPrivateKeyStore } from '@veramo/key-manager'
 import { KeyManagementSystem } from '@veramo/kms-local'
+import * as secp256k1 from 'secp256k1'
+import canonicalize from 'canonicalize'
 
 const multihashes = require('multihashes')
 
@@ -39,7 +47,7 @@ export const toJwkEs256k = (jwk: any): JwkEs256k => {
  * @return The JWK
  */
 export const toIonPrivateKeyJwk = (privateKeyHex: string): JwkEs256k => {
-  return toJwkEs256k(secp256k1KeyUtils.privateKeyJwkFromPrivateKeyHex(privateKeyHex))
+  return toJwkEs256k(privateKeyJwkFromPrivateKeyHex(privateKeyHex))
 }
 
 /**
@@ -48,8 +56,74 @@ export const toIonPrivateKeyJwk = (privateKeyHex: string): JwkEs256k => {
  * @return The JWK
  */
 export const toIonPublicKeyJwk = (publicKeyHex: string): JwkEs256k => {
-  return toJwkEs256k(secp256k1KeyUtils.publicKeyJwkFromPublicKeyHex(publicKeyHex))
+  return toJwkEs256k(publicKeyJwkFromPublicKeyHex(publicKeyHex))
 }
+
+/**
+ * Example
+ * ```js
+ * {
+ *  kty: 'EC',
+ *  crv: 'secp256k1',
+ *  d: 'rhYFsBPF9q3-uZThy7B3c4LDF_8wnozFUAEm5LLC4Zw',
+ *  x: 'dWCvM4fTdeM0KmloF57zxtBPXTOythHPMm1HCLrdd3A',
+ *  y: '36uMVGM7hnw-N6GnjFcihWE3SkrhMLzzLCdPMXPEXlA',
+ *  kid: 'JUvpllMEYUZ2joO59UNui_XYDqxVqiFLLAJ8klWuPBw'
+ * }
+ * ```
+ * See [rfc7638](https://tools.ietf.org/html/rfc7638) for more details on Jwk.
+ */
+export const getKid = (
+  jwk: ISecp256k1PrivateKeyJwk | ISecp256k1PublicKeyJwk
+) => {
+  const copy = { ...jwk } as any;
+  delete copy.d;
+  delete copy.kid;
+  delete copy.alg;
+  const digest = crypto
+    .createHash('sha256')
+    .update(canonicalize(copy)!, 'utf-8')
+    .digest();
+
+  return base64url.encode(Buffer.from(digest));
+};
+
+/** convert compressed hex encoded private key to jwk */
+export const privateKeyJwkFromPrivateKeyHex = (privateKeyHex: string) => {
+  const jwk = {
+    ...keyto.from(privateKeyHex, 'blk').toJwk('private'),
+    crv: 'secp256k1',
+  };
+  const kid = getKid(jwk);
+  return {
+    ...jwk,
+    kid,
+  };
+};
+
+/** convert compressed hex encoded public key to jwk */
+export const publicKeyJwkFromPublicKeyHex = (publicKeyHex: string) => {
+  let key = publicKeyHex;
+  const compressedHexEncodedPublicKeyLength = 66;
+  if (publicKeyHex.length === compressedHexEncodedPublicKeyLength) {
+    const keyBin = secp256k1.publicKeyConvert(
+      Buffer.from(publicKeyHex, 'hex'),
+      false
+    );
+    key = Buffer.from(keyBin).toString('hex');
+  }
+  const jwk = {
+    ...keyto.from(key, 'blk').toJwk('public'),
+    crv: 'secp256k1',
+  };
+  const kid = getKid(jwk);
+
+  return {
+    ...jwk,
+    kid,
+  };
+};
+
 
 /**
  * Computes the ION Commitment value from a ION public key
