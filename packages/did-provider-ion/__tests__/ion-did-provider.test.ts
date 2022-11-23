@@ -37,7 +37,7 @@ const PRIVATE_DID4_KEY_HEX = '7dd923e40f4615ac496119f7e793cc2899e99b64b88ca8603d
 // Generate a new private key in hex format if needed, using the following method:
 // console.log(generatePrivateKeyHex(KeyType.Secp256k1))
 
-describe('@sphereon/ion-did-provider', () => {
+describe('@veramo/did-provider-ion', () => {
   it('should create identifier', async () => {
     const options: ICreateIdentifierOpts = createIdentifierOpts
     const identifier: IIdentifier = await agent.didManagerCreate({ options })
@@ -71,7 +71,7 @@ describe('@sphereon/ion-did-provider', () => {
     try {
       await expect(resultPromise).resolves.toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
     }
   })
 
@@ -97,7 +97,7 @@ describe('@sphereon/ion-did-provider', () => {
     try {
       await expect(resultPromise).resolves.toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
     }
   })
 
@@ -117,7 +117,7 @@ describe('@sphereon/ion-did-provider', () => {
     try {
       await expect(resultPromise).resolves.toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
     }
   })
 
@@ -143,7 +143,7 @@ describe('@sphereon/ion-did-provider', () => {
     try {
       await expect(addPromise).resolves.toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
     }
 
     const removePromise = agent.didManagerRemoveService({
@@ -154,7 +154,7 @@ describe('@sphereon/ion-did-provider', () => {
     try {
       await expect(removePromise).resolves.toMatchObject({})
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
     }
   })
 
@@ -168,7 +168,7 @@ describe('@sphereon/ion-did-provider', () => {
     try {
       await expect(deletePromise).resolves.toBeTruthy()
     } catch (error) {
-      expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
+      await expect(JSON.stringify(error)).toMatch('An operation request already exists in queue for DID')
     }
   })
 })
