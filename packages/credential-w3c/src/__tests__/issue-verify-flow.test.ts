@@ -22,7 +22,7 @@ import { CredentialIssuerLD } from '../../../credential-ld/src/action-handler'
 import { LdDefaultContexts } from '../../../credential-ld/src/ld-default-contexts'
 import { VeramoEd25519Signature2018 } from '../../../credential-ld/src/suites/Ed25519Signature2018'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../../../credential-ld/src/suites/EcdsaSecp256k1RecoverySignature2020'
-import { VerifiableCredential } from '@veramo/core'
+import { VerifiableCredential } from '../../../core/src'
 
 jest.setTimeout(300000)
 
@@ -127,7 +127,7 @@ describe('credential-w3c full flow', () => {
     expect(verifyResult.verified).toBeFalsy()
   })
 
-  // uncomment when we support `@vocab` in `@context`
+  // uncomment when https://github.com/uport-project/veramo/issues/1073 is resolved
   // example credential found at: https://learn.mattr.global/tutorials/web-credentials/issue/issue-basic
   // it(`verifies a credential created with lds proofType via Mattr`, async () => {
   //   const verifiableCredential1 = {    

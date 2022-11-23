@@ -290,7 +290,7 @@ export class CredentialPlugin implements IAgentPlugin {
         verifiedCredential = verificationResult.verifiableCredential
 
         // if credential was presented with other fields, make sure those fields match what's in the JWT
-        if (!(typeof credential === 'string')) {
+        if (typeof credential !== 'string') {
           const credentialCopy = JSON.parse(JSON.stringify(credential))
           delete credentialCopy.proof.jwt
 
