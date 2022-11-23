@@ -4623,7 +4623,7 @@
     "@transmute/did-key-common" "^0.3.0-unstable.9"
     "@transmute/ed25519-key-pair" "^0.6.1-unstable.37"
 
-"@transmute/did-key-secp256k1@0.2.1-unstable.42", "@transmute/did-key-secp256k1@^0.2.1-unstable.35":
+"@transmute/did-key-secp256k1@^0.2.1-unstable.35":
   version "0.2.1-unstable.42"
   resolved "https://registry.yarnpkg.com/@transmute/did-key-secp256k1/-/did-key-secp256k1-0.2.1-unstable.42.tgz#619a2bcc10c53adb831930610f1c49f5ec771261"
   integrity sha512-pLHsxVEeJYUz2jaUWznGJHRaRE+Fg3A4DiArWYpRSozYaSW5x2AhXELN+08qvU4E8FjiQmqInf8KqeS0hlUJoQ==
@@ -4700,18 +4700,6 @@
     jose "^4.3.8"
     web-streams-polyfill "^3.0.3"
 
-"@transmute/jose-ld@^0.7.0-unstable.67":
-  version "0.7.0-unstable.67"
-  resolved "https://registry.yarnpkg.com/@transmute/jose-ld/-/jose-ld-0.7.0-unstable.67.tgz#c202775f23fc2ab1aeae1e5ee0e71983f541f6ad"
-  integrity sha512-9xGZpdNEzhBeeZfNnM1y83rN6SQ6tuXgx+WrQF9GoPtyxwcvZlqEqn9DBEiMzleaAC5kmXBbVPXbXv6QxkPyDg==
-  dependencies:
-    "@peculiar/webcrypto" "^1.1.6"
-    "@stablelib/aes-kw" "^1.0.0"
-    "@stablelib/xchacha20poly1305" "^1.0.0"
-    base64url "^3.0.1"
-    jose "^4.3.8"
-    web-streams-polyfill "^3.0.3"
-
 "@transmute/json-web-signature@^0.7.0-unstable.67":
   version "0.7.0-unstable.67"
   resolved "https://registry.yarnpkg.com/@transmute/json-web-signature/-/json-web-signature-0.7.0-unstable.67.tgz#79387d7f2b88e27e13dcf55015a68893ee434431"
@@ -4766,11 +4754,6 @@
   version "0.6.1-unstable.37"
   resolved "https://registry.yarnpkg.com/@transmute/security-context/-/security-context-0.6.1-unstable.37.tgz#532b9238efd80dbaaa3e7dd663107cd925afadcc"
   integrity sha512-GtLmG65qlORrz/2S4I74DT+vA4+qXsFxrMr0cNOXjUqZBd/AW1PTrFnryLF9907BfoiD58HC9qb1WVGWjSlBYw==
-
-"@transmute/security-context@^0.7.0-unstable.67":
-  version "0.7.0-unstable.67"
-  resolved "https://registry.yarnpkg.com/@transmute/security-context/-/security-context-0.7.0-unstable.67.tgz#51a6a7b34e49f37b512fc61404529579e7806895"
-  integrity sha512-BRfFAcXTBHbBDbnXWofAZSV7bktDMiv0UuJjUiEqt+PkSWFx74UtIYrLxw4HfYPoGWJ6m6I5XBiRZ3L5LVX0XQ==
 
 "@transmute/security-context@^0.7.0-unstable.67":
   version "0.7.0-unstable.67"
