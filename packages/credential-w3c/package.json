@@ -14,6 +14,7 @@
     "@veramo/did-resolver": "^4.1.1",
     "@veramo/message-handler": "^4.1.1",
     "@veramo/utils": "^4.1.1",
+    "canonicalize": "^1.0.8",
     "debug": "^4.3.3",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.1",

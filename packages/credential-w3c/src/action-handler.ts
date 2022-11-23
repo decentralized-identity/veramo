@@ -41,6 +41,8 @@ import {
 import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
 
+import canonicalize from 'canonicalize'
+
 const enum DocumentFormat {
   JWT,
   JSONLD,
@@ -274,6 +276,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
       const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
       try {
+        // needs broader credential as well to check equivalence with jwt
         verificationResult = await verifyCredentialJWT(jwt, resolver, {
           ...otherOptions,
           policies: {
@@ -285,6 +288,20 @@ export class CredentialPlugin implements IAgentPlugin {
           },
         })
         verifiedCredential = verificationResult.verifiableCredential
+
+        // if credential was presented with other fields, make sure those fields match what's in the JWT
+        if (typeof credential !== 'string') {
+          const credentialCopy = JSON.parse(JSON.stringify(credential))
+          delete credentialCopy.proof.jwt
+
+          const verifiedCopy = JSON.parse(JSON.stringify(verifiedCredential))
+          delete verifiedCopy.proof.jwt
+
+          if(canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
+            verificationResult.verified = false
+            verificationResult.error = new Error('Credential does not match JWT')
+          }
+        }
       } catch (e: any) {
         let { message, errorCode } = e
         return {

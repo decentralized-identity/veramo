@@ -19,6 +19,7 @@
     "@veramo/key-manager": "^4.1.1",
     "@veramo/kms-local": "^4.1.1",
     "base64url": "^3.0.1",
+    "canonicalize": "^1.0.8",
     "debug": "^4.3.3",
     "uint8arrays": "^3.0.0"
   },
