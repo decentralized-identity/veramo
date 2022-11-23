@@ -7,7 +7,6 @@ import {
 } from './types/ion-provider-types'
 import { IonDid, IonDocumentModel, IonPublicKeyModel, IonPublicKeyPurpose, JwkEs256k } from '@decentralized-identity/ion-sdk'
 import { IKey, ManagedKeyInfo } from '@veramo/core'
-// import { keyUtils as secp256k1KeyUtils } from '@transmute/did-key-secp256k1'
 import keyto from '@trust/keyto';
 import { randomBytes } from '@ethersproject/random'
 import * as u8a from 'uint8arrays'
@@ -23,7 +22,7 @@ import canonicalize from 'canonicalize'
 
 const multihashes = require('multihashes')
 
-const debug = Debug('veramo:ion-did-provider')
+const debug = Debug('veramo:did-provider-ion')
 
 const MULTI_HASH_SHA256_LITERAL = 18
 
