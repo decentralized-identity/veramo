@@ -136,7 +136,6 @@ const hexDoc = {
 
 describe('didComm', () => {
   let didKeyIdentifier: IIdentifier
-  let didEthrIdentifier: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager>
 
   beforeAll(async () => {
@@ -200,7 +199,7 @@ describe('didComm', () => {
       message: testMessage("did:fake:base58"),
       packing: 'authcrypt'
     })
-    console.log("packedMessage: ", packedMessage)
+    expect(packedMessage).toBeDefined()
   })
 
   it('should pack message for public key as multibase', async () => {
@@ -208,7 +207,7 @@ describe('didComm', () => {
       message: testMessage("did:fake:multibase"),
       packing: 'authcrypt'
     })
-    console.log("packedMessage: ", packedMessage)
+    expect(packedMessage).toBeDefined()
   })
 
   it('should pack message for public key as hex', async () => {
@@ -216,6 +215,6 @@ describe('didComm', () => {
       message: testMessage("did:fake:hex"),
       packing: 'authcrypt'
     })
-    console.log("packedMessage: ", packedMessage)
+    expect(packedMessage).toBeDefined()
   })
 })
