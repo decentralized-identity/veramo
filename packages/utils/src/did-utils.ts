@@ -330,9 +330,9 @@ export async function dereferenceDidKeys(
 export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: boolean = false): string {
   let keyBytes = extractPublicKeyBytes(pk)
   if (convert) {
-    if (['Ed25519', 'Ed25519VerificationKey2018'].includes(pk.type)) {
+    if (['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type)) {
       keyBytes = convertPublicKeyToX25519(keyBytes)
-    } else if (!['X25519', 'X25519KeyAgreementKey2019'].includes(pk.type)) {
+    } else if (!['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type)) {
       return ''
     }
   }
