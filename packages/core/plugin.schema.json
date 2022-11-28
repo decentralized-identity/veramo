@@ -22,7 +22,7 @@
             "didDocument",
             "didUrl"
           ],
-          "description": "Input arguments for  {@link  IResolver.getDIDComponentById | getDIDComponentById }"
+          "description": "Input arguments for  {@link IResolver.getDIDComponentById | getDIDComponentById }"
         },
         "DIDDocument": {
           "type": "object",
@@ -306,7 +306,7 @@
               "$ref": "#/components/schemas/ServiceEndpoint"
             }
           ],
-          "description": "Return type of  {@link  IResolver.getDIDComponentById | getDIDComponentById } \nrepresents a `VerificationMethod` or a `ServiceEndpoint` entry from a  {@link  did-resolver#DIDDocument | DIDDocument }"
+          "description": "Return type of  {@link IResolver.getDIDComponentById | getDIDComponentById } \nrepresents a `VerificationMethod` or a `ServiceEndpoint` entry from a  {@link did-resolver#DIDDocument | DIDDocument }"
         },
         "ResolveDidArgs": {
           "type": "object",
@@ -323,7 +323,7 @@
           "required": [
             "didUrl"
           ],
-          "description": "Input arguments for  {@link  IResolver.resolveDid | resolveDid }"
+          "description": "Input arguments for  {@link IResolver.resolveDid | resolveDid }"
         },
         "DIDResolutionOptions": {
           "type": "object",
@@ -466,7 +466,7 @@
             "type",
             "kms"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerCreate | keyManagerCreate }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerCreate | keyManagerCreate }"
         },
         "TKeyType": {
           "type": "string",
@@ -547,7 +547,7 @@
             "kid",
             "data"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerDecryptJWE | keyManagerDecryptJWE }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerDecryptJWE | keyManagerDecryptJWE }"
         },
         "IKeyManagerDeleteArgs": {
           "type": "object",
@@ -560,7 +560,7 @@
           "required": [
             "kid"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerDelete | keyManagerDelete }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerDelete | keyManagerDelete }"
         },
         "IKeyManagerEncryptJWEArgs": {
           "type": "object",
@@ -617,7 +617,7 @@
             "to",
             "data"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerEncryptJWE | keyManagerEncryptJWE }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerEncryptJWE | keyManagerEncryptJWE }"
         },
         "IKeyManagerGetArgs": {
           "type": "object",
@@ -630,7 +630,7 @@
           "required": [
             "kid"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerGet | keyManagerGet }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerGet | keyManagerGet }"
         },
         "IKey": {
           "type": "object",
@@ -721,7 +721,7 @@
           "properties": {
             "secretKeyRef": {
               "type": "string",
-              "description": "The secret key handle (`kid`) as returned by  {@link  IKeyManager.keyManagerCreate | keyManagerCreate }"
+              "description": "The secret key handle (`kid`) as returned by  {@link IKeyManager.keyManagerCreate | keyManagerCreate }"
             },
             "publicKey": {
               "type": "object",
@@ -746,7 +746,7 @@
             "secretKeyRef",
             "publicKey"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerSharedSecret | keyManagerSharedSecret }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerSharedSecret | keyManagerSharedSecret }"
         },
         "IKeyManagerSignArgs": {
           "type": "object",
@@ -778,7 +778,7 @@
             "keyRef",
             "data"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerSign | keyManagerSign }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerSign | keyManagerSign }"
         },
         "IKeyManagerSignEthTXArgs": {
           "type": "object",
@@ -796,7 +796,7 @@
             "kid",
             "transaction"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerSignEthTX | keyManagerSignEthTX }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerSignEthTX | keyManagerSignEthTX }"
         },
         "IKeyManagerSignJWTArgs": {
           "type": "object",
@@ -861,7 +861,7 @@
             "kid",
             "data"
           ],
-          "description": "Input arguments for  {@link  IKeyManager.keyManagerSignJWT | keyManagerSignJWT }"
+          "description": "Input arguments for  {@link IKeyManager.keyManagerSignJWT | keyManagerSignJWT }"
         }
       },
       "methods": {
@@ -993,7 +993,7 @@
             "did",
             "key"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerAddKey | didManagerAddKey }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerAddKey | didManagerAddKey }"
         },
         "IKey": {
           "type": "object",
@@ -1082,7 +1082,7 @@
             "did",
             "service"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerAddService | didManagerAddService }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerAddService | didManagerAddService }"
         },
         "IService": {
           "type": "object",
@@ -1152,7 +1152,7 @@
               "description": "Optional. Identifier provider specific options"
             }
           },
-          "description": "Input arguments for  {@link  IDIDManager.didManagerCreate | didManagerCreate }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerCreate | didManagerCreate }"
         },
         "IIdentifier": {
           "type": "object",
@@ -1207,7 +1207,7 @@
           "required": [
             "did"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerDelete | didManagerDelete }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerDelete | didManagerDelete }"
         },
         "IDIDManagerFindArgs": {
           "type": "object",
@@ -1221,7 +1221,7 @@
               "description": "Optional. Provider"
             }
           },
-          "description": "Input arguments for  {@link  IDIDManager.didManagerFind | didManagerFind }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerFind | didManagerFind }"
         },
         "IDIDManagerGetArgs": {
           "type": "object",
@@ -1234,7 +1234,7 @@
           "required": [
             "did"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerGet | didManagerGet }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerGet | didManagerGet }"
         },
         "IDIDManagerGetByAliasArgs": {
           "type": "object",
@@ -1251,7 +1251,7 @@
           "required": [
             "alias"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerGetByAlias | didManagerGetByAlias }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerGetByAlias | didManagerGetByAlias }"
         },
         "IDIDManagerGetOrCreateArgs": {
           "type": "object",
@@ -1276,7 +1276,7 @@
           "required": [
             "alias"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerGetOrCreate | didManagerGetOrCreate }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerGetOrCreate | didManagerGetOrCreate }"
         },
         "MinimalImportableIdentifier": {
           "type": "object",
@@ -1378,7 +1378,7 @@
             "did",
             "kid"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerRemoveKey | didManagerRemoveKey }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerRemoveKey | didManagerRemoveKey }"
         },
         "IDIDManagerRemoveServiceArgs": {
           "type": "object",
@@ -1400,7 +1400,7 @@
             "did",
             "id"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerRemoveService | didManagerRemoveService }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerRemoveService | didManagerRemoveService }"
         },
         "IDIDManagerSetAliasArgs": {
           "type": "object",
@@ -1418,7 +1418,7 @@
             "did",
             "alias"
           ],
-          "description": "Input arguments for  {@link  IDIDManager.didManagerSetAlias | didManagerSetAlias }"
+          "description": "Input arguments for  {@link IDIDManager.didManagerSetAlias | didManagerSetAlias }"
         },
         "IDIDManagerUpdateArgs": {
           "type": "object",
@@ -1440,8 +1440,18 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {}
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {}
+                        }
+                      ]
                     }
                   ]
                 },
@@ -1449,13 +1459,12 @@
                   "type": "string"
                 },
                 "alsoKnownAs": {
-                  "type": "object",
-                  "properties": {}
-                },
-                "controller": {
-                  "anyOf": [
+                  "allOf": [
                     {
-                      "type": "string"
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
                     },
                     {
                       "type": "object",
@@ -1463,38 +1472,174 @@
                     }
                   ]
                 },
+                "controller": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {}
+                        }
+                      ]
+                    }
+                  ]
+                },
                 "verificationMethod": {
-                  "type": "object",
-                  "properties": {}
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/VerificationMethod"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
                 },
                 "service": {
-                  "type": "object",
-                  "properties": {}
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Service"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
                 },
                 "publicKey": {
-                  "type": "object",
-                  "properties": {},
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/VerificationMethod"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ],
                   "deprecated": true
                 },
                 "authentication": {
-                  "type": "object",
-                  "properties": {}
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/components/schemas/VerificationMethod"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
                 },
                 "assertionMethod": {
-                  "type": "object",
-                  "properties": {}
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/components/schemas/VerificationMethod"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
                 },
                 "keyAgreement": {
-                  "type": "object",
-                  "properties": {}
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/components/schemas/VerificationMethod"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
                 },
                 "capabilityInvocation": {
-                  "type": "object",
-                  "properties": {}
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/components/schemas/VerificationMethod"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
                 },
                 "capabilityDelegation": {
-                  "type": "object",
-                  "properties": {}
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/components/schemas/VerificationMethod"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  ]
                 }
               },
               "description": "Required"
@@ -1509,6 +1654,133 @@
             "document"
           ],
           "description": "The arguments necessary to perform a full DID document update for a DID."
+        },
+        "VerificationMethod": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "controller": {
+              "type": "string"
+            },
+            "publicKeyBase58": {
+              "type": "string"
+            },
+            "publicKeyBase64": {
+              "type": "string"
+            },
+            "publicKeyJwk": {
+              "$ref": "#/components/schemas/JsonWebKey"
+            },
+            "publicKeyHex": {
+              "type": "string"
+            },
+            "publicKeyMultibase": {
+              "type": "string"
+            },
+            "blockchainAccountId": {
+              "type": "string"
+            },
+            "ethereumAddress": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "controller"
+          ],
+          "description": "Represents the properties of a Verification Method listed in a DID document.\n\nThis data type includes public key representations that are no longer present in the spec but are still used by several DID methods / resolvers and kept for backward compatibility."
+        },
+        "JsonWebKey": {
+          "type": "object",
+          "properties": {
+            "alg": {
+              "type": "string"
+            },
+            "crv": {
+              "type": "string"
+            },
+            "e": {
+              "type": "string"
+            },
+            "ext": {
+              "type": "boolean"
+            },
+            "key_ops": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "kid": {
+              "type": "string"
+            },
+            "kty": {
+              "type": "string"
+            },
+            "n": {
+              "type": "string"
+            },
+            "use": {
+              "type": "string"
+            },
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kty"
+          ],
+          "description": "Encapsulates a JSON web key type that includes only the public properties that can be used in DID documents.\n\nThe private properties are intentionally omitted to discourage the use (and accidental disclosure) of private keys in DID documents."
+        },
+        "Service": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "serviceEndpoint": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ServiceEndpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceEndpoint"
+                  }
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "serviceEndpoint"
+          ],
+          "description": "Represents a Service entry in a  {@link  https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
+        },
+        "ServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
+          ],
+          "description": "Represents an endpoint of a Service entry in a DID document."
         }
       },
       "methods": {
@@ -1661,7 +1933,7 @@
           "required": [
             "hash"
           ],
-          "description": "Input arguments for  {@link  IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs }"
+          "description": "Input arguments for  {@link IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs }"
         },
         "IDataStoreGetMessageArgs": {
           "type": "object",
@@ -1674,7 +1946,7 @@
           "required": [
             "id"
           ],
-          "description": "Input arguments for  {@link  IDataStore.dataStoreGetMessage | dataStoreGetMessage }"
+          "description": "Input arguments for  {@link IDataStore.dataStoreGetMessage | dataStoreGetMessage }"
         },
         "IMessage": {
           "type": "object",
@@ -1988,7 +2260,7 @@
           "required": [
             "hash"
           ],
-          "description": "Input arguments for  {@link  IDataStore.dataStoreGetVerifiableCredential | dataStoreGetVerifiableCredential }"
+          "description": "Input arguments for  {@link IDataStore.dataStoreGetVerifiableCredential | dataStoreGetVerifiableCredential }"
         },
         "IDataStoreGetVerifiablePresentationArgs": {
           "type": "object",
@@ -2001,7 +2273,7 @@
           "required": [
             "hash"
           ],
-          "description": "Input arguments for  {@link  IDataStore.dataStoreGetVerifiablePresentation | dataStoreGetVerifiablePresentation }"
+          "description": "Input arguments for  {@link IDataStore.dataStoreGetVerifiablePresentation | dataStoreGetVerifiablePresentation }"
         },
         "IDataStoreSaveMessageArgs": {
           "type": "object",
@@ -2014,7 +2286,7 @@
           "required": [
             "message"
           ],
-          "description": "Input arguments for  {@link  IDataStore.dataStoreSaveMessage | dataStoreSaveMessage }"
+          "description": "Input arguments for  {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage }"
         },
         "IDataStoreSaveVerifiableCredentialArgs": {
           "type": "object",
@@ -2027,7 +2299,7 @@
           "required": [
             "verifiableCredential"
           ],
-          "description": "Input arguments for  {@link  IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential }"
+          "description": "Input arguments for  {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential }"
         },
         "IDataStoreSaveVerifiablePresentationArgs": {
           "type": "object",
@@ -2040,7 +2312,7 @@
           "required": [
             "verifiablePresentation"
           ],
-          "description": "Input arguments for  {@link  IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation }"
+          "description": "Input arguments for  {@link IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation }"
         }
       },
       "methods": {
@@ -3241,7 +3513,7 @@
           "required": [
             "raw"
           ],
-          "description": "Input arguments for  {@link  IMessageHandler.handleMessage | handleMessage }"
+          "description": "Input arguments for  {@link IMessageHandler.handleMessage | handleMessage }"
         },
         "IMetaData": {
           "type": "object",
@@ -4335,7 +4607,7 @@
           "required": [
             "credential"
           ],
-          "description": "Arguments for calling  {@link  ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus } .\n\nThe credential whose status should be checked and the DID document of the credential issuer.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Arguments for calling  {@link ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus } .\n\nThe credential whose status should be checked and the DID document of the credential issuer.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiableCredential": {
           "type": "object",
@@ -4785,7 +5057,7 @@
           "required": [
             "vc"
           ],
-          "description": "Input arguments for  {@link  ICredentialStatusManager.credentialStatusUpdate | credentialStatusUpdate }"
+          "description": "Input arguments for  {@link ICredentialStatusManager.credentialStatusUpdate | credentialStatusUpdate }"
         },
         "VerifiableCredential": {
           "type": "object",
