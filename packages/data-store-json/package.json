@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/debug": "4.1.7",
     "@types/ungap__structured-clone": "0.3.0",
-    "typescript": "4.8.4"
+    "typescript": "4.9.3"
   },
   "files": [
     "build/**/*",
