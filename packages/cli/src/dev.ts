@@ -46,6 +46,8 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
   schemaStr = schemaStr.replace(/Order\<(.*)\>/gm, 'Order-$1')
   schemaStr = schemaStr.replace(/FindArgs\<(.*)\>/gm, 'FindArgs-$1')
   schemaStr = schemaStr.replace(/https \:\/\//gm, 'https://')
+  // a bug in the schema generator stack mangles @link tags with text.
+  schemaStr = schemaStr.replace(/\{@link\s+([^|}]+?)\s([^|}]+)\s}/g, '{@link $1 | $2 }')
   return JSON.parse(schemaStr)
 }
 
