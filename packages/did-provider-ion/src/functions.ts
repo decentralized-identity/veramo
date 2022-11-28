@@ -84,7 +84,7 @@ export const getKid = (
     .update(canonicalize(copy)!, 'utf-8')
     .digest();
 
-  return base64url.encode(Buffer.from(digest));
+  return u8a.toString(digest, 'base64url')
 };
 
 /** convert compressed hex encoded private key to jwk */
