@@ -63,4 +63,44 @@ export interface IKeyRotation {
   nextJwk: JwkEs256k // Next JWK of the update/recovery key
 }
 
+
+/** Secp256k1 Private Key  */
+export interface ISecp256k1PrivateKeyJwk {
+  /** key type */
+  kty: string;
+
+  /** curve */
+  crv: string;
+
+  /** private point */
+  d: string;
+
+  /** public point */
+  x: string;
+
+  /** public point */
+  y: string;
+
+  /** key id */
+  kid: string;
+}
+
+/** Secp256k1 Public Key  */
+export interface ISecp256k1PublicKeyJwk {
+  /** key type */
+  kty: string;
+
+  /** curve */
+  crv: string;
+
+  /** public point */
+  x: string;
+
+  /** public point */
+  y: string;
+
+  /** key id */
+  kid: string;
+}
+
 export type IRequiredContext = IAgentContext<IKeyManager>

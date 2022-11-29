@@ -118,10 +118,10 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
         services,
       },
     }
-    const longFormDid = ionLongFormDidFromCreation(createRequest)
+    const longFormDid = await ionLongFormDidFromCreation(createRequest)
     const shortFormDid = ionShortFormDidFromLong(longFormDid)
 
-    const request = IonRequest.createCreateRequest(createRequest)
+    const request = await IonRequest.createCreateRequest(createRequest)
     await this.anchorRequest(request, options?.anchor)
 
     const identifier: Omit<IIdentifier, 'provider'> = {
