@@ -22,21 +22,19 @@
     "@veramo/test-utils": "^4.1.1",
     "@veramo/url-handler": "^4.1.1",
     "@veramo/utils": "^4.1.1",
+    "buffer": "npm:buffer",
     "crypto": "npm:crypto-browserify",
     "did-resolver": "^4.0.1",
     "ethr-did-resolver": "^8.0.0",
+    "path": "npm:path-browserify",
+    "process": "npm:process",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "stream": "npm:stream-browserify",
     "typeorm": "^0.3.10",
-    "web-did-resolver": "^2.0.20",
-    "web-vitals": "^2.1.4",
-    "web-did-resolver": "^2.0.21",
-    "web-vitals": "^2.1.4",
     "util": "npm:util",
-    "path": "npm:path-browserify",
-    "process": "npm:process",
-    "buffer": "npm:buffer"
+    "web-did-resolver": "^2.0.21",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -70,7 +68,7 @@
     "@types/expect-puppeteer": "4.4.7",
     "@types/jest": "28.1.1",
     "@types/jest-environment-puppeteer": "5.0.2",
-    "@types/node": "17.0.35",
+    "@types/node": "18.11.9",
     "@types/puppeteer": "5.4.6",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
@@ -82,6 +80,6 @@
     "puppeteer": "14.3.0",
     "react-scripts": "5.0.1",
     "ts-jest": "28.0.4",
-    "typescript": "4.8.4"
+    "typescript": "4.9.3"
   }
 }
