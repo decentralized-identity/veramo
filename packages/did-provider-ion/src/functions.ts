@@ -6,6 +6,7 @@ import {
   KeyType,
 } from './types/ion-provider-types'
 import { IonDid, IonDocumentModel, IonPublicKeyModel, IonPublicKeyPurpose, JwkEs256k } from '@decentralized-identity/ion-sdk'
+import { computePublicKey } from '@ethersproject/signing-key'
 import { IKey, ManagedKeyInfo } from '@veramo/core'
 import keyto from '@trust/keyto';
 import { randomBytes } from '@ethersproject/random'
@@ -13,12 +14,9 @@ import * as u8a from 'uint8arrays'
 import { generateKeyPair as generateSigningKeyPair } from '@stablelib/ed25519'
 import Debug from 'debug'
 import { JsonCanonicalizer } from './json-canonicalizer'
-import crypto from 'crypto'
-import base64url from 'base64url'
 import { MemoryPrivateKeyStore } from '@veramo/key-manager'
 import { KeyManagementSystem } from '@veramo/kms-local'
-import * as secp256k1 from 'secp256k1'
-import canonicalize from 'canonicalize'
+import { hash } from '@stablelib/sha256'
 
 const multihashes = require('multihashes')
 
@@ -79,16 +77,12 @@ export const getKid = (
   delete copy.d;
   delete copy.kid;
   delete copy.alg;
-  const digest = crypto
-    .createHash('sha256')
-    .update(canonicalize(copy)!, 'utf-8')
-    .digest();
-
+  const digest = hash(u8a.fromString(JsonCanonicalizer.asString(copy), 'utf-8'));
   return u8a.toString(digest, 'base64url')
 };
 
 /** convert compressed hex encoded private key to jwk */
-export const privateKeyJwkFromPrivateKeyHex = (privateKeyHex: string) => {
+const privateKeyJwkFromPrivateKeyHex = (privateKeyHex: string) => {
   const jwk = {
     ...keyto.from(privateKeyHex, 'blk').toJwk('private'),
     crv: 'secp256k1',
@@ -101,15 +95,12 @@ export const privateKeyJwkFromPrivateKeyHex = (privateKeyHex: string) => {
 };
 
 /** convert compressed hex encoded public key to jwk */
-export const publicKeyJwkFromPublicKeyHex = (publicKeyHex: string) => {
+const publicKeyJwkFromPublicKeyHex = (publicKeyHex: string) => {
   let key = publicKeyHex;
   const compressedHexEncodedPublicKeyLength = 66;
   if (publicKeyHex.length === compressedHexEncodedPublicKeyLength) {
-    const keyBin = secp256k1.publicKeyConvert(
-      Buffer.from(publicKeyHex, 'hex'),
-      false
-    );
-    key = Buffer.from(keyBin).toString('hex');
+    const publicBytes = u8a.fromString(publicKeyHex, 'base16')
+    key = computePublicKey(publicBytes, true).substring(2)
   }
   const jwk = {
     ...keyto.from(key, 'blk').toJwk('public'),
@@ -142,12 +133,13 @@ export const computeCommitmentFromIonPublicKey = (ionKey: IonPublicKeyModel): st
 export const computeCommitmentFromJwk = (jwk: JwkEs256k): string => {
   const data = JsonCanonicalizer.asString(jwk)
   debug(`canonicalized JWK: ${data}`)
-  const singleHash = crypto.createHash('sha256').update(data).digest()
-  const doubleHash = crypto.createHash('sha256').update(singleHash).digest()
+  const singleHash = hash(u8a.fromString(data))
+  const doubleHash = hash(singleHash)
 
-  const multiHash = multihashes.encode(Buffer.from(doubleHash), MULTI_HASH_SHA256_LITERAL)
-  debug(`commitment: ${base64url.encode(multiHash)}`)
-  return base64url.encode(multiHash)
+  const multiHash = multihashes.encode(doubleHash, MULTI_HASH_SHA256_LITERAL)
+  const commitment = u8a.toString(multiHash, 'base64url')
+  debug(`commitment: ${commitment}`)
+  return commitment
 }
 
 /**
@@ -308,8 +300,8 @@ export const tempMemoryKey = async (
  * @param input The creation keys
  * @return The Ion Long form DID
  */
-export const ionLongFormDidFromCreation = (input: { recoveryKey: JwkEs256k; updateKey: JwkEs256k; document: IonDocumentModel }): string => {
-  return IonDid.createLongFormDid(input)
+export const ionLongFormDidFromCreation = async (input: { recoveryKey: JwkEs256k; updateKey: JwkEs256k; document: IonDocumentModel }): Promise<string> => {
+  return await IonDid.createLongFormDid(input)
 }
 
 /**
@@ -318,12 +310,12 @@ export const ionLongFormDidFromCreation = (input: { recoveryKey: JwkEs256k; upda
  * @param input The creation keys
  * @return The Ion Short form DID
  */
-export const ionShortFormDidFromCreation = (input: { recoveryKey: JwkEs256k; updateKey: JwkEs256k; document: IonDocumentModel }): string => {
-  return ionShortFormDidFromLong(ionLongFormDidFromCreation(input))
+export const ionShortFormDidFromCreation = async (input: { recoveryKey: JwkEs256k; updateKey: JwkEs256k; document: IonDocumentModel }): Promise<string> => {
+  return  ionShortFormDidFromLong(await ionLongFormDidFromCreation(input))
 }
 
 /**
- * Convert an Ion Long form DID into a short form DID. Be awaer that the input really needs to be a long Form DID!
+ * Convert an Ion Long form DID into a short form DID. Be aware that the input really needs to be a long Form DID!
  * @param longFormDid The Ion Long form DID
  * @return An Ion Short form DID
  */
