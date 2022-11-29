@@ -19,6 +19,7 @@ export abstract class AbstractMessageHandler {
     if (this.nextMessageHandler) {
       return this.nextMessageHandler.handle(message, context)
     }
+    console.warn("Can't handle message: ", message)
     return Promise.reject(unsupportedMessageTypeError)
   }
 }
