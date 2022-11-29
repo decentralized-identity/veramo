@@ -134,6 +134,63 @@ const hexDoc = {
   ]
 }
 
+// https://github.com/aviarytech/didcomm/blob/master/tests/fixtures/didDocs/alice.json
+const jwkDocX = {
+	"@context": ["https://www.w3.org/ns/did/v1", "https://w3id.org/security/suites/jws-2020/v1"],
+	"id": "did:example:alice",
+	"verificationMethod": [
+		{
+			"id": "did:example:alice#key-0",
+			"controller": "did:example:alice",
+			"type": "JsonWebKey2020",
+			"publicKeyJwk": {
+				"kty": "OKP",
+				"crv": "X25519",
+				"x": "tsc9iYfy4hv2Mz5Q-ztGjKXeXzWUDWl5DLpfepJg4Wc"
+			}
+		}
+	],
+	"authentication": ["did:example:alice#key-0"],
+	"assertionMethod": ["did:example:alice#key-0"],
+	"keyAgreement": ["did:example:alice#key-0"],
+	"service": [
+		{
+			"id": "did:example:alice#didcomm",
+			"type": "DIDCommMessaging",
+			"serviceEndpoint": "http://example.com/didcomm",
+			"routingKeys": []
+		}
+	]
+}
+
+const jwkDocEd = {
+	"@context": ["https://www.w3.org/ns/did/v1", "https://w3id.org/security/suites/jws-2020/v1"],
+	"id": "did:example:alice",
+	"verificationMethod": [
+		{
+			"id": "did:example:alice#key-0",
+			"controller": "did:example:alice",
+			"type": "JsonWebKey2020",
+			"publicKeyJwk": {
+				"kty": "OKP",
+				"crv": "Ed25519",
+				"x": "CV-aGlld3nVdgnhoZK0D36Wk-9aIMlZjZOK2XhPMnkQ"
+			}
+		}
+	],
+	"authentication": ["did:example:alice#key-0"],
+	"assertionMethod": ["did:example:alice#key-0"],
+	"keyAgreement": ["did:example:alice#key-0"],
+	"service": [
+		{
+			"id": "did:example:alice#didcomm",
+			"type": "DIDCommMessaging",
+			"serviceEndpoint": "http://example.com/didcomm",
+			"routingKeys": []
+		}
+	]
+}
+
 describe('didComm', () => {
   let didKeyIdentifier: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager>
@@ -165,6 +222,10 @@ describe('didComm', () => {
                 doc = multiBaseDoc
               } else if (did === "did:fake:hex") {
                 doc = hexDoc
+              } else if (did === "did:fake:jwkx") {
+                doc = jwkDocX
+              } else if (did === "did:fake:jwked") {
+                doc = jwkDocEd
               } else {
                 throw new Error("Bad didUrl for fake resolver: " + did)
               }
@@ -202,6 +263,8 @@ describe('didComm', () => {
     expect(packedMessage).toBeDefined()
   })
 
+  it.todo('should unpack message packed for base58')
+
   it('should pack message for public key as multibase', async () => {
     const packedMessage = await agent.packDIDCommMessage({
       message: testMessage("did:fake:multibase"),
@@ -210,6 +273,8 @@ describe('didComm', () => {
     expect(packedMessage).toBeDefined()
   })
 
+  it.todo('should unpack message packed for multibase')
+
   it('should pack message for public key as hex', async () => {
     const packedMessage = await agent.packDIDCommMessage({
       message: testMessage("did:fake:hex"),
@@ -217,4 +282,26 @@ describe('didComm', () => {
     })
     expect(packedMessage).toBeDefined()
   })
+
+  it.todo('should unpack message packed for hex')
+
+  it('should pack message for public key as jwk with X25519 crv', async () => {
+    const packedMessage = await agent.packDIDCommMessage({
+      message: testMessage("did:fake:jwkx"),
+      packing: 'authcrypt'
+    })
+    expect(packedMessage).toBeDefined()
+  })
+
+  it.todo('should unpack message packed for jwk with X25519 crv')
+
+  it('should pack message for public key as jwk with Ed25519 crv', async () => {
+    const packedMessage = await agent.packDIDCommMessage({
+      message: testMessage("did:fake:jwked"),
+      packing: 'authcrypt'
+    })
+    expect(packedMessage).toBeDefined()
+  })
+
+  it.todo('should unpack message packed for jwk with Ed25519 crv')
 })
