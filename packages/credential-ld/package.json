@@ -27,7 +27,7 @@
     "@veramo/utils": "^4.1.1",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
-    "uint8arrays": "^3.0.0"
+    "uint8arrays": "^4.0.0"
   },
   "resolutions": {
     "@types/react": "18.0.12",

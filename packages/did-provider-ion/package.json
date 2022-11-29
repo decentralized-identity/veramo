@@ -21,7 +21,7 @@
     "@veramo/key-manager": "^4.1.1",
     "@veramo/kms-local": "^4.1.1",
     "debug": "^4.3.3",
-    "uint8arrays": "^3.0.0"
+    "uint8arrays": "^4.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

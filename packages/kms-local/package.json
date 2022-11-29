@@ -24,7 +24,7 @@
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
     "elliptic": "^6.5.4",
-    "uint8arrays": "^3.0.0"
+    "uint8arrays": "^4.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
