@@ -87,8 +87,8 @@ describe('didComm', () => {
             new TrustPingMessageHandler()
           ]
         }),
-      new DataStore(dbConnection),
-      new DataStoreORM(dbConnection),
+        new DataStore(dbConnection),
+        new DataStoreORM(dbConnection),
         DIDCommEventSniffer
       ],
     })
@@ -168,6 +168,7 @@ describe('didComm', () => {
     }
   })
 
+
   it('should handle trust ping message directly', async () => {
     const tpid = "518be002-de8e-456e-b3d5-8fe472477a86"
     const trustPingMessage = {
@@ -185,24 +186,35 @@ describe('didComm', () => {
     console.log("handled: ", handled)
     console.log("handled.metaData: ", handled.metaData)
     
+    // recipient sends response
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+      { 
+        data: `${tpid}-response`, 
+        type: 'DIDCommV2Message-sent' 
+      },
+      expect.anything(),
+    )
 
-    // Can't do exact matching on these calls since we don't know the response message ID
+    // original sender receives response
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+      { 
+        data: {
+          message: {
+            body: {},
+            from: recipient.did,
+            id: `${tpid}-response`,
+            thid: tpid,
+            to: sender.did,
+            type: 'https://didcomm.org/trust-ping/2.0/ping-response',
+          },
+          metaData: { packing: 'authcrypt' },
+        },
+        type: 'DIDCommV2Message-received'
+      },
+      expect.anything(),
+    )
 
-    // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-    //   { type: 'DIDCommV2Message-received' },
-    //   expect.anything(),
-    // )
-    
-    // // expect(handled.metaData).
-    // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-    //   { type: 'DIDCommV2Message-sent' },
-    //   expect.anything(),
-    // )
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(2)
-
-    // const message = await agent.dataStoreGetMessage({ id: tpid })
-    // console.log("message: ", message)
-
   })
 
   it('should handle packed (with authcrypt) trust ping message directly', async () => {

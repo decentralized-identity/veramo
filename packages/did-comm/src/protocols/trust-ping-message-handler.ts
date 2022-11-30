@@ -29,7 +29,7 @@ export function createTrustPingResponse(senderDidUrl: string, recipientDidUrl: s
     type: TRUST_PING_RESPONSE_MESSAGE_TYPE,
     from: senderDidUrl,
     to: recipientDidUrl,
-    id: v4(),
+    id: `${pingId}-response`,
     thid: pingId,
     body: {}
   }
