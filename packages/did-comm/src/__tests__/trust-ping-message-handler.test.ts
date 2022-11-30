@@ -205,6 +205,15 @@ describe('didComm', () => {
 
   })
 
+  it('should handle packed (with authcrypt) trust ping message directly', async () => {
+    const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
+    const packedMessage = await agent.packDIDCommMessage({ message: trustPingMessage, packing: 'authcrypt'})
+    console.log("go handle trustPingMessage: ", trustPingMessage)
+    const handled = await agent.handleMessage({raw: JSON.stringify(packedMessage)})
+    console.log("handled 2: ", handled)
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(4)
+  })
+
   
   it('should handle trust ping message sent via didcomm', async () => {
     const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
@@ -213,7 +222,7 @@ describe('didComm', () => {
     console.log("result: ", result)
 
     // this counts the 2 calls from previous as well, this is not a good way to check this!
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(6)
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(8)
   })
 
    
@@ -224,7 +233,7 @@ describe('didComm', () => {
     console.log("result: ", result)
 
     // this counts the 2 calls from fisrt test, 4 from previous (and then 4 from current test), this is not a good way to check this!
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(10)
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(12)
   })
 
 })
