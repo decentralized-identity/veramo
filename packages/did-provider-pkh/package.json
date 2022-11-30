@@ -1,0 +1,37 @@
+{
+  "name": "@veramo/did-provider-pkh",
+  "description": "Veramo plugin that can enable creation and control of did:pkh identifiers.",
+  "version": "4.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "yarn veramo dev extract-api"
+  },
+  "dependencies": {
+    "@ethersproject/signing-key": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/transactions": "^5.7.0",
+    "@veramo/core": "^4.0.0",
+    "@veramo/did-manager": "^4.0.0",
+    "debug": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "typescript": "4.8.4"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Diego Chagastelles <dchagastelles@gmail.com>",
+  "contributors": [],
+  "license": "Apache-2.0",
+  "keywords": []
+}

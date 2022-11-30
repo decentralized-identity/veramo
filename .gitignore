@@ -37,3 +37,5 @@ temp
 agent.yml
 data
 .vscode-upload.json
+
+local-database*.json
