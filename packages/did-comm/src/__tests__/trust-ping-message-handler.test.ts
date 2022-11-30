@@ -17,7 +17,7 @@ import { Resolver } from 'did-resolver'
 import { DIDCommHttpTransport } from "../transports/transports"
 import { IDIDComm } from "../types/IDIDComm"
 import { MessageHandler } from "../../../message-handler/src"
-import { TrustPingMessageHandler } from "../protocols/trust-ping-message-handler"
+import { createTrustPingMessage, TrustPingMessageHandler } from "../protocols/trust-ping-message-handler"
 import { FakeDidProvider, FakeDidResolver } from "../../../test-utils/src"
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
@@ -200,28 +200,31 @@ describe('didComm', () => {
     // )
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(2)
 
-    const message = await agent.dataStoreGetMessage({ id: tpid })
-    console.log("message: ", message)
+    // const message = await agent.dataStoreGetMessage({ id: tpid })
+    // console.log("message: ", message)
 
   })
 
   
   it('should handle trust ping message sent via didcomm', async () => {
-    const tpid = "518be002-de8e-456e-b3d5-8fe472477a86"
-    const trustPingMessage = {
-      type: 'https://didcomm.org/trust-ping/2.0/ping',
-      id: tpid,
-      from: sender.did,
-      to: recipient.did,
-      body: {
-          "response_requested": true
-      },
-      raw: ''
-    }
+    const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
     const packedMessage = await agent.packDIDCommMessage({ packing: 'none', message: trustPingMessage})
     const result = await agent.sendDIDCommMessage({ messageId: trustPingMessage.id, packedMessage, recipientDidUrl: recipient.did })
     console.log("result: ", result)
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(4)
+
+    // this counts the 2 calls from previous as well, this is not a good way to check this!
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(6)
+  })
+
+   
+  it('should handle trust ping message sent via didcomm', async () => {
+    const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
+    const packedMessage = await agent.packDIDCommMessage({ packing: 'authcrypt', message: trustPingMessage})
+    const result = await agent.sendDIDCommMessage({ messageId: trustPingMessage.id, packedMessage, recipientDidUrl: recipient.did })
+    console.log("result: ", result)
+
+    // this counts the 2 calls from fisrt test, 4 from previous (and then 4 from current test), this is not a good way to check this!
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(10)
   })
 
 })

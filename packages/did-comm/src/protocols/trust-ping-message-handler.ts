@@ -56,7 +56,7 @@ export class TrustPingMessageHandler extends AbstractMessageHandler {
       try {
         const { from, to, id } = parsedMessage
         const response = createTrustPingResponse(to, from, id)
-        const packedResponse = await context.agent.packDIDCommMessage({ message: response, packing: 'none'})
+        const packedResponse = await context.agent.packDIDCommMessage({ message: response, packing: 'authcrypt'})
         const sent = await context.agent.sendDIDCommMessage({
           messageId: response.id,
           packedMessage: packedResponse,
