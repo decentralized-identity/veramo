@@ -57,7 +57,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should pack and unpack a plaintext message', async () => {
-      expect.assertions(1)
+      expect.assertions(2)
       const message = {
         type: 'test',
         to: receiver.did,
@@ -68,6 +68,8 @@ export default (testContext: {
         packing: 'none',
         message,
       })
+      console.log("packedMessage: ", packedMessage)
+      expect(JSON.parse(packedMessage.message).typ).toEqual('application/didcomm-plain+json')
       const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
       expect(unpackedMessage).toEqual({
         message: {
@@ -90,6 +92,7 @@ export default (testContext: {
         packing: 'jws',
         message,
       })
+      console.log("packedMessage: ", packedMessage)
       const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
       expect(unpackedMessage).toEqual({
         message,

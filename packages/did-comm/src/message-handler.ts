@@ -92,6 +92,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
       } catch (e) {
         debug(`Could not parse message as DIDComm v2: ${e}`)
       }
+      console.log("didCommMessageType: ", didCommMessageType)
       if (didCommMessageType) {
         try {
           const unpackedMessage = await context.agent.unpackDIDCommMessage({
