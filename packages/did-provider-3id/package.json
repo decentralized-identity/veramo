@@ -1,0 +1,7 @@
+{
+  "name": "@veramo/did-provider-3id",
+  "version": "1.0.0",
+  "description": "Veramo 3IDV1 DIDs identity controller plugin",
+  "main": "build/index.js",
+  "license": "MIT"
+}
