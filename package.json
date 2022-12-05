@@ -79,8 +79,7 @@
   },
   "resolutions": {
     "@types/react": "^18.0.21",
-    "@types/eslint": "^8.4.6",
-    "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
+    "@types/eslint": "^8.4.6"
   },
   "engines": {
     "node": ">= 14.0.0"
