@@ -5,9 +5,9 @@ import {
   ServiceEndpoint,
   VerificationMethod,
 } from 'did-resolver'
+import { IPluginMethodMap } from './IAgent'
 
 export { DIDDocument, DIDResolutionOptions, DIDResolutionResult } from 'did-resolver'
-import { IPluginMethodMap } from './IAgent'
 
 /**
  * Input arguments for {@link IResolver.resolveDid | resolveDid}

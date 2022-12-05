@@ -44,6 +44,7 @@ import {
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
+import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
@@ -88,6 +89,7 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
+import didCommAndDataStoreWithCredentials from './shared/didCommAndDataStoreWithCredentials'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
@@ -183,6 +185,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:pkh': new PkhDIDProvider({
+            defaultKms: 'local',
+          }),
           'did:fake': new FakeDidProvider(),
         },
       }),
@@ -192,6 +197,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...webDidResolver(),
           // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
           ...getDidKeyResolver(),
+          ...getDidPkhResolver(),
           ...new FakeDidResolver(() => serverAgent as TAgent<IDIDManager>).getDidFakeResolver(),
         }),
       }),
@@ -280,6 +286,7 @@ describe('REST integration tests', () => {
   messageHandler(testContext)
   didCommPacking(testContext)
   didWithFakeDidFlow(testContext)
+  didCommAndDataStoreWithCredentials(testContext)
   didDiscovery(testContext)
   utils(testContext)
   credentialStatus(testContext)

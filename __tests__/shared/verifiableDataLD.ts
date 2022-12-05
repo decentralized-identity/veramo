@@ -26,7 +26,9 @@ export default (testContext: {
     let agent: ConfiguredAgent
     let didEthrIdentifier: IIdentifier
     let didKeyIdentifier: IIdentifier
+    let pkhIdentifier: IIdentifier
     let storedCredentialHash: string
+    let storedPkhCredentialHash: string
     let challenge: string
 
     beforeAll(async () => {
@@ -35,6 +37,7 @@ export default (testContext: {
       challenge = 'TEST_CHALLENGE_STRING'
       didEthrIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:ethr' })
       didKeyIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:key' })
+      pkhIdentifier = await agent.didManagerCreate({ kms: 'local', provider: "did:pkh", options: { chainId: "1"} })
     })
     afterAll(testContext.tearDown)
 
@@ -255,6 +258,35 @@ export default (testContext: {
       })
 
       expect(result.verified).toEqual(true)
+    })
+
+    it('should create verifiable credential in LD with did:pkh', async () => {
+      const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: pkhIdentifier.did },
+          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
+          type: ['VerifiableCredential', 'Profile'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: pkhIdentifier.did,
+            name: 'Martin, the great',
+          },
+        },
+        proofFormat: 'lds',
+      })
+
+      // Check credential:
+      expect(verifiableCredential).toHaveProperty('proof')
+      expect(verifiableCredential).toHaveProperty('proof.jws')
+      expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'Profile'])
+
+      storedPkhCredentialHash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
+      expect(typeof storedPkhCredentialHash).toEqual('string')
+
+      const verifiableCredential2 = await agent.dataStoreGetVerifiableCredential({
+        hash: storedPkhCredentialHash,
+      })
+      expect(verifiableCredential).toEqual(verifiableCredential2)
     })
 
     describe('credential verification policies', () => {

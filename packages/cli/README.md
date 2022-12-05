@@ -29,3 +29,20 @@ Commands:
   dev                Plugin developer tools
   help [command]     display help for command
 ```
+
+## Developing
+
+When developing in this package, take care to call the local veramo CLI package, rather than the globally installed one.
+
+For example, rather than doing this:
+
+```
+veramo credential create
+```
+
+you will need to do this:
+
+```
+yarn build
+yarn veramo credential create
+```
