@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
+
+
+### Bug Fixes
+
+* **cli:** fix bug in schema generator ([d4c63c1](https://github.com/uport-project/veramo/commit/d4c63c1d1c3acb2a2f576450384250163ae7e0a0))
+* **deps:** bump dependencies ([701b8ed](https://github.com/uport-project/veramo/commit/701b8edf981ea11c7ddb6a81d2817dbbdbb022f3))
+
+
+
+
+
 ## [4.1.1](https://github.com/uport-project/veramo/compare/v4.1.0...v4.1.1) (2022-11-01)
 
 **Note:** Version bump only for package @veramo/core
