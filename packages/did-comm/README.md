@@ -18,10 +18,3 @@ Message Envelopes:
 | authcrypt(sign(plaintext)) | 'authcrypt+jws' | `application/didcomm-encrypted+json` | [ ] | [ ] | SHOULD NOT be emitted, but MAY be accepted |
 | anoncryptauthcrypt((sign(plaintext))) | '' | `application/didcomm-encrypted+json` | [ ] | [ ] | |
 
-[ ] - DIDComm Messages with `typ` that omits `application/` prefix are supported?
-
-#### DIDComm Plaintext Messages
-[ ] - media type is reported as `application/didcomm-plain+json` when message packed with `packing` = 'none'
-
-#### DIDComm Signed Messages
-[ ] - media type is reported as `application/didcomm-signed+json` when message packed with `packing` = 'jws'
