@@ -167,36 +167,6 @@ describe('did-comm-message-handler', () => {
     }
   })
 
-  // const expectResponse = (tpid: string) => {
-  //   // recipient sends response
-  //   expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-  //     { 
-  //       data: `${tpid}-response`, 
-  //       type: 'DIDCommV2Message-sent' 
-  //     },
-  //     expect.anything(),
-  //   )
-
-  //   // original sender receives response
-  //   expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-  //     { 
-  //       data: {
-  //         message: {
-  //           body: {},
-  //           from: recipient.did,
-  //           id: `${tpid}-response`,
-  //           thid: tpid,
-  //           to: sender.did,
-  //           type: 'https://didcomm.org/trust-ping/2.0/ping-response',
-  //         },
-  //         metaData: { packing: 'authcrypt' },
-  //       },
-  //       type: 'DIDCommV2Message-received'
-  //     },
-  //     expect.anything(),
-  //   )
-  // }
-
   const expectMessageReceived = (id: string, packing: string) => {
     // recipient sends response
     // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
@@ -228,27 +198,15 @@ describe('did-comm-message-handler', () => {
     )
   }
 
-  // it('should handle trust ping message directly', async () => {
-  //   const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
-  //   const tpid = trustPingMessage.id
-  //   await agent.handleMessage({raw: JSON.stringify(trustPingMessage)})
-    
-  //   expectResponse(tpid)
-
-  //   expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(2)
-  // })
-
   const getRegularMessage = () => {
-    return { id: v4(), type: 'fake', to: sender.did, from: recipient.did, body: { hello: 'world' }}
+    return { id: v4(), type: 'fake', to: recipient.did, from: sender.did, body: { hello: 'world' }}
   }
 
   it('should pack and unpack trust ping message with none packing', async () => {
-    // const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
     const anyMessage = getRegularMessage()
     const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'none'})
-    console.log("packedMessage: ", packedMessage)
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
-    expect(unpackedMessage.message).toEqual(anyMessage)
+    expect(unpackedMessage.message).toEqual({...anyMessage, typ: 'application/didcomm-plain+json'})
   })
 
   it('should pack and unpack trust ping message with authcrypt packing', async () => {
@@ -256,46 +214,14 @@ describe('did-comm-message-handler', () => {
     const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'authcrypt'})
     console.log("packedMessage: ", packedMessage)
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
-    // delete unpackedMessage.message.typ
     expect(unpackedMessage.message).toEqual(anyMessage)
   })
 
-  it('should handle packed (with authcrypt) trust ping message directly', async () => {
+  it('should handle packed (with authcrypt) message directly', async () => {
     const anyMessage = getRegularMessage()
     const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'authcrypt'})
-    console.log("packedMessage: ", packedMessage)
     const id = anyMessage.id
-
-    const handled = await agent.handleMessage({raw: JSON.stringify(packedMessage.message)})
-    console.log("handled 2: ", handled)
-
+    await agent.handleMessage({raw: packedMessage.message})
     expectMessageReceived(id, 'authcrypt')
-    // expectResponse(tpid)
-    // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(4)
   })
-
-  
-  // it('should handle none-packed trust ping message sent via didcomm', async () => {
-  //   const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
-  //   const packedMessage = await agent.packDIDCommMessage({ packing: 'none', message: trustPingMessage})
-  //   const tpid = trustPingMessage.id
-  //   const result = await agent.sendDIDCommMessage({ messageId: trustPingMessage.id, packedMessage, recipientDidUrl: recipient.did })
-  //   console.log("result: ", result)
-
-  //   expectMessageReceived(tpid, 'none')
-  //   expectResponse(tpid)
-  // })
-
-   
-  // it('should handle authcrypt-packed trust ping message sent via didcomm', async () => {
-  //   const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
-  //   const tpid = trustPingMessage.id
-  //   const packedMessage = await agent.packDIDCommMessage({ packing: 'authcrypt', message: trustPingMessage})
-  //   const result = await agent.sendDIDCommMessage({ messageId: trustPingMessage.id, packedMessage, recipientDidUrl: recipient.did })
-  //   console.log("result: ", result)
-
-  //   expectMessageReceived(tpid, 'authcrypt')
-  //   expectResponse(tpid)
-  // })
-
 })
