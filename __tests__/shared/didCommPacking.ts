@@ -68,7 +68,6 @@ export default (testContext: {
         packing: 'none',
         message,
       })
-      console.log("packedMessage: ", packedMessage)
       expect(JSON.parse(packedMessage.message).typ).toEqual('application/didcomm-plain+json')
       const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
       expect(unpackedMessage).toEqual({
@@ -92,7 +91,6 @@ export default (testContext: {
         packing: 'jws',
         message,
       })
-      console.log("packedMessage: ", packedMessage)
       const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
       expect(unpackedMessage).toEqual({
         message,

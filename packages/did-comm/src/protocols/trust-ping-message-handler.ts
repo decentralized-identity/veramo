@@ -54,10 +54,10 @@ export class TrustPingMessageHandler extends AbstractMessageHandler {
       try {
         const { from, to, id } = message
         if (!from) {
-          throw new Error("Trust Ping Message received without `from` set")
+          throw new Error("invalid_argument: Trust Ping Message received without `from` set")
         }
         if (!to) {
-          throw new Error("Trust Ping Message received without `to` set")
+          throw new Error("invalid_argument: Trust Ping Message received without `to` set")
         }
         const response = createTrustPingResponse(to!, from!, id)
         const packedResponse = await context.agent.packDIDCommMessage({ message: response, packing: 'authcrypt'})

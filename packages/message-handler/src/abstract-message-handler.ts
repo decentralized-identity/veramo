@@ -1,6 +1,8 @@
 import { IAgentContext } from '@veramo/core'
 import { Message } from './message'
+import Debug from 'debug'
 
+const debug = Debug('veramo:message-handler')
 export const unsupportedMessageTypeError = new Error('Unsupported message type')
 
 /**
@@ -19,7 +21,7 @@ export abstract class AbstractMessageHandler {
     if (this.nextMessageHandler) {
       return this.nextMessageHandler.handle(message, context)
     }
-    console.warn("Can't handle message: ", message)
+    debug("can't handle message: ", message)
     return Promise.reject(unsupportedMessageTypeError)
   }
 }

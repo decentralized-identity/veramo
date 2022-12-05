@@ -17,7 +17,6 @@ import { Resolver } from 'did-resolver'
 import { DIDCommHttpTransport } from "../transports/transports"
 import { IDIDComm } from "../types/IDIDComm"
 import { MessageHandler } from "../../../message-handler/src"
-import { createTrustPingMessage, TrustPingMessageHandler } from "../protocols/trust-ping-message-handler"
 import { FakeDidProvider, FakeDidResolver } from "../../../test-utils/src"
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
@@ -202,14 +201,14 @@ describe('did-comm-message-handler', () => {
     return { id: v4(), type: 'fake', to: recipient.did, from: sender.did, body: { hello: 'world' }}
   }
 
-  it('should pack and unpack trust ping message with none packing', async () => {
+  it('should pack and unpack message with none packing', async () => {
     const anyMessage = getRegularMessage()
     const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'none'})
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
     expect(unpackedMessage.message).toEqual({...anyMessage, typ: 'application/didcomm-plain+json'})
   })
 
-  it('should pack and unpack trust ping message with authcrypt packing', async () => {
+  it('should pack and unpack message with authcrypt packing', async () => {
     const anyMessage = getRegularMessage()
     const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'authcrypt'})
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
