@@ -1,4 +1,4 @@
-import { DIDComm } from "../didcomm"
+import { DIDComm } from '../didcomm'
 import {
   createAgent,
   IDIDManager,
@@ -14,18 +14,19 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from "../transports/transports"
-import { IDIDComm } from "../types/IDIDComm"
-import { MessageHandler } from "../../../message-handler/src"
-import { createTrustPingMessage, TrustPingMessageHandler } from "../protocols/trust-ping-message-handler"
-import { FakeDidProvider, FakeDidResolver } from "../../../test-utils/src"
+import { DIDCommHttpTransport } from '../transports/transports'
+import { IDIDComm } from '../types/IDIDComm'
+import { MessageHandler } from '../../../message-handler/src'
+import { createTrustPingMessage, TrustPingMessageHandler } from '../protocols/trust-ping-message-handler'
+import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
-import { Entities, IDataStore, migrations } from '../../../data-store/src'
+import { Entities, IDataStore, MetaData, migrations } from '../../../data-store/src'
 import express from 'express'
 import { Server } from 'http'
-import { DIDCommMessageHandler } from "../message-handler"
-import { DataStore, DataStoreORM } from "../../../data-store/src"
+import { DIDCommMessageHandler } from '../message-handler'
+import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
+import { Message } from '@veramo/message-handler'
 
 
 const DIDCommEventSniffer: IEventListener = {
@@ -138,8 +139,8 @@ describe('trust-ping-message-handler', () => {
       provider: 'did:fake',
       alias: 'receiver',
     })
-    // console.log("sender: ", sender)
-    // console.log("recipient: ", recipient)
+    // console.log('sender: ', sender)
+    // console.log('recipient: ', recipient)
 
     const requestWithAgent = RequestWithAgentRouter({ agent })
 
@@ -230,43 +231,46 @@ describe('trust-ping-message-handler', () => {
     )
   }
 
+  // this test should cover message handler directly without any DIDCommMessageHandler 'pre-processing'
   it('should handle trust ping message directly', async () => {
     const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
     const tpid = trustPingMessage.id
-    await agent.handleMessage({raw: JSON.stringify(trustPingMessage)})
-    
+    let metaData: MetaData[] = []
+    await (new TrustPingMessageHandler()).handle({ ...trustPingMessage, isValid: () => true, addMetaData: (meta) => {
+      metaData.push(meta)
+    }, getLastMetaData: () => {
+      return { 'type': 'fake', value: 'fake'}
+    }}, { agent })
     expectResponse(tpid)
-
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(2)
   })
 
   it('should pack and unpack trust ping message with none packing', async () => {
     const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
     const packedMessage = await agent.packDIDCommMessage({ message: trustPingMessage, packing: 'none'})
-    console.log("packedMessage: ", packedMessage)
+    console.log('packedMessage: ', packedMessage)
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
-    expect(unpackedMessage.message).toEqual(trustPingMessage)
+    expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
   })
 
   it('should pack and unpack trust ping message with authcrypt packing', async () => {
     const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
     const packedMessage = await agent.packDIDCommMessage({ message: trustPingMessage, packing: 'authcrypt'})
-    console.log("packedMessage: ", packedMessage)
+    console.log('packedMessage: ', packedMessage)
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
-    // delete unpackedMessage.message.typ
-    expect(unpackedMessage.message).toEqual(trustPingMessage)
+    expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
   })
 
   it('should handle packed (with authcrypt) trust ping message directly', async () => {
     const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
     const packedMessage = await agent.packDIDCommMessage({ message: trustPingMessage, packing: 'authcrypt'})
-    console.log("packedMessage: ", packedMessage)
+    console.log('packedMessage: ', packedMessage)
     const tpid = trustPingMessage.id
 
-    console.log("go handle trustPingMessage: ", trustPingMessage)
-    const handled = await agent.handleMessage({raw: JSON.stringify(packedMessage.message)})
+    console.log('go handle trustPingMessage: ', trustPingMessage)
+    const handled = await agent.handleMessage({raw: packedMessage.message})
 
-    console.log("handled 2: ", handled)
+    console.log('handled 2: ', handled)
 
     expectResponse(tpid)
     // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledTimes(4)
@@ -278,7 +282,7 @@ describe('trust-ping-message-handler', () => {
     const packedMessage = await agent.packDIDCommMessage({ packing: 'none', message: trustPingMessage})
     const tpid = trustPingMessage.id
     const result = await agent.sendDIDCommMessage({ messageId: trustPingMessage.id, packedMessage, recipientDidUrl: recipient.did })
-    console.log("result: ", result)
+    console.log('result: ', result)
 
     expectPing(tpid, 'none')
     expectResponse(tpid)
@@ -290,7 +294,7 @@ describe('trust-ping-message-handler', () => {
     const tpid = trustPingMessage.id
     const packedMessage = await agent.packDIDCommMessage({ packing: 'authcrypt', message: trustPingMessage})
     const result = await agent.sendDIDCommMessage({ messageId: trustPingMessage.id, packedMessage, recipientDidUrl: recipient.did })
-    console.log("result: ", result)
+    console.log('result: ', result)
 
     expectPing(tpid, 'authcrypt')
     expectResponse(tpid)

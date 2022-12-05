@@ -48,31 +48,35 @@ export class TrustPingMessageHandler extends AbstractMessageHandler {
    * Handles a Trust Ping Message
    * https://identity.foundation/didcomm-messaging/spec/#trust-ping-protocol-10
    */
-  async handle(message: Message, context: IContext): Promise<Message> {
-    const parsedMessage = JSON.parse(message.raw!)
-    console.log("handle message: ", parsedMessage)
-    if (parsedMessage.type === TRUST_PING_MESSAGE_TYPE) {
+  public async handle(message: Message, context: IContext): Promise<Message> {
+    if (message.type === TRUST_PING_MESSAGE_TYPE) {
       debug('TrustPing Message Received')
       try {
-        const { from, to, id } = parsedMessage
-        const response = createTrustPingResponse(to, from, id)
+        const { from, to, id } = message
+        if (!from) {
+          throw new Error("Trust Ping Message received without `from` set")
+        }
+        if (!to) {
+          throw new Error("Trust Ping Message received without `to` set")
+        }
+        const response = createTrustPingResponse(to!, from!, id)
         const packedResponse = await context.agent.packDIDCommMessage({ message: response, packing: 'authcrypt'})
         const sent = await context.agent.sendDIDCommMessage({
           messageId: response.id,
           packedMessage: packedResponse,
-          recipientDidUrl: parsedMessage.from,
+          recipientDidUrl: from!,
         })
         message.addMetaData({ type: 'TrustPingResponseSent', value: sent })
       } catch (ex) {
         debug(ex)
       }
       return message
-    } else if (parsedMessage.type === TRUST_PING_RESPONSE_MESSAGE_TYPE) {
+    } else if (message.type === TRUST_PING_RESPONSE_MESSAGE_TYPE) {
       debug('TrustPingResponse Message Received')
       message.addMetaData({ type: 'TrustPingResponseReceived', value: 'true'})
       return message
     }
 
-    return super.handle(parsedMessage, context)
+    return super.handle(message, context)
   }
 }

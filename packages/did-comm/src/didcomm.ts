@@ -360,7 +360,6 @@ export class DIDComm implements IAgentPlugin {
     context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
   ): Promise<IUnpackedDIDCommMessage> {
     const { msgObj, mediaType } = this.decodeMessageAndMediaType(args.message)
-    console.log("mediaType: ", mediaType)
     if (mediaType === DIDCommMessageMediaType.SIGNED) {
       return this.unpackDIDCommMessageJWS(msgObj as _DIDCommSignedMessage, context)
     } else if (mediaType === DIDCommMessageMediaType.PLAIN) {
@@ -475,12 +474,10 @@ export class DIDComm implements IAgentPlugin {
     } else {
       msgObj = message
     }
-    console.log("msjObj: ", msgObj)
     let mediaType: DIDCommMessageMediaType | null = null
     if ((<_DIDCommPlainMessage>msgObj).typ === DIDCommMessageMediaType.PLAIN) {
       mediaType = DIDCommMessageMediaType.PLAIN
     } else if ((<_FlattenedJWS | _DIDCommEncryptedMessage>msgObj).protected) {
-      console.log("yes protected")
       const protectedHeader = decodeJoseBlob(msgObj.protected)
       if (protectedHeader.typ === DIDCommMessageMediaType.SIGNED) {
         mediaType = DIDCommMessageMediaType.SIGNED
@@ -494,7 +491,6 @@ export class DIDComm implements IAgentPlugin {
     } else {
       throw new Error('invalid_argument: unable to determine message type')
     }
-    console.log("go return something.")
     return { msgObj, mediaType }
   }
 
