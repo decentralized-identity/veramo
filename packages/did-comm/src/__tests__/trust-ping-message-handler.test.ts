@@ -26,7 +26,6 @@ import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
-import { Message } from '@veramo/message-handler'
 
 
 const DIDCommEventSniffer: IEventListener = {

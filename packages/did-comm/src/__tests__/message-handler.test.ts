@@ -212,7 +212,6 @@ describe('did-comm-message-handler', () => {
   it('should pack and unpack trust ping message with authcrypt packing', async () => {
     const anyMessage = getRegularMessage()
     const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'authcrypt'})
-    console.log("packedMessage: ", packedMessage)
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
     expect(unpackedMessage.message).toEqual(anyMessage)
   })
