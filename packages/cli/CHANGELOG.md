@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
+
+
+### Bug Fixes
+
+* **cli:** fix bug in schema generator ([d4c63c1](https://github.com/uport-project/veramo/commit/d4c63c1d1c3acb2a2f576450384250163ae7e0a0))
+* **deps:** bump dependencies ([701b8ed](https://github.com/uport-project/veramo/commit/701b8edf981ea11c7ddb6a81d2817dbbdbb022f3))
+* **deps:** Update dependency ethr-did-resolver to v8 ([f475dbc](https://github.com/uport-project/veramo/commit/f475dbc1c2dbb4b7f6b3396c3e6947eac2931736))
+
+
+### Features
+
+* add eip712 issuer to CLI and default agent config ([#1065](https://github.com/uport-project/veramo/issues/1065)) ([33c7cee](https://github.com/uport-project/veramo/commit/33c7ceed3b9850cfd6f5677aeeb89aeda2be72e5))
+
+
+
+
+
 ## [4.1.2](https://github.com/uport-project/veramo/compare/v4.1.1...v4.1.2) (2022-11-03)
 
 

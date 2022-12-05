@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
+
+
+### Bug Fixes
+
+* **deps:** bump dependencies ([701b8ed](https://github.com/uport-project/veramo/commit/701b8edf981ea11c7ddb6a81d2817dbbdbb022f3))
+* didcomm message handler should attempt to pass message to other handlers ([#1064](https://github.com/uport-project/veramo/issues/1064)) ([5e18427](https://github.com/uport-project/veramo/commit/5e18427dc10e3724ca141efe923a789cd0f54688))
+* **utils:** correctly extract publicKeyHex from [Ed/X]25519 2020 keys ([#1076](https://github.com/uport-project/veramo/issues/1076)) ([c73002c](https://github.com/uport-project/veramo/commit/c73002c97d8c688e343aba65efd4c8e857a96522)), closes [#1067](https://github.com/uport-project/veramo/issues/1067)
+
+
+
+
+
 ## [4.1.1](https://github.com/uport-project/veramo/compare/v4.1.0...v4.1.1) (2022-11-01)
 
 **Note:** Version bump only for package @veramo/did-comm
