@@ -85,6 +85,7 @@ import verifiableDataEIP712 from './shared/verifiableDataEIP712'
 import handleSdrMessage from './shared/handleSdrMessage'
 import resolveDid from './shared/resolveDid'
 import webDidFlow from './shared/webDidFlow'
+import ensDidFlow from './shared/ensDidFlow'
 import documentationExamples from './shared/documentationExamples'
 import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
@@ -284,6 +285,7 @@ describe('REST integration tests', () => {
   handleSdrMessage(testContext)
   resolveDid(testContext)
   webDidFlow(testContext)
+  ensDidFlow(testContext)
   documentationExamples(testContext)
   keyManager(testContext)
   didManager(testContext)

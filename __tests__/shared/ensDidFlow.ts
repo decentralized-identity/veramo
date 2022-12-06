@@ -12,9 +12,9 @@ export default (testContext: {
   describe('ens did flow', () => {
     let agent: ConfiguredAgent
     let serviceIdentifier: IIdentifier
+    let serviceIdentifierGoerli: IIdentifier
     let serviceIdentifierKey: IKey
     let alice: IIdentifier
-    let bob: IIdentifier
 
     beforeAll(async () => {
       await testContext.setup()
@@ -34,6 +34,18 @@ export default (testContext: {
       serviceIdentifierKey = serviceIdentifier.keys[0]
     })
 
+    it('should create service identifier on goerli', async () => {
+      serviceIdentifierGoerli = await agent.didManagerGetOrCreate({
+        provider: 'did:ens',
+        alias: 'goerli:whatever.eth',
+      })
+
+      expect(serviceIdentifierGoerli.provider).toEqual('did:ens')
+      expect(serviceIdentifierGoerli.alias).toEqual('goerli:whatever.eth')
+      expect(serviceIdentifierGoerli.did).toEqual('did:ens:goerli:whatever.eth')
+      serviceIdentifierKey = serviceIdentifierGoerli.keys[0]
+    })
+
     it('should fail to add service endpoint', async () => {
       const service = {
         id: 'did:ens:example.eth#1',
@@ -47,20 +59,9 @@ export default (testContext: {
         service,
       })
 
-      expect(res).toEqual({ result: false })
+      expect(res).toEqual({ success: false })
     })
 
-    it('should get existing service identifier', async () => {
-      const testIdentifier = await agent.didManagerGetOrCreate({
-        provider: 'did:web',
-        alias: 'webdidflow.example.com',
-      })
-
-      expect(testIdentifier.keys[0]).toEqual(serviceIdentifierKey)
-      expect(testIdentifier.provider).toEqual('did:web')
-      expect(testIdentifier.alias).toEqual('webdidflow.example.com')
-      expect(testIdentifier.did).toEqual('did:web:webdidflow.example.com')
-    })
 
     it('should create identifier with alias: alice', async () => {
       alice = await agent.didManagerGetOrCreate({
@@ -96,6 +97,29 @@ export default (testContext: {
         })
 
         expect(verifiableCredential.issuer).toEqual({ id: serviceIdentifier.did })
+        expect(verifiableCredential.credentialSubject).toEqual({ id: alice.did, name: 'Alice' })
+        expect(verifiableCredential).toHaveProperty('proof.jwt')
+      })
+    })
+    
+    describe('should create verifiable credential with goerli ens DID', () => {
+      it('issuer: serviceIdentifier (did:ens)', async () => {
+        const verifiableCredential = await agent.createVerifiableCredential({
+          save: true,
+          credential: {
+            issuer: { id: serviceIdentifierGoerli.did },
+            '@context': ['https://www.w3.org/2018/credentials/v1'],
+            type: ['VerifiableCredential', 'Profile'],
+            issuanceDate: new Date().toISOString(),
+            credentialSubject: {
+              id: alice.did,
+              name: 'Alice',
+            },
+          },
+          proofFormat: 'jwt',
+        })
+
+        expect(verifiableCredential.issuer).toEqual({ id: serviceIdentifierGoerli.did })
         expect(verifiableCredential.credentialSubject).toEqual({ id: alice.did, name: 'Alice' })
         expect(verifiableCredential).toHaveProperty('proof.jwt')
       })
