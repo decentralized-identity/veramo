@@ -16,9 +16,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@types/jsonpath": "^0.2.0",
-    "@veramo/core": "^4.1.1",
+    "@veramo/core": "4.2.0",
     "jsonpath": "^1.1.1",
+    "@types/jsonpath": "^0.2.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

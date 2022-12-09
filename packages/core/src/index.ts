@@ -24,6 +24,7 @@ export * from './types/IResolver'
 export * from './types/IError'
 export * from './types/IVerifyResult'
 export * from './types/vc-data-model'
+export * from './types/IDataManager'
 
 /**
  * This represents the collection of schemas for the core plugins.

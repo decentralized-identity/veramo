@@ -11,6 +11,7 @@ import {
   createAgent,
   IAgentOptions,
   ICredentialPlugin,
+  IDataManager,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -65,6 +66,7 @@ import { createEthersProvider } from './utils/ethers-provider'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
+import { DataManager, MemoryDataStore } from '../packages/data-manager/src'
 import * as fs from 'fs'
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
@@ -85,7 +87,8 @@ import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
-import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
+import ethrDidFlowSigned from './shared/ethrDidFlowSigned'
+import dataManager from './shared/dataManager'
 
 jest.setTimeout(60000)
 
@@ -104,7 +107,8 @@ let agent: TAgent<
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
     ISelectiveDisclosure &
-    IDIDDiscovery
+    IDIDDiscovery &
+    IDataManager
 >
 let dbConnection: Promise<DataSource>
 let databaseFile: string
@@ -140,7 +144,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
       ISelectiveDisclosure &
-      IDIDDiscovery
+      IDIDDiscovery &
+      IDataManager
   >({
     ...options,
     context: {
@@ -227,6 +232,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
+      new DataManager({
+        store: {
+          local: new MemoryDataStore(),
+        },
+      }),
       new DIDComm([new DIDCommHttpTransport()]),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
@@ -268,23 +278,24 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local integration tests', () => {
-  verifiableDataJWT(testContext)
-  verifiableDataLD(testContext)
-  verifiableDataEIP712(testContext)
-  handleSdrMessage(testContext)
-  resolveDid(testContext)
-  webDidFlow(testContext)
-  saveClaims(testContext)
-  documentationExamples(testContext)
-  keyManager(testContext)
-  didManager(testContext)
-  messageHandler(testContext)
-  didCommPacking(testContext)
-  didDiscovery(testContext)
-  dbInitOptions(testContext)
-  utils(testContext)
-  web3(testContext)
-  didCommWithEthrDidFlow(testContext)
-  credentialStatus(testContext)
-  ethrDidFlowSigned(testContext)
+  // verifiableDataJWT(testContext)
+  // verifiableDataLD(testContext)
+  // verifiableDataEIP712(testContext)
+  // handleSdrMessage(testContext)
+  // resolveDid(testContext)
+  // webDidFlow(testContext)
+  // saveClaims(testContext)
+  // documentationExamples(testContext)
+  // keyManager(testContext)
+  // didManager(testContext)
+  // messageHandler(testContext)
+  // didCommPacking(testContext)
+  // didDiscovery(testContext)
+  // dbInitOptions(testContext)
+  // utils(testContext)
+  // web3(testContext)
+  // didCommWithEthrDidFlow(testContext)
+  // credentialStatus(testContext)
+  // ethrDidFlowSigned(testContext)
+  dataManager(testContext)
 })

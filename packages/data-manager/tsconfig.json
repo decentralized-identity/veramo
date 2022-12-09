@@ -8,6 +8,5 @@
   },
   "references": [
     { "path": "../core" },
-    { "path": "../utils" }
   ]
 }
