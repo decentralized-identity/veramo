@@ -30,6 +30,35 @@ describe('DataManager', () => {
       expect(allData[0].metadata.store).toEqual('memory1')
       expect.assertions(5)
     })
+    it('should store object without options object', async () => {
+      const data = { test: 'test' }
+      const res = await dataManager.save({
+        data,
+      })
+
+      const allData = await dataManager.query({})
+      expect(allData).toHaveLength(2)
+      expect(allData[0].metadata.id).toEqual(res[0].id)
+      expect(res[0].store).toEqual('memory1')
+      expect(allData[0].data).toEqual(data)
+      expect(allData[0].metadata.store).toEqual('memory1')
+      expect.assertions(5)
+    })
+    it('should store object with empty options object', async () => {
+      const data = { test: 'test' }
+      const res = await dataManager.save({
+        data,
+        options: {},
+      })
+
+      const allData = await dataManager.query({})
+      expect(allData).toHaveLength(2)
+      expect(allData[0].metadata.id).toEqual(res[0].id)
+      expect(res[0].store).toEqual('memory1')
+      expect(allData[0].data).toEqual(data)
+      expect(allData[0].metadata.store).toEqual('memory1')
+      expect.assertions(5)
+    })
     it('should store multiple objects in same memory store', async () => {
       const data = { test: 'test' }
       const res = await dataManager.save({
@@ -86,6 +115,24 @@ describe('DataManager', () => {
       const allData = await dataManager.query({})
       expect(allData).toHaveLength(0)
       expect.assertions(1)
+    })
+    it('should query all object with empty options object', async () => {
+      const data = { test: 'test' }
+      const res = await dataManager.save({
+        data,
+        options: { store: 'memory1' },
+      })
+
+      const allData = await dataManager.query({
+        filter: { type: 'id', filter: res[0].id },
+        options: {},
+      })
+      expect(allData).toHaveLength(1)
+      expect(allData[0].metadata.id).toEqual(res[0].id)
+      expect(res[0].store).toEqual('memory1')
+      expect(allData[0].data).toEqual(data)
+      expect(allData[0].metadata.store).toEqual('memory1')
+      expect.assertions(5)
     })
     it('should query object by id', async () => {
       const data = { test: 'test' }

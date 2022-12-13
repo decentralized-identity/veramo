@@ -24,13 +24,20 @@ export class DataManager implements IAgentPlugin {
     this.stores = options.store
   }
 
+  private getStores(store?: string | string[]): string[] {
+    if (store === undefined) {
+      return Object.keys(this.stores)
+    } else if (typeof store === 'string') {
+      return [store]
+    } else {
+      return store
+    }
+  }
+
   public async save(args: IDataManagerSaveArgs): Promise<Array<IDataManagerSaveResult>> {
     const data: unknown = args.data
     const options = args.options
-    let { store } = args.options
-    if (typeof store === 'string') {
-      store = [store]
-    }
+    const store = this.getStores(options?.store)
     const res: IDataManagerSaveResult[] = []
     for (const storeName of store) {
       const storePlugin = this.stores[storeName]
@@ -49,23 +56,13 @@ export class DataManager implements IAgentPlugin {
 
   public async query(args: IDataManagerQueryArgs): Promise<Array<IDataManagerQueryResult>> {
     const { filter = { type: 'none', filter: {} }, options } = args
-    let store
+    const store = this.getStores(options?.store)
     let returnStore = true
-    if (options === undefined) {
-      store = Object.keys(this.stores)
-    } else {
-      if (options.store !== undefined) {
-        store = options.store
-      } else {
-        store = Object.keys(this.stores)
-      }
-      if (options.returnStore !== undefined) {
-        returnStore = options.returnStore
-      }
+
+    if (options && options.returnStore !== undefined) {
+      returnStore = options.returnStore
     }
-    if (typeof store === 'string') {
-      store = [store]
-    }
+
     let res: IDataManagerQueryResult[] = []
 
     for (const storeName of store) {
@@ -96,18 +93,7 @@ export class DataManager implements IAgentPlugin {
 
   public async delete(args: IDataManagerDeleteArgs): Promise<Array<boolean>> {
     const { id, options } = args
-    let store
-    if (options === undefined) {
-      store = Object.keys(this.stores)
-    } else {
-      store = options.store
-    }
-    if (typeof store === 'string') {
-      store = [store]
-    }
-    if (store === undefined) {
-      store = Object.keys(this.stores)
-    }
+    const store = this.getStores(options?.store)
     const res = []
     for (const storeName of store) {
       const storePlugin = this.stores[storeName]
@@ -126,19 +112,7 @@ export class DataManager implements IAgentPlugin {
 
   public async clear(args: IDataManagerClearArgs): Promise<Array<boolean>> {
     const { filter = { type: 'none', filter: {} }, options } = args
-    let store
-    if (options === undefined) {
-      store = Object.keys(this.stores)
-    } else {
-      if (options.store !== undefined) {
-        store = options.store
-      } else {
-        store = Object.keys(this.stores)
-      }
-    }
-    if (typeof store === 'string') {
-      store = [store]
-    }
+    const store = this.getStores(options?.store)
     const res = []
     for (const storeName of store) {
       const storePlugin = this.stores[storeName]

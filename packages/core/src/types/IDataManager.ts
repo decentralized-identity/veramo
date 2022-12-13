@@ -23,15 +23,15 @@ type QueryOptions = {
 }
 
 type DeleteOptions = {
-  store: string | string[]
+  store?: string | string[]
 }
 
 type SaveOptions = {
-  store: string | string[]
+  store?: string | string[]
 }
 
 type ClearOptions = {
-  store: string | string[]
+  store?: string | string[]
 }
 
 type QueryMetadata = {
@@ -54,7 +54,7 @@ export interface IDataManagerDeleteArgs {
 
 export interface IDataManagerSaveArgs {
   data: unknown
-  options: SaveOptions
+  options?: SaveOptions
 }
 
 export interface IDataManagerClearArgs {
