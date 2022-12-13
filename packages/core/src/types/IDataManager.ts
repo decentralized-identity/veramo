@@ -17,24 +17,21 @@ export type Filter = {
   filter: unknown
 }
 
-type QueryOptions = {
+export type Options = {
   store?: string | string[]
+}
+
+export type QueryOptions = Options & {
   returnStore?: boolean
 }
 
-type DeleteOptions = {
-  store?: string | string[]
-}
+export type DeleteOptions = Options
 
-type SaveOptions = {
-  store?: string | string[]
-}
+export type SaveOptions = Options
 
-type ClearOptions = {
-  store?: string | string[]
-}
+export type ClearOptions = Options
 
-type QueryMetadata = {
+export type QueryMetadata = {
   id: string
   store?: string
 }

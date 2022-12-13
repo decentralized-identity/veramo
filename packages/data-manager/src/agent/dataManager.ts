@@ -7,6 +7,7 @@ import {
   IDataManagerQueryResult,
   IDataManagerSaveArgs,
   IDataManagerSaveResult,
+  Options,
 } from '@veramo/core'
 import { AbstractDataStore } from '../data-store/abstractDataStore'
 
@@ -24,20 +25,20 @@ export class DataManager implements IAgentPlugin {
     this.stores = options.store
   }
 
-  private getStores(store?: string | string[]): string[] {
-    if (store === undefined) {
+  private getStoresFromArgs(options?: Options): string[] {
+    if (options === undefined || options.store === undefined) {
       return Object.keys(this.stores)
-    } else if (typeof store === 'string') {
-      return [store]
+    } else if (typeof options.store === 'string') {
+      return [options.store]
     } else {
-      return store
+      return options.store
     }
   }
 
   public async save(args: IDataManagerSaveArgs): Promise<Array<IDataManagerSaveResult>> {
     const data: unknown = args.data
     const options = args.options
-    const store = this.getStores(options?.store)
+    const store = this.getStoresFromArgs(options)
     const res: IDataManagerSaveResult[] = []
     for (const storeName of store) {
       const storePlugin = this.stores[storeName]
@@ -56,7 +57,7 @@ export class DataManager implements IAgentPlugin {
 
   public async query(args: IDataManagerQueryArgs): Promise<Array<IDataManagerQueryResult>> {
     const { filter = { type: 'none', filter: {} }, options } = args
-    const store = this.getStores(options?.store)
+    const store = this.getStoresFromArgs(options)
     let returnStore = true
 
     if (options && options.returnStore !== undefined) {
@@ -93,7 +94,7 @@ export class DataManager implements IAgentPlugin {
 
   public async delete(args: IDataManagerDeleteArgs): Promise<Array<boolean>> {
     const { id, options } = args
-    const store = this.getStores(options?.store)
+    const store = this.getStoresFromArgs(options)
     const res = []
     for (const storeName of store) {
       const storePlugin = this.stores[storeName]
@@ -112,7 +113,7 @@ export class DataManager implements IAgentPlugin {
 
   public async clear(args: IDataManagerClearArgs): Promise<Array<boolean>> {
     const { filter = { type: 'none', filter: {} }, options } = args
-    const store = this.getStores(options?.store)
+    const store = this.getStoresFromArgs(options)
     const res = []
     for (const storeName of store) {
       const storePlugin = this.stores[storeName]
