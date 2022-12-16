@@ -17,6 +17,35 @@ export interface IMetaData {
 }
 
 /**
+ * Message attachment
+ * @public
+ */
+export interface IMessageAttachment {
+  id?: string
+  description?: string
+  filename?: string
+  media_type?: string
+  format?: string
+  lastmod_time?: string
+  byte_count?: number
+  data: IMessageAttachmentData
+}
+
+/**
+ * The DIDComm message structure for data in an attachment.
+ * See https://identity.foundation/didcomm-messaging/spec/#attachments
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export interface IMessageAttachmentData {
+  jws?: any
+  hash?: string
+  links?: string[]
+  base64?: string
+  json?: any
+}
+
+/**
  * Represents a DIDComm v1 message payload, with optionally decoded credentials and presentations.
  * @public
  */
@@ -90,4 +119,9 @@ export interface IMessage {
    * Optional. Array of attached verifiable presentations
    */
   presentations?: VerifiablePresentation[]
+
+  /**
+   * Optional. Array of generic attachments
+   */
+  attachments?: IMessageAttachment[]
 }

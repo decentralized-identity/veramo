@@ -1,4 +1,10 @@
-import { IMessage, IMetaData, VerifiableCredential, VerifiablePresentation } from '@veramo/core'
+import {
+  IMessage,
+  IMetaData,
+  IMessageAttachment,
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core'
 
 /**
  * A class implementing {@link @veramo/core#IMessage | IMessage}.
@@ -45,6 +51,7 @@ export class Message implements IMessage {
 
   presentations?: VerifiablePresentation[]
   credentials?: VerifiableCredential[]
+  attachments?: IMessageAttachment[]
 
   addMetaData(meta: IMetaData) {
     if (this.metaData) {
