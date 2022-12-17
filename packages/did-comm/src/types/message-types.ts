@@ -16,6 +16,7 @@ export interface IDIDCommMessage {
   next?: string
   from_prior?: string
   body: any
+  attachments?: IDIDCommMessageAttachment[]
 }
 
 /**
@@ -100,4 +101,35 @@ export interface IUnpackedDIDCommMessage {
  */
 export interface IPackedDIDCommMessage {
   message: string
+}
+
+/**
+ * The DIDComm message structure for attachments.
+ * See https://identity.foundation/didcomm-messaging/spec/#attachments
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export interface IDIDCommMessageAttachment {
+  id?: string
+  description?: string
+  filename?: string
+  media_type?: string
+  format?: string
+  lastmod_time?: string
+  byte_count?: number
+  data: IDIDCommMessageAttachmentData
+}
+
+/**
+ * The DIDComm message structure for data in an attachment.
+ * See https://identity.foundation/didcomm-messaging/spec/#attachments
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export interface IDIDCommMessageAttachmentData {
+  jws?: any
+  hash?: string
+  links?: string[]
+  base64?: string
+  json?: any
 }

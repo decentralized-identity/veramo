@@ -184,6 +184,7 @@ describe('did-comm-message-handler', () => {
             body: {
               hello: 'world'
             },
+            attachments: [{ data: { hash: 'some-hash', json: { some: 'attachment' } } }],
             from: sender.did,
             id: `${id}`,
             to: recipient.did,
@@ -198,7 +199,14 @@ describe('did-comm-message-handler', () => {
   }
 
   const getRegularMessage = () => {
-    return { id: v4(), type: 'fake', to: recipient.did, from: sender.did, body: { hello: 'world' }}
+    return {
+      id: v4(),
+      type: 'fake',
+      to: recipient.did,
+      from: sender.did,
+      body: { hello: 'world' },
+      attachments: [{ data: { hash: 'some-hash', json: { some: 'attachment' } } }],
+    }
   }
 
   it('should pack and unpack message with none packing', async () => {
