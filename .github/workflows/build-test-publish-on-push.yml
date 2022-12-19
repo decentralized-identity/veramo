@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-18.04
     services:
       postgres:
-        image: postgres:14.5
+        image: postgres:15.1
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
