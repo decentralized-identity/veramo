@@ -29,6 +29,11 @@ export interface IDIDCommOptions {
    * Add extra recipients for the packed message.
    */
   bcc?: string[]
+
+  /**
+   * Restrict to a set of kids for recipient
+   */
+  recipientKids?: string[]
 }
 
 /**
