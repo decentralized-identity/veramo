@@ -119,7 +119,8 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
     } else if (
       verificationMethod.publicKeyHex ||
       verificationMethod.publicKeyBase58 ||
-      verificationMethod.publicKeyBase64
+      verificationMethod.publicKeyBase64 ||
+      verificationMethod.publicKeyJwk
     ) {
       const pbBytes = extractPublicKeyBytes(verificationMethod)
       const pbHex = computePublicKey(pbBytes, false)
