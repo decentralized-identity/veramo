@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
-      - uses: everlytic/branch-merge@1.1.2
+      - uses: everlytic/branch-merge@1.1.5
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           source_ref: ${{ github.ref }}
