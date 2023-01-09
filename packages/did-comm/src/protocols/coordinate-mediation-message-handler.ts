@@ -145,6 +145,32 @@ export class CoordinateMediationRecipientMessageHandler extends AbstractMessageH
         debug(ex)
       }
       return message
+    } else if (message.type === MEDIATE_DENY_MESSAGE_TYPE) {
+      debug('MediateDeny Message Received')
+      try {
+        const { from, to } = message
+        if (!from) {
+          throw new Error('invalid_argument: MediateGrant received without `from` set')
+        }
+        if (!to) {
+          throw new Error('invalid_argument: MediateGrant received without `to` set')
+        }
+
+        // Delete service if it exists
+        const did = await context.agent.didManagerGet({
+          did: to,
+        })
+        const existingService = did.services.find(
+          (s) =>
+            s.serviceEndpoint === from ||
+            (Array.isArray(s.serviceEndpoint) && s.serviceEndpoint.includes(from)),
+        )
+        if (existingService) {
+          await context.agent.didManagerRemoveService({ did: to, id: existingService.id })
+        }
+      } catch (ex) {
+        debug(ex)
+      }
     }
 
     return super.handle(message, context)

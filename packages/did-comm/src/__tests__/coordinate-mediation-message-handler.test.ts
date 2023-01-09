@@ -271,6 +271,41 @@ describe('coordinate-mediation-message-handler', () => {
       expect(service?.serviceEndpoint).toEqual([{ uri: mediator.did }])
     })
 
+    it('should remove service on mediate deny', async () => {
+      const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: mediateRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: mediateRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      const msgid = v4()
+      const packedDenyMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: {
+          type: 'https://didcomm.org/coordinate-mediation/2.0/mediate-deny',
+          from: mediator.did,
+          to: recipient.did,
+          id: msgid,
+          thid: '',
+          body: {},
+        },
+      })
+      await agent.sendDIDCommMessage({
+        messageId: msgid,
+        packedMessage: packedDenyMessage,
+        recipientDidUrl: recipient.did,
+      })
+
+      const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
+      const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
+      expect(service).toBeUndefined()
+    })
+
     it('should not save service if mediate request cannot be found', async () => {
       const mediateGrantMessage = createMediateGrantMessage(recipient.did, mediator.did, '')
       const packedMessage = await agent.packDIDCommMessage({
@@ -289,20 +324,20 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should not save service if mediate grant message has bad routing_did', async () => {
-      const mediateGrantMessage = createMediateGrantMessage(recipient.did, mediator.did, '')
+      const msgid = v4()
       const packedMessage = await agent.packDIDCommMessage({
         packing: 'authcrypt',
         message: {
           type: 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant',
           from: mediator.did,
           to: recipient.did,
-          id: v4(),
+          id: msgid,
           thid: '',
           body: {},
         },
       })
       await agent.sendDIDCommMessage({
-        messageId: mediateGrantMessage.id,
+        messageId: msgid,
         packedMessage,
         recipientDidUrl: recipient.did,
       })
