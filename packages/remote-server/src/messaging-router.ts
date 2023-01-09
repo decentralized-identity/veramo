@@ -44,9 +44,11 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
         save: typeof options.save === 'undefined' ? true : options.save,
       })
 
-      const returnRouteResponse = message?.metaData?.find(v => v.type === "ReturnRouteResponse")
-      if (returnRouteResponse) {
-        res.json(returnRouteResponse.value)
+      const returnRouteResponse = message?.metaData?.find((v) => v.type === 'ReturnRouteResponse')
+      if (returnRouteResponse && returnRouteResponse.value) {
+        const returnMessage = JSON.parse(returnRouteResponse.value)
+        res.contentType(returnMessage.contentType).json(returnMessage.message)
+        req.agent?.emit('DIDCommV2Message-sent', returnMessage.id)
       } else if (message) {
         res.json({ id: message.id })
       }

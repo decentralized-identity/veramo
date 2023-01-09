@@ -657,9 +657,10 @@ export class DIDComm implements IAgentPlugin {
 
     // TODO: better strategy for selecting the transport if multiple transports apply
     const transport = transports[0]
-
+    
+    let response
     try {
-      const response = await transport.send(service, packedMessage.message)
+      response = await transport.send(service, packedMessage.message)
       if (response.error) {
         throw new Error(
           `Error when sending DIDComm message through transport with id: '${transport.id}': ${response.error}`,
@@ -670,6 +671,13 @@ export class DIDComm implements IAgentPlugin {
     }
 
     context.agent.emit('DIDCommV2Message-sent', messageId)
+    
+    if (response.returnMessage) {
+      // Handle return message
+      await context.agent.handleMessage({
+        raw: response.returnMessage,
+      })
+    }
     return transport.id
   }
 

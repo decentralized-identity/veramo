@@ -168,8 +168,7 @@ describe('coordinate-mediation-message-handler', () => {
 		}
 	})
 
-	const expectRequest = (msgid: string) => {
-		// recipient sends request
+	const expectMsg = (msgid: string) => {
 		expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
 			{
 				data: msgid,
@@ -177,7 +176,9 @@ describe('coordinate-mediation-message-handler', () => {
 			},
 			expect.anything(),
 		)
+	}
 
+	const expectReceiveRequest = (msgid: string) => {
 		// mediator receives request
 		expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
 			{
@@ -198,13 +199,46 @@ describe('coordinate-mediation-message-handler', () => {
 		)
 	}
 
+	const expectGrantRequest = (msgid: string) => {
+		// mediator receives request
+		expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+			{
+				data: {
+					message: {
+						body: {
+							routing_did: [mediator.did],
+						},
+						from: mediator.did,
+						id: expect.anything(),
+						thid: msgid,
+						to: recipient.did,
+						type: 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant',
+					},
+					metaData: { packing: 'authcrypt' },
+				},
+				type: 'DIDCommV2Message-received'
+			},
+			expect.anything(),
+		)
+	}
+
 	describe("mediator", () => {
-		it("should grant mediation to valid request", async () => {
+		it("should grant mediation to valid request via return_route", async () => {
+			expect.assertions(4)
+
 			const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
 			const packedMessage = await agent.packDIDCommMessage({ packing: 'authcrypt', message: mediateRequestMessage })
-			const response = await agent.sendDIDCommMessage({ messageId: mediateRequestMessage.id, packedMessage, recipientDidUrl: mediator.did })
-			expectRequest(mediateRequestMessage.id)
-			console.log(response)
+			await agent.sendDIDCommMessage({ messageId: mediateRequestMessage.id, packedMessage, recipientDidUrl: mediator.did })
+			expectMsg(mediateRequestMessage.id)
+			expectReceiveRequest(mediateRequestMessage.id)
+			expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+				{
+					data: expect.anything(),
+					type: 'DIDCommV2Message-sent'
+				},
+				expect.anything(),
+			)
+			expectGrantRequest(mediateRequestMessage.id)
 		})
 	})
 })
