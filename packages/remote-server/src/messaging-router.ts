@@ -44,7 +44,9 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
         save: typeof options.save === 'undefined' ? true : options.save,
       })
 
-      if (message) {
+      if (message?.returnMessage) {
+        res.json(message?.returnMessage)
+      } else if (message) {
         res.json({ id: message.id })
       }
     } catch (e: any) {

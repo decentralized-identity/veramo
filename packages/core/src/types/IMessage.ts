@@ -124,4 +124,9 @@ export interface IMessage {
    * Optional. Array of generic attachments
    */
   attachments?: IMessageAttachment[]
+
+  /**
+   * Optional. Return message to respond to this message with
+   */
+  returnMessage?: string
 }
