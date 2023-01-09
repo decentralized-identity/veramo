@@ -126,7 +126,7 @@ export interface IMessage {
   attachments?: IMessageAttachment[]
 
   /**
-   * Optional. Return message to respond to this message with
+   * Optional. Signal how to reuse transport for return messages
    */
-  returnMessage?: string
+  returnRoute?: string
 }

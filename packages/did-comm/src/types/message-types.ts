@@ -17,6 +17,7 @@ export interface IDIDCommMessage {
   from_prior?: string
   body: any
   attachments?: IDIDCommMessageAttachment[]
+  return_route?: string
 }
 
 /**

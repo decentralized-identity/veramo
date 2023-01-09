@@ -44,8 +44,9 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
         save: typeof options.save === 'undefined' ? true : options.save,
       })
 
-      if (message?.returnMessage) {
-        res.json(message?.returnMessage)
+      const returnRouteResponse = message?.metaData?.find(v => v.type === "ReturnRouteResponse")
+      if (returnRouteResponse) {
+        res.json(returnRouteResponse.value)
       } else if (message) {
         res.json({ id: message.id })
       }

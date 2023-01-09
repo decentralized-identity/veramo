@@ -2039,6 +2039,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [
@@ -2889,6 +2893,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [
@@ -3743,6 +3751,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [

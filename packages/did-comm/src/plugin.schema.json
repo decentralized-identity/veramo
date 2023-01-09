@@ -84,6 +84,9 @@
               "items": {
                 "$ref": "#/components/schemas/IDIDCommMessageAttachment"
               }
+            },
+            "return_route": {
+              "type": "string"
             }
           },
           "required": [
@@ -168,6 +171,13 @@
                 "type": "string"
               },
               "description": "Add extra recipients for the packed message."
+            },
+            "recipientKids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Restrict to a set of kids for recipient"
             }
           },
           "description": "Extra options when packing a DIDComm message."
@@ -340,6 +350,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [
