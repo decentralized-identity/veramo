@@ -123,6 +123,34 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
         debug(ex)
       }
       return message
+    } else if (message.type === MESSAGES_RECEIVED_MESSAGE_TYPE) {
+      debug('MessagesReceived Message Received')
+      try {
+        const { data, from } = message
+
+        if (!from) {
+          throw new Error('invalid_argument: MessagesReceived received without `from` set')
+        }
+        if (!data.message_id_list || !Array.isArray(data.message_id_list)) {
+          throw new Error('invalid_argument: MessagesReceived received without `body.message_id_list` set')
+        }
+
+        await Promise.all(
+          data.message_id_list.map(async (messageId: string) => {
+            const message = await context.agent.dataStoreGetMessage({ id: messageId })
+			
+            // Delete message if meant for recipient
+            if (message.to?.startsWith(`${from}#`)) {
+              await context.agent.dataStoreDeleteMessage({ id: messageId })
+              context.agent.emit('DIDCommV2Message-forwardMessageDequeued', messageId)
+            }
+          }),
+        )
+
+        await this.replyWithStatusMessage(message, context)
+      } catch (ex) {
+        debug(ex)
+      }
     }
 
     return super.handle(message, context)

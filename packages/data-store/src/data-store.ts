@@ -3,6 +3,7 @@ import {
   IDataStore,
   IDataStoreDeleteVerifiableCredentialArgs,
   IDataStoreGetMessageArgs,
+  IDataStoreDeleteMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreSaveMessageArgs,
@@ -45,6 +46,7 @@ export class DataStore implements IAgentPlugin {
     this.methods = {
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
+      dataStoreDeleteMessage: this.dataStoreDeleteMessage.bind(this),
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiableCredential: this.dataStoreSaveVerifiableCredential.bind(this),
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
@@ -68,6 +70,20 @@ export class DataStore implements IAgentPlugin {
     if (!messageEntity) throw new Error('not_found: Message not found')
 
     return createMessage(messageEntity)
+  }
+
+  async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
+    const messageEntity = await (await getConnectedDb(this.dbConnection)).getRepository(Message).findOne({
+      where: { id: args.id },
+      relations: ['credentials', 'presentations'],
+    })
+    if (!messageEntity) {
+      return false
+    }
+
+    await (await getConnectedDb(this.dbConnection)).getRepository(Message).remove(messageEntity)
+
+    return true
   }
 
   async dataStoreDeleteVerifiableCredential(

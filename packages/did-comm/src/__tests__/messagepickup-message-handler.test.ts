@@ -25,6 +25,7 @@ import {
   STATUS_MESSAGE_TYPE,
   DELIVERY_MESSAGE_TYPE,
   DELIVERY_REQUEST_MESSAGE_TYPE,
+  MESSAGES_RECEIVED_MESSAGE_TYPE,
 } from '../protocols/messagepickup-message-handler'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
@@ -38,7 +39,12 @@ import { v4 } from 'uuid'
 import { Message } from '@veramo/message-handler'
 
 const DIDCommEventSniffer: IEventListener = {
-  eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received', 'DIDCommV2Message-forwardMessageQueued'],
+  eventTypes: [
+    'DIDCommV2Message-sent',
+    'DIDCommV2Message-received',
+    'DIDCommV2Message-forwardMessageQueued',
+    'DIDCommV2Message-forwardMessageDequeued',
+  ],
   onEvent: jest.fn(),
 }
 
@@ -46,6 +52,7 @@ const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqli
 
 describe('messagepickup-message-handler', () => {
   let recipient: IIdentifier
+  let recipient2: IIdentifier
   let mediator: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
   let didCommEndpointServer: Server
@@ -125,6 +132,29 @@ describe('messagepickup-message-handler', () => {
       ],
       provider: 'did:fake',
       alias: 'sender',
+    })
+
+    recipient2 = await agent.didManagerImport({
+      did: 'did:fake:recipient2',
+      keys: [
+        {
+          type: 'Ed25519',
+          kid: 'didcomm-senderKey-1',
+          publicKeyHex: '1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+          privateKeyHex:
+            'b57103882f7c66512dc96777cbafbeb2d48eca1e7a867f5a17a84e9a6740f7dc1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+          kms: 'local',
+        },
+      ],
+      services: [
+        {
+          id: 'msg1',
+          type: 'DIDCommMessaging',
+          serviceEndpoint: `http://localhost:${listeningPort}/messaging`,
+        },
+      ],
+      provider: 'did:fake',
+      alias: 'recipient2',
     })
 
     mediator = await agent.didManagerImport({
@@ -564,6 +594,175 @@ describe('messagepickup-message-handler', () => {
         },
         expect.anything(),
       )
+    })
+
+    it('should clear message on MessagesReceived', async () => {
+      expect.assertions(2)
+
+      // Save message
+      const messageToQueue2 = new Message({ raw: innerMessage.message })
+      messageToQueue2.id = 'test3'
+      messageToQueue2.type = QUEUE_MESSAGE_TYPE
+      messageToQueue2.to = `${recipient.did}#${recipient.keys[0].kid}`
+      messageToQueue2.createdAt = new Date().toISOString()
+      await agent.dataStoreSaveMessage({ message: messageToQueue2 })
+
+      // Send MessagesRequest
+      const messagesRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: MESSAGES_RECEIVED_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: { message_id_list: [messageToQueue2.id] },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: messagesRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: messagesRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: messageToQueue2.id,
+          type: 'DIDCommV2Message-forwardMessageDequeued',
+        },
+        expect.anything(),
+      )
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { message_count: 2, live_delivery: false },
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: messagesRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: STATUS_MESSAGE_TYPE,
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should clear multiple messages on MessagesReceived', async () => {
+      expect.assertions(3)
+
+      // Save messages
+      const messageToQueue2 = new Message({ raw: innerMessage.message })
+      messageToQueue2.id = v4()
+      messageToQueue2.type = QUEUE_MESSAGE_TYPE
+      messageToQueue2.to = `${recipient.did}#${recipient.keys[0].kid}`
+      messageToQueue2.createdAt = new Date().toISOString()
+      await agent.dataStoreSaveMessage({ message: messageToQueue2 })
+
+      const messageToQueue3 = new Message({ raw: innerMessage.message })
+      messageToQueue3.id = v4()
+      messageToQueue3.type = QUEUE_MESSAGE_TYPE
+      messageToQueue3.to = `${recipient.did}#${recipient.keys[0].kid}`
+      messageToQueue3.createdAt = new Date().toISOString()
+      await agent.dataStoreSaveMessage({ message: messageToQueue3 })
+
+      // Send MessagesRequest
+      const messagesRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: MESSAGES_RECEIVED_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: { message_id_list: [messageToQueue2.id, messageToQueue3.id] },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: messagesRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: messagesRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: messageToQueue2.id,
+          type: 'DIDCommV2Message-forwardMessageDequeued',
+        },
+        expect.anything(),
+      )
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: messageToQueue3.id,
+          type: 'DIDCommV2Message-forwardMessageDequeued',
+        },
+        expect.anything(),
+      )
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { message_count: 2, live_delivery: false },
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: messagesRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: STATUS_MESSAGE_TYPE,
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should not clear messages on MessagesReceived for another recipient', async () => {
+      // Save message
+      const messageToQueue2 = new Message({ raw: innerMessage.message })
+      messageToQueue2.id = v4()
+      messageToQueue2.type = QUEUE_MESSAGE_TYPE
+      messageToQueue2.to = `${recipient.did}#${recipient.keys[0].kid}`
+      messageToQueue2.createdAt = new Date().toISOString()
+      await agent.dataStoreSaveMessage({ message: messageToQueue2 })
+
+      // Send MessagesRequest
+      const messagesRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: MESSAGES_RECEIVED_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient2.did,
+        return_route: 'all',
+        body: { message_id_list: [messageToQueue2.id] },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: messagesRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: messagesRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).not.toHaveBeenCalledWith(
+        {
+          data: messageToQueue2.id,
+          type: 'DIDCommV2Message-forwardMessageDequeued',
+        },
+        expect.anything(),
+      )
+      expect(await agent.dataStoreGetMessage({ id: messageToQueue2.id })).toBeDefined()
+
+      // Clean up
+      await agent.dataStoreDeleteMessage({ id: messageToQueue2.id })
     })
   })
 })
