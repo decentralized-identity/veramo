@@ -5,13 +5,13 @@ import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm'
 import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types'
 
-const debug = Debug('veramo:did-comm:trust-ping-message-handler')
+const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
-const MEDIATE_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-request'
-const MEDIATE_GRANT_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant'
-const MEDIATE_DENY_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-deny'
+export const MEDIATE_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-request'
+export const MEDIATE_GRANT_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant'
+export const MEDIATE_DENY_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-deny'
 
 export function createMediateRequestMessage(
   recipientDidUrl: string,
@@ -23,6 +23,7 @@ export function createMediateRequestMessage(
     to: mediatorDidUrl,
     id: v4(),
     return_route: 'all',
+    created_time: (new Date()).toISOString(),
     body: {},
   }
 }
@@ -38,6 +39,7 @@ export function createMediateGrantMessage(
     to: recipientDidUrl,
     id: v4(),
     thid: thid,
+    created_time: (new Date()).toISOString(),
     body: {
       routing_did: [mediatorDidUrl],
     },
@@ -82,6 +84,19 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
             contentType: DIDCommMessageMediaType.ENCRYPTED,
           }
           message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+
+          // Save message to track recipients
+          await context.agent.dataStoreSaveMessage({
+            message: {
+              type: response.type,
+              from: response.from,
+              to: response.to,
+              id: response.id,
+              threadId: response.thid,
+              data: response.body,
+              createdAt: response.created_time
+            },
+          })
         }
       } catch (ex) {
         debug(ex)
