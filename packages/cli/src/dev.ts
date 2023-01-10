@@ -12,8 +12,9 @@ import { resolve } from 'path'
 import * as TJS from 'ts-json-schema-generator'
 import fs from 'fs'
 
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import module from "module"
+const requireCjs = module.createRequire(import.meta.url);
+
 
 interface Method {
   packageName: string
@@ -112,7 +113,7 @@ dev
       process.exitCode = 1
     }
 
-    const packageConfig = require(resolve(options.packageConfig))
+    const packageConfig = requireCjs(resolve(options.packageConfig))
     const interfaces: any = {}
 
     for (const pluginInterfaceName in packageConfig?.veramo?.pluginInterfaces) {
