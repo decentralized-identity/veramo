@@ -1,4 +1,11 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IDataStoreORM } from '@veramo/core'
+import {
+  IAgentContext,
+  IDIDManager,
+  IKeyManager,
+  IDataStore,
+  IDataStoreORM,
+  IMessageHandler,
+} from '@veramo/core'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -8,7 +15,9 @@ import { IDIDCommMessage, DIDCommMessageMediaType, IDIDCommMessageAttachment } f
 import { Where, TMessageColumns } from '@veramo/core'
 const debug = Debug('veramo:did-comm:messagepickup-message-handler')
 
-type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore & IDataStoreORM>
+type IContext = IAgentContext<
+  IDIDManager & IKeyManager & IDIDComm & IDataStore & IDataStoreORM & IMessageHandler
+>
 
 export const STATUS_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/status-request'
 export const STATUS_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/status'
@@ -36,6 +45,7 @@ function generateGetMessagesWhereQuery(from: string, recipientKey?: string): Whe
         },
   ]
 }
+
 /**
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Pickup messages for the mediator role.
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -138,7 +148,7 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
         await Promise.all(
           data.message_id_list.map(async (messageId: string) => {
             const message = await context.agent.dataStoreGetMessage({ id: messageId })
-			
+
             // Delete message if meant for recipient
             if (message.to?.startsWith(`${from}#`)) {
               await context.agent.dataStoreDeleteMessage({ id: messageId })
@@ -198,5 +208,78 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
     } else {
       throw new Error('No return_route found for StatusRequest')
     }
+  }
+}
+
+/**
+ * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Pickup messages for the mediator role.
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export class PickupRecipientMessageHandler extends AbstractMessageHandler {
+  constructor() {
+    super()
+  }
+
+  /**
+   * Handles messages for Pickup protocol and recipient role
+   * https://didcomm.org/pickup/3.0/
+   */
+  public async handle(message: Message, context: IContext): Promise<Message> {
+    if (message.type === DELIVERY_MESSAGE_TYPE) {
+      debug('Message Delivery batch Received')
+      try {
+        const { attachments, to, from } = message
+
+        if (!to) {
+          throw new Error('invalid_argument: StatusRequest received without `to` set')
+        }
+        if (!from) {
+          throw new Error('invalid_argument: StatusRequest received without `from` set')
+        }
+
+        if (!attachments) {
+          throw new Error('invalid_argument: MessagesDelivery received without `attachments` set')
+        }
+
+        // 1. Handle batch of messages
+        const messageIds = await Promise.all(
+          attachments.map(async (attachment) => {
+            await context.agent.handleMessage({
+              raw: JSON.stringify(attachment.data.json),
+              metaData: [{ type: 'didCommMsgFromMediator', value: attachment.id }],
+            })
+            return attachment.id
+          }),
+        )
+
+        // 2. Reply with messages-received
+        const replyMessage: IDIDCommMessage = {
+          type: MESSAGES_RECEIVED_MESSAGE_TYPE,
+          from: to,
+          to: from,
+          id: v4(),
+          thid: message.threadId ?? message.id,
+          created_time: new Date().toISOString(),
+          return_route: 'all',
+          body: {
+            message_id_list: messageIds,
+          },
+        }
+        const packedResponse = await context.agent.packDIDCommMessage({
+          message: replyMessage,
+          packing: 'authcrypt',
+        })
+        await context.agent.sendDIDCommMessage({
+          packedMessage: packedResponse,
+          messageId: replyMessage.id,
+          recipientDidUrl: from,
+        })
+      } catch (ex) {
+        debug(ex)
+      }
+      return message
+    }
+
+    return super.handle(message, context)
   }
 }
