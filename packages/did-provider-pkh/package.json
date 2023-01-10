@@ -3,6 +3,7 @@
   "description": "Veramo plugin that can enable creation and control of did:pkh identifiers.",
   "version": "4.2.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -33,5 +34,10 @@
   "author": "Diego Chagastelles <dchagastelles@gmail.com>",
   "contributors": [],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

@@ -1,1 +1,1 @@
-export { TrustPingMessageHandler } from "./trust-ping-message-handler"
+export { TrustPingMessageHandler } from './trust-ping-message-handler.js'

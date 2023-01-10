@@ -3,6 +3,7 @@
   "description": "Veramo ion-did based identity controller plugin.",
   "version": "4.2.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -46,5 +47,10 @@
     "Veramo",
     "ION",
     "DID"
+  ],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
   ]
 }

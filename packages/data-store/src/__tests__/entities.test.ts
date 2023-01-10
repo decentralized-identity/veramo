@@ -3,7 +3,8 @@ import { createPresentationEntity } from '../entities/presentation'
 import { DataSource, In } from 'typeorm'
 import { Identifier, Message, Claim } from '../index'
 import { Entities } from '../index'
-import { blake2bHex } from 'blakejs'
+import pkg from 'blakejs'
+const { blake2bHex } = pkg
 import * as fs from 'fs'
 
 describe('DB entities test', () => {

@@ -4,12 +4,12 @@ import {
   IAgentContext,
   IMessageHandler,
   IHandleMessageArgs,
-  schema,
   CoreEvents,
   IMessage,
 } from '@veramo/core'
-import { Message } from './message'
-import { AbstractMessageHandler } from './abstract-message-handler'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
+import { Message } from './message.js'
+import { AbstractMessageHandler } from './abstract-message-handler.js'
 
 import Debug from 'debug'
 

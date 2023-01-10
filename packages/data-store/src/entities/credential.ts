@@ -1,9 +1,9 @@
 import { VerifiableCredential } from '@veramo/core'
-import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
-import { Identifier } from './identifier'
-import { Message } from './message'
-import { Presentation } from './presentation'
-import { Claim } from './claim'
+import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, Relation } from 'typeorm'
+import { Identifier } from './identifier.js'
+import { Message } from './message.js'
+import { Presentation } from './presentation.js'
+import { Claim } from './claim.js'
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 
 /**
@@ -43,7 +43,7 @@ export class Credential extends BaseEntity {
     onDelete: 'CASCADE',
   })
     //@ts-ignore
-  issuer: Identifier
+  issuer: Relation<Identifier>
 
   // Subject can be null https://w3c.github.io/vc-data-model/#credential-uniquely-identifies-a-subject
   @ManyToOne((type) => Identifier, (identifier) => identifier?.receivedCredentials, {
@@ -51,7 +51,7 @@ export class Credential extends BaseEntity {
     eager: true,
     nullable: true,
   })
-  subject?: Identifier
+  subject?: Relation<Identifier>
 
   @Column({ nullable: true })
   id?: string
@@ -75,15 +75,15 @@ export class Credential extends BaseEntity {
     cascade: ['insert'],
   })
     //@ts-ignore
-  claims: Claim[]
+  claims: Relation<Claim[]>
 
   @ManyToMany((type) => Presentation, (presentation) => presentation.credentials)
     //@ts-ignore
-  presentations: Presentation[]
+  presentations: Relation<Presentation[]>
 
   @ManyToMany((type) => Message, (message) => message.credentials)
     //@ts-ignore
-  messages: Message[]
+  messages: Relation<Message[]>
 }
 
 export const createCredentialEntity = (vci: VerifiableCredential): Credential => {

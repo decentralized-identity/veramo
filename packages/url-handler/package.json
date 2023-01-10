@@ -3,6 +3,7 @@
   "description": "Veramo message handler plugin to decode URL messages.",
   "version": "4.2.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -35,5 +36,10 @@
     "Mircea Nistor <mircea.nistor@mesh.xyz"
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

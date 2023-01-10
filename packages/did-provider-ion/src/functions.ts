@@ -4,7 +4,7 @@ import {
   ISecp256k1PublicKeyJwk,
   KeyIdentifierRelation,
   KeyType,
-} from './types/ion-provider-types'
+} from './types/ion-provider-types.js'
 import { IonDid, IonDocumentModel, IonPublicKeyModel, IonPublicKeyPurpose, JwkEs256k } from '@decentralized-identity/ion-sdk'
 import { computePublicKey } from '@ethersproject/signing-key'
 import { IKey, ManagedKeyInfo } from '@veramo/core'
@@ -17,8 +17,7 @@ import { JsonCanonicalizer } from './json-canonicalizer'
 import { MemoryPrivateKeyStore } from '@veramo/key-manager'
 import { KeyManagementSystem } from '@veramo/kms-local'
 import { hash } from '@stablelib/sha256'
-
-const multihashes = require('multihashes')
+import multihashes from 'multihashes'
 
 const debug = Debug('veramo:did-provider-ion')
 

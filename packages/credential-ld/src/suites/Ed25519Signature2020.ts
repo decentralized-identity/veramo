@@ -1,4 +1,4 @@
-import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
+import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core'
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020'

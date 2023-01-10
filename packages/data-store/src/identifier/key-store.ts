@@ -2,11 +2,11 @@ import { IKey, ManagedKeyInfo } from '@veramo/core'
 import { AbstractKeyStore } from '@veramo/key-manager'
 import { DataSource } from 'typeorm'
 
-import { Key } from '../entities/key'
+import { Key } from '../entities/key.js'
 
 import Debug from 'debug'
 import { OrPromise } from "@veramo/utils";
-import { getConnectedDb } from "../utils";
+import { getConnectedDb } from "../utils.js";
 const debug = Debug('veramo:typeorm:key-store')
 
 /**
