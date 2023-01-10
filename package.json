@@ -79,7 +79,7 @@
   },
   "resolutions": {
     "@types/react": "^18.0.21",
-    "commander": "9.0.0",
+    "commander": "^9.0.0",
     "@types/eslint": "^8.4.6"
   },
   "engines": {
