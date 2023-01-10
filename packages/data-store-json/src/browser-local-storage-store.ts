@@ -7,7 +7,7 @@ import {
   CredentialTableEntry,
   PresentationTableEntry,
   VeramoJsonStore,
-} from './types'
+} from './types.js'
 
 /**
  * Implementation of {@link VeramoJsonStore} that uses browser localStorage to store data.

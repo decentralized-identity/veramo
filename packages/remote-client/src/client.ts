@@ -1,4 +1,3 @@
-import 'cross-fetch/polyfill'
 import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema } from '@veramo/core'
 
 /**

@@ -1,8 +1,5 @@
 {
   "version": "4.3.0",
-  "packages": [
-    "packages/*"
-  ],
   "npmClient": "pnpm",
   "changelog": {
     "repo": "uport-project/veramo",
@@ -13,7 +10,8 @@
       "allowBranch": [
         "main",
         "next",
-        "master"
+        "master",
+        "unstable"
       ],
       "conventionalCommits": true,
       "gitRemote": "origin",

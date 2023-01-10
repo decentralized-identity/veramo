@@ -56,6 +56,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
+import { jest } from '@jest/globals'
 
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'

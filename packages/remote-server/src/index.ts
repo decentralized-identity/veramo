@@ -37,10 +37,10 @@
  * @packageDocumentation
  */
 
-export { AgentRouter, AgentRouterOptions } from './agent-router'
-export { ApiSchemaRouter, ApiSchemaRouterOptions } from './api-schema-router'
-export { WebDidDocRouter, didDocEndpoint } from './web-did-doc-router'
-export { apiKeyAuth } from './api-key-auth'
-export { RequestWithAgentRouter } from './request-agent-router'
-export { MessagingRouter } from './messaging-router'
-export { createDefaultDid } from './default-did'
+export { AgentRouter, AgentRouterOptions } from './agent-router.js'
+export { ApiSchemaRouter, ApiSchemaRouterOptions } from './api-schema-router.js'
+export { WebDidDocRouter, didDocEndpoint } from './web-did-doc-router.js'
+export { apiKeyAuth } from './api-key-auth.js'
+export { RequestWithAgentRouter } from './request-agent-router.js'
+export { MessagingRouter } from './messaging-router.js'
+export { createDefaultDid } from './default-did.js'

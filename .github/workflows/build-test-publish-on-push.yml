@@ -15,7 +15,7 @@ jobs:
       GH_TOKEN: ${{secrets.GH_TOKEN}}
       GH_USER: ${{secrets.GH_USER}}
       GH_EMAIL: ${{secrets.GH_EMAIL}}
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:15.1
@@ -36,7 +36,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
           cache: 'pnpm'
 
       - run: pnpm install
@@ -53,6 +53,8 @@ jobs:
 
       - name: run browser tests
         run: pnpm test:browser
+
+      - run: pnpm run docs
 
       - name: setup git coordinates
         run: |

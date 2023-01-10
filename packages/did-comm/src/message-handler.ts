@@ -1,7 +1,7 @@
 import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
-import { IDIDComm } from './types/IDIDComm'
+import { IDIDComm } from './types/IDIDComm.js'
 const debug = Debug('veramo:did-comm:message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm>
@@ -123,7 +123,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           message.addMetaData({ type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData) })
           context.agent.emit('DIDCommV2Message-received', unpackedMessage)
 
-          // DIDCommMessageHandler should attempt to forward message to next handler, but 
+          // DIDCommMessageHandler should attempt to forward message to next handler, but
           // shouldn't throw an error if other handlers fail
           let superHandled
           try {
@@ -131,7 +131,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           } catch (e) {
             debug(`Could not handle DIDCommV2Message in downstream handlers: ${e}`)
           }
-          
+
           // if downstream message handlers failed, still treat original unpacked DIDCommV2Message as good
           return superHandled || message
         } catch (e) {

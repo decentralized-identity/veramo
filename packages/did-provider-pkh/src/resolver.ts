@@ -4,7 +4,6 @@ import type {
   DIDResolutionOptions,
   ResolverRegistry,
   ParsedDID,
-  Resolver,
   Resolvable
 } from 'did-resolver'
 

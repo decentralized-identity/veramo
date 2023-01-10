@@ -1,6 +1,7 @@
-const ZSchema = require('z-schema')
+import ZSchema from 'z-schema'
 
 const validator = new ZSchema({})
+// @ts-ignore
 validator.setRemoteReference('http://json-schema.org/draft-07/schema#', {
   type: ['array', 'boolean', 'integer', 'number', 'object', 'string'],
 })
@@ -53,6 +54,7 @@ export class PluginReturnTypeError extends Error {
 
 export const validateArguments = (method: string, args: any, schema: object) => {
   const valid = validator.validate(args, schema, {
+    // @ts-ignore
     schemaPath: 'components.methods.' + method + '.arguments',
   })
   if (!valid) {
@@ -69,6 +71,7 @@ export const validateArguments = (method: string, args: any, schema: object) => 
 
 export const validateReturnType = (method: string, args: any, schema: object) => {
   const valid = validator.validate(args, schema, {
+    // @ts-ignore
     schemaPath: 'components.methods.' + method + '.returnType',
   })
   if (!valid) {

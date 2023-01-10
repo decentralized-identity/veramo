@@ -1,7 +1,7 @@
 import express from 'express'
 import { program } from 'commander'
-import { getConfig } from './setup'
-import { createObjects } from './lib/objectCreator'
+import { getConfig } from './setup.js'
+import { createObjects } from './lib/objectCreator.js'
 
 program
   .command('server')
@@ -13,7 +13,7 @@ program
     let server: any
 
     try {
-      const config = createObjects(getConfig(program.opts().config), { server: '/server' })
+      const config = await createObjects(getConfig(program.opts().config), { server: '/server' })
       server = config.server
     } catch (e: any) {
       console.log(e.message)

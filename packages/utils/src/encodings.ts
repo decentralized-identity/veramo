@@ -130,3 +130,16 @@ export function bytesToHex(byteArray: Uint8Array, prefix: boolean = false): stri
 export function base58ToBytes(s: string): Uint8Array {
   return u8a.fromString(s, 'base58btc')
 }
+
+/**
+ * Converts a base58 string to the Uint8Array it represents.
+ *
+ * @param s - the string to be converted
+ *
+ * @throws if the string is not formatted correctly.
+ *
+ * @public
+ */
+export function bytesToBase58(byteArray: Uint8Array): string {
+  return u8a.toString(byteArray, 'base58btc')
+}

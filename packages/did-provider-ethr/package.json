@@ -3,10 +3,11 @@
   "description": "Veramo ethr-did based identity controller plugin.",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ethersproject/abstract-provider": "^5.7.0",
@@ -45,5 +46,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

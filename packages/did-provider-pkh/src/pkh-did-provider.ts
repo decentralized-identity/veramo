@@ -1,5 +1,4 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
-import { Provider } from '@ethersproject/abstract-provider'
 import { computeAddress } from '@ethersproject/transactions'
 
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
@@ -60,7 +59,7 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
     const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
     const publicAddress = toEthereumAddress(key.publicKeyHex);
 
-    const network = options?.chainId; 
+    const network = options?.chainId;
     if (!network) {
       throw new Error(
         `invalid_setup: Cannot create did:pkh. There is no known configuration for network=${network}'`,

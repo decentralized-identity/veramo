@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm'
-import { KeyType } from "./key";
+import { KeyType } from "./key.js";
 
 /**
  * This represents the private key data of keys that were stored by {@link @veramo/data-store#KeyStore} before Veramo
