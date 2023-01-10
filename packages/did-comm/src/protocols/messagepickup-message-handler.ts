@@ -4,8 +4,8 @@ import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm'
 import { QUEUE_MESSAGE_TYPE } from './routing-message-handler'
-import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types'
-
+import { IDIDCommMessage, DIDCommMessageMediaType, IDIDCommMessageAttachment } from '../types/message-types'
+import { Where, TMessageColumns } from '@veramo/core'
 const debug = Debug('veramo:did-comm:messagepickup-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore & IDataStoreORM>
@@ -16,6 +16,26 @@ export const DELIVERY_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/
 export const DELIVERY_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/delivery'
 export const MESSAGES_RECEIVED_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/messages-received'
 
+function generateGetMessagesWhereQuery(from: string, recipientKey?: string): Where<TMessageColumns>[] {
+  return [
+    {
+      column: 'type',
+      value: [QUEUE_MESSAGE_TYPE],
+      op: 'In',
+    },
+    recipientKey
+      ? {
+          column: 'to',
+          value: [recipientKey],
+          op: 'In',
+        }
+      : {
+          column: 'to',
+          value: [`${from}%`],
+          op: 'Like',
+        },
+  ]
+}
 /**
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Pickup messages for the mediator role.
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -33,50 +53,58 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
     if (message.type === STATUS_REQUEST_MESSAGE_TYPE) {
       debug('Status Request Message Received')
       try {
+        await this.replyWithStatusMessage(message, context)
+      } catch (ex) {
+        debug(ex)
+      }
+      return message
+    } else if (message.type === DELIVERY_REQUEST_MESSAGE_TYPE) {
+      debug('Delivery Request Message Received')
+      try {
         const { returnRoute, data, from, to } = message
 
         if (!to) {
-          throw new Error('invalid_argument: StatusRequest received without `to` set')
+          throw new Error('invalid_argument: DeliveryRequest received without `to` set')
         }
         if (!from) {
-          throw new Error('invalid_argument: StatusRequest received without `from` set')
+          throw new Error('invalid_argument: DeliveryRequest received without `from` set')
+        }
+        if (!data.limit || Number.isNaN(data.limit)) {
+          throw new Error('invalid_argument: DeliveryRequest received without `body.limit` set')
         }
 
         if (returnRoute === 'all') {
-          const queuedMessageCount = await context.agent.dataStoreORMGetMessagesCount({
-            where: [
-              {
-                column: 'type',
-                value: [QUEUE_MESSAGE_TYPE],
-                op: 'In',
-              },
-              data.recipient_key
-                ? {
-                    column: 'to',
-                    value: [data.recipient_key],
-                    op: 'In',
-                  }
-                : {
-                    column: 'to',
-                    value: [`${from}%`],
-                    op: 'Like',
-                  },
-            ],
+          const queuedMessages = await context.agent.dataStoreORMGetMessages({
+            where: generateGetMessagesWhereQuery(from, data.recipient_key),
+            take: data.limit,
           })
 
+          if (queuedMessages.length == 0) {
+            await this.replyWithStatusMessage(message, context)
+            return message
+          }
+
+          const attachments: IDIDCommMessageAttachment[] = queuedMessages.map((message) => {
+            return {
+              id: message.id,
+              media_type: DIDCommMessageMediaType.ENCRYPTED,
+              data: {
+                json: JSON.parse(message.raw!),
+              },
+            }
+          })
           const replyRecipientKey = data.recipient_key ? { recipient_key: data.recipient_key } : {}
           const replyMessage: IDIDCommMessage = {
-            type: STATUS_MESSAGE_TYPE,
+            type: DELIVERY_MESSAGE_TYPE,
             from: to,
             to: from,
             id: v4(),
             thid: message.threadId ?? message.id,
             created_time: new Date().toISOString(),
             body: {
-              message_count: queuedMessageCount,
-              live_delivery: false,
               ...replyRecipientKey,
             },
+            attachments,
           }
           const packedResponse = await context.agent.packDIDCommMessage({
             message: replyMessage,
@@ -89,7 +117,7 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
           }
           message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
         } else {
-          throw new Error('No return_route found for StatusRequest')
+          throw new Error('No return_route found for DeliveryRequest')
         }
       } catch (ex) {
         debug(ex)
@@ -98,5 +126,49 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
     }
 
     return super.handle(message, context)
+  }
+
+  private async replyWithStatusMessage(message: Message, context: IContext) {
+    const { returnRoute, data, from, to } = message
+
+    if (!to) {
+      throw new Error('invalid_argument: StatusRequest received without `to` set')
+    }
+    if (!from) {
+      throw new Error('invalid_argument: StatusRequest received without `from` set')
+    }
+
+    if (returnRoute === 'all') {
+      const queuedMessageCount = await context.agent.dataStoreORMGetMessagesCount({
+        where: generateGetMessagesWhereQuery(from, data.recipient_key),
+      })
+
+      const replyRecipientKey = data.recipient_key ? { recipient_key: data.recipient_key } : {}
+      const replyMessage: IDIDCommMessage = {
+        type: STATUS_MESSAGE_TYPE,
+        from: to,
+        to: from,
+        id: v4(),
+        thid: message.threadId ?? message.id,
+        created_time: new Date().toISOString(),
+        body: {
+          message_count: queuedMessageCount,
+          live_delivery: false,
+          ...replyRecipientKey,
+        },
+      }
+      const packedResponse = await context.agent.packDIDCommMessage({
+        message: replyMessage,
+        packing: 'authcrypt',
+      })
+      const returnResponse = {
+        id: replyMessage.id,
+        message: packedResponse.message,
+        contentType: DIDCommMessageMediaType.ENCRYPTED,
+      }
+      message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+    } else {
+      throw new Error('No return_route found for StatusRequest')
+    }
   }
 }

@@ -17,12 +17,14 @@ import { Resolver } from 'did-resolver'
 import { DIDCommHttpTransport } from '../transports/transports'
 import { IDIDComm } from '../types/IDIDComm'
 import { MessageHandler } from '../../../message-handler/src'
-import { IDIDCommMessage } from '../types/message-types'
+import { IDIDCommMessage, DIDCommMessageMediaType, IPackedDIDCommMessage } from '../types/message-types'
 import { QUEUE_MESSAGE_TYPE } from '../protocols/routing-message-handler'
 import {
   PickupMediatorMessageHandler,
   STATUS_REQUEST_MESSAGE_TYPE,
   STATUS_MESSAGE_TYPE,
+  DELIVERY_MESSAGE_TYPE,
+  DELIVERY_REQUEST_MESSAGE_TYPE,
 } from '../protocols/messagepickup-message-handler'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
@@ -44,12 +46,15 @@ const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqli
 
 describe('messagepickup-message-handler', () => {
   let recipient: IIdentifier
-  let recipient2: IIdentifier
   let mediator: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
   let didCommEndpointServer: Server
   let listeningPort = Math.round(Math.random() * 32000 + 2048)
   let dbConnection: DataSource
+
+  let messageToQueue: Message
+  let messageToQueue1: Message
+  let innerMessage: IPackedDIDCommMessage
 
   beforeAll(async () => {
     dbConnection = new DataSource({
@@ -122,29 +127,6 @@ describe('messagepickup-message-handler', () => {
       alias: 'sender',
     })
 
-    recipient2 = await agent.didManagerImport({
-      did: 'did:fake:recipient2',
-      keys: [
-        {
-          type: 'Ed25519',
-          kid: 'didcomm-senderKey-1',
-          publicKeyHex: '1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
-          privateKeyHex:
-            'b57103882f7c66512dc96777cbafbeb2d48eca1e7a867f5a17a84e9a6740f7dc1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
-          kms: 'local',
-        },
-      ],
-      services: [
-        {
-          id: 'msg1',
-          type: 'DIDCommMessaging',
-          serviceEndpoint: `http://localhost:${listeningPort}/messaging`,
-        },
-      ],
-      provider: 'did:fake',
-      alias: 'recipient2',
-    })
-
     mediator = await agent.didManagerImport({
       did: 'did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
       keys: [
@@ -169,6 +151,32 @@ describe('messagepickup-message-handler', () => {
     })
     // console.log('sender: ', sender)
     // console.log('recipient: ', recipient)
+
+    // Save messages in queue
+    innerMessage = await agent.packDIDCommMessage({
+      packing: 'authcrypt',
+      message: {
+        type: 'test',
+        to: recipient.did,
+        from: mediator.did,
+        id: 'test',
+        body: { hello: 'world' },
+      },
+    })
+
+    messageToQueue = new Message({ raw: innerMessage.message })
+    messageToQueue.id = 'test1'
+    messageToQueue.type = QUEUE_MESSAGE_TYPE
+    messageToQueue.to = `${recipient.did}#${recipient.keys[0].kid}`
+    messageToQueue.createdAt = new Date().toISOString()
+    await agent.dataStoreSaveMessage({ message: messageToQueue })
+
+    messageToQueue1 = new Message({ raw: innerMessage.message })
+    messageToQueue1.id = 'test2'
+    messageToQueue1.type = QUEUE_MESSAGE_TYPE
+    messageToQueue1.to = `${recipient.did}#some-other-key`
+    messageToQueue1.createdAt = new Date().toISOString()
+    await agent.dataStoreSaveMessage({ message: messageToQueue1 })
 
     const requestWithAgent = RequestWithAgentRouter({ agent })
 
@@ -197,184 +205,365 @@ describe('messagepickup-message-handler', () => {
     }
   })
 
-  it('should respond to StatusRequest with no recipient_key', async () => {
-    expect.assertions(1)
+  describe('PickupMediatorMessageHandler', () => {
+    it('should respond to StatusRequest with no recipient_key', async () => {
+      expect.assertions(1)
 
-    // 1. Save message in queue
-    const innerMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: {
-        type: 'test',
-        to: recipient.did,
-        from: mediator.did,
-        id: 'test',
-        body: { hello: 'world' },
-      },
-    })
+      // Send StatusRequest
+      const statusRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: STATUS_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: {},
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: statusRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: statusRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
 
-    const messageToQueue = new Message({ raw: innerMessage.message })
-    messageToQueue.id = v4()
-    messageToQueue.type = QUEUE_MESSAGE_TYPE
-    messageToQueue.to = `${recipient.did}#${recipient.keys[0].kid}`
-    messageToQueue.createdAt = new Date().toISOString()
-    await agent.dataStoreSaveMessage({ message: messageToQueue })
-
-    const messageToQueue1 = new Message({ raw: innerMessage.message })
-    messageToQueue1.id = v4()
-    messageToQueue1.type = QUEUE_MESSAGE_TYPE
-    messageToQueue1.to = `${recipient.did}#some-other-key`
-    messageToQueue1.createdAt = new Date().toISOString()
-    await agent.dataStoreSaveMessage({ message: messageToQueue1 })
-
-    // 2. Send StatusRequest
-    const statusRequestMessage: IDIDCommMessage = {
-      id: v4(),
-      type: STATUS_REQUEST_MESSAGE_TYPE,
-      to: mediator.did,
-      from: recipient.did,
-      return_route: 'all',
-      body: {},
-    }
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: statusRequestMessage,
-    })
-    await agent.sendDIDCommMessage({
-      messageId: statusRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
-    })
-
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      {
-        data: {
-          message: {
-            body: { message_count: 2, live_delivery: false },
-            id: expect.anything(),
-            created_time: expect.anything(),
-            thid: statusRequestMessage.id,
-            to: recipient.did,
-            from: mediator.did,
-            type: STATUS_MESSAGE_TYPE,
-          },
-          metaData: { packing: 'authcrypt' },
-        },
-        type: 'DIDCommV2Message-received',
-      },
-      expect.anything(),
-    )
-  })
-
-  it('should respond to StatusRequest with recipient_key', async () => {
-    expect.assertions(1)
-
-    // 1. Save messages in queue
-    const innerMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: {
-        type: 'test',
-        to: recipient2.did,
-        from: mediator.did,
-        id: 'test',
-        body: { hello: 'world' },
-      },
-    })
-
-    const messageToQueue = new Message({ raw: innerMessage.message })
-    messageToQueue.id = v4()
-    messageToQueue.type = QUEUE_MESSAGE_TYPE
-    messageToQueue.to = `${recipient2.did}#${recipient2.keys[0].kid}`
-    messageToQueue.createdAt = new Date().toISOString()
-    await agent.dataStoreSaveMessage({ message: messageToQueue })
-
-    const messageToQueue1 = new Message({ raw: innerMessage.message })
-    messageToQueue1.id = v4()
-    messageToQueue1.type = QUEUE_MESSAGE_TYPE
-    messageToQueue1.to = `${recipient2.did}#some-other-key`
-    messageToQueue1.createdAt = new Date().toISOString()
-    await agent.dataStoreSaveMessage({ message: messageToQueue1 })
-
-    // 2. Send StatusRequest
-    const statusRequestMessage: IDIDCommMessage = {
-      id: v4(),
-      type: STATUS_REQUEST_MESSAGE_TYPE,
-      to: mediator.did,
-      from: recipient2.did,
-      return_route: 'all',
-      body: {
-        recipient_key: `${recipient2.did}#${recipient2.keys[0].kid}`,
-      },
-    }
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: statusRequestMessage,
-    })
-    await agent.sendDIDCommMessage({
-      messageId: statusRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
-    })
-
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      {
-        data: {
-          message: {
-            body: {
-              message_count: 1,
-              live_delivery: false,
-              recipient_key: `${recipient2.did}#${recipient2.keys[0].kid}`,
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { message_count: 2, live_delivery: false },
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: statusRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: STATUS_MESSAGE_TYPE,
             },
-            id: expect.anything(),
-            created_time: expect.anything(),
-            thid: statusRequestMessage.id,
-            to: recipient2.did,
-            from: mediator.did,
-            type: STATUS_MESSAGE_TYPE,
+            metaData: { packing: 'authcrypt' },
           },
-          metaData: { packing: 'authcrypt' },
+          type: 'DIDCommV2Message-received',
         },
-        type: 'DIDCommV2Message-received',
-      },
-      expect.anything(),
-    )
+        expect.anything(),
+      )
+    })
+
+    it('should respond to StatusRequest with recipient_key', async () => {
+      expect.assertions(1)
+
+      // Send StatusRequest
+      const statusRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: STATUS_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: {
+          recipient_key: `${recipient.did}#${recipient.keys[0].kid}`,
+        },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: statusRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: statusRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: {
+                message_count: 1,
+                live_delivery: false,
+                recipient_key: `${recipient.did}#${recipient.keys[0].kid}`,
+              },
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: statusRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: STATUS_MESSAGE_TYPE,
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should not respond to StatusRequest with no return_route', async () => {
+      expect.assertions(1)
+      const statusRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: STATUS_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        body: {},
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: statusRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: statusRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).not.toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: expect.anything(),
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: statusRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: STATUS_MESSAGE_TYPE,
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should respond to DeliveryRequest with no recipient_key', async () => {
+      expect.assertions(1)
+
+      // Send DeliveryRequest
+      const deliveryRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: DELIVERY_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: { limit: 2 },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: deliveryRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: deliveryRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: {},
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: deliveryRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: DELIVERY_MESSAGE_TYPE,
+              attachments: [
+                {
+                  id: messageToQueue.id,
+                  media_type: DIDCommMessageMediaType.ENCRYPTED,
+                  data: {
+                    json: JSON.parse(innerMessage.message),
+                  },
+                },
+                {
+                  id: messageToQueue1.id,
+                  media_type: DIDCommMessageMediaType.ENCRYPTED,
+                  data: {
+                    json: JSON.parse(innerMessage.message),
+                  },
+                },
+              ],
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should respond to DeliveryRequest with recipient_key', async () => {
+      expect.assertions(1)
+
+      // Send DeliveryRequest
+      const deliveryRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: DELIVERY_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: { limit: 2, recipient_key: `${recipient.did}#${recipient.keys[0].kid}` },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: deliveryRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: deliveryRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { recipient_key: `${recipient.did}#${recipient.keys[0].kid}` },
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: deliveryRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: DELIVERY_MESSAGE_TYPE,
+              attachments: [
+                {
+                  id: messageToQueue.id,
+                  media_type: DIDCommMessageMediaType.ENCRYPTED,
+                  data: {
+                    json: JSON.parse(innerMessage.message),
+                  },
+                },
+              ],
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should not respond to DeliveryRequest with no return_route', async () => {
+      expect.assertions(1)
+      const deliveryRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: DELIVERY_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        body: { limit: 2 },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: deliveryRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: deliveryRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).not.toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              attachments: expect.anything(),
+              body: expect.anything(),
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: deliveryRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: DELIVERY_MESSAGE_TYPE,
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should not respond to DeliveryRequest with no limit', async () => {
+      expect.assertions(1)
+      const deliveryRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: DELIVERY_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: {},
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: deliveryRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: deliveryRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).not.toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              attachments: expect.anything(),
+              body: expect.anything(),
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: deliveryRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: DELIVERY_MESSAGE_TYPE,
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
+
+    it('should not respond to DeliveryRequest with bad limit', async () => {
+      expect.assertions(1)
+      const deliveryRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: DELIVERY_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: { limit: 'not a number' },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: deliveryRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: deliveryRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(DIDCommEventSniffer.onEvent).not.toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              attachments: expect.anything(),
+              body: expect.anything(),
+              id: expect.anything(),
+              created_time: expect.anything(),
+              thid: deliveryRequestMessage.id,
+              to: recipient.did,
+              from: mediator.did,
+              type: DELIVERY_MESSAGE_TYPE,
+            },
+            metaData: { packing: 'authcrypt' },
+          },
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    })
   })
-  
-  it('should not respond to StatusRequest with no return_route', async () => {
-	  expect.assertions(1)
-  	  const statusRequestMessage: IDIDCommMessage = {
-		id: v4(),
-		type: STATUS_REQUEST_MESSAGE_TYPE,
-		to: mediator.did,
-		from: recipient2.did,
-		body: {},
-	  }
-	  const packedMessage = await agent.packDIDCommMessage({
-		packing: 'authcrypt',
-		message: statusRequestMessage,
-	  })
-	  await agent.sendDIDCommMessage({
-		messageId: statusRequestMessage.id,
-		packedMessage,
-		recipientDidUrl: mediator.did,
-	  })
-  
-	  expect(DIDCommEventSniffer.onEvent).not.toHaveBeenCalledWith(
-		{
-		  data: {
-			message: {
-			  body: expect.anything(),
-			  id: expect.anything(),
-			  created_time: expect.anything(),
-			  thid: statusRequestMessage.id,
-			  to: recipient2.did,
-			  from: mediator.did,
-			  type: STATUS_MESSAGE_TYPE,
-			},
-			metaData: { packing: 'authcrypt' },
-		  },
-		  type: 'DIDCommV2Message-received',
-		},
-		expect.anything(),
-	  )
-	})
 })
