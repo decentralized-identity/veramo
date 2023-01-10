@@ -17,18 +17,13 @@ import { Resolver } from 'did-resolver'
 import { DIDCommHttpTransport } from '../transports/transports'
 import { IDIDComm } from '../types/IDIDComm'
 import { MessageHandler } from '../../../message-handler/src'
+import { IDIDCommMessage } from '../types/message-types'
+import { QUEUE_MESSAGE_TYPE } from '../protocols/routing-message-handler'
 import {
-  CoordinateMediationMediatorMessageHandler,
-  CoordinateMediationRecipientMessageHandler,
-  createMediateRequestMessage,
-  MEDIATE_DENY_MESSAGE_TYPE,
-} from '../protocols/coordinate-mediation-message-handler'
-import { DIDCommMessageMediaType } from '../types/message-types'
-import {
-  RoutingMessageHandler,
-  FORWARD_MESSAGE_TYPE,
-  QUEUE_MESSAGE_TYPE,
-} from '../protocols/routing-message-handler'
+  PickupMediatorMessageHandler,
+  STATUS_REQUEST_MESSAGE_TYPE,
+  STATUS_MESSAGE_TYPE,
+} from '../protocols/messagepickup-message-handler'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
@@ -38,6 +33,7 @@ import { DIDCommMessageHandler } from '../message-handler'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
+import { Message } from '@veramo/message-handler'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received', 'DIDCommV2Message-forwardMessageQueued'],
@@ -46,8 +42,9 @@ const DIDCommEventSniffer: IEventListener = {
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 
-describe('routing-message-handler', () => {
+describe('messagepickup-message-handler', () => {
   let recipient: IIdentifier
+  let recipient2: IIdentifier
   let mediator: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
   let didCommEndpointServer: Server
@@ -93,9 +90,7 @@ describe('routing-message-handler', () => {
           messageHandlers: [
             // @ts-ignore
             new DIDCommMessageHandler(),
-            new CoordinateMediationMediatorMessageHandler(),
-            new CoordinateMediationRecipientMessageHandler(),
-            new RoutingMessageHandler(),
+            new PickupMediatorMessageHandler(),
           ],
         }),
         new DataStore(dbConnection),
@@ -125,6 +120,29 @@ describe('routing-message-handler', () => {
       ],
       provider: 'did:fake',
       alias: 'sender',
+    })
+
+    recipient2 = await agent.didManagerImport({
+      did: 'did:fake:recipient2',
+      keys: [
+        {
+          type: 'Ed25519',
+          kid: 'didcomm-senderKey-1',
+          publicKeyHex: '1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+          privateKeyHex:
+            'b57103882f7c66512dc96777cbafbeb2d48eca1e7a867f5a17a84e9a6740f7dc1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+          kms: 'local',
+        },
+      ],
+      services: [
+        {
+          id: 'msg1',
+          type: 'DIDCommMessaging',
+          serviceEndpoint: `http://localhost:${listeningPort}/messaging`,
+        },
+      ],
+      provider: 'did:fake',
+      alias: 'recipient2',
     })
 
     mediator = await agent.didManagerImport({
@@ -179,22 +197,10 @@ describe('routing-message-handler', () => {
     }
   })
 
-  it('should save forward message in queue for recipient', async () => {
-    expect.assertions(2)
+  it('should respond to StatusRequest with no recipient_key', async () => {
+    expect.assertions(1)
 
-    // 1. Coordinate mediation
-    const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
-    await agent.sendDIDCommMessage({
-      messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
-    })
-
-    // 2. Forward message
+    // 1. Save message in queue
     const innerMessage = await agent.packDIDCommMessage({
       packing: 'authcrypt',
       message: {
@@ -205,22 +211,37 @@ describe('routing-message-handler', () => {
         body: { hello: 'world' },
       },
     })
-    const msgId = v4()
-    const packedForwardMessage = await agent.packDIDCommMessage({
-      packing: 'anoncrypt',
-      message: {
-        type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
-        id: msgId,
-        body: {
-          next: recipient.did,
-        },
-        attachments: [{ media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } }],
-      },
+
+    const messageToQueue = new Message({ raw: innerMessage.message })
+    messageToQueue.id = v4()
+    messageToQueue.type = QUEUE_MESSAGE_TYPE
+    messageToQueue.to = `${recipient.did}#${recipient.keys[0].kid}`
+    messageToQueue.createdAt = new Date().toISOString()
+    await agent.dataStoreSaveMessage({ message: messageToQueue })
+
+    const messageToQueue1 = new Message({ raw: innerMessage.message })
+    messageToQueue1.id = v4()
+    messageToQueue1.type = QUEUE_MESSAGE_TYPE
+    messageToQueue1.to = `${recipient.did}#some-other-key`
+    messageToQueue1.createdAt = new Date().toISOString()
+    await agent.dataStoreSaveMessage({ message: messageToQueue1 })
+
+    // 2. Send StatusRequest
+    const statusRequestMessage: IDIDCommMessage = {
+      id: v4(),
+      type: STATUS_REQUEST_MESSAGE_TYPE,
+      to: mediator.did,
+      from: recipient.did,
+      return_route: 'all',
+      body: {},
+    }
+    const packedMessage = await agent.packDIDCommMessage({
+      packing: 'authcrypt',
+      message: statusRequestMessage,
     })
     await agent.sendDIDCommMessage({
-      messageId: msgId,
-      packedMessage: packedForwardMessage,
+      messageId: statusRequestMessage.id,
+      packedMessage,
       recipientDidUrl: mediator.did,
     })
 
@@ -228,185 +249,132 @@ describe('routing-message-handler', () => {
       {
         data: {
           message: {
-            body: { next: recipient.did },
-            id: msgId,
-            to: mediator.did,
-            type: FORWARD_MESSAGE_TYPE,
-            attachments: [{ media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } }],
+            body: { message_count: 2, live_delivery: false },
+            id: expect.anything(),
+            created_time: expect.anything(),
+            thid: statusRequestMessage.id,
+            to: recipient.did,
+            from: mediator.did,
+            type: STATUS_MESSAGE_TYPE,
           },
-          metaData: { packing: 'anoncrypt' },
+          metaData: { packing: 'authcrypt' },
         },
         type: 'DIDCommV2Message-received',
       },
       expect.anything(),
     )
-
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      {
-        data: {
-          id: expect.anything(),
-		  to: `${recipient.did}#${recipient.keys[0].kid}`,
-          type: QUEUE_MESSAGE_TYPE,
-          raw: innerMessage.message,
-          createdAt: expect.anything(),
-          metaData: [{ type: 'didCommForwardMsgId', value: msgId }],
-        },
-        type: 'DIDCommV2Message-forwardMessageQueued',
-      },
-      expect.anything(),
-    )
   })
 
-  it('should save forward message in queue for recipient previously denied', async () => {
+  it('should respond to StatusRequest with recipient_key', async () => {
     expect.assertions(1)
 
-    // 1. Coordinate mediation
-    const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
-    await agent.sendDIDCommMessage({
-      messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
-    })
-
-    // 2. Save deny message
-    await agent.dataStoreSaveMessage({
-      message: {
-        type: MEDIATE_DENY_MESSAGE_TYPE,
-        from: mediator.did,
-        to: recipient.did,
-        id: v4(),
-        createdAt: new Date().toISOString(),
-        data: {},
-      },
-    })
-
-    // 3. Request again
-    await agent.sendDIDCommMessage({
-      messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
-    })
-
-    // 4. Forward message
+    // 1. Save messages in queue
     const innerMessage = await agent.packDIDCommMessage({
       packing: 'authcrypt',
       message: {
         type: 'test',
-        to: recipient.did,
+        to: recipient2.did,
         from: mediator.did,
         id: 'test',
         body: { hello: 'world' },
       },
     })
-    const msgId = v4()
-    const packedForwardMessage = await agent.packDIDCommMessage({
-      packing: 'anoncrypt',
-      message: {
-        type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
-        id: msgId,
-        body: {
-          next: recipient.did,
-        },
-        attachments: [{ media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } }],
+
+    const messageToQueue = new Message({ raw: innerMessage.message })
+    messageToQueue.id = v4()
+    messageToQueue.type = QUEUE_MESSAGE_TYPE
+    messageToQueue.to = `${recipient2.did}#${recipient2.keys[0].kid}`
+    messageToQueue.createdAt = new Date().toISOString()
+    await agent.dataStoreSaveMessage({ message: messageToQueue })
+
+    const messageToQueue1 = new Message({ raw: innerMessage.message })
+    messageToQueue1.id = v4()
+    messageToQueue1.type = QUEUE_MESSAGE_TYPE
+    messageToQueue1.to = `${recipient2.did}#some-other-key`
+    messageToQueue1.createdAt = new Date().toISOString()
+    await agent.dataStoreSaveMessage({ message: messageToQueue1 })
+
+    // 2. Send StatusRequest
+    const statusRequestMessage: IDIDCommMessage = {
+      id: v4(),
+      type: STATUS_REQUEST_MESSAGE_TYPE,
+      to: mediator.did,
+      from: recipient2.did,
+      return_route: 'all',
+      body: {
+        recipient_key: `${recipient2.did}#${recipient2.keys[0].kid}`,
       },
+    }
+    const packedMessage = await agent.packDIDCommMessage({
+      packing: 'authcrypt',
+      message: statusRequestMessage,
     })
     await agent.sendDIDCommMessage({
-      messageId: msgId,
-      packedMessage: packedForwardMessage,
+      messageId: statusRequestMessage.id,
+      packedMessage,
       recipientDidUrl: mediator.did,
     })
 
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
       {
         data: {
-          id: expect.anything(),
-		  to: `${recipient.did}#${recipient.keys[0].kid}`,
-          type: QUEUE_MESSAGE_TYPE,
-          raw: innerMessage.message,
-          createdAt: expect.anything(),
-          metaData: [{ type: 'didCommForwardMsgId', value: msgId }],
+          message: {
+            body: {
+              message_count: 1,
+              live_delivery: false,
+              recipient_key: `${recipient2.did}#${recipient2.keys[0].kid}`,
+            },
+            id: expect.anything(),
+            created_time: expect.anything(),
+            thid: statusRequestMessage.id,
+            to: recipient2.did,
+            from: mediator.did,
+            type: STATUS_MESSAGE_TYPE,
+          },
+          metaData: { packing: 'authcrypt' },
         },
-        type: 'DIDCommV2Message-forwardMessageQueued',
+        type: 'DIDCommV2Message-received',
       },
       expect.anything(),
     )
   })
-
-  it('should not save forward message in queue for recipient denied', async () => {
-    expect.assertions(1)
-
-    // 1. Coordinate mediation
-    const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
-    await agent.sendDIDCommMessage({
-      messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
-    })
-
-    // 2. Save deny message
-    await agent.dataStoreSaveMessage({
-      message: {
-        type: MEDIATE_DENY_MESSAGE_TYPE,
-        from: mediator.did,
-        to: recipient.did,
-        id: v4(),
-        createdAt: new Date().toISOString(),
-        data: {},
-      },
-    })
-
-    // 3. Forward message
-    const innerMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: {
-        type: 'test',
-        to: recipient.did,
-        from: mediator.did,
-        id: 'test',
-        body: { hello: 'world' },
-      },
-    })
-    const msgId = v4()
-    const packedForwardMessage = await agent.packDIDCommMessage({
-      packing: 'anoncrypt',
-      message: {
-        type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
-        id: msgId,
-        body: {
-          next: recipient.did,
-        },
-        attachments: [{ media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } }],
-      },
-    })
-    await agent.sendDIDCommMessage({
-      messageId: msgId,
-      packedMessage: packedForwardMessage,
-      recipientDidUrl: mediator.did,
-    })
-
-    expect(DIDCommEventSniffer.onEvent).not.toHaveBeenCalledWith(
-      {
-        data: {
-          id: expect.anything(),
-          to: `${recipient.did}#${recipient.keys[0].kid}`,
-          type: QUEUE_MESSAGE_TYPE,
-          raw: innerMessage,
-          createdAt: expect.anything(),
-          metaData: [{ type: 'didCommForwardMsgId', value: msgId }],
-        },
-        type: 'DIDCommV2Message-forwardMessageQueued',
-      },
-      expect.anything(),
-    )
-  })
+  
+  it('should not respond to StatusRequest with no return_route', async () => {
+	  expect.assertions(1)
+  	  const statusRequestMessage: IDIDCommMessage = {
+		id: v4(),
+		type: STATUS_REQUEST_MESSAGE_TYPE,
+		to: mediator.did,
+		from: recipient2.did,
+		body: {},
+	  }
+	  const packedMessage = await agent.packDIDCommMessage({
+		packing: 'authcrypt',
+		message: statusRequestMessage,
+	  })
+	  await agent.sendDIDCommMessage({
+		messageId: statusRequestMessage.id,
+		packedMessage,
+		recipientDidUrl: mediator.did,
+	  })
+  
+	  expect(DIDCommEventSniffer.onEvent).not.toHaveBeenCalledWith(
+		{
+		  data: {
+			message: {
+			  body: expect.anything(),
+			  id: expect.anything(),
+			  created_time: expect.anything(),
+			  thid: statusRequestMessage.id,
+			  to: recipient2.did,
+			  from: mediator.did,
+			  type: STATUS_MESSAGE_TYPE,
+			},
+			metaData: { packing: 'authcrypt' },
+		  },
+		  type: 'DIDCommV2Message-received',
+		},
+		expect.anything(),
+	  )
+	})
 })

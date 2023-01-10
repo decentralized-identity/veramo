@@ -54,19 +54,24 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
             ],
             order: [{ column: 'createdAt', direction: 'DESC' }],
           })
-                    
+
           // If last mediation response was a grant (not deny)
           if (mediationResponses.length > 0 && mediationResponses[0].type === MEDIATE_GRANT_MESSAGE_TYPE) {
-            // Save message for queue
-            const messageToQueue = new Message({ raw: attachments[0].data.json })
-            messageToQueue.id = v4()
-            messageToQueue.type = QUEUE_MESSAGE_TYPE
-            messageToQueue.to = data.next
-            messageToQueue.createdAt = new Date().toISOString()
-            messageToQueue.addMetaData({ type: 'didCommForwardMsgId', value: message.id })
+            const recipients = attachments[0].data.json.recipients
+            for (let i = 0; i < recipients.length; i++) {
+              const recipient = recipients[i].header.kid
 
-            await context.agent.dataStoreSaveMessage({ message: messageToQueue })
-            context.agent.emit('DIDCommV2Message-forwardMessageQueued', messageToQueue)
+              // Save message for queue
+              const messageToQueue = new Message({ raw: JSON.stringify(attachments[0].data.json) })
+              messageToQueue.id = v4()
+              messageToQueue.type = QUEUE_MESSAGE_TYPE
+              messageToQueue.to = recipient
+              messageToQueue.createdAt = new Date().toISOString()
+              messageToQueue.addMetaData({ type: 'didCommForwardMsgId', value: message.id })
+
+              await context.agent.dataStoreSaveMessage({ message: messageToQueue })
+              context.agent.emit('DIDCommV2Message-forwardMessageQueued', messageToQueue)
+            }
           } else {
             debug('Forward received for DID without granting mediation')
           }
