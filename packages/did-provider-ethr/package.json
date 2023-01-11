@@ -7,7 +7,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm veramo dev extract-api"
+    "extract-api": "../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ethersproject/abstract-provider": "^5.7.0",

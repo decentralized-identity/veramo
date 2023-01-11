@@ -10,7 +10,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "pnpm veramo dev generate-plugin-schema"
+    "generate-plugin-schema": "../cli/bin/veramo.js dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {
