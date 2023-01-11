@@ -229,7 +229,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
     context: IAgentContext<IResolver>,
     identifier: IIdentifier,
     keyRef?: string,
-  ): Promise<{ signingKey: IKey; verificationMethodId: string }> {
+  ): Promise<{ signingKey: _ExtendedIKey; verificationMethodId: string }> {
     const extendedKeys: _ExtendedIKey[] = await mapIdentifierKeysToDoc(identifier, 'assertionMethod', context)
     let supportedTypes = this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuiteTypes()
     let signingKey: _ExtendedIKey | undefined
