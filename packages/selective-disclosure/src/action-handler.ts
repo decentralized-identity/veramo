@@ -18,7 +18,7 @@ import {
   ISelectiveDisclosure,
   ISelectiveDisclosureRequest,
   IValidatePresentationAgainstSdrArgs,
-} from './types'
+} from './types.js'
 import schema from './plugin.schema.json' assert { type: 'json'}
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'

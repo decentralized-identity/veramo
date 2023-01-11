@@ -3,6 +3,6 @@
  *
  * @packageDocumentation
  */
-export { DIDDiscovery } from './action-handler'
-export { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider'
-export * from './types'
+export { DIDDiscovery } from './action-handler.js'
+export { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider.js'
+export * from './types.js'
