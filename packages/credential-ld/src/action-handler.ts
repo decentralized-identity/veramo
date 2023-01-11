@@ -10,7 +10,9 @@ import {
   VerifiablePresentation,
 } from '@veramo/core'
 import { VeramoLdSignature } from './index.js'
-import schema from "./plugin.schema.json" assert { type: 'json' }
+import module from "module"
+const requireCjs = module.createRequire(import.meta.url);
+const schema = requireCjs("./plugin.schema.json")
 import Debug from 'debug'
 import { LdContextLoader } from './ld-context-loader.js'
 import {

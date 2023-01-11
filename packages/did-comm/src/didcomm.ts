@@ -22,7 +22,11 @@ import {
   verifyJWS,
 } from 'did-jwt'
 import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod } from 'did-resolver'
-import schema from "./plugin.schema.json" assert { type: 'json' }
+import module from "module"
+const requireCjs = module.createRequire(import.meta.url);
+
+const schema = requireCjs("./plugin.schema.json")
+
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
 import {
