@@ -14,7 +14,6 @@ import pkg from 'blakejs'
 const { blake2bHex } = pkg
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
-import { CredentialStatus } from 'credential-status'
 
 /**
  * Every Verifiable Credential `@context` property must contain this.

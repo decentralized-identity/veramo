@@ -10,7 +10,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+    "generate-plugin-schema": "pnpm veramo dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@digitalcredentials/ed25519-signature-2020": "^3.0.2",
+    "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
     "@digitalcredentials/jsonld": "^5.2.1",
     "@digitalcredentials/jsonld-signatures": "^9.3.1",
     "@digitalcredentials/vc": "^5.0.0",
@@ -29,6 +30,7 @@
     "@veramo/core": "^4.2.0",
     "@veramo/did-resolver": "^4.2.0",
     "@veramo/utils": "^4.2.0",
+    "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
     "uint8arrays": "^3.0.0"

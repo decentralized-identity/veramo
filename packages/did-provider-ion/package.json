@@ -7,7 +7,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "pnpm veramo dev extract-api"
   },
   "dependencies": {
     "@decentralized-identity/ion-sdk": "^0.6.0",
@@ -15,13 +15,17 @@
     "@ethersproject/signing-key": "^5.7.0",
     "@sphereon/ion-pow": "^0.2.0",
     "@stablelib/ed25519": "^1.0.2",
+    "@stablelib/sha256": "^1.0.1",
     "@trust/keyto": "^1.0.1",
     "@veramo/core": "^4.2.0",
     "@veramo/did-manager": "^4.2.0",
     "@veramo/key-manager": "^4.2.0",
     "@veramo/kms-local": "^4.2.0",
     "canonicalize": "^1.0.8",
+    "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
+    "did-resolver": "^4.0.1",
+    "multihashes": "^4.0.3",
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {

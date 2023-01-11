@@ -7,7 +7,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "pnpm veramo dev extract-api"
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
@@ -15,7 +15,8 @@
     "@ethersproject/transactions": "^5.7.0",
     "@veramo/core": "^4.2.0",
     "@veramo/did-manager": "^4.2.0",
-    "debug": "^4.3.3"
+    "debug": "^4.3.3",
+    "did-resolver": "^4.0.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

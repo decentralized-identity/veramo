@@ -1,5 +1,4 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
-import { Provider } from '@ethersproject/abstract-provider'
 import { computeAddress } from '@ethersproject/transactions'
 
 import { AbstractIdentifierProvider } from '@veramo/did-manager'

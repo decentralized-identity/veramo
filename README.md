@@ -67,24 +67,24 @@ and [lerna](https://lerna.js.org/)
 Install dependencies
 
 ```bash
-yarn install
-yarn bootstrap
+npm -g i pnpm
+pnpm install
 ```
 
 Build
 
 ```bash
-yarn build
+pnpm build
 ```
 
 Run the tests
 
 ```bash
-yarn test
+pnpm test
 ```
 
 ```bash
-yarn test:watch
+pnpm test:watch
 ```
 
 If you are running Visual Studio Code, there are some launch configurations available that can be used as template for
