@@ -49,11 +49,12 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
       id,
       controller,
       publicKeyMultibase: this.preSigningKeyModification(u8a.fromString(key.publicKeyHex, 'hex')),
-      signer: () => signer,
-      type: this.getSupportedVerificationType(),
+      // signer: () => signer,
+      // type: this.getSupportedVerificationType(),
     })
     // overwrite the signer since we're not passing the private key
     verificationKey.signer = () => signer as any
+    verificationKey.type = this.getSupportedVerificationType()
     return new Ed25519Signature2020({
       key: verificationKey,
       signer: signer,

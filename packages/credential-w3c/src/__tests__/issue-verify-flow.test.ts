@@ -114,7 +114,7 @@ describe('credential-w3c full flow', () => {
     expect(verifyResult.verified).toBeFalsy()
   })
 
-  
+
   it('fails the verification of a jwt credential with false value outside of proof', async () => {
     const verifiableCredential1 = await agent.createVerifiableCredential({
       credential,
@@ -130,36 +130,36 @@ describe('credential-w3c full flow', () => {
   // uncomment when https://github.com/uport-project/veramo/issues/1073 is resolved
   // example credential found at: https://learn.mattr.global/tutorials/web-credentials/issue/issue-basic
   // it(`verifies a credential created with lds proofType via Mattr`, async () => {
-  //   const verifiableCredential1 = {    
-  //     "@context": [    
-  //       "https://www.w3.org/2018/credentials/v1",    
-  //       {    
-  //         "@vocab": "https://w3id.org/security/undefinedTerm#"    
-  //       },    
-  //       "https://schema.org"    
-  //     ],    
-  //     "type": [    
-  //       "VerifiableCredential",    
-  //       "CourseCredential"    
-  //     ],    
-  //     "issuer": {    
-  //       "id": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj",    
-  //       "name": "tenant"    
-  //     },    
-  //     "issuanceDate": "2021-07-26T01:05:05.152Z",    
-  //     "credentialSubject": {    
-  //       "id": "did:key:z6MkfxQU7dy8eKxyHpG267FV23agZQu9zmokd8BprepfHALi",    
-  //       "givenName": "Chris",    
-  //       "familyName": "Shin",    
-  //       "educationalCredentialAwarded": "Certificate Name"    
-  //     },    
-  //     "proof": {    
-  //       "type": "Ed25519Signature2018",    
-  //       "created": "2021-07-26T01:05:06Z",    
-  //       "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..o6hnrrWpArG8LQz2Ex_u66_BtuPdp3Hkz18nhNdNhJ7J1k_2lmCCwsNdmo-kNFirZdSIMzqO-V3wEjMDphVEAA",    
-  //       "proofPurpose": "assertionMethod",    
-  //       "verificationMethod": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj#z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj"    
-  //     }    
+  //   const verifiableCredential1 = {
+  //     "@context": [
+  //       "https://www.w3.org/2018/credentials/v1",
+  //       {
+  //         "@vocab": "https://w3id.org/security/undefinedTerm#"
+  //       },
+  //       "https://schema.org"
+  //     ],
+  //     "type": [
+  //       "VerifiableCredential",
+  //       "CourseCredential"
+  //     ],
+  //     "issuer": {
+  //       "id": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj",
+  //       "name": "tenant"
+  //     },
+  //     "issuanceDate": "2021-07-26T01:05:05.152Z",
+  //     "credentialSubject": {
+  //       "id": "did:key:z6MkfxQU7dy8eKxyHpG267FV23agZQu9zmokd8BprepfHALi",
+  //       "givenName": "Chris",
+  //       "familyName": "Shin",
+  //       "educationalCredentialAwarded": "Certificate Name"
+  //     },
+  //     "proof": {
+  //       "type": "Ed25519Signature2018",
+  //       "created": "2021-07-26T01:05:06Z",
+  //       "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..o6hnrrWpArG8LQz2Ex_u66_BtuPdp3Hkz18nhNdNhJ7J1k_2lmCCwsNdmo-kNFirZdSIMzqO-V3wEjMDphVEAA",
+  //       "proofPurpose": "assertionMethod",
+  //       "verificationMethod": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj#z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj"
+  //     }
   //   }
   //   const verifyResult = await agent.verifyCredential({ credential: verifiableCredential1 })
   //   expect(verifyResult.verified).toBeTruthy()

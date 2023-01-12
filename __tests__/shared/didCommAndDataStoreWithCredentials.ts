@@ -11,7 +11,7 @@ import {
 } from '../../packages/core/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
 import { v4 } from "uuid"
-import { VerifiableCredential } from '@veramo/core'
+import { VerifiableCredential } from '../../packages/core/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 
@@ -137,7 +137,7 @@ export default (testContext: {
         body: vc
       }})
     }
-    
+
     it('should save LDS credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
       const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})
@@ -148,7 +148,7 @@ export default (testContext: {
       const verifiableCredential = await vc(creator, 'lds')
       const packedMessage = await packed(verifiableCredential)
 
-      await agent.sendDIDCommMessage({        
+      await agent.sendDIDCommMessage({
         messageId: 'test-jwt-success',
         packedMessage,
         recipientDidUrl: sender.did,
@@ -158,18 +158,18 @@ export default (testContext: {
       const vcs = await agent.dataStoreORMGetVerifiableCredentialsCount({})
       expect(vcs).toEqual(numVCsBefore + 1)
     })
-        
+
     it('should save JWT credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})      
-      
+      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})
+
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
 
       const verifiableCredential = await vc(creator, 'jwt')
       const packedMessage = await packed(verifiableCredential)
 
-      await agent.sendDIDCommMessage({        
+      await agent.sendDIDCommMessage({
         messageId: 'test-jwt-success',
         packedMessage,
         recipientDidUrl: sender.did,
@@ -180,18 +180,18 @@ export default (testContext: {
       expect(vcs).toEqual(numVCsBefore + 1)
     })
 
-            
+
     it('should save JWT credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
       const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})
-      
+
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
 
       const verifiableCredential = await vc(creator, 'EthereumEip712Signature2021')
       const packedMessage = await packed(verifiableCredential)
 
-      await agent.sendDIDCommMessage({        
+      await agent.sendDIDCommMessage({
         messageId: 'test-jwt-success',
         packedMessage,
         recipientDidUrl: sender.did,

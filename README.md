@@ -61,30 +61,28 @@ fixes [there](https://github.com/uport-project/veramo-website) as well.
 
 ### Build Veramo locally
 
-This monorepo uses [yarn](https://yarnpkg.com/) [workspaces](https://classic.yarnpkg.com/en/docs/workspaces/)
-and [lerna](https://lerna.js.org/)
+This monorepo uses [pnpm](https://pnpm.io/) and [lerna](https://lerna.js.org/)
 
 Install dependencies
 
 ```bash
-yarn install
-yarn bootstrap
+pnpm install
 ```
 
 Build
 
 ```bash
-yarn build
+pnpm build
 ```
 
 Run the tests
 
 ```bash
-yarn test
+pnpm test
 ```
 
 ```bash
-yarn test:watch
+pnpm test:watch
 ```
 
 If you are running Visual Studio Code, there are some launch configurations available that can be used as template for

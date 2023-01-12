@@ -171,16 +171,16 @@ describe('trust-ping-message-handler', () => {
   const expectResponse = (tpid: string) => {
     // recipient sends response
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      { 
-        data: `${tpid}-response`, 
-        type: 'DIDCommV2Message-sent' 
+      {
+        data: `${tpid}-response`,
+        type: 'DIDCommV2Message-sent'
       },
       expect.anything(),
     )
 
     // original sender receives response
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      { 
+      {
         data: {
           message: {
             body: {},
@@ -201,16 +201,16 @@ describe('trust-ping-message-handler', () => {
   const expectPing = (tpid: string, packing: string) => {
     // recipient sends response
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      { 
-        data: `${tpid}`, 
-        type: 'DIDCommV2Message-sent' 
+      {
+        data: `${tpid}`,
+        type: 'DIDCommV2Message-sent'
       },
       expect.anything(),
     )
 
     // original sender receives response
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      { 
+      {
         data: {
           message: {
             body: {
@@ -267,7 +267,7 @@ describe('trust-ping-message-handler', () => {
     expectResponse(tpid)
   })
 
-  
+
   it('should handle none-packed trust ping message sent via didcomm', async () => {
     const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
     const packedMessage = await agent.packDIDCommMessage({ packing: 'none', message: trustPingMessage})
@@ -276,16 +276,16 @@ describe('trust-ping-message-handler', () => {
 
     // recipient sends response
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      { 
-        data: `${tpid}`, 
-        type: 'DIDCommV2Message-sent' 
+      {
+        data: `${tpid}`,
+        type: 'DIDCommV2Message-sent'
       },
       expect.anything(),
     )
 
     // original sender receives response
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      { 
+      {
         data: {
           message: {
             body: {
@@ -305,7 +305,7 @@ describe('trust-ping-message-handler', () => {
     )
   })
 
-   
+
   it('should handle authcrypt-packed trust ping message sent via didcomm', async () => {
     const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
     const tpid = trustPingMessage.id
