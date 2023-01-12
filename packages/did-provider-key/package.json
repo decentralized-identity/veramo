@@ -7,7 +7,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "../cli/bin/veramo.js dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@transmute/did-key-ed25519": "^0.3.0-unstable.9",
