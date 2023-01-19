@@ -38,7 +38,7 @@ jobs:
         run: pnpm test:integration
       - name: run browser tests
         run: pnpm test:browser
-      - run: pnpm docs
+      - run: pnpm run docs
       - run: pnpm lint
       - uses: codecov/codecov-action@v3
         with:
