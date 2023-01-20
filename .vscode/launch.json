@@ -16,7 +16,7 @@
         "dev",
         "generate-plugin-schema"
       ],
-      "cwd": "${workspaceFolder}/packages/credential-ld/",
+      "cwd": "${workspaceFolder}/packages/core/",
       "sourceMaps": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

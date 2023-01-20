@@ -9,7 +9,7 @@ import { Router } from 'express'
  *
  * @public
  */
-export function apiKeyAuth({ apiKey }: { apiKey: string }) {
+export function apiKeyAuth({ apiKey }: { apiKey: string }): Router {
   const router = Router()
   router.use(passport.initialize())
   passport.use(

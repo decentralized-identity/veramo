@@ -6,14 +6,15 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "pnpm exec veramo dev extract-api"
   },
   "dependencies": {
     "@ethersproject/transactions": "^5.7.0",
-    "@stablelib/ed25519": "^1.0.2",
+    "@ethersproject/signing-key": "^5.7.0",
+    "@stablelib/ed25519": "^1.0.3",
     "@veramo/core": "^4.2.0",
     "blakejs": "^1.1.1",
-    "cross-fetch": "^3.1.4",
+    "credential-status": "^2.0.5",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
     "did-jwt-vc": "^3.1.0",

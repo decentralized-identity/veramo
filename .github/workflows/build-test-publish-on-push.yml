@@ -30,23 +30,17 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{secrets.GH_TOKEN}}
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
+          node-version: 14
+          cache: 'pnpm'
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-2-${{ hashFiles('**/package.json') }}
-
-      - run: yarn install --frozen-lockfile
-      - run: yarn bootstrap
-      - run: yarn build
+      - run: pnpm install
+      - run: pnpm build
       - name: run integration tests
         env:
           INCLUDE_POSTGRES_TESTS: true
@@ -54,11 +48,11 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
-        run: yarn test:integration
-      - run: yarn docs
+        run: pnpm test:integration
+      - run: pnpm docs
 
       - name: run browser tests
-        run: yarn test:browser
+        run: pnpm test:browser
 
       - name: setup git coordinates
         run: |
@@ -75,12 +69,12 @@ jobs:
 
       - name: publish @latest when on main
         if: github.ref == 'refs/heads/main'
-        run: yarn publish:latest
+        run: pnpm publish:latest
 
       - name: publish @next when on next
         if: github.ref == 'refs/heads/next'
-        run: yarn publish:next
+        run: pnpm publish:next
 
       - name: publish @unstable when on unstable branch
         if: github.ref == 'refs/heads/unstable'
-        run: yarn publish:unstable
+        run: pnpm publish:unstable

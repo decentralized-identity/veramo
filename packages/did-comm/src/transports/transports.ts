@@ -105,15 +105,15 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
       (typeof service.serviceEndpoint === 'string'  && (
         service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://')
       ))
-      || 
+      ||
       (service.serviceEndpoint.uri &&  typeof service.serviceEndpoint.uri === 'string' && (
         service.serviceEndpoint.uri.startsWith('http://') || service.serviceEndpoint.uri.startsWith('https://')
       ))
-      || 
+      ||
       (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0] === 'string' && (
         service.serviceEndpoint[0].startsWith('http://') || service.serviceEndpoint[0].startsWith('https://')
       ))
-      || 
+      ||
       (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0].uri === 'string' && (
         service.serviceEndpoint[0].uri.startsWith('http://') || service.serviceEndpoint[0].uri.startsWith('https://')
       ))
@@ -134,7 +134,7 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
         serviceEndpointUrl = service.serviceEndpoint[0].uri
       }
     }
-    
+
     try {
       const response = await fetch(serviceEndpointUrl, {
         method: this.httpMethod,

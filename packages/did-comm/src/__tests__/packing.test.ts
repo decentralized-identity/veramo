@@ -11,7 +11,7 @@ import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
-import { DIDResolverPlugin, getUniversalResolver } from '../../../did-resolver/src'
+import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { DIDDocument, Resolver } from 'did-resolver'
 
 const multiBaseDoc = {
@@ -231,7 +231,7 @@ describe('didComm', () => {
               }
 
               // DIDResolutionResult
-              return { 
+              return {
                 didResolutionMetadata: {},
                 didDocument: doc,
                 didDocumentMetadata: {}

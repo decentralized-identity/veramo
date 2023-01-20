@@ -18,7 +18,10 @@ const resolveDidKey: DIDResolver = async (
   try {
     const startsWith = _parsed.did.substring(0, 12)
     if (startsWithMap[startsWith] !== undefined) {
-      const didResolution = await startsWithMap[startsWith](didUrl, options as any)
+      const didResolution = await startsWithMap[startsWith](didUrl, {
+        ...options,
+        enableEncryptionKeyDerivation: true,
+      })
       return {
         didDocumentMetadata: {},
         didResolutionMetadata: {},

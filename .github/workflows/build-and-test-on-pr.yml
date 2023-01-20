@@ -17,23 +17,17 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
+          node-version: 14
+          cache: 'pnpm'
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-2-${{ hashFiles('**/package.json') }}
-          
-      - run: yarn install --frozen-lockfile
-      - run: yarn bootstrap
-      - run: yarn build
+      - run: pnpm install
+      - run: pnpm build
       - name: run integration tests
         env:
           INCLUDE_POSTGRES_TESTS: true
@@ -41,9 +35,11 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
-        run: yarn test:integration
+        run: pnpm test:integration
       - name: run browser tests
-        run: yarn test:browser
-      - run: yarn docs
-      - run: yarn lint
-      - run: npx codecov
+        run: pnpm test:browser
+      - run: pnpm run docs
+      - run: pnpm lint
+      - uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos but sometimes fails without :|
