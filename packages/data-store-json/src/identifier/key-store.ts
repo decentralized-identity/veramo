@@ -40,7 +40,7 @@ export class KeyStoreJson extends AbstractKeyStore {
     }
   }
 
-  async get({ kid }: { kid: string }): Promise<IKey> {
+  async getKey({ kid }: { kid: string }): Promise<IKey> {
     if (this.cacheTree.keys[kid]) {
       return deserialize(serialize(this.cacheTree.keys[kid]))
     } else {
@@ -48,7 +48,7 @@ export class KeyStoreJson extends AbstractKeyStore {
     }
   }
 
-  async delete({ kid }: { kid: string }) {
+  async deleteKey({ kid }: { kid: string }) {
     if (this.cacheTree.keys[kid]) {
       const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
       delete this.cacheTree.keys[kid]
@@ -59,14 +59,14 @@ export class KeyStoreJson extends AbstractKeyStore {
     }
   }
 
-  async import(args: IKey) {
+  async importKey(args: IKey) {
     const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     this.cacheTree.keys[args.kid] = args
     await this.notifyUpdate(oldTree, this.cacheTree)
     return true
   }
 
-  async list(args: {} = {}): Promise<ManagedKeyInfo[]> {
+  async listKeys(args: {} = {}): Promise<ManagedKeyInfo[]> {
     const keys = Object.values(this.cacheTree.keys).map((key: IKey) => {
       const { kid, publicKeyHex, type, meta, kms } = key
       return { kid, publicKeyHex, type, meta: deserialize(serialize(meta)), kms } as ManagedKeyInfo

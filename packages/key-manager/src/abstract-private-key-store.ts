@@ -34,11 +34,11 @@ export type ImportablePrivateKey = RequireOnly<ManagedPrivateKey, 'privateKeyHex
  * @public
  */
 export abstract class AbstractPrivateKeyStore {
-  abstract import(args: ImportablePrivateKey): Promise<ManagedPrivateKey>
+  abstract importKey(args: ImportablePrivateKey): Promise<ManagedPrivateKey>
 
-  abstract get(args: { alias: string }): Promise<ManagedPrivateKey>
+  abstract getKey(args: { alias: string }): Promise<ManagedPrivateKey>
 
-  abstract delete(args: { alias: string }): Promise<boolean>
+  abstract deleteKey(args: { alias: string }): Promise<boolean>
 
-  abstract list(args: {}): Promise<Array<ManagedPrivateKey>>
+  abstract listKeys(args: {}): Promise<Array<ManagedPrivateKey>>
 }

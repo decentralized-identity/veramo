@@ -93,7 +93,7 @@ export class KeyManager implements IAgentPlugin {
     if (args.meta || key.meta) {
       key.meta = { ...args.meta, ...key.meta }
     }
-    await this.store.import(key)
+    await this.store.importKey(key)
     if (key.privateKeyHex) {
       delete key.privateKeyHex
     }
@@ -102,15 +102,15 @@ export class KeyManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerGet} */
   async keyManagerGet({ kid }: IKeyManagerGetArgs): Promise<IKey> {
-    return this.store.get({ kid })
+    return this.store.getKey({ kid })
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerDelete} */
   async keyManagerDelete({ kid }: IKeyManagerDeleteArgs): Promise<boolean> {
-    const key = await this.store.get({ kid })
+    const key = await this.store.getKey({ kid })
     const kms = this.getKms(key.kms)
     await kms.deleteKey({ kid })
-    return this.store.delete({ kid })
+    return this.store.deleteKey({ kid })
   }
 
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerImport} */
@@ -119,7 +119,7 @@ export class KeyManager implements IAgentPlugin {
     const managedKey = await kms.importKey(key)
     const { meta } = key
     const importedKey = { ...managedKey, meta: { ...meta, ...managedKey.meta }, kms: key.kms }
-    await this.store.import(importedKey)
+    await this.store.importKey(importedKey)
     return importedKey
   }
 
@@ -171,7 +171,7 @@ export class KeyManager implements IAgentPlugin {
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSign} */
   async keyManagerSign(args: IKeyManagerSignArgs): Promise<string> {
     const { keyRef, data, algorithm, encoding, ...extras } = { encoding: 'utf-8', ...args }
-    const keyInfo: ManagedKeyInfo = await this.store.get({ kid: keyRef })
+    const keyInfo: ManagedKeyInfo = await this.store.getKey({ kid: keyRef })
     let dataBytes
     if (typeof data === 'string') {
       if (encoding === 'base16' || encoding === 'hex') {
@@ -192,7 +192,7 @@ export class KeyManager implements IAgentPlugin {
     const { v, r, s, from, ...tx } = <any>transaction
     if (typeof from === 'string') {
       debug('WARNING: executing a transaction signing request with a `from` field.')
-      const key = await this.store.get({ kid })
+      const key = await this.store.getKey({ kid })
       if (key.publicKeyHex) {
         const address = computeAddress('0x' + key.publicKeyHex)
         if (address.toLowerCase() !== from.toLowerCase()) {
@@ -211,7 +211,7 @@ export class KeyManager implements IAgentPlugin {
   /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSharedSecret} */
   async keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string> {
     const { secretKeyRef, publicKey } = args
-    const myKeyRef = await this.store.get({ kid: secretKeyRef })
+    const myKeyRef = await this.store.getKey({ kid: secretKeyRef })
     const theirKey = publicKey
     if (
       myKeyRef.type === theirKey.type ||

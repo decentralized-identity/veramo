@@ -2,7 +2,7 @@ import { AbstractKeyStore } from '../abstract-key-store'
 import { IKey, ManagedKeyInfo } from '@veramo/core'
 
 class MockKeyStore extends AbstractKeyStore {
-  async list(args: {}): Promise<ManagedKeyInfo[]> {
+  async listKeys(args: {}): Promise<ManagedKeyInfo[]> {
     return [
       {
         kid: '',
@@ -12,7 +12,7 @@ class MockKeyStore extends AbstractKeyStore {
       },
     ]
   }
-  async get({ kid }: { kid: string }): Promise<IKey> {
+  async getKey({ kid }: { kid: string }): Promise<IKey> {
     return {
       kid: '',
       kms: '',
@@ -21,11 +21,11 @@ class MockKeyStore extends AbstractKeyStore {
     }
   }
 
-  async delete({ kid }: { kid: string }) {
+  async deleteKey({ kid }: { kid: string }) {
     return true
   }
 
-  async import(args: IKey): Promise<boolean> {
+  async importKey(args: IKey): Promise<boolean> {
     return true
   }
 }
