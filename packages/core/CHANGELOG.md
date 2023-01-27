@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/uport-project/veramo/compare/v4.2.0...v4.3.0) (2023-01-27)
+
+
+### Features
+
+* **did-comm:** support DIDComm Messaging attachments ([#1087](https://github.com/uport-project/veramo/issues/1087)) ([6679574](https://github.com/uport-project/veramo/commit/66795742a01d5390ad083610efd28a8fe59fb3a3)), closes [#612](https://github.com/uport-project/veramo/issues/612)
+
+
+
+
+
 # [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
 
 

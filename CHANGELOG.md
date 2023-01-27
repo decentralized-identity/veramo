@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/uport-project/veramo/compare/v4.2.0...v4.3.0) (2023-01-27)
+
+
+### Bug Fixes
+
+* **credential-ld:** fix defaultContexts file extensions ([#1086](https://github.com/uport-project/veramo/issues/1086)) ([2f57cb1](https://github.com/uport-project/veramo/commit/2f57cb1bef265a5930ceaeff6a8e9af987c3958e))
+* **utils:** convert JWK with curv `Ed25519` to `X25519` ([#1078](https://github.com/uport-project/veramo/issues/1078)) ([deb546b](https://github.com/uport-project/veramo/commit/deb546ba94fa1dc51662adddbe303d63a0e7ce12))
+
+
+### Features
+
+* **did-comm:** add trust ping protocol ([#1080](https://github.com/uport-project/veramo/issues/1080)) ([fb22e63](https://github.com/uport-project/veramo/commit/fb22e632ef6dcce6a7dfec9a229c7be4d6d5c894))
+* **did-comm:** support DIDComm Messaging attachments ([#1087](https://github.com/uport-project/veramo/issues/1087)) ([6679574](https://github.com/uport-project/veramo/commit/66795742a01d5390ad083610efd28a8fe59fb3a3)), closes [#612](https://github.com/uport-project/veramo/issues/612)
+* **utils:** add publicKeyJwk as valid verificationMethod in getEthereumAddress ([#1096](https://github.com/uport-project/veramo/issues/1096)) ([a4209f5](https://github.com/uport-project/veramo/commit/a4209f5ffc95d9fde6bbdb9df6d16e8d961341f6))
+
+
+
+
+
 # [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
 
 

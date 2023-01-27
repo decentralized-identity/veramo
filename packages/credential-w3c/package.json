@@ -1,7 +1,7 @@
 {
   "name": "@veramo/credential-w3c",
   "description": "Veramo plugin for working with W3C Verifiable Credentials & Presentations.",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -9,11 +9,11 @@
     "extract-api": "pnpm exec veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.2.0",
-    "@veramo/did-jwt": "^4.2.0",
-    "@veramo/did-resolver": "^4.2.0",
-    "@veramo/message-handler": "^4.2.0",
-    "@veramo/utils": "^4.2.0",
+    "@veramo/core": "^4.3.0",
+    "@veramo/did-jwt": "^4.3.0",
+    "@veramo/did-resolver": "^4.3.0",
+    "@veramo/message-handler": "^4.3.0",
+    "@veramo/utils": "^4.3.0",
     "canonicalize": "^1.0.8",
     "debug": "^4.3.3",
     "did-jwt": "^6.11.0",
@@ -23,7 +23,7 @@
     "uuid": "^9.0.0"
   },
   "optionalDependencies": {
-    "@veramo/credential-ld": "^4.2.0"
+    "@veramo/credential-ld": "^4.3.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

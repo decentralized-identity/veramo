@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/uport-project/veramo/compare/v4.2.0...v4.3.0) (2023-01-27)
+
+
+### Bug Fixes
+
+* **credential-ld:** fix defaultContexts file extensions ([#1086](https://github.com/uport-project/veramo/issues/1086)) ([2f57cb1](https://github.com/uport-project/veramo/commit/2f57cb1bef265a5930ceaeff6a8e9af987c3958e))
+
+
+
+
+
 # [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
 
 
