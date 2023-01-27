@@ -84,18 +84,18 @@ export class DIDManager implements IAgentPlugin {
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerFind} */
   async didManagerFind(args: IDIDManagerFindArgs): Promise<IIdentifier[]> {
-    return this.store.list(args)
+    return this.store.listDIDs(args)
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerGet} */
   async didManagerGet({ did }: IDIDManagerGetArgs): Promise<IIdentifier> {
-    return this.store.get({ did })
+    return this.store.getDID({ did })
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerGetByAlias} */
   async didManagerGetByAlias({ alias, provider }: IDIDManagerGetByAliasArgs): Promise<IIdentifier> {
     const providerName = provider || this.defaultProvider
-    return this.store.get({ alias, provider: providerName })
+    return this.store.getDID({ alias, provider: providerName })
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerCreate} */
@@ -107,7 +107,7 @@ export class DIDManager implements IAgentPlugin {
     if (args?.alias !== undefined) {
       let existingIdentifier
       try {
-        existingIdentifier = await this.store.get({ alias: args.alias, provider: providerName })
+        existingIdentifier = await this.store.getDID({ alias: args.alias, provider: providerName })
       } catch (e) {}
       if (existingIdentifier) {
         throw Error(
@@ -124,7 +124,7 @@ export class DIDManager implements IAgentPlugin {
     if (args?.alias) {
       identifier.alias = args.alias
     }
-    await this.store.import(identifier)
+    await this.store.importDID(identifier)
     return identifier
   }
 
@@ -136,7 +136,7 @@ export class DIDManager implements IAgentPlugin {
     try {
       const providerName = provider || this.defaultProvider
       // @ts-ignore
-      const identifier = await this.store.get({ alias, provider: providerName })
+      const identifier = await this.store.getDID({ alias, provider: providerName })
       return identifier
     } catch {
       return this.didManagerCreate({ provider, alias, kms, options }, context)
@@ -157,7 +157,7 @@ export class DIDManager implements IAgentPlugin {
      * 6. Update the identifier in the store
      * 7. Return the identifier
      */
-      const identifier = await this.store.get({ did })
+      const identifier = await this.store.getDID({ did })
       const identifierProvider = this.getProvider(identifier.provider)
       if (typeof identifierProvider?.updateIdentifier !== 'function') {
         throw new Error(`not_supported: ${identifier?.provider} provider does not implement full document updates`)
@@ -166,7 +166,7 @@ export class DIDManager implements IAgentPlugin {
         { did, document, options },
         context,
       )
-      await this.store.import(updatedIdentifier)
+      await this.store.importDID(updatedIdentifier)
       return updatedIdentifier
   }
 
@@ -175,9 +175,9 @@ export class DIDManager implements IAgentPlugin {
     { did, alias }: IDIDManagerSetAliasArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<boolean> {
-    const identifier = await this.store.get({ did })
+    const identifier = await this.store.getDID({ did })
     identifier.alias = alias
-    return await this.store.import(identifier)
+    return await this.store.importDID(identifier)
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerImport} */
@@ -196,7 +196,7 @@ export class DIDManager implements IAgentPlugin {
       keys,
       services,
     }
-    await this.store.import(importedDID)
+    await this.store.importDID(importedDID)
     return importedDID
   }
 
@@ -205,10 +205,10 @@ export class DIDManager implements IAgentPlugin {
     { did }: IDIDManagerDeleteArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<boolean> {
-    const identifier = await this.store.get({ did })
+    const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     await provider.deleteIdentifier(identifier, context)
-    return this.store.delete({ did })
+    return this.store.deleteDID({ did })
   }
 
   /** {@inheritDoc @veramo/core#IDIDManager.didManagerAddKey} */
@@ -216,11 +216,11 @@ export class DIDManager implements IAgentPlugin {
     { did, key, options }: IDIDManagerAddKeyArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
-    const identifier = await this.store.get({ did })
+    const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     const result = await provider.addKey({ identifier, key, options }, context)
     identifier.keys.push(key)
-    await this.store.import(identifier)
+    await this.store.importDID(identifier)
     return result
   }
 
@@ -229,11 +229,11 @@ export class DIDManager implements IAgentPlugin {
     { did, kid, options }: IDIDManagerRemoveKeyArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
-    const identifier = await this.store.get({ did })
+    const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     const result = await provider.removeKey({ identifier, kid, options }, context)
     identifier.keys = identifier.keys.filter((k) => k.kid !== kid)
-    await this.store.import(identifier)
+    await this.store.importDID(identifier)
     return result
   }
 
@@ -242,11 +242,11 @@ export class DIDManager implements IAgentPlugin {
     { did, service, options }: IDIDManagerAddServiceArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
-    const identifier = await this.store.get({ did })
+    const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     const result = await provider.addService({ identifier, service, options }, context)
     identifier.services.push(service)
-    await this.store.import(identifier)
+    await this.store.importDID(identifier)
     return result
   }
 
@@ -255,11 +255,11 @@ export class DIDManager implements IAgentPlugin {
     { did, id, options }: IDIDManagerRemoveServiceArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<any> {
-    const identifier = await this.store.get({ did })
+    const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     const result = await provider.removeService({ identifier, id, options }, context)
     identifier.services = identifier.services.filter((s) => s.id !== id)
-    await this.store.import(identifier)
+    await this.store.importDID(identifier)
     return result
   }
 }

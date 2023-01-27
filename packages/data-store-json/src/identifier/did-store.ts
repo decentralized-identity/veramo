@@ -37,7 +37,7 @@ export class DIDStoreJson extends AbstractDIDStore {
     }
   }
 
-  async get({
+  async getDID({
               did,
               alias,
               provider,
@@ -70,7 +70,7 @@ export class DIDStoreJson extends AbstractDIDStore {
     return deserialize(serialize(identifier))
   }
 
-  async delete({ did }: { did: string }) {
+  async deleteDID({ did }: { did: string }) {
     if (this.cacheTree.dids[did]) {
       const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
       delete this.cacheTree.dids[did]
@@ -81,7 +81,7 @@ export class DIDStoreJson extends AbstractDIDStore {
     return false
   }
 
-  async import(args: IIdentifier) {
+  async importDID(args: IIdentifier) {
     const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     this.cacheTree.dids[args.did] = args
     args.keys.forEach((key) => {
@@ -96,7 +96,7 @@ export class DIDStoreJson extends AbstractDIDStore {
     return true
   }
 
-  async list(args: { alias?: string; provider?: string }): Promise<IIdentifier[]> {
+  async listDIDs(args: { alias?: string; provider?: string }): Promise<IIdentifier[]> {
     const result = Object.values(this.cacheTree.dids).filter(
       (iid: IIdentifier) =>
         (!args.provider || (args.provider && iid.provider === args.provider)) &&

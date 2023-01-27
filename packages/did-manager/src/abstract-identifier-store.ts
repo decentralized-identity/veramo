@@ -5,9 +5,9 @@ import { IIdentifier } from '@veramo/core'
  * @public
  */
 export abstract class AbstractDIDStore {
-  abstract import(args: IIdentifier): Promise<boolean>
-  abstract get(args: { did: string }): Promise<IIdentifier>
-  abstract get(args: { alias: string; provider: string }): Promise<IIdentifier>
-  abstract delete(args: { did: string }): Promise<boolean>
-  abstract list(args: { alias?: string; provider?: string }): Promise<IIdentifier[]>
+  abstract importDID(args: IIdentifier): Promise<boolean>
+  abstract getDID(args: { did: string }): Promise<IIdentifier>
+  abstract getDID(args: { alias: string; provider: string }): Promise<IIdentifier>
+  abstract deleteDID(args: { did: string }): Promise<boolean>
+  abstract listDIDs(args: { alias?: string; provider?: string }): Promise<IIdentifier[]>
 }

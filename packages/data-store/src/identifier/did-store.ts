@@ -30,7 +30,7 @@ export class DIDStore extends AbstractDIDStore {
     super()
   }
 
-  async get({
+  async getDID({
     did,
     alias,
     provider,
@@ -87,7 +87,7 @@ export class DIDStore extends AbstractDIDStore {
     return result
   }
 
-  async delete({ did }: { did: string }) {
+  async deleteDID({ did }: { did: string }) {
     const identifier = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).findOne({
       where: { did },
       relations: ['keys', 'services', 'issuedCredentials', 'issuedPresentations'],
@@ -123,7 +123,7 @@ export class DIDStore extends AbstractDIDStore {
     return true
   }
 
-  async import(args: IIdentifier) {
+  async importDID(args: IIdentifier) {
     const identifier = new Identifier()
     identifier.did = args.did
     if (args.controllerKeyId) {
@@ -160,7 +160,7 @@ export class DIDStore extends AbstractDIDStore {
     return true
   }
 
-  async list(args: { alias?: string; provider?: string }): Promise<IIdentifier[]> {
+  async listDIDs(args: { alias?: string; provider?: string }): Promise<IIdentifier[]> {
     const where: any = { provider: args?.provider || Not(IsNull()) }
     if (args?.alias) {
       where['alias'] = args.alias
