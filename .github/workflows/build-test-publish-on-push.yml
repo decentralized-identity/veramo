@@ -49,7 +49,7 @@ jobs:
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
         run: pnpm test:integration
-      - run: pnpm docs
+      - run: pnpm run docs
 
       - name: run browser tests
         run: pnpm test:browser
