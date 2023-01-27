@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/uport-project/veramo/compare/v4.2.0...v4.3.0) (2023-01-27)
+
+
+### Bug Fixes
+
+* **utils:** convert JWK with curv `Ed25519` to `X25519` ([#1078](https://github.com/uport-project/veramo/issues/1078)) ([deb546b](https://github.com/uport-project/veramo/commit/deb546ba94fa1dc51662adddbe303d63a0e7ce12))
+
+
+### Features
+
+* **utils:** add publicKeyJwk as valid verificationMethod in getEthereumAddress ([#1096](https://github.com/uport-project/veramo/issues/1096)) ([a4209f5](https://github.com/uport-project/veramo/commit/a4209f5ffc95d9fde6bbdb9df6d16e8d961341f6))
+
+
+
+
+
 # [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
 
 
