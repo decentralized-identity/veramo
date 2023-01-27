@@ -26,7 +26,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     }
   }
 
-  async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
+  async getKey({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
     const key = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).findOneBy({ alias })
     if (!key) throw Error('Key not found')
     if (this.secretBox && key.privateKeyHex) {
@@ -35,7 +35,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     return key as ManagedPrivateKey
   }
 
-  async delete({ alias }: { alias: string }) {
+  async deleteKey({ alias }: { alias: string }) {
     const key = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).findOneBy({ alias })
     if (!key) throw Error(`not_found: Private Key data not found for alias=${alias}`)
     debug('Deleting private key data', alias)
@@ -43,7 +43,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     return true
   }
 
-  async import(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
+  async importKey(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
     const key = new PrivateKey()
     key.alias = args.alias || uuid4()
     key.privateKeyHex = args.privateKeyHex
@@ -63,7 +63,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     return key
   }
 
-  async list(): Promise<Array<ManagedPrivateKey>> {
+  async listKeys(): Promise<Array<ManagedPrivateKey>> {
     const keys = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).find()
     return keys
   }

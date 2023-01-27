@@ -27,13 +27,13 @@ export class KeyStore extends AbstractKeyStore {
     super()
   }
 
-  async get({ kid }: { kid: string }): Promise<IKey> {
+  async getKey({ kid }: { kid: string }): Promise<IKey> {
     const key = await (await getConnectedDb(this.dbConnection)).getRepository(Key).findOneBy({ kid })
     if (!key) throw Error('Key not found')
     return key as IKey
   }
 
-  async delete({ kid }: { kid: string }) {
+  async deleteKey({ kid }: { kid: string }) {
     const key = await (await getConnectedDb(this.dbConnection)).getRepository(Key).findOneBy({ kid })
     if (!key) throw Error('Key not found')
     debug('Deleting key', kid)
@@ -41,7 +41,7 @@ export class KeyStore extends AbstractKeyStore {
     return true
   }
 
-  async import(args: IKey) {
+  async importKey(args: IKey) {
     const key = new Key()
     key.kid = args.kid
     key.publicKeyHex = args.publicKeyHex
@@ -53,7 +53,7 @@ export class KeyStore extends AbstractKeyStore {
     return true
   }
 
-  async list(args: {} = {}): Promise<ManagedKeyInfo[]> {
+  async listKeys(args: {} = {}): Promise<ManagedKeyInfo[]> {
     const keys = await (await getConnectedDb(this.dbConnection)).getRepository(Key).find()
     const managedKeys: ManagedKeyInfo[] = keys.map((key) => {
       const { kid, publicKeyHex, type, meta, kms } = key

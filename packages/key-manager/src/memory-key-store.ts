@@ -18,23 +18,23 @@ import { v4 as uuidv4 } from 'uuid'
 export class MemoryKeyStore extends AbstractKeyStore {
   private keys: Record<string, IKey> = {}
 
-  async get({ kid }: { kid: string }): Promise<IKey> {
+  async getKey({ kid }: { kid: string }): Promise<IKey> {
     const key = this.keys[kid]
     if (!key) throw Error('Key not found')
     return key
   }
 
-  async delete({ kid }: { kid: string }) {
+  async deleteKey({ kid }: { kid: string }) {
     delete this.keys[kid]
     return true
   }
 
-  async import(args: IKey) {
+  async importKey(args: IKey) {
     this.keys[args.kid] = { ...args }
     return true
   }
 
-  async list(args: {}): Promise<Exclude<IKey, 'privateKeyHex'>[]> {
+  async listKeys(args: {}): Promise<Exclude<IKey, 'privateKeyHex'>[]> {
     const safeKeys = Object.values(this.keys).map((key) => {
       const { privateKeyHex, ...safeKey } = key
       return safeKey
@@ -53,18 +53,18 @@ export class MemoryKeyStore extends AbstractKeyStore {
 export class MemoryPrivateKeyStore extends AbstractPrivateKeyStore {
   private privateKeys: Record<string, ManagedPrivateKey> = {}
 
-  async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
+  async getKey({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
     const key = this.privateKeys[alias]
     if (!key) throw Error(`not_found: PrivateKey not found for alias=${alias}`)
     return key
   }
 
-  async delete({ alias }: { alias: string }) {
+  async deleteKey({ alias }: { alias: string }) {
     delete this.privateKeys[alias]
     return true
   }
 
-  async import(args: ImportablePrivateKey) {
+  async importKey(args: ImportablePrivateKey) {
     const alias = args.alias || uuidv4()
     const existingEntry = this.privateKeys[alias]
     if (existingEntry && existingEntry.privateKeyHex !== args.privateKeyHex) {
@@ -74,7 +74,7 @@ export class MemoryPrivateKeyStore extends AbstractPrivateKeyStore {
     return this.privateKeys[alias]
   }
 
-  async list(): Promise<Array<ManagedPrivateKey>> {
+  async listKeys(): Promise<Array<ManagedPrivateKey>> {
     return [...Object.values(this.privateKeys)]
   }
 }
