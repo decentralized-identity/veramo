@@ -39,7 +39,7 @@ jobs:
           node-version: 14
           cache: 'pnpm'
 
-      - run: pnpm install --force
+      - run: pnpm install
       - run: pnpm build
       - name: run integration tests
         env:

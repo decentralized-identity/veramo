@@ -114,27 +114,27 @@ importers:
       '@types/swagger-ui-express': ^4.1.3
       '@types/url-parse': 1.4.8
       '@types/ws': 8.5.4
-      '@veramo/core': ^4.2.0
-      '@veramo/credential-eip712': ^4.2.0
-      '@veramo/credential-ld': ^4.2.0
-      '@veramo/credential-w3c': ^4.2.0
-      '@veramo/data-store': ^4.2.0
-      '@veramo/did-comm': ^4.2.0
-      '@veramo/did-discovery': ^4.2.0
-      '@veramo/did-jwt': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
-      '@veramo/did-provider-ethr': ^4.2.0
-      '@veramo/did-provider-key': ^4.2.0
-      '@veramo/did-provider-web': ^4.2.0
-      '@veramo/did-resolver': ^4.2.0
-      '@veramo/key-manager': ^4.2.0
-      '@veramo/kms-local': ^4.2.0
-      '@veramo/message-handler': ^4.2.0
-      '@veramo/remote-client': ^4.2.0
-      '@veramo/remote-server': ^4.2.0
-      '@veramo/selective-disclosure': ^4.2.0
-      '@veramo/url-handler': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/credential-eip712': ^4.3.0
+      '@veramo/credential-ld': ^4.3.0
+      '@veramo/credential-w3c': ^4.3.0
+      '@veramo/data-store': ^4.3.0
+      '@veramo/did-comm': ^4.3.0
+      '@veramo/did-discovery': ^4.3.0
+      '@veramo/did-jwt': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
+      '@veramo/did-provider-ethr': ^4.3.0
+      '@veramo/did-provider-key': ^4.3.0
+      '@veramo/did-provider-web': ^4.3.0
+      '@veramo/did-resolver': ^4.3.0
+      '@veramo/key-manager': ^4.3.0
+      '@veramo/kms-local': ^4.3.0
+      '@veramo/message-handler': ^4.3.0
+      '@veramo/remote-client': ^4.3.0
+      '@veramo/remote-server': ^4.3.0
+      '@veramo/selective-disclosure': ^4.3.0
+      '@veramo/url-handler': ^4.3.0
+      '@veramo/utils': ^4.3.0
       blessed: ^0.1.81
       commander: ^9.0.0
       console-table-printer: ^2.10.0
@@ -263,8 +263,8 @@ importers:
     specifiers:
       '@metamask/eth-sig-util': ^5.0.0
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/utils': ^4.3.0
       debug: ^4.3.3
       eip-712-types-generation: ^0.1.6
       typescript: 4.9.4
@@ -290,9 +290,9 @@ importers:
       '@transmute/json-web-signature': ^0.7.0-unstable.77
       '@types/debug': 4.1.7
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': uport-project/EcdsaSecp256k1RecoverySignature2020
-      '@veramo/core': ^4.2.0
-      '@veramo/did-resolver': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/did-resolver': ^4.3.0
+      '@veramo/utils': ^4.3.0
       borc: 3.0.0
       cross-fetch: ^3.1.5
       debug: ^4.3.3
@@ -324,8 +324,8 @@ importers:
   packages/credential-status:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/utils': ^4.3.0
       credential-status: ^2.0.5
       did-jwt: ^6.9.0
       did-resolver: ^4.0.1
@@ -344,12 +344,12 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.2.0
-      '@veramo/credential-ld': ^4.2.0
-      '@veramo/did-jwt': ^4.2.0
-      '@veramo/did-resolver': ^4.2.0
-      '@veramo/message-handler': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/credential-ld': ^4.3.0
+      '@veramo/did-jwt': ^4.3.0
+      '@veramo/did-resolver': ^4.3.0
+      '@veramo/message-handler': ^4.3.0
+      '@veramo/utils': ^4.3.0
       canonicalize: ^1.0.8
       debug: ^4.3.3
       did-jwt: ^6.11.0
@@ -382,11 +382,11 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.2.0
-      '@veramo/did-discovery': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
-      '@veramo/key-manager': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/did-discovery': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
+      '@veramo/key-manager': ^4.3.0
+      '@veramo/utils': ^4.3.0
       debug: ^4.3.3
       did-jwt-vc: ^3.1.0
       sqlite3: 5.0.8
@@ -415,12 +415,12 @@ importers:
       '@types/ungap__structured-clone': 0.3.0
       '@types/uuid': 9.0.0
       '@ungap/structured-clone': ^1.0.0
-      '@veramo/core': ^4.2.0
-      '@veramo/data-store': ^4.2.0
-      '@veramo/did-discovery': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
-      '@veramo/key-manager': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/data-store': ^4.3.0
+      '@veramo/did-discovery': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
+      '@veramo/key-manager': ^4.3.0
+      '@veramo/utils': ^4.3.0
       debug: ^4.3.3
       did-jwt-vc: ^3.1.0
       typescript: 4.9.4
@@ -448,9 +448,9 @@ importers:
       '@stablelib/ed25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/uuid': 8.3.4
-      '@veramo/core': ^4.2.0
-      '@veramo/message-handler': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/message-handler': ^4.3.0
+      '@veramo/utils': ^4.3.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       did-jwt: ^6.9.0
@@ -478,7 +478,7 @@ importers:
   packages/did-discovery:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
+      '@veramo/core': ^4.3.0
       debug: ^4.3.3
       typescript: 4.9.4
     dependencies:
@@ -491,8 +491,8 @@ importers:
   packages/did-jwt:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/message-handler': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/message-handler': ^4.3.0
       debug: ^4.3.3
       did-jwt: ^6.9.0
       did-resolver: ^4.0.1
@@ -509,8 +509,8 @@ importers:
 
   packages/did-manager:
     specifiers:
-      '@veramo/core': ^4.2.0
-      '@veramo/did-discovery': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/did-discovery': ^4.3.0
       typescript: 4.9.4
     dependencies:
       '@veramo/core': link:../core
@@ -530,8 +530,8 @@ importers:
       '@ethersproject/signing-key': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
       debug: ^4.3.3
       ethr-did: ^2.3.6
       typescript: 4.9.4
@@ -564,10 +564,10 @@ importers:
       '@stablelib/sha256': ^1.0.1
       '@trust/keyto': ^1.0.1
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
-      '@veramo/key-manager': ^4.2.0
-      '@veramo/kms-local': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
+      '@veramo/key-manager': ^4.3.0
+      '@veramo/kms-local': ^4.3.0
       canonicalize: ^1.0.8
       cross-fetch: ^3.1.5
       debug: ^4.3.3
@@ -602,8 +602,8 @@ importers:
       '@transmute/did-key-secp256k1': ^0.3.0-unstable.10
       '@transmute/did-key-x25519': ^0.3.0-unstable.10
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
       multibase: ^4.0.6
@@ -630,8 +630,8 @@ importers:
       '@ethersproject/signing-key': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
       typescript: 4.9.4
@@ -651,8 +651,8 @@ importers:
   packages/did-provider-web:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
       debug: ^4.3.3
       typescript: 4.9.4
     dependencies:
@@ -666,8 +666,8 @@ importers:
   packages/did-resolver:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/utils': ^4.3.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       did-resolver: ^4.0.1
@@ -695,7 +695,7 @@ importers:
       '@stablelib/ed25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.2.0
+      '@veramo/core': ^4.3.0
       debug: ^4.3.4
       did-jwt: ^6.9.0
       typescript: 4.9.4
@@ -732,8 +732,8 @@ importers:
       '@stablelib/x25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/elliptic': ^6.4.14
-      '@veramo/core': ^4.2.0
-      '@veramo/key-manager': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/key-manager': ^4.3.0
       base-58: ^0.0.1
       debug: ^4.3.3
       did-jwt: ^6.9.0
@@ -770,8 +770,8 @@ importers:
       '@ethersproject/strings': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
-      '@veramo/key-manager': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/key-manager': ^4.3.0
       debug: ^4.3.3
       typescript: 4.9.4
     dependencies:
@@ -788,7 +788,7 @@ importers:
   packages/message-handler:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
+      '@veramo/core': ^4.3.0
       debug: ^4.3.4
       typescript: 4.9.4
     dependencies:
@@ -801,7 +801,7 @@ importers:
   packages/remote-client:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.2.0
+      '@veramo/core': ^4.3.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       openapi-types: 12.1.0
@@ -822,8 +822,8 @@ importers:
       '@types/passport': 1.0.11
       '@types/passport-http-bearer': 1.0.37
       '@types/url-parse': 1.4.8
-      '@veramo/core': ^4.2.0
-      '@veramo/remote-client': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/remote-client': ^4.3.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
       passport: ^0.6.0
@@ -850,11 +850,11 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.2.0
-      '@veramo/credential-w3c': ^4.2.0
-      '@veramo/did-jwt': ^4.2.0
-      '@veramo/message-handler': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/credential-w3c': ^4.3.0
+      '@veramo/did-jwt': ^4.3.0
+      '@veramo/message-handler': ^4.3.0
+      '@veramo/utils': ^4.3.0
       debug: ^4.3.3
       did-jwt: ^6.9.0
       typescript: 4.9.4
@@ -885,27 +885,27 @@ importers:
       '@types/puppeteer': 7.0.4
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
-      '@veramo/core': ^4.2.0
-      '@veramo/credential-ld': ^4.2.0
-      '@veramo/credential-w3c': ^4.2.0
-      '@veramo/data-store': ^4.2.0
-      '@veramo/data-store-json': ^4.2.0
-      '@veramo/did-comm': ^4.2.0
-      '@veramo/did-jwt': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
-      '@veramo/did-provider-ethr': ^4.2.0
-      '@veramo/did-provider-key': ^4.2.0
-      '@veramo/did-provider-pkh': ^4.2.0
-      '@veramo/did-provider-web': ^4.2.0
-      '@veramo/did-resolver': ^4.2.0
-      '@veramo/key-manager': ^4.2.0
-      '@veramo/kms-local': ^4.2.0
-      '@veramo/kms-web3': ^4.2.0
-      '@veramo/message-handler': ^4.2.0
-      '@veramo/selective-disclosure': ^4.2.0
-      '@veramo/test-utils': ^4.2.0
-      '@veramo/url-handler': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/credential-ld': ^4.3.0
+      '@veramo/credential-w3c': ^4.3.0
+      '@veramo/data-store': ^4.3.0
+      '@veramo/data-store-json': ^4.3.0
+      '@veramo/did-comm': ^4.3.0
+      '@veramo/did-jwt': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
+      '@veramo/did-provider-ethr': ^4.3.0
+      '@veramo/did-provider-key': ^4.3.0
+      '@veramo/did-provider-pkh': ^4.3.0
+      '@veramo/did-provider-web': ^4.3.0
+      '@veramo/did-resolver': ^4.3.0
+      '@veramo/key-manager': ^4.3.0
+      '@veramo/kms-local': ^4.3.0
+      '@veramo/kms-web3': ^4.3.0
+      '@veramo/message-handler': ^4.3.0
+      '@veramo/selective-disclosure': ^4.3.0
+      '@veramo/test-utils': ^4.3.0
+      '@veramo/url-handler': ^4.3.0
+      '@veramo/utils': ^4.3.0
       buffer: npm:buffer
       crypto: npm:crypto-browserify
       did-resolver: ^4.0.1
@@ -988,12 +988,12 @@ importers:
 
   packages/test-utils:
     specifiers:
-      '@veramo/core': ^4.2.0
-      '@veramo/data-store-json': ^4.2.0
-      '@veramo/did-discovery': ^4.2.0
-      '@veramo/did-manager': ^4.2.0
-      '@veramo/key-manager': ^4.2.0
-      '@veramo/utils': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/data-store-json': ^4.3.0
+      '@veramo/did-discovery': ^4.3.0
+      '@veramo/did-manager': ^4.3.0
+      '@veramo/key-manager': ^4.3.0
+      '@veramo/utils': ^4.3.0
       did-resolver: ^4.0.1
       typescript: 4.9.4
     dependencies:
@@ -1011,8 +1011,8 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/url-parse': 1.4.8
-      '@veramo/core': ^4.2.0
-      '@veramo/message-handler': ^4.2.0
+      '@veramo/core': ^4.3.0
+      '@veramo/message-handler': ^4.3.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       jest-fetch-mock: ^3.0.3
@@ -1038,7 +1038,7 @@ importers:
       '@types/debug': 4.1.7
       '@types/elliptic': 6.4.14
       '@types/uuid': 8.3.4
-      '@veramo/core': ^4.2.0
+      '@veramo/core': ^4.3.0
       blakejs: ^1.1.1
       credential-status: ^2.0.5
       debug: ^4.3.3
