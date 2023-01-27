@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+    "generate-plugin-schema": "pnpm exec veramo dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {
@@ -18,13 +18,15 @@
     "@veramo/credential-w3c": "^4.2.0",
     "@veramo/did-jwt": "^4.2.0",
     "@veramo/message-handler": "^4.2.0",
+    "@veramo/utils": "^4.2.0",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.9.3"
+    "@types/uuid": "9.0.0",
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",

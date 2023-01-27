@@ -1,7 +1,6 @@
 import { Message } from '@veramo/message-handler'
 import { UrlMessageHandler } from '../index'
 import fetchMock, { MockParams } from 'jest-fetch-mock'
-import { IAgent } from '@veramo/core'
 fetchMock.enableMocks()
 
 const context = {

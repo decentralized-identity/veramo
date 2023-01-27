@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+    "generate-plugin-schema": "pnpm exec veramo dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.9.3"
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",

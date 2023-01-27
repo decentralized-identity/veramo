@@ -2032,6 +2032,13 @@
                 "$ref": "#/components/schemas/VerifiablePresentation"
               },
               "description": "Optional. Array of attached verifiable presentations"
+            },
+            "attachments": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IMessageAttachment"
+              },
+              "description": "Optional. Array of generic attachments"
             }
           },
           "required": [
@@ -2248,6 +2255,59 @@
         "CompactJWT": {
           "type": "string",
           "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
+        },
+        "IMessageAttachment": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "filename": {
+              "type": "string"
+            },
+            "media_type": {
+              "type": "string"
+            },
+            "format": {
+              "type": "string"
+            },
+            "lastmod_time": {
+              "type": "string"
+            },
+            "byte_count": {
+              "type": "number"
+            },
+            "data": {
+              "$ref": "#/components/schemas/IMessageAttachmentData"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "description": "Message attachment"
+        },
+        "IMessageAttachmentData": {
+          "type": "object",
+          "properties": {
+            "jws": {},
+            "hash": {
+              "type": "string"
+            },
+            "links": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "base64": {
+              "type": "string"
+            },
+            "json": {}
+          },
+          "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments"
         },
         "IDataStoreGetVerifiableCredentialArgs": {
           "type": "object",
@@ -2822,6 +2882,13 @@
                 "$ref": "#/components/schemas/VerifiablePresentation"
               },
               "description": "Optional. Array of attached verifiable presentations"
+            },
+            "attachments": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IMessageAttachment"
+              },
+              "description": "Optional. Array of generic attachments"
             }
           },
           "required": [
@@ -3038,6 +3105,59 @@
         "CompactJWT": {
           "type": "string",
           "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
+        },
+        "IMessageAttachment": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "filename": {
+              "type": "string"
+            },
+            "media_type": {
+              "type": "string"
+            },
+            "format": {
+              "type": "string"
+            },
+            "lastmod_time": {
+              "type": "string"
+            },
+            "byte_count": {
+              "type": "number"
+            },
+            "data": {
+              "$ref": "#/components/schemas/IMessageAttachmentData"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "description": "Message attachment"
+        },
+        "IMessageAttachmentData": {
+          "type": "object",
+          "properties": {
+            "jws": {},
+            "hash": {
+              "type": "string"
+            },
+            "links": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "base64": {
+              "type": "string"
+            },
+            "json": {}
+          },
+          "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments"
         },
         "FindCredentialsArgs": {
           "$ref": "#/components/schemas/FindArgs-TCredentialColumns",
@@ -3616,6 +3736,13 @@
                 "$ref": "#/components/schemas/VerifiablePresentation"
               },
               "description": "Optional. Array of attached verifiable presentations"
+            },
+            "attachments": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IMessageAttachment"
+              },
+              "description": "Optional. Array of generic attachments"
             }
           },
           "required": [
@@ -3815,6 +3942,59 @@
         "CompactJWT": {
           "type": "string",
           "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
+        },
+        "IMessageAttachment": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "filename": {
+              "type": "string"
+            },
+            "media_type": {
+              "type": "string"
+            },
+            "format": {
+              "type": "string"
+            },
+            "lastmod_time": {
+              "type": "string"
+            },
+            "byte_count": {
+              "type": "number"
+            },
+            "data": {
+              "$ref": "#/components/schemas/IMessageAttachmentData"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "description": "Message attachment"
+        },
+        "IMessageAttachmentData": {
+          "type": "object",
+          "properties": {
+            "jws": {},
+            "hash": {
+              "type": "string"
+            },
+            "links": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "base64": {
+              "type": "string"
+            },
+            "json": {}
+          },
+          "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments"
         }
       },
       "methods": {

@@ -3,7 +3,7 @@
   "packages": [
     "packages/*"
   ],
-  "npmClient": "yarn",
+  "npmClient": "pnpm",
   "changelog": {
     "repo": "uport-project/veramo",
     "cacheDir": ".changelog"

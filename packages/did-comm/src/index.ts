@@ -16,6 +16,7 @@ export * from './types/message-types'
 export * from './types/utility-types'
 export * from './types/IDIDComm'
 export { DIDCommMessageHandler } from './message-handler'
+export * from './protocols'
 export * from './transports/transports'
 /**
  * @beta This API may change without a BREAKING CHANGE notice.

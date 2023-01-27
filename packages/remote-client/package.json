@@ -6,17 +6,17 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "pnpm exec veramo dev extract-api"
   },
   "dependencies": {
     "@veramo/core": "^4.2.0",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
-    "openapi-types": "12.0.2"
+    "openapi-types": "12.1.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.9.3"
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",

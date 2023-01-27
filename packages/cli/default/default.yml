@@ -151,6 +151,7 @@ messageHandler:
   $args:
     - messageHandlers:
         - $require: '@veramo/did-comm#DIDCommMessageHandler'
+        - $require: '@veramo/did-comm#TrustPingMessageHandler'
         - $require: '@veramo/did-jwt#JwtMessageHandler'
         - $require: '@veramo/credential-w3c#W3cMessageHandler'
         - $require: '@veramo/selective-disclosure#SdrMessageHandler'

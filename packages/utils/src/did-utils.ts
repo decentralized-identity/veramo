@@ -119,7 +119,8 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
     } else if (
       verificationMethod.publicKeyHex ||
       verificationMethod.publicKeyBase58 ||
-      verificationMethod.publicKeyBase64
+      verificationMethod.publicKeyBase64 ||
+      verificationMethod.publicKeyJwk
     ) {
       const pbBytes = extractPublicKeyBytes(verificationMethod)
       const pbHex = computePublicKey(pbBytes, false)
@@ -159,7 +160,7 @@ function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
     )
   } else if (
     pk.publicKeyJwk &&
-    pk.publicKeyJwk.crv === 'Ed25519' &&
+    (pk.publicKeyJwk.crv === 'Ed25519' || pk.publicKeyJwk.crv === 'X25519') &&
     pk.publicKeyJwk.x
   ) {
     return base64ToBytes(pk.publicKeyJwk.x)
@@ -311,9 +312,15 @@ export async function dereferenceDidKeys(
       const hexKey = extractPublicKeyHex(key, convert)
       const { publicKeyHex, publicKeyBase58, publicKeyMultibase, publicKeyBase64, publicKeyJwk, ...keyProps } = key
       const newKey = { ...keyProps, publicKeyHex: hexKey }
+
+      // With a JWK `key`, `newKey` does not have information about crv (Ed25519 vs X25519)
+      // Should type of `newKey` change?
       if (convert && 'Ed25519VerificationKey2018' === newKey.type) {
         newKey.type = 'X25519KeyAgreementKey2019'
+      } else if (convert && 'Ed25519VerificationKey2020' === newKey.type) {
+        newKey.type = 'X25519KeyAgreementKey2020'
       }
+
       return newKey
     })
 }
@@ -330,9 +337,9 @@ export async function dereferenceDidKeys(
 export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: boolean = false): string {
   let keyBytes = extractPublicKeyBytes(pk)
   if (convert) {
-    if (['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type)) {
+    if (['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type) || (pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'Ed25519')) {
       keyBytes = convertPublicKeyToX25519(keyBytes)
-    } else if (!['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type)) {
+    } else if (!['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type) && !(pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'X25519')) {
       return ''
     }
   }

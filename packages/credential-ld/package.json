@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+    "generate-plugin-schema": "pnpm exec veramo dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {
@@ -15,28 +15,30 @@
   },
   "dependencies": {
     "@digitalcredentials/ed25519-signature-2020": "^3.0.2",
+    "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
     "@digitalcredentials/jsonld": "^5.2.1",
     "@digitalcredentials/jsonld-signatures": "^9.3.1",
     "@digitalcredentials/vc": "^5.0.0",
-    "@transmute/credentials-context": "^0.7.0-unstable.67",
-    "@transmute/ed25519-signature-2018": "^0.7.0-unstable.67",
-    "@transmute/json-web-signature": "^0.7.0-unstable.67",
+    "@transmute/credentials-context": "^0.7.0-unstable.77",
+    "@transmute/ed25519-signature-2018": "^0.7.0-unstable.77",
+    "@transmute/json-web-signature": "^0.7.0-unstable.77",
     "@veramo-community/lds-ecdsa-secp256k1-recovery2020": "uport-project/EcdsaSecp256k1RecoverySignature2020",
     "@veramo/core": "^4.2.0",
     "@veramo/did-resolver": "^4.2.0",
     "@veramo/utils": "^4.2.0",
+    "cross-fetch": "^3.1.5",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
     "uint8arrays": "^3.0.0"
   },
   "resolutions": {
-    "@types/react": "18.0.12",
+    "@types/react": "18.0.26",
     "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
     "borc": "3.0.0",
-    "typescript": "4.9.3"
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",

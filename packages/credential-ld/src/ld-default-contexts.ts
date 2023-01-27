@@ -9,9 +9,9 @@ import { ContextDoc } from './types'
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export const LdDefaultContexts = new Map([
-  ['https://www.w3.org/2018/credentials/v1', require('./contexts/www.w3.org_2018_credentials_v1')],
-  ['https://www.w3.org/ns/did/v1', require('./contexts/www.w3.org_ns_did_v1')],
-  ['https://w3id.org/security/v1', require('./contexts/w3id.org_security_v1')],
+  ['https://www.w3.org/2018/credentials/v1', require('./contexts/www.w3.org_2018_credentials_v1.json')],
+  ['https://www.w3.org/ns/did/v1', require('./contexts/www.w3.org_ns_did_v1.json')],
+  ['https://w3id.org/security/v1', require('./contexts/w3id.org_security_v1.json')],
   ['https://w3id.org/security/v2', require('./contexts/w3id.org_security_v2.json')],
   ['https://w3id.org/security/v3-unstable', require('./contexts/w3id.org_security_v3-unstable.json')],
   ['https://w3id.org/security/suites/ed25519-2018/v1', require('./contexts/w3id.org_security_suites_ed25519-2018_v1.json')],
