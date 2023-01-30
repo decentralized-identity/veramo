@@ -10,7 +10,11 @@ import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
 import * as TJS from 'ts-json-schema-generator'
-const fs = require('fs')
+import fs from 'fs'
+
+import module from "module"
+const requireCjs = module.createRequire(import.meta.url);
+
 
 interface Method {
   packageName: string
@@ -109,7 +113,7 @@ dev
       process.exitCode = 1
     }
 
-    const packageConfig = require(resolve(options.packageConfig))
+    const packageConfig = requireCjs(resolve(options.packageConfig))
     const interfaces: any = {}
 
     for (const pluginInterfaceName in packageConfig?.veramo?.pluginInterfaces) {
@@ -125,6 +129,7 @@ dev
         path: resolve(entryFile),
         encodeRefs: false,
         additionalProperties: true,
+        skipTypeCheck: true
       })
 
       const apiModel: ApiModel = new ApiModel()
@@ -179,7 +184,7 @@ dev
       interfaces[pluginInterfaceName] = api
     }
 
-    writeFileSync(resolve('./plugin.schema.json'), JSON.stringify(interfaces, null, 2))
+    writeFileSync(resolve('./src/plugin.schema.json'), JSON.stringify(interfaces, null, 2))
   })
 
 dev

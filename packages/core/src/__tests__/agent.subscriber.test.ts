@@ -1,6 +1,7 @@
-import { Agent } from '../agent'
-import { CoreEvents } from '../coreEvents'
-import { IEventListener } from '../types/IAgent'
+import { Agent } from '../agent.js'
+import { CoreEvents } from '../coreEvents.js'
+import { IEventListener } from '../types/IAgent.js'
+import { jest } from '@jest/globals'
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -10,7 +11,7 @@ describe('core agent', () => {
   it('calls listener with object data', async () => {
     const plugin: IEventListener = {
       eventTypes: ['foo'],
-      onEvent: jest.fn(),
+      onEvent: jest.fn(() => Promise.resolve()),
     }
     const agent = new Agent({
       plugins: [plugin],
@@ -24,7 +25,7 @@ describe('core agent', () => {
   it('calls listener with primitive data', async () => {
     const plugin: IEventListener = {
       eventTypes: ['foo'],
-      onEvent: jest.fn(),
+      onEvent: jest.fn(() => Promise.resolve()),
     }
     const agent = new Agent({
       plugins: [plugin],
@@ -38,7 +39,7 @@ describe('core agent', () => {
   it('does not call listener with mismatched eventType', async () => {
     const plugin: IEventListener = {
       eventTypes: ['foo'],
-      onEvent: jest.fn(),
+      onEvent: jest.fn(() => Promise.resolve()),
     }
     const agent = new Agent({
       plugins: [plugin],
@@ -59,7 +60,7 @@ describe('core agent', () => {
     }
     const secondPlugin: IEventListener = {
       eventTypes: ['bar'],
-      onEvent: jest.fn(),
+      onEvent: jest.fn(() => Promise.resolve()),
     }
     const agent = new Agent({
       plugins: [firstPlugin, secondPlugin],
@@ -79,7 +80,7 @@ describe('core agent', () => {
     }
     const errorHandler: IEventListener = {
       eventTypes: [CoreEvents.error],
-      onEvent: jest.fn(),
+      onEvent: jest.fn(() => Promise.resolve()),
     }
     const agent = new Agent({
       plugins: [plugin, errorHandler],

@@ -23,6 +23,7 @@ import { LdDefaultContexts } from '../../../credential-ld/src/ld-default-context
 import { VeramoEd25519Signature2018 } from '../../../credential-ld/src/suites/Ed25519Signature2018'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../../../credential-ld/src/suites/EcdsaSecp256k1RecoverySignature2020'
 import { VerifiableCredential } from '../../../core/src'
+import { jest } from '@jest/globals'
 
 jest.setTimeout(300000)
 

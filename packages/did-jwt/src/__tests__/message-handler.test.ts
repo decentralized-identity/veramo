@@ -1,6 +1,7 @@
-import { DIDDocument, DIDResolutionResult } from '@veramo/core'
-import { Message } from '@veramo/message-handler'
-import { JwtMessageHandler, IContext } from '../message-handler'
+import { DIDResolutionResult, IAgentContext, IResolver } from '../../../core/src'
+import { Message } from '../../../message-handler/src'
+import { JwtMessageHandler, IContext } from '../message-handler.js'
+import { jest } from '@jest/globals'
 
 describe('@veramo/did-jwt', () => {
   const vcJwt =
@@ -54,6 +55,7 @@ describe('@veramo/did-jwt', () => {
   }
 
   const context: IContext = {
+    // @ts-ignore
     agent: {
       getSchema: jest.fn(),
       execute: jest.fn(),
@@ -82,14 +84,15 @@ describe('@veramo/did-jwt', () => {
       },
       getDIDComponentById: jest.fn(),
     },
-  }
+  } as IAgentContext<IResolver>
 
   it('should reject unknown message type', async () => {
     const mockNextHandler = {
       setNext: jest.fn(),
-      handle: jest.fn().mockRejectedValue(new Error('Unsupported message type')),
+      handle: jest.fn().mockRejectedValue(new Error('Unsupported message type') as never),
     }
     const handler = new JwtMessageHandler()
+    // @ts-ignore
     handler.setNext(mockNextHandler)
     const message = new Message({ raw: 'test', metaData: [{ type: 'test' }] })
     await expect(handler.handle(message, context)).rejects.toThrow('Unsupported message type')
@@ -98,9 +101,11 @@ describe('@veramo/did-jwt', () => {
   it('should set data field for VC jwt', async () => {
     const mockNextHandler = {
       setNext: jest.fn(),
+      // @ts-ignore
       handle: jest.fn().mockResolvedValue(true),
     }
     const handler = new JwtMessageHandler()
+    // @ts-ignore
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
@@ -118,9 +123,11 @@ describe('@veramo/did-jwt', () => {
   it('should set data field for VP jwt', async () => {
     const mockNextHandler = {
       setNext: jest.fn(),
+      // @ts-ignore
       handle: jest.fn().mockResolvedValue(true),
     }
     const handler = new JwtMessageHandler()
+    // @ts-ignore
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
@@ -141,6 +148,7 @@ describe('@veramo/did-jwt', () => {
       handle: jest.fn(),
     }
     const handler = new JwtMessageHandler()
+    // @ts-ignore
     handler.setNext(mockNextHandler)
 
     const message = new Message({ raw: vpMultiAudJwt, metaData: [{ type: 'test' }] })

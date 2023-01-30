@@ -1,4 +1,4 @@
-import { AbstractIdentifierProvider } from './abstract-identifier-provider'
+import { AbstractIdentifierProvider } from './abstract-identifier-provider.js'
 import {
   IAgentPlugin,
   IIdentifier,
@@ -17,12 +17,12 @@ import {
   IDIDManagerRemoveServiceArgs,
   IDIDManagerFindArgs,
   IDIDManagerSetAliasArgs,
-  schema,
   MinimalImportableIdentifier,
   IKey,
   IService,
 } from '@veramo/core'
-import { AbstractDIDStore } from './abstract-identifier-store'
+import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
+import { AbstractDIDStore } from './abstract-identifier-store.js'
 
 /**
  * Agent plugin that implements {@link @veramo/core#IDIDManager} interface

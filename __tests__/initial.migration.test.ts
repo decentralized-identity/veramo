@@ -40,6 +40,13 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
 
+import { jest } from '@jest/globals'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 jest.setTimeout(60000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'

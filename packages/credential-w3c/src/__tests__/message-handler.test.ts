@@ -1,8 +1,10 @@
-import { DIDResolutionResult } from '../../../core/src'
+import { DIDResolutionResult, IAgentContext, ICredentialPlugin, IResolver } from '../../../core/src'
 import { Message } from '../../../message-handler/src'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { IContext } from '../message-handler'
-import { blake2bHex } from 'blakejs'
+import pkg from 'blakejs'
+const { blake2bHex } = pkg
+import { jest } from '@jest/globals'
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()
@@ -69,8 +71,8 @@ describe('@veramo/credential-w3c', () => {
       verifyCredential: jest.fn(),
       verifyPresentation: jest.fn(),
       getDIDComponentById: jest.fn(),
-    },
-  }
+    }
+  } as IAgentContext<IResolver & ICredentialPlugin>
 
   it('should reject unknown message type', async () => {
     expect.assertions(1)

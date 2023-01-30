@@ -37,14 +37,13 @@
     "typeorm": "^0.3.10",
     "util": "npm:util",
     "web-did-resolver": "^2.0.21",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^3.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "buildz": "react-scripts build",
-    "testz": "react-scripts test",
+    "start": "craco start",
+    "buildz": "craco build",
     "ejectz": "react-scripts eject",
-    "test:browser": "NODE_OPTIONS='--experimental-vm-modules' jest --run-in-band"
+    "test:browser": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" GENERATE_SOURCEMAP=false JEST_PUPPETEER_CONFIG=jest-puppeteer.config.cjs pnpm jest -c jest-integration.config.cjs"
   },
   "eslintConfig": {
     "extends": [
@@ -65,25 +64,28 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-typescript": "7.17.12",
-    "@types/eslint": "^8.4.6",
-    "@types/eslint-scope": "^3.7.4",
+    "@babel/plugin-syntax-import-assertions": "7.20.0",
+    "@babel/preset-typescript": "7.18.6",
+    "@craco/craco": "7.0.0",
+    "@types/eslint": "8.4.10",
+    "@types/eslint-scope": "3.7.4",
     "@types/expect-puppeteer": "5.0.2",
-    "@types/jest": "28.1.8",
+    "@types/jest": "29.2.6",
     "@types/jest-environment-puppeteer": "5.0.3",
     "@types/node": "18.11.18",
-    "@types/puppeteer": "7.0.4",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
-    "jest": "28.1.3",
-    "jest-config": "28.1.3",
+    "@types/react": "18.0.27",
+    "@types/react-dom": "18.0.10",
+    "cross-env": "7.0.3",
+    "jest": "29.3.1",
+    "jest-config": "29.3.1",
     "jest-environment-puppeteer": "6.2.0",
     "jest-environment-puppeteer-jsdom": "6.0.0",
-    "jest-jasmine2": "28.1.3",
+    "jest-jasmine2": "29.3.1",
     "jest-puppeteer": "6.2.0",
     "puppeteer": "19.6.1",
     "react-scripts": "5.0.1",
-    "ts-jest": "28.0.8",
+    "ts-jest": "29.0.5",
     "typescript": "4.9.4"
-  }
+  },
+  "type": "module"
 }

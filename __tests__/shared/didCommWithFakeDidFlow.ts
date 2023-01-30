@@ -10,12 +10,13 @@ import {
   TAgent,
 } from '../../packages/core/src'
 import { IDIDComm } from '../../packages/did-comm/src'
+import { jest } from '@jest/globals'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(),
+  onEvent: jest.fn(() => Promise.resolve()),
 }
 
 export default (testContext: {

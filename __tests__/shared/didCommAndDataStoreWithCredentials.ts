@@ -10,14 +10,15 @@ import {
   TAgent,
 } from '../../packages/core/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
-import { v4 } from "uuid"
+import { v4 } from 'uuid'
 import { VerifiableCredential } from '../../packages/core/src'
+import { jest } from '@jest/globals'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(),
+  onEvent: jest.fn(() => Promise.resolve()),
 }
 
 export default (testContext: {
@@ -129,18 +130,21 @@ export default (testContext: {
     }
 
     const packed = (vc: VerifiableCredential): Promise<IPackedDIDCommMessage> => {
-      return agent.packDIDCommMessage({ packing: 'none', message: {
-        id: v4(),
-        type: 'w3c.vc',
-        from: sender.did,
-        to: receiver.did,
-        body: vc
-      }})
+      return agent.packDIDCommMessage({
+        packing: 'none',
+        message: {
+          id: v4(),
+          type: 'w3c.vc',
+          from: sender.did,
+          to: receiver.did,
+          body: vc,
+        },
+      })
     }
 
     it('should save LDS credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})
+      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
 
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
@@ -161,8 +165,7 @@ export default (testContext: {
 
     it('should save JWT credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})
-
+      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
 
@@ -180,11 +183,9 @@ export default (testContext: {
       expect(vcs).toEqual(numVCsBefore + 1)
     })
 
-
     it('should save JWT credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})
-
+      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
 

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('../build/cli')
+import '../build/cli.js'

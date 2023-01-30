@@ -66,6 +66,7 @@ This monorepo uses [pnpm](https://pnpm.io/) and [lerna](https://lerna.js.org/)
 Install dependencies
 
 ```bash
+npm -g i pnpm
 pnpm install
 ```
 

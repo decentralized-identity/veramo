@@ -14,5 +14,6 @@
     { "path": "../did-resolver" },
     { "path": "../message-handler" },
     { "path": "../utils" }
-  ]
+  ],
+  "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

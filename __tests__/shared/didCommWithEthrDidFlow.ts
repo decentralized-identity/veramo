@@ -13,16 +13,17 @@ import {
 } from '../../packages/core/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../packages/remote-server/src'
-import * as u8a from 'uint8arrays'
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
+import { jest } from '@jest/globals'
+import { bytesToBase58, hexToBytes } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(),
+  onEvent: jest.fn(() => Promise.resolve()),
 }
 
 export default (testContext: {
@@ -585,9 +586,9 @@ export default (testContext: {
         key: newKey,
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.substring(0, 2)).toEqual('0x')
       const resolution = await agent.resolveDid({ didUrl: alice.did })
-      const expectedBase58Key = u8a.toString(u8a.fromString(newKey.publicKeyHex, 'base16'), 'base58btc')
+      const expectedBase58Key = bytesToBase58(hexToBytes(newKey.publicKeyHex))
       expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyBase58).toEqual(expectedBase58Key)
       expect(resolution?.didDocument?.keyAgreement?.[0]).toEqual(
         resolution?.didDocument?.verificationMethod?.[2].id,
@@ -692,7 +693,7 @@ export default (testContext: {
 
       expect(result.substr(0, 2)).toEqual('0x')
       const resolution = await agent.resolveDid({ didUrl: bob.did })
-      const expectedBase58Key = u8a.toString(u8a.fromString(newKey.publicKeyHex, 'base16'), 'base58btc')
+      const expectedBase58Key = bytesToBase58(hexToBytes(newKey.publicKeyHex))
       expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyBase58).toEqual(expectedBase58Key)
       expect(resolution?.didDocument?.keyAgreement?.[0]).toEqual(
         resolution?.didDocument?.verificationMethod?.[2].id,

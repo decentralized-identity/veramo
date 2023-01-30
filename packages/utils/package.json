@@ -3,10 +3,11 @@
   "description": "Helper methods for Veramo plugins",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ethersproject/signing-key": "^5.7.0",
@@ -15,18 +16,19 @@
     "@veramo/core": "^4.3.0",
     "blakejs": "^1.1.1",
     "credential-status": "^2.0.5",
+    "cross-fetch": "^3.1.5",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.1",
     "elliptic": "^6.5.4",
-    "multiformats": "9.9.0",
+    "multiformats": "^9.9.0",
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
     "@types/elliptic": "6.4.14",
-    "@types/uuid": "8.3.4"
+    "@types/uuid": "9.0.0"
   },
   "files": [
     "build/**/*",
@@ -40,5 +42,10 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Mircea Nistor <mircea.nistor@mesh.xyz>",
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }
