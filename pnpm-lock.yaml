@@ -637,6 +637,7 @@ importers:
       '@types/debug': 4.1.7
       '@veramo/core': ^4.3.0
       '@veramo/did-manager': ^4.3.0
+      caip: ^1.1.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
       typescript: 4.9.4
@@ -647,6 +648,7 @@ importers:
       '@ethersproject/transactions': 5.7.0
       '@veramo/core': link:../core
       '@veramo/did-manager': link:../did-manager
+      caip: 1.1.0
       debug: 4.3.4
       did-resolver: 4.0.1
     devDependencies:
@@ -7748,7 +7750,6 @@ packages:
 
   /caip/1.1.0:
     resolution: {integrity: sha512-yOO3Fu4ygyKYAdznuoaqschMKIZzcdgyMpBNtrIfrUhnOeaOWG+dh0c13wcOS6B/46IGGbncoyzJlio79jU7rw==}
-    dev: true
 
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
