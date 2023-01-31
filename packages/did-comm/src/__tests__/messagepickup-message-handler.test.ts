@@ -38,6 +38,7 @@ import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 import { Message } from '@veramo/message-handler'
+import { jest } from '@jest/globals'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: [
@@ -46,7 +47,7 @@ const DIDCommEventSniffer: IEventListener = {
     'DIDCommV2Message-forwardMessageQueued',
     'DIDCommV2Message-forwardMessageDequeued',
   ],
-  onEvent: jest.fn(),
+  onEvent: jest.fn(() => Promise.resolve()),
 }
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
