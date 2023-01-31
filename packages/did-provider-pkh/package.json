@@ -16,6 +16,7 @@
     "@ethersproject/transactions": "^5.7.0",
     "@veramo/core": "^4.3.0",
     "@veramo/did-manager": "^4.3.0",
+    "caip": "^1.1.0",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1"
   },
