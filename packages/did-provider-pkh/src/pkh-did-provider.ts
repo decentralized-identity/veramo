@@ -1,37 +1,49 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
-import { computeAddress } from '@ethersproject/transactions'
+import { computeAddress } from '@ethersproject/transactions';
+import {
+  IAgentContext,
+  IIdentifier,
+  IKey,
+  IKeyManager,
+  IService,
+  ManagedKeyInfo,
+} from '@veramo/core';
 
-import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { computePublicKey } from '@ethersproject/signing-key'
-import { BigNumber } from '@ethersproject/bignumber'
+import { AbstractIdentifierProvider } from '@veramo/did-manager';
 
-import Debug from 'debug'
-const debug = Debug('veramo:did-pkh:identifier-provider')
+type IContext = IAgentContext<IKeyManager>;
 
-type IContext = IAgentContext<IKeyManager>
+const isIn = <T>(values: readonly T[], value: any): value is T => {
+  return values.includes(value);
+};
+
+export const SECPK1_NAMESPACES = ['eip155'] as const;
+export const isValidNamespace = (x: string) => isIn(SECPK1_NAMESPACES, x);
 
 /**
  * Options for creating a did:ethr
  * @beta
  */
- export interface CreateDidPkhEthrOptions {
+export interface CreateDidPkhOptions {
+  namespace: string;
+  privateKey: string;
   /**
    * This can be hex encoded chain ID (string) or a chainId number
    *
    * If this is not specified, `1` is assumed.
    */
-  chainId?: string | number
+  chainId?: string;
 }
 
- /**
+/**
  * Helper method that can computes the ethereumAddress corresponding to a Secp256k1 public key.
  * @param hexPublicKey A hex encoded public key, optionally prefixed with `0x`
  */
-  export function toEthereumAddress(hexPublicKey: string): string {
-    const publicKey = hexPublicKey.startsWith('0x') ? hexPublicKey : '0x' + hexPublicKey
-    return computeAddress(publicKey)
-  }
-
+export function toEthereumAddress(hexPublicKey: string): string {
+  const publicKey = hexPublicKey.startsWith('0x')
+    ? hexPublicKey
+    : '0x' + hexPublicKey;
+  return computeAddress(publicKey);
+}
 
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:pkh` identifiers
@@ -39,97 +51,114 @@ type IContext = IAgentContext<IKeyManager>
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class PkhDIDProvider extends AbstractIdentifierProvider {
-    private defaultKms: string
+  private defaultKms: string;
+  private chainId: string;
 
-    constructor(options: {
-      defaultKms: string
-    })
-    {
-      super()
-      this.defaultKms = options.defaultKms
-    }
-
-
+  constructor(options: { defaultKms: string; chainId?: string }) {
+    super();
+    this.defaultKms = options.defaultKms;
+    this.chainId = options?.chainId ? options.chainId : '1';
+  }
 
   async createIdentifier(
-    { kms, options }: { kms?: string; options?: CreateDidPkhEthrOptions },
-    context: IContext,
+    { kms, options }: { kms?: string; options?: CreateDidPkhOptions },
+    context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
+    const namespace = options?.namespace ? options.namespace : 'eip155';
 
-    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
-    const publicAddress = toEthereumAddress(key.publicKeyHex);
-
-    const network = options?.chainId;
-    if (!network) {
+    if (!isValidNamespace(namespace)) {
+      console.error(
+        `Invalid namespace '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
+      );
       throw new Error(
-        `invalid_setup: Cannot create did:pkh. There is no known configuration for network=${network}'`,
-      )
+        `Invalid namespace '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
+      );
     }
 
-    const identifier: Omit<IIdentifier, 'provider'> = {
-      did: 'did:pkh:eip155:' + network + ':' + publicAddress,
-      controllerKeyId: key.kid,
-      keys: [key],
-      services: [],
+    let key: ManagedKeyInfo | null;
+    if (options?.privateKey !== undefined){
+      key = await context.agent.keyManagerImport({
+        kms: kms || this.defaultKms,
+        type: 'Secp256k1',
+        privateKeyHex: options?.privateKey as string,
+      });
+    } else {
+      key = await context.agent.keyManagerCreate({ 
+        kms: kms || this.defaultKms, 
+        type: 'Secp256k1' 
+      });
     }
-    debug('Created', identifier.did)
-    return identifier
-  }
-  async updateIdentifier(args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any }, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
-    throw new Error('PkhDIDProvider updateIdentifier not supported yet.')
+    const evmAddress: string = toEthereumAddress(key.publicKeyHex);
+
+    if (key !== null) {
+      const identifier: Omit<IIdentifier, 'provider'> = {
+        did: 'did:pkh:' + namespace + ':' + this.chainId + ':' + evmAddress,
+        controllerKeyId: key.kid,
+        keys: [key],
+        services: [],
+      };
+      return identifier;
+    } else {
+      console.error('Could not create identifier due to some errors');
+      throw new Error('Could not create identifier due to some errors');
+    }
   }
 
-  async deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean> {
+  async updateIdentifier(
+    args: {
+      did: string;
+      kms?: string | undefined;
+      alias?: string | undefined;
+      options?: any;
+    },
+    context: IAgentContext<IKeyManager>
+  ): Promise<IIdentifier> {
+    throw new Error('PkhDIDProvider updateIdentifier not supported yet.');
+  }
+
+  async deleteIdentifier(
+    identifier: IIdentifier,
+    context: IContext
+  ): Promise<boolean> {
     for (const { kid } of identifier.keys) {
-      await context.agent.keyManagerDelete({ kid })
+      await context.agent.keyManagerDelete({ kid });
     }
-    return true
+    return true;
   }
 
   async addKey(
-    { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
-    context: IContext,
+    {
+      identifier,
+      key,
+      options,
+    }: { identifier: IIdentifier; key: IKey; options?: any },
+    context: IContext
   ): Promise<any> {
-    throw Error('PkhDIDProvider addKey not supported')
+    throw Error('PkhDIDProvider addKey not supported');
   }
 
   async addService(
-    { identifier, service, options }: { identifier: IIdentifier; service: IService; options?: any },
-    context: IContext,
+    {
+      identifier,
+      service,
+      options,
+    }: { identifier: IIdentifier; service: IService; options?: any },
+    context: IContext
   ): Promise<any> {
-    throw Error('PkhDIDProvider addService not supported')
+    throw Error('PkhDIDProvider addService not supported');
   }
 
   async removeKey(
     args: { identifier: IIdentifier; kid: string; options?: any },
-    context: IContext,
+    context: IContext
   ): Promise<any> {
-    throw Error('PkhDIDProvider removeKey not supported')
+    throw Error('PkhDIDProvider removeKey not supported');
   }
 
   async removeService(
     args: { identifier: IIdentifier; id: string; options?: any },
-    context: IContext,
+    context: IContext
   ): Promise<any> {
-    throw Error('PkhDIDProvider removeService not supported')
+    throw Error('PkhDIDProvider removeService not supported');
   }
-
-  // private getNetworkFor(networkSpecifier: string | number | undefined): EthrNetworkConfiguration | undefined {
-  //   let networkNameOrId: string | number = networkSpecifier || 'mainnet'
-  //   if (
-  //     typeof networkNameOrId === 'string' &&
-  //     (networkNameOrId.startsWith('0x') || parseInt(networkNameOrId) > 0)
-  //   ) {
-  //     networkNameOrId = BigNumber.from(networkNameOrId).toNumber()
-  //   }
-  //   let network = this.networks?.find(
-  //     (n) => n.chainId === networkNameOrId || n.name === networkNameOrId || n.description === networkNameOrId,
-  //   )
-  //   if (!network && !networkSpecifier && this.networks?.length === 1) {
-  //     network = this.networks[0]
-  //   }
-  //   return network
-  // }
-
-
 }
