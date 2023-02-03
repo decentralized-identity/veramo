@@ -22,8 +22,6 @@ function toDidDoc(did: string, blockchainAccountId: string): any {
         blockchainAccountId: 'https://w3id.org/security#blockchainAccountId',
         EcdsaSecp256k1RecoveryMethod2020:
           'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020#EcdsaSecp256k1RecoveryMethod2020',
-        Ed25519VerificationKey2018:
-          'https://w3id.org/security#Ed25519VerificationKey2018',
       },
     ],
     id: did,
@@ -43,7 +41,7 @@ function toDidDoc(did: string, blockchainAccountId: string): any {
       `Invalid namespace '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
     );
     throw new Error(
-      `Invalid namespace '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
+      `illegal_argument: namespace '${namespace}' not supported. Valid namespaces are: ${SECPK1_NAMESPACES}`
     );
   }
   return doc;
