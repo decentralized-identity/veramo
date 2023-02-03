@@ -9,6 +9,9 @@ import {
 } from '@veramo/core';
 
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
+import Debug from 'debug'
+
+const debug = Debug('veramo:data-store:migrate-presentation-issuance-date')
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -67,7 +70,7 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
     const namespace = options?.namespace ? options.namespace : 'eip155';
 
     if (!isValidNamespace(namespace)) {
-      console.error(
+      debug(
         `Invalid namespace '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
       );
       throw new Error(
@@ -99,7 +102,7 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
       };
       return identifier;
     } else {
-      console.error('Could not create identifier due to some errors');
+      debug('Could not create identifier due to some errors');
       throw new Error('Could not create identifier due to some errors');
     }
   }
