@@ -71,10 +71,10 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
 
     if (!isValidNamespace(namespace)) {
       debug(
-        `Invalid namespace '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
+        `invalid_namespace: '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
       );
       throw new Error(
-        `Invalid namespace '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
+        `invalid_namespace: '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
       );
     }
 
