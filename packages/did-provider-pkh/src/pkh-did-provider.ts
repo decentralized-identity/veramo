@@ -23,7 +23,7 @@ export const SECPK1_NAMESPACES = ['eip155'] as const;
 export const isValidNamespace = (x: string) => isIn(SECPK1_NAMESPACES, x);
 
 /**
- * Options for creating a did:ethr
+ * Options for creating a did:pkh
  * @beta
  */
 export interface CreateDidPkhOptions {
@@ -34,7 +34,7 @@ export interface CreateDidPkhOptions {
    *
    * If this is not specified, `1` is assumed.
    */
-  chainId?: string;
+  chainId?: string | number;
 }
 
 /**
@@ -116,7 +116,7 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
     },
     context: IAgentContext<IKeyManager>
   ): Promise<IIdentifier> {
-    throw new Error('PkhDIDProvider updateIdentifier not supported yet.');
+    throw new Error('illegal_operation: did:pkh update is not possible.');
   }
 
   async deleteIdentifier(
@@ -137,7 +137,7 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('PkhDIDProvider addKey not supported');
+    throw Error('illegal_operation: did:pkh addKey is not possible.');
   }
 
   async addService(
@@ -148,20 +148,22 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; service: IService; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('PkhDIDProvider addService not supported');
+    throw Error('illegal_operation: did:pkh addService is not possible.');
   }
 
   async removeKey(
     args: { identifier: IIdentifier; kid: string; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('PkhDIDProvider removeKey not supported');
+    throw Error('illegal_operation: did:pkh removeKey is not possible.');
+
   }
 
   async removeService(
     args: { identifier: IIdentifier; id: string; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('PkhDIDProvider removeService not supported');
+    throw Error('illegal_operation: did:pkh removeService is not possible.');
+
   }
 }
