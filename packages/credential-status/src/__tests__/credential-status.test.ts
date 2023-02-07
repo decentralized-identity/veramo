@@ -1,4 +1,5 @@
-import { createAgent, ICredentialStatusVerifier, VerifiableCredential } from '../../../core/src'
+import { ICredentialStatusVerifier, VerifiableCredential } from '../../../core-types/src'
+import { createAgent } from '../../../core/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { CredentialStatusPlugin } from '../credential-status.js'
 import { DIDDocument, DIDResolutionOptions, DIDResolutionResult, Resolvable } from 'did-resolver'

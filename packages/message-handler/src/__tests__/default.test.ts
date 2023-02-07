@@ -1,4 +1,5 @@
-import { createAgent, IAgentContext, IMessageHandler } from '@veramo/core'
+import { IAgentContext, IMessageHandler } from '@veramo/core-types'
+import { createAgent } from '@veramo/core'
 import { MessageHandler } from '..'
 import { AbstractMessageHandler, Message } from '../../build'
 import { jest } from '@jest/globals'

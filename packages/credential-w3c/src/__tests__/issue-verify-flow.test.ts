@@ -1,5 +1,4 @@
 import {
-  createAgent,
   CredentialPayload,
   ICredentialPlugin,
   IDIDManager,
@@ -7,6 +6,9 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
+} from '../../../core-types/src'
+import {
+  createAgent
 } from '../../../core/src'
 import { CredentialIssuer } from '../../../credential-w3c/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
@@ -22,7 +24,7 @@ import { CredentialIssuerLD } from '../../../credential-ld/src/action-handler'
 import { LdDefaultContexts } from '../../../credential-ld/src/ld-default-contexts'
 import { VeramoEd25519Signature2018 } from '../../../credential-ld/src/suites/Ed25519Signature2018'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../../../credential-ld/src/suites/EcdsaSecp256k1RecoverySignature2020'
-import { VerifiableCredential } from '../../../core/src'
+import { VerifiableCredential } from '../../../core-types/src'
 import { jest } from '@jest/globals'
 
 jest.setTimeout(300000)

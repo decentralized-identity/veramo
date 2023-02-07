@@ -4,5 +4,10 @@
     "rootDir": "src",
     "outDir": "build"
   },
-  "include": ["./**/*.ts"]
+  "include": ["./**/*.ts"],
+  "references": [
+    {
+      "path": "../core-types"
+    }
+  ]
 }
