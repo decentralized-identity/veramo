@@ -7,7 +7,9 @@ import type {
   ResolverRegistry,
 } from 'did-resolver';
 import { isValidNamespace, SECPK1_NAMESPACES } from './pkh-did-provider';
+import Debug from 'debug'
 
+const debug = Debug('veramo:pkh-did-resolver')
 const DID_LD_JSON = 'application/did+ld+json';
 const DID_JSON = 'application/did+json';
 
@@ -37,7 +39,7 @@ function toDidDoc(did: string, blockchainAccountId: string): any {
     assertionMethod: [vmId],
   };
   if (!isValidNamespace(namespace)) {
-    console.error(
+    debug(
       `Invalid namespace '${namespace}'. Valid namespaces are: ${SECPK1_NAMESPACES}`
     );
     throw new Error(

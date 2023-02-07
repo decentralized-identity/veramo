@@ -11,7 +11,7 @@ import {
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import Debug from 'debug'
 
-const debug = Debug('veramo:data-store:migrate-presentation-issuance-date')
+const debug = Debug('veramo:pkh-did-provider')
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -103,7 +103,7 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
       return identifier;
     } else {
       debug('Could not create identifier due to some errors');
-      throw new Error('Could not create identifier due to some errors');
+      throw new Error('unknown_error: could not create identifier due to errors creating or importing keys');
     }
   }
 
