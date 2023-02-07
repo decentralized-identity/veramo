@@ -7,8 +7,6 @@
   },
   "references": [
     { "path": "../core-types" },
-    { "path": "../core" },
-    { "path": "../did-resolver" },
     { "path": "../message-handler" }
   ]
 }

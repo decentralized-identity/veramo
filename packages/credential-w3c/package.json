@@ -13,9 +13,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
-    "@veramo/did-jwt": "^4.3.0",
-    "@veramo/did-resolver": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "@veramo/message-handler": "^4.3.0",
     "@veramo/utils": "^4.3.0",
     "canonicalize": "^1.0.8",

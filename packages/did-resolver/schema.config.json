@@ -1,7 +1,0 @@
-{
-  "sourcePath": "src/",
-  "schemasPath": "schemas/",
-  "files": {
-    "resolver.ts": ["ResolveDidArgs", "IResolver"]
-  }
-}

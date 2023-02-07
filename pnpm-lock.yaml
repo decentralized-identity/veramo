@@ -117,6 +117,7 @@ importers:
       '@types/url-parse': 1.4.8
       '@types/ws': 8.5.4
       '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/credential-eip712': ^4.3.0
       '@veramo/credential-ld': ^4.3.0
       '@veramo/credential-w3c': ^4.3.0
@@ -178,6 +179,7 @@ importers:
       '@types/blessed': 0.1.19
       '@types/swagger-ui-express': 4.1.3
       '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/credential-eip712': link:../credential-eip712
       '@veramo/credential-ld': link:../credential-ld
       '@veramo/credential-w3c': link:../credential-w3c
@@ -244,10 +246,12 @@ importers:
   packages/core:
     specifiers:
       '@types/debug': 4.1.7
+      '@veramo/core-types': ^4.3.0
       events: ^3.2.0
       typescript: 4.9.4
       z-schema: ^5.0.5
     dependencies:
+      '@veramo/core-types': link:../core-types
       events: 3.3.0
       z-schema: 5.0.5
     devDependencies:
@@ -302,8 +306,7 @@ importers:
       '@transmute/json-web-signature': ^0.7.0-unstable.79
       '@types/debug': 4.1.7
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': uport-project/EcdsaSecp256k1RecoverySignature2020
-      '@veramo/core': ^4.3.0
-      '@veramo/did-resolver': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/utils': ^4.3.0
       borc: 3.0.0
       cross-fetch: ^3.1.5
@@ -321,8 +324,7 @@ importers:
       '@transmute/ed25519-signature-2018': 0.7.0-unstable.79
       '@transmute/json-web-signature': 0.7.0-unstable.79
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/ab0db52de6f4e6663ef271a48009ba26e688ef9b
-      '@veramo/core': link:../core
-      '@veramo/did-resolver': link:../did-resolver
+      '@veramo/core-types': link:../core-types
       '@veramo/utils': link:../utils
       cross-fetch: 3.1.5
       debug: 4.3.4
@@ -336,14 +338,14 @@ importers:
   packages/credential-status:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/utils': ^4.3.0
       credential-status: ^2.0.5
       did-jwt: ^6.9.0
       did-resolver: ^4.0.1
       typescript: 4.9.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/utils': link:../utils
       credential-status: 2.0.5
       did-jwt: 6.11.0
@@ -356,10 +358,8 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/credential-ld': ^4.3.0
-      '@veramo/did-jwt': ^4.3.0
-      '@veramo/did-resolver': ^4.3.0
       '@veramo/message-handler': ^4.3.0
       '@veramo/utils': ^4.3.0
       canonicalize: ^1.0.8
@@ -371,9 +371,7 @@ importers:
       uint8arrays: ^3.0.0
       uuid: ^9.0.0
     dependencies:
-      '@veramo/core': link:../core
-      '@veramo/did-jwt': link:../did-jwt
-      '@veramo/did-resolver': link:../did-resolver
+      '@veramo/core-types': link:../core-types
       '@veramo/message-handler': link:../message-handler
       '@veramo/utils': link:../utils
       canonicalize: 1.0.8
@@ -394,7 +392,7 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-discovery': ^4.3.0
       '@veramo/did-manager': ^4.3.0
       '@veramo/key-manager': ^4.3.0
@@ -406,7 +404,7 @@ importers:
       typescript: 4.9.4
       uuid: ^9.0.0
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/did-discovery': link:../did-discovery
       '@veramo/did-manager': link:../did-manager
       '@veramo/key-manager': link:../key-manager
@@ -427,9 +425,7 @@ importers:
       '@types/ungap__structured-clone': 0.3.0
       '@types/uuid': 9.0.0
       '@ungap/structured-clone': ^1.0.0
-      '@veramo/core': ^4.3.0
-      '@veramo/data-store': ^4.3.0
-      '@veramo/did-discovery': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-manager': ^4.3.0
       '@veramo/key-manager': ^4.3.0
       '@veramo/utils': ^4.3.0
@@ -439,9 +435,7 @@ importers:
       uuid: ^9.0.0
     dependencies:
       '@ungap/structured-clone': 1.0.1
-      '@veramo/core': link:../core
-      '@veramo/data-store': link:../data-store
-      '@veramo/did-discovery': link:../did-discovery
+      '@veramo/core-types': link:../core-types
       '@veramo/did-manager': link:../did-manager
       '@veramo/key-manager': link:../key-manager
       '@veramo/utils': link:../utils
@@ -460,7 +454,7 @@ importers:
       '@stablelib/ed25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/message-handler': ^4.3.0
       '@veramo/utils': ^4.3.0
       cross-fetch: ^3.1.4
@@ -473,7 +467,7 @@ importers:
     dependencies:
       '@ethersproject/signing-key': 5.7.0
       '@stablelib/ed25519': 1.0.3
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/message-handler': link:../message-handler
       '@veramo/utils': link:../utils
       cross-fetch: 3.1.5
@@ -490,11 +484,11 @@ importers:
   packages/did-discovery:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       debug: ^4.3.3
       typescript: 4.9.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       debug: 4.3.4
     devDependencies:
       '@types/debug': 4.1.7
@@ -503,14 +497,14 @@ importers:
   packages/did-jwt:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/message-handler': ^4.3.0
       debug: ^4.3.3
       did-jwt: ^6.9.0
       did-resolver: ^4.0.1
       typescript: 4.9.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/message-handler': link:../message-handler
       debug: 4.3.4
       did-jwt: 6.11.0
@@ -521,11 +515,11 @@ importers:
 
   packages/did-manager:
     specifiers:
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-discovery': ^4.3.0
       typescript: 4.9.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/did-discovery': link:../did-discovery
     devDependencies:
       typescript: 4.9.4
@@ -542,7 +536,7 @@ importers:
       '@ethersproject/signing-key': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-manager': ^4.3.0
       debug: ^4.3.3
       ethr-did: ^2.3.6
@@ -557,7 +551,7 @@ importers:
       '@ethersproject/providers': 5.7.2
       '@ethersproject/signing-key': 5.7.0
       '@ethersproject/transactions': 5.7.0
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/did-manager': link:../did-manager
       debug: 4.3.4
       ethr-did: 2.3.6
@@ -576,7 +570,7 @@ importers:
       '@stablelib/sha256': ^1.0.1
       '@trust/keyto': ^1.0.1
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-manager': ^4.3.0
       '@veramo/key-manager': ^4.3.0
       '@veramo/kms-local': ^4.3.0
@@ -596,7 +590,7 @@ importers:
       '@stablelib/ed25519': 1.0.3
       '@stablelib/sha256': 1.0.1
       '@trust/keyto': 1.0.1
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/did-manager': link:../did-manager
       '@veramo/key-manager': link:../key-manager
       '@veramo/kms-local': link:../kms-local
@@ -616,7 +610,7 @@ importers:
       '@transmute/did-key-secp256k1': ^0.3.0-unstable.10
       '@transmute/did-key-x25519': ^0.3.0-unstable.10
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-manager': ^4.3.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
@@ -627,7 +621,7 @@ importers:
       '@transmute/did-key-ed25519': 0.3.0-unstable.10
       '@transmute/did-key-secp256k1': 0.3.0-unstable.10
       '@transmute/did-key-x25519': 0.3.0-unstable.10
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/did-manager': link:../did-manager
       debug: 4.3.4
       did-resolver: 4.0.1
@@ -644,7 +638,7 @@ importers:
       '@ethersproject/signing-key': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-manager': ^4.3.0
       caip: ^1.1.0
       debug: ^4.3.3
@@ -655,7 +649,7 @@ importers:
       '@ethersproject/bignumber': 5.7.0
       '@ethersproject/signing-key': 5.7.0
       '@ethersproject/transactions': 5.7.0
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/did-manager': link:../did-manager
       caip: 1.1.0
       debug: 4.3.4
@@ -667,12 +661,12 @@ importers:
   packages/did-provider-web:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-manager': ^4.3.0
       debug: ^4.3.3
       typescript: 4.9.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/did-manager': link:../did-manager
       debug: 4.3.4
     devDependencies:
@@ -682,7 +676,7 @@ importers:
   packages/did-resolver:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/utils': ^4.3.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
@@ -691,7 +685,7 @@ importers:
       typescript: 4.9.4
       web-did-resolver: ^2.0.21
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/utils': link:../utils
       cross-fetch: 3.1.5
       debug: 4.3.4
@@ -711,7 +705,7 @@ importers:
       '@stablelib/ed25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       debug: ^4.3.4
       did-jwt: ^6.9.0
       typescript: 4.9.4
@@ -722,7 +716,7 @@ importers:
       '@ethersproject/strings': 5.7.0
       '@ethersproject/transactions': 5.7.0
       '@stablelib/ed25519': 1.0.3
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       debug: 4.3.4
       did-jwt: 6.11.0
       uint8arrays: 3.1.1
@@ -748,7 +742,7 @@ importers:
       '@stablelib/x25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/elliptic': 6.4.14
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/key-manager': ^4.3.0
       base-58: ^0.0.1
       debug: ^4.3.3
@@ -768,7 +762,7 @@ importers:
       '@stablelib/nacl': 1.0.4
       '@stablelib/random': 1.0.2
       '@stablelib/x25519': 1.0.3
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/key-manager': link:../key-manager
       base-58: 0.0.1
       debug: 4.3.4
@@ -786,7 +780,7 @@ importers:
       '@ethersproject/strings': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/key-manager': ^4.3.0
       debug: ^4.3.3
       typescript: 4.9.4
@@ -794,7 +788,7 @@ importers:
       '@ethersproject/providers': 5.7.2
       '@ethersproject/strings': 5.7.0
       '@ethersproject/transactions': 5.7.0
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/key-manager': link:../key-manager
       debug: 4.3.4
     devDependencies:
@@ -804,11 +798,11 @@ importers:
   packages/message-handler:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       debug: ^4.3.4
       typescript: 4.9.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       debug: 4.3.4
     devDependencies:
       '@types/debug': 4.1.7
@@ -817,13 +811,13 @@ importers:
   packages/remote-client:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       openapi-types: 12.1.0
       typescript: 4.9.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       cross-fetch: 3.1.5
       debug: 4.3.4
       openapi-types: 12.1.0
@@ -838,7 +832,7 @@ importers:
       '@types/passport': 1.0.11
       '@types/passport-http-bearer': 1.0.37
       '@types/url-parse': 1.4.8
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/remote-client': ^4.3.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
@@ -848,7 +842,7 @@ importers:
       typescript: 4.9.4
       url-parse: ^1.5.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/remote-client': link:../remote-client
       debug: 4.3.4
       did-resolver: 4.0.1
@@ -868,9 +862,7 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.3.0
-      '@veramo/credential-w3c': ^4.3.0
-      '@veramo/did-jwt': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/message-handler': ^4.3.0
       '@veramo/utils': ^4.3.0
       debug: ^4.3.3
@@ -878,9 +870,7 @@ importers:
       typescript: 4.9.4
       uuid: ^9.0.0
     dependencies:
-      '@veramo/core': link:../core
-      '@veramo/credential-w3c': link:../credential-w3c
-      '@veramo/did-jwt': link:../did-jwt
+      '@veramo/core-types': link:../core-types
       '@veramo/message-handler': link:../message-handler
       '@veramo/utils': link:../utils
       debug: 4.3.4
@@ -905,6 +895,7 @@ importers:
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
       '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/credential-ld': ^4.3.0
       '@veramo/credential-w3c': ^4.3.0
       '@veramo/data-store': ^4.3.0
@@ -951,6 +942,7 @@ importers:
       web-vitals: ^3.1.1
     dependencies:
       '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/credential-ld': link:../credential-ld
       '@veramo/credential-w3c': link:../credential-w3c
       '@veramo/data-store': link:../data-store
@@ -1010,20 +1002,16 @@ importers:
 
   packages/test-utils:
     specifiers:
-      '@veramo/core': ^4.3.0
-      '@veramo/data-store-json': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/did-discovery': ^4.3.0
       '@veramo/did-manager': ^4.3.0
-      '@veramo/key-manager': ^4.3.0
       '@veramo/utils': ^4.3.0
       did-resolver: ^4.0.1
       typescript: 4.9.4
     dependencies:
-      '@veramo/core': link:../core
-      '@veramo/data-store-json': link:../data-store-json
+      '@veramo/core-types': link:../core-types
       '@veramo/did-discovery': link:../did-discovery
       '@veramo/did-manager': link:../did-manager
-      '@veramo/key-manager': link:../key-manager
       '@veramo/utils': link:../utils
       did-resolver: 4.0.1
     devDependencies:
@@ -1033,7 +1021,7 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/url-parse': 1.4.8
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       '@veramo/message-handler': ^4.3.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
@@ -1041,7 +1029,7 @@ importers:
       typescript: 4.9.4
       url-parse: ^1.5.4
     dependencies:
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       '@veramo/message-handler': link:../message-handler
       cross-fetch: 3.1.5
       debug: 4.3.4
@@ -1060,7 +1048,7 @@ importers:
       '@types/debug': 4.1.7
       '@types/elliptic': 6.4.14
       '@types/uuid': 9.0.0
-      '@veramo/core': ^4.3.0
+      '@veramo/core-types': ^4.3.0
       blakejs: ^1.1.1
       credential-status: ^2.0.5
       cross-fetch: ^3.1.5
@@ -1075,7 +1063,7 @@ importers:
       '@ethersproject/signing-key': 5.7.0
       '@ethersproject/transactions': 5.7.0
       '@stablelib/ed25519': 1.0.3
-      '@veramo/core': link:../core
+      '@veramo/core-types': link:../core-types
       blakejs: 1.2.1
       credential-status: 2.0.5
       cross-fetch: 3.1.5

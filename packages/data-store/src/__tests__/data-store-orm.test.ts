@@ -12,7 +12,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '../../../core-types/src'
-import { Agent } from '@veramo/core'
+import { Agent } from '../../../core/src'
 import { DataSource } from 'typeorm'
 import { DataStoreORM } from '../data-store-orm'
 import { DataStore } from '../data-store'

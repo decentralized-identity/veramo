@@ -9,5 +9,8 @@
       "esnext"
     ]
   },
-  "references": [{ "path": "../core-types" }, { "path": "../core" }, { "path": "../message-handler" }]
+  "references": [
+    {"path": "../core-types"},
+    {"path": "../message-handler"}
+  ]
 }

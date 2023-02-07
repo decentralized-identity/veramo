@@ -5,5 +5,5 @@
     "outDir": "build",
     "declarationDir": "build"
   },
-  "references": [{ "path": "../core-types" }, { "path": "../core" }, { "path": "../did-manager" }]
+  "references": [{ "path": "../core-types" }, { "path": "../did-manager" }]
 }

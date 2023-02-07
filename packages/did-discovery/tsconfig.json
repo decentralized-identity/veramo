@@ -7,7 +7,6 @@
   },
   "references": [
     { "path": "../core-types" },
-    { "path": "../data-store" },
   ],
   "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

@@ -9,8 +9,6 @@
   },
   "references": [
     { "path": "../core-types" },
-    { "path": "../core" },
-    { "path": "../did-jwt" },
     { "path": "../message-handler" },
     { "path": "../utils" }
   ],

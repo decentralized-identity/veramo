@@ -7,10 +7,8 @@
   },
   "references": [
     { "path": "../core-types" },
-    { "path": "../core" },
-    { "path": "../credential-w3c" },
-    { "path": "../did-jwt" },
-    { "path": "../message-handler" }
+    { "path": "../message-handler" },
+    { "path": "../utils" }
   ],
   "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

@@ -5,8 +5,8 @@
     "outDir": "build"
   },
   "references": [
-    { "path": "../core-types" }, 
-    { "path": "../core"},
+    { "path": "../core-types" },
+    { "path": "../did-discovery" },
     { "path": "../did-manager" },
     { "path": "../key-manager" },
     { "path": "../utils" }

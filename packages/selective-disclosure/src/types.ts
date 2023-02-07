@@ -1,5 +1,6 @@
 import {
   IAgentContext,
+  ICredentialIssuer,
   IDataStoreORM,
   IDIDManager,
   IKeyManager,
@@ -7,7 +8,6 @@ import {
   UniqueVerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
-import { ICredentialIssuer } from '@veramo/core-types'
 
 /**
  * Used for requesting Credentials using Selective Disclosure.

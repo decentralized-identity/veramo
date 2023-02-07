@@ -1,4 +1,4 @@
-import { IAgentContext, IAgentPlugin, IDIDManager } from '@veramo/core-types'
+import { IAgentContext, IAgentPlugin } from '@veramo/core-types'
 
 import {
   IDIDDiscovery,
