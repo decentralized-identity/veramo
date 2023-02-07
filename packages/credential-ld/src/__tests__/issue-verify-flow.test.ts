@@ -45,7 +45,7 @@ describe('credential-LD full flow', () => {
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
   beforeAll(async () => {
-    agent = createAgent({
+    agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
           store: new MemoryKeyStore(),

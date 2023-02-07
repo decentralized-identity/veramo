@@ -46,7 +46,7 @@ describe('credential-w3c full flow', () => {
   let credential: CredentialPayload
 
   beforeAll(async () => {
-    agent = createAgent({
+    agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
           store: new MemoryKeyStore(),

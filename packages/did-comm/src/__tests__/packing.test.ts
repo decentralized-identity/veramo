@@ -198,7 +198,7 @@ describe('didComm', () => {
   let agent: TAgent<IResolver & IKeyManager & IDIDManager>
 
   beforeAll(async () => {
-    agent = createAgent({
+    agent = createAgent<IResolver & IKeyManager & IDIDManager>({
       plugins: [
         new KeyManager({
           store: new MemoryKeyStore(),

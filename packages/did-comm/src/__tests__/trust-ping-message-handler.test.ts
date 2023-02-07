@@ -56,7 +56,7 @@ describe('trust-ping-message-handler', () => {
       logging: false,
       entities: Entities,
     })
-    agent = createAgent({
+    agent = createAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>({
       plugins: [
         new KeyManager({
           store: new MemoryKeyStore(),
