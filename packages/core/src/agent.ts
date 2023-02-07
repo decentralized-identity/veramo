@@ -6,7 +6,7 @@ import { EventEmitter } from 'events'
 import { CoreEvents } from '@veramo/core-types'
 
 /**
- * Filters unauthorized methods. By default all methods are authorized
+ * Filters unauthorized methods. By default, all methods are authorized
  * @internal
  */
 const filterUnauthorizedMethods = (

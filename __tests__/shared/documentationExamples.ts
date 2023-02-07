@@ -38,7 +38,7 @@ export default (testContext: {
 
     //DO NOT EDIT MANUALLY START
 
-    it('core-IResolver-getDIDComponentById example', async () => {
+    it('core-types-IResolver-getDIDComponentById example', async () => {
       const did = 'did:ethr:goerli:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
       const didFragment = `${did}#controller`
       const fragment = await agent.getDIDComponentById({
@@ -54,7 +54,7 @@ export default (testContext: {
       })
     })
 
-    it('core-IResolver-resolveDid example', async () => {
+    it('core-types-IResolver-resolveDid example', async () => {
       const doc = await agent.resolveDid({
         didUrl: 'did:ethr:goerli:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
       })
@@ -77,7 +77,7 @@ export default (testContext: {
       })
     })
 
-    it('core-IDIDManager-didManagerCreate example', async () => {
+    it('core-types-IDIDManager-didManagerCreate example', async () => {
       const identifier = await agent.didManagerCreate({
         alias: 'charlie',
         provider: 'did:ethr:goerli',
@@ -85,7 +85,7 @@ export default (testContext: {
       })
     })
 
-    it('core-IDIDManager-didManagerFind example', async () => {
+    it('core-types-IDIDManager-didManagerFind example', async () => {
       const aliceIdentifiers = await agent.didManagerFind({
         alias: 'alice',
       })
@@ -95,14 +95,14 @@ export default (testContext: {
       })
     })
 
-    it('core-IDIDManager-didManagerGetByAlias example', async () => {
+    it('core-types-IDIDManager-didManagerGetByAlias example', async () => {
       const identifier = await agent.didManagerGetByAlias({
         alias: 'charlie',
         provider: 'did:ethr:goerli',
       })
     })
 
-    it('core-IDIDManager-didManagerSetAlias example', async () => {
+    it('core-types-IDIDManager-didManagerSetAlias example', async () => {
       const identifier = await agent.didManagerCreate()
       const result = await agent.didManagerSetAlias({
         did: identifier.did,
