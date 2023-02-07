@@ -8,7 +8,7 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 import { jest } from '@jest/globals'
 

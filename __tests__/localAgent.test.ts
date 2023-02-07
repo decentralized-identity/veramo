@@ -9,9 +9,9 @@
 
 import {
   createAgent,
-  IAgentOptions
 } from '../packages/core/src'
 import {
+  IAgentOptions,
   ICredentialPlugin,
   IDataStore,
   IDataStoreORM,

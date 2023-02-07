@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { IAgentOptions, IDIDManager, IKeyManager, IResolver, TAgent, TKeyType } from '../../packages/core/src'
+import { IAgentOptions, IDIDManager, IKeyManager, IResolver, TAgent, TKeyType } from '../../packages/core-types/src'
 import { computeAddress, serialize } from '@ethersproject/transactions'
 import { mapIdentifierKeysToDoc } from '../../packages/utils/src'
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'

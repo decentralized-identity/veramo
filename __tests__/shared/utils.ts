@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { IAgentOptions, IDIDManager, IResolver, MinimalImportableKey, TAgent } from '../../packages/core/src'
+import { IAgentOptions, IDIDManager, IResolver, MinimalImportableKey, TAgent } from '../../packages/core-types/src'
 import { getChainIdForDidEthr, mapIdentifierKeysToDoc, resolveDidOrThrow } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>
