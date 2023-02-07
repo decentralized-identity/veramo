@@ -1,4 +1,4 @@
-import { IKey, ManagedKeyInfo } from '@veramo/core'
+import { IKey, ManagedKeyInfo } from '@veramo/core-types'
 import { AbstractKeyStore } from '@veramo/key-manager'
 import { DataSource } from 'typeorm'
 

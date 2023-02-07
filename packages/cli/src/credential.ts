@@ -5,7 +5,7 @@ import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
 import * as json5 from 'json5'
 import { readStdin } from './util.js'
-import { CredentialPayload } from '@veramo/core'
+import { CredentialPayload } from '@veramo/core-types'
 
 import fuzzy from 'fuzzy'
 

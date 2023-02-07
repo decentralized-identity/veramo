@@ -5,7 +5,7 @@ import {
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import {
   extractIssuer,
   getChainIdForDidEthr,

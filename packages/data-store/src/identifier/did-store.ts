@@ -1,4 +1,4 @@
-import { IIdentifier, IKey } from '@veramo/core'
+import { IIdentifier, IKey } from '@veramo/core-types'
 import { AbstractDIDStore } from '@veramo/did-manager'
 import { Identifier } from '../entities/identifier.js'
 import { Credential } from '../entities/credential.js'

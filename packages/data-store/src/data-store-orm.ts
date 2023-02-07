@@ -14,8 +14,8 @@ import {
   UniqueVerifiableCredential,
   UniqueVerifiablePresentation,
   Where,
-} from '@veramo/core'
-import schema from '@veramo/core/build/plugin.schema.json' assert { type: 'json' }
+} from '@veramo/core-types'
+import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, Message } from './entities/message.js'
 import { Claim } from './entities/claim.js'
 import { Credential } from './entities/credential.js'

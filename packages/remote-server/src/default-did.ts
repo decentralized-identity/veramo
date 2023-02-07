@@ -1,6 +1,6 @@
 import parse from 'url-parse'
 
-import { IDIDManager, TAgent, TKeyType } from '@veramo/core'
+import { IDIDManager, TAgent, TKeyType } from '@veramo/core-types'
 
 interface CreateDefaultDidOptions {
   agent: TAgent<IDIDManager>

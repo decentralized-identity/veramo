@@ -6,7 +6,7 @@ import {
   VerifiablePresentation,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import { ManagedPrivateKey } from '@veramo/key-manager'
 
 /**

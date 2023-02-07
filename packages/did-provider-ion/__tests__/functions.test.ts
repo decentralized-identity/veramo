@@ -1,4 +1,4 @@
-import { ManagedKeyInfo } from '../../core/src'
+import { ManagedKeyInfo } from '../../core-types/src'
 import { generatePrivateKeyHex, tempMemoryKey, toIonPrivateKeyJwk } from '../src/functions'
 import { KeyIdentifierRelation, KeyType } from '../src/types/ion-provider-types'
 

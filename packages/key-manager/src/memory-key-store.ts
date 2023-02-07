@@ -1,4 +1,4 @@
-import { IKey } from '@veramo/core'
+import { IKey } from '@veramo/core-types'
 import { AbstractKeyStore } from './abstract-key-store.js'
 import {
   AbstractPrivateKeyStore,

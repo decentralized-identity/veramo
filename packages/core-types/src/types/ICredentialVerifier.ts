@@ -1,9 +1,8 @@
-import { IAgentContext, IPluginMethodMap } from './IAgent'
-import { IVerifyResult } from './IVerifyResult'
-import { W3CVerifiableCredential, W3CVerifiablePresentation } from './vc-data-model'
-import { IResolver } from './IResolver'
-import { IDIDManager } from './IDIDManager'
-import { ICredentialStatusVerifier } from './ICredentialStatusVerifier'
+import { IAgentContext, IPluginMethodMap } from './IAgent.js'
+import { IVerifyResult } from './IVerifyResult.js'
+import { W3CVerifiableCredential, W3CVerifiablePresentation } from './vc-data-model.js'
+import { IResolver } from './IResolver.js'
+import { IDIDManager } from './IDIDManager.js'
 
 /**
  * Encapsulates the parameters required to verify a

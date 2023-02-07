@@ -1,10 +1,10 @@
-import { Message } from '@veramo/message-handler'
+import { Message } from '../../../message-handler/src'
 import { UrlMessageHandler } from '../index'
 import fetchMock, { MockParams } from 'jest-fetch-mock'
 
 fetchMock.enableMocks()
 import { jest } from '@jest/globals'
-import { IAgentContext } from "../../../core/src";
+import { IAgentContext } from "../../../core-types/src";
 
 const context = {
   agent: {

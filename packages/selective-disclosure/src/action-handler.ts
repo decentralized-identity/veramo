@@ -2,13 +2,14 @@ import {
   FindArgs,
   IAgentContext,
   IAgentPlugin,
+  ICredentialIssuer,
   IDataStoreORM,
   IDIDManager,
   IKeyManager,
   TClaimsColumns,
   VerifiablePresentation,
-} from '@veramo/core'
-import { ICredentialIssuer } from '@veramo/core'
+} from '@veramo/core-types'
+
 import {
   ICreateProfileCredentialsArgs,
   ICreateSelectiveDisclosureRequestArgs,

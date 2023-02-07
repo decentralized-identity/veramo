@@ -1,4 +1,4 @@
-import { IKey, ManagedKeyInfo } from '@veramo/core'
+import { IKey, ManagedKeyInfo } from '@veramo/core-types'
 
 /**
  * This base abstract class should be extended to provide platform specific implementations that are usable by

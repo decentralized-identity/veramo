@@ -8,7 +8,7 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import {IDIDComm} from '../../packages/did-comm/src'
 // @ts-ignore
 import express from 'express'

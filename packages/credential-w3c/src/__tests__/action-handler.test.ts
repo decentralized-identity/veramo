@@ -21,7 +21,7 @@ import {
   PresentationPayload,
   TAgent,
   VerifiableCredential,
-} from '../../../core/src'
+} from '../../../core-types/src'
 import { CredentialPlugin } from '../action-handler'
 
 const mockIdentifiers: IIdentifier[] = [

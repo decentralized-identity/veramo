@@ -6,7 +6,7 @@ import {
   IResolver,
   PresentationPayload,
   TKeyType,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import { DIDDocument } from 'did-resolver'
 
 export type RequiredAgentMethods = IResolver & Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>

@@ -1,7 +1,6 @@
 // noinspection ES6PreferShortImport
 
 import {
-  Agent,
   FindArgs,
   IDataStore,
   IDataStoreORM,
@@ -12,7 +11,8 @@ import {
   TPresentationColumns,
   VerifiableCredential,
   VerifiablePresentation,
-} from '../../../core/src'
+} from '../../../core-types/src'
+import { Agent } from '../../../core/src'
 import { DataSource } from 'typeorm'
 import { DataStoreORM } from '../data-store-orm'
 import { DataStore } from '../data-store'

@@ -1,4 +1,4 @@
-import { DIDResolutionResult, IAgentContext, ICredentialPlugin, IResolver } from '../../../core/src'
+import { DIDResolutionResult, IAgentContext, ICredentialPlugin, IResolver } from '../../../core-types/src'
 import { Message } from '../../../message-handler/src'
 import { W3cMessageHandler, MessageTypes } from '../index'
 import { IContext } from '../message-handler'

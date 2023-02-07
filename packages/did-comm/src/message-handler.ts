@@ -1,4 +1,4 @@
-import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core'
+import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm.js'

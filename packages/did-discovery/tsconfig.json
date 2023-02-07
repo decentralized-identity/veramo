@@ -6,8 +6,7 @@
     "declarationDir": "build"
   },
   "references": [
-    { "path": "../core" },
-    { "path": "../data-store" },
+    { "path": "../core-types" },
   ],
   "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

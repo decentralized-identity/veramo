@@ -1,4 +1,5 @@
-import { createAgent, IIdentifier, IKey, IKeyManager, IService } from '../../core/src'
+import { IIdentifier, IKey, IKeyManager, IService } from '../../core-types/src'
+import { createAgent } from '../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src'
 import { IonPublicKeyPurpose } from '@decentralized-identity/ion-sdk'

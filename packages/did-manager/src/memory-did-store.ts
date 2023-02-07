@@ -1,4 +1,4 @@
-import { IIdentifier } from '@veramo/core'
+import { IIdentifier } from '@veramo/core-types'
 import { AbstractDIDStore } from './abstract-identifier-store.js'
 
 /**

@@ -9,7 +9,7 @@ import {
   MinimalImportableKey,
   TAgent,
   VerifiableCredential,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager & IKeyManager>
 

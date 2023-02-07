@@ -6,6 +6,7 @@ import { readStdin } from './util.js'
 import * as fs from 'fs'
 import * as json5 from 'json5'
 import { extractIssuer } from '@veramo/utils'
+import { PartialIdentifier, UniqueVerifiablePresentation } from "@veramo/core-types";
 
 const presentation = program.command('presentation').description('W3C Verifiable Presentation')
 
@@ -29,7 +30,7 @@ presentation
         name: 'Enter manually',
         value: 'manual',
       },
-      ...ids.map((id) => id.did),
+      ...ids.map((id: PartialIdentifier) => id.did),
     ]
 
     let aud:string[] = []
@@ -217,7 +218,7 @@ presentation
   .action(async (options) => {
     const agent = getAgent(program.opts().config)
 
-    const presentations = await agent.dataStoreORMGetVerifiablePresentations({})
+    const presentations: UniqueVerifiablePresentation[] = await agent.dataStoreORMGetVerifiablePresentations({})
 
     if (presentations.length > 0) {
 

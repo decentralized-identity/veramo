@@ -1,5 +1,4 @@
 import {
-  createAgent,
   CredentialPayload,
   ICredentialPlugin,
   IDIDManager,
@@ -7,6 +6,9 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
+} from '../../../core-types/src'
+import {
+  createAgent
 } from '../../../core/src'
 import { CredentialPlugin } from '../../../credential-w3c/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
@@ -43,7 +45,7 @@ describe('credential-LD full flow', () => {
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
   beforeAll(async () => {
-    agent = createAgent({
+    agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
           store: new MemoryKeyStore(),

@@ -6,7 +6,7 @@ import {
   IKeyManager,
   IService,
   ManagedKeyInfo,
-} from '@veramo/core';
+} from '@veramo/core-types';
 
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import Debug from 'debug'

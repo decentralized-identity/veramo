@@ -4,7 +4,7 @@ import {
   IResolver,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import { asArray, computeEntryHash, decodeCredentialToObject, extractIssuer } from '@veramo/utils'
 import {

@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core/src'
+import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core-types/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>

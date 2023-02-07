@@ -17,9 +17,9 @@ import {
   VerifierAgentContext,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 
-import schema from "@veramo/core/build/plugin.schema.json" assert { type: 'json' }
+import schema from "@veramo/core-types/build/plugin.schema.json" assert { type: 'json' }
 
 import {
   createVerifiableCredentialJwt,

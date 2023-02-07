@@ -1,5 +1,5 @@
 import { fetch } from 'cross-fetch'
-import { IIdentifier } from '@veramo/core'
+import { IIdentifier } from '@veramo/core-types'
 import { DIDResolutionOptions, DIDResolutionResult, DIDResolver } from 'did-resolver'
 import { IonDidForm } from './types/ion-provider-types.js'
 
