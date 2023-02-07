@@ -10,7 +10,7 @@ import {
   PrimaryColumn,
   Relation,
 } from 'typeorm'
-import { IMessage } from '@veramo/core'
+import { IMessage } from '@veramo/core-types'
 import { Identifier } from './identifier.js'
 import { createPresentationEntity, Presentation } from './presentation.js'
 import { createCredentialEntity, Credential } from './credential.js'

@@ -7,8 +7,8 @@ import {
   IKeyManager,
   TClaimsColumns,
   VerifiablePresentation,
-} from '@veramo/core'
-import { ICredentialIssuer } from '@veramo/core'
+} from '@veramo/core-types'
+import { ICredentialIssuer } from '@veramo/core-types'
 import {
   ICreateProfileCredentialsArgs,
   ICreateSelectiveDisclosureRequestArgs,

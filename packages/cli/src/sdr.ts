@@ -4,7 +4,7 @@ import { program } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { shortDate, shortDid } from './explore/utils.js'
-import { VerifiableCredential } from '@veramo/core'
+import { VerifiableCredential } from '@veramo/core-types'
 import { asArray, extractIssuer } from '@veramo/utils'
 
 import fuzzy from 'fuzzy'

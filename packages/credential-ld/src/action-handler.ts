@@ -8,7 +8,7 @@ import {
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import { VeramoLdSignature } from './index.js'
 import schema from './plugin.schema.json' assert { type: 'json' }
 import Debug from 'debug'

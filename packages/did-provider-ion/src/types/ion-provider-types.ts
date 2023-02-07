@@ -1,4 +1,4 @@
-import { IAgentContext, IKey, IKeyManager, IService, MinimalImportableKey } from '@veramo/core'
+import { IAgentContext, IKey, IKeyManager, IService, MinimalImportableKey } from '@veramo/core-types'
 import { IonPublicKeyPurpose, IonPublicKeyModel, JwkEs256k } from '@decentralized-identity/ion-sdk'
 
 export type IContext = IAgentContext<IKeyManager>

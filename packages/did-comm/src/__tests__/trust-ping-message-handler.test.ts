@@ -1,6 +1,5 @@
 import { DIDComm } from '../didcomm'
 import {
-  createAgent,
   IDIDManager,
   IEventListener,
   IIdentifier,
@@ -8,6 +7,9 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
+} from '../../../core-types/src'
+import {
+  createAgent
 } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'

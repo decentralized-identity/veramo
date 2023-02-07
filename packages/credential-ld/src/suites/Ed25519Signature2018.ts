@@ -1,6 +1,6 @@
 import { encodeJoseBlob } from '@veramo/utils'
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
-import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core'
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2018, Ed25519VerificationKey2018 } from '@transmute/ed25519-signature-2018'
 

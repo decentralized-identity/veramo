@@ -7,6 +7,7 @@
     "skipLibCheck": true
   },
   "references": [
+    { "path": "../core-types" },
     { "path": "../core" },
     { "path": "../utils" }
   ]

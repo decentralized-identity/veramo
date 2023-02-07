@@ -5,7 +5,7 @@ import {
   ICheckCredentialStatusArgs,
   ICredentialStatusVerifier,
   IResolver,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import { extractIssuer, isDefined, resolveDidOrThrow } from '@veramo/utils'
 import { Status, StatusMethod } from 'credential-status'
 

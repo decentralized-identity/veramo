@@ -8,7 +8,7 @@ import {
   VerifiablePresentation,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import pkg from 'blakejs'
 const { blake2bHex } = pkg
 import { decodeJWT } from 'did-jwt'

@@ -6,7 +6,9 @@
     "declarationDir": "build"
   },
   "references": [
+    { "path": "../core-types" },
     { "path": "../core" },
+    { "path": "../core-types" },
     { "path": "../did-resolver" },
   ]
 }

@@ -1,4 +1,4 @@
-import { DIDResolutionResult, IAgentContext, IIdentifier, IKey, IKeyManager, IService, ManagedKeyInfo } from '@veramo/core'
+import { DIDResolutionResult, IAgentContext, IIdentifier, IKey, IKeyManager, IService, ManagedKeyInfo } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 
 import Debug from 'debug'

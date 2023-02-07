@@ -1,5 +1,5 @@
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
-import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey } from '@veramo/core'
+import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey } from '@veramo/core-types'
 import { AbstractKeyManagementSystem, Eip712Payload } from '@veramo/key-manager'
 import { toUtf8String } from '@ethersproject/strings'
 

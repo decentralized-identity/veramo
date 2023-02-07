@@ -10,7 +10,7 @@
   },
   "include": ["src/**/*.json", "src/**/*.ts"],
   "references": [
-    { "path": "../core" },
+    { "path": "../core-types" },
     { "path": "../did-resolver" },
     { "path": "../utils" }
   ]

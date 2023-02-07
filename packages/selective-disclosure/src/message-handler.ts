@@ -1,4 +1,4 @@
-import { IAgentContext, IMessageHandler } from '@veramo/core'
+import { IAgentContext, IMessageHandler } from '@veramo/core-types'
 import { Message, AbstractMessageHandler } from '@veramo/message-handler'
 import { v4 as uuidv4 } from 'uuid'
 

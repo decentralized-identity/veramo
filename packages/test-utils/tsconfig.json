@@ -6,6 +6,7 @@
     "declarationDir": "build"
   },
   "references": [
+    { "path": "../core-types" },
     { "path": "../core" },
     { "path": "../data-store-json" },
     { "path": "../did-discovery" },

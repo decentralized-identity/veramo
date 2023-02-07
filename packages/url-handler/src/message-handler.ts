@@ -1,4 +1,4 @@
-import { IAgentContext } from '@veramo/core'
+import { IAgentContext } from '@veramo/core-types'
 import { Message, AbstractMessageHandler } from '@veramo/message-handler'
 import parse from 'url-parse'
 

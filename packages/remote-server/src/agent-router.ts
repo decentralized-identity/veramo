@@ -1,4 +1,4 @@
-import { IAgent } from '@veramo/core'
+import { IAgent } from '@veramo/core-types'
 import { Request, Response, NextFunction, Router, json } from 'express'
 import Debug from 'debug'
 

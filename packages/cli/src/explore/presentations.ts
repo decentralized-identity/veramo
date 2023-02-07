@@ -1,5 +1,5 @@
 import blessed, { Widgets } from 'blessed'
-import { UniqueVerifiablePresentation } from '@veramo/core'
+import { UniqueVerifiablePresentation } from '@veramo/core-types'
 import { shortDate, shortDid, copyToClipboard } from './utils.js'
 import { ConfiguredAgent } from '../setup.js'
 import { styles } from './styles.js'

@@ -1,5 +1,5 @@
 import blessed, { Widgets } from 'blessed'
-import { IMessage } from '@veramo/core'
+import { IMessage } from '@veramo/core-types'
 import { shortDate, shortDid } from './utils.js'
 import { ConfiguredAgent } from '../setup.js'
 import { styles } from './styles.js'
