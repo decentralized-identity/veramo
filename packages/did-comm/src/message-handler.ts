@@ -108,6 +108,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
             expires_time: expiresAt,
             body: data,
             attachments,
+            return_route
           } = unpackedMessage.message
 
           message.type = type
@@ -119,6 +120,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           message.expiresAt = expiresAt
           message.data = data
           message.attachments = attachments
+          message.returnRoute = return_route
 
           message.addMetaData({ type: 'didCommMetaData', value: JSON.stringify(unpackedMessage.metaData) })
           context.agent.emit('DIDCommV2Message-received', unpackedMessage)

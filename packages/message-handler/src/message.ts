@@ -46,6 +46,8 @@ export class Message implements IMessage {
   from?: string
 
   to?: string
+  
+  returnRoute?: string
 
   metaData?: IMetaData[]
 

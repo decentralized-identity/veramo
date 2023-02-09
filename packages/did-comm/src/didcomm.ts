@@ -21,7 +21,7 @@ import {
   Encrypter,
   verifyJWS,
 } from 'did-jwt'
-import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod } from 'did-resolver'
+import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod, Service } from 'did-resolver'
 
 import schema from "./plugin.schema.json" assert { type: 'json' }
 
@@ -295,7 +295,9 @@ export class DIDComm implements IAgentPlugin {
       // 2.2 extract all recipient key agreement keys and normalize them
       const keyAgreementKeys: _NormalizedVerificationMethod[] = (
         await dereferenceDidKeys(didDocument, 'keyAgreement', context)
-      ).filter((k) => k.publicKeyHex?.length! > 0)
+      )
+        .filter((k) => k.publicKeyHex?.length! > 0)
+        .filter((k) => (args.options?.recipientKids ? args.options?.recipientKids.includes(k.id) : true))
 
       if (keyAgreementKeys.length === 0) {
         throw new Error(`key_not_found: no key agreement keys found for recipient ${to}`)
@@ -495,15 +497,60 @@ export class DIDComm implements IAgentPlugin {
     return { msgObj, mediaType }
   }
 
-  private findPreferredDIDCommService(services: any) {
+  private findPreferredDIDCommService(services: Service[]) {
     // FIXME: TODO: get preferred service endpoint according to configuration; now defaulting to first service
     return services[0]
+  }
+
+  private async wrapDIDCommForwardMessage(
+    recipientDidUrl: string,
+    messageId: string,
+    packedMessageToForward: IPackedDIDCommMessage,
+    routingKey: string,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
+  ): Promise<IPackedDIDCommMessage> {
+    const splitKey = routingKey.split('#')
+    const shouldUseSpecificKid = splitKey.length > 1
+    const mediatorDidUrl = splitKey[0]
+    // 1. Create forward message
+    const forwardMessage: IDIDCommMessage = {
+      id: uuidv4(),
+      type: 'https://didcomm.org/routing/2.0/forward',
+      to: mediatorDidUrl,
+      body: {
+        next: recipientDidUrl,
+      },
+      attachments: [
+        {
+          media_type: DIDCommMessageMediaType.ENCRYPTED,
+          data: {
+            json: JSON.parse(packedMessageToForward.message),
+          },
+        },
+      ],
+    }
+
+    context.agent.emit('DIDCommV2Message-forwarded', {
+      messageId,
+      next: recipientDidUrl,
+      routingKey: routingKey,
+    })
+
+    // 2. Pack message for routingKey with anoncrypt
+    if (shouldUseSpecificKid) {
+      return this.packDIDCommMessageJWE(
+        { message: forwardMessage, packing: 'anoncrypt', options: { recipientKids: [routingKey] } },
+        context,
+      )
+    } else {
+      return this.packDIDCommMessageJWE({ message: forwardMessage, packing: 'anoncrypt' }, context)
+    }
   }
 
   /** {@inheritdoc IDIDComm.sendDIDCommMessage} */
   async sendDIDCommMessage(
     args: ISendDIDCommMessageArgs,
-    context: IAgentContext<IResolver>,
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
   ): Promise<string> {
     const { packedMessage, returnTransportId, recipientDidUrl, messageId } = args
 
@@ -534,7 +581,72 @@ export class DIDComm implements IAgentPlugin {
       )
     }
 
-    // FIXME: TODO: wrap forward messages based on service entry
+    // serviceEndpoint can be a string, a ServiceEndpoint object, or an array of strings or ServiceEndpoint objects
+    let routingKeys: string[] = []
+    let serviceEndpointUrl = ''
+    if (typeof service.serviceEndpoint === 'string') {
+      serviceEndpointUrl = service.serviceEndpoint
+    } else if ((service.serviceEndpoint as any).uri) {
+      serviceEndpointUrl = (service.serviceEndpoint as any).uri
+    } else if (Array.isArray(service.serviceEndpoint) && service.serviceEndpoint.length > 0) {
+      if (typeof service.serviceEndpoint[0] === 'string') {
+        serviceEndpointUrl = service.serviceEndpoint[0]
+      } else if (service.serviceEndpoint[0].uri) {
+        serviceEndpointUrl = service.serviceEndpoint[0].uri
+      }
+    }
+
+    if (typeof service.serviceEndpoint !== 'string') {
+      if (
+        Array.isArray(service.serviceEndpoint) &&
+        service.serviceEndpoint.length > 0 &&
+        service.serviceEndpoint[0].routingKeys
+      ) {
+        routingKeys = service.serviceEndpoint[0].routingKeys
+      } else if (service.serviceEndpoint.routingKeys) {
+        routingKeys = service.serviceEndpoint.routingKeys
+      }
+    }
+
+    if (routingKeys.length > 0) {
+      // routingKeys found, wrap forward messages
+      let wrappedMessage: IPackedDIDCommMessage = packedMessage
+      for (let i = routingKeys.length - 1; i >= 0; i--) {
+        const recipient = i >= routingKeys.length - 1 ? recipientDidUrl : routingKeys[i + 1].split('#')[0]
+        wrappedMessage = await this.wrapDIDCommForwardMessage(
+          recipient,
+          messageId,
+          wrappedMessage,
+          routingKeys[i],
+          context,
+        )
+      }
+      packedMessage.message = wrappedMessage.message
+    }
+
+    // Check for DID as URI
+    let isServiceEndpointDid = false
+    try {
+      await resolveDidOrThrow(serviceEndpointUrl, context)
+      isServiceEndpointDid = true
+    } catch (e) {}
+
+    if (isServiceEndpointDid) {
+      // Final wrapping and send to mediator DID
+      const recipient =
+        routingKeys.length > 0 ? routingKeys[routingKeys.length - 1].split('#')[0] : recipientDidUrl
+      const wrappedMessage = await this.wrapDIDCommForwardMessage(
+        recipient,
+        messageId,
+        packedMessage,
+        serviceEndpointUrl,
+        context,
+      )
+      return this.sendDIDCommMessage(
+        { packedMessage: wrappedMessage, recipientDidUrl: serviceEndpointUrl, messageId },
+        context,
+      )
+    }
 
     const transports = this.transports.filter(
       (t) => t.isServiceSupported(service) && (!returnTransportId || t.id === returnTransportId),
@@ -545,9 +657,10 @@ export class DIDComm implements IAgentPlugin {
 
     // TODO: better strategy for selecting the transport if multiple transports apply
     const transport = transports[0]
-
+    
+    let response
     try {
-      const response = await transport.send(service, packedMessage.message)
+      response = await transport.send(service, packedMessage.message)
       if (response.error) {
         throw new Error(
           `Error when sending DIDComm message through transport with id: '${transport.id}': ${response.error}`,
@@ -558,6 +671,13 @@ export class DIDComm implements IAgentPlugin {
     }
 
     context.agent.emit('DIDCommV2Message-sent', messageId)
+    
+    if (response.returnMessage) {
+      // Handle return message
+      await context.agent.handleMessage({
+        raw: response.returnMessage,
+      })
+    }
     return transport.id
   }
 

@@ -1922,6 +1922,19 @@
   "IDataStore": {
     "components": {
       "schemas": {
+        "IDataStoreDeleteMessageArgs": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Required. Message ID"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreDeleteMessage | dataStoreDeleteMessage }"
+        },
         "IDataStoreDeleteVerifiableCredentialArgs": {
           "type": "object",
           "properties": {
@@ -2039,6 +2052,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [
@@ -2376,6 +2393,15 @@
         }
       },
       "methods": {
+        "dataStoreDeleteMessage": {
+          "description": "Deletes message from the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreDeleteMessageArgs"
+          },
+          "returnType": {
+            "type": "boolean"
+          }
+        },
         "dataStoreDeleteVerifiableCredential": {
           "description": "Deletes verifiable credential from the data store",
           "arguments": {
@@ -2889,6 +2915,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [
@@ -3743,6 +3773,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [

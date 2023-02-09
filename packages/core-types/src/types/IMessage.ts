@@ -124,4 +124,9 @@ export interface IMessage {
    * Optional. Array of generic attachments
    */
   attachments?: IMessageAttachment[]
+
+  /**
+   * Optional. Signal how to reuse transport for return messages
+   */
+  returnRoute?: string
 }
