@@ -35,7 +35,7 @@ export interface MessagingRouterOptions {
  */
 export const MessagingRouter = (options: MessagingRouterOptions): Router => {
   const router = Router()
-  router.use(text({ type: '*/*' }))
+  router.use(text({ type: '*/*', limit: '10mb' }))
   router.post('/', async (req: RequestWithMessageHandler, res) => {
     try {
       const message = await req.agent?.handleMessage({
