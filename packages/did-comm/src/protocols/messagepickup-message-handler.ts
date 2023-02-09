@@ -5,14 +5,15 @@ import {
   IDataStore,
   IDataStoreORM,
   IMessageHandler,
-} from '@veramo/core'
+  Where,
+  TMessageColumns,
+} from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { QUEUE_MESSAGE_TYPE } from './routing-message-handler.js'
 import { IDIDCommMessage, DIDCommMessageMediaType, IDIDCommMessageAttachment } from '../types/message-types.js'
-import { Where, TMessageColumns } from '@veramo/core'
 const debug = Debug('veramo:did-comm:messagepickup-message-handler')
 
 type IContext = IAgentContext<
