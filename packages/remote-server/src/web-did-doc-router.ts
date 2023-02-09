@@ -1,4 +1,4 @@
-import { IIdentifier, IDIDManager, TAgent, TKeyType } from '@veramo/core'
+import { IIdentifier, IDIDManager, TAgent, TKeyType } from '@veramo/core-types'
 import { Request, Router } from 'express'
 import { ServiceEndpoint } from 'did-resolver'
 

@@ -2,18 +2,18 @@
   "name": "veramo",
   "private": true,
   "scripts": {
-    "build": "pnpm build:js && pnpm build:api && pnpm build:schema",
+    "build": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" pnpm build:js && pnpm build:api && pnpm build:schema",
     "build:js": "pnpm -r --stream build",
-    "build:api": "pnpm --package=@veramo/cli -c dlx 'pnpm -r --stream extract-api'",
-    "build:schema": "pnpm --package=@veramo/cli -c dlx 'pnpm -r --stream generate-plugin-schema'",
+    "build:api": "pnpm --package=@veramo/cli -c dlx \"pnpm -r --stream extract-api\"",
+    "build:schema": "pnpm --package=@veramo/cli -c dlx \"pnpm -r --stream generate-plugin-schema\"",
     "lint": "echo \"linting not yet enabled\"",
     "test:integration-build": "pnpm test:integration-prepare && pnpm test:integration-pretty",
-    "test:integration-prepare": "ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
+    "test:integration-prepare": "cross-env NODE_OPTIONS=--experimental-vm-modules ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
     "test:integration-pretty": "prettier --write __tests__/shared/documentationExamples.ts",
     "test:integration": "pnpm test:integration-build && pnpm test:ci",
-    "test:ci": "jest --coverage=true",
-    "test": "jest",
-    "test:watch": "jest --watch --verbose",
+    "test:ci": "pnpm test -- --coverage=true",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "pnpm test --watch --verbose",
     "test:browser": "cd packages/test-react-app && pnpm test:browser",
     "veramo": "cross-env ./packages/cli/bin/veramo.js",
     "prettier": "prettier --write \"{packages,docs,__tests__,!build}/**/*.{ts,js,json,md,yml}\"",
@@ -26,54 +26,51 @@
     "docs:build": "ts-node ./scripts/docs-build.ts && pnpm docs:pretty",
     "docs:pretty": "pretty-quick"
   },
-  "workspaces": [
-    "packages/*",
-    "__browser_tests__/*"
-  ],
   "devDependencies": {
     "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/transactions": "^5.7.0",
     "@ethersproject/wallet": "^5.7.0",
+    "@jest/globals": "^29.3.1",
     "@metamask/eth-sig-util": "^5.0.0",
-    "@microsoft/api-documenter": "7.19.27",
-    "@microsoft/api-extractor": "7.33.7",
+    "@microsoft/api-documenter": "7.19.28",
+    "@microsoft/api-extractor": "7.33.8",
     "@microsoft/api-extractor-model": "7.25.3",
-    "@microsoft/tsdoc": "^0.14.2",
-    "@transmute/credentials-context": "^0.7.0-unstable.77",
+    "@microsoft/tsdoc": "0.14.2",
+    "@transmute/credentials-context": "^0.7.0-unstable.79",
     "@types/express": "4.17.15",
-    "@types/fs-extra": "9.0.13",
-    "@types/jest": "28.1.8",
+    "@types/fs-extra": "11.0.1",
+    "@types/jest": "29.2.6",
     "@types/node": "18.11.18",
     "@types/uuid": "^9.0.0",
+    "blakejs": "^1.2.1",
     "caip": "^1.1.0",
     "credential-status": "^2.0.5",
     "cross-env": "7.0.3",
     "did-jwt": "^6.11.0",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.1",
-    "ethr-did-registry": "0.0.3",
     "ethr-did-resolver": "^8.0.0",
     "express": "^4.18.2",
-    "ganache": "7.4.4",
-    "jest": "28.1.3",
-    "jest-environment-jsdom": "28.1.3",
-    "jest-environment-node": "28.1.3",
+    "ganache": "7.7.3",
+    "jest": "29.3.1",
+    "jest-environment-jsdom": "29.3.1",
+    "jest-environment-node": "29.3.1",
     "json-schema": "0.4.0",
-    "lerna": "5.1.1",
+    "lerna": "6.4.1",
     "lerna-changelog": "2.2.0",
     "oas-resolver": "2.5.6",
-    "openapi-types": "12.0.2",
-    "prettier": "2.6.2",
+    "openapi-types": "12.1.0",
+    "prettier": "2.8.3",
     "pretty-quick": "3.1.3",
-    "rimraf": "3.0.2",
-    "semantic-release": "19.0.5",
-    "ts-jest": "28.0.8",
-    "ts-json-schema-generator": "1.1.2",
+    "rimraf": "4.1.1",
+    "semantic-release": "20.0.2",
+    "ts-jest": "29.0.5",
+    "ts-json-schema-generator": "1.2.0",
     "ts-node": "10.9.1",
-    "typeorm": "^0.3.10",
+    "typeorm": "^0.3.11",
     "typescript": "4.9.4",
-    "uint8arrays": "^3.0.0",
+    "uint8arrays": "4.0.3",
     "uuid": "^9.0.0",
     "web-did-resolver": "^2.0.21"
   },
@@ -84,21 +81,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "release": {
-    "branches": [
-      "master",
-      {
-        "name": "beta",
-        "prerelease": true
-      }
-    ]
-  },
   "resolutions": {
-    "@types/react": "^18.0.21",
     "@types/eslint": "^8.4.6",
     "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
   },
   "engines": {
-    "node": ">= 14.0.0"
-  }
+    "node": ">= 18.0.0"
+  },
+  "workspaces": ["packages/*"]
 }

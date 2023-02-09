@@ -1,4 +1,4 @@
-import { IAgentContext, IDataStoreORM } from '@veramo/core'
+import { IAgentContext, IDataStoreORM } from '@veramo/core-types'
 import {
   AbstractDidDiscoveryProvider,
   IDIDDiscoverMatch,

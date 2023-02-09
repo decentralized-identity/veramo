@@ -1,4 +1,4 @@
-import { IKey, KeyMetadata } from '@veramo/core'
+import { IKey, KeyMetadata } from '@veramo/core-types'
 import { VerificationMethod } from 'did-resolver'
 
 /**

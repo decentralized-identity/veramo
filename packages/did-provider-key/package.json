@@ -3,16 +3,17 @@
   "description": "Veramo plugin that can enable creation and control of did:key identifiers.",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
     "@transmute/did-key-secp256k1": "^0.3.0-unstable.10",
     "@transmute/did-key-x25519": "^0.3.0-unstable.10",
-    "@veramo/core": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "@veramo/did-manager": "^4.3.0",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
@@ -39,5 +40,10 @@
   "author": "Oliver Terbu <oliver.terbu@mesh.xyz>",
   "contributors": [],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

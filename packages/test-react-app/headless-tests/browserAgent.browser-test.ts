@@ -1,17 +1,19 @@
-import { getAgent } from '../src/veramo/setup'
+import { getAgent } from '../src/veramo/setup.js'
 
-import keyManager from '../../../__tests__/shared/keyManager'
-import didManager from '../../../__tests__/shared/didManager'
-import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT'
-import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD'
-import handleSdrMessage from '../../../__tests__/shared/handleSdrMessage'
-import resolveDid from '../../../__tests__/shared/resolveDid'
-import webDidFlow from '../../../__tests__/shared/webDidFlow'
-import saveClaims from '../../../__tests__/shared/saveClaims'
-import documentationExamples from '../../../__tests__/shared/documentationExamples'
-import didCommPacking from '../../../__tests__/shared/didCommPacking'
-import messageHandler from '../../../__tests__/shared/messageHandler'
-import utils from '../../../__tests__/shared/utils'
+import keyManager from '../../../__tests__/shared/keyManager.js'
+import didManager from '../../../__tests__/shared/didManager.js'
+import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT.js'
+import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD.js'
+import handleSdrMessage from '../../../__tests__/shared/handleSdrMessage.js'
+import resolveDid from '../../../__tests__/shared/resolveDid.js'
+import webDidFlow from '../../../__tests__/shared/webDidFlow.js'
+import saveClaims from '../../../__tests__/shared/saveClaims.js'
+import documentationExamples from '../../../__tests__/shared/documentationExamples.js'
+import didCommPacking from '../../../__tests__/shared/didCommPacking.js'
+import messageHandler from '../../../__tests__/shared/messageHandler.js'
+import utils from '../../../__tests__/shared/utils.js'
+
+import { jest } from '@jest/globals'
 
 const JEST_TIMEOUT = 3 * 60 * 1000
 jest.setTimeout(JEST_TIMEOUT)
@@ -33,7 +35,8 @@ describe('Browser integration tests', () => {
     didCommPacking(testContext)
   })
 
-  describe('should intialize in the react app', () => {
+  // // https://github.com/smooth-code/jest-puppeteer/issues/503 prevents us from using puppeteer currently
+  describe.skip('should intialize in the react app', () => {
     beforeAll(async () => {
       await page.goto('http://localhost:3000')
     })

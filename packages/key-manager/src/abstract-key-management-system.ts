@@ -1,4 +1,4 @@
-import { IKey, ManagedKeyInfo, MinimalImportableKey, TKeyType } from '@veramo/core'
+import { IKey, ManagedKeyInfo, MinimalImportableKey, TKeyType } from '@veramo/core-types'
 import { arrayify } from '@ethersproject/bytes'
 import { serialize } from '@ethersproject/transactions'
 import * as u8a from 'uint8arrays'

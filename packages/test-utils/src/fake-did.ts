@@ -6,7 +6,7 @@ import {
   IKeyManager,
   IService,
   TAgent,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { _NormalizedVerificationMethod } from '@veramo/utils'
 import {

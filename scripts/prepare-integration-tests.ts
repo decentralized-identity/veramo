@@ -12,6 +12,7 @@ import {
 const outputFolder = './temp'
 const inputFolders = [
   'packages/core/api/',
+  'packages/core-types/api/',
   'packages/credential-w3c/api/',
   'packages/selective-disclosure/api/',
   'packages/did-comm/api/',
@@ -38,7 +39,10 @@ for (const inputFolder of inputFolders) {
 const apiJsonFilePath = './temp/<unscopedPackageName>.api.json'
 
 const agentPlugins: Record<string, Array<string>> = {
-  core: [
+  'core': [
+    'createAgent'
+  ],
+  'core-types': [
     'IResolver',
     'IDIDManager',
     'IMessageHandler',
@@ -81,6 +85,8 @@ for (const packageName of Object.keys(agentPlugins)) {
   for (const pluginInterfaceName of agentPlugins[packageName]) {
     console.log(packageName, pluginInterfaceName)
     const pluginInterface = entry.findMembersByName(pluginInterfaceName)[0]
+
+    console.log('extracting plugin interface members for ', pluginInterfaceName)
 
     // Collecting method information
     const methods: RestMethod[] = []

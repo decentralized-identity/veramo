@@ -3,13 +3,14 @@
   "description": "Message Handler plugin for Veramo",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "debug": "^4.3.4"
   },
   "devDependencies": {
@@ -34,5 +35,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

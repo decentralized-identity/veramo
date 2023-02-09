@@ -12,13 +12,14 @@ import {
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
   IVerifyResult,
-  schema,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
+
+import schema from "@veramo/core-types/build/plugin.schema.json" assert { type: 'json' }
 
 import {
   createVerifiableCredentialJwt,

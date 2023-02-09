@@ -1,8 +1,8 @@
 import blessed, { Widgets } from 'blessed'
-import { UniqueVerifiablePresentation } from '@veramo/core'
-import { shortDate, shortDid, copyToClipboard } from './utils'
-import { ConfiguredAgent } from '../setup'
-import { styles } from './styles'
+import { UniqueVerifiablePresentation } from '@veramo/core-types'
+import { shortDate, shortDid, copyToClipboard } from './utils.js'
+import { ConfiguredAgent } from '../setup.js'
+import { styles } from './styles.js'
 import { asArray } from '@veramo/utils'
 
 export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {

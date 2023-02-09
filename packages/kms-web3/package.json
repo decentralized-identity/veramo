@@ -3,16 +3,17 @@
   "description": "Veramo KMS implementation backed by web3 wallets",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
-    "@veramo/core": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "@veramo/key-manager": "^4.3.0",
     "debug": "^4.3.3"
   },
@@ -38,5 +39,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

@@ -1,4 +1,4 @@
-import { asArray, isDefined } from './type-utils'
+import { asArray, isDefined } from './type-utils.js'
 import {
   CredentialPayload,
   IMessage,
@@ -8,8 +8,9 @@ import {
   VerifiablePresentation,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
-} from '@veramo/core'
-import { blake2bHex } from 'blakejs'
+} from '@veramo/core-types'
+import pkg from 'blakejs'
+const { blake2bHex } = pkg
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
 

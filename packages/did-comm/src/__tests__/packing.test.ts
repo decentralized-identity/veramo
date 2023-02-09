@@ -1,11 +1,13 @@
 import { DIDComm } from "../didcomm"
 import {
-  createAgent,
   IDIDManager,
   IIdentifier,
   IKeyManager,
   IResolver,
   TAgent,
+} from '../../../core-types/src'
+import {
+  createAgent
 } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
@@ -196,7 +198,7 @@ describe('didComm', () => {
   let agent: TAgent<IResolver & IKeyManager & IDIDManager>
 
   beforeAll(async () => {
-    agent = createAgent({
+    agent = createAgent<IResolver & IKeyManager & IDIDManager>({
       plugins: [
         new KeyManager({
           store: new MemoryKeyStore(),

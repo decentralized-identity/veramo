@@ -1,9 +1,9 @@
-import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core'
+import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
-import { IDIDComm } from '../types/IDIDComm'
-import { IDIDCommMessage } from '../types/message-types'
+import { IDIDComm } from '../types/IDIDComm.js'
+import { IDIDCommMessage } from '../types/message-types.js'
 
 const debug = Debug('veramo:did-comm:trust-ping-message-handler')
 

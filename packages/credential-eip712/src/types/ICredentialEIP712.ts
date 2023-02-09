@@ -8,7 +8,7 @@ import {
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 
 /**
  * The interface definition for a plugin that can issue and verify Verifiable Credentials and Presentations

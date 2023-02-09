@@ -1,4 +1,4 @@
-import { IAgentContext, IDIDManager, IIdentifier, IKeyManager, IResolver, TKeyType } from '@veramo/core'
+import { IAgentContext, IDIDManager, IIdentifier, IKeyManager, IResolver, TKeyType } from '@veramo/core-types'
 import { ECDH, JWE } from 'did-jwt'
 import { parse as parseDidUrl } from 'did-resolver'
 import * as u8a from 'uint8arrays'

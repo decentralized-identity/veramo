@@ -3,16 +3,15 @@
   "description": "Veramo data storage based on a JSON tree",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ungap/structured-clone": "^1.0.0",
-    "@veramo/core": "^4.3.0",
-    "@veramo/data-store": "^4.3.0",
-    "@veramo/did-discovery": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "@veramo/did-manager": "^4.3.0",
     "@veramo/key-manager": "^4.3.0",
     "@veramo/utils": "^4.3.0",
@@ -39,5 +38,10 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Mircea Nistor <mircea.nistor@mesh.xyz>",
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

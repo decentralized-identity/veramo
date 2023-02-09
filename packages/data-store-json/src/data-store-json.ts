@@ -13,7 +13,6 @@ import {
   IDataStoreSaveVerifiablePresentationArgs,
   IIdentifier,
   IMessage,
-  schema,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -23,7 +22,8 @@ import {
   UniqueVerifiablePresentation,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
+import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 import { serialize, deserialize } from '@ungap/structured-clone'
 import {
@@ -33,7 +33,7 @@ import {
   PresentationTableEntry,
   VeramoJsonCache,
   VeramoJsonStore,
-} from './types'
+} from './types.js'
 import { normalizeCredential } from 'did-jwt-vc'
 
 type LocalRecords = Required<Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>>

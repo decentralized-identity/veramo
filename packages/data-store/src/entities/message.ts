@@ -8,11 +8,12 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryColumn,
+  Relation,
 } from 'typeorm'
-import { IMessage } from '@veramo/core'
-import { Identifier } from './identifier'
-import { createPresentationEntity, Presentation } from './presentation'
-import { createCredentialEntity, Credential } from './credential'
+import { IMessage } from '@veramo/core-types'
+import { Identifier } from './identifier.js'
+import { createPresentationEntity, Presentation } from './presentation.js'
+import { createCredentialEntity, Credential } from './credential.js'
 import { computeEntryHash } from '@veramo/utils'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -106,7 +107,7 @@ export class Message extends BaseEntity {
     eager: true,
     onDelete: 'CASCADE',
   })
-  from?: Identifier
+  from?: Relation<Identifier>
 
   @ManyToOne((type) => Identifier, (identifier) => identifier.receivedMessages, {
     nullable: true,
@@ -114,7 +115,7 @@ export class Message extends BaseEntity {
     eager: true,
     onDelete: 'CASCADE',
   })
-  to?: Identifier
+  to?: Relation<Identifier>
 
   @Column('simple-json', { nullable: true })
   metaData?: MetaData[] | null
@@ -124,12 +125,12 @@ export class Message extends BaseEntity {
   })
   @JoinTable()
     //@ts-ignore
-  presentations: Presentation[]
+  presentations: Relation<Presentation[]>
 
   @ManyToMany((type) => Credential, (credential) => credential.messages, { cascade: true })
   @JoinTable()
     //@ts-ignore
-  credentials: Credential[]
+  credentials: Relation<Credential[]>
 }
 
 export const createMessageEntity = (args: IMessage): Message => {

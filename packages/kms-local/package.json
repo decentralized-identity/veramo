@@ -3,10 +3,11 @@
   "description": "Veramo KMS implementation that provides Ed25519 and secp256k1 crypto",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ethersproject/abstract-provider": "^5.7.0",
@@ -20,7 +21,7 @@
     "@stablelib/nacl": "^1.0.4",
     "@stablelib/random": "^1.0.2",
     "@stablelib/x25519": "^1.0.3",
-    "@veramo/core": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "@veramo/key-manager": "^4.3.0",
     "base-58": "^0.0.1",
     "debug": "^4.3.3",
@@ -30,7 +31,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/elliptic": "^6.4.14",
+    "@types/elliptic": "6.4.14",
     "typescript": "4.9.4"
   },
   "files": [
@@ -51,5 +52,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

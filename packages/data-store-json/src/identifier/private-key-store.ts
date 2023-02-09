@@ -2,7 +2,7 @@ import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
 import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types.js'
 import { serialize, deserialize } from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:private-key-store')
@@ -43,7 +43,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
     }
   }
 
-  async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
+  async getKey({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
     const key = deserialize(serialize(this.cacheTree.privateKeys[alias]))
     if (!key) throw Error('not_found: PrivateKey not found')
     if (this.secretBox && key.privateKeyHex) {
@@ -52,7 +52,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
     return key
   }
 
-  async delete({ alias }: { alias: string }) {
+  async deleteKey({ alias }: { alias: string }) {
     debug(`Deleting private key data for alias=${alias}`)
     const privateKeyEntry = this.cacheTree.privateKeys[alias]
     if (privateKeyEntry) {
@@ -63,7 +63,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
     return true
   }
 
-  async import(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
+  async importKey(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
     debug('Saving private key data', args.alias)
     const alias = args.alias || uuid4()
     const key: ManagedPrivateKey = deserialize(serialize({
@@ -88,7 +88,7 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
     return key
   }
 
-  async list(): Promise<Array<ManagedPrivateKey>> {
+  async listKeys(): Promise<Array<ManagedPrivateKey>> {
     return deserialize(serialize(Object.values(this.cacheTree.privateKeys)))
   }
 }

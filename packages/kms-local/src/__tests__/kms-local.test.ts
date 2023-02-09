@@ -1,5 +1,5 @@
 import { KeyManagementSystem } from '../key-management-system'
-import { TKeyType } from '../../../core/src'
+import { TKeyType } from '../../../core-types/src'
 import { MemoryPrivateKeyStore } from '../../../key-manager/src'
 import * as u8a from 'uint8arrays'
 

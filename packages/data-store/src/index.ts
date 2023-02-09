@@ -9,21 +9,21 @@
  * @packageDocumentation
  */
 
-export { DIDStore } from './identifier/did-store'
-export { KeyStore } from './identifier/key-store'
-export { PrivateKeyStore } from './identifier/private-key-store'
-export { DataStore } from './data-store'
-export { DataStoreORM } from './data-store-orm'
-export { DataStoreDiscoveryProvider } from './did-discovery-provider'
-import { Key, KeyType } from './entities/key'
-import { Identifier } from './entities/identifier'
-import { Claim } from './entities/claim'
-import { Credential } from './entities/credential'
-import { Presentation } from './entities/presentation'
-import { Service } from './entities/service'
-import { Message, MetaData } from './entities/message'
-import { PrivateKey } from './entities/private-key'
-import { PreMigrationKey } from './entities/PreMigrationEntities'
+export { DIDStore } from './identifier/did-store.js'
+export { KeyStore } from './identifier/key-store.js'
+export { PrivateKeyStore } from './identifier/private-key-store.js'
+export { DataStore } from './data-store.js'
+export { DataStoreORM } from './data-store-orm.js'
+export { DataStoreDiscoveryProvider } from './did-discovery-provider.js'
+import { Key, KeyType } from './entities/key.js'
+import { Identifier } from './entities/identifier.js'
+import { Claim } from './entities/claim.js'
+import { Credential } from './entities/credential.js'
+import { Presentation } from './entities/presentation.js'
+import { Service } from './entities/service.js'
+import { Message, MetaData } from './entities/message.js'
+import { PrivateKey } from './entities/private-key.js'
+import { PreMigrationKey } from './entities/PreMigrationEntities.js'
 
 /**
  * The TypeORM entities used by this package.
@@ -56,7 +56,7 @@ export {
   PrivateKey,
   PreMigrationKey,
 }
-export { migrations } from './migrations'
+export { migrations } from './migrations/index.js'
 
 // re-export the interfaces that were moved to core for backward compatibility
-export { IDataStore, IDataStoreORM } from '@veramo/core'
+export { IDataStore, IDataStoreORM } from '@veramo/core-types'

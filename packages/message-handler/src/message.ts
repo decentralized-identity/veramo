@@ -4,7 +4,7 @@ import {
   IMessageAttachment,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 
 /**
  * A class implementing {@link @veramo/core#IMessage | IMessage}.

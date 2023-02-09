@@ -2,13 +2,14 @@ import {
   FindArgs,
   IAgentContext,
   IAgentPlugin,
+  ICredentialIssuer,
   IDataStoreORM,
   IDIDManager,
   IKeyManager,
   TClaimsColumns,
   VerifiablePresentation,
-} from '@veramo/core'
-import { ICredentialIssuer } from '@veramo/core'
+} from '@veramo/core-types'
+
 import {
   ICreateProfileCredentialsArgs,
   ICreateSelectiveDisclosureRequestArgs,
@@ -18,8 +19,8 @@ import {
   ISelectiveDisclosure,
   ISelectiveDisclosureRequest,
   IValidatePresentationAgainstSdrArgs,
-} from './types'
-import { schema } from './'
+} from './types.js'
+import schema from './plugin.schema.json' assert { type: 'json'}
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 import {

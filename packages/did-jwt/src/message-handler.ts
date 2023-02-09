@@ -1,4 +1,4 @@
-import { IAgentContext, IResolver } from '@veramo/core'
+import { IAgentContext, IResolver } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import { verifyJWT, decodeJWT } from 'did-jwt'
 import Debug from 'debug'

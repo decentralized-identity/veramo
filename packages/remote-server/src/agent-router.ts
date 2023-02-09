@@ -1,4 +1,4 @@
-import { IAgent } from '@veramo/core'
+import { IAgent } from '@veramo/core-types'
 import { Request, Response, NextFunction, Router, json } from 'express'
 import Debug from 'debug'
 
@@ -29,7 +29,7 @@ export interface AgentRouterOptions {
  */
 export const AgentRouter = (options: AgentRouterOptions): Router => {
   const router = Router()
-  router.use(json())
+  router.use(json({ limit: '10mb' }))
 
   for (const exposedMethod of options.exposedMethods) {
     Debug('veramo:remote-server:initializing')(exposedMethod)

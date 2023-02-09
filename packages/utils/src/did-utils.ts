@@ -1,19 +1,19 @@
 import { convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
 import { computePublicKey } from '@ethersproject/signing-key'
 import { computeAddress } from '@ethersproject/transactions'
-import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core'
+import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core-types'
 import { DIDDocument, VerificationMethod } from 'did-resolver'
 import {
   _ExtendedIKey,
   _ExtendedVerificationMethod,
   _NormalizedVerificationMethod,
-} from './types/utility-types'
-import { isDefined } from './type-utils'
+} from './types/utility-types.js'
+import { isDefined } from './type-utils.js'
 import * as u8a from 'uint8arrays'
 import elliptic from 'elliptic'
 import { bases } from 'multiformats/basics'
 import Debug from 'debug'
-import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings'
+import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings.js'
 
 const debug = Debug('veramo:utils')
 

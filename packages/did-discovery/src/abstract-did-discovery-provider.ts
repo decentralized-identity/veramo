@@ -1,5 +1,5 @@
-import { IAgentContext } from '@veramo/core'
-import { IDIDDiscoveryDiscoverDidArgs, IDIDDiscoveryProviderResult } from './types'
+import { IAgentContext } from '@veramo/core-types'
+import { IDIDDiscoveryDiscoverDidArgs, IDIDDiscoveryProviderResult } from './types.js'
 
 /**
  * An abstract class for the {@link @veramo/did-discovery#DIDDiscovery} providers

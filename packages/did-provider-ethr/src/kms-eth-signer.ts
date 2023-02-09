@@ -4,8 +4,8 @@ import { getAddress } from '@ethersproject/address'
 import { Bytes } from '@ethersproject/bytes'
 import { Deferrable, resolveProperties } from '@ethersproject/properties'
 import { computeAddress, serialize, UnsignedTransaction } from '@ethersproject/transactions'
-import { IRequiredContext } from './ethr-did-provider'
-import { IKey } from '@veramo/core'
+import { IRequiredContext } from './ethr-did-provider.js'
+import { IKey } from '@veramo/core-types'
 
 /**
  * Creates an `@ethersproject/abstract-signer` implementation by wrapping

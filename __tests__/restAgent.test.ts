@@ -8,10 +8,7 @@
  * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
  * See didWithFakeDidFlow() for more details.
  */
-import 'cross-fetch/polyfill'
 import {
-  Agent,
-  createAgent,
   IAgent,
   IAgentOptions,
   IDataStore,
@@ -21,6 +18,10 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
+} from '../packages/core-types/src'
+import {
+  Agent,
+  createAgent
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
@@ -77,6 +78,8 @@ import express from 'express'
 import { Server } from 'http'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
+import { jest } from '@jest/globals'
+
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'

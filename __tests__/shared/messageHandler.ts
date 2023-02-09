@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { IDataStore, IDataStoreORM, IMessage, IMessageHandler, TAgent } from '../../packages/core/src'
+import { IDataStore, IDataStoreORM, IMessage, IMessageHandler, TAgent } from '../../packages/core-types/src'
 
 type ConfiguredAgent = TAgent<IDataStore & IMessageHandler & IDataStoreORM>
 

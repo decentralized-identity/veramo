@@ -10,7 +10,7 @@ import {
   TAgent,
   VerifiableCredential,
   VerifiablePresentation,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 
 type ConfiguredAgent = TAgent<

@@ -6,5 +6,5 @@
     "declarationDir": "build",
     "skipLibCheck": true
   },
-  "references": [{ "path": "../core" }, { "path": "../did-manager" }]
+  "references": [{ "path": "../core-types" }, { "path": "../did-manager" }]
 }

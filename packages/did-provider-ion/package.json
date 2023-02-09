@@ -3,10 +3,11 @@
   "description": "Veramo ion-did based identity controller plugin.",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@decentralized-identity/ion-sdk": "^0.6.0",
@@ -17,7 +18,7 @@
     "@stablelib/ed25519": "^1.0.3",
     "@stablelib/sha256": "^1.0.1",
     "@trust/keyto": "^1.0.1",
-    "@veramo/core": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "@veramo/did-manager": "^4.3.0",
     "@veramo/key-manager": "^4.3.0",
     "@veramo/kms-local": "^4.3.0",
@@ -25,6 +26,7 @@
     "cross-fetch": "^3.1.5",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
+    "multihashes": "^4.0.3",
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
@@ -50,5 +52,10 @@
     "Veramo",
     "ION",
     "DID"
+  ],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
   ]
 }

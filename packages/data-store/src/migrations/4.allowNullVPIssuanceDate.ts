@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
-import { Presentation } from '..'
+import { Presentation } from '../index.js'
 import Debug from 'debug'
 
 const debug = Debug('veramo:data-store:migrate-presentation-issuance-date')

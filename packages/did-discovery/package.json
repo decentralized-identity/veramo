@@ -3,10 +3,14 @@
   "description": "Veramo DID discovery plugin",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./build/plugin.schema.json": "./build/plugin.schema.json"
+  },
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "pnpm exec veramo dev generate-plugin-schema"
+    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {
@@ -14,7 +18,7 @@
     }
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "debug": "^4.3.3"
   },
   "devDependencies": {
@@ -44,5 +48,6 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module"
 }

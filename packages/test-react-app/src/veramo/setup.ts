@@ -1,6 +1,5 @@
 import {
-  createAgent,
-  IAgentOptions,
+  // IAgentOptions,
   ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
@@ -9,7 +8,9 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '@veramo/core'
+} from '@veramo/core-types'
+
+import { createAgent, IAgentOptions } from '@veramo/core'
 
 import { DIDResolverPlugin } from '@veramo/did-resolver'
 import { Resolver } from 'did-resolver'

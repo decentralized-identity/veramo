@@ -6,7 +6,6 @@
  */
 
 import {
-  createAgent,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -14,7 +13,8 @@ import {
   IResolver,
   TAgent,
   VerifiableCredential,
-} from '../packages/core/src'
+} from '../packages/core-types/src'
+import { createAgent } from '../packages/core/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
@@ -39,6 +39,13 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
+
+import { jest } from '@jest/globals'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 jest.setTimeout(60000)
 

@@ -1,16 +1,16 @@
 import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
 import { DataSource } from 'typeorm'
 import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager'
-import { PrivateKey } from '../entities/private-key'
+import { PrivateKey } from '../entities/private-key.js'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
-import { OrPromise } from '@veramo/utils'
-import { getConnectedDb } from '../utils'
+import { OrPromise } from "@veramo/utils";
+import { getConnectedDb } from "../utils.js";
 
 const debug = Debug('veramo:typeorm:key-store')
 
 /**
- * An implementation of {@link @veramo/key-manager#AbstractPrivateKeyStore | AbstractPrivateKeyStore} that uses a
+ * An implementation of {@link @veramo/key-manager#abstractPrivateKeyStore | AbstractPrivateKeyStore} that uses a
  * TypeORM database connection to store private key material.
  *
  * The keys can be encrypted while at rest if this class is initialized with an
@@ -26,7 +26,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     }
   }
 
-  async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
+  async getKey({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
     const key = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).findOneBy({ alias })
     if (!key) throw Error('Key not found')
     if (this.secretBox && key.privateKeyHex) {
@@ -35,7 +35,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     return key as ManagedPrivateKey
   }
 
-  async delete({ alias }: { alias: string }) {
+  async deleteKey({ alias }: { alias: string }) {
     const key = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).findOneBy({ alias })
     if (!key) throw Error(`not_found: Private Key data not found for alias=${alias}`)
     debug('Deleting private key data', alias)
@@ -43,7 +43,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     return true
   }
 
-  async import(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
+  async importKey(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
     const key = new PrivateKey()
     key.alias = args.alias || uuid4()
     key.privateKeyHex = args.privateKeyHex
@@ -63,7 +63,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     return key
   }
 
-  async list(): Promise<Array<ManagedPrivateKey>> {
+  async listKeys(): Promise<Array<ManagedPrivateKey>> {
     const keys = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).find()
     return keys
   }

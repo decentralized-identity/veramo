@@ -1,5 +1,4 @@
-import 'cross-fetch/polyfill'
-import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema } from '@veramo/core'
+import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema } from '@veramo/core-types'
 
 /**
  * This plugin can be used to access the methods of a remote Veramo agent as if they were implemented locally.

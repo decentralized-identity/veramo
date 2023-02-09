@@ -3,17 +3,18 @@
   "description": "Key Manager plugin for Veramo",
   "version": "4.3.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "pnpm exec veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
     "@stablelib/ed25519": "^1.0.3",
-    "@veramo/core": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "debug": "^4.3.4",
     "did-jwt": "^6.9.0",
     "uint8arrays": "^3.0.0",
@@ -43,5 +44,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

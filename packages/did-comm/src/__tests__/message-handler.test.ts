@@ -1,6 +1,5 @@
-import { DIDComm } from "../didcomm"
+import { DIDComm } from '../didcomm'
 import {
-  createAgent,
   IDIDManager,
   IEventListener,
   IIdentifier,
@@ -8,33 +7,35 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
+} from '../../../core-types/src'
+import {
+  createAgent
 } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from "../transports/transports"
-import { IDIDComm } from "../types/IDIDComm"
-import { MessageHandler } from "../../../message-handler/src"
-import { FakeDidProvider, FakeDidResolver } from "../../../test-utils/src"
+import { DIDCommHttpTransport } from '../transports/transports'
+import { IDIDComm } from '../types/IDIDComm'
+import { MessageHandler } from '../../../message-handler/src'
+import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
 import express from 'express'
 import { Server } from 'http'
-import { DIDCommMessageHandler } from "../message-handler"
-import { DataStore, DataStoreORM } from "../../../data-store/src"
+import { DIDCommMessageHandler } from '../message-handler'
+import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
-import { v4 } from "uuid"
-
+import { v4 } from 'uuid'
+import { jest } from '@jest/globals'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(),
+  onEvent: jest.fn(() => Promise.resolve()),
 }
 
 const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
-
 
 describe('did-comm-message-handler', () => {
   let sender: IIdentifier
@@ -55,7 +56,7 @@ describe('did-comm-message-handler', () => {
       logging: false,
       entities: Entities,
     })
-    agent = createAgent({
+    agent = createAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>({
       plugins: [
         new KeyManager({
           store: new MemoryKeyStore(),
@@ -75,7 +76,7 @@ describe('did-comm-message-handler', () => {
         new DIDResolverPlugin({
           resolver: new Resolver({
             ...new FakeDidResolver(() => agent).getDidFakeResolver(),
-          })
+          }),
         }),
         // @ts-ignore
         new DIDComm([new DIDCommHttpTransport()]),
@@ -83,11 +84,11 @@ describe('did-comm-message-handler', () => {
           messageHandlers: [
             // @ts-ignore
             new DIDCommMessageHandler(),
-          ]
+          ],
         }),
         new DataStore(dbConnection),
         new DataStoreORM(dbConnection),
-        DIDCommEventSniffer
+        DIDCommEventSniffer,
       ],
     })
 
@@ -169,65 +170,60 @@ describe('did-comm-message-handler', () => {
   const expectMessageReceived = (id: string, packing: string) => {
     // recipient sends response
     // expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-    //   { 
-    //     data: `${id}`, 
-    //     type: 'DIDCommV2Message-sent' 
+    //   {
+    //     data: `${id}`,
+    //     type: 'DIDCommV2Message-sent'
     //   },
     //   expect.anything(),
     // )
 
     // original sender receives response
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      { 
+      {
         data: {
           message: {
             body: {
-              hello: 'world'
+              hello: 'world',
             },
             attachments: [{ data: { hash: 'some-hash', json: { some: 'attachment' } } }],
             from: sender.did,
             id: `${id}`,
             to: recipient.did,
-            type: 'fake'
+            type: 'fake',
           },
           metaData: { packing },
         },
-        type: 'DIDCommV2Message-received'
+        type: 'DIDCommV2Message-received',
       },
       expect.anything(),
     )
   }
 
   const getRegularMessage = () => {
-    return {
-      id: v4(),
-      type: 'fake',
-      to: recipient.did,
-      from: sender.did,
-      body: { hello: 'world' },
+    return { id: v4(), type: 'fake', to: recipient.did, from: sender.did, body: { hello: 'world' } ,
       attachments: [{ data: { hash: 'some-hash', json: { some: 'attachment' } } }],
     }
   }
 
   it('should pack and unpack message with none packing', async () => {
     const anyMessage = getRegularMessage()
-    const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'none'})
+    const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'none' })
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
-    expect(unpackedMessage.message).toEqual({...anyMessage, typ: 'application/didcomm-plain+json'})
+    expect(unpackedMessage.message).toEqual({ ...anyMessage, typ: 'application/didcomm-plain+json' })
   })
 
   it('should pack and unpack message with authcrypt packing', async () => {
     const anyMessage = getRegularMessage()
-    const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'authcrypt'})
+    const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'authcrypt' })
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
     expect(unpackedMessage.message).toEqual(anyMessage)
   })
 
   it('should handle packed (with authcrypt) message directly', async () => {
     const anyMessage = getRegularMessage()
-    const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'authcrypt'})
+    const packedMessage = await agent.packDIDCommMessage({ message: anyMessage, packing: 'authcrypt' })
     const id = anyMessage.id
-    await agent.handleMessage({raw: packedMessage.message})
+    await agent.handleMessage({ raw: packedMessage.message })
     expectMessageReceived(id, 'authcrypt')
   })
 })
