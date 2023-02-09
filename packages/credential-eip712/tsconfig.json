@@ -8,7 +8,7 @@
     "skipLibCheck": true
   },
   "references": [
-    { "path": "../core" },
+    { "path": "../core-types" },
     { "path": "../utils" }
   ],
   "include": ["./**/*.ts", "./src/plugin.schema.json"]

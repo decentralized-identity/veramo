@@ -1,4 +1,4 @@
-import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { Provider } from '@ethersproject/abstract-provider'
 import { JsonRpcProvider, TransactionRequest } from '@ethersproject/providers'

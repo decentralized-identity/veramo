@@ -1,5 +1,5 @@
 import { OpenAPIV3 } from 'openapi-types'
-import { IAgent } from '@veramo/core'
+import { IAgent } from '@veramo/core-types'
 
 /**
  * This method can be used to generate an OpenAPIv3 schema to describe how the methods of a Veramo agent can be called

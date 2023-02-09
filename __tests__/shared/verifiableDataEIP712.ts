@@ -9,7 +9,7 @@ import {
   TAgent,
   VerifiableCredential,
   VerifiablePresentation,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { ICredentialIssuerEIP712 } from '../../packages/credential-eip712/src'
 
 type ConfiguredAgent = TAgent<

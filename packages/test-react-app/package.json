@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@veramo/core": "^4.3.0",
+    "@veramo/core-types": "^4.3.0",
     "@veramo/credential-ld": "^4.3.0",
     "@veramo/credential-w3c": "^4.3.0",
     "@veramo/data-store": "^4.3.0",

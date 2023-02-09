@@ -8,10 +8,10 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
 import { v4 } from 'uuid'
-import { VerifiableCredential } from '../../packages/core/src'
+import { VerifiableCredential } from '../../packages/core-types/src'
 import { jest } from '@jest/globals'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>

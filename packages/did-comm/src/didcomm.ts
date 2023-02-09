@@ -7,7 +7,7 @@ import {
   IMessageHandler,
   IAgentPlugin,
   IIdentifier,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import {
   createAnonDecrypter,
   createAuthDecrypter,

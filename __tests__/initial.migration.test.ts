@@ -6,7 +6,6 @@
  */
 
 import {
-  createAgent,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
@@ -14,7 +13,8 @@ import {
   IResolver,
   TAgent,
   VerifiableCredential,
-} from '../packages/core/src'
+} from '../packages/core-types/src'
+import { createAgent } from '../packages/core/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'

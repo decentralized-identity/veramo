@@ -6,7 +6,6 @@
  *
  */
 import {
-  createAgent,
   IAgentOptions,
   ICredentialPlugin,
   IDataStore,
@@ -16,6 +15,9 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
+} from '../packages/core-types/src'
+import {
+  createAgent
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'

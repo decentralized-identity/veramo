@@ -6,7 +6,7 @@ import {
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import fetch from 'cross-fetch'
 import Debug from 'debug'
 import jsonldSignatures from '@digitalcredentials/jsonld-signatures'

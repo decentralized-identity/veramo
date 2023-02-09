@@ -8,8 +8,7 @@
     "skipLibCheck": true
   },
   "references": [
-    { "path": "../core" },
-    { "path": "../did-jwt" },
+    { "path": "../core-types" },
     { "path": "../message-handler" },
     { "path": "../utils" }
   ],

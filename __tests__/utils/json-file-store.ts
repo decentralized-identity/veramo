@@ -9,7 +9,7 @@ import {
   VeramoJsonStore,
 } from '../../packages/data-store-json/src'
 import * as fs from 'fs'
-import { IIdentifier, IMessage, ManagedKeyInfo } from '../../packages/core/src'
+import { IIdentifier, IMessage, ManagedKeyInfo } from '../../packages/core-types/src'
 import { ManagedPrivateKey } from '../../packages/key-manager/src'
 
 /**

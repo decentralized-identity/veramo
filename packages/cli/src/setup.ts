@@ -8,7 +8,7 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
 import { IDIDDiscovery } from '@veramo/did-discovery'

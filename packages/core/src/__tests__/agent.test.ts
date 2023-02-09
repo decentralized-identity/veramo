@@ -1,6 +1,5 @@
 import { Agent, createAgent } from '../agent.js'
-import { IAgentPlugin } from '../types/IAgent.js'
-import { IResolver } from '../types/IResolver.js'
+import { IAgentPlugin, IResolver } from '@veramo/core-types'
 import { jest } from '@jest/globals'
 
 describe('core agent', () => {

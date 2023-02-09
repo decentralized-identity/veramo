@@ -7,7 +7,7 @@ import {
 } from './types/ion-provider-types.js'
 import { IonDid, IonDocumentModel, IonPublicKeyModel, IonPublicKeyPurpose, JwkEs256k } from '@decentralized-identity/ion-sdk'
 import { computePublicKey } from '@ethersproject/signing-key'
-import { IKey, ManagedKeyInfo } from '@veramo/core'
+import { IKey, ManagedKeyInfo } from '@veramo/core-types'
 import keyto from '@trust/keyto';
 import { randomBytes } from '@ethersproject/random'
 import * as u8a from 'uint8arrays'

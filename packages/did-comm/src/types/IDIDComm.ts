@@ -6,7 +6,7 @@ import {
   IMessageHandler,
   IPluginMethodMap,
   IResolver,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import {
   IPackDIDCommMessageArgs,
   ISendDIDCommMessageArgs,

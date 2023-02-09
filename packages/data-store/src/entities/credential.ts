@@ -1,4 +1,4 @@
-import { VerifiableCredential } from '@veramo/core'
+import { VerifiableCredential } from '@veramo/core-types'
 import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, Relation } from 'typeorm'
 import { Identifier } from './identifier.js'
 import { Message } from './message.js'

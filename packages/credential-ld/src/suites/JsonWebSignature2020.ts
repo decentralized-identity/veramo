@@ -1,4 +1,4 @@
-import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from "@veramo/core";
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from "@veramo/core-types";
 import { RequiredAgentMethods, VeramoLdSignature } from "../ld-suites.js";
 import * as u8a from "uint8arrays";
 import { JsonWebKey, JsonWebSignature } from "@transmute/json-web-signature";

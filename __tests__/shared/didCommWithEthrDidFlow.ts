@@ -10,7 +10,7 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../packages/remote-server/src'
 // @ts-ignore

@@ -1,4 +1,4 @@
-import { IIdentifier, IMessage, ManagedKeyInfo } from '@veramo/core'
+import { IIdentifier, IMessage, ManagedKeyInfo } from '@veramo/core-types'
 import { ManagedPrivateKey } from '@veramo/key-manager'
 import {
   DiffCallback,

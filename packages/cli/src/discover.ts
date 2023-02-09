@@ -15,8 +15,8 @@ discover
     const response = await agent.discoverDid({ query: cmd.query })
     const list: any = []
 
-    response.results.forEach((r) => {
-      r.matches.forEach((m) => {
+    response.results.forEach((r: any) => {
+      r.matches.forEach((m: any) => {
         list.push({
           provider: r.provider,
           did: m.did,

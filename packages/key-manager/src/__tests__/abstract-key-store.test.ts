@@ -1,5 +1,5 @@
 import { AbstractKeyStore } from '../abstract-key-store'
-import { IKey, ManagedKeyInfo } from '@veramo/core'
+import { IKey, ManagedKeyInfo } from '@veramo/core-types'
 
 class MockKeyStore extends AbstractKeyStore {
   async listKeys(args: {}): Promise<ManagedKeyInfo[]> {
