@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
+
+
+### Bug Fixes
+
+* **did-manager:** rename AbstractDIDStore methods for SES compatibility ([0287340](https://github.com/uport-project/veramo/commit/02873401508a8a7d8c999bc12dc1d107a4a5202f)), closes [#1090](https://github.com/uport-project/veramo/issues/1090)
+* **did-provider-pkh:** add missing caip dependency ([#1112](https://github.com/uport-project/veramo/issues/1112)) ([60bc5fd](https://github.com/uport-project/veramo/commit/60bc5fd6f654236c072f7943494b3e27bd045ce8)), closes [#1111](https://github.com/uport-project/veramo/issues/1111)
+* **did-provider-pkh:** refactor and simplify did:pkh plugin ([#1113](https://github.com/uport-project/veramo/issues/1113)) ([42be48f](https://github.com/uport-project/veramo/commit/42be48ffe2251510f7bd5e10b43362e816655eb9))
+* **key-manager:** rename Abstract[Private]KeyStore methods for SES compatibility ([91631b6](https://github.com/uport-project/veramo/commit/91631b6d2a09d46accff6509f44792d88209b801)), closes [#1090](https://github.com/uport-project/veramo/issues/1090)
+
+
+### Build System
+
+* convert veramo modules to ESM instead of CommonJS ([#1103](https://github.com/uport-project/veramo/issues/1103)) ([b5cea3c](https://github.com/uport-project/veramo/commit/b5cea3c0d80d900a47bd1d9eea68f84b70a35e7b)), closes [#1099](https://github.com/uport-project/veramo/issues/1099)
+
+
+### Features
+
+* increase request limit for express routers ([#1118](https://github.com/uport-project/veramo/issues/1118)) ([2db3149](https://github.com/uport-project/veramo/commit/2db314930e883fc599d5b670088e7be6475346a2)), closes [#1117](https://github.com/uport-project/veramo/issues/1117)
+* isolate `core-types` package from `core` ([#1116](https://github.com/uport-project/veramo/issues/1116)) ([ba7a303](https://github.com/uport-project/veramo/commit/ba7a303de91cf4cc568a3af1ddf8ca98ed022e9f))
+
+
+### BREAKING CHANGES
+
+* **did-manager:** implementations of AbstractDIDStore need to rename their methods to conform to the new API. Functionality remains the same.
+* **key-manager:** implementations of AbstractKeyStore and AbstractPrivateKeyStore need to rename their methods to conform to the new API. Functionality remains the same.
+* this is a breaking change as modules will have to be imported differently: 
+* https://www.typescriptlang.org/docs/handbook/esm-node.html
+* https://nodejs.org/api/esm.html
+* https://caniuse.com/?search=modules
+
+test(did-provider-ion): skip a couple of tests that fail with unreasonable errors
+chore: use ubuntu-latest on CI
+fix: temporarily remove puppeteer tests
+fix: use craco for test-react-app to enable babel config
+test: fix unit and integration tests (browser tests still broken)
+fix: fix some build issues that prevented tests from working
+fix: missing deps flagged by pnpm
+
+
+
+
+
 # [4.3.0](https://github.com/uport-project/veramo/compare/v4.2.0...v4.3.0) (2023-01-27)
 
 
