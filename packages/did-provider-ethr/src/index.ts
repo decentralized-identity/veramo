@@ -5,3 +5,4 @@
  * @packageDocumentation
  */
 export { EthrDIDProvider } from './ethr-did-provider.js'
+export { KmsEthereumSigner } from './kms-eth-signer.js'
