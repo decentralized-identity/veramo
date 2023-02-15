@@ -1,7 +1,6 @@
-import 'cross-fetch/polyfill'
-import { IAgentContext } from '@veramo/core'
+import { IAgentContext } from '@veramo/core-types'
 import { Message, AbstractMessageHandler } from '@veramo/message-handler'
-import parse = require('url-parse')
+import parse from 'url-parse'
 
 import Debug from 'debug'
 

@@ -8,16 +8,17 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
-import { v4 } from "uuid"
-import { VerifiableCredential } from '@veramo/core'
+import { v4 } from 'uuid'
+import { VerifiableCredential } from '../../packages/core-types/src'
+import { jest } from '@jest/globals'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(),
+  onEvent: jest.fn(() => Promise.resolve()),
 }
 
 export default (testContext: {
@@ -129,18 +130,21 @@ export default (testContext: {
     }
 
     const packed = (vc: VerifiableCredential): Promise<IPackedDIDCommMessage> => {
-      return agent.packDIDCommMessage({ packing: 'none', message: {
-        id: v4(),
-        type: 'w3c.vc',
-        from: sender.did,
-        to: receiver.did,
-        body: vc
-      }})
+      return agent.packDIDCommMessage({
+        packing: 'none',
+        message: {
+          id: v4(),
+          type: 'w3c.vc',
+          from: sender.did,
+          to: receiver.did,
+          body: vc,
+        },
+      })
     }
-    
+
     it('should save LDS credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})
+      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
 
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
@@ -148,7 +152,7 @@ export default (testContext: {
       const verifiableCredential = await vc(creator, 'lds')
       const packedMessage = await packed(verifiableCredential)
 
-      await agent.sendDIDCommMessage({        
+      await agent.sendDIDCommMessage({
         messageId: 'test-jwt-success',
         packedMessage,
         recipientDidUrl: sender.did,
@@ -158,18 +162,17 @@ export default (testContext: {
       const vcs = await agent.dataStoreORMGetVerifiableCredentialsCount({})
       expect(vcs).toEqual(numVCsBefore + 1)
     })
-        
+
     it('should save JWT credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})      
-      
+      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
 
       const verifiableCredential = await vc(creator, 'jwt')
       const packedMessage = await packed(verifiableCredential)
 
-      await agent.sendDIDCommMessage({        
+      await agent.sendDIDCommMessage({
         messageId: 'test-jwt-success',
         packedMessage,
         recipientDidUrl: sender.did,
@@ -180,18 +183,16 @@ export default (testContext: {
       expect(vcs).toEqual(numVCsBefore + 1)
     })
 
-            
     it('should save JWT credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr'})
-      
+      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
 
       const verifiableCredential = await vc(creator, 'EthereumEip712Signature2021')
       const packedMessage = await packed(verifiableCredential)
 
-      await agent.sendDIDCommMessage({        
+      await agent.sendDIDCommMessage({
         messageId: 'test-jwt-success',
         packedMessage,
         recipientDidUrl: sender.did,

@@ -86,7 +86,7 @@ server:
     $ref: /constants/port
   use:
     # CORS
-    - - $require: 'cors'
+    - - $require: 'cors?t=function#default'
 
     # Add agent to the request object
     - - $require: '@veramo/remote-server?t=function#RequestWithAgentRouter'
@@ -151,6 +151,7 @@ messageHandler:
   $args:
     - messageHandlers:
         - $require: '@veramo/did-comm#DIDCommMessageHandler'
+        - $require: '@veramo/did-comm#TrustPingMessageHandler'
         - $require: '@veramo/did-jwt#JwtMessageHandler'
         - $require: '@veramo/credential-w3c#W3cMessageHandler'
         - $require: '@veramo/selective-disclosure#SdrMessageHandler'

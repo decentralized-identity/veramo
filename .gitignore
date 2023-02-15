@@ -32,8 +32,11 @@ key-store.json
 
 .vscode/
 node_modules
-temp
+temp/
+tmp/
 
 agent.yml
 data
 .vscode-upload.json
+
+local-database*.json

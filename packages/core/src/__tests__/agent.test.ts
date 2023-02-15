@@ -1,12 +1,12 @@
-import { Agent, createAgent } from '../agent'
-import { IAgentPlugin } from '../types/IAgent'
-import { IResolver } from '../types/IResolver'
+import { Agent, createAgent } from '../agent.js'
+import { IAgentPlugin, IResolver } from '@veramo/core-types'
+import { jest } from '@jest/globals'
 
 describe('core agent', () => {
   it('should use plugin methods', async () => {
     const plugin: IAgentPlugin = {
       methods: {
-        doSomething: jest.fn(),
+        doSomething: jest.fn(() => Promise.resolve()),
       },
     }
     const agent = new Agent({
@@ -24,12 +24,13 @@ describe('core agent', () => {
     const doSomething = jest.fn()
     const plugin: IAgentPlugin = {
       methods: {
-        doSomething: jest.fn(),
+        doSomething: jest.fn(() => Promise.resolve()),
       },
     }
     const agent = new Agent({
       plugins: [plugin],
       overrides: {
+        // @ts-ignore
         doSomething,
       },
     })
@@ -46,15 +47,17 @@ describe('core agent', () => {
     const baz = jest.fn()
     const plugin: IAgentPlugin = {
       methods: {
-        foo: jest.fn(),
-        bar: jest.fn(),
+        foo: jest.fn(() => Promise.resolve()),
+        bar: jest.fn(() => Promise.resolve()),
       },
     }
     const agent = new Agent({
       authorizedMethods: ['bar', 'baz'],
       plugins: [plugin],
       overrides: {
+        // @ts-ignore
         doSomething,
+        // @ts-ignore
         baz,
       },
     })
@@ -77,7 +80,7 @@ describe('core agent', () => {
   it('should pass through context', async () => {
     const plugin: IAgentPlugin = {
       methods: {
-        doSomething: jest.fn(),
+        doSomething: jest.fn(() => Promise.resolve()),
       },
     }
     const agent = new Agent({

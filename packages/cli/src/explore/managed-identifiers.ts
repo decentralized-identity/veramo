@@ -1,8 +1,8 @@
 import blessed, { Widgets } from 'blessed'
-import { IIdentifier } from '@veramo/core'
-import { copyToClipboard } from './utils'
-import { ConfiguredAgent } from '../setup'
-import { styles } from './styles'
+import { IIdentifier } from '@veramo/core-types'
+import { copyToClipboard } from './utils.js'
+import { ConfiguredAgent } from '../setup.js'
+import { styles } from './styles.js'
 
 export const getManagedIdentifiersTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {
   screen.title = 'Managed identifiers'

@@ -1,4 +1,4 @@
-import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly } from '@veramo/core'
+import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly } from '@veramo/core-types'
 import { AbstractKeyManagementSystem, AbstractPrivateKeyStore, Eip712Payload } from '@veramo/key-manager'
 import { ManagedPrivateKey } from '@veramo/key-manager'
 
@@ -49,13 +49,13 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
       throw new Error('invalid_argument: type and privateKeyHex are required to import a key')
     }
     const managedKey = this.asManagedKeyInfo({ alias: args.kid, ...args })
-    await this.keyStore.import({ alias: managedKey.kid, ...args })
+    await this.keyStore.importKey({ alias: managedKey.kid, ...args })
     debug('imported key', managedKey.type, managedKey.publicKeyHex)
     return managedKey
   }
 
   async listKeys(): Promise<ManagedKeyInfo[]> {
-    const privateKeys = await this.keyStore.list({})
+    const privateKeys = await this.keyStore.listKeys({})
     const managedKeys = privateKeys.map((key) => this.asManagedKeyInfo(key))
     return managedKeys
   }
@@ -99,7 +99,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   async deleteKey(args: { kid: string }) {
-    return await this.keyStore.delete({ alias: args.kid })
+    return await this.keyStore.deleteKey({ alias: args.kid })
   }
 
   async sign({
@@ -113,7 +113,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }): Promise<string> {
     let managedKey: ManagedPrivateKey
     try {
-      managedKey = await this.keyStore.get({ alias: keyRef.kid })
+      managedKey = await this.keyStore.getKey({ alias: keyRef.kid })
     } catch (e) {
       throw new Error(`key_not_found: No key entry found for kid=${keyRef.kid}`)
     }
@@ -150,7 +150,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }): Promise<string> {
     let myKey: ManagedPrivateKey
     try {
-      myKey = await this.keyStore.get({ alias: args.myKeyRef.kid })
+      myKey = await this.keyStore.getKey({ alias: args.myKeyRef.kid })
     } catch (e) {
       throw new Error(`key_not_found: No key entry found for kid=${args.myKeyRef.kid}`)
     }

@@ -1,0 +1,63 @@
+{
+  "name": "@veramo/core-types",
+  "description": "Veramo Core Logic & Interfaces.",
+  "version": "5.0.0",
+  "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./build/plugin.schema.json": "./build/plugin.schema.json"
+  },
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "IResolver": "./src/types/IResolver.ts",
+      "IKeyManager": "./src/types/IKeyManager.ts",
+      "IDIDManager": "./src/types/IDIDManager.ts",
+      "IDataStore": "./src/types/IDataStore.ts",
+      "IDataStoreORM": "./src/types/IDataStoreORM.ts",
+      "IMessageHandler": "./src/types/IMessageHandler.ts",
+      "ICredentialIssuer": "./src/types/ICredentialIssuer.ts",
+      "ICredentialVerifier": "./src/types/ICredentialVerifier.ts",
+      "ICredentialPlugin": "./src/types/ICredentialPlugin.ts",
+      "ICredentialStatus": "./src/types/ICredentialStatus.ts",
+      "ICredentialStatusVerifier": "./src/types/ICredentialStatusVerifier.ts",
+      "ICredentialStatusManager": "./src/types/ICredentialStatusManager.ts"
+    }
+  },
+  "dependencies": {
+    "credential-status": "^2.0.5",
+    "debug": "^4.3.3",
+    "did-jwt-vc": "^3.1.0",
+    "did-resolver": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "typescript": "4.9.4"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "plugin.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "contributors": [
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [],
+  "type": "commonjs",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}

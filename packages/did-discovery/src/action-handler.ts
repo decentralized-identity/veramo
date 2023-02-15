@@ -1,4 +1,4 @@
-import { IAgentContext, IAgentPlugin, IDIDManager } from '@veramo/core'
+import { IAgentContext, IAgentPlugin } from '@veramo/core-types'
 
 import {
   IDIDDiscovery,
@@ -6,8 +6,8 @@ import {
   IDIDDiscoveryProviderResult,
   IDIDDiscoveryDiscoverDidResult,
 } from './types'
-import { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider'
-import { schema } from './'
+import { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider.js'
+import schema from './plugin.schema.json' assert { type: 'json' }
 import Debug from 'debug'
 const debug = Debug('veramo:did-discovery')
 

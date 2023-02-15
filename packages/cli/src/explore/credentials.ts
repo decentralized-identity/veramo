@@ -1,8 +1,8 @@
 import blessed, { Widgets } from 'blessed'
-import { UniqueVerifiableCredential } from '@veramo/core'
-import { shortDate, shortDid, copyToClipboard } from './utils'
-import { ConfiguredAgent } from '../setup'
-import { styles } from './styles'
+import { UniqueVerifiableCredential } from '@veramo/core-types'
+import { shortDate, shortDid, copyToClipboard } from './utils.js'
+import { ConfiguredAgent } from '../setup.js'
+import { styles } from './styles.js'
 import { asArray, extractIssuer } from '@veramo/utils'
 
 export const getCredentialsTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {

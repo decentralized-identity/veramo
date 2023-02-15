@@ -1,12 +1,16 @@
 {
   "name": "@veramo/did-discovery",
   "description": "Veramo DID discovery plugin",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./build/plugin.schema.json": "./build/plugin.schema.json"
+  },
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {
@@ -14,12 +18,12 @@
     }
   },
   "dependencies": {
-    "@veramo/core": "^4.1.1",
+    "@veramo/core-types": "^5.0.0",
     "debug": "^4.3.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.8.4"
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",
@@ -44,5 +48,6 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module"
 }

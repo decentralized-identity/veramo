@@ -5,6 +5,7 @@ import {
   IDataStore,
   IDataStoreDeleteVerifiableCredentialArgs,
   IDataStoreGetMessageArgs,
+  IDataStoreDeleteMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreORM,
@@ -13,7 +14,6 @@ import {
   IDataStoreSaveVerifiablePresentationArgs,
   IIdentifier,
   IMessage,
-  schema,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -23,7 +23,8 @@ import {
   UniqueVerifiablePresentation,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
+import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 import { serialize, deserialize } from '@ungap/structured-clone'
 import {
@@ -33,7 +34,7 @@ import {
   PresentationTableEntry,
   VeramoJsonCache,
   VeramoJsonStore,
-} from './types'
+} from './types.js'
 import { normalizeCredential } from 'did-jwt-vc'
 
 type LocalRecords = Required<Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>>
@@ -76,7 +77,7 @@ export class DataStoreJson implements IAgentPlugin {
       // IDataStore methods
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
-      //dataStoreDeleteMessage: this.dataStoreDeleteMessage.bind(this),
+      dataStoreDeleteMessage: this.dataStoreDeleteMessage.bind(this),
       dataStoreSaveVerifiableCredential: this.dataStoreSaveVerifiableCredential.bind(this),
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
@@ -134,6 +135,18 @@ export class DataStoreJson implements IAgentPlugin {
       return message
     } else {
       throw Error('Message not found')
+    }
+  }
+
+  async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
+    const message = this.cacheTree.messages[args.id]
+    if (message) {
+      const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
+      delete this.cacheTree.messages[args.id]
+      await this.notifyUpdate(oldTree, this.cacheTree)
+      return true
+    } else {
+      return false
     }
   }
 
@@ -393,15 +406,17 @@ export class DataStoreJson implements IAgentPlugin {
       filteredCredentials.add(this.cacheTree.credentials[claim.credentialHash])
     })
 
-    return deserialize(serialize(
-      Array.from(filteredCredentials).map((cred) => {
-        const { hash, parsedCredential } = cred
-        return {
-          hash,
-          verifiableCredential: parsedCredential,
-        }
-      }),
-    ))
+    return deserialize(
+      serialize(
+        Array.from(filteredCredentials).map((cred) => {
+          const { hash, parsedCredential } = cred
+          return {
+            hash,
+            verifiableCredential: parsedCredential,
+          }
+        }),
+      ),
+    )
   }
 
   async dataStoreORMGetVerifiableCredentialsByClaimsCount(
@@ -422,15 +437,17 @@ export class DataStoreJson implements IAgentPlugin {
       context.authorizedDID,
     )
 
-    return deserialize(serialize(
-      credentials.map((cred: any) => {
-        const { hash, parsedCredential } = cred
-        return {
-          hash,
-          verifiableCredential: parsedCredential,
-        }
-      }),
-    ))
+    return deserialize(
+      serialize(
+        credentials.map((cred: any) => {
+          const { hash, parsedCredential } = cred
+          return {
+            hash,
+            verifiableCredential: parsedCredential,
+          }
+        }),
+      ),
+    )
   }
 
   async dataStoreORMGetVerifiableCredentialsCount(
@@ -451,15 +468,17 @@ export class DataStoreJson implements IAgentPlugin {
       context.authorizedDID,
     )
 
-    return deserialize(serialize(
-      presentations.map((pres: any) => {
-        const { hash, parsedPresentation } = pres
-        return {
-          hash,
-          verifiablePresentation: parsedPresentation,
-        }
-      }),
-    ))
+    return deserialize(
+      serialize(
+        presentations.map((pres: any) => {
+          const { hash, parsedPresentation } = pres
+          return {
+            hash,
+            verifiablePresentation: parsedPresentation,
+          }
+        }),
+      ),
+    )
   }
 
   async dataStoreORMGetVerifiablePresentationsCount(

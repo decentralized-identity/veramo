@@ -1,12 +1,13 @@
 {
   "name": "@veramo/kms-local",
   "description": "Veramo KMS implementation that provides Ed25519 and secp256k1 crypto",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ethersproject/abstract-provider": "^5.7.0",
@@ -16,10 +17,12 @@
     "@ethersproject/strings": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
     "@ethersproject/wallet": "^5.7.0",
-    "@stablelib/ed25519": "^1.0.2",
-    "@stablelib/nacl": "^1.0.2",
-    "@veramo/core": "^4.1.1",
-    "@veramo/key-manager": "^4.1.1",
+    "@stablelib/ed25519": "^1.0.3",
+    "@stablelib/nacl": "^1.0.4",
+    "@stablelib/random": "^1.0.2",
+    "@stablelib/x25519": "^1.0.3",
+    "@veramo/core-types": "^5.0.0",
+    "@veramo/key-manager": "^5.0.0",
     "base-58": "^0.0.1",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
@@ -28,7 +31,8 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.8.4"
+    "@types/elliptic": "6.4.14",
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",
@@ -48,5 +52,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

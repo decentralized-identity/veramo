@@ -1,4 +1,4 @@
-import { IAgentContext, } from '@veramo/core'
+import { IAgentContext, } from '@veramo/core-types'
 import {
   AbstractDidDiscoveryProvider,
   IDIDDiscoveryDiscoverDidArgs,

@@ -1,6 +1,7 @@
 // noinspection ES6PreferShortImport
 
-import { IAgentOptions, IDIDManager, IResolver, TAgent } from '../../packages/core/src'
+import { IIdentifier } from '../../packages/core-types/src'
+import { IAgentOptions, IDIDManager, IResolver, TAgent } from '../../packages/core-types/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>
 
@@ -33,6 +34,22 @@ export default (testContext: {
       expect(result).toHaveProperty('didDocumentMetadata')
       expect(result).toHaveProperty('didResolutionMetadata')
     })
+
+    it('should resolve did:pkh', async () => {
+      let identifier: IIdentifier = await agent.didManagerCreate({
+        // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
+        provider: 'did:pkh',
+        options: { chainId: "1"}
+      });
+
+      const result = await agent.resolveDid({ didUrl: identifier.did});
+      const didDoc = result.didDocument
+      expect(didDoc?.id).toEqual(identifier.did)
+      expect(result).toHaveProperty('didDocumentMetadata')
+      expect(result).toHaveProperty('didResolutionMetadata')
+
+      //let cred = await agent.createVerifiableCredential()
+    });
 
     it('should resolve imported fake did', async () => {
       const did = 'did:fake:myfakedid'

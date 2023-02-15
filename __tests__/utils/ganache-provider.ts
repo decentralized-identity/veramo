@@ -1,7 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { Contract, ContractFactory } from '@ethersproject/contracts'
-// @ts-ignore
-import DidRegistryContract from 'ethr-did-registry'
+import { EthereumDIDRegistry } from 'ethr-did-resolver'
 import ganache from 'ganache'
 
 /**
@@ -58,7 +57,7 @@ export async function createGanacheProvider(): Promise<{ provider: Web3Provider;
     }) as any
   )
   await provider.ready
-  const factory = ContractFactory.fromSolidity(DidRegistryContract).connect(provider.getSigner(0))
+  const factory = ContractFactory.fromSolidity(EthereumDIDRegistry).connect(provider.getSigner(0))
 
   let registryContract: Contract = await factory.deploy()
   registryContract = await registryContract.deployed()

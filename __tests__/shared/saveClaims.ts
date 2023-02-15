@@ -9,7 +9,7 @@ import {
   IIdentifier,
   IMessageHandler,
   TAgent,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
 
 type ConfiguredAgent = TAgent<

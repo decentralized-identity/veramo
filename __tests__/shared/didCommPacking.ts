@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core/src'
+import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core-types/src'
 import { IDIDComm } from '../../packages/did-comm/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
@@ -57,7 +57,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should pack and unpack a plaintext message', async () => {
-      expect.assertions(1)
+      expect.assertions(2)
       const message = {
         type: 'test',
         to: receiver.did,
@@ -68,6 +68,7 @@ export default (testContext: {
         packing: 'none',
         message,
       })
+      expect(JSON.parse(packedMessage.message).typ).toEqual('application/didcomm-plain+json')
       const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
       expect(unpackedMessage).toEqual({
         message: {

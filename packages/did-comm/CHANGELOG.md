@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
+
+
+### Build System
+
+* convert veramo modules to ESM instead of CommonJS ([#1103](https://github.com/uport-project/veramo/issues/1103)) ([b5cea3c](https://github.com/uport-project/veramo/commit/b5cea3c0d80d900a47bd1d9eea68f84b70a35e7b)), closes [#1099](https://github.com/uport-project/veramo/issues/1099)
+
+
+### Features
+
+* isolate `core-types` package from `core` ([#1116](https://github.com/uport-project/veramo/issues/1116)) ([ba7a303](https://github.com/uport-project/veramo/commit/ba7a303de91cf4cc568a3af1ddf8ca98ed022e9f))
+
+
+### BREAKING CHANGES
+
+* this is a breaking change as modules will have to be imported differently: 
+* https://www.typescriptlang.org/docs/handbook/esm-node.html
+* https://nodejs.org/api/esm.html
+* https://caniuse.com/?search=modules
+
+test(did-provider-ion): skip a couple of tests that fail with unreasonable errors
+chore: use ubuntu-latest on CI
+fix: temporarily remove puppeteer tests
+fix: use craco for test-react-app to enable babel config
+test: fix unit and integration tests (browser tests still broken)
+fix: fix some build issues that prevented tests from working
+fix: missing deps flagged by pnpm
+
+
+
+
+
+# [4.3.0](https://github.com/uport-project/veramo/compare/v4.2.0...v4.3.0) (2023-01-27)
+
+
+### Bug Fixes
+
+* **utils:** convert JWK with curv `Ed25519` to `X25519` ([#1078](https://github.com/uport-project/veramo/issues/1078)) ([deb546b](https://github.com/uport-project/veramo/commit/deb546ba94fa1dc51662adddbe303d63a0e7ce12))
+
+
+### Features
+
+* **did-comm:** add trust ping protocol ([#1080](https://github.com/uport-project/veramo/issues/1080)) ([fb22e63](https://github.com/uport-project/veramo/commit/fb22e632ef6dcce6a7dfec9a229c7be4d6d5c894))
+* **did-comm:** support DIDComm Messaging attachments ([#1087](https://github.com/uport-project/veramo/issues/1087)) ([6679574](https://github.com/uport-project/veramo/commit/66795742a01d5390ad083610efd28a8fe59fb3a3)), closes [#612](https://github.com/uport-project/veramo/issues/612)
+
+
+
+
+
+# [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
+
+
+### Bug Fixes
+
+* **deps:** bump dependencies ([701b8ed](https://github.com/uport-project/veramo/commit/701b8edf981ea11c7ddb6a81d2817dbbdbb022f3))
+* didcomm message handler should attempt to pass message to other handlers ([#1064](https://github.com/uport-project/veramo/issues/1064)) ([5e18427](https://github.com/uport-project/veramo/commit/5e18427dc10e3724ca141efe923a789cd0f54688))
+* **utils:** correctly extract publicKeyHex from [Ed/X]25519 2020 keys ([#1076](https://github.com/uport-project/veramo/issues/1076)) ([c73002c](https://github.com/uport-project/veramo/commit/c73002c97d8c688e343aba65efd4c8e857a96522)), closes [#1067](https://github.com/uport-project/veramo/issues/1067)
+
+
+
+
+
 ## [4.1.1](https://github.com/uport-project/veramo/compare/v4.1.0...v4.1.1) (2022-11-01)
 
 **Note:** Version bump only for package @veramo/did-comm

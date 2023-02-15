@@ -1,5 +1,12 @@
 {
-  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "jsonld"],
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json",
+    "jsonld"
+  ],
   "collectCoverage": false,
   "collectCoverageFrom": [
     "packages/**/src/**/*.ts",
@@ -9,19 +16,32 @@
     "!**/build/**",
     "!**/node_modules/**"
   ],
-  "coverageReporters": ["text", "lcov", "json"],
+  "coverageReporters": [
+    "text",
+    "lcov",
+    "json"
+  ],
+  "coverageProvider": "v8",
   "coverageDirectory": "./coverage",
-  "transform": {
-    "\\.jsx?$": "babel-jest",
-    "\\.tsx?$": "ts-jest"
-  },
-  "testMatch": ["**/__tests__/**/*.test.*"],
-  "globals": {
-    "ts-jest": {
-      "tsconfig": "./packages/tsconfig.settings.json"
-    }
-  },
+  "extensionsToTreatAsEsm": [".ts"],
+  "testMatch": [
+    "**/__tests__/**/*.test.*"
+  ],
   "testEnvironment": "node",
   "automock": false,
-  "setupFiles": ["./setupJest.js"]
+  "setupFiles": [
+    "./setupJest.js"
+  ],
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1"
+  },
+  "transform": {
+    "^.+\\.m?tsx?$": [
+      "ts-jest",
+      {
+        "useESM": true,
+        "tsconfig": "./packages/tsconfig.settings.json"
+      }
+    ]
+  }
 }

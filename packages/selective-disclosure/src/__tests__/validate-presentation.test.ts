@@ -1,6 +1,7 @@
-import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
+import { IAgentContext, VerifiableCredential, VerifiablePresentation } from '../../../core-types/src'
 import { ISelectiveDisclosureRequest } from '../types'
 import { SelectiveDisclosure } from '../action-handler'
+import { jest } from '@jest/globals'
 
 const actionHandler = new SelectiveDisclosure()
 
@@ -11,7 +12,7 @@ const context = {
     getSchema: jest.fn(),
     emit: jest.fn(),
   },
-}
+} as IAgentContext<any>
 
 describe('@veramo/selective-disclosure-helper', () => {
   it('should validate presentation for sdr', async () => {

@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
+
+
+### Bug Fixes
+
+* **did-manager:** rename AbstractDIDStore methods for SES compatibility ([0287340](https://github.com/uport-project/veramo/commit/02873401508a8a7d8c999bc12dc1d107a4a5202f)), closes [#1090](https://github.com/uport-project/veramo/issues/1090)
+* **did-provider-pkh:** add missing caip dependency ([#1112](https://github.com/uport-project/veramo/issues/1112)) ([60bc5fd](https://github.com/uport-project/veramo/commit/60bc5fd6f654236c072f7943494b3e27bd045ce8)), closes [#1111](https://github.com/uport-project/veramo/issues/1111)
+* **did-provider-pkh:** refactor and simplify did:pkh plugin ([#1113](https://github.com/uport-project/veramo/issues/1113)) ([42be48f](https://github.com/uport-project/veramo/commit/42be48ffe2251510f7bd5e10b43362e816655eb9))
+* **key-manager:** rename Abstract[Private]KeyStore methods for SES compatibility ([91631b6](https://github.com/uport-project/veramo/commit/91631b6d2a09d46accff6509f44792d88209b801)), closes [#1090](https://github.com/uport-project/veramo/issues/1090)
+
+
+### Build System
+
+* convert veramo modules to ESM instead of CommonJS ([#1103](https://github.com/uport-project/veramo/issues/1103)) ([b5cea3c](https://github.com/uport-project/veramo/commit/b5cea3c0d80d900a47bd1d9eea68f84b70a35e7b)), closes [#1099](https://github.com/uport-project/veramo/issues/1099)
+
+
+### Features
+
+* increase request limit for express routers ([#1118](https://github.com/uport-project/veramo/issues/1118)) ([2db3149](https://github.com/uport-project/veramo/commit/2db314930e883fc599d5b670088e7be6475346a2)), closes [#1117](https://github.com/uport-project/veramo/issues/1117)
+* isolate `core-types` package from `core` ([#1116](https://github.com/uport-project/veramo/issues/1116)) ([ba7a303](https://github.com/uport-project/veramo/commit/ba7a303de91cf4cc568a3af1ddf8ca98ed022e9f))
+
+
+### BREAKING CHANGES
+
+* **did-manager:** implementations of AbstractDIDStore need to rename their methods to conform to the new API. Functionality remains the same.
+* **key-manager:** implementations of AbstractKeyStore and AbstractPrivateKeyStore need to rename their methods to conform to the new API. Functionality remains the same.
+* this is a breaking change as modules will have to be imported differently: 
+* https://www.typescriptlang.org/docs/handbook/esm-node.html
+* https://nodejs.org/api/esm.html
+* https://caniuse.com/?search=modules
+
+test(did-provider-ion): skip a couple of tests that fail with unreasonable errors
+chore: use ubuntu-latest on CI
+fix: temporarily remove puppeteer tests
+fix: use craco for test-react-app to enable babel config
+test: fix unit and integration tests (browser tests still broken)
+fix: fix some build issues that prevented tests from working
+fix: missing deps flagged by pnpm
+
+
+
+
+
+# [4.3.0](https://github.com/uport-project/veramo/compare/v4.2.0...v4.3.0) (2023-01-27)
+
+
+### Bug Fixes
+
+* **credential-ld:** fix defaultContexts file extensions ([#1086](https://github.com/uport-project/veramo/issues/1086)) ([2f57cb1](https://github.com/uport-project/veramo/commit/2f57cb1bef265a5930ceaeff6a8e9af987c3958e))
+* **utils:** convert JWK with curv `Ed25519` to `X25519` ([#1078](https://github.com/uport-project/veramo/issues/1078)) ([deb546b](https://github.com/uport-project/veramo/commit/deb546ba94fa1dc51662adddbe303d63a0e7ce12))
+
+
+### Features
+
+* **did-comm:** add trust ping protocol ([#1080](https://github.com/uport-project/veramo/issues/1080)) ([fb22e63](https://github.com/uport-project/veramo/commit/fb22e632ef6dcce6a7dfec9a229c7be4d6d5c894))
+* **did-comm:** support DIDComm Messaging attachments ([#1087](https://github.com/uport-project/veramo/issues/1087)) ([6679574](https://github.com/uport-project/veramo/commit/66795742a01d5390ad083610efd28a8fe59fb3a3)), closes [#612](https://github.com/uport-project/veramo/issues/612)
+* **utils:** add publicKeyJwk as valid verificationMethod in getEthereumAddress ([#1096](https://github.com/uport-project/veramo/issues/1096)) ([a4209f5](https://github.com/uport-project/veramo/commit/a4209f5ffc95d9fde6bbdb9df6d16e8d961341f6))
+
+
+
+
+
+# [4.2.0](https://github.com/uport-project/veramo/compare/v4.1.2...v4.2.0) (2022-12-05)
+
+
+### Bug Fixes
+
+* **cli:** fix bug in schema generator ([d4c63c1](https://github.com/uport-project/veramo/commit/d4c63c1d1c3acb2a2f576450384250163ae7e0a0))
+* **credential-ld:** simplify signature suite use of Uint8Array ([49a10ec](https://github.com/uport-project/veramo/commit/49a10ecc29d56118ac09c5df73fed885fe6988c1))
+* **credential-w3c:** correct verification of credentials given as objects with jwt proofs ([#1071](https://github.com/uport-project/veramo/issues/1071)) ([b0d75e9](https://github.com/uport-project/veramo/commit/b0d75e9af7f28384ce2e5ef744dfbc3c302cd1a8))
+* **deps:** bump dependencies ([701b8ed](https://github.com/uport-project/veramo/commit/701b8edf981ea11c7ddb6a81d2817dbbdbb022f3))
+* **deps:** Update dependency @digitalcredentials/vc to v5 ([1bdc802](https://github.com/uport-project/veramo/commit/1bdc80240578aff13240dfe45b9a12b0720d1d4d))
+* **deps:** Update dependency ethr-did-resolver to v8 ([f475dbc](https://github.com/uport-project/veramo/commit/f475dbc1c2dbb4b7f6b3396c3e6947eac2931736))
+* **did-provider-ion:** await and update deps ([#1074](https://github.com/uport-project/veramo/issues/1074)) ([8cea4c0](https://github.com/uport-project/veramo/commit/8cea4c04746a3ef05e400df51a1b47168b46e45d))
+* didcomm message handler should attempt to pass message to other handlers ([#1064](https://github.com/uport-project/veramo/issues/1064)) ([5e18427](https://github.com/uport-project/veramo/commit/5e18427dc10e3724ca141efe923a789cd0f54688))
+* **utils:** correctly extract publicKeyHex from [Ed/X]25519 2020 keys ([#1076](https://github.com/uport-project/veramo/issues/1076)) ([c73002c](https://github.com/uport-project/veramo/commit/c73002c97d8c688e343aba65efd4c8e857a96522)), closes [#1067](https://github.com/uport-project/veramo/issues/1067)
+
+
+### Features
+
+* add eip712 issuer to CLI and default agent config ([#1065](https://github.com/uport-project/veramo/issues/1065)) ([33c7cee](https://github.com/uport-project/veramo/commit/33c7ceed3b9850cfd6f5677aeeb89aeda2be72e5))
+* **credential-ld:** add `Ed25519Signature2020` & `JsonWebSignature2020` experimental support ([#1030](https://github.com/uport-project/veramo/issues/1030)) ([fbf7d48](https://github.com/uport-project/veramo/commit/fbf7d483c3549ec45df84472824395903128d66e)), closes [#1003](https://github.com/uport-project/veramo/issues/1003)
+* **did-provider-pkh:** implement did:pkh support. ([#1052](https://github.com/uport-project/veramo/issues/1052)) ([5ad0bfb](https://github.com/uport-project/veramo/commit/5ad0bfb713dca8fd24b99ddf053335340a39e7b3)), closes [#1024](https://github.com/uport-project/veramo/issues/1024)
+
+
+
+
+
 ## [4.1.2](https://github.com/uport-project/veramo/compare/v4.1.1...v4.1.2) (2022-11-03)
 
 

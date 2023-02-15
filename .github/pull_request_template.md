@@ -14,7 +14,7 @@ A clear description of what this PR brings.
 ## Quality
 Check all that apply:
 * [X] I want these changes to be integrated
-* [ ] I successfully ran `yarn`, `yarn build`, `yarn test`, `yarn test:browser` locally.
+* [ ] I successfully ran `pnpm i`, `pnpm build`, `pnpm test`, `pnpm test:browser` locally.
 * [ ] I allow my PR to be updated by the reviewers (to speed up the review process).
 * [ ] I added unit tests.
 * [ ] I added integration tests.

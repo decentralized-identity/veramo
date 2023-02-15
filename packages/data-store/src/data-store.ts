@@ -3,22 +3,23 @@ import {
   IDataStore,
   IDataStoreDeleteVerifiableCredentialArgs,
   IDataStoreGetMessageArgs,
+  IDataStoreDeleteMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreSaveMessageArgs,
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
   IMessage,
-  schema,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
-import { createMessage, createMessageEntity, Message } from './entities/message'
-import { createCredentialEntity, Credential } from './entities/credential'
-import { Claim } from './entities/claim'
-import { createPresentationEntity, Presentation } from './entities/presentation'
+} from '@veramo/core-types'
+import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
+import { createMessage, createMessageEntity, Message } from './entities/message.js'
+import { createCredentialEntity, Credential } from './entities/credential.js'
+import { Claim } from './entities/claim.js'
+import { createPresentationEntity, Presentation } from './entities/presentation.js'
 import { DataSource } from 'typeorm'
-import { getConnectedDb } from './utils'
+import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
 
 /**
@@ -45,6 +46,7 @@ export class DataStore implements IAgentPlugin {
     this.methods = {
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
+      dataStoreDeleteMessage: this.dataStoreDeleteMessage.bind(this),
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiableCredential: this.dataStoreSaveVerifiableCredential.bind(this),
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
@@ -68,6 +70,20 @@ export class DataStore implements IAgentPlugin {
     if (!messageEntity) throw new Error('not_found: Message not found')
 
     return createMessage(messageEntity)
+  }
+
+  async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
+    const messageEntity = await (await getConnectedDb(this.dbConnection)).getRepository(Message).findOne({
+      where: { id: args.id },
+      relations: ['credentials', 'presentations'],
+    })
+    if (!messageEntity) {
+      return false
+    }
+
+    await (await getConnectedDb(this.dbConnection)).getRepository(Message).remove(messageEntity)
+
+    return true
   }
 
   async dataStoreDeleteVerifiableCredential(

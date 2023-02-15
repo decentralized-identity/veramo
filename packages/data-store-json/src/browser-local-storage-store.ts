@@ -1,4 +1,4 @@
-import { IIdentifier, IMessage, ManagedKeyInfo } from '@veramo/core'
+import { IIdentifier, IMessage, ManagedKeyInfo } from '@veramo/core-types'
 import { ManagedPrivateKey } from '@veramo/key-manager'
 import {
   DiffCallback,
@@ -7,7 +7,7 @@ import {
   CredentialTableEntry,
   PresentationTableEntry,
   VeramoJsonStore,
-} from './types'
+} from './types.js'
 
 /**
  * Implementation of {@link VeramoJsonStore} that uses browser localStorage to store data.

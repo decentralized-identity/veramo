@@ -10,7 +10,11 @@ import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
 import * as TJS from 'ts-json-schema-generator'
-const fs = require('fs')
+import fs from 'fs'
+
+import module from "module"
+const requireCjs = module.createRequire(import.meta.url);
+
 
 interface Method {
   packageName: string
@@ -46,6 +50,8 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
   schemaStr = schemaStr.replace(/Order\<(.*)\>/gm, 'Order-$1')
   schemaStr = schemaStr.replace(/FindArgs\<(.*)\>/gm, 'FindArgs-$1')
   schemaStr = schemaStr.replace(/https \:\/\//gm, 'https://')
+  // a bug in the schema generator stack mangles @link tags with text.
+  schemaStr = schemaStr.replace(/\{@link\s+([^|}]+?)\s([^|}]+)\s}/g, '{@link $1 | $2 }')
   return JSON.parse(schemaStr)
 }
 
@@ -107,7 +113,7 @@ dev
       process.exitCode = 1
     }
 
-    const packageConfig = require(resolve(options.packageConfig))
+    const packageConfig = requireCjs(resolve(options.packageConfig))
     const interfaces: any = {}
 
     for (const pluginInterfaceName in packageConfig?.veramo?.pluginInterfaces) {
@@ -123,6 +129,7 @@ dev
         path: resolve(entryFile),
         encodeRefs: false,
         additionalProperties: true,
+        skipTypeCheck: true
       })
 
       const apiModel: ApiModel = new ApiModel()
@@ -177,7 +184,7 @@ dev
       interfaces[pluginInterfaceName] = api
     }
 
-    writeFileSync(resolve('./plugin.schema.json'), JSON.stringify(interfaces, null, 2))
+    writeFileSync(resolve('./src/plugin.schema.json'), JSON.stringify(interfaces, null, 2))
   })
 
 dev

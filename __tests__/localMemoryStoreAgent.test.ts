@@ -6,7 +6,6 @@
  *
  */
 import {
-  createAgent,
   IAgentOptions,
   ICredentialPlugin,
   IDataStore,
@@ -16,6 +15,9 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
+} from '../packages/core-types/src'
+import {
+  createAgent
 } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src'
@@ -35,6 +37,7 @@ import {
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
+import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
@@ -51,6 +54,8 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
+import { jest } from '@jest/globals'
+
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
@@ -155,6 +160,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:pkh': new PkhDIDProvider({
+            defaultKms: 'local',
+          }),
           'did:fake': new FakeDidProvider(),
         },
       }),
@@ -163,6 +171,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
+          ...getDidPkhResolver(),
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),
         }),
       }),

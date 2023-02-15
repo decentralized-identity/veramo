@@ -1,5 +1,5 @@
-import { IIdentifier } from '@veramo/core'
-import { AbstractDIDStore } from './abstract-identifier-store'
+import { IIdentifier } from '@veramo/core-types'
+import { AbstractDIDStore } from './abstract-identifier-store.js'
 
 /**
  * An implementation of {@link AbstractDIDStore} that stores everything in memory.
@@ -9,7 +9,7 @@ import { AbstractDIDStore } from './abstract-identifier-store'
 export class MemoryDIDStore extends AbstractDIDStore {
   private identifiers: Record<string, IIdentifier> = {}
 
-  async get({
+  async getDID({
     did,
     alias,
     provider,
@@ -33,12 +33,12 @@ export class MemoryDIDStore extends AbstractDIDStore {
     throw Error(`not_found: IIdentifier not found with alias=${alias} provider=${provider}`)
   }
 
-  async delete({ did }: { did: string }) {
+  async deleteDID({ did }: { did: string }) {
     delete this.identifiers[did]
     return true
   }
 
-  async import(args: IIdentifier) {
+  async importDID(args: IIdentifier) {
     const identifier = { ...args }
     for (const key of identifier.keys) {
       if (key.privateKeyHex) {
@@ -49,7 +49,7 @@ export class MemoryDIDStore extends AbstractDIDStore {
     return true
   }
 
-  async list(args: { alias?: string; provider?: string }): Promise<IIdentifier[]> {
+  async listDIDs(args: { alias?: string; provider?: string }): Promise<IIdentifier[]> {
     let result: IIdentifier[] = []
 
     for (const key of Object.keys(this.identifiers)) {

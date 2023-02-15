@@ -6,7 +6,7 @@
     "declarationDir": "build"
   },
   "references": [
-    {"path": "../core"},
+    {"path": "../core-types"},
     {"path": "../remote-client"}
   ]
 }

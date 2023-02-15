@@ -1,4 +1,4 @@
-import { IAgentContext, IPluginMethodMap } from '@veramo/core'
+import { IAgentContext, IPluginMethodMap } from '@veramo/core-types'
 
 /**
  * Contains the parameters of a DID Discovery Request.

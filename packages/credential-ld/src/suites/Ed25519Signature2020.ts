@@ -1,9 +1,9 @@
-import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
-import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core'
+import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
+import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020'
 import { Ed25519VerificationKey2020 } from '@digitalcredentials/ed25519-verification-key-2020'
-import { TextEncoder } from 'util'
+
 /**
  * Veramo wrapper for the Ed25519Signature2020 suite by digitalcredentials
  *
@@ -41,8 +41,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
           data: messageString,
           encoding: 'base64',
         })
-        const utf8Encode = new TextEncoder()
-        return utf8Encode.encode(signature)
+        return u8a.fromString(signature)
       },
     }
 
@@ -50,14 +49,15 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
       id,
       controller,
       publicKeyMultibase: this.preSigningKeyModification(u8a.fromString(key.publicKeyHex, 'hex')),
-      signer: ()=> signer,
-      type: this.getSupportedVerificationType(),
+      // signer: () => signer,
+      // type: this.getSupportedVerificationType(),
     })
     // overwrite the signer since we're not passing the private key
     verificationKey.signer = () => signer as any
+    verificationKey.type = this.getSupportedVerificationType()
     return new Ed25519Signature2020({
       key: verificationKey,
-      signer: signer
+      signer: signer,
     })
   }
 
@@ -74,7 +74,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
   }
 
   preSigningKeyModification(key: Uint8Array): string {
-    const modifiedKey = Uint8Array.from([...this.MULTICODEC_PREFIX, ...key])
+    const modifiedKey = u8a.concat([this.MULTICODEC_PREFIX, key])
     return `${this.MULTIBASE_BASE58BTC_PREFIX}${u8a.toString(modifiedKey, 'base58btc')}`
   }
 }

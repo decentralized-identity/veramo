@@ -1,8 +1,10 @@
-import { Message } from '@veramo/message-handler'
+import { Message } from '../../../message-handler/src'
 import { UrlMessageHandler } from '../index'
 import fetchMock, { MockParams } from 'jest-fetch-mock'
-import { IAgent } from '@veramo/core'
+
 fetchMock.enableMocks()
+import { jest } from '@jest/globals'
+import { IAgentContext } from "../../../core-types/src";
 
 const context = {
   agent: {
@@ -11,7 +13,7 @@ const context = {
     getSchema: jest.fn(),
     emit: jest.fn(),
   },
-}
+} as IAgentContext<{}>
 
 describe('@veramo/url-handler', () => {
   const messageHandler = new UrlMessageHandler()

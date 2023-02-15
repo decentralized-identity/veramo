@@ -10,8 +10,9 @@ import {
   IDIDManager,
   IIdentifier,
   TAgent,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { CredentialStatusPlugin } from '../../packages/credential-status/src'
+import { jest } from '@jest/globals'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 

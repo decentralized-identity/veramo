@@ -1,29 +1,32 @@
 {
   "name": "@veramo/did-provider-ethr",
   "description": "Veramo ethr-did based identity controller plugin.",
-  "version": "4.1.2",
+  "version": "5.0.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@ethersproject/abstract-provider": "^5.7.0",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/address": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/properties": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
     "@ethersproject/signing-key": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
-    "@veramo/core": "^4.1.1",
-    "@veramo/did-manager": "^4.1.1",
+    "@veramo/core-types": "^5.0.0",
+    "@veramo/did-manager": "^5.0.0",
     "debug": "^4.3.3",
     "ethr-did": "^2.3.6"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.8.4"
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",
@@ -43,5 +46,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

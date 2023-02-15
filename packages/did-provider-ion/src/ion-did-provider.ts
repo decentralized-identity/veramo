@@ -1,4 +1,4 @@
-import { DIDResolutionResult, IAgentContext, IIdentifier, IKey, IKeyManager, IService, ManagedKeyInfo } from '@veramo/core'
+import { DIDResolutionResult, IAgentContext, IIdentifier, IKey, IKeyManager, IService, ManagedKeyInfo } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 
 import Debug from 'debug'
@@ -14,10 +14,10 @@ import {
   KeyOpts,
   KeyType,
   VerificationMethod,
-} from './types/ion-provider-types'
+} from './types/ion-provider-types.js'
 
-import { IonSigner } from './ion-signer'
-import { resolveDidIonFromIdentifier } from './ion-did-resolver'
+import { IonSigner } from './ion-signer.js'
+import { resolveDidIonFromIdentifier } from './ion-did-resolver.js'
 
 import { IonPublicKeyModel, IonPublicKeyPurpose, IonRequest } from '@decentralized-identity/ion-sdk'
 import {
@@ -34,7 +34,7 @@ import {
   toIonPublicKeyJwk,
   toJwkEs256k,
   truncateKidIfNeeded,
-} from './functions'
+} from './functions.js'
 import { IonPoW } from '@sphereon/ion-pow'
 
 const debug = Debug('veramo:ion-did-provider')
@@ -118,10 +118,10 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
         services,
       },
     }
-    const longFormDid = ionLongFormDidFromCreation(createRequest)
+    const longFormDid = await ionLongFormDidFromCreation(createRequest)
     const shortFormDid = ionShortFormDidFromLong(longFormDid)
 
-    const request = IonRequest.createCreateRequest(createRequest)
+    const request = await IonRequest.createCreateRequest(createRequest)
     await this.anchorRequest(request, options?.anchor)
 
     const identifier: Omit<IIdentifier, 'provider'> = {
@@ -262,8 +262,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
    *
    * @param identifier - The Identifier (DID) to use
    * @param didForm - Use short or long form (the default) for resolution
-   * @return - A DID Document promise
-   * @private
+   * @returns - A DID Document promise
    */
   private async getAssertedDidDocument(identifier: IIdentifier, didForm: IonDidForm = IonDidForm.LONG): Promise<DIDResolutionResult> {
     const didDocument = await resolveDidIonFromIdentifier(identifier, didForm)
@@ -284,7 +283,6 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
    * @param options - Allows to set a kid for the new key or to import a key for the new update/recovery key
    * @param actionTimestamp - The action Timestamp. These are used to order keys in chronological order. Normally you will want to use Date.now() for these
    * @param context - The Veramo Agent context
-   * @private
    */
   private async rotateUpdateOrRecoveryKey(
     {
@@ -334,7 +332,6 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
    * @param context - The Veramo agent context
    * @param options - options Allows to set a kid for the new key or to import a key for the new update/recovery key
    * @param identifier - The identifier (DID) for which to update the recovery/update key
-   * @private
    */
   private async rotateVeramoKey({
     kms,
@@ -376,7 +373,6 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
    * @param relation - Whether it is a DID Verification Method key, an update key or a recovery key
    * @param options - Allows to set a kid for the new key or to import a key for the new update/recovery key
    * @param context - The Veramo agent context
-   * @private
    */
   private async importProvidedOrGeneratedKey(
     {
@@ -438,8 +434,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
    *
    * @param request - The ION request
    * @param anchor - Whether to anchor or not (defaults to true)
-   * @return - The anchor request
-   * @private
+   * @returns - The anchor request
    */
   private async anchorRequest(request: IonRequest, anchor?: boolean) {
     if (anchor !== false) {
@@ -452,8 +447,8 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
   /**
    * Deletes a key (typically a rotation key) on error. As this happens in an exception flow, any issues with deletion are only debug logged.
    *
-   * @param kid
-   * @private
+   * @param kid - the internal ID of the key being deleted
+   * @param context - the Veramo instance calling this method
    */
   private async deleteKeyOnError(kid: string, context: IAgentContext<IKeyManager>) {
     try {

@@ -1,5 +1,5 @@
-import { IDIDManagerCreateArgs } from '@veramo/core'
-import { getAgent } from './setup'
+import { IDIDManagerCreateArgs } from '@veramo/core-types'
+import { getAgent } from './setup.js'
 import inquirer from 'inquirer'
 import { program } from 'commander'
 import { printTable } from 'console-table-printer'

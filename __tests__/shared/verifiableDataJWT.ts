@@ -10,7 +10,7 @@ import {
   TKeyType,
   VerifiableCredential,
   VerifiablePresentation,
-} from '../../packages/core/src'
+} from '../../packages/core-types/src'
 import { decodeJWT } from 'did-jwt'
 import { VC_JWT_ERROR } from 'did-jwt-vc'
 

@@ -1,15 +1,15 @@
-import { IIdentifier, IKey } from '@veramo/core'
+import { IIdentifier, IKey } from '@veramo/core-types'
 import { AbstractDIDStore } from '@veramo/did-manager'
-import { Identifier } from '../entities/identifier'
-import { Credential } from '../entities/credential'
-import { Key } from '../entities/key'
-import { Service } from '../entities/service'
+import { Identifier } from '../entities/identifier.js'
+import { Credential } from '../entities/credential.js'
+import { Key } from '../entities/key.js'
+import { Service } from '../entities/service.js'
 import { DataSource, IsNull, Not } from 'typeorm'
 
 import Debug from 'debug'
-import { Presentation } from '../entities/presentation'
+import { Presentation } from '../entities/presentation.js'
 import { OrPromise } from "@veramo/utils";
-import { getConnectedDb } from "../utils";
+import { getConnectedDb } from "../utils.js";
 
 const debug = Debug('veramo:typeorm:identifier-store')
 
@@ -30,7 +30,7 @@ export class DIDStore extends AbstractDIDStore {
     super()
   }
 
-  async get({
+  async getDID({
     did,
     alias,
     provider,
@@ -87,7 +87,7 @@ export class DIDStore extends AbstractDIDStore {
     return result
   }
 
-  async delete({ did }: { did: string }) {
+  async deleteDID({ did }: { did: string }) {
     const identifier = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).findOne({
       where: { did },
       relations: ['keys', 'services', 'issuedCredentials', 'issuedPresentations'],
@@ -123,7 +123,7 @@ export class DIDStore extends AbstractDIDStore {
     return true
   }
 
-  async import(args: IIdentifier) {
+  async importDID(args: IIdentifier) {
     const identifier = new Identifier()
     identifier.did = args.did
     if (args.controllerKeyId) {
@@ -160,7 +160,7 @@ export class DIDStore extends AbstractDIDStore {
     return true
   }
 
-  async list(args: { alias?: string; provider?: string }): Promise<IIdentifier[]> {
+  async listDIDs(args: { alias?: string; provider?: string }): Promise<IIdentifier[]> {
     const where: any = { provider: args?.provider || Not(IsNull()) }
     if (args?.alias) {
       where['alias'] = args.alias

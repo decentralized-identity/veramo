@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { IDIDManager, IIdentifier, IKeyManager, TAgent } from '../../packages/core/src'
+import { IDIDManager, IIdentifier, IKeyManager, TAgent } from '../../packages/core-types/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
 
@@ -28,6 +28,19 @@ export default (testContext: {
       expect(identifier.provider).toEqual('did:web')
       expect(identifier.alias).toEqual('example.com')
       expect(identifier.did).toEqual('did:web:example.com')
+      expect(identifier.keys.length).toEqual(1)
+      expect(identifier.services.length).toEqual(0)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
+    it('should create pkh identifier using did:pkh provider', async () => {
+      identifier = await agent.didManagerCreate({
+        // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
+        provider: 'did:pkh',
+        options: { chainId: "1"}
+      })
+      expect(identifier.provider).toEqual('did:pkh')
+      //expect(identifier.did).toMatch(/^did:pkh:eip155:*$/)
       expect(identifier.keys.length).toEqual(1)
       expect(identifier.services.length).toEqual(0)
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)

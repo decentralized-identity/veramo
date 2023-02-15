@@ -3,11 +3,12 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
-    "declarationDir": "build"
+    "declarationDir": "build",
+    "skipLibCheck": true
   },
   "references": [
     {
-      "path": "../core"
+      "path": "../core-types"
     },
     {
       "path": "../did-manager"

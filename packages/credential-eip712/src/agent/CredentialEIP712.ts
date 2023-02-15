@@ -5,7 +5,7 @@ import {
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-} from '@veramo/core'
+} from '@veramo/core-types'
 import {
   extractIssuer,
   getChainIdForDidEthr,
@@ -16,7 +16,7 @@ import {
   processEntryToArray,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import { schema } from '../index'
+import schema from "../plugin.schema.json" assert { type: 'json' }
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {

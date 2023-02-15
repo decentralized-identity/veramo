@@ -1,12 +1,16 @@
 {
   "name": "@veramo/did-comm",
   "description": "Veramo messaging plugin implementing DIDComm v2.",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./build/plugin.schema.json": "./build/plugin.schema.json"
+  },
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema"
+    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {
@@ -15,10 +19,10 @@
   },
   "dependencies": {
     "@ethersproject/signing-key": "^5.7.0",
-    "@stablelib/ed25519": "^1.0.2",
-    "@veramo/core": "^4.1.1",
-    "@veramo/message-handler": "^4.1.1",
-    "@veramo/utils": "^4.1.1",
+    "@stablelib/ed25519": "^1.0.3",
+    "@veramo/core-types": "^5.0.0",
+    "@veramo/message-handler": "^5.0.0",
+    "@veramo/utils": "^5.0.0",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
@@ -28,8 +32,8 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/uuid": "8.3.4",
-    "typescript": "4.8.4"
+    "@types/uuid": "9.0.0",
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",
@@ -48,5 +52,10 @@
     "Oliver Terbu <oliver.terbu@mesh.xyz"
   ],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

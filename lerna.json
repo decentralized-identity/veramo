@@ -1,9 +1,6 @@
 {
-  "version": "4.1.2",
-  "packages": [
-    "packages/*"
-  ],
-  "npmClient": "yarn",
+  "version": "5.0.0",
+  "npmClient": "pnpm",
   "changelog": {
     "repo": "uport-project/veramo",
     "cacheDir": ".changelog"
@@ -13,7 +10,8 @@
       "allowBranch": [
         "main",
         "next",
-        "master"
+        "master",
+        "unstable"
       ],
       "conventionalCommits": true,
       "gitRemote": "origin",

@@ -1,6 +1,5 @@
 import {
-  createAgent,
-  IAgentOptions,
+  // IAgentOptions,
   ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
@@ -9,7 +8,9 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '@veramo/core'
+} from '@veramo/core-types'
+
+import { createAgent, IAgentOptions } from '@veramo/core'
 
 import { DIDResolverPlugin } from '@veramo/did-resolver'
 import { Resolver } from 'did-resolver'
@@ -28,6 +29,7 @@ import {
   VeramoEd25519Signature2018,
 } from '@veramo/credential-ld'
 import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
+import { getDidPkhResolver, PkhDIDProvider } from '@veramo/did-provider-pkh'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
 import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure } from '@veramo/selective-disclosure'
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
@@ -64,6 +66,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
           ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
+          ...getDidPkhResolver(),
           ...new FakeDidResolver(() => agent as TAgent<IDIDManager>).getDidFakeResolver(),
         }),
       }),
@@ -104,6 +107,9 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
             defaultKms: 'local',
           }),
           'did:key': new KeyDIDProvider({
+            defaultKms: 'local',
+          }),
+          'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
           }),
           'did:fake': new FakeDidProvider(),

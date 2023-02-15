@@ -1,29 +1,31 @@
 {
   "name": "@veramo/did-provider-key",
   "description": "Veramo plugin that can enable creation and control of did:key identifiers.",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@transmute/did-key-ed25519": "^0.3.0-unstable.9",
-    "@transmute/did-key-secp256k1": "^0.3.0-unstable.9",
-    "@transmute/did-key-x25519": "^0.3.0-unstable.9",
-    "@veramo/core": "^4.1.1",
-    "@veramo/did-manager": "^4.1.1",
+    "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
+    "@transmute/did-key-secp256k1": "^0.3.0-unstable.10",
+    "@transmute/did-key-x25519": "^0.3.0-unstable.10",
+    "@veramo/core-types": "^5.0.0",
+    "@veramo/did-manager": "^5.0.0",
     "debug": "^4.3.3",
+    "did-resolver": "^4.0.1",
     "multibase": "^4.0.6",
     "multicodec": "^3.2.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.8.4"
+    "typescript": "4.9.4"
   },
   "resolutions": {
-    "*/**/jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
+    "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
   },
   "files": [
     "build/**/*",
@@ -38,5 +40,10 @@
   "author": "Oliver Terbu <oliver.terbu@mesh.xyz>",
   "contributors": [],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

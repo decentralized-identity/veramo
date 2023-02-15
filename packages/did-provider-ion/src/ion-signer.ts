@@ -1,7 +1,6 @@
-import crypto from 'crypto'
-import { IContext } from './types/ion-provider-types'
+import { IContext } from './types/ion-provider-types.js'
 import * as u8a from 'uint8arrays'
-import base64url from 'base64url'
+import { hash } from '@stablelib/sha256'
 
 /**
  * This class is responsible for signing the JWT when sending in Anchor requests to an ION node. It is using the update or recovery key denoted by 'kid'
@@ -31,11 +30,11 @@ export class IonSigner {
         alg: 'ES256K',
       }
     }
-    const encodedHeader = base64url.encode(JSON.stringify(header))
-    const encodedPayload = base64url.encode(JSON.stringify(payload))
-    const toBeSigned = encodedHeader + '.' + encodedPayload
+    const encodedHeader = u8a.toString(u8a.fromString(JSON.stringify(header)), 'base64url')
+    const encodedPayload = u8a.toString(u8a.fromString(JSON.stringify(payload)), 'base64url')
+    const toBeSigned = `${encodedHeader}.${encodedPayload}`
     const message = u8a.fromString(toBeSigned)
-    const digest = crypto.createHash('sha256').update(message).digest('hex')
+    const digest = u8a.toString(hash(message), 'base16')
     const sigObj = await this.context.agent.keyManagerSign({
       keyRef: this.kid,
       algorithm: header.alg,
@@ -43,6 +42,6 @@ export class IonSigner {
       encoding: 'hex',
     })
     const encodedSignature = sigObj // The keyManagerSign already performs base64Url encoding
-    return encodedHeader + '.' + encodedPayload + '.' + encodedSignature
+    return `${encodedHeader}.${encodedPayload}.${encodedSignature}`
   }
 }

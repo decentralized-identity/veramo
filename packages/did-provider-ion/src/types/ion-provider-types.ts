@@ -1,4 +1,4 @@
-import { IAgentContext, IKey, IKeyManager, IService, MinimalImportableKey } from '@veramo/core'
+import { IAgentContext, IKey, IKeyManager, IService, MinimalImportableKey } from '@veramo/core-types'
 import { IonPublicKeyPurpose, IonPublicKeyModel, JwkEs256k } from '@decentralized-identity/ion-sdk'
 
 export type IContext = IAgentContext<IKeyManager>
@@ -61,6 +61,46 @@ export interface IKeyRotation {
   nextVeramoKey: IKey // Next Veramo update/recovery key
   nextIonKey: IonPublicKeyModel // Next update/recovery key in ION form
   nextJwk: JwkEs256k // Next JWK of the update/recovery key
+}
+
+
+/** Secp256k1 Private Key  */
+export interface ISecp256k1PrivateKeyJwk {
+  /** key type */
+  kty: string;
+
+  /** curve */
+  crv: string;
+
+  /** private point */
+  d: string;
+
+  /** public point */
+  x: string;
+
+  /** public point */
+  y: string;
+
+  /** key id */
+  kid: string;
+}
+
+/** Secp256k1 Public Key  */
+export interface ISecp256k1PublicKeyJwk {
+  /** key type */
+  kty: string;
+
+  /** curve */
+  crv: string;
+
+  /** public point */
+  x: string;
+
+  /** public point */
+  y: string;
+
+  /** key id */
+  kid: string;
 }
 
 export type IRequiredContext = IAgentContext<IKeyManager>

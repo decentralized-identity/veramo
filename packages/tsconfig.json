@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     { "path": "core" },
+    { "path": "core-types" }
     { "path": "credential-eip712" },
     { "path": "credential-ld" },
     { "path": "credential-status"},
@@ -14,6 +15,7 @@
     { "path": "did-manager" },
     { "path": "did-provider-ethr" },
     { "path": "did-provider-ion" },
+    { "path": "did-provider-pkh" },
     { "path": "did-provider-key" },
     { "path": "did-provider-web" },
     { "path": "did-resolver" },

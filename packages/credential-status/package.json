@@ -1,23 +1,24 @@
 {
   "name": "@veramo/credential-status",
   "description": "Veramo plugin for resolving a credential status",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "main": "build/index.js",
+  "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.1.1",
-    "@veramo/utils": "^4.1.1",
+    "@veramo/core-types": "^5.0.0",
+    "@veramo/utils": "^5.0.0",
     "credential-status": "^2.0.5",
     "did-jwt": "^6.9.0",
     "did-resolver": "^4.0.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "typescript": "4.8.4"
+    "typescript": "4.9.4"
   },
   "files": [
     "build/**/*",
@@ -33,5 +34,10 @@
   "author": "Konstantin Tsabolov <konstantin.tsabolov@spherity.com>",
   "contributors": [],
   "license": "Apache-2.0",
-  "keywords": []
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

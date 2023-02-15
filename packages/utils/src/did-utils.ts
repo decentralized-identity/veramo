@@ -1,19 +1,19 @@
 import { convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
 import { computePublicKey } from '@ethersproject/signing-key'
 import { computeAddress } from '@ethersproject/transactions'
-import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core'
+import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core-types'
 import { DIDDocument, VerificationMethod } from 'did-resolver'
 import {
   _ExtendedIKey,
   _ExtendedVerificationMethod,
   _NormalizedVerificationMethod,
-} from './types/utility-types'
-import { isDefined } from './type-utils'
+} from './types/utility-types.js'
+import { isDefined } from './type-utils.js'
 import * as u8a from 'uint8arrays'
 import elliptic from 'elliptic'
 import { bases } from 'multiformats/basics'
 import Debug from 'debug'
-import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings'
+import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings.js'
 
 const debug = Debug('veramo:utils')
 
@@ -119,7 +119,8 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
     } else if (
       verificationMethod.publicKeyHex ||
       verificationMethod.publicKeyBase58 ||
-      verificationMethod.publicKeyBase64
+      verificationMethod.publicKeyBase64 ||
+      verificationMethod.publicKeyJwk
     ) {
       const pbBytes = extractPublicKeyBytes(verificationMethod)
       const pbHex = computePublicKey(pbBytes, false)
@@ -159,7 +160,7 @@ function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
     )
   } else if (
     pk.publicKeyJwk &&
-    pk.publicKeyJwk.crv === 'Ed25519' &&
+    (pk.publicKeyJwk.crv === 'Ed25519' || pk.publicKeyJwk.crv === 'X25519') &&
     pk.publicKeyJwk.x
   ) {
     return base64ToBytes(pk.publicKeyJwk.x)
@@ -311,9 +312,15 @@ export async function dereferenceDidKeys(
       const hexKey = extractPublicKeyHex(key, convert)
       const { publicKeyHex, publicKeyBase58, publicKeyMultibase, publicKeyBase64, publicKeyJwk, ...keyProps } = key
       const newKey = { ...keyProps, publicKeyHex: hexKey }
+
+      // With a JWK `key`, `newKey` does not have information about crv (Ed25519 vs X25519)
+      // Should type of `newKey` change?
       if (convert && 'Ed25519VerificationKey2018' === newKey.type) {
         newKey.type = 'X25519KeyAgreementKey2019'
+      } else if (convert && 'Ed25519VerificationKey2020' === newKey.type) {
+        newKey.type = 'X25519KeyAgreementKey2020'
       }
+
       return newKey
     })
 }
@@ -328,26 +335,11 @@ export async function dereferenceDidKeys(
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: boolean = false): string {
-  let keyBytes: Uint8Array
-  if (pk.publicKeyHex) {
-    keyBytes = u8a.fromString(pk.publicKeyHex, 'base16')
-  } else if (pk.publicKeyBase58) {
-    keyBytes = u8a.fromString(pk.publicKeyBase58, 'base58btc')
-  } else if (pk.publicKeyMultibase) {
-    keyBytes = bases['base58btc'].decode(pk.publicKeyMultibase)
-  } else if (pk.publicKeyBase64) {
-    keyBytes = u8a.fromString(pk.publicKeyBase64, 'base64pad')
-  } else if (
-    pk.publicKeyJwk &&
-    pk.publicKeyJwk.crv === 'Ed25519' &&
-    pk.publicKeyJwk.x
-  ) {
-    keyBytes = base64ToBytes(pk.publicKeyJwk.x)
-  } else return ''
+  let keyBytes = extractPublicKeyBytes(pk)
   if (convert) {
-    if (['Ed25519', 'Ed25519VerificationKey2018'].includes(pk.type)) {
+    if (['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type) || (pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'Ed25519')) {
       keyBytes = convertPublicKeyToX25519(keyBytes)
-    } else if (!['X25519', 'X25519KeyAgreementKey2019'].includes(pk.type)) {
+    } else if (!['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type) && !(pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'X25519')) {
       return ''
     }
   }
