@@ -604,6 +604,29 @@ importers:
       '@types/debug': 4.1.7
       typescript: 4.9.4
 
+  packages/did-provider-jwk:
+    specifiers:
+      '@types/debug': 4.1.7
+      '@types/elliptic': 6.4.14
+      '@veramo/core-types': ^5.0.0
+      '@veramo/did-manager': ^5.0.0
+      '@veramo/utils': ^5.0.0
+      debug: ^4.3.3
+      did-resolver: ^4.0.1
+      elliptic: ^6.5.4
+      typescript: 4.9.4
+    dependencies:
+      '@veramo/core-types': link:../core-types
+      '@veramo/did-manager': link:../did-manager
+      '@veramo/utils': link:../utils
+      debug: 4.3.4
+      did-resolver: 4.0.1
+      elliptic: 6.5.4
+    devDependencies:
+      '@types/debug': 4.1.7
+      '@types/elliptic': 6.4.14
+      typescript: 4.9.4
+
   packages/did-provider-key:
     specifiers:
       '@transmute/did-key-ed25519': ^0.3.0-unstable.10
@@ -18202,7 +18225,7 @@ packages:
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.3.1_@types+node@18.11.18
+      jest: 29.3.1_zfha7dvnw4nti6zkbsmhmn6xo4
       jest-util: 29.3.1
       json5: 2.2.3
       lodash.memoize: 4.1.2
