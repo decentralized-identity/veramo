@@ -5,9 +5,8 @@ import elliptic from 'elliptic'
 
 function createJWK(keyType: string, pubKey: string | Uint8Array | Buffer | number[]): JsonWebKey {
   let jwk;
-  if (keyType !== 'Secp256k1') {
-    const ec = elliptic.ec
-    const EC = new ec('secp256k1')
+  if (keyType === 'Secp256k1') {
+    const EC = new elliptic.ec('secp256k1')
     const kp = EC.keyFromPublic(pubKey, 'hex')
     const pubPoint = kp.getPublic()
     const x = pubPoint.getX()
