@@ -7,8 +7,7 @@ function createJWK(keyType: string, pubKey: string | Uint8Array | Buffer | numbe
   let jwk;
   if (keyType === 'Secp256k1') {
     const EC = new elliptic.ec('secp256k1')
-    const kp = EC.keyFromPublic(pubKey, 'hex')
-    const pubPoint = kp.getPublic()
+    const pubPoint = EC.keyFromPublic(pubKey, 'hex').getPublic()
     const x = pubPoint.getX()
     const y = pubPoint.getY()
 
