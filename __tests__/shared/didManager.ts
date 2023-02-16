@@ -74,6 +74,20 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
+    it('should create identifier using did:jwk', async () => {
+      // keyType option supports 'Secp256k1', 'Ed25519'
+      const keyType = 'Ed25519'
+      identifier = await agent.didManagerCreate({
+        provider: 'did:jwk',
+        options: {
+          keyType,
+        }
+      })
+      expect(identifier.provider).toEqual('did:jwk')
+      expect(identifier.keys[0].type).toEqual(keyType)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
     it('should throw error for existing alias provider combo', async () => {
       await expect(
         agent.didManagerCreate({
