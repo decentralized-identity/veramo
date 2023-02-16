@@ -54,7 +54,7 @@ export default (testContext: {
     it('should resolve did:jwk', async () => {
       let identifier: IIdentifier = await agent.didManagerCreate({
         provider: 'did:jwk',
-        // keyType option supports 'Secp256k1', 'Ed25519'
+        // keyType supports 'Secp256k1', 'Ed25519'
         options: { keyType: "Ed25519"}
       })
       const result = await agent.resolveDid({ didUrl: identifier.did})

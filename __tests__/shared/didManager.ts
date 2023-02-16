@@ -75,7 +75,7 @@ export default (testContext: {
     })
 
     it('should create identifier using did:jwk', async () => {
-      // keyType option supports 'Secp256k1', 'Ed25519'
+      // keyType supports 'Secp256k1', 'Ed25519'
       const keyType = 'Ed25519'
       identifier = await agent.didManagerCreate({
         provider: 'did:jwk',
