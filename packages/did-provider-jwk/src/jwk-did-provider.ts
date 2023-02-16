@@ -52,8 +52,8 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
   async updateIdentifier(
     args: {
       did: string
-      kms?: string | undefined
-      alias?: string | undefined
+      kms?: string
+      alias?: string
       options?: any
     },
     context: IAgentContext<IKeyManager>
