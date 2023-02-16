@@ -1,6 +1,6 @@
 {
-  "name": "did-provider-jwk",
-  "version": "1.0.0",
+  "name": "@veramo/did-provider-jwk",
+  "version": "5.0.0",
   "description": "Veramo plugin that can enable creation and control of did:jwk identifiers.",
   "main": "build/index.js",
   "scripts": {
@@ -21,5 +21,17 @@
     "typescript": "4.9.4"
   },
   "author": "Tadej Podrekar",
-  "license": "ISC"
+  "license": "Apache-2.0",
+  "keywords": [],
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

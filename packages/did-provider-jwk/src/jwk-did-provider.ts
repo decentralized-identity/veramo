@@ -2,7 +2,7 @@ import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { VerificationMethod } from 'did-resolver'
 import type { JwkDidSupportedKeyTypes } from '.'
-import { generateJWKfromVerificationMethod } from './jwkDidUtils'
+import { generateJWKfromVerificationMethod } from './jwkDidUtils.js'
 
 import Debug from 'debug'
 const debug = Debug('veramo:did-jwk:identifier-provider')
