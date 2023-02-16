@@ -3,7 +3,7 @@ import { VerificationMethod, type JsonWebKey } from 'did-resolver'
 import { hexToBytes, bytesToBase64url, extractPublicKeyHex } from '@veramo/utils'
 import elliptic from 'elliptic'
 
-function createJWK(keyType: string, pubKey: string | Uint8Array | Buffer | number[]): JsonWebKey {
+function createJWK(keyType: string, pubKey: string | Uint8Array): JsonWebKey {
   let jwk;
   if (keyType === 'Secp256k1') {
     const EC = new elliptic.ec('secp256k1')
@@ -21,7 +21,7 @@ function createJWK(keyType: string, pubKey: string | Uint8Array | Buffer | numbe
     jwk = {
       crv: 'ed25519',
       kty: 'OKP',
-      x: bytesToBase64url(hexToBytes(pubKey as string)),
+      x: bytesToBase64url(typeof pubKey === 'string' ? hexToBytes(pubKey) : pubKey),
     } as JsonWebKey
   }
   if(!jwk) throw new Error('Failed to create JWK')
