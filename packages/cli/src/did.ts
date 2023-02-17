@@ -10,7 +10,7 @@ did
   .command('providers')
   .description('list available identifier providers')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     const providers = await agent.didManagerGetProviders()
     const list = providers.map((provider) => ({ provider }))
@@ -26,7 +26,7 @@ did
   .command('list', { isDefault: true })
   .description('list managed identifiers')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     const list = await agent.didManagerFind()
 
@@ -42,7 +42,7 @@ did
   .command('create')
   .description('create an identifier')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       const providers = await agent.didManagerGetProviders()
@@ -80,7 +80,7 @@ did
   .command('delete')
   .description('delete an identifier')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       const identifiers = await agent.didManagerFind()
@@ -107,7 +107,7 @@ did
   .command('add-service')
   .description('add a service endpoint to did document')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       const identifiers = await agent.didManagerFind()
@@ -155,7 +155,7 @@ did
   .command('remove-service')
   .description('remove a service endpoint from did document')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       const identifiers = await agent.didManagerFind()
@@ -188,7 +188,7 @@ did
   .command('add-key')
   .description('create and add a public key to did document')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       const identifiers = await agent.didManagerFind()
@@ -234,7 +234,7 @@ did
   .command('remove-key')
   .description('remove a key from did document')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       const identifiers = await agent.didManagerFind()
@@ -267,7 +267,7 @@ did
   .command('export')
   .description('export an identifier')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       const identifiers = await agent.didManagerFind()
@@ -295,7 +295,7 @@ did
   .command('import')
   .description('import an identifier')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     try {
       const answers = await inquirer.prompt([
@@ -317,7 +317,7 @@ did
   .command('resolve <didUrl>')
   .description('Resolve DID Document')
   .action(async (didUrl) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     try {
       const ddo = await agent.resolveDid({ didUrl })
       console.log(JSON.stringify(ddo, null, 2))

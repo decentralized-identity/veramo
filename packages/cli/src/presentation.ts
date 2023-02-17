@@ -16,7 +16,7 @@ presentation
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     const myIdentifiers = await agent.didManagerFind()
     if (myIdentifiers.length === 0) {
       console.error('No dids')
@@ -179,7 +179,7 @@ presentation
   .option('-f, --filename <string>', 'Optional. Read the presentation from a file instead of stdin')
   .option('-r, --raw <string>', 'Optional. Presentation as a parameter string instead of a file or stdin.')
   .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
     let raw: string = ''
     if (options.raw) {
       raw = options.raw
@@ -216,7 +216,7 @@ presentation
   .description('Print W3C Verifiable Presentation to stdout')
   .option('-t, --tag <string>', 'Optional. Specify the tag for the presentation.')
   .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await getAgent(program.opts().config)
 
     const presentations: UniqueVerifiablePresentation[] = await agent.dataStoreORMGetVerifiablePresentations({})
 
