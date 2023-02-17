@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@veramo/core-types": "^5.0.0",
+    "debug": "^4.3.4",
     "events": "^3.2.0",
     "z-schema": "^5.0.5"
   },
