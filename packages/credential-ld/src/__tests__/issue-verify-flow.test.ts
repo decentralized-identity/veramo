@@ -7,9 +7,7 @@ import {
   IResolver,
   TAgent,
 } from '../../../core-types/src'
-import {
-  createAgent
-} from '../../../core/src'
+import { createAgent } from '../../../core/src'
 import { CredentialPlugin } from '../../../credential-w3c/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
@@ -27,6 +25,7 @@ import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp25
 import { jest } from '@jest/globals'
 
 import 'cross-fetch/polyfill'
+
 jest.setTimeout(300000)
 
 const customContext: Record<string, ContextDoc> = {

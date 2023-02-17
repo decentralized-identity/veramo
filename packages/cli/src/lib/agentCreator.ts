@@ -2,7 +2,7 @@ import { TAgent, IPluginMethodMap } from '@veramo/core-types'
 import { createObjects } from './objectCreator.js'
 
 export async function createAgentFromConfig<T extends IPluginMethodMap>(config: object): Promise<TAgent<T>> {
-  //@ts-ignore
+  // @ts-ignore
   const { agent } = await createObjects(config, { agent: '/agent' })
   return agent
 }

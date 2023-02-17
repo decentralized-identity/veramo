@@ -127,19 +127,19 @@ export default (testContext: {
 
     it('should throw error when resolving garbage', async () => {
       expect.assertions(3)
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid()).resolves.toEqual({
         didDocument: null,
         didDocumentMetadata: {},
         didResolutionMetadata: { error: 'invalidDid' },
       })
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid({})).resolves.toEqual({
         didDocument: null,
         didDocumentMetadata: {},
         didResolutionMetadata: { error: 'invalidDid' },
       })
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid({ didUrl: 'garbage' })).resolves.toEqual({
         didDocument: null,
         didDocumentMetadata: {},
@@ -160,11 +160,11 @@ export default (testContext: {
 
     it('should throw validation error', async () => {
       expect.assertions(3)
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid()).rejects.toHaveProperty('name', 'ValidationError')
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid({})).rejects.toHaveProperty('name', 'ValidationError')
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid({ didUrl: 1 })).rejects.toHaveProperty('name', 'ValidationError')
     })
   })

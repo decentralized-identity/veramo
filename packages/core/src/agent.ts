@@ -122,7 +122,7 @@ export class Agent implements IAgent {
 
     for (const method of Object.keys(this.methods)) {
       if (!this.protectedMethods.includes(method)) {
-        //@ts-ignore
+        // @ts-ignore
         this[method] = async (args: any) => this.execute(method, args)
       }
     }
@@ -235,7 +235,7 @@ export class Agent implements IAgent {
  * Helper function to create a new instance of the {@link Agent} class with correct type
  *
  * @remarks
- * Use {@link TAgent} to configure agent type (list of available methods) for autocomplete in IDE
+ * Use {@link @veramo/core-types#TAgent} to configure agent type (list of available methods) for autocomplete in IDE
  *
  * @example
  * ```typescript
@@ -262,6 +262,6 @@ export class Agent implements IAgent {
 export function createAgent<T extends IPluginMethodMap, C = Record<string, any>>(
   options: IAgentOptions & { context?: C },
 ): TAgent<T> & { context?: C } {
-  //@ts-ignore
+  // @ts-ignore
   return new Agent(options) as TAgent<T>
 }

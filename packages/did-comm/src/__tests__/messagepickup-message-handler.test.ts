@@ -1,4 +1,4 @@
-import { DIDComm } from '../didcomm'
+import { DIDComm } from '../didcomm.js'
 import {
   createAgent,
   IDIDManager,
@@ -14,11 +14,11 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from '../transports/transports'
-import { IDIDComm } from '../types/IDIDComm'
+import { DIDCommHttpTransport } from '../transports/transports.js'
+import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
-import { IDIDCommMessage, DIDCommMessageMediaType, IPackedDIDCommMessage } from '../types/message-types'
-import { QUEUE_MESSAGE_TYPE } from '../protocols/routing-message-handler'
+import { IDIDCommMessage, DIDCommMessageMediaType, IPackedDIDCommMessage } from '../types/message-types.js'
+import { QUEUE_MESSAGE_TYPE } from '../protocols/routing-message-handler.js'
 import {
   PickupMediatorMessageHandler,
   PickupRecipientMessageHandler,
@@ -27,18 +27,21 @@ import {
   DELIVERY_MESSAGE_TYPE,
   DELIVERY_REQUEST_MESSAGE_TYPE,
   MESSAGES_RECEIVED_MESSAGE_TYPE,
-} from '../protocols/messagepickup-message-handler'
+} from '../protocols/messagepickup-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
+// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import { DIDCommMessageHandler } from '../message-handler'
+import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 import { Message } from '@veramo/message-handler'
+
 import { jest } from '@jest/globals'
+import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: [

@@ -11,7 +11,7 @@
             },
             "keyRef": {
               "type": "string",
-              "description": "Optional. The key handle ( {@link  @veramo/core#IKey.kid | IKey.kid } ) from the internal database."
+              "description": "Optional. The key handle ( {@link  @veramo/core-types#IKey.kid | IKey.kid } ) from the internal database."
             },
             "fetchRemoteContexts": {
               "type": "boolean",
@@ -199,7 +199,7 @@
             },
             "keyRef": {
               "type": "string",
-              "description": "Optional. The key handle ( {@link  @veramo/core#IKey.kid | IKey.kid } ) from the internal database."
+              "description": "Optional. The key handle ( {@link  @veramo/core-types#IKey.kid | IKey.kid } ) from the internal database."
             },
             "fetchRemoteContexts": {
               "type": "boolean",

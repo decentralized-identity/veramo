@@ -83,7 +83,7 @@ export default (testContext: {
       await expect(
         agent.keyManagerCreate({
           kms: 'local',
-          //@ts-ignore
+          // @ts-ignore
           type: 'foobar',
         }),
       ).rejects.toThrow('Key type not supported: foobar')
@@ -505,7 +505,7 @@ export default (testContext: {
         },
       }
 
-      //@ts-ignore
+      // @ts-ignore
       const recovered = recoverTypedSignature({
         data: data as any,
         signature: signature,
@@ -604,7 +604,7 @@ export default (testContext: {
       }
 
       const args = { data, signature: signature, version: SignTypedDataVersion.V4 }
-      //@ts-ignore
+      // @ts-ignore
       const recovered = recoverTypedSignature(args)
       expect(address.toLowerCase()).toEqual(recovered)
     })

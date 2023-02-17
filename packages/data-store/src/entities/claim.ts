@@ -6,7 +6,7 @@ import { Credential } from './credential.js'
  * Represents the properties of a claim extracted from a Verifiable Credential `credentialSubject`, and stored in a
  * TypeORM database for querying.
  *
- * @see {@link @veramo/core#IDataStoreORM} for the interface defining how this can be queried.
+ * @see {@link @veramo/core-types#IDataStoreORM} for the interface defining how this can be queried.
  * @see {@link @veramo/data-store#DataStoreORM} for the implementation of the query interface.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -14,14 +14,14 @@ import { Credential } from './credential.js'
 @Entity('claim')
 export class Claim extends BaseEntity {
   @PrimaryColumn()
-    //@ts-ignore
+  // @ts-ignore
   hash: string
 
   @ManyToOne((type) => Identifier, (identifier) => identifier.issuedClaims, {
     eager: true,
     onDelete: 'CASCADE',
   })
-    //@ts-ignore
+  // @ts-ignore
   issuer: Relation<Identifier>
 
   @ManyToOne((type) => Identifier, (identifier) => identifier.receivedClaims, {
@@ -33,33 +33,33 @@ export class Claim extends BaseEntity {
   @ManyToOne((type) => Credential, (credential) => credential.claims, {
     onDelete: 'CASCADE',
   })
-    //@ts-ignore
+  // @ts-ignore
   credential: Relation<Credential>
 
   @Column()
-    //@ts-ignore
+  // @ts-ignore
   issuanceDate: Date
 
   @Column({ nullable: true })
   expirationDate?: Date
 
   @Column('simple-array')
-    //@ts-ignore
+  // @ts-ignore
   context: string[]
 
   @Column('simple-array')
-    //@ts-ignore
+  // @ts-ignore
   credentialType: string[]
 
   @Column()
-    //@ts-ignore
+  // @ts-ignore
   type: string
 
   @Column('text', { nullable: true })
-    //@ts-ignore
+  // @ts-ignore
   value: string | null
 
   @Column()
-    //@ts-ignore
+  // @ts-ignore
   isObj: boolean
 }

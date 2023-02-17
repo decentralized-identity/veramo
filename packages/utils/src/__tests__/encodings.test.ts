@@ -1,4 +1,4 @@
-import { bytesToHex, hexToBytes } from '../encodings'
+import { bytesToHex, hexToBytes } from '../encodings.js'
 
 describe('@veramo/utils encoding utils', () => {
   describe('hexToBytes', () => {

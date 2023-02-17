@@ -1,7 +1,7 @@
 import { DIDDocument } from 'did-resolver'
 import { IAgentContext, IPluginMethodMap } from './IAgent.js'
 import { VerifiableCredential, CredentialStatus } from './vc-data-model.js'
-import { IResolver } from "./IResolver.js";
+import { IResolver } from './IResolver.js'
 
 /**
  * Arguments for calling {@link ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus}.
@@ -27,7 +27,7 @@ export interface ICheckCredentialStatusArgs {
 
 /**
  * This interface defines a plugin that can check the {@link https://www.w3.org/TR/vc-data-model/#status | status} of a
- * {@link @veramo/core#VerifiableCredential | Verifiable Credential}.
+ * {@link @veramo/core-types#VerifiableCredential | Verifiable Credential}.
  *
  * This is used for the discovery of information about the current status of a verifiable credential, such as whether
  * it is suspended or revoked. The precise contents of the credential status information is determined by the specific
@@ -44,7 +44,7 @@ export interface ICheckCredentialStatusArgs {
  */
 export interface ICredentialStatusVerifier extends IPluginMethodMap {
   /**
-   * Checks the status of a {@link @veramo/core#VerifiableCredential | Verifiable Credential}.
+   * Checks the status of a {@link @veramo/core-types#VerifiableCredential | Verifiable Credential}.
    *
    * @param args - The credential to be checked, along with the DID document of the issuer.
    * @param context - *RESERVED* This is filled by the framework when the method is called.

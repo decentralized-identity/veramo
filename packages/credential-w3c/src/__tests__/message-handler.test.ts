@@ -1,7 +1,7 @@
 import { DIDResolutionResult, IAgentContext, ICredentialPlugin, IResolver } from '../../../core-types/src'
 import { Message } from '../../../message-handler/src'
-import { W3cMessageHandler, MessageTypes } from '../index'
-import { IContext } from '../message-handler'
+import { IContext, MessageTypes, W3cMessageHandler } from '../message-handler.js'
+// @ts-ignore
 import pkg from 'blakejs'
 const { blake2bHex } = pkg
 import { jest } from '@jest/globals'

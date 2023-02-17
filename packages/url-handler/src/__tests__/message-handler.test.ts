@@ -1,5 +1,5 @@
 import { Message } from '../../../message-handler/src'
-import { UrlMessageHandler } from '../index'
+import { UrlMessageHandler } from '../message-handler.js'
 import fetchMock, { MockParams } from 'jest-fetch-mock'
 
 fetchMock.enableMocks()

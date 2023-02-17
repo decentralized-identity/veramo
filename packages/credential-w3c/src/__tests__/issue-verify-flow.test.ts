@@ -6,10 +6,9 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
+  VerifiableCredential,
 } from '../../../core-types/src'
-import {
-  createAgent
-} from '../../../core/src'
+import { createAgent } from '../../../core/src'
 import { CredentialIssuer } from '../../../credential-w3c/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
@@ -17,14 +16,15 @@ import { KeyManagementSystem } from '../../../kms-local/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { EthrDIDProvider } from '../../../did-provider-ethr/src'
-import { ContextDoc } from '../../../credential-ld/src/types'
+import {
+  ContextDoc,
+  CredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+} from '../../../credential-ld/src'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
-import { CredentialIssuerLD } from '../../../credential-ld/src/action-handler'
-import { LdDefaultContexts } from '../../../credential-ld/src/ld-default-contexts'
-import { VeramoEd25519Signature2018 } from '../../../credential-ld/src/suites/Ed25519Signature2018'
-import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../../../credential-ld/src/suites/EcdsaSecp256k1RecoverySignature2020'
-import { VerifiableCredential } from '../../../core-types/src'
 import { jest } from '@jest/globals'
 
 jest.setTimeout(300000)
