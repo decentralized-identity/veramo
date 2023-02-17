@@ -7,6 +7,6 @@ program
   .command('explore')
   .description('launch Verifiable Data explorer')
   .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+    const agent = await (program.opts().config)
     await renderMainScreen(agent)
   })
