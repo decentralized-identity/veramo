@@ -86,8 +86,6 @@ for (const packageName of Object.keys(agentPlugins)) {
     console.log(packageName, pluginInterfaceName)
     const pluginInterface = entry.findMembersByName(pluginInterfaceName)[0]
 
-    console.log('extracting plugin interface members for ', pluginInterfaceName)
-
     // Collecting method information
     const methods: RestMethod[] = []
     for (const member of pluginInterface.members) {

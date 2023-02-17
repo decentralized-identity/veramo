@@ -77,6 +77,13 @@ export interface ProofType {
 }
 
 /**
+ * The data type for `@context` properties of credentials, presentations, etc.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export type ContextType = string | Record<string, any> | (string | Record<string, any>)[]
+
+/**
  * Represents an unsigned W3C Credential payload.
  * See {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model}
  *
@@ -86,7 +93,7 @@ export interface UnsignedCredential {
   issuer: IssuerType
   credentialSubject: CredentialSubject
   type?: string[] | string
-  '@context': string[] | string
+  '@context': ContextType
   issuanceDate: string
   expirationDate?: string
   credentialStatus?: CredentialStatusReference
@@ -121,7 +128,7 @@ export interface UnsignedPresentation {
   holder: string
   verifiableCredential?: W3CVerifiableCredential[]
   type?: string[] | string
-  '@context': string[] | string
+  '@context': ContextType
   verifier?: string[]
   issuanceDate?: string
   expirationDate?: string
@@ -162,7 +169,7 @@ export interface CredentialPayload {
   issuer: IssuerType
   credentialSubject?: CredentialSubject
   type?: string[]
-  '@context'?: string[]
+  '@context'?: ContextType
   issuanceDate?: DateType
   expirationDate?: DateType
   credentialStatus?: CredentialStatusReference
@@ -180,7 +187,7 @@ export interface PresentationPayload {
   holder: string
   verifiableCredential?: W3CVerifiableCredential[]
   type?: string[]
-  '@context'?: string[]
+  '@context'?: ContextType
   verifier?: string[]
   issuanceDate?: DateType
   expirationDate?: DateType
