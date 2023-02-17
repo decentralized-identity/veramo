@@ -927,6 +927,7 @@ importers:
       '@veramo/did-jwt': ^5.0.0
       '@veramo/did-manager': ^5.0.0
       '@veramo/did-provider-ethr': ^5.0.0
+      '@veramo/did-provider-jwk': ^5.0.0
       '@veramo/did-provider-key': ^5.0.0
       '@veramo/did-provider-pkh': ^5.0.0
       '@veramo/did-provider-web': ^5.0.0
@@ -974,6 +975,7 @@ importers:
       '@veramo/did-jwt': link:../did-jwt
       '@veramo/did-manager': link:../did-manager
       '@veramo/did-provider-ethr': link:../did-provider-ethr
+      '@veramo/did-provider-jwk': link:../did-provider-jwk
       '@veramo/did-provider-key': link:../did-provider-key
       '@veramo/did-provider-pkh': link:../did-provider-pkh
       '@veramo/did-provider-web': link:../did-provider-web
@@ -18225,7 +18227,7 @@ packages:
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.3.1_@types+node@18.11.18
+      jest: 29.3.1_zfha7dvnw4nti6zkbsmhmn6xo4
       jest-util: 29.3.1
       json5: 2.2.3
       lodash.memoize: 4.1.2
