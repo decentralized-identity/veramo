@@ -40,7 +40,7 @@ function createJWK(keyType: string, pubKey: string | Uint8Array): JsonWebKey | u
   }
   if(keyType === 'Ed25519') {
     return {
-      crv: 'ed25519',
+      crv: 'Ed25519',
       kty: 'OKP',
       x: bytesToBase64url(typeof pubKey === 'string' ? hexToBytes(pubKey) : pubKey),
     } as JsonWebKey
