@@ -41,8 +41,8 @@ export function processEntryToArray(
 }
 
 /**
- * Parses a {@link @veramo/core#W3CVerifiableCredential | W3CVerifiableCredential} and converts it to a
- * {@link @veramo/core#VerifiableCredential | VerifiableCredential} so it is easier to use programmatically.
+ * Parses a {@link @veramo/core-types#W3CVerifiableCredential | W3CVerifiableCredential} and converts it to a
+ * {@link @veramo/core-types#VerifiableCredential | VerifiableCredential} so it is easier to use programmatically.
  *
  * @param input - the raw credential to be transformed
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -52,8 +52,8 @@ export function decodeCredentialToObject(input: W3CVerifiableCredential): Verifi
 }
 
 /**
- * Parses a {@link @veramo/core#W3CVerifiablePresentation | W3CVerifiablePresentation} and converts it to a
- * {@link @veramo/core#VerifiablePresentation | VerifiablePresentation} so it is easier to use programmatically.
+ * Parses a {@link @veramo/core-types#W3CVerifiablePresentation | W3CVerifiablePresentation} and converts it to a
+ * {@link @veramo/core-types#VerifiablePresentation | VerifiablePresentation} so it is easier to use programmatically.
  *
  * @param input - the raw presentation to be transformed.
  *

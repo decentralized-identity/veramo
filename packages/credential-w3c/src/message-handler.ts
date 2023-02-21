@@ -46,7 +46,7 @@ export type IContext = IAgentContext<IResolver & ICredentialVerifier>
  *
  * The current version can only handle `JWT` encoded
  *
- * @remarks {@link @veramo/core#IDataStore | IDataStore }
+ * @remarks {@link @veramo/core-types#IDataStore | IDataStore }
  *
  * @public
  */

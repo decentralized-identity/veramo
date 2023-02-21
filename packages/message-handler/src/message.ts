@@ -7,7 +7,7 @@ import {
 } from '@veramo/core-types'
 
 /**
- * A class implementing {@link @veramo/core#IMessage | IMessage}.
+ * A class implementing {@link @veramo/core-types#IMessage | IMessage}.
  *
  * This is used by {@link @veramo/message-handler#MessageHandler | MessageHandler}.
  *
@@ -23,7 +23,7 @@ export class Message implements IMessage {
     }
   }
 
-  //@ts-ignore
+  // @ts-ignore
   id: string
 
   createdAt?: string
@@ -32,7 +32,7 @@ export class Message implements IMessage {
 
   threadId?: string
 
-  //@ts-ignore
+  // @ts-ignore
   type: string
 
   raw?: string
@@ -46,7 +46,7 @@ export class Message implements IMessage {
   from?: string
 
   to?: string
-  
+
   returnRoute?: string
 
   metaData?: IMetaData[]

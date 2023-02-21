@@ -1,4 +1,4 @@
-import { DIDComm } from "../didcomm"
+import { DIDComm } from "../didcomm.js"
 import {
   IDIDManager,
   IIdentifier,

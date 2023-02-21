@@ -77,7 +77,7 @@ function getReference(response: string): OpenAPIV3.ReferenceObject | OpenAPIV3.S
   }
 
   if (['string', 'number', 'boolean', 'object', 'integer'].includes(response)) {
-    //@ts-ignore
+    // @ts-ignore
     return { type: response }
   } else {
     return { $ref: '#/components/schemas/' + response }
@@ -152,28 +152,28 @@ dev
         const methodSignature = member as ApiMethodSignature
         method.description = methodSignature.tsdocComment?.summarySection
           ?.getChildNodes()[0]
-          //@ts-ignore
+          // @ts-ignore
           ?.getChildNodes()[0]?.text
 
         method.description = method.description || ''
 
         if (method.parameters) {
-          //@ts-ignore
+          // @ts-ignore
           api.components.schemas = {
-            //@ts-ignore
+            // @ts-ignore
             ...api.components.schemas,
             ...createSchema(generator, method.parameters).components.schemas,
           }
         }
 
-        //@ts-ignore
+        // @ts-ignore
         api.components.schemas = {
-          //@ts-ignore
+          // @ts-ignore
           ...api.components.schemas,
           ...createSchema(generator, method.response).components.schemas,
         }
 
-        //@ts-ignore
+        // @ts-ignore
         api.components.methods[method.operationId] = {
           description: method.description,
           arguments: getReference(method.parameters),

@@ -1,6 +1,7 @@
 {
     "documentPackages": [
         "core",
+        "core-types",
         "credential-ld",
         "credential-status",
         "credential-w3c",

@@ -24,7 +24,7 @@ program
 
       if (!method) {
         const answers = await inquirer.prompt({
-          //@ts-ignore
+          // @ts-ignore
           type: 'autocomplete',
           name: 'method',
           pageSize: 15,

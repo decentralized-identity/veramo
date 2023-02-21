@@ -104,7 +104,7 @@ for (const packageName of Object.keys(agentPlugins)) {
       const methodSignature = member as ApiMethodSignature
       method.description = methodSignature.tsdocComment?.summarySection
         ?.getChildNodes()[0]
-        //@ts-ignore
+        // @ts-ignore
         ?.getChildNodes()[0]?.text
 
       method.example =

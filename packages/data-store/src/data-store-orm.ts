@@ -37,11 +37,11 @@ import {
   Not,
   SelectQueryBuilder,
 } from 'typeorm'
-import { getConnectedDb } from "./utils.js";
-import { OrPromise } from "@veramo/utils";
+import { getConnectedDb } from './utils.js'
+import { OrPromise } from '@veramo/utils'
 
 /**
- * This class implements the {@link @veramo/core#IDataStoreORM} query interface using a TypeORM compatible database.
+ * This class implements the {@link @veramo/core-types#IDataStoreORM} query interface using a TypeORM compatible database.
  *
  * This allows you to filter Verifiable Credentials, Presentations and Messages by some common properties that are
  * parsed and stored in database tables.
@@ -50,8 +50,8 @@ import { OrPromise } from "@veramo/utils";
  * database with Credentials, Presentations and Messages in such a way that they can be queried by this class.
  * These two classes MUST also share the same database connection.
  *
- * @see {@link @veramo/core#IDataStoreORM}
- * @see {@link @veramo/core#IDataStore}
+ * @see {@link @veramo/core-types#IDataStoreORM}
+ * @see {@link @veramo/core-types#IDataStore}
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -348,7 +348,9 @@ function addVerifierQuery(input: FindArgs<any>, qb: SelectQueryBuilder<any>): Se
 }
 
 function createWhereObject(
-  input: FindArgs<TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns | TIdentifiersColumns>,
+  input: FindArgs<
+    TMessageColumns | TClaimsColumns | TCredentialColumns | TPresentationColumns | TIdentifiersColumns
+  >,
 ): any {
   const where: Record<string, any> = {}
   if (input?.where) {

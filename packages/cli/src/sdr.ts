@@ -278,7 +278,7 @@ sdr
         ' ' +
         shortDid(message.from) +
         ' asking to share: ' +
-        //@ts-ignore
+        // @ts-ignore
         message.data?.claims?.map((claim) => claim.claimType).join(','),
       value: message,
     }))
