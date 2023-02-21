@@ -80,6 +80,34 @@ describe('credential-LD full flow', () => {
     didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr:goerli' })
   })
 
+  it('create credential with inline context', async () => {
+    const credential: CredentialPayload = {
+      issuer: didKeyIdentifier.did,
+      '@context': [
+        {
+          '@context': {
+            nothing: 'custom:example.context#blank',
+          },
+        },
+      ],
+      credentialSubject: {
+        nothing: 'else matters',
+      },
+    }
+    const verifiableCredential = await agent.createVerifiableCredential({
+      credential,
+      proofFormat: 'lds',
+    })
+
+    expect(verifiableCredential).toBeDefined()
+
+    const result = await agent.verifyCredential({
+      credential: verifiableCredential,
+    })
+
+    expect(result.verified).toBe(true)
+  })
+
   it('works with Ed25519Signature2018 credential', async () => {
     const credential: CredentialPayload = {
       issuer: didKeyIdentifier.did,
