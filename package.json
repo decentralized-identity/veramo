@@ -12,7 +12,7 @@
     "test:integration-pretty": "prettier --write __tests__/shared/documentationExamples.ts",
     "test:integration": "pnpm test:integration-build && pnpm test:ci",
     "test:ci": "pnpm test -- --coverage=true",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-import-meta-resolve\" jest",
     "test:watch": "pnpm test --watch --verbose",
     "test:browser": "cd packages/test-react-app && pnpm test:browser",
     "veramo": "cross-env ./packages/cli/bin/veramo.js",
@@ -45,6 +45,7 @@
     "@types/uuid": "^9.0.0",
     "blakejs": "^1.2.1",
     "caip": "^1.1.0",
+    "chalk": "^5.2.0",
     "credential-status": "^2.0.5",
     "cross-env": "7.0.3",
     "did-jwt": "^6.11.0",
@@ -88,5 +89,7 @@
   "engines": {
     "node": ">= 18.0.0"
   },
-  "workspaces": ["packages/*"]
+  "workspaces": [
+    "packages/*"
+  ]
 }

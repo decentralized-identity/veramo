@@ -1,8 +1,8 @@
 import { getAgent } from './setup.js'
-import { program } from 'commander'
+import { Command } from 'commander'
 import fs from 'fs'
 
-const message = program.command('message').description('Messages')
+const message = new Command('message').description('Messages')
 
 message
   .command('handle', { isDefault: true })
@@ -11,8 +11,8 @@ message
   .option('-f, --file <string>', 'Path to a file containing raw message')
   .option('--save <boolean>', 'Save message', true)
 
-  .action(async (options) => {
-    const agent = await getAgent(program.opts().config)
+  .action(async (options: { file: string; raw: string; save: boolean }, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
     try {
       let raw
 
@@ -35,3 +35,5 @@ message
       console.error(e.message)
     }
   })
+
+export { message }

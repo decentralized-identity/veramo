@@ -1,6 +1,6 @@
 import { ICredentialRequestInput } from '@veramo/selective-disclosure'
 import { getAgent } from './setup.js'
-import { program } from 'commander'
+import { Command } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { shortDate, shortDid } from './explore/utils.js'
@@ -9,13 +9,14 @@ import { asArray, extractIssuer } from '@veramo/utils'
 
 import fuzzy from 'fuzzy'
 
-const sdr = program.command('sdr').description('Selective Disclosure Request')
+const sdr = new Command('sdr').description('Selective Disclosure Request')
 
 sdr
   .command('create', { isDefault: true })
   .description('create Selective Disclosure Request')
-  .action(async (cmd) => {
-    const agent = await getAgent(program.opts().config)
+  .option('-q, --qrcode', 'Show qrcode')
+  .action(async (opts: { qrcode: boolean }, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
     const identifiers = await agent.didManagerFind()
 
     const knownDids = await agent.dataStoreORMGetIdentifiers()
@@ -253,7 +254,7 @@ sdr
       console.log('Subject not specified')
     }
 
-    if (cmd.qrcode) {
+    if (opts.qrcode) {
       qrcode.generate(jwt)
     } else {
       console.dir(data, { depth: 10 })
@@ -264,8 +265,8 @@ sdr
 sdr
   .command('respond')
   .description('respond to Selective Disclosure Request')
-  .action(async (cmd) => {
-    const agent = await getAgent(program.opts().config)
+  .action(async (opts: {}, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
     const sdrMessages = await agent.dataStoreORMGetMessages({
       where: [{ column: 'type', value: ['sdr'] }],
       order: [{ column: 'createdAt', direction: 'DESC' }],
@@ -354,3 +355,5 @@ sdr
 
     console.dir(verifiablePresentation, { depth: 10 })
   })
+
+export { sdr }

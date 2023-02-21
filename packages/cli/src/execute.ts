@@ -1,18 +1,17 @@
-import { program } from 'commander'
+import { Command } from 'commander'
 import inquirer from 'inquirer'
 import { getAgent } from './setup.js'
 import fs from 'fs'
 import OasResolver from 'oas-resolver'
 import fuzzy from 'fuzzy'
 
-program
-  .command('execute')
-  .description('Executes agent method')
+const execute = new Command('execute')
+  .description('Execute agent method')
   .option('-m, --method <string>', 'Method name')
   .option('-a, --argsJSON <string>', 'Method arguments')
   .option('-f, --argsFile <string>', 'Path to a file containing method arguments in a JSON string')
-  .action(async (options) => {
-    const agent = await getAgent(program.opts().config)
+  .action(async (options: { method: string; argsJSON?: string; argsFile?: string }, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
 
     try {
       let method = options.method
@@ -92,9 +91,13 @@ program
       } else {
         if (argsFile) {
           console.log({ argsFile })
-          argsString = fs.readFileSync(argsFile)
+          argsString = fs.readFileSync(argsFile).toString('utf-8')
         }
-        argsObj = JSON.parse(argsString)
+        try {
+          argsObj = JSON.parse(argsString!)
+        } catch (e: any) {
+          console.error('could not parse arguments JSON')
+        }
       }
 
       console.log('\nMethod: ', method)
@@ -111,3 +114,5 @@ program
       console.error(e.message)
     }
   })
+
+export { execute }
