@@ -15,6 +15,8 @@
     "update-veramo-latest": "pnpm add @veramo/core@latest @veramo/discovery@latest @veramo/remote-client@latest @veramo/remote-server@latest @veramo/did-provider-key@latest @veramo/did-resolver@latest @veramo/did-jwt@latest @veramo/credential-w3c@latest @veramo/did-provider-ethr@latest @veramo/did-provider-web@latest @veramo/did-comm@latest @veramo/kms-local@latest @veramo/selective-disclosure@latest @veramo/data-store@latest @veramo/key-manager@latest @veramo/message-handler@latest @veramo/did-manager@latest @veramo/url-handler@latest @veramo/credential-eip712@latest @veramo/utils@latest"
   },
   "dependencies": {
+    "@ceramicnetwork/3id-did-resolver": "^2.11.0",
+    "@ceramicnetwork/http-client": "^2.15.0",
     "@microsoft/api-extractor": "^7.33.8",
     "@microsoft/api-extractor-model": "^7.25.3",
     "@transmute/credentials-context": "^0.7.0-unstable.79",
