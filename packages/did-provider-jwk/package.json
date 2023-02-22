@@ -3,6 +3,7 @@
   "version": "5.0.0",
   "description": "Veramo plugin that can enable creation and control of did:jwk identifiers.",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "exports": "./build/index.js",
   "scripts": {
     "build": "tsc",

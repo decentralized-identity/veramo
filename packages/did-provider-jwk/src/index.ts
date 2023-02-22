@@ -6,4 +6,4 @@
  */
 export { JwkDIDProvider } from './jwk-did-provider.js'
 export { getDidJwkResolver } from './resolver.js'
-export type JwkDidSupportedKeyTypes = 'Secp256r1' | 'Secp256k1' | 'Ed25519' | 'X25519'
+export * from './types/jwk-provider-types.js'

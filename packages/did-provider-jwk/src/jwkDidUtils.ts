@@ -1,4 +1,4 @@
-import type { JwkDidSupportedKeyTypes } from '.'
+import type { JwkDidSupportedKeyTypes } from './types/jwk-provider-types.js'
 import { VerificationMethod, type JsonWebKey } from 'did-resolver'
 import { hexToBytes, bytesToBase64url, extractPublicKeyHex } from '@veramo/utils'
 import elliptic from 'elliptic'
