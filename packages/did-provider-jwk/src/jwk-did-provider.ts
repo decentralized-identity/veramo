@@ -1,5 +1,6 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
+import { encodeJoseBlob } from '@veramo/utils'
 import { VerificationMethod } from 'did-resolver'
 import type { JwkDidSupportedKeyTypes } from '.'
 import { generateJWKfromVerificationMethod } from './jwkDidUtils.js'
@@ -8,7 +9,6 @@ import Debug from 'debug'
 const debug = Debug('veramo:did-jwk:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>;
-
 
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:jwk` identifiers
@@ -37,7 +37,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
       keyType, 
       { publicKeyHex: key.publicKeyHex } as VerificationMethod
     )
-    const jwkBase64url = Buffer.from(JSON.stringify(jwk)).toString('base64url')
+    const jwkBase64url = encodeJoseBlob(jwk as {})
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: `did:jwk:${jwkBase64url}`,
