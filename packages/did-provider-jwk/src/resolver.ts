@@ -78,7 +78,8 @@ export const resolveDidJwk: DIDResolver = async (
 
 
     const didIdentifier = did.split('did:jwk:')[1]
-    if (!didIdentifier) throw Error('Invalid DID')
+    if (!didIdentifier) throw Error('illegal_argument: Invalid DID')
+
 
     const jwk = parseDidJwkIdentifier(didIdentifier)
     const didDocument = await generateDidDocument(jwk)
