@@ -88,7 +88,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; service: IService; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('JwkDIDProvider addService not supported')
+    throw Error('not_supported: JwkDIDProvider addService not possible')
   }
 
   async removeKey(
