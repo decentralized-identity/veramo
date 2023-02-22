@@ -30,7 +30,7 @@ export const MANDATORY_CREDENTIAL_CONTEXT = 'https://www.w3.org/2018/credentials
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function processEntryToArray(
-  inputEntryOrArray?: string | string[] | null,
+  inputEntryOrArray?: string | string[] | any,
   startWithEntry?: string,
 ): string[] {
   const result: string[] = asArray<string>(inputEntryOrArray) || [startWithEntry]
