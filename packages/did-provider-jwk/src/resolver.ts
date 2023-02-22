@@ -58,7 +58,7 @@ function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
   try {
     const jwk = JSON.parse(decodeBase64url(didIdentifier)) as unknown
     if (!isJWK(jwk)) {
-      throw new Error("DID identifier doesn't contain a valid JWK")
+      throw new Error("illegal_argument: DID identifier doesn't contain a valid JWK")
     }
     return jwk
   } catch (error) {
