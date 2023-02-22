@@ -62,7 +62,8 @@ function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
     }
     return jwk
   } catch (error) {
-    throw new Error('Invalid DID identifier')
+    throw new Error('illegal_argument: Invalid DID identifier')
+
   }
 }
 
