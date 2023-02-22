@@ -1,0 +1,185 @@
+{
+  "id": "ceramic://kjzl6cwe1jw14amq2gh9w54p7mqkyvudy8z1bexw1w9b9vw3ikac6ahwhyurrll",
+  "_type": [
+    "VerifiableCredential",
+    "CredScoreGTEGood",
+    "Credit",
+    "Borrowing",
+    "Finance",
+    "DeFi",
+    "WorkExperience"
+  ],
+  "proof": {
+    "type": "EthereumEip712Signature2021",
+    "eip712": {
+      "types": {
+        "Issuer": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "ethereumAddress",
+            "type": "address"
+          }
+        ],
+        "EIP712Domain": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "type": "string"
+          },
+          {
+            "name": "chainId",
+            "type": "uint256"
+          },
+          {
+            "name": "verifyingContract",
+            "type": "address"
+          }
+        ],
+        "CredentialSchema": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "_type",
+            "type": "string"
+          }
+        ],
+        "CredentialSubject": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "ethereumAddress",
+            "type": "address"
+          },
+          {
+            "name": "_type",
+            "type": "string"
+          },
+          {
+            "name": "typeSchema",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "string"
+          },
+          {
+            "name": "encrypted",
+            "type": "string"
+          },
+          {
+            "name": "trust",
+            "type": "uint8"
+          },
+          {
+            "name": "stake",
+            "type": "uint256"
+          },
+          {
+            "name": "price",
+            "type": "uint256"
+          },
+          {
+            "name": "nbf",
+            "type": "uint256"
+          },
+          {
+            "name": "exp",
+            "type": "uint256"
+          }
+        ],
+        "VerifiableCredential": [
+          {
+            "name": "_context",
+            "type": "string"
+          },
+          {
+            "name": "_type",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "issuer",
+            "type": "Issuer"
+          },
+          {
+            "name": "credentialSubject",
+            "type": "CredentialSubject"
+          },
+          {
+            "name": "credentialSchema",
+            "type": "CredentialSchema"
+          },
+          {
+            "name": "issuanceDate",
+            "type": "string"
+          },
+          {
+            "name": "expirationDate",
+            "type": "string"
+          }
+        ]
+      },
+      "domain": {
+        "name": "Krebit",
+        "chainId": 137,
+        "version": "1.0",
+        "verifyingContract": "0xdEb4810c8AB3f9De3F253064A40b1D0c8703fbbf"
+      },
+      "primaryType": "VerifiableCredential"
+    },
+    "created": "2023-02-10T19:19:14.884Z",
+    "proofValue": "0x50af66d10f4754db27218c99cb1026f66da1f1958c4be7fc0e671aa62cce5e360c3f2d9e08807a6dca3802fc6e2151e60293d4d712f7c79b069cce77b52af1721c",
+    "proofPurpose": "assertionMethod",
+    "ethereumAddress": "0x5AFd488fe9843E51db54B2262F247572926aea5F",
+    "verificationMethod": "did:pkh:eip155:1:0x5afd488fe9843e51db54b2262f247572926aea5f#ethereumAddress"
+  },
+  "issuer": {
+    "id": "did:pkh:eip155:1:0x5afd488fe9843e51db54b2262f247572926aea5f",
+    "ethereumAddress": "0x5AFd488fe9843E51db54B2262F247572926aea5F"
+  },
+  "_context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://w3id.org/security/suites/eip712sig-2021"
+  ],
+  "issuanceDate": "2023-02-10T19:14:14.881Z",
+  "expirationDate": "2026-02-10T19:19:14.841Z",
+  "credentialSchema": {
+    "id": "https://github.com/KrebitDAO/eip712-vc",
+    "type": "Eip712SchemaValidator2021"
+  },
+  "credentialSubject": {
+    "id": "did:pkh:eip155:1:0xee55527cf8ea371ac9d574e7e861d28a27b241a4",
+    "did": "did:pkh:eip155:1:0xee55527cf8ea371ac9d574e7e861d28a27b241a4",
+    "exp": 1770751154,
+    "nbf": 1676056454,
+    "tags": [
+      "Credit",
+      "Borrowing",
+      "Finance",
+      "DeFi",
+      "WorkExperience"
+    ],
+    "type": "CredScoreGTEGood",
+    "price": 0,
+    "stake": 1,
+    "trust": 100,
+    "value": "{\"name\":\"Cred Protocol Score >= Good\",\"entity\":\"credprotocol.com\",\"proof\":{\"account\":\"0xEE55527CF8ea371Ac9D574E7e861D28A27b241a4\",\"creation_date_utc\":\"2023-02-10 19:19:13\",\"model_version\":\"nebula_1.0.6\",\"value\":803,\"decile\":\"4.00\",\"value_rating\":\"Good\"}}",
+    "encrypted": "none",
+    "typeSchema": "krebit://schemas/certificate",
+    "expirationDate": "2026-02-10T19:19:14.841Z",
+    "ethereumAddress": "0xee55527cf8ea371ac9d574e7e861d28a27b241a4"
+  }
+}
