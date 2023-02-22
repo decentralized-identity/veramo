@@ -1,0 +1,136 @@
+{
+  "id": "kjzl6cwe1jw14bn99lu4spvfdvjyxtm4cg2ys5jmd0gqjaov5fqifwlf0af3hbt-did:pkh:eip155:1:0xde695cbb6ec0cf3f4c9564070baeb032552c5111",
+  "type": [
+    "VerifiableCredential",
+    "EventAttendanceCredential"
+  ],
+  "proof": {
+    "type": "EthereumEip712Signature2021",
+    "eip712": {
+      "types": {
+        "Issuer": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "ethereumAddress",
+            "type": "string"
+          }
+        ],
+        "EIP712Domain": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "type": "string"
+          },
+          {
+            "name": "chainId",
+            "type": "uint256"
+          },
+          {
+            "name": "verifyingContract",
+            "type": "address"
+          }
+        ],
+        "CredentialSchema": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "type": "string"
+          }
+        ],
+        "CredentialSubject": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "eventName",
+            "type": "string"
+          },
+          {
+            "name": "eventIcon",
+            "type": "string"
+          },
+          {
+            "name": "eventId",
+            "type": "string"
+          }
+        ],
+        "VerifiableCredential": [
+          {
+            "name": "@context",
+            "type": "string[]"
+          },
+          {
+            "name": "type",
+            "type": "string[]"
+          },
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "issuer",
+            "type": "Issuer"
+          },
+          {
+            "name": "credentialSubject",
+            "type": "CredentialSubject"
+          },
+          {
+            "name": "credentialSchema",
+            "type": "CredentialSchema"
+          },
+          {
+            "name": "issuanceDate",
+            "type": "string"
+          },
+          {
+            "name": "expirationDate",
+            "type": "string"
+          }
+        ]
+      },
+      "domain": {
+        "name": "Verifiable Event Attendance",
+        "chainId": 1,
+        "version": "1",
+        "verifyingContract": "0x00000000000000000000000000000000000000000000"
+      },
+      "primaryType": "VerifiableCredential"
+    },
+    "created": "2023-02-17T02:55:22.601Z",
+    "proofValue": "0xc8cd38c1ba36b2209a334de8f412a8a7f8bbc20639d981c41806444e7cc2e1396d42264957771823c5f7b3f846d141333486e0c78f88ed2d657cad3f9325a64f1c",
+    "proofPurpose": "assertionMethod",
+    "ethereumAddress": "0xf6dcc520f11ad600da7E01da44e0e70D094ea246",
+    "verificationMethod": "did:pkh:eip155:1:0xf6dcc520f11ad600da7e01da44e0e70d094ea246#ethereumAddress"
+  },
+  "issuer": {
+    "id": "did:pkh:eip155:1:0xf6dcc520f11ad600da7e01da44e0e70d094ea246",
+    "ethereumAddress": "0xf6dcc520f11ad600da7E01da44e0e70D094ea246"
+  },
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://raw.githubusercontent.com/w3c-ccg/ethereum-eip712-signature-2021-spec/main/contexts/v1/index.json"
+  ],
+  "issuanceDate": "2023-02-17T02:55:22.549Z",
+  "expirationDate": "2123-02-17T02:55:22.549Z",
+  "credentialSchema": {
+    "id": "https://app.vess.id/schemas/EventAttendance.json",
+    "type": "Eip712SchemaValidator2021"
+  },
+  "credentialSubject": {
+    "id": "did:pkh:eip155:1:0xde695cbb6ec0cf3f4c9564070baeb032552c5111",
+    "eventId": "kjzl6cwe1jw14bn99lu4spvfdvjyxtm4cg2ys5jmd0gqjaov5fqifwlf0af3hbt",
+    "eventIcon": "https://bafybeibgqa2kti2c53vq7tajbidclxbjytsgucqjdffmc2yniepejiqs7i.ipfs.w3s.link/nec_preevent.png",
+    "eventName": "NEC Web3 Community Pre-Event"
+  }
+}
