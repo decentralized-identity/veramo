@@ -74,7 +74,8 @@ export const resolveDidJwk: DIDResolver = async (
   options: DIDResolutionOptions,
 ): Promise<DIDResolutionResult> => {
   try {
-    if (parsed.method !== 'jwk') throw Error('Invalid DID method')
+    if (parsed.method !== 'jwk') throw Error('illegal_argument: Invalid DID method')
+
 
     const didIdentifier = did.split('did:jwk:')[1]
     if (!didIdentifier) throw Error('Invalid DID')
