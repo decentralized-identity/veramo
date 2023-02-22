@@ -45,7 +45,7 @@ function createJWK(keyType: string, pubKey: string | Uint8Array): JsonWebKey | u
       x: bytesToBase64url(typeof pubKey === 'string' ? hexToBytes(pubKey) : pubKey),
     } as JsonWebKey
   }
-  throw new Error('Failed to create JWK')
+  throw new Error(`not_supported: Failed to create JWK using ${keyType}`)
 }
 
 export function generateJWKfromVerificationMethod(keyType: JwkDidSupportedKeyTypes, key: VerificationMethod) {

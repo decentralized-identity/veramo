@@ -58,7 +58,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     },
     context: IAgentContext<IKeyManager>
   ): Promise<IIdentifier> {
-    throw new Error('JwkDIDProvider updateIdentifier not supported')
+    throw new Error('not_supported: JwkDIDProvider updateIdentifier not possible')
   }
 
   async deleteIdentifier(
@@ -78,7 +78,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('JwkDIDProvider addKey not supported')
+    throw Error('not_supported: JwkDIDProvider addKey not possible')
   }
 
   async addService({
@@ -88,20 +88,22 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; service: IService; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('JwkDIDProvider addService not supported')
+    throw Error('not_supported: JwkDIDProvider addService not possible')
   }
 
   async removeKey(
     args: { identifier: IIdentifier; kid: string; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('JwkDIDProvider removeKey not supported')
+    throw Error('not_supported: JwkDIDProvider removeKey not possible')
+
   }
 
   async removeService(
     args: { identifier: IIdentifier; id: string; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('JwkDIDProvider removeService not supported')
+    throw Error('not_supported: JwkDIDProvider removeService not possible')
+
   }
 }

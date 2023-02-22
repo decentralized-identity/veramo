@@ -58,11 +58,12 @@ function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
   try {
     const jwk = JSON.parse(decodeBase64url(didIdentifier)) as unknown
     if (!isJWK(jwk)) {
-      throw new Error("DID identifier doesn't contain a valid JWK")
+      throw new Error("illegal_argument: DID identifier doesn't contain a valid JWK")
     }
     return jwk
   } catch (error) {
-    throw new Error('Invalid DID identifier')
+    throw new Error('illegal_argument: Invalid DID identifier')
+
   }
 }
 
@@ -73,10 +74,12 @@ export const resolveDidJwk: DIDResolver = async (
   options: DIDResolutionOptions,
 ): Promise<DIDResolutionResult> => {
   try {
-    if (parsed.method !== 'jwk') throw Error('Invalid DID method')
+    if (parsed.method !== 'jwk') throw Error('illegal_argument: Invalid DID method')
+
 
     const didIdentifier = did.split('did:jwk:')[1]
-    if (!didIdentifier) throw Error('Invalid DID')
+    if (!didIdentifier) throw Error('illegal_argument: Invalid DID')
+
 
     const jwk = parseDidJwkIdentifier(didIdentifier)
     const didDocument = await generateDidDocument(jwk)
