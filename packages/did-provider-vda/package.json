@@ -1,0 +1,41 @@
+{
+  "name": "@veramo/did-provider-vda",
+  "description": "Veramo plugin that can enable creation and control of did:vda identifiers.",
+  "version": "5.0.0",
+  "main": "build/index.js",
+  "exports": "./build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+  },
+  "dependencies": {
+    "@veramo/core-types": "^5.0.0",
+    "@veramo/did-manager": "^5.0.0",
+    "debug": "^4.3.3",
+    "did-resolver": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "typescript": "4.9.4"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Mircea Nistor <mircea.nistor@mesh.xyz>",
+  "contributors": [],
+  "license": "Apache-2.0",
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}

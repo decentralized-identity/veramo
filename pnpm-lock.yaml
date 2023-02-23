@@ -685,6 +685,23 @@ importers:
       '@types/debug': 4.1.7
       typescript: 4.9.4
 
+  packages/did-provider-vda:
+    specifiers:
+      '@types/debug': 4.1.7
+      '@veramo/core-types': ^5.0.0
+      '@veramo/did-manager': ^5.0.0
+      debug: ^4.3.3
+      did-resolver: ^4.0.1
+      typescript: 4.9.4
+    dependencies:
+      '@veramo/core-types': link:../core-types
+      '@veramo/did-manager': link:../did-manager
+      debug: 4.3.4
+      did-resolver: 4.0.1
+    devDependencies:
+      '@types/debug': 4.1.7
+      typescript: 4.9.4
+
   packages/did-provider-web:
     specifiers:
       '@types/debug': 4.1.7
