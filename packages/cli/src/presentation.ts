@@ -1,22 +1,22 @@
 import { getAgent } from './setup.js'
-import { program } from 'commander'
+import { Command } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import { readStdin } from './util.js'
 import * as fs from 'fs'
 import * as json5 from 'json5'
 import { extractIssuer } from '@veramo/utils'
-import { PartialIdentifier, UniqueVerifiablePresentation } from "@veramo/core-types";
+import { PartialIdentifier, UniqueVerifiablePresentation } from '@veramo/core-types'
 
-const presentation = program.command('presentation').description('W3C Verifiable Presentation')
+const presentation = new Command('presentation').description('W3C Verifiable Presentation')
 
 presentation
   .command('create', { isDefault: true })
   .description('Create W3C Verifiable Presentation')
   .option('-s, --send', 'Send')
   .option('-q, --qrcode', 'Show qrcode')
-  .action(async (cmd) => {
-    const agent = await getAgent(program.opts().config)
+  .action(async (opts: { send: boolean; qrcode: boolean }, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
     const myIdentifiers = await agent.didManagerFind()
     if (myIdentifiers.length === 0) {
       console.error('No dids')
@@ -33,7 +33,7 @@ presentation
       ...ids.map((id: PartialIdentifier) => id.did),
     ]
 
-    let aud:string[] = []
+    let aud: string[] = []
     const answers = await inquirer.prompt([
       {
         type: 'list',
@@ -72,8 +72,8 @@ presentation
           type: 'list',
           name: 'aud',
           message: 'Select Verifier or enter manually',
-          choices: identifiers
-        }
+          choices: identifiers,
+        },
       ])
       answer = audAnswer.aud
       if (answer === 'manual') {
@@ -144,8 +144,8 @@ presentation
         proofFormat: 'jwt',
       })
 
-      if (cmd.send) {
-        for(var verifier in aud) {
+      if (opts.send) {
+        for (var verifier in aud) {
           try {
             const message = await agent.sendMessageDIDCommAlpha1({
               save: true,
@@ -163,7 +163,7 @@ presentation
         }
       }
 
-      if (cmd.qrcode) {
+      if (opts.qrcode) {
         qrcode.generate(verifiablePresentation.proof.jwt)
       } else {
         console.dir(verifiablePresentation, { depth: 10 })
@@ -178,54 +178,57 @@ presentation
   .option('-d, --domain <string>', 'Optional. Specify a domain that the presentation should match.')
   .option('-f, --filename <string>', 'Optional. Read the presentation from a file instead of stdin')
   .option('-r, --raw <string>', 'Optional. Presentation as a parameter string instead of a file or stdin.')
-  .action(async (options) => {
-    const agent = await getAgent(program.opts().config)
-    let raw: string = ''
-    if (options.raw) {
-      raw = options.raw
-    } else if (options.filename) {
-      raw = await fs.promises.readFile(options.filename, 'utf-8')
-    } else {
-      raw = await readStdin()
-    }
-    let presentationAsJSON: any
-    try {
-      presentationAsJSON = json5.parse(raw)
-    } catch (e: any) {
-      presentationAsJSON = {
-        proof: {
-          type: 'JwtProof2020',
-          jwt: raw,
-        },
-      } as any
-    }
-    const result = await agent.verifyPresentation({
-      presentation: presentationAsJSON,
-      challenge: options.challenge,
-      domain: options.domain,
-    })
-    if (result.verified === true) {
-      console.log('Presentation was verified successfully.')
-    } else {
-      console.error('Presentation could not be verified.')
-    }
-  })
+  .action(
+    async (options: { challenge: string; domain: string; filename: string; raw: string }, cmd: Command) => {
+      const agent = await getAgent(cmd.optsWithGlobals().config)
+      let raw: string = ''
+      if (options.raw) {
+        raw = options.raw
+      } else if (options.filename) {
+        raw = await fs.promises.readFile(options.filename, 'utf-8')
+      } else {
+        raw = await readStdin()
+      }
+      let presentationAsJSON: any
+      try {
+        presentationAsJSON = json5.parse(raw)
+      } catch (e: any) {
+        presentationAsJSON = {
+          proof: {
+            type: 'JwtProof2020',
+            jwt: raw,
+          },
+        } as any
+      }
+      const result = await agent.verifyPresentation({
+        presentation: presentationAsJSON,
+        challenge: options.challenge,
+        domain: options.domain,
+      })
+      if (result.verified === true) {
+        console.log('Presentation was verified successfully.')
+      } else {
+        console.error('Presentation could not be verified.')
+      }
+    },
+  )
 
 presentation
   .command('output')
   .description('Print W3C Verifiable Presentation to stdout')
   .option('-t, --tag <string>', 'Optional. Specify the tag for the presentation.')
-  .action(async (options) => {
-    const agent = await getAgent(program.opts().config)
+  .action(async (options: { tag: string }, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
 
-    const presentations: UniqueVerifiablePresentation[] = await agent.dataStoreORMGetVerifiablePresentations({})
+    const presentations: UniqueVerifiablePresentation[] = await agent.dataStoreORMGetVerifiablePresentations(
+      {},
+    )
 
     if (presentations.length > 0) {
-
       let selected = null
       const list: any = []
       if (options.tag) {
-        const matches = presentations.filter(pres => pres.verifiablePresentation.tag === options.tag)
+        const matches = presentations.filter((pres) => pres.verifiablePresentation.tag === options.tag)
         if (matches.length > 1) {
           console.log('Found multiple matching presentations. Only showing the first one.')
         }
@@ -263,3 +266,5 @@ presentation
       console.log('No presentations found.')
     }
   })
+
+export { presentation }

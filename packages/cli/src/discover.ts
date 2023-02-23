@@ -1,18 +1,18 @@
 import { getAgent } from './setup.js'
-import { program } from 'commander'
+import { Command } from 'commander'
 import { printTable } from 'console-table-printer'
 
-const discover = program.command('discover').description('Discovery')
+const discover = new Command('discover').description('Discovery')
 
 discover
   .command('did')
   .description('did discovery')
   .option('-q, --query <string>', 'Query string')
 
-  .action(async (cmd) => {
-    const agent = await getAgent(program.opts().config)
+  .action(async (opts: { query: string }, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
 
-    const response = await agent.discoverDid({ query: cmd.query })
+    const response = await agent.discoverDid({ query: opts.query })
     const list: any = []
 
     response.results.forEach((r: any) => {
@@ -30,3 +30,5 @@ discover
       console.log('No dids discovered')
     }
   })
+
+export { discover }
