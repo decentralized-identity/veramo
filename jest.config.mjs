@@ -1,7 +1,7 @@
-import path from "path";
-import { createRequire } from 'module';
-
-const chalkPath = (await import.meta.resolve("chalk"))
+// import path from "path";
+// import { createRequire } from 'module';
+//
+// const chalkPath = (await import.meta.resolve("chalk"))
 
 export default {
   "moduleFileExtensions": [
