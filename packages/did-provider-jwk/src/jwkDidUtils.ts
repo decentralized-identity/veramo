@@ -1,5 +1,5 @@
 import { JwkDidSupportedKeyTypes, KeyUse, SupportedKeyTypes } from './types/jwk-provider-types.js'
-import { VerificationMethod, type JsonWebKey } from 'did-resolver'
+import type { VerificationMethod, JsonWebKey } from 'did-resolver'
 import { hexToBytes, bytesToBase64url, extractPublicKeyHex } from '@veramo/utils'
 import elliptic from 'elliptic'
 
@@ -45,16 +45,20 @@ export function isJWK(data: unknown): data is JsonWebKey {
   return false
 }
 
-function createJWK(keyType: JwkDidSupportedKeyTypes, pubKey: string | Uint8Array, passedKeyUse?: KeyUse): JsonWebKey | undefined {
+function createJWK(
+  keyType: JwkDidSupportedKeyTypes,
+  pubKey: string | Uint8Array,
+  passedKeyUse?: KeyUse,
+): JsonWebKey | undefined {
   try {
     const keyUse = getKeyUse(keyType, passedKeyUse)
     switch (keyType) {
-      case SupportedKeyTypes.Secp256k1:
-        {const EC = new elliptic.ec('secp256k1')
+      case SupportedKeyTypes.Secp256k1: {
+        const EC = new elliptic.ec('secp256k1')
         const pubPoint = EC.keyFromPublic(pubKey, 'hex').getPublic()
         const x = pubPoint.getX()
         const y = pubPoint.getY()
-  
+
         return {
           alg: 'ES256K',
           crv: 'secp256k1',
@@ -62,14 +66,14 @@ function createJWK(keyType: JwkDidSupportedKeyTypes, pubKey: string | Uint8Array
           ...(keyUse && { use: keyUse }),
           x: bytesToBase64url(hexToBytes(x.toString('hex'))),
           y: bytesToBase64url(hexToBytes(y.toString('hex'))),
-        } as JsonWebKey}
-      case SupportedKeyTypes.Secp256r1:
-        {const EC = new elliptic.ec('p256')
-        // add '03' prefix to public key
-        const pubPoint = EC.keyFromPublic(`03${pubKey}`, 'hex').getPublic()
+        } as JsonWebKey
+      }
+      case SupportedKeyTypes.Secp256r1: {
+        const EC = new elliptic.ec('p256')
+        const pubPoint = EC.keyFromPublic(pubKey, 'hex').getPublic()
         const x = pubPoint.getX()
         const y = pubPoint.getY()
-  
+
         return {
           alg: 'ES256',
           crv: 'P-256',
@@ -77,7 +81,8 @@ function createJWK(keyType: JwkDidSupportedKeyTypes, pubKey: string | Uint8Array
           ...(keyUse && { use: keyUse }),
           x: bytesToBase64url(hexToBytes(x.toString('hex'))),
           y: bytesToBase64url(hexToBytes(y.toString('hex'))),
-        } as JsonWebKey}
+        } as JsonWebKey
+      }
       case SupportedKeyTypes.Ed25519:
         return {
           alg: 'EdDSA',
@@ -98,10 +103,14 @@ function createJWK(keyType: JwkDidSupportedKeyTypes, pubKey: string | Uint8Array
         throw new Error(`not_supported: Failed to create JWK using ${keyType}`)
     }
   } catch (error) {
-    throw error;
+    throw error
   }
 }
 
-export function generateJWKfromVerificationMethod(keyType: JwkDidSupportedKeyTypes, key: VerificationMethod, keyUse?: KeyUse) {
+export function generateJwkFromVerificationMethod(
+  keyType: JwkDidSupportedKeyTypes,
+  key: VerificationMethod,
+  keyUse?: KeyUse,
+) {
   return createJWK(keyType, extractPublicKeyHex(key), keyUse)
 }

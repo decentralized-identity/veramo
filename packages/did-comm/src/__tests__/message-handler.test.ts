@@ -36,8 +36,6 @@ const DIDCommEventSniffer: IEventListener = {
   onEvent: jest.fn(() => Promise.resolve()),
 }
 
-const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
-
 describe('did-comm-message-handler', () => {
   let sender: IIdentifier
   let recipient: IIdentifier
@@ -50,7 +48,7 @@ describe('did-comm-message-handler', () => {
     dbConnection = new DataSource({
       name: 'test',
       type: 'sqlite',
-      database: databaseFile,
+      database: ':memory:',
       synchronize: false,
       migrations: migrations,
       migrationsRun: true,
@@ -165,6 +163,11 @@ describe('did-comm-message-handler', () => {
       await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
     } catch (e) {
       //nop
+    }
+    try {
+      await dbConnection?.destroy()
+    } catch (e: any) {
+      // nop
     }
   })
 

@@ -3,7 +3,7 @@ import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { encodeJoseBlob } from '@veramo/utils'
 import { VerificationMethod } from 'did-resolver'
 import type { JwkCreateIdentifierOptions, JwkDidImportOrGenerateKeyArgs, JwkDidSupportedKeyTypes } from './types/jwk-provider-types.js'
-import { generateJWKfromVerificationMethod } from './jwkDidUtils.js'
+import { generateJwkFromVerificationMethod } from './jwkDidUtils.js'
 
 import Debug from 'debug'
 const debug = Debug('veramo:did-jwk:identifier-provider')
@@ -39,8 +39,8 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
       context,
     )
 
-    const jwk = generateJWKfromVerificationMethod(
-      keyType, 
+    const jwk = generateJwkFromVerificationMethod(
+      keyType,
       {
         publicKeyHex: key.publicKeyHex,
       } as VerificationMethod,
@@ -114,7 +114,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
   ): Promise<any> {
     throw Error('not_supported: JwkDIDProvider removeService not possible')
   }
-  
+
   private async importOrGenerateKey(
     args: JwkDidImportOrGenerateKeyArgs,
     context: IContext

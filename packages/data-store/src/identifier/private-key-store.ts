@@ -64,7 +64,12 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
   }
 
   async listKeys(): Promise<Array<ManagedPrivateKey>> {
-    const keys = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).find()
+    let keys = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).find()
+    if (this.secretBox) {
+      for (const key of keys) {
+        key.privateKeyHex = await this.secretBox?.decrypt(key.privateKeyHex) as string
+      }
+    }
     return keys
   }
 }

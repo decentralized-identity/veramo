@@ -36,7 +36,6 @@ const DIDCommEventSniffer: IEventListener = {
   onEvent: jest.fn(() => Promise.resolve()),
 }
 
-const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 
 describe('trust-ping-message-handler', () => {
   let sender: IIdentifier
@@ -50,7 +49,7 @@ describe('trust-ping-message-handler', () => {
     dbConnection = new DataSource({
       name: 'test',
       type: 'sqlite',
-      database: databaseFile,
+      database: ':memory:',
       synchronize: false,
       migrations: migrations,
       migrationsRun: true,
@@ -165,8 +164,13 @@ describe('trust-ping-message-handler', () => {
   afterAll(async () => {
     try {
       await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
-    } catch (e) {
-      //nop
+    } catch (e: any) {
+      // nop
+    }
+    try {
+      dbConnection?.destroy()
+    } catch (e: any) {
+      // nop
     }
   })
 

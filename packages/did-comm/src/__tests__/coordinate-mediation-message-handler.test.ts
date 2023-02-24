@@ -42,8 +42,6 @@ const DIDCommEventSniffer: IEventListener = {
   onEvent: jest.fn(() => Promise.resolve()),
 }
 
-const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
-
 describe('coordinate-mediation-message-handler', () => {
   let recipient: IIdentifier
   let mediator: IIdentifier
@@ -56,7 +54,7 @@ describe('coordinate-mediation-message-handler', () => {
     dbConnection = new DataSource({
       name: 'test',
       type: 'sqlite',
-      database: databaseFile,
+      database: ':memory:',
       synchronize: false,
       migrations: migrations,
       migrationsRun: true,
@@ -171,8 +169,14 @@ describe('coordinate-mediation-message-handler', () => {
   afterAll(async () => {
     try {
       await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
-    } catch (e) {
-      //nop
+    } catch (e: any) {
+      // nop
+    }
+
+    try {
+      await dbConnection?.destroy()
+    } catch (e: any) {
+      // nop
     }
   })
 

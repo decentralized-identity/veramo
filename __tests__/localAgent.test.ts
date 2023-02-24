@@ -116,7 +116,7 @@ let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile =
-    options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.sqlite`
+    options?.context?.databaseFile || ':memory:'
   dbConnection = new DataSource({
     name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',
