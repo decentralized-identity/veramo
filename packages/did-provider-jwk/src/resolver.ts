@@ -8,27 +8,13 @@ import {
   JsonWebKey,
 } from 'did-resolver'
 import { encodeBase64url, decodeBase64url } from '@veramo/utils'
+import { isJWK } from './jwkDidUtils.js'
 
-const isJWK = (data: unknown): data is JsonWebKey => {
-  if (
-    typeof data === 'object' &&
-    data &&
-    'crv' in data &&
-    typeof data.crv === 'string' &&
-    'kty' in data &&
-    'x' in data &&
-    typeof data.x === 'string' &&
-    ((data.kty === 'EC' && 'y' in data && typeof data.y === 'string') ||
-      (data.kty === 'OKP' && !('y' in data)))
-  ) {
-    return true
-  }
-  return false
-}
-
-function generateDidDocument(jwk: JsonWebKey): Promise<DIDDocument> {
+function generateDidResolution(jwk: JsonWebKey, parsed: ParsedDID): Promise<DIDResolutionResult> {
   return new Promise((resolve, reject) => {
     try {
+      const sig = jwk.use === 'sig'
+      const enc = jwk.use === 'enc'
       const did = `did:jwk:${encodeBase64url(JSON.stringify(jwk))}`
       const didDocument: DIDDocument = {
         id: did,
@@ -41,14 +27,26 @@ function generateDidDocument(jwk: JsonWebKey): Promise<DIDDocument> {
             publicKeyJwk: jwk,
           },
         ],
-        assertionMethod: [`${did}#0`],
-        authentication: [`${did}#0`],
-        capabilityInvocation: [`${did}#0`],
-        capabilityDelegation: [`${did}#0`],
-        keyAgreement: [`${did}#0`],
+        ...(sig && { assertionMethod: [`${did}#0`] }),
+        ...(sig && { authentication: [`${did}#0`] }),
+        ...(sig && { capabilityInvocation: [`${did}#0`] }),
+        ...(sig && { capabilityDelegation: [`${did}#0`] }),
+        ...(enc && { keyAgreement: [`${did}#0`] }),
       }
-      resolve(didDocument)
-    } catch (error) {
+      resolve({
+        didDocumentMetadata: {},
+        didResolutionMetadata: {
+          contentType: 'application/did+ld+json',
+          pattern: '^(did:jwk:.+)$',
+          did: {
+            didString: did,
+            methodSpecificId: parsed.id,
+            method: 'jwk',
+          },
+        },
+        didDocument,
+      } as DIDResolutionResult)
+    } catch (error: any) {
       reject(error)
     }
   })
@@ -61,9 +59,8 @@ function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
       throw new Error("illegal_argument: DID identifier doesn't contain a valid JWK")
     }
     return jwk
-  } catch (error) {
+  } catch (error: any) {
     throw new Error('illegal_argument: Invalid DID identifier')
-
   }
 }
 
@@ -76,28 +73,20 @@ export const resolveDidJwk: DIDResolver = async (
   try {
     if (parsed.method !== 'jwk') throw Error('illegal_argument: Invalid DID method')
 
-
     const didIdentifier = did.split('did:jwk:')[1]
     if (!didIdentifier) throw Error('illegal_argument: Invalid DID')
 
-
     const jwk = parseDidJwkIdentifier(didIdentifier)
-    const didDocument = await generateDidDocument(jwk)
-
-    return {
-      didDocumentMetadata: {},
-      didResolutionMetadata: {},
-      didDocument,
-    } as DIDResolutionResult
+    const didResolution = await generateDidResolution(jwk, parsed)
+    return didResolution
   } catch (err: any) {
     return {
       didDocumentMetadata: {},
       didResolutionMetadata: {
-        error: 'invalidDid',
-        message: (err as string).toString(),
+        error: err.message,
       },
       didDocument: null,
-    }
+    } as DIDResolutionResult
   }
 }
 
