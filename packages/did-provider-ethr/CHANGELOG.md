@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/uport-project/veramo/compare/v5.0.0...v5.1.0) (2023-02-24)
+
+
+### Bug Fixes
+
+* **did-provider-ethr:** export KMSEthereumSigner for convenience ([#1124](https://github.com/uport-project/veramo/issues/1124)) ([cee8d2e](https://github.com/uport-project/veramo/commit/cee8d2ea70950f1e1c07ce371bd6eef0de99a122))
+
+
+
+
+
 # [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
 
 

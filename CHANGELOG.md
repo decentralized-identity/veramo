@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/uport-project/veramo/compare/v5.0.0...v5.1.0) (2023-02-24)
+
+
+### Bug Fixes
+
+* add missing `.js` file extension for ESM import ([#1123](https://github.com/uport-project/veramo/issues/1123)) ([6c850ac](https://github.com/uport-project/veramo/commit/6c850ac40f7dd0104c61851eee20551b1bb69ff6)), closes [#1122](https://github.com/uport-project/veramo/issues/1122)
+* **cli:** create veramo instance async in CLI ([#1126](https://github.com/uport-project/veramo/issues/1126)) ([05ab106](https://github.com/uport-project/veramo/commit/05ab10653aac4cb37b00a9be6cc0c7be910f1827)), closes [#1125](https://github.com/uport-project/veramo/issues/1125)
+* **cli:** typo in explore command ([279168d](https://github.com/uport-project/veramo/commit/279168d4fc2b9809090666b6ffb5d4494c9e5cca))
+* correctly export PickupRecipientMessageHandler ([#1121](https://github.com/uport-project/veramo/issues/1121)) ([3a7a086](https://github.com/uport-project/veramo/commit/3a7a0864387f7b56f1bac4cd89a3fd7e6274e644))
+* **credential-eip712:** compatibility improvements for EthereumEIP712Signature2021 ([#1131](https://github.com/uport-project/veramo/issues/1131)) ([672f92b](https://github.com/uport-project/veramo/commit/672f92b1bd3850c369cbef646c8ece8a58fafc16))
+* **did-comm:** correctly export PickupMediatorMessageHandler ([#1120](https://github.com/uport-project/veramo/issues/1120)) ([8de26b0](https://github.com/uport-project/veramo/commit/8de26b0740f68cd6976a7aa5f83ae95ee0dd3dce))
+* **did-provider-ethr:** export KMSEthereumSigner for convenience ([#1124](https://github.com/uport-project/veramo/issues/1124)) ([cee8d2e](https://github.com/uport-project/veramo/commit/cee8d2ea70950f1e1c07ce371bd6eef0de99a122))
+* P256 key parity corrections ([#1137](https://github.com/uport-project/veramo/issues/1137)) ([d0eca2b](https://github.com/uport-project/veramo/commit/d0eca2b3cd9ca6741f7f056e28bb9799910bc5ec)), closes [#1136](https://github.com/uport-project/veramo/issues/1136) [#1135](https://github.com/uport-project/veramo/issues/1135)
+
+
+### Features
+
+* **cli:**  export config methods and adopt `Command` instances instead of global `program`([#1130](https://github.com/uport-project/veramo/issues/1130)) ([9c73d98](https://github.com/uport-project/veramo/commit/9c73d98fd217ed9a612767f49a235cdbf43619cb))
+* **cli:** add did:3 resolver to CLI default config ([#1129](https://github.com/uport-project/veramo/issues/1129)) ([5887e04](https://github.com/uport-project/veramo/commit/5887e04802266bffe71c2a5f7c8d71fbe1f3a158))
+* **cli:** add did:pkh support to the default CLI config ([#1133](https://github.com/uport-project/veramo/issues/1133)) ([19cccc1](https://github.com/uport-project/veramo/commit/19cccc1f394a63505fc40d57a7c1d26d21abc3e5))
+* **core-types:** allow inline [@context](https://github.com/context) for Credentials and Presentations ([#1119](https://github.com/uport-project/veramo/issues/1119)) ([44bb365](https://github.com/uport-project/veramo/commit/44bb36503b635ee1f5431cb4bf28c7a9ba111156)), closes [#1073](https://github.com/uport-project/veramo/issues/1073)
+* **did-provider-jwk:** add did:jwk method support ([#1128](https://github.com/uport-project/veramo/issues/1128)) ([0a22d9c](https://github.com/uport-project/veramo/commit/0a22d9c2426c69c95263b2f0b36617794b59be62))
+
+
+
+
+
 # [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
 
 
