@@ -113,7 +113,8 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<any> {
     throw Error('not_supported: JwkDIDProvider removeService not possible')
-
+  }
+  
   private async importOrGenerateKey(
     args: JwkDidImportOrGenerateKeyArgs,
     context: IContext
