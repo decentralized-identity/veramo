@@ -5,16 +5,15 @@ import {
   ApiParameterListMixin,
   ApiReturnTypeMixin,
 } from '@microsoft/api-extractor-model'
-import { program } from 'commander'
+import { Command } from 'commander'
 import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
 import * as TJS from 'ts-json-schema-generator'
-import fs from 'fs'
 
-import module from "module"
-const requireCjs = module.createRequire(import.meta.url);
+import module from 'module'
 
+const requireCjs = module.createRequire(import.meta.url)
 
 interface Method {
   packageName: string
@@ -24,6 +23,7 @@ interface Method {
   parameters?: string
   response: string
 }
+
 const genericTypes = ['boolean', 'string', 'number', 'any', 'Array<string>']
 
 function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
@@ -77,14 +77,14 @@ function getReference(response: string): OpenAPIV3.ReferenceObject | OpenAPIV3.S
   }
 
   if (['string', 'number', 'boolean', 'object', 'integer'].includes(response)) {
-    //@ts-ignore
+    // @ts-ignore
     return { type: response }
   } else {
     return { $ref: '#/components/schemas/' + response }
   }
 }
 
-const dev = program.command('dev').description('Plugin developer tools')
+const dev = new Command('dev').description('Plugin developer tools')
 
 dev
   .command('generate-plugin-schema')
@@ -129,7 +129,7 @@ dev
         path: resolve(entryFile),
         encodeRefs: false,
         additionalProperties: true,
-        skipTypeCheck: true
+        skipTypeCheck: true,
       })
 
       const apiModel: ApiModel = new ApiModel()
@@ -152,28 +152,28 @@ dev
         const methodSignature = member as ApiMethodSignature
         method.description = methodSignature.tsdocComment?.summarySection
           ?.getChildNodes()[0]
-          //@ts-ignore
+          // @ts-ignore
           ?.getChildNodes()[0]?.text
 
         method.description = method.description || ''
 
         if (method.parameters) {
-          //@ts-ignore
+          // @ts-ignore
           api.components.schemas = {
-            //@ts-ignore
+            // @ts-ignore
             ...api.components.schemas,
             ...createSchema(generator, method.parameters).components.schemas,
           }
         }
 
-        //@ts-ignore
+        // @ts-ignore
         api.components.schemas = {
-          //@ts-ignore
+          // @ts-ignore
           ...api.components.schemas,
           ...createSchema(generator, method.response).components.schemas,
         }
 
-        //@ts-ignore
+        // @ts-ignore
         api.components.methods[method.operationId] = {
           description: method.description,
           arguments: getReference(method.parameters),
@@ -208,3 +208,5 @@ dev
       process.exitCode = 1
     }
   })
+
+export { dev }

@@ -10,7 +10,7 @@ import { extractIssuer, isDefined, resolveDidOrThrow } from '@veramo/utils'
 import { Status, StatusMethod } from 'credential-status'
 
 /**
- * This plugin implements the {@link @veramo/core#ICredentialStatusVerifier | ICredentialStatusVerifier}
+ * This plugin implements the {@link @veramo/core-types#ICredentialStatusVerifier | ICredentialStatusVerifier}
  * interface.
  *
  * This aggregates some {@link credential-status#StatusMethod | credential status implementations} to provide a second

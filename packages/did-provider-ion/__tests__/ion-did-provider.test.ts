@@ -4,8 +4,8 @@ import { DIDManager, MemoryDIDStore } from '../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src'
 import { IonPublicKeyPurpose } from '@decentralized-identity/ion-sdk'
 import { KeyManagementSystem } from '../../kms-local/src'
-import { IonDIDProvider } from '../src'
-import { ICreateIdentifierOpts } from '../src/types/ion-provider-types'
+import { IonDIDProvider } from '../src/ion-did-provider.js'
+import { ICreateIdentifierOpts } from '../src/types/ion-provider-types.js'
 
 import { jest } from '@jest/globals'
 

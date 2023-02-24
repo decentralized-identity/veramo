@@ -1,4 +1,12 @@
-import { DIDResolutionResult, IAgentContext, IIdentifier, IKey, IKeyManager, IService, ManagedKeyInfo } from '@veramo/core-types'
+import {
+  DIDResolutionResult,
+  IAgentContext,
+  IIdentifier,
+  IKey,
+  IKeyManager,
+  IService,
+  ManagedKeyInfo,
+} from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 
 import Debug from 'debug'
@@ -47,19 +55,24 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
   private readonly defaultKms: string
   private readonly ionPoW: IonPoW
 
-  constructor(options: { defaultKms: string, challengeEnabled?: boolean, challengeEndpoint?: string, solutionEndpoint?: string}) {
+  constructor(options: {
+    defaultKms: string
+    challengeEnabled?: boolean
+    challengeEndpoint?: string
+    solutionEndpoint?: string
+  }) {
     super()
     this.defaultKms = options.defaultKms
-    const challengeEnabled = options?.challengeEnabled === undefined ? true : options.challengeEnabled;
+    const challengeEnabled = options?.challengeEnabled === undefined ? true : options.challengeEnabled
     const challengeEndpoint = options?.challengeEndpoint
     const solutionEndpoint = options?.solutionEndpoint
     this.ionPoW = new IonPoW({ challengeEnabled, challengeEndpoint, solutionEndpoint })
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerCreate} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerCreate} */
   async createIdentifier(
     { kms, options, alias }: { kms?: string; alias?: string; options?: ICreateIdentifierOpts },
-    context: IAgentContext<IKeyManager>
+    context: IAgentContext<IKeyManager>,
   ): Promise<Omit<IIdentifier, 'provider'>> {
     const actionTimestamp = getActionTimestamp(options?.actionTimestamp)
 
@@ -70,7 +83,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
         relation: KeyIdentifierRelation.RECOVERY,
         options: options?.recoveryKey,
       },
-      context
+      context,
     )
     const updateKey = await this.importProvidedOrGeneratedKey(
       {
@@ -79,7 +92,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
         relation: KeyIdentifierRelation.UPDATE,
         options: options?.updateKey,
       },
-      context
+      context,
     )
 
     // No options or no verification method options, results in us generating a single key as the only authentication verification method in the DID
@@ -102,7 +115,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
           relation: KeyIdentifierRelation.DID,
           options: verificationMethod,
         },
-        context
+        context,
       )
       veramoKeys.push(key)
       ionPublicKeys.push(toIonPublicKey(key, verificationMethod.purposes))
@@ -136,14 +149,20 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     return identifier
   }
 
-  async updateIdentifier(args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any }, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
+  async updateIdentifier(
+    args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any },
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier> {
     throw new Error('IonDIDProvider updateIdentifier not supported yet.')
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerDelete} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerDelete} */
   async deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean> {
     const didResolution = await this.getAssertedDidDocument(identifier, IonDidForm.LONG)
-    const recoveryKey = getVeramoRecoveryKey(identifier.keys, didResolution.didDocumentMetadata.method.recoveryCommitment)
+    const recoveryKey = getVeramoRecoveryKey(
+      identifier.keys,
+      didResolution.didDocumentMetadata.method.recoveryCommitment,
+    )
     const request = await IonRequest.createDeactivateRequest({
       didSuffix: ionDidSuffixFromLong(identifier.did),
       recoveryPublicKey: toJwkEs256k(toIonPublicKeyJwk(recoveryKey.publicKeyHex)),
@@ -155,8 +174,11 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     return true
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerAddKey} */
-  async addKey({ identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: IAddKeyOpts }, context: IContext): Promise<any> {
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerAddKey} */
+  async addKey(
+    { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: IAddKeyOpts },
+    context: IContext,
+  ): Promise<any> {
     if (!options) {
       throw Error('Add key needs options, since we need to know the purpose(s) of the key')
     }
@@ -184,10 +206,10 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     }
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerAddService} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerAddService} */
   async addService(
     { identifier, service, options }: { identifier: IIdentifier; service: IService; options?: IUpdateOpts },
-    context: IContext
+    context: IContext,
   ): Promise<any> {
     const rotation = await this.rotateVeramoKey({ identifier, options, context })
 
@@ -213,8 +235,11 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     }
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerRemoveKey} */
-  async removeKey({ identifier, kid, options }: { identifier: IIdentifier; kid: string; options?: IUpdateOpts }, context: IContext): Promise<any> {
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerRemoveKey} */
+  async removeKey(
+    { identifier, kid, options }: { identifier: IIdentifier; kid: string; options?: IUpdateOpts },
+    context: IContext,
+  ): Promise<any> {
     const rotation = await this.rotateVeramoKey({ identifier, options, context })
 
     const request = await IonRequest.createUpdateRequest({
@@ -235,8 +260,11 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     }
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerRemoveService} */
-  async removeService({ identifier, id, options }: { identifier: IIdentifier; id: string; options?: IUpdateOpts }, context: IContext): Promise<any> {
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerRemoveService} */
+  async removeService(
+    { identifier, id, options }: { identifier: IIdentifier; id: string; options?: IUpdateOpts },
+    context: IContext,
+  ): Promise<any> {
     const rotation = await this.rotateVeramoKey({ identifier, options, context })
 
     const request = await IonRequest.createUpdateRequest({
@@ -264,7 +292,10 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
    * @param didForm - Use short or long form (the default) for resolution
    * @returns - A DID Document promise
    */
-  private async getAssertedDidDocument(identifier: IIdentifier, didForm: IonDidForm = IonDidForm.LONG): Promise<DIDResolutionResult> {
+  private async getAssertedDidDocument(
+    identifier: IIdentifier,
+    didForm: IonDidForm = IonDidForm.LONG,
+  ): Promise<DIDResolutionResult> {
     const didDocument = await resolveDidIonFromIdentifier(identifier, didForm)
     if (!didDocument) {
       return Promise.reject(Error(`Could not resolve existing DID document for did ${identifier.did}`))
@@ -301,7 +332,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       alias?: string
       options?: KeyOpts
     },
-    context: IAgentContext<IKeyManager>
+    context: IAgentContext<IKeyManager>,
   ): Promise<IKeyRotation> {
     const currentVeramoKey =
       relation == KeyIdentifierRelation.UPDATE
@@ -317,7 +348,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
         relation,
         options,
       },
-      context
+      context,
     )
     const nextIonKey = toIonPublicKey(nextVeramoKey)
     const nextJwk = toIonPublicKeyJwk(nextVeramoKey.publicKeyHex)
@@ -345,7 +376,10 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     context: IContext
   }) {
     const didResolution = await this.getAssertedDidDocument(identifier, IonDidForm.LONG)
-    const currentUpdateKey = getVeramoUpdateKey(identifier.keys, didResolution.didDocumentMetadata.method.updateCommitment)
+    const currentUpdateKey = getVeramoUpdateKey(
+      identifier.keys,
+      didResolution.didDocumentMetadata.method.updateCommitment,
+    )
     const commitment = computeCommitmentFromIonPublicKey(toIonPublicKey(currentUpdateKey))
     const actionId = getActionTimestamp(options?.actionTimestamp)
 
@@ -358,7 +392,7 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
         kms: kms ? kms : this.defaultKms,
         options: {},
       },
-      context
+      context,
     )
     return rotation
   }
@@ -380,8 +414,13 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
       actionTimestamp,
       relation,
       options,
-    }: { kms?: string; actionTimestamp: number; relation: KeyIdentifierRelation; options?: KeyOpts | VerificationMethod },
-    context: IAgentContext<IKeyManager>
+    }: {
+      kms?: string
+      actionTimestamp: number
+      relation: KeyIdentifierRelation
+      options?: KeyOpts | VerificationMethod
+    },
+    context: IAgentContext<IKeyManager>,
   ): Promise<IKey> {
     const kid = options?.kid ? options.kid : options?.key?.kid
     const type = options?.type
@@ -401,7 +440,9 @@ export class IonDIDProvider extends AbstractIdentifierProvider {
     let privateKeyHex: string
     if (options?.key) {
       if (!options.key.privateKeyHex) {
-        throw new Error(`We need to have a private key when importing a recovery or update key. Key ${kid} did not have one`)
+        throw new Error(
+          `We need to have a private key when importing a recovery or update key. Key ${kid} did not have one`,
+        )
       }
       privateKeyHex = options.key.privateKeyHex
     } else {

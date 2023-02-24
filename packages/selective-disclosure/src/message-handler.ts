@@ -7,7 +7,7 @@ import { asArray, computeEntryHash } from '@veramo/utils'
 const debug = Debug('veramo:selective-disclosure:message-handler')
 
 /**
- * Identifies a {@link @veramo/core#IMessage} that represents a Selective Disclosure Request
+ * Identifies a {@link @veramo/core-types#IMessage} that represents a Selective Disclosure Request
  *
  * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
  * @beta This API may change without a BREAKING CHANGE notice.

@@ -7,9 +7,7 @@ import {
   IResolver,
   TAgent,
 } from '../../../core-types/src'
-import {
-  createAgent
-} from '../../../core/src'
+import { createAgent } from '../../../core/src'
 import { CredentialPlugin } from '../../../credential-w3c/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
@@ -27,6 +25,7 @@ import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp25
 import { jest } from '@jest/globals'
 
 import 'cross-fetch/polyfill'
+
 jest.setTimeout(300000)
 
 const customContext: Record<string, ContextDoc> = {
@@ -79,6 +78,34 @@ describe('credential-LD full flow', () => {
     })
     didKeyIdentifier = await agent.didManagerCreate()
     didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr:goerli' })
+  })
+
+  it('create credential with inline context', async () => {
+    const credential: CredentialPayload = {
+      issuer: didKeyIdentifier.did,
+      '@context': [
+        {
+          '@context': {
+            nothing: 'custom:example.context#blank',
+          },
+        },
+      ],
+      credentialSubject: {
+        nothing: 'else matters',
+      },
+    }
+    const verifiableCredential = await agent.createVerifiableCredential({
+      credential,
+      proofFormat: 'lds',
+    })
+
+    expect(verifiableCredential).toBeDefined()
+
+    const result = await agent.verifyCredential({
+      credential: verifiableCredential,
+    })
+
+    expect(result.verified).toBe(true)
   })
 
   it('works with Ed25519Signature2018 credential', async () => {

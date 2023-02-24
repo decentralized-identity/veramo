@@ -17,6 +17,7 @@ export interface IDIDCommMessage {
   from_prior?: string
   body: any
   attachments?: IDIDCommMessageAttachment[]
+  return_route?: string
 }
 
 /**
@@ -29,6 +30,11 @@ export interface IDIDCommOptions {
    * Add extra recipients for the packed message.
    */
   bcc?: string[]
+
+  /**
+   * Restrict to a set of kids for recipient
+   */
+  recipientKids?: string[]
 }
 
 /**

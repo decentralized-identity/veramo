@@ -103,10 +103,10 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   async sign({
-               keyRef,
-               algorithm,
-               data,
-             }: {
+    keyRef,
+    algorithm,
+    data,
+  }: {
     keyRef: Pick<IKey, 'kid'>
     algorithm?: string
     data: Uint8Array
@@ -133,10 +133,11 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
       } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)) {
         return await this.eth_signTypedData(managedKey.privateKeyHex, data)
       } else if (['eth_rawSign'].includes(algorithm)) {
-        return this.eth_rawSign(managedKey.privateKeyHex, data);
+        return this.eth_rawSign(managedKey.privateKeyHex, data)
       }
-    } else if (managedKey.type === 'Secp256r1' &&
-       (typeof algorithm === 'undefined' || algorithm === 'ES256')
+    } else if (
+      managedKey.type === 'Secp256r1' &&
+      (typeof algorithm === 'undefined' || algorithm === 'ES256')
     ) {
       return await this.signES256(managedKey.privateKeyHex, data)
     }
@@ -206,7 +207,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
       )
     }
-    delete(msgTypes.EIP712Domain)
+    delete msgTypes.EIP712Domain
     const wallet = new Wallet(privateKeyHex)
 
     const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
@@ -248,7 +249,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed digest in compact format
    */
   private eth_rawSign(managedKey: string, data: Uint8Array) {
-    return new SigningKey("0x" + managedKey).signDigest(data).compact
+    return new SigningKey('0x' + managedKey).signDigest(data).compact
   }
 
   /**
@@ -278,10 +279,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   /**
    * @returns a base64url encoded signature for the `ES256` alg
    */
-  private async signES256(
-    privateKeyHex: string,
-    data: Uint8Array,
-  ): Promise<string> {
+  private async signES256(privateKeyHex: string, data: Uint8Array): Promise<string> {
     const signer = ES256Signer(arrayify(privateKeyHex, { allowMissingPrefix: true }))
     const signature = await signer(data)
     // base64url encoded string
@@ -289,7 +287,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   /**
-   * Converts a {@link @veramo/key-manager#ManagedPrivateKey | ManagedPrivateKey} to {@link @veramo/core#ManagedKeyInfo}
+   * Converts a {@link @veramo/key-manager#ManagedPrivateKey | ManagedPrivateKey} to {@link @veramo/core-types#ManagedKeyInfo}
    */
   private asManagedKeyInfo(args: RequireOnly<ManagedPrivateKey, 'privateKeyHex' | 'type'>): ManagedKeyInfo {
     let key: Partial<ManagedKeyInfo>
@@ -316,7 +314,14 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           kid: args.alias || publicKeyHex,
           publicKeyHex,
           meta: {
-            algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage', 'eth_rawSign'],
+            algorithms: [
+              'ES256K',
+              'ES256K-R',
+              'eth_signTransaction',
+              'eth_signTypedData',
+              'eth_signMessage',
+              'eth_rawSign',
+            ],
           },
         }
         break
@@ -325,7 +330,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const privateBytes = u8a.fromString(args.privateKeyHex.toLowerCase(), 'base16')
         const secp256r1 = new elliptic.ec('p256')
         const keyPair: elliptic.ec.KeyPair = secp256r1.keyFromPrivate(privateBytes)
-        const publicKeyHex = keyPair.getPublic(true, 'hex').substring(2) // We remove the 'compressed' type 03 prefix
+        const publicKeyHex = keyPair.getPublic(true, 'hex')
         key = {
           type: args.type,
           kid: args.alias || publicKeyHex,

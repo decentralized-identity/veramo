@@ -34,18 +34,19 @@ import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
-import { DataSourceOptions, DataSource } from 'typeorm'
+import { DataSource, DataSourceOptions } from 'typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
 
 import { jest } from '@jest/globals'
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// @ts-ignore TS1343
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 jest.setTimeout(60000)
 

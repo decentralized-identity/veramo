@@ -10,6 +10,8 @@ import { IKey } from '@veramo/core-types'
 /**
  * Creates an `@ethersproject/abstract-signer` implementation by wrapping
  * a veramo agent with a key-manager that should be capable of `eth_signTransaction`
+ *
+ * @internal This is exported for convenience, not meant to be supported as part of the public API
  */
 export class KmsEthereumSigner extends Signer implements TypedDataSigner {
   private context: IRequiredContext

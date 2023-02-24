@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid'
 export interface IDIDCommTransportResult {
   result?: string
   error?: string
+  returnMessage?: string
 }
 
 /**
@@ -142,8 +143,15 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
       let result
       if (response.ok) {
+        let returnMessage
+        
+        // Check if response is a DIDComm message
+        if (response.headers.get('Content-Type')?.startsWith('application/didcomm')) {
+          returnMessage = await response.json()
+        }
         result = {
           result: 'successfully sent message: ' + response.statusText,
+          returnMessage: returnMessage,
         }
       } else {
         result = {

@@ -1,5 +1,5 @@
 import { getAgent } from './setup.js'
-import { program } from 'commander'
+import { Command } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
@@ -9,7 +9,7 @@ import { CredentialPayload } from '@veramo/core-types'
 
 import fuzzy from 'fuzzy'
 
-const credential = program.command('credential').description('W3C Verifiable Credential')
+const credential = new Command('credential').description('W3C Verifiable Credential')
 
 credential
   .command('create', { isDefault: true })
@@ -17,8 +17,8 @@ credential
   .option('-s, --send', 'Send')
   .option('-j, --json', 'Output in JSON')
   .option('-q, --qrcode', 'Show qrcode')
-  .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+  .action(async (opts: { send: boolean; qrcode: boolean; json: boolean }, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
     const identifiers = await agent.didManagerFind()
 
     const knownDids = await agent.dataStoreORMGetIdentifiers()
@@ -127,7 +127,7 @@ credential
       proofFormat: answers.proofFormat,
     })
 
-    if (cmd.send) {
+    if (opts.send) {
       let body
       let type
       if (answers.proofFormat == 'jwt') {
@@ -153,10 +153,10 @@ credential
       }
     }
 
-    if (cmd.qrcode) {
+    if (opts.qrcode) {
       qrcode.generate(verifiableCredential.proof.jwt)
     } else {
-      if (cmd.json) {
+      if (opts.json) {
         console.log(JSON.stringify(verifiableCredential, null, 2))
       } else {
         console.dir(verifiableCredential, { depth: 10 })
@@ -169,8 +169,8 @@ credential
   .description('Verify a W3C Verifiable Credential provided as raw string, file or stdin')
   .option('-f, --filename <string>', 'Optional. Read the credential from a file instead of stdin')
   .option('-r, --raw <string>', 'Optional. Specify the credential as a parameter instead of file or stdin')
-  .action(async (options) => {
-    const agent = getAgent(program.opts().config)
+  .action(async (options: { raw: string; filename: string }, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
     let raw: string = ''
     if (options.raw) {
       raw = options.raw
@@ -205,8 +205,8 @@ credential
 credential
   .command('output')
   .description('Print W3C Verifiable Credential to stdout')
-  .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+  .action(async (opts: {}, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
 
     const credentials = await agent.dataStoreORMGetVerifiableCredentials()
 
@@ -236,3 +236,5 @@ credential
       console.log('No credentials found.')
     }
   })
+
+export { credential }

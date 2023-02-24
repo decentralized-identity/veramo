@@ -51,6 +51,21 @@ export default (testContext: {
       //let cred = await agent.createVerifiableCredential()
     });
 
+    it('should resolve did:jwk', async () => {
+      let identifier: IIdentifier = await agent.didManagerCreate({
+        provider: 'did:jwk',
+        // keyType supports 'Secp256k1', 'Secp256r1', 'Ed25519', 'X25519'
+        options: {
+          keyType: "Ed25519"
+        }
+      })
+      const result = await agent.resolveDid({ didUrl: identifier.did})
+      const didDoc = result.didDocument
+      expect(didDoc?.id).toEqual(identifier.did)
+      expect(result).toHaveProperty('didDocumentMetadata')
+      expect(result).toHaveProperty('didResolutionMetadata')
+    });
+
     it('should resolve imported fake did', async () => {
       const did = 'did:fake:myfakedid'
       await agent.didManagerImport({
@@ -127,19 +142,19 @@ export default (testContext: {
 
     it('should throw error when resolving garbage', async () => {
       expect.assertions(3)
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid()).resolves.toEqual({
         didDocument: null,
         didDocumentMetadata: {},
         didResolutionMetadata: { error: 'invalidDid' },
       })
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid({})).resolves.toEqual({
         didDocument: null,
         didDocumentMetadata: {},
         didResolutionMetadata: { error: 'invalidDid' },
       })
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid({ didUrl: 'garbage' })).resolves.toEqual({
         didDocument: null,
         didDocumentMetadata: {},
@@ -160,11 +175,11 @@ export default (testContext: {
 
     it('should throw validation error', async () => {
       expect.assertions(3)
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid()).rejects.toHaveProperty('name', 'ValidationError')
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid({})).rejects.toHaveProperty('name', 'ValidationError')
-      //@ts-ignore
+      // @ts-ignore
       await expect(agent.resolveDid({ didUrl: 1 })).rejects.toHaveProperty('name', 'ValidationError')
     })
   })

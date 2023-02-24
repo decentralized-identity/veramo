@@ -291,7 +291,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * @param args - Required. Arguments to create the identifier
    * @param context - *RESERVED* This is filled by the framework when the method is called. This method's
    *    <a href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
-   *   {@link @veramo/core#IKeyManager} methods.
+   *   {@link @veramo/core-types#IKeyManager} methods.
    *
    * @example
    * ```typescript
@@ -309,7 +309,7 @@ export interface IDIDManager extends IPluginMethodMap {
    *
    * @param args - Required. Arguments to set identifier alias
    * @param context - <a href="/docs/agent/plugins#executing-plugin-methods">Execution context</a>. Requires `agent`
-   *   that has {@link @veramo/core#IKeyManager} methods
+   *   that has {@link @veramo/core-types#IKeyManager} methods
    *
    * @example
    * ```typescript
@@ -328,7 +328,7 @@ export interface IDIDManager extends IPluginMethodMap {
    *   found.
    * @param context - *RESERVED* This is filled by the framework when the method is called. This method's
    *    <a href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
-   *   {@link @veramo/core#IKeyManager} methods.
+   *   {@link @veramo/core-types#IKeyManager} methods.
    */
   didManagerGetOrCreate(
     args: IDIDManagerGetOrCreateArgs,
@@ -336,11 +336,11 @@ export interface IDIDManager extends IPluginMethodMap {
   ): Promise<IIdentifier>
 
   /**
-   * Updates the DID document of a managed {@link @veramo/core#IIdentifier | DID}.
+   * Updates the DID document of a managed {@link @veramo/core-types#IIdentifier | DID}.
    * @param args - the arguments necessary for the update. The options are specific for each DID provider.
    * @param context - *RESERVED* This is filled by the framework when the method is called. This method's
    *   <a href="/docs/agent/plugins#executing-plugin-methods">execution context</a> requires an `agent` that has
-   *   {@link @veramo/core#IKeyManager} methods.
+   *   {@link @veramo/core-types#IKeyManager} methods.
    */
   didManagerUpdate(args: IDIDManagerUpdateArgs, context: IAgentContext<IKeyManager>): Promise<IIdentifier>
 

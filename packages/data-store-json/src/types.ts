@@ -11,7 +11,7 @@ import { ManagedPrivateKey } from '@veramo/key-manager'
 
 /**
  * This is used internally by {@link @veramo/data-store-json#DataStoreJson | DataStoreJson} to represent a Verifiable
- * Credential in a way that facilitates querying using the {@link @veramo/core#IDataStoreORM} interface.
+ * Credential in a way that facilitates querying using the {@link @veramo/core-types#IDataStoreORM} interface.
  *
  * @beta This API may change in future versions without a BREAKING CHANGE notice.
  */
@@ -30,7 +30,7 @@ export interface CredentialTableEntry {
 
 /**
  * This is used internally by {@link @veramo/data-store-json#DataStoreJson | DataStoreJson} to represent the claims
- * contained in a Verifiable Credential in a way that facilitates querying using the {@link @veramo/core#IDataStoreORM}
+ * contained in a Verifiable Credential in a way that facilitates querying using the {@link @veramo/core-types#IDataStoreORM}
  * interface.
  *
  * @beta This API may change in future versions without a BREAKING CHANGE notice.
@@ -50,7 +50,7 @@ export interface ClaimTableEntry {
 
 /**
  * This is used internally by {@link @veramo/data-store-json#DataStoreJson | DataStoreJson} to represent a Verifiable
- * Presentation in a way that facilitates querying using the {@link @veramo/core#IDataStoreORM} interface.
+ * Presentation in a way that facilitates querying using the {@link @veramo/core-types#IDataStoreORM} interface.
  *
  * @beta This API may change in future versions without a BREAKING CHANGE notice.
  */

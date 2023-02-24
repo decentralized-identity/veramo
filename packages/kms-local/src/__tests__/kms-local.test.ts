@@ -1,4 +1,4 @@
-import { KeyManagementSystem } from '../key-management-system'
+import { KeyManagementSystem } from '../key-management-system.js'
 import { TKeyType } from '../../../core-types/src'
 import { MemoryPrivateKeyStore } from '../../../key-manager/src'
 import * as u8a from 'uint8arrays'
@@ -106,7 +106,7 @@ describe('@veramo/kms-local Secp256r1 support', () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const key = await kms.createKey({type: 'Secp256r1'})
     expect(key.type).toEqual('Secp256r1')
-    expect(key.publicKeyHex).toHaveLength(64)
+    expect(key.publicKeyHex).toHaveLength(66)
     expect(key.kid).toBeDefined()
     expect(key.meta).toEqual({
       "algorithms": [
@@ -120,7 +120,7 @@ describe('@veramo/kms-local Secp256r1 support', () => {
     const privateKeyHex = '96fe4d2b4a5d3abc4679fe39aa5d4b76990ff416e6ff403a58bd722cf8352f94'
     const key = await kms.importKey({kid: 'test', privateKeyHex, type: 'Secp256r1'})
     expect(key.type).toEqual('Secp256r1')
-    expect(key.publicKeyHex).toEqual('930fc234a12c939ccb1591a7c394088a30a32e81ac832ed8a0136e32bd73f792')
+    expect(key.publicKeyHex).toEqual('03930fc234a12c939ccb1591a7c394088a30a32e81ac832ed8a0136e32bd73f792')
     expect(key.kid).toEqual('test')
     expect(key.meta).toEqual({
       "algorithms": [

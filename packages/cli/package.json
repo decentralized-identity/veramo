@@ -2,8 +2,26 @@
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
   "version": "5.0.0",
+  "exports": {
+    ".": {
+      "types": "./build/cli.d.ts",
+      "import": "./build/cli.js"
+    },
+    "./build/setup": {
+      "types": "./build/setup.d.ts",
+      "import": "./build/setup.js"
+    },
+    "./build/lib/objectCreator": {
+      "types": "./build/lib/objectCreator.d.ts",
+      "import": "./build/lib/objectCreator.js"
+    },
+    "./build/lib/agentCreator": {
+      "types":"./build/lib/agentCreator.d.ts",
+      "import":"./build/lib/agentCreator.js"
+    },
+    "./package.json": "./package.json"
+  },
   "main": "build/cli.js",
-  "exports": "./build/cli.js",
   "types": "build/cli.d.ts",
   "bin": {
     "veramo": "bin/veramo.js"
@@ -32,6 +50,7 @@
     "@veramo/did-manager": "^5.0.0",
     "@veramo/did-provider-ethr": "^5.0.0",
     "@veramo/did-provider-key": "^5.0.0",
+    "@veramo/did-provider-pkh": "^5.0.0",
     "@veramo/did-provider-web": "^5.0.0",
     "@veramo/did-resolver": "^5.0.0",
     "@veramo/key-manager": "^5.0.0",
@@ -43,7 +62,7 @@
     "@veramo/url-handler": "^5.0.0",
     "@veramo/utils": "^5.0.0",
     "blessed": "^0.1.81",
-    "commander": "^9.0.0",
+    "commander": "^10.0.0",
     "console-table-printer": "^2.10.0",
     "cors": "^2.8.5",
     "cross-fetch": "^3.1.4",

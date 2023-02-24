@@ -1,6 +1,6 @@
 /**
  * Provides a {@link @veramo/did-manager#DIDManager | plugin} for the
- * {@link @veramo/core#Agent} that implements {@link @veramo/core#IDIDManager} interface.
+ * {@link @veramo/core#Agent} that implements {@link @veramo/core-types#IDIDManager} interface.
  *
  * @packageDocumentation
  */

@@ -1,0 +1,42 @@
+{
+  "id": "http://example.com/credentials/3527",
+  "name": "begd",
+  "type": [
+    "VerifiableCredential",
+    "OpenBadgeCredential"
+  ],
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2023-02-11T02:40:43.841Z",
+    "@context": [
+      "https://w3id.org/security/suites/ed25519-2020/v1"
+    ],
+    "proofValue": "z3JLZ5fbUY4J4XyaaVhTyHaC5djPHKVgGYKF8necUHJhZi1Z9aNFvittgA5NkQ3obbVj5DiAD4GwfyxtSovBnWVAt",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "did:key:z6MkqqPLdAy3mL5JFHEBmpuj7NjTEPnMifr2kz83XsbbgkyY#z6MkqqPLdAy3mL5JFHEBmpuj7NjTEPnMifr2kz83XsbbgkyY"
+  },
+  "issuer": "did:key:z6MkqqPLdAy3mL5JFHEBmpuj7NjTEPnMifr2kz83XsbbgkyY",
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://purl.imsglobal.org/spec/ob/v3p0/context.json"
+  ],
+  "issuanceDate": "2023-02-11T02:40:43.832Z",
+  "credentialSubject": {
+    "id": "did:key:z6MkqqPLdAy3mL5JFHEBmpuj7NjTEPnMifr2kz83XsbbgkyY",
+    "type": [
+      "AchievementSubject"
+    ],
+    "achievement": {
+      "id": "https://example.com/achievements/21st-century-skills/teamwork",
+      "name": "begd",
+      "type": [
+        "Achievement"
+      ],
+      "criteria": {
+        "narrative": "hcgij"
+      },
+      "description": "ghfh",
+      "achievementType": "License"
+    }
+  }
+}

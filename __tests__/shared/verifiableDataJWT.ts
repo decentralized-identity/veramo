@@ -84,6 +84,35 @@ export default (testContext: {
       expect(payload.vc.credentialSubject.id).not.toBeDefined()
     })
 
+    it('should create verifiable credential (simple) using did:jwk identifier', async () => {
+      const ident = await agent.didManagerCreate({
+        kms: 'local',
+        provider: 'did:jwk',
+      })
+      const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: ident.did },
+          type: ['Example'],
+          credentialSubject: {
+            id: 'did:web:example.com',
+            you: 'Rock',
+          },
+        },
+        proofFormat: 'jwt',
+      })
+      const verifyResult = await agent.verifyCredential({credential: verifiableCredential})
+
+      expect(verifyResult.verified).toBe(true)
+      expect(verifiableCredential).toHaveProperty('proof.jwt')
+      expect(verifiableCredential).toHaveProperty('issuanceDate')
+      expect(verifiableCredential['@context']).toEqual(['https://www.w3.org/2018/credentials/v1'])
+      expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'Example'])
+
+      const token = verifiableCredential.proof.jwt
+      const { payload } = decodeJWT(token)
+      expect(payload.vc.credentialSubject.id).not.toBeDefined()
+    })
+
     it('should create verifiable credential keeping original fields', async () => {
       expect.assertions(5)
       const verifiableCredential = await agent.createVerifiableCredential({

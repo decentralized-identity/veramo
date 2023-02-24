@@ -3,6 +3,7 @@ import {
   IDataStore,
   IDataStoreDeleteVerifiableCredentialArgs,
   IDataStoreGetMessageArgs,
+  IDataStoreDeleteMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreSaveMessageArgs,
@@ -22,15 +23,15 @@ import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
 
 /**
- * This class implements the {@link @veramo/core#IDataStore} interface using a TypeORM compatible database.
+ * This class implements the {@link @veramo/core-types#IDataStore} interface using a TypeORM compatible database.
  *
  * This allows you to store and retrieve Verifiable Credentials, Presentations and Messages by their IDs.
  *
  * For more complex queries you should use {@link @veramo/data-store#DataStoreORM} which is the default way to query
  * the stored data by some common properties. These two classes MUST also share the same database connection.
  *
- * @see {@link @veramo/core#IDataStoreORM}
- * @see {@link @veramo/core#IDataStore}
+ * @see {@link @veramo/core-types#IDataStoreORM}
+ * @see {@link @veramo/core-types#IDataStore}
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -45,6 +46,7 @@ export class DataStore implements IAgentPlugin {
     this.methods = {
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
+      dataStoreDeleteMessage: this.dataStoreDeleteMessage.bind(this),
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiableCredential: this.dataStoreSaveVerifiableCredential.bind(this),
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
@@ -68,6 +70,20 @@ export class DataStore implements IAgentPlugin {
     if (!messageEntity) throw new Error('not_found: Message not found')
 
     return createMessage(messageEntity)
+  }
+
+  async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
+    const messageEntity = await (await getConnectedDb(this.dbConnection)).getRepository(Message).findOne({
+      where: { id: args.id },
+      relations: ['credentials', 'presentations'],
+    })
+    if (!messageEntity) {
+      return false
+    }
+
+    await (await getConnectedDb(this.dbConnection)).getRepository(Message).remove(messageEntity)
+
+    return true
   }
 
   async dataStoreDeleteVerifiableCredential(

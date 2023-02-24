@@ -1922,6 +1922,19 @@
   "IDataStore": {
     "components": {
       "schemas": {
+        "IDataStoreDeleteMessageArgs": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Required. Message ID"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreDeleteMessage | dataStoreDeleteMessage }"
+        },
         "IDataStoreDeleteVerifiableCredentialArgs": {
           "type": "object",
           "properties": {
@@ -2039,6 +2052,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [
@@ -2090,17 +2107,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "type": "string"
@@ -2161,6 +2168,30 @@
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
+        "ContextType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
+        },
         "CredentialStatusReference": {
           "type": "object",
           "properties": {
@@ -2206,17 +2237,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "verifier": {
               "type": "array",
@@ -2376,6 +2397,15 @@
         }
       },
       "methods": {
+        "dataStoreDeleteMessage": {
+          "description": "Deletes message from the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreDeleteMessageArgs"
+          },
+          "returnType": {
+            "type": "boolean"
+          }
+        },
         "dataStoreDeleteVerifiableCredential": {
           "description": "Deletes verifiable credential from the data store",
           "arguments": {
@@ -2889,6 +2919,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [
@@ -2940,17 +2974,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "type": "string"
@@ -3011,6 +3035,30 @@
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
+        "ContextType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
+        },
         "CredentialStatusReference": {
           "type": "object",
           "properties": {
@@ -3056,17 +3104,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "verifier": {
               "type": "array",
@@ -3626,8 +3664,8 @@
             },
             "save": {
               "type": "boolean",
-              "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
-              "deprecated": "Please call {@link @veramo/core#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
+              "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core-types#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
+              "deprecated": "Please call {@link @veramo/core-types#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
             }
           },
           "required": [
@@ -3743,6 +3781,10 @@
                 "$ref": "#/components/schemas/IMessageAttachment"
               },
               "description": "Optional. Array of generic attachments"
+            },
+            "returnRoute": {
+              "type": "string",
+              "description": "Optional. Signal how to reuse transport for return messages"
             }
           },
           "required": [
@@ -3777,17 +3819,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "type": "string"
@@ -3848,6 +3880,30 @@
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
+        "ContextType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
+        },
         "CredentialStatusReference": {
           "type": "object",
           "properties": {
@@ -3893,17 +3949,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "verifier": {
               "type": "array",
@@ -4022,8 +4068,8 @@
             },
             "save": {
               "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved.",
-              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\nthe credential after creating it."
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved.",
+              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\nthe credential after creating it."
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
@@ -4067,10 +4113,7 @@
               }
             },
             "@context": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "$ref": "#/components/schemas/DateType"
@@ -4117,6 +4160,30 @@
             }
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+        },
+        "ContextType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
         },
         "DateType": {
           "type": "string",
@@ -4173,17 +4240,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "type": "string"
@@ -4225,8 +4282,8 @@
             },
             "save": {
               "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core#IDataStore | storage plugin }  to be saved. <p/><p/>",
-              "deprecated": "Please call\n{@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\nsave the credential after creating it."
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved. <p/><p/>",
+              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\nsave the credential after creating it."
             },
             "challenge": {
               "type": "string",
@@ -4281,10 +4338,7 @@
               }
             },
             "@context": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "$ref": "#/components/schemas/ContextType"
             },
             "verifier": {
               "type": "array",
@@ -4351,17 +4405,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "verifier": {
               "type": "array",
@@ -4473,17 +4517,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "type": "string"
@@ -4543,6 +4577,30 @@
             }
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+        },
+        "ContextType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
         },
         "CredentialStatusReference": {
           "type": "object",
@@ -4699,17 +4757,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "verifier": {
               "type": "array",
@@ -4815,17 +4863,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "type": "string"
@@ -4885,6 +4923,30 @@
             }
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+        },
+        "ContextType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
         },
         "CredentialStatusReference": {
           "type": "object",
@@ -5265,17 +5327,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "type": "string"
@@ -5335,6 +5387,30 @@
             }
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+        },
+        "ContextType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
         }
       },
       "methods": {

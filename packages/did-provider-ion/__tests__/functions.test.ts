@@ -1,6 +1,6 @@
 import { ManagedKeyInfo } from '../../core-types/src'
-import { generatePrivateKeyHex, tempMemoryKey, toIonPrivateKeyJwk } from '../src/functions'
-import { KeyIdentifierRelation, KeyType } from '../src/types/ion-provider-types'
+import { generatePrivateKeyHex, tempMemoryKey, toIonPrivateKeyJwk } from '../src/functions.js'
+import { KeyIdentifierRelation, KeyType } from '../src/types/ion-provider-types.js'
 
 const PRIVATE_RECOVERY_KEY_HEX = '7c90c0575643d09a370c35021c91e9d8af2c968c5f3a4bf73802693511a55b9f'
 const PRIVATE_UPDATE_KEY_HEX = '7288a92f6219c873446abd1f8d26fcbbe1caa5274b47f6f086ef3e7e75dcad8b'

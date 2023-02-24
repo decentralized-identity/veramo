@@ -25,6 +25,17 @@ export interface IDataStoreGetMessageArgs {
 }
 
 /**
+ * Input arguments for {@link IDataStore.dataStoreDeleteMessage | dataStoreDeleteMessage}
+ * @public
+ */
+export interface IDataStoreDeleteMessageArgs {
+  /**
+   * Required. Message ID
+   */
+  id: string
+}
+
+/**
  * Input arguments for {@link IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential}
  * @public
  */
@@ -97,6 +108,13 @@ export interface IDataStore extends IPluginMethodMap {
    * @returns a promise that resolves to the message
    */
   dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage>
+
+  /**
+   * Deletes message from the data store
+   * @param args - arguments for deleting message
+   * @returns a promise that resolves to a boolean
+   */
+  dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean>
 
   /**
    * Saves verifiable credential to the data store
