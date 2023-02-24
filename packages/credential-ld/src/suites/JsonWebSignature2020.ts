@@ -2,19 +2,19 @@ import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from "@
 import { RequiredAgentMethods, VeramoLdSignature } from "../ld-suites.js";
 import * as u8a from "uint8arrays";
 import { JsonWebKey, JsonWebSignature } from "@transmute/json-web-signature";
-import { encodeJoseBlob } from "@veramo/utils";
+import { asArray, encodeJoseBlob } from "@veramo/utils";
 
 
 /**
  * Veramo wrapper for the JsonWebSignature2020 suite by Transmute Industries
- * 
+ *
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
 export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
     getSupportedVerificationType(): 'JsonWebKey2020' {
         return 'JsonWebKey2020'
     }
-    
+
     getSupportedVeramoKeyType(): TKeyType {
         return 'Ed25519'
     }
@@ -68,6 +68,10 @@ export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
             key: verificationKey,
         })
 
+        suite.ensureSuiteContext = ({ document }: { document: any, addSuiteContext: boolean }) => {
+            document['@context'] = [...asArray(document['@context'] || []), 'https://w3id.org/security/suites/jws-2020/v1']
+        }
+
         return suite
     }
 
@@ -76,10 +80,11 @@ export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
     }
 
     preSigningCredModification(credential: CredentialPayload): void {
-        credential['@context'] = [...credential['@context'] || [], 'https://w3id.org/security/suites/jws-2020/v1']
+        // nop
     }
 
     preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
         // do nothing
     }
+
 }

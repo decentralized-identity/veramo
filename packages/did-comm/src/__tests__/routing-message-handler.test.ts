@@ -1,4 +1,4 @@
-import { DIDComm } from '../didcomm'
+import { DIDComm } from '../didcomm.js'
 import {
   createAgent,
   IDIDManager,
@@ -14,31 +14,34 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from '../transports/transports'
-import { IDIDComm } from '../types/IDIDComm'
+import { DIDCommHttpTransport } from '../transports/transports.js'
+import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import {
   CoordinateMediationMediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
   MEDIATE_DENY_MESSAGE_TYPE,
-} from '../protocols/coordinate-mediation-message-handler'
-import { DIDCommMessageMediaType } from '../types/message-types'
+} from '../protocols/coordinate-mediation-message-handler.js'
+import { DIDCommMessageMediaType } from '../types/message-types.js'
 import {
   RoutingMessageHandler,
   FORWARD_MESSAGE_TYPE,
   QUEUE_MESSAGE_TYPE,
-} from '../protocols/routing-message-handler'
+} from '../protocols/routing-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
+// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import { DIDCommMessageHandler } from '../message-handler'
+import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
+
 import { jest } from '@jest/globals'
+import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received', 'DIDCommV2Message-forwardMessageQueued'],
@@ -216,7 +219,9 @@ describe('routing-message-handler', () => {
         body: {
           next: recipient.did,
         },
-        attachments: [{ media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } }],
+        attachments: [
+          { media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } },
+        ],
       },
     })
     await agent.sendDIDCommMessage({
@@ -233,7 +238,12 @@ describe('routing-message-handler', () => {
             id: msgId,
             to: mediator.did,
             type: FORWARD_MESSAGE_TYPE,
-            attachments: [{ media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } }],
+            attachments: [
+              {
+                media_type: DIDCommMessageMediaType.ENCRYPTED,
+                data: { json: JSON.parse(innerMessage.message) },
+              },
+            ],
           },
           metaData: { packing: 'anoncrypt' },
         },
@@ -246,7 +256,7 @@ describe('routing-message-handler', () => {
       {
         data: {
           id: expect.anything(),
-		  to: `${recipient.did}#${recipient.keys[0].kid}`,
+          to: `${recipient.did}#${recipient.keys[0].kid}`,
           type: QUEUE_MESSAGE_TYPE,
           raw: innerMessage.message,
           createdAt: expect.anything(),
@@ -313,7 +323,9 @@ describe('routing-message-handler', () => {
         body: {
           next: recipient.did,
         },
-        attachments: [{ media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } }],
+        attachments: [
+          { media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } },
+        ],
       },
     })
     await agent.sendDIDCommMessage({
@@ -326,7 +338,7 @@ describe('routing-message-handler', () => {
       {
         data: {
           id: expect.anything(),
-		  to: `${recipient.did}#${recipient.keys[0].kid}`,
+          to: `${recipient.did}#${recipient.keys[0].kid}`,
           type: QUEUE_MESSAGE_TYPE,
           raw: innerMessage.message,
           createdAt: expect.anything(),
@@ -386,7 +398,9 @@ describe('routing-message-handler', () => {
         body: {
           next: recipient.did,
         },
-        attachments: [{ media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } }],
+        attachments: [
+          { media_type: DIDCommMessageMediaType.ENCRYPTED, data: { json: JSON.parse(innerMessage.message) } },
+        ],
       },
     })
     await agent.sendDIDCommMessage({

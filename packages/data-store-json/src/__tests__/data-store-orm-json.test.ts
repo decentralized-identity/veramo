@@ -12,11 +12,9 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '../../../core-types/src'
-import {
-  Agent
-} from '../../../core/src'
-import { DataStoreJson } from '../data-store-json'
-import { VeramoJsonStore } from '../types'
+import { Agent } from '../../../core/src'
+import { DataStoreJson } from '../data-store-json.js'
+import { VeramoJsonStore } from '../types.js'
 
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'
@@ -117,7 +115,7 @@ let dataStore: VeramoJsonStore
 
 describe('@veramo/data-store queries', () => {
   function makeAgent(context?: Record<string, any>): TAgent<IDataStore & IDataStoreORM> {
-    //@ts-ignore
+    // @ts-ignore
     return new Agent({
       context,
       plugins: [new DataStoreJson(dataStore)],

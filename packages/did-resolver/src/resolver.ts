@@ -47,7 +47,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc @veramo/core#IResolver.resolveDid} */
+  /** {@inheritDoc @veramo/core-types#IResolver.resolveDid} */
   async resolveDid({
     didUrl,
     options,
@@ -76,7 +76,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc @veramo/core#IResolver.getDIDComponentById} */
+  /** {@inheritDoc @veramo/core-types#IResolver.getDIDComponentById} */
   async getDIDComponentById({
     didDocument,
     didUrl,

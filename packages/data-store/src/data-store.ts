@@ -23,15 +23,15 @@ import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
 
 /**
- * This class implements the {@link @veramo/core#IDataStore} interface using a TypeORM compatible database.
+ * This class implements the {@link @veramo/core-types#IDataStore} interface using a TypeORM compatible database.
  *
  * This allows you to store and retrieve Verifiable Credentials, Presentations and Messages by their IDs.
  *
  * For more complex queries you should use {@link @veramo/data-store#DataStoreORM} which is the default way to query
  * the stored data by some common properties. These two classes MUST also share the same database connection.
  *
- * @see {@link @veramo/core#IDataStoreORM}
- * @see {@link @veramo/core#IDataStore}
+ * @see {@link @veramo/core-types#IDataStoreORM}
+ * @see {@link @veramo/core-types#IDataStore}
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */

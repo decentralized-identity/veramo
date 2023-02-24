@@ -1,12 +1,12 @@
 import { getAgent } from '../setup.js'
 import { Command } from 'commander'
-const program = new Command();
 import { renderMainScreen } from './main.js'
 
-program
-  .command('explore')
+const explore = new Command('explore')
   .description('launch Verifiable Data explorer')
-  .action(async (cmd) => {
-    const agent = getAgent(program.opts().config)
+  .action(async (opts: {}, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
     await renderMainScreen(agent)
   })
+
+export { explore }

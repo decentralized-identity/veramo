@@ -35,10 +35,7 @@
               }
             },
             "@context": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "$ref": "#/components/schemas/DateType"
@@ -86,6 +83,30 @@
           },
           "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
+        "ContextType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
+        },
         "DateType": {
           "type": "string",
           "description": "Represents an issuance or expiration date for Credentials / Presentations. This is used as input when creating them."
@@ -132,17 +153,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "issuanceDate": {
               "type": "string"
@@ -211,10 +222,7 @@
               }
             },
             "@context": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "$ref": "#/components/schemas/ContextType"
             },
             "verifier": {
               "type": "array",
@@ -281,17 +289,7 @@
               ]
             },
             "@context": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ContextType"
             },
             "verifier": {
               "type": "array",

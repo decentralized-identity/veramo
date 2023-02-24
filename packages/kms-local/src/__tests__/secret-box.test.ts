@@ -1,4 +1,4 @@
-import { SecretBox } from '../secret-box'
+import { SecretBox } from '../secret-box.js'
 // import * as elliptic from 'elliptic'
 // import * as hash from 'hash.js'
 
@@ -13,7 +13,7 @@ describe('@veramo/kms-local', () => {
     expect(decrypted).toEqual(message)
   })
   //
-  // //@ts-ignore
+  // // @ts-ignore
   // const curves = elliptic.default.curves
   //
   // function createCurve(options: any) {

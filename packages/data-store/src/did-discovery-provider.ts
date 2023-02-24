@@ -9,7 +9,7 @@ import {
 /**
  * This implementation of {@link @veramo/did-discovery#AbstractDidDiscoveryProvider | AbstractDidDiscoveryProvider}
  * helps you discover DIDs based on data that is stored by a local plugin that implements
- * {@link @veramo/core#IDataStoreORM | IDataStoreORM}.
+ * {@link @veramo/core-types#IDataStoreORM | IDataStoreORM}.
  *
  * DIDs can be discovered by partial matches of `name` from `Profile` credentials, by partial matches of `alias` of
  * managed DIDs as well as partial matches of DIDs that are issuer or subject of credentials.
@@ -60,32 +60,28 @@ export class DataStoreDiscoveryProvider implements AbstractDidDiscoveryProvider 
     })
 
     const identifiersByDID = await context.agent.dataStoreORMGetIdentifiers({
-      where: [
-        { column: 'did', value: [`%${args.query}%`], op: 'Like' }
-      ]
+      where: [{ column: 'did', value: [`%${args.query}%`], op: 'Like' }],
     })
 
     identifiersByDID.forEach((identifier) => {
       matches.push({
         did: identifier.did as string,
         metaData: {
-          alias: identifier.alias
-        }
+          alias: identifier.alias,
+        },
       })
     })
 
     const identifiersByAlias = await context.agent.dataStoreORMGetIdentifiers({
-      where: [
-        { column: 'alias', value: [`%${args.query}%`], op: 'Like' }
-      ]
+      where: [{ column: 'alias', value: [`%${args.query}%`], op: 'Like' }],
     })
 
     identifiersByAlias.forEach((identifier) => {
       matches.push({
         did: identifier.did as string,
         metaData: {
-          alias: identifier.alias
-        }
+          alias: identifier.alias,
+        },
       })
     })
 

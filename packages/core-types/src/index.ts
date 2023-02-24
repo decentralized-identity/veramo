@@ -1,5 +1,7 @@
 /**
- * Provides {@link @veramo/core#Agent} implementation and defines {@link @veramo/core#IResolver}, {@link @veramo/core#IDIDManager}, {@link @veramo/core#IKeyManager}, {@link @veramo/core#IDataStore}, {@link @veramo/core#IMessageHandler} plugin interfaces
+ * Provides {@link @veramo/core#Agent} implementation and defines {@link @veramo/core-types#IResolver},
+ * {@link @veramo/core-types#IDIDManager}, {@link @veramo/core-types#IKeyManager}, {@link
+ * @veramo/core-types#IDataStore}, {@link @veramo/core-types#IMessageHandler} plugin interfaces
  *
  * @packageDocumentation
  */
@@ -23,4 +25,3 @@ export * from './types/IResolver.js'
 export * from './types/IError.js'
 export * from './types/IVerifyResult.js'
 export * from './types/vc-data-model.js'
-

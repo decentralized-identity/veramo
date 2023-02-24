@@ -19,7 +19,7 @@ import {
   W3CVerifiablePresentation,
 } from '@veramo/core-types'
 
-import schema from "@veramo/core-types/build/plugin.schema.json" assert { type: 'json' }
+import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 
 import {
   createVerifiableCredentialJwt,
@@ -53,13 +53,13 @@ const enum DocumentFormat {
 const debug = Debug('veramo:w3c:action-handler')
 
 /**
- * A Veramo plugin that implements the {@link @veramo/core#ICredentialPlugin | ICredentialPlugin} methods.
+ * A Veramo plugin that implements the {@link @veramo/core-types#ICredentialPlugin | ICredentialPlugin} methods.
  *
  * @public
  */
 export class CredentialPlugin implements IAgentPlugin {
   readonly methods: ICredentialPlugin
-  readonly schema = { 
+  readonly schema = {
     components: {
       schemas: {
         ...schema.ICredentialIssuer.components.schemas,
@@ -67,9 +67,9 @@ export class CredentialPlugin implements IAgentPlugin {
       },
       methods: {
         ...schema.ICredentialIssuer.components.methods,
-        ...schema.ICredentialVerifier.components.methods
-      }
-    }
+        ...schema.ICredentialVerifier.components.methods,
+      },
+    },
   }
 
   constructor() {
@@ -81,7 +81,7 @@ export class CredentialPlugin implements IAgentPlugin {
     }
   }
 
-  /** {@inheritdoc @veramo/core#ICredentialIssuer.createVerifiablePresentation} */
+  /** {@inheritdoc @veramo/core-types#ICredentialIssuer.createVerifiablePresentation} */
   async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext,
@@ -183,7 +183,7 @@ export class CredentialPlugin implements IAgentPlugin {
     return verifiablePresentation
   }
 
-  /** {@inheritdoc @veramo/core#ICredentialIssuer.createVerifiableCredential} */
+  /** {@inheritdoc @veramo/core-types#ICredentialIssuer.createVerifiableCredential} */
   async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
@@ -265,7 +265,7 @@ export class CredentialPlugin implements IAgentPlugin {
     }
   }
 
-  /** {@inheritdoc @veramo/core#ICredentialVerifier.verifyCredential} */
+  /** {@inheritdoc @veramo/core-types#ICredentialVerifier.verifyCredential} */
   async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     let { credential, policies, ...otherOptions } = args
     let verifiedCredential: VerifiableCredential
@@ -298,7 +298,7 @@ export class CredentialPlugin implements IAgentPlugin {
           const verifiedCopy = JSON.parse(JSON.stringify(verifiedCredential))
           delete verifiedCopy.proof.jwt
 
-          if(canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
+          if (canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
             verificationResult.verified = false
             verificationResult.error = new Error('Credential does not match JWT')
           }
@@ -372,7 +372,7 @@ export class CredentialPlugin implements IAgentPlugin {
     return verificationResult
   }
 
-  /** {@inheritdoc @veramo/core#ICredentialVerifier.verifyPresentation} */
+  /** {@inheritdoc @veramo/core-types#ICredentialVerifier.verifyPresentation} */
   async verifyPresentation(
     args: IVerifyPresentationArgs,
     context: VerifierAgentContext,

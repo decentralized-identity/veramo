@@ -22,15 +22,15 @@ export const EventTypes = {
 }
 
 /**
- * A Veramo agent plugin that implements {@link @veramo/core#IMessageHandler | IMessageHandler} methods.
+ * A Veramo agent plugin that implements {@link @veramo/core-types#IMessageHandler | IMessageHandler} methods.
  *
- * This plugin is meant to chain together multiple other {@link @veramo/core#IMessageHandler | IMessageHandler}
+ * This plugin is meant to chain together multiple other {@link @veramo/core-types#IMessageHandler | IMessageHandler}
  * implementations.
  *
  * When handling a message, the message is passed from one handler to the next, and each handler in
  * the chain can decide if it is able to interpret the message.
  *
- * If the message can be processed by a handler it is returned as an {@link @veramo/core#IMessage | IMessage}.
+ * If the message can be processed by a handler it is returned as an {@link @veramo/core-types#IMessage | IMessage}.
  * If the message cannot be processed by any of the handlers, an error is thrown.
  *
  * @public
@@ -63,7 +63,7 @@ export class MessageHandler implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc @veramo/core#IMessageHandler.handleMessage} */
+  /** {@inheritDoc @veramo/core-types#IMessageHandler.handleMessage} */
   public async handleMessage(
     args: IHandleMessageArgs,
     context: IAgentContext<IDataStore>,

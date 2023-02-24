@@ -1,11 +1,11 @@
-import { DIDResolverPlugin } from '../resolver'
+import { DIDResolverPlugin } from '../resolver.js'
 import { Resolver } from 'did-resolver'
 
 describe('@veramo/did-resolver', () => {
   it('should throw error when misconfigured', () => {
     expect(() => {
       new DIDResolverPlugin({
-        //@ts-ignore
+        // @ts-ignore
         resolver: undefined,
       })
     }).toThrow()

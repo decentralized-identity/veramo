@@ -4,7 +4,7 @@ import {
   decodePresentationToObject,
   extractIssuer,
   processEntryToArray,
-} from '../credential-utils'
+} from '../credential-utils.js'
 
 describe('@veramo/utils credential utils', () => {
   it('processEntryToArray', () => {

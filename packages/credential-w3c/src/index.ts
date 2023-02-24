@@ -1,7 +1,7 @@
 /**
  * Provides a {@link @veramo/credential-w3c#CredentialPlugin | plugin} for the {@link @veramo/core#Agent} that
  * implements
- * {@link @veramo/core#ICredentialIssuer} interface.
+ * {@link @veramo/core-types#ICredentialIssuer} interface.
  *
  * Provides a {@link @veramo/credential-w3c#W3cMessageHandler | plugin} for the
  * {@link @veramo/message-handler#MessageHandler} that verifies Credentials and Presentations in a message.

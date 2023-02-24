@@ -120,7 +120,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     credential['proof']['proofValue'] = signature
     credential['proof']['eip712'] = {
       domain,
-      messageSchema: allTypes,
+      types: allTypes,
       primaryType,
     }
 
@@ -135,21 +135,29 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     const { credential } = args
     if (!credential.proof || !credential.proof.proofValue)
       throw new Error('invalid_argument: proof is undefined')
-    if (!credential.proof.eip712 || !credential.proof.eip712.messageSchema || !credential.proof.eip712.domain)
-      throw new Error('invalid_argument: proof.eip712 is missing expected properties')
 
     const { proof, ...signingInput } = credential
-    const { proofValue, eip712, ...verifyInputProof } = proof
+    const { proofValue, eip712, eip712Domain, ...verifyInputProof } = proof
     const verificationMessage = {
       ...signingInput,
       proof: verifyInputProof,
     }
 
+    const compat = {
+      ...eip712Domain,
+      ...eip712
+    }
+
+    compat.types = compat.types || compat.messageSchema
+
+    if (!compat.primaryType || !compat.types || !compat.domain)
+      throw new Error('invalid_argument: proof is missing expected properties')
+
     const objectToVerify = {
       message: verificationMessage,
-      domain: eip712.domain,
-      types: eip712.messageSchema,
-      primaryType: eip712.primaryType,
+      domain: compat.domain,
+      types: compat.types,
+      primaryType: compat.primaryType,
     }
 
     const recovered = recoverTypedSignature({
@@ -266,7 +274,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     presentation.proof.eip712 = {
       domain,
-      messageSchema: allTypes,
+      types: allTypes,
       primaryType,
     }
 
@@ -280,25 +288,29 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
   ): Promise<boolean> {
     const { presentation } = args
     if (!presentation.proof || !presentation.proof.proofValue) throw new Error('Proof is undefined')
-    if (
-      !presentation.proof.eip712 ||
-      !presentation.proof.eip712.messageSchema ||
-      !presentation.proof.eip712.domain
-    )
-      throw new Error('proof.eip712 is undefined')
 
     const { proof, ...signingInput } = presentation
-    const { proofValue, eip712, ...verifyInputProof } = proof
+    const { proofValue, eip712, eip712Domain, ...verifyInputProof } = proof
     const verificationMessage = {
       ...signingInput,
       proof: verifyInputProof,
     }
 
+    const compat = {
+      ...eip712Domain,
+      ...eip712
+    }
+
+    compat.types = compat.types || compat.messageSchema
+
+    if (!compat.primaryType || !compat.types || !compat.domain)
+      throw new Error('invalid_argument: presentation proof is missing expected properties')
+
     const objectToVerify = {
       message: verificationMessage,
-      domain: eip712.domain,
-      types: eip712.messageSchema,
-      primaryType: eip712.primaryType,
+      domain: compat.domain,
+      types: compat.types,
+      primaryType: compat.primaryType,
     }
 
     const recovered = recoverTypedSignature({

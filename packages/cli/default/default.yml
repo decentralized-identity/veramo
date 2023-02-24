@@ -169,6 +169,8 @@ didResolver:
               $ref: /web-did-resolver
             key:
               $ref: /did-key-resolver
+            3:
+              $ref: /3id-did-resolver
             elem:
               $ref: /universal-resolver
             io:
@@ -185,6 +187,16 @@ ethr-did-resolver:
 
 web-did-resolver:
   $require: web-did-resolver?t=function&p=/web#getResolver
+
+ceramic:
+  $require: '@ceramicnetwork/http-client#CeramicClient'
+  $args: 
+    - 'https://gateway.ceramic.network'
+
+3id-did-resolver:
+  $require: '@ceramicnetwork/3id-did-resolver?t=function&p=/3#getResolver'
+  $args:
+    - $ref: /ceramic
 
 universal-resolver:
   $require: '@veramo/did-resolver#UniversalResolver'

@@ -20,7 +20,7 @@ export function isDefined<T>(arg: T): arg is Exclude<T, null | undefined> {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function asArray<T>(arg?: T | T[] | null): T[] {
+export function asArray<T>(arg?: T | T[] | any): (T | any)[] {
   return isDefined(arg) ? (Array.isArray(arg) ? arg : [arg]) : []
 }
 

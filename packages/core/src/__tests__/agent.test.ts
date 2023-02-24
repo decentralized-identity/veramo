@@ -1,5 +1,5 @@
 import { Agent, createAgent } from '../agent.js'
-import { IAgentPlugin, IResolver } from '@veramo/core-types'
+import { IAgentPlugin, IResolver } from '../../../core-types/src'
 import { jest } from '@jest/globals'
 
 describe('core agent', () => {
@@ -13,7 +13,7 @@ describe('core agent', () => {
       plugins: [plugin],
     })
 
-    //@ts-ignore
+    // @ts-ignore
     await agent.doSomething({ foo: 'baz' })
     expect(plugin.methods?.doSomething).toBeCalledWith({ foo: 'baz' }, { agent })
     await agent.execute('doSomething', { foo: 'bar' })
@@ -35,7 +35,7 @@ describe('core agent', () => {
       },
     })
 
-    //@ts-ignore
+    // @ts-ignore
     await agent.doSomething({ foo: 'baz' })
     expect(doSomething).toBeCalledWith({ foo: 'baz' }, { agent })
     await agent.execute('doSomething', { foo: 'bar' })
@@ -62,13 +62,13 @@ describe('core agent', () => {
       },
     })
 
-    //@ts-ignore
+    // @ts-ignore
     expect(agent.doSomething).toEqual(undefined)
     expect(agent.execute('doSomething', { foo: 'bar' })).rejects.toEqual(
       Error('Method not available: doSomething'),
     )
 
-    //@ts-ignore
+    // @ts-ignore
     await agent.bar({ foo: 'baz' })
     expect(plugin.methods?.bar).toBeCalledWith({ foo: 'baz' }, { agent })
     await agent.execute('baz', { foo: 'bar' })
@@ -90,7 +90,7 @@ describe('core agent', () => {
       plugins: [plugin],
     })
 
-    //@ts-ignore
+    // @ts-ignore
     await agent.doSomething({ foo: 'baz' })
     expect(plugin.methods?.doSomething).toBeCalledWith(
       { foo: 'baz' },

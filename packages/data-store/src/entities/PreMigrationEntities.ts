@@ -11,11 +11,11 @@ import { KeyType } from "./key.js";
 @Entity('key')
 export class PreMigrationKey extends BaseEntity {
   @PrimaryColumn()
-    //@ts-ignore
+    // @ts-ignore
   kid: string
 
   @Column()
-    //@ts-ignore
+    // @ts-ignore
   type: KeyType
 
   @Column({ nullable: true })
