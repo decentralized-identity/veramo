@@ -3,8 +3,6 @@ import { jest } from '@jest/globals'
 import { createObjects } from '../lib/objectCreator'
 import { getConfig } from '../setup'
 
-jest.useFakeTimers()
-
 describe('cli version', () => {
   const writeMock = jest.fn()
 
@@ -18,6 +16,22 @@ describe('cli version', () => {
     jest.clearAllMocks()
   })
 
+  it('should load the dbConnection', async () => {
+    const { dbConnection } = await createObjects(await getConfig('./packages/cli/default/default.yml'), {
+      dbConnection: '/dbConnection',
+    })
+    expect(dbConnection).toBeDefined()
+  })
+
+  // this seems to fail because of an incompatibility between jest and the `multiformats@11` transitive dependency
+  it.skip('should load the agent', async () => {
+    const { agent } = await createObjects(await getConfig('./packages/cli/default/default.yml'), {
+      agent: '/agent',
+    })
+    expect(agent).toBeDefined()
+  })
+
+  // this seems to fail because of some timing issues or an incompatibility with the `chalk` transitive dependency
   it.skip('should list version number', async () => {
     expect(() => {
       // veramo.parse(['--version'], { from: 'user' })
@@ -25,14 +39,7 @@ describe('cli version', () => {
     expect(writeMock).toHaveBeenCalledWith(expect.stringMatching(/^\d\.\d\.\d\n?$/))
   })
 
-  it.skip('should load the dbConnection', async () => {
-    // this seems to fail because of some timing issues or an incompatibility with the `chalk` transitive dependency
-    // all other tests that need to load the dbConnection fail similarly
-    const res = await createObjects(getConfig('./packages/cli/default/default.yml'), {
-      my: '/dbConnection',
-    })
-  })
-
+  // this seems to fail because of some timing issues or an incompatibility with the `chalk` transitive dependency
   it.skip('should check the default config', async () => {
     expect(() => {
       // veramo.parse(['config', 'check', '-f', './packages/cli/default/default.yml'], { from: 'user' })

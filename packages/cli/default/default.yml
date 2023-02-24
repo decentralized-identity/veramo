@@ -160,25 +160,24 @@ messageHandler:
 didResolver:
   $require: '@veramo/did-resolver#DIDResolverPlugin'
   $args:
-    - resolver:
-        $require: did-resolver#Resolver
-        $args:
-          - ethr:
-              $ref: /ethr-did-resolver
-            web:
-              $ref: /web-did-resolver
-            key:
-              $ref: /did-key-resolver
-            3:
-              $ref: /3id-did-resolver
-            elem:
-              $ref: /universal-resolver
-            io:
-              $ref: /universal-resolver
-            ion:
-              $ref: /universal-resolver
-            sov:
-              $ref: /universal-resolver
+    - ethr:
+        $ref: /ethr-did-resolver
+      web:
+        $ref: /web-did-resolver
+      key:
+        $ref: /did-key-resolver
+      pkh:
+        $require: '@veramo/did-provider-pkh?t=function&p=/pkh#getDidPkhResolver'
+      3:
+        $ref: /3id-did-resolver
+      elem:
+        $ref: /universal-resolver
+      io:
+        $ref: /universal-resolver
+      ion:
+        $ref: /universal-resolver
+      sov:
+        $ref: /universal-resolver
 
 ethr-did-resolver:
   $require: ethr-did-resolver?t=function&p=/ethr#getResolver
@@ -190,7 +189,7 @@ web-did-resolver:
 
 ceramic:
   $require: '@ceramicnetwork/http-client#CeramicClient'
-  $args: 
+  $args:
     - 'https://gateway.ceramic.network'
 
 3id-did-resolver:
@@ -259,6 +258,11 @@ didManager:
           $require: '@veramo/did-provider-key#KeyDIDProvider'
           $args:
             - defaultKms: local
+        did:pkh:
+          $require: '@veramo/did-provider-pkh#PkhDIDProvider'
+          $args:
+            - defaultKms: local
+              chainId: 1
 
 didDiscovery:
   $require: '@veramo/did-discovery#DIDDiscovery'
