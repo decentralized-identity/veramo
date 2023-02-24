@@ -16,6 +16,7 @@
     "@veramo/did-provider-ethr": "^5.0.0",
     "@veramo/did-provider-key": "^5.0.0",
     "@veramo/did-provider-pkh": "^5.0.0",
+    "@veramo/did-provider-jwk": "^5.0.0",
     "@veramo/did-provider-web": "^5.0.0",
     "@veramo/did-resolver": "^5.0.0",
     "@veramo/key-manager": "^5.0.0",
