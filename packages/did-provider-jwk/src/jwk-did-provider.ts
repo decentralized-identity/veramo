@@ -38,9 +38,14 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
       },
       context,
     )
-    const jwk = generateJWKfromVerificationMethod(keyType, {
-      publicKeyHex: key.publicKeyHex,
-    } as VerificationMethod)
+
+    const jwk = generateJWKfromVerificationMethod(
+      keyType, 
+      {
+        publicKeyHex: key.publicKeyHex,
+      } as VerificationMethod,
+      options?.keyUse
+    )
     const jwkBase64url = encodeJoseBlob(jwk as {})
 
     const identifier: Omit<IIdentifier, 'provider'> = {

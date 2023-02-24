@@ -1,7 +1,7 @@
-export type JwkDidCreateIdentifierOptions = {
+export type JwkCreateIdentifierOptions = {
   keyType?: JwkDidSupportedKeyTypes
   privateKeyHex?: string
-  use?: KeyUse
+  keyUse?: KeyUse
 }
 
 export type JwkDidImportOrGenerateKeyArgs = {
