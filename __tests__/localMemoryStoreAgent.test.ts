@@ -30,7 +30,9 @@ import {
   ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
-  VeramoEd25519Signature2018, VeramoEd25519Signature2020, VeramoJsonWebSignature2020,
+  VeramoEd25519Signature2018,
+  VeramoEd25519Signature2020,
+  VeramoJsonWebSignature2020,
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
@@ -73,7 +75,6 @@ import credentialInterop from './shared/credentialInterop.js'
 
 jest.setTimeout(60000)
 
-const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
 let agent: TAgent<
@@ -96,7 +97,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   dbConnection = new DataSource({
     name: 'test',
     type: 'sqlite',
-    database: databaseFile,
+    database: ':memory:',
     synchronize: false,
     migrations: migrations,
     migrationsRun: true,
@@ -207,15 +208,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
 const tearDown = async (): Promise<boolean> => {
   try {
-    await (await dbConnection).dropDatabase()
-    await (await dbConnection).close()
+    await dbConnection?.destroy()
   } catch (e) {
     // nop
-  }
-  try {
-    fs.unlinkSync(databaseFile)
-  } catch (e) {
-    //nop
   }
   return true
 }

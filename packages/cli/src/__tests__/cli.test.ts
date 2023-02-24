@@ -24,7 +24,7 @@ describe('cli version', () => {
   })
 
   // this seems to fail because of an incompatibility between jest and the `multiformats@11` transitive dependency
-  it.skip('should load the agent', async () => {
+  it('should load the agent', async () => {
     const { agent } = await createObjects(await getConfig('./packages/cli/default/default.yml'), {
       agent: '/agent',
     })
