@@ -330,7 +330,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const privateBytes = u8a.fromString(args.privateKeyHex.toLowerCase(), 'base16')
         const secp256r1 = new elliptic.ec('p256')
         const keyPair: elliptic.ec.KeyPair = secp256r1.keyFromPrivate(privateBytes)
-        const publicKeyHex = keyPair.getPublic(true, 'hex').substring(2) // We remove the 'compressed' type 03 prefix
+        const publicKeyHex = keyPair.getPublic(true, 'hex')
         key = {
           type: args.type,
           kid: args.alias || publicKeyHex,
