@@ -51,7 +51,7 @@ importers:
       ts-node: 10.9.1
       typeorm: ^0.3.11
       typescript: 4.9.4
-      uint8arrays: 4.0.3
+      uint8arrays: 3.1.1
       uuid: ^9.0.0
       web-did-resolver: ^2.0.21
     devDependencies:
@@ -98,7 +98,7 @@ importers:
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       typeorm: 0.3.11_ts-node@10.9.1
       typescript: 4.9.4
-      uint8arrays: 4.0.3
+      uint8arrays: 3.1.1
       uuid: 9.0.0
       web-did-resolver: 2.0.21
 
@@ -130,6 +130,7 @@ importers:
       '@veramo/did-manager': ^5.0.0
       '@veramo/did-provider-ethr': ^5.0.0
       '@veramo/did-provider-key': ^5.0.0
+      '@veramo/did-provider-pkh': ^5.0.0
       '@veramo/did-provider-web': ^5.0.0
       '@veramo/did-resolver': ^5.0.0
       '@veramo/key-manager': ^5.0.0
@@ -194,6 +195,7 @@ importers:
       '@veramo/did-manager': link:../did-manager
       '@veramo/did-provider-ethr': link:../did-provider-ethr
       '@veramo/did-provider-key': link:../did-provider-key
+      '@veramo/did-provider-pkh': link:../did-provider-pkh
       '@veramo/did-provider-web': link:../did-provider-web
       '@veramo/did-resolver': link:../did-resolver
       '@veramo/key-manager': link:../key-manager
@@ -14391,6 +14393,7 @@ packages:
   /multiformats/11.0.0:
     resolution: {integrity: sha512-vqF8bmMtbxw9Zn3eTpk0OZQdBVmAT/+bTGwXb3C2qCNkp45aJMmkCDds3lrtObECWPf+KFjFtTOHkvCaT/c/xQ==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
+    dev: false
 
   /multiformats/9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
@@ -19115,6 +19118,7 @@ packages:
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dependencies:
       multiformats: 11.0.0
+    dev: false
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}

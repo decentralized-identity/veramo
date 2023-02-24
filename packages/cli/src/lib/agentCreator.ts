@@ -8,7 +8,7 @@ import { createObjects } from './objectCreator.js'
  * @see {@link https://veramo.io/docs/veramo_agent/configuration_internals | Configuration Internals} for details on
  *   the configuration options.
  *
- * @beta
+ * @beta - This API may change without a major version bump
  */
 export async function createAgentFromConfig<T extends IPluginMethodMap>(config: object): Promise<TAgent<T>> {
   // @ts-ignore
