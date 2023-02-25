@@ -35,5 +35,8 @@
   "moduleDirectories": [
     "node_modules",
     "src"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
