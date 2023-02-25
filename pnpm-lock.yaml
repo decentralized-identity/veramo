@@ -931,7 +931,7 @@ importers:
       '@veramo/did-jwt': ^5.1.0
       '@veramo/did-manager': ^5.1.0
       '@veramo/did-provider-ethr': ^5.1.0
-      '@veramo/did-provider-jwk': ^5.1.0
+      '@veramo/did-provider-jwk': ^5.1.1
       '@veramo/did-provider-key': ^5.1.0
       '@veramo/did-provider-pkh': ^5.1.0
       '@veramo/did-provider-web': ^5.1.0
