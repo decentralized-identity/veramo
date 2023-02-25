@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-web",
   "description": "Veramo plugin that can enable creation and control of did:web identifiers.",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -10,8 +10,8 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.0",
-    "@veramo/did-manager": "^5.1.0",
+    "@veramo/core-types": "^5.1.2",
+    "@veramo/did-manager": "^5.1.2",
     "debug": "^4.3.3"
   },
   "devDependencies": {
