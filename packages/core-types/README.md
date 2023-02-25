@@ -1,8 +1,3 @@
-# Veramo Core
+# Veramo Core-types
 
-### Core functions
-
-- instantiate and orchestrate plugins
-- coordinate events
-- validate schemas
-- define core types
+Definitions for Veramo common data types
