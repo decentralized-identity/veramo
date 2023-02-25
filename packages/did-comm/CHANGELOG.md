@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/uport-project/veramo/compare/v5.0.0...v5.1.0) (2023-02-24)
+
+
+### Bug Fixes
+
+* correctly export PickupRecipientMessageHandler ([#1121](https://github.com/uport-project/veramo/issues/1121)) ([3a7a086](https://github.com/uport-project/veramo/commit/3a7a0864387f7b56f1bac4cd89a3fd7e6274e644))
+* **did-comm:** correctly export PickupMediatorMessageHandler ([#1120](https://github.com/uport-project/veramo/issues/1120)) ([8de26b0](https://github.com/uport-project/veramo/commit/8de26b0740f68cd6976a7aa5f83ae95ee0dd3dce))
+* P256 key parity corrections ([#1137](https://github.com/uport-project/veramo/issues/1137)) ([d0eca2b](https://github.com/uport-project/veramo/commit/d0eca2b3cd9ca6741f7f056e28bb9799910bc5ec)), closes [#1136](https://github.com/uport-project/veramo/issues/1136) [#1135](https://github.com/uport-project/veramo/issues/1135)
+
+
+### Features
+
+* **core-types:** allow inline [@context](https://github.com/context) for Credentials and Presentations ([#1119](https://github.com/uport-project/veramo/issues/1119)) ([44bb365](https://github.com/uport-project/veramo/commit/44bb36503b635ee1f5431cb4bf28c7a9ba111156)), closes [#1073](https://github.com/uport-project/veramo/issues/1073)
+
+
+
+
+
 # [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
 
 

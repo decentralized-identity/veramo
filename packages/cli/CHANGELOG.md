@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/uport-project/veramo/compare/v5.0.0...v5.1.0) (2023-02-24)
+
+
+### Bug Fixes
+
+* **cli:** create veramo instance async in CLI ([#1126](https://github.com/uport-project/veramo/issues/1126)) ([05ab106](https://github.com/uport-project/veramo/commit/05ab10653aac4cb37b00a9be6cc0c7be910f1827)), closes [#1125](https://github.com/uport-project/veramo/issues/1125)
+* **cli:** typo in explore command ([279168d](https://github.com/uport-project/veramo/commit/279168d4fc2b9809090666b6ffb5d4494c9e5cca))
+* P256 key parity corrections ([#1137](https://github.com/uport-project/veramo/issues/1137)) ([d0eca2b](https://github.com/uport-project/veramo/commit/d0eca2b3cd9ca6741f7f056e28bb9799910bc5ec)), closes [#1136](https://github.com/uport-project/veramo/issues/1136) [#1135](https://github.com/uport-project/veramo/issues/1135)
+
+
+### Features
+
+* **cli:**  export config methods and adopt `Command` instances instead of global `program`([#1130](https://github.com/uport-project/veramo/issues/1130)) ([9c73d98](https://github.com/uport-project/veramo/commit/9c73d98fd217ed9a612767f49a235cdbf43619cb))
+* **cli:** add did:3 resolver to CLI default config ([#1129](https://github.com/uport-project/veramo/issues/1129)) ([5887e04](https://github.com/uport-project/veramo/commit/5887e04802266bffe71c2a5f7c8d71fbe1f3a158))
+* **cli:** add did:pkh support to the default CLI config ([#1133](https://github.com/uport-project/veramo/issues/1133)) ([19cccc1](https://github.com/uport-project/veramo/commit/19cccc1f394a63505fc40d57a7c1d26d21abc3e5))
+
+
+
+
+
 # [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
 
 

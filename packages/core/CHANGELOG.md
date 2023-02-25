@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/uport-project/veramo/compare/v5.0.0...v5.1.0) (2023-02-24)
+
+
+### Bug Fixes
+
+* **cli:** create veramo instance async in CLI ([#1126](https://github.com/uport-project/veramo/issues/1126)) ([05ab106](https://github.com/uport-project/veramo/commit/05ab10653aac4cb37b00a9be6cc0c7be910f1827)), closes [#1125](https://github.com/uport-project/veramo/issues/1125)
+
+
+
+
+
 # [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
 
 
