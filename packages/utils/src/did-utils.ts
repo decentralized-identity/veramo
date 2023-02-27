@@ -356,5 +356,8 @@ export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: bo
       return ''
     }
   }
+  if(pk.publicKeyMultibase) {
+    keyBytes = keyBytes.slice(2)
+  }
   return u8a.toString(keyBytes, 'base16')
 }
