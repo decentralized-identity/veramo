@@ -29,7 +29,7 @@ import Debug from 'debug'
 const debug = Debug('veramo:key-manager')
 
 /**
- * Agent plugin that implements {@link @veramo/core#IKeyManager} methods.
+ * Agent plugin that implements {@link @veramo/core-types#IKeyManager} methods.
  *
  * This plugin orchestrates various implementations of {@link AbstractKeyManagementSystem}, using a KeyStore to
  * remember the link between a key reference, its metadata, and the respective key management system that provides the
@@ -80,12 +80,12 @@ export class KeyManager implements IAgentPlugin {
     return kms
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerGetKeyManagementSystems} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerGetKeyManagementSystems} */
   async keyManagerGetKeyManagementSystems(): Promise<Array<string>> {
     return Object.keys(this.kms)
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerCreate} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerCreate} */
   async keyManagerCreate(args: IKeyManagerCreateArgs): Promise<ManagedKeyInfo> {
     const kms = this.getKms(args.kms)
     const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
@@ -100,12 +100,12 @@ export class KeyManager implements IAgentPlugin {
     return key
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerGet} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerGet} */
   async keyManagerGet({ kid }: IKeyManagerGetArgs): Promise<IKey> {
     return this.store.getKey({ kid })
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerDelete} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerDelete} */
   async keyManagerDelete({ kid }: IKeyManagerDeleteArgs): Promise<boolean> {
     const key = await this.store.getKey({ kid })
     const kms = this.getKms(key.kms)
@@ -113,7 +113,7 @@ export class KeyManager implements IAgentPlugin {
     return this.store.deleteKey({ kid })
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerImport} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerImport} */
   async keyManagerImport(key: MinimalImportableKey): Promise<ManagedKeyInfo> {
     const kms = this.getKms(key.kms)
     const managedKey = await kms.importKey(key)
@@ -123,7 +123,7 @@ export class KeyManager implements IAgentPlugin {
     return importedKey
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerEncryptJWE} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerEncryptJWE} */
   async keyManagerEncryptJWE({ kid, to, data }: IKeyManagerEncryptJWEArgs): Promise<string> {
     // TODO: if a sender `key` is provided, then it should be used to create an authenticated encrypter
     // const key = await this.store.get({ kid })
@@ -145,7 +145,7 @@ export class KeyManager implements IAgentPlugin {
     return JSON.stringify(result)
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerDecryptJWE} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerDecryptJWE} */
   async keyManagerDecryptJWE({ kid, data }: IKeyManagerDecryptJWEArgs): Promise<string> {
     const jwe: JWE = JSON.parse(data)
     const ecdh = this.createX25519ECDH(kid)
@@ -158,7 +158,7 @@ export class KeyManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignJWT} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerSignJWT} */
   async keyManagerSignJWT({ kid, data }: IKeyManagerSignJWTArgs): Promise<string> {
     if (typeof data === 'string') {
       return this.keyManagerSign({ keyRef: kid, data, encoding: 'utf-8' })
@@ -168,7 +168,7 @@ export class KeyManager implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSign} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerSign} */
   async keyManagerSign(args: IKeyManagerSignArgs): Promise<string> {
     const { keyRef, data, algorithm, encoding, ...extras } = { encoding: 'utf-8', ...args }
     const keyInfo: ManagedKeyInfo = await this.store.getKey({ kid: keyRef })
@@ -187,7 +187,7 @@ export class KeyManager implements IAgentPlugin {
     return kms.sign({ keyRef: keyInfo, algorithm, data: dataBytes, ...extras })
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSignEthTX} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerSignEthTX} */
   async keyManagerSignEthTX({ kid, transaction }: IKeyManagerSignEthTXArgs): Promise<string> {
     const { v, r, s, from, ...tx } = <any>transaction
     if (typeof from === 'string') {
@@ -208,7 +208,7 @@ export class KeyManager implements IAgentPlugin {
     return this.keyManagerSign({ keyRef: kid, data, algorithm, encoding: 'base16' })
   }
 
-  /** {@inheritDoc @veramo/core#IKeyManager.keyManagerSharedSecret} */
+  /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerSharedSecret} */
   async keyManagerSharedSecret(args: IKeyManagerSharedSecretArgs): Promise<string> {
     const { secretKeyRef, publicKey } = args
     const myKeyRef = await this.store.getKey({ kid: secretKeyRef })

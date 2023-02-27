@@ -1,15 +1,14 @@
-import { program } from 'commander'
+import { Command } from 'commander'
 import { SecretBox } from '@veramo/kms-local'
 import { getAgent } from './setup.js'
-import fs from "fs"
+import fs from 'fs'
 import { dirname } from 'path'
 
-import * as url from 'url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as url from 'url'
 
-program.option('--config <path>', 'Configuration file', './agent.yml')
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
-const config = program.command('config').description('Agent configuration')
+const config = new Command('config').description('Agent configuration')
 
 config
   .command('create', { isDefault: true })
@@ -43,6 +42,8 @@ config
   .command('create-secret-key')
   .alias('gen-key')
   .alias('key-gen')
+  .alias('keygen')
+  .alias('genkey')
   .description('generate secret key')
   .option('-q, --quiet', 'Only print the raw key, no instructions', false)
   .action(async (options) => {
@@ -72,7 +73,7 @@ config
   .option('-f, --filename <string>', 'Config file name', './agent.yml')
   .option('-m, --method <string>', 'Check that a specific method is exposed by the agent.', 'execute')
   .action(async (options) => {
-    const agent = getAgent(options.filename)
+    const agent = await getAgent(options.filename)
     if (!agent) {
       console.error(
         'unknown error while creating the agent from your config. Consider running `veramo config create` to generate a new configuration file, or to manually compare differences.',
@@ -89,3 +90,5 @@ config
       }
     }
   })
+
+export { config }

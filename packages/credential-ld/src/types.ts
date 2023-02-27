@@ -27,7 +27,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiablePresentation} that was requested or rejects with an error
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or rejects with an error
    * if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
@@ -46,7 +46,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiableCredential} that was requested or rejects with an error
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or rejects with an error
    * if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
@@ -116,7 +116,7 @@ export interface ICreateVerifiablePresentationLDArgs {
   domain?: string
 
   /**
-   * Optional. The key handle ({@link @veramo/core#IKey.kid | IKey.kid}) from the internal database.
+   * Optional. The key handle ({@link @veramo/core-types#IKey.kid | IKey.kid}) from the internal database.
    */
   keyRef?: string
 
@@ -130,7 +130,7 @@ export interface ICreateVerifiablePresentationLDArgs {
   /**
    * Any other options that can be forwarded to the lower level libraries
    */
-  [x:string]: any
+  [x: string]: any
 }
 
 /**
@@ -152,9 +152,9 @@ export interface ICreateVerifiableCredentialLDArgs {
   credential: CredentialPayload
 
   /**
-   * Optional. The key handle ({@link @veramo/core#IKey.kid | IKey.kid}) from the internal database.
+   * Optional. The key handle ({@link @veramo/core-types#IKey.kid | IKey.kid}) from the internal database.
    */
-  keyRef?: string,
+  keyRef?: string
 
   /**
    * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
@@ -166,7 +166,7 @@ export interface ICreateVerifiableCredentialLDArgs {
   /**
    * Any other options that can be forwarded to the lower level libraries
    */
-  [x:string]: any
+  [x: string]: any
 }
 
 /**
@@ -196,7 +196,7 @@ export interface IVerifyCredentialLDArgs {
   /**
    * Any other options that can be forwarded to the lower level libraries
    */
-  [x:string]: any
+  [x: string]: any
 }
 
 /**
@@ -236,7 +236,7 @@ export interface IVerifyPresentationLDArgs {
   /**
    * Any other options that can be forwarded to the lower level libraries
    */
-  [x:string]: any
+  [x: string]: any
 }
 
 /**

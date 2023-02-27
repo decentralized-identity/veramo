@@ -25,7 +25,7 @@ import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 
 import { AbstractDIDStore } from './abstract-identifier-store.js'
 
 /**
- * Agent plugin that implements {@link @veramo/core#IDIDManager} interface
+ * Agent plugin that implements {@link @veramo/core-types#IDIDManager} interface
  * @public
  */
 export class DIDManager implements IAgentPlugin {
@@ -77,28 +77,28 @@ export class DIDManager implements IAgentPlugin {
     return provider
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerGetProviders} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerGetProviders} */
   async didManagerGetProviders(): Promise<string[]> {
     return Object.keys(this.providers)
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerFind} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerFind} */
   async didManagerFind(args: IDIDManagerFindArgs): Promise<IIdentifier[]> {
     return this.store.listDIDs(args)
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerGet} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerGet} */
   async didManagerGet({ did }: IDIDManagerGetArgs): Promise<IIdentifier> {
     return this.store.getDID({ did })
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerGetByAlias} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerGetByAlias} */
   async didManagerGetByAlias({ alias, provider }: IDIDManagerGetByAliasArgs): Promise<IIdentifier> {
     const providerName = provider || this.defaultProvider
     return this.store.getDID({ alias, provider: providerName })
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerCreate} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerCreate} */
   async didManagerCreate(
     args: IDIDManagerCreateArgs,
     context: IAgentContext<IKeyManager>,
@@ -128,7 +128,7 @@ export class DIDManager implements IAgentPlugin {
     return identifier
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerGetOrCreate} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerGetOrCreate} */
   async didManagerGetOrCreate(
     { provider, alias, kms, options }: IDIDManagerGetOrCreateArgs,
     context: IAgentContext<IKeyManager>,
@@ -143,7 +143,7 @@ export class DIDManager implements IAgentPlugin {
     }
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerUpdate} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerUpdate} */
   async didManagerUpdate(
     { did, document, options }: IDIDManagerUpdateArgs,
     context: IAgentContext<IKeyManager>,
@@ -157,20 +157,19 @@ export class DIDManager implements IAgentPlugin {
      * 6. Update the identifier in the store
      * 7. Return the identifier
      */
-      const identifier = await this.store.getDID({ did })
-      const identifierProvider = this.getProvider(identifier.provider)
-      if (typeof identifierProvider?.updateIdentifier !== 'function') {
-        throw new Error(`not_supported: ${identifier?.provider} provider does not implement full document updates`)
-      }
-      const updatedIdentifier = await identifierProvider.updateIdentifier(
-        { did, document, options },
-        context,
+    const identifier = await this.store.getDID({ did })
+    const identifierProvider = this.getProvider(identifier.provider)
+    if (typeof identifierProvider?.updateIdentifier !== 'function') {
+      throw new Error(
+        `not_supported: ${identifier?.provider} provider does not implement full document updates`,
       )
-      await this.store.importDID(updatedIdentifier)
-      return updatedIdentifier
+    }
+    const updatedIdentifier = await identifierProvider.updateIdentifier({ did, document, options }, context)
+    await this.store.importDID(updatedIdentifier)
+    return updatedIdentifier
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerSetAlias} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerSetAlias} */
   async didManagerSetAlias(
     { did, alias }: IDIDManagerSetAliasArgs,
     context: IAgentContext<IKeyManager>,
@@ -180,7 +179,7 @@ export class DIDManager implements IAgentPlugin {
     return await this.store.importDID(identifier)
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerImport} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerImport} */
   async didManagerImport(
     identifier: MinimalImportableIdentifier,
     context: IAgentContext<IKeyManager>,
@@ -200,7 +199,7 @@ export class DIDManager implements IAgentPlugin {
     return importedDID
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerDelete} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerDelete} */
   async didManagerDelete(
     { did }: IDIDManagerDeleteArgs,
     context: IAgentContext<IKeyManager>,
@@ -211,7 +210,7 @@ export class DIDManager implements IAgentPlugin {
     return this.store.deleteDID({ did })
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerAddKey} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerAddKey} */
   async didManagerAddKey(
     { did, key, options }: IDIDManagerAddKeyArgs,
     context: IAgentContext<IKeyManager>,
@@ -224,7 +223,7 @@ export class DIDManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerRemoveKey} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerRemoveKey} */
   async didManagerRemoveKey(
     { did, kid, options }: IDIDManagerRemoveKeyArgs,
     context: IAgentContext<IKeyManager>,
@@ -237,7 +236,7 @@ export class DIDManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerAddService} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerAddService} */
   async didManagerAddService(
     { did, service, options }: IDIDManagerAddServiceArgs,
     context: IAgentContext<IKeyManager>,
@@ -250,7 +249,7 @@ export class DIDManager implements IAgentPlugin {
     return result
   }
 
-  /** {@inheritDoc @veramo/core#IDIDManager.didManagerRemoveService} */
+  /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerRemoveService} */
   async didManagerRemoveService(
     { did, id, options }: IDIDManagerRemoveServiceArgs,
     context: IAgentContext<IKeyManager>,

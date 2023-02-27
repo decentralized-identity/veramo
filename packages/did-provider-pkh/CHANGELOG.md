@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/uport-project/veramo/compare/v5.0.0...v5.1.0) (2023-02-24)
+
+
+### Bug Fixes
+
+* add missing `.js` file extension for ESM import ([#1123](https://github.com/uport-project/veramo/issues/1123)) ([6c850ac](https://github.com/uport-project/veramo/commit/6c850ac40f7dd0104c61851eee20551b1bb69ff6)), closes [#1122](https://github.com/uport-project/veramo/issues/1122)
+
+
+
+
+
 # [5.0.0](https://github.com/uport-project/veramo/compare/v4.3.0...v5.0.0) (2023-02-09)
 
 

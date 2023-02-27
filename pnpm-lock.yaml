@@ -51,7 +51,7 @@ importers:
       ts-node: 10.9.1
       typeorm: ^0.3.11
       typescript: 4.9.4
-      uint8arrays: 4.0.3
+      uint8arrays: 3.1.1
       uuid: ^9.0.0
       web-did-resolver: ^2.0.21
     devDependencies:
@@ -98,7 +98,7 @@ importers:
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       typeorm: 0.3.11_ts-node@10.9.1
       typescript: 4.9.4
-      uint8arrays: 4.0.3
+      uint8arrays: 3.1.1
       uuid: 9.0.0
       web-did-resolver: 2.0.21
 
@@ -116,30 +116,31 @@ importers:
       '@types/swagger-ui-express': ^4.1.3
       '@types/url-parse': 1.4.8
       '@types/ws': 8.5.4
-      '@veramo/core': ^5.0.0
-      '@veramo/core-types': ^5.0.0
-      '@veramo/credential-eip712': ^5.0.0
-      '@veramo/credential-ld': ^5.0.0
-      '@veramo/credential-w3c': ^5.0.0
-      '@veramo/data-store': ^5.0.0
-      '@veramo/did-comm': ^5.0.0
-      '@veramo/did-discovery': ^5.0.0
-      '@veramo/did-jwt': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
-      '@veramo/did-provider-ethr': ^5.0.0
-      '@veramo/did-provider-key': ^5.0.0
-      '@veramo/did-provider-web': ^5.0.0
-      '@veramo/did-resolver': ^5.0.0
-      '@veramo/key-manager': ^5.0.0
-      '@veramo/kms-local': ^5.0.0
-      '@veramo/message-handler': ^5.0.0
-      '@veramo/remote-client': ^5.0.0
-      '@veramo/remote-server': ^5.0.0
-      '@veramo/selective-disclosure': ^5.0.0
-      '@veramo/url-handler': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core': ^5.1.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/credential-eip712': ^5.1.0
+      '@veramo/credential-ld': ^5.1.0
+      '@veramo/credential-w3c': ^5.1.0
+      '@veramo/data-store': ^5.1.0
+      '@veramo/did-comm': ^5.1.0
+      '@veramo/did-discovery': ^5.1.0
+      '@veramo/did-jwt': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
+      '@veramo/did-provider-ethr': ^5.1.0
+      '@veramo/did-provider-key': ^5.1.0
+      '@veramo/did-provider-pkh': ^5.1.0
+      '@veramo/did-provider-web': ^5.1.0
+      '@veramo/did-resolver': ^5.1.0
+      '@veramo/key-manager': ^5.1.0
+      '@veramo/kms-local': ^5.1.0
+      '@veramo/message-handler': ^5.1.0
+      '@veramo/remote-client': ^5.1.0
+      '@veramo/remote-server': ^5.1.0
+      '@veramo/selective-disclosure': ^5.1.0
+      '@veramo/url-handler': ^5.1.0
+      '@veramo/utils': ^5.1.0
       blessed: ^0.1.81
-      commander: ^9.0.0
+      commander: ^10.0.0
       console-table-printer: ^2.10.0
       cors: ^2.8.5
       cross-fetch: ^3.1.4
@@ -190,6 +191,7 @@ importers:
       '@veramo/did-manager': link:../did-manager
       '@veramo/did-provider-ethr': link:../did-provider-ethr
       '@veramo/did-provider-key': link:../did-provider-key
+      '@veramo/did-provider-pkh': link:../did-provider-pkh
       '@veramo/did-provider-web': link:../did-provider-web
       '@veramo/did-resolver': link:../did-resolver
       '@veramo/key-manager': link:../key-manager
@@ -201,7 +203,7 @@ importers:
       '@veramo/url-handler': link:../url-handler
       '@veramo/utils': link:../utils
       blessed: 0.1.81
-      commander: 9.5.0
+      commander: 10.0.0
       console-table-printer: 2.11.1
       cors: 2.8.5
       cross-fetch: 3.1.5
@@ -228,7 +230,7 @@ importers:
       sqlite3: 5.1.4
       swagger-ui-express: 4.6.0_express@4.18.2
       ts-json-schema-generator: 1.2.0
-      typeorm: 0.3.11_pg@8.8.0+sqlite3@5.1.4
+      typeorm: 0.3.12_pg@8.8.0+sqlite3@5.1.4
       url-parse: 1.5.10
       web-did-resolver: 2.0.21
       ws: 8.12.0
@@ -246,12 +248,14 @@ importers:
   packages/core:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      debug: ^4.3.4
       events: ^3.2.0
       typescript: 4.9.4
       z-schema: ^5.0.5
     dependencies:
       '@veramo/core-types': link:../core-types
+      debug: 4.3.4
       events: 3.3.0
       z-schema: 5.0.5
     devDependencies:
@@ -279,8 +283,8 @@ importers:
     specifiers:
       '@metamask/eth-sig-util': ^5.0.0
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/utils': ^5.1.0
       debug: ^4.3.3
       eip-712-types-generation: ^0.1.6
       typescript: 4.9.4
@@ -306,8 +310,8 @@ importers:
       '@transmute/json-web-signature': ^0.7.0-unstable.79
       '@types/debug': 4.1.7
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': uport-project/EcdsaSecp256k1RecoverySignature2020
-      '@veramo/core-types': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/utils': ^5.1.0
       borc: 3.0.0
       cross-fetch: ^3.1.5
       debug: ^4.3.3
@@ -338,8 +342,8 @@ importers:
   packages/credential-status:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/utils': ^5.1.0
       credential-status: ^2.0.5
       did-jwt: ^6.9.0
       did-resolver: ^4.0.1
@@ -358,10 +362,10 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core-types': ^5.0.0
-      '@veramo/credential-ld': ^5.0.0
-      '@veramo/message-handler': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/credential-ld': ^5.1.0
+      '@veramo/message-handler': ^5.1.0
+      '@veramo/utils': ^5.1.0
       canonicalize: ^1.0.8
       debug: ^4.3.3
       did-jwt: ^6.11.0
@@ -392,11 +396,11 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-discovery': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
-      '@veramo/key-manager': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-discovery': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
+      '@veramo/key-manager': ^5.1.0
+      '@veramo/utils': ^5.1.0
       debug: ^4.3.3
       did-jwt-vc: ^3.1.0
       sqlite3: 5.1.4
@@ -425,10 +429,10 @@ importers:
       '@types/ungap__structured-clone': 0.3.0
       '@types/uuid': 9.0.0
       '@ungap/structured-clone': ^1.0.0
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
-      '@veramo/key-manager': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
+      '@veramo/key-manager': ^5.1.0
+      '@veramo/utils': ^5.1.0
       debug: ^4.3.3
       did-jwt-vc: ^3.1.0
       typescript: 4.9.4
@@ -454,9 +458,9 @@ importers:
       '@stablelib/ed25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core-types': ^5.0.0
-      '@veramo/message-handler': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/message-handler': ^5.1.0
+      '@veramo/utils': ^5.1.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       did-jwt: ^6.9.0
@@ -484,7 +488,7 @@ importers:
   packages/did-discovery:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
+      '@veramo/core-types': ^5.1.0
       debug: ^4.3.3
       typescript: 4.9.4
     dependencies:
@@ -497,8 +501,8 @@ importers:
   packages/did-jwt:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/message-handler': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/message-handler': ^5.1.0
       debug: ^4.3.3
       did-jwt: ^6.9.0
       did-resolver: ^4.0.1
@@ -515,8 +519,8 @@ importers:
 
   packages/did-manager:
     specifiers:
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-discovery': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-discovery': ^5.1.0
       typescript: 4.9.4
     dependencies:
       '@veramo/core-types': link:../core-types
@@ -536,8 +540,8 @@ importers:
       '@ethersproject/signing-key': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
       debug: ^4.3.3
       ethr-did: ^2.3.6
       typescript: 4.9.4
@@ -570,10 +574,10 @@ importers:
       '@stablelib/sha256': ^1.0.1
       '@trust/keyto': ^1.0.1
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
-      '@veramo/key-manager': ^5.0.0
-      '@veramo/kms-local': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
+      '@veramo/key-manager': ^5.1.0
+      '@veramo/kms-local': ^5.1.0
       canonicalize: ^1.0.8
       cross-fetch: ^3.1.5
       debug: ^4.3.3
@@ -604,14 +608,37 @@ importers:
       '@types/debug': 4.1.7
       typescript: 4.9.4
 
+  packages/did-provider-jwk:
+    specifiers:
+      '@types/debug': 4.1.7
+      '@types/elliptic': 6.4.14
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
+      '@veramo/utils': ^5.1.0
+      debug: ^4.3.3
+      did-resolver: ^4.0.1
+      elliptic: ^6.5.4
+      typescript: 4.9.4
+    dependencies:
+      '@veramo/core-types': link:../core-types
+      '@veramo/did-manager': link:../did-manager
+      '@veramo/utils': link:../utils
+      debug: 4.3.4
+      did-resolver: 4.0.1
+      elliptic: 6.5.4
+    devDependencies:
+      '@types/debug': 4.1.7
+      '@types/elliptic': 6.4.14
+      typescript: 4.9.4
+
   packages/did-provider-key:
     specifiers:
       '@transmute/did-key-ed25519': ^0.3.0-unstable.10
       '@transmute/did-key-secp256k1': ^0.3.0-unstable.10
       '@transmute/did-key-x25519': ^0.3.0-unstable.10
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
       multibase: ^4.0.6
@@ -638,8 +665,8 @@ importers:
       '@ethersproject/signing-key': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
       caip: ^1.1.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
@@ -661,8 +688,8 @@ importers:
   packages/did-provider-web:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
       debug: ^4.3.3
       typescript: 4.9.4
     dependencies:
@@ -676,8 +703,8 @@ importers:
   packages/did-resolver:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/utils': ^5.1.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       did-resolver: ^4.0.1
@@ -705,7 +732,7 @@ importers:
       '@stablelib/ed25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core-types': ^5.0.0
+      '@veramo/core-types': ^5.1.0
       debug: ^4.3.4
       did-jwt: ^6.9.0
       typescript: 4.9.4
@@ -742,8 +769,8 @@ importers:
       '@stablelib/x25519': ^1.0.3
       '@types/debug': 4.1.7
       '@types/elliptic': 6.4.14
-      '@veramo/core-types': ^5.0.0
-      '@veramo/key-manager': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/key-manager': ^5.1.0
       base-58: ^0.0.1
       debug: ^4.3.3
       did-jwt: ^6.9.0
@@ -780,8 +807,8 @@ importers:
       '@ethersproject/strings': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
-      '@veramo/key-manager': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/key-manager': ^5.1.0
       debug: ^4.3.3
       typescript: 4.9.4
     dependencies:
@@ -798,7 +825,7 @@ importers:
   packages/message-handler:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
+      '@veramo/core-types': ^5.1.0
       debug: ^4.3.4
       typescript: 4.9.4
     dependencies:
@@ -811,7 +838,7 @@ importers:
   packages/remote-client:
     specifiers:
       '@types/debug': 4.1.7
-      '@veramo/core-types': ^5.0.0
+      '@veramo/core-types': ^5.1.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       openapi-types: 12.1.0
@@ -832,8 +859,8 @@ importers:
       '@types/passport': 1.0.11
       '@types/passport-http-bearer': 1.0.37
       '@types/url-parse': 1.4.8
-      '@veramo/core-types': ^5.0.0
-      '@veramo/remote-client': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/remote-client': ^5.1.0
       debug: ^4.3.3
       did-resolver: ^4.0.1
       express: ^4.18.2
@@ -862,9 +889,9 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/uuid': 9.0.0
-      '@veramo/core-types': ^5.0.0
-      '@veramo/message-handler': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/message-handler': ^5.1.0
+      '@veramo/utils': ^5.1.0
       debug: ^4.3.3
       did-jwt: ^6.9.0
       typescript: 4.9.4
@@ -894,28 +921,29 @@ importers:
       '@types/node': 18.11.18
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
-      '@veramo/core': ^5.0.0
-      '@veramo/core-types': ^5.0.0
-      '@veramo/credential-ld': ^5.0.0
-      '@veramo/credential-w3c': ^5.0.0
-      '@veramo/data-store': ^5.0.0
-      '@veramo/data-store-json': ^5.0.0
-      '@veramo/did-comm': ^5.0.0
-      '@veramo/did-jwt': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
-      '@veramo/did-provider-ethr': ^5.0.0
-      '@veramo/did-provider-key': ^5.0.0
-      '@veramo/did-provider-pkh': ^5.0.0
-      '@veramo/did-provider-web': ^5.0.0
-      '@veramo/did-resolver': ^5.0.0
-      '@veramo/key-manager': ^5.0.0
-      '@veramo/kms-local': ^5.0.0
-      '@veramo/kms-web3': ^5.0.0
-      '@veramo/message-handler': ^5.0.0
-      '@veramo/selective-disclosure': ^5.0.0
-      '@veramo/test-utils': ^5.0.0
-      '@veramo/url-handler': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core': ^5.1.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/credential-ld': ^5.1.0
+      '@veramo/credential-w3c': ^5.1.0
+      '@veramo/data-store': ^5.1.0
+      '@veramo/data-store-json': ^5.1.0
+      '@veramo/did-comm': ^5.1.0
+      '@veramo/did-jwt': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
+      '@veramo/did-provider-ethr': ^5.1.0
+      '@veramo/did-provider-jwk': ^5.1.1
+      '@veramo/did-provider-key': ^5.1.0
+      '@veramo/did-provider-pkh': ^5.1.0
+      '@veramo/did-provider-web': ^5.1.0
+      '@veramo/did-resolver': ^5.1.0
+      '@veramo/key-manager': ^5.1.0
+      '@veramo/kms-local': ^5.1.0
+      '@veramo/kms-web3': ^5.1.0
+      '@veramo/message-handler': ^5.1.0
+      '@veramo/selective-disclosure': ^5.1.0
+      '@veramo/test-utils': ^5.1.0
+      '@veramo/url-handler': ^5.1.0
+      '@veramo/utils': ^5.1.0
       buffer: npm:buffer
       cross-env: 7.0.3
       crypto: npm:crypto-browserify
@@ -951,6 +979,7 @@ importers:
       '@veramo/did-jwt': link:../did-jwt
       '@veramo/did-manager': link:../did-manager
       '@veramo/did-provider-ethr': link:../did-provider-ethr
+      '@veramo/did-provider-jwk': link:../did-provider-jwk
       '@veramo/did-provider-key': link:../did-provider-key
       '@veramo/did-provider-pkh': link:../did-provider-pkh
       '@veramo/did-provider-web': link:../did-provider-web
@@ -1002,10 +1031,10 @@ importers:
 
   packages/test-utils:
     specifiers:
-      '@veramo/core-types': ^5.0.0
-      '@veramo/did-discovery': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/did-discovery': ^5.1.0
+      '@veramo/did-manager': ^5.1.0
+      '@veramo/utils': ^5.1.0
       did-resolver: ^4.0.1
       typescript: 4.9.4
     dependencies:
@@ -1021,8 +1050,8 @@ importers:
     specifiers:
       '@types/debug': 4.1.7
       '@types/url-parse': 1.4.8
-      '@veramo/core-types': ^5.0.0
-      '@veramo/message-handler': ^5.0.0
+      '@veramo/core-types': ^5.1.0
+      '@veramo/message-handler': ^5.1.0
       cross-fetch: ^3.1.4
       debug: ^4.3.3
       jest-fetch-mock: 3.0.3
@@ -1048,7 +1077,7 @@ importers:
       '@types/debug': 4.1.7
       '@types/elliptic': 6.4.14
       '@types/uuid': 9.0.0
-      '@veramo/core-types': ^5.0.0
+      '@veramo/core-types': ^5.1.0
       blakejs: ^1.1.1
       credential-status: ^2.0.5
       cross-fetch: ^3.1.5
@@ -4702,7 +4731,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
     dependencies:
       '@npmcli/name-from-folder': 1.0.1
-      glob: 8.0.3
+      glob: 8.1.0
       minimatch: 5.1.2
       read-package-json-fast: 2.0.3
     dev: true
@@ -4944,14 +4973,14 @@ packages:
     dependencies:
       asn1js: 3.0.5
       pvtsutils: 1.3.2
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /@peculiar/json-schema/1.1.12:
     resolution: {integrity: sha512-coUfuoMeIB7B8/NMekxaDzLhaYmp0HZNPEjYRm9goRou8UZIC3z21s0sL9AWoCw4EG876QyO3kYrc61WNF9B/w==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /@peculiar/webcrypto/1.4.1:
@@ -4961,7 +4990,7 @@ packages:
       '@peculiar/asn1-schema': 2.3.3
       '@peculiar/json-schema': 1.1.12
       pvtsutils: 1.3.2
-      tslib: 2.4.1
+      tslib: 2.5.0
       webcrypto-core: 1.7.5
     dev: false
 
@@ -6547,7 +6576,7 @@ packages:
     engines: {node: '>=14.15.0'}
     dependencies:
       js-yaml: 3.14.1
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /@zkochan/js-yaml/0.0.6:
@@ -7007,7 +7036,7 @@ packages:
     dependencies:
       pvtsutils: 1.3.2
       pvutils: 1.1.3
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /ast-types-flow/0.0.7:
@@ -7687,7 +7716,7 @@ packages:
       '@npmcli/move-file': 2.0.1
       chownr: 2.0.0
       fs-minipass: 2.1.0
-      glob: 8.0.3
+      glob: 8.1.0
       infer-owner: 1.0.4
       lru-cache: 7.14.1
       minipass: 3.3.6
@@ -7723,7 +7752,7 @@ packages:
     resolution: {integrity: sha512-gxGWBrTT1JuMx6R+o5PTXMmUnhnVzLQ9SNutD4YqKtI6ap897t3tKECYla6gCWEkplXnlNybEkZg9GEGxKFCgw==}
     dependencies:
       pascal-case: 3.1.2
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /camelcase-css/2.0.1:
@@ -8065,6 +8094,11 @@ packages:
     dependencies:
       delayed-stream: 1.0.0
     dev: true
+
+  /commander/10.0.0:
+    resolution: {integrity: sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA==}
+    engines: {node: '>=14'}
+    dev: false
 
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -9127,7 +9161,7 @@ packages:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /dot-prop/5.3.0:
@@ -10729,6 +10763,16 @@ packages:
 
   /glob/8.0.3:
     resolution: {integrity: sha512-ull455NHSHI/Y1FqGaaYFaLGkNMMJbavMrEGFXG/PGrg6y7sutWHUHrz6gy6WEBH6akM1M414dWKCNs+IhKdiQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      fs.realpath: 1.0.0
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 5.1.2
+      once: 1.4.0
+
+  /glob/8.1.0:
+    resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
     dependencies:
       fs.realpath: 1.0.0
@@ -13599,7 +13643,7 @@ packages:
   /lower-case/2.0.2:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
     dependencies:
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /lru-cache/5.1.1:
@@ -13996,6 +14040,12 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  /mkdirp/2.1.3:
+    resolution: {integrity: sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
+
   /modify-values/1.0.1:
     resolution: {integrity: sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==}
     engines: {node: '>=0.10.0'}
@@ -14047,11 +14097,6 @@ packages:
       uint8arrays: 3.1.1
       varint: 6.0.0
     dev: false
-
-  /multiformats/11.0.0:
-    resolution: {integrity: sha512-vqF8bmMtbxw9Zn3eTpk0OZQdBVmAT/+bTGwXb3C2qCNkp45aJMmkCDds3lrtObECWPf+KFjFtTOHkvCaT/c/xQ==}
-    engines: {node: '>=16.0.0', npm: '>=7.0.0'}
-    dev: true
 
   /multiformats/9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
@@ -14130,7 +14175,7 @@ packages:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /node-addon-api/2.0.2:
@@ -14364,7 +14409,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
     hasBin: true
     dependencies:
-      glob: 8.0.3
+      glob: 8.1.0
       ignore-walk: 5.0.1
       npm-bundled: 2.0.1
       npm-normalize-package-bin: 2.0.0
@@ -14977,7 +15022,7 @@ packages:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /parent-module/1.0.1:
@@ -15066,7 +15111,7 @@ packages:
     resolution: {integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /passport-http-bearer/1.0.1:
@@ -16308,7 +16353,7 @@ packages:
   /pvtsutils/1.3.2:
     resolution: {integrity: sha512-+Ipe2iNUyrZz+8K/2IOo+kKikdtfhRKzNpQbruF2URmqPtoqAs8g3xS7TJvFF2GcPXjh7DkqMnpVveRFq4PgEQ==}
     dependencies:
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /pvutils/1.1.3:
@@ -16609,7 +16654,7 @@ packages:
     resolution: {integrity: sha512-BSzugrt4kQ/Z0krro8zhTwV1Kd79ue25IhNN/VtHFy1mG/6Tluyi+msc0UpwaoQzxSHa28mntAjIZY6kEgfR9Q==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
     dependencies:
-      glob: 8.0.3
+      glob: 8.1.0
       json-parse-even-better-errors: 2.3.1
       normalize-package-data: 4.0.1
       npm-normalize-package-bin: 2.0.0
@@ -18281,6 +18326,9 @@ packages:
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
 
+  /tslib/2.5.0:
+    resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
+
   /tsutils/3.21.0_typescript@4.9.4:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
@@ -18469,87 +18517,6 @@ packages:
       - supports-color
     dev: false
 
-  /typeorm/0.3.11_pg@8.8.0+sqlite3@5.1.4:
-    resolution: {integrity: sha512-pzdOyWbVuz/z8Ww6gqvBW4nylsM0KLdUCDExr2gR20/x1khGSVxQkjNV/3YqliG90jrWzrknYbYscpk8yxFJVg==}
-    engines: {node: '>= 12.9.0'}
-    hasBin: true
-    peerDependencies:
-      '@google-cloud/spanner': ^5.18.0
-      '@sap/hana-client': ^2.12.25
-      better-sqlite3: ^7.1.2 || ^8.0.0
-      hdb-pool: ^0.1.6
-      ioredis: ^5.0.4
-      mongodb: ^3.6.0
-      mssql: ^7.3.0
-      mysql2: ^2.2.5
-      oracledb: ^5.1.0
-      pg: ^8.5.1
-      pg-native: ^3.0.0
-      pg-query-stream: ^4.0.0
-      redis: ^3.1.1 || ^4.0.0
-      sql.js: ^1.4.0
-      sqlite3: ^5.0.3
-      ts-node: ^10.7.0
-      typeorm-aurora-data-api-driver: ^2.0.0
-    peerDependenciesMeta:
-      '@google-cloud/spanner':
-        optional: true
-      '@sap/hana-client':
-        optional: true
-      better-sqlite3:
-        optional: true
-      hdb-pool:
-        optional: true
-      ioredis:
-        optional: true
-      mongodb:
-        optional: true
-      mssql:
-        optional: true
-      mysql2:
-        optional: true
-      oracledb:
-        optional: true
-      pg:
-        optional: true
-      pg-native:
-        optional: true
-      pg-query-stream:
-        optional: true
-      redis:
-        optional: true
-      sql.js:
-        optional: true
-      sqlite3:
-        optional: true
-      ts-node:
-        optional: true
-      typeorm-aurora-data-api-driver:
-        optional: true
-    dependencies:
-      '@sqltools/formatter': 1.2.5
-      app-root-path: 3.1.0
-      buffer: 6.0.3
-      chalk: 4.1.2
-      cli-highlight: 2.1.11
-      date-fns: 2.29.3
-      debug: 4.3.4
-      dotenv: 16.0.3
-      glob: 7.2.3
-      js-yaml: 4.1.0
-      mkdirp: 1.0.4
-      pg: 8.8.0
-      reflect-metadata: 0.1.13
-      sha.js: 2.4.11
-      sqlite3: 5.1.4
-      tslib: 2.4.1
-      uuid: 8.3.2
-      xml2js: 0.4.23
-      yargs: 17.6.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /typeorm/0.3.11_sqlite3@5.1.4:
     resolution: {integrity: sha512-pzdOyWbVuz/z8Ww6gqvBW4nylsM0KLdUCDExr2gR20/x1khGSVxQkjNV/3YqliG90jrWzrknYbYscpk8yxFJVg==}
     engines: {node: '>= 12.9.0'}
@@ -18710,6 +18677,87 @@ packages:
       - supports-color
     dev: true
 
+  /typeorm/0.3.12_pg@8.8.0+sqlite3@5.1.4:
+    resolution: {integrity: sha512-sYSxBmCf1nJLLTcYtwqZ+lQIRtLPyUoO93rHTOKk9vJCyT4UfRtU7oRsJvfvKP3nnZTD1hzz2SEy2zwPEN6OyA==}
+    engines: {node: '>= 12.9.0'}
+    hasBin: true
+    peerDependencies:
+      '@google-cloud/spanner': ^5.18.0
+      '@sap/hana-client': ^2.12.25
+      better-sqlite3: ^7.1.2 || ^8.0.0
+      hdb-pool: ^0.1.6
+      ioredis: ^5.0.4
+      mongodb: ^3.6.0
+      mssql: ^7.3.0
+      mysql2: ^2.2.5 || ^3.0.1
+      oracledb: ^5.1.0
+      pg: ^8.5.1
+      pg-native: ^3.0.0
+      pg-query-stream: ^4.0.0
+      redis: ^3.1.1 || ^4.0.0
+      sql.js: ^1.4.0
+      sqlite3: ^5.0.3
+      ts-node: ^10.7.0
+      typeorm-aurora-data-api-driver: ^2.0.0
+    peerDependenciesMeta:
+      '@google-cloud/spanner':
+        optional: true
+      '@sap/hana-client':
+        optional: true
+      better-sqlite3:
+        optional: true
+      hdb-pool:
+        optional: true
+      ioredis:
+        optional: true
+      mongodb:
+        optional: true
+      mssql:
+        optional: true
+      mysql2:
+        optional: true
+      oracledb:
+        optional: true
+      pg:
+        optional: true
+      pg-native:
+        optional: true
+      pg-query-stream:
+        optional: true
+      redis:
+        optional: true
+      sql.js:
+        optional: true
+      sqlite3:
+        optional: true
+      ts-node:
+        optional: true
+      typeorm-aurora-data-api-driver:
+        optional: true
+    dependencies:
+      '@sqltools/formatter': 1.2.5
+      app-root-path: 3.1.0
+      buffer: 6.0.3
+      chalk: 4.1.2
+      cli-highlight: 2.1.11
+      date-fns: 2.29.3
+      debug: 4.3.4
+      dotenv: 16.0.3
+      glob: 8.1.0
+      js-yaml: 4.1.0
+      mkdirp: 2.1.3
+      pg: 8.8.0
+      reflect-metadata: 0.1.13
+      sha.js: 2.4.11
+      sqlite3: 5.1.4
+      tslib: 2.5.0
+      uuid: 9.0.0
+      xml2js: 0.4.23
+      yargs: 17.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /typescript/4.8.4:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
@@ -18731,13 +18779,6 @@ packages:
     resolution: {integrity: sha512-+QJa8QRnbdXVpHYjLoTpJIdCTiw9Ir62nocClWuXIq2JIh4Uta0cQsTSpFL678p2CN8B+XSApwcU+pQEqVpKWg==}
     dependencies:
       multiformats: 9.9.0
-
-  /uint8arrays/4.0.3:
-    resolution: {integrity: sha512-b+aKlI2oTnxnfeSQWV1sMacqSNxqhtXySaH6bflvONGxF8V/fT3ZlYH7z2qgGfydsvpVo4JUgM/Ylyfl2YouCg==}
-    engines: {node: '>=16.0.0', npm: '>=7.0.0'}
-    dependencies:
-      multiformats: 11.0.0
-    dev: true
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
@@ -19072,7 +19113,7 @@ packages:
       '@peculiar/json-schema': 1.1.12
       asn1js: 3.0.5
       pvtsutils: 1.3.2
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /webcrypto-shim/0.1.7:

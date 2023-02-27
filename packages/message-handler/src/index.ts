@@ -1,6 +1,6 @@
 /**
  * Provides a {@link @veramo/message-handler#MessageHandler | plugin} for the
- * {@link @veramo/core#Agent} that implements {@link @veramo/core#IMessageHandler} interface.
+ * {@link @veramo/core#Agent} that implements {@link @veramo/core-types#IMessageHandler} interface.
  *
  * @packageDocumentation
  */

@@ -37,6 +37,7 @@ import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
+import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
@@ -164,6 +165,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
           }),
+          'did:jwk': new JwkDIDProvider({
+            defaultKms: 'local',
+          }),
           'did:fake': new FakeDidProvider(),
         },
       }),
@@ -173,6 +177,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...webDidResolver(),
           ...getDidKeyResolver(),
           ...getDidPkhResolver(),
+          ...getDidJwkResolver(),
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),
         }),
       }),

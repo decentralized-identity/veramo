@@ -6,7 +6,7 @@ import type {
   Resolvable,
   ResolverRegistry,
 } from 'did-resolver';
-import { isValidNamespace, SECPK1_NAMESPACES } from './pkh-did-provider';
+import { isValidNamespace, SECPK1_NAMESPACES } from './pkh-did-provider.js';
 import Debug from 'debug'
 
 const debug = Debug('veramo:pkh-did-resolver')

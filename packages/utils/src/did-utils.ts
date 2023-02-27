@@ -18,7 +18,7 @@ import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encoding
 const debug = Debug('veramo:utils')
 
 /**
- * Converts any Ed25519 keys of an {@link @veramo/core#IIdentifier | IIdentifier} to X25519 to be usable for encryption.
+ * Converts any Ed25519 keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to X25519 to be usable for encryption.
  *
  * @param identifier - the identifier with keys
  *
@@ -47,7 +47,7 @@ export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[]
 }
 
 /**
- * Converts any Secp256k1 public keys of an {@link @veramo/core#IIdentifier | IIdentifier} to their compressed form.
+ * Converts any Secp256k1 public keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to their compressed form.
  *
  * @param identifier - the identifier with keys
  *
@@ -188,14 +188,14 @@ export function getChainIdForDidEthr(verificationMethod: _NormalizedVerification
 }
 
 /**
- * Maps the keys of a locally managed {@link @veramo/core#IIdentifier | IIdentifier} to the corresponding
+ * Maps the keys of a locally managed {@link @veramo/core-types#IIdentifier | IIdentifier} to the corresponding
  * {@link did-resolver#VerificationMethod | VerificationMethod} entries from the DID document.
  *
  * @param identifier - the identifier to be mapped
  * @param section - the section of the DID document to be mapped (see
  *   {@link https://www.w3.org/TR/did-core/#verification-relationships | verification relationships}), but can also be
  *   `verificationMethod` to map all the keys.
- * @param context - the veramo agent context, which must contain a {@link @veramo/core#IResolver | IResolver}
+ * @param context - the veramo agent context, which must contain a {@link @veramo/core-types#IResolver | IResolver}
  *   implementation that can resolve the DID document of the identifier.
  *
  * @returns an array of mapped keys. The corresponding verification method is added to the `meta.verificationMethod`
@@ -246,7 +246,7 @@ export async function mapIdentifierKeysToDoc(
  * Resolve a DID document or throw an error if the resolution fails.
  *
  * @param didUrl - the DID to be resolved
- * @param context - the veramo agent context, which must contain a {@link @veramo/core#IResolver | IResolver}
+ * @param context - the veramo agent context, which must contain a {@link @veramo/core-types#IResolver | IResolver}
  *   implementation that can resolve the DID document of the `didUrl`.
  *
  * @returns a {@link did-resolver#DIDDocument | DIDDocument} if resolution is successful
@@ -310,7 +310,14 @@ export async function dereferenceDidKeys(
     .filter(isDefined)
     .map((key) => {
       const hexKey = extractPublicKeyHex(key, convert)
-      const { publicKeyHex, publicKeyBase58, publicKeyMultibase, publicKeyBase64, publicKeyJwk, ...keyProps } = key
+      const {
+        publicKeyHex,
+        publicKeyBase58,
+        publicKeyMultibase,
+        publicKeyBase64,
+        publicKeyJwk,
+        ...keyProps
+      } = key
       const newKey = { ...keyProps, publicKeyHex: hexKey }
 
       // With a JWK `key`, `newKey` does not have information about crv (Ed25519 vs X25519)
@@ -337,9 +344,15 @@ export async function dereferenceDidKeys(
 export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: boolean = false): string {
   let keyBytes = extractPublicKeyBytes(pk)
   if (convert) {
-    if (['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type) || (pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'Ed25519')) {
+    if (
+      ['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type) ||
+      (pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'Ed25519')
+    ) {
       keyBytes = convertPublicKeyToX25519(keyBytes)
-    } else if (!['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type) && !(pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'X25519')) {
+    } else if (
+      !['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type) &&
+      !(pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'X25519')
+    ) {
       return ''
     }
   }

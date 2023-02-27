@@ -1,30 +1,34 @@
 import express from 'express'
-import { program } from 'commander'
+import { Command } from 'commander'
 import { getConfig } from './setup.js'
 import { createObjects } from './lib/objectCreator.js'
 
-program
-  .command('server')
+const server = new Command('server')
   .description('Launch OpenAPI server')
   .option('-p, --port <number>', 'Optionally set port to override config')
-  .action(async (cmd) => {
+  .action(async (opts: { port: number }, cmd: Command) => {
     const app = express()
 
     let server: any
 
     try {
-      const config = await createObjects(getConfig(program.opts().config), { server: '/server' })
+      const config = await createObjects(getConfig(cmd.optsWithGlobals().config), { server: '/server' })
       server = config.server
     } catch (e: any) {
-      console.log(e.message)
+      console.error(e.message)
       process.exit(1)
     }
 
     for (let router of server.use) {
       app.use(...router)
+      if (typeof router[0] === 'string') {
+        console.log(`Listening to route: ${server.baseUrl}${router[0]}`)
+      }
     }
 
-    app.listen(cmd.port || server.port, async () => {
+    app.listen(opts.port || server.port, async () => {
       console.log(`🚀 Cloud Agent ready at ${server.baseUrl}`)
     })
   })
+
+export { server }

@@ -1,0 +1,29 @@
+{
+  "type": [
+    "VerifiableCredential"
+  ],
+  "proof": {
+    "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9.._T9sbXJAcDPWT9WX02uT4Ky5LGGjmQoo2VeglQgxzgsfJyUfBFIahn40d0d_58UShoPOfmfDEKJvuM_2W0wJCg",
+    "type": "Ed25519Signature2018",
+    "created": "2023-02-08T20:19:52.256Z",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "did:key:z6MkghvGHLobLEdj1bgRLhS4LPGJAvbMA1tn2zcRyqmYU5LC#z6MkghvGHLobLEdj1bgRLhS4LPGJAvbMA1tn2zcRyqmYU5LC"
+  },
+  "issuer": "did:key:z6MkghvGHLobLEdj1bgRLhS4LPGJAvbMA1tn2zcRyqmYU5LC",
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1"
+  ],
+  "issuanceDate": "2023-02-08T20:19:52.255Z",
+  "expirationDate": "2023-05-09T20:19:52.255Z",
+  "credentialSubject": {
+    "id": "did:pkh:eip155:1:0xACFB657781452e50f6Bd126e01C2aEF6817a5D48",
+    "hash": "v0.0.0:bJHkYMu57TlOcBYT9oGiywDXSHPCidOZl0CQ2DhNJKE=",
+    "@context": [
+      {
+        "hash": "https://schema.org/Text",
+        "provider": "https://schema.org/Text"
+      }
+    ],
+    "provider": "Github"
+  }
+}

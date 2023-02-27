@@ -1,4 +1,4 @@
-import { AbstractKeyStore } from '../abstract-key-store'
+import { AbstractKeyStore } from '../abstract-key-store.js'
 import { IKey, ManagedKeyInfo } from '@veramo/core-types'
 
 class MockKeyStore extends AbstractKeyStore {

@@ -1,6 +1,5 @@
 import { Agent } from '../agent.js'
-import { CoreEvents } from '@veramo/core-types'
-import { IEventListener } from '@veramo/core-types'
+import { CoreEvents, IEventListener } from '../../../core-types/src'
 import { jest } from '@jest/globals'
 
 function sleep(ms: number) {

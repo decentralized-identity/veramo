@@ -39,10 +39,10 @@ export interface ICreateVerifiablePresentationArgs {
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
-   * {@link @veramo/core#IDataStore | storage plugin} to be saved.
+   * {@link @veramo/core-types#IDataStore | storage plugin} to be saved.
    * <p/><p/>
    * @deprecated Please call
-   *   {@link @veramo/core#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to
+   *   {@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to
    *   save the credential after creating it.
    */
   save?: boolean
@@ -110,10 +110,10 @@ export interface ICreateVerifiableCredentialArgs {
 
   /**
    * If this parameter is true, the resulting VerifiablePresentation is sent to the
-   * {@link @veramo/core#IDataStore | storage plugin} to be saved.
+   * {@link @veramo/core-types#IDataStore | storage plugin} to be saved.
    *
    * @deprecated Please call
-   *   {@link @veramo/core#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save
+   *   {@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save
    *   the credential after creating it.
    */
   save?: boolean
@@ -173,7 +173,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiablePresentation} that was requested or
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or
    *   rejects with an error if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
@@ -191,7 +191,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiableCredential} that was requested or rejects
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or rejects
    *   with an error if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}

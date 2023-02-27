@@ -8,7 +8,7 @@ import { VerificationMethod } from 'did-resolver'
 export type _ExtendedVerificationMethod = VerificationMethod & { publicKeyBase64?: string }
 
 /**
- * Represents an {@link @veramo/core#IKey} that has been augmented with its corresponding
+ * Represents an {@link @veramo/core-types#IKey} that has been augmented with its corresponding
  * entry from a DID document.
  * `key.meta.verificationMethod` will contain the {@link did-resolver#VerificationMethod}
  * object from the {@link did-resolver#DIDDocument}

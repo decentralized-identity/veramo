@@ -12,15 +12,15 @@
     "test:integration-pretty": "prettier --write __tests__/shared/documentationExamples.ts",
     "test:integration": "pnpm test:integration-build && pnpm test:ci",
     "test:ci": "pnpm test -- --coverage=true",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-import-meta-resolve\" jest",
     "test:watch": "pnpm test --watch --verbose",
     "test:browser": "cd packages/test-react-app && pnpm test:browser",
     "veramo": "cross-env ./packages/cli/bin/veramo.js",
     "prettier": "prettier --write \"{packages,docs,__tests__,!build}/**/*.{ts,js,json,md,yml}\"",
     "build-clean": "rimraf ./packages/*/build ./packages/*/api ./packages/*/node_modules ./packages/*/tsconfig.tsbuildinfo ./temp ./tmp && jest --clearCache",
-    "publish:latest": "lerna publish --conventional-commits --include-merged-tags --create-release github --yes --dist-tag latest --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
-    "publish:next": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
-    "publish:unstable": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid unstable --pre-dist-tag unstable --yes --registry https://registry.npmjs.org/:_authToken=${NPM_TOKEN}",
+    "publish:latest": "lerna publish --conventional-commits --include-merged-tags --create-release github --yes --dist-tag latest --registry \"https://registry.npmjs.org/:_authToken=${NPM_TOKEN}\"",
+    "publish:next": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes --registry \"https://registry.npmjs.org/:_authToken=${NPM_TOKEN}\"",
+    "publish:unstable": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid unstable --pre-dist-tag unstable --yes --registry \"https://registry.npmjs.org/:_authToken=${NPM_TOKEN}\"",
     "docs": "pnpm docs:copy && pnpm docs:build",
     "docs:copy": "ts-node ./scripts/docs-copy.ts",
     "docs:build": "ts-node ./scripts/docs-build.ts && pnpm docs:pretty",
@@ -70,7 +70,7 @@
     "ts-node": "10.9.1",
     "typeorm": "^0.3.11",
     "typescript": "4.9.4",
-    "uint8arrays": "4.0.3",
+    "uint8arrays": "3.1.1",
     "uuid": "^9.0.0",
     "web-did-resolver": "^2.0.21"
   },
@@ -88,5 +88,7 @@
   "engines": {
     "node": ">= 18.0.0"
   },
-  "workspaces": ["packages/*"]
+  "workspaces": [
+    "packages/*"
+  ]
 }

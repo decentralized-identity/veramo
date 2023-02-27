@@ -3,14 +3,14 @@ import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne, Relation } from '
 import { Identifier } from './identifier.js'
 
 /**
- * Mirrors {@link @veramo/core#TKeyType | TKeyType}
+ * Mirrors {@link @veramo/core-types#TKeyType | TKeyType}
  *
  * @beta - This API may change without a BREAKING CHANGE notice.
  */
 export type KeyType = TKeyType
 
 /**
- * Represents some properties of a {@link @veramo/core#IKey | IKey} that are stored in a TypeORM
+ * Represents some properties of a {@link @veramo/core-types#IKey | IKey} that are stored in a TypeORM
  * database for the purpose of keeping track of the {@link @veramo/key-manager#AbstractKeyManagementSystem}
  * implementations and the keys they are able to use.
  *
@@ -22,19 +22,19 @@ export type KeyType = TKeyType
 @Entity('key')
 export class Key extends BaseEntity {
   @PrimaryColumn()
-    //@ts-ignore
+  // @ts-ignore
   kid: string
 
   @Column()
-    //@ts-ignore
+  // @ts-ignore
   kms: string
 
   @Column()
-    //@ts-ignore
+  // @ts-ignore
   type: KeyType
 
   @Column()
-    //@ts-ignore
+  // @ts-ignore
   publicKeyHex: string
 
   @Column({

@@ -86,8 +86,6 @@ for (const packageName of Object.keys(agentPlugins)) {
     console.log(packageName, pluginInterfaceName)
     const pluginInterface = entry.findMembersByName(pluginInterfaceName)[0]
 
-    console.log('extracting plugin interface members for ', pluginInterfaceName)
-
     // Collecting method information
     const methods: RestMethod[] = []
     for (const member of pluginInterface.members) {
@@ -104,7 +102,7 @@ for (const packageName of Object.keys(agentPlugins)) {
       const methodSignature = member as ApiMethodSignature
       method.description = methodSignature.tsdocComment?.summarySection
         ?.getChildNodes()[0]
-        //@ts-ignore
+        // @ts-ignore
         ?.getChildNodes()[0]?.text
 
       method.example =

@@ -18,11 +18,11 @@ class MockWeb3Provider implements ExternalProvider {
     
     switch(request.method) {
       case 'personal_sign':
-        //@ts-ignore
+        // @ts-ignore
         return this.wallet.signMessage(request.params[1])
         break
         case 'eth_signTypedData_v4':
-        //@ts-ignore
+        // @ts-ignore
         const {domain, types, message} = JSON.parse(request.params[1])
         delete(types.EIP712Domain)
         return this.wallet._signTypedData(domain, types, message)

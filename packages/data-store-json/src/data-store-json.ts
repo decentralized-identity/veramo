@@ -37,11 +37,13 @@ import {
 } from './types.js'
 import { normalizeCredential } from 'did-jwt-vc'
 
-type LocalRecords = Required<Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>>
+type LocalRecords = Required<
+  Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
+>
 
 /**
- * A Veramo agent storage plugin that implements the {@link @veramo/core#IDataStore | IDataStore} and
- * {@link @veramo/core#IDataStoreORM | IDataStoreORM} methods using one big JSON object as a backend.
+ * A Veramo agent storage plugin that implements the {@link @veramo/core-types#IDataStore | IDataStore} and
+ * {@link @veramo/core-types#IDataStoreORM | IDataStoreORM} methods using one big JSON object as a backend.
  *
  * Each update operation triggers a callback that can be used to either save the latest state of the agent data or
  * compute a diff and log only the changes.

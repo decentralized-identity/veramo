@@ -1,4 +1,4 @@
-import { DIDComm } from '../didcomm'
+import { DIDComm } from '../didcomm.js'
 import {
   createAgent,
   IDIDManager,
@@ -14,32 +14,33 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from '../transports/transports'
-import { IDIDComm } from '../types/IDIDComm'
+import { DIDCommHttpTransport } from '../transports/transports.js'
+import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import {
   CoordinateMediationMediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
   createMediateGrantMessage,
-} from '../protocols/coordinate-mediation-message-handler'
+} from '../protocols/coordinate-mediation-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
+// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import { DIDCommMessageHandler } from '../message-handler'
+import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
+
 import { jest } from '@jest/globals'
+import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
   onEvent: jest.fn(() => Promise.resolve()),
 }
-
-const databaseFile = `./tmp/local-database2-${Math.random().toPrecision(5)}.sqlite`
 
 describe('coordinate-mediation-message-handler', () => {
   let recipient: IIdentifier
@@ -53,7 +54,7 @@ describe('coordinate-mediation-message-handler', () => {
     dbConnection = new DataSource({
       name: 'test',
       type: 'sqlite',
-      database: databaseFile,
+      database: ':memory:',
       synchronize: false,
       migrations: migrations,
       migrationsRun: true,
@@ -168,8 +169,14 @@ describe('coordinate-mediation-message-handler', () => {
   afterAll(async () => {
     try {
       await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
-    } catch (e) {
-      //nop
+    } catch (e: any) {
+      // nop
+    }
+
+    try {
+      await dbConnection?.destroy()
+    } catch (e: any) {
+      // nop
     }
   })
 

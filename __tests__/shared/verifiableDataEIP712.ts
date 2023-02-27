@@ -30,11 +30,11 @@ export default (testContext: {
     beforeAll(async () => {
       await testContext.setup()
       agent = testContext.getAgent()
+      identifier = await agent.didManagerCreate({ kms: 'local' })
     })
     afterAll(testContext.tearDown)
 
     it('should create identifier', async () => {
-      identifier = await agent.didManagerCreate({ kms: 'local' })
       expect(identifier).toHaveProperty('did')
       expect(identifier?.keys[0]?.meta?.algorithms).toContain('eth_signTypedData')
     })

@@ -12,21 +12,21 @@ import { Identifier } from './identifier.js'
 @Entity('service')
 export class Service extends BaseEntity {
   @PrimaryColumn()
-    //@ts-ignore
+    // @ts-ignore
   id: string
 
   @Column()
-    //@ts-ignore
+    // @ts-ignore
   type: string
 
   @Column()
-    //@ts-ignore
+    // @ts-ignore
   serviceEndpoint: string
 
   @Column({ nullable: true })
   description?: string
 
   @ManyToOne((type) => Identifier, (identifier) => identifier?.services, { onDelete: 'CASCADE' })
-    //@ts-ignore
+    // @ts-ignore
   identifier?: Relation<Identifier>
 }

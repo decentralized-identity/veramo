@@ -16,17 +16,33 @@ import { createAgentFromConfig } from './lib/agentCreator.js'
 
 import fs from 'fs'
 
-export const getConfig = (fileName: string): any => {
-  if (!fs.existsSync(fileName)) {
-    console.log('Config file not found: ' + fileName)
+/**
+ * Parses a yaml config file and returns a config object
+ * @param filePath
+ */
+export const getConfig = async (filePath: fs.PathLike): Promise<{ version?: number; [x: string]: any }> => {
+  let fileContent: string
+
+  // read file async
+  try {
+    fileContent = await fs.promises.readFile(filePath, 'utf8')
+  } catch (e) {
+    console.log('Config file not found: ' + filePath)
     console.log('Use "veramo config create" to create one')
     process.exit(1)
   }
 
-  const config = yaml.parse(fs.readFileSync(fileName).toString(), { prettyErrors: true })
+  let config
+
+  try {
+    config = yaml.parse(fileContent, { prettyErrors: true })
+  } catch (e) {
+    console.error(`Unable to parse config file: ${e.message} ${e.linePos}`)
+    process.exit(1)
+  }
 
   if (config?.version != 3) {
-    console.log('Unsupported configuration file version:', config.version)
+    console.error('Unsupported configuration file version:', config.version)
     process.exit(1)
   }
   return config
@@ -45,9 +61,9 @@ export type EnabledInterfaces = IDIDManager &
 
 export type ConfiguredAgent = TAgent<EnabledInterfaces>
 
-export function getAgent(fileName: string): ConfiguredAgent {
+export async function getAgent(fileName: string): Promise<ConfiguredAgent> {
   try {
-    return createAgentFromConfig<EnabledInterfaces>(getConfig(fileName))
+    return await createAgentFromConfig<EnabledInterfaces>(await getConfig(fileName))
   } catch (e: any) {
     console.log('Unable to create agent from ' + fileName + '.', e.message)
     process.exit(1)

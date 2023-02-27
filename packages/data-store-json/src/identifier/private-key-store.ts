@@ -26,8 +26,8 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   private readonly notifyUpdate: DiffCallback
 
   /**
-   * @param jsonStore - This serves as the JSON object storing data in memory as well as providing an update notification
-   *   callback to persist this data. The JSON object does not have to be shared with other users of
+   * @param jsonStore - This serves as the JSON object storing data in memory as well as providing an update
+   *   notification callback to persist this data. The JSON object does not have to be shared with other users of
    *   {@link VeramoJsonStore}, but it can be.
    * @param secretBox - If this is used, then key material is encrypted, even in memory.
    */
@@ -66,10 +66,12 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   async importKey(args: ImportablePrivateKey): Promise<ManagedPrivateKey> {
     debug('Saving private key data', args.alias)
     const alias = args.alias || uuid4()
-    const key: ManagedPrivateKey = deserialize(serialize({
-      ...args,
-      alias,
-    }))
+    const key: ManagedPrivateKey = deserialize(
+      serialize({
+        ...args,
+        alias,
+      }),
+    )
     if (this.secretBox && key.privateKeyHex) {
       const copy = key.privateKeyHex
       key.privateKeyHex = await this.secretBox.encrypt(copy)
@@ -89,6 +91,12 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
   }
 
   async listKeys(): Promise<Array<ManagedPrivateKey>> {
-    return deserialize(serialize(Object.values(this.cacheTree.privateKeys)))
+    const keys = Object.values(this.cacheTree.privateKeys)
+    if (this.secretBox) {
+      for (const key of keys) {
+        key.privateKeyHex = await this.secretBox.decrypt(key.privateKeyHex)
+      }
+    }
+    return deserialize(serialize(keys))
   }
 }

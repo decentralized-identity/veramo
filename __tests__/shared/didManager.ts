@@ -74,6 +74,77 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
+    it('should create identifier using did:jwk', async () => {
+      // keyType supports 'Secp256k1', 'Secp256r1', 'Ed25519', 'X25519'
+      const keyType = 'Ed25519'
+      identifier = await agent.didManagerCreate({
+        provider: 'did:jwk',
+        options: {
+          keyType,
+        }
+      })
+      expect(identifier.provider).toEqual('did:jwk')
+      expect(identifier.keys[0].type).toEqual(keyType)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+    it('should create identifier using did:jwk with an imported key', async () => {
+      // keyType supports 'Secp256k1', 'Secp256r1', 'Ed25519', 'X25519'
+      const keyType = 'Ed25519'
+      identifier = await agent.didManagerCreate({
+        provider: 'did:jwk',
+        options: {
+          keyType,
+          privateKeyHex: 'f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b0f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b0',
+        }
+      })
+      expect(identifier.provider).toEqual('did:jwk')
+      expect(identifier.keys[0].type).toEqual(keyType)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+    it('should create identifier using did:jwk with a default imported key', async () => {
+      // keyType supports 'Secp256k1', 'Secp256r1', 'Ed25519', 'X25519'
+      const keyType = 'Secp256k1'
+      identifier = await agent.didManagerCreate({
+        provider: 'did:jwk',
+        options: {
+          privateKeyHex: 'f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b0',
+        }
+      })
+      expect(identifier.provider).toEqual('did:jwk')
+      expect(identifier.keys[0].type).toEqual(keyType)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+    it('should throw error for invalid privateKEyHex', async () => {
+      await expect( agent.didManagerCreate({
+        provider: 'did:jwk',
+        options: {
+          privateKeyHex: '1234',
+        }
+      })).rejects.toThrow()
+      expect(identifier.provider).toEqual('did:jwk')
+    })
+    it('should throw error for invalid keyUse parameter', async () => {
+      await expect( agent.didManagerCreate({
+        provider: 'did:jwk',
+        options: {
+          keyType: 'Secp256k1',
+          keyUse: 'signing',
+        }
+      })).rejects.toThrow('illegal_argument: Key use must be sig or enc')
+      expect(identifier.provider).toEqual('did:jwk')
+    })
+    it('should throw error for invalid Ed25519 key use', async () => {
+      await expect( agent.didManagerCreate({
+        provider: 'did:jwk',
+        alias: 'test1',
+        options: {
+          keyType: 'Ed25519',
+          keyUse: 'enc',
+        }
+      })).rejects.toThrow('illegal_argument: Ed25519 keys cannot be used for encryption')
+      expect(identifier.provider).toEqual('did:jwk')
+    })
+
     it('should throw error for existing alias provider combo', async () => {
       await expect(
         agent.didManagerCreate({

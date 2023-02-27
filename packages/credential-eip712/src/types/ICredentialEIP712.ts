@@ -27,7 +27,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Credential.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiableCredential} that was requested or rejects with an error
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or rejects with an error
    * if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
@@ -51,10 +51,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyCredentialEIP712(
-    args: IVerifyCredentialEIP712Args,
-    context: IRequiredContext
-  ): Promise<boolean>
+  verifyCredentialEIP712(args: IVerifyCredentialEIP712Args, context: IRequiredContext): Promise<boolean>
 
   /**
    * Creates a Verifiable Presentation.
@@ -63,7 +60,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core#VerifiablePresentation} that was requested or rejects with an error
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or rejects with an error
    * if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
@@ -83,10 +80,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentationEIP712(
-    args: IVerifyPresentationEIP712Args,
-    context: IRequiredContext
-  ): Promise<boolean>  
+  verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, context: IRequiredContext): Promise<boolean>
 }
 
 /**
@@ -137,7 +131,7 @@ export interface ICreateVerifiablePresentationEIP712Args {
    * [Optional] The ID of the key that should sign this presentation.
    * If this is not specified, the first matching key will be used.
    */
-  keyRef?: string  
+  keyRef?: string
 }
 
 /**
@@ -146,7 +140,7 @@ export interface ICreateVerifiablePresentationEIP712Args {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
- export interface IVerifyCredentialEIP712Args {
+export interface IVerifyCredentialEIP712Args {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -156,7 +150,6 @@ export interface ICreateVerifiablePresentationEIP712Args {
    *
    */
   credential: VerifiableCredential
-
 }
 
 /**
@@ -165,7 +158,7 @@ export interface ICreateVerifiablePresentationEIP712Args {
  *
  * @public
  */
- export interface IVerifyPresentationEIP712Args {
+export interface IVerifyPresentationEIP712Args {
   /**
    * The Verifiable Presentation object according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.
@@ -175,7 +168,6 @@ export interface ICreateVerifiablePresentationEIP712Args {
    *
    */
   presentation: VerifiablePresentation
-
 }
 
 /**
@@ -186,6 +178,4 @@ export interface ICreateVerifiablePresentationEIP712Args {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type IRequiredContext = IAgentContext<
-  IResolver & IKeyManager & IDIDManager
->
+export type IRequiredContext = IAgentContext<IResolver & IKeyManager & IDIDManager>
