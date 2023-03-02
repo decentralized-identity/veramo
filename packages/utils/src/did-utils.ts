@@ -348,7 +348,7 @@ export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: bo
       ['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type) ||
       (pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'Ed25519')
     ) {
-      keyBytes = convertPublicKeyToX25519(keyBytes)
+      keyBytes = extractPublicKeyX25519(keyBytes, pk.type)
     } else if (
       !['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type) &&
       !(pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'X25519')
@@ -356,8 +356,13 @@ export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: bo
       return ''
     }
   }
-  if(pk.publicKeyMultibase) {
-    keyBytes = keyBytes.slice(2)
-  }
   return u8a.toString(keyBytes, 'base16')
+}
+
+function extractPublicKeyX25519(keyBytes: Uint8Array, type: string) {
+    if (keyBytes.length === 34 && type === 'Ed25519VerificationKey2020') {
+        keyBytes = keyBytes.slice(2)
+    }
+
+    return convertPublicKeyToX25519(keyBytes)
 }
