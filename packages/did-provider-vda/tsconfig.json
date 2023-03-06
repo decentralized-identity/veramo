@@ -7,7 +7,14 @@
     "skipLibCheck": true
   },
   "references": [
-    {"path": "../core-types"},
-    {"path": "../did-manager"}
+    {
+      "path": "../core-types"
+    },
+    {
+      "path": "../did-manager"
+    },
+    {
+      "path": "../utils"
+    }
   ]
 }
