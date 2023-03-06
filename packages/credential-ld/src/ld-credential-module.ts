@@ -149,6 +149,10 @@ export class LdCredentialModule {
     options: any,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
+    const allSuites = this.ldSuiteLoader.getAllSignatureSuites()
+    console.log("allSuites: ", allSuites)
+    const mappedSuites = allSuites.map((x) => x.getSuiteForVerification())
+    console.log("mappedSuites: ", mappedSuites)
     const result = await vc.verifyCredential({
       ...options,
       credential,

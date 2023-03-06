@@ -3,6 +3,7 @@ import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020'
 import { Ed25519VerificationKey2020 } from '@digitalcredentials/ed25519-verification-key-2020'
+import { hexToMultibase } from '@veramo/utils'
 
 /**
  * Veramo wrapper for the Ed25519Signature2020 suite by digitalcredentials
@@ -10,8 +11,6 @@ import { Ed25519VerificationKey2020 } from '@digitalcredentials/ed25519-verifica
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
 export class VeramoEd25519Signature2020 extends VeramoLdSignature {
-  private readonly MULTIBASE_BASE58BTC_PREFIX = 'z'
-  private readonly MULTICODEC_PREFIX = [0xed, 0x01]
 
   getSupportedVerificationType(): string {
     return 'Ed25519VerificationKey2020'
@@ -48,7 +47,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     const verificationKey = new Ed25519VerificationKey2020({
       id,
       controller,
-      publicKeyMultibase: this.preSigningKeyModification(u8a.fromString(key.publicKeyHex, 'hex')),
+      publicKeyMultibase: hexToMultibase(key.publicKeyHex),
       // signer: () => signer,
       // type: this.getSupportedVerificationType(),
     })
@@ -71,10 +70,5 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
 
   preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
     // nothing to do here
-  }
-
-  preSigningKeyModification(key: Uint8Array): string {
-    const modifiedKey = u8a.concat([this.MULTICODEC_PREFIX, key])
-    return `${this.MULTIBASE_BASE58BTC_PREFIX}${u8a.toString(modifiedKey, 'base58btc')}`
   }
 }

@@ -143,3 +143,19 @@ export function base58ToBytes(s: string): Uint8Array {
 export function bytesToBase58(byteArray: Uint8Array): string {
   return u8a.toString(byteArray, 'base58btc')
 }
+
+export const MULTIBASE_BASE58BTC_PREFIX = 'z'
+export const MULTICODEC_PREFIX = [0xed, 0x01]
+
+/**
+ * Converts a hex string to the multibase representation
+ * 
+ * @param hexString the string to be converted
+ * 
+ * @public 
+ */
+export function hexToMultibase(hexString: string): string {
+  const hexBytes = u8a.fromString(hexString, 'hex')
+  const modifiedKey = u8a.concat([MULTICODEC_PREFIX, hexBytes])
+  return `${MULTIBASE_BASE58BTC_PREFIX}${u8a.toString(modifiedKey, 'base58btc')}`
+}

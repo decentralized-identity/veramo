@@ -1,6 +1,7 @@
 import { IIdentifier, IDIDManager, TAgent, TKeyType } from '@veramo/core-types'
 import { Request, Router } from 'express'
 import { ServiceEndpoint } from 'did-resolver'
+import { hexToMultibase } from '@veramo/utils'
 
 interface RequestWithAgentDIDManager extends Request {
   agent?: TAgent<IDIDManager>
@@ -15,9 +16,9 @@ export const didDocEndpoint = '/.well-known/did.json'
 
 const keyMapping: Record<TKeyType, string> = {
   Secp256k1: 'EcdsaSecp256k1VerificationKey2019',
-  Secp256r1: 'EcdsaSecp256r1VerificationKey2019',
-  Ed25519: 'Ed25519VerificationKey2018',
-  X25519: 'X25519KeyAgreementKey2019',
+  Secp256r1: 'EcdsaSecp256r1VerificationKey2019',  
+  Ed25519: 'Ed25519VerificationKey2020',
+  X25519: 'X25519KeyAgreementKey2020',
   Bls12381G1: 'Bls12381G1Key2020',
   Bls12381G2: 'Bls12381G2Key2020',
 }
@@ -44,15 +45,15 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
     const allKeys = identifier.keys.map((key) => ({
       id: identifier.did + '#' + key.kid,
       type: keyMapping[key.type],
-      controller: identifier.did,
-      publicKeyHex: key.publicKeyHex,
+      controller: identifier.did,      
+      publicKeyMultibase: hexToMultibase(key.publicKeyHex),
     }))
     // ed25519 keys can also be converted to x25519 for key agreement
     const keyAgreementKeyIds = allKeys
-      .filter((key) => ['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019'].includes(key.type))
+      .filter((key) => ['Ed25519VerificationKey2020', 'X25519KeyAgreementKey2020'].includes(key.type))
       .map((key) => key.id)
     const signingKeyIds = allKeys
-      .filter((key) => key.type !== 'X25519KeyAgreementKey2019')
+      .filter((key) => key.type !== 'X25519KeyAgreementKey2020')
       .map((key) => key.id)
 
     const didDoc = {

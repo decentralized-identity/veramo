@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@veramo/core-types": "^5.1.2",
-    "@veramo/remote-client": "^5.1.2",
+    "@veramo/remote-client": "^5.1.2",    
+    "@veramo/utils": "^5.1.2",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
     "express": "^4.18.2",
