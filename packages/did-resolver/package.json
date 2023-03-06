@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-resolver",
   "description": "A DID resolver plugin for Veramo",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -10,8 +10,8 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.0",
-    "@veramo/utils": "^5.1.0",
+    "@veramo/core-types": "^5.1.2",
+    "@veramo/utils": "^5.1.2",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1"

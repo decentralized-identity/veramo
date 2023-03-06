@@ -1,7 +1,7 @@
 {
   "name": "@veramo/selective-disclosure",
   "description": "Veramo plugin to enable the uPort selective disclosure protocol with W3C compatibility.",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
@@ -18,9 +18,9 @@
     }
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.0",
-    "@veramo/message-handler": "^5.1.0",
-    "@veramo/utils": "^5.1.0",
+    "@veramo/core-types": "^5.1.2",
+    "@veramo/message-handler": "^5.1.2",
+    "@veramo/utils": "^5.1.2",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
     "uuid": "^9.0.0"

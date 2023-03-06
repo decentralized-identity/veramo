@@ -2,7 +2,7 @@
   "name": "@veramo/test-utils",
   "private": true,
   "description": "Helper methods for Veramo integration tests. This package is not meant to be used in production.",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -10,10 +10,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.0",
-    "@veramo/did-discovery": "^5.1.0",
-    "@veramo/did-manager": "^5.1.0",
-    "@veramo/utils": "^5.1.0",
+    "@veramo/core-types": "^5.1.2",
+    "@veramo/did-discovery": "^5.1.2",
+    "@veramo/did-manager": "^5.1.2",
+    "@veramo/utils": "^5.1.2",
     "did-resolver": "^4.0.1"
   },
   "devDependencies": {

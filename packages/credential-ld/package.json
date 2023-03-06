@@ -1,7 +1,7 @@
 {
   "name": "@veramo/credential-ld",
   "description": "Veramo plugin for working with W3C JSON-LD Verifiable Credentials & Presentations.",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
@@ -27,8 +27,8 @@
     "@transmute/ed25519-signature-2018": "^0.7.0-unstable.79",
     "@transmute/json-web-signature": "^0.7.0-unstable.79",
     "@veramo-community/lds-ecdsa-secp256k1-recovery2020": "uport-project/EcdsaSecp256k1RecoverySignature2020",
-    "@veramo/core-types": "^5.1.0",
-    "@veramo/utils": "^5.1.0",
+    "@veramo/core-types": "^5.1.2",
+    "@veramo/utils": "^5.1.2",
     "cross-fetch": "^3.1.5",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",

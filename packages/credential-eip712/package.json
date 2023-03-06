@@ -1,7 +1,7 @@
 {
   "name": "@veramo/credential-eip712",
   "description": "Veramo plugin for working with EIP712 Verifiable Credentials & Presentations.",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@metamask/eth-sig-util": "^5.0.0",
-    "@veramo/core-types": "^5.1.0",
-    "@veramo/utils": "^5.1.0",
+    "@veramo/core-types": "^5.1.2",
+    "@veramo/utils": "^5.1.2",
     "debug": "^4.3.3",
     "eip-712-types-generation": "^0.1.6"
   },
