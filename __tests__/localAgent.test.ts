@@ -40,7 +40,7 @@ import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -71,6 +71,10 @@ import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 import { jest } from '@jest/globals'
 
+import { Libp2p } from 'libp2p'
+import { ListenerID } from './utils/libp2p-peerIds.js'
+import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
+
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
 import verifiableDataLD from './shared/verifiableDataLD'
@@ -87,10 +91,13 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import dbInitOptions from './shared/dbInitOptions'
 import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
 import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
 
 jest.setTimeout(60000)
 
@@ -105,6 +112,7 @@ let agent: TAgent<
     IResolver &
     IMessageHandler &
     IDIDComm &
+    IAgentLibp2pClient &
     ICredentialPlugin &
     ICredentialIssuerLD &
     ICredentialIssuerEIP712 &
@@ -113,6 +121,8 @@ let agent: TAgent<
 >
 let dbConnection: Promise<DataSource>
 let databaseFile: string
+let libnode: Libp2p
+let libnode2: Libp2p
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile =
@@ -133,6 +143,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   const { provider, registry } = await createGanacheProvider()
   const ethersProvider = createEthersProvider()
 
+
+  libnode = await createLibp2pNode()
+  const peerId = await ListenerID()  
+  libnode2 = await createLibp2pNode(peerId)
+
+  const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
+
   agent = createAgent<
     IDIDManager &
       IKeyManager &
@@ -141,6 +158,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       IMessageHandler &
       IDIDComm &
+      IAgentLibp2pClient &
       ICredentialPlugin &
       ICredentialIssuerLD &
       ICredentialIssuerEIP712 &
@@ -236,7 +254,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm([
+        new DIDCommHttpTransport(),
+        new DIDCommLibp2pTransport(libnode)
+      ]),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
@@ -251,9 +272,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new BrokenDiscoveryProvider(),
         ],
       }),
+      libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
+  await libp2pPlugin.setupLibp2p({ agent }, libnode2)
+
   return true
 }
 
@@ -294,6 +318,7 @@ describe('Local integration tests', () => {
   utils(testContext)
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
   credentialStatus(testContext)
   ethrDidFlowSigned(testContext)
 })

@@ -14,7 +14,7 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from '../transports/transports.js'
+import { DIDCommHttpTransport } from '../transports/httpTransport.js'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import { IDIDCommMessage, DIDCommMessageMediaType, IPackedDIDCommMessage } from '../types/message-types.js'

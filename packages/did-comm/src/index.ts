@@ -18,4 +18,5 @@ export * from './types/IDIDComm.js'
 export { DIDCommMessageHandler } from './message-handler.js'
 export * from './protocols/index.js'
 export * from './transports/transports.js'
-
+export * from './transports/httpTransport.js'
+export * from './transports/libp2pTransport.js'

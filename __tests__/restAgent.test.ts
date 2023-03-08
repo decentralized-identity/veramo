@@ -47,7 +47,9 @@ import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { DIDComm, DIDCommHttpTransport, DIDCommLibp2pTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+import { createLibp2pClientPlugin } from '../packages/libp2p-client/src'
+import { createLibp2pNode } from '../packages/libp2p-utils/src'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
@@ -93,12 +95,15 @@ import keyManager from './shared/keyManager'
 import didManager from './shared/didManager'
 import didCommPacking from './shared/didCommPacking'
 import didWithFakeDidFlow from './shared/didCommWithFakeDidFlow'
+import didCommWithLibp2pFakeFlow from './shared/didCommWithLibp2pFakeDidFlow.js'
 import didCommAndDataStoreWithCredentials from './shared/didCommAndDataStoreWithCredentials'
 import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
 import credentialStatus from './shared/credentialStatus'
-
+import { Libp2p } from 'libp2p'
+import { ListenerID } from './utils/libp2p-peerIds.js'
+import { IAgentLibp2pClient } from '../packages/libp2p-client/src/types/IAgentLibp2pClient.js'
 jest.setTimeout(60000)
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
@@ -110,6 +115,8 @@ const basePath = '/agent'
 let dbConnection: Promise<DataSource>
 let serverAgent: IAgent
 let restServer: Server
+let libnode: Libp2p
+let libnode2: Libp2p
 
 const getAgent = (options?: IAgentOptions) =>
   createAgent<
@@ -120,6 +127,7 @@ const getAgent = (options?: IAgentOptions) =>
       IResolver &
       IMessageHandler &
       IDIDComm &
+      IAgentLibp2pClient &
       ICredentialIssuer & // import from old package to check compatibility
       ICredentialVerifier &
       ICredentialIssuerLD &
@@ -148,6 +156,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     logging: false,
     entities: Entities,
   }).initialize()
+
+  libnode = await createLibp2pNode()
+  const peerId = await ListenerID()  
+  libnode2 = await createLibp2pNode(peerId)
+
+  const libp2pPlugin = await createLibp2pClientPlugin(dbConnection, peerId)
 
   serverAgent = new Agent({
     ...options,
@@ -219,7 +233,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm([
+        new DIDCommHttpTransport(),
+        new DIDCommLibp2pTransport(libnode)
+      ]),
       // intentionally use the deprecated name to test compatibility
       new CredentialIssuer(),
       new CredentialIssuerEIP712(),
@@ -235,9 +252,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new BrokenDiscoveryProvider(),
         ],
       }),
+      libp2pPlugin,
       ...(options?.plugins || []),
     ],
   })
+
+  await libp2pPlugin.setupLibp2p({ agent: serverAgent as TAgent<IMessageHandler> }, libnode2)
 
   const agentRouter = AgentRouter({
     exposedMethods: serverAgent.availableMethods(),
@@ -276,6 +296,12 @@ const tearDown = async (): Promise<boolean> => {
   } catch (e) {
     //nop
   }
+  await (serverAgent as TAgent<IAgentLibp2pClient>).libp2pShutdown()
+  try {
+    await libnode.stop()
+   } catch (e) {
+     //nop
+   }
   return true
 }
 
@@ -294,6 +320,7 @@ describe('REST integration tests', () => {
   messageHandler(testContext)
   didCommPacking(testContext)
   didWithFakeDidFlow(testContext)
+  didCommWithLibp2pFakeFlow(testContext)
   didCommAndDataStoreWithCredentials(testContext)
   didDiscovery(testContext)
   utils(testContext)

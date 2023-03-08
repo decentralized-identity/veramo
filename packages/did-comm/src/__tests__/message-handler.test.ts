@@ -16,7 +16,6 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
@@ -30,6 +29,7 @@ import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 import { jest } from '@jest/globals'
+import { DIDCommHttpTransport } from '../transports/httpTransport.js'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],

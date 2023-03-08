@@ -27,6 +27,10 @@
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
     "did-resolver": "^4.0.1",
+    "it-length-prefixed": "^8.0.4",
+    "it-pipe": "^2.0.5",
+    "it-map": "^2.0.1",
+    "libp2p": "^0.42.2",
     "uint8arrays": "^3.0.0",
     "uuid": "^9.0.0"
   },

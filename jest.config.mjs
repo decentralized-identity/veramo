@@ -61,5 +61,8 @@ export default {
         "tsconfig": "./packages/tsconfig.settings.json"
       }
     ]
-  }
+  },
+  "transformIgnorePatterns": [
+    "node_modules/@libp2p/mplex"
+  ]
 }
