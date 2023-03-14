@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-pkh",
   "description": "Veramo plugin that can enable creation and control of did:pkh identifiers.",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -14,8 +14,8 @@
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/signing-key": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
-    "@veramo/core-types": "^5.1.0",
-    "@veramo/did-manager": "^5.1.0",
+    "@veramo/core-types": "^5.1.2",
+    "@veramo/did-manager": "^5.1.2",
     "caip": "^1.1.0",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1"

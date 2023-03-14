@@ -1,7 +1,7 @@
 {
   "name": "@veramo/core-types",
   "description": "Veramo Core Logic & Interfaces.",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
