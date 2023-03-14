@@ -138,7 +138,7 @@ function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
   if (pk.publicKeyBase58) {
     return base58ToBytes(pk.publicKeyBase58)
   } else if (pk.publicKeyMultibase) {
-    return bases['base58btc'].decode(pk.publicKeyMultibase)
+    return bases['base58btc'].decode(pk.publicKeyMultibase).subarray(2)
   } else if ((<LegacyVerificationMethod>pk).publicKeyBase64) {
     return base64ToBytes((<LegacyVerificationMethod>pk).publicKeyBase64)
   } else if (pk.publicKeyHex) {
