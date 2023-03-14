@@ -289,6 +289,29 @@ export default (testContext: {
       expect(verifiableCredential).toEqual(verifiableCredential2)
     })
 
+    it.only('should create verifiable credential with external context', async () => {
+      const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: pkhIdentifier.did },
+          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://raw.githubusercontent.com/simonas-notcat/schemas/main/discord-kudos/1.0/ld-context.json'],
+          type: ['VerifiableCredential', 'DiscordKudos'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: pkhIdentifier.did,
+            kudos: 'Thank you',
+          },
+        },
+        proofFormat: 'lds',
+        fetchRemoteContexts: true,
+      })
+
+      // Check credential:
+      expect(verifiableCredential).toHaveProperty('proof')
+      expect(verifiableCredential).toHaveProperty('proof.jws')
+      expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'DiscordKudos'])
+
+    })
+
     describe('credential verification policies', () => {
       it('can verify credential at a particular time', async () => {
         const issuanceDate = '2019-08-19T09:15:20.000Z' // 1566206120
