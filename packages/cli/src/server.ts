@@ -12,7 +12,7 @@ const server = new Command('server')
     let server: any
 
     try {
-      const config = await createObjects(getConfig(cmd.optsWithGlobals().config), { server: '/server' })
+      const config = await createObjects(await getConfig(cmd.optsWithGlobals().config), { server: '/server' })
       server = config.server
     } catch (e: any) {
       console.error(e.message)
