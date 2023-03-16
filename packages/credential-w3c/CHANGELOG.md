@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.4](https://github.com/uport-project/veramo/compare/v5.1.3...v5.1.4) (2023-03-16)
+
+
+### Bug Fixes
+
+* **cli:** fix `credential verify` command for JWT credentials ([#1148](https://github.com/uport-project/veramo/issues/1148)) ([697a14c](https://github.com/uport-project/veramo/commit/697a14c5f0377afb8f836cde9ff3956121247780))
+
+
+
+
+
 ## [5.1.2](https://github.com/uport-project/veramo/compare/v5.1.1...v5.1.2) (2023-02-25)
 
 

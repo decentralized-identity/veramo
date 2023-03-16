@@ -1,13 +1,13 @@
 {
   "name": "@veramo/test-react-app",
   "description": "This package is only meant for testing that veramo core dependencies function in a react environment.",
-  "version": "5.1.3",
+  "version": "5.1.4",
   "private": true,
   "dependencies": {
     "@veramo/core": "^5.1.2",
     "@veramo/core-types": "^5.1.2",
     "@veramo/credential-ld": "^5.1.2",
-    "@veramo/credential-w3c": "^5.1.2",
+    "@veramo/credential-w3c": "^5.1.4",
     "@veramo/data-store": "^5.1.2",
     "@veramo/data-store-json": "^5.1.2",
     "@veramo/did-comm": "^5.1.2",
