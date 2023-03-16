@@ -18,7 +18,8 @@ import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes, multibaseKeyToByt
 const debug = Debug('veramo:utils')
 
 /**
- * Converts any Ed25519 keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to X25519 to be usable for encryption.
+ * Converts any Ed25519 keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to X25519 to be usable for
+ * encryption.
  *
  * @param identifier - the identifier with keys
  *
@@ -47,7 +48,8 @@ export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[]
 }
 
 /**
- * Converts any Secp256k1 public keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to their compressed form.
+ * Converts any Secp256k1 public keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to their compressed
+ * form.
  *
  * @param identifier - the identifier with keys
  *
@@ -130,6 +132,7 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
   }
   return vmEthAddr
 }
+
 interface LegacyVerificationMethod extends VerificationMethod {
   publicKeyBase64: string
 }
