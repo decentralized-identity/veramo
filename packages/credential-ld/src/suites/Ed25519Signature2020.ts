@@ -1,9 +1,10 @@
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
-import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
+import { CredentialPayload, DIDDocComponent, DIDDocument, IAgentContext, IKey, TKeyType, } from '@veramo/core-types'
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020'
 import { Ed25519VerificationKey2020 } from '@digitalcredentials/ed25519-verification-key-2020'
-import { bytesToMultibase, hexToBytes } from '@veramo/utils'
+import { asArray, bytesToMultibase, extractPublicKeyHex, hexToBytes } from '@veramo/utils'
+import { VerificationMethod } from 'did-resolver'
 
 /**
  * Veramo wrapper for the Ed25519Signature2020 suite by digitalcredentials
@@ -38,6 +39,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
           keyRef: key.kid,
           data: messageString,
           encoding: 'base64',
+          algorithm: 'EdDSA',
         })
         return u8a.fromString(signature)
       },
@@ -67,7 +69,24 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     // nothing to do here
   }
 
-  preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
-    // nothing to do here
+  preDidResolutionModification(didUrl: string, doc: DIDDocument | Exclude<string, DIDDocComponent>): void {
+    // The verification method (key) must contain "https://w3id.org/security/suites/ed25519-2020/v1" context.
+    if ((doc as DIDDocument).verificationMethod) {
+      doc.verificationMethod = asArray(doc.verificationMethod)?.map(this.transformVerificationMethod)
+    } else if ((doc as VerificationMethod).type === 'Ed25519VerificationKey2020') {
+      this.transformVerificationMethod(doc as VerificationMethod)
+    }
+  }
+
+  private transformVerificationMethod(vm: VerificationMethod): VerificationMethod {
+    if (vm.type === 'Ed25519VerificationKey2020') {
+      ;(vm as any)['@context'] = 'https://w3id.org/security/suites/ed25519-2020/v1'
+      // publicKeyMultibase is required by this suite
+      if (!vm.publicKeyMultibase) {
+        const publicKeyHex = extractPublicKeyHex(vm)
+        vm.publicKeyMultibase = bytesToMultibase(hexToBytes(publicKeyHex), 'Ed25519')
+      }
+    }
+    return vm
   }
 }

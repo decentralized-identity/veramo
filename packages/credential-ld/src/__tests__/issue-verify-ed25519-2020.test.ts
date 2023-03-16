@@ -20,9 +20,9 @@ import {
   import { Resolver } from 'did-resolver'
   import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src/fake-did'
   import { jest } from '@jest/globals'
-  
+
   jest.setTimeout(300000)
-  
+
   const customContext: Record<string, ContextDoc> = {
     'custom:example.context': {
       '@context': {
@@ -30,11 +30,11 @@ import {
       },
     },
   }
-  
+
   describe('credential-LD full flow', () => {
     let didFakeIdentifier: IIdentifier
     let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
-  
+
     beforeAll(async () => {
       agent = createAgent({
         plugins: [
@@ -86,7 +86,7 @@ import {
         alias: 'sender',
       })
     })
-  
+
     it('works with Ed25519Signature2020 credential', async () => {
       const credential: CredentialPayload = {
         issuer: didFakeIdentifier.did,
@@ -99,18 +99,18 @@ import {
         credential,
         proofFormat: 'lds',
       })
-  
+
       expect(verifiableCredential).toBeDefined()
       console.log("verifiableCredential: ", verifiableCredential)
-  
+
       const result = await agent.verifyCredential({
         credential: verifiableCredential,
       })
       console.log("result: ", result)
-  
+
       expect(result.verified).toBe(true)
     })
-  
+
     it('works with Ed25519Signature2020 credential and presentation', async () => {
       const credential: CredentialPayload = {
         issuer: didFakeIdentifier.did,
@@ -123,7 +123,7 @@ import {
         credential,
         proofFormat: 'lds',
       })
-  
+
       const verifiablePresentation = await agent.createVerifiablePresentation({
         presentation: {
           verifiableCredential: [verifiableCredential1],
@@ -132,14 +132,14 @@ import {
         challenge: 'VERAMO',
         proofFormat: 'lds',
       })
-  
+
       expect(verifiablePresentation).toBeDefined()
-  
+
       const result = await agent.verifyPresentation({
         presentation: verifiablePresentation,
         challenge: 'VERAMO',
       })
-  
+
       expect(result.verified).toBe(true)
     })
   })
