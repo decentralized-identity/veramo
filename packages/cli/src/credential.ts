@@ -179,19 +179,14 @@ credential
     } else {
       raw = await readStdin()
     }
-    let credentialAsJSON: any
+    let parsedCredential: any
     try {
-      credentialAsJSON = json5.parse(raw)
+      parsedCredential = json5.parse(raw)
     } catch (e: any) {
-      credentialAsJSON = {
-        proof: {
-          type: 'JwtProof2020',
-          jwt: raw,
-        },
-      } as any
+      parsedCredential = raw
     }
     try {
-      const result = await agent.verifyCredential({ credential: credentialAsJSON })
+      const result = await agent.verifyCredential({ credential: parsedCredential })
       if (result.verified === true) {
         console.log('Credential was verified successfully.')
       } else {
