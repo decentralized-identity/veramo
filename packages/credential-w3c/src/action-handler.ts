@@ -291,7 +291,7 @@ export class CredentialPlugin implements IAgentPlugin {
         verifiedCredential = verificationResult.verifiableCredential
 
         // if credential was presented with other fields, make sure those fields match what's in the JWT
-        if (typeof credential !== 'string') {
+        if (typeof credential !== 'string' && credential.proof.type === 'JwtProof2020') {
           const credentialCopy = JSON.parse(JSON.stringify(credential))
           delete credentialCopy.proof.jwt
 
@@ -300,7 +300,9 @@ export class CredentialPlugin implements IAgentPlugin {
 
           if (canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
             verificationResult.verified = false
-            verificationResult.error = new Error('Credential does not match JWT')
+            verificationResult.error = new Error(
+              'invalid_credential: Credential JSON does not match JWT payload',
+            )
           }
         }
       } catch (e: any) {
