@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.3](https://github.com/uport-project/veramo/compare/v5.1.2...v5.1.3) (2023-03-16)
+
+
+### Bug Fixes
+
+* **cli:** load server config asynchronously ([#1145](https://github.com/uport-project/veramo/issues/1145)) ([2a0aef1](https://github.com/uport-project/veramo/commit/2a0aef1e1911ffba85c043a878f60d7bc672e86a)), closes [#1144](https://github.com/uport-project/veramo/issues/1144)
+
+
+
+
+
 ## [5.1.2](https://github.com/uport-project/veramo/compare/v5.1.1...v5.1.2) (2023-02-25)
 
 **Note:** Version bump only for package @veramo/test-react-app
