@@ -289,11 +289,14 @@ export default (testContext: {
       expect(verifiableCredential).toEqual(verifiableCredential2)
     })
 
-    it.only('should create verifiable credential with external context', async () => {
+    it('should create verifiable credential with external context', async () => {
       const verifiableCredential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: pkhIdentifier.did },
-          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://raw.githubusercontent.com/simonas-notcat/schemas/main/discord-kudos/1.0/ld-context.json'],
+          '@context': [
+            'https://www.w3.org/2018/credentials/v1',
+            'https://veramo.io/contexts/discord-kudos/v1'
+          ],
           type: ['VerifiableCredential', 'DiscordKudos'],
           issuanceDate: new Date().toISOString(),
           credentialSubject: {
