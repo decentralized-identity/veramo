@@ -289,6 +289,38 @@ export default (testContext: {
       expect(verifiableCredential).toEqual(verifiableCredential2)
     })
 
+    it('should create verifiable credential with external context', async () => {
+      const credential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: pkhIdentifier.did },
+          '@context': [
+            'https://www.w3.org/2018/credentials/v1',
+            'https://veramo.io/contexts/discord-kudos/v1'
+          ],
+          type: ['VerifiableCredential', 'DiscordKudos'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: pkhIdentifier.did,
+            kudos: 'Thank you',
+          },
+        },
+        proofFormat: 'lds',
+        fetchRemoteContexts: true,
+      })
+
+      // Check credential:
+      expect(credential).toHaveProperty('proof')
+      expect(credential).toHaveProperty('proof.jws')
+      expect(credential['type']).toEqual(['VerifiableCredential', 'DiscordKudos'])
+
+      const result = await agent.verifyCredential({ 
+        credential,
+        fetchRemoteContexts: true
+      })
+      expect(result.verified).toBe(true)
+
+    })
+
     describe('credential verification policies', () => {
       it('can verify credential at a particular time', async () => {
         const issuanceDate = '2019-08-19T09:15:20.000Z' // 1566206120

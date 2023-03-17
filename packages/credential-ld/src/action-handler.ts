@@ -36,7 +36,7 @@ import {
   IVerifyPresentationLDArgs,
 } from './types.js'
 
-const debug = Debug('veramo:w3c:action-handler')
+const debug = Debug('veramo:credential-ld:action-handler')
 
 /**
  * A Veramo plugin that implements the {@link ICredentialIssuerLD} methods.
@@ -176,7 +176,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
         identifier.did,
         signingKey,
         verificationMethodId,
-        { ...args.options, now },
+        { ...args, now },
         context,
       )
     } catch (error) {
@@ -200,7 +200,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
     return this.ldCredentialModule.verifyCredential(
       credential,
       args.fetchRemoteContexts || false,
-      { ...args.options, now },
+      { ...args, now },
       context,
     )
   }
@@ -220,7 +220,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
       args.challenge,
       args.domain,
       args.fetchRemoteContexts || false,
-      { ...args.options, now },
+      { ...args, now },
       context,
     )
   }
