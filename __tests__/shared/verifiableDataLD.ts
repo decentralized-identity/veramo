@@ -290,7 +290,7 @@ export default (testContext: {
     })
 
     it('should create verifiable credential with external context', async () => {
-      const verifiableCredential = await agent.createVerifiableCredential({
+      const credential = await agent.createVerifiableCredential({
         credential: {
           issuer: { id: pkhIdentifier.did },
           '@context': [
@@ -309,9 +309,15 @@ export default (testContext: {
       })
 
       // Check credential:
-      expect(verifiableCredential).toHaveProperty('proof')
-      expect(verifiableCredential).toHaveProperty('proof.jws')
-      expect(verifiableCredential['type']).toEqual(['VerifiableCredential', 'DiscordKudos'])
+      expect(credential).toHaveProperty('proof')
+      expect(credential).toHaveProperty('proof.jws')
+      expect(credential['type']).toEqual(['VerifiableCredential', 'DiscordKudos'])
+
+      const result = await agent.verifyCredential({ 
+        credential,
+        fetchRemoteContexts: true
+      })
+      expect(result.verified).toBe(true)
 
     })
 
