@@ -5,14 +5,12 @@ import * as u8a from 'uint8arrays'
 
 import Debug from 'debug'
 import {
-  _ExtendedIKey,
   _ExtendedVerificationMethod,
-  _NormalizedVerificationMethod,
   decodeJoseBlob,
+  extractPublicKeyHex,
   isDefined,
   mapIdentifierKeysToDoc,
   resolveDidOrThrow,
-  extractPublicKeyHex,
 } from '@veramo/utils'
 
 const debug = Debug('veramo:did-comm:action-handler')
@@ -41,7 +39,7 @@ export async function extractSenderEncryptionKey(
       didUrl: protectedHeader.skid,
       section: 'keyAgreement',
     })) as _ExtendedVerificationMethod
-    if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019'].includes(sKey.type)) {
+    if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019', 'JsonWebKey2020'].includes(sKey.type)) {
       throw new Error(`not_supported: sender key of type ${sKey.type} is not supported`)
     }
     let publicKeyHex = extractPublicKeyHex(sKey, true)
