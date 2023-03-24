@@ -4,7 +4,6 @@ import {
   IEventListener,
   IIdentifier,
   IKeyManager,
-  IMessageHandler,
   IResolver,
   TAgent,
 } from '../../../core-types/src'
@@ -14,23 +13,17 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { DIDDocument, Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { MessageHandler } from '../../../message-handler/src'
-import { createTrustPingMessage, TrustPingMessageHandler } from '../protocols/trust-ping-message-handler.js'
-import { ExampleDidProvider, FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
-import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
-import { Entities, IDataStore, MetaData, migrations } from '../../../data-store/src'
+import { createTrustPingMessage } from '../protocols/trust-ping-message-handler.js'
+import { ExampleDidProvider } from '../../../test-utils/src'
 // @ts-ignore
 import express from 'express'
-import { Server } from 'http'
-import { DIDCommMessageHandler } from '../message-handler.js'
-import { DataStore, DataStoreORM } from '../../../data-store/src'
-import { DataSource } from 'typeorm'
 
 import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 import { base64ToBytes, bytesToHex } from '@veramo/utils'
+
+import * as u8a from 'uint8arrays'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
@@ -246,7 +239,7 @@ describe('trust-ping-interop', () => {
               let doc: DIDDocument
               if (did === "did:example:alice") {
                 doc = aliceDoc
-              } else if (did === "did:example:box") {
+              } else if (did === "did:example:bob") {
                 doc = bobDoc
               } else {
                 throw new Error("Bad didUrl for fake resolver: " + did)
@@ -280,8 +273,15 @@ describe('trust-ping-interop', () => {
           type: 'Ed25519',
           kid: 'did:example:alice#key-1',
           publicKeyHex: bytesToHex(base64ToBytes(senderSecretEd25519X)),
+          // we use stablelib/nacl for ed25519, and the preferred encoding for the privateKey there is a 64 byte
+          // string, where the second half is the precomputed 32 byte encoding of the publicKey. This seems to be the
+          // preferred encoding in other related libraries too, as the pre-computation speeds up the signing by a few
+          // milliseconds.
+          // https://github.com/StableLib/stablelib/blob/a89a438fcbf855de6b2e9faa2630f03c3f3b3a54/packages/ed25519/ed25519.ts#L669
+          // https://crypto.stackexchange.com/a/54367
+          // https://github.com/libp2p/specs/blob/master/peer-ids/peer-ids.md#ed25519
           privateKeyHex:
-            bytesToHex(base64ToBytes(senderSecretEd25519D)),
+            bytesToHex(u8a.concat([base64ToBytes(senderSecretEd25519D), base64ToBytes(senderSecretEd25519X)])),
           kms: 'local',
         },
         {
@@ -307,7 +307,7 @@ describe('trust-ping-interop', () => {
           privateKeyHex:
             bytesToHex(base64ToBytes('b9NnuOCB0hm7YGNvaE9DMhwH_wjZA1-gWD6dA0JWdL0')),
           kms: 'local',
-        },        
+        },
         {
           type: 'X25519',
           kid: 'did:example:bob#key-x25519-2',
