@@ -1,7 +1,6 @@
 import { DIDComm } from '../didcomm.js'
 import {
   IDIDManager,
-  IEventListener,
   IIdentifier,
   IKeyManager,
   IResolver,
@@ -14,21 +13,11 @@ import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { DIDDocument, Resolver } from 'did-resolver'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { createTrustPingMessage } from '../protocols/trust-ping-message-handler.js'
 import { ExampleDidProvider } from '../../../test-utils/src'
-// @ts-ignore
-import express from 'express'
-
-import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 import { base64ToBytes, bytesToHex } from '@veramo/utils'
 
 import * as u8a from 'uint8arrays'
-
-const DIDCommEventSniffer: IEventListener = {
-  eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(() => Promise.resolve()),
-}
 
 const aliceDoc = {
   "@context":[
@@ -211,6 +200,16 @@ const bobDoc = {
   ]
 }
 
+const trustPingMessage = {
+  type: 'https://didcomm.org/trust-ping/2.0/ping',
+  from: 'did:example:alice',
+  to: 'did:example:bob',
+  id: 'trust-ping-test',
+  body: {
+    responseRequested: true
+  }
+}
+
 
 describe('trust-ping-interop', () => {
   let sender: IIdentifier
@@ -331,12 +330,28 @@ describe('trust-ping-interop', () => {
   })
 
   it('should pack and unpack trust ping message with authcrypt packing', async () => {
-    const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
-    console.log("trustPingMessage: ", trustPingMessage)
     const packedMessage = await agent.packDIDCommMessage({ message: trustPingMessage, packing: 'authcrypt' })
-    console.log("packedMessage: ", packedMessage)
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
-    console.log("unpackedMessage: ", unpackedMessage)
+    expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
+  })
+
+  it('should unpack encrypted message from test vector', async () => {
+    const unpackedMessage = await agent.unpackDIDCommMessage({
+      message: '{"protected":"eyJ0eXAiOiJhcHBsaWNhdGlvbi9kaWRjb21tLWVuY3J5cHRlZCtqc29uIiwic2tpZCI6ImRpZDpleGFtcGxlOmFsaWNlI2tleS14MjU1MTktMSIsImVuYyI6IlhDMjBQIn0","iv":"VfXAqOwRdCqkCOXtCZmM7xRY6b2cTT5K","ciphertext":"_urtE_Pqw8rGEVkR4iKZiR9qs7U7CCiY5T5sujlSwJnI9V6l4MqXAkfQ_EmSS0bKqrpvB1kXT0vgQQUEfwUeqkXBGiNqd-lBopM1zbaUFIr8x7AobjiVlhDkoA0KVQqICuTUhmt3po5h3wTfNZtB1wiQPF3cYeXg9y6sUVAQ7DyAJdItFcYKiboB3b15nIIP1ld6Bb9r50KD3Gm_DQ","tag":"oq6URRWgtmXePhwQXLeZow","recipients":[{"encrypted_key":"iI92IB_c6z-z9OKbK6GMS54uPJrGefJ9BY5papAvc00","header":{"alg":"ECDH-1PU+XC20PKW","iv":"04K4bQO4q0-x3oiSwvx1vjfIo7DEggyl","tag":"q5DzsirJ4Qrnqr0zosx-sg","epk":{"kty":"OKP","crv":"X25519","x":"KqNpwX_5bvCFMpMwB-ww1z8mJB7jq8Sy1jSbQPHqHxA"},"kid":"did:example:bob#key-x25519-1"}},{"encrypted_key":"Z8mGUR1Q-UIOts1LxIhZNIzbcyp5vj_8ZTWuJ6CxWJE","header":{"alg":"ECDH-1PU+XC20PKW","iv":"g1LwvctMeKDtEcJKQGepuevJnho9WdnX","tag":"up_m3F6B-8RAWvlNEhD4Cg","epk":{"kty":"OKP","crv":"X25519","x":"11cPGXIykWfZBVyCIcn7CisnxXgIS988MtHYD9d3HlM"},"kid":"did:example:bob#key-x25519-2"}},{"encrypted_key":"CsnDZ8TEfeIa5Tu7XqYdxx3r5SnzQDssvhTcmkvzA8g","header":{"alg":"ECDH-1PU+XC20PKW","iv":"-2i2CV7T5ylzk7TLK81lKO1xlvRefIMW","tag":"RtaehpY4C6HxXSuy-PSd6w","epk":{"kty":"OKP","crv":"X25519","x":"nH9Pdu9RCm8znYmhCtGp9hPR_VuS6kcf5zJndTYBVzI"},"kid":"did:example:bob#key-x25519-3"}}]}'
+    })
+    expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
+  })
+
+  it('should pack and unpack trust ping message with anoncrypt packing', async () => {
+    const packedMessage = await agent.packDIDCommMessage({ message: trustPingMessage, packing: 'authcrypt' })
+    const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
+    expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
+  })
+  
+  it('should unpack encrypted message from test vector', async () => {
+    const unpackedMessage = await agent.unpackDIDCommMessage({
+      message: '{"protected":"eyJ0eXAiOiJhcHBsaWNhdGlvbi9kaWRjb21tLWVuY3J5cHRlZCtqc29uIiwic2tpZCI6ImRpZDpleGFtcGxlOmFsaWNlI2tleS14MjU1MTktMSIsImVuYyI6IlhDMjBQIn0","iv":"8e7Q16uLi4YL7VCEw2E2B9vlC9O7IVn4","ciphertext":"aE0DnTMiiPVxo0WaUNqma4qXnTzPojXnJOkv2vvJ36hoXc5gf5kyCXV8JGVmuR0ib62bZt8RhZCzt-2dmyJc9qot2oz7VesSfrxNOFb1-LB4Tfp2d1KVi96wCeQ_Ca5gr5RPRiQIBuoHHQsuZ2P1_9o49txTlt1AlCS4GwY4QCTnLVNyQTfDweQLwp-OJTMlDoKKgHzBljfovHv4yQ","tag":"ZeItOIGZS3-NvGMbDDKu3w","recipients":[{"encrypted_key":"wDMR_DerdPHrua7edijfseiVsTXKkHXou-U3y_XH2VE","header":{"alg":"ECDH-1PU+XC20PKW","iv":"K8twVbKqWnmISiiwnrCK8308vy0g0By9","tag":"fcgKH3VwAjpSnz-T0UP4bw","epk":{"kty":"OKP","crv":"X25519","x":"zN8qTfSPmxA_OwTnK-JOmVrpwvPTlhFuOXm9qlFsozc"},"kid":"did:example:bob#key-x25519-1"}},{"encrypted_key":"eEJ62Naux0w2xUz-5u2aA-Bt4mcxyeZDOUJS16PxUj8","header":{"alg":"ECDH-1PU+XC20PKW","iv":"uvkmZEbeJ-ThAYTcZHIdSW1O4diVWgTM","tag":"PKxx4DWaPAzWBW_pizYckw","epk":{"kty":"OKP","crv":"X25519","x":"90TtJUXASLgYRUctFByDBUNULqsB47W0-QisRdiDOhg"},"kid":"did:example:bob#key-x25519-2"}},{"encrypted_key":"GEYY8xb9e07x7mmJGrPAJssoZayTBUgDrF9RO2FWHEE","header":{"alg":"ECDH-1PU+XC20PKW","iv":"rp9Oi7vEkD0gJjPe3LMU_IR1Yq5_2umv","tag":"zvFBqklSbyRP4Lsp_eyQEg","epk":{"kty":"OKP","crv":"X25519","x":"R9AkOBdF4nN489pQgqI_NstsdrSpnNsGGEgjgNhdeE8"},"kid":"did:example:bob#key-x25519-3"}}]}'
+    })
     expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
   })
 })
