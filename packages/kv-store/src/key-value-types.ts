@@ -1,84 +1,105 @@
 import { IPluginMethodMap } from '@veramo/core-types'
-import { KeyvStore } from './keyv-ts-impl/keyv-types'
 
-
-export interface DeserializedValueData<ValueType> {
-  value: ValueType;
-  expires?: number | undefined;
+/**
+ * This is how the store will actually store the value.
+ * It contains an optional `expires` property, which indicates when the value would expire
+ */
+export interface IValueData<ValueType> {
+  value: ValueType | undefined;
+  expires: number | undefined;
 }
 
-export interface KVStoreOnArgs {
+export interface IKeyValueStoreOnArgs {
   eventName: string | symbol,
   listener: (...args: any[]) => void
 }
 
-export interface KVStoreGetArgs {
+export interface IKeyValueStoreGetArgs {
   key: string
 }
 
-export interface KVStoreGetManyArgs {
-  keys: string[]
-}
-export interface KVStoreHasArgs {
-  key: string
-}
-
-export interface KVStoreDeleteArgs {
-  key: string
-}
-
-export interface KVStoreDeleteManyArgs {
+export interface IKeyValueStoreGetManyArgs {
   keys: string[]
 }
 
-export interface KVStoreSetArgs<ValueType> {
+export interface IKeyValueStoreHasArgs {
+  key: string
+}
+
+export interface IKeyValueStoreDeleteArgs {
+  key: string
+}
+
+export interface IKeyValueStoreDeleteManyArgs {
+  keys: string[]
+}
+
+export interface IKeyValueStoreSetArgs<ValueType> {
   key: string,
   value: ValueType,
   ttl?: number
 }
 
-export interface KVStoreOptions<ValueType> {
+export interface IKeyValueStoreOptions<ValueType> {
   [key: string]: any;
 
   /** Namespace for the current instance. */
   namespace?: string | undefined;
+
   /** A custom serialization function. */
   /*serialize?: ((data: KeyvDeserializedData<ValueType>) => OrPromise<string | undefined>)
   /!** A custom deserialization function. *!/
   deserialize?: ((data: any) => OrPromise<KeyvDeserializedData<ValueType> | undefined>);*/
   /** The connection string URI. */
   uri?: string | undefined;
-  /** The storage adapter instance to be used by Keyv. */
-  store?: KeyvStore<ValueType | undefined> | undefined;
+  /** The storage adapter instance to be used by Keyv. or any other implementation */
+  store: IKeyValueStoreAdapter<ValueType>;
   /** Default TTL. Can be overridden by specifying a TTL on `.set()`. */
   ttl?: number | undefined;
-  /** Specify an adapter to use. e.g `'redis'` or `'mongodb'`. */
-  adapter?: 'redis' | 'mongodb' | 'mongo' | 'sqlite' | 'postgresql' | 'postgres' | 'mysql' | string | object | undefined;
+
   /** Enable compression option **/
   /*compression?: KeyvCompressionAdapter | undefined;*/
 
   emitErrors?: boolean
 }
 
-export interface IKeyValueStore<ValueType> extends IPluginMethodMap {
+export interface IKeyValueStoreAdapter<ValueType> {
+  namespace?: string | undefined
+}
 
-  kvStoreGet(args: KVStoreGetArgs): Promise<DeserializedValueData<ValueType> | undefined>
 
-  kvStoreOn(args: KVStoreOnArgs): Promise<IKeyValueStore<ValueType>>
+export interface IKeyValueStore extends IPluginMethodMap {
 
-  kvStoreGetMany(
-    args: KVStoreGetManyArgs,
-  ): Promise<Array<DeserializedValueData<ValueType> | undefined>>;
+  /**
+   * Get a single value by key. Can be undefined as the underlying store typically will not throw an error for a non existing key
+   *
+   * @param args Contains the key to search for
+   */
+  kvStoreGet<ValueType>(args: IKeyValueStoreGetArgs): Promise<ValueType | undefined>
 
-  kvStoreSet(args: KVStoreSetArgs<ValueType>): Promise<any>;
+  /**
+   * Get a single item as Value Data from the store. Will always return a Value Data Object, but the value in it can be undefined in case the actual store does not contain the value
+   * @param args Contains the key to search for
+   */
+  kvStoreGetAsValueData<ValueType>(args: IKeyValueStoreGetArgs): Promise<IValueData<ValueType>>
 
-  kvStoreDelete(args: KVStoreDeleteArgs): Promise<boolean>;
+  kvStoreGetMany<ValueType>(
+    args: IKeyValueStoreGetManyArgs,
+  ): Promise<Array<ValueType | undefined>>;
 
-  kvStoreDeleteMany(args: KVStoreDeleteManyArgs): Promise<boolean>;
+  kvStoreGetManyAsValueData<ValueType>(
+    args: IKeyValueStoreGetManyArgs,
+  ): Promise<Array<IValueData<ValueType>>>;
 
-  kvStoreClear(): Promise<IKeyValueStore<ValueType>>;
+  kvStoreSet<ValueType>(args: IKeyValueStoreSetArgs<ValueType>): Promise<any>;
 
-  kvStoreHas(args: KVStoreHasArgs): Promise<boolean>;
+  kvStoreDelete(args: IKeyValueStoreDeleteArgs): Promise<boolean>;
+
+  kvStoreDeleteMany(args: IKeyValueStoreDeleteManyArgs): Promise<boolean>;
+
+  kvStoreClear(): Promise<IKeyValueStore>;
+
+  kvStoreHas(args: IKeyValueStoreHasArgs): Promise<boolean>;
 
   kvStoreDisconnect(): Promise<void>
 

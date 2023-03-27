@@ -1,7 +1,7 @@
 import KeyvSqlite from '@keyv/sqlite';
 
 import timekeeper from 'timekeeper'
-import { Keyv } from '../keyv-ts-impl/keyv.js'
+import { Keyv } from '../keyv/keyv.js'
 
 describe('MAP store', () => {
   it('should respect ttl', async () => {

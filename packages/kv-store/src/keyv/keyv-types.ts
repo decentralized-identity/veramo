@@ -1,11 +1,9 @@
 /**
- * Please be aware these types are compatible with the keyv package, to ensure we can use its adapters for free.
+ * Please be aware these types are compatible with the keyv package, to ensure we can use its store-adapters for free.
  *
  * Be very careful when extending/changing!. Normally you will want to create an adapter or decorator for your additional behaviour or requirements
  */
 import { OrPromise } from '@veramo/utils'
-
-export type WithRequiredProperties<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
 export interface KeyvOptions<Value> {
   [key: string]: any;
@@ -47,6 +45,7 @@ export interface KeyvDeserializedData<Value> {
 
 export type KeyvStoredData<Value> = KeyvDeserializedData<Value> | string | Value | undefined;
 
+
 export interface KeyvStore<Value> {
   namespace?: string | undefined
 
@@ -57,7 +56,7 @@ export interface KeyvStore<Value> {
 
   getMany?(
     keys: string[], options?: { raw?: boolean }
-  ): Array<KeyvStoredData<Value>> | Promise<Array<KeyvStoredData<Value>>> | undefined;
+  ): OrPromise<Array<KeyvStoredData<Value>> | undefined>;
 
   iterator?(namespace?: string | undefined): AsyncGenerator<any, void, any>;
 

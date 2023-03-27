@@ -1,8 +1,8 @@
-import type { Keyv } from '../keyv';
+import { IKeyValueStoreAdapter } from '../../key-value-types.js'
 
-export type Options = {
-  local: Keyv<any>;
-  remote: Keyv<any>;
+export type Options<ValueType> = {
+  local: IKeyValueStoreAdapter<ValueType> | Map<string,ValueType>;
+  remote: IKeyValueStoreAdapter<ValueType> | Map<string, ValueType>;
   localOnly?: boolean;
   iterationLimit?: number | string;
 };

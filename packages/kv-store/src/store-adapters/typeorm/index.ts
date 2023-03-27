@@ -1,16 +1,18 @@
 import EventEmitter from 'events'
 import { OrPromise } from '@veramo/utils'
 import { DataSource, In, Like } from 'typeorm'
-import { KeyValueStoreEntity } from './entities/keyValueStoreEntity'
-import { Options, Options_ } from './types'
-import { KeyvStore, KeyvStoredData } from '../keyv-types'
+import { KeyValueStoreEntity } from './entities/keyValueStoreEntity.js'
+import { KeyValueTypeORMOptions, Options_ } from './types.js'
+import { KeyvStore, KeyvStoredData } from '../../keyv/keyv-types.js'
+import { IKeyValueStoreAdapter } from '../../key-value-types.js'
 
-export class KeyvTypeORMStoreAdapter extends EventEmitter implements KeyvStore<string> {
+export { KeyValueTypeORMOptions } from './types.js'
+export class KeyValueTypeORMStoreAdapter extends EventEmitter implements KeyvStore<string>, IKeyValueStoreAdapter<string> {
   private readonly dbConnection: OrPromise<DataSource>
   readonly namespace: string
   opts: Options_
 
-  constructor(options: Options) {
+  constructor(options: KeyValueTypeORMOptions) {
     super()
     this.dbConnection = options.dbConnection
     this.namespace = options.namespace || 'keyv'
@@ -27,7 +29,7 @@ export class KeyvTypeORMStoreAdapter extends EventEmitter implements KeyvStore<s
     }
     const connection = await getConnectedDb(this.dbConnection)
     const result = await connection.getRepository(KeyValueStoreEntity).findOneBy({
-      key
+      key,
     })
     return options?.raw !== true || !result ? result?.value : { value: result?.value, expires: result?.expires }
   }
@@ -35,7 +37,7 @@ export class KeyvTypeORMStoreAdapter extends EventEmitter implements KeyvStore<s
   async getMany(keys: string[], options?: { raw?: boolean }): Promise<Array<KeyvStoredData<string>>> {
     const connection = await getConnectedDb(this.dbConnection)
     const results = await connection.getRepository(KeyValueStoreEntity).findBy({
-      key: In(keys)
+      key: In(keys),
     })
     return results.filter(result => !!result.value).map(result => options?.raw || !result ? result?.value : {
       value: result?.value,
@@ -49,7 +51,7 @@ export class KeyvTypeORMStoreAdapter extends EventEmitter implements KeyvStore<s
     entity.key = key
     entity.value = value
     entity.expires = ttl
-    const result = await connection.getRepository(KeyValueStoreEntity).save(entity)
+    await connection.getRepository(KeyValueStoreEntity).save(entity)
     return { value: value, expires: ttl }
   }
 
@@ -58,14 +60,14 @@ export class KeyvTypeORMStoreAdapter extends EventEmitter implements KeyvStore<s
       return this.deleteMany(key)
     }
     const connection = await getConnectedDb(this.dbConnection)
-    const result = await connection.getRepository(KeyValueStoreEntity).delete({  key })
+    const result = await connection.getRepository(KeyValueStoreEntity).delete({ key })
     return result.affected === 1
   }
 
   async deleteMany(keys: string[]): Promise<boolean> {
     const connection = await getConnectedDb(this.dbConnection)
     const results = await connection.getRepository(KeyValueStoreEntity).delete({
-      key: In(keys)
+      key: In(keys),
     })
     return !!results.affected && results.affected >= 1
   }
@@ -73,14 +75,14 @@ export class KeyvTypeORMStoreAdapter extends EventEmitter implements KeyvStore<s
   async clear(): Promise<void> {
     const connection = await getConnectedDb(this.dbConnection)
     await connection.getRepository(KeyValueStoreEntity).delete({
-      key: Like(`${this.namespace}:%`)
+      key: Like(`${this.namespace}:%`),
     })
   }
 
   async has(key: string): Promise<boolean> {
     const connection = await getConnectedDb(this.dbConnection)
     const result = await connection.getRepository(KeyValueStoreEntity).countBy({
-      key
+      key,
     })
     return result === 1
   }

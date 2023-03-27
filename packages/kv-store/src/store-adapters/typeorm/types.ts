@@ -1,9 +1,7 @@
-import type { Keyv } from '../keyv';
 import { OrPromise } from '@veramo/utils'
 import { DataSource } from 'typeorm'
 
-export type Options = {
-
+export type KeyValueTypeORMOptions = {
   dbConnection: OrPromise<DataSource>
 
   namespace?: string

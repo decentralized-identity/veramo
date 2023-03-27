@@ -1,8 +1,9 @@
 import timekeeper from 'timekeeper'
-import { Keyv } from '../keyv-ts-impl/keyv.js'
-import { KeyvTypeORMStoreAdapter } from '../keyv-ts-impl/typeorm'
+import { Keyv } from '../keyv/keyv.js'
 import { DataSource } from 'typeorm'
-import { KeyValueStoreEntity } from '../keyv-ts-impl/typeorm/entities/keyValueStoreEntity'
+import { KeyValueStoreEntity } from '../store-adapters/typeorm/entities/keyValueStoreEntity.js'
+import { KeyValueTypeORMStoreAdapter } from '../store-adapters'
+
 
 describe('TypeORM Keyv Store adapter', () => {
   let dbConnection: DataSource
@@ -23,7 +24,7 @@ describe('TypeORM Keyv Store adapter', () => {
   })
 
   it('should respect ttl', async () => {
-    const store = new KeyvTypeORMStoreAdapter({ dbConnection, namespace: 'test' })
+    const store = new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'test' })
     const keyv = new Keyv(store)
     await keyv.set('key', 'value', 100)
 
@@ -33,18 +34,18 @@ describe('TypeORM Keyv Store adapter', () => {
   })
 
   it('should set a value that can be retrieved from the proper namespace', async () => {
-    const store = new KeyvTypeORMStoreAdapter({ dbConnection, namespace: 'test' })
+    const store = new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'test' })
     const keyv = new Keyv(store)
     await keyv.set('key', 'value')
     expect(await keyv.get('key')).toEqual('value')
 
-    const alternateStore = new KeyvTypeORMStoreAdapter({ dbConnection, namespace: 'another' })
+    const alternateStore = new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'another' })
     const alternateKeyv = new Keyv(alternateStore)
     expect(await alternateKeyv.get('key')).toBeUndefined()
   })
 
   it('should set multiple values that can be retrieved', async () => {
-    const store = new KeyvTypeORMStoreAdapter({ dbConnection, namespace: 'test' })
+    const store = new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'test' })
     const keyv = new Keyv(store)
     for (let i = 0; i < 10; i++) {
       await keyv.set(`${i}`, `value${i}`)

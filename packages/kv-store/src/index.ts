@@ -4,7 +4,7 @@
  *
  * @packageDocumentation
  */
-export { KeyValueStore } from './key-value-store'
-export * from './keyv-ts-impl/tiered'
-export { Keyv } from './keyv-ts-impl/keyv'
-export * from './key-value-types'
+export { KeyValueStore } from './key-value-store.js'
+export * from './store-adapters/tiered'
+export * from './store-adapters/typeorm'
+export * from './key-value-types.js'

@@ -12,8 +12,8 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.2",
-    "@veramo/utils": "^5.1.2",
+    "@veramo/core-types": "workspace:*",
+    "@veramo/utils": "workspace:*",
     "events": "^3.3.0",
     "json-buffer": "^3.0.1",
     "typeorm": "^0.3.10",
@@ -44,7 +44,7 @@
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Niels Klomp <nklomp@sphereon.com>",
   "license": "Apache-2.0",
-  "keywords": [],
+  "keywords": ["Veramo", "Key Value Store", "keyv"],
   "type": "module",
   "moduleDirectories": [
     "node_modules",

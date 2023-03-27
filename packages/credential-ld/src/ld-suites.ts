@@ -12,7 +12,7 @@ import { DIDDocument } from 'did-resolver'
 export type RequiredAgentMethods = IResolver & Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 
 /**
- * Base class for Veramo adapters of LinkedDataSignature suites.
+ * Base class for Veramo store-adapters of LinkedDataSignature suites.
  *
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */

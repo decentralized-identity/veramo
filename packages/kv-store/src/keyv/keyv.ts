@@ -1,14 +1,25 @@
 import EventEmitter from 'events'
 import JSONB from 'json-buffer'
-import { KeyvDeserializedData, KeyvOptions, KeyvStore, KeyvStoredData } from './keyv-types'
+import { KeyvDeserializedData, KeyvOptions, KeyvStore, KeyvStoredData } from './keyv-types.js'
+import { OrPromise } from '@veramo/utils'
 
 
 /**
  * Please note that this is code adapted from @link https://github.com/jaredwray/keyv to support Typescript and ESM in Veramo
  *
  * The code should support the storage plugins available for the keyv project.
- * Veramo itself supports NodeJS, Browser and React-Native. Please be aware that these requirements probably aren't true for any keyv storage plugins.
- * The Veramo kv-store module provides out of the box support for in memory/maps, sqlite and typeorm implementations, including a tiered local/remote implementation that support all environments.
+ * Veramo itself supports NodeJS, Browser and React-Native environment.
+ * Please be aware that these requirements probably aren't true for any keyv storage plugins.
+ *
+ * One of the big changes compared to the upstream project is that this port does not have dynamic loading of store-adapters based on URIs.
+ * We believe that any Veramo Key Value store should use explicitly defined store-adapters.
+ *
+ * The port is part of the Veramo Key Value Store module, as we do not want to make an official maintained port out of it.
+ * Veramo exposes its own API/interfaces for the Key Value store, meaning we could also support any other implementation in the future
+ *
+ * The Veramo kv-store module provides out of the box support for in memory/maps, sqlite and typeorm implementations,
+ * including a tiered local/remote implementation that support all environments.
+ *
  * We welcome any new storage modules
  */
 export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> {
@@ -34,10 +45,10 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
     if (!this.opts.store) {
       if (typeof uri !== 'string') {
         this.opts.store = uri as KeyvStore<Value | undefined>
-      } else {
+      }/* else {
         const adapterOptions = { ...this.opts }
         this.opts.store = loadStore(adapterOptions)
-      }
+      }*/
     }
     if (!this.opts.store) {
       throw Error('No store')
@@ -116,16 +127,17 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
       .join(':')
   }
 
-  getMany(keys: string[], options?: { raw?: boolean }): Array<KeyvStoredData<Value>> | Promise<Array<KeyvStoredData<Value>>> | undefined {
+  getMany(keys: string[], options?: { raw?: boolean }): OrPromise<Array<KeyvStoredData<Value>> | undefined> {
     if (this.store.getMany !== undefined) {
-      return this.store.getMany(this._getKeyPrefixArray(keys))
+      return this.store.getMany(this._getKeyPrefixArray(keys), options)
+      // todo: Probably wise to check expired ValueData here, if the getMany does not implement this feature itself!
     }
 
     const keyPrefixed = this._getKeyPrefixArray(keys)
     const promises = []
     for (const key of keyPrefixed) {
       promises.push(Promise.resolve()
-        .then(() => this.store.get(key))
+        .then(() => this.store.get(key, options))
         .then(data => (typeof data === 'string') ? this.deserialize(data) : (this.opts.compression ? this.deserialize(data) : data))
         .then(data => {
           if (data === undefined || data === null) {
@@ -270,9 +282,9 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
   }
 }
 
-
+/*
 const loadStore = (options: KeyvOptions<any>) => {
-  const adapters = {
+  const store-adapters = {
     redis: '@keyv/redis',
     rediss: '@keyv/redis',
     mongodb: '@keyv/mongo',
@@ -287,7 +299,7 @@ const loadStore = (options: KeyvOptions<any>) => {
   }
   let adapter = options.adapter
   if (!adapter && options.uri) {
-    const regex = /^[^:+]*/
+    const regex = /^[^:+]*!/
     if (regex) {
       const match = regex.exec(options.uri)
       adapter = Array.isArray(match) ? match[0] : undefined
@@ -295,12 +307,12 @@ const loadStore = (options: KeyvOptions<any>) => {
   }
   if (adapter) {
     // @ts-ignore
-    return new (import(adapters[adapter]))(options)
+    return new (import(store-adapters[adapter]))(options)
   }
 
   return new Map()
 }
-
+*/
 const iterableAdapters = [
   'sqlite',
   'postgres',

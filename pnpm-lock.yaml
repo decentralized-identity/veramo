@@ -830,8 +830,8 @@ importers:
       '@keyv/sqlite': ^3.6.5
       '@keyv/test-suite': '*'
       '@types/json-buffer': ^3.0.0
-      '@veramo/core-types': ^5.1.2
-      '@veramo/utils': ^5.1.2
+      '@veramo/core-types': workspace:*
+      '@veramo/utils': workspace:*
       eslint: ^8.33.0
       eslint-plugin-promise: ^6.1.1
       events: ^3.3.0
