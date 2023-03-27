@@ -3,6 +3,14 @@ import { SimplifyRelations1447159020002 } from './2.simplifyRelations.js'
 import { CreatePrivateKeyStorage1629293428674 } from './3.createPrivateKeyStorage.js'
 import { AllowNullIssuanceDateForPresentations1637237492913 } from './4.allowNullVPIssuanceDate.js'
 
+
+/**
+ * Allow others to use shared migration functions if they extend Veramo
+ *
+ * @public
+ */
+export * from './migration-functions.js'
+
 /**
  * The migrations array that SHOULD be used when initializing a TypeORM database connection.
  *
@@ -10,6 +18,7 @@ import { AllowNullIssuanceDateForPresentations1637237492913 } from './4.allowNul
  *
  * @public
  */
+
 export const migrations = [
   CreateDatabase1447159020001,
   SimplifyRelations1447159020002,
