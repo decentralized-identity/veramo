@@ -1,5 +1,6 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm'
 import { migrationGetExistingTableByName } from './migration-functions.js'
+import { PreMigrationKey } from '../entities/PreMigrationEntities.js'
 
 /**
  * Fix inconsistencies between Entity data and column data.
@@ -12,7 +13,7 @@ export class SimplifyRelations1447159020002 implements MigrationInterface {
 
   async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.changeColumn(
-      migrationGetExistingTableByName(queryRunner, 'key'),
+      migrationGetExistingTableByName(queryRunner, 'PreMigrationKey', true),
       'identifierDid',
       new TableColumn({ name: 'identifierDid', type: 'varchar', isNullable: true }),
     )
@@ -21,6 +22,7 @@ export class SimplifyRelations1447159020002 implements MigrationInterface {
       'identifierDid',
       new TableColumn({ name: 'identifierDid', type: 'varchar', isNullable: true }),
     )
+
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {

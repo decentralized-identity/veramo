@@ -8,8 +8,8 @@ import { QueryRunner, Table } from 'typeorm'
  *
  * @public
  */
-export function migrationGetExistingTableByName(queryRunner: QueryRunner, givenName: string): Table {
-  const table = migrationGetTableByNameImpl(queryRunner, givenName)
+export function migrationGetExistingTableByName(queryRunner: QueryRunner, givenName: string, strictClassName?: boolean): Table {
+  const table = migrationGetTableByNameImpl(queryRunner, givenName, strictClassName)
   if (!table) {
     throw Error(`Could not find table with name ${givenName}`)
   }
@@ -24,9 +24,9 @@ export function migrationGetExistingTableByName(queryRunner: QueryRunner, givenN
  *
  * @private
  */
-function migrationGetTableByNameImpl(queryRunner: QueryRunner, givenName: string): Table | undefined {
-  let entityMetadata = queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)
-  if (!entityMetadata) {
+function migrationGetTableByNameImpl(queryRunner: QueryRunner, givenName: string, strictClassName?: boolean): Table | undefined {
+  let entityMetadata = queryRunner.connection.entityMetadatas.find((meta) => !!strictClassName ? meta.name === givenName : meta.givenTableName === givenName)
+  if (!entityMetadata && !strictClassName) {
     // We are doing this separately as we don't want the above filter to use an or expression potentially matching first on tableName instead of givenTableName
     entityMetadata = queryRunner.connection.entityMetadatas.find((meta) => meta.tableName === givenName)
   }
@@ -42,7 +42,7 @@ function migrationGetTableByNameImpl(queryRunner: QueryRunner, givenName: string
  *
  * @public
  */
-export function migrationGetTableName(queryRunner: QueryRunner, givenName: string): string {
-  const table = migrationGetTableByNameImpl(queryRunner, givenName)
+export function migrationGetTableName(queryRunner: QueryRunner, givenName: string, strictClassName?: boolean): string {
+  const table = migrationGetTableByNameImpl(queryRunner, givenName, strictClassName)
   return !!table ? table.name : givenName
 }

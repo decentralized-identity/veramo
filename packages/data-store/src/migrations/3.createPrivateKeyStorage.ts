@@ -58,9 +58,10 @@ export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface 
       .execute()
     // 3. drop old column
     debug(`dropping privKeyHex column from old key table`)
-    await queryRunner.dropColumn(migrationGetExistingTableByName(queryRunner, 'key'), 'privateKeyHex')
+    await queryRunner.dropColumn(migrationGetExistingTableByName(queryRunner, 'PreMigrationKey', true), 'privateKeyHex')
     //4. done
     debug(`migrated ${privKeys.length} keys to private key storage`)
+
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
