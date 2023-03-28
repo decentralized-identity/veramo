@@ -355,6 +355,8 @@ describe('trust-ping-interop', () => {
     expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
   })
 
+  // https://identity.foundation/didcomm-messaging/spec/#c3-didcomm-encrypted-messages
+  // This example uses ECDH-ES key wrapping algorithm using key with X25519 elliptic curve and XC20P for content encryption of the message.
   // it('should unpack encrypted message from spec', async () => {
   //   const unpackedMessage = await agent.unpackDIDCommMessage({ 
   //     message: JSON.stringify({
