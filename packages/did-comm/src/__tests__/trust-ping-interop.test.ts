@@ -343,15 +343,47 @@ describe('trust-ping-interop', () => {
   })
 
   it('should pack and unpack trust ping message with anoncrypt packing', async () => {
-    const packedMessage = await agent.packDIDCommMessage({ message: trustPingMessage, packing: 'authcrypt' })
+    const packedMessage = await agent.packDIDCommMessage({ message: trustPingMessage, packing: 'anoncrypt' })
     const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
     expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
   })
   
   it('should unpack encrypted message from test vector', async () => {
     const unpackedMessage = await agent.unpackDIDCommMessage({
-      message: '{"protected":"eyJ0eXAiOiJhcHBsaWNhdGlvbi9kaWRjb21tLWVuY3J5cHRlZCtqc29uIiwic2tpZCI6ImRpZDpleGFtcGxlOmFsaWNlI2tleS14MjU1MTktMSIsImVuYyI6IlhDMjBQIn0","iv":"8e7Q16uLi4YL7VCEw2E2B9vlC9O7IVn4","ciphertext":"aE0DnTMiiPVxo0WaUNqma4qXnTzPojXnJOkv2vvJ36hoXc5gf5kyCXV8JGVmuR0ib62bZt8RhZCzt-2dmyJc9qot2oz7VesSfrxNOFb1-LB4Tfp2d1KVi96wCeQ_Ca5gr5RPRiQIBuoHHQsuZ2P1_9o49txTlt1AlCS4GwY4QCTnLVNyQTfDweQLwp-OJTMlDoKKgHzBljfovHv4yQ","tag":"ZeItOIGZS3-NvGMbDDKu3w","recipients":[{"encrypted_key":"wDMR_DerdPHrua7edijfseiVsTXKkHXou-U3y_XH2VE","header":{"alg":"ECDH-1PU+XC20PKW","iv":"K8twVbKqWnmISiiwnrCK8308vy0g0By9","tag":"fcgKH3VwAjpSnz-T0UP4bw","epk":{"kty":"OKP","crv":"X25519","x":"zN8qTfSPmxA_OwTnK-JOmVrpwvPTlhFuOXm9qlFsozc"},"kid":"did:example:bob#key-x25519-1"}},{"encrypted_key":"eEJ62Naux0w2xUz-5u2aA-Bt4mcxyeZDOUJS16PxUj8","header":{"alg":"ECDH-1PU+XC20PKW","iv":"uvkmZEbeJ-ThAYTcZHIdSW1O4diVWgTM","tag":"PKxx4DWaPAzWBW_pizYckw","epk":{"kty":"OKP","crv":"X25519","x":"90TtJUXASLgYRUctFByDBUNULqsB47W0-QisRdiDOhg"},"kid":"did:example:bob#key-x25519-2"}},{"encrypted_key":"GEYY8xb9e07x7mmJGrPAJssoZayTBUgDrF9RO2FWHEE","header":{"alg":"ECDH-1PU+XC20PKW","iv":"rp9Oi7vEkD0gJjPe3LMU_IR1Yq5_2umv","tag":"zvFBqklSbyRP4Lsp_eyQEg","epk":{"kty":"OKP","crv":"X25519","x":"R9AkOBdF4nN489pQgqI_NstsdrSpnNsGGEgjgNhdeE8"},"kid":"did:example:bob#key-x25519-3"}}]}'
+      message: '{"protected":"eyJ0eXAiOiJhcHBsaWNhdGlvbi9kaWRjb21tLWVuY3J5cHRlZCtqc29uIiwiZW5jIjoiWEMyMFAifQ","iv":"QrSF5s2ghvz2H5cFwxuBKvpqYbTqP1-D","ciphertext":"X8pMYd2TFXrgEvqFEtHA_iK-50ikwrGTxjCEpMmLS4lLOwpibpLC6Fz8yMElL2IFWDrQYmT_RKyPyp_QSdHGjjxV6WUzx7-ZqDbskJz7_CORrnNX7ANXRMIwojYuj4YLaMa7Aga4rnsHPHpjp5n0ov2v-3ESKsZH0lOmmBsWSJqsXcGJQmLJdSFUAJZNudV2ps9sojaj1Zjk3KE42Q","tag":"3wn5xji9pFAF0yfa7ZUmIw","recipients":[{"encrypted_key":"AGujetRqLHGbVdTPfLjX66BbssJmyD9get3qB56Fe5o","header":{"alg":"ECDH-ES+XC20PKW","iv":"6vSUOKfTqZjkD9ETri8So0IlvXo5XhSj","tag":"6d92y5XoKvLED3sNNw5X6Q","epk":{"kty":"OKP","crv":"X25519","x":"QNo-96YaW_x2qV5ukQ85L7cjY5l0U4YtbEO4Ykj8v0o"},"kid":"did:example:bob#key-x25519-1"}},{"encrypted_key":"6z0PlxNwechSETEoMgeEXLkQaIqqPUUgo3gWpnSZzV8","header":{"alg":"ECDH-ES+XC20PKW","iv":"G7jxuAwofJv6XvkGYihng2vqKxgy56Sx","tag":"WeqSejaJioAum6QSyBhqUg","epk":{"kty":"OKP","crv":"X25519","x":"VdibDkLnvJMu54Aps4jFwGg7dQC8Q_knoTQoiSlZeSE"},"kid":"did:example:bob#key-x25519-2"}},{"encrypted_key":"ty-CWAydQe5TRu0Ov-ySRFX-9S5bkYBcwaRWXsbj610","header":{"alg":"ECDH-ES+XC20PKW","iv":"s0e4pEPVpN0jOaF1mJJokE_aZ9A49ugi","tag":"6qYF8HMbIaRskl7zldbFYg","epk":{"kty":"OKP","crv":"X25519","x":"S9LtdQzE5VA6ZR_KOE-iB9UL23L7dILDzy8O-txPdCg"},"kid":"did:example:bob#key-x25519-3"}}]}'
     })
     expect(unpackedMessage.message.id).toEqual(trustPingMessage.id)
   })
+
+  // it('should unpack encrypted message from spec', async () => {
+  //   const unpackedMessage = await agent.unpackDIDCommMessage({ 
+  //     message: JSON.stringify({
+  //       "ciphertext":"KWS7gJU7TbyJlcT9dPkCw-ohNigGaHSukR9MUqFM0THbCTCNkY-g5tahBFyszlKIKXs7qOtqzYyWbPou2q77XlAeYs93IhF6NvaIjyNqYklvj-OtJt9W2Pj5CLOMdsR0C30wchGoXd6wEQZY4ttbzpxYznqPmJ0b9KW6ZP-l4_DSRYe9B-1oSWMNmqMPwluKbtguC-riy356Xbu2C9ShfWmpmjz1HyJWQhZfczuwkWWlE63g26FMskIZZd_jGpEhPFHKUXCFwbuiw_Iy3R0BIzmXXdK_w7PZMMPbaxssl2UeJmLQgCAP8j8TukxV96EKa6rGgULvlo7qibjJqsS5j03bnbxkuxwbfyu3OxwgVzFWlyHbUH6p",
+  //       "protected":"eyJlcGsiOnsia3R5IjoiT0tQIiwiY3J2IjoiWDI1NTE5IiwieCI6IkpIanNtSVJaQWFCMHpSR193TlhMVjJyUGdnRjAwaGRIYlc1cmo4ZzBJMjQifSwiYXB2IjoiTmNzdUFuclJmUEs2OUEtcmtaMEw5WFdVRzRqTXZOQzNaZzc0QlB6NTNQQSIsInR5cCI6ImFwcGxpY2F0aW9uL2RpZGNvbW0tZW5jcnlwdGVkK2pzb24iLCJlbmMiOiJYQzIwUCIsImFsZyI6IkVDREgtRVMrQTI1NktXIn0",
+  //       "recipients":[
+  //         {
+  //             "encrypted_key":"3n1olyBR3nY7ZGAprOx-b7wYAKza6cvOYjNwVg3miTnbLwPP_FmE1A",
+  //             "header":{
+  //               "kid":"did:example:bob#key-x25519-1"
+  //             }
+  //         },
+  //         {
+  //             "encrypted_key":"j5eSzn3kCrIkhQAWPnEwrFPMW6hG0zF_y37gUvvc5gvlzsuNX4hXrQ",
+  //             "header":{
+  //               "kid":"did:example:bob#key-x25519-2"
+  //             }
+  //         },
+  //         {
+  //             "encrypted_key":"TEWlqlq-ao7Lbynf0oZYhxs7ZB39SUWBCK4qjqQqfeItfwmNyDm73A",
+  //             "header":{
+  //               "kid":"did:example:bob#key-x25519-3"
+  //             }
+  //         }
+  //       ],
+  //       "tag":"6ylC_iAs4JvDQzXeY6MuYQ",
+  //       "iv":"ESpmcyGiZpRjc5urDela21TOOTW8Wqd1"
+  //     })
+  //   })
+  //   console.log("unpacked thathththththth: ", unpackedMessage)
+  // })
 })
