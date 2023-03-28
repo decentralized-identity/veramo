@@ -5,6 +5,7 @@ import { QueryRunner, Table } from 'typeorm'
  *
  * @param queryRunner The query runner object to use for querying
  * @param givenName The given name of the table to search for
+ * @param strictClassName Whether the table name should strictly match the given name
  *
  * @public
  */
@@ -21,6 +22,7 @@ export function migrationGetExistingTableByName(queryRunner: QueryRunner, givenN
  *
  * @param queryRunner The query runner object to use for querying
  * @param givenName The given name of the table to search for
+ * @param strictClassName Whether the table name should strictly match the given name
  *
  * @private
  */
@@ -39,7 +41,7 @@ function migrationGetTableByNameImpl(queryRunner: QueryRunner, givenName: string
  *
  * @param queryRunner The query runner object to use for querying
  * @param givenName The given name of the table to search for
- *
+ * @param strictClassName Whether the table name should strictly match the given name
  * @public
  */
 export function migrationGetTableName(queryRunner: QueryRunner, givenName: string, strictClassName?: boolean): string {
