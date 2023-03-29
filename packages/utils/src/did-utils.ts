@@ -12,8 +12,7 @@ import { isDefined } from './type-utils.js'
 import * as u8a from 'uint8arrays'
 import elliptic from 'elliptic'
 import Debug from 'debug'
-import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings.js'
-import { multibaseToBytes } from './encodings';
+import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes, multibaseToBytes } from './encodings.js'
 
 const debug = Debug('veramo:utils')
 
