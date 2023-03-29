@@ -41,13 +41,13 @@ const multiBaseDoc = {
     {
       "controller": "did:web:portcullis.1keep.com",
       "id": "did:web:portcullis.1keep.com#0",
-      "publicKeyMultibase": "z8FRmkyRH9xAsLCk51yXN2Qy6uq4eN4iAesa3v3Hv889v",
+      "publicKeyMultibase": "z6MkmhgpMDfiVVfLShamhYVCsWX6jQLVmwxXLtUykKFw3LwJ",
       "type": "Ed25519VerificationKey2020"
     },
     {
       "controller": "did:web:portcullis.1keep.com",
       "id": "did:web:portcullis.1keep.com#1",
-      "publicKeyMultibase": "z7bNjXnt3EXhpy7UdzZUANa2CsBFpzKGFXsgvkBd9iHGo",
+      "publicKeyMultibase": "z6Mkm3dn838Ua5CJ5cKLg8S1DfaCgkXgQCWcDtbraTbAdW4B",
       "type": "X25519KeyAgreementKey2020"
     }
   ]
