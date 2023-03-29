@@ -11,9 +11,9 @@ import {
 import { isDefined } from './type-utils.js'
 import * as u8a from 'uint8arrays'
 import elliptic from 'elliptic'
-import { bases } from 'multiformats/basics'
 import Debug from 'debug'
 import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings.js'
+import { multibaseToBytes } from './encodings';
 
 const debug = Debug('veramo:utils')
 
@@ -138,7 +138,7 @@ function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
   if (pk.publicKeyBase58) {
     return base58ToBytes(pk.publicKeyBase58)
   } else if (pk.publicKeyMultibase) {
-    return bases['base58btc'].decode(pk.publicKeyMultibase).subarray(2)
+    return multibaseToBytes(pk.publicKeyMultibase)
   } else if ((<LegacyVerificationMethod>pk).publicKeyBase64) {
     return base64ToBytes((<LegacyVerificationMethod>pk).publicKeyBase64)
   } else if (pk.publicKeyHex) {

@@ -1,4 +1,5 @@
 import * as u8a from 'uint8arrays'
+import { bases } from 'multiformats/basics'
 
 /**
  * Converts a Uint8Array to a base64url string
@@ -142,4 +143,53 @@ export function base58ToBytes(s: string): Uint8Array {
  */
 export function bytesToBase58(byteArray: Uint8Array): string {
   return u8a.toString(byteArray, 'base58btc')
+}
+
+/**
+ * Converts a multibase string to the Uint8Array it represents.
+ * 
+ * @param s - the string to be converted
+ * 
+ * @throws if the string is not formatted correctly.
+ * 
+ * @public
+*/
+export function multibaseToBytes(s: string): Uint8Array {
+  const bytes = bases['base58btc'].decode(s)
+
+  if (bytes.length !== 34) {
+    throw new Error('invalid multibase string: length is not 34 bytes')
+  }
+
+  if (bytes[0] !== 0xed) {
+    throw new Error('invalid multibase string: first byte is not 0xed')
+  }
+
+  if (bytes[1] !== 0x01) {
+    throw new Error('invalid multibase string: second byte is not 0x01')
+  }
+
+  return bytes.slice(2)
+}
+
+/**
+ * Converts a Uint8Array to a multibase string.
+ * 
+ * @param b - the array to be converted
+ * 
+ * @throws if the array is not formatted correctly.
+ * 
+ * @public
+*/
+export function bytesToMultibase(byteArray: Uint8Array): string {
+  if (byteArray.length !== 32) {
+    throw new Error('invalid byte array: length is not 32 bytes')
+  }
+
+  const bytes = new Uint8Array(34)
+  bytes[0] = 0xed
+  bytes[1] = 0x01
+  bytes.set(byteArray, 2)
+
+  return bases['base58btc'].encode(bytes)
 }
