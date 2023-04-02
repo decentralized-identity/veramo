@@ -96,33 +96,45 @@ const options: IKeyValueStoreOptions<MyValueType> = {
   namespace: 'example',
   store: new KeyValueTieredStoreAdapter({ local, remote })
 }
-const kvStore: IKeyValueStore<MyValueType> = new KeyValueStore({ options })
+const kvStore: IKeyValueStore<MyValueType> = new KeyValueStore<MyValueType>({ options })
 ````
 
 ## Usage
 
 After you have setup the Key Value Store as described above in your agent, it will be available in your agent.
 
+````typescript
 
+kvStore.set('hello', { example: world }) // Stores the value object by key untill deleted
+kvStore.set('expiring', { example: 'expiration' }, 1000) // Stores the value object by key for 1 second
+const value = await kvStore.get('hello') // { example: world }
+const values = await kvStore.getMany(['hello', 'expiring']) // [{ example: world }, {example: expiring}]
+
+if (await kvStore.has('hello')) {
+  await kvStore.delete('hello') // return a boolean for success. You can also call it on non existing keys, which will return false
+}
+
+await kvStore.clear() // Removes all keys/values from the store
+kvStore.disconnect() // disconnects the store from it backing adapter. You cannot reuse the store afterwards unlesss you initialize a new store.
+
+````
 
 # Keyv project relationship
 
 Please note that a large portion of the Veramo Key Value Store code is a port of
-the [keyv](https://github.com/jaredwray/keyv) project, adding support for Typescript and ESM so it can be used Veramo
+the [keyv](https://github.com/jaredwray/keyv) project, adding support for Typescript and ESM, so it can be used Veramo
 
-The ported code should support the storage plugins available for the keyv project.
-Veramo itself supports NodeJS, Browser and React-Native environment.
+The ported code should support the storage plugins available for the keyv project, although testing has been limited
+Veramo itself has a requirement to support NodeJS, Browser and React-Native environments. The port and the store
+adapters included in Veramo run in these environments.
 Please be aware that these requirements probably aren't true for any keyv storage plugins.
 
 One of the big changes compared to the upstream project is that this port does not have dynamic loading of adapters
-based on URIs. We believe that any Veramo Key Value store should use explicitly defined adapters.
+based on URIs. We believe that any Veramo Key Value store should use explicit defined adapters.
 
-The port is part of the Veramo Key Value Store module code itself, as we do not want to make an official maintained port
-out of it.
+The keyv port is part of the Veramo Key Value Store module code itself, as we do not want to make an official maintained port at this point.
 
 Veramo exposes its own API/interfaces for the Key Value store, meaning we could also support any other implementation in
-the future The Veramo kv-store module provides out of the box support for in memory/maps, sqlite and typeorm
-implementations,
-including a tiered local/remote implementation that support all environments.
+the future 
 
 We welcome any new storage modules
