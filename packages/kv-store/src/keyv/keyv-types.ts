@@ -66,7 +66,7 @@ export interface KeyvStore<Value> {
     options?: { raw?: boolean },
   ): OrPromise<KeyvStoredData<Value> | Array<KeyvStoredData<Value>>>
 
-  getMany?(keys: string[], options?: { raw?: boolean }):  OrPromise<Array<KeyvStoredData<Value>>> | undefined
+  getMany?(keys: string[], options?: { raw?: boolean }): OrPromise<Array<KeyvStoredData<Value>>> | undefined
 
   iterator?(namespace?: string | undefined): AsyncGenerator<any, void, any>
 

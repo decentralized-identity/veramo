@@ -8,7 +8,6 @@ import { KeyValueTieredStoreAdapter, KeyValueTypeORMStoreAdapter } from '../stor
 import { KeyvOptions } from '../keyv/keyv-types'
 import { kvStoreMigrations } from '../store-adapters/typeorm/migrations'
 
-
 let dbConnection: DataSource
 beforeEach(async () => {
   dbConnection = await new DataSource({
@@ -29,7 +28,6 @@ afterEach(async () => {
   } catch (error) {
     // the disconnect test will close the DB anyway
   }
-
 })
 describe('keyv MAP store', () => {
   it('should respect ttl', async () => {
@@ -45,12 +43,9 @@ describe('keyv MAP store', () => {
     const store = new Map<string, string>()
     await testAllKeyvMethods(store)
   })
-
-
 })
 
 describe('keyv sqlite store', () => {
-
   it('should respect ttl', async () => {
     const keyv = new Keyv<string>(new KeyvSqlite<string>())
     await keyv.set('key', 'value', 100)
@@ -142,18 +137,13 @@ describe('keyv TypeORM store', () => {
 })
 
 describe('keyv tiered store', () => {
-
-
-
-
-
   it('should respect ttl', async () => {
     const local: Map<string, string> = new Map()
     const remote = new KeyValueTypeORMStoreAdapter({ dbConnection })
 
     const options: KeyvOptions<string> = {
       namespace: 'example',
-      store: new KeyValueTieredStoreAdapter({ local, remote })
+      store: new KeyValueTieredStoreAdapter({ local, remote }),
     }
     const keyv = new Keyv<string>(undefined, options)
     await keyv.set('key', 'value', 100)
@@ -169,17 +159,14 @@ describe('keyv tiered store', () => {
 
     const options: KeyvOptions<string> = {
       namespace: 'example',
-      store: new KeyValueTieredStoreAdapter({ local, remote })
+      store: new KeyValueTieredStoreAdapter({ local, remote }),
     }
     const store = new Keyv<string>(undefined, options)
 
     // No raw match test, as remote and local have different raw values
     await testAllKeyvMethods(store, false)
   })
-
-
 })
-
 
 async function testAllKeyvMethods(store: any, rawMatchTest = true) {
   const keyv = new Keyv<string>(store)
@@ -189,17 +176,20 @@ async function testAllKeyvMethods(store: any, rawMatchTest = true) {
   await expect(keyv.set('key2', 'value2')).resolves.toEqual(true)
 
   // get value by key
-  await expect(keyv.get('key1', {raw: false})).resolves.toEqual('value1')
-  await expect(keyv.get('key1', {raw: true})).resolves.toMatchObject({value: 'value1'})
+  await expect(keyv.get('key1', { raw: false })).resolves.toEqual('value1')
+  await expect(keyv.get('key1', { raw: true })).resolves.toMatchObject({ value: 'value1' })
 
   // get value by non-existing key
-  await expect(keyv.get('key3', {raw: false})).resolves.toBeUndefined()
-  await expect(keyv.get('key3', {raw: true})).resolves.toBeUndefined()
+  await expect(keyv.get('key3', { raw: false })).resolves.toBeUndefined()
+  await expect(keyv.get('key3', { raw: true })).resolves.toBeUndefined()
 
   // Get many as non-raw and raw
-  await expect(keyv.getMany(['key1', 'key2'], {raw: false})).resolves.toMatchObject(['value1', 'value2'])
+  await expect(keyv.getMany(['key1', 'key2'], { raw: false })).resolves.toMatchObject(['value1', 'value2'])
   if (rawMatchTest) {
-    await expect(keyv.getMany(['key1', 'key2'], { raw: true })).resolves.toMatchObject([{ value: 'value1' }, { value: 'value2' }])
+    await expect(keyv.getMany(['key1', 'key2'], { raw: true })).resolves.toMatchObject([
+      { value: 'value1' },
+      { value: 'value2' },
+    ])
   }
 
   // Check existence
@@ -214,6 +204,4 @@ async function testAllKeyvMethods(store: any, rawMatchTest = true) {
   // clear
   await keyv.clear()
   await expect(keyv.has('key2')).resolves.toEqual(false)
-
 }
-

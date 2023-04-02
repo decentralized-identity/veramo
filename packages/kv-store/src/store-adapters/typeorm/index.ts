@@ -11,7 +11,8 @@ export { KeyValueTypeORMOptions } from './types.js'
 
 export class KeyValueTypeORMStoreAdapter
   extends EventEmitter
-  implements KeyvStore<string>, IKeyValueStoreAdapter<string> {
+  implements KeyvStore<string>, IKeyValueStoreAdapter<string>
+{
   private readonly dbConnection: OrPromise<DataSource>
   readonly namespace: string
   opts: Options_<string>
@@ -40,9 +41,7 @@ export class KeyValueTypeORMStoreAdapter
     const result = await connection.getRepository(KeyValueStoreEntity).findOneBy({
       key,
     })
-    return options?.raw !== true || !result
-      ? result?.data
-      : { value: result?.data, expires: result?.expires }
+    return options?.raw !== true || !result ? result?.data : { value: result?.data, expires: result?.expires }
   }
 
   async getMany(keys: string[], options?: { raw?: boolean }): Promise<Array<KeyvStoredData<string>>> {
@@ -50,14 +49,14 @@ export class KeyValueTypeORMStoreAdapter
     const results = await connection.getRepository(KeyValueStoreEntity).findBy({
       key: In(keys),
     })
-    const values = keys.map(async key => {
-      const result = results.find(result => result.key === key)
+    const values = keys.map(async (key) => {
+      const result = results.find((result) => result.key === key)
       return options?.raw !== true || !result
-        ? result?.data as KeyvStoredData<string>
-        : {
-          value: result?.data ? (await this.opts.deserialize(result.data))?.value : undefined,
-          expires: result?.expires,
-        } as KeyvStoredData<string>
+        ? (result?.data as KeyvStoredData<string>)
+        : ({
+            value: result?.data ? (await this.opts.deserialize(result.data))?.value : undefined,
+            expires: result?.expires,
+          } as KeyvStoredData<string>)
     })
 
     return Promise.all(values)

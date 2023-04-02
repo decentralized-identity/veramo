@@ -39,10 +39,10 @@ export class KeyValueTieredStoreAdapter<Value>
     if (Array.isArray(key)) {
       return await this.getMany(key, options)
     }
-    const localResult = await this.local.get(key, options) as KeyvStoredData<Value>
+    const localResult = (await this.local.get(key, options)) as KeyvStoredData<Value>
 
     if (localResult === undefined || !this.opts.validator(localResult, key)) {
-      const remoteResult = (await this.remote.get(key, options))
+      const remoteResult = await this.remote.get(key, options)
 
       if (remoteResult !== localResult) {
         const value = (
@@ -71,10 +71,7 @@ export class KeyValueTieredStoreAdapter<Value>
     return localResult
   }
 
-  async getMany(
-    keys: string[],
-    options?: { raw?: boolean },
-  ): Promise<Array<KeyvStoredData<Value>>> {
+  async getMany(keys: string[], options?: { raw?: boolean }): Promise<Array<KeyvStoredData<Value>>> {
     const promises: Array<Promise<KeyvStoredData<Value>>> = []
     for (const key of keys) {
       promises.push(this.get(key, options) as Promise<KeyvStoredData<Value>>)

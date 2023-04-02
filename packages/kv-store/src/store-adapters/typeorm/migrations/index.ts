@@ -7,6 +7,4 @@ import { CreateKVDatabaseMigration } from './1.createKVDatabase'
  *
  * @public
  */
-export const kvStoreMigrations = [
-  CreateKVDatabaseMigration
-]
+export const kvStoreMigrations = [CreateKVDatabaseMigration]

@@ -11,8 +11,6 @@ export class CreateKVDatabaseMigration implements MigrationInterface {
   private readonly _tableName: string
   readonly name: string
 
-
-
   constructor(tableName?: string) {
     this._tableName = tableName || 'keyvaluestore'
     this.name = `CreateKVDatabase${tableName}1680297189001`

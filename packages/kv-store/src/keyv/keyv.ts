@@ -132,45 +132,51 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
     const keyPrefixed = this._getKeyPrefixArray(keys)
     let promise: Promise<Array<KeyvStoredData<Value>>>
     if (this.store.getMany !== undefined) {
-      promise = (this.store.getMany(keyPrefixed, options) as Promise<KeyvStoredData<Value>[]>)//.then(value => !!value ? value.values() : undefined)
+      promise = this.store.getMany(keyPrefixed, options) as Promise<KeyvStoredData<Value>[]> //.then(value => !!value ? value.values() : undefined)
       // todo: Probably wise to check expired ValueData here, if the getMany does not implement this feature itself!
     } else {
-      promise = Promise.all(keyPrefixed.map(k => this.store.get(k, options) as Promise<KeyvStoredData<Value>>))
+      promise = Promise.all(
+        keyPrefixed.map((k) => this.store.get(k, options) as Promise<KeyvStoredData<Value>>),
+      )
     }
     const allValues = Promise.resolve(promise)
     const results: Promise<KeyvStoredData<Value>>[] = []
 
+    return Promise.resolve(allValues)
+      .then((all) => {
+        keys.forEach((key, index) => {
+          const data = all[index]
 
-    return Promise.resolve(allValues).then(all => {
-      keys.forEach((key, index) => {
-        const data = all[index]
+          let result =
+            typeof data === 'string'
+              ? this.deserialize(data)
+              : !!data && this.opts.compression
+              ? this.deserialize(data)
+              : data
 
-        let result = typeof data === 'string'
-          ? this.deserialize(data)
-          : !!data && this.opts.compression
-            ? this.deserialize(data)
-            : data
+          if (
+            result &&
+            typeof result === 'object' &&
+            'expires' in result &&
+            typeof result.expires === 'number' &&
+            Date.now() > result.expires
+          ) {
+            this.delete(key)
+            result = undefined
+          }
 
-        if (
-          result &&
-          typeof result === 'object' &&
-          'expires' in result &&
-          typeof result.expires === 'number' &&
-          Date.now() > result.expires
-        ) {
-          this.delete(key)
-          result = undefined
-        }
+          const final = (
+            options && options.raw
+              ? result
+              : result && typeof result === 'object' && 'value' in result
+              ? result.value
+              : result
+          ) as Promise<KeyvStoredData<Value>>
 
-        const final = (options && options.raw
-          ? result
-          : result && typeof result === 'object' && 'value' in result
-            ? result.value
-            : result) as Promise<KeyvStoredData<Value>>
-
-        results.push(final)
+          results.push(final)
+        })
       })
-    }).then(() => Promise.all(results))
+      .then(() => Promise.all(results))
   }
 
   async get(
@@ -188,8 +194,8 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
         typeof data === 'string'
           ? this.deserialize(data)
           : this.opts.compression
-            ? this.deserialize(data)
-            : data,
+          ? this.deserialize(data)
+          : data,
       )
       .then((data) => {
         if (data === undefined || data === null) {
@@ -224,8 +230,8 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
         return options && options.raw
           ? data
           : Array.isArray(data)
-            ? data.map((d) => toValue(d))
-            : toValue(data)
+          ? data.map((d) => toValue(d))
+          : toValue(data)
       })
   }
 

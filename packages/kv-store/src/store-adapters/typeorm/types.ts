@@ -1,6 +1,5 @@
 import { OrPromise } from '@veramo/utils'
 import { DataSource } from 'typeorm'
-import JSONB from 'json-buffer'
 import { KeyvDeserializedData } from '../../keyv/keyv-types'
 
 export type KeyValueTypeORMOptions = {
