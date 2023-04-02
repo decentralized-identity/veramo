@@ -2,11 +2,14 @@ import EventEmitter from 'events'
 import type { Options, Options_ } from './types.js'
 import { KeyvStore, KeyvStoredData } from '../../keyv/keyv-types.js'
 import { Keyv } from '../../keyv/keyv.js'
-import { IKeyValueStoreAdapter } from '../../key-value-types.js';
+import { IKeyValueStoreAdapter } from '../../key-value-types.js'
 
-type KeyvTieredIndex = 'local' | 'remote';
+type KeyvTieredIndex = 'local' | 'remote'
 
-export class KeyValueTieredStoreAdapter<Value> extends EventEmitter implements KeyvStore<Value>, IKeyValueStoreAdapter<Value> {
+export class KeyValueTieredStoreAdapter<Value>
+  extends EventEmitter
+  implements KeyvStore<Value>, IKeyValueStoreAdapter<Value>
+{
   opts: Options_
   remote: KeyvStore<Value>
   local: KeyvStore<Value>
@@ -22,25 +25,40 @@ export class KeyValueTieredStoreAdapter<Value> extends EventEmitter implements K
       ...options,
     }
 
-    // todo: since we are instantiating a new Keyv object in case we encounter a map, the key prefix is probably applied twice, given it will be part of a an outer keyv object as well.
+    // todo: since we are instantiating a new Keyv object in case we encounter a map, the key prefix applied twice, given it will be part of a an outer keyv object as well.
     // Probably wise to simply create a Map Store class. As it is an in memory construct, and will work in terms of resolution it does not have highest priority
     this.local = (isMap(local) ? new Keyv<Value>(local as Map<string, Value>) : local) as KeyvStore<Value>
     this.remote = (isMap(remote) ? new Keyv<Value>(remote as Map<string, Value>) : remote) as KeyvStore<Value>
     this.namespace = this.local.namespace
   }
 
-  async get(key: string | string[], options?: { raw?: boolean }): Promise<KeyvStoredData<Value> | Array<KeyvStoredData<Value>>> {
+  async get(
+    key: string | string[],
+    options?: { raw?: boolean },
+  ): Promise<KeyvStoredData<Value> | Array<KeyvStoredData<Value>>> {
     if (Array.isArray(key)) {
       return await this.getMany(key, options)
     }
-    const localResult: unknown = await this.local.get(key, options)
+    const localResult = await this.local.get(key, options) as KeyvStoredData<Value>
 
     if (localResult === undefined || !this.opts.validator(localResult, key)) {
-      const remoteResult = await this.remote.get(key, options) as string | KeyvStoredData<Value> | Value | undefined
+      const remoteResult = (await this.remote.get(key, options))
 
       if (remoteResult !== localResult) {
-        const value = (!!remoteResult ? typeof remoteResult === 'object' && 'value' in remoteResult ? remoteResult.value : remoteResult : undefined) as Value
-        const ttl = !!remoteResult && typeof remoteResult === 'object' && 'expires' in remoteResult && remoteResult.expires ? remoteResult.expires - Date.now() : undefined
+        const value = (
+          !!remoteResult
+            ? typeof remoteResult === 'object' && 'value' in remoteResult
+              ? remoteResult.value
+              : remoteResult
+            : undefined
+        ) as Value
+        const ttl =
+          !!remoteResult &&
+          typeof remoteResult === 'object' &&
+          'expires' in remoteResult &&
+          remoteResult.expires
+            ? remoteResult.expires - Date.now()
+            : undefined
         if (!ttl || ttl > 0) {
           await this.local.set(key, value, ttl)
         } else {
@@ -50,13 +68,14 @@ export class KeyValueTieredStoreAdapter<Value> extends EventEmitter implements K
       return remoteResult
     }
 
-    return localResult as KeyvStoredData<Value>
+    return localResult
   }
 
   async getMany(
-    keys: string[], options?: { raw?: boolean },
-  ): Promise<Array<KeyvStoredData<Value>> | undefined> {
-    const promises: Array<Promise<KeyvStoredData<Value> | Array<KeyvStoredData<Value>>>> = []
+    keys: string[],
+    options?: { raw?: boolean },
+  ): Promise<Array<KeyvStoredData<Value>>> {
+    const promises: Array<Promise<KeyvStoredData<Value>>> = []
     for (const key of keys) {
       promises.push(this.get(key, options) as Promise<KeyvStoredData<Value>>)
     }
@@ -71,8 +90,7 @@ export class KeyValueTieredStoreAdapter<Value> extends EventEmitter implements K
 
   async set(key: string, value: any, ttl?: number) {
     const toSet: KeyvTieredIndex[] = ['local', 'remote']
-    return Promise.all(toSet.map(async store => this[store].set(key, value, ttl)),
-    )
+    return Promise.all(toSet.map(async (store) => this[store].set(key, value, ttl)))
   }
 
   async clear(): Promise<undefined> {
@@ -81,9 +99,7 @@ export class KeyValueTieredStoreAdapter<Value> extends EventEmitter implements K
       toClear.push('remote')
     }
 
-    await Promise.all(toClear
-      .map(async store => this[store].clear()),
-    )
+    await Promise.all(toClear.map(async (store) => this[store].clear()))
 
     return undefined
   }
@@ -94,9 +110,7 @@ export class KeyValueTieredStoreAdapter<Value> extends EventEmitter implements K
       toDelete.push('remote')
     }
 
-    const deleted = await Promise.all(toDelete
-      .map(async store => this[store].delete(key)),
-    )
+    const deleted = await Promise.all(toDelete.map(async (store) => this[store].delete(key)))
 
     return deleted.every(Boolean)
   }
@@ -131,7 +145,7 @@ export class KeyValueTieredStoreAdapter<Value> extends EventEmitter implements K
     return response
   }
 
-  async* iterator(namespace?: string): AsyncGenerator<any, void, any> {
+  async *iterator(namespace?: string): AsyncGenerator<any, void, any> {
     const limit = Number.parseInt(this.iterationLimit as string, 10) || 10
     this.remote.opts.iterationLimit = limit
     if (this.remote && typeof this.remote.iterator === 'function') {
@@ -140,7 +154,6 @@ export class KeyValueTieredStoreAdapter<Value> extends EventEmitter implements K
       }
     }
   }
-
 }
 
 function isMap(map: any) {
@@ -159,4 +172,3 @@ function isMap(map: any) {
 
   return false
 }
-

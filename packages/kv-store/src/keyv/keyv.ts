@@ -1,8 +1,6 @@
 import EventEmitter from 'events'
 import JSONB from 'json-buffer'
 import { KeyvDeserializedData, KeyvOptions, KeyvStore, KeyvStoredData } from './keyv-types.js'
-import { OrPromise } from '@veramo/utils'
-
 
 /**
  * Please note that this is code adapted from @link https://github.com/jaredwray/keyv to support Typescript and ESM in Veramo
@@ -27,25 +25,28 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
   readonly namespace: string
   iterator?: (namespace?: string) => AsyncGenerator<any, void>
 
-  constructor(uri?: string | Map<string, Value | undefined> | KeyvStore<Value | undefined> | undefined, options?: KeyvOptions<Value>) {
+  constructor(
+    uri?: string | Map<string, Value | undefined> | KeyvStore<Value> | undefined,
+    options?: KeyvOptions<Value>,
+  ) {
     super()
     const emitErrors = options?.emitErrors === undefined ? true : options.emitErrors
     uri = uri ?? options?.uri
-    if (!uri) {
+    /*if (!uri) {
       throw Error('No URI provided')
-    }
+    }*/
     this.opts = {
       namespace: 'keyv',
       serialize: JSONB.stringify,
       deserialize: JSONB.parse,
-      ...((typeof uri === 'string') ? { uri } : uri),
+      ...(typeof uri === 'string' ? { uri } : uri),
       ...options,
     }
 
     if (!this.opts.store) {
       if (typeof uri !== 'string') {
         this.opts.store = uri as KeyvStore<Value | undefined>
-      }/* else {
+      } /* else {
         const adapterOptions = { ...this.opts }
         this.opts.store = loadStore(adapterOptions)
       }*/
@@ -61,36 +62,36 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
     }
 
     if (typeof this.opts.store.on === 'function' && emitErrors) {
-      this.opts.store.on('error', error => this.emit('error', error))
+      this.opts.store.on('error', (error) => this.emit('error', error))
     }
 
     this.opts.store.namespace = this.opts.namespace || 'keyv'
     this.namespace = this.opts.store.namespace
 
-    const generateIterator = (iterator: any, keyv: Keyv<any>) => async function* () {
-      for await (const [key, raw] of typeof iterator === 'function'
-        ? iterator(keyv.store.namespace)
-        : iterator) {
-        const data = await keyv.deserialize(raw)
-        if (keyv.store.namespace && !key.includes(keyv.store.namespace)) {
-          continue
-        }
+    const generateIterator = (iterator: any, keyv: Keyv<any>) =>
+      async function* () {
+        for await (const [key, raw] of typeof iterator === 'function'
+          ? iterator(keyv.store.namespace)
+          : iterator) {
+          const data = await keyv.deserialize(raw)
+          if (keyv.store.namespace && !key.includes(keyv.store.namespace)) {
+            continue
+          }
 
-        if (data && typeof data.expires === 'number' && Date.now() > data.expires) {
-          keyv.delete(key)
-          continue
-        }
+          if (data && typeof data.expires === 'number' && Date.now() > data.expires) {
+            keyv.delete(key)
+            continue
+          }
 
-        yield [keyv._getKeyUnprefix(key), data?.value]
+          yield [keyv._getKeyUnprefix(key), data?.value]
+        }
       }
-    }
 
     // Attach iterators
     // @ts-ignore
     if (typeof this.store[Symbol.iterator] === 'function' && this.store instanceof Map) {
       this.iterator = generateIterator(this.store, this)
-    } else if (typeof this.store.iterator === 'function' && this.store.opts
-      && this._checkIterableAdaptar()) {
+    } else if (typeof this.store.iterator === 'function' && this.store.opts && this._checkIterableAdapter()) {
       this.iterator = generateIterator(this.store.iterator.bind(this.store), this)
     }
   }
@@ -107,9 +108,12 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
     return this.opts.serialize!
   }
 
-  _checkIterableAdaptar() {
-    return (this.store.opts.dialect && iterableAdapters.includes(this.store.opts.dialect))
-      || (this.store.opts.url && iterableAdapters.findIndex(element => this.store.opts.url.includes(element)) >= 0)
+  _checkIterableAdapter() {
+    return (
+      (this.store.opts.dialect && iterableAdapters.includes(this.store.opts.dialect)) ||
+      (this.store.opts.url &&
+        iterableAdapters.findIndex((element) => this.store.opts.url.includes(element)) >= 0)
+    )
   }
 
   _getKeyPrefix(key: string): string {
@@ -117,63 +121,77 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
   }
 
   _getKeyPrefixArray(keys: string[]): string[] {
-    return keys.map(key => this._getKeyPrefix(key))
+    return keys.map((key) => this._getKeyPrefix(key))
   }
 
   _getKeyUnprefix(key: string): string {
-    return key
-      .split(':')
-      .splice(1)
-      .join(':')
+    return key.split(':').splice(1).join(':')
   }
 
-  getMany(keys: string[], options?: { raw?: boolean }): OrPromise<Array<KeyvStoredData<Value>> | undefined> {
-    if (this.store.getMany !== undefined) {
-      return this.store.getMany(this._getKeyPrefixArray(keys), options)
-      // todo: Probably wise to check expired ValueData here, if the getMany does not implement this feature itself!
-    }
-
+  async getMany(keys: string[], options?: { raw?: boolean }): Promise<Array<KeyvStoredData<Value>>> {
     const keyPrefixed = this._getKeyPrefixArray(keys)
-    const promises = []
-    for (const key of keyPrefixed) {
-      promises.push(Promise.resolve()
-        .then(() => this.store.get(key, options))
-        .then(data => (typeof data === 'string') ? this.deserialize(data) : (this.opts.compression ? this.deserialize(data) : data))
-        .then(data => {
-          if (data === undefined || data === null) {
-            return undefined
-          }
-
-          if (data && typeof data === 'object' && 'expires' in data && typeof data.expires === 'number' && Date.now() > data.expires) {
-            return this.delete(key).then(() => undefined)
-          }
-          return (options && options.raw) ? data : data && typeof data === 'object' && 'value' in data ? data.value : data
-        }),
-      )
+    let promise: Promise<Array<KeyvStoredData<Value>>>
+    if (this.store.getMany !== undefined) {
+      promise = (this.store.getMany(keyPrefixed, options) as Promise<KeyvStoredData<Value>[]>)//.then(value => !!value ? value.values() : undefined)
+      // todo: Probably wise to check expired ValueData here, if the getMany does not implement this feature itself!
+    } else {
+      promise = Promise.all(keyPrefixed.map(k => this.store.get(k, options) as Promise<KeyvStoredData<Value>>))
     }
+    const allValues = Promise.resolve(promise)
+    const results: Promise<KeyvStoredData<Value>>[] = []
 
 
-    return Promise.allSettled(promises)
-      .then(promiseResult => {
-        const data: KeyvStoredData<Value>[] = []
-        for (const result of promiseResult) {
-          if (result?.status !== 'rejected') {
-            Array.isArray(result.value) ? data.push(...result.value) : data.push(result.value)
-          } else {
-            data.push(undefined)
-          }
+    return Promise.resolve(allValues).then(all => {
+      keys.forEach((key, index) => {
+        const data = all[index]
+
+        let result = typeof data === 'string'
+          ? this.deserialize(data)
+          : !!data && this.opts.compression
+            ? this.deserialize(data)
+            : data
+
+        if (
+          result &&
+          typeof result === 'object' &&
+          'expires' in result &&
+          typeof result.expires === 'number' &&
+          Date.now() > result.expires
+        ) {
+          this.delete(key)
+          result = undefined
         }
-        return data
-      })
 
+        const final = (options && options.raw
+          ? result
+          : result && typeof result === 'object' && 'value' in result
+            ? result.value
+            : result) as Promise<KeyvStoredData<Value>>
+
+        results.push(final)
+      })
+    }).then(() => Promise.all(results))
   }
 
-  get(key: string | string[], options?: { raw?: boolean }): Promise<Value | string | KeyvDeserializedData<Value> | KeyvStoredData<Value>[] | undefined> {
+  async get(
+    key: string | string[],
+    options?: { raw?: boolean },
+  ): Promise<Value | string | KeyvDeserializedData<Value> | KeyvStoredData<Value>[] | undefined> {
     const isArray = Array.isArray(key)
     return Promise.resolve()
-      .then(() => isArray ? this.getMany(this._getKeyPrefixArray(key), options) : this.store.get(this._getKeyPrefix(key)))
-      .then(data => (typeof data === 'string') ? this.deserialize(data) : (this.opts.compression ? this.deserialize(data) : data))
-      .then(data => {
+      .then(() =>
+        isArray
+          ? this.getMany(this._getKeyPrefixArray(key), options)
+          : this.store.get(this._getKeyPrefix(key)),
+      )
+      .then((data) =>
+        typeof data === 'string'
+          ? this.deserialize(data)
+          : this.opts.compression
+            ? this.deserialize(data)
+            : data,
+      )
+      .then((data) => {
         if (data === undefined || data === null) {
           return undefined
         }
@@ -192,7 +210,7 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
               this.delete(key).then(() => undefined)
               result.push(undefined)
             } else {
-              result.push((options && options.raw) ? row : toValue(row))
+              result.push(options && options.raw ? row : toValue(row))
             }
           }
 
@@ -203,15 +221,26 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
           }
         }
 
-        return (options && options.raw) ? data : Array.isArray(data) ? data.map(d => toValue(d)) : toValue(data)
+        return options && options.raw
+          ? data
+          : Array.isArray(data)
+            ? data.map((d) => toValue(d))
+            : toValue(data)
       })
   }
 
   private isExpired(data: KeyvDeserializedData<any> | string | Value): boolean {
-    return typeof data !== 'string' && data && typeof data === 'object' && 'expires' in data && typeof data.expires === 'number' && (Date.now() > data.expires)
+    return (
+      typeof data !== 'string' &&
+      data &&
+      typeof data === 'object' &&
+      'expires' in data &&
+      typeof data.expires === 'number' &&
+      Date.now() > data.expires
+    )
   }
 
-  set(key: string, value: any, ttl?: number) {
+  set(key: string, value: Value, ttl?: number) {
     const keyPrefixed = this._getKeyPrefix(key)
     if (typeof ttl === 'undefined') {
       ttl = this.opts.ttl
@@ -223,7 +252,7 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
     // @ts-ignore
     return Promise.resolve()
       .then(() => {
-        const expires = (typeof ttl === 'number') ? (Date.now() + ttl) : undefined
+        const expires = typeof ttl === 'number' ? Date.now() + ttl : undefined
         if (typeof value === 'symbol') {
           this.emit('error', 'symbol cannot be serialized')
         }
@@ -231,21 +260,19 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
         const input = { value, expires }
         return this.serialize(input)
       })
-      .then(value => this.store.set(keyPrefixed, value as Value, ttl))
+      .then((value) => this.store.set(keyPrefixed, value as Value, ttl))
       .then(() => true)
   }
 
   delete(key: string | string[]) {
     if (!Array.isArray(key)) {
       const keyPrefixed = this._getKeyPrefix(key)
-      return Promise.resolve()
-        .then(() => this.store.delete(keyPrefixed))
+      return Promise.resolve().then(() => this.store.delete(keyPrefixed))
     }
 
     const keyPrefixed = this._getKeyPrefixArray(key)
     if (this.store.deleteMany !== undefined) {
-      return Promise.resolve()
-        .then(() => this.store.deleteMany!(keyPrefixed))
+      return Promise.resolve().then(() => this.store.deleteMany!(keyPrefixed))
     }
 
     const promises = []
@@ -253,26 +280,23 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
       promises.push(this.store.delete(key))
     }
 
-    return Promise.allSettled(promises)
-      .then(values => values.every(x => x.valueOf() === true))
+    return Promise.allSettled(promises).then((values) => values.every((x) => x.valueOf() === true))
   }
 
   async clear(): Promise<void> {
-    return Promise.resolve()
-      .then(() => this.store.clear())
+    return Promise.resolve().then(() => this.store.clear())
   }
 
   has(key: string) {
     const keyPrefixed = this._getKeyPrefix(key)
-    return Promise.resolve()
-      .then(async () => {
-        if (typeof this.store.has === 'function') {
-          return this.store.has(keyPrefixed)
-        }
+    return Promise.resolve().then(async () => {
+      if (typeof this.store.has === 'function') {
+        return this.store.has(keyPrefixed)
+      }
 
-        const value = await this.store.get(keyPrefixed)
-        return value !== undefined
-      })
+      const value = await this.store.get(keyPrefixed)
+      return value !== undefined
+    })
   }
 
   disconnect() {
@@ -282,45 +306,7 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
   }
 }
 
-/*
-const loadStore = (options: KeyvOptions<any>) => {
-  const store-adapters = {
-    redis: '@keyv/redis',
-    rediss: '@keyv/redis',
-    mongodb: '@keyv/mongo',
-    mongo: '@keyv/mongo',
-    sqlite: '@keyv/sqlite',
-    postgresql: '@keyv/postgres',
-    postgres: '@keyv/postgres',
-    mysql: '@keyv/mysql',
-    etcd: '@keyv/etcd',
-    offline: '@keyv/offline',
-    tiered: './tiered/index.js',
-  }
-  let adapter = options.adapter
-  if (!adapter && options.uri) {
-    const regex = /^[^:+]*!/
-    if (regex) {
-      const match = regex.exec(options.uri)
-      adapter = Array.isArray(match) ? match[0] : undefined
-    }
-  }
-  if (adapter) {
-    // @ts-ignore
-    return new (import(store-adapters[adapter]))(options)
-  }
-
-  return new Map()
-}
-*/
-const iterableAdapters = [
-  'sqlite',
-  'postgres',
-  'mysql',
-  'mongo',
-  'redis',
-  'tiered',
-]
+const iterableAdapters = ['sqlite', 'postgres', 'mysql', 'mongo', 'redis', 'tiered']
 
 function toValue<Value>(input: KeyvDeserializedData<Value> | string | Value) {
   return input !== null && typeof input === 'object' && 'value' in input ? input.value : input

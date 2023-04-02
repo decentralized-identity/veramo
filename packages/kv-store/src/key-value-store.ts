@@ -1,14 +1,8 @@
-import { IAgentPlugin } from '@veramo/core-types'
 import {
-  IValueData,
   IKeyValueStore,
-  IKeyValueStoreDeleteArgs,
-  IKeyValueStoreDeleteManyArgs,
-  IKeyValueStoreGetArgs,
-  IKeyValueStoreGetManyArgs,
-  IKeyValueStoreHasArgs,
-  IKeyValueStoreOnArgs, IKeyValueStoreOptions,
-  IKeyValueStoreSetArgs,
+  IKeyValueStoreOnArgs,
+  IKeyValueStoreOptions,
+  IValueData,
 } from './key-value-types.js'
 import { Keyv } from './keyv/keyv.js'
 import { KeyvDeserializedData, KeyvOptions, KeyvStoredData } from './keyv/keyv-types.js'
@@ -17,12 +11,7 @@ import { KeyvDeserializedData, KeyvOptions, KeyvStoredData } from './keyv/keyv-t
  * Agent plugin that implements {@link @veramo/core-types#IKeyValueStore} interface
  * @public
  */
-export class KeyValueStore implements IAgentPlugin {
-  /**
-   * Plugin methods
-   * @public
-   */
-  readonly methods: IKeyValueStore
+export class KeyValueStore<ValueType> implements IKeyValueStore<ValueType> {
 
   /**
    * The main keyv typescript port which delegates to the storage adapters and takes care of some common functionality
@@ -31,33 +20,22 @@ export class KeyValueStore implements IAgentPlugin {
    */
   private readonly keyv: Keyv<ValueType>
 
-
   constructor(options: IKeyValueStoreOptions<ValueType>) {
-    this.methods = {
-      kvStoreGet: this.kvStoreGet.bind(this),
-      kvStoreGetAsValueData: this.kvStoreGetAsValueData.bind(this),
-      kvStoreGetMany: this.kvStoreGetMany.bind(this),
-      kvStoreGetManyAsValueData: this.kvStoreGetManyAsValueData.bind(this),
-      kvStoreSet: this.kvStoreSet.bind(this),
-      kvStoreHas: this.kvStoreHas.bind(this),
-      kvStoreDelete: this.kvStoreDelete.bind(this),
-      kvStoreDeleteMany: this.kvStoreDeleteMany.bind(this),
-      kvStoreClear: this.kvStoreClear.bind(this),
-      kvStoreDisconnect: this.kvStoreDisconnect.bind(this),
-    }
     this.keyv = new Keyv(options.uri, options as KeyvOptions<ValueType>)
   }
 
-  private async kvStoreGet<ValueType>(args: IKeyValueStoreGetArgs): Promise<ValueType | undefined> {
-    const result = await this.keyv.get(args.key, { raw: true })
+  async get(key: string): Promise<ValueType | undefined> {
+    const result = await this.keyv.get(key, { raw: false })
     if (result === null || result === undefined) {
       return undefined
     }
     return result as ValueType
   }
 
-  private async kvStoreGetAsValueData<ValueType>(args: IKeyValueStoreGetArgs): Promise<IValueData<ValueType>> {
-    const result = await this.keyv.get(args.key, { raw: false })
+  async getAsValueData(
+    key: string,
+  ): Promise<IValueData<ValueType>> {
+    const result = await this.keyv.get(key, { raw: true })
     if (result === null || result === undefined) {
       // We always return a ValueData object for this method
       return { value: undefined, expires: undefined }
@@ -65,70 +43,74 @@ export class KeyValueStore implements IAgentPlugin {
     return this.toDeserializedValueData(result)
   }
 
-  private async kvStoreGetMany<ValueType>(args: IKeyValueStoreGetManyArgs): Promise<Array<ValueType | undefined>> {
-    if (!args.keys || args.keys.length === 0) {
+  async getMany(keys: string[]): Promise<Array<ValueType | undefined>> {
+    if (!keys || keys.length === 0) {
       return []
     }
-    let result = await this.keyv.getMany(args.keys, { raw: true })
+    let result = await this.keyv.getMany(keys, { raw: false })
 
     // Making sure we return the same array length as the amount of key(s) passed in
     if (result === null || result === undefined || result.length === 0) {
       result = new Array<ValueType | undefined>()
-      for (const key of args.keys) {
+      for (const key of keys) {
         result.push(undefined)
       }
     }
-    return result.map(v => !!v ? v as ValueType : undefined)
+    return result.map((v) => (!!v ? (v as ValueType) : undefined))
   }
 
-  private async kvStoreGetManyAsValueData<ValueType>(args: IKeyValueStoreGetManyArgs): Promise<Array<IValueData<ValueType>>> {
-    if (!args.keys || args.keys.length === 0) {
+  async getManyAsValueData(
+    keys: string[],
+  ): Promise<Array<IValueData<ValueType>>> {
+    if (!keys || keys.length === 0) {
       return []
     }
-    let result = await this.keyv.getMany(args.keys, { raw: false })
+    let result = await this.keyv.getMany(keys, { raw: true })
 
     // Making sure we return the same array length as the amount of key(s) passed in
     if (result === null || result === undefined || result.length === 0) {
       result = new Array<KeyvStoredData<ValueType>>()
-      for (const key of args.keys) {
+      for (const key of keys) {
         result.push({ value: undefined, expires: undefined } as KeyvDeserializedData<ValueType>)
       }
     }
-    return result.map(v => !!v ? this.toDeserializedValueData(v) : { value: undefined, expires: undefined })
+    return result.map((v) =>
+      !!v ? this.toDeserializedValueData(v) : { value: undefined, expires: undefined },
+    )
   }
 
-  private async kvStoreSet<ValueType>(args: IKeyValueStoreSetArgs<ValueType>): Promise<boolean> {
-    return await this.keyv.set(args.key, args.value, args.ttl)
+  async set(
+    key: string, value: ValueType, ttl?: number,
+  ): Promise<IValueData<ValueType>> {
+    return this.keyv.set(key, value, ttl).then(() =>
+      this.getAsValueData(key),
+    )
   }
 
-
-  private async kvStoreHas(args: IKeyValueStoreHasArgs): Promise<boolean> {
-    return await this.keyv.has(args.key)
+  async has(key: string): Promise<boolean> {
+    return this.keyv.has(key)
   }
 
-  private async kvStoreDelete(args: IKeyValueStoreDeleteArgs): Promise<boolean> {
-    return await this.keyv.delete(args.key)
+  async delete(key: string): Promise<boolean> {
+    return this.keyv.delete(key)
   }
 
-
-  private async kvStoreDeleteMany(args: IKeyValueStoreDeleteManyArgs): Promise<boolean> {
-    return await this.keyv.delete(args.keys)
+  async deleteMany(keys: string[]): Promise<boolean[]> {
+    return Promise.all(keys.map(key => this.keyv.delete(key)))
   }
 
-
-  private async kvStoreClear(): Promise<IKeyValueStore> {
-    await this.keyv.clear()
-    return this.methods
+  async clear(): Promise<IKeyValueStore<ValueType>> {
+    return this.keyv.clear().then(() => this)
   }
 
-  private async kvStoreDisconnect(): Promise<void> {
+  async disconnect(): Promise<void> {
     return this.keyv.disconnect()
   }
 
   // Public so parties using the kv store directly can add listeners if they want
-  public async kvStoreOn(args: IKeyValueStoreOnArgs): Promise<IKeyValueStore> {
+  async kvStoreOn(args: IKeyValueStoreOnArgs): Promise<IKeyValueStore<ValueType>> {
     this.keyv.on(args.eventName, args.listener)
-    return this.methods
+    return this
   }
 
   private toDeserializedValueData<ValueType>(result: any): IValueData<ValueType> {
@@ -138,6 +120,9 @@ export class KeyValueStore implements IAgentPlugin {
       return { value: result, expires: undefined }
     } else if (!('value' in result)) {
       return { value: result, expires: undefined }
+    }
+    if (!('expires' in result)) {
+      result.expires = undefined
     }
     return result as IValueData<ValueType>
   }

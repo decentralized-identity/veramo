@@ -5,12 +5,16 @@ import { KeyValueStoreEntity } from './entities/keyValueStoreEntity.js'
 import { KeyValueTypeORMOptions, Options_ } from './types.js'
 import { KeyvStore, KeyvStoredData } from '../../keyv/keyv-types.js'
 import { IKeyValueStoreAdapter } from '../../key-value-types.js'
+import JSONB from 'json-buffer'
 
 export { KeyValueTypeORMOptions } from './types.js'
-export class KeyValueTypeORMStoreAdapter extends EventEmitter implements KeyvStore<string>, IKeyValueStoreAdapter<string> {
+
+export class KeyValueTypeORMStoreAdapter
+  extends EventEmitter
+  implements KeyvStore<string>, IKeyValueStoreAdapter<string> {
   private readonly dbConnection: OrPromise<DataSource>
   readonly namespace: string
-  opts: Options_
+  opts: Options_<string>
 
   constructor(options: KeyValueTypeORMOptions) {
     super()
@@ -19,11 +23,16 @@ export class KeyValueTypeORMStoreAdapter extends EventEmitter implements KeyvSto
     this.opts = {
       validator: () => true,
       dialect: 'typeorm',
+      serialize: JSONB.stringify,
+      deserialize: JSONB.parse,
       ...options,
     }
   }
 
-  async get(key: string | string[], options?: { raw?: boolean }): Promise<KeyvStoredData<string> | Array<KeyvStoredData<string>>> {
+  async get(
+    key: string | string[],
+    options?: { raw?: boolean },
+  ): Promise<KeyvStoredData<string> | Array<KeyvStoredData<string>>> {
     if (Array.isArray(key)) {
       return this.getMany(key, options)
     }
@@ -31,7 +40,9 @@ export class KeyValueTypeORMStoreAdapter extends EventEmitter implements KeyvSto
     const result = await connection.getRepository(KeyValueStoreEntity).findOneBy({
       key,
     })
-    return options?.raw !== true || !result ? result?.value : { value: result?.value, expires: result?.expires }
+    return options?.raw !== true || !result
+      ? result?.data
+      : { value: result?.data, expires: result?.expires }
   }
 
   async getMany(keys: string[], options?: { raw?: boolean }): Promise<Array<KeyvStoredData<string>>> {
@@ -39,17 +50,24 @@ export class KeyValueTypeORMStoreAdapter extends EventEmitter implements KeyvSto
     const results = await connection.getRepository(KeyValueStoreEntity).findBy({
       key: In(keys),
     })
-    return results.filter(result => !!result.value).map(result => options?.raw || !result ? result?.value : {
-      value: result?.value,
-      expires: result?.expires,
+    const values = keys.map(async key => {
+      const result = results.find(result => result.key === key)
+      return options?.raw !== true || !result
+        ? result?.data as KeyvStoredData<string>
+        : {
+          value: result?.data ? (await this.opts.deserialize(result.data))?.value : undefined,
+          expires: result?.expires,
+        } as KeyvStoredData<string>
     })
+
+    return Promise.all(values)
   }
 
   async set(key: string, value: string, ttl?: number): Promise<KeyvStoredData<string>> {
     const connection = await getConnectedDb(this.dbConnection)
     const entity = new KeyValueStoreEntity()
     entity.key = key
-    entity.value = value
+    entity.data = value
     entity.expires = ttl
     await connection.getRepository(KeyValueStoreEntity).save(entity)
     return { value: value, expires: ttl }
@@ -89,10 +107,9 @@ export class KeyValueTypeORMStoreAdapter extends EventEmitter implements KeyvSto
 
   async disconnect(): Promise<void> {
     const connection = await getConnectedDb(this.dbConnection)
-    await connection.destroy()
+    connection.destroy()
   }
 }
-
 
 /**
  *  Ensures that the provided DataSource is connected.

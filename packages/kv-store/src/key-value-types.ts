@@ -1,20 +1,18 @@
-import { IPluginMethodMap } from '@veramo/core-types'
-
 /**
  * This is how the store will actually store the value.
  * It contains an optional `expires` property, which indicates when the value would expire
  */
 export interface IValueData<ValueType> {
-  value: ValueType | undefined;
-  expires: number | undefined;
+  value: ValueType | undefined
+  expires: number | undefined
 }
 
 export interface IKeyValueStoreOnArgs {
-  eventName: string | symbol,
+  eventName: string | symbol
   listener: (...args: any[]) => void
 }
 
-export interface IKeyValueStoreGetArgs {
+/*export interface IKeyValueStoreGetArgs {
   key: string
 }
 
@@ -35,27 +33,27 @@ export interface IKeyValueStoreDeleteManyArgs {
 }
 
 export interface IKeyValueStoreSetArgs<ValueType> {
-  key: string,
-  value: ValueType,
+  key: string
+  value: ValueType
   ttl?: number
-}
+}*/
 
 export interface IKeyValueStoreOptions<ValueType> {
-  [key: string]: any;
+  [key: string]: any
 
   /** Namespace for the current instance. */
-  namespace?: string | undefined;
+  namespace?: string | undefined
 
   /** A custom serialization function. */
   /*serialize?: ((data: KeyvDeserializedData<ValueType>) => OrPromise<string | undefined>)
   /!** A custom deserialization function. *!/
   deserialize?: ((data: any) => OrPromise<KeyvDeserializedData<ValueType> | undefined>);*/
   /** The connection string URI. */
-  uri?: string | undefined;
+  uri?: string | undefined
   /** The storage adapter instance to be used by Keyv. or any other implementation */
-  store: IKeyValueStoreAdapter<ValueType>;
+  store: IKeyValueStoreAdapter<ValueType> | Map<string, ValueType>
   /** Default TTL. Can be overridden by specifying a TTL on `.set()`. */
-  ttl?: number | undefined;
+  ttl?: number | undefined
 
   /** Enable compression option **/
   /*compression?: KeyvCompressionAdapter | undefined;*/
@@ -67,40 +65,33 @@ export interface IKeyValueStoreAdapter<ValueType> {
   namespace?: string | undefined
 }
 
-
-export interface IKeyValueStore extends IPluginMethodMap {
-
+export interface IKeyValueStore<ValueType> {
   /**
    * Get a single value by key. Can be undefined as the underlying store typically will not throw an error for a non existing key
    *
-   * @param args Contains the key to search for
+   * @param key Contains the key to search for
    */
-  kvStoreGet<ValueType>(args: IKeyValueStoreGetArgs): Promise<ValueType | undefined>
+  get(key: string): Promise<ValueType | undefined>
 
   /**
    * Get a single item as Value Data from the store. Will always return a Value Data Object, but the value in it can be undefined in case the actual store does not contain the value
-   * @param args Contains the key to search for
+   * @param key Contains the key to search for
    */
-  kvStoreGetAsValueData<ValueType>(args: IKeyValueStoreGetArgs): Promise<IValueData<ValueType>>
+  getAsValueData(key: string): Promise<IValueData<ValueType>>
 
-  kvStoreGetMany<ValueType>(
-    args: IKeyValueStoreGetManyArgs,
-  ): Promise<Array<ValueType | undefined>>;
+  getMany(keys: string[]): Promise<Array<ValueType | undefined>>
 
-  kvStoreGetManyAsValueData<ValueType>(
-    args: IKeyValueStoreGetManyArgs,
-  ): Promise<Array<IValueData<ValueType>>>;
+  getManyAsValueData(keys: string[]): Promise<Array<IValueData<ValueType>>>
 
-  kvStoreSet<ValueType>(args: IKeyValueStoreSetArgs<ValueType>): Promise<any>;
+  set(key: string, value: ValueType, ttl?: number): Promise<IValueData<ValueType>>
 
-  kvStoreDelete(args: IKeyValueStoreDeleteArgs): Promise<boolean>;
+  delete(key: string): Promise<boolean>
 
-  kvStoreDeleteMany(args: IKeyValueStoreDeleteManyArgs): Promise<boolean>;
+  deleteMany(keys: string[]): Promise<boolean[]>
 
-  kvStoreClear(): Promise<IKeyValueStore>;
+  clear(): Promise<IKeyValueStore<ValueType>>
 
-  kvStoreHas(args: IKeyValueStoreHasArgs): Promise<boolean>;
+  has(key: string): Promise<boolean>
 
-  kvStoreDisconnect(): Promise<void>
-
+  disconnect(): Promise<void>
 }

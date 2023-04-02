@@ -5,6 +5,6 @@
  * @packageDocumentation
  */
 export { KeyValueStore } from './key-value-store.js'
-export * from './store-adapters/tiered'
-export * from './store-adapters/typeorm'
+export * from './store-adapters/tiered/index.js'
+export * from './store-adapters/typeorm/index.js'
 export * from './key-value-types.js'

@@ -15,14 +15,16 @@
     "@veramo/core-types": "workspace:*",
     "@veramo/utils": "workspace:*",
     "events": "^3.3.0",
+    "debug": "^4.3.4",
     "json-buffer": "^3.0.1",
     "typeorm": "^0.3.10",
     "uint8arrays": "^3.1.1"
   },
   "devDependencies": {
     "@types/json-buffer": "^3.0.0",
+    "@types/debug": "^4.1.7",
     "keyv": "^4.5.2",
-    "@keyv/test-suite": "*",
+    "@keyv/test-suite": "^1.9.1",
     "@keyv/sqlite": "^3.6.5",
     "@keyv/mongo": "^2.1.8",
     "@keyv/compress-brotli": "^1.1.3",

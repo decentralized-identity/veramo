@@ -69,6 +69,7 @@ store and potentially more expensive/slower remote store
 
 ````typescript
 import {
+  kvStoreMigrations,
   IKeyValueStore,
   IKeyValueStoreOptions,
   KeyValueStore,
@@ -77,14 +78,14 @@ import {
   KeyValueTypeORMStoreAdapter
 } from '@veramo/key-value-store'
 import { DataSource } from 'typeorm'
-import { KeyValueTieredStoreAdapter } from './index'
 
-const dbConnection: DataSource = await new DataSource({
+dbConnection = await new DataSource({
   type: 'sqlite',
   database: ':memory:',
   logging: 'all',
   migrationsRun: true,
   synchronize: false,
+  migrations: [...kvStoreMigrations],
   entities: [KeyValueStoreEntity],
 }).initialize()
 
