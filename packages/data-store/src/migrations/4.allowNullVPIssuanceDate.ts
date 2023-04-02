@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 import { Presentation } from '../index.js'
 import Debug from 'debug'
+import { migrationGetExistingTableByName } from './migration-functions.js'
 
 const debug = Debug('veramo:data-store:migrate-presentation-issuance-date')
 
@@ -10,12 +11,8 @@ const debug = Debug('veramo:data-store:migrate-presentation-issuance-date')
  * @public
  */
 export class AllowNullIssuanceDateForPresentations1637237492913 implements MigrationInterface {
-  private getTableName(givenName: string, queryRunner: QueryRunner): string {
-    return (
-      queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)?.tableName ||
-      givenName
-    )
-  }
+
+  name = 'AllowNullIssuanceDateForPresentations1637237492913' // Used in case this class gets minified, which would change the classname
 
   async up(queryRunner: QueryRunner): Promise<void> {
     if (queryRunner.connection.driver.options.type === 'sqlite') {
@@ -26,9 +23,8 @@ export class AllowNullIssuanceDateForPresentations1637237492913 implements Migra
       await queryRunner.startTransaction()
     }
 
-    const tableName = this.getTableName('presentation', queryRunner)
     // update issuanceDate column
-    let table = await queryRunner.getTable(tableName)
+    const table = migrationGetExistingTableByName(queryRunner, 'presentation')
     const oldColumn = table?.findColumnByName('issuanceDate')!
     const newColumn = oldColumn.clone()
     newColumn.isNullable = true
@@ -53,8 +49,9 @@ export class AllowNullIssuanceDateForPresentations1637237492913 implements Migra
       await queryRunner.query('PRAGMA foreign_keys=off')
       await queryRunner.startTransaction()
     }
-    const tableName = this.getTableName('presentation', queryRunner)
-    debug(`DOWN update NULL 'issuanceDate' with FAKE data for '${tableName}' table`)
+
+    const table = migrationGetExistingTableByName(queryRunner, 'presentation')
+    debug(`DOWN update NULL 'issuanceDate' with FAKE data for '${table.name}' table`)
     await queryRunner.manager
       .createQueryBuilder()
       .update(Presentation)
@@ -62,7 +59,7 @@ export class AllowNullIssuanceDateForPresentations1637237492913 implements Migra
       .where('issuanceDate is NULL')
       .execute()
     // update issuanceDate column
-    let table = await queryRunner.getTable(tableName)
+
     const oldColumn = table?.findColumnByName('issuanceDate')!
     const newColumn = oldColumn.clone()
     newColumn.isNullable = false

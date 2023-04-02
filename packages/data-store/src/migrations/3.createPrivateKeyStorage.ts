@@ -2,6 +2,8 @@ import { MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm'
 import { PrivateKey } from '../index.js'
 import { PreMigrationKey } from '../entities/PreMigrationEntities.js'
 import Debug from 'debug'
+import { migrationGetExistingTableByName, migrationGetTableName } from './migration-functions.js'
+
 const debug = Debug('veramo:data-store:migrate-private-keys')
 
 /**
@@ -10,18 +12,15 @@ const debug = Debug('veramo:data-store:migrate-private-keys')
  * @public
  */
 export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface {
+
+  name = 'CreatePrivateKeyStorage1629293428674' // Used in case this class gets minified, which would change the classname
+
   async up(queryRunner: QueryRunner): Promise<void> {
-    function getTableName(givenName: string): string {
-      return (
-        queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)?.tableName ||
-        givenName
-      )
-    }
     // 1.create new table
     debug(`creating new private-key table`)
     await queryRunner.createTable(
       new Table({
-        name: getTableName('private-key'),
+        name: migrationGetTableName(queryRunner, 'private-key'),
         columns: [
           {
             name: 'alias',
@@ -54,23 +53,19 @@ export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface 
     await queryRunner.manager
       .createQueryBuilder()
       .insert()
-      .into(getTableName('private-key'))
+      .into(migrationGetTableName(queryRunner, 'private-key'))
       .values(privKeys)
       .execute()
     // 3. drop old column
     debug(`dropping privKeyHex column from old key table`)
-    await queryRunner.dropColumn(getTableName('key'), 'privateKeyHex')
+    await queryRunner.dropColumn(migrationGetExistingTableByName(queryRunner, 'PreMigrationKey', true), 'privateKeyHex')
     //4. done
     debug(`migrated ${privKeys.length} keys to private key storage`)
+
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
-    function getTableName(givenName: string): string {
-      return (
-        queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)?.tableName ||
-        givenName
-      )
-    }
+
     // 1. add old column back
     debug(`adding back privateKeyHex column to key table`)
     await queryRunner.addColumn(
@@ -95,7 +90,7 @@ export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface 
     }
     debug(`dropping private-key table`)
     // 3. drop the new private key table
-    await queryRunner.dropTable(getTableName('private-key'))
+    await queryRunner.dropTable(migrationGetExistingTableByName(queryRunner, 'private-key'))
     // 4. done
     debug(`rolled back ${keys.length} keys`)
   }
