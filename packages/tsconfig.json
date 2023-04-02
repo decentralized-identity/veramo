@@ -2,7 +2,7 @@
   "files": [],
   "references": [
     { "path": "core" },
-    { "path": "core-types" }
+    { "path": "core-types" },
     { "path": "credential-eip712" },
     { "path": "credential-ld" },
     { "path": "credential-status"},
@@ -22,6 +22,7 @@
     { "path": "key-manager" },
     { "path": "kms-local" },
     { "path": "kms-web3" },
+    { "path": "kv-store" },
     { "path": "message-handler" },
     { "path": "remote-client" },
     { "path": "remote-server" },

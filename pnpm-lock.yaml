@@ -828,10 +828,12 @@ importers:
       '@keyv/compress-gzip': ^1.2.3
       '@keyv/mongo': ^2.1.8
       '@keyv/sqlite': ^3.6.5
-      '@keyv/test-suite': '*'
+      '@keyv/test-suite': ^1.9.1
+      '@types/debug': ^4.1.7
       '@types/json-buffer': ^3.0.0
       '@veramo/core-types': workspace:*
       '@veramo/utils': workspace:*
+      debug: ^4.3.4
       eslint: ^8.33.0
       eslint-plugin-promise: ^6.1.1
       events: ^3.3.0
@@ -844,6 +846,7 @@ importers:
     dependencies:
       '@veramo/core-types': link:../core-types
       '@veramo/utils': link:../utils
+      debug: 4.3.4
       events: 3.3.0
       json-buffer: 3.0.1
       typeorm: 0.3.12
@@ -854,6 +857,7 @@ importers:
       '@keyv/mongo': 2.1.8
       '@keyv/sqlite': 3.6.5
       '@keyv/test-suite': 1.9.1
+      '@types/debug': 4.1.7
       '@types/json-buffer': 3.0.0
       eslint: 8.36.0
       eslint-plugin-promise: 6.1.1_eslint@8.36.0
