@@ -88,10 +88,12 @@ export class FakeDidProvider extends AbstractIdentifierProvider {
 }
 
 export class FakeDidResolver {
-  getAgent: () => TAgent<IDIDManager>
+  getAgent: () => TAgent<IDIDManager>  
+  private force2020: boolean
 
-  constructor(getAgent: () => TAgent<IDIDManager>) {
-    this.getAgent = getAgent
+  constructor(getAgent: () => TAgent<IDIDManager>, force2020: boolean = false) {
+    this.getAgent = getAgent    
+    this.force2020 = force2020
   }
 
   resolveFakeDid: DIDResolver = async (
@@ -111,10 +113,10 @@ export class FakeDidResolver {
             vm.type = 'EcdsaSecp256k1VerificationKey2019'
             break
           case 'Ed25519':
-            vm.type = 'Ed25519VerificationKey2018'
+            vm.type = this.force2020 ? 'Ed25519VerificationKey2020' : 'Ed25519VerificationKey2018'
             break
           case 'X25519':
-            vm.type = 'X25519KeyAgreementKey2019'
+            vm.type = this.force2020 ? 'X25519KeyAgreementKey2020' :'X25519KeyAgreementKey2019'
             break
           default:
             break
