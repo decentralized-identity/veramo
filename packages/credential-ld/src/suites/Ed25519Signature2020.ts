@@ -11,9 +11,6 @@ import { bytesToMultibase, hexToBytes } from '@veramo/utils'
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
 export class VeramoEd25519Signature2020 extends VeramoLdSignature {
-  private readonly MULTIBASE_BASE58BTC_PREFIX = 'z'
-  private readonly MULTICODEC_PREFIX = [0xed, 0x01]
-
   getSupportedVerificationType(): string {
     return 'Ed25519VerificationKey2020'
   }
