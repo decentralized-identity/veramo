@@ -36,7 +36,11 @@ export class LdCredentialModule {
     this.ldSuiteLoader = options.ldSuiteLoader
   }
 
-  getDocumentLoader(context: IAgentContext<IResolver>, attemptToFetchContexts: boolean = false) {
+  getDocumentLoader(
+    context: IAgentContext<IResolver>,
+    attemptToFetchContexts: boolean = false,
+    resolveFragments: boolean = false,
+  ) {
     return extendContextLoader(async (url: string) => {
       // console.log(`resolving context for: ${url}`)
 
@@ -50,7 +54,7 @@ export class LdCredentialModule {
         let result: any = didDoc
 
         // check if the URL refers to a key or a service endpoint (URL has a fragment)
-        if (url.includes('#')) {
+        if (resolveFragments && url.includes('#')) {
           try {
             result = await context.agent.getDIDComponentById({ didDocument: didDoc, didUrl: url })
           } catch (e: any) {
