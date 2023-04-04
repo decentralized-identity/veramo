@@ -86,7 +86,7 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
 function compareBlockchainAccountId(localKey: IKey, verificationMethod: VerificationMethod): boolean {
   if (
     (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' &&
-      verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2019') ||
+      verificationMethod.type !== 'EcdsaSecp256k1VerificationKey2019') ||
     localKey.type !== 'Secp256k1'
   ) {
     return false
@@ -324,7 +324,7 @@ export async function dereferenceDidKeys(
       // Should type of `newKey` change?
       if (convert && 'Ed25519VerificationKey2018' === newKey.type) {
         newKey.type = 'X25519KeyAgreementKey2019'
-      } else if (convert && 'Ed25519VerificationKey2020' === newKey.type) {
+      } else if (convert && ['Ed25519VerificationKey2020', 'JsonWebKey2020'].includes(newKey.type)) {
         newKey.type = 'X25519KeyAgreementKey2020'
       }
 
