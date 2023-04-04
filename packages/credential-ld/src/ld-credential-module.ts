@@ -10,6 +10,7 @@ import {
 import fetch from 'cross-fetch'
 import Debug from 'debug'
 import jsonldSignatures from '@digitalcredentials/jsonld-signatures'
+
 const { extendContextLoader } = jsonldSignatures
 import * as vc from '@digitalcredentials/vc'
 import { LdContextLoader } from './ld-context-loader.js'
@@ -35,7 +36,11 @@ export class LdCredentialModule {
     this.ldSuiteLoader = options.ldSuiteLoader
   }
 
-  getDocumentLoader(context: IAgentContext<IResolver>, attemptToFetchContexts: boolean = false) {
+  getDocumentLoader(
+    context: IAgentContext<IResolver>,
+    attemptToFetchContexts: boolean = false,
+    resolveFragments: boolean = false,
+  ) {
     return extendContextLoader(async (url: string) => {
       // console.log(`resolving context for: ${url}`)
 
@@ -46,16 +51,27 @@ export class LdCredentialModule {
 
         if (!didDoc) return
 
+        let result: any = didDoc
+
+        // check if the URL refers to a key or a service endpoint (URL has a fragment)
+        if (resolveFragments && url.includes('#')) {
+          try {
+            result = await context.agent.getDIDComponentById({ didDocument: didDoc, didUrl: url })
+          } catch (e: any) {
+            debug(`document loader could not locate DID component by fragment: ${url}`)
+          }
+        }
+
         // currently, Veramo LD suites can modify the resolution response for DIDs from
         // the document Loader. This allows us to fix incompatibilities between DID Documents
         // and LD suites to be fixed specifically within the Veramo LD Suites definition
-        this.ldSuiteLoader.getAllSignatureSuites().forEach((x) => x.preDidResolutionModification(url, didDoc))
+        this.ldSuiteLoader.getAllSignatureSuites().forEach((x) => x.preDidResolutionModification(url, result))
 
         // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
         return {
           contextUrl: null,
           documentUrl: url,
-          document: didDoc,
+          document: result,
         }
       }
 
@@ -102,7 +118,10 @@ export class LdCredentialModule {
     options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiableCredential> {
-    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type, key.meta?.verificationMethod?.type ?? '')
+    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(
+      key.type,
+      key.meta?.verificationMethod?.type ?? '',
+    )
     const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     // some suites can modify the incoming credential (e.g. add required contexts)
@@ -127,7 +146,10 @@ export class LdCredentialModule {
     options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiablePresentation> {
-    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(key.type, key.meta?.verificationMethod?.type ?? '')
+    const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(
+      key.type,
+      key.meta?.verificationMethod?.type ?? '',
+    )
     const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     suite.preSigningPresModification(presentation)

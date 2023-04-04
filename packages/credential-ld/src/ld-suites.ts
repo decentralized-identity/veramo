@@ -1,5 +1,6 @@
 import {
   CredentialPayload,
+  DIDDocComponent,
   IAgentContext,
   IKey,
   IKeyManager,
@@ -35,7 +36,7 @@ export abstract class VeramoLdSignature {
 
   abstract getSuiteForVerification(): any
 
-  abstract preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void
+  abstract preDidResolutionModification(didUrl: string, didDoc: DIDDocument | DIDDocComponent): void
 
   abstract preSigningCredModification(credential: CredentialPayload): void
 
