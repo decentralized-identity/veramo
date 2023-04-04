@@ -47,7 +47,7 @@ const multiBaseDoc = {
     {
       "controller": "did:web:portcullis.1keep.com",
       "id": "did:web:portcullis.1keep.com#1",
-      "publicKeyMultibase": "z7bNjXnt3EXhpy7UdzZUANa2CsBFpzKGFXsgvkBd9iHGo",
+      "publicKeyMultibase": "z6LSpSrLxbAhg2SHwKk7kwpsH7DM7QjFS5iK6qP87eViohud",
       "type": "X25519KeyAgreementKey2020"
     }
   ]
