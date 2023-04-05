@@ -39,9 +39,9 @@
     "access": "public"
   },
   "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Alex Andrei - roots.id",
+  "author": "Nick Reynolds <nick.reynolds@mesh.xyz>",
   "contributors": [
-    "Nick Reynolds <nick.reynolds@mesh.xyz>"
+    "Alex Andrei <alex.andrei@rootsid.com>"
   ],
   "license": "Apache-2.0",
   "keywords": [],

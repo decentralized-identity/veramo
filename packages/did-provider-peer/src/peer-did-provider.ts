@@ -1,4 +1,4 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager, DIDDocument } from '@veramo/core-types'
+import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import Multibase from 'multibase'
 import Multicodec from 'multicodec'
