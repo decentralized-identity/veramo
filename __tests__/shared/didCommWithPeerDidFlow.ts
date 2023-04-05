@@ -54,7 +54,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should pack and unpack a message', async () => {
-      expect.assertions(1)
+      expect.assertions(2)
 
       const message = {
         type: 'test',
@@ -69,6 +69,9 @@ export default (testContext: {
       })
       console.log("packedMessage: ", packedMessage)
       expect(packedMessage).toBeDefined()
+
+      const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
+      expect(unpackedMessage.message.id).toEqual('test')
     })
   })
 }
