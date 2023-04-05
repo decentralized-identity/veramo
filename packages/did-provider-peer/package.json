@@ -1,0 +1,52 @@
+{
+  "name": "@veramo/did-provider-peer",
+  "description": "Veramo plugin that can enable creation and control of did:peer identifiers.",
+  "version": "5.1.2",
+  "main": "build/index.js",
+  "exports": "./build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+  },
+  "dependencies": {
+    "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
+    "@transmute/did-key-secp256k1": "^0.3.0-unstable.10",
+    "@transmute/did-key-x25519": "^0.3.0-unstable.10",
+    "@veramo/core-types": "^5.1.2",
+    "@veramo/did-manager": "^5.1.2",
+    "debug": "^4.3.3",
+    "did-resolver": "^4.0.1",
+    "multibase": "^4.0.6",
+    "multicodec": "^3.2.1",
+    "uint8arrays": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "typescript": "4.9.4"
+  },
+  "resolutions": {
+    "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Alex Andrei - roots.id",
+  "contributors": [
+    "Nick Reynolds <nick.reynolds@mesh.xyz>"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}

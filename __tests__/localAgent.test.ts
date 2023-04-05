@@ -37,6 +37,7 @@ import {
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
+import { PeerDIDProvider } from '../packages/did-provider-peer/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
@@ -198,6 +199,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           }),
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
+          }),
+          'did:peer': new PeerDIDProvider({
+            defaultKms: 'local'
           }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
