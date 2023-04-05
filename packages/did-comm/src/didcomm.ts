@@ -263,8 +263,12 @@ export class DIDComm implements IAgentPlugin {
       }
       //    1.1 check that args.message.from is a managed DID
       const sender: IIdentifier = await context.agent.didManagerGet({ did: args?.message?.from })
+
+      console.log("sender: ", sender)
+
       //    1.2 match key agreement keys from DID to managed keys
       const senderKeys: _ExtendedIKey[] = await mapIdentifierKeysToDoc(sender, 'keyAgreement', context)
+      console.log("senderKeys: ", senderKeys)
       // try to find a sender key by keyRef, otherwise pick the first one
       let senderKey
       if (isDefined(keyRef)) {

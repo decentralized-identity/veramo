@@ -1,53 +1,66 @@
-import { resolve as resolveED25519 } from '@transmute/did-key-ed25519'
-import { resolve as resolveX25519 } from '@transmute/did-key-x25519'
-import { resolve as resolveSecp256k1 } from '@transmute/did-key-secp256k1'
-import { DIDResolutionOptions, DIDResolutionResult, DIDResolver, ParsedDID, Resolvable } from 'did-resolver'
+import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID } from 'did-resolver'
+import { resolve } from '@aviarytech/did-peer'
+import { IDIDDocumentServiceDescriptor } from '@aviarytech/did-peer/interfaces.js'
 
-export const startsWithMap: Record<string, Function> = {
-  'did:peer:z6Mk': resolveED25519,
-  'did:peer:z6LS': resolveX25519,
-  'did:peer:zQ3s': resolveSecp256k1,
-}
+export function getResolver(): Record<string, DIDResolver> {
+  async function resolveInner(did: string, parsed: ParsedDID): Promise<DIDResolutionResult> {
+    const didDocumentMetadata = {}
+    let didDocument: DIDDocument | null = null
+    let err = ''
+    do {
+      try {
+        const doc = await resolve(did)
+        didDocument = {
+          '@context': doc['@context'],
+          id: doc.id,
+          verificationMethod: doc.verificationMethod,
+          keyAgreement: doc.keyAgreement,
+          authentication: doc.authentication,
+          assertionMethod: doc.assertionMethod,
+          capabilityInvocation: doc.capabilityInvocation,
+          capabilityDelegation: doc.capabilityDelegation,
+          service: doc.service as IDIDDocumentServiceDescriptor[],
+        }
+        if (doc.alsoKnownAs) {
+          didDocument.alsoKnownAs = [doc.alsoKnownAs]
+        }
+        if (doc.controller) {
+          didDocument.controller = doc.controller
+        }
+      } catch (error) {
+        err = `resolver_error: DID must resolve to a valid https URL containing a JSON document: ${error}`
+        break
+      }
 
-const resolveDidPeer: DIDResolver = async (
-  didUrl: string,
-  _parsed: ParsedDID,
-  _resolver: Resolvable,
-  options: DIDResolutionOptions,
-): Promise<DIDResolutionResult> => {
-  try {
-    const startsWith = _parsed.did.substring(0, 12)
-    if (startsWithMap[startsWith] !== undefined) {
-      const didResolution = await startsWithMap[startsWith](didUrl, {
-        ...options,
-        enableEncryptionKeyDerivation: true,
-      })
+      // TODO: this excludes the use of query params
+      const docIdMatchesDid = didDocument?.id === did
+      if (!docIdMatchesDid) {
+        err = 'resolver_error: DID document id does not match requested did'
+        // break // uncomment this when adding more checks
+      }
+      // eslint-disable-next-line no-constant-condition
+    } while (false)
+
+    const contentType =
+      typeof didDocument?.['@context'] !== 'undefined' ? 'application/did+ld+json' : 'application/did+json'
+
+    if (err) {
       return {
-        didDocumentMetadata: {},
-        didResolutionMetadata: {},
-        ...didResolution,
+        didDocument,
+        didDocumentMetadata,
+        didResolutionMetadata: {
+          error: 'notFound',
+          message: err,
+        },
       }
     } else {
       return {
-        didDocumentMetadata: {},
-        didResolutionMetadata: { error: 'invalidDid', message: 'unsupported key type for did:peer' },
-        didDocument: null,
+        didDocument,
+        didDocumentMetadata,
+        didResolutionMetadata: { contentType },
       }
     }
-  } catch (err: any) {
-    return {
-      didDocumentMetadata: {},
-      didResolutionMetadata: { error: 'invalidDid', message: err.toString() },
-      didDocument: null,
-    }
   }
-}
 
-/**
- * Provides a mapping to a did:peer resolver, usable by {@link did-resolver#Resolver}.
- *
- * @public
- */
-export function getDidPeerResolver() {
-  return { peer: resolveDidPeer }
+  return { peer: resolveInner }
 }

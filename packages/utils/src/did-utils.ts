@@ -208,7 +208,9 @@ export async function mapIdentifierKeysToDoc(
   section: DIDDocumentSection = 'keyAgreement',
   context: IAgentContext<IResolver>,
 ): Promise<_ExtendedIKey[]> {
+  console.log("go map id keys to doc")
   const didDocument = await resolveDidOrThrow(identifier.did, context)
+  console.log("yes got didDoc: ", didDocument)
   // dereference all key agreement keys from DID document and normalize
   const documentKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,
@@ -216,6 +218,7 @@ export async function mapIdentifierKeysToDoc(
     context,
   )
 
+  console.log("documentKeys: ", documentKeys)
   let localKeys = identifier.keys.filter(isDefined)
   if (section === 'keyAgreement') {
     localKeys = convertIdentifierEncryptionKeys(identifier)

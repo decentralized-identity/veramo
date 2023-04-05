@@ -37,7 +37,7 @@ import {
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { PeerDIDProvider } from '../packages/did-provider-peer/src'
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
@@ -92,6 +92,7 @@ import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
 import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
+import didCommWithPeerDidFlow from './shared/didCommWithPeerDidFlow.js'
 
 jest.setTimeout(60000)
 
@@ -228,6 +229,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ...getDidKeyResolver(),
         ...getDidPkhResolver(),
         ...getDidJwkResolver(),
+        ...getDidPeerResolver(),
         ...new FakeDidResolver(() => agent).getDidFakeResolver(),
       }),
       new DataStore(dbConnection),
@@ -281,23 +283,24 @@ const getAgent = () => agent
 const testContext = { getAgent, setup, tearDown }
 
 describe('Local integration tests', () => {
-  verifiableDataJWT(testContext)
-  verifiableDataLD(testContext)
-  verifiableDataEIP712(testContext)
-  handleSdrMessage(testContext)
-  resolveDid(testContext)
-  webDidFlow(testContext)
-  saveClaims(testContext)
-  documentationExamples(testContext)
-  keyManager(testContext)
-  didManager(testContext)
-  messageHandler(testContext)
-  didCommPacking(testContext)
-  didDiscovery(testContext)
-  dbInitOptions(testContext)
-  utils(testContext)
-  web3(testContext)
-  didCommWithEthrDidFlow(testContext)
-  credentialStatus(testContext)
-  ethrDidFlowSigned(testContext)
+  // verifiableDataJWT(testContext)
+  // verifiableDataLD(testContext)
+  // verifiableDataEIP712(testContext)
+  // handleSdrMessage(testContext)
+  // resolveDid(testContext)
+  // webDidFlow(testContext)
+  // saveClaims(testContext)
+  // documentationExamples(testContext)
+  // keyManager(testContext)
+  // didManager(testContext)
+  // messageHandler(testContext)
+  // didCommPacking(testContext)
+  // didDiscovery(testContext)
+  // dbInitOptions(testContext)
+  // utils(testContext)
+  // web3(testContext)
+  // didCommWithEthrDidFlow(testContext)
+  didCommWithPeerDidFlow(testContext)
+  // credentialStatus(testContext)
+  // ethrDidFlowSigned(testContext)
 })

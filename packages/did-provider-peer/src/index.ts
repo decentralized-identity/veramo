@@ -5,4 +5,4 @@
  * @packageDocumentation
  */
 export { PeerDIDProvider } from './peer-did-provider.js'
-export { getDidPeerResolver } from './resolver.js'
+export { getResolver } from './resolver.js'
