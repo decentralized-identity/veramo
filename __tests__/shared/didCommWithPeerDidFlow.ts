@@ -67,7 +67,6 @@ export default (testContext: {
         packing: 'authcrypt',
         message,
       })
-      console.log("packedMessage: ", packedMessage)
       expect(packedMessage).toBeDefined()
 
       const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
