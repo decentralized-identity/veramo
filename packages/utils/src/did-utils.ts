@@ -13,12 +13,13 @@ import * as u8a from 'uint8arrays'
 import elliptic from 'elliptic'
 import { bases } from 'multiformats/basics'
 import Debug from 'debug'
-import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes } from './encodings.js'
+import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes, multibaseKeyToBytes } from './encodings.js'
 
 const debug = Debug('veramo:utils')
 
 /**
- * Converts any Ed25519 keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to X25519 to be usable for encryption.
+ * Converts any Ed25519 keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to X25519 to be usable for
+ * encryption.
  *
  * @param identifier - the identifier with keys
  *
@@ -47,7 +48,8 @@ export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[]
 }
 
 /**
- * Converts any Secp256k1 public keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to their compressed form.
+ * Converts any Secp256k1 public keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to their compressed
+ * form.
  *
  * @param identifier - the identifier with keys
  *
@@ -86,7 +88,7 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
 function compareBlockchainAccountId(localKey: IKey, verificationMethod: VerificationMethod): boolean {
   if (
     (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' &&
-      verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2019') ||
+      verificationMethod.type !== 'EcdsaSecp256k1VerificationKey2019') ||
     localKey.type !== 'Secp256k1'
   ) {
     return false
@@ -130,6 +132,7 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
   }
   return vmEthAddr
 }
+
 interface LegacyVerificationMethod extends VerificationMethod {
   publicKeyBase64: string
 }
@@ -138,7 +141,7 @@ function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
   if (pk.publicKeyBase58) {
     return base58ToBytes(pk.publicKeyBase58)
   } else if (pk.publicKeyMultibase) {
-    return bases['base58btc'].decode(pk.publicKeyMultibase)
+    return multibaseKeyToBytes(pk.publicKeyMultibase)
   } else if ((<LegacyVerificationMethod>pk).publicKeyBase64) {
     return base64ToBytes((<LegacyVerificationMethod>pk).publicKeyBase64)
   } else if (pk.publicKeyHex) {
@@ -208,9 +211,7 @@ export async function mapIdentifierKeysToDoc(
   section: DIDDocumentSection = 'keyAgreement',
   context: IAgentContext<IResolver>,
 ): Promise<_ExtendedIKey[]> {
-  console.log("go map id keys to doc")
   const didDocument = await resolveDidOrThrow(identifier.did, context)
-  console.log("yes got didDoc: ", didDocument)
   // dereference all key agreement keys from DID document and normalize
   const documentKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,
@@ -218,7 +219,6 @@ export async function mapIdentifierKeysToDoc(
     context,
   )
 
-  console.log("documentKeys: ", documentKeys)
   let localKeys = identifier.keys.filter(isDefined)
   if (section === 'keyAgreement') {
     localKeys = convertIdentifierEncryptionKeys(identifier)
@@ -327,7 +327,7 @@ export async function dereferenceDidKeys(
       // Should type of `newKey` change?
       if (convert && 'Ed25519VerificationKey2018' === newKey.type) {
         newKey.type = 'X25519KeyAgreementKey2019'
-      } else if (convert && 'Ed25519VerificationKey2020' === newKey.type) {
+      } else if (convert && ['Ed25519VerificationKey2020', 'JsonWebKey2020'].includes(newKey.type)) {
         newKey.type = 'X25519KeyAgreementKey2020'
       }
 

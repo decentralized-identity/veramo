@@ -1,4 +1,5 @@
 import * as u8a from 'uint8arrays'
+import { bases } from 'multiformats/basics'
 
 /**
  * Converts a Uint8Array to a base64url string
@@ -142,4 +143,63 @@ export function base58ToBytes(s: string): Uint8Array {
  */
 export function bytesToBase58(byteArray: Uint8Array): string {
   return u8a.toString(byteArray, 'base58btc')
+}
+
+
+/**
+ * Converts a multibase string to the Uint8Array it represents.
+ * 
+ * @param s - the string to be converted
+ * 
+ * @throws if the string is not formatted correctly.
+ * 
+ * @public
+*/
+export function multibaseKeyToBytes(s: string): Uint8Array {
+  if (s.charAt(0) !== 'z') {
+    throw new Error('invalid multibase string: string is not base58 encoded (does not start with "z")')
+  }
+  const bytes = bases['base58btc'].decode(s)
+
+  if (bytes.length !== 34) {
+    throw new Error('invalid multibase string: length is not 34 bytes')
+  }
+
+  // only ed25519-pub and x25519-pub multicodecs supported now
+  if (bytes[0] !== 0xed && bytes[0] !== 0xec) {
+    throw new Error('invalid multibase string: first byte is not 0xed')
+  }
+
+  if (bytes[1] !== 0x01) {
+    throw new Error('invalid multibase string: second byte is not 0x01')
+  }
+
+  return bytes.slice(2)
+}
+
+/**
+ * Converts a Uint8Array to a multibase string.
+ * 
+ * @param b - the array to be converted
+ * @param type - the type of the key to be represented
+ * 
+ * @throws if the array is not formatted correctly.
+ * 
+ * @public
+*/
+export function bytesToMultibase(byteArray: Uint8Array, type: string): string {
+  if (byteArray.length !== 32) {
+    throw new Error('invalid byte array: length is not 32 bytes')
+  }
+
+  const bytes = new Uint8Array(34)
+  if (type === 'Ed25519') {
+    bytes[0] = 0xed
+  } else if (type === 'X25519') {
+    bytes[0] = 0xec
+  }
+  bytes[1] = 0x01
+  bytes.set(byteArray, 2)
+
+  return bases['base58btc'].encode(bytes)
 }
