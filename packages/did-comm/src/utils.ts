@@ -39,7 +39,7 @@ export async function extractSenderEncryptionKey(
       didUrl: protectedHeader.skid,
       section: 'keyAgreement',
     })) as _ExtendedVerificationMethod
-    if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019', 'JsonWebKey2020'].includes(sKey.type)) {
+    if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019', 'JsonWebKey2020', 'Ed25519VerificationKey2020', 'X25519KeyAgreementKey2020'].includes(sKey.type)) {
       throw new Error(`not_supported: sender key of type ${sKey.type} is not supported`)
     }
     let publicKeyHex = extractPublicKeyHex(sKey, true)

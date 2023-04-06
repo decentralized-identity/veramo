@@ -28,7 +28,7 @@ export interface _ExtendedIKey extends IKey {
  */
 export type _NormalizedVerificationMethod = Omit<
   VerificationMethod,
-  'publicKeyBase58' | 'publicKeyBase64' | 'publicKeyJwk'
+  'publicKeyBase58' | 'publicKeyBase64' | 'publicKeyJwk' | 'publicKeyMultibase'
 >
 
 /**

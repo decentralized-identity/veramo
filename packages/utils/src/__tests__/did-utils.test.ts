@@ -1,4 +1,5 @@
-import { getChainIdForDidEthr, getEthereumAddress } from '../did-utils.js'
+import { extractPublicKeyHex, getChainIdForDidEthr, getEthereumAddress } from '../did-utils.js'
+import { bytesToMultibase, hexToBytes } from '../encodings.js'
 
 describe('@veramo/utils did utils', () => {
   it(`should return correct chainId for did:ethr`, () => {
@@ -53,5 +54,29 @@ describe('@veramo/utils did utils', () => {
     }
 
     expect(getEthereumAddress(verificationMethod)).toEqual("0x923f7158062db4761a8917ad1628d11536c5f07b".toLowerCase())
+  })
+
+  it('should convert to multibase and back', async () => {
+    const publicKeyHex = '6bb3f30242ac89bb6baa169fd5d1fea5adb61ce5b3cfee9e157e699a51983869'
+    const computedMultibase = bytesToMultibase(hexToBytes(publicKeyHex), 'Ed25519')
+
+    // // multibase + multicodec
+    let expectedMultibase = `z6MkmhgpMDfiVVfLShamhYVCsWX6jQLVmwxXLtUykKFw3LwJ`;
+
+    expect(computedMultibase).toEqual(expectedMultibase)
+
+    const computedXMultibase = bytesToMultibase(hexToBytes(publicKeyHex), 'X25519')
+    let expectedXMultibase = `z6LSivbwHHE9FQtcRb7qYd3KM1Bakybm4ftKXrHjQVwSqVvg`;
+    
+    expect(computedXMultibase).toEqual(expectedXMultibase)
+
+    const computedHex = extractPublicKeyHex({
+      publicKeyMultibase: expectedMultibase,
+      type: 'Ed25519VerificationKey2020',
+      id: 'dummy key',
+      controller: 'dummy controller',
+    })
+
+    expect(computedHex).toEqual(publicKeyHex)
   })
 })
