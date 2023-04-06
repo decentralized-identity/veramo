@@ -147,13 +147,13 @@ export default (testContext: {
 
     it('should create identifier using did:key with an imported key', async () => {
       // keyType supports 'Secp256k1', 'Secp256r1', 'Ed25519', 'X25519'
-      const keyType = 'Ed25519'
+      const keyType = 'Secp256k1'
       identifier = await agent.didManagerCreate({
         provider: 'did:key',
         alias: 'keyTest',
         options: {
           keyType,
-          privateKeyHex: '3ACF587E5E38F3573BA5F47E911A40EAAD1989EEB89D35417207C7FEBB2424853ACF587E5E38F3573BA5F47E911A40EAAD1989EEB89D35417207C7FEBB242485',
+          privateKeyHex: 'f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b1',
         }
       })
       expect(identifier.provider).toEqual('did:key')
