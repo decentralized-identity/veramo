@@ -128,6 +128,7 @@ importers:
       '@veramo/did-manager': ^5.1.2
       '@veramo/did-provider-ethr': ^5.1.2
       '@veramo/did-provider-key': ^5.1.2
+      '@veramo/did-provider-peer': ^5.1.2
       '@veramo/did-provider-pkh': ^5.1.2
       '@veramo/did-provider-web': ^5.1.2
       '@veramo/did-resolver': ^5.1.2
@@ -191,6 +192,7 @@ importers:
       '@veramo/did-manager': link:../did-manager
       '@veramo/did-provider-ethr': link:../did-provider-ethr
       '@veramo/did-provider-key': link:../did-provider-key
+      '@veramo/did-provider-peer': link:../did-provider-peer
       '@veramo/did-provider-pkh': link:../did-provider-pkh
       '@veramo/did-provider-web': link:../did-provider-web
       '@veramo/did-resolver': link:../did-resolver
