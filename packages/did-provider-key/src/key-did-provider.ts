@@ -34,7 +34,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateKeyDidOptions },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const keyType = options?.keyType || 'Ed25519'
+    const keyType = (options?.keyType && keyOptions[options?.keyType] && options.keyType) || 'Ed25519'
     const key = await this.importOrGenerateKey(
       {
         kms: kms || this.defaultKms,
