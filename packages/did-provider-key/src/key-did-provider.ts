@@ -1,4 +1,4 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core-types'
+import { IIdentifier, IKey, IService, IAgentContext, IKeyManager, RequireOnly } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import Multibase from 'multibase'
 import Multicodec from 'multicodec'
@@ -8,18 +8,8 @@ const debug = Debug('veramo:did-key:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
 type CreateKeyDidOptions = {
+  keyType?: keyof typeof keyOptions
   privateKeyHex?: string,
-  keyType?: keyof typeof keyOptions,
-  keyAlias?: string
-}
-type ImportOrGenerateKeyOpts = {
-  keyType: keyof typeof keyOptions,
-  privateKeyHex?: string,
-  keyAlies?: string
-}
-type KeyDidImportOrGenerateKeyArgs = {
-  kms: string,
-  options: ImportOrGenerateKeyOpts
 }
 
 const keyOptions = {
@@ -50,13 +40,11 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
         kms: kms || this.defaultKms,
         options: {
           keyType,
-          ...(options?.keyAlias && { keyAlias: options.keyAlias }),
           ...(options?.privateKeyHex && { privateKeyHex: options.privateKeyHex }),
         },
       },
       context,
     )
-    // const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: keyType })
 
     const methodSpecificId = Buffer.from(
       Multibase.encode(
@@ -115,7 +103,10 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
   }
 
   private async importOrGenerateKey(
-    args: KeyDidImportOrGenerateKeyArgs,
+    args: {
+      kms: string,
+      options: RequireOnly<CreateKeyDidOptions, 'keyType'>
+    },
     context: IContext
   ): Promise<IKey> {
     if (args.options.privateKeyHex) {
