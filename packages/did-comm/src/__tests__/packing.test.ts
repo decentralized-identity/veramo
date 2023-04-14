@@ -94,7 +94,7 @@ const base58Doc = {
 }
 
 const hexDoc = {
-  "@context": "https://w3id.org/did/v1",
+  "@context": "https://www.w3.org/ns/did/v1",
   "id": "did:web:iiw-demo.herokuapp.com",
   "verificationMethod": [
     {

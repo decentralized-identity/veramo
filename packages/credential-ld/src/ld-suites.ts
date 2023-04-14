@@ -36,7 +36,7 @@ export abstract class VeramoLdSignature {
 
   abstract getSuiteForVerification(): any
 
-  abstract preDidResolutionModification(didUrl: string, didDoc: DIDDocument | DIDDocComponent): void
+  abstract preDidResolutionModification(didUrl: string, didDoc: DIDDocument | DIDDocComponent, context: IAgentContext<IResolver>): Promise<DIDDocument | DIDDocComponent>
 
   abstract preSigningCredModification(credential: CredentialPayload): void
 

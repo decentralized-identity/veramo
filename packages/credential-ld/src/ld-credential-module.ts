@@ -39,7 +39,6 @@ export class LdCredentialModule {
   getDocumentLoader(
     context: IAgentContext<IResolver>,
     attemptToFetchContexts: boolean = false,
-    resolveFragments: boolean = false,
   ) {
     return extendContextLoader(async (url: string) => {
       // console.log(`resolving context for: ${url}`)
@@ -53,19 +52,12 @@ export class LdCredentialModule {
 
         let result: any = didDoc
 
-        // check if the URL refers to a key or a service endpoint (URL has a fragment)
-        if (resolveFragments && url.includes('#')) {
-          try {
-            result = await context.agent.getDIDComponentById({ didDocument: didDoc, didUrl: url })
-          } catch (e: any) {
-            debug(`document loader could not locate DID component by fragment: ${url}`)
-          }
-        }
-
         // currently, Veramo LD suites can modify the resolution response for DIDs from
         // the document Loader. This allows us to fix incompatibilities between DID Documents
         // and LD suites to be fixed specifically within the Veramo LD Suites definition
-        this.ldSuiteLoader.getAllSignatureSuites().forEach((x) => x.preDidResolutionModification(url, result))
+        for (const x of this.ldSuiteLoader.getAllSignatureSuites()) {
+          result = (await x.preDidResolutionModification(url, result, context)) || result;
+        }
 
         // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
         return {

@@ -1,10 +1,22 @@
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
-import { CredentialPayload, DIDDocComponent, DIDDocument, IAgentContext, IKey, TKeyType, } from '@veramo/core-types'
+import {
+  CredentialPayload,
+  DIDDocComponent,
+  DIDDocument,
+  IAgentContext,
+  IKey,
+  IResolver,
+  TKeyType,
+} from '@veramo/core-types'
 import * as u8a from 'uint8arrays'
 import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020'
 import { Ed25519VerificationKey2020 } from '@digitalcredentials/ed25519-verification-key-2020'
 import { asArray, base64ToBytes, bytesToMultibase, extractPublicKeyHex, hexToBytes } from '@veramo/utils'
 import { VerificationMethod } from 'did-resolver'
+
+import Debug from 'debug'
+
+const debug = Debug('veramo:credential-ld:Ed25519Signature2020')
 
 /**
  * Veramo wrapper for the Ed25519Signature2020 suite by digitalcredentials
@@ -48,7 +60,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     const verificationKey = new Ed25519VerificationKey2020({
       id,
       controller,
-      publicKeyMultibase: bytesToMultibase(hexToBytes(key.publicKeyHex), "Ed25519"),
+      publicKeyMultibase: bytesToMultibase(hexToBytes(key.publicKeyHex), 'Ed25519'),
       // signer: () => signer,
       // type: this.getSupportedVerificationType(),
     })
@@ -69,13 +81,50 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     // nothing to do here
   }
 
-  preDidResolutionModification(didUrl: string, doc: DIDDocument | Exclude<string, DIDDocComponent>): void {
+  async preDidResolutionModification(
+    didUrl: string,
+    doc: DIDDocument | Exclude<string, DIDDocComponent>,
+    context: IAgentContext<IResolver>,
+  ): Promise<DIDDocument | Exclude<string, DIDDocComponent>> {
+    let document = doc
     // The verification method (key) must contain "https://w3id.org/security/suites/ed25519-2020/v1" context.
-    if ((doc as DIDDocument).verificationMethod) {
-      doc.verificationMethod = asArray(doc.verificationMethod)?.map(this.transformVerificationMethod)
-    } else if ((doc as VerificationMethod).type === 'Ed25519VerificationKey2020') {
-      this.transformVerificationMethod(doc as VerificationMethod)
+    if ((document as DIDDocument).verificationMethod) {
+      document.verificationMethod = asArray(document.verificationMethod)?.map(
+        this.transformVerificationMethod,
+      )
     }
+
+    // this signature suite requires the document loader to dereference the DID URL
+    if (didUrl.includes('#') && didUrl !== document.id) {
+      const contexts = (document as DIDDocument)['@context']
+      try {
+        let newDoc: any = (await context.agent.getDIDComponentById({
+          didDocument: document,
+          didUrl: didUrl,
+        })) as Exclude<string, DIDDocComponent>
+
+        // other signature suites require the full DID document, so as a workaround
+        // we'll only return the 2020 verification method, even if the 2018 would also be compatible
+        if (
+          [
+            'Ed25519VerificationKey2020',
+            // 'Ed25519VerificationKey2018',
+            // 'JsonWebKey2020'
+          ].includes(newDoc.type)
+        ) {
+          newDoc['@context'] = [...new Set([...asArray(contexts), ...asArray(document['@context'])])]
+          document = newDoc
+        }
+      } catch (e: any) {
+        debug(`document loader could not locate DID component by fragment: ${didUrl}`)
+      }
+    }
+
+    if ((document as VerificationMethod).type === 'Ed25519VerificationKey2020') {
+      document = this.transformVerificationMethod(document as VerificationMethod)
+    }
+
+    return document
   }
 
   private transformVerificationMethod(vm: VerificationMethod): VerificationMethod {

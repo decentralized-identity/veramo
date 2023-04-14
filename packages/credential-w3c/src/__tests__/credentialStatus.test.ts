@@ -31,7 +31,7 @@ describe('dummy', () => {
 //   didResolver: {
 //     resolve: async (did: string) => {
 //       return {
-//         '@context': 'https://w3id.org/did/v1',
+//         '@context': 'https://www.w3.org/ns/did/v1',
 //         id: 'did:ethr:rinkeby:0x42ba71c59a22a037e54f8d5b13d7b3721daa18c3',
 //         publicKey: [
 //           {

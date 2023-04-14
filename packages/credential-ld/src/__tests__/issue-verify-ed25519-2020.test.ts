@@ -101,12 +101,10 @@ import {
       })
 
       expect(verifiableCredential).toBeDefined()
-      console.log("verifiableCredential: ", verifiableCredential)
 
       const result = await agent.verifyCredential({
         credential: verifiableCredential,
       })
-      console.log("result: ", result)
 
       expect(result.verified).toBe(true)
     })

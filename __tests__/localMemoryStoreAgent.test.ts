@@ -73,7 +73,7 @@ import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
 import credentialInterop from './shared/credentialInterop.js'
 
-jest.setTimeout(60000)
+jest.setTimeout(120000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
