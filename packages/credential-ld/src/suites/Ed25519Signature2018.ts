@@ -74,7 +74,8 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
     // nothing to do here
   }
 
-  preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
+  async preDidResolutionModification(didUrl: string, didDoc: DIDDocument): Promise<DIDDocument> {
     // nothing to do here
+    return didDoc
   }
 }

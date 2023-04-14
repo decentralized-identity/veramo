@@ -1,12 +1,10 @@
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
 import ldsEcdsa from '@veramo-community/lds-ecdsa-secp256k1-recovery2020'
-const {
-  EcdsaSecp256k1RecoveryMethod2020,
-  EcdsaSecp256k1RecoverySignature2020,
-} = ldsEcdsa
 import * as u8a from 'uint8arrays'
 import { asArray, encodeJoseBlob } from '@veramo/utils'
+
+const { EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020 } = ldsEcdsa
 
 /**
  * Veramo wrapper for the EcdsaSecp256k1RecoverySignature2020 suite by Transmute Industries
@@ -75,7 +73,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
   preSigningCredModification(credential: CredentialPayload): void {
   }
 
-  preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
+  async preDidResolutionModification(didUrl: string, didDoc: DIDDocument): Promise<DIDDocument> {
 //    did:ethr
     const idx = didDoc['@context']?.indexOf('https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld') || -1
     if (Array.isArray(didDoc['@context']) && idx !== -1) {
@@ -93,6 +91,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
         }
       })
     }
+    return didDoc
   }
   getContext(): string {
     return 'https://w3id.org/security/suites/secp256k1recovery-2020/v2'

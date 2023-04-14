@@ -313,7 +313,7 @@ export default (testContext: {
       expect(credential).toHaveProperty('proof.jws')
       expect(credential['type']).toEqual(['VerifiableCredential', 'DiscordKudos'])
 
-      const result = await agent.verifyCredential({ 
+      const result = await agent.verifyCredential({
         credential,
         fetchRemoteContexts: true
       })

@@ -145,14 +145,13 @@ export function bytesToBase58(byteArray: Uint8Array): string {
   return u8a.toString(byteArray, 'base58btc')
 }
 
-
 /**
  * Converts a multibase string to the Uint8Array it represents.
- * 
+ *
  * @param s - the string to be converted
- * 
+ *
  * @throws if the string is not formatted correctly.
- * 
+ *
  * @public
 */
 export function multibaseKeyToBytes(s: string): Uint8Array {
@@ -179,12 +178,12 @@ export function multibaseKeyToBytes(s: string): Uint8Array {
 
 /**
  * Converts a Uint8Array to a multibase string.
- * 
+ *
  * @param b - the array to be converted
  * @param type - the type of the key to be represented
- * 
+ *
  * @throws if the array is not formatted correctly.
- * 
+ *
  * @public
 */
 export function bytesToMultibase(byteArray: Uint8Array, type: string): string {
