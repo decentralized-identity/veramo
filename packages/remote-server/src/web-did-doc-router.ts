@@ -1,4 +1,5 @@
 import { IIdentifier, IDIDManager, TAgent, TKeyType, IKey } from '@veramo/core-types'
+import { bytesToBase58, bytesToMultibase, hexToBytes } from '@veramo/utils'
 import { Request, Router } from 'express'
 import { ServiceEndpoint, VerificationMethod } from 'did-resolver'
 
@@ -43,7 +44,7 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
   const didDocForIdentifier = (identifier: IIdentifier) => {
     const contexts = new Set<string>()
     const allKeys: VerificationMethod[] = identifier.keys.map((key: IKey) => {
-      const vm = {
+      const vm: VerificationMethod = {
         id: identifier.did + '#' + key.kid,
         type: keyMapping[key.type],
         controller: identifier.did,
@@ -57,15 +58,23 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
           break
         case 'Ed25519VerificationKey2018':
           contexts.add('https://w3id.org/security/suites/ed25519-2018/v1')
+          vm.publicKeyBase58 = bytesToBase58(hexToBytes(key.publicKeyHex))
+          delete(vm.publicKeyHex)
           break
         case 'X25519KeyAgreementKey2019':
           contexts.add('https://w3id.org/security/suites/x25519-2019/v1')
+          vm.publicKeyBase58 = bytesToBase58(hexToBytes(key.publicKeyHex))
+          delete(vm.publicKeyHex)
           break
         case 'Ed25519VerificationKey2020':
           contexts.add('https://w3id.org/security/suites/ed25519-2020/v1')
+          vm.publicKeyMultibase = bytesToMultibase(hexToBytes(key.publicKeyHex), 'Ed25519')
+          delete(vm.publicKeyHex)
           break
         case 'X25519KeyAgreementKey2020':
           contexts.add('https://w3id.org/security/suites/x25519-2020/v1')
+          vm.publicKeyMultibase = bytesToMultibase(hexToBytes(key.publicKeyHex), 'Ed25519')
+          delete(vm.publicKeyHex)
           break
         case 'EcdsaSecp256r1VerificationKey2019':
           contexts.add('https://w3id.org/security/v2')

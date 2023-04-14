@@ -6,5 +6,6 @@
     "Keypair",
     "arrayify",
     "ethersproject"
-  ]
+  ],
+  "jest.autoRun": "off"
 }
