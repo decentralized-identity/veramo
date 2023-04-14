@@ -2,7 +2,7 @@
   "files": [],
   "references": [
     { "path": "core" },
-    { "path": "core-types" }
+    { "path": "core-types" },
     { "path": "credential-eip712" },
     { "path": "credential-ld" },
     { "path": "credential-status"},
