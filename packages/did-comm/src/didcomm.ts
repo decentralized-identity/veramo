@@ -21,9 +21,13 @@ import {
   Encrypter,
   verifyJWS,
   xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW,
+  a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW,
   xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW,
+  a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW,
   xc20pAnonDecrypterX25519WithA256KW,
+  a256gcmAnonDecrypterX25519WithA256KW,
   xc20pAnonEncrypterX25519WithA256KW,
+  a256gcmAnonEncrypterX25519WithA256KW,
 } from 'did-jwt'
 import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod, Service } from 'did-resolver'
 
@@ -286,10 +290,10 @@ export class DIDComm implements IAgentPlugin {
 
     const defaults = {
       alg: args.packing === 'authcrypt' ? 'ECDH-1PU+A256KW' : 'ECDH-ES+A256KW',
-      enc: 'XC20P', // FIXME: 'A256CBC-HS512' would be required and 'A256GCM' recommended. 'XC20P' is only optional
+      enc: 'A256GCM', // 'XC20P' can also be specified; FIXME: 'A256CBC-HS512' is not yet supported
     }
 
-    const options = {...defaults, ...args.options}
+    const options = { ...defaults, ...args.options }
 
     // 2: compute recipients
     interface IRecipient {
@@ -338,12 +342,12 @@ export class DIDComm implements IAgentPlugin {
       .map((recipient) => {
         if (options.enc === 'A256GCM') {
           if (args.packing === 'authcrypt' || options.alg?.startsWith('ECDH-1PU')) {
-            // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
-            return a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
-              kid: recipient.kid,
-            })
+              // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
+              return a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
+                kid: recipient.kid,
+              })
           } else {
-            return a256gcmAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
+              return a256gcmAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
           }
         } else if (options.enc === 'XC20P') {
           if (args.packing === 'authcrypt' || options.alg?.startsWith('ECDH-1PU')) {
@@ -352,8 +356,7 @@ export class DIDComm implements IAgentPlugin {
                 recipient.publicKeyBytes,
                 <ECDH>senderECDH,
                 { kid: recipient.kid },
-              )
-            } else if (options?.alg?.endsWith('+A256KW')) {
+            )} else if (options?.alg?.endsWith('+A256KW')) {
               // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
               return xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
                 kid: recipient.kid,
@@ -489,24 +492,40 @@ export class DIDComm implements IAgentPlugin {
     //  else
     //   - construct anon decrypter
     for (const localKey of localKeys) {
-      let packing: string
-      let decrypter: Decrypter
+      let packing: string = 'anoncrypt'
+      let decrypter: Decrypter | null = null
       const recipientECDH: ECDH = createEcdhWrapper(localKey.localKeyRef, context)
       // TODO: here's where more algorithms should be supported
-      if (senderKeyBytes && localKey.recipient?.header?.alg?.includes('ECDH-1PU')) {
-        packing = 'authcrypt'
-        if (localKey.recipient?.header?.alg?.endsWith('+A256KW')) {
-          decrypter = xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(recipientECDH, senderKeyBytes)
-        } else {
-          decrypter = createAuthDecrypter(recipientECDH, senderKeyBytes)
+      if (localKey.recipient?.header?.epk?.crv === 'X25519') {
+        if (localKey.recipient?.header?.enc === 'A256GCM') {
+          if (senderKeyBytes && localKey.recipient?.header?.alg === 'ECDH-1PU+A256KW') {
+            packing = 'authcrypt'
+            decrypter = a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW(recipientECDH, senderKeyBytes)
+          } else {
+            packing = 'anoncrypt'
+            decrypter = a256gcmAnonDecrypterX25519WithA256KW(recipientECDH)
+          }
+        } else if (localKey.recipient?.header?.enc === 'XC20P') {
+          if (senderKeyBytes && localKey.recipient?.header?.alg?.includes('ECDH-1PU')) {
+            packing = 'authcrypt'
+            if (localKey.recipient?.header?.alg?.endsWith('+A256KW')) {
+              decrypter = xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(recipientECDH, senderKeyBytes)
+            } else if (localKey.recipient?.header?.alg?.endsWith('+XC20PKW')) {
+              decrypter = createAuthDecrypter(recipientECDH, senderKeyBytes)
+            }
+          } else {
+            packing = 'anoncrypt'
+            if (localKey.recipient?.header?.alg?.endsWith('+A256KW')) {
+              decrypter = xc20pAnonDecrypterX25519WithA256KW(recipientECDH)
+            } else if (localKey.recipient?.header?.alg?.endsWith('+XC20PKW')) {
+              decrypter = createAnonDecrypter(recipientECDH)
+            }
+          }
         }
-      } else {
-        packing = 'anoncrypt'
-        if (localKey.recipient?.header?.alg?.endsWith('+A256KW')) {
-          decrypter = xc20pAnonDecrypterX25519WithA256KW(recipientECDH)
-        } else {
-          decrypter = createAnonDecrypter(recipientECDH)
-        }
+      }
+
+      if (!decrypter) {
+        throw new Error('unable to decrypt DIDComm message with any of the locally managed keys')
       }
       // 4. decryptJWE(jwe, decrypter)
       try {

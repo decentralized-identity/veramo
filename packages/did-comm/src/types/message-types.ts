@@ -37,14 +37,14 @@ export interface IDIDCommOptions {
   recipientKids?: string[]
 
   /**
-   * Optional content encryption algorithm to use
+   * Optional content encryption algorithm to use. Defaults to 'A256GCM'
    */
-  enc?: string
+  enc?: 'XC20P' | 'A256GCM'
 
   /**
-   * Optional key wrapping algorithm to use
+   * Optional key wrapping algorithm to use. Defaults to 'ECDH-ES+A256KW'
    */
-  alg?: string
+  alg?: 'ECDH-ES+A256KW' | 'ECDH-1PU+A256KW' | 'ECDH-ES+XC20PKW' | 'ECDH-1PU+XC20PKW'
 }
 
 /**
