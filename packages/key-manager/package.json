@@ -16,8 +16,8 @@
     "@stablelib/ed25519": "^1.0.3",
     "@veramo/core-types": "^5.1.2",
     "debug": "^4.3.4",
-    "did-jwt": "^6.9.0",
-    "uint8arrays": "^3.0.0",
+    "did-jwt": "^7.2.1",
+    "uint8arrays": "^4.0.3",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

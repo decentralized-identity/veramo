@@ -27,7 +27,7 @@
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
     "multihashes": "^4.0.3",
-    "uint8arrays": "^3.0.0"
+    "uint8arrays": "^4.0.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

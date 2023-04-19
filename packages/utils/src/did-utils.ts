@@ -11,7 +11,6 @@ import {
 import { isDefined } from './type-utils.js'
 import * as u8a from 'uint8arrays'
 import elliptic from 'elliptic'
-import { bases } from 'multiformats/basics'
 import Debug from 'debug'
 import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes, multibaseKeyToBytes } from './encodings.js'
 

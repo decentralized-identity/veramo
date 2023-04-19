@@ -4,8 +4,8 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" pnpm build:js && pnpm build:api && pnpm build:schema",
     "build:js": "pnpm -r --stream build",
-    "build:api": "pnpm --package=@veramo/cli -c dlx \"pnpm -r --stream extract-api\"",
-    "build:schema": "pnpm --package=@veramo/cli -c dlx \"pnpm -r --stream generate-plugin-schema\"",
+    "build:api": "pnpm -r --stream extract-api",
+    "build:schema": "pnpm -r --stream generate-plugin-schema",
     "lint": "echo \"linting not yet enabled\"",
     "test:integration-build": "pnpm test:integration-prepare && pnpm test:integration-pretty",
     "test:integration-prepare": "cross-env NODE_OPTIONS=--experimental-vm-modules ts-node --project packages/tsconfig.settings.json ./scripts/prepare-integration-tests.ts",
@@ -54,6 +54,7 @@
     "express": "^4.18.2",
     "ganache": "7.7.3",
     "jest": "29.5.0",
+    "jest-config": "29.5.0",
     "jest-environment-jsdom": "29.5.0",
     "jest-environment-node": "29.5.0",
     "json-schema": "0.4.0",
