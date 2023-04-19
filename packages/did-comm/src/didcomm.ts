@@ -336,26 +336,45 @@ export class DIDComm implements IAgentPlugin {
     // 3. create Encrypter for each recipient
     const encrypters: Encrypter[] = recipients
       .map((recipient) => {
-        if (args.packing === 'authcrypt' || options.alg?.startsWith('ECDH-1PU')) {
-          if (options.alg?.endsWith('+XC20PKW')) {
-            return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
-          } else if (options?.alg?.endsWith('+A256KW')) {
+        if (options.enc === 'A256GCM') {
+          if (args.packing === 'authcrypt' || options.alg?.startsWith('ECDH-1PU')) {
             // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
-            return xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
+            return a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
               kid: recipient.kid,
             })
           } else {
-            debug(`not_supported: could not create suitable authcrypt encrypter for recipient ${recipient.kid} with alg=${options.alg}, enc=${options.enc}`)
-            return null
+            return a256gcmAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
           }
-        } else {
-          if (options.alg?.endsWith('+XC20PKW')) {
-            return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
-          } else if (options?.alg?.endsWith('+A256KW')) {
-            return xc20pAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid )
+        } else if (options.enc === 'XC20P') {
+          if (args.packing === 'authcrypt' || options.alg?.startsWith('ECDH-1PU')) {
+            if (options.alg?.endsWith('+XC20PKW')) {
+              return xc20pAuthEncrypterEcdh1PuV3x25519WithXc20PkwV2(
+                recipient.publicKeyBytes,
+                <ECDH>senderECDH,
+                { kid: recipient.kid },
+              )
+            } else if (options?.alg?.endsWith('+A256KW')) {
+              // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
+              return xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
+                kid: recipient.kid,
+              })
+            } else {
+              debug(
+                `not_supported: could not create suitable authcrypt encrypter for recipient ${recipient.kid} with alg=${options.alg}, enc=${options.enc}`,
+              )
+              return null
+            }
           } else {
-            debug(`not_supported: could not create suitable anoncrypt encrypter for recipient ${recipient.kid} with alg=${options.alg}, enc=${options.enc}`)
-            return null
+            if (options.alg?.endsWith('+XC20PKW')) {
+              return x25519Encrypter(recipient.publicKeyBytes, recipient.kid)
+            } else if (options?.alg?.endsWith('+A256KW')) {
+              return xc20pAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
+            } else {
+              debug(
+                `not_supported: could not create suitable anoncrypt encrypter for recipient ${recipient.kid} with alg=${options.alg}, enc=${options.enc}`,
+              )
+              return null
+            }
           }
         }
       })

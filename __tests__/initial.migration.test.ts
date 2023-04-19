@@ -167,7 +167,7 @@ describe('database initial migration tests', () => {
           encoding: 'utf-8',
         })
         expect(signedMessage).toEqual(
-          'vzDocUViJh7ooOCZ-jBHKZddEsTa4yClHwhIL9SHJwjAv3bC6TZIcUnX36ZqNBWvLbnNAQvdtzqrVf3l0pv3QQ',
+          'vzDocUViJh7ooOCZ-jBHKZddEsTa4yClHwhIL9SHJwg_QIk9Fsm3jrYoIFmVy-pPjPUP5aNq6QEUfGCm_ZpKAA',
         )
       })
 
@@ -203,7 +203,7 @@ describe('database initial migration tests', () => {
           encoding: 'utf-8',
         })
         expect(signedMessage).toEqual(
-          'JDaZFSC4eWQdau4G9a8l8ml0rhwmzCY4oEDIr-cjWK2nVCOGZP94HV3EfbpO_X3bZKPITLg8FJgVVSyRRPcObQ',
+          'JDaZFSC4eWQdau4G9a8l8ml0rhwmzCY4oEDIr-cjWK1Yq9x5mwCH4qI7gkWxAoIjVgsUmfcMi6OqfTH7iz8y1A',
         )
       })
 
