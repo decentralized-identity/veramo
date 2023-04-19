@@ -22,7 +22,7 @@
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt": "^6.9.0",
+    "did-jwt": "^7.0.0-alpha.5",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

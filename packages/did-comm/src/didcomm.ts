@@ -20,6 +20,10 @@ import {
   createAuthEncrypter,
   Encrypter,
   verifyJWS,
+  xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW,
+  xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW,
+  xc20pAnonDecrypterX25519WithA256KW,
+  xc20pAnonEncrypterX25519WithA256KW,
 } from 'did-jwt'
 import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod, Service } from 'did-resolver'
 
@@ -280,6 +284,13 @@ export class DIDComm implements IAgentPlugin {
       }
     }
 
+    const defaults = {
+      alg: args.packing === 'authcrypt' ? 'ECDH-1PU+A256KW' : 'ECDH-ES+A256KW',
+      enc: 'XC20P', // FIXME: 'A256CBC-HS512' would be required and 'A256GCM' recommended. 'XC20P' is only optional
+    }
+
+    const options = {...defaults, ...args.options}
+
     // 2: compute recipients
     interface IRecipient {
       kid: string
@@ -325,10 +336,27 @@ export class DIDComm implements IAgentPlugin {
     // 3. create Encrypter for each recipient
     const encrypters: Encrypter[] = recipients
       .map((recipient) => {
-        if (args.packing === 'authcrypt') {
-          return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
+        if (args.packing === 'authcrypt' || options.alg?.startsWith('ECDH-1PU')) {
+          if (options.alg?.endsWith('+XC20PKW')) {
+            return createAuthEncrypter(recipient.publicKeyBytes, <ECDH>senderECDH, { kid: recipient.kid })
+          } else if (options?.alg?.endsWith('+A256KW')) {
+            // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
+            return xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
+              kid: recipient.kid,
+            })
+          } else {
+            debug(`not_supported: could not create suitable authcrypt encrypter for recipient ${recipient.kid} with alg=${options.alg}, enc=${options.enc}`)
+            return null
+          }
         } else {
-          return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
+          if (options.alg?.endsWith('+XC20PKW')) {
+            return createAnonEncrypter(recipient.publicKeyBytes, { kid: recipient.kid })
+          } else if (options?.alg?.endsWith('+A256KW')) {
+            return xc20pAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid )
+          } else {
+            debug(`not_supported: could not create suitable anoncrypt encrypter for recipient ${recipient.kid} with alg=${options.alg}, enc=${options.enc}`)
+            return null
+          }
         }
       })
       .filter(isDefined)
@@ -341,7 +369,7 @@ export class DIDComm implements IAgentPlugin {
 
     // 4. createJWE
     const messageBytes = u8a.fromString(JSON.stringify(args.message), 'utf-8')
-    const jwe = await createJWE(messageBytes, encrypters, protectedHeader)
+    const jwe = await createJWE(messageBytes, encrypters, protectedHeader, undefined, true)
     const message = JSON.stringify(jwe)
     return { message }
   }
@@ -422,6 +450,13 @@ export class DIDComm implements IAgentPlugin {
     //   - match DIDs against locally managed DIDs
     let managedRecipients = await extractManagedRecipients(jwe, context)
 
+    // 1.5 distribute protected header to each recipient
+    const protectedHeader = decodeJoseBlob(jwe.protected)
+    managedRecipients = managedRecipients.map((mr) => {
+      mr.recipient.header = { ...protectedHeader, ...mr.recipient.header }
+      return mr
+    })
+
     // 2. get internal IKey instance for each recipient.kid
     //   - resolve locally managed DIDs that match recipients
     //   - filter to the keyAgreementKeys that match the recipient.kid
@@ -440,11 +475,19 @@ export class DIDComm implements IAgentPlugin {
       const recipientECDH: ECDH = createEcdhWrapper(localKey.localKeyRef, context)
       // TODO: here's where more algorithms should be supported
       if (senderKeyBytes && localKey.recipient?.header?.alg?.includes('ECDH-1PU')) {
-        decrypter = createAuthDecrypter(recipientECDH, senderKeyBytes)
         packing = 'authcrypt'
+        if (localKey.recipient?.header?.alg?.endsWith('+A256KW')) {
+          decrypter = xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(recipientECDH, senderKeyBytes)
+        } else {
+          decrypter = createAuthDecrypter(recipientECDH, senderKeyBytes)
+        }
       } else {
-        decrypter = createAnonDecrypter(recipientECDH)
         packing = 'anoncrypt'
+        if (localKey.recipient?.header?.alg?.endsWith('+A256KW')) {
+          decrypter = xc20pAnonDecrypterX25519WithA256KW(recipientECDH)
+        } else {
+          decrypter = createAnonDecrypter(recipientECDH)
+        }
       }
       // 4. decryptJWE(jwe, decrypter)
       try {

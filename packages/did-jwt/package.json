@@ -13,7 +13,7 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt": "^6.9.0",
+    "did-jwt": "^7.0.0-alpha.5",
     "did-resolver": "^4.0.1"
   },
   "devDependencies": {
