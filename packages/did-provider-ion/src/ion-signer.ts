@@ -1,9 +1,10 @@
 import { IContext } from './types/ion-provider-types.js'
-import * as u8a from 'uint8arrays'
-import { hash } from '@stablelib/sha256'
+import { sha256 } from '@noble/hashes/sha256'
+import { bytesToBase64url, bytesToHex, stringToUtf8Bytes } from '@veramo/utils'
 
 /**
- * This class is responsible for signing the JWT when sending in Anchor requests to an ION node. It is using the update or recovery key denoted by 'kid'
+ * This class is responsible for signing the JWT when sending in Anchor requests to an ION node. It is using the update
+ * or recovery key denoted by 'kid'
  */
 export class IonSigner {
   private readonly kid: string
@@ -30,18 +31,18 @@ export class IonSigner {
         alg: 'ES256K',
       }
     }
-    const encodedHeader = u8a.toString(u8a.fromString(JSON.stringify(header)), 'base64url')
-    const encodedPayload = u8a.toString(u8a.fromString(JSON.stringify(payload)), 'base64url')
+    const encodedHeader = bytesToBase64url(stringToUtf8Bytes(JSON.stringify(header)))
+    const encodedPayload = bytesToBase64url(stringToUtf8Bytes(JSON.stringify(payload)))
     const toBeSigned = `${encodedHeader}.${encodedPayload}`
-    const message = u8a.fromString(toBeSigned)
-    const digest = u8a.toString(hash(message), 'base16')
-    const sigObj = await this.context.agent.keyManagerSign({
+    const message = stringToUtf8Bytes(toBeSigned)
+    const digest = bytesToHex(sha256(message))
+    // The keyManagerSign already performs base64url encoding
+    const encodedSignature = await this.context.agent.keyManagerSign({
       keyRef: this.kid,
       algorithm: header.alg,
       data: digest,
       encoding: 'hex',
     })
-    const encodedSignature = sigObj // The keyManagerSign already performs base64Url encoding
     return `${encodedHeader}.${encodedPayload}.${encodedSignature}`
   }
 }

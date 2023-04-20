@@ -1,6 +1,4 @@
 import { SecretBox } from '../secret-box.js'
-// import * as elliptic from 'elliptic'
-// import * as hash from 'hash.js'
 
 describe('@veramo/kms-local', () => {
   it('should encrypt and decrypt', async () => {

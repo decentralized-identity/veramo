@@ -34,7 +34,7 @@ import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod,
 import schema from './plugin.schema.json' assert { type: 'json' }
 
 import { v4 as uuidv4 } from 'uuid'
-import * as u8a from 'uint8arrays'
+
 import {
   createEcdhWrapper,
   extractSenderEncryptionKey,
@@ -51,6 +51,9 @@ import {
   resolveDidOrThrow,
   _ExtendedIKey,
   _NormalizedVerificationMethod,
+  hexToBytes,
+  stringToUtf8Bytes,
+  bytesToUtf8String,
 } from '@veramo/utils'
 
 import Debug from 'debug'
@@ -320,7 +323,7 @@ export class DIDComm implements IAgentPlugin {
 
       // 2.3 get public key bytes and key IDs for supported recipient keys
       const tempRecipients = keyAgreementKeys
-        .map((pk) => ({ kid: pk.id, publicKeyBytes: u8a.fromString(pk.publicKeyHex!, 'base16') }))
+        .map((pk) => ({ kid: pk.id, publicKeyBytes: hexToBytes(pk.publicKeyHex!) }))
         .filter(isDefined)
 
       if (tempRecipients.length === 0) {
@@ -342,12 +345,12 @@ export class DIDComm implements IAgentPlugin {
       .map((recipient) => {
         if (options.enc === 'A256GCM') {
           if (args.packing === 'authcrypt' || options.alg?.startsWith('ECDH-1PU')) {
-              // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
-              return a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
-                kid: recipient.kid,
-              })
+            // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
+            return a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
+              kid: recipient.kid,
+            })
           } else {
-              return a256gcmAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
+            return a256gcmAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
           }
         } else if (options.enc === 'XC20P') {
           if (args.packing === 'authcrypt' || options.alg?.startsWith('ECDH-1PU')) {
@@ -390,7 +393,7 @@ export class DIDComm implements IAgentPlugin {
     }
 
     // 4. createJWE
-    const messageBytes = u8a.fromString(JSON.stringify(args.message), 'utf-8')
+    const messageBytes = stringToUtf8Bytes(JSON.stringify(args.message))
     const jwe = await createJWE(messageBytes, encrypters, protectedHeader, undefined, true)
     const message = JSON.stringify(jwe)
     return { message }
@@ -530,7 +533,7 @@ export class DIDComm implements IAgentPlugin {
       // 4. decryptJWE(jwe, decrypter)
       try {
         const decryptedBytes = await decryptJWE(jwe, decrypter)
-        const decryptedMsg = u8a.toString(decryptedBytes, 'utf-8')
+        const decryptedMsg = bytesToUtf8String(decryptedBytes)
         const message = JSON.parse(decryptedMsg)
         return { message, metaData: { packing } } as IUnpackedDIDCommMessage
       } catch (e) {

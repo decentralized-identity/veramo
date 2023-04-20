@@ -9,10 +9,10 @@ import {
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core-types'
-import pkg from 'blakejs'
-const { blake2bHex } = pkg
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
+import { blake2b } from '@noble/hashes/blake2b'
+import { bytesToHex } from './encodings.js'
 
 /**
  * Every Verifiable Credential `@context` property must contain this.
@@ -96,7 +96,7 @@ export function computeEntryHash(
   } else {
     hashable = JSON.stringify(input)
   }
-  return blake2bHex(hashable)
+  return bytesToHex(blake2b(hashable))
 }
 
 /**

@@ -1,10 +1,9 @@
 import { DIDResolutionResult, IAgentContext, ICredentialPlugin, IResolver } from '../../../core-types/src'
 import { Message } from '../../../message-handler/src'
 import { IContext, MessageTypes, W3cMessageHandler } from '../message-handler.js'
-// @ts-ignore
-import pkg from 'blakejs'
-const { blake2bHex } = pkg
 import { jest } from '@jest/globals'
+import { blake2b } from '@noble/hashes/blake2b'
+import { bytesToHex, hexToBytes } from '../../../utils/src'
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()
@@ -71,7 +70,7 @@ describe('@veramo/credential-w3c', () => {
       verifyCredential: jest.fn(),
       verifyPresentation: jest.fn(),
       getDIDComponentById: jest.fn(),
-    }
+    },
   } as IAgentContext<IResolver & ICredentialPlugin>
 
   it('should reject unknown message type', async () => {
@@ -121,7 +120,7 @@ describe('@veramo/credential-w3c', () => {
     message.addMetaData({ type: 'JWT', value: 'ES256K-R' })
     const handled = await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(vcJwtSecp256k1))
+    expect(handled.id).toEqual(bytesToHex(blake2b(vcJwtSecp256k1)))
     expect(handled.raw).toEqual(vcJwtSecp256k1)
     expect(handled.type).toEqual(MessageTypes.vc)
     expect(handled.from).toEqual(vcPayloadSecp256k1.iss)
@@ -138,7 +137,7 @@ describe('@veramo/credential-w3c', () => {
 
     const handled = await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(vpJwtSecp256k1))
+    expect(handled.id).toEqual(bytesToHex(blake2b(vpJwtSecp256k1)))
     expect(handled.raw).toEqual(vpJwtSecp256k1)
     expect(handled.type).toEqual(MessageTypes.vp)
     expect(handled.from).toEqual(vpPayloadSecp256k1.iss)
@@ -188,7 +187,7 @@ describe('@veramo/credential-w3c', () => {
     message.addMetaData({ type: 'JWT', value: 'Ed25519' })
     const handled = await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(vcJwtEd25519))
+    expect(handled.id).toEqual(bytesToHex(blake2b(vcJwtEd25519)))
     expect(handled.raw).toEqual(vcJwtEd25519)
     expect(handled.type).toEqual(MessageTypes.vc)
     expect(handled.from).toEqual(vcPayloadEd25519.iss)
@@ -204,7 +203,7 @@ describe('@veramo/credential-w3c', () => {
 
     const handled = await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(vpJwtEd25519))
+    expect(handled.id).toEqual(bytesToHex(blake2b(vpJwtEd25519)))
     expect(handled.raw).toEqual(vpJwtEd25519)
     expect(handled.type).toEqual(MessageTypes.vp)
     expect(handled.from).toEqual(vpPayloadEd25519.iss)
@@ -236,7 +235,7 @@ describe('@veramo/credential-w3c', () => {
 
     const handled = await handler.handle(message, context)
     expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(vpMultiAudJwt))
+    expect(handled.id).toEqual(bytesToHex(blake2b(vpMultiAudJwt)))
     expect(handled.raw).toEqual(vpMultiAudJwt)
     expect(handled.type).toEqual(MessageTypes.vp)
     expect(handled.from).toEqual(vpMultiAudPayload.iss)
@@ -275,7 +274,7 @@ describe('@veramo/credential-w3c', () => {
     const handled = await handler.handle(message, context)
 
     expect(handled.isValid()).toEqual(true)
-    expect(handled.id).toEqual(blake2bHex(token))
+    expect(handled.id).toEqual(bytesToHex(blake2b(token)))
     expect(handled.raw).toEqual(token)
     expect(handled.type).toEqual(MessageTypes.vc)
     expect(handled.from).toEqual('did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e')
