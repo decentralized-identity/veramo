@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency z-schema to v6 ([0cdd100](https://github.com/uport-project/veramo/commit/0cdd100c810df0e27596a537b07f54f78b0bab6b))
+
+
+
+
+
 ## [5.1.2](https://github.com/uport-project/veramo/compare/v5.1.1...v5.1.2) (2023-02-25)
 
 **Note:** Version bump only for package @veramo/core
