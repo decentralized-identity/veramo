@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency canonicalize to v2 ([8368462](https://github.com/uport-project/veramo/commit/8368462c415e316318855f9f762b040dbb251296))
+
+
+
+
+
 ## [5.1.2](https://github.com/uport-project/veramo/compare/v5.1.1...v5.1.2) (2023-02-25)
 
 

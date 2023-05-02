@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
+
+
+### Bug Fixes
+
+* add did-provider-peer to CLI dependencies ([#1161](https://github.com/uport-project/veramo/issues/1161)) ([38827c3](https://github.com/uport-project/veramo/commit/38827c3a12483f6791fcb3784f2a1ef27a21495f))
+* **cli:** NODE_NO_WARNINGS on windows ([#1164](https://github.com/uport-project/veramo/issues/1164)) ([e9474e2](https://github.com/uport-project/veramo/commit/e9474e2882d9019677f227437702c226c79bbc87))
+* **credential-ld:** external context handling with the `fetchRemoteContexts` option ([#1149](https://github.com/uport-project/veramo/issues/1149)) ([4a63f40](https://github.com/uport-project/veramo/commit/4a63f4009bea31c9111de8b5298b34b70e53fa37))
+* **credential-ld:** fix Ed25519Signature2020 verification ([#1166](https://github.com/uport-project/veramo/issues/1166)) ([c965fd5](https://github.com/uport-project/veramo/commit/c965fd502f652c9929ae4753c56ebbe351447733))
+* **data-store:** fix react-native migrations on older Android installations ([#1152](https://github.com/uport-project/veramo/issues/1152)) ([826b994](https://github.com/uport-project/veramo/commit/826b994c6c86f45ea05a93bfc409cec34e562ec6))
+* **deps:** update dependency canonicalize to v2 ([8368462](https://github.com/uport-project/veramo/commit/8368462c415e316318855f9f762b040dbb251296))
+* **deps:** update dependency express-handlebars to v7 ([2621947](https://github.com/uport-project/veramo/commit/26219471a117d0ec3d7a691e082022253aae6cd6))
+* **deps:** update dependency z-schema to v6 ([0cdd100](https://github.com/uport-project/veramo/commit/0cdd100c810df0e27596a537b07f54f78b0bab6b))
+* plugin schemas ([#1159](https://github.com/uport-project/veramo/issues/1159)) ([4b5f580](https://github.com/uport-project/veramo/commit/4b5f580e993857ae19541673b484b0af34f4e611))
+
+
+### Features
+
+* add did-peer provider and resolver ([#1156](https://github.com/uport-project/veramo/issues/1156)) ([9502063](https://github.com/uport-project/veramo/commit/95020632f741bd4640b3496b7b1bf19f5e6641d0))
+* **did-provider-key:** add option to create the identifier from a given private key ([#1165](https://github.com/uport-project/veramo/issues/1165)) ([ad79a22](https://github.com/uport-project/veramo/commit/ad79a229666d48546c5b7ccb15c638adee44b7a6))
+
+
+
+
+
 ## [5.1.4](https://github.com/uport-project/veramo/compare/v5.1.3...v5.1.4) (2023-03-16)
 
 

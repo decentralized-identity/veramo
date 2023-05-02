@@ -83,8 +83,9 @@ export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
         // nop
     }
 
-    preDidResolutionModification(didUrl: string, didDoc: DIDDocument): void {
+    async preDidResolutionModification(didUrl: string, didDoc: DIDDocument): Promise<DIDDocument> {
         // do nothing
+        return didDoc
     }
 
 }

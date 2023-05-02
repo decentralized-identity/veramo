@@ -8,8 +8,8 @@
       "@type": "@id",
       "@container": "@graph"
     },
-    "Ed25519VerificationKey2018": {
-      "@id": "https://w3id.org/security#Ed25519VerificationKey2018",
+    "Ed25519VerificationKey2020": {
+      "@id": "https://w3id.org/security#Ed25519VerificationKey2020",
       "@context": {
         "@protected": true,
         "id": "@id",
@@ -22,13 +22,14 @@
           "@id": "https://w3id.org/security#revoked",
           "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
         },
-        "publicKeyBase58": {
-          "@id": "https://w3id.org/security#publicKeyBase58"
+        "publicKeyMultibase": {
+          "@id": "https://w3id.org/security#publicKeyMultibase",
+          "@type": "https://w3id.org/security#multibase"
         }
       }
     },
-    "Ed25519Signature2018": {
-      "@id": "https://w3id.org/security#Ed25519Signature2018",
+    "Ed25519Signature2020": {
+      "@id": "https://w3id.org/security#Ed25519Signature2020",
       "@context": {
         "@protected": true,
         "id": "@id",
@@ -78,8 +79,9 @@
             }
           }
         },
-        "jws": {
-          "@id": "https://w3id.org/security#jws"
+        "proofValue": {
+          "@id": "https://w3id.org/security#proofValue",
+          "@type": "https://w3id.org/security#multibase"
         },
         "verificationMethod": {
           "@id": "https://w3id.org/security#verificationMethod",

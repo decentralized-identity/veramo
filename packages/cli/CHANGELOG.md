@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
+
+
+### Bug Fixes
+
+* add did-provider-peer to CLI dependencies ([#1161](https://github.com/uport-project/veramo/issues/1161)) ([38827c3](https://github.com/uport-project/veramo/commit/38827c3a12483f6791fcb3784f2a1ef27a21495f))
+* **cli:** NODE_NO_WARNINGS on windows ([#1164](https://github.com/uport-project/veramo/issues/1164)) ([e9474e2](https://github.com/uport-project/veramo/commit/e9474e2882d9019677f227437702c226c79bbc87))
+* **deps:** update dependency express-handlebars to v7 ([2621947](https://github.com/uport-project/veramo/commit/26219471a117d0ec3d7a691e082022253aae6cd6))
+
+
+### Features
+
+* add did-peer provider and resolver ([#1156](https://github.com/uport-project/veramo/issues/1156)) ([9502063](https://github.com/uport-project/veramo/commit/95020632f741bd4640b3496b7b1bf19f5e6641d0))
+
+
+
+
+
 ## [5.1.4](https://github.com/uport-project/veramo/compare/v5.1.3...v5.1.4) (2023-03-16)
 
 

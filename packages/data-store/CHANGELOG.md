@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
+
+
+### Bug Fixes
+
+* **data-store:** fix react-native migrations on older Android installations ([#1152](https://github.com/uport-project/veramo/issues/1152)) ([826b994](https://github.com/uport-project/veramo/commit/826b994c6c86f45ea05a93bfc409cec34e562ec6))
+
+
+
+
+
 ## [5.1.2](https://github.com/uport-project/veramo/compare/v5.1.1...v5.1.2) (2023-02-25)
 
 **Note:** Version bump only for package @veramo/data-store

@@ -68,7 +68,7 @@ describe('@veramo/did-jwt', () => {
           didResolutionMetadata: {},
           didDocumentMetadata: {},
           didDocument: {
-            '@context': 'https://w3id.org/did/v1',
+            '@context': 'https://www.w3.org/ns/did/v1',
             id: args?.didUrl,
             verificationMethod: [
               {

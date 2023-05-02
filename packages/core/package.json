@@ -1,7 +1,7 @@
 {
   "name": "@veramo/core",
   "description": "Veramo Core Logic & Interfaces.",
-  "version": "5.1.2",
+  "version": "5.2.0",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
@@ -16,7 +16,7 @@
     "@veramo/core-types": "^5.1.2",
     "debug": "^4.3.4",
     "events": "^3.2.0",
-    "z-schema": "^5.0.5"
+    "z-schema": "^6.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

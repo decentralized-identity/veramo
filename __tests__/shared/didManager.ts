@@ -145,6 +145,22 @@ export default (testContext: {
       expect(identifier.provider).toEqual('did:jwk')
     })
 
+    it('should create identifier using did:key with an imported key', async () => {
+      // keyType supports 'Secp256k1', 'Ed25519', 'X25519'
+      const keyType = 'Secp256k1'
+      identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        alias: 'keyTest',
+        options: {
+          keyType,
+          privateKeyHex: 'f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b1',
+        }
+      })
+      expect(identifier.provider).toEqual('did:key')
+      expect(identifier.keys[0].type).toEqual(keyType)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
     it('should throw error for existing alias provider combo', async () => {
       await expect(
         agent.didManagerCreate({

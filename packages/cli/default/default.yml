@@ -166,6 +166,8 @@ didResolver:
         $ref: /web-did-resolver
       key:
         $ref: /did-key-resolver
+      peer:
+        $require: '@veramo/did-provider-peer?t=function&p=/peer#getResolver'
       pkh:
         $require: '@veramo/did-provider-pkh?t=function&p=/pkh#getDidPkhResolver'
       elem:

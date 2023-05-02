@@ -39,32 +39,32 @@ export default (testContext: {
       let identifier: IIdentifier = await agent.didManagerCreate({
         // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
         provider: 'did:pkh',
-        options: { chainId: "1"}
-      });
+        options: { chainId: '1' },
+      })
 
-      const result = await agent.resolveDid({ didUrl: identifier.did});
+      const result = await agent.resolveDid({ didUrl: identifier.did })
       const didDoc = result.didDocument
       expect(didDoc?.id).toEqual(identifier.did)
       expect(result).toHaveProperty('didDocumentMetadata')
       expect(result).toHaveProperty('didResolutionMetadata')
 
       //let cred = await agent.createVerifiableCredential()
-    });
+    })
 
     it('should resolve did:jwk', async () => {
       let identifier: IIdentifier = await agent.didManagerCreate({
         provider: 'did:jwk',
         // keyType supports 'Secp256k1', 'Secp256r1', 'Ed25519', 'X25519'
         options: {
-          keyType: "Ed25519"
-        }
+          keyType: 'Ed25519',
+        },
       })
-      const result = await agent.resolveDid({ didUrl: identifier.did})
+      const result = await agent.resolveDid({ didUrl: identifier.did })
       const didDoc = result.didDocument
       expect(didDoc?.id).toEqual(identifier.did)
       expect(result).toHaveProperty('didDocumentMetadata')
       expect(result).toHaveProperty('didResolutionMetadata')
-    });
+    })
 
     it('should resolve imported fake did', async () => {
       const did = 'did:fake:myfakedid'
@@ -112,6 +112,7 @@ export default (testContext: {
         keyAgreement: ['did:fake:myfakedid#fake-key-1'],
         authentication: ['did:fake:myfakedid#fake-key-1'],
         assertionMethod: ['did:fake:myfakedid#fake-key-1'],
+        '@context': ['https://www.w3.org/ns/did/v1', 'https://w3id.org/security/suites/ed25519-2018/v1'],
       })
       expect(resolved).toHaveProperty('didDocumentMetadata')
       expect(resolved).toHaveProperty('didResolutionMetadata')

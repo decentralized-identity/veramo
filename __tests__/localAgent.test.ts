@@ -37,6 +37,7 @@ import {
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
@@ -91,8 +92,9 @@ import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
 import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
+import didCommWithPeerDidFlow from './shared/didCommWithPeerDidFlow.js'
 
-jest.setTimeout(60000)
+jest.setTimeout(120000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
@@ -199,6 +201,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:peer': new PeerDIDProvider({
+            defaultKms: 'local'
+          }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
           }),
@@ -224,6 +229,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ...getDidKeyResolver(),
         ...getDidPkhResolver(),
         ...getDidJwkResolver(),
+        ...getDidPeerResolver(),
         ...new FakeDidResolver(() => agent).getDidFakeResolver(),
       }),
       new DataStore(dbConnection),
@@ -294,6 +300,7 @@ describe('Local integration tests', () => {
   utils(testContext)
   web3(testContext)
   didCommWithEthrDidFlow(testContext)
+  didCommWithPeerDidFlow(testContext)
   credentialStatus(testContext)
   ethrDidFlowSigned(testContext)
 })

@@ -35,8 +35,8 @@ export default (testContext: {
       let credential = (await fs.promises.readFile(`./__tests__/fixtures/${text}`, 'utf8')).toString()
       credential = JSON.parse(credential)
 
-      const { verified, error } = await agent.verifyCredential({ credential })
-      expect(verified).toBe(true)
+      const result = await agent.verifyCredential({ credential })
+      expect(result.verified).toBe(true)
     })
   })
 }
