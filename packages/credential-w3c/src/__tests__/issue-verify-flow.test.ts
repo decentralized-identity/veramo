@@ -130,43 +130,40 @@ describe('credential-w3c full flow', () => {
     expect(verifyResult.verified).toBeFalsy()
   })
 
-  // uncomment when https://github.com/uport-project/veramo/issues/1073 is resolved
   // example credential found at: https://learn.mattr.global/tutorials/web-credentials/issue/issue-basic
-  // it(`verifies a credential created with lds proofType via Mattr`, async () => {
-  //   const verifiableCredential1 = {
-  //     "@context": [
-  //       "https://www.w3.org/2018/credentials/v1",
-  //       {
-  //         "@vocab": "https://w3id.org/security/undefinedTerm#"
-  //       },
-  //       "https://schema.org"
-  //     ],
-  //     "type": [
-  //       "VerifiableCredential",
-  //       "CourseCredential"
-  //     ],
-  //     "issuer": {
-  //       "id": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj",
-  //       "name": "tenant"
-  //     },
-  //     "issuanceDate": "2021-07-26T01:05:05.152Z",
-  //     "credentialSubject": {
-  //       "id": "did:key:z6MkfxQU7dy8eKxyHpG267FV23agZQu9zmokd8BprepfHALi",
-  //       "givenName": "Chris",
-  //       "familyName": "Shin",
-  //       "educationalCredentialAwarded": "Certificate Name"
-  //     },
-  //     "proof": {
-  //       "type": "Ed25519Signature2018",
-  //       "created": "2021-07-26T01:05:06Z",
-  //       "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..o6hnrrWpArG8LQz2Ex_u66_BtuPdp3Hkz18nhNdNhJ7J1k_2lmCCwsNdmo-kNFirZdSIMzqO-V3wEjMDphVEAA",
-  //       "proofPurpose": "assertionMethod",
-  //       "verificationMethod": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj#z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj"
-  //     }
-  //   }
-  //   const verifyResult = await agent.verifyCredential({ credential: verifiableCredential1 })
-  //   expect(verifyResult.verified).toBeTruthy()
-  // })
+  it(`verifies a credential created with lds proofType via Mattr`, async () => {
+    const verifiableCredential1 = {
+      '@context': [
+        'https://www.w3.org/2018/credentials/v1',
+        {
+          '@vocab': 'https://w3id.org/security/undefinedTerm#',
+        },
+        'https://schema.org',
+      ],
+      type: ['VerifiableCredential', 'CourseCredential'],
+      issuer: {
+        id: 'did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj',
+        name: 'tenant',
+      },
+      issuanceDate: '2021-07-26T01:05:05.152Z',
+      credentialSubject: {
+        id: 'did:key:z6MkfxQU7dy8eKxyHpG267FV23agZQu9zmokd8BprepfHALi',
+        givenName: 'Chris',
+        familyName: 'Shin',
+        educationalCredentialAwarded: 'Certificate Name',
+      },
+      proof: {
+        type: 'Ed25519Signature2018',
+        created: '2021-07-26T01:05:06Z',
+        jws: 'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..o6hnrrWpArG8LQz2Ex_u66_BtuPdp3Hkz18nhNdNhJ7J1k_2lmCCwsNdmo-kNFirZdSIMzqO-V3wEjMDphVEAA',
+        proofPurpose: 'assertionMethod',
+        verificationMethod:
+          'did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj#z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj',
+      },
+    }
+    const verifyResult = await agent.verifyCredential({ credential: verifiableCredential1 })
+    expect(verifyResult.verified).toBeTruthy()
+  })
 
   it('verify a verifiablePresentation', async () => {
     const verifiableCredential1 = await agent.createVerifiableCredential({
@@ -226,27 +223,27 @@ describe('credential-w3c full flow', () => {
 
   // it('passes the verification of an expired credential with policy exp false',async () => {
   //   const presentationJWT = 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJ2cCI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVQcmVzZW50YXRpb24iXSwidmVyaWZpYWJsZUNyZWRlbnRpYWwiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0o5LmV5SjJZeUk2ZXlKQVkyOXVkR1Y0ZENJNld5Sm9kSFJ3Y3pvdkwzZDNkeTUzTXk1dmNtY3ZNakF4T0M5amNtVmtaVzUwYVdGc2N5OTJNU0lzSW1OMWMzUnZiVHBsZUdGdGNHeGxMbU52Ym5SbGVIUWlYU3dpZEhsd1pTSTZXeUpXWlhKcFptbGhZbXhsUTNKbFpHVnVkR2xoYkNKZExDSmpjbVZrWlc1MGFXRnNVM1ZpYW1WamRDSTZleUp1YjNSb2FXNW5Jam9pWld4elpTQnRZWFIwWlhKekluMTlMQ0p1WW1ZaU9qRXhOall3TWprNE5UZzRMQ0pwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3QyYlhCeFRXbDFOM2h1U25kVE9YQkVSR0ZSYW1oQ1dUWndlbU00V1RKQ2FWRnhSWFUwZW1GRldFMVdUQ0o5LnA4Y2FTS1pTcGdISm1TRzhMekpnSWlWMzFRU3NjOEJ2anZuQ1JrOEM3X1UxLXV5cS11MHlQcDdjRWlSOUtXTnprN2RDQlBiR2pBRGRiNC0tV3V5LUNRIl19LCJuYmYiOjI2NjAyOTg1ODgsImlzcyI6ImRpZDprZXk6ejZNa3ZtcHFNaXU3eG5Kd1M5cEREYVFqaEJZNnB6YzhZMkJpUXFFdTR6YUVYTVZMIiwibm9uY2UiOiJWRVJBTU8ifQ.F-uiI2iVMcdm1VFzkXgtZqq8QGw5XnyEI36vGblBluHnklnNYNmE5eluQ23dbcduGWSe3ZJJ65C7HrPTUoXvDA'
-
+  //
   //   const response = await agent.verifyPresentation({
   //     presentation: presentationJWT,
   //     policies: {
   //       exp: false
   //     }
   //   })
-
+  //
   //   expect(response.verified).toBe(true)
   // })
-
+  //
   // it('passes the verification with nbf in the future with policy nbf false',async () => {
   //   const presentationJWT = 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJ2cCI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVQcmVzZW50YXRpb24iXSwidmVyaWZpYWJsZUNyZWRlbnRpYWwiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0o5LmV5SjJZeUk2ZXlKQVkyOXVkR1Y0ZENJNld5Sm9kSFJ3Y3pvdkwzZDNkeTUzTXk1dmNtY3ZNakF4T0M5amNtVmtaVzUwYVdGc2N5OTJNU0lzSW1OMWMzUnZiVHBsZUdGdGNHeGxMbU52Ym5SbGVIUWlYU3dpZEhsd1pTSTZXeUpXWlhKcFptbGhZbXhsUTNKbFpHVnVkR2xoYkNKZExDSmpjbVZrWlc1MGFXRnNVM1ZpYW1WamRDSTZleUp1YjNSb2FXNW5Jam9pWld4elpTQnRZWFIwWlhKekluMTlMQ0p1WW1ZaU9qRXhOall3TWprNE5UZzRMQ0pwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3QyYlhCeFRXbDFOM2h1U25kVE9YQkVSR0ZSYW1oQ1dUWndlbU00V1RKQ2FWRnhSWFUwZW1GRldFMVdUQ0o5LnA4Y2FTS1pTcGdISm1TRzhMekpnSWlWMzFRU3NjOEJ2anZuQ1JrOEM3X1UxLXV5cS11MHlQcDdjRWlSOUtXTnprN2RDQlBiR2pBRGRiNC0tV3V5LUNRIl19LCJuYmYiOjI2NjAyOTg1ODgsImlzcyI6ImRpZDprZXk6ejZNa3ZtcHFNaXU3eG5Kd1M5cEREYVFqaEJZNnB6YzhZMkJpUXFFdTR6YUVYTVZMIiwibm9uY2UiOiJWRVJBTU8ifQ.F-uiI2iVMcdm1VFzkXgtZqq8QGw5XnyEI36vGblBluHnklnNYNmE5eluQ23dbcduGWSe3ZJJ65C7HrPTUoXvDA'
-
+  //
   //   const response = await agent.verifyPresentation({
   //     presentation: presentationJWT,
   //     policies: {
   //       nbf: false
   //     }
   //   })
-
+  //
   //   expect(response.verified).toBe(true)
   // })
 })

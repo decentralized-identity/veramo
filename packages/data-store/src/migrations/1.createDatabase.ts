@@ -1,5 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 import Debug from 'debug'
+import { migrationGetTableName } from './migration-functions.js'
+
 const debug = Debug('veramo:data-store:initial-migration')
 
 /**
@@ -8,14 +10,10 @@ const debug = Debug('veramo:data-store:initial-migration')
  * @public
  */
 export class CreateDatabase1447159020001 implements MigrationInterface {
-  async up(queryRunner: QueryRunner): Promise<void> {
-    function getTableName(givenName: string): string {
-      return (
-        queryRunner.connection.entityMetadatas.find((meta) => meta.givenTableName === givenName)?.tableName ||
-        givenName
-      )
-    }
 
+  name = 'CreateDatabase1447159020001' // Used in case this class gets minified, which would change the classname
+
+  async up(queryRunner: QueryRunner): Promise<void> {
     const dateTimeType: string = queryRunner.connection.driver.mappedDataTypes.createDate as string
 
     debug(`creating identifier table`)
@@ -23,7 +21,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE UNIQUE INDEX \"IDX_6098cca69c838d91e55ef32fe1\" ON \"identifier\" (\"alias\", \"provider\")",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('identifier'),
+        name: migrationGetTableName(queryRunner,'identifier'),
         columns: [
           { name: 'did', type: 'varchar', isPrimary: true },
           { name: 'provider', type: 'varchar', isNullable: true },
@@ -46,7 +44,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE TABLE \"key\" (\"kid\" varchar PRIMARY KEY NOT NULL, \"kms\" varchar NOT NULL, \"type\" varchar NOT NULL, \"publicKeyHex\" varchar NOT NULL, \"privateKeyHex\" varchar NOT NULL, \"meta\" text, \"identifierDid\" varchar, CONSTRAINT \"FK_3f40a9459b53adf1729dbd3b787\" FOREIGN KEY (\"identifierDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION)",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('key'),
+        name: migrationGetTableName(queryRunner,'key'),
         columns: [
           { name: 'kid', type: 'varchar', isPrimary: true },
           { name: 'kms', type: 'varchar' },
@@ -60,7 +58,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['identifierDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
           },
         ],
       }),
@@ -71,7 +69,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE TABLE \"service\" (\"id\" varchar PRIMARY KEY NOT NULL, \"type\" varchar NOT NULL, \"serviceEndpoint\" varchar NOT NULL, \"description\" varchar, \"identifierDid\" varchar, CONSTRAINT \"FK_e16e0280d906951809f95dd09f1\" FOREIGN KEY (\"identifierDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION)",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('service'),
+        name: migrationGetTableName(queryRunner, 'service'),
         columns: [
           { name: 'id', type: 'varchar', isPrimary: true },
           { name: 'type', type: 'varchar' },
@@ -83,7 +81,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['identifierDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
             onDelete: 'cascade',
           },
         ],
@@ -95,7 +93,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE TABLE \"credential\" (\"hash\" varchar PRIMARY KEY NOT NULL, \"raw\" text NOT NULL, \"id\" varchar, \"issuanceDate\" datetime NOT NULL, \"expirationDate\" datetime, \"context\" text NOT NULL, \"type\" text NOT NULL, \"issuerDid\" varchar, \"subjectDid\" varchar, CONSTRAINT \"FK_123d0977e0976565ee0932c0b9e\" FOREIGN KEY (\"issuerDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION, CONSTRAINT \"FK_b790831f44e2fa7f9661a017b0a\" FOREIGN KEY (\"subjectDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION)",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('credential'),
+        name: migrationGetTableName(queryRunner, 'credential'),
         columns: [
           { name: 'hash', type: 'varchar', isPrimary: true },
           { name: 'raw', type: 'text' },
@@ -111,13 +109,13 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['issuerDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
             onDelete: 'cascade',
           },
           {
             columnNames: ['subjectDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
           },
         ],
       }),
@@ -128,7 +126,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE TABLE \"claim\" (\"hash\" varchar PRIMARY KEY NOT NULL, \"issuanceDate\" datetime NOT NULL, \"expirationDate\" datetime, \"context\" text NOT NULL, \"credentialType\" text NOT NULL, \"type\" varchar NOT NULL, \"value\" text, \"isObj\" boolean NOT NULL, \"issuerDid\" varchar, \"subjectDid\" varchar, \"credentialHash\" varchar, CONSTRAINT \"FK_d972c73d0f875c0d14c35b33baa\" FOREIGN KEY (\"issuerDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION, CONSTRAINT \"FK_f411679379d373424100a1c73f4\" FOREIGN KEY (\"subjectDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION, CONSTRAINT \"FK_3d494b79143de3d0e793883e351\" FOREIGN KEY (\"credentialHash\") REFERENCES \"credential\" (\"hash\") ON DELETE NO ACTION ON UPDATE NO ACTION)",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('claim'),
+        name: migrationGetTableName(queryRunner, 'claim'),
         columns: [
           { name: 'hash', type: 'varchar', isPrimary: true },
           { name: 'issuanceDate', type: dateTimeType },
@@ -146,18 +144,18 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['issuerDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
             onDelete: 'cascade',
           },
           {
             columnNames: ['subjectDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
           },
           {
             columnNames: ['credentialHash'],
             referencedColumnNames: ['hash'],
-            referencedTableName: getTableName('credential'),
+            referencedTableName: migrationGetTableName(queryRunner, 'credential'),
             onDelete: 'cascade',
           },
         ],
@@ -169,7 +167,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE TABLE \"presentation\" (\"hash\" varchar PRIMARY KEY NOT NULL, \"raw\" text NOT NULL, \"id\" varchar, \"issuanceDate\" datetime NOT NULL, \"expirationDate\" datetime, \"context\" text NOT NULL, \"type\" text NOT NULL, \"holderDid\" varchar, CONSTRAINT \"FK_a5e418449d9f527776a3bd0ca61\" FOREIGN KEY (\"holderDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION)",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('presentation'),
+        name: migrationGetTableName(queryRunner, 'presentation'),
         columns: [
           { name: 'hash', type: 'varchar', isPrimary: true },
           { name: 'raw', type: 'text' },
@@ -184,7 +182,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['holderDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
             onDelete: 'cascade',
           },
         ],
@@ -196,7 +194,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE TABLE \"message\" (\"id\" varchar PRIMARY KEY NOT NULL, \"saveDate\" datetime NOT NULL DEFAULT (datetime('now')), \"updateDate\" datetime NOT NULL DEFAULT (datetime('now')), \"createdAt\" datetime, \"expiresAt\" datetime, \"threadId\" varchar, \"type\" varchar NOT NULL, \"raw\" varchar, \"data\" text, \"replyTo\" text, \"replyUrl\" varchar, \"metaData\" text, \"fromDid\" varchar, \"toDid\" varchar, CONSTRAINT \"FK_63bf73143b285c727bd046e6710\" FOREIGN KEY (\"fromDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION, CONSTRAINT \"FK_1a666b2c29bb2b68d91259f55df\" FOREIGN KEY (\"toDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION)",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('message'),
+        name: migrationGetTableName(queryRunner, 'message'),
         columns: [
           { name: 'id', type: 'varchar', isPrimary: true },
           { name: 'saveDate', type: dateTimeType },
@@ -217,12 +215,12 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['fromDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
           },
           {
             columnNames: ['toDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
           },
         ],
       }),
@@ -235,7 +233,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE INDEX \"IDX_3a460e48557bad5564504ddad9\" ON \"presentation_verifier_identifier\" (\"identifierDid\")",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('presentation_verifier_identifier'),
+        name: migrationGetTableName(queryRunner, 'presentation_verifier_identifier'),
         columns: [
           { name: 'presentationHash', type: 'varchar', isPrimary: true },
           { name: 'identifierDid', type: 'varchar', isPrimary: true },
@@ -249,13 +247,13 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['presentationHash'],
             referencedColumnNames: ['hash'],
-            referencedTableName: getTableName('presentation'),
+            referencedTableName: migrationGetTableName(queryRunner, 'presentation'),
             onDelete: 'cascade',
           },
           {
             columnNames: ['identifierDid'],
             referencedColumnNames: ['did'],
-            referencedTableName: getTableName('identifier'),
+            referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
             onDelete: 'cascade',
           },
         ],
@@ -269,7 +267,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE INDEX \"IDX_ef88f92988763fee884c37db63\" ON \"presentation_credentials_credential\" (\"credentialHash\")",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('presentation_credentials_credential'),
+        name: migrationGetTableName(queryRunner, 'presentation_credentials_credential'),
         columns: [
           { name: 'presentationHash', type: 'varchar', isPrimary: true },
           { name: 'credentialHash', type: 'varchar', isPrimary: true },
@@ -283,13 +281,13 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['presentationHash'],
             referencedColumnNames: ['hash'],
-            referencedTableName: getTableName('presentation'),
+            referencedTableName: migrationGetTableName(queryRunner, 'presentation'),
             onDelete: 'cascade',
           },
           {
             columnNames: ['credentialHash'],
             referencedColumnNames: ['hash'],
-            referencedTableName: getTableName('credential'),
+            referencedTableName: migrationGetTableName(queryRunner, 'credential'),
             onDelete: 'cascade',
           },
         ],
@@ -303,7 +301,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE INDEX \"IDX_a13b5cf828c669e61faf489c18\" ON \"message_presentations_presentation\" (\"presentationHash\")",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('message_presentations_presentation'),
+        name: migrationGetTableName(queryRunner, 'message_presentations_presentation'),
         columns: [
           { name: 'messageId', type: 'varchar', isPrimary: true },
           { name: 'presentationHash', type: 'varchar', isPrimary: true },
@@ -317,13 +315,13 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['messageId'],
             referencedColumnNames: ['id'],
-            referencedTableName: getTableName('message'),
+            referencedTableName: migrationGetTableName(queryRunner, 'message'),
             onDelete: 'cascade',
           },
           {
             columnNames: ['presentationHash'],
             referencedColumnNames: ['hash'],
-            referencedTableName: getTableName('presentation'),
+            referencedTableName: migrationGetTableName(queryRunner, 'presentation'),
             onDelete: 'cascade',
           },
         ],
@@ -337,7 +335,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE INDEX \"IDX_8ae8195a94b667b185d2c023e3\" ON \"message_credentials_credential\" (\"credentialHash\")",
     await queryRunner.createTable(
       new Table({
-        name: getTableName('message_credentials_credential'),
+        name: migrationGetTableName(queryRunner, 'message_credentials_credential'),
         columns: [
           { name: 'messageId', type: 'varchar', isPrimary: true },
           { name: 'credentialHash', type: 'varchar', isPrimary: true },
@@ -351,13 +349,13 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           {
             columnNames: ['messageId'],
             referencedColumnNames: ['id'],
-            referencedTableName: getTableName('message'),
+            referencedTableName: migrationGetTableName(queryRunner, 'message'),
             onDelete: 'cascade',
           },
           {
             columnNames: ['credentialHash'],
             referencedColumnNames: ['hash'],
-            referencedTableName: getTableName('credential'),
+            referencedTableName: migrationGetTableName(queryRunner, 'credential'),
             onDelete: 'cascade',
           },
         ],

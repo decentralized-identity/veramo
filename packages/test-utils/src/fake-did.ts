@@ -47,7 +47,15 @@ export class FakeDidProvider extends AbstractIdentifierProvider {
     return identifier
   }
 
-  async updateIdentifier(args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any }, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
+  async updateIdentifier(
+    args: {
+      did: string
+      kms?: string | undefined
+      alias?: string | undefined
+      options?: any
+    },
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier> {
     throw new Error('FakeDIDProvider updateIdentifier not supported yet.')
   }
 
@@ -89,9 +97,11 @@ export class FakeDidProvider extends AbstractIdentifierProvider {
 
 export class FakeDidResolver {
   getAgent: () => TAgent<IDIDManager>
+  private force2020: boolean
 
-  constructor(getAgent: () => TAgent<IDIDManager>) {
+  constructor(getAgent: () => TAgent<IDIDManager>, force2020: boolean = false) {
     this.getAgent = getAgent
+    this.force2020 = force2020
   }
 
   resolveFakeDid: DIDResolver = async (
@@ -101,6 +111,7 @@ export class FakeDidResolver {
     options: DIDResolutionOptions,
   ): Promise<DIDResolutionResult> => {
     try {
+      const contexts = new Set<string>()
       const agent = this.getAgent()
       const identifier = await agent.didManagerGet({ did: _parsed.did })
       const did = _parsed.did
@@ -109,12 +120,26 @@ export class FakeDidResolver {
         switch (key.type) {
           case 'Secp256k1':
             vm.type = 'EcdsaSecp256k1VerificationKey2019'
+            contexts.add('https://w3id.org/security/v2')
+            contexts.add('https://w3id.org/security/suites/secp256k1recovery-2020/v2')
             break
           case 'Ed25519':
-            vm.type = 'Ed25519VerificationKey2018'
+            if (this.force2020) {
+              vm.type = 'Ed25519VerificationKey2020'
+              contexts.add('https://w3id.org/security/suites/ed25519-2020/v1')
+            } else {
+              vm.type = 'Ed25519VerificationKey2018'
+              contexts.add('https://w3id.org/security/suites/ed25519-2018/v1')
+            }
             break
           case 'X25519':
-            vm.type = 'X25519KeyAgreementKey2019'
+            if (this.force2020) {
+              vm.type = 'X25519KeyAgreementKey2020'
+              contexts.add('https://w3id.org/security/suites/x25519-2020/v1')
+            } else {
+              vm.type = 'X25519KeyAgreementKey2019'
+              contexts.add('https://w3id.org/security/suites/x25519-2019/v1')
+            }
             break
           default:
             break
@@ -132,6 +157,7 @@ export class FakeDidResolver {
       const didResolution: DIDResolutionResult = {
         didResolutionMetadata: {},
         didDocument: {
+          '@context': ['https://www.w3.org/ns/did/v1', ...contexts],
           id: did,
           service,
           verificationMethod,

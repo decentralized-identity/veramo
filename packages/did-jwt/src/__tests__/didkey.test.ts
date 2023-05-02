@@ -21,7 +21,7 @@ describe('@veramo/did-jwt', () => {
           didDocumentMetadata: {},
           didResolutionMetadata: {},
           didDocument: {
-            '@context': 'https://w3id.org/did/v1',
+            '@context': 'https://www.w3.org/ns/did/v1',
             id: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
             publicKey: [
               {
