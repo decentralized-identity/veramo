@@ -3,9 +3,9 @@ import KeyvSqlite from '@keyv/sqlite'
 import timekeeper from 'timekeeper'
 import { Keyv } from '../keyv/keyv.js'
 import { DataSource } from 'typeorm'
-import { KeyValueStoreEntity } from '../store-adapters/typeorm/entities/keyValueStoreEntity'
-import { KeyValueTieredStoreAdapter, KeyValueTypeORMStoreAdapter } from '../store-adapters'
-import { KeyvOptions } from '../keyv/keyv-types'
+import { KeyValueStoreEntity } from '../store-adapters/typeorm/entities/keyValueStoreEntity.js'
+import { KeyValueTieredStoreAdapter, KeyValueTypeORMStoreAdapter } from '../store-adapters/index.js'
+import { KeyvOptions } from '../keyv/keyv-types.js'
 import { kvStoreMigrations } from '../store-adapters/typeorm/migrations'
 
 let dbConnection: DataSource
@@ -61,29 +61,7 @@ describe('keyv sqlite store', () => {
 })
 
 describe('keyv TypeORM store', () => {
-  /*let dbConnection: DataSource
 
-  beforeEach(async () => {
-    dbConnection = await new DataSource({
-      type: 'sqlite',
-      database: ':memory:',
-      logging: 'all',
-      migrationsRun: true,
-      synchronize: false,
-      migrations: [...kvStoreMigrations],
-      entities: [KeyValueStoreEntity],
-    }).initialize()
-  })
-
-  afterEach(async () => {
-    try {
-      (await dbConnection).destroy()
-    } catch (error) {
-      // the disconnect test will close the DB anyway
-    }
-
-  })
-*/
   it('should respect ttl', async () => {
     const store = new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'test' })
     const keyv = new Keyv<string>(store)

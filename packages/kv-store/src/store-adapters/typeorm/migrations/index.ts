@@ -1,4 +1,4 @@
-import { CreateKVDatabaseMigration } from './1.createKVDatabase'
+import { CreateKVDatabaseMigration } from './1.createKVDatabase.js'
 
 /**
  * The migrations array that SHOULD be used when initializing a TypeORM database connection.

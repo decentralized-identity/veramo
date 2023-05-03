@@ -1,5 +1,5 @@
-import { KeyValueStore } from '../key-value-store'
-import { IKeyValueStore } from '../key-value-types'
+import { KeyValueStore } from '../key-value-store.js'
+import { IKeyValueStore } from '../key-value-types.js'
 import { beforeEach, expect } from '@jest/globals'
 
 interface TestValue {

@@ -1,4 +1,4 @@
-import EventEmitter from 'events'
+import { EventEmitter } from 'events'
 import JSONB from 'json-buffer'
 import { KeyvDeserializedData, KeyvOptions, KeyvStore, KeyvStoredData } from './keyv-types.js'
 
