@@ -8,8 +8,6 @@ import {
 import { Keyv } from './keyv/keyv.js'
 import { KeyvDeserializedData, KeyvOptions, KeyvStoredData } from './keyv/keyv-types.js'
 
-
-
 /**
  * Agent plugin that implements {@link @veramo/core-types#IKeyValueStore} interface
  * @public

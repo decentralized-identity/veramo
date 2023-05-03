@@ -61,7 +61,6 @@ describe('keyv sqlite store', () => {
 })
 
 describe('keyv TypeORM store', () => {
-
   it('should respect ttl', async () => {
     const store = new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'test' })
     const keyv = new Keyv<string>(store)
