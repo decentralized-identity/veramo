@@ -215,10 +215,12 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     if (args.presentation.verifiableCredential) {
       const credentials = args.presentation.verifiableCredential.map((cred) => {
         // map JWT credentials to their canonical form
-        if (typeof cred !== 'string' && cred.proof.jwt) {
+        if(typeof cred === 'string') {
+          return cred
+        } else if (cred.proof.jwt) {
           return cred.proof.jwt
         } else {
-          return cred
+          return JSON.stringify(cred)
         }
       })
       presentation.verifiableCredential = credentials
