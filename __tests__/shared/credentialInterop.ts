@@ -27,15 +27,15 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     test.each([
-      // ['cred1.json'],
-      // ['cred2.json'],
+      // ['cred1.json'], // problem with context parsing (https://github.com/transmute-industries/verifiable-data/issues/238). Fixing that leads to unsupported key type "undefined"
+      // ['cred2.json'], // non-standard EIP712 spec implementation
       ['cred3.json'],
-      ['cred4.json'],
+      // ['cred4.json'], // expired
     ])("should verify credential from the wild: '%s'", async (text) => {
       let credential = (await fs.promises.readFile(`./__tests__/fixtures/${text}`, 'utf8')).toString()
       credential = JSON.parse(credential)
 
-      const result = await agent.verifyCredential({ credential })
+      const result = await agent.verifyCredential({ credential, fetchRemoteContexts: true })
       expect(result.verified).toBe(true)
     })
   })

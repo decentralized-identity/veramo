@@ -5,7 +5,7 @@
  * using a SQLite db for storage of credentials and an in-memory store for keys and DIDs.
  *
  */
-import {
+import type {
   IAgentOptions,
   ICredentialPlugin,
   IDataStore,
@@ -53,7 +53,6 @@ import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
-import * as fs from 'fs'
 import { jest } from '@jest/globals'
 
 // Shared tests
