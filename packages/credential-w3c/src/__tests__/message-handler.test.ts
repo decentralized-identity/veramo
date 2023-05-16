@@ -3,7 +3,7 @@ import { Message } from '../../../message-handler/src'
 import { IContext, MessageTypes, W3cMessageHandler } from '../message-handler.js'
 import { jest } from '@jest/globals'
 import { blake2b } from '@noble/hashes/blake2b'
-import { bytesToHex, hexToBytes } from '../../../utils/src'
+import { bytesToHex } from '../../../utils/src'
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()

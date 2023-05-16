@@ -19,13 +19,18 @@
   },
   "dependencies": {
     "@ethersproject/signing-key": "^5.7.0",
+    "@noble/curves": "^1.0.0",
+    "@stablelib/aes": "^1.0.1",
+    "@stablelib/aes-kw": "^1.0.1",
+    "@stablelib/gcm": "^1.0.2",
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
     "cross-fetch": "^3.1.6",
     "debug": "^4.3.3",
-    "did-jwt": "^7.1.0-alpha.1",
+    "did-jwt": "^7.2.2",
     "did-resolver": "^4.0.1",
+    "isomorphic-webcrypto": "^2.3.8",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

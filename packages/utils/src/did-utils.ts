@@ -53,7 +53,7 @@ export function convertEd25519PrivateKeyToX25519(privateKey: Uint8Array): Uint8A
  */
 export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[] {
   return identifier.keys
-    .map((key) => {
+    .map((key: IKey) => {
       if (key.type === 'Ed25519') {
         const publicBytes = hexToBytes(key.publicKeyHex)
         key.publicKeyHex = bytesToHex(convertEd25519PublicKeyToX25519(publicBytes))
@@ -83,7 +83,7 @@ export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[]
  */
 export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[] {
   return identifier.keys
-    .map((key) => {
+    .map((key: IKey) => {
       if (key.type === 'Secp256k1') {
         if (key.publicKeyHex) {
           const publicBytes = hexToBytes(key.publicKeyHex)
@@ -253,7 +253,7 @@ export async function mapIdentifierKeysToDoc(
   const extendedKeys: _ExtendedIKey[] = documentKeys
     .map((verificationMethod) => {
       const localKey = localKeys.find(
-        (localKey) =>
+        (localKey: IKey) =>
           localKey.publicKeyHex === verificationMethod.publicKeyHex ||
           compareBlockchainAccountId(localKey, verificationMethod),
       )

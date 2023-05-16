@@ -18,7 +18,7 @@
     "credential-status": "^2.0.5",
     "cross-fetch": "^3.1.6",
     "debug": "^4.3.3",
-    "did-jwt": "^7.1.0-alpha.1",
+    "did-jwt": "^7.1.0-alpha.3",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.1",
     "multiformats": "^12.0.0",

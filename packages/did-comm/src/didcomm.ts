@@ -1,35 +1,37 @@
 import {
   IAgentContext,
-  IResolver,
-  IMessage,
-  IDIDManager,
-  IKeyManager,
-  IMessageHandler,
   IAgentPlugin,
+  IDIDManager,
   IIdentifier,
+  IKeyManager,
+  IMessage,
+  IMessageHandler,
+  IResolver,
 } from '@veramo/core-types'
 import {
-  createAnonDecrypter,
-  createAuthDecrypter,
+  createJWE,
   Decrypter,
   decryptJWE,
-  JWE,
   ECDH,
-  createAnonEncrypter,
-  createJWE,
-  createAuthEncrypter,
   Encrypter,
+  JWE,
   verifyJWS,
-  xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW,
+  x25519Decrypter,
+  x25519Encrypter,
+  xc20pAuthDecrypterEcdh1PuV3x25519WithXc20PkwV2,
+  xc20pAuthEncrypterEcdh1PuV3x25519WithXc20PkwV2,
+} from 'did-jwt'
+import { DIDDocument, parse as parseDidUrl, Service, VerificationMethod } from 'did-resolver'
+import {
+  a256gcmAnonDecrypterX25519WithA256KW,
+  a256gcmAnonEncrypterX25519WithA256KW,
   a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW,
-  xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW,
   a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW,
   xc20pAnonDecrypterX25519WithA256KW,
-  a256gcmAnonDecrypterX25519WithA256KW,
   xc20pAnonEncrypterX25519WithA256KW,
-  a256gcmAnonEncrypterX25519WithA256KW,
-} from 'did-jwt'
-import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod, Service } from 'did-resolver'
+  xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW,
+  xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW,
+} from './encryption/aesEncryption.js'
 
 import schema from './plugin.schema.json' assert { type: 'json' }
 
@@ -37,23 +39,23 @@ import { v4 as uuidv4 } from 'uuid'
 
 import {
   createEcdhWrapper,
-  extractSenderEncryptionKey,
   extractManagedRecipients,
+  extractSenderEncryptionKey,
   mapRecipientsToLocalKeys,
 } from './utils.js'
 
 import {
+  _ExtendedIKey,
+  _NormalizedVerificationMethod,
+  bytesToUtf8String,
   decodeJoseBlob,
   dereferenceDidKeys,
   encodeJoseBlob,
+  hexToBytes,
   isDefined,
   mapIdentifierKeysToDoc,
   resolveDidOrThrow,
-  _ExtendedIKey,
-  _NormalizedVerificationMethod,
-  hexToBytes,
   stringToUtf8Bytes,
-  bytesToUtf8String,
 } from '@veramo/utils'
 
 import Debug from 'debug'
@@ -514,14 +516,14 @@ export class DIDComm implements IAgentPlugin {
             if (localKey.recipient?.header?.alg?.endsWith('+A256KW')) {
               decrypter = xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(recipientECDH, senderKeyBytes)
             } else if (localKey.recipient?.header?.alg?.endsWith('+XC20PKW')) {
-              decrypter = createAuthDecrypter(recipientECDH, senderKeyBytes)
+              decrypter = xc20pAuthDecrypterEcdh1PuV3x25519WithXc20PkwV2(recipientECDH, senderKeyBytes)
             }
           } else {
             packing = 'anoncrypt'
             if (localKey.recipient?.header?.alg?.endsWith('+A256KW')) {
               decrypter = xc20pAnonDecrypterX25519WithA256KW(recipientECDH)
             } else if (localKey.recipient?.header?.alg?.endsWith('+XC20PKW')) {
-              decrypter = createAnonDecrypter(recipientECDH)
+              decrypter = x25519Decrypter(recipientECDH)
             }
           }
         }

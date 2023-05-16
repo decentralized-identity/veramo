@@ -9,7 +9,7 @@ import { DIDDocument, Resolver } from 'did-resolver'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { ExampleDidProvider } from '../../../test-utils/src'
 import 'cross-fetch/polyfill'
-import { base64ToBytes, bytesToHex } from '@veramo/utils'
+import { base64ToBytes, bytesToHex } from '../../../utils/src'
 
 import * as u8a from 'uint8arrays'
 
