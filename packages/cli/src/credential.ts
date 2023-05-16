@@ -3,7 +3,7 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
-import * as json5 from 'json5'
+import json5 from 'json5'
 import { readStdin } from './util.js'
 import { CredentialPayload } from '@veramo/core-types'
 
