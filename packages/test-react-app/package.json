@@ -29,7 +29,7 @@
     "@veramo/utils": "workspace:*",
     "buffer": "npm:buffer",
     "crypto": "npm:crypto-browserify",
-    "did-resolver": "^4.0.1",
+    "did-resolver": "^4.1.0",
     "ethr-did-resolver": "^8.0.0",
     "path": "npm:path-browserify",
     "process": "npm:process",
@@ -38,8 +38,8 @@
     "stream": "npm:stream-browserify",
     "typeorm": "^0.3.10",
     "util": "npm:util",
-    "web-did-resolver": "^2.0.21",
-    "web-vitals": "^3.1.1"
+    "web-did-resolver": "^2.0.24",
+    "web-vitals": "^3.3.1"
   },
   "scripts": {
     "start": "craco start",

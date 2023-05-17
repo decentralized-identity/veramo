@@ -3,10 +3,8 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
-    "declarationDir": "build"
+    "declarationDir": "build",
   },
-  "references": [
-    { "path": "../core-types" },
-  ],
+  "references": [{ "path": "../core-types" }],
   "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

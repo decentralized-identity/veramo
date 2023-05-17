@@ -6,6 +6,16 @@
     "declarationDir": "build",
     "skipLibCheck": true
   },
-  "references": [{ "path": "../core-types" }, { "path": "../message-handler" }, { "path": "../utils" }],
+  "references": [
+    {
+      "path": "../core-types"
+    },
+    {
+      "path": "../message-handler"
+    },
+    {
+      "path": "../utils"
+    }
+  ],
   "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

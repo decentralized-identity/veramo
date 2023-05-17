@@ -1,10 +1,10 @@
-import { toString, fromString } from 'uint8arrays'
+import { fromString, toString, concat as concatArrays } from 'uint8arrays'
 import { base64, base64url } from 'multiformats/bases/base64'
 import { base16, base16upper } from 'multiformats/bases/base16'
 import { base10 } from 'multiformats/bases/base10'
 import { base58btc } from 'multiformats/bases/base58'
 
-const u8a = { toString, fromString }
+const u8a = { toString, fromString, concatArrays }
 
 /**
  * Converts a Uint8Array to a base64url string
@@ -58,6 +58,26 @@ export function encodeBase64url(s: string): string {
  */
 export function decodeBase64url(s: string): string {
   return u8a.toString(base64ToBytes(s))
+}
+
+/**
+ * Builds a string from a Uint8Array using the utf-8 encoding.
+ * @param b - the array to be converted
+ *
+ * @public
+ */
+export function bytesToUtf8String(b: Uint8Array): string {
+  return u8a.toString(b, 'utf-8')
+}
+
+/**
+ * Encodes a string to a Uint8Array using the utf-8 encoding.
+ * @param s - the string to be encoded
+ *
+ * @public
+ */
+export function stringToUtf8Bytes(s: string): Uint8Array {
+  return u8a.fromString(s, 'utf-8')
 }
 
 /**
@@ -212,4 +232,15 @@ export function bytesToMultibase(byteArray: Uint8Array, type: string): string {
   bytes.set(byteArray, 2)
 
   return base58btc.encode(bytes)
+}
+
+/**
+ * Concatenates a bunch of arrays into one Uint8Array
+ * @param arrays - the arrays to be concatenated
+ * @param length - the maximum length of the resulting array
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function concat(arrays: ArrayLike<number>[], length?: number): Uint8Array {
+  return u8a.concatArrays(arrays, length)
 }

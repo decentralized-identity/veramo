@@ -29,5 +29,6 @@
     { "path": "../selective-disclosure" },
     { "path": "../url-handler" },
     { "path": "../utils" }
-  ]
+  ],
+  "include": ["src/**/*"]
 }
