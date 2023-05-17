@@ -136,3 +136,50 @@ jobs:
           cache: 'pnpm'
       - run: pnpm run lint
       - run: pnpm run docs
+
+  test-browser:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm add -g pnpm
+      - name: 'Restore build output'
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ github.workspace }}
+          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          fail-on-cache-miss: true
+      - name: 'Setup Node.js with pnpm cache'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install --force
+      - name: 'Run browser tests'
+        run: pnpm test:browser
+
+  lint-and-docs:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm add -g pnpm
+      - name: 'Restore build output'
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ github.workspace }}
+          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          fail-on-cache-miss: true
+      - name: 'Setup Node.js with pnpm cache'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm run lint
+      - run: pnpm run docs
