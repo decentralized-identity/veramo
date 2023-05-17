@@ -23,11 +23,10 @@
     "@veramo/key-manager": "workspace:^",
     "@veramo/kms-local": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "@veramo/utils": "workspace:^",
     "canonicalize": "^2.0.0",
     "cross-fetch": "^3.1.6",
     "debug": "^4.3.3",
-    "did-resolver": "^4.0.1",
+    "did-resolver": "^4.1.0",
     "multihashes": "^4.0.3"
   },
   "devDependencies": {

@@ -31,7 +31,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/transactions": "^5.7.0",
     "@ethersproject/wallet": "^5.7.0",
-    "@jest/globals": "^29.5.0",
+    "@jest/globals": "29.5.0",
     "@metamask/eth-sig-util": "6.0.0",
     "@microsoft/api-documenter": "7.22.16",
     "@microsoft/api-extractor": "7.35.2",

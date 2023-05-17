@@ -4,7 +4,6 @@ import type {
   ECDH,
   Encrypter,
   EncryptionResult,
-  KeyUnwrapper,
   KeyWrapper,
   ProtectedHeader,
   Recipient,
@@ -16,14 +15,14 @@ import {
   createX25519Ecdh1PUv3Kek,
   createX25519EcdhEsKek,
   xc20pDirDecrypter,
-  xc20pDirEncrypter
+  xc20pDirEncrypter,
 } from 'did-jwt'
 import { randomBytes } from '@noble/hashes/utils'
 import { AESKW } from '@stablelib/aes-kw'
 import { AES } from '@stablelib/aes'
 import { GCM } from '@stablelib/gcm'
 import { fromString } from 'uint8arrays/from-string'
-import { base64ToBytes, bytesToBase64url, encodeBase64url } from "@veramo/utils";
+import { base64ToBytes, bytesToBase64url, encodeBase64url } from '@veramo/utils'
 
 /**
  * Creates a wrapper using AES-KW
@@ -40,7 +39,7 @@ export const a256KeyWrapper: KeyWrapper = {
   alg: 'A256KW',
 }
 
-export function a256KeyUnwrapper(wrappingKey: Uint8Array): KeyUnwrapper {
+export function a256KeyUnwrapper(wrappingKey: Uint8Array) {
   const unwrap = async (wrappedCek: Uint8Array): Promise<Uint8Array | null> => {
     try {
       return new AESKW(wrappingKey).unwrapKey(wrappedCek)
@@ -51,7 +50,9 @@ export function a256KeyUnwrapper(wrappingKey: Uint8Array): KeyUnwrapper {
   return { unwrap, alg: 'A256KW' }
 }
 
-export function a256gcmEncrypter(key: Uint8Array): (cleartext: Uint8Array, aad?: Uint8Array) => EncryptionResult {
+export function a256gcmEncrypter(
+  key: Uint8Array,
+): (cleartext: Uint8Array, aad?: Uint8Array) => EncryptionResult {
   const blockcipher = new AES(key)
   const cipher = new GCM(blockcipher)
   return (cleartext: Uint8Array, aad?: Uint8Array) => {
@@ -73,7 +74,7 @@ export function a256gcmDirEncrypter(key: Uint8Array): Encrypter {
   async function encrypt(
     cleartext: Uint8Array,
     protectedHeader: ProtectedHeader = {},
-    aad?: Uint8Array
+    aad?: Uint8Array,
   ): Promise<EncryptionResult> {
     const protHeader = encodeBase64url(JSON.stringify(Object.assign({ alg }, protectedHeader, { enc })))
     const encodedAad = fromString(aad ? `${protHeader}.${bytesToBase64url(aad)}` : protHeader, 'utf-8')
@@ -99,7 +100,7 @@ export function a256gcmDirDecrypter(key: Uint8Array): Decrypter {
 export function a256gcmAnonEncrypterX25519WithA256KW(
   recipientPublicKey: Uint8Array,
   kid?: string,
-  apv?: string
+  apv?: string,
 ): Encrypter {
   return createFullEncrypter(
     recipientPublicKey,
@@ -107,14 +108,14 @@ export function a256gcmAnonEncrypterX25519WithA256KW(
     { apv, kid },
     { createKek: createX25519EcdhEsKek, alg: 'ECDH-ES' },
     a256KeyWrapper,
-    { from: (cek: Uint8Array) => a256gcmDirEncrypter(cek), enc: 'XC20P' }
+    { from: (cek: Uint8Array) => a256gcmDirEncrypter(cek), enc: 'XC20P' },
   )
 }
 
 export function xc20pAnonEncrypterX25519WithA256KW(
   recipientPublicKey: Uint8Array,
   kid?: string,
-  apv?: string
+  apv?: string,
 ): Encrypter {
   return createFullEncrypter(
     recipientPublicKey,
@@ -122,7 +123,7 @@ export function xc20pAnonEncrypterX25519WithA256KW(
     { apv, kid },
     { createKek: createX25519EcdhEsKek, alg: 'ECDH-ES' },
     a256KeyWrapper,
-    { from: (cek: Uint8Array) => xc20pDirEncrypter(cek), enc: 'XC20P' }
+    { from: (cek: Uint8Array) => xc20pDirEncrypter(cek), enc: 'XC20P' },
   )
 }
 
@@ -134,7 +135,7 @@ export function xc20pAnonDecrypterX25519WithA256KW(receiverSecret: Uint8Array | 
     sealed: Uint8Array,
     iv: Uint8Array,
     aad?: Uint8Array,
-    recipient?: Recipient
+    recipient?: Recipient,
   ): Promise<Uint8Array | null> {
     recipient = <Recipient>recipient
     const kek = await computeX25519EcdhEsKek(recipient, receiverSecret, alg)
@@ -158,7 +159,7 @@ export function a256gcmAnonDecrypterX25519WithA256KW(receiverSecret: Uint8Array 
     sealed: Uint8Array,
     iv: Uint8Array,
     aad?: Uint8Array,
-    recipient?: Recipient
+    recipient?: Recipient,
   ): Promise<Uint8Array | null> {
     recipient = <Recipient>recipient
     const kek = await computeX25519EcdhEsKek(recipient, receiverSecret, alg)
@@ -177,7 +178,7 @@ export function a256gcmAnonDecrypterX25519WithA256KW(receiverSecret: Uint8Array 
 export function xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
   recipientPublicKey: Uint8Array,
   senderSecret: Uint8Array | ECDH,
-  options: Partial<AuthEncryptParams> = {}
+  options: Partial<AuthEncryptParams> = {},
 ): Encrypter {
   return createFullEncrypter(
     recipientPublicKey,
@@ -185,13 +186,13 @@ export function xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
     options,
     { createKek: createX25519Ecdh1PUv3Kek, alg: 'ECDH-1PU' },
     a256KeyWrapper,
-    { from: (cek: Uint8Array) => xc20pDirEncrypter(cek), enc: 'XC20P' }
+    { from: (cek: Uint8Array) => xc20pDirEncrypter(cek), enc: 'XC20P' },
   )
 }
 
 export function xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(
   recipientSecret: Uint8Array | ECDH,
-  senderPublicKey: Uint8Array
+  senderPublicKey: Uint8Array,
 ): Decrypter {
   const alg = 'ECDH-1PU+A256KW'
   const enc = 'XC20P'
@@ -200,7 +201,7 @@ export function xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(
     sealed: Uint8Array,
     iv: Uint8Array,
     aad?: Uint8Array,
-    recipient?: Recipient
+    recipient?: Recipient,
   ): Promise<Uint8Array | null> {
     recipient = <Recipient>recipient
     const kek = await computeX25519Ecdh1PUv3Kek(recipient, recipientSecret, senderPublicKey, alg)
@@ -219,7 +220,7 @@ export function xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(
 export function a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
   recipientPublicKey: Uint8Array,
   senderSecret: Uint8Array | ECDH,
-  options: Partial<AuthEncryptParams> = {}
+  options: Partial<AuthEncryptParams> = {},
 ): Encrypter {
   return createFullEncrypter(
     recipientPublicKey,
@@ -227,13 +228,13 @@ export function a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
     options,
     { createKek: createX25519Ecdh1PUv3Kek, alg: 'ECDH-1PU' },
     a256KeyWrapper,
-    { from: (cek: Uint8Array) => a256gcmDirEncrypter(cek), enc: 'A256GCM' }
+    { from: (cek: Uint8Array) => a256gcmDirEncrypter(cek), enc: 'A256GCM' },
   )
 }
 
 export function a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW(
   recipientSecret: Uint8Array | ECDH,
-  senderPublicKey: Uint8Array
+  senderPublicKey: Uint8Array,
 ): Decrypter {
   const alg = 'ECDH-1PU+A256KW'
   const enc = 'A256GCM'
@@ -242,7 +243,7 @@ export function a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW(
     sealed: Uint8Array,
     iv: Uint8Array,
     aad?: Uint8Array,
-    recipient?: Recipient
+    recipient?: Recipient,
   ): Promise<Uint8Array | null> {
     recipient = <Recipient>recipient
     const kek = await computeX25519Ecdh1PUv3Kek(recipient, recipientSecret, senderPublicKey, alg)

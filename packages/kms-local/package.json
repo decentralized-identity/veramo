@@ -24,7 +24,7 @@
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt": "^7.1.0-alpha.3"
+    "did-jwt": "^7.2.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

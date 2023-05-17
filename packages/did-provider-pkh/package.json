@@ -18,7 +18,7 @@
     "@veramo/did-manager": "workspace:^",
     "caip": "^1.1.0",
     "debug": "^4.3.3",
-    "did-resolver": "^4.0.1"
+    "did-resolver": "^4.1.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

@@ -14,7 +14,7 @@
     "@veramo/did-discovery": "workspace:*",
     "@veramo/did-manager": "workspace:*",
     "@veramo/utils": "workspace:*",
-    "did-resolver": "^4.0.1"
+    "did-resolver": "^4.1.0"
   },
   "devDependencies": {
     "typescript": "5.1.3"
