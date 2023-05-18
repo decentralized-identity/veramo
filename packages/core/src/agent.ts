@@ -1,9 +1,9 @@
-import { IAgent, IPluginMethodMap, IAgentOptions, TAgent, IAgentPluginSchema } from '@veramo/core-types'
+import type { IAgent, IAgentOptions, IAgentPluginSchema, IPluginMethodMap, TAgent } from '@veramo/core-types'
+import { CoreEvents } from '@veramo/core-types'
 import { validateArguments, validateReturnType } from './validator.js'
 import ValidationErrorSchema from './schemas/ValidationError.js'
 import Debug from 'debug'
 import { EventEmitter } from 'events'
-import { CoreEvents } from '@veramo/core-types'
 
 /**
  * Filters unauthorized methods. By default, all methods are authorized
