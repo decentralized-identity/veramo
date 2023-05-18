@@ -9,7 +9,12 @@ import { Keyv } from './keyv/keyv.js'
 import { KeyvDeserializedData, KeyvOptions, KeyvStoredData } from './keyv/keyv-types.js'
 
 /**
- * Agent plugin that implements {@link @veramo/core-types#IKeyValueStore} interface
+ * Class that implements the {@link @veramo/kv-store#IKeyValueStore} interface
+ *
+ * This class is a Key Value store that leverages a port of the keyv package internally.
+ * The store does not leak the types of the Keyv port,
+ * so it could be replaced with another implementations if we want to.
+ *
  * @public
  */
 export class KeyValueStore<ValueType extends ValueStoreType> implements IKeyValueStore<ValueType> {

@@ -30,19 +30,12 @@ export interface IKeyValueStoreOptions<ValueType> {
   /** Namespace for the current instance. */
   namespace?: string | undefined
 
-  /** A custom serialization function. */
-  /*serialize?: ((data: KeyvDeserializedData<ValueType>) => OrPromise<string | undefined>)
-  /!** A custom deserialization function. *!/
-  deserialize?: ((data: any) => OrPromise<KeyvDeserializedData<ValueType> | undefined>);*/
   /** The connection string URI. */
   uri?: string | undefined
   /** The storage adapter instance to be used by Keyv. or any other implementation */
   store: IKeyValueStoreAdapter<ValueType> | Map<string, ValueType>
   /** Default TTL. Can be overridden by specifying a TTL on `.set()`. */
   ttl?: number | undefined
-
-  /** Enable compression option **/
-  /*compression?: KeyvCompressionAdapter | undefined;*/
 
   emitErrors?: boolean
 }

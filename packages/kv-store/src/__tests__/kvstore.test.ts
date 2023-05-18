@@ -1,6 +1,5 @@
 import { KeyValueStore } from '../key-value-store.js'
 import { IKeyValueStore } from '../key-value-types.js'
-import { beforeEach, expect } from '@jest/globals'
 
 interface TestValue {
   stringProp: string
@@ -49,7 +48,6 @@ describe('kvStore with MAP adapter', () => {
       await expect(kvStore.get(`key${i}`)).resolves.toEqual(testValues[i])
       await expect(kvStore.getAsValueData(`key${i}`)).resolves.toMatchObject({
         value: testValues[i],
-        expires: undefined,
       })
     }
   })
