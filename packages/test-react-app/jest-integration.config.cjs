@@ -1,5 +1,8 @@
 const { defaults } = require('jest-config')
 
+/**
+ * @type {import('jest-environment-puppeteer').JestPuppeteerConfig}
+ */
 const config = {
   // preset path is relative to the rootDir when that is set
   preset: '../jest-preset-puppeteer-esm/jest-preset.cjs',
@@ -11,7 +14,7 @@ const config = {
   },
   transformIgnorePatterns: [],
   testTimeout: 30000,
-  coverageProvider: 'v8',
+  collectCoverage: false,
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
