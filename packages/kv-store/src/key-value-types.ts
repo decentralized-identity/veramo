@@ -5,8 +5,8 @@
  * @beta
  */
 export interface IValueData<ValueType> {
-  value: ValueType | undefined
-  expires: number | undefined
+  value?: ValueType
+  expires?: number
 }
 
 /**

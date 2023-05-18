@@ -113,9 +113,6 @@ export class KeyValueStore<ValueType extends ValueStoreType> implements IKeyValu
     } else if (!('value' in result)) {
       return { value: result, expires: undefined }
     }
-    if (!('expires' in result)) {
-      result.expires = undefined
-    }
     return result as IValueData<ValueType>
   }
 }
