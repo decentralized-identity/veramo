@@ -31,7 +31,7 @@ function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
     return { components: { schemas: {} } }
   }
 
-  let fixedSymbol = symbol.replace('Array<', '').replace('>', '')
+  let fixedSymbol = symbol.replace(/Array\<(.*)\>/gm, '$1')
 
   const schema = generator.createSchema(fixedSymbol)
 

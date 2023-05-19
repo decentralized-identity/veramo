@@ -34,3 +34,4 @@ Special thanks to the following extraordinary individuals, for their contributio
 - [Devraj Singh Rawat](https://github.com/devrajsinghrawat)
 - [Eseoghene Mentie](https://github.com/Eseoghene)
 - [Ilan Olkies](https://github.com/ilanolkies)
+- [Niels Klomp](https://github.com/nklomp)
