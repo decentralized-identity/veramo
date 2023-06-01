@@ -1,7 +1,11 @@
 import { createJWE, createX25519ECDH, Decrypter, decryptJWE, ECDH, Encrypter, JWE } from 'did-jwt'
-import { randomBytes } from "@noble/hashes/utils";
-import { generateX25519KeyPairFromSeed } from "../utils.js";
+import { randomBytes } from '@noble/hashes/utils'
+import { generateX25519KeyPairFromSeed } from '../utils.js'
 import {
+  a256cbcHs512AnonDecrypterX25519WithA256KW,
+  a256cbcHs512AnonEncrypterX25519WithA256KW,
+  a256cbcHs512AuthDecrypterX25519WithA256KW,
+  a256cbcHs512AuthEncrypterX25519WithA256KW,
   a256gcmAnonDecrypterX25519WithA256KW,
   a256gcmAnonEncrypterX25519WithA256KW,
   a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW,
@@ -11,7 +15,7 @@ import {
   xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW,
   xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW,
 } from '../encryption/aesEncryption.js'
-import { decodeBase64url, encodeBase64url } from "../../../utils/src";
+import { decodeBase64url, encodeBase64url } from '../../../utils/src'
 
 import * as u8a from 'uint8arrays'
 
@@ -132,6 +136,7 @@ const test_vectors = {
   fail: [],
   invalid: [],
 }
+
 describe('One recipient A256KW', () => {
   let pubkey, secretkey, cleartext: Uint8Array, encrypter: Encrypter, decrypter: Decrypter
 
@@ -226,7 +231,6 @@ describe('Multiple recipients A256KW', () => {
   })
 })
 
-
 describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encryption', () => {
   describe('One recipient', () => {
     let cleartext: Uint8Array, recipientKey: any, senderKey: any, decrypter: Decrypter
@@ -239,7 +243,10 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
     })
 
     it('Creates with only ciphertext', async () => {
-      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey)
+      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
       expect.assertions(3)
       const jwe = await createJWE(cleartext, [encrypter])
       expect(jwe.aad).toBeUndefined()
@@ -249,9 +256,13 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
 
     it('Creates with kid, no apu and no apv', async () => {
       const kid = 'did:example:receiver#key-1'
-      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey, {
-        kid,
-      })
+      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          kid,
+        },
+      )
       expect.assertions(6)
       const jwe = await createJWE(cleartext, [encrypter])
       expect(jwe.aad).toBeUndefined()
@@ -265,10 +276,14 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
     it('Creates with no kid, apu and apv', async () => {
       const apu = encodeBase64url('Alice')
       const apv = encodeBase64url('Bob')
-      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey, {
-        apu,
-        apv,
-      })
+      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          apu,
+          apv,
+        },
+      )
       expect.assertions(6)
       const jwe = await createJWE(cleartext, [encrypter])
       expect(jwe.aad).toBeUndefined()
@@ -283,11 +298,15 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
       const kid = 'did:example:receiver#key-1'
       const apu = encodeBase64url('Alice')
       const apv = encodeBase64url('Bob')
-      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey, {
-        kid,
-        apu,
-        apv,
-      })
+      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          kid,
+          apu,
+          apv,
+        },
+      )
       expect.assertions(6)
       const jwe = await createJWE(cleartext, [encrypter])
       expect(jwe.aad).toBeUndefined()
@@ -299,7 +318,10 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
     })
 
     it('Creates with data in protected header', async () => {
-      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey)
+      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
       const skid = 'did:example:sender#key-1'
       expect.assertions(3)
       const jwe = await createJWE(cleartext, [encrypter], { skid, more: 'protected' })
@@ -309,7 +331,10 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
     })
 
     it('Creates with aad', async () => {
-      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey)
+      const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
       expect.assertions(4)
       const aad = u8a.fromString('this data is authenticated')
       const jwe = await createJWE(cleartext, [encrypter], { more: 'protected' }, aad)
@@ -337,9 +362,15 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
       })
 
       it('creates and decrypts auth JWE', async () => {
-        const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(receiverPair.publicKey, senderRemoteECDH)
+        const encrypter = xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
+          receiverPair.publicKey,
+          senderRemoteECDH,
+        )
         const jwe: JWE = await createJWE(u8a.fromString(message), [encrypter])
-        const decrypter = xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(receiverRemoteECDH, senderPair.publicKey)
+        const decrypter = xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(
+          receiverRemoteECDH,
+          senderPair.publicKey,
+        )
         const decryptedBytes = await decryptJWE(jwe, decrypter)
         const receivedMessage = u8a.toString(decryptedBytes)
         expect(receivedMessage).toEqual(message)
@@ -370,34 +401,40 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
       senderkey = generateX25519KeyPairFromSeed(randomBytes(32))
       cleartext = u8a.fromString('my secret message')
 
-      recipients[0] = { kid: 'did:example:receiver1#key-1', recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)) }
+      recipients[0] = {
+        kid: 'did:example:receiver1#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
       recipients[0] = {
         ...recipients[0],
         ...{
           encrypter: xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
             recipients[0].recipientkey.publicKey,
             senderkey.secretKey,
-            { kid: recipients[0].kid }
+            { kid: recipients[0].kid },
           ),
           decrypter: xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(
             recipients[0].recipientkey.secretKey,
-            senderkey.publicKey
+            senderkey.publicKey,
           ),
         },
       }
 
-      recipients[1] = { kid: 'did:example:receiver2#key-1', recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)) }
+      recipients[1] = {
+        kid: 'did:example:receiver2#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
       recipients[1] = {
         ...recipients[1],
         ...{
           encrypter: xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(
             recipients[1].recipientkey.publicKey,
             senderkey.secretKey,
-            { kid: recipients[1].kid }
+            { kid: recipients[1].kid },
           ),
           decrypter: xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW(
             recipients[1].recipientkey.secretKey,
-            senderkey.publicKey
+            senderkey.publicKey,
           ),
         },
       }
@@ -432,7 +469,7 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with XC20P content encrypt
         cleartext,
         [recipients[0].encrypter, recipients[1].encrypter],
         { more: 'protected' },
-        aad
+        aad,
       )
       expect(u8a.fromString(jwe.aad!!, 'base64url')).toEqual(aad)
       expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'XC20P', more: 'protected' })
@@ -556,20 +593,32 @@ describe('ECDH-ES+A256KW (X25519), Key Wrapping Mode with A256GCM content encryp
       senderkey = generateX25519KeyPairFromSeed(randomBytes(32))
       cleartext = u8a.fromString('my secret message')
 
-      recipients[0] = { kid: 'did:example:receiver1#key-1', recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)) }
+      recipients[0] = {
+        kid: 'did:example:receiver1#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
       recipients[0] = {
         ...recipients[0],
         ...{
-          encrypter: a256gcmAnonEncrypterX25519WithA256KW(recipients[0].recipientkey.publicKey, recipients[0].kid),
+          encrypter: a256gcmAnonEncrypterX25519WithA256KW(
+            recipients[0].recipientkey.publicKey,
+            recipients[0].kid,
+          ),
           decrypter: a256gcmAnonDecrypterX25519WithA256KW(recipients[0].recipientkey.secretKey),
         },
       }
 
-      recipients[1] = { kid: 'did:example:receiver2#key-1', recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)) }
+      recipients[1] = {
+        kid: 'did:example:receiver2#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
       recipients[1] = {
         ...recipients[1],
         ...{
-          encrypter: a256gcmAnonEncrypterX25519WithA256KW(recipients[1].recipientkey.publicKey, recipients[1].kid),
+          encrypter: a256gcmAnonEncrypterX25519WithA256KW(
+            recipients[1].recipientkey.publicKey,
+            recipients[1].kid,
+          ),
           decrypter: a256gcmAnonDecrypterX25519WithA256KW(recipients[1].recipientkey.secretKey),
         },
       }
@@ -604,7 +653,7 @@ describe('ECDH-ES+A256KW (X25519), Key Wrapping Mode with A256GCM content encryp
         cleartext,
         [recipients[0].encrypter, recipients[1].encrypter],
         { more: 'protected' },
-        aad
+        aad,
       )
       expect(u8a.fromString(jwe.aad!!, 'base64url')).toEqual(aad)
       expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256GCM', more: 'protected' })
@@ -636,7 +685,10 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
     })
 
     it('Creates with only ciphertext', async () => {
-      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey)
+      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
       expect.assertions(3)
       const jwe = await createJWE(cleartext, [encrypter])
       expect(jwe.aad).toBeUndefined()
@@ -646,9 +698,13 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
 
     it('Creates with kid, no apu and no apv', async () => {
       const kid = 'did:example:receiver#key-1'
-      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey, {
-        kid,
-      })
+      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          kid,
+        },
+      )
       expect.assertions(6)
       const jwe = await createJWE(cleartext, [encrypter])
       expect(jwe.aad).toBeUndefined()
@@ -662,10 +718,14 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
     it('Creates with no kid, with apu and apv', async () => {
       const apu = encodeBase64url('Alice')
       const apv = encodeBase64url('Bob')
-      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey, {
-        apu,
-        apv,
-      })
+      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          apu,
+          apv,
+        },
+      )
       expect.assertions(6)
       const jwe = await createJWE(cleartext, [encrypter])
       expect(jwe.aad).toBeUndefined()
@@ -680,11 +740,15 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
       const kid = 'did:example:receiver#key-1'
       const apu = encodeBase64url('Alice')
       const apv = encodeBase64url('Bob')
-      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey, {
-        kid,
-        apu,
-        apv,
-      })
+      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          kid,
+          apu,
+          apv,
+        },
+      )
       expect.assertions(6)
       const jwe = await createJWE(cleartext, [encrypter])
       expect(jwe.aad).toBeUndefined()
@@ -696,7 +760,10 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
     })
 
     it('Creates with data in protected header', async () => {
-      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey)
+      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
       const skid = 'did:example:sender#key-1'
       expect.assertions(3)
       const jwe = await createJWE(cleartext, [encrypter], { skid, more: 'protected' })
@@ -706,7 +773,10 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
     })
 
     it('Creates with aad', async () => {
-      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(recipientKey.publicKey, senderKey.secretKey)
+      const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
       expect.assertions(4)
       const aad = u8a.fromString('this data is authenticated')
       const jwe = await createJWE(cleartext, [encrypter], { more: 'protected' }, aad)
@@ -725,9 +795,15 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
       const senderRemoteECDH: ECDH = createX25519ECDH(senderPair.secretKey)
 
       it('creates JWE with remote ECDH', async () => {
-        const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(receiverPair.publicKey, senderRemoteECDH)
+        const encrypter = a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
+          receiverPair.publicKey,
+          senderRemoteECDH,
+        )
         const jwe: JWE = await createJWE(u8a.fromString(message), [encrypter])
-        const decrypter = a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW(receiverRemoteECDH, senderPair.publicKey)
+        const decrypter = a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW(
+          receiverRemoteECDH,
+          senderPair.publicKey,
+        )
         const decryptedBytes = await decryptJWE(jwe, decrypter)
         const receivedMessage = u8a.toString(decryptedBytes)
         expect(receivedMessage).toEqual(message)
@@ -743,34 +819,40 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
       senderkey = generateX25519KeyPairFromSeed(randomBytes(32))
       cleartext = u8a.fromString('my secret message')
 
-      recipients[0] = { kid: 'did:example:receiver1#key-1', recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)) }
+      recipients[0] = {
+        kid: 'did:example:receiver1#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
       recipients[0] = {
         ...recipients[0],
         ...{
           encrypter: a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
             recipients[0].recipientkey.publicKey,
             senderkey.secretKey,
-            { kid: recipients[0].kid }
+            { kid: recipients[0].kid },
           ),
           decrypter: a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW(
             recipients[0].recipientkey.secretKey,
-            senderkey.publicKey
+            senderkey.publicKey,
           ),
         },
       }
 
-      recipients[1] = { kid: 'did:example:receiver2#key-1', recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)) }
+      recipients[1] = {
+        kid: 'did:example:receiver2#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
       recipients[1] = {
         ...recipients[1],
         ...{
           encrypter: a256gcmAuthEncrypterEcdh1PuV3x25519WithA256KW(
             recipients[1].recipientkey.publicKey,
             senderkey.secretKey,
-            { kid: recipients[1].kid }
+            { kid: recipients[1].kid },
           ),
           decrypter: a256gcmAuthDecrypterEcdh1PuV3x25519WithA256KW(
             recipients[1].recipientkey.secretKey,
-            senderkey.publicKey
+            senderkey.publicKey,
           ),
         },
       }
@@ -805,10 +887,429 @@ describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256GCM content encry
         cleartext,
         [recipients[0].encrypter, recipients[1].encrypter],
         { more: 'protected' },
-        aad
+        aad,
       )
       expect(u8a.fromString(jwe.aad!!, 'base64url')).toEqual(aad)
       expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256GCM', more: 'protected' })
+      expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
+      expect(await decryptJWE(jwe, recipients[1].decrypter)).toEqual(cleartext)
+      delete jwe.aad
+      await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
+      await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
+    })
+
+    it('Incompatible encrypters throw', async () => {
+      expect.assertions(1)
+      const enc1 = { enc: 'cool enc alg1' } as Encrypter
+      const enc2 = { enc: 'cool enc alg2' } as Encrypter
+      await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrowError('Incompatible encrypters passed')
+    })
+  })
+})
+
+
+describe('ECDH-ES+A256KW (X25519), Key Wrapping Mode with A256CBC-HS512 content encryption', () => {
+  describe('One recipient', () => {
+    let cleartext: Uint8Array, recipientKey: any, senderKey: any, decrypter: Decrypter
+
+    beforeEach(() => {
+      recipientKey = generateX25519KeyPairFromSeed(randomBytes(32))
+      senderKey = generateX25519KeyPairFromSeed(randomBytes(32))
+      cleartext = u8a.fromString('my secret message')
+      decrypter = a256cbcHs512AnonDecrypterX25519WithA256KW(recipientKey.secretKey)
+    })
+
+    it('Creates with only ciphertext', async () => {
+      const encrypter = a256cbcHs512AnonEncrypterX25519WithA256KW(recipientKey.publicKey)
+      expect.assertions(3)
+      const jwe = await createJWE(cleartext, [encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with kid, no apu and no apv', async () => {
+      const kid = 'did:example:receiver#key-1'
+      const encrypter = a256cbcHs512AnonEncrypterX25519WithA256KW(recipientKey.publicKey, kid)
+      expect.assertions(6)
+      const jwe = await createJWE(cleartext, [encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(jwe.recipients!![0].header.kid).toEqual(kid)
+      expect(jwe.recipients!![0].header.apu).toBeUndefined()
+      expect(jwe.recipients!![0].header.apv).toBeUndefined()
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with no kid, with apv', async () => {
+      const apv = encodeBase64url('Bob')
+      const encrypter = a256cbcHs512AnonEncrypterX25519WithA256KW(recipientKey.publicKey, undefined, apv)
+      expect.assertions(5)
+      const jwe = await createJWE(cleartext, [encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(jwe.recipients!![0].header.kid).toBeUndefined()
+      expect(jwe.recipients!![0].header.apv).toEqual(apv)
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with kid and apv', async () => {
+      const kid = 'did:example:receiver#key-1'
+      const apv = encodeBase64url('Bob')
+      const encrypter = a256cbcHs512AnonEncrypterX25519WithA256KW(recipientKey.publicKey, kid, apv)
+      expect.assertions(5)
+      const jwe = await createJWE(cleartext, [encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(jwe.recipients!![0].header.kid).toEqual(kid)
+      expect(jwe.recipients!![0].header.apv).toEqual(apv)
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with data in protected header', async () => {
+      const encrypter = a256cbcHs512AnonEncrypterX25519WithA256KW(recipientKey.publicKey)
+      const skid = 'did:example:sender#key-1'
+      expect.assertions(3)
+      const jwe = await createJWE(cleartext, [encrypter], { skid, more: 'protected' })
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', skid, more: 'protected' })
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with aad', async () => {
+      const encrypter = a256cbcHs512AnonEncrypterX25519WithA256KW(recipientKey.publicKey)
+      expect.assertions(4)
+      const aad = u8a.fromString('this data is authenticated')
+      const jwe = await createJWE(cleartext, [encrypter], { more: 'protected' }, aad)
+      expect(u8a.fromString(jwe.aad!!, 'base64url')).toEqual(aad)
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', more: 'protected' })
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+      delete jwe.aad
+      await expect(decryptJWE(jwe, decrypter)).rejects.toThrowError('Failed to decrypt')
+    })
+
+    describe('using remote ECDH', () => {
+      const message = 'hello world'
+      const receiverPair = generateX25519KeyPairFromSeed(randomBytes(32))
+      const receiverRemoteECDH = createX25519ECDH(receiverPair.secretKey)
+
+      it('creates JWE with remote ECDH', async () => {
+        const encrypter = a256cbcHs512AnonEncrypterX25519WithA256KW(receiverPair.publicKey)
+        const jwe: JWE = await createJWE(u8a.fromString(message), [encrypter])
+        const decrypter = a256cbcHs512AnonDecrypterX25519WithA256KW(receiverRemoteECDH)
+        const decryptedBytes = await decryptJWE(jwe, decrypter)
+        const receivedMessage = u8a.toString(decryptedBytes)
+        expect(receivedMessage).toEqual(message)
+      })
+    })
+  })
+
+  describe('Multiple recipients', () => {
+    let cleartext: any, senderkey: any
+    const recipients: any[] = []
+
+    beforeEach(() => {
+      senderkey = generateX25519KeyPairFromSeed(randomBytes(32))
+      cleartext = u8a.fromString('my secret message')
+
+      recipients[0] = {
+        kid: 'did:example:receiver1#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
+      recipients[0] = {
+        ...recipients[0],
+        ...{
+          encrypter: a256cbcHs512AnonEncrypterX25519WithA256KW(
+            recipients[0].recipientkey.publicKey,
+            recipients[0].kid,
+          ),
+          decrypter: a256cbcHs512AnonDecrypterX25519WithA256KW(recipients[0].recipientkey.secretKey),
+        },
+      }
+
+      recipients[1] = {
+        kid: 'did:example:receiver2#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
+      recipients[1] = {
+        ...recipients[1],
+        ...{
+          encrypter: a256cbcHs512AnonEncrypterX25519WithA256KW(
+            recipients[1].recipientkey.publicKey,
+            recipients[1].kid,
+          ),
+          decrypter: a256cbcHs512AnonDecrypterX25519WithA256KW(recipients[1].recipientkey.secretKey),
+        },
+      }
+    })
+
+    it('Creates with only ciphertext', async () => {
+      expect.assertions(4)
+      const jwe = await createJWE(cleartext, [recipients[0].encrypter, recipients[1].encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
+      expect(await decryptJWE(jwe, recipients[1].decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with data in protected header', async () => {
+      expect.assertions(4)
+      const skid = 'did:example:sender#key-1'
+      const jwe = await createJWE(cleartext, [recipients[0].encrypter, recipients[1].encrypter], {
+        more: 'protected',
+        skid,
+      })
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', more: 'protected', skid })
+      expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
+      expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with aad', async () => {
+      expect.assertions(6)
+      const aad = u8a.fromString('this data is authenticated')
+      const jwe = await createJWE(
+        cleartext,
+        [recipients[0].encrypter, recipients[1].encrypter],
+        { more: 'protected' },
+        aad,
+      )
+      expect(u8a.fromString(jwe.aad!!, 'base64url')).toEqual(aad)
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', more: 'protected' })
+      expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
+      expect(await decryptJWE(jwe, recipients[1].decrypter)).toEqual(cleartext)
+      delete jwe.aad
+      await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
+      await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
+    })
+
+    it('Incompatible encrypters throw', async () => {
+      expect.assertions(1)
+      const enc1 = { enc: 'cool enc alg1' } as Encrypter
+      const enc2 = { enc: 'cool enc alg2' } as Encrypter
+      await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrowError('Incompatible encrypters passed')
+    })
+  })
+})
+
+describe('ECDH-1PU+A256KW (X25519), Key Wrapping Mode with A256CBC-HS512 content encryption', () => {
+  describe('One recipient', () => {
+    let cleartext: Uint8Array, recipientKey: any, senderKey: any, decrypter: Decrypter
+
+    beforeEach(() => {
+      recipientKey = generateX25519KeyPairFromSeed(randomBytes(32))
+      senderKey = generateX25519KeyPairFromSeed(randomBytes(32))
+      cleartext = u8a.fromString('my secret message')
+      decrypter = a256cbcHs512AuthDecrypterX25519WithA256KW(recipientKey.secretKey, senderKey.publicKey)
+    })
+
+    it('Creates with only ciphertext', async () => {
+      const encrypter = a256cbcHs512AuthEncrypterX25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
+      expect.assertions(3)
+      const jwe = await createJWE(cleartext, [encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with kid, no apu and no apv', async () => {
+      const kid = 'did:example:receiver#key-1'
+      const encrypter = a256cbcHs512AuthEncrypterX25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          kid,
+        },
+      )
+      expect.assertions(6)
+      const jwe = await createJWE(cleartext, [encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(jwe.recipients!![0].header.kid).toEqual(kid)
+      expect(jwe.recipients!![0].header.apu).toBeUndefined()
+      expect(jwe.recipients!![0].header.apv).toBeUndefined()
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with no kid, with apu and apv', async () => {
+      const apu = encodeBase64url('Alice')
+      const apv = encodeBase64url('Bob')
+      const encrypter = a256cbcHs512AuthEncrypterX25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          apu,
+          apv,
+        },
+      )
+      expect.assertions(6)
+      const jwe = await createJWE(cleartext, [encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(jwe.recipients!![0].header.kid).toBeUndefined()
+      expect(jwe.recipients!![0].header.apu).toEqual(apu)
+      expect(jwe.recipients!![0].header.apv).toEqual(apv)
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with kid and apu and apv', async () => {
+      const kid = 'did:example:receiver#key-1'
+      const apu = encodeBase64url('Alice')
+      const apv = encodeBase64url('Bob')
+      const encrypter = a256cbcHs512AuthEncrypterX25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+        {
+          kid,
+          apu,
+          apv,
+        },
+      )
+      expect.assertions(6)
+      const jwe = await createJWE(cleartext, [encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(jwe.recipients!![0].header.kid).toEqual(kid)
+      expect(jwe.recipients!![0].header.apu).toEqual(apu)
+      expect(jwe.recipients!![0].header.apv).toEqual(apv)
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with data in protected header', async () => {
+      const encrypter = a256cbcHs512AuthEncrypterX25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
+      const skid = 'did:example:sender#key-1'
+      expect.assertions(3)
+      const jwe = await createJWE(cleartext, [encrypter], { skid, more: 'protected' })
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', skid, more: 'protected' })
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with aad', async () => {
+      const encrypter = a256cbcHs512AuthEncrypterX25519WithA256KW(
+        recipientKey.publicKey,
+        senderKey.secretKey,
+      )
+      expect.assertions(4)
+      const aad = u8a.fromString('this data is authenticated')
+      const jwe = await createJWE(cleartext, [encrypter], { more: 'protected' }, aad)
+      expect(u8a.fromString(jwe.aad!!, 'base64url')).toEqual(aad)
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', more: 'protected' })
+      expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
+      delete jwe.aad
+      await expect(decryptJWE(jwe, decrypter)).rejects.toThrowError('Failed to decrypt')
+    })
+
+    describe('using remote ECDH', () => {
+      const message = 'hello world'
+      const receiverPair = generateX25519KeyPairFromSeed(randomBytes(32))
+      const receiverRemoteECDH = createX25519ECDH(receiverPair.secretKey)
+      const senderPair = generateX25519KeyPairFromSeed(randomBytes(32))
+      const senderRemoteECDH: ECDH = createX25519ECDH(senderPair.secretKey)
+
+      it('creates JWE with remote ECDH', async () => {
+        const encrypter = a256cbcHs512AuthEncrypterX25519WithA256KW(
+          receiverPair.publicKey,
+          senderRemoteECDH,
+        )
+        const jwe: JWE = await createJWE(u8a.fromString(message), [encrypter])
+        const decrypter = a256cbcHs512AuthDecrypterX25519WithA256KW(
+          receiverRemoteECDH,
+          senderPair.publicKey,
+        )
+        const decryptedBytes = await decryptJWE(jwe, decrypter)
+        const receivedMessage = u8a.toString(decryptedBytes)
+        expect(receivedMessage).toEqual(message)
+      })
+    })
+  })
+
+  describe('Multiple recipients', () => {
+    let cleartext: any, senderkey: any
+    const recipients: any[] = []
+
+    beforeEach(() => {
+      senderkey = generateX25519KeyPairFromSeed(randomBytes(32))
+      cleartext = u8a.fromString('my secret message')
+
+      recipients[0] = {
+        kid: 'did:example:receiver1#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
+      recipients[0] = {
+        ...recipients[0],
+        ...{
+          encrypter: a256cbcHs512AuthEncrypterX25519WithA256KW(
+            recipients[0].recipientkey.publicKey,
+            senderkey.secretKey,
+            { kid: recipients[0].kid },
+          ),
+          decrypter: a256cbcHs512AuthDecrypterX25519WithA256KW(
+            recipients[0].recipientkey.secretKey,
+            senderkey.publicKey,
+          ),
+        },
+      }
+
+      recipients[1] = {
+        kid: 'did:example:receiver2#key-1',
+        recipientkey: generateX25519KeyPairFromSeed(randomBytes(32)),
+      }
+      recipients[1] = {
+        ...recipients[1],
+        ...{
+          encrypter: a256cbcHs512AuthEncrypterX25519WithA256KW(
+            recipients[1].recipientkey.publicKey,
+            senderkey.secretKey,
+            { kid: recipients[1].kid },
+          ),
+          decrypter: a256cbcHs512AuthDecrypterX25519WithA256KW(
+            recipients[1].recipientkey.secretKey,
+            senderkey.publicKey,
+          ),
+        },
+      }
+    })
+
+    it('Creates with only ciphertext', async () => {
+      expect.assertions(4)
+      const jwe = await createJWE(cleartext, [recipients[0].encrypter, recipients[1].encrypter])
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512' })
+      expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
+      expect(await decryptJWE(jwe, recipients[1].decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with data in protected header', async () => {
+      expect.assertions(4)
+      const skid = 'did:example:sender#key-1'
+      const jwe = await createJWE(cleartext, [recipients[0].encrypter, recipients[1].encrypter], {
+        more: 'protected',
+        skid,
+      })
+      expect(jwe.aad).toBeUndefined()
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', more: 'protected', skid })
+      expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
+      expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
+    })
+
+    it('Creates with aad', async () => {
+      expect.assertions(6)
+      const aad = u8a.fromString('this data is authenticated')
+      const jwe = await createJWE(
+        cleartext,
+        [recipients[0].encrypter, recipients[1].encrypter],
+        { more: 'protected' },
+        aad,
+      )
+      expect(u8a.fromString(jwe.aad!!, 'base64url')).toEqual(aad)
+      expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', more: 'protected' })
       expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
       expect(await decryptJWE(jwe, recipients[1].decrypter)).toEqual(cleartext)
       delete jwe.aad
