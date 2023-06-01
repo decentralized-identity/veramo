@@ -1,6 +1,8 @@
 import { defaults } from 'jest-config'
 
+// @type {import('jest-config').InitialOptions}
 const config = {
+  rootDir: './',
   moduleFileExtensions: [...defaults.moduleFileExtensions, 'mts'],
   collectCoverage: false,
   collectCoverageFrom: [

@@ -18,7 +18,7 @@
     }
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.2",
+    "@veramo/core-types": "workspace:^",
     "debug": "^4.3.3"
   },
   "devDependencies": {

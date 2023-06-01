@@ -14,8 +14,8 @@
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/signing-key": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
-    "@veramo/core-types": "^5.1.2",
-    "@veramo/did-manager": "^5.1.2",
+    "@veramo/core-types": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
     "caip": "^1.1.0",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1"

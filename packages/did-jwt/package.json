@@ -10,8 +10,8 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.2",
-    "@veramo/message-handler": "^5.1.2",
+    "@veramo/core-types": "workspace:^",
+    "@veramo/message-handler": "workspace:^",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
     "did-resolver": "^4.0.1"

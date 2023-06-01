@@ -11,11 +11,8 @@
   },
   "dependencies": {
     "@aviarytech/did-peer": "^0.0.19",
-    "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
-    "@transmute/did-key-secp256k1": "^0.3.0-unstable.10",
-    "@transmute/did-key-x25519": "^0.3.0-unstable.10",
-    "@veramo/core-types": "^5.1.2",
-    "@veramo/did-manager": "^5.1.2",
+    "@veramo/core-types": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
     "multibase": "^4.0.6",
