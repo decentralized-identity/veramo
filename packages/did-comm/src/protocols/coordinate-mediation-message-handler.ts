@@ -9,10 +9,34 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export const MEDIATE_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-request'
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export const MEDIATE_GRANT_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant'
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export const MEDIATE_DENY_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-deny'
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export const STATUS_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/status-request'
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export const DELIVERY_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/delivery-request'
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export function createMediateRequestMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
@@ -28,6 +52,9 @@ export function createMediateRequestMessage(
   }
 }
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export function createMediateGrantMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
@@ -43,6 +70,40 @@ export function createMediateGrantMessage(
     body: {
       routing_did: [mediatorDidUrl],
     },
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function createStatusRequestMessage(
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+): IDIDCommMessage {
+  return {
+    id: v4(),
+    type: STATUS_REQUEST_MESSAGE_TYPE,
+    to: mediatorDidUrl,
+    from: recipientDidUrl,
+    return_route: 'all',
+    body: {},
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function createDeliveryRequestMessage(
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+): IDIDCommMessage {
+  return {
+    id: v4(),
+    type: DELIVERY_REQUEST_MESSAGE_TYPE,
+    to: mediatorDidUrl,
+    from: recipientDidUrl,
+    return_route: 'all',
+    body: { limit: 2 },
   }
 }
 
