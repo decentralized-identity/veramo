@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 overrides:
   '@types/eslint': ^8.4.6
@@ -1647,8 +1651,8 @@ importers:
         specifier: ^6.5.4
         version: 6.5.4
       multiformats:
-        specifier: ^9.9.0
-        version: 9.9.0
+        specifier: ^11.0.0
+        version: 11.0.1
       uint8arrays:
         specifier: ^3.0.0
         version: 3.1.1
@@ -18252,7 +18256,6 @@ packages:
   /multiformats@11.0.1:
     resolution: {integrity: sha512-atWruyH34YiknSdL5yeIir00EDlJRpHzELYQxG7Iy29eCyL+VrZHpPrX5yqlik3jnuqpLpRKVZ0SGVb9UzKaSA==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
-    dev: true
 
   /multiformats@9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
