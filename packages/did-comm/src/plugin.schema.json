@@ -183,7 +183,8 @@
               "type": "string",
               "enum": [
                 "XC20P",
-                "A256GCM"
+                "A256GCM",
+                "A256CBC-HS512"
               ],
               "description": "Optional content encryption algorithm to use. Defaults to 'A256GCM'"
             },

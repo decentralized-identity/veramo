@@ -39,7 +39,7 @@ export interface IDIDCommOptions {
   /**
    * Optional content encryption algorithm to use. Defaults to 'A256GCM'
    */
-  enc?: 'XC20P' | 'A256GCM'
+  enc?: 'XC20P' | 'A256GCM' | 'A256CBC-HS512'
 
   /**
    * Optional key wrapping algorithm to use. Defaults to 'ECDH-ES+A256KW'

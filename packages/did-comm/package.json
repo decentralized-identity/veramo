@@ -23,6 +23,7 @@
     "@stablelib/aes": "^1.0.1",
     "@stablelib/aes-kw": "^1.0.1",
     "@stablelib/gcm": "^1.0.2",
+    "@stablelib/xchacha20poly1305": "^1.0.1",
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
