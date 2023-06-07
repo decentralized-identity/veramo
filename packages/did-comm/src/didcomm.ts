@@ -23,7 +23,7 @@ import {
 } from 'did-jwt'
 import { DIDDocument, parse as parseDidUrl, ServiceEndpoint, VerificationMethod, Service } from 'did-resolver'
 
-import schema from "./plugin.schema.json" assert { type: 'json' }
+import schema from './plugin.schema.json' assert { type: 'json' }
 
 import { v4 as uuidv4 } from 'uuid'
 import * as u8a from 'uint8arrays'
@@ -603,8 +603,8 @@ export class DIDComm implements IAgentPlugin {
         service.serviceEndpoint[0].routingKeys
       ) {
         routingKeys = service.serviceEndpoint[0].routingKeys
-      } else if (service.serviceEndpoint.routingKeys) {
-        routingKeys = service.serviceEndpoint.routingKeys
+      } else if ((service.serviceEndpoint as any).routingKeys) {
+        routingKeys = (<Exclude<ServiceEndpoint, string>>service.serviceEndpoint).routingKeys
       }
     }
 
@@ -657,7 +657,7 @@ export class DIDComm implements IAgentPlugin {
 
     // TODO: better strategy for selecting the transport if multiple transports apply
     const transport = transports[0]
-    
+
     let response
     try {
       response = await transport.send(service, packedMessage.message)
@@ -671,7 +671,7 @@ export class DIDComm implements IAgentPlugin {
     }
 
     context.agent.emit('DIDCommV2Message-sent', messageId)
-    
+
     if (response.returnMessage) {
       // Handle return message
       await context.agent.handleMessage({
@@ -720,11 +720,13 @@ export class DIDComm implements IAgentPlugin {
           })
 
           debug('Encrypted:', postPayload)
-        } catch (e) {
-        }
+        } catch (e) {}
 
         debug('Sending to %s', serviceEndpoint)
-        const endpointUri = (typeof serviceEndpoint === 'string') ? serviceEndpoint : serviceEndpoint.uri
+        const endpointUri =
+          typeof serviceEndpoint === 'string'
+            ? serviceEndpoint
+            : (<Exclude<ServiceEndpoint, string>>serviceEndpoint).uri ?? ''
 
         const res = await fetch(endpointUri, {
           method: 'POST',

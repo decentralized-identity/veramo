@@ -4,19 +4,17 @@ const config = {
   moduleFileExtensions: [...defaults.moduleFileExtensions, 'mts'],
   collectCoverage: false,
   collectCoverageFrom: [
-    "packages/**/src/**/*.ts",
-    "!**/examples/**",
-    "!packages/cli/**",
-    "!**/types/**",
-    "!**/build/**",
-    "!**/node_modules/**"
+    'packages/**/src/**/*.ts',
+    '!**/examples/**',
+    '!packages/cli/**',
+    '!**/types/**',
+    '!**/build/**',
+    '!**/node_modules/**',
+    '!packages/test-react-app/**',
+    '!packages/test-utils/**',
   ],
-  coverageReporters: [
-    "text",
-    "lcov",
-    "json"
-  ],
-  coverageDirectory: "./coverage",
+  coverageReporters: ['text', 'lcov', 'json'],
+  coverageDirectory: './coverage',
   coverageProvider: 'v8',
   testMatch: ['**/__tests__/**/*.test.ts'],
   automock: false,
@@ -30,11 +28,11 @@ const config = {
       'ts-jest',
       {
         useESM: true,
-        tsconfig: "./packages/tsconfig.settings.json"
-      }
-    ]
+        tsconfig: './packages/tsconfig.settings.json',
+      },
+    ],
   },
-  extensionsToTreatAsEsm: [".ts"],
+  extensionsToTreatAsEsm: ['.ts'],
   testEnvironment: 'node',
 }
 
