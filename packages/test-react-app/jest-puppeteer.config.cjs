@@ -2,13 +2,13 @@ module.exports = {
   launch: {
     dumpio: true,
     headless: true,
-    product: "chrome",
+    product: 'chrome',
   },
-  browserContext: "default",
+  browserContext: 'default',
   server: {
-    command: "pnpm start",
+    command: 'pnpm start',
     port: 3000,
     launchTimeout: 30000,
     debug: true,
   },
-};
+}
