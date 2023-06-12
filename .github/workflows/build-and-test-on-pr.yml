@@ -28,6 +28,9 @@ jobs:
   test-integration:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        shard: [1, 2, 3, 4, 5]
     services:
       postgres:
         image: postgres:15.1
@@ -61,10 +64,28 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
-        run: pnpm test:integration
+        run: pnpm test:integration --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+      - run: mv coverage/coverage-final.json coverage/${{matrix.shard}}.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-artifacts
+          path: coverage/
+
+  report-coverage:
+    runs-on: ubuntu-latest
+    needs: [test-integration]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage-artifacts
+          path: coverage
+      - name: Merge Code Coverage
+        run: npx nyc merge coverage/ coverage/coverage-final.json
       - uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos but sometimes fails without :|
+          fail_ci_if_error: true
 
   test-browser:
     needs: build
