@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@ethersproject/signing-key": "^5.7.0",
-    "@noble/curves": "^1.0.0",
+    "@noble/curves": "^1.1.0",
     "@stablelib/aes": "^1.0.1",
     "@stablelib/aes-kw": "^1.0.1",
     "@stablelib/gcm": "^1.0.2",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "@types/uuid": "9.0.1",
+    "@types/uuid": "9.0.2",
     "typescript": "5.1.3"
   },
   "files": [

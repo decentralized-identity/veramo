@@ -17,7 +17,7 @@
     "@ethersproject/strings": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
     "@ethersproject/wallet": "^5.7.0",
-    "@noble/curves": "^1.0.0",
+    "@noble/curves": "^1.1.0",
     "@stablelib/nacl": "^1.0.4",
     "@stablelib/random": "^1.0.2",
     "@veramo/core-types": "workspace:^",

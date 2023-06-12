@@ -39,7 +39,7 @@
     "typeorm": "^0.3.10",
     "util": "npm:util",
     "web-did-resolver": "^2.0.24",
-    "web-vitals": "^3.3.1"
+    "web-vitals": "^3.3.2"
   },
   "scripts": {
     "start": "craco start",
@@ -66,16 +66,16 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-syntax-import-assertions": "7.20.0",
-    "@babel/preset-typescript": "7.21.5",
+    "@babel/plugin-syntax-import-assertions": "7.22.5",
+    "@babel/preset-typescript": "7.22.5",
     "@craco/craco": "7.1.0",
-    "@types/eslint": "8.40.0",
+    "@types/eslint": "8.40.1",
     "@types/eslint-scope": "3.7.4",
     "@types/expect-puppeteer": "5.0.3",
     "@types/jest": "29.5.2",
     "@types/jest-environment-puppeteer": "5.0.3",
     "@types/node": "20.3.0",
-    "@types/react": "18.2.8",
+    "@types/react": "18.2.11",
     "@types/react-dom": "18.2.4",
     "babel-jest": "29.5.0",
     "babel-preset-react-app": "10.0.1",

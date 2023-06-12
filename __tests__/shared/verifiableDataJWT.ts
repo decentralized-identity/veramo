@@ -100,7 +100,7 @@ export default (testContext: {
         },
         proofFormat: 'jwt',
       })
-      const verifyResult = await agent.verifyCredential({credential: verifiableCredential})
+      const verifyResult = await agent.verifyCredential({ credential: verifiableCredential })
 
       expect(verifyResult.verified).toBe(true)
       expect(verifiableCredential).toHaveProperty('proof.jwt')
@@ -403,7 +403,7 @@ export default (testContext: {
               hello: 'world',
             },
             credentialStatus: {
-              id: 'override me',
+              id: 'override:me',
               type: 'ThisMethodDoesNotExist2022',
             },
           },

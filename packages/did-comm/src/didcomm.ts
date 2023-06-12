@@ -1,4 +1,4 @@
-import {
+import type {
   IAgentContext,
   IAgentPlugin,
   IDIDManager,
@@ -8,8 +8,22 @@ import {
   IMessageHandler,
   IResolver,
 } from '@veramo/core-types'
-import { createJWE, Decrypter, decryptJWE, ECDH, Encrypter, JWE, verifyJWS } from 'did-jwt'
-import { DIDDocument, parse as parseDidUrl, Service, VerificationMethod } from 'did-resolver'
+import {
+  createJWE,
+  type Decrypter,
+  decryptJWE,
+  type ECDH,
+  type Encrypter,
+  type JWE,
+  verifyJWS,
+} from 'did-jwt'
+import {
+  type DIDDocument,
+  parse as parseDidUrl,
+  type Service,
+  type ServiceEndpoint,
+  type VerificationMethod,
+} from 'did-resolver'
 import {
   a256cbcHs512AnonDecrypterX25519WithA256KW,
   a256cbcHs512AnonEncrypterX25519WithA256KW,
