@@ -4,7 +4,11 @@
   "version": "5.1.2",
   "main": "build/index.js",
   "exports": {
-    ".": "./build/index.js",
+    ".": {
+      "types": "./build/index.d.ts",
+      "require": "./build/index.js",
+      "import": "./build/index.js"
+    },
     "./build/plugin.schema.json": "./build/plugin.schema.json"
   },
   "types": "build/index.d.ts",

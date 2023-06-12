@@ -15,7 +15,7 @@ const config = {
     '!packages/test-react-app/**',
     '!packages/test-utils/**',
   ],
-  coverageReporters: ['text', 'lcov', 'json'],
+  coverageReporters: ['json'],
   coverageDirectory: './coverage',
   coverageProvider: 'v8',
   testMatch: ['**/__tests__/**/*.test.ts'],
