@@ -10,14 +10,14 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.2",
-    "@veramo/did-discovery": "^5.1.2",
-    "@veramo/did-manager": "^5.1.2",
-    "@veramo/utils": "^5.2.0",
+    "@veramo/core-types": "workspace:*",
+    "@veramo/did-discovery": "workspace:*",
+    "@veramo/did-manager": "workspace:*",
+    "@veramo/utils": "workspace:*",
     "did-resolver": "^4.0.1"
   },
   "devDependencies": {
-    "typescript": "4.9.4"
+    "typescript": "5.1.3"
   },
   "files": [
     "build/**/*",

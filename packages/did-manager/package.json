@@ -10,11 +10,11 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.2",
-    "@veramo/did-discovery": "^5.1.2"
+    "@veramo/core-types": "workspace:^",
+    "@veramo/did-discovery": "workspace:^"
   },
   "devDependencies": {
-    "typescript": "4.9.4"
+    "typescript": "5.1.3"
   },
   "files": [
     "build/**/*",

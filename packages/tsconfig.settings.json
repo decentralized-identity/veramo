@@ -3,8 +3,8 @@
     "strict": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ES2022",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "downlevelIteration": true,
@@ -15,12 +15,15 @@
     "useUnknownInCatchVariables": false,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "jest"
+    ]
   },
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
-    }
+    },
   },
   "exclude": [
     "**/__tests__/**/*",

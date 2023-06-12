@@ -1,7 +1,32 @@
-name: Build and Test PR
+name: build-test-on-pr-cached
 on: [pull_request, workflow_dispatch]
 jobs:
-  build-test:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm add -g pnpm
+      - name: 'Setup Node.js with pnpm cache'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install
+      - run: pnpm build
+      - name: 'Save build output'
+        uses: actions/cache/save@v3
+        with:
+          path: ${{ github.workspace }}
+          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
+
+  test-integration:
+    needs: build
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -12,24 +37,24 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
-          version: 7
-      - name: Use Node.js
+          version: 8
+      - run: pnpm add -g pnpm
+      - name: 'Restore build output'
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ github.workspace }}
+          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          fail-on-cache-miss: true
+      - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
-      - run: pnpm add -g pnpm
-
-      - run: pnpm install
-      - run: pnpm build
-      - name: run integration tests
+      - name: 'Run integration tests'
         env:
           INCLUDE_POSTGRES_TESTS: true
           POSTGRES_HOST: localhost
@@ -37,10 +62,54 @@ jobs:
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
         run: pnpm test:integration
-      - name: run browser tests
-        run: pnpm test:browser
-      - run: pnpm run docs
-      - run: pnpm lint
       - uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos but sometimes fails without :|
+
+  test-browser:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm add -g pnpm
+      - name: 'Restore build output'
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ github.workspace }}
+          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          fail-on-cache-miss: true
+      - name: 'Setup Node.js with pnpm cache'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm rebuild -r
+      - name: 'Run browser tests'
+        run: pnpm test:browser
+
+  lint-and-docs:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm add -g pnpm
+      - name: 'Restore build output'
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ github.workspace }}
+          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          fail-on-cache-miss: true
+      - name: 'Setup Node.js with pnpm cache'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm run lint
+      - run: pnpm run docs

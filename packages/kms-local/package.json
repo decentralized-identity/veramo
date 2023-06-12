@@ -21,8 +21,9 @@
     "@stablelib/nacl": "^1.0.4",
     "@stablelib/random": "^1.0.2",
     "@stablelib/x25519": "^1.0.3",
-    "@veramo/core-types": "^5.1.2",
-    "@veramo/key-manager": "^5.1.2",
+    "@veramo/core-types": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "base-58": "^0.0.1",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
@@ -30,9 +31,9 @@
     "uint8arrays": "^4.0.3"
   },
   "devDependencies": {
-    "@types/debug": "4.1.7",
+    "@types/debug": "4.1.8",
     "@types/elliptic": "6.4.14",
-    "typescript": "4.9.4"
+    "typescript": "5.1.3"
   },
   "files": [
     "build/**/*",

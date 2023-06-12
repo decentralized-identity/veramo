@@ -35,8 +35,8 @@
     "did-resolver": "^4.0.1"
   },
   "devDependencies": {
-    "@types/debug": "4.1.7",
-    "typescript": "4.9.4"
+    "@types/debug": "4.1.8",
+    "typescript": "5.1.3"
   },
   "files": [
     "build/**/*",
@@ -55,7 +55,7 @@
   ],
   "license": "Apache-2.0",
   "keywords": [],
-  "type": "commonjs",
+  "type": "module",
   "moduleDirectories": [
     "node_modules",
     "src"

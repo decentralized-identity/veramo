@@ -36,7 +36,7 @@ describe('Browser integration tests', () => {
   })
 
   // // https://github.com/smooth-code/jest-puppeteer/issues/503 prevents us from using puppeteer currently
-  describe.skip('should intialize in the react app', () => {
+  describe('should initialize in the react app', () => {
     beforeAll(async () => {
       await page.goto('http://localhost:3000')
     })

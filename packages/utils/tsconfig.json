@@ -3,9 +3,8 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
-    "declarationDir": "build"
+    "declarationDir": "build",
+    "skipLibCheck": true
   },
-  "references": [
-    { "path": "../core-types" }
-  ]
+  "references": [{ "path": "../core-types" }]
 }

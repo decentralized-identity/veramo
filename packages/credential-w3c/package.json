@@ -13,9 +13,9 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core-types": "^5.1.2",
-    "@veramo/message-handler": "^5.1.2",
-    "@veramo/utils": "^5.2.0",
+    "@veramo/core-types": "workspace:^",
+    "@veramo/message-handler": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "canonicalize": "^2.0.0",
     "debug": "^4.3.3",
     "did-jwt": "^6.11.0",
@@ -28,9 +28,9 @@
     "@veramo/credential-ld": "^5.2.0"
   },
   "devDependencies": {
-    "@types/debug": "4.1.7",
-    "@types/uuid": "9.0.0",
-    "typescript": "4.9.4"
+    "@types/debug": "4.1.8",
+    "@types/uuid": "9.0.1",
+    "typescript": "5.1.3"
   },
   "files": [
     "build/**/*",
