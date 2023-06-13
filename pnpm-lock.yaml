@@ -43,8 +43,8 @@ importers:
         specifier: 0.14.2
         version: 0.14.2
       '@transmute/credentials-context':
-        specifier: 0.7.0-unstable.80
-        version: 0.7.0-unstable.80
+        specifier: 0.7.0-unstable.81
+        version: 0.7.0-unstable.81
       '@types/express':
         specifier: 4.17.17
         version: 4.17.17
@@ -73,11 +73,11 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       did-jwt:
-        specifier: 7.2.1
-        version: 7.2.1
+        specifier: 7.2.2
+        version: 7.2.2
       did-jwt-vc:
-        specifier: 3.2.2
-        version: 3.2.2
+        specifier: 3.2.3
+        version: 3.2.3
       did-resolver:
         specifier: 4.1.0
         version: 4.1.0
@@ -7874,6 +7874,11 @@ packages:
 
   /@transmute/credentials-context@0.7.0-unstable.80:
     resolution: {integrity: sha512-WhTrnSsIFcWGr3nAVUr1CBBzKKGWs8TJnXPAK+I3QzshennkMNbXpLNpU/sK3cum7eTRPyxFVbH37AxrHStQOw==}
+    dev: false
+
+  /@transmute/credentials-context@0.7.0-unstable.81:
+    resolution: {integrity: sha512-TLXJkXwu+jscCVnAOuEmJYYbdaSaM6b2yk4R1g4T8gtTcTKts2G+KR5gE8A6W6QA5AuTZggwOWTxkISjErnYbw==}
+    dev: true
 
   /@transmute/did-context@0.6.1-unstable.37:
     resolution: {integrity: sha512-p/QnG3QKS4218hjIDgdvJOFATCXsAnZKgy4egqRrJLlo3Y6OaDBg7cA73dixOwUPoEKob0K6rLIGcsCI/L1acw==}
@@ -12029,6 +12034,15 @@ packages:
     dependencies:
       did-jwt: 7.2.1
       did-resolver: 4.1.0
+    dev: false
+
+  /did-jwt-vc@3.2.3:
+    resolution: {integrity: sha512-Kmqzy9UlUyyX0IzvYvABR+oFLecjlh4koyk530paVP9LJBZFTU/sQjdpJsOYsBj+exsVX37l+69k5ViD1qphQQ==}
+    engines: {node: '>=18'}
+    dependencies:
+      did-jwt: 7.2.2
+      did-resolver: 4.1.0
+    dev: true
 
   /did-jwt@6.11.6:
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
@@ -12057,6 +12071,20 @@ packages:
       did-resolver: 4.1.0
       multiformats: 11.0.2
       uint8arrays: 4.0.3
+    dev: false
+
+  /did-jwt@7.2.2:
+    resolution: {integrity: sha512-BrK2wT85u8L59y/9whXOvU9K49CV/LBpdVfpfA0FQSJFAf+lup61ewKcfI5rPN/MNHpTdOImpBYgNN9/V/vqYw==}
+    dependencies:
+      '@noble/curves': 1.1.0
+      '@noble/hashes': 1.3.1
+      '@stablelib/xchacha20poly1305': 1.0.1
+      bech32: 2.0.0
+      canonicalize: 2.0.0
+      did-resolver: 4.1.0
+      multiformats: 11.0.2
+      uint8arrays: 4.0.3
+    dev: true
 
   /did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
