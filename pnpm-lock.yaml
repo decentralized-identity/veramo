@@ -948,8 +948,8 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
       multiformats:
-        specifier: ^11.0.2
-        version: 11.0.2
+        specifier: ^12.0.0
+        version: 12.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -982,8 +982,8 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
       multiformats:
-        specifier: ^11.0.2
-        version: 11.0.2
+        specifier: ^12.0.0
+        version: 12.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1681,8 +1681,8 @@ importers:
         specifier: ^6.5.4
         version: 6.5.4
       multiformats:
-        specifier: ^11.0.2
-        version: 11.0.2
+        specifier: ^12.0.0
+        version: 12.0.0
       uint8arrays:
         specifier: ^4.0.3
         version: 4.0.3
@@ -18412,6 +18412,11 @@ packages:
   /multiformats@11.0.2:
     resolution: {integrity: sha512-b5mYMkOkARIuVZCpvijFj9a6m5wMVLC7cf/jIPd5D/ARDOfLC5+IFkbgDXQgcU2goIsTD/O9NY4DI/Mt4OGvlg==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
+
+  /multiformats@12.0.0:
+    resolution: {integrity: sha512-u6dXASUkqC6eMkPOKzf6C0R2SBmgEIyBm8bHR1prycl985AL2sixBkY96PSMMJGtHCfKieFcGWfsWYtQjc2yGg==}
+    engines: {node: '>=16.0.0', npm: '>=7.0.0'}
+    dev: false
 
   /multiformats@9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
