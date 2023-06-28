@@ -73,11 +73,11 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       did-jwt:
-        specifier: 7.2.2
-        version: 7.2.2
+        specifier: 7.2.4
+        version: 7.2.4
       did-jwt-vc:
-        specifier: 3.2.3
-        version: 3.2.3
+        specifier: 3.2.4
+        version: 3.2.4
       did-resolver:
         specifier: 4.1.0
         version: 4.1.0
@@ -12036,11 +12036,11 @@ packages:
       did-resolver: 4.1.0
     dev: false
 
-  /did-jwt-vc@3.2.3:
-    resolution: {integrity: sha512-Kmqzy9UlUyyX0IzvYvABR+oFLecjlh4koyk530paVP9LJBZFTU/sQjdpJsOYsBj+exsVX37l+69k5ViD1qphQQ==}
+  /did-jwt-vc@3.2.4:
+    resolution: {integrity: sha512-aCes7YJ0+/CwLdC5Nw/MaLkGFzvyRfH3/iYrUi/nhTP0YJ6R2zOkmaXzYFZS+8vTcUnxZk/aj2i06/N5W8ylzw==}
     engines: {node: '>=18'}
     dependencies:
-      did-jwt: 7.2.2
+      did-jwt: 7.2.4
       did-resolver: 4.1.0
     dev: true
 
@@ -12073,8 +12073,8 @@ packages:
       uint8arrays: 4.0.3
     dev: false
 
-  /did-jwt@7.2.2:
-    resolution: {integrity: sha512-BrK2wT85u8L59y/9whXOvU9K49CV/LBpdVfpfA0FQSJFAf+lup61ewKcfI5rPN/MNHpTdOImpBYgNN9/V/vqYw==}
+  /did-jwt@7.2.4:
+    resolution: {integrity: sha512-xEWP+4Q0nCC/Gpek2psYR8zu2qiLnsfgr4b1s5y6DAGrgH/BvRCIxOuX+/iyzQ6N5pHHzPRDE+wKrLh7ObnJUg==}
     dependencies:
       '@noble/curves': 1.1.0
       '@noble/hashes': 1.3.1
@@ -12082,7 +12082,7 @@ packages:
       bech32: 2.0.0
       canonicalize: 2.0.0
       did-resolver: 4.1.0
-      multiformats: 11.0.2
+      multiformats: 12.0.0
       uint8arrays: 4.0.3
     dev: true
 
@@ -18416,7 +18416,6 @@ packages:
   /multiformats@12.0.0:
     resolution: {integrity: sha512-u6dXASUkqC6eMkPOKzf6C0R2SBmgEIyBm8bHR1prycl985AL2sixBkY96PSMMJGtHCfKieFcGWfsWYtQjc2yGg==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
-    dev: false
 
   /multiformats@9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
