@@ -151,8 +151,8 @@ importers:
         specifier: 9.0.0
         version: 9.0.0
       web-did-resolver:
-        specifier: 2.0.24
-        version: 2.0.24
+        specifier: 2.0.27
+        version: 2.0.27
 
   packages/cli:
     dependencies:
@@ -11384,6 +11384,14 @@ packages:
     transitivePeerDependencies:
       - encoding
 
+  /cross-fetch@4.0.0:
+    resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
+    dependencies:
+      node-fetch: 2.6.12
+    transitivePeerDependencies:
+      - encoding
+    dev: true
+
   /cross-spawn@6.0.5:
     resolution: {integrity: sha512-eTVLrBSt7fjbDygz805pMnstIs2VTBNkRm0qxZd+M7A5XDdxVRWO5MxGBXZhjY4cqLYLdtrGqRf8mBPmzwSpWQ==}
     engines: {node: '>=4.8'}
@@ -18608,6 +18616,18 @@ packages:
     dependencies:
       whatwg-url: 5.0.0
 
+  /node-fetch@2.6.12:
+    resolution: {integrity: sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+    dependencies:
+      whatwg-url: 5.0.0
+    dev: true
+
   /node-fetch@2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
     engines: {node: 4.x || >=6.0.0}
@@ -24342,6 +24362,15 @@ packages:
       did-resolver: 4.1.0
     transitivePeerDependencies:
       - encoding
+
+  /web-did-resolver@2.0.27:
+    resolution: {integrity: sha512-YxQlNdeYBXLhVpMW62+TPlc6sSOiWyBYq7DNvY6FXmXOD9g0zLeShpq2uCKFFQV/WlSrBi/yebK/W5lMTDxMUQ==}
+    dependencies:
+      cross-fetch: 4.0.0
+      did-resolver: 4.1.0
+    transitivePeerDependencies:
+      - encoding
+    dev: true
 
   /web-streams-polyfill@3.2.1:
     resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
