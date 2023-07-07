@@ -30,7 +30,7 @@ export default (testContext: {
       // ['cred1.json'],
       // ['cred2.json'],
       ['cred3.json'],
-      ['cred4.json'],
+      // ['cred4.json'], // expired
     ])("should verify credential from the wild: '%s'", async (text) => {
       let credential = (await fs.promises.readFile(`./__tests__/fixtures/${text}`, 'utf8')).toString()
       credential = JSON.parse(credential)
