@@ -10,7 +10,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@decentralized-identity/ion-sdk": "^0.6.0",
+    "@decentralized-identity/ion-sdk": "^1.0.0",
     "@ethersproject/random": "^5.7.0",
     "@ethersproject/signing-key": "^5.7.0",
     "@sphereon/ion-pow": "^0.2.0",
