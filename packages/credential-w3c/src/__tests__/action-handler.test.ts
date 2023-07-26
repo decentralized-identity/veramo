@@ -45,7 +45,13 @@ const mockIdentifiers: IIdentifier[] = [
     controllerKeyId: 'kid2',
     keys: [
       {
-        kid: 'kid2',
+        kid: 'kid2a',
+        publicKeyHex: 'pub',
+        type: 'Ed25519',
+        kms: 'mock',
+      },
+      {
+        kid: 'kid2b',
         publicKeyHex: 'pub',
         type: 'Secp256k1',
         kms: 'mock',
@@ -98,8 +104,18 @@ let agent = {
 } as any as TAgent<IResolver & IDIDManager & IKeyManager & ICredentialPlugin & IDataStore>
 
 describe('@veramo/credential-w3c', () => {
+  const keyManagerSign = agent.keyManagerSign as
+    | jest.Mock<(args: { algorithm: string; keyRef: string}) => Promise<string>>
+
+  beforeEach(() => {
+    keyManagerSign.mockClear()
+  });
+
   test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
-    expect.assertions(3)
+    expect.assertions(6)
+
+    const keyRef = mockIdentifier.keys[1]?.kid // Second key or undefined
+    const expectedKey = mockIdentifier.keys[mockIdentifier.keys.length - 1]
 
     agent.didManagerGet = jest.fn(async (args): Promise<IIdentifier> => mockIdentifier)
     const context = { agent }
@@ -126,6 +142,7 @@ describe('@veramo/credential-w3c', () => {
         credential,
         save: false,
         proofFormat: 'jwt',
+        keyRef,
       },
       context,
     )
@@ -133,6 +150,10 @@ describe('@veramo/credential-w3c', () => {
     expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
     expect(context.agent.dataStoreSaveVerifiableCredential).not.toBeCalled()
     expect(vc.id).toEqual('vc1')
+
+    expect(keyManagerSign).toBeCalled()
+    expect(keyManagerSign.mock.calls[0][0].keyRef).toEqual(expectedKey.kid)
+    expect(keyManagerSign.mock.calls[0][0].algorithm).toEqual(expectedKey.type === 'Ed25519' ? 'EdDSA' : 'ES256K')
   })
 
   test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {

@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "rootDir": "src",
+    "outDir": "build",
+    "declarationDir": "build",
+    "skipLibCheck": true,
+    "strictFunctionTypes": false,
+    "types": ["node"]
+  },
+  "references": [
+    {
+      "path": "../core-types"
+    },
+    {
+      "path": "../utils"
+    }
+  ]
+}

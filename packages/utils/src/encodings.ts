@@ -1,5 +1,10 @@
-import * as u8a from 'uint8arrays'
-import { bases } from 'multiformats/basics'
+import { fromString, toString, concat as concatArrays } from 'uint8arrays'
+import { base64, base64url } from 'multiformats/bases/base64'
+import { base16, base16upper } from 'multiformats/bases/base16'
+import { base10 } from 'multiformats/bases/base10'
+import { base58btc } from 'multiformats/bases/base58'
+
+const u8a = { toString, fromString, concatArrays }
 
 /**
  * Converts a Uint8Array to a base64url string
@@ -53,6 +58,26 @@ export function encodeBase64url(s: string): string {
  */
 export function decodeBase64url(s: string): string {
   return u8a.toString(base64ToBytes(s))
+}
+
+/**
+ * Builds a string from a Uint8Array using the utf-8 encoding.
+ * @param b - the array to be converted
+ *
+ * @public
+ */
+export function bytesToUtf8String(b: Uint8Array): string {
+  return u8a.toString(b, 'utf-8')
+}
+
+/**
+ * Encodes a string to a Uint8Array using the utf-8 encoding.
+ * @param s - the string to be encoded
+ *
+ * @public
+ */
+export function stringToUtf8Bytes(s: string): Uint8Array {
+  return u8a.fromString(s, 'utf-8')
 }
 
 /**
@@ -153,12 +178,18 @@ export function bytesToBase58(byteArray: Uint8Array): string {
  * @throws if the string is not formatted correctly.
  *
  * @public
-*/
+ */
 export function multibaseKeyToBytes(s: string): Uint8Array {
   if (s.charAt(0) !== 'z') {
     throw new Error('invalid multibase string: string is not base58 encoded (does not start with "z")')
   }
-  const bytes = bases['base58btc'].decode(s)
+  const baseDecoder = base58btc.decoder
+    .or(base10.decoder)
+    .or(base16.decoder)
+    .or(base16upper.decoder)
+    .or(base64.decoder)
+    .or(base64url.decoder)
+  const bytes = baseDecoder.decode(s)
 
   if (bytes.length !== 34) {
     throw new Error('invalid multibase string: length is not 34 bytes')
@@ -185,7 +216,7 @@ export function multibaseKeyToBytes(s: string): Uint8Array {
  * @throws if the array is not formatted correctly.
  *
  * @public
-*/
+ */
 export function bytesToMultibase(byteArray: Uint8Array, type: string): string {
   if (byteArray.length !== 32) {
     throw new Error('invalid byte array: length is not 32 bytes')
@@ -200,5 +231,16 @@ export function bytesToMultibase(byteArray: Uint8Array, type: string): string {
   bytes[1] = 0x01
   bytes.set(byteArray, 2)
 
-  return bases['base58btc'].encode(bytes)
+  return base58btc.encode(bytes)
+}
+
+/**
+ * Concatenates a bunch of arrays into one Uint8Array
+ * @param arrays - the arrays to be concatenated
+ * @param length - the maximum length of the resulting array
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function concat(arrays: ArrayLike<number>[], length?: number): Uint8Array {
+  return u8a.concatArrays(arrays, length)
 }

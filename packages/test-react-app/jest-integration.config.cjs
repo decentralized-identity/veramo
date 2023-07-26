@@ -1,20 +1,23 @@
-module.exports = {
-  preset: 'ts-jest/presets/default-esm',
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "jsonld"],
+const { defaults } = require('jest-config')
+
+/**
+ * @type {import('jest-environment-puppeteer').JestPuppeteerConfig}
+ */
+const config = {
+  // preset path is relative to the rootDir when that is set
+  preset: '../jest-preset-puppeteer-esm/jest-preset.cjs',
   rootDir: 'headless-tests',
+  moduleFileExtensions: [...defaults.moduleFileExtensions, 'mts'],
   testRegex: './*\\.browser-test\\.(ts|tsx?)$',
-  "transform": {
-    "./*\\node_modules/uuid\\**\\*.js": "../config/jest/babelTransform.cjs",
-    "^.+\\.m?tsx?$": ["ts-jest", {"useESM": true}]
+  transform: {
+    '^.+\\.m?tsx?$': ['ts-jest', { useESM: true }],
   },
   transformIgnorePatterns: [],
   testTimeout: 30000,
-  // //https://github.com/smooth-code/jest-puppeteer/issues/503 prevents us from using puppeteer currently
-  // testRunner: 'jest-jasmine2',
-  // "globalSetup": "jest-environment-puppeteer/setup",
-  // "globalTeardown": "jest-environment-puppeteer/teardown",
-  // "testEnvironment": "jest-environment-puppeteer",
+  collectCoverage: false,
   moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1", '^uuid$': require.resolve('uuid')
-  }
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+  },
 }
+
+module.exports = config

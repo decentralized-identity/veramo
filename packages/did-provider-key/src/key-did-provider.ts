@@ -1,21 +1,23 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager, RequireOnly } from '@veramo/core-types'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, RequireOnly } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import Multibase from 'multibase'
+import { hexToBytes } from '@veramo/utils'
+import { base58btc } from 'multiformats/bases/base58'
 import Multicodec from 'multicodec'
 
 import Debug from 'debug'
+
 const debug = Debug('veramo:did-key:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
 type CreateKeyDidOptions = {
   keyType?: keyof typeof keyOptions
-  privateKeyHex?: string,
+  privateKeyHex?: string
 }
 
 const keyOptions = {
-  'Ed25519': 'ed25519-pub',
-  'X25519': 'x25519-pub',
-  'Secp256k1': 'secp256k1-pub'
+  Ed25519: 'ed25519-pub',
+  X25519: 'x25519-pub',
+  Secp256k1: 'secp256k1-pub',
 } as const
 
 /**
@@ -47,12 +49,9 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       context,
     )
 
-    const methodSpecificId = Buffer.from(
-      Multibase.encode(
-        'base58btc',
-        Multicodec.addPrefix(keyOptions[keyType], Buffer.from(key.publicKeyHex, 'hex')),
-      ),
-    ).toString()
+    const methodSpecificId: string = base58btc.encode(
+      Multicodec.addPrefix(keyOptions[keyType], hexToBytes(key.publicKeyHex)),
+    )
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:key:' + methodSpecificId,
@@ -64,7 +63,10 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     return identifier
   }
 
-  async updateIdentifier(args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any }, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
+  async updateIdentifier(
+    args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any },
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier> {
     throw new Error('KeyDIDProvider updateIdentifier not supported yet.')
   }
 
@@ -105,10 +107,10 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
 
   private async importOrGenerateKey(
     args: {
-      kms: string,
+      kms: string
       options: RequireOnly<CreateKeyDidOptions, 'keyType'>
     },
-    context: IContext
+    context: IContext,
   ): Promise<IKey> {
     if (args.options.privateKeyHex) {
       return context.agent.keyManagerImport({

@@ -3,10 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
-    "lib": [
-      "dom",
-      "esnext"
-    ]
+    "lib": ["dom", "esnext"]
   },
   "references": [
     { "path": "../core-types" },

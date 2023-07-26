@@ -43,7 +43,8 @@ export function getUniversalResolver(
 
   const resolve: DIDResolver = async (didUrl: string): Promise<DIDResolutionResult> => {
     try {
-      const result = await fetch(url + didUrl)
+      const headers = { 'Accept': 'application/ld+json;profile="https://w3id.org/did-resolution"' }
+      const result = await fetch(url + didUrl, { headers })
       const ddo = await result.json()
       return ddo
     } catch (e) {

@@ -1,9 +1,9 @@
-import { IAgent, IPluginMethodMap, IAgentOptions, TAgent, IAgentPluginSchema } from '@veramo/core-types'
+import type { IAgent, IAgentOptions, IAgentPluginSchema, IPluginMethodMap, TAgent } from '@veramo/core-types'
+import { CoreEvents } from '@veramo/core-types'
 import { validateArguments, validateReturnType } from './validator.js'
 import ValidationErrorSchema from './schemas/ValidationError.js'
 import Debug from 'debug'
 import { EventEmitter } from 'events'
-import { CoreEvents } from '@veramo/core-types'
 
 /**
  * Filters unauthorized methods. By default, all methods are authorized
@@ -173,7 +173,7 @@ export class Agent implements IAgent {
    * @public
    */
   async execute<P = any, R = any>(method: string, args: P): Promise<R> {
-    Debug('veramo:agent:' + method)('%o', args)
+    Debug('veramo:agent:' + method)('%s %o', 'arg', args)
     if (!this.methods[method]) throw Error('Method not available: ' + method)
     const _args = args || {}
     if (this.schemaValidation && this.schema.components.methods[method]) {
@@ -183,7 +183,7 @@ export class Agent implements IAgent {
     if (this.schemaValidation && this.schema.components.methods[method]) {
       validateReturnType(method, result, this.schema)
     }
-    Debug('veramo:agent:' + method + ':result')('%o', result)
+    Debug('veramo:agent:' + method)('%s %o', 'res', result)
     return result
   }
 

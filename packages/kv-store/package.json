@@ -1,0 +1,60 @@
+{
+  "name": "@veramo/kv-store",
+  "description": "Veramo Key Value Store plugin",
+  "version": "5.1.2",
+  "main": "build/index.js",
+  "exports": "./build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --config=../../jest.config.mjs",
+    "test:ci": "jest --config=../../jest.config.mjs",
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+  },
+  "dependencies": {
+    "@veramo/core-types": "workspace:*",
+    "@veramo/utils": "workspace:*",
+    "debug": "^4.3.4",
+    "events": "^3.2.0",
+    "json-buffer": "^3.0.1",
+    "typeorm": "^0.3.10",
+    "uint8arrays": "^3.1.1"
+  },
+  "devDependencies": {
+    "@keyv/compress-brotli": "1.1.3",
+    "@keyv/compress-gzip": "1.2.3",
+    "@keyv/sqlite": "3.6.5",
+    "@keyv/test-suite": "1.9.2",
+    "@types/debug": "4.1.8",
+    "@types/events": "^3.0.0",
+    "@types/json-buffer": "3.0.0",
+    "@types/node": "20.3.0",
+    "eslint": "8.42.0",
+    "eslint-plugin-promise": "6.1.1",
+    "keyv": "4.5.2",
+    "timekeeper": "2.2.0",
+    "typescript": "5.1.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:uport-project/veramo.git",
+  "author": "Niels Klomp <nklomp@sphereon.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "Veramo",
+    "Key Value Store",
+    "keyv"
+  ],
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}

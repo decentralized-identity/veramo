@@ -129,9 +129,7 @@ export class CredentialPlugin implements IAgentPlugin {
     } catch (e) {
       throw new Error('invalid_argument: presentation.holder must be a DID managed by this agent')
     }
-    //FIXME: `args` should allow picking a key or key type
-    const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
-    if (!key) throw Error('key_not_found: No signing key for ' + identifier.did)
+    const key = pickSigningKey(identifier, keyRef)
 
     let verifiablePresentation: VerifiablePresentation
 
@@ -165,9 +163,11 @@ export class CredentialPlugin implements IAgentPlugin {
       let alg = 'ES256K'
       if (key.type === 'Ed25519') {
         alg = 'EdDSA'
+      } else if (key.type === 'Secp256r1') {
+        alg = 'ES256'
       }
-      const signer = wrapSigner(context, key, alg)
 
+      const signer = wrapSigner(context, key, alg)
       const jwt = await createVerifiablePresentationJwt(
         presentation as any,
         { did: identifier.did, signer, alg },
@@ -235,15 +235,16 @@ export class CredentialPlugin implements IAgentPlugin {
           )
         }
       } else {
-        //FIXME: `args` should allow picking a key or key type
-        const key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519')
-        if (!key) throw Error('No signing key for ' + identifier.did)
+        const key = pickSigningKey(identifier, keyRef)
 
         debug('Signing VC with', identifier.did)
         let alg = 'ES256K'
         if (key.type === 'Ed25519') {
           alg = 'EdDSA'
+        } else if (key.type === 'Secp256r1') {
+          alg = 'ES256'
         }
+
         const signer = wrapSigner(context, key, alg)
         const jwt = await createVerifiableCredentialJwt(
           credential as any,
@@ -473,6 +474,20 @@ export class CredentialPlugin implements IAgentPlugin {
       }
     }
   }
+}
+
+function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
+  let key: IKey | undefined
+
+  if (!keyRef) {
+    key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519' || k.type === 'Secp256r1')
+    if (!key) throw Error('key_not_found: No signing key for ' + identifier.did)
+  } else {
+    key = identifier.keys.find((k) => k.kid === keyRef)
+    if (!key) throw Error('key_not_found: No signing key for ' + identifier.did + ' with kid ' + keyRef)
+  }
+
+  return key as IKey
 }
 
 function wrapSigner(

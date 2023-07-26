@@ -13,22 +13,22 @@
     "@ethersproject/signing-key": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
     "@stablelib/ed25519": "^1.0.3",
-    "@veramo/core-types": "^5.1.2",
+    "@veramo/core-types": "workspace:^",
     "blakejs": "^1.1.1",
     "credential-status": "^2.0.5",
-    "cross-fetch": "^3.1.5",
+    "cross-fetch": "^3.1.6",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.1",
     "elliptic": "^6.5.4",
-    "multiformats": "^9.9.0",
-    "uint8arrays": "^3.0.0"
+    "multiformats": "^12.0.0",
+    "uint8arrays": "^4.0.3"
   },
   "devDependencies": {
-    "@types/debug": "4.1.7",
+    "@types/debug": "4.1.8",
     "@types/elliptic": "6.4.14",
-    "@types/uuid": "9.0.0"
+    "@types/uuid": "9.0.1"
   },
   "files": [
     "build/**/*",

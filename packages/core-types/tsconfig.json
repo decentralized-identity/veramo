@@ -1,32 +1,8 @@
 {
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  },
-  "exclude": [
-    "**/__tests__/**/*",
-    "**/build/**/*"
-  ],
+  "extends": "../tsconfig.settings.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "build",
-    "strict": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "target": "esnext",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "declarationMap": true,
-    "declaration": true,
-    "composite": true,
-    "emitDecoratorMetadata": true,
-    "useUnknownInCatchVariables": false,
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "outDir": "build"
   },
   "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

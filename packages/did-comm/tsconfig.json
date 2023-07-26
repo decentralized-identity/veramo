@@ -4,15 +4,19 @@
     "rootDir": "src",
     "outDir": "build",
     "declarationDir": "build",
-    "lib": [
-      "dom",
-      "esnext"
-    ]
+    "lib": ["dom", "esnext"],
+    "skipLibCheck": true
   },
   "references": [
-    { "path": "../core-types" },
-    { "path": "../message-handler" },
-    { "path": "../utils" }
+    {
+      "path": "../core-types"
+    },
+    {
+      "path": "../message-handler"
+    },
+    {
+      "path": "../utils"
+    }
   ],
   "include": ["./**/*.ts", "./src/plugin.schema.json"]
 }

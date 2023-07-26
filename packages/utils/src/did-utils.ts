@@ -11,7 +11,6 @@ import {
 import { isDefined } from './type-utils.js'
 import * as u8a from 'uint8arrays'
 import elliptic from 'elliptic'
-import { bases } from 'multiformats/basics'
 import Debug from 'debug'
 import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes, multibaseKeyToBytes } from './encodings.js'
 
@@ -87,9 +86,14 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
  */
 function compareBlockchainAccountId(localKey: IKey, verificationMethod: VerificationMethod): boolean {
   if (
-    (verificationMethod.type !== 'EcdsaSecp256k1RecoveryMethod2020' &&
-      verificationMethod.type !== 'EcdsaSecp256k1VerificationKey2019') ||
-    localKey.type !== 'Secp256k1'
+    !(
+      verificationMethod.type === 'EcdsaSecp256k1RecoveryMethod2020' ||
+      verificationMethod.type === 'EcdsaSecp256k1VerificationKey2019' ||
+      (verificationMethod.type === 'JsonWebKey2020' &&
+        verificationMethod.publicKeyJwk &&
+        verificationMethod.publicKeyJwk.crv === 'secp256k1') ||
+      localKey.type === 'Secp256k1'
+    )
   ) {
     return false
   }
