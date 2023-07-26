@@ -58,7 +58,7 @@
     "jest-environment-jsdom": "29.5.0",
     "jest-environment-node": "29.5.0",
     "json-schema": "0.4.0",
-    "lerna": "7.0.0",
+    "lerna": "6.6.2",
     "lerna-changelog": "2.2.0",
     "oas-resolver": "2.5.6",
     "openapi-types": "12.1.3",
