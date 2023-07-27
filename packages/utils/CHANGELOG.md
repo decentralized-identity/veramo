@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/uport-project/veramo/compare/v5.2.0...v5.3.0) (2023-07-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency multiformats to v12 ([11fa7c3](https://github.com/uport-project/veramo/commit/11fa7c340da78101ea5e974e8ae0f90193933976))
+* support publicKeyJwk when comparing blockchainAccountId ([#1194](https://github.com/uport-project/veramo/issues/1194)) ([9110688](https://github.com/uport-project/veramo/commit/9110688cc02707d0c5ac06fe52916b7910b2d99c))
+
+
+
+
+
 # [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
 
 

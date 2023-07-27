@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/uport-project/veramo/compare/v5.2.0...v5.3.0) (2023-07-27)
+
+
+### Bug Fixes
+
+* **cli:** prevent `ExperimentalWarning` messages form being printed ([#1186](https://github.com/uport-project/veramo/issues/1186)) ([a2971aa](https://github.com/uport-project/veramo/commit/a2971aaf0b1f263415e938cc459e55a366075ffb))
+* **deps:** update dependency commander to v11 ([e2d7966](https://github.com/uport-project/veramo/commit/e2d79668b0bbd834d462fae867220f6cf44c5282))
+
+
+### Features
+
+* **kv-store:** add key-value store based on a typescript port of the keyv package ([#1150](https://github.com/uport-project/veramo/issues/1150)) ([e7138d3](https://github.com/uport-project/veramo/commit/e7138d377c4f6ea242cea645cda4d26eb7d7d377))
+
+
+
+
+
 # [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
 
 

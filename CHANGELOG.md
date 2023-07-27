@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/uport-project/veramo/compare/v5.2.0...v5.3.0) (2023-07-27)
+
+
+### Bug Fixes
+
+* add missing js extension for json canonicalizer import ([#1175](https://github.com/uport-project/veramo/issues/1175)) ([d6afc3f](https://github.com/uport-project/veramo/commit/d6afc3f6f87fb26e9bbdeb131e2270faf87018de))
+* **cli:** prevent `ExperimentalWarning` messages form being printed ([#1186](https://github.com/uport-project/veramo/issues/1186)) ([a2971aa](https://github.com/uport-project/veramo/commit/a2971aaf0b1f263415e938cc459e55a366075ffb))
+* **credential-eip712:** remove JSON.stringify for string credential ([#1176](https://github.com/uport-project/veramo/issues/1176)) ([469dcd9](https://github.com/uport-project/veramo/commit/469dcd9ba008dc73934335f55e9da80152c40371))
+* **deps:** update dependency @decentralized-identity/ion-sdk to v1 ([6981e68](https://github.com/uport-project/veramo/commit/6981e6845d6f90d7b0c8dd6e0117b73dfd8edfb9))
+* **deps:** update dependency commander to v11 ([e2d7966](https://github.com/uport-project/veramo/commit/e2d79668b0bbd834d462fae867220f6cf44c5282))
+* **deps:** update dependency multiformats to v12 ([11fa7c3](https://github.com/uport-project/veramo/commit/11fa7c340da78101ea5e974e8ae0f90193933976))
+* **deps:** Update dependency web-did-resolver to v2.0.27 ([b5b6f52](https://github.com/uport-project/veramo/commit/b5b6f524cfbdf197e27198170446c3ddbe94c241))
+* **deps:** Update did-vc-libraries ([78b4bfb](https://github.com/uport-project/veramo/commit/78b4bfb5089487e6ed771d691d35367bc3f7805c))
+* **deps:** Update did-vc-libraries ([f92c531](https://github.com/uport-project/veramo/commit/f92c53109638e36612f6971ea1d1c8582337f705))
+* **did-resolver:** send `Accept` header to universal resolver. ([#1203](https://github.com/uport-project/veramo/issues/1203)) ([c86d918](https://github.com/uport-project/veramo/commit/c86d918e05585b10c501e7cbfa495d548c04ca3e))
+* support publicKeyJwk when comparing blockchainAccountId ([#1194](https://github.com/uport-project/veramo/issues/1194)) ([9110688](https://github.com/uport-project/veramo/commit/9110688cc02707d0c5ac06fe52916b7910b2d99c))
+
+
+### Features
+
+* allow secp256r1 key type for JWT VC issuance ([#1192](https://github.com/uport-project/veramo/issues/1192)) ([2ce7056](https://github.com/uport-project/veramo/commit/2ce705680173174e7399c4d0607b67b7303c6c97))
+* **credential-w3c:** support specifying a key when creating credential or presentation ([#1202](https://github.com/uport-project/veramo/issues/1202)) ([70d49f4](https://github.com/uport-project/veramo/commit/70d49f48a71a4db674f793d14711527d539fb975))
+* export didcomm mediator utils ([#1181](https://github.com/uport-project/veramo/issues/1181)) ([264b6a7](https://github.com/uport-project/veramo/commit/264b6a71a8647f456daedcca99efa453f53ab8a1))
+* **kv-store:** add key-value store based on a typescript port of the keyv package ([#1150](https://github.com/uport-project/veramo/issues/1150)) ([e7138d3](https://github.com/uport-project/veramo/commit/e7138d377c4f6ea242cea645cda4d26eb7d7d377))
+
+
+
+
+
 # [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
 
 
