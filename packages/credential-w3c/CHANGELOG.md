@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/uport-project/veramo/compare/v5.2.0...v5.3.0) (2023-07-27)
+
+
+### Features
+
+* allow secp256r1 key type for JWT VC issuance ([#1192](https://github.com/uport-project/veramo/issues/1192)) ([2ce7056](https://github.com/uport-project/veramo/commit/2ce705680173174e7399c4d0607b67b7303c6c97))
+* **credential-w3c:** support specifying a key when creating credential or presentation ([#1202](https://github.com/uport-project/veramo/issues/1202)) ([70d49f4](https://github.com/uport-project/veramo/commit/70d49f48a71a4db674f793d14711527d539fb975))
+
+
+
+
+
 # [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
 
 

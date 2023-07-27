@@ -1,7 +1,7 @@
 {
   "name": "@veramo/data-store",
   "description": "Veramo data storage plugin based on TypeORM database drivers",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

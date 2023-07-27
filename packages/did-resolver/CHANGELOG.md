@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/uport-project/veramo/compare/v5.2.0...v5.3.0) (2023-07-27)
+
+
+### Bug Fixes
+
+* **did-resolver:** send `Accept` header to universal resolver. ([#1203](https://github.com/uport-project/veramo/issues/1203)) ([c86d918](https://github.com/uport-project/veramo/commit/c86d918e05585b10c501e7cbfa495d548c04ca3e))
+
+
+
+
+
 # [5.2.0](https://github.com/uport-project/veramo/compare/v5.1.4...v5.2.0) (2023-05-02)
 
 **Note:** Version bump only for package @veramo/did-resolver
