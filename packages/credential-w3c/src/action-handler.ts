@@ -35,6 +35,7 @@ import { decodeJWT } from 'did-jwt'
 import {
   asArray,
   extractIssuer,
+  removeDIDParameters,
   isDefined,
   MANDATORY_CREDENTIAL_CONTEXT,
   processEntryToArray,
@@ -123,9 +124,11 @@ export class CredentialPlugin implements IAgentPlugin {
       })
     }
 
+    const holder = removeDIDParameters(presentation.holder)
+
     let identifier: IIdentifier
     try {
-      identifier = await context.agent.didManagerGet({ did: presentation.holder })
+      identifier = await context.agent.didManagerGet({ did: holder })
     } catch (e) {
       throw new Error('invalid_argument: presentation.holder must be a DID managed by this agent')
     }
@@ -205,7 +208,7 @@ export class CredentialPlugin implements IAgentPlugin {
     }
 
     //FIXME: if the identifier is not found, the error message should reflect that.
-    const issuer = extractIssuer(credential)
+    const issuer = extractIssuer(credential, { removeParameters: true })
     if (!issuer || typeof issuer === 'undefined') {
       throw new Error('invalid_argument: credential.issuer must not be empty')
     }

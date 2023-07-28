@@ -3,6 +3,7 @@ import os from 'os'
 
 export function shortDid(did?: string): string {
   if (!did) return ''
+  did = did.replace(/\?.*$/, '')
   if (did.slice(0, 7) === 'did:web') {
     return did
   }
