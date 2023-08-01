@@ -1,7 +1,7 @@
 {
   "name": "@veramo/credential-w3c",
   "description": "Veramo plugin for working with W3C Verifiable Credentials & Presentations.",
-  "version": "5.3.0",
+  "version": "5.4.0",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
@@ -24,7 +24,7 @@
     "uuid": "^9.0.0"
   },
   "optionalDependencies": {
-    "@veramo/credential-ld": "^5.3.0"
+    "@veramo/credential-ld": "^5.4.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
