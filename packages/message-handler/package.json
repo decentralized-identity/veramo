@@ -1,7 +1,7 @@
 {
   "name": "@veramo/message-handler",
   "description": "Message Handler plugin for Veramo",
-  "version": "5.3.0",
+  "version": "5.4.0",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",

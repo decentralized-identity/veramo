@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.4.0](https://github.com/uport-project/veramo/compare/v5.3.0...v5.4.0) (2023-08-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency @aviarytech/did-peer to ^0.0.21 ([1f84ae7](https://github.com/uport-project/veramo/commit/1f84ae7140d3e58e9117ec6969ad118ad2f1d9e5))
+
+
+
+
+
 # [5.3.0](https://github.com/uport-project/veramo/compare/v5.2.0...v5.3.0) (2023-07-27)
 
 
