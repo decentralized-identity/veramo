@@ -1,7 +1,8 @@
 import { JwkDidSupportedKeyTypes, KeyUse, SupportedKeyTypes } from './types/jwk-provider-types.js'
 import type { VerificationMethod, JsonWebKey } from 'did-resolver'
 import { hexToBytes, bytesToBase64url, extractPublicKeyHex } from '@veramo/utils'
-import elliptic from 'elliptic'
+import { secp256k1 } from '@noble/curves/secp256k1'
+import { p256 } from '@noble/curves/p256'
 
 export function getKeyUse(keyType: JwkDidSupportedKeyTypes, passedKeyUse?: KeyUse): KeyUse {
   if (passedKeyUse) {
@@ -54,33 +55,28 @@ function createJWK(
     const keyUse = getKeyUse(keyType, passedKeyUse)
     switch (keyType) {
       case SupportedKeyTypes.Secp256k1: {
-        const EC = new elliptic.ec('secp256k1')
-        const pubPoint = EC.keyFromPublic(pubKey, 'hex').getPublic()
-        const x = pubPoint.getX()
-        const y = pubPoint.getY()
+        const point = secp256k1.ProjectivePoint.fromHex(pubKey).toAffine()
 
         return {
           alg: 'ES256K',
           crv: 'secp256k1',
           kty: 'EC',
           ...(keyUse && { use: keyUse }),
-          x: bytesToBase64url(hexToBytes(x.toString('hex'))),
-          y: bytesToBase64url(hexToBytes(y.toString('hex'))),
+          // FIXME: test endianness of the toString(16) output
+          x: bytesToBase64url(hexToBytes(point.x.toString(16))),
+          y: bytesToBase64url(hexToBytes(point.y.toString(16))),
         } as JsonWebKey
       }
       case SupportedKeyTypes.Secp256r1: {
-        const EC = new elliptic.ec('p256')
-        const pubPoint = EC.keyFromPublic(pubKey, 'hex').getPublic()
-        const x = pubPoint.getX()
-        const y = pubPoint.getY()
+        const point = p256.ProjectivePoint.fromHex(pubKey).toAffine()
 
         return {
           alg: 'ES256',
           crv: 'P-256',
           kty: 'EC',
           ...(keyUse && { use: keyUse }),
-          x: bytesToBase64url(hexToBytes(x.toString('hex'))),
-          y: bytesToBase64url(hexToBytes(y.toString('hex'))),
+          x: bytesToBase64url(hexToBytes(point.x.toString(16))),
+          y: bytesToBase64url(hexToBytes(point.y.toString(16))),
         } as JsonWebKey
       }
       case SupportedKeyTypes.Ed25519:

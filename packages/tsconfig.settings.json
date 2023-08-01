@@ -16,6 +16,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "types": [
       "jest"
     ]
@@ -23,7 +24,7 @@
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
-    },
+    }
   },
   "exclude": [
     "**/__tests__/**/*",

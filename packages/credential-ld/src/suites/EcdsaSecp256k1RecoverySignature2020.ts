@@ -1,8 +1,7 @@
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
 import ldsEcdsa from '@veramo-community/lds-ecdsa-secp256k1-recovery2020'
-import * as u8a from 'uint8arrays'
-import { asArray, encodeJoseBlob } from '@veramo/utils'
+import { asArray, bytesToBase64, concat, encodeJoseBlob, stringToUtf8Bytes } from '@veramo/utils'
 
 const { EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020 } = ldsEcdsa
 
@@ -36,8 +35,8 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
           crit: ['b64'],
         }
         const headerString = encodeJoseBlob(header)
-        const messageBuffer = u8a.concat([u8a.fromString(`${headerString}.`, 'utf-8'), args.data])
-        const messageString = u8a.toString(messageBuffer, 'base64')
+        const messageBuffer = concat([stringToUtf8Bytes(`${headerString}.`), args.data])
+        const messageString = bytesToBase64(messageBuffer)
         const signature = await context.agent.keyManagerSign({
           keyRef: key.kid,
           algorithm: 'ES256K-R',
@@ -59,7 +58,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
       }),
     })
 
-    suite.ensureSuiteContext = ({ document }: { document: any, addSuiteContext: boolean }) => {
+    suite.ensureSuiteContext = ({ document }: { document: any; addSuiteContext: boolean }) => {
       document['@context'] = [...asArray(document['@context'] || []), this.getContext()]
     }
 
@@ -70,12 +69,14 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
     return new EcdsaSecp256k1RecoverySignature2020()
   }
 
-  preSigningCredModification(credential: CredentialPayload): void {
-  }
+  preSigningCredModification(credential: CredentialPayload): void {}
 
   async preDidResolutionModification(didUrl: string, didDoc: DIDDocument): Promise<DIDDocument> {
-//    did:ethr
-    const idx = didDoc['@context']?.indexOf('https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld') || -1
+    //    did:ethr
+    const idx =
+      didDoc['@context']?.indexOf(
+        'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
+      ) || -1
     if (Array.isArray(didDoc['@context']) && idx !== -1) {
       didDoc['@context'][idx] = this.getContext()
     }
@@ -85,7 +86,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
       didDoc.verificationMethod?.forEach((x) => {
         if (x.blockchainAccountId) {
           if (x.blockchainAccountId.lastIndexOf('@eip155:') !== -1) {
-            const [ address, chain ] = x.blockchainAccountId.split("@eip155:")
+            const [address, chain] = x.blockchainAccountId.split('@eip155:')
             x.blockchainAccountId = `eip155:${chain}:${address}`
           }
         }

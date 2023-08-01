@@ -22,7 +22,7 @@ import {
   TAgent,
   VerifiableCredential,
 } from '../../../core-types/src'
-import { CredentialPlugin } from '../action-handler'
+import { CredentialPlugin } from '../action-handler.js'
 
 const mockIdentifiers: IIdentifier[] = [
   {

@@ -19,19 +19,23 @@ export function createTrustPingMessage(senderDidUrl: string, recipientDidUrl: st
     to: recipientDidUrl,
     id: v4(),
     body: {
-      responseRequested: true
-    }
+      responseRequested: true,
+    },
   }
 }
 
-export function createTrustPingResponse(senderDidUrl: string, recipientDidUrl: string, pingId: string): IDIDCommMessage {
+export function createTrustPingResponse(
+  senderDidUrl: string,
+  recipientDidUrl: string,
+  pingId: string,
+): IDIDCommMessage {
   return {
     type: TRUST_PING_RESPONSE_MESSAGE_TYPE,
     from: senderDidUrl,
     to: recipientDidUrl,
     id: `${pingId}-response`,
     thid: pingId,
-    body: {}
+    body: {},
   }
 }
 
@@ -54,13 +58,16 @@ export class TrustPingMessageHandler extends AbstractMessageHandler {
       try {
         const { from, to, id } = message
         if (!from) {
-          throw new Error("invalid_argument: Trust Ping Message received without `from` set")
+          throw new Error('invalid_argument: Trust Ping Message received without `from` set')
         }
         if (!to) {
-          throw new Error("invalid_argument: Trust Ping Message received without `to` set")
+          throw new Error('invalid_argument: Trust Ping Message received without `to` set')
         }
         const response = createTrustPingResponse(to!, from!, id)
-        const packedResponse = await context.agent.packDIDCommMessage({ message: response, packing: 'authcrypt'})
+        const packedResponse = await context.agent.packDIDCommMessage({
+          message: response,
+          packing: 'authcrypt',
+        })
         const sent = await context.agent.sendDIDCommMessage({
           messageId: response.id,
           packedMessage: packedResponse,
@@ -73,7 +80,7 @@ export class TrustPingMessageHandler extends AbstractMessageHandler {
       return message
     } else if (message.type === TRUST_PING_RESPONSE_MESSAGE_TYPE) {
       debug('TrustPingResponse Message Received')
-      message.addMetaData({ type: 'TrustPingResponseReceived', value: 'true'})
+      message.addMetaData({ type: 'TrustPingResponseReceived', value: 'true' })
       return message
     }
 

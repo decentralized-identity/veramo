@@ -2,11 +2,9 @@ import { createCredentialEntity, Credential } from '../entities/credential.js'
 import { createPresentationEntity } from '../entities/presentation.js'
 import { Claim, Entities, Identifier, Message } from '../index.js'
 import { DataSource, In } from 'typeorm'
-// @ts-ignore
-import pkg from 'blakejs'
 import * as fs from 'fs'
-
-const { blake2bHex } = pkg
+import { bytesToHex } from '../../../utils/src'
+import { blake2b } from '@noble/hashes/blake2b'
 
 describe('DB entities test', () => {
   let connection: DataSource
@@ -169,7 +167,7 @@ describe('DB entities test', () => {
   })
 
   it('Message can have externally set id', async () => {
-    const customId = blake2bHex('hash123')
+    const customId = bytesToHex(blake2b('hash123'))
 
     const message = new Message()
     message.type = 'custom'

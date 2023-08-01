@@ -1,7 +1,6 @@
-import { encodeJoseBlob } from '@veramo/utils'
+import { bytesToBase64, concat, encodeJoseBlob, hexToBytes, stringToUtf8Bytes } from '@veramo/utils'
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
-import * as u8a from 'uint8arrays'
 import { Ed25519Signature2018, Ed25519VerificationKey2018 } from '@transmute/ed25519-signature-2018'
 
 /**
@@ -38,8 +37,8 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
           crit: ['b64'],
         }
         const headerString = encodeJoseBlob(header)
-        const messageBuffer = u8a.concat([u8a.fromString(`${headerString}.`, 'utf-8'), args.data])
-        const messageString = u8a.toString(messageBuffer, 'base64')
+        const messageBuffer = concat([stringToUtf8Bytes(`${headerString}.`), args.data])
+        const messageString = bytesToBase64(messageBuffer)
         const signature = await context.agent.keyManagerSign({
           keyRef: key.kid,
           algorithm: 'EdDSA',
@@ -53,7 +52,7 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
     const verificationKey = new Ed25519VerificationKey2018({
       id,
       controller,
-      publicKey: u8a.fromString(key.publicKeyHex, 'base16'),
+      publicKey: hexToBytes(key.publicKeyHex),
       signer: () => signer,
       type: this.getSupportedVerificationType(),
     })

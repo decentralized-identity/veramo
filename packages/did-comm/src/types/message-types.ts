@@ -35,6 +35,16 @@ export interface IDIDCommOptions {
    * Restrict to a set of kids for recipient
    */
   recipientKids?: string[]
+
+  /**
+   * Optional content encryption algorithm to use. Defaults to 'A256GCM'
+   */
+  enc?: 'XC20P' | 'A256GCM' | 'A256CBC-HS512'
+
+  /**
+   * Optional key wrapping algorithm to use. Defaults to 'ECDH-ES+A256KW'
+   */
+  alg?: 'ECDH-ES+A256KW' | 'ECDH-1PU+A256KW' | 'ECDH-ES+XC20PKW' | 'ECDH-1PU+XC20PKW'
 }
 
 /**
@@ -62,7 +72,8 @@ export enum DIDCommMessageMediaType {
 /**
  * The possible types of message packing.
  *
- * `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce `DIDCommMessageMediaType.ENCRYPTED` messages.
+ * `authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce
+ * `DIDCommMessageMediaType.ENCRYPTED` messages.
  *
  * `jws` will produce `DIDCommMessageMediaType.SIGNED` messages.
  *

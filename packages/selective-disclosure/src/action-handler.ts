@@ -5,8 +5,10 @@ import {
   ICredentialIssuer,
   IDataStoreORM,
   IDIDManager,
+  IKey,
   IKeyManager,
   TClaimsColumns,
+  VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
 
@@ -23,13 +25,7 @@ import {
 import schema from './plugin.schema.json' assert { type: 'json' }
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
-import {
-  asArray,
-  bytesToBase64,
-  computeEntryHash,
-  decodeCredentialToObject,
-  extractIssuer,
-} from '@veramo/utils'
+import { asArray, bytesToBase64, computeEntryHash, decodeCredentialToObject, extractIssuer, } from '@veramo/utils'
 
 /**
  * This class adds support for creating
@@ -77,7 +73,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
       delete data.issuer
       Debug('veramo:selective-disclosure:create-sdr')('Signing SDR with', identifier.did)
 
-      const key = identifier.keys.find((k) => k.type === 'Secp256k1')
+      const key = identifier.keys.find((k: IKey) => k.type === 'Secp256k1')
       if (!key) throw Error('Signing key not found')
       const signer = (data: string | Uint8Array) => {
         let dataString, encoding: 'base64' | undefined
@@ -183,7 +179,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
     for (const credentialRequest of args.sdr.claims) {
       let credentials = (args.presentation?.verifiableCredential || [])
         .map(decodeCredentialToObject)
-        .filter((credential) => {
+        .filter((credential: VerifiableCredential) => {
           if (
             credentialRequest.claimType &&
             credentialRequest.claimValue &&

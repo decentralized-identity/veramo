@@ -3,7 +3,10 @@ import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { MEDIATE_GRANT_MESSAGE_TYPE, MEDIATE_DENY_MESSAGE_TYPE } from './coordinate-mediation-message-handler.js'
+import {
+  MEDIATE_GRANT_MESSAGE_TYPE,
+  MEDIATE_DENY_MESSAGE_TYPE,
+} from './coordinate-mediation-message-handler.js'
 
 const debug = Debug('veramo:did-comm:routing-message-handler')
 
@@ -13,7 +16,8 @@ export const FORWARD_MESSAGE_TYPE = 'https://didcomm.org/routing/2.0/forward'
 export const QUEUE_MESSAGE_TYPE = 'https://didcomm.org/routing/2.0/forward/queue-message'
 
 /**
- * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles forward messages for the Routing protocol.
+ * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles forward messages for the Routing
+ * protocol.
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class RoutingMessageHandler extends AbstractMessageHandler {

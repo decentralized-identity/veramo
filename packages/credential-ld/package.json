@@ -23,16 +23,15 @@
     "@digitalcredentials/jsonld": "^5.2.1",
     "@digitalcredentials/jsonld-signatures": "^9.3.1",
     "@digitalcredentials/vc": "^5.0.0",
-    "@transmute/credentials-context": "^0.7.0-unstable.79",
-    "@transmute/ed25519-signature-2018": "^0.7.0-unstable.79",
-    "@transmute/json-web-signature": "^0.7.0-unstable.79",
+    "@transmute/credentials-context": "^0.7.0-unstable.81",
+    "@transmute/ed25519-signature-2018": "^0.7.0-unstable.81",
+    "@transmute/json-web-signature": "^0.7.0-unstable.81",
     "@veramo-community/lds-ecdsa-secp256k1-recovery2020": "uport-project/EcdsaSecp256k1RecoverySignature2020",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "cross-fetch": "^3.1.6",
     "debug": "^4.3.3",
-    "did-resolver": "^4.0.1",
-    "uint8arrays": "^4.0.3"
+    "did-resolver": "^4.1.0"
   },
   "resolutions": {
     "@types/react": "18.0.26",

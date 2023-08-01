@@ -1,17 +1,19 @@
 import { IAgentContext, IDIDManager, IIdentifier, IKeyManager, IResolver, TKeyType } from '@veramo/core-types'
 import { ECDH, JWE } from 'did-jwt'
 import { parse as parseDidUrl } from 'did-resolver'
-import * as u8a from 'uint8arrays'
 
 import Debug from 'debug'
 import {
   _ExtendedVerificationMethod,
+  bytesToHex,
   decodeJoseBlob,
   extractPublicKeyHex,
+  hexToBytes,
   isDefined,
   mapIdentifierKeysToDoc,
   resolveDidOrThrow,
 } from '@veramo/utils'
+import { x25519 } from '@noble/curves/ed25519'
 
 const debug = Debug('veramo:did-comm:action-handler')
 
@@ -20,9 +22,9 @@ export function createEcdhWrapper(secretKeyRef: string, context: IAgentContext<I
     if (theirPublicKey.length !== 32) {
       throw new Error('invalid_argument: incorrect publicKey key length for X25519')
     }
-    const publicKey = { type: <TKeyType>'X25519', publicKeyHex: u8a.toString(theirPublicKey, 'base16') }
+    const publicKey = { type: <TKeyType>'X25519', publicKeyHex: bytesToHex(theirPublicKey) }
     const shared = await context.agent.keyManagerSharedSecret({ secretKeyRef, publicKey })
-    return u8a.fromString(shared, 'base16')
+    return hexToBytes(shared)
   }
 }
 
@@ -39,11 +41,19 @@ export async function extractSenderEncryptionKey(
       didUrl: protectedHeader.skid,
       section: 'keyAgreement',
     })) as _ExtendedVerificationMethod
-    if (!['Ed25519VerificationKey2018', 'X25519KeyAgreementKey2019', 'JsonWebKey2020', 'Ed25519VerificationKey2020', 'X25519KeyAgreementKey2020'].includes(sKey.type)) {
+    if (
+      ![
+        'Ed25519VerificationKey2018',
+        'X25519KeyAgreementKey2019',
+        'JsonWebKey2020',
+        'Ed25519VerificationKey2020',
+        'X25519KeyAgreementKey2020',
+      ].includes(sKey.type)
+    ) {
       throw new Error(`not_supported: sender key of type ${sKey.type} is not supported`)
     }
     let publicKeyHex = extractPublicKeyHex(sKey, true)
-    senderKey = u8a.fromString(publicKeyHex, 'base16')
+    senderKey = hexToBytes(publicKeyHex)
   }
   return senderKey
 }
@@ -98,4 +108,28 @@ export async function mapRecipientsToLocalKeys(
   )
   const localKeys = potentialKeys.filter(isDefined)
   return localKeys
+}
+
+/**
+ * Generate private-public x25519 key pair
+ */
+export function generateX25519KeyPair(): { secretKey: Uint8Array; publicKey: Uint8Array } {
+  const secretKey = x25519.utils.randomPrivateKey()
+  return generateX25519KeyPairFromSeed(secretKey)
+}
+
+/**
+ * Generate private-public x25519 key pair from a 32 byte secret.
+ */
+export function generateX25519KeyPairFromSeed(seed: Uint8Array): {
+  secretKey: Uint8Array
+  publicKey: Uint8Array
+} {
+  if (seed.length !== 32) {
+    throw new Error(`x25519: seed must be 32 bytes`)
+  }
+  return {
+    publicKey: x25519.getPublicKey(seed),
+    secretKey: seed,
+  }
 }

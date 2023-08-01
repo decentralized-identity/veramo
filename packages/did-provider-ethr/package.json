@@ -22,7 +22,7 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "debug": "^4.3.3",
-    "ethr-did": "^2.3.6"
+    "ethr-did": "^2.3.14"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

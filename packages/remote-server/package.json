@@ -14,7 +14,7 @@
     "@veramo/remote-client": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-resolver": "^4.0.1",
+    "did-resolver": "^4.1.0",
     "express": "^4.18.2",
     "passport": "^0.6.0",
     "passport-http-bearer": "^1.0.1",

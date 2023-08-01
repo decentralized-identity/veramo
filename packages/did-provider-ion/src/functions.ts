@@ -5,19 +5,25 @@ import {
   KeyIdentifierRelation,
   KeyType,
 } from './types/ion-provider-types.js'
-import { IonDid, IonDocumentModel, IonPublicKeyModel, IonPublicKeyPurpose, JwkEs256k } from '@decentralized-identity/ion-sdk'
+import {
+  IonDid,
+  IonDocumentModel,
+  IonPublicKeyModel,
+  IonPublicKeyPurpose,
+  JwkEs256k,
+} from '@decentralized-identity/ion-sdk'
 import { computePublicKey } from '@ethersproject/signing-key'
 import { IKey, ManagedKeyInfo } from '@veramo/core-types'
-import keyto from '@trust/keyto';
+import keyto from '@trust/keyto'
 import { randomBytes } from '@ethersproject/random'
-import * as u8a from 'uint8arrays'
-import { generateKeyPair as generateSigningKeyPair } from '@stablelib/ed25519'
+import { ed25519 } from '@noble/curves/ed25519'
 import Debug from 'debug'
 import { JsonCanonicalizer } from './json-canonicalizer.js'
 import { MemoryPrivateKeyStore } from '@veramo/key-manager'
 import { KeyManagementSystem } from '@veramo/kms-local'
-import { hash } from '@stablelib/sha256'
+import { sha256 } from '@noble/hashes/sha256'
 import multihashes from 'multihashes'
+import { bytesToBase64url, bytesToHex, concat, hexToBytes, stringToUtf8Bytes } from '@veramo/utils'
 
 const debug = Debug('veramo:did-provider-ion')
 
@@ -69,50 +75,47 @@ export const toIonPublicKeyJwk = (publicKeyHex: string): JwkEs256k => {
  * ```
  * See [rfc7638](https://tools.ietf.org/html/rfc7638) for more details on Jwk.
  */
-export const getKid = (
-  jwk: ISecp256k1PrivateKeyJwk | ISecp256k1PublicKeyJwk
-) => {
-  const copy = { ...jwk } as any;
-  delete copy.d;
-  delete copy.kid;
-  delete copy.alg;
-  const digest = hash(u8a.fromString(JsonCanonicalizer.asString(copy), 'utf-8'));
-  return u8a.toString(digest, 'base64url')
-};
+export const getKid = (jwk: ISecp256k1PrivateKeyJwk | ISecp256k1PublicKeyJwk) => {
+  const copy = { ...jwk } as any
+  delete copy.d
+  delete copy.kid
+  delete copy.alg
+  const digest = sha256(stringToUtf8Bytes(JsonCanonicalizer.asString(copy)))
+  return bytesToBase64url(digest)
+}
 
 /** convert compressed hex encoded private key to jwk */
 const privateKeyJwkFromPrivateKeyHex = (privateKeyHex: string) => {
   const jwk = {
     ...keyto.from(privateKeyHex, 'blk').toJwk('private'),
     crv: 'secp256k1',
-  };
-  const kid = getKid(jwk);
+  }
+  const kid = getKid(jwk)
   return {
     ...jwk,
     kid,
-  };
-};
+  }
+}
 
 /** convert compressed hex encoded public key to jwk */
 const publicKeyJwkFromPublicKeyHex = (publicKeyHex: string) => {
-  let key = publicKeyHex;
-  const compressedHexEncodedPublicKeyLength = 66;
+  let key = publicKeyHex
+  const compressedHexEncodedPublicKeyLength = 66
   if (publicKeyHex.length === compressedHexEncodedPublicKeyLength) {
-    const publicBytes = u8a.fromString(publicKeyHex, 'base16')
+    const publicBytes = hexToBytes(publicKeyHex)
     key = computePublicKey(publicBytes, true).substring(2)
   }
   const jwk = {
     ...keyto.from(key, 'blk').toJwk('public'),
     crv: 'secp256k1',
-  };
-  const kid = getKid(jwk);
+  }
+  const kid = getKid(jwk)
 
   return {
     ...jwk,
     kid,
-  };
-};
-
+  }
+}
 
 /**
  * Computes the ION Commitment value from a ION public key
@@ -132,11 +135,11 @@ export const computeCommitmentFromIonPublicKey = (ionKey: IonPublicKeyModel): st
 export const computeCommitmentFromJwk = (jwk: JwkEs256k): string => {
   const data = JsonCanonicalizer.asString(jwk)
   debug(`canonicalized JWK: ${data}`)
-  const singleHash = hash(u8a.fromString(data))
-  const doubleHash = hash(singleHash)
+  const singleHash = sha256(stringToUtf8Bytes(data))
+  const doubleHash = sha256(singleHash)
 
   const multiHash = multihashes.encode(doubleHash, MULTI_HASH_SHA256_LITERAL)
-  const commitment = u8a.toString(multiHash, 'base64url')
+  const commitment = bytesToBase64url(multiHash)
   debug(`commitment: ${commitment}`)
   return commitment
 }
@@ -151,10 +154,12 @@ export const getActionTimestamp = (timestamp = Date.now()): number => {
 }
 
 /**
- * Gets a specific recovery key matching the commitment value, typically coming from a DID document, or the latest recovery key in case it is not provided
+ * Gets a specific recovery key matching the commitment value, typically coming from a DID document, or the latest
+ * recovery key in case it is not provided
  *
  * @param keys The actual keys related to an identifier
- * @param commitment An optional commitment value to match the recovery key against. Typically comes from a DID Document
+ * @param commitment An optional commitment value to match the recovery key against. Typically comes from a DID
+ *   Document
  * @return The ION Recovery Public Key
  */
 export const getVeramoRecoveryKey = (keys: IKey[], commitment?: string): IKey => {
@@ -163,7 +168,8 @@ export const getVeramoRecoveryKey = (keys: IKey[], commitment?: string): IKey =>
 }
 
 /**
- * Gets a specific update key matching the commitment value, typically coming from a DID document, or the latest update key in case it is not provided
+ * Gets a specific update key matching the commitment value, typically coming from a DID document, or the latest update
+ * key in case it is not provided
  *
  * @param keys The actual keys related to an identifier
  * @param commitment An optional commitment value to match the update key against. Typically comes from a DID Document
@@ -175,43 +181,63 @@ export const getVeramoUpdateKey = (keys: IKey[], commitment?: string): IKey => {
 }
 
 /**
- * Get the Ion Public keys from Veramo which have a specific relation type. If the commitment value is set the Key belonging to that value will be returned, otherwise the latest key
+ * Get the Ion Public keys from Veramo which have a specific relation type. If the commitment value is set the Key
+ * belonging to that value will be returned, otherwise the latest key
  * @param keys The Veramo Keys to inspect
  * @param relation The Key relation ship type
- * @param commitment An optional commitment value, typically coming from a DID Document. The value 'genisis' returns the first key found
+ * @param commitment An optional commitment value, typically coming from a DID Document. The value 'genisis' returns
+ *   the first key found
  */
-export const ionKeysOfType = (keys: IKey[], relation: KeyIdentifierRelation, commitment?: string): IonPublicKeyModel[] => {
+export const ionKeysOfType = (
+  keys: IKey[],
+  relation: KeyIdentifierRelation,
+  commitment?: string,
+): IonPublicKeyModel[] => {
   return veramoKeysOfType(keys, relation, commitment).flatMap((key) => {
     return toIonPublicKey(key)
   })
 }
 
 /**
- * Get the Veramo keys which have a specific relation type. If the commitment value is set the Key belonging to that value will be returned, otherwise the latest key
+ * Get the Veramo keys which have a specific relation type. If the commitment value is set the Key belonging to that
+ * value will be returned, otherwise the latest key
  * @param keys The Veramo Keys to inspect
  * @param relation The Key relation ship type
- * @param commitment An optional commitment value, typically coming from a DID Document. The value 'genisis' returns the first key found
+ * @param commitment An optional commitment value, typically coming from a DID Document. The value 'genisis' returns
+ *   the first key found
  */
-export const veramoKeysOfType = (keys: IKey[], relation: KeyIdentifierRelation, commitment?: string): IKey[] => {
+export const veramoKeysOfType = (
+  keys: IKey[],
+  relation: KeyIdentifierRelation,
+  commitment?: string,
+): IKey[] => {
   return keys
     .sort((key1, key2) => {
       const opId1 = key1.meta?.ion?.operationId
       const opId2 = key2.meta?.ion?.operationId
       return !opId1 ? 1 : !opId2 ? -1 : opId1 - opId2
     })
-    .filter((key) => !commitment || commitment === 'genesis' || !key.meta?.ion.commitment || key.meta?.ion.commitment === commitment)
+    .filter(
+      (key) =>
+        !commitment ||
+        commitment === 'genesis' ||
+        !key.meta?.ion.commitment ||
+        key.meta?.ion.commitment === commitment,
+    )
     .filter((key) => key.meta?.ion.relation === relation)
     .flatMap((keys) => keys)
 }
 
 /**
- * Ion/Sidetree only supports kid with a maximum length of 50 characters. This method truncates longer keys when create ION requests
+ * Ion/Sidetree only supports kid with a maximum length of 50 characters. This method truncates longer keys when create
+ * ION requests
  *
  * @param kid The Veramo kid
  * @return A truncated kid if the input kid contained more than 50 characters
  */
 export const truncateKidIfNeeded = (kid: string): string => {
-  const id = kid.substring(0, 50) // ION restricts the id to 50 chars. Ideally we can also provide kids for key creation in Veramo
+  const id = kid.substring(0, 50) // ION restricts the id to 50 chars. Ideally we can also provide kids for key
+  // creation in Veramo
   if (id.length != kid.length) {
     debug(`Key kid ${kid} has been truncated to 50 chars to support ION!`)
   }
@@ -221,11 +247,19 @@ export const truncateKidIfNeeded = (kid: string): string => {
 /**
  * Creates an Ion Public Key (Verification Method), used in ION request from a Veramo Key
  * @param key The Veramo Key
- * @param createKeyPurposes The verification relationships (Sidetree calls them purposes) to explicitly set. Used during key creation
+ * @param createKeyPurposes The verification relationships (Sidetree calls them purposes) to explicitly set. Used
+ *   during key creation
  * @return An Ion Public Key which can be used in Ion request objects
  */
-export const toIonPublicKey = (key: ManagedKeyInfo, createKeyPurposes?: IonPublicKeyPurpose[]): IonPublicKeyModel => {
-  const purposes: IonPublicKeyPurpose[] = createKeyPurposes ? createKeyPurposes : key.meta?.ion?.purposes ? key.meta.ion.purposes : []
+export const toIonPublicKey = (
+  key: ManagedKeyInfo,
+  createKeyPurposes?: IonPublicKeyPurpose[],
+): IonPublicKeyModel => {
+  const purposes: IonPublicKeyPurpose[] = createKeyPurposes
+    ? createKeyPurposes
+    : key.meta?.ion?.purposes
+    ? key.meta.ion.purposes
+    : []
   const publicKeyJwk = toIonPublicKeyJwk(key.publicKeyHex)
   const id = truncateKidIfNeeded(key.kid)
 
@@ -247,13 +281,15 @@ export const generatePrivateKeyHex = (type: KeyType): string => {
 
   switch (type) {
     case KeyType.Ed25519: {
-      const keyPairEd25519 = generateSigningKeyPair()
-      privateKeyHex = u8a.toString(keyPairEd25519.secretKey, 'base16')
+      // @noble/curves doesn't precompute the public key
+      const secretKey = ed25519.utils.randomPrivateKey()
+      const publicKey = ed25519.utils.getExtendedPublicKey(secretKey.subarray(0, 32)).pointBytes
+      privateKeyHex = bytesToHex(concat([secretKey, publicKey]))
       break
     }
     case KeyType.Secp256k1: {
       const privateBytes = randomBytes(32)
-      privateKeyHex = u8a.toString(privateBytes, 'base16')
+      privateKeyHex = bytesToHex(privateBytes)
       break
     }
     default:
@@ -279,7 +315,7 @@ export const tempMemoryKey = async (
   privateKeyHex: string,
   kid: string,
   kms: string,
-  ionMeta: IonKeyMetadata
+  ionMeta: IonKeyMetadata,
 ): Promise<IKey> => {
   const tmpKey = (await new KeyManagementSystem(new MemoryPrivateKeyStore()).importKey({
     type,
@@ -299,7 +335,11 @@ export const tempMemoryKey = async (
  * @param input The creation keys
  * @return The Ion Long form DID
  */
-export const ionLongFormDidFromCreation = async (input: { recoveryKey: JwkEs256k; updateKey: JwkEs256k; document: IonDocumentModel }): Promise<string> => {
+export const ionLongFormDidFromCreation = async (input: {
+  recoveryKey: JwkEs256k
+  updateKey: JwkEs256k
+  document: IonDocumentModel
+}): Promise<string> => {
   return await IonDid.createLongFormDid(input)
 }
 
@@ -309,8 +349,12 @@ export const ionLongFormDidFromCreation = async (input: { recoveryKey: JwkEs256k
  * @param input The creation keys
  * @return The Ion Short form DID
  */
-export const ionShortFormDidFromCreation = async (input: { recoveryKey: JwkEs256k; updateKey: JwkEs256k; document: IonDocumentModel }): Promise<string> => {
-  return  ionShortFormDidFromLong(await ionLongFormDidFromCreation(input))
+export const ionShortFormDidFromCreation = async (input: {
+  recoveryKey: JwkEs256k
+  updateKey: JwkEs256k
+  document: IonDocumentModel
+}): Promise<string> => {
+  return ionShortFormDidFromLong(await ionLongFormDidFromCreation(input))
 }
 
 /**
@@ -326,7 +370,8 @@ export const ionShortFormDidFromLong = (longFormDid: string): string => {
 }
 
 /**
- * Gets the method specific Short form Id from the Long form DID. So the did: prefix and Ion Long Form suffix have been removed
+ * Gets the method specific Short form Id from the Long form DID. So the did: prefix and Ion Long Form suffix have been
+ * removed
  * @param longFormDid The Ion Long form DID
  * @return The Short form method specific Id
  */

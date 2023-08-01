@@ -1,6 +1,10 @@
-import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
+import {
+  AbstractPrivateKeyStore,
+  AbstractSecretBox,
+  ImportablePrivateKey,
+  ManagedPrivateKey,
+} from '@veramo/key-manager'
 import { DataSource } from 'typeorm'
-import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager'
 import { PrivateKey } from '../entities/private-key.js'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
@@ -47,17 +51,20 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     const key = new PrivateKey()
     key.alias = args.alias || uuid4()
     key.privateKeyHex = args.privateKeyHex
-    if (this.secretBox && key.privateKeyHex) {
-      key.privateKeyHex = await this.secretBox.encrypt(key.privateKeyHex)
-    }
     key.type = args.type
     debug('Saving private key data', args.alias)
     const keyRepo = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey)
     const existingKey = await keyRepo.findOneBy({ alias: key.alias })
+    if (existingKey && this.secretBox) {
+      existingKey.privateKeyHex = await this.secretBox.decrypt(existingKey.privateKeyHex)
+    }
     if (existingKey && existingKey.privateKeyHex !== key.privateKeyHex) {
       throw new Error(
         `key_already_exists: A key with this alias exists but with different data. Please use a different alias.`,
       )
+    }
+    if (this.secretBox && key.privateKeyHex) {
+      key.privateKeyHex = await this.secretBox.encrypt(key.privateKeyHex)
     }
     await keyRepo.save(key)
     return key

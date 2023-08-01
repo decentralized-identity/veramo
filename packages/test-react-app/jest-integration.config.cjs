@@ -15,6 +15,7 @@ const config = {
   transformIgnorePatterns: [],
   testTimeout: 30000,
   collectCoverage: false,
+  coverageProvider: 'v8',
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },

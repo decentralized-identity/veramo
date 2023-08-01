@@ -6,5 +6,15 @@
     "declarationDir": "build",
     "skipLibCheck": true
   },
-  "references": [{ "path": "../core-types" }, { "path": "../key-manager" }]
+  "references": [
+    {
+      "path": "../core-types"
+    },
+    {
+      "path": "../key-manager"
+    },
+    {
+      "path": "../utils"
+    }
+  ]
 }
