@@ -37,7 +37,11 @@ export default (testContext: {
       challenge = 'TEST_CHALLENGE_STRING'
       didEthrIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:ethr' })
       didKeyIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:key' })
-      pkhIdentifier = await agent.didManagerCreate({ kms: 'local', provider: "did:pkh", options: { chainId: "1"} })
+      pkhIdentifier = await agent.didManagerCreate({
+        kms: 'local',
+        provider: 'did:pkh',
+        options: { chainId: '1' },
+      })
     })
     afterAll(testContext.tearDown)
 
@@ -295,7 +299,7 @@ export default (testContext: {
           issuer: { id: pkhIdentifier.did },
           '@context': [
             'https://www.w3.org/2018/credentials/v1',
-            'https://veramo.io/contexts/discord-kudos/v1'
+            'https://veramo.io/contexts/discord-kudos/v1',
           ],
           type: ['VerifiableCredential', 'DiscordKudos'],
           issuanceDate: new Date().toISOString(),
@@ -315,10 +319,9 @@ export default (testContext: {
 
       const result = await agent.verifyCredential({
         credential,
-        fetchRemoteContexts: true
+        fetchRemoteContexts: true,
       })
       expect(result.verified).toBe(true)
-
     })
 
     describe('credential verification policies', () => {
@@ -363,7 +366,7 @@ export default (testContext: {
               name: 'hello',
             },
             credentialStatus: {
-              id: 'override me',
+              id: 'override:me',
               type: 'ThisMethodDoesNotExist2022',
             },
           },

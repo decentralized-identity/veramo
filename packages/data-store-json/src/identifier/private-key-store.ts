@@ -72,17 +72,20 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
         alias,
       }),
     )
-    if (this.secretBox && key.privateKeyHex) {
-      const copy = key.privateKeyHex
-      key.privateKeyHex = await this.secretBox.encrypt(copy)
-    }
     const existingKey = this.cacheTree.privateKeys[key.alias]
+    if (existingKey && this.secretBox) {
+      existingKey.privateKeyHex = await this.secretBox.decrypt(existingKey.privateKeyHex)
+    }
     if (existingKey && existingKey.privateKeyHex !== key.privateKeyHex) {
       throw new Error(
         `key_already_exists: A key with this alias exists but with different data. Please use a different alias.`,
       )
     }
 
+    if (this.secretBox && key.privateKeyHex) {
+      const copy = key.privateKeyHex
+      key.privateKeyHex = await this.secretBox.encrypt(copy)
+    }
     const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
     this.cacheTree.privateKeys[key.alias] = key
     await this.notifyUpdate(oldTree, this.cacheTree)

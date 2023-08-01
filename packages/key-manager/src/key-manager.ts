@@ -1,29 +1,29 @@
 import { AbstractKeyStore } from './abstract-key-store.js'
 import { AbstractKeyManagementSystem } from './abstract-key-management-system.js'
 import {
+  IAgentPlugin,
   IKey,
   IKeyManager,
-  IAgentPlugin,
   IKeyManagerCreateArgs,
-  IKeyManagerGetArgs,
+  IKeyManagerDecryptJWEArgs,
   IKeyManagerDeleteArgs,
   IKeyManagerEncryptJWEArgs,
-  IKeyManagerDecryptJWEArgs,
-  IKeyManagerSignJWTArgs,
-  IKeyManagerSignEthTXArgs,
-  IKeyManagerSignArgs,
+  IKeyManagerGetArgs,
   IKeyManagerSharedSecretArgs,
-  TKeyType,
-  MinimalImportableKey,
+  IKeyManagerSignArgs,
+  IKeyManagerSignEthTXArgs,
+  IKeyManagerSignJWTArgs,
   ManagedKeyInfo,
+  MinimalImportableKey,
+  TKeyType,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import * as u8a from 'uint8arrays'
-import { JWE, createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, ECDH } from 'did-jwt'
+import { createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, type ECDH, type JWE } from 'did-jwt'
 import { arrayify, hexlify } from '@ethersproject/bytes'
-import { serialize, computeAddress } from '@ethersproject/transactions'
-import { toUtf8String, toUtf8Bytes } from '@ethersproject/strings'
-import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
+import { computeAddress, serialize } from '@ethersproject/transactions'
+import { toUtf8Bytes, toUtf8String } from '@ethersproject/strings'
+import { convertEd25519PublicKeyToX25519 } from '@veramo/utils'
 import Debug from 'debug'
 
 const debug = Debug('veramo:key-manager')
@@ -131,7 +131,7 @@ export class KeyManager implements IAgentPlugin {
     let recipientPublicKey: Uint8Array
     if (to.type === 'Ed25519') {
       recipientPublicKey = arrayify('0x' + to.publicKeyHex)
-      recipientPublicKey = convertPublicKeyToX25519(recipientPublicKey)
+      recipientPublicKey = convertEd25519PublicKeyToX25519(recipientPublicKey)
     } else if (to.type === 'X25519') {
       recipientPublicKey = arrayify('0x' + to.publicKeyHex)
     } else {

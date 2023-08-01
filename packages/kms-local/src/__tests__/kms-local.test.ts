@@ -1,9 +1,40 @@
 import { KeyManagementSystem } from '../key-management-system.js'
 import { TKeyType } from '../../../core-types/src'
 import { MemoryPrivateKeyStore } from '../../../key-manager/src'
-import * as u8a from 'uint8arrays'
+import {
+  bytesToHex,
+  convertEd25519PrivateKeyToX25519,
+  convertEd25519PublicKeyToX25519,
+  hexToBytes,
+  stringToUtf8Bytes,
+} from '../../../utils/src'
+import { randomBytes } from '@stablelib/random'
+import {
+  convertPublicKeyToX25519,
+  convertSecretKeyToX25519,
+  generateKeyPairFromSeed,
+} from '@stablelib/ed25519'
 
 describe('@veramo/kms-local', () => {
+  it('should import and convert ed25519 key', async () => {
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
+    const privateBytes = randomBytes(32)
+    const key = await kms.importKey({
+      privateKeyHex: bytesToHex(privateBytes),
+      type: 'Ed25519',
+    })
+    const pair = generateKeyPairFromSeed(privateBytes)
+    expect(key.publicKeyHex).toEqual(bytesToHex(pair.publicKey))
+
+    const xprivNoble = convertEd25519PrivateKeyToX25519(privateBytes)
+    const xprivStable = convertSecretKeyToX25519(privateBytes)
+    expect(bytesToHex(xprivNoble)).toEqual(bytesToHex(xprivStable))
+
+    const xpubNoble = convertEd25519PublicKeyToX25519(hexToBytes(key.publicKeyHex))
+    const xpubStable = convertPublicKeyToX25519(hexToBytes(key.publicKeyHex))
+    expect(bytesToHex(xpubNoble)).toEqual(bytesToHex(xpubStable))
+  })
+
   it('should compute a shared secret Ed+Ed', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
@@ -104,38 +135,36 @@ describe('@veramo/kms-local', () => {
 describe('@veramo/kms-local Secp256r1 support', () => {
   it('should generate a managed key', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
-    const key = await kms.createKey({type: 'Secp256r1'})
+    const key = await kms.createKey({ type: 'Secp256r1' })
     expect(key.type).toEqual('Secp256r1')
     expect(key.publicKeyHex).toHaveLength(66)
     expect(key.kid).toBeDefined()
     expect(key.meta).toEqual({
-      "algorithms": [
-        "ES256"
-      ]
+      algorithms: ['ES256'],
     })
   })
 
   it('should import a private key', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const privateKeyHex = '96fe4d2b4a5d3abc4679fe39aa5d4b76990ff416e6ff403a58bd722cf8352f94'
-    const key = await kms.importKey({kid: 'test', privateKeyHex, type: 'Secp256r1'})
+    const key = await kms.importKey({ kid: 'test', privateKeyHex, type: 'Secp256r1' })
     expect(key.type).toEqual('Secp256r1')
     expect(key.publicKeyHex).toEqual('03930fc234a12c939ccb1591a7c394088a30a32e81ac832ed8a0136e32bd73f792')
     expect(key.kid).toEqual('test')
     expect(key.meta).toEqual({
-      "algorithms": [
-        "ES256"
-      ]
+      algorithms: ['ES256'],
     })
   })
 
   it('should sign input data', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const privateKeyHex = '96fe4d2b4a5d3abc4679fe39aa5d4b76990ff416e6ff403a58bd722cf8352f94'
-    const data = u8a.fromString("test", 'utf-8');
+    const data = stringToUtf8Bytes('test')
 
-    const key = await kms.importKey({kid: 'test', privateKeyHex, type: 'Secp256r1'})
-    const signature = await kms.sign({keyRef: key, data, algorithm: 'ES256'})
-    expect(signature).toEqual('tTHhkwVSNk-C84zHS_ObzpyMNVoFopwUkR_pKxSC4kPyEIZrB5L36AFWHQQhp827D9aUSMKi38yiCrSfI4h7VA')
+    const key = await kms.importKey({ kid: 'test', privateKeyHex, type: 'Secp256r1' })
+    const signature = await kms.sign({ keyRef: key, data, algorithm: 'ES256' })
+    expect(signature).toEqual(
+      'tTHhkwVSNk-C84zHS_ObzpyMNVoFopwUkR_pKxSC4kPyEIZrB5L36AFWHQQhp827D9aUSMKi38yiCrSfI4h7VA',
+    )
   })
 })

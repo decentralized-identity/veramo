@@ -3,9 +3,9 @@ import {
   FindArgs,
   IAgentPlugin,
   IDataStore,
+  IDataStoreDeleteMessageArgs,
   IDataStoreDeleteVerifiableCredentialArgs,
   IDataStoreGetMessageArgs,
-  IDataStoreDeleteMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreORM,
@@ -23,10 +23,11 @@ import {
   UniqueVerifiablePresentation,
   VerifiableCredential,
   VerifiablePresentation,
+  W3CVerifiableCredential,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
-import { serialize, deserialize } from '@ungap/structured-clone'
+import { deserialize, serialize } from '@ungap/structured-clone'
 import {
   ClaimTableEntry,
   CredentialTableEntry,
@@ -122,7 +123,7 @@ export class DataStoreJson implements IAgentPlugin {
     if (message?.from && !this.cacheTree.dids[message.from]) {
       this.cacheTree.dids[message.from] = { did: message.from, provider: '', keys: [], services: [] }
     }
-    asArray(message.to).forEach((did) => {
+    asArray(message.to).forEach((did: string) => {
       if (!this.cacheTree.dids[did]) {
         this.cacheTree.dids[did] = { did, provider: '', keys: [], services: [] }
       }
@@ -294,7 +295,7 @@ export class DataStoreJson implements IAgentPlugin {
       expirationDate = new Date(vp.expirationDate)
     }
 
-    const credentials: VerifiableCredential[] = asArray(vp.verifiableCredential).map((cred) => {
+    const credentials: VerifiableCredential[] = asArray(vp.verifiableCredential).map((cred: W3CVerifiableCredential) => {
       if (typeof cred === 'string') {
         return normalizeCredential(cred)
       } else {

@@ -8,10 +8,16 @@ import {
   IResolver,
   TKeyType,
 } from '@veramo/core-types'
-import * as u8a from 'uint8arrays'
 import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020'
 import { Ed25519VerificationKey2020 } from '@digitalcredentials/ed25519-verification-key-2020'
-import { asArray, base64ToBytes, bytesToMultibase, extractPublicKeyHex, hexToBytes } from '@veramo/utils'
+import {
+  asArray,
+  base64ToBytes,
+  bytesToBase64,
+  bytesToMultibase,
+  extractPublicKeyHex,
+  hexToBytes,
+} from '@veramo/utils'
 import { VerificationMethod } from 'did-resolver'
 
 import Debug from 'debug'
@@ -46,7 +52,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     const signer = {
       // returns signatureBytes
       sign: async (args: { data: Uint8Array }): Promise<Uint8Array> => {
-        const messageString = u8a.toString(args.data, 'base64')
+        const messageString = bytesToBase64(args.data)
         const signature = await context.agent.keyManagerSign({
           keyRef: key.kid,
           data: messageString,

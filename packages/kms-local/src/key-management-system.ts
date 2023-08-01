@@ -1,19 +1,13 @@
-import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly } from '@veramo/core-types'
-import { AbstractKeyManagementSystem, AbstractPrivateKeyStore, Eip712Payload } from '@veramo/key-manager'
-import { ManagedPrivateKey } from '@veramo/key-manager'
+import { IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly, TKeyType } from '@veramo/core-types'
+import {
+  AbstractKeyManagementSystem,
+  AbstractPrivateKeyStore,
+  Eip712Payload,
+  ManagedPrivateKey,
+} from '@veramo/key-manager'
 
 import { EdDSASigner, ES256KSigner, ES256Signer } from 'did-jwt'
-import {
-  generateKeyPair as generateSigningKeyPair,
-  convertPublicKeyToX25519,
-  convertSecretKeyToX25519,
-  extractPublicKeyFromSecretKey,
-} from '@stablelib/ed25519'
-import {
-  generateKeyPair as generateEncryptionKeypair,
-  generateKeyPairFromSeed as generateEncryptionKeyPairFromSeed,
-  sharedKey,
-} from '@stablelib/x25519'
+import { ed25519, x25519 } from '@noble/curves/ed25519'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { toUtf8String } from '@ethersproject/strings'
 import { parse } from '@ethersproject/transactions'
@@ -21,9 +15,15 @@ import { Wallet } from '@ethersproject/wallet'
 import { SigningKey } from '@ethersproject/signing-key'
 import { randomBytes } from '@ethersproject/random'
 import { arrayify, hexlify } from '@ethersproject/bytes'
-import * as u8a from 'uint8arrays'
 import Debug from 'debug'
-import elliptic from 'elliptic'
+import { p256 } from '@noble/curves/p256'
+import {
+  bytesToHex,
+  concat,
+  convertEd25519PrivateKeyToX25519,
+  convertEd25519PublicKeyToX25519,
+  hexToBytes,
+} from '@veramo/utils'
 
 const debug = Debug('veramo:kms:local')
 
@@ -65,10 +65,11 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
 
     switch (type) {
       case 'Ed25519': {
-        const keyPairEd25519 = generateSigningKeyPair()
+        const ed25519SecretKey = ed25519.utils.randomPrivateKey()
+        const publicKey = ed25519.utils.getExtendedPublicKey(ed25519SecretKey).pointBytes
         key = await this.importKey({
           type,
-          privateKeyHex: u8a.toString(keyPairEd25519.secretKey, 'base16'),
+          privateKeyHex: bytesToHex(concat([ed25519SecretKey, publicKey])),
         })
         break
       }
@@ -77,15 +78,15 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const privateBytes = randomBytes(32)
         key = await this.importKey({
           type,
-          privateKeyHex: u8a.toString(privateBytes, 'base16'),
+          privateKeyHex: bytesToHex(privateBytes),
         })
         break
       }
       case 'X25519': {
-        const keyPairX25519 = generateEncryptionKeypair()
+        const secretX25519 = x25519.utils.randomPrivateKey()
         key = await this.importKey({
           type,
-          privateKeyHex: u8a.toString(keyPairX25519.secretKey, 'base16'),
+          privateKeyHex: bytesToHex(secretX25519),
         })
         break
       }
@@ -169,17 +170,17 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     }
     let myKeyBytes = arrayify('0x' + myKey.privateKeyHex)
     if (myKey.type === 'Ed25519') {
-      myKeyBytes = convertSecretKeyToX25519(myKeyBytes)
+      myKeyBytes = convertEd25519PrivateKeyToX25519(myKeyBytes)
     } else if (myKey.type !== 'X25519') {
       throw new Error(`not_supported: can't compute shared secret for type=${myKey.type}`)
     }
     let theirKeyBytes = arrayify('0x' + theirKey.publicKeyHex)
     if (theirKey.type === 'Ed25519') {
-      theirKeyBytes = convertPublicKeyToX25519(theirKeyBytes)
+      theirKeyBytes = convertEd25519PublicKeyToX25519(theirKeyBytes)
     } else if (theirKey.type !== 'X25519') {
       throw new Error(`not_supported: can't compute shared secret for type=${theirKey.type}`)
     }
-    const shared = sharedKey(myKeyBytes, theirKeyBytes)
+    const shared = x25519.getSharedSecret(myKeyBytes, theirKeyBytes)
     return hexlify(shared).substring(2)
   }
 
@@ -287,14 +288,15 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   /**
-   * Converts a {@link @veramo/key-manager#ManagedPrivateKey | ManagedPrivateKey} to {@link @veramo/core-types#ManagedKeyInfo}
+   * Converts a {@link @veramo/key-manager#ManagedPrivateKey | ManagedPrivateKey} to
+   * {@link @veramo/core-types#ManagedKeyInfo}
    */
   private asManagedKeyInfo(args: RequireOnly<ManagedPrivateKey, 'privateKeyHex' | 'type'>): ManagedKeyInfo {
     let key: Partial<ManagedKeyInfo>
     switch (args.type) {
       case 'Ed25519': {
-        const secretKey = u8a.fromString(args.privateKeyHex.toLowerCase(), 'base16')
-        const publicKeyHex = u8a.toString(extractPublicKeyFromSecretKey(secretKey), 'base16')
+        const secretKey = hexToBytes(args.privateKeyHex.toLowerCase())
+        const publicKeyHex = bytesToHex(ed25519.getPublicKey(secretKey.subarray(0, 32)))
         key = {
           type: args.type,
           kid: args.alias || publicKeyHex,
@@ -306,7 +308,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         break
       }
       case 'Secp256k1': {
-        const privateBytes = u8a.fromString(args.privateKeyHex.toLowerCase(), 'base16')
+        const privateBytes = hexToBytes(args.privateKeyHex.toLowerCase())
         const keyPair = new SigningKey(privateBytes)
         const publicKeyHex = keyPair.publicKey.substring(2)
         key = {
@@ -327,10 +329,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         break
       }
       case 'Secp256r1': {
-        const privateBytes = u8a.fromString(args.privateKeyHex.toLowerCase(), 'base16')
-        const secp256r1 = new elliptic.ec('p256')
-        const keyPair: elliptic.ec.KeyPair = secp256r1.keyFromPrivate(privateBytes)
-        const publicKeyHex = keyPair.getPublic(true, 'hex')
+        const privateBytes = hexToBytes(args.privateKeyHex.toLowerCase())
+        const publicKeyHex = bytesToHex(p256.getPublicKey(privateBytes, true))
         key = {
           type: args.type,
           kid: args.alias || publicKeyHex,
@@ -342,9 +342,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         break
       }
       case 'X25519': {
-        const secretKeyBytes = u8a.fromString(args.privateKeyHex.toLowerCase(), 'base16')
-        const keyPairX25519 = generateEncryptionKeyPairFromSeed(secretKeyBytes)
-        const publicKeyHex = u8a.toString(keyPairX25519.publicKey, 'base16')
+        const secretKeyBytes = hexToBytes(args.privateKeyHex.toLowerCase())
+        const publicKeyHex = bytesToHex(x25519.getPublicKey(secretKeyBytes))
         key = {
           type: args.type,
           kid: args.alias || publicKeyHex,

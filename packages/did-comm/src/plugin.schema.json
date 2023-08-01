@@ -178,6 +178,25 @@
                 "type": "string"
               },
               "description": "Restrict to a set of kids for recipient"
+            },
+            "enc": {
+              "type": "string",
+              "enum": [
+                "XC20P",
+                "A256GCM",
+                "A256CBC-HS512"
+              ],
+              "description": "Optional content encryption algorithm to use. Defaults to 'A256GCM'"
+            },
+            "alg": {
+              "type": "string",
+              "enum": [
+                "ECDH-ES+A256KW",
+                "ECDH-1PU+A256KW",
+                "ECDH-ES+XC20PKW",
+                "ECDH-1PU+XC20PKW"
+              ],
+              "description": "Optional key wrapping algorithm to use. Defaults to 'ECDH-ES+A256KW'"
             }
           },
           "description": "Extra options when packing a DIDComm message."

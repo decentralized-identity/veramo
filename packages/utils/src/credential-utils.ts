@@ -9,10 +9,10 @@ import {
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core-types'
-import pkg from 'blakejs'
-const { blake2bHex } = pkg
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
+import { blake2b } from '@noble/hashes/blake2b'
+import { bytesToHex } from './encodings.js'
 
 /**
  * Every Verifiable Credential `@context` property must contain this.
@@ -96,7 +96,7 @@ export function computeEntryHash(
   } else {
     hashable = JSON.stringify(input)
   }
-  return blake2bHex(hashable)
+  return bytesToHex(blake2b(hashable))
 }
 
 /**
@@ -104,6 +104,8 @@ export function computeEntryHash(
  * `iss` from a JWT or `issuer`/`issuer.id` from a VC or `holder` from a VP
  *
  * @param input - the credential or presentation whose issuer/holder needs to be extracted.
+ * @param options
+ *   removeParameters - Remove all DID parameters from the issuer ID
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -114,6 +116,7 @@ export function extractIssuer(
     | CredentialPayload
     | PresentationPayload
     | null,
+  options: { removeParameters?: boolean } = {}
 ): string {
   if (!isDefined(input)) {
     return ''
@@ -121,7 +124,8 @@ export function extractIssuer(
     // JWT
     try {
       const { payload } = decodeJWT(input)
-      return payload.iss || ''
+      const iss = payload.iss || ''
+      return !!options.removeParameters ? removeDIDParameters(iss) : iss
     } catch (e: any) {
       return ''
     }
@@ -135,6 +139,18 @@ export function extractIssuer(
     } else {
       iss = ''
     }
-    return typeof iss === 'string' ? iss : iss?.id || ''
+    if (typeof iss !== 'string') iss = iss.id || ''
+    return !!options.removeParameters ? removeDIDParameters(iss) : iss
   }
+}
+
+/**
+ * Remove all DID parameters from a DID url
+ *
+ * @param did - the DID URL
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function removeDIDParameters(did: string): string {
+  return did.replace(/\?.+$/, '')
 }

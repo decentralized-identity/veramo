@@ -1,4 +1,3 @@
-import { convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/ed25519'
 import { computePublicKey } from '@ethersproject/signing-key'
 import { computeAddress } from '@ethersproject/transactions'
 import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core-types'
@@ -9,12 +8,38 @@ import {
   _NormalizedVerificationMethod,
 } from './types/utility-types.js'
 import { isDefined } from './type-utils.js'
-import * as u8a from 'uint8arrays'
-import elliptic from 'elliptic'
 import Debug from 'debug'
-import { hexToBytes, bytesToHex, base64ToBytes, base58ToBytes, multibaseKeyToBytes } from './encodings.js'
+import { base58ToBytes, base64ToBytes, bytesToHex, hexToBytes, multibaseKeyToBytes } from './encodings.js'
+import { ed25519 } from '@noble/curves/ed25519'
+import { secp256k1 } from '@noble/curves/secp256k1'
 
 const debug = Debug('veramo:utils')
+
+/**
+ * Converts Ed25519 public keys to X25519
+ * @param publicKey - The bytes of an Ed25519P public key
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function convertEd25519PublicKeyToX25519(publicKey: Uint8Array): Uint8Array {
+  // FIXME: Once https://github.com/paulmillr/noble-curves/issues/31 gets released, this code can be simplified
+  const Fp = ed25519.CURVE.Fp
+  const { y } = ed25519.ExtendedPoint.fromHex(publicKey)
+  const _1n = BigInt(1)
+  return Fp.toBytes(Fp.create((_1n + y) * Fp.inv(_1n - y)))
+}
+
+/**
+ * Converts Ed25519 private keys to X25519
+ * @param privateKey - The bytes of an Ed25519P private key
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function convertEd25519PrivateKeyToX25519(privateKey: Uint8Array): Uint8Array {
+  // FIXME: Once https://github.com/paulmillr/noble-curves/issues/31 gets released, this code can be simplified
+  const hashed = ed25519.CURVE.hash(privateKey.subarray(0, 32))
+  return ed25519?.CURVE?.adjustScalarBytes?.(hashed)?.subarray(0, 32) ?? new Uint8Array(0)
+}
 
 /**
  * Converts any Ed25519 keys of an {@link @veramo/core-types#IIdentifier | IIdentifier} to X25519 to be usable for
@@ -28,13 +53,13 @@ const debug = Debug('veramo:utils')
  */
 export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[] {
   return identifier.keys
-    .map((key) => {
+    .map((key: IKey) => {
       if (key.type === 'Ed25519') {
-        const publicBytes = u8a.fromString(key.publicKeyHex, 'base16')
-        key.publicKeyHex = u8a.toString(convertPublicKeyToX25519(publicBytes), 'base16')
+        const publicBytes = hexToBytes(key.publicKeyHex)
+        key.publicKeyHex = bytesToHex(convertEd25519PublicKeyToX25519(publicBytes))
         if (key.privateKeyHex) {
-          const privateBytes = u8a.fromString(key.privateKeyHex)
-          key.privateKeyHex = u8a.toString(convertSecretKeyToX25519(privateBytes), 'base16')
+          const privateBytes = hexToBytes(key.privateKeyHex)
+          key.privateKeyHex = bytesToHex(convertEd25519PrivateKeyToX25519(privateBytes))
         }
         key.type = 'X25519'
       } else if (key.type !== 'X25519') {
@@ -58,10 +83,10 @@ export function convertIdentifierEncryptionKeys(identifier: IIdentifier): IKey[]
  */
 export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[] {
   return identifier.keys
-    .map((key) => {
+    .map((key: IKey) => {
       if (key.type === 'Secp256k1') {
         if (key.publicKeyHex) {
-          const publicBytes = u8a.fromString(key.publicKeyHex, 'base16')
+          const publicBytes = hexToBytes(key.publicKeyHex)
           key.publicKeyHex = computePublicKey(publicBytes, true).substring(2)
           key.meta = { ...key.meta }
           key.meta.ethereumAddress = computeAddress('0x' + key.publicKeyHex)
@@ -156,15 +181,10 @@ function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
     pk.publicKeyJwk.x &&
     pk.publicKeyJwk.y
   ) {
-    const secp256k1 = new elliptic.ec('secp256k1')
-    return hexToBytes(
-      secp256k1
-        .keyFromPublic({
-          x: bytesToHex(base64ToBytes(pk.publicKeyJwk.x)),
-          y: bytesToHex(base64ToBytes(pk.publicKeyJwk.y)),
-        })
-        .getPublic('hex'),
-    )
+    return secp256k1.ProjectivePoint.fromAffine({
+      x: BigInt('0x' + bytesToHex(base64ToBytes(pk.publicKeyJwk.x))),
+      y: BigInt('0x' + bytesToHex(base64ToBytes(pk.publicKeyJwk.y))),
+    }).toRawBytes(false)
   } else if (
     pk.publicKeyJwk &&
     (pk.publicKeyJwk.crv === 'Ed25519' || pk.publicKeyJwk.crv === 'X25519') &&
@@ -233,7 +253,7 @@ export async function mapIdentifierKeysToDoc(
   const extendedKeys: _ExtendedIKey[] = documentKeys
     .map((verificationMethod) => {
       const localKey = localKeys.find(
-        (localKey) =>
+        (localKey: IKey) =>
           localKey.publicKeyHex === verificationMethod.publicKeyHex ||
           compareBlockchainAccountId(localKey, verificationMethod),
       )
@@ -355,7 +375,7 @@ export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: bo
       ['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type) ||
       (pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'Ed25519')
     ) {
-      keyBytes = convertPublicKeyToX25519(keyBytes)
+      keyBytes = convertEd25519PublicKeyToX25519(keyBytes)
     } else if (
       !['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type) &&
       !(pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'X25519')
@@ -363,5 +383,5 @@ export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: bo
       return ''
     }
   }
-  return u8a.toString(keyBytes, 'base16')
+  return bytesToHex(keyBytes)
 }

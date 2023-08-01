@@ -1,6 +1,6 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, RequireOnly } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { hexToBytes } from '@veramo/utils'
+import { hexToBytes, bytesToUtf8String } from '@veramo/utils'
 import { base58btc } from 'multiformats/bases/base58'
 import Multicodec from 'multicodec'
 
@@ -64,7 +64,12 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
   }
 
   async updateIdentifier(
-    args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any },
+    args: {
+      did: string
+      kms?: string | undefined
+      alias?: string | undefined
+      options?: any
+    },
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier> {
     throw new Error('KeyDIDProvider updateIdentifier not supported yet.')
