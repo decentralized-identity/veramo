@@ -73,6 +73,20 @@ const mockIdentifiers: IIdentifier[] = [
     ],
     services: [],
   },
+  {
+    did: 'did:example:444?versionTime=2023-01-01T00:00:00Z',
+    provider: 'mock',
+    controllerKeyId: 'kid4',
+    keys: [
+      {
+        kid: 'kid4',
+        publicKeyHex: 'pub',
+        type: 'Ed25519',
+        kms: 'mock',
+      },
+    ],
+    services: [],
+  },
 ]
 
 const w3c = new CredentialPlugin()
@@ -114,6 +128,9 @@ describe('@veramo/credential-w3c', () => {
   test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
     expect.assertions(6)
 
+    const issuerId = mockIdentifier.did;
+    mockIdentifier.did = mockIdentifier.did.replace(/\?.*$/, '')
+
     const keyRef = mockIdentifier.keys[1]?.kid // Second key or undefined
     const expectedKey = mockIdentifier.keys[mockIdentifier.keys.length - 1]
 
@@ -123,7 +140,7 @@ describe('@veramo/credential-w3c', () => {
     const credential: CredentialPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
       type: ['VerifiableCredential', 'PublicProfile'],
-      issuer: { id: mockIdentifier.did },
+      issuer: { id: issuerId },
       issuanceDate: new Date().toISOString(),
       id: 'vc1',
       credentialSubject: {
@@ -157,7 +174,10 @@ describe('@veramo/credential-w3c', () => {
   })
 
   test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
-    expect.assertions(3)
+    expect.assertions(4)
+
+    const issuerId = mockIdentifier.did;
+    mockIdentifier.did = mockIdentifier.did.replace(/\?.*$/, '')
 
     agent.didManagerGet = jest.fn(async (args): Promise<IIdentifier> => mockIdentifier)
     const context = { agent }
@@ -167,7 +187,7 @@ describe('@veramo/credential-w3c', () => {
         credential: {
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential', 'PublicProfile'],
-          issuer: { id: mockIdentifier.did },
+          issuer: { id: issuerId },
           issuanceDate: new Date().toISOString(),
           id: 'vc1',
           credentialSubject: {
@@ -189,7 +209,7 @@ describe('@veramo/credential-w3c', () => {
     const presentation: PresentationPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiablePresentation'],
-      holder: mockIdentifier.did,
+      holder: mockIdentifier.did + '?versionTime=2023-01-01T00:00:00Z',
       issuanceDate: new Date().toISOString(),
       verifiableCredential: [credential],
     }
@@ -204,6 +224,7 @@ describe('@veramo/credential-w3c', () => {
     )
 
     expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
+    expect(context.agent.didManagerGet).not.toBeCalledWith({ did: presentation.holder })
     expect(context.agent.dataStoreSaveVerifiablePresentation).not.toBeCalled()
     expect(vp.holder).toEqual(mockIdentifier.did)
   })

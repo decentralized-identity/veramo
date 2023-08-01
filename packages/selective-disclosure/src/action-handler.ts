@@ -202,7 +202,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
           if (
             credentialRequest.issuers &&
-            !credentialRequest.issuers.map((i) => i.did).includes(extractIssuer(credential))
+            !credentialRequest.issuers.map((i) => i.did).includes(extractIssuer(credential, { removeParameters: true }))
           ) {
             return false
           }

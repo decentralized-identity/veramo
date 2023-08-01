@@ -225,6 +225,12 @@ describe('@veramo/utils credential utils', () => {
         type: 'fake',
       },
     }
+    const ldCred3 = {
+      issuer: 'did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn?versionTime=2023-01-01T00:00:00Z',
+      proof: {
+        type: 'fake',
+      },
+    }
     const ldPres = {
       holder: 'did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn',
       proof: {
@@ -235,6 +241,8 @@ describe('@veramo/utils credential utils', () => {
       'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7InlvdSI6IlJvY2sifX0sInN1YiI6ImRpZDp3ZWI6ZXhhbXBsZS5jb20iLCJuYmYiOjE2Mzc2ODAzMTcsImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgwMmY2NDk1NWRkMDVkZGU1NTkxMGYzNzllYzU3ODVlZWUwOGJiZTZlNTBkZGFlNmJhY2UwNTk2ZmQ4ZDQ2MDE4ZjcifQ.ujM4zNm8h5-Cg01vh4ka_7NmdwYl8HAjO90XjxYYwSa0-4rqzM5ndt-OE6vS6y0gPwhwlQWHmDxg4X7OTzCUoQ'
     expect(extractIssuer(ldCred1)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
     expect(extractIssuer(ldCred2)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
+    expect(extractIssuer(ldCred3)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn?versionTime=2023-01-01T00:00:00Z')
+    expect(extractIssuer(ldCred3, { removeParameters: true })).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
     expect(extractIssuer(ldPres)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
     expect(extractIssuer(jwt)).toEqual(
       'did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7',

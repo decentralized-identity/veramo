@@ -14,6 +14,7 @@ import {
   MANDATORY_CREDENTIAL_CONTEXT,
   mapIdentifierKeysToDoc,
   processEntryToArray,
+  removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
 import schema from "../plugin.schema.json" assert { type: 'json' }
@@ -63,7 +64,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       issuanceDate = issuanceDate.toISOString()
     }
 
-    const issuer = extractIssuer(args.credential)
+    const issuer = extractIssuer(args.credential, { removeParameters: true })
     if (!issuer || typeof issuer === 'undefined') {
       throw new Error('invalid_argument: credential.issuer must not be empty')
     }
@@ -226,9 +227,11 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       presentation.verifiableCredential = credentials
     }
 
+    const holder = removeDIDParameters(presentation.holder)
+
     let identifier: IIdentifier
     try {
-      identifier = await context.agent.didManagerGet({ did: presentation.holder })
+      identifier = await context.agent.didManagerGet({ did: holder })
     } catch (e) {
       throw new Error('invalid_argument: presentation.holder must be a DID managed by this agent')
     }

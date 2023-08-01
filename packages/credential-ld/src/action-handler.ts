@@ -22,6 +22,7 @@ import {
   OrPromise,
   processEntryToArray,
   RecordLike,
+  removeDIDParameters,
 } from '@veramo/utils'
 
 import { LdCredentialModule } from './ld-credential-module.js'
@@ -98,9 +99,11 @@ export class CredentialIssuerLD implements IAgentPlugin {
     //issuanceDate must not be present for presentations because it is not defined in a @context
     delete presentation.issuanceDate
 
+    const holder = removeDIDParameters(presentation.holder)
+
     let identifier: IIdentifier
     try {
-      identifier = await context.agent.didManagerGet({ did: presentation.holder })
+      identifier = await context.agent.didManagerGet({ did: holder })
     } catch (e) {
       throw new Error('invalid_argument: args.presentation.holder must be a DID managed by this agent')
     }
@@ -148,7 +151,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
       type: credentialType,
     }
 
-    const issuer = extractIssuer(credential)
+    const issuer = extractIssuer(credential, { removeParameters: true })
     if (!issuer || typeof issuer === 'undefined') {
       throw new Error('invalid_argument: args.credential.issuer must not be empty')
     }
@@ -252,7 +255,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
       signingKey = extendedKeys.find((k) => supportedTypes.includes(k.meta.verificationMethod.type))
     }
 
-    
+
     if (!signingKey) throw Error(`key_not_found: No suitable signing key found for ${identifier.did}`)
     verificationMethodId = signingKey.meta.verificationMethod.id
     return { signingKey, verificationMethodId }
