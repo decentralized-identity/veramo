@@ -40,8 +40,8 @@
   "contributors": [
     "Alex Andrei <alex.andrei@rootsid.com>"
   ],
-  "license": "Apache-2.0",
   "keywords": [],
+  "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [
     "node_modules",
