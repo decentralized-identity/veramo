@@ -8,6 +8,7 @@ import {
   IKey,
   IKeyManager,
   TClaimsColumns,
+  TKeyType,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
@@ -25,7 +26,22 @@ import {
 import schema from './plugin.schema.json' assert { type: 'json' }
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
-import { asArray, bytesToBase64, computeEntryHash, decodeCredentialToObject, extractIssuer, } from '@veramo/utils'
+import {
+  asArray,
+  bytesToBase64,
+  computeEntryHash,
+  decodeCredentialToObject,
+  extractIssuer,
+} from '@veramo/utils'
+
+const KEY_ALG_MAPPING: Record<TKeyType, string | null> = {
+  Secp256k1: 'ES256K',
+  Secp256r1: 'ES256',
+  Ed25519: 'EdDSA',
+  X25519: null,
+  Bls12381G1: null,
+  Bls12381G2: null,
+} as const
 
 /**
  * This class adds support for creating
@@ -73,8 +89,20 @@ export class SelectiveDisclosure implements IAgentPlugin {
       delete data.issuer
       Debug('veramo:selective-disclosure:create-sdr')('Signing SDR with', identifier.did)
 
-      const key = identifier.keys.find((k: IKey) => k.type === 'Secp256k1')
+      const key = identifier.keys.find((k: IKey) => {
+        return (
+          Object.keys(KEY_ALG_MAPPING).includes(k.type) &&
+          KEY_ALG_MAPPING[k.type] &&
+          k.meta?.algorithms?.includes(KEY_ALG_MAPPING[k.type] ?? 'unsupported')
+        )
+      })
+
       if (!key) throw Error('Signing key not found')
+
+      const algorithm = KEY_ALG_MAPPING[key?.type ?? '']
+
+      if (!algorithm) throw Error('Unsupported key type')
+
       const signer = (data: string | Uint8Array) => {
         let dataString, encoding: 'base64' | undefined
         if (typeof data === 'string') {
@@ -83,7 +111,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
         } else {
           ;(dataString = bytesToBase64(data)), (encoding = 'base64')
         }
-        return context.agent.keyManagerSign({ keyRef: key.kid, data: dataString, encoding })
+        return context.agent.keyManagerSign({ keyRef: key.kid, data: dataString, encoding, algorithm })
       }
       const jwt = await createJWT(
         {
@@ -92,7 +120,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
         },
         {
           signer,
-          alg: 'ES256K',
+          alg: algorithm,
           issuer: identifier.did,
         },
       )
@@ -198,7 +226,9 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
           if (
             credentialRequest.issuers &&
-            !credentialRequest.issuers.map((i) => i.did).includes(extractIssuer(credential, { removeParameters: true }))
+            !credentialRequest.issuers
+              .map((i) => i.did)
+              .includes(extractIssuer(credential, { removeParameters: true }))
           ) {
             return false
           }
