@@ -20,7 +20,7 @@
     "@types/debug": "4.1.8",
     "ethr-did-resolver": "8.0.0",
     "typescript": "5.1.3",
-    "web-did-resolver": "2.0.24"
+    "web-did-resolver": "2.0.27"
   },
   "files": [
     "build/**/*",
@@ -36,8 +36,8 @@
   "contributors": [
     "Mircea Nistor <mircea.nistor@mesh.xyz"
   ],
-  "license": "Apache-2.0",
   "keywords": [],
+  "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [
     "node_modules",

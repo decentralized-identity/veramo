@@ -48,7 +48,7 @@
     "caip": "1.1.0",
     "credential-status": "2.0.5",
     "cross-env": "7.0.3",
-    "did-jwt": "7.2.4",
+    "did-jwt": "7.2.5",
     "did-jwt-vc": "3.2.4",
     "did-resolver": "4.1.0",
     "ethr-did-resolver": "8.0.0",
@@ -84,7 +84,7 @@
   },
   "resolutions": {
     "@types/eslint": "^8.4.6",
-    "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
+    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
   },
   "engines": {
     "node": ">= 18.0.0"

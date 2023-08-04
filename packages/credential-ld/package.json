@@ -20,9 +20,9 @@
   "dependencies": {
     "@digitalcredentials/ed25519-signature-2020": "^3.0.2",
     "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
-    "@digitalcredentials/jsonld": "^5.2.1",
+    "@digitalcredentials/jsonld": "^6.0.0",
     "@digitalcredentials/jsonld-signatures": "^9.3.1",
-    "@digitalcredentials/vc": "^5.0.0",
+    "@digitalcredentials/vc": "^6.0.0",
     "@transmute/credentials-context": "^0.7.0-unstable.81",
     "@transmute/ed25519-signature-2018": "^0.7.0-unstable.81",
     "@transmute/json-web-signature": "^0.7.0-unstable.81",
@@ -35,7 +35,7 @@
   },
   "resolutions": {
     "@types/react": "18.0.26",
-    "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
+    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
@@ -55,8 +55,8 @@
   },
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Mircea Nistor <mircea.nistor@mesh.xyz>",
-  "license": "Apache-2.0",
   "keywords": [],
+  "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [
     "node_modules",

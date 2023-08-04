@@ -24,7 +24,7 @@
     "typescript": "5.1.3"
   },
   "resolutions": {
-    "jsonld": "npm:@digitalcredentials/jsonld@^5.2.1"
+    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
   },
   "files": [
     "build/**/*",
@@ -40,8 +40,8 @@
   "contributors": [
     "Alex Andrei <alex.andrei@rootsid.com>"
   ],
-  "license": "Apache-2.0",
   "keywords": [],
+  "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [
     "node_modules",

@@ -46,12 +46,12 @@
   },
   "repository": "git@github.com:uport-project/veramo.git",
   "author": "Niels Klomp <nklomp@sphereon.com>",
-  "license": "Apache-2.0",
   "keywords": [
     "Veramo",
     "Key Value Store",
     "keyv"
   ],
+  "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [
     "node_modules",
