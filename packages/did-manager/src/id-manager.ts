@@ -93,9 +93,8 @@ export class DIDManager implements IAgentPlugin {
   }
 
   /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerGetByAlias} */
-  async didManagerGetByAlias({ alias, provider }: IDIDManagerGetByAliasArgs): Promise<IIdentifier> {
-    const providerName = provider || this.defaultProvider
-    return this.store.getDID({ alias, provider: providerName })
+  async didManagerGetByAlias({ alias }: IDIDManagerGetByAliasArgs): Promise<IIdentifier> {
+    return this.store.getDID({ alias })
   }
 
   /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerCreate} */
@@ -107,11 +106,11 @@ export class DIDManager implements IAgentPlugin {
     if (args?.alias !== undefined) {
       let existingIdentifier
       try {
-        existingIdentifier = await this.store.getDID({ alias: args.alias, provider: providerName })
+        existingIdentifier = await this.store.getDID({ alias: args.alias })
       } catch (e) {}
       if (existingIdentifier) {
         throw Error(
-          `illegal_argument: Identifier with alias: ${args.alias}, provider: ${providerName} already exists: ${existingIdentifier.did}`,
+          `illegal_argument: Identifier with alias: ${args.alias} already exists: ${existingIdentifier.did}`,
         )
       }
     }
@@ -133,14 +132,21 @@ export class DIDManager implements IAgentPlugin {
     { provider, alias, kms, options }: IDIDManagerGetOrCreateArgs,
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier> {
+    let identifier: IIdentifier | undefined
     try {
-      const providerName = provider || this.defaultProvider
-      // @ts-ignore
-      const identifier = await this.store.getDID({ alias, provider: providerName })
-      return identifier
+      identifier = await this.store.getDID({ alias })
     } catch {
-      return this.didManagerCreate({ provider, alias, kms, options }, context)
+      const providerName = provider || this.defaultProvider
+      return this.didManagerCreate({ provider: providerName, alias, kms, options }, context)
     }
+    if (identifier && provider && identifier.provider !== provider) {
+      if (this.getProvider(identifier.provider) !== this.getProvider(provider)) {
+        throw Error(
+          `illegal_argument: Identifier with alias: ${alias}, already exists ${identifier.did}, but was created with a different provider: ${identifier.provider}!==${provider}`,
+        )
+      }
+    }
+    return identifier
   }
 
   /** {@inheritDoc @veramo/core-types#IDIDManager.didManagerUpdate} */
