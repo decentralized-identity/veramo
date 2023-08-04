@@ -83,7 +83,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
       }),
       new DIDManager({
         store: new DIDStoreJson(memoryJsonStore),
-        defaultProvider: 'did:ethr:goerli',
+        defaultProvider: 'did:pkh',
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',

@@ -30,7 +30,10 @@ export default (testContext: {
     beforeAll(async () => {
       await testContext.setup()
       agent = testContext.getAgent()
-      identifier = await agent.didManagerCreate({ kms: 'local' })
+      identifier = await agent.didManagerCreate({
+        kms: 'local',
+        provider: 'did:pkh'
+      })
     })
     afterAll(testContext.tearDown)
 
