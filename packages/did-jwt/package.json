@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-jwt",
   "description": "Veramo message validator plugin for decoding and verifying JWT payloads.",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",

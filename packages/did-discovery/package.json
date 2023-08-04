@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-discovery",
   "description": "Veramo DID discovery plugin",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
