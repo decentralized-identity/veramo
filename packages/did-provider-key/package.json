@@ -10,6 +10,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
+    "@ethersproject/signing-key": "^5.7.0",
     "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
     "@transmute/did-key-secp256k1": "^0.3.0-unstable.10",
     "@transmute/did-key-x25519": "^0.3.0-unstable.10",
