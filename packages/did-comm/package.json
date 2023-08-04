@@ -29,7 +29,7 @@
     "@veramo/utils": "workspace:^",
     "cross-fetch": "^4.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^7.2.2",
+    "did-jwt": "^7.2.5",
     "did-resolver": "^4.1.0",
     "isomorphic-webcrypto": "^2.3.8",
     "uuid": "^9.0.0"
@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/debug": "4.1.8",
     "@types/uuid": "9.0.2",
-    "typescript": "5.1.3"
+    "typescript": "5.1.6"
   },
   "files": [
     "build/**/*",

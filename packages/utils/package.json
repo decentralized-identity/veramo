@@ -18,11 +18,11 @@
     "credential-status": "^2.0.5",
     "cross-fetch": "^4.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^7.2.0",
-    "did-jwt-vc": "^3.2.3",
+    "did-jwt": "^7.2.5",
+    "did-jwt-vc": "^3.2.5",
     "did-resolver": "^4.1.0",
-    "multiformats": "^12.0.0",
-    "uint8arrays": "^4.0.4"
+    "multiformats": "^12.0.1",
+    "uint8arrays": "^4.0.6"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

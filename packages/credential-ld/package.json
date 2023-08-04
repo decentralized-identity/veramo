@@ -21,7 +21,7 @@
     "@digitalcredentials/ed25519-signature-2020": "^3.0.2",
     "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
     "@digitalcredentials/jsonld": "^6.0.0",
-    "@digitalcredentials/jsonld-signatures": "^9.3.1",
+    "@digitalcredentials/jsonld-signatures": "^9.3.2",
     "@digitalcredentials/vc": "^6.0.0",
     "@transmute/credentials-context": "^0.7.0-unstable.81",
     "@transmute/ed25519-signature-2018": "^0.7.0-unstable.81",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/debug": "4.1.8",
     "borc": "3.0.0",
-    "typescript": "5.1.3"
+    "typescript": "5.1.6"
   },
   "files": [
     "build/**/*",
