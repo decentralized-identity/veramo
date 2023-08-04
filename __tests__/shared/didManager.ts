@@ -223,13 +223,6 @@ export default (testContext: {
       })
 
       expect(identifier6).toEqual(identifier5)
-
-      const identifier7 = await agent.didManagerGetByAlias({
-        alias: 'alice',
-        // default provider is 'did:ethr:goerli'
-      })
-
-      expect(identifier7).toEqual(identifier4)
     })
 
     it('should get identifiers', async () => {

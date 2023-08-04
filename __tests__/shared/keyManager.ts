@@ -1,6 +1,13 @@
 // noinspection ES6PreferShortImport
 
-import { IAgentOptions, IDIDManager, IKeyManager, IResolver, TAgent, TKeyType } from '../../packages/core-types/src'
+import {
+  IAgentOptions,
+  IDIDManager,
+  IKeyManager,
+  IResolver,
+  TAgent,
+  TKeyType,
+} from '../../packages/core-types/src'
 import { computeAddress, serialize } from '@ethersproject/transactions'
 import { mapIdentifierKeysToDoc } from '../../packages/utils/src'
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
@@ -476,7 +483,7 @@ export default (testContext: {
         },
       }
 
-      const identifier = await agent.didManagerCreate({ kms: 'local' })
+      const identifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:pkh' })
 
       const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
       const extendedKey = extendedKeys[0]
@@ -575,7 +582,10 @@ export default (testContext: {
         },
       }
 
-      const identifier = await agent.didManagerCreate({ kms: 'local' })
+      const identifier = await agent.didManagerCreate({
+        kms: 'local',
+        provider: 'did:pkh',
+      })
 
       const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
       const extendedKey = extendedKeys[0]

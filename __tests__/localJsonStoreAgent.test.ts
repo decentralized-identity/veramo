@@ -134,7 +134,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDManager({
         store: new DIDStoreJson(jsonFileStore),
-        defaultProvider: 'did:ethr:goerli',
+        defaultProvider: 'did:ethr',
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',

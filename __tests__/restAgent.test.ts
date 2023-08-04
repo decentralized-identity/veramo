@@ -161,7 +161,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDManager({
         store: new DIDStore(dbConnection),
-        defaultProvider: 'did:ethr:goerli',
+        defaultProvider: 'did:jwk',
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
