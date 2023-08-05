@@ -79,8 +79,8 @@ importers:
         specifier: 7.2.5
         version: 7.2.5
       did-jwt-vc:
-        specifier: 3.2.4
-        version: 3.2.4
+        specifier: 3.2.5
+        version: 3.2.5
       did-resolver:
         specifier: 4.1.0
         version: 4.1.0
@@ -922,13 +922,13 @@ importers:
     dependencies:
       '@transmute/did-key-ed25519':
         specifier: ^0.3.0-unstable.10
-        version: 0.3.0-unstable.10
+        version: 0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8)
       '@transmute/did-key-secp256k1':
         specifier: ^0.3.0-unstable.10
-        version: 0.3.0-unstable.10
+        version: 0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8)
       '@transmute/did-key-x25519':
         specifier: ^0.3.0-unstable.10
-        version: 0.3.0-unstable.10
+        version: 0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8)
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -3651,12 +3651,12 @@ packages:
       factory.ts: 0.5.2
     dev: false
 
-  /@did-core/did-ld-json@0.1.1-unstable.15:
+  /@did-core/did-ld-json@0.1.1-unstable.15(expo@48.0.19)(react-native@0.71.8):
     resolution: {integrity: sha512-p2jKRxSU+eJJqd+ewCklYp/XZ6ysISk8VU2/kANCoB/WwUy/kVgw2rUNScRDXw2utr9Qj36P8EZTYi4aj7vRCQ==}
     engines: {node: '>=10'}
     dependencies:
       '@transmute/did-context': 0.6.1-unstable.37
-      jsonld-checker: 0.1.8
+      jsonld-checker: 0.1.8(expo@48.0.19)(react-native@0.71.8)
     transitivePeerDependencies:
       - domexception
       - encoding
@@ -6660,12 +6660,12 @@ packages:
     resolution: {integrity: sha512-p/QnG3QKS4218hjIDgdvJOFATCXsAnZKgy4egqRrJLlo3Y6OaDBg7cA73dixOwUPoEKob0K6rLIGcsCI/L1acw==}
     dev: false
 
-  /@transmute/did-key-common@0.3.0-unstable.10:
+  /@transmute/did-key-common@0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8):
     resolution: {integrity: sha512-Iryh/HcGIvmTtWFTRaG/JEgbUsqI5OqKqkR2676yQWK4ajLMsyNattz5n0ZfFQk/4U7Ee6pJvvKRduFDAqqV0Q==}
     engines: {node: '>=14'}
     dependencies:
       '@did-core/data-model': 0.1.1-unstable.15
-      '@did-core/did-ld-json': 0.1.1-unstable.15
+      '@did-core/did-ld-json': 0.1.1-unstable.15(expo@48.0.19)(react-native@0.71.8)
       '@transmute/did-context': 0.6.1-unstable.37
       '@transmute/ld-key-pair': 0.6.1-unstable.37
       '@transmute/security-context': 0.6.1-unstable.37
@@ -6677,11 +6677,11 @@ packages:
       - web-streams-polyfill
     dev: false
 
-  /@transmute/did-key-ed25519@0.3.0-unstable.10:
+  /@transmute/did-key-ed25519@0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8):
     resolution: {integrity: sha512-9QdXl58DjwqBuOJBx6DtvaNW2bZLmVBxMSq2En4RAQcGIz1GGulyEQ1NB7PLIAgnam3LIFxiK6RiQGQTfJmmJg==}
     engines: {node: '>=14'}
     dependencies:
-      '@transmute/did-key-common': 0.3.0-unstable.10
+      '@transmute/did-key-common': 0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8)
       '@transmute/ed25519-key-pair': 0.6.1-unstable.37
     transitivePeerDependencies:
       - domexception
@@ -6691,11 +6691,11 @@ packages:
       - web-streams-polyfill
     dev: false
 
-  /@transmute/did-key-secp256k1@0.3.0-unstable.10:
+  /@transmute/did-key-secp256k1@0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8):
     resolution: {integrity: sha512-C/Gyu2U3NQZ9Gxu4WVwUk8h0ERbY9Z4Kjk0P49p3IQFrWK19XmVXjA+b1RiqffhYzWJ6fH5TPYIt2LW5MRQmUA==}
     engines: {node: '>=14'}
     dependencies:
-      '@transmute/did-key-common': 0.3.0-unstable.10
+      '@transmute/did-key-common': 0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8)
       '@transmute/secp256k1-key-pair': 0.7.0-unstable.79
     transitivePeerDependencies:
       - domexception
@@ -6705,11 +6705,11 @@ packages:
       - web-streams-polyfill
     dev: false
 
-  /@transmute/did-key-x25519@0.3.0-unstable.10:
+  /@transmute/did-key-x25519@0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8):
     resolution: {integrity: sha512-Jm5UxwI9EhlfVQ9D0Clj9RlMvhOi8nqAgQG30KMzjFMVGfWqIPwQNZFvmL+XsQ7g3dfTo5iQwXBY0de/f+RoMA==}
     engines: {node: '>=14'}
     dependencies:
-      '@transmute/did-key-common': 0.3.0-unstable.10
+      '@transmute/did-key-common': 0.3.0-unstable.10(expo@48.0.19)(react-native@0.71.8)
       '@transmute/x25519-key-pair': 0.7.0-unstable.79
     transitivePeerDependencies:
       - domexception
@@ -10791,6 +10791,15 @@ packages:
     dependencies:
       did-jwt: 7.2.4
       did-resolver: 4.1.0
+    dev: false
+
+  /did-jwt-vc@3.2.5:
+    resolution: {integrity: sha512-FPVW9fRMqQZmDCgoJkj1ZN4v0esLg1BlZRHHqKwTKW8Dg3n1eWvTOxrQlGys8BDlWGDALBw+N2SCM6LYyj7qZg==}
+    engines: {node: '>=18'}
+    dependencies:
+      did-jwt: 7.2.5
+      did-resolver: 4.1.0
+    dev: true
 
   /did-jwt@6.11.6:
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
@@ -10819,6 +10828,7 @@ packages:
       did-resolver: 4.1.0
       multiformats: 12.0.0
       uint8arrays: 4.0.4
+    dev: false
 
   /did-jwt@7.2.5:
     resolution: {integrity: sha512-bbkRurNmIOvr9F8cmgOg1oaXEoGUCmi4UttADCFG//JRdN4EhPnvGVfpp3HGnvhw1vIAvhm0rCLPG9HBgQIM4Q==}
@@ -15725,7 +15735,7 @@ packages:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  /jsonld-checker@0.1.8:
+  /jsonld-checker@0.1.8(expo@48.0.19)(react-native@0.71.8):
     resolution: {integrity: sha512-jclmnPRrm5SEpaIV6IiSTJxplRAqIWHduQLsUfrYpZM41Ng48m1RN2/aUyHze/ynfO0D2UhlJBt8SdObsH5GBw==}
     engines: {node: '>=10'}
     dependencies:
