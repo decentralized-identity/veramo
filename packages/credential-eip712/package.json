@@ -18,7 +18,7 @@
     }
   },
   "dependencies": {
-    "@metamask/eth-sig-util": "^5.1.0",
+    "@metamask/eth-sig-util": "^6.0.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
