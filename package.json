@@ -46,7 +46,7 @@
     "@types/node": "20.4.9",
     "@types/uuid": "9.0.2",
     "caip": "1.1.0",
-    "credential-status": "2.0.5",
+    "credential-status": "2.0.6",
     "cross-env": "7.0.3",
     "did-jwt": "7.2.5",
     "did-jwt-vc": "3.2.5",
