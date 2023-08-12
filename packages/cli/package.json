@@ -88,7 +88,7 @@
     "pg": "^8.11.0",
     "qrcode-terminal": "^0.12.0",
     "sqlite3": "^5.1.6",
-    "swagger-ui-express": "^4.6.3",
+    "swagger-ui-express": "^5.0.0",
     "ts-json-schema-generator": "^1.2.0",
     "typeorm": "^0.3.10",
     "url-parse": "^1.5.10",
