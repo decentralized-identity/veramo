@@ -7,8 +7,9 @@ import {
   IDIDManager,
   IKey,
   IKeyManager,
+  KEY_ALG_MAPPING,
+  TAlg,
   TClaimsColumns,
-  TKeyType,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
@@ -32,16 +33,8 @@ import {
   computeEntryHash,
   decodeCredentialToObject,
   extractIssuer,
+  intersect,
 } from '@veramo/utils'
-
-const KEY_ALG_MAPPING: Record<TKeyType, string | null> = {
-  Secp256k1: 'ES256K',
-  Secp256r1: 'ES256',
-  Ed25519: 'EdDSA',
-  X25519: null,
-  Bls12381G1: null,
-  Bls12381G2: null,
-} as const
 
 /**
  * This class adds support for creating
@@ -89,17 +82,20 @@ export class SelectiveDisclosure implements IAgentPlugin {
       delete data.issuer
       Debug('veramo:selective-disclosure:create-sdr')('Signing SDR with', identifier.did)
 
+      // only these signature algorithms are supported
+      const algs: TAlg[] = ['ES256K', 'ES256K-R', 'EdDSA', 'ES256']
+
       const key = identifier.keys.find((k: IKey) => {
         return (
           Object.keys(KEY_ALG_MAPPING).includes(k.type) &&
           KEY_ALG_MAPPING[k.type] &&
-          k.meta?.algorithms?.includes(KEY_ALG_MAPPING[k.type] ?? 'unsupported')
+          intersect(intersect(k.meta?.algorithms, KEY_ALG_MAPPING[k.type]), algs).length > 0
         )
       })
 
       if (!key) throw Error('Signing key not found')
 
-      const algorithm = KEY_ALG_MAPPING[key?.type ?? '']
+      const algorithm = KEY_ALG_MAPPING[key.type]?.[0]
 
       if (!algorithm) throw Error('Unsupported key type')
 

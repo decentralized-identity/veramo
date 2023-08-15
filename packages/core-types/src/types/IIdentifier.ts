@@ -54,7 +54,33 @@ export type MinimalImportableIdentifier = {
 export type TKeyType = 'Ed25519' | 'Secp256k1' | 'Secp256r1' | 'X25519' | 'Bls12381G1' | 'Bls12381G2'
 
 /**
- * Cryptographic key
+ * Known algorithms supported by some of the above key types defined by {@link TKeyType}.
+ *
+ * Actual implementations of {@link @veramo/key-manager#AbstractKeyManagementSystem | Key Management Systems} can
+ * support more. One should check the {@link IKey.meta.algorithms} property to see what is possible
+ * for a particular managed key.
+ *
+ * @public
+ */
+export type TAlg = 'ES256K' | 'ES256K-R' | 'ES256' | 'EdDSA' | 'ECDH' | 'ECDH-ES' | 'ECDH-1PU' | string
+
+/**
+ * Mapping of known key types({@link TKeyType}) to the known algorithms({@link TAlg}) they should support.
+ *
+ * @public
+ */
+export const KEY_ALG_MAPPING: Record<TKeyType, ReadonlyArray<TAlg>> = {
+  Secp256k1: ['ES256K', 'ES256K-R'],
+  Secp256r1: ['ES256', 'ECDH', 'ECDH-ES', 'ECDH-1PU'],
+  Ed25519: ['EdDSA'],
+  X25519: ['ECDH', 'ECDH-ES', 'ECDH-1PU'],
+  Bls12381G1: [],
+  Bls12381G2: [],
+} as const
+
+/**
+ * Cryptographic key, usually managed by the current Veramo instance.
+ *
  * @public
  */
 export interface IKey {
@@ -100,7 +126,7 @@ export interface IKey {
  * @public
  */
 export interface KeyMetadata {
-  algorithms?: string[]
+  algorithms?: TAlg[]
 
   [x: string]: any
 }
