@@ -34,7 +34,7 @@
     "did-resolver": "^4.1.0"
   },
   "resolutions": {
-    "@types/react": "18.0.26",
+    "@types/react": "18.2.20",
     "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
   },
   "devDependencies": {
