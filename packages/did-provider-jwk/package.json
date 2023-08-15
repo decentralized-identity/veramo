@@ -22,7 +22,7 @@
     "@veramo/core": "workspace:*",
     "@veramo/key-manager": "workspace:*",
     "@veramo/kms-local": "workspace:*",
-    "typescript": "5.1.3"
+    "typescript": "5.1.6"
   },
   "author": "Tadej Podrekar",
   "keywords": [],

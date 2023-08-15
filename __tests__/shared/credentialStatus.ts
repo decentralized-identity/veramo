@@ -17,13 +17,13 @@ import { jest } from '@jest/globals'
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 
 // Constant used to simulate exception flows
-const simulateStatusVerificationFailure = 'Any unexpected failure during status verification.'
+const simulateStatusVerificationFailure = 'Any_unexpected_failure_during_status_verification.'
 
 // Constant used to simulate revoked credentials
-const simulateRevokedCredential = 'A revoked credential.'
+const simulateRevokedCredential = 'A_revoked_credential.'
 
 // Constant used to simulate revoked credentials
-const simulateNotRevokedCredential = 'A NOT revoked credential.'
+const simulateNotRevokedCredential = 'A_NOT_revoked_credential.'
 
 const callsCounter = jest.fn()
 

@@ -1,6 +1,7 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, RequireOnly } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { hexToBytes, bytesToUtf8String } from '@veramo/utils'
+import { hexToBytes } from '@veramo/utils'
+import { computePublicKey } from '@ethersproject/signing-key'
 import { base58btc } from 'multiformats/bases/base58'
 import Multicodec from 'multicodec'
 
@@ -49,9 +50,9 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       context,
     )
 
-    const methodSpecificId: string = base58btc.encode(
-      Multicodec.addPrefix(keyOptions[keyType], hexToBytes(key.publicKeyHex)),
-    )
+    const publicKeyHex = key.type === 'Secp256k1' ? computePublicKey('0x' + key.publicKeyHex, true) : key.publicKeyHex
+    const multicodecEncoded = Multicodec.addPrefix(keyOptions[keyType], hexToBytes(publicKeyHex))
+    const methodSpecificId: string = base58btc.encode(multicodecEncoded)
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:key:' + methodSpecificId,

@@ -10,7 +10,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@decentralized-identity/ion-sdk": "^1.0.0",
+    "@decentralized-identity/ion-sdk": "^1.0.1",
     "@ethersproject/random": "^5.7.0",
     "@ethersproject/signing-key": "^5.7.0",
     "@noble/curves": "^1.1.0",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.1.3"
+    "typescript": "5.1.6"
   },
   "peerDependencies": {
     "@sphereon/react-native-argon2": "^2.0.7"
