@@ -33,7 +33,7 @@ jobs:
         shard: [1, 2, 3, 4, 5]
     services:
       postgres:
-        image: postgres:15.1
+        image: postgres:15.4
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
