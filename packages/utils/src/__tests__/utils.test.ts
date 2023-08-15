@@ -1,4 +1,4 @@
-import { asArray, isDefined } from '../type-utils.js'
+import { asArray, intersect, isDefined } from '../type-utils.js'
 
 describe('@veramo/utils type utils', () => {
   it('isDefined should return correct results', () => {
@@ -19,5 +19,24 @@ describe('@veramo/utils type utils', () => {
     expect(asArray(['a', 'b'])).toEqual(['a', 'b'])
     expect(asArray(undefined)).toEqual([])
     expect(asArray(null)).toEqual([])
+  })
+
+  describe('intersect', () => {
+    it('should work with primitive types', () => {
+      expect(intersect(['a'], ['b'])).toStrictEqual([])
+      expect(intersect(['a', 'a'], ['b'])).toStrictEqual([])
+      expect(intersect(['a', 'a', 'b'], ['b'])).toStrictEqual(['b'])
+      expect(intersect(['a', 'a', 'b'], ['b', 'a'])).toStrictEqual(['a', 'b'])
+      expect(intersect(['a', 'a', 'b', 1], ['b', 'a', 2])).toStrictEqual(['a', 'b'])
+      expect(intersect(['a', 'a', 'b', 1], ['b', 1, 2])).toStrictEqual(['b', 1])
+      expect(intersect([1, false], [true])).toStrictEqual([])
+      expect(intersect([1, false, null], [true, null])).toStrictEqual([null])
+      expect(intersect([1, false, undefined], [true, undefined])).toStrictEqual([undefined])
+      expect(intersect([1], [true])).toStrictEqual([])
+    })
+
+    it('does not work with objects since references are different', () => {
+      expect(intersect([{}], [{}])).toStrictEqual([])
+    })
   })
 })

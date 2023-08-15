@@ -1,4 +1,11 @@
-import { IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly, TKeyType } from '@veramo/core-types'
+import {
+  IKey,
+  KEY_ALG_MAPPING,
+  ManagedKeyInfo,
+  MinimalImportableKey,
+  RequireOnly,
+  TKeyType,
+} from '@veramo/core-types'
 import {
   AbstractKeyManagementSystem,
   AbstractPrivateKeyStore,
@@ -8,6 +15,7 @@ import {
 
 import { EdDSASigner, ES256KSigner, ES256Signer } from 'did-jwt'
 import { ed25519, x25519 } from '@noble/curves/ed25519'
+import { p256 } from '@noble/curves/p256'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { toUtf8String } from '@ethersproject/strings'
 import { parse } from '@ethersproject/transactions'
@@ -16,7 +24,6 @@ import { SigningKey } from '@ethersproject/signing-key'
 import { randomBytes } from '@ethersproject/random'
 import { arrayify, hexlify } from '@ethersproject/bytes'
 import Debug from 'debug'
-import { p256 } from '@noble/curves/p256'
 import {
   bytesToHex,
   concat,
@@ -302,7 +309,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           kid: args.alias || publicKeyHex,
           publicKeyHex,
           meta: {
-            algorithms: ['Ed25519', 'EdDSA'],
+            algorithms: [...KEY_ALG_MAPPING[args.type], 'Ed25519'],
           },
         }
         break
@@ -317,8 +324,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           publicKeyHex,
           meta: {
             algorithms: [
-              'ES256K',
-              'ES256K-R',
+              ...KEY_ALG_MAPPING[args.type],
               'eth_signTransaction',
               'eth_signTypedData',
               'eth_signMessage',
@@ -336,7 +342,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           kid: args.alias || publicKeyHex,
           publicKeyHex,
           meta: {
-            algorithms: ['ES256'],
+            algorithms: ['ES256'], // ECDH not supported yet by this KMS
           },
         }
         break
@@ -349,7 +355,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           kid: args.alias || publicKeyHex,
           publicKeyHex: publicKeyHex,
           meta: {
-            algorithms: ['ECDH', 'ECDH-ES', 'ECDH-1PU'],
+            algorithms: [...KEY_ALG_MAPPING[args.type]],
           },
         }
         break
