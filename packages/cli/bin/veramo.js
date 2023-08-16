@@ -13,4 +13,4 @@ process.emit = function (name, data, ...args) {
   return originalEmit.apply(process, arguments);
 };
 
-import '../build/cli.js'
+let cli = await import('../build/cli.js')

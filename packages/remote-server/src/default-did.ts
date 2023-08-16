@@ -29,12 +29,12 @@ export async function createDefaultDid(options: CreateDefaultDidOptions) {
       keyType: <TKeyType>'Ed25519',
     },
   })
-  console.log('🆔', serverIdentifier?.did)
+  console.log(`🆔 A default DID was created according to your config: ${serverIdentifier?.did}`)
 
   if (serverIdentifier && options.messagingServiceEndpoint) {
     const messagingServiceEndpoint = options.baseUrl + options.messagingServiceEndpoint
 
-    console.log('📨 Messaging endpoint', messagingServiceEndpoint)
+    console.log(`📨 Messaging endpoint for the default DID was set to '${messagingServiceEndpoint}' according to the baseUrl set in the configuration`)
     await options?.agent?.didManagerAddService({
       did: serverIdentifier.did,
       service: {
