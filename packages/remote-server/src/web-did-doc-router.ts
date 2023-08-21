@@ -14,20 +14,12 @@ interface RequestWithAgentDIDManager extends Request {
  */
 export const didDocEndpoint = '/.well-known/did.json'
 
-const keyMapping: Record<TKeyType, string> = {
-  Secp256k1: 'EcdsaSecp256k1VerificationKey2019',
-  Secp256r1: 'EcdsaSecp256r1VerificationKey2019',
-  Ed25519: 'Ed25519VerificationKey2018',
-  X25519: 'X25519KeyAgreementKey2019',
-  Bls12381G1: 'Bls12381G1Key2020',
-  Bls12381G2: 'Bls12381G2Key2020',
-}
-
 /**
  * @public
  */
 export interface WebDidDocRouterOptions {
   services?: ServiceEndpoint[]
+  force2020?: boolean
 }
 
 /**
@@ -40,6 +32,14 @@ export interface WebDidDocRouterOptions {
  */
 export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
   const router = Router()
+  const keyMapping: Record<TKeyType, string> = {
+    Secp256k1: 'EcdsaSecp256k1VerificationKey2019',
+    Secp256r1: 'EcdsaSecp256r1VerificationKey2019',
+    Ed25519: (options && options.force2020) ? 'Ed25519VerificationKey2020' : 'Ed25519VerificationKey2018',
+    X25519: (options && options.force2020) ? 'X25519KeyAgreementKey2020' : 'X25519KeyAgreementKey2019',
+    Bls12381G1: 'Bls12381G1Key2020',
+    Bls12381G2: 'Bls12381G2Key2020',
+  }
 
   const didDocForIdentifier = (identifier: IIdentifier) => {
     const contexts = new Set<string>()
