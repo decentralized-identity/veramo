@@ -29,11 +29,11 @@
     "@types/events": "^3.0.0",
     "@types/json-buffer": "3.0.0",
     "@types/node": "20.5.0",
-    "eslint": "8.47.0",
+    "eslint": "8.48.0",
     "eslint-plugin-promise": "6.1.1",
     "keyv": "4.5.3",
     "timekeeper": "2.3.1",
-    "typescript": "5.1.6"
+    "typescript": "5.2.2"
   },
   "files": [
     "build/**/*",
