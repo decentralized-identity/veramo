@@ -109,8 +109,8 @@ importers:
         specifier: 0.4.0
         version: 0.4.0
       lerna:
-        specifier: 7.1.5
-        version: 7.1.5
+        specifier: 7.2.0
+        version: 7.2.0
       lerna-changelog:
         specifier: 2.2.0
         version: 2.2.0
@@ -2475,6 +2475,7 @@ packages:
   /@babel/plugin-proposal-async-generator-functions@7.20.7(@babel/core@7.22.9):
     resolution: {integrity: sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -2611,6 +2612,7 @@ packages:
   /@babel/plugin-proposal-object-rest-spread@7.20.7(@babel/core@7.22.9):
     resolution: {integrity: sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -2625,6 +2627,7 @@ packages:
   /@babel/plugin-proposal-optional-catch-binding@7.18.6(@babel/core@7.22.9):
     resolution: {integrity: sha512-Q40HEhs9DJQyaZfUjjn6vE8Cv4GmMHCYuMGIWUnlxH6400VGxOuwWsPt4FxXxJkC/5eOzgn0z21M9gMT4MOhbw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -7430,8 +7433,8 @@ packages:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: true
 
-  /@lerna/child-process@7.1.5:
-    resolution: {integrity: sha512-YXmxzxXTP3u9HQpSXvK8qqoAm7VWQIFria3FVMQKkOSkWkph1TNnvt3Q1JvKT7/Jgd1HfTc3QrK09a2FND9+8A==}
+  /@lerna/child-process@7.2.0:
+    resolution: {integrity: sha512-8cRsYYX8rGZTXL1KcLBv0RHD9PMvphWZay8yg4qf2giX6x86dQyTetSU4SplG2LBGVClilmNHJa/CQwvPQNUFA==}
     engines: {node: ^14.17.0 || >=16.0.0}
     dependencies:
       chalk: 4.1.2
@@ -7439,11 +7442,11 @@ packages:
       strong-log-transformer: 2.1.0
     dev: true
 
-  /@lerna/create@7.1.5:
-    resolution: {integrity: sha512-/CDI/cvXJbycgSDzWXzP7DBuJ10qL/uYEouFt3/mxi9+hSfM885fu6lbVPV7QOf8A0otXcTs7PN2dVyMrnWQeg==}
+  /@lerna/create@7.2.0:
+    resolution: {integrity: sha512-bBypNfwqOQNcfR2nXJ3mWUeIAIoSFpXg8MjuFSf87PzIiyeTEKa3Z57vAa3bDbHQtcB7x6f0rWysK1eQZSH15Q==}
     engines: {node: ^14.17.0 || >=16.0.0}
     dependencies:
-      '@lerna/child-process': 7.1.5
+      '@lerna/child-process': 7.2.0
       '@npmcli/run-script': 6.0.2
       '@nx/devkit': 16.6.0(nx@16.6.0)
       '@octokit/plugin-enterprise-rest': 6.0.1
@@ -7468,6 +7471,7 @@ packages:
       ini: 1.3.8
       init-package-json: 5.0.0
       inquirer: 8.2.6
+      is-ci: 3.0.1
       is-stream: 2.0.0
       js-yaml: 4.1.0
       libnpmpublish: 7.3.0
@@ -18120,13 +18124,13 @@ packages:
       - supports-color
     dev: true
 
-  /lerna@7.1.5:
-    resolution: {integrity: sha512-5bvfmoIH4Czk5mdoLaRPYkM3M63Ei6+TOuXs3MgXmvqD8vs+vQpHuBVmiYFp5Mwsck3FkidJ+eTxfucltA2Lmw==}
+  /lerna@7.2.0:
+    resolution: {integrity: sha512-E13iAY4Tdo+86m4ClAe0j0bP7f8QG2neJReglILPOe+gAOoX17TGqEWanmkDELlUXOrTTwnte0ewc6I6/NOqpg==}
     engines: {node: ^14.17.0 || >=16.0.0}
     hasBin: true
     dependencies:
-      '@lerna/child-process': 7.1.5
-      '@lerna/create': 7.1.5
+      '@lerna/child-process': 7.2.0
+      '@lerna/create': 7.2.0
       '@npmcli/run-script': 6.0.2
       '@nx/devkit': 16.6.0(nx@16.6.0)
       '@octokit/plugin-enterprise-rest': 6.0.1
