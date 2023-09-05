@@ -76,11 +76,11 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       did-jwt:
-        specifier: 7.2.6
-        version: 7.2.6
+        specifier: 7.2.7
+        version: 7.2.7
       did-jwt-vc:
-        specifier: 3.2.6
-        version: 3.2.6
+        specifier: 3.2.7
+        version: 3.2.7
       did-resolver:
         specifier: 4.1.0
         version: 4.1.0
@@ -13154,11 +13154,11 @@ packages:
       did-resolver: 4.1.0
     dev: false
 
-  /did-jwt-vc@3.2.6:
-    resolution: {integrity: sha512-mecquxDqPMra0BAMFh8JfRNI2TGCgptqJdiLDxEQFyY1KtxLGgKQ2D6n1DSETX39XuR3YAWLGTT6aUAb7v8cWA==}
+  /did-jwt-vc@3.2.7:
+    resolution: {integrity: sha512-1DsMN4KaCRJiy7TvP8IsPS3D7o3AZlXKzpXGHKGAmPTK55l66QrPBYlD+omhHO1t/BLADRubob9leS9O2Jlu0g==}
     engines: {node: '>=18'}
     dependencies:
-      did-jwt: 7.2.6
+      did-jwt: 7.2.7
       did-resolver: 4.1.0
     dev: true
 
@@ -13191,8 +13191,8 @@ packages:
       uint8arrays: 4.0.6
     dev: false
 
-  /did-jwt@7.2.6:
-    resolution: {integrity: sha512-7EjP5zEAUrKHCnz7Dwft1HmtXKcWn4nTCTaYHEuzi7ywI+6VEx6kjCHlxwQK7wZ+5lUQPRvM32eIgW1aEDoERQ==}
+  /did-jwt@7.2.7:
+    resolution: {integrity: sha512-8hCEG13b3YV7Gw+euv4hSFKTk83tAeItP8d/dfz81KL1XfRahsvdbepZS1ckPsS1tLzQadQ+pxscvhkddfuQDA==}
     dependencies:
       '@noble/curves': 1.1.0
       '@noble/hashes': 1.3.1
