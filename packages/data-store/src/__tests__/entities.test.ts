@@ -3,8 +3,7 @@ import { createPresentationEntity } from '../entities/presentation.js'
 import { Claim, Entities, Identifier, Message } from '../index.js'
 import { DataSource, In } from 'typeorm'
 import * as fs from 'fs'
-import { bytesToHex } from '../../../utils/src'
-import { blake2b } from '@noble/hashes/blake2b'
+import { computeEntryHash } from '../../../utils/src'
 
 describe('DB entities test', () => {
   let connection: DataSource
@@ -167,7 +166,7 @@ describe('DB entities test', () => {
   })
 
   it('Message can have externally set id', async () => {
-    const customId = bytesToHex(blake2b('hash123'))
+    const customId = computeEntryHash('hash123')
 
     const message = new Message()
     message.type = 'custom'

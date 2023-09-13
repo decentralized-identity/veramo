@@ -181,7 +181,7 @@ describe('@veramo/utils credential utils', () => {
     expect(computeEntryHash(expandedCred)).toEqual(computeEntryHash(serializedCred))
     expect(computeEntryHash(jwt)).toEqual(computeEntryHash(serializedCred))
     expect(computeEntryHash(serializedCred)).toEqual(
-      '452f0fb4b876e22867585ee15a6aabb7a6f9ccccf6a2ee664e9f7618737792d64b219fef0792b9d73f3ff756a265083526ecb7313ae4972ef6290b600cacbe88',
+      'QmYBWeZCoB1zbJwGou1svfgrq9muVQyy7uzokMfdeSEoHH',
     )
   })
 
@@ -208,7 +208,7 @@ describe('@veramo/utils credential utils', () => {
       '{"issuer":{"id":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn"},"@context":["https://www.w3.org/2018/credentials/v1","https://veramo.io/contexts/profile/v1"],"type":["VerifiableCredential","Profile"],"issuanceDate":"2021-11-23T15:06:12.820Z","credentialSubject":{"id":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn","name":"Martin, the great"},"proof":{"type":"Ed25519Signature2018","created":"2021-11-23T15:06:12Z","verificationMethod":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn#z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn","proofPurpose":"assertionMethod","jws":"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..wKMmMZNdIgL_19HYJgpRL9SeKVzYT85S-ZyVdF3IMiaiL8nhX8i48D82TQtuQlTT960h_TOQ18fQFula6QxADA"}}'
     expect(computeEntryHash(expandedCred)).toEqual(computeEntryHash(serializedCred))
     expect(computeEntryHash(serializedCred)).toEqual(
-      '357436ca94682f2872b26c35a64d52c8e12dfbf86561a8f219cb395482f5978758fb577c927874cdb01189853054433a07eca81a4b3a999be12290021eb9bcbb',
+      'QmYeBhqpqiFUcsTS1qz7tkuVCJq8Z4VrrSJsjJc4Q7k9ig',
     )
   })
 

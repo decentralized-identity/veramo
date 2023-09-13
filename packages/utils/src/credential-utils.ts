@@ -11,9 +11,10 @@ import {
 } from '@veramo/core-types'
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
-import { blake2b } from '@noble/hashes/blake2b'
-import { bytesToHex } from './encodings.js'
-
+import { sha256 } from 'multiformats/hashes/sha2'
+import { code, encode, prepare } from '@ipld/dag-pb'
+import { CID } from 'multiformats/cid'
+import { UnixFS } from 'ipfs-unixfs'
 /**
  * Every Verifiable Credential `@context` property must contain this.
  *
@@ -96,7 +97,18 @@ export function computeEntryHash(
   } else {
     hashable = JSON.stringify(input)
   }
-  return bytesToHex(blake2b(hashable))
+
+  const unixfs = new UnixFS({
+    type: 'file',
+    data: new TextEncoder().encode(hashable)
+  })
+  
+  const bytes = encode(prepare({ Data: unixfs.marshal() }))
+  const multihash = sha256.digest(bytes)
+  //@ts-ignore
+  const cid = CID.create(0, code, multihash).toString()
+
+  return cid
 }
 
 /**
