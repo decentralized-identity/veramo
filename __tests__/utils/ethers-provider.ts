@@ -1,19 +1,16 @@
-import { Web3Provider, ExternalProvider } from '@ethersproject/providers'
-import { Wallet } from '@ethersproject/wallet'
+import { BrowserProvider, Eip1193Provider, Wallet } from 'ethers'
 
-export function createEthersProvider(): Web3Provider {
+export function createEthersProvider(): BrowserProvider {
   const privateKeyHex = '0x1da6847600b0ee25e9ad9a52abbd786dd2502fa4005dd5af9310b7cc7a3b25db'
   const wallet = new Wallet(privateKeyHex)
   const mockProvider = new MockWeb3Provider(wallet)
-  const provider = new Web3Provider(mockProvider)
+  const provider = new BrowserProvider(mockProvider)
   return provider
 }
 
+class MockWeb3Provider implements Eip1193Provider {
+  constructor(private wallet: Wallet) {}
 
-class MockWeb3Provider implements ExternalProvider {
-  constructor(private wallet: Wallet){
-
-  }
   async request(request: { method: string; params?: any[] }): Promise<any> {
     
     switch(request.method) {
@@ -25,7 +22,7 @@ class MockWeb3Provider implements ExternalProvider {
         // @ts-ignore
         const {domain, types, message} = JSON.parse(request.params[1])
         delete(types.EIP712Domain)
-        return this.wallet._signTypedData(domain, types, message)
+        return this.wallet.signTypedData(domain, types, message)
       break
       default:
         throw Error(`not_available: method ${request.method}`)

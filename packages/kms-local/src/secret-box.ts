@@ -1,8 +1,7 @@
 import { AbstractSecretBox } from '@veramo/key-manager'
 import { secretBox, openSecretBox, generateKeyPair } from '@stablelib/nacl'
 import { randomBytes } from '@stablelib/random'
-import { arrayify, hexConcat, hexlify } from '@ethersproject/bytes'
-import { toUtf8Bytes, toUtf8String } from '@ethersproject/strings'
+import { getBytes, concat, hexlify, toUtf8Bytes, toUtf8String } from 'ethers'
 
 const NONCE_BYTES = 24
 
@@ -31,16 +30,16 @@ export class SecretBox extends AbstractSecretBox {
 
   async encrypt(message: string): Promise<string> {
     const nonce = randomBytes(NONCE_BYTES)
-    const key = arrayify('0x' + this.secretKey)
+    const key = getBytes('0x' + this.secretKey)
     const cipherText = secretBox(key, nonce, toUtf8Bytes(message))
-    return hexConcat([nonce, cipherText]).substring(2)
+    return concat([nonce, cipherText]).substring(2)
   }
 
   async decrypt(encryptedMessageHex: string): Promise<string> {
-    const cipherTextWithNonce = arrayify('0x' + encryptedMessageHex)
+    const cipherTextWithNonce = getBytes('0x' + encryptedMessageHex)
     const nonce = cipherTextWithNonce.slice(0, NONCE_BYTES)
     const cipherText = cipherTextWithNonce.slice(NONCE_BYTES)
-    const key = arrayify('0x' + this.secretKey)
+    const key = getBytes('0x' + this.secretKey)
     const decrypted = openSecretBox(key, nonce, cipherText) || new Uint8Array(0)
     return toUtf8String(decrypted)
   }

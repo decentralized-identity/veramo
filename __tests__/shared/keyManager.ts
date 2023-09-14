@@ -8,9 +8,9 @@ import {
   TAgent,
   TKeyType,
 } from '../../packages/core-types/src'
-import { computeAddress, serialize } from '@ethersproject/transactions'
 import { mapIdentifierKeysToDoc } from '../../packages/utils/src'
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
+import {computeAddress, Transaction} from "ethers";
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver>
 
@@ -383,13 +383,14 @@ export default (testContext: {
       })
 
       it('should sign EthTX using generic signer', async () => {
-        const txData = serialize({
-          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
-          value: 300000,
-          gasLimit: 43092000,
-          gasPrice: 20000000000,
-          nonce: 1,
-        })
+        const transaction = new Transaction()
+        transaction.to = '0xce31a19193d4b23f4e9d6163d7247243bAF801c3'
+        transaction.value = 300000
+        transaction.gasLimit = 43092000
+        transaction.gasPrice = 20000000000
+        transaction.nonce = 1
+
+        const txData = transaction.unsignedSerialized
 
         const rawTx = await agent.keyManagerSign({
           algorithm: 'eth_signTransaction',

@@ -16,13 +16,16 @@ import {
 import { EdDSASigner, ES256KSigner, ES256Signer } from 'did-jwt'
 import { ed25519, x25519 } from '@noble/curves/ed25519'
 import { p256 } from '@noble/curves/p256'
-import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { toUtf8String } from '@ethersproject/strings'
-import { parse } from '@ethersproject/transactions'
-import { Wallet } from '@ethersproject/wallet'
-import { SigningKey } from '@ethersproject/signing-key'
-import { randomBytes } from '@ethersproject/random'
-import { arrayify, hexlify } from '@ethersproject/bytes'
+import {
+  TransactionRequest,
+  toUtf8String,
+  Wallet,
+  SigningKey,
+  randomBytes,
+  getBytes,
+  hexlify,
+  Transaction,
+} from 'ethers'
 import Debug from 'debug'
 import {
   bytesToHex,
@@ -31,6 +34,7 @@ import {
   convertEd25519PublicKeyToX25519,
   hexToBytes,
 } from '@veramo/utils'
+import * as u8a from 'uint8arrays'
 
 const debug = Debug('veramo:kms:local')
 
@@ -175,13 +179,13 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     ) {
       throw new Error(`invalid_argument: args.theirKey must contain 'type' and 'publicKeyHex'`)
     }
-    let myKeyBytes = arrayify('0x' + myKey.privateKeyHex)
+    let myKeyBytes = getBytes('0x' + myKey.privateKeyHex)
     if (myKey.type === 'Ed25519') {
       myKeyBytes = convertEd25519PrivateKeyToX25519(myKeyBytes)
     } else if (myKey.type !== 'X25519') {
       throw new Error(`not_supported: can't compute shared secret for type=${myKey.type}`)
     }
-    let theirKeyBytes = arrayify('0x' + theirKey.publicKeyHex)
+    let theirKeyBytes = getBytes('0x' + theirKey.publicKeyHex)
     if (theirKey.type === 'Ed25519') {
       theirKeyBytes = convertEd25519PublicKeyToX25519(theirKeyBytes)
     } else if (theirKey.type !== 'X25519') {
@@ -218,7 +222,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     delete msgTypes.EIP712Domain
     const wallet = new Wallet(privateKeyHex)
 
-    const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
+    const signature = await wallet.signTypedData(msgDomain, msgTypes, msg)
     // HEX encoded string
     return signature
   }
@@ -237,7 +241,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed raw transaction
    */
   private async eth_signTransaction(privateKeyHex: string, rlpTransaction: Uint8Array) {
-    const { v, r, s, from, ...tx } = parse(rlpTransaction)
+    // TODO: Make 100x sure this works.
+    const { signature, from, ...tx } = Transaction.from(u8a.toString(rlpTransaction))
     const wallet = new Wallet(privateKeyHex)
     if (from) {
       debug('WARNING: executing a transaction signing request with a `from` field.')
@@ -257,14 +262,16 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed digest in compact format
    */
   private eth_rawSign(managedKey: string, data: Uint8Array) {
-    return new SigningKey('0x' + managedKey).signDigest(data).compact
+    // Is compact serialized really what we want?
+    return new SigningKey('0x' + managedKey).sign(data).compactSerialized
   }
 
   /**
    * @returns a base64url encoded signature for the `EdDSA` alg
    */
   private async signEdDSA(key: string, data: Uint8Array): Promise<string> {
-    const signer = EdDSASigner(arrayify(key, { allowMissingPrefix: true }))
+    //TODO: Make sure this works as we removed the option from the arrayify method
+    const signer = EdDSASigner(getBytes(key))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -278,7 +285,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     alg: string | undefined,
     data: Uint8Array,
   ): Promise<string> {
-    const signer = ES256KSigner(arrayify(privateKeyHex, { allowMissingPrefix: true }), alg === 'ES256K-R')
+    const signer = ES256KSigner(getBytes(privateKeyHex), alg === 'ES256K-R')
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -288,7 +295,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a base64url encoded signature for the `ES256` alg
    */
   private async signES256(privateKeyHex: string, data: Uint8Array): Promise<string> {
-    const signer = ES256Signer(arrayify(privateKeyHex, { allowMissingPrefix: true }))
+    const signer = ES256Signer(getBytes(privateKeyHex))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string

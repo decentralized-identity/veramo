@@ -1,4 +1,4 @@
-import { KeyManagementSystem } from '../key-management-system.js'
+import { KeyManagementSystem } from '../key-management-system.ts'
 import { TKeyType } from '../../../core-types/src'
 import { MemoryPrivateKeyStore } from '../../../key-manager/src'
 import {
