@@ -1,4 +1,4 @@
-import { getAgent } from '../src/veramo/setup.js'
+import { getAgent, setup } from '../src/veramo/setup.js'
 
 import keyManager from '../../../__tests__/shared/keyManager.js'
 import didManager from '../../../__tests__/shared/didManager.js'
@@ -20,7 +20,7 @@ jest.setTimeout(JEST_TIMEOUT)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {
-    const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
+    const testContext = { getAgent, setup, tearDown: async () => true }
     verifiableDataJWT(testContext)
     verifiableDataLD(testContext)
     handleSdrMessage(testContext)

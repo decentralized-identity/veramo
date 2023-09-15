@@ -43,8 +43,15 @@ import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
 const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
 const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
 
-const memoryJsonStore = {
+let memoryJsonStore = {
   notifyUpdate: () => Promise.resolve(),
+}
+
+export async function setup() {
+  memoryJsonStore = {
+    notifyUpdate: () => Promise.resolve(),
+  }
+  return true
 }
 
 type InstalledPlugins = IResolver &
