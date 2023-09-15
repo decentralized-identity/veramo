@@ -59,9 +59,7 @@ export async function createGanacheProvider(): Promise<{ provider: BrowserProvid
   const factory = ContractFactory.fromSolidity(EthereumDIDRegistry).connect(await provider.getSigner(0))
 
   let registryContract: Contract = await factory.deploy()
-  registryContract = await registryContract.deployed()
-
-  await registryContract.waitForDeployment()
+  registryContract = await registryContract.waitForDeployment()
 
   const registry = await registryContract.getAddress()
   return { provider, registry }

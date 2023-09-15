@@ -229,7 +229,7 @@ export default (testContext: {
       const rawTx = await agent.keyManagerSignEthTX({
         kid: key.kid,
         transaction: {
-          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+          to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
           value: 300000,
           gasLimit: 43092000,
           gasPrice: 20000000000,
@@ -250,7 +250,7 @@ export default (testContext: {
       const rawTx = await agent.keyManagerSignEthTX({
         kid: key.kid,
         transaction: {
-          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+          to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
           from: keyAddress,
           value: 300000,
           gasLimit: 43092000,
@@ -273,8 +273,8 @@ export default (testContext: {
         agent.keyManagerSignEthTX({
           kid: key.kid,
           transaction: {
-            to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
-            from: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+            to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
+            from: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
             value: 300000,
             gasLimit: 43092000,
             gasPrice: 20000000000,
@@ -358,7 +358,7 @@ export default (testContext: {
         const rawTx = await agent.keyManagerSignEthTX({
           kid: importedKey.kid,
           transaction: {
-            to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+            to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
             value: 300000,
             gasLimit: 43092000,
             gasPrice: 20000000000,
@@ -384,7 +384,7 @@ export default (testContext: {
 
       it('should sign EthTX using generic signer', async () => {
         const transaction = new Transaction()
-        transaction.to = '0xce31a19193d4b23f4e9d6163d7247243bAF801c3'
+        transaction.to = '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3'
         transaction.value = 300000
         transaction.gasLimit = 43092000
         transaction.gasPrice = 20000000000
@@ -446,7 +446,7 @@ export default (testContext: {
       // https://github.com/MetaMask/test-dapp/blob/5719808b2a589be92b50fecc1d479fb1e63341c1/src/index.js#L1097
       const msgParams = {
         domain: {
-          chainId: 4,
+          chainId: BigInt(4),
           name: 'Ether Mail',
           verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
           version: '1',
@@ -525,7 +525,7 @@ export default (testContext: {
     it('should sign credential with eth_signTypedData', async () => {
       const msgParams = {
         domain: {
-          chainId: 4,
+          chainId: BigInt(4),
           name: 'VerifiableCredential',
           version: '1',
         },

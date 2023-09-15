@@ -32,6 +32,9 @@ export abstract class AbstractKeyManagementSystem {
     if (typeof data === 'string') {
       try {
         // TODO: Make sure this works as we removed the options from arrayify
+        if (data && data.substring(0, 2) !== "0x") {
+          data = "0x" + data;
+        }
         dataBytes = getBytes(data)
       } catch (e) {
         dataBytes = u8a.fromString(data, 'utf-8')
