@@ -218,15 +218,26 @@ export function multibaseKeyToBytes(s: string): Uint8Array {
  * @public
  */
 export function bytesToMultibase(byteArray: Uint8Array, type: string): string {
-  if (byteArray.length !== 32) {
-    throw new Error('invalid byte array: length is not 32 bytes')
+  if (type === 'Secp256k1') {
+    if (byteArray.length !== 65 && byteArray.length !== 32) {
+      throw new Error('invalid byte array for Secp256k1 key: length is not either 32 or 65 bytes')
+    }
+  } else if (type === 'Ed25519' || type === 'X25519') {
+    if (byteArray.length !== 32) {
+      throw new Error('invalid byte array for Ed25519 or X25519 key: length is not 32 bytes')
+    }
+  } else {
+    throw new Error('invalid key type: ' + type)
   }
 
-  const bytes = new Uint8Array(34)
+  const bytes = new Uint8Array(byteArray.length + 2)
+
   if (type === 'Ed25519') {
     bytes[0] = 0xed
   } else if (type === 'X25519') {
     bytes[0] = 0xec
+  } else if (type === 'Secp256k1') {
+    bytes[0] = 0xe7
   }
   bytes[1] = 0x01
   bytes.set(byteArray, 2)
