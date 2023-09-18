@@ -233,7 +233,7 @@ export default (testContext: {
           value: 300000,
           gasLimit: 43092000,
           gasPrice: 20000000000,
-          nonce: BigInt(1),
+          nonce: 1,
         },
       })
 
@@ -255,7 +255,7 @@ export default (testContext: {
           value: 300000,
           gasLimit: 43092000,
           gasPrice: 20000000000,
-          nonce: BigInt(1),
+          nonce: 1,
         },
       })
 
@@ -278,7 +278,7 @@ export default (testContext: {
             value: 300000,
             gasLimit: 43092000,
             gasPrice: 20000000000,
-            nonce: BigInt(1),
+            nonce: 1,
           },
         }),
       ).rejects.toThrowError(
@@ -362,7 +362,7 @@ export default (testContext: {
             value: 300000,
             gasLimit: 43092000,
             gasPrice: 20000000000,
-            nonce: BigInt(1),
+            nonce: 1,
           },
         })
         expect(rawTx).toEqual(

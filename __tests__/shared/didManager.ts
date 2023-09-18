@@ -64,7 +64,7 @@ export default (testContext: {
         options: {
           // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
           // because the configured network has that name
-          network: BigInt(421613),
+          network: 421613,
         },
       })
       expect(identifier.provider).toEqual('did:ethr')

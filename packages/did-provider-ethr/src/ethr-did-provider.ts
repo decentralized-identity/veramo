@@ -179,11 +179,22 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateDidEthrOptions },
     context: IRequiredContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
+    const key = await context.agent.keyManagerCreate({kms: kms || this.defaultKms, type: 'Secp256k1'})
     const compressedPublicKey = SigningKey.computePublicKey(`0x${key.publicKeyHex}`, true)
-    let networkSpecifier =
-      options?.network ||
-      (options?.providerName?.match(/^did:ethr:.+$/) ? options?.providerName?.substring(9) : undefined)
+
+    let networkSpecifier
+    if(options?.network) {
+      if(typeof options.network === 'number') {
+        networkSpecifier = BigInt(options?.network)
+      } else {
+        networkSpecifier = options?.network
+      }
+    } else if(options?.providerName?.match(/^did:ethr:.+$/)) {
+      networkSpecifier = options?.providerName?.substring(9)
+    } else {
+      networkSpecifier = undefined
+    }
+
     const network = this.getNetworkFor(networkSpecifier)
     if (!network) {
       throw new Error(
