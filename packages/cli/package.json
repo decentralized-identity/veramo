@@ -35,6 +35,7 @@
   "dependencies": {
     "@microsoft/api-extractor": "^7.36.3",
     "@microsoft/api-extractor-model": "^7.27.5",
+    "@spherity/ethr-did-resolver": "9.0.0",
     "@transmute/credentials-context": "^0.7.0-unstable.81",
     "@types/blessed": "^0.1.22",
     "@types/swagger-ui-express": "^4.1.3",

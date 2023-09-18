@@ -233,7 +233,7 @@ export default (testContext: {
           value: 300000,
           gasLimit: 43092000,
           gasPrice: 20000000000,
-          nonce: 1,
+          nonce: BigInt(1),
         },
       })
 
@@ -255,7 +255,7 @@ export default (testContext: {
           value: 300000,
           gasLimit: 43092000,
           gasPrice: 20000000000,
-          nonce: 1,
+          nonce: BigInt(1),
         },
       })
 
@@ -278,7 +278,7 @@ export default (testContext: {
             value: 300000,
             gasLimit: 43092000,
             gasPrice: 20000000000,
-            nonce: 1,
+            nonce: BigInt(1),
           },
         }),
       ).rejects.toThrowError(
@@ -362,7 +362,7 @@ export default (testContext: {
             value: 300000,
             gasLimit: 43092000,
             gasPrice: 20000000000,
-            nonce: 1,
+            nonce: BigInt(1),
           },
         })
         expect(rawTx).toEqual(
@@ -446,7 +446,7 @@ export default (testContext: {
       // https://github.com/MetaMask/test-dapp/blob/5719808b2a589be92b50fecc1d479fb1e63341c1/src/index.js#L1097
       const msgParams = {
         domain: {
-          chainId: BigInt(4),
+          chainId: BigInt(4).toString(),
           name: 'Ether Mail',
           verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
           version: '1',
@@ -525,7 +525,7 @@ export default (testContext: {
     it('should sign credential with eth_signTypedData', async () => {
       const msgParams = {
         domain: {
-          chainId: BigInt(4),
+          chainId: BigInt(4).toString(),
           name: 'VerifiableCredential',
           version: '1',
         },

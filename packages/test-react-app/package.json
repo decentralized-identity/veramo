@@ -4,6 +4,7 @@
   "version": "5.4.1",
   "private": true,
   "dependencies": {
+    "@spherity/ethr-did-resolver": "9.0.0",
     "@veramo/core": "workspace:*",
     "@veramo/core-types": "workspace:*",
     "@veramo/credential-ld": "workspace:*",

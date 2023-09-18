@@ -58,13 +58,13 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
-    it('should create identifier using chainId 3', async () => {
+    it('should translate identifier using chainId 421613 to arbitrum', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:ethr',
         options: {
           // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
           // because the configured network has that name
-          network: 421613,
+          network: BigInt(421613),
         },
       })
       expect(identifier.provider).toEqual('did:ethr')

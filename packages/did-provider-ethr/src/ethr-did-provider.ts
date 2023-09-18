@@ -3,7 +3,7 @@ import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { Provider, SigningKey, computeAddress, JsonRpcProvider, TransactionRequest, Signature } from 'ethers'
 import { KmsEthereumSigner } from './kms-eth-signer.js'
 import Debug from 'debug'
-import { EthrDID } from 'ethr-did'
+import { EthrDID } from '@spherity/ethr-did'
 
 const debug = Debug('veramo:did-provider-ethr')
 
@@ -165,7 +165,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
         } else {
           singleNetwork.name = options.network
         }
-      } else if (typeof options.network === 'number') {
+      } else if (typeof options.network === 'bigint') {
         singleNetwork.chainId = options.network
         singleNetwork.name = options.name
       }
@@ -190,7 +190,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
         `invalid_setup: Cannot create did:ethr. There is no known configuration for network=${networkSpecifier}'`,
       )
     }
-    if (typeof networkSpecifier === 'number') {
+    if (typeof networkSpecifier === 'bigint') {
       networkSpecifier =
         network.name && network.name.length > 0
           ? network.name

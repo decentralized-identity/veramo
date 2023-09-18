@@ -25,6 +25,7 @@ import {
   getBytes,
   hexlify,
   Transaction,
+  decodeRlp
 } from 'ethers'
 import Debug from 'debug'
 import {
@@ -242,18 +243,19 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    */
   private async eth_signTransaction(privateKeyHex: string, rlpTransaction: Uint8Array) {
     // TODO: Make 100x sure this works.
-    const { signature, from, ...tx } = Transaction.from(u8a.toString(rlpTransaction))
+    // can we assume the rlptransaction is always base16 encoded? We see in the key-manager there is an encoding option
+    const transaction = Transaction.from("0x" + u8a.toString(rlpTransaction, 'base16'))
     const wallet = new Wallet(privateKeyHex)
-    if (from) {
+    if (transaction.from) {
       debug('WARNING: executing a transaction signing request with a `from` field.')
-      if (wallet.address.toLowerCase() !== from.toLowerCase()) {
+      if (wallet.address.toLowerCase() !== transaction.from.toLowerCase()) {
         const msg =
           'invalid_arguments: eth_signTransaction `from` field does not match the chosen key. `from` field should be omitted.'
         debug(msg)
         throw new Error(msg)
       }
     }
-    const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
+    const signedRawTransaction = await wallet.signTransaction(transaction)
     // HEX encoded string, 0x prefixed
     return signedRawTransaction
   }

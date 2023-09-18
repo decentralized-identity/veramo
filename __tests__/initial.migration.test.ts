@@ -36,7 +36,7 @@ import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { getResolver as ethrDidResolver } from '@spherity/ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
 

@@ -72,7 +72,7 @@ import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../pa
 
 import { DataSource } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+import { getResolver as ethrDidResolver } from '@spherity/ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 // @ts-ignore
 import express from 'express'

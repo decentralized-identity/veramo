@@ -201,7 +201,7 @@ export class KeyManager implements IAgentPlugin {
         }
       }
     }
-    const data = Transaction.from(tx).serialized
+    const data = Transaction.from(tx).unsignedSerialized
     const algorithm = 'eth_signTransaction'
     return this.keyManagerSign({ keyRef: kid, data, algorithm, encoding: 'base16' })
   }
