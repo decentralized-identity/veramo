@@ -557,7 +557,7 @@ importers:
         version: 9.0.0
     optionalDependencies:
       '@veramo/credential-ld':
-        specifier: ^5.4.1
+        specifier: ^5.5.0
         version: link:../credential-ld
     devDependencies:
       '@types/debug':
