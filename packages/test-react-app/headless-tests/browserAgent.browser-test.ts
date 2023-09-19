@@ -1,4 +1,4 @@
-import { getAgent } from '../src/veramo/setup.js'
+import { getAgent, setup } from '../src/veramo/setup.js'
 
 import keyManager from '../../../__tests__/shared/keyManager.js'
 import didManager from '../../../__tests__/shared/didManager.js'
@@ -20,7 +20,7 @@ jest.setTimeout(JEST_TIMEOUT)
 
 describe('Browser integration tests', () => {
   describe('shared tests', () => {
-    const testContext = { getAgent, setup: async () => true, tearDown: async () => true }
+    const testContext = { getAgent, setup, tearDown: async () => true }
     verifiableDataJWT(testContext)
     verifiableDataLD(testContext)
     handleSdrMessage(testContext)
@@ -56,17 +56,17 @@ describe('Browser integration tests', () => {
             'https://www.w3.org/ns/did/v1',
             'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
           ],
-          id: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+          id: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
           verificationMethod: [
             {
-              id: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
+              id: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
               type: 'EcdsaSecp256k1RecoveryMethod2020',
-              controller: 'did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
-              blockchainAccountId: 'eip155:5:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
+              controller: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+              blockchainAccountId: 'eip155:1:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
             },
           ],
-          authentication: ['did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
-          assertionMethod: ['did:ethr:goerli:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          authentication: ['did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          assertionMethod: ['did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
         },
       }
 
@@ -82,7 +82,7 @@ describe('Browser integration tests', () => {
         didDocumentMetadata: {},
         didResolutionMetadata: {
           error: 'invalidDid',
-          message: 'Not a valid did:ethr: goerli:0x6acf3bb1ef0ee8459de2bc2bd9d91532062a730',
+          message: 'Not a valid did:ethr: goerli:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
         },
         didDocument: null,
       }

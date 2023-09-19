@@ -9,8 +9,7 @@ jest.setTimeout(60000)
 
 const providerConfig = {
   networks: [
-    { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/3586660d179141e3801c3895de1c2eba' },
-    { name: 'goerli', rpcUrl: 'https://goerli.infura.io/v3/3586660d179141e3801c3895de1c2eba' },
+    { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/3586660d179141e3801c3895de1c2eba' },
     { name: 'development', rpcUrl: 'http://localhost:7545' },
     // FIXME: add this example
     // { name: 'test', provider: TBD_add_example_of_custom_provider_usage },
@@ -69,24 +68,24 @@ describe('@veramo/did-resolver', () => {
   it('should resolve ethr-did with RPC URL', async () => {
     expect.assertions(1)
     await expect(
-      resolverPlugin.resolveDid({ didUrl: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6' }),
+      resolverPlugin.resolveDid({ didUrl: 'did:ethr:mainnet:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb' }),
     ).resolves.toEqual({
       didDocument: {
         '@context': [
           'https://www.w3.org/ns/did/v1',
           'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
         ],
-        id: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+        id: 'did:ethr:mainnet:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb',
         verificationMethod: [
           {
-            id: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller',
+            id: 'did:ethr:mainnet:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb#controller',
             type: 'EcdsaSecp256k1RecoveryMethod2020',
-            controller: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
-            blockchainAccountId: 'eip155:5:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+            controller: 'did:ethr:mainnet:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb',
+            blockchainAccountId: 'eip155:1:0xaafE788D8cA214A080B0F6aC7f48480B2aEFa9bb',
           },
         ],
-        authentication: ['did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
-        assertionMethod: ['did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6#controller'],
+        authentication: ['did:ethr:mainnet:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb#controller'],
+        assertionMethod: ['did:ethr:mainnet:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb#controller'],
       },
       didDocumentMetadata: {},
       didResolutionMetadata: { contentType: 'application/did+ld+json' },
@@ -102,9 +101,9 @@ describe('@veramo/did-resolver', () => {
   it('should resolve ethr-did with RPC URL using direct constructor', async () => {
     expect.assertions(1)
     const result = await resolverPluginDirect.resolveDid({
-      didUrl: 'did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6',
+      didUrl: 'did:ethr:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb',
     })
-    expect(result?.didDocument?.id).toEqual('did:ethr:goerli:0xE6Fe788d8ca214A080b0f6aC7F48480b2AEfa9a6')
+    expect(result?.didDocument?.id).toEqual('did:ethr:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb')
   })
 
   it('should fail predictably when unsupported method is resolved', async () => {

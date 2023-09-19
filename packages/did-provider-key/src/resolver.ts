@@ -6,7 +6,8 @@ import { DIDResolutionOptions, DIDResolutionResult, DIDResolver, ParsedDID, Reso
 export const startsWithMap: Record<string, Function> = {
   'did:key:z6Mk': resolveED25519,
   'did:key:z6LS': resolveX25519,
-  'did:key:zQ3s': resolveSecp256k1,
+  'did:key:zQ3s': resolveSecp256k1, // compressed Secp256k1 keys
+  'did:key:z7r8': resolveSecp256k1, // uncompressed Secp256k1 keys
 }
 
 const resolveDidKey: DIDResolver = async (

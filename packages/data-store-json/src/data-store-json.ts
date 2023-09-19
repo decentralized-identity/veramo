@@ -585,12 +585,7 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
       return columnValues.includes(authFilterValue)
     })
   }
-  if (input.skip) {
-    filteredCollection = filteredCollection.slice(input.skip)
-  }
-  if (input.take) {
-    filteredCollection = filteredCollection.slice(0, input.take)
-  }
+
   if (input.order && input.order.length > 0) {
     filteredCollection.sort((a: T, b: T) => {
       let result = 0
@@ -603,7 +598,9 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
         }
         const colA = a[col]
         const colB = b[col]
-        if (typeof colA?.localeCompare === 'function') {
+        if (typeof colA?.getTime === 'function') {
+          result = direction * (colA.getTime() - colB.getTime() || 0)
+        } else if (typeof colA?.localeCompare === 'function') {
           result = direction * colA.localeCompare(colB)
         } else {
           result = direction * (colA - colB || 0)
@@ -613,5 +610,15 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
       return result
     })
   }
+
+  if (input.skip) {
+    filteredCollection = filteredCollection.slice(input.skip)
+  }
+  if (input.take) {
+    const start = input.skip && input.skip - 1 || 0
+    const end = start + input.take
+    filteredCollection = filteredCollection.slice(start, end)
+  }
+
   return filteredCollection
 }

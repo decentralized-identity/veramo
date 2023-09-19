@@ -10,6 +10,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
+    "@ethersproject/signing-key": "^5.7.0",
     "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
     "@transmute/did-key-secp256k1": "^0.3.0-unstable.10",
     "@transmute/did-key-x25519": "^0.3.0-unstable.10",
@@ -19,11 +20,11 @@
     "debug": "^4.3.3",
     "did-resolver": "^4.1.0",
     "multicodec": "^3.2.1",
-    "multiformats": "^12.0.0"
+    "multiformats": "^12.0.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.1.3"
+    "typescript": "5.2.2"
   },
   "resolutions": {
     "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"

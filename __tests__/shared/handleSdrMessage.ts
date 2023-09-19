@@ -34,7 +34,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should create identifier', async () => {
-      identifier = await agent.didManagerCreate({ kms: 'local' })
+      identifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:key' })
       expect(identifier).toHaveProperty('did')
     })
 
@@ -80,6 +80,85 @@ export default (testContext: {
       }
 
       expect(message.raw).toEqual(JWT)
+    })
+
+    it('should create and handle an SDR message with Ed25519', async () => {
+      const sdrIssuer = await agent.didManagerCreate({ provider: 'did:key', options: { keyType: 'Ed25519' } })
+      const req = await agent.createSelectiveDisclosureRequest({
+        data: {
+          issuer: sdrIssuer.did,
+          tag: 'sdr-one',
+          claims: [
+            {
+              reason: 'We need it',
+              claimType: 'name',
+              essential: true,
+            },
+          ],
+        },
+      })
+
+      const message = await agent.handleMessage({
+        raw: req,
+        save: false,
+      })
+
+      expect(message.raw).toEqual(req)
+    })
+
+    it('should create and handle an SDR message with Secp256k1', async () => {
+      const sdrIssuer = await agent.didManagerCreate({
+        provider: 'did:ethr',
+      })
+      const req = await agent.createSelectiveDisclosureRequest({
+        data: {
+          issuer: sdrIssuer.did,
+          tag: 'sdr-one',
+          claims: [
+            {
+              reason: 'We need it',
+              claimType: 'name',
+              essential: true,
+            },
+          ],
+        },
+      })
+
+      const message = await agent.handleMessage({
+        raw: req,
+        save: false,
+      })
+
+      expect(message.raw).toEqual(req)
+    })
+
+    it('should create and handle an SDR message with Secp256r1', async () => {
+      const sdrIssuer = await agent.didManagerCreate({
+        provider: 'did:jwk',
+        options: {
+          keyType: 'Secp256r1',
+        }
+      })
+      const req = await agent.createSelectiveDisclosureRequest({
+        data: {
+          issuer: sdrIssuer.did,
+          tag: 'sdr-one',
+          claims: [
+            {
+              reason: 'We need it',
+              claimType: 'name',
+              essential: true,
+            },
+          ],
+        },
+      })
+
+      const message = await agent.handleMessage({
+        raw: req,
+        save: false,
+      })
+
+      expect(message.raw).toEqual(req)
     })
 
     it('should be able to find the request message', async () => {

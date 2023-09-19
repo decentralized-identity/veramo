@@ -1,4 +1,4 @@
-import { IIdentifier, IKey, IKeyManager, IService } from '../../core-types/src'
+import { IDIDManager, IIdentifier, IKey, IKeyManager, IService } from '../../core-types/src'
 import { createAgent } from '../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src'
@@ -14,7 +14,7 @@ jest.setTimeout(10000)
 const ionDIDProvider = new IonDIDProvider({
   defaultKms: 'mem',
 })
-const agent = createAgent<IKeyManager, DIDManager>({
+const agent = createAgent<IKeyManager, IDIDManager>({
   plugins: [
     new KeyManager({
       store: new MemoryKeyStore(),
@@ -58,7 +58,8 @@ describe('@veramo/did-provider-ion', () => {
     })
   })
 
-  // this fails with TypeError: Failed to parse URL from .../veramo/node_modules/.pnpm/argon2-browser@1.18.0/node_modules/argon2-browser/dist/argon2.wasm
+  // this fails with TypeError: Failed to parse URL from
+  // .../veramo/node_modules/.pnpm/argon2-browser@1.18.0/node_modules/argon2-browser/dist/argon2.wasm
   it.skip('should add key', async () => {
     // This DID is known in ION, hence no anchoring
     const identifier: IIdentifier = await agent.didManagerCreate(
@@ -183,7 +184,8 @@ describe('@veramo/did-provider-ion', () => {
     }
   })
 
-  // this fails with TypeError: Failed to parse URL from .../veramo/node_modules/.pnpm/argon2-browser@1.18.0/node_modules/argon2-browser/dist/argon2.wasm
+  // this fails with TypeError: Failed to parse URL from
+  // .../veramo/node_modules/.pnpm/argon2-browser@1.18.0/node_modules/argon2-browser/dist/argon2.wasm
   it.skip('should remove identifier', async () => {
     const identifier: IIdentifier = await agent.didManagerCreate(
       existingDidConfig(false, 'remove-test', PRIVATE_DID4_KEY_HEX),

@@ -24,11 +24,11 @@
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt": "^7.2.0"
+    "did-jwt": "^7.2.5"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.1.3"
+    "typescript": "5.2.2"
   },
   "files": [
     "build/**/*",

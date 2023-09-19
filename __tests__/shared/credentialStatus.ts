@@ -17,13 +17,13 @@ import { jest } from '@jest/globals'
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 
 // Constant used to simulate exception flows
-const simulateStatusVerificationFailure = 'Any unexpected failure during status verification.'
+const simulateStatusVerificationFailure = 'Any_unexpected_failure_during_status_verification.'
 
 // Constant used to simulate revoked credentials
-const simulateRevokedCredential = 'A revoked credential.'
+const simulateRevokedCredential = 'A_revoked_credential.'
 
 // Constant used to simulate revoked credentials
-const simulateNotRevokedCredential = 'A NOT revoked credential.'
+const simulateNotRevokedCredential = 'A_NOT_revoked_credential.'
 
 const callsCounter = jest.fn()
 
@@ -69,7 +69,11 @@ export default (testContext: {
         ],
       })
       agent = testContext.getAgent()
-      identifier = await agent.didManagerCreate({ kms: 'local' })
+      identifier = await agent.didManagerCreate({
+        kms: 'local',
+        provider: 'did:pkh',
+        options: { keyType: 'Secp256k1' },
+      })
 
       rawCredential = buildCredential(identifier, {
         type: 'ExoticStatusMethod2022',
@@ -208,7 +212,7 @@ export default (testContext: {
         plugins: [],
       })
       agent = testContext.getAgent()
-      identifier = await agent.didManagerCreate({ kms: 'local' })
+      identifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:jwk' })
 
       rawCredential = {
         issuer: { id: identifier.did },
@@ -234,7 +238,6 @@ export default (testContext: {
       })
       expect(vc).toHaveProperty('proof.jwt')
 
-      // TODO It`s an exception flow an it'd be better to throw an exception instead of returning false
       await expect(agent.verifyCredential({ credential: vc })).rejects.toThrow(
         `invalid_setup: The credential status can't be verified because there is no ICredentialStatusVerifier plugin installed.`,
       )

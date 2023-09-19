@@ -33,3 +33,17 @@ export function asArray<T>(arg?: T | T[] | any): (T | any)[] {
 export function isIterable<T>(obj: any): obj is Iterable<T> {
   return obj != null && typeof obj[Symbol.iterator] === 'function'
 }
+
+/**
+ * Compute the intersection of two arrays
+ * Elements are compared by reference so object types will appear as unique even if they contain the same data.
+ *
+ * @param a - first array
+ * @param b - second array
+ * @returns The intersection of the two arrays.
+ *
+ */
+export function intersect<T>(a: T[] | any, b: any[] | any): T[] {
+  const setB = new Set<T>(asArray(b));
+  return [...new Set(asArray(a))].filter(x => setB.has(x));
+}

@@ -115,10 +115,12 @@ export default (testContext: {
       it('issuer - Alice, subject - Bob', async () => {
         const a = await agent.didManagerGetOrCreate({
           alias: 'alice',
+          provider: 'did:ethr:goerli',
         })
 
         const b = await agent.didManagerGetOrCreate({
           alias: 'bob',
+          provider: 'did:ethr:goerli',
         })
 
         const verifiableCredential = await agent.createVerifiableCredential({

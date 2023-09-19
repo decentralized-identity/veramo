@@ -4,7 +4,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: pnpm/action-setup@v2
@@ -33,7 +33,7 @@ jobs:
         shard: [1, 2, 3, 4, 5]
     services:
       postgres:
-        image: postgres:15.1
+        image: postgres:15.4
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-integration]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: actions/download-artifact@v3
