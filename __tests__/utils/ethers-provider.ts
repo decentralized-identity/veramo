@@ -18,11 +18,17 @@ class MockWeb3Provider implements Eip1193Provider {
         // @ts-ignore
         return this.wallet.signMessage(request.params[1])
         break
-        case 'eth_signTypedData_v4':
+      case 'eth_signTypedData_v4':
         // @ts-ignore
         const {domain, types, message} = JSON.parse(request.params[1])
         delete(types.EIP712Domain)
         return this.wallet.signTypedData(domain, types, message)
+      case 'eth_accounts':
+        return [
+            "0x71CB05EE1b1F506fF321Da3dac38f25c0c9ce6E1"
+        ]
+      case 'eth_chainId':
+        return "1337"
       break
       default:
         throw Error(`not_available: method ${request.method}`)
