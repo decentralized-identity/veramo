@@ -67,12 +67,11 @@ export class KmsEthereumSigner extends AbstractSigner {
       types: types,
       message: value,
     });
-    const test = await this.context.agent.keyManagerSign({
+    return this.context.agent.keyManagerSign({
       keyRef: this.controllerKey.kid,
       algorithm: 'eth_signTypedData',
       data: data,
     });
-    return test
   }
 
   signMessage(message: string | Uint8Array): Promise<string> {
