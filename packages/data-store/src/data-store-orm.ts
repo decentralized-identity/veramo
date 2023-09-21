@@ -411,8 +411,8 @@ function decorateQB(
   tableName: string,
   input: FindArgs<any>,
 ): SelectQueryBuilder<any> {
-  if (input?.skip) qb = qb.skip(input.skip)
-  if (input?.take) qb = qb.take(input.take)
+  if (input?.skip) qb = qb.offset(input.skip)
+  if (input?.take) qb = qb.limit(input.take)
 
   if (input?.order) {
     for (const item of input.order) {
