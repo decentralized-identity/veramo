@@ -11,10 +11,12 @@ import {
 } from '@veramo/core-types'
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
-import { sha256 } from 'multiformats/hashes/sha2'
 import { code, encode, prepare } from '@ipld/dag-pb'
+import * as Digest from 'multiformats/hashes/digest'
 import { CID } from 'multiformats/cid'
 import { UnixFS } from 'ipfs-unixfs'
+import { sha256 } from '@noble/hashes/sha256'
+
 /**
  * Every Verifiable Credential `@context` property must contain this.
  *
@@ -102,13 +104,10 @@ export function computeEntryHash(
     type: 'file',
     data: new TextEncoder().encode(hashable)
   })
-  
-  const bytes = encode(prepare({ Data: unixfs.marshal() }))
-  const multihash = sha256.digest(bytes)
-  //@ts-ignore
-  const cid = CID.create(0, code, multihash).toString()
 
-  return cid
+  const bytes = encode(prepare({ Data: unixfs.marshal() }))
+  const digest = Digest.create(18, sha256(bytes))
+  return CID.create(0, code, digest).toString()
 }
 
 /**
