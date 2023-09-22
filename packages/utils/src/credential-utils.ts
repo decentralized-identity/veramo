@@ -15,7 +15,8 @@ import { code, encode, prepare } from '@ipld/dag-pb'
 import * as Digest from 'multiformats/hashes/digest'
 import { CID } from 'multiformats/cid'
 import { UnixFS } from 'ipfs-unixfs'
-import { sha256 } from './sha256.js'
+import { sha256 } from '@noble/hashes/sha256'
+
 /**
  * Every Verifiable Credential `@context` property must contain this.
  *
@@ -106,9 +107,7 @@ export function computeEntryHash(
 
   const bytes = encode(prepare({ Data: unixfs.marshal() }))
   const digest = Digest.create(18, sha256(bytes))
-  const cid = CID.create(0, code, digest).toString()
-
-  return cid
+  return CID.create(0, code, digest).toString()
 }
 
 /**
