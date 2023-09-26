@@ -10,16 +10,16 @@ import type {
   DIDProvider,
   GeneralJWS,
 } from 'dids'
-import stringify from 'fast-json-stable-stringify'
 import { RPCError, createHandler } from 'rpc-utils'
 
+import canonicalize from 'canonicalize'
 
 import Debug from 'debug'
 const debug = Debug('veramo:ceramic:provider')
 
 
 function toStableObject(obj: Record<string, any>): Record<string, any> {
-  return JSON.parse(stringify(obj)) as Record<string, any>
+  return JSON.parse(canonicalize(obj) ?? '{}') as Record<string, any>
 }
 
 

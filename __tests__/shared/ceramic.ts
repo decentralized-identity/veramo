@@ -1,4 +1,5 @@
 import { TAgent, IKeyManager, IDIDManager } from '../../packages/core/src'
+import { ICredentialPlugin } from '../../packages/core-types/src'
 import { VeramoDidProvider } from '../../packages/ceramic/src'
 import { Ed25519Provider } from 'key-did-provider-ed25519'
 import { randomBytes } from '@stablelib/random'
@@ -10,11 +11,10 @@ import { CeramicApi } from '@ceramicnetwork/common'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { ModelManager } from '@glazed/devtools'
 import { DIDDataStore } from '@glazed/did-datastore'
-import { ICredentialIssuer } from '@veramo/credential-w3c'
 
 const API_URL = 'https://ceramic-clay.3boxlabs.com'
 
-type ConfiguredAgent = TAgent<IKeyManager & IDIDManager & ICredentialIssuer>
+type ConfiguredAgent = TAgent<IKeyManager & IDIDManager & ICredentialPlugin>
 
 export default (testContext: {
   getAgent: () => ConfiguredAgent
@@ -87,9 +87,9 @@ export default (testContext: {
 
       const ceramic = new CeramicClient(API_URL)
 
-      ceramic.setDID(did)
+      await ceramic.setDID(did)
 
-      const manager = new ModelManager(ceramic)
+      const manager = new ModelManager({ ceramic })
 
       const noteSchemaID = await manager.createSchema('SimpleNote', {
         $schema: 'http://json-schema.org/draft-07/schema#',
@@ -118,14 +118,10 @@ export default (testContext: {
 
       expect(tile).toBeTruthy()
 
-      const model = await manager.toPublished()
+      const model = await manager.deploy()
       expect(model).toBeTruthy()
 
-      const store = new DIDDataStore({
-        //FIXME: there is a type mismatch somewhere in the dependency tree (@ceramicnetwork/common)
-        ceramic: ceramic as any as CeramicApi,
-        model,
-      })
+      const store = new DIDDataStore({ ceramic, model })
 
       await store.set('myNote', { text: 'This is my note' })
       const note = await store.get('myNote')
@@ -156,12 +152,12 @@ export default (testContext: {
 
       const doc3 = await TileDocument.load(ceramic, doc.commitId)
       expect(doc3.content).toEqual(content2)
-
     })
 
     it.skip('create TileDocument with did:ethr', async () => {
       // Run a local instance of ceramic daemon in js-ceramic/packages/cli with:
-      // ./bin/ceramic.js daemon --network inmemory --debug --ethereum-rpc https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
+      // ./bin/ceramic.js daemon --network inmemory --debug --ethereum-rpc
+      // https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
       const API_URL = 'http://0.0.0.0:7007'
       const infuraProjectId = '5ffc47f65c4042ce847ef66a3fa70d4c'
 

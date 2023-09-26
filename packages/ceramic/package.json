@@ -1,27 +1,30 @@
 {
   "name": "@veramo/ceramic",
   "description": "Veramo ceramic plugin",
-  "version": "3.1.0",
+  "version": "5.5.0",
   "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js"
+  },
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "extract-api": "yarn veramo dev extract-api"
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@glazed/devtools": "^0.1.5",
-    "@glazed/did-datastore": "^0.2.3",
-    "@veramo/core": "^3.1.0",
-    "@veramo/did-manager": "^3.1.0",
-    "@veramo/key-manager": "^3.1.0",
-    "debug": "^4.3.3",
-    "dids": "^2.4.3",
-    "fast-json-stable-stringify": "^2.1.0",
-    "rpc-utils": "^0.4.0"
+    "@glazed/devtools": "^0.2.0",
+    "@glazed/did-datastore": "^0.3.2",
+    "@veramo/core": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "canonicalize": "^2.0.0",
+    "debug": "^4.3.4",
+    "dids": "^4.0.4",
+    "rpc-utils": "^0.6.2"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.7",
-    "typescript": "^4.5.5"
+    "@types/debug": "4.1.9",
+    "typescript": "5.2.2"
   },
   "files": [
     "build/**/*",
