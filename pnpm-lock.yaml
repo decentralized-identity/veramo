@@ -947,12 +947,6 @@ importers:
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
-      multicodec:
-        specifier: ^3.2.1
-        version: 3.2.1
-      multiformats:
-        specifier: ^12.0.1
-        version: 12.0.1
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -981,12 +975,6 @@ importers:
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
-      multicodec:
-        specifier: ^3.2.1
-        version: 3.2.1
-      multiformats:
-        specifier: ^12.0.1
-        version: 12.0.1
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1431,6 +1419,9 @@ importers:
       '@veramo/did-provider-key':
         specifier: workspace:*
         version: link:../did-provider-key
+      '@veramo/did-provider-peer':
+        specifier: workspace:^
+        version: link:../did-provider-peer
       '@veramo/did-provider-pkh':
         specifier: workspace:*
         version: link:../did-provider-pkh
@@ -19545,14 +19536,6 @@ packages:
       thunky: 1.1.0
     dev: true
 
-  /multicodec@3.2.1:
-    resolution: {integrity: sha512-+expTPftro8VAW8kfvcuNNNBgb9gPeNYV9dn+z1kJRWF2vih+/S79f2RVeIwmrJBUJ6NT9IUPWnZDQvegEh5pw==}
-    deprecated: This module has been superseded by the multiformats module
-    dependencies:
-      uint8arrays: 3.1.1
-      varint: 6.0.0
-    dev: false
-
   /multiformats@12.0.1:
     resolution: {integrity: sha512-s01wijBJoDUqESWSzePY0lvTw7J3PVO9x2Cc6ASI5AMZM2Gnhh7BC17+nlFhHKU7dDzaCaRfb+NiqNzOsgPUoQ==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
@@ -25041,10 +25024,6 @@ packages:
 
   /varint@5.0.2:
     resolution: {integrity: sha512-lKxKYG6H03yCZUpAGOPOsMcGxd1RHCu1iKvEHYDPmTyq2HueGhD73ssNBqqQWfvYs04G9iUFRvmAVLW20Jw6ow==}
-    dev: false
-
-  /varint@6.0.0:
-    resolution: {integrity: sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==}
     dev: false
 
   /vary@1.1.2:
