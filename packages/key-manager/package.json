@@ -17,7 +17,7 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.4",
-    "did-jwt": "^7.2.5",
+    "did-jwt": "^7.4.1",
     "uint8arrays": "^4.0.6",
     "uuid": "^9.0.0"
   },

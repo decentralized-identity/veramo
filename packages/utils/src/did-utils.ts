@@ -2,6 +2,7 @@ import { computePublicKey } from '@ethersproject/signing-key'
 import { computeAddress } from '@ethersproject/transactions'
 import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core-types'
 import { DIDDocument, VerificationMethod } from 'did-resolver'
+import { extractPublicKeyBytes } from 'did-jwt'
 import {
   _ExtendedIKey,
   _ExtendedVerificationMethod,
@@ -9,9 +10,8 @@ import {
 } from './types/utility-types.js'
 import { isDefined } from './type-utils.js'
 import Debug from 'debug'
-import { base58ToBytes, base64ToBytes, bytesToHex, hexToBytes, multibaseKeyToBytes } from './encodings.js'
+import { bytesToHex, hexToBytes } from './encodings.js'
 import { ed25519 } from '@noble/curves/ed25519'
-import { secp256k1 } from '@noble/curves/secp256k1'
 
 const debug = Debug('veramo:utils')
 
@@ -160,39 +160,6 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
     }
   }
   return vmEthAddr
-}
-
-interface LegacyVerificationMethod extends VerificationMethod {
-  publicKeyBase64: string
-}
-
-function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
-  if (pk.publicKeyBase58) {
-    return base58ToBytes(pk.publicKeyBase58)
-  } else if (pk.publicKeyMultibase) {
-    return multibaseKeyToBytes(pk.publicKeyMultibase)
-  } else if ((<LegacyVerificationMethod>pk).publicKeyBase64) {
-    return base64ToBytes((<LegacyVerificationMethod>pk).publicKeyBase64)
-  } else if (pk.publicKeyHex) {
-    return hexToBytes(pk.publicKeyHex)
-  } else if (
-    pk.publicKeyJwk &&
-    pk.publicKeyJwk.crv === 'secp256k1' &&
-    pk.publicKeyJwk.x &&
-    pk.publicKeyJwk.y
-  ) {
-    return secp256k1.ProjectivePoint.fromAffine({
-      x: BigInt('0x' + bytesToHex(base64ToBytes(pk.publicKeyJwk.x))),
-      y: BigInt('0x' + bytesToHex(base64ToBytes(pk.publicKeyJwk.y))),
-    }).toRawBytes(false)
-  } else if (
-    pk.publicKeyJwk &&
-    (pk.publicKeyJwk.crv === 'Ed25519' || pk.publicKeyJwk.crv === 'X25519') &&
-    pk.publicKeyJwk.x
-  ) {
-    return base64ToBytes(pk.publicKeyJwk.x)
-  }
-  return new Uint8Array()
 }
 
 /**

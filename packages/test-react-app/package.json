@@ -16,6 +16,7 @@
     "@veramo/did-provider-ethr": "workspace:*",
     "@veramo/did-provider-jwk": "workspace:*",
     "@veramo/did-provider-key": "workspace:*",
+    "@veramo/did-provider-peer": "workspace:^",
     "@veramo/did-provider-pkh": "workspace:*",
     "@veramo/did-provider-web": "workspace:*",
     "@veramo/did-resolver": "workspace:*",

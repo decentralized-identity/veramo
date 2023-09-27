@@ -2,6 +2,11 @@ import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID } from 'did-re
 import { resolve } from '@aviarytech/did-peer'
 import { IDIDDocumentServiceDescriptor } from '@aviarytech/did-peer/interfaces.js'
 
+/**
+ * Creates a DID Resolver that can resolve Peer DIDs (for the 0 and 2 num_algo values)
+ *
+ * @public
+ */
 export function getResolver(): Record<string, DIDResolver> {
   async function resolveInner(did: string, parsed: ParsedDID): Promise<DIDResolutionResult> {
     const didDocumentMetadata = {}

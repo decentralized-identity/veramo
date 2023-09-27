@@ -115,7 +115,7 @@ export function computeEntryHash(
  * `iss` from a JWT or `issuer`/`issuer.id` from a VC or `holder` from a VP
  *
  * @param input - the credential or presentation whose issuer/holder needs to be extracted.
- * @param options
+ * @param options - options for the extraction
  *   removeParameters - Remove all DID parameters from the issuer ID
  *
  * @beta This API may change without a BREAKING CHANGE notice.
