@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/uport-project/veramo/compare/v5.4.1...v5.5.0) (2023-09-19)
+
+
+### Bug Fixes
+
+* **did-provider-key:** use compressed keys for creating Secp256k1 did:key ([#1217](https://github.com/uport-project/veramo/issues/1217)) ([ba8f6f5](https://github.com/uport-project/veramo/commit/ba8f6f5b9b701e57af86491504ecd209ca0c1c1d)), closes [#1213](https://github.com/uport-project/veramo/issues/1213)
+
+
+### Features
+
+* **core-types:** export a basic mapping between key types and algorithms ([57b6c58](https://github.com/uport-project/veramo/commit/57b6c583138b0f8f283f4f00b27573529f394a7a))
+* **selective-disclosure:** support multiple key types for generating requests ([3406a04](https://github.com/uport-project/veramo/commit/3406a04d0ee3c2b637abd774d3cd3fda78fd413d)), closes [#946](https://github.com/uport-project/veramo/issues/946)
+
+
+
+
+
 ## [5.4.1](https://github.com/uport-project/veramo/compare/v5.4.0...v5.4.1) (2023-08-04)
 
 

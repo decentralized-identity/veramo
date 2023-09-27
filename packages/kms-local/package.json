@@ -1,7 +1,7 @@
 {
   "name": "@veramo/kms-local",
   "description": "Veramo KMS implementation that provides Ed25519 and secp256k1 crypto",
-  "version": "5.4.1",
+  "version": "5.5.0",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",

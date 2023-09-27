@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.1](https://github.com/uport-project/veramo/compare/v5.5.0...v5.5.1) (2023-09-21)
+
+
+### Bug Fixes
+
+* **data-store:** take and skip for postgres ([#1249](https://github.com/uport-project/veramo/issues/1249)) ([fcd2699](https://github.com/uport-project/veramo/commit/fcd269961ba9a5470c9b809f076493db481efaaa))
+
+
+
+
+
+# [5.5.0](https://github.com/uport-project/veramo/compare/v5.4.1...v5.5.0) (2023-09-19)
+
+
+### Bug Fixes
+
+* **data-store:** order skip take in orm and json ([#1243](https://github.com/uport-project/veramo/issues/1243)) ([28c1224](https://github.com/uport-project/veramo/commit/28c12247c4e4b5c94e5e92b481e3ccc71b2c4ec6))
+* **deps:** update dependency @metamask/eth-sig-util to v6 ([c60252c](https://github.com/uport-project/veramo/commit/c60252ce76318fc201580bc39db8775b71ee6d13))
+* **deps:** Update dependency credential-status to v2.0.6 ([423c0ae](https://github.com/uport-project/veramo/commit/423c0aed8690a48f907cd440f26d9d6ac86df425))
+* **deps:** update dependency cross-fetch to v4 ([1c14d34](https://github.com/uport-project/veramo/commit/1c14d34f48a51bef373541e84ed89f2f44711406))
+* **deps:** Update dependency did-jwt-vc to v3.2.5 ([75e66d9](https://github.com/uport-project/veramo/commit/75e66d9e407b901eecf61591fad63a97d188e348))
+* **deps:** update dependency swagger-ui-express to v5 ([7e070cc](https://github.com/uport-project/veramo/commit/7e070cc487f7f671276fee6a5b99f4d517728f29))
+* **deps:** Update did-vc-libraries ([cb5f9d7](https://github.com/uport-project/veramo/commit/cb5f9d73e0878c7ebbaa2bd0debfbf1022d0bfae))
+* **deps:** Update did-vc-libraries ([518cc5a](https://github.com/uport-project/veramo/commit/518cc5a221a5cc368647f2684d9469d0a11df2c3))
+* **did-provider-key:** use compressed keys for creating Secp256k1 did:key ([#1217](https://github.com/uport-project/veramo/issues/1217)) ([ba8f6f5](https://github.com/uport-project/veramo/commit/ba8f6f5b9b701e57af86491504ecd209ca0c1c1d)), closes [#1213](https://github.com/uport-project/veramo/issues/1213)
+
+
+### Features
+
+* **core-types:** export a basic mapping between key types and algorithms ([57b6c58](https://github.com/uport-project/veramo/commit/57b6c583138b0f8f283f4f00b27573529f394a7a))
+* **selective-disclosure:** support multiple key types for generating requests ([3406a04](https://github.com/uport-project/veramo/commit/3406a04d0ee3c2b637abd774d3cd3fda78fd413d)), closes [#946](https://github.com/uport-project/veramo/issues/946)
+
+
+
+
+
 ## [5.4.1](https://github.com/uport-project/veramo/compare/v5.4.0...v5.4.1) (2023-08-04)
 
 

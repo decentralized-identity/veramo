@@ -201,7 +201,6 @@ export class DataStoreORM implements IAgentPlugin {
     args: FindArgs<TClaimsColumns>,
     context: AuthorizedDIDContext,
   ): Promise<Array<UniqueVerifiableCredential>> {
-    // FIXME this breaks if args has order param
     const claims = await (await this.claimsQuery(args, context)).getMany()
     return claims.map((claim) => ({
       hash: claim.credential.hash,
@@ -412,13 +411,14 @@ function decorateQB(
   tableName: string,
   input: FindArgs<any>,
 ): SelectQueryBuilder<any> {
-  if (input?.skip) qb = qb.skip(input.skip)
-  if (input?.take) qb = qb.take(input.take)
+  if (input?.skip) qb = qb.offset(input.skip)
+  if (input?.take) qb = qb.limit(input.take)
 
   if (input?.order) {
     for (const item of input.order) {
+      qb = qb.addSelect(qb.connection.driver.escape(tableName) + '.' + qb.connection.driver.escape(item.column), item.column)
       qb = qb.orderBy(
-        qb.connection.driver.escape(tableName) + '.' + qb.connection.driver.escape(item.column),
+        qb.connection.driver.escape(item.column),
         item.direction,
       )
     }
