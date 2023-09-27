@@ -10,7 +10,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@spherity/ethr-did": "3.0.0",
+    "@spherity/ethr-did": "3.0.2",
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "debug": "^4.3.3",
