@@ -226,7 +226,7 @@ describe('coordinate-mediation-message-handler', () => {
             thid: msgid,
             to: recipient.did,
             created_time: expect.anything(),
-            type: 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant',
+            type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
           },
           metaData: { packing: 'authcrypt' },
         },
@@ -297,7 +297,7 @@ describe('coordinate-mediation-message-handler', () => {
       const packedDenyMessage = await agent.packDIDCommMessage({
         packing: 'authcrypt',
         message: {
-          type: 'https://didcomm.org/coordinate-mediation/2.0/mediate-deny',
+          type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
           from: mediator.did,
           to: recipient.did,
           id: msgid,

@@ -23,7 +23,7 @@ export enum MessageTypes {
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const MEDIATE_GRANT_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant'
+// export const MEDIATE_GRANT_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant'
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -67,7 +67,7 @@ export function createMediateGrantMessage(
   thid: string,
 ): IDIDCommMessage {
   return {
-    type: MEDIATE_GRANT_MESSAGE_TYPE,
+    type: MessageTypes.MEDIATE_GRANT,
     from: mediatorDidUrl,
     to: recipientDidUrl,
     id: v4(),
@@ -186,7 +186,7 @@ export class CoordinateMediationRecipientMessageHandler extends AbstractMessageH
    * https://didcomm.org/mediator-coordination/2.0/
    */
   public async handle(message: Message, context: IContext): Promise<Message> {
-    if (message.type === MEDIATE_GRANT_MESSAGE_TYPE) {
+    if (message.type === MessageTypes.MEDIATE_GRANT) {
       debug('MediateGrant Message Received')
       try {
         const { from, to, data, threadId } = message

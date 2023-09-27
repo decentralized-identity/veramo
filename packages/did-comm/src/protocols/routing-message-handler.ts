@@ -3,7 +3,7 @@ import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { MEDIATE_GRANT_MESSAGE_TYPE, MessageTypes } from './coordinate-mediation-message-handler.js'
+import { MessageTypes } from './coordinate-mediation-message-handler.js'
 
 const debug = Debug('veramo:did-comm:routing-message-handler')
 
@@ -44,7 +44,7 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
             where: [
               {
                 column: 'type',
-                value: [MEDIATE_GRANT_MESSAGE_TYPE, MessageTypes.MEDIATE_DENY],
+                value: [MessageTypes.MEDIATE_GRANT, MessageTypes.MEDIATE_DENY],
                 op: 'In',
               },
               {
@@ -57,7 +57,7 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
           })
 
           // If last mediation response was a grant (not deny)
-          if (mediationResponses.length > 0 && mediationResponses[0].type === MEDIATE_GRANT_MESSAGE_TYPE) {
+          if (mediationResponses.length > 0 && mediationResponses[0].type === MessageTypes.MEDIATE_GRANT) {
             const recipients = attachments[0].data.json.recipients
             for (let i = 0; i < recipients.length; i++) {
               const recipient = recipients[i].header.kid
