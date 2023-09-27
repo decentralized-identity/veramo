@@ -9,10 +9,16 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
+export enum MessageTypes {
+  MEDIATE_REQUEST = 'https://didcomm.org/coordinate-mediation/3.0/mediate-request',
+  MEDIATE_GRANT = 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
+  MEDIATE_DENY = 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
+}
+
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const MEDIATE_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-request'
+// export const MEDIATE_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-request'
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -22,7 +28,7 @@ export const MEDIATE_GRANT_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediat
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const MEDIATE_DENY_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-deny'
+// export const MEDIATE_DENY_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-deny'
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -42,12 +48,12 @@ export function createMediateRequestMessage(
   mediatorDidUrl: string,
 ): IDIDCommMessage {
   return {
-    type: MEDIATE_REQUEST_MESSAGE_TYPE,
+    type: MessageTypes.MEDIATE_REQUEST,
     from: recipientDidUrl,
     to: mediatorDidUrl,
     id: v4(),
     return_route: 'all',
-    created_time: (new Date()).toISOString(),
+    created_time: new Date().toISOString(),
     body: {},
   }
 }
@@ -66,7 +72,7 @@ export function createMediateGrantMessage(
     to: recipientDidUrl,
     id: v4(),
     thid: thid,
-    created_time: (new Date()).toISOString(),
+    created_time: new Date().toISOString(),
     body: {
       routing_did: [mediatorDidUrl],
     },
@@ -76,10 +82,7 @@ export function createMediateGrantMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createStatusRequestMessage(
-  recipientDidUrl: string,
-  mediatorDidUrl: string,
-): IDIDCommMessage {
+export function createStatusRequestMessage(recipientDidUrl: string, mediatorDidUrl: string): IDIDCommMessage {
   return {
     id: v4(),
     type: STATUS_REQUEST_MESSAGE_TYPE,
@@ -121,7 +124,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
    * https://didcomm.org/mediator-coordination/2.0/
    */
   public async handle(message: Message, context: IContext): Promise<Message> {
-    if (message.type === MEDIATE_REQUEST_MESSAGE_TYPE) {
+    if (message.type === MessageTypes.MEDIATE_REQUEST) {
       debug('MediateRequest Message Received')
       try {
         const { from, to, returnRoute } = message
@@ -155,7 +158,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
               id: response.id,
               threadId: response.thid,
               data: response.body,
-              createdAt: response.created_time
+              createdAt: response.created_time,
             },
           })
         }
@@ -221,7 +224,7 @@ export class CoordinateMediationRecipientMessageHandler extends AbstractMessageH
         debug(ex)
       }
       return message
-    } else if (message.type === MEDIATE_DENY_MESSAGE_TYPE) {
+    } else if (message.type === MessageTypes.MEDIATE_DENY) {
       debug('MediateDeny Message Received')
       try {
         const { from, to } = message

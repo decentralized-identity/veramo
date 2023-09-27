@@ -202,7 +202,7 @@ describe('coordinate-mediation-message-handler', () => {
             id: msgid,
             to: mediator.did,
             created_time: expect.anything(),
-            type: 'https://didcomm.org/coordinate-mediation/2.0/mediate-request',
+            type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-request',
           },
           metaData: { packing: 'authcrypt' },
         },

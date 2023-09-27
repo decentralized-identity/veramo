@@ -12,6 +12,7 @@
     "test:integration-pretty": "prettier --write __tests__/shared/documentationExamples.ts",
     "test:integration": "pnpm test:integration-build && pnpm test:ci",
     "test:ci": "pnpm test -- --coverage=true",
+    "test:did-comm": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-import-meta-resolve\" jest did-comm",
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-import-meta-resolve\" jest",
     "test:watch": "pnpm test --watch --verbose",
     "test:browser": "cd packages/test-react-app && pnpm test:browser",
