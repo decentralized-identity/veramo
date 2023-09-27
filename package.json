@@ -49,7 +49,7 @@
     "credential-status": "2.0.6",
     "cross-env": "7.0.3",
     "did-jwt": "7.3.0",
-    "did-jwt-vc": "3.2.8",
+    "did-jwt-vc": "3.2.9",
     "did-resolver": "4.1.0",
     "ethr-did-resolver": "8.1.2",
     "express": "4.18.2",

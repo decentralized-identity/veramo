@@ -79,8 +79,8 @@ importers:
         specifier: 7.3.0
         version: 7.3.0
       did-jwt-vc:
-        specifier: 3.2.8
-        version: 3.2.8
+        specifier: 3.2.9
+        version: 3.2.9
       did-resolver:
         specifier: 4.1.0
         version: 4.1.0
@@ -6305,7 +6305,7 @@ packages:
       text-table: 0.2.0
       url-join: 4.0.0
       wrap-ansi: 7.0.0
-      ws: 8.14.1
+      ws: 8.14.2
     transitivePeerDependencies:
       - bluebird
       - bufferutil
@@ -13196,8 +13196,8 @@ packages:
       did-resolver: 4.1.0
     dev: false
 
-  /did-jwt-vc@3.2.8:
-    resolution: {integrity: sha512-AdCG2RMHhwNIz3A0hHKx0dJvBK+wfYU/FHP9h9Rkn4Hh7HrQb/W05aLkpRYM3fZLaawNMQavx9GAaisK6BiyEQ==}
+  /did-jwt-vc@3.2.9:
+    resolution: {integrity: sha512-BCBW1hUGb76WY+4ylc0KWQ64HlPQIF5zRKKV/BicikQWm9dbqGMWzPbxvzxdtQ8BHkN4TJmKNR/VmscfbpP0cg==}
     engines: {node: '>=18'}
     dependencies:
       did-jwt: 7.3.0
@@ -25797,6 +25797,7 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dev: true
 
   /ws@8.14.2:
     resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
@@ -25809,7 +25810,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: true
 
   /ws@8.2.3(bufferutil@4.0.5)(utf-8-validate@5.0.7):
     resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
