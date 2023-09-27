@@ -9,36 +9,16 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export enum MessageTypes {
   MEDIATE_REQUEST = 'https://didcomm.org/coordinate-mediation/3.0/mediate-request',
   MEDIATE_GRANT = 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
   MEDIATE_DENY = 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
+  STATUS_REQUEST = 'https://didcomm.org/messagepickup/3.0/status-request',
+  DELIVERY_REQUEST = 'https://didcomm.org/messagepickup/3.0/delivery-request',
 }
-
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-// export const MEDIATE_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-request'
-
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-// export const MEDIATE_GRANT_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant'
-
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-// export const MEDIATE_DENY_MESSAGE_TYPE = 'https://didcomm.org/coordinate-mediation/2.0/mediate-deny'
-
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export const STATUS_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/status-request'
-
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export const DELIVERY_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/delivery-request'
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -85,7 +65,7 @@ export function createMediateGrantMessage(
 export function createStatusRequestMessage(recipientDidUrl: string, mediatorDidUrl: string): IDIDCommMessage {
   return {
     id: v4(),
-    type: STATUS_REQUEST_MESSAGE_TYPE,
+    type: MessageTypes.STATUS_REQUEST,
     to: mediatorDidUrl,
     from: recipientDidUrl,
     return_route: 'all',
@@ -102,7 +82,7 @@ export function createDeliveryRequestMessage(
 ): IDIDCommMessage {
   return {
     id: v4(),
-    type: DELIVERY_REQUEST_MESSAGE_TYPE,
+    type: MessageTypes.DELIVERY_REQUEST,
     to: mediatorDidUrl,
     from: recipientDidUrl,
     return_route: 'all',
