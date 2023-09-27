@@ -42,6 +42,7 @@ export function isIterable<T>(obj: any): obj is Iterable<T> {
  * @param b - second array
  * @returns The intersection of the two arrays.
  *
+ * @public
  */
 export function intersect<T>(a: T[] | any, b: any[] | any): T[] {
   const setB = new Set<T>(asArray(b));

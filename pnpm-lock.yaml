@@ -76,11 +76,11 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       did-jwt:
-        specifier: 7.3.0
-        version: 7.3.0
+        specifier: 7.4.1
+        version: 7.4.1
       did-jwt-vc:
-        specifier: 3.2.9
-        version: 3.2.9
+        specifier: 3.2.10
+        version: 3.2.10
       did-resolver:
         specifier: 4.1.0
         version: 4.1.0
@@ -408,8 +408,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt-vc:
-        specifier: ^3.2.5
-        version: 3.2.5
+        specifier: ^3.2.10
+        version: 3.2.10
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -513,8 +513,8 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5
       did-jwt:
-        specifier: ^7.2.5
-        version: 7.2.5
+        specifier: ^7.4.1
+        version: 7.4.1
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -544,11 +544,11 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt:
-        specifier: ^7.2.5
-        version: 7.2.5
+        specifier: ^7.4.1
+        version: 7.4.1
       did-jwt-vc:
-        specifier: ^3.2.5
-        version: 3.2.5
+        specifier: ^3.2.10
+        version: 3.2.10
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -591,8 +591,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt-vc:
-        specifier: ^3.2.5
-        version: 3.2.5
+        specifier: ^3.2.10
+        version: 3.2.10
       typeorm:
         specifier: ^0.3.17
         version: 0.3.17(pg@8.11.2)(sqlite3@5.1.6)(ts-node@10.9.1)
@@ -634,8 +634,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt-vc:
-        specifier: ^3.2.5
-        version: 3.2.5
+        specifier: ^3.2.10
+        version: 3.2.10
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
@@ -689,8 +689,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt:
-        specifier: ^7.2.5
-        version: 7.2.5
+        specifier: ^7.4.1
+        version: 7.4.1
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -739,8 +739,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt:
-        specifier: ^7.2.5
-        version: 7.2.5
+        specifier: ^7.4.1
+        version: 7.4.1
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -1106,8 +1106,8 @@ importers:
         specifier: ^4.3.4
         version: 4.3.4
       did-jwt:
-        specifier: ^7.2.5
-        version: 7.2.5
+        specifier: ^7.4.1
+        version: 7.4.1
       uint8arrays:
         specifier: ^4.0.6
         version: 4.0.6
@@ -1173,8 +1173,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt:
-        specifier: ^7.2.5
-        version: 7.2.5
+        specifier: ^7.4.1
+        version: 7.4.1
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1377,8 +1377,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt:
-        specifier: ^7.2.5
-        version: 7.2.5
+        specifier: ^7.4.1
+        version: 7.4.1
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
@@ -1657,11 +1657,11 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt:
-        specifier: ^7.2.5
-        version: 7.2.5
+        specifier: ^7.4.1
+        version: 7.4.1
       did-jwt-vc:
-        specifier: ^3.2.5
-        version: 3.2.5
+        specifier: ^3.2.10
+        version: 3.2.10
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -7513,7 +7513,6 @@ packages:
 
   /@noble/ciphers@0.3.0:
     resolution: {integrity: sha512-ldbrnOjmNRwFdXcTM6uXDcxpMIFrbzAWNnpBPp4oTJTFF0XByGD6vf45WrehZGXRQTRVV+Zm8YP+EgEf+e4cWA==}
-    dev: true
 
   /@noble/curves@1.1.0:
     resolution: {integrity: sha512-091oBExgENk/kGj3AZmtBDMpxQPDtxQABR2B9lb1JbVTs6ytdzZNwvhxQ4MWasRNEzlbEH8jCWFCwhF/Obj5AA==}
@@ -8496,7 +8495,6 @@ packages:
 
   /@scure/base@1.1.3:
     resolution: {integrity: sha512-/+SgoRjLq7Xlf0CWuLHq2LUZeL/w65kfzAPG5NH9pcmBhs+nunQTn4gvdwgMTIXnt9b2C/1SeL2XiysZEyIC9Q==}
-    dev: true
 
   /@scure/bip32@1.3.1:
     resolution: {integrity: sha512-osvveYtyzdEVbt3OfwwXFr4P2iVBL5u1Q3q4ONBfDY/UpOuXmOlbgwc1xECEboY8wIays8Yt6onaWMUdUbfl0A==}
@@ -13188,21 +13186,12 @@ packages:
     resolution: {integrity: sha512-KKC7IGwdOr7u9kTGgjUvGTov/z1s2H7oHi3zKCdR9eSDyCPia5CBi4aRhtp7d8uR7l0GS5UTDw3TjKGu5CqINg==}
     dev: true
 
-  /did-jwt-vc@3.2.5:
-    resolution: {integrity: sha512-FPVW9fRMqQZmDCgoJkj1ZN4v0esLg1BlZRHHqKwTKW8Dg3n1eWvTOxrQlGys8BDlWGDALBw+N2SCM6LYyj7qZg==}
+  /did-jwt-vc@3.2.10:
+    resolution: {integrity: sha512-fX4WBcsjwQ3OWj98t6p5iR4bqSS8wgCt1rVJXeL/ZRy4ij4Y+SJOUpwBoMF/t2ziQMwd47XLCCHYfvKerALZjQ==}
     engines: {node: '>=18'}
     dependencies:
-      did-jwt: 7.2.5
+      did-jwt: 7.4.1
       did-resolver: 4.1.0
-    dev: false
-
-  /did-jwt-vc@3.2.9:
-    resolution: {integrity: sha512-BCBW1hUGb76WY+4ylc0KWQ64HlPQIF5zRKKV/BicikQWm9dbqGMWzPbxvzxdtQ8BHkN4TJmKNR/VmscfbpP0cg==}
-    engines: {node: '>=18'}
-    dependencies:
-      did-jwt: 7.3.0
-      did-resolver: 4.1.0
-    dev: true
 
   /did-jwt@6.11.6:
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
@@ -13220,21 +13209,8 @@ packages:
       multiformats: 9.9.0
       uint8arrays: 3.1.1
 
-  /did-jwt@7.2.5:
-    resolution: {integrity: sha512-bbkRurNmIOvr9F8cmgOg1oaXEoGUCmi4UttADCFG//JRdN4EhPnvGVfpp3HGnvhw1vIAvhm0rCLPG9HBgQIM4Q==}
-    dependencies:
-      '@noble/curves': 1.1.0
-      '@noble/hashes': 1.3.1
-      '@stablelib/xchacha20poly1305': 1.0.1
-      bech32: 2.0.0
-      canonicalize: 2.0.0
-      did-resolver: 4.1.0
-      multiformats: 12.0.1
-      uint8arrays: 4.0.6
-    dev: false
-
-  /did-jwt@7.3.0:
-    resolution: {integrity: sha512-5uZieA76TsrmWRE67qh1JyaRW6GopZxVTlKNy+rBROH7ca214VkLnFfgoxc9sguZkONvDTbUPfiP1xF0+Lckbw==}
+  /did-jwt@7.4.1:
+    resolution: {integrity: sha512-gYDbY6KKuKxmcmJvI1u4zS7QDQGz4B4Ak/T/biMMOHNYZZDGDMKXdZYhiCsphqrBvd7j0OZTFK7iAvMgSpB2aw==}
     dependencies:
       '@noble/ciphers': 0.3.0
       '@noble/curves': 1.1.0
@@ -13244,7 +13220,6 @@ packages:
       did-resolver: 4.1.0
       multiformats: 12.0.1
       uint8arrays: 4.0.6
-    dev: true
 
   /did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
@@ -14137,7 +14112,7 @@ packages:
       '@ethersproject/strings': 5.7.0
       '@ethersproject/transactions': 5.7.0
       '@ethersproject/wallet': 5.7.0
-      did-jwt: 7.2.5
+      did-jwt: 7.4.1
       did-resolver: 4.1.0
       ethr-did-resolver: 8.1.2
     transitivePeerDependencies:

@@ -68,12 +68,12 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
           break
         case 'Ed25519VerificationKey2020':
           contexts.add('https://w3id.org/security/suites/ed25519-2020/v1')
-          vm.publicKeyMultibase = bytesToMultibase(hexToBytes(key.publicKeyHex), 'Ed25519')
+          vm.publicKeyMultibase = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
           delete(vm.publicKeyHex)
           break
         case 'X25519KeyAgreementKey2020':
           contexts.add('https://w3id.org/security/suites/x25519-2020/v1')
-          vm.publicKeyMultibase = bytesToMultibase(hexToBytes(key.publicKeyHex), 'Ed25519')
+          vm.publicKeyMultibase = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'x25519-pub')
           delete(vm.publicKeyHex)
           break
         case 'EcdsaSecp256r1VerificationKey2019':

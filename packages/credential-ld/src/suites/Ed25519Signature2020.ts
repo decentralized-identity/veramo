@@ -66,7 +66,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     const verificationKey = new Ed25519VerificationKey2020({
       id,
       controller,
-      publicKeyMultibase: bytesToMultibase(hexToBytes(key.publicKeyHex), 'Ed25519'),
+      publicKeyMultibase: bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub'),
       // signer: () => signer,
       // type: this.getSupportedVerificationType(),
     })
@@ -139,7 +139,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
       // publicKeyMultibase is required by this suite
       if (!vm.publicKeyMultibase) {
         const publicKeyHex = extractPublicKeyHex(vm)
-        vm.publicKeyMultibase = bytesToMultibase(hexToBytes(publicKeyHex), 'Ed25519')
+        vm.publicKeyMultibase = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', 'ed25519-pub')
       }
     }
     return vm

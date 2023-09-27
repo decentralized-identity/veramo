@@ -57,8 +57,8 @@ export type TKeyType = 'Ed25519' | 'Secp256k1' | 'Secp256r1' | 'X25519' | 'Bls12
  * Known algorithms supported by some of the above key types defined by {@link TKeyType}.
  *
  * Actual implementations of {@link @veramo/key-manager#AbstractKeyManagementSystem | Key Management Systems} can
- * support more. One should check the {@link IKey.meta.algorithms} property to see what is possible
- * for a particular managed key.
+ * support more. One should check the {@link IKey.meta | IKey.meta.algorithms} property to see what is possible for a
+ * particular managed key.
  *
  * @public
  */

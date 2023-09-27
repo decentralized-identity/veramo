@@ -18,8 +18,8 @@
     "@veramo/utils": "workspace:^",
     "canonicalize": "^2.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^7.2.5",
-    "did-jwt-vc": "^3.2.5",
+    "did-jwt": "^7.4.1",
+    "did-jwt-vc": "^3.2.10",
     "did-resolver": "^4.1.0",
     "uuid": "^9.0.0"
   },
