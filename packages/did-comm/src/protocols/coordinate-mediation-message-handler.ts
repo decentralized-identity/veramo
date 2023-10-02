@@ -114,7 +114,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
           throw new Error('invalid_argument: MediateRequest received without `to` set')
         }
         // Grant requests to all recipients
-        // TODO: Come up with another method for approving and rejecting recipients
+        // TODO: Come up with a method for approving and rejecting recipients
         const response = createMediateGrantMessage(from, to, message.id)
         const packedResponse = await context.agent.packDIDCommMessage({
           message: response,
