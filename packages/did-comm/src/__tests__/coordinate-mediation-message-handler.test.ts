@@ -198,7 +198,6 @@ describe('coordinate-mediation-message-handler', () => {
           message: {
             body: {},
             from: recipient.did,
-            return_route: 'all',
             id: msgid,
             to: mediator.did,
             created_time: expect.anything(),
@@ -338,7 +337,7 @@ describe('coordinate-mediation-message-handler', () => {
       const packedMessage = await agent.packDIDCommMessage({
         packing: 'authcrypt',
         message: {
-          type: 'https://didcomm.org/coordinate-mediation/2.0/mediate-grant',
+          type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
           from: mediator.did,
           to: recipient.did,
           id: msgid,

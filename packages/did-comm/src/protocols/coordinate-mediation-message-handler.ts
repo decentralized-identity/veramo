@@ -32,7 +32,6 @@ export function createMediateRequestMessage(
     from: recipientDidUrl,
     to: mediatorDidUrl,
     id: v4(),
-    return_route: 'all',
     created_time: new Date().toISOString(),
     body: {},
   }
@@ -114,34 +113,32 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
         if (!to) {
           throw new Error('invalid_argument: MediateRequest received without `to` set')
         }
-        if (returnRoute === 'all') {
-          // Grant requests to all recipients
-          // TODO: Come up with another method for approving and rejecting recipients
-          const response = createMediateGrantMessage(from, to, message.id)
-          const packedResponse = await context.agent.packDIDCommMessage({
-            message: response,
-            packing: 'authcrypt',
-          })
-          const returnResponse = {
-            id: response.id,
-            message: packedResponse.message,
-            contentType: DIDCommMessageMediaType.ENCRYPTED,
-          }
-          message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
-
-          // Save message to track recipients
-          await context.agent.dataStoreSaveMessage({
-            message: {
-              type: response.type,
-              from: response.from,
-              to: response.to,
-              id: response.id,
-              threadId: response.thid,
-              data: response.body,
-              createdAt: response.created_time,
-            },
-          })
+        // Grant requests to all recipients
+        // TODO: Come up with another method for approving and rejecting recipients
+        const response = createMediateGrantMessage(from, to, message.id)
+        const packedResponse = await context.agent.packDIDCommMessage({
+          message: response,
+          packing: 'authcrypt',
+        })
+        const returnResponse = {
+          id: response.id,
+          message: packedResponse.message,
+          contentType: DIDCommMessageMediaType.ENCRYPTED,
         }
+        message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+
+        // Save message to track recipients
+        await context.agent.dataStoreSaveMessage({
+          message: {
+            type: response.type,
+            from: response.from,
+            to: response.to,
+            id: response.id,
+            threadId: response.thid,
+            data: response.body,
+            createdAt: response.created_time,
+          },
+        })
       } catch (ex) {
         debug(ex)
       }
