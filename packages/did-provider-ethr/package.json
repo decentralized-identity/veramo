@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-ethr",
   "description": "Veramo ethr-did based identity controller plugin.",
-  "version": "6.0.0",
+  "version": "5.5.0",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -13,7 +13,7 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "debug": "^4.3.3",
-    "ethr-did": "3.0.1"
+    "ethr-did": "^3.0.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

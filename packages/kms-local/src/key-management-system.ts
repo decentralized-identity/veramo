@@ -242,9 +242,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed raw transaction
    */
   private async eth_signTransaction(privateKeyHex: string, rlpTransaction: Uint8Array) {
-    // TODO: Make 100x sure this works.
-    // can we assume the rlptransaction is always base16 encoded? We see in the key-manager there is an encoding option
-    const transaction = Transaction.from("0x" + u8a.toString(rlpTransaction, 'base16'))
+    const transaction = Transaction.from(u8a.toString(rlpTransaction, 'base16'))
     const wallet = new Wallet(privateKeyHex)
     if (transaction.from) {
       debug('WARNING: executing a transaction signing request with a `from` field.')
@@ -264,7 +262,6 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed digest in compact format
    */
   private eth_rawSign(managedKey: string, data: Uint8Array) {
-    // Is compact serialized really what we want?
     return new SigningKey('0x' + managedKey).sign(data).compactSerialized
   }
 

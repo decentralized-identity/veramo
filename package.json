@@ -24,8 +24,7 @@
     "docs": "pnpm docs:copy && pnpm docs:build",
     "docs:copy": "ts-node ./scripts/docs-copy.ts",
     "docs:build": "ts-node ./scripts/docs-build.ts && pnpm docs:pretty",
-    "docs:pretty": "prettier --write docs/**/*.md",
-    "inditest": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-import-meta-resolve\" jest --config=jest.config.mjs __tests__/localJsonStoreAgent.test.ts"
+    "docs:pretty": "prettier --write docs/**/*.md"
   },
   "devDependencies": {
     "@jest/globals": "29.7.0",
