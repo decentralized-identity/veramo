@@ -9,6 +9,19 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
+type RecipientUpdateBody = {
+  updates: {
+    recipient_did: string
+    action: 'add' | 'remove'
+  }[]
+}
+
+interface RecipientUpdateMessage extends IDIDCommMessage {
+  type: CoordinateMediation.RECIPIENT_UPDATE
+  body: RecipientUpdateBody
+  return_route: 'all'
+}
+
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -50,7 +63,7 @@ export function createMediateRequestMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createMediateGrantMessage(
+function createMediateGrantMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
@@ -79,6 +92,25 @@ export function createStatusRequestMessage(recipientDidUrl: string, mediatorDidU
     from: recipientDidUrl,
     return_route: 'all',
     body: {},
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function createRecipientUpdateMessage(
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+  updates: RecipientUpdateMessage['body']['updates'],
+): RecipientUpdateMessage {
+  return {
+    type: CoordinateMediation.RECIPIENT_UPDATE,
+    from: recipientDidUrl,
+    to: mediatorDidUrl,
+    id: v4(),
+    created_time: new Date().toISOString(),
+    body: { updates: updates },
+    return_route: 'all',
   }
 }
 
@@ -146,7 +178,14 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
   }
 
   private async handleRecipientUpdate(message: Message, context: IContext): Promise<Message> {
+    const { to, from, body } = message
     debug('MediateRecipientUpdate Message Received')
+    if (!from) {
+      throw new Error('invalid_argument: MediateRecipientUpdate received without `from` set')
+    }
+    if (!to) {
+      throw new Error('invalid_argument: MediateRecipientUpdate received without `to` set')
+    }
     return message
   }
 
