@@ -2,8 +2,6 @@ import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, RequireOnly } 
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { hexToBytes, bytesToMultibase } from '@veramo/utils'
 import { SigningKey } from 'ethers'
-import { base58btc } from 'multiformats/bases/base58'
-import Multicodec from 'multicodec'
 
 import Debug from 'debug'
 
