@@ -14,7 +14,7 @@ interface Update {
   action: 'add' | 'remove'
 }
 interface UpdateResult extends Update {
-  success: boolean
+  result: 'success' | 'no_change' | 'client_error' | 'server_error'
 }
 type RecipientUpdateBody = {
   updates: Update[]
@@ -201,18 +201,21 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
     }
     /** TODO: use whitelist to determine if we can update the "recipient_did" */
-    const applyUpdate = async ({ recipient_did, action }: Update): Promise<UpdateResult> => {
+    const applyUpdate = async (update: Update): Promise<UpdateResult> => {
       // confirm the recipient_did is a valid did
-      const existing_did = await context.agent.didManagerGet({ did: recipient_did })
-      if (!existing_did && action === 'add') {
-        // TODO: check how the agent can accept an existing_did
-        const did = await context.agent.didManagerCreate({ alias: recipient_did })
-        return { recipient_did, action, success: !!did }
-      } else if (existing_did && action === 'remove') {
-        const success = await context.agent.didManagerDelete({ did: recipient_did })
-        return { recipient_did, action, success }
+      const existing = await context.agent.didManagerGet({ did: update.recipient_did })
+      if (existing && existing.did === update.recipient_did && update.action === 'add') {
+        return { ...update, result: 'no_change' }
       }
-      return { recipient_did, action, success: false }
+      if (!existing && update.action === 'add') {
+        // TODO: check how the agent can accept an existing_did
+        const did = await context.agent.didManagerCreate({ alias: update.recipient_did })
+        return { ...update, result: did ? 'success' : 'server_error' }
+      } else if (existing && update.action === 'remove') {
+        const success = await context.agent.didManagerDelete({ did: update.recipient_did })
+        return { ...update, result: success ? 'success' : 'server_error' }
+      }
+      return { ...update, result: 'no_change' }
     }
     const updateResults = updates.map(async (update) => await applyUpdate(update))
 
