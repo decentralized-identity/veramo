@@ -1,4 +1,4 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore } from '@veramo/core-types'
+import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IIdentifier } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -9,11 +9,13 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
+type Update = {
+  recipient_did: string
+  action: 'add' | 'remove'
+}
+
 type RecipientUpdateBody = {
-  updates: {
-    recipient_did: string
-    action: 'add' | 'remove'
-  }[]
+  updates: Update[]
 }
 
 interface RecipientUpdateMessage extends IDIDCommMessage {
@@ -177,8 +179,12 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     return message
   }
 
-  private async handleRecipientUpdate(message: Message, context: IContext): Promise<Message> {
-    const { to, from, body } = message
+  private async handleRecipientUpdate(message: RecipientUpdateMessage, context: IContext): Promise<Message> {
+    const {
+      to,
+      from,
+      body: { updates = [] },
+    } = message
     debug('MediateRecipientUpdate Message Received')
     if (!from) {
       throw new Error('invalid_argument: MediateRecipientUpdate received without `from` set')
@@ -186,6 +192,24 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     if (!to) {
       throw new Error('invalid_argument: MediateRecipientUpdate received without `to` set')
     }
+    if (!updates || updates.length === 0) {
+      throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
+    }
+    /** TODO: use whitelist to determine if we can update the "recipient_did" */
+    const applyUpdate = async ({ recipient_did, action }: Update): Promise<IIdentifier> => {
+      const did = await context.agent.didManagerGet({ did: recipient_did })
+      if (action === 'add') {
+        // handle add case
+      }
+      if (action === 'remove') {
+        // handle remove case
+      }
+      return did
+    }
+    updates.forEach(applyUpdate)
+
+    // TODO: add meta data and address ts complaints on return type
+    // @ts-ignore
     return message
   }
 
@@ -199,6 +223,8 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
         return await this.handleMediateRequest(message, context)
       }
       if (message.type === CoordinateMediation.RECIPIENT_UPDATE) {
+        // TODO: validate message format
+        // @ts-ignore
         return await this.handleRecipientUpdate(message, context)
       }
     } catch (ex) {
