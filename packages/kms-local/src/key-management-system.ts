@@ -269,11 +269,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a base64url encoded signature for the `EdDSA` alg
    */
   private async signEdDSA(key: string, data: Uint8Array): Promise<string> {
-    //TODO: Make sure this works as we removed the option from the arrayify method
-    if (key && key.substring(0, 2) !== "0x") {
-      key = "0x" + key;
-    }
-    const signer = EdDSASigner(getBytes(key))
+    const signer = EdDSASigner(hexToBytes(key))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -287,10 +283,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     alg: string | undefined,
     data: Uint8Array,
   ): Promise<string> {
-    if (privateKeyHex && privateKeyHex.substring(0, 2) !== "0x") {
-      privateKeyHex = "0x" + privateKeyHex;
-    }
-    const signer = ES256KSigner(getBytes(privateKeyHex), alg === 'ES256K-R')
+    const signer = ES256KSigner(hexToBytes(privateKeyHex), alg === 'ES256K-R')
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -300,10 +293,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a base64url encoded signature for the `ES256` alg
    */
   private async signES256(privateKeyHex: string, data: Uint8Array): Promise<string> {
-    if (privateKeyHex && privateKeyHex.substring(0, 2) !== "0x") {
-      privateKeyHex = "0x" + privateKeyHex;
-    }
-    const signer = ES256Signer(getBytes(privateKeyHex))
+    const signer = ES256Signer(hexToBytes(privateKeyHex))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
