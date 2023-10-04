@@ -765,7 +765,7 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       ethr-did:
-        specifier: 3.0.1
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@types/debug':
@@ -1090,7 +1090,7 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       ethers:
-        specifier: 6.7.1
+        specifier: ^6.7.1
         version: 6.7.1
     devDependencies:
       '@types/debug':
