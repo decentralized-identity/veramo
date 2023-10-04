@@ -101,7 +101,7 @@ export interface EthrNetworkConfiguration {
    *
    * Example, chainId==42 and name==undefined => DIDs are prefixed with `did:ethr:0x2a:`
    */
-  chainId?: string | bigint
+  chainId?: string | number | bigint
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [index: string]: any

@@ -107,7 +107,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
                 rpcUrl: 'https://goerli.infura.io/v3/' + INFURA_PROJECT_ID,
               },
               {
-                chainId: BigInt(421613),
+                chainId: 421613,
                 name: 'arbitrum:goerli',
                 rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + INFURA_PROJECT_ID,
                 registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',

@@ -173,22 +173,22 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             networks: [
               {
                 name: 'mainnet',
-                chainId: BigInt(1),
+                chainId: 1,
                 rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
               },
               {
                 name: 'goerli',
-                chainId: BigInt(5),
+                chainId: 5,
                 rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
               },
               {
-                chainId: BigInt(421613),
+                chainId: 421613,
                 name: 'arbitrum:goerli',
                 rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
                 registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
               },
               {
-                chainId: BigInt(1337),
+                chainId: 1337,
                 name: 'ganache',
                 provider,
                 registry,
@@ -219,7 +219,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           networks: [
             {
               name: 'ganache',
-              chainId: BigInt(1337),
+              chainId: 1337,
               provider,
               registry,
             },
