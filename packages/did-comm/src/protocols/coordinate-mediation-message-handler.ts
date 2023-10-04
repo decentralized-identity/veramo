@@ -9,11 +9,13 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
-type Update = {
+interface Update {
   recipient_did: string
   action: 'add' | 'remove'
 }
-
+interface UpdateResult extends Update {
+  success: boolean
+}
 type RecipientUpdateBody = {
   updates: Update[]
 }
@@ -179,6 +181,9 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     return message
   }
 
+  /**
+   * Used to notify the mediator of DIDs in use by the recipient
+   **/
   private async handleRecipientUpdate(message: RecipientUpdateMessage, context: IContext): Promise<Message> {
     const {
       to,
@@ -192,21 +197,23 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     if (!to) {
       throw new Error('invalid_argument: MediateRecipientUpdate received without `to` set')
     }
-    if (!updates || updates.length === 0) {
+    if (!updates.length) {
       throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
     }
     /** TODO: use whitelist to determine if we can update the "recipient_did" */
-    const applyUpdate = async ({ recipient_did, action }: Update): Promise<IIdentifier> => {
-      const did = await context.agent.didManagerGet({ did: recipient_did })
-      if (action === 'add') {
+    const applyUpdate = async ({ recipient_did, action }: Update): Promise<UpdateResult> => {
+      // confirm the recipient_did is a valid did
+      const existing_did = await context.agent.didManagerGet({ did: recipient_did })
+      if (!existing_did && action === 'add') {
+        // await context.agent.
         // handle add case
+      } else if (existing_did && action === 'remove') {
+        const success = await context.agent.didManagerDelete({ did: recipient_did })
+        return { recipient_did, action, success }
       }
-      if (action === 'remove') {
-        // handle remove case
-      }
-      return did
+      return { recipient_did, action, success: false }
     }
-    updates.forEach(applyUpdate)
+    const updateResults = updates.map(async (update) => await applyUpdate(update))
 
     // TODO: add meta data and address ts complaints on return type
     // @ts-ignore
