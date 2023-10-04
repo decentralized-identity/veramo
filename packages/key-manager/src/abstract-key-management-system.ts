@@ -19,7 +19,7 @@ export abstract class AbstractKeyManagementSystem {
   /**@deprecated please use `sign({key, alg: 'eth_signTransaction', data: arrayify(serialize(transaction))})` instead */
   async signEthTX({ key, transaction }: { key: Pick<IKey, 'kid'>; transaction: object }): Promise<string> {
     const { v, r, s, from, ...tx } = <any>transaction
-    const serializedTx = Transaction.from(tx).serialized
+    const serializedTx = Transaction.from(tx).unsignedSerialized
     const data = getBytes(serializedTx)
     const algorithm = 'eth_signTransaction'
     const signedTxHexString = this.sign({ keyRef: key, data, algorithm })

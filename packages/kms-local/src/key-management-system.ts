@@ -242,7 +242,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed raw transaction
    */
   private async eth_signTransaction(privateKeyHex: string, rlpTransaction: Uint8Array) {
-    const transaction = Transaction.from(u8a.toString(rlpTransaction, 'base16'))
+    //const transaction = Transaction.from(u8a.toString(rlpTransaction, 'base16'))
+    const transaction = Transaction.from(bytesToHex(rlpTransaction, true))
     const wallet = new Wallet(privateKeyHex)
     if (transaction.from) {
       debug('WARNING: executing a transaction signing request with a `from` field.')
