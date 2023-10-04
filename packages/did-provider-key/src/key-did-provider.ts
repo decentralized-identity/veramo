@@ -51,9 +51,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     )
 
     const publicKeyHex = key.type === 'Secp256k1' ? SigningKey.computePublicKey('0x' + key.publicKeyHex, true) : key.publicKeyHex
-    const multicodecEncoded = Multicodec.addPrefix(keyOptions[keyType], hexToBytes(publicKeyHex))
-    const methodSpecificId: string = base58btc.encode(multicodecEncoded)
-    // new const methodSpecificId: string = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', keyCodecs[keyType])
+    const methodSpecificId: string = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', keyCodecs[keyType])
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:key:' + methodSpecificId,
