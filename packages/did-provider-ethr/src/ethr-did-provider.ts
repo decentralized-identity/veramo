@@ -3,7 +3,7 @@ import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { Provider, SigningKey, computeAddress, JsonRpcProvider, TransactionRequest, Signature } from 'ethers'
 import { KmsEthereumSigner } from './kms-eth-signer.js'
 import Debug from 'debug'
-import { EthrDID } from '@spherity/ethr-did'
+import { EthrDID } from 'ethr-did'
 
 const debug = Debug('veramo:did-provider-ethr')
 

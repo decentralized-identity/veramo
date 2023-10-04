@@ -50,7 +50,7 @@ import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
-import { getResolver as ethrDidResolver } from '@spherity/ethr-did-resolver'
+import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import { jest } from '@jest/globals'

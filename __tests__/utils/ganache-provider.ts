@@ -1,5 +1,5 @@
 import { BrowserProvider, Contract, ContractFactory } from 'ethers'
-import { EthereumDIDRegistry } from '@spherity/ethr-did-resolver'
+import { EthereumDIDRegistry } from 'ethr-did-resolver'
 import ganache from 'ganache'
 
 /**

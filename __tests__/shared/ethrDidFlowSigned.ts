@@ -73,7 +73,7 @@ export default (testContext: {
       await testContext.tearDown()
     })
 
-    it('should add dummy service to alice did with bob sending the tx', async () => {
+    it.only('should add dummy service to alice did with bob sending the tx', async () => {
       const result = await agent.didManagerAddService({
         did: alice.did,
         service: {

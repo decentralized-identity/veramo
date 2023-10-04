@@ -4,7 +4,6 @@
   "version": "5.5.1",
   "private": true,
   "dependencies": {
-    "@spherity/ethr-did-resolver": "9.0.4",
     "@veramo/core": "workspace:*",
     "@veramo/core-types": "workspace:*",
     "@veramo/credential-ld": "workspace:*",
@@ -31,7 +30,7 @@
     "buffer": "npm:buffer",
     "crypto": "npm:crypto-browserify",
     "did-resolver": "^4.1.0",
-    "ethr-did-resolver": "^8.1.2",
+    "ethr-did-resolver": "^9.0.0",
     "path": "npm:path-browserify",
     "process": "npm:process",
     "react": "18.2.0",
