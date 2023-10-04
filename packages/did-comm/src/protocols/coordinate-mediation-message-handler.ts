@@ -67,7 +67,7 @@ export function createMediateRequestMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-function createMediateGrantMessage(
+export function createMediateGrantMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
@@ -205,8 +205,9 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       // confirm the recipient_did is a valid did
       const existing_did = await context.agent.didManagerGet({ did: recipient_did })
       if (!existing_did && action === 'add') {
-        // await context.agent.
-        // handle add case
+        // TODO: check how the agent can accept an existing_did
+        const did = await context.agent.didManagerCreate({ alias: recipient_did })
+        return { recipient_did, action, success: !!did }
       } else if (existing_did && action === 'remove') {
         const success = await context.agent.didManagerDelete({ did: recipient_did })
         return { recipient_did, action, success }
