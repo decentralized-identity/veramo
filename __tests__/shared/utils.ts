@@ -59,5 +59,28 @@ export default (testContext: {
         `eip155:1:${account}`,
       )
     })
+
+    it('should verify JWT credential signed by did:peer (multibase + multicodec) (github #1248)', async () => {
+      // did:peer uses publicKeyMultibase
+      const issuer = await agent.didManagerCreate({
+        provider: 'did:peer',
+        options: {
+          num_algo: 0
+        }
+      })
+      const payload = {
+        issuer: issuer.did,
+        credentialSubject: {
+          nothing: 'else matters',
+        },
+      }
+      const credential = await agent.createVerifiableCredential({
+        credential: payload,
+        proofFormat: 'jwt',
+      })
+
+      const verifyResult = await agent.verifyCredential({ credential })
+      expect(verifyResult.verified).toBeTruthy()
+    })
   })
 }

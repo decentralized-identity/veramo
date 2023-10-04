@@ -28,7 +28,7 @@
     "@veramo/utils": "workspace:^",
     "cross-fetch": "^4.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^7.2.5",
+    "did-jwt": "^7.4.1",
     "did-resolver": "^4.1.0",
     "isomorphic-webcrypto": "^2.3.8",
     "uuid": "^9.0.0"

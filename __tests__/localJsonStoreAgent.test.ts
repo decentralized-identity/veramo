@@ -16,9 +16,7 @@ import {
   IResolver,
   TAgent,
 } from '../packages/core-types/src'
-import {
-  createAgent
-} from '../packages/core/src'
+import { createAgent } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
@@ -53,6 +51,7 @@ import {
   PrivateKeyStoreJson,
 } from '../packages/data-store-json/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+import { PeerDIDProvider, getResolver as getDidPeerResolver } from '../packages/did-provider-peer/src'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
@@ -162,6 +161,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:peer': new PeerDIDProvider({
+            defaultKms: 'local',
+          }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
           }),
@@ -176,6 +178,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
+          ...getDidPeerResolver(),
           ...getDidPkhResolver(),
           ...getDidJwkResolver(),
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),

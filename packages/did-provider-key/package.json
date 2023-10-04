@@ -17,9 +17,7 @@
     "@veramo/did-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-resolver": "^4.1.0",
-    "multicodec": "^3.2.1",
-    "multiformats": "^12.0.1"
+    "did-resolver": "^4.1.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

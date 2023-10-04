@@ -10,15 +10,16 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
+    "@ipld/dag-pb": "^4.0.5",
     "@noble/curves": "^1.1.0",
-    "@noble/hashes": "^1.3.1",
     "@veramo/core-types": "workspace:^",
     "credential-status": "^2.0.5",
     "cross-fetch": "^4.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^7.2.5",
-    "did-jwt-vc": "^3.2.5",
+    "did-jwt": "^7.4.1",
+    "did-jwt-vc": "^3.2.10",
     "did-resolver": "^4.1.0",
+    "ipfs-unixfs": "^11.1.0",
     "multiformats": "^12.0.1",
     "uint8arrays": "^4.0.6"
   },

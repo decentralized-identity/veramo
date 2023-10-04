@@ -29,6 +29,7 @@ import {
   VeramoEd25519Signature2018,
 } from '@veramo/credential-ld'
 import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from '@veramo/did-provider-peer'
 import { getDidPkhResolver, PkhDIDProvider } from '@veramo/did-provider-pkh'
 import { getDidJwkResolver, JwkDIDProvider } from '@veramo/did-provider-jwk'
 import { DIDComm, DIDCommMessageHandler, IDIDComm } from '@veramo/did-comm'
@@ -74,6 +75,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
           ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
+          ...getDidPeerResolver(),
           ...getDidPkhResolver(),
           ...getDidJwkResolver(),
           ...new FakeDidResolver(() => agent as TAgent<IDIDManager>).getDidFakeResolver(),
@@ -116,6 +118,9 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
             defaultKms: 'local',
           }),
           'did:key': new KeyDIDProvider({
+            defaultKms: 'local',
+          }),
+          'did:peer': new PeerDIDProvider({
             defaultKms: 'local',
           }),
           'did:pkh': new PkhDIDProvider({

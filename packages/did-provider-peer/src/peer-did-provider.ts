@@ -1,8 +1,6 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { base58btc } from 'multiformats/bases/base58'
-import Multicodec from 'multicodec'
-import { bytesToBase64url, hexToBytes, stringToUtf8Bytes } from '@veramo/utils'
+import { bytesToBase64url, bytesToMultibase, hexToBytes, stringToUtf8Bytes } from '@veramo/utils'
 
 import Debug from 'debug'
 
@@ -45,9 +43,7 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
   ): Promise<Omit<IIdentifier, 'provider'>> {
     if (options.num_algo == 0) {
       const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Ed25519' })
-      const methodSpecificId = base58btc.encode(
-        Multicodec.addPrefix('ed25519-pub', hexToBytes(key.publicKeyHex)),
-      )
+      const methodSpecificId = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
 
       const identifier: Omit<IIdentifier, 'provider'> = {
         did: 'did:peer:0' + methodSpecificId,
@@ -67,12 +63,12 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
         type: 'X25519',
       })
 
-      const authKeyText = base58btc.encode(
-        Multicodec.addPrefix('ed25519-pub', hexToBytes(authKey.publicKeyHex)),
-      )
+      const authKeyText = bytesToMultibase(hexToBytes(authKey.publicKeyHex), 'base58btc', 'ed25519-pub')
 
-      const agreementKeyText = base58btc.encode(
-        Multicodec.addPrefix('x25519-pub', hexToBytes(agreementKey.publicKeyHex)),
+      const agreementKeyText = bytesToMultibase(
+        hexToBytes(agreementKey.publicKeyHex),
+        'base58btc',
+        'x25519-pub',
       )
 
       const ServiceEncoded = encodeService(options.service)

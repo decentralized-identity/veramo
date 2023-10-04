@@ -49,6 +49,7 @@ import { KeyManagementSystem } from '../packages/kms-local/src'
 import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+import { PeerDIDProvider, getResolver as getDidPeerResolver } from "../packages/did-provider-peer/src";
 
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -159,6 +160,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:peer': new PeerDIDProvider({
+            defaultKms: 'local'
+          }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
           }),
@@ -172,6 +176,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ...ethrDidResolver({ infuraProjectId }),
         ...webDidResolver(),
         ...getDidKeyResolver(),
+        ...getDidPeerResolver(),
         ...getDidPkhResolver(),
         ...getDidJwkResolver(),
         ...new FakeDidResolver(() => agent).getDidFakeResolver(),

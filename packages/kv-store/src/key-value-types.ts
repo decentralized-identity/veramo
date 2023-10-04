@@ -121,7 +121,7 @@ export interface IKeyValueStore<ValueType extends ValueStoreType> {
   /**
    * Determine whether the store has the value belonging to the provided key
    *
-   * @param key The key to search for
+   * @param key - The key to search for
    */
   has(key: string): Promise<boolean>
 

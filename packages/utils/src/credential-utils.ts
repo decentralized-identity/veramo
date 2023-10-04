@@ -11,8 +11,11 @@ import {
 } from '@veramo/core-types'
 import { decodeJWT } from 'did-jwt'
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc'
-import { blake2b } from '@noble/hashes/blake2b'
-import { bytesToHex } from './encodings.js'
+import { code, encode, prepare } from '@ipld/dag-pb'
+import * as Digest from 'multiformats/hashes/digest'
+import { CID } from 'multiformats/cid'
+import { UnixFS } from 'ipfs-unixfs'
+import { sha256 } from '@noble/hashes/sha256'
 
 /**
  * Every Verifiable Credential `@context` property must contain this.
@@ -96,7 +99,15 @@ export function computeEntryHash(
   } else {
     hashable = JSON.stringify(input)
   }
-  return bytesToHex(blake2b(hashable))
+
+  const unixfs = new UnixFS({
+    type: 'file',
+    data: new TextEncoder().encode(hashable)
+  })
+
+  const bytes = encode(prepare({ Data: unixfs.marshal() }))
+  const digest = Digest.create(18, sha256(bytes))
+  return CID.create(0, code, digest).toString()
 }
 
 /**
@@ -104,7 +115,7 @@ export function computeEntryHash(
  * `iss` from a JWT or `issuer`/`issuer.id` from a VC or `holder` from a VP
  *
  * @param input - the credential or presentation whose issuer/holder needs to be extracted.
- * @param options
+ * @param options - options for the extraction
  *   removeParameters - Remove all DID parameters from the issuer ID
  *
  * @beta This API may change without a BREAKING CHANGE notice.

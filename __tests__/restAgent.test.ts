@@ -47,6 +47,7 @@ import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from "../packages/did-provider-peer/src";
 import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
@@ -189,6 +190,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
+          'did:peer': new PeerDIDProvider({
+            defaultKms: 'local'
+          }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
           }),
@@ -204,6 +208,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...webDidResolver(),
           // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
           ...getDidKeyResolver(),
+          ...getDidPeerResolver(),
           ...getDidPkhResolver(),
           ...getDidJwkResolver(),
           ...new FakeDidResolver(() => serverAgent as TAgent<IDIDManager>).getDidFakeResolver(),
