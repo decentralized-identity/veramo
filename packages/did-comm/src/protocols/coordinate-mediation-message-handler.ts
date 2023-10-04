@@ -12,12 +12,13 @@ type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export enum MessageTypes {
+export enum CoordinateMediation {
   MEDIATE_REQUEST = 'https://didcomm.org/coordinate-mediation/3.0/mediate-request',
   MEDIATE_GRANT = 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
   MEDIATE_DENY = 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
-  MEDIATE_RECIPIENT_UPDATE = 'https://didcomm.org/coordinate-mediation/3.0/recipient-update',
-  MEDIATE_RECIPIENT = 'https://didcomm.org/coordinate-mediation/3.0/recipient',
+  RECIPIENT_UPDATE = 'https://didcomm.org/coordinate-mediation/3.0/recipient-update',
+  RECIPIENT_UPDATE_RESPONSE = 'https://didcomm.org/coordinate-mediation/3.0/recipient-update-response',
+  RECIPIENT = 'https://didcomm.org/coordinate-mediation/3.0/recipient',
 }
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -37,7 +38,7 @@ export function createMediateRequestMessage(
   mediatorDidUrl: string,
 ): IDIDCommMessage {
   return {
-    type: MessageTypes.MEDIATE_REQUEST,
+    type: CoordinateMediation.MEDIATE_REQUEST,
     from: recipientDidUrl,
     to: mediatorDidUrl,
     id: v4(),
@@ -55,7 +56,7 @@ export function createMediateGrantMessage(
   thid: string,
 ): IDIDCommMessage {
   return {
-    type: MessageTypes.MEDIATE_GRANT,
+    type: CoordinateMediation.MEDIATE_GRANT,
     from: mediatorDidUrl,
     to: recipientDidUrl,
     id: v4(),
@@ -107,51 +108,62 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     super()
   }
 
+  private async handleMediateRequest(message: Message, context: IContext): Promise<Message> {
+    const { to, from } = message
+    debug('MediateRequest Message Received')
+    if (!from) {
+      throw new Error('invalid_argument: MediateRequest received without `from` set')
+    }
+    if (!to) {
+      throw new Error('invalid_argument: MediateRequest received without `to` set')
+    }
+    // Grant requests to all recipients
+    // TODO: Come up with a method for approving and rejecting recipients
+    const response = createMediateGrantMessage(from, to, message.id)
+    const packedResponse = await context.agent.packDIDCommMessage({
+      message: response,
+      packing: 'authcrypt',
+    })
+    const returnResponse = {
+      id: response.id,
+      message: packedResponse.message,
+      contentType: DIDCommMessageMediaType.ENCRYPTED,
+    }
+    message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+    // Save message to track recipients
+    await context.agent.dataStoreSaveMessage({
+      message: {
+        type: response.type,
+        from: response.from,
+        to: response.to,
+        id: response.id,
+        threadId: response.thid,
+        data: response.body,
+        createdAt: response.created_time,
+      },
+    })
+    return message
+  }
+
+  private async handleRecipientUpdate(message: Message, context: IContext): Promise<Message> {
+    debug('MediateRecipientUpdate Message Received')
+    return message
+  }
+
   /**
    * Handles a Mediator Coordinator messages for the mediator role
-   * https://didcomm.org/mediator-coordination/2.0/
+   * https://didcomm.org/mediator-coordination/3.0/
    */
   public async handle(message: Message, context: IContext): Promise<Message> {
-    if (message.type === MessageTypes.MEDIATE_REQUEST) {
-      debug('MediateRequest Message Received')
-      try {
-        const { from, to, returnRoute } = message
-        if (!from) {
-          throw new Error('invalid_argument: MediateRequest received without `from` set')
-        }
-        if (!to) {
-          throw new Error('invalid_argument: MediateRequest received without `to` set')
-        }
-        // Grant requests to all recipients
-        // TODO: Come up with a method for approving and rejecting recipients
-        const response = createMediateGrantMessage(from, to, message.id)
-        const packedResponse = await context.agent.packDIDCommMessage({
-          message: response,
-          packing: 'authcrypt',
-        })
-        const returnResponse = {
-          id: response.id,
-          message: packedResponse.message,
-          contentType: DIDCommMessageMediaType.ENCRYPTED,
-        }
-        message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
-
-        // Save message to track recipients
-        await context.agent.dataStoreSaveMessage({
-          message: {
-            type: response.type,
-            from: response.from,
-            to: response.to,
-            id: response.id,
-            threadId: response.thid,
-            data: response.body,
-            createdAt: response.created_time,
-          },
-        })
-      } catch (ex) {
-        debug(ex)
+    try {
+      if (message.type === CoordinateMediation.MEDIATE_REQUEST) {
+        return await this.handleMediateRequest(message, context)
       }
-      return message
+      if (message.type === CoordinateMediation.RECIPIENT_UPDATE) {
+        return await this.handleRecipientUpdate(message, context)
+      }
+    } catch (ex) {
+      debug(ex)
     }
 
     return super.handle(message, context)
@@ -172,7 +184,7 @@ export class CoordinateMediationRecipientMessageHandler extends AbstractMessageH
    * https://didcomm.org/mediator-coordination/2.0/
    */
   public async handle(message: Message, context: IContext): Promise<Message> {
-    if (message.type === MessageTypes.MEDIATE_GRANT) {
+    if (message.type === CoordinateMediation.MEDIATE_GRANT) {
       debug('MediateGrant Message Received')
       try {
         const { from, to, data, threadId } = message
@@ -210,7 +222,7 @@ export class CoordinateMediationRecipientMessageHandler extends AbstractMessageH
         debug(ex)
       }
       return message
-    } else if (message.type === MessageTypes.MEDIATE_DENY) {
+    } else if (message.type === CoordinateMediation.MEDIATE_DENY) {
       debug('MediateDeny Message Received')
       try {
         const { from, to } = message

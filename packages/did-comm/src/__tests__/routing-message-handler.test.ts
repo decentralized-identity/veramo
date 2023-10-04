@@ -21,7 +21,7 @@ import {
   CoordinateMediationMediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
-  MessageTypes,
+  CoordinateMediation,
 } from '../protocols/coordinate-mediation-message-handler.js'
 import { DIDCommMessageMediaType } from '../types/message-types.js'
 import {
@@ -289,7 +289,7 @@ describe('routing-message-handler', () => {
     // 2. Save deny message
     await agent.dataStoreSaveMessage({
       message: {
-        type: MessageTypes.MEDIATE_DENY,
+        type: CoordinateMediation.MEDIATE_DENY,
         from: mediator.did,
         to: recipient.did,
         id: v4(),
@@ -371,7 +371,7 @@ describe('routing-message-handler', () => {
     // 2. Save deny message
     await agent.dataStoreSaveMessage({
       message: {
-        type: MessageTypes.MEDIATE_DENY,
+        type: CoordinateMediation.MEDIATE_DENY,
         from: mediator.did,
         to: recipient.did,
         id: v4(),
