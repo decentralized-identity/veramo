@@ -35,7 +35,6 @@ import {
   convertEd25519PublicKeyToX25519,
   hexToBytes,
 } from '@veramo/utils'
-import * as u8a from 'uint8arrays'
 
 const debug = Debug('veramo:kms:local')
 

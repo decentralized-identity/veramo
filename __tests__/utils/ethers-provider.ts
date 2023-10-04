@@ -24,9 +24,7 @@ class MockWeb3Provider implements Eip1193Provider {
         delete(types.EIP712Domain)
         return this.wallet.signTypedData(domain, types, message)
       case 'eth_accounts':
-        return [
-            "0x71CB05EE1b1F506fF321Da3dac38f25c0c9ce6E1"
-        ]
+        return [await this.wallet.getAddress()]
       case 'eth_chainId':
         return "1337"
       break

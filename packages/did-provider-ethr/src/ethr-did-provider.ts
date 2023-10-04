@@ -33,7 +33,7 @@ export interface CreateDidEthrOptions {
    *
    * If this is not specified, `mainnet` is assumed.
    */
-  network?: string | bigint
+  network?: string | number | bigint
 
   /**
    * This is usually a did prefix, like `did:ethr` or `did:ethr:goerli` and can be used to determine the desired
@@ -168,6 +168,9 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       } else if (typeof options.network === 'bigint') {
         singleNetwork.chainId = options.network
         singleNetwork.name = options.name
+      } else if (typeof options.network === 'number') {
+        singleNetwork.chainId = BigInt(options.network)
+        singleNetwork.name = options.name
       }
       this.networks = [singleNetwork]
     }
@@ -201,7 +204,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
         `invalid_setup: Cannot create did:ethr. There is no known configuration for network=${networkSpecifier}'`,
       )
     }
-    if (typeof networkSpecifier === 'bigint') {
+    if (typeof networkSpecifier === 'bigint' || typeof networkSpecifier === 'number') {
       networkSpecifier =
         network.name && network.name.length > 0
           ? network.name
@@ -233,15 +236,19 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     return true
   }
 
-  private getNetworkFor(networkSpecifier: string | bigint | undefined): EthrNetworkConfiguration | undefined {
-    let networkNameOrId: string | bigint = networkSpecifier || 'mainnet'
-    if (
-      typeof networkNameOrId === 'string' &&
-      (networkNameOrId.startsWith('0x') || parseInt(networkNameOrId) > 0)
-    ) {
-    }
+  private getNetworkFor(networkSpecifier: string | number | bigint | undefined): EthrNetworkConfiguration | undefined {
+    let networkNameOrId: string | number | bigint = networkSpecifier || 'mainnet'
     let network = this.networks.find(
-      (n) => n.chainId === networkNameOrId || n.name === networkNameOrId || n.description === networkNameOrId,
+      (n) => {
+        if(n.chainId) {
+          if(typeof networkSpecifier === 'bigint') {
+            if(BigInt(n.chainId) === networkNameOrId) return n
+          } else {
+            if(n.chainId === networkNameOrId) return n
+          }
+        }
+        if(n.name === networkNameOrId || n.description === networkNameOrId) return n
+      },
     )
     if (!network && !networkSpecifier && this.networks.length === 1) {
       network = this.networks[0]
