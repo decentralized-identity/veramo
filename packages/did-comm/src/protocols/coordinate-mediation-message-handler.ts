@@ -16,9 +16,18 @@ export enum MessageTypes {
   MEDIATE_REQUEST = 'https://didcomm.org/coordinate-mediation/3.0/mediate-request',
   MEDIATE_GRANT = 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
   MEDIATE_DENY = 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
-  STATUS_REQUEST = 'https://didcomm.org/messagepickup/3.0/status-request',
-  DELIVERY_REQUEST = 'https://didcomm.org/messagepickup/3.0/delivery-request',
+  MEDIATE_RECIPIENT_UPDATE = 'https://didcomm.org/coordinate-mediation/3.0/recipient-update',
+  MEDIATE_RECIPIENT = 'https://didcomm.org/coordinate-mediation/3.0/recipient',
 }
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export const STATUS_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/status-request'
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export const DELIVERY_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/delivery-request'
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -64,7 +73,7 @@ export function createMediateGrantMessage(
 export function createStatusRequestMessage(recipientDidUrl: string, mediatorDidUrl: string): IDIDCommMessage {
   return {
     id: v4(),
-    type: MessageTypes.STATUS_REQUEST,
+    type: STATUS_REQUEST_MESSAGE_TYPE,
     to: mediatorDidUrl,
     from: recipientDidUrl,
     return_route: 'all',
@@ -81,7 +90,7 @@ export function createDeliveryRequestMessage(
 ): IDIDCommMessage {
   return {
     id: v4(),
-    type: MessageTypes.DELIVERY_REQUEST,
+    type: DELIVERY_REQUEST_MESSAGE_TYPE,
     to: mediatorDidUrl,
     from: recipientDidUrl,
     return_route: 'all',
