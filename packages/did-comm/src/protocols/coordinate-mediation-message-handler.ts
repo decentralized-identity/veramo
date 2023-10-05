@@ -1,11 +1,4 @@
-import {
-  IAgentContext,
-  IDIDManager,
-  IKeyManager,
-  IDataStore,
-  IIdentifier,
-  MinimalImportableIdentifier,
-} from '@veramo/core-types'
+import { IAgentContext, IDIDManager, IKeyManager, IDataStore } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -16,21 +9,39 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
+enum UpdateAction {
+  ADD = 'add',
+  REMOVE = 'remove',
+}
+
+enum Result {
+  SUCCESS = 'success',
+  NO_CHANGE = 'no_change',
+  CLIENT_ERROR = 'client_error',
+  SERVER_ERROR = 'server_error',
+}
+
 interface Update {
   recipient_did: string
-  action: 'add' | 'remove'
+  action: UpdateAction
 }
 interface UpdateResult extends Update {
-  result: 'success' | 'no_change' | 'client_error' | 'server_error'
+  result: Result
 }
 type RecipientUpdateBody<T extends Update | UpdateResult> = {
   updates: T[]
 }
 
-interface RecipientUpdateMessage<T extends Update | UpdateResult> extends IDIDCommMessage {
+interface RecipientUpdateMessage extends Message {
   type: CoordinateMediation.RECIPIENT_UPDATE
-  body: RecipientUpdateBody<T>
+  body: RecipientUpdateBody<Update>
   return_route: 'all'
+}
+
+interface RecipientUpdateResponseMessage extends Message {
+  type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE
+  body: RecipientUpdateBody<UpdateResult>
+  created_time?: string
 }
 
 /**
@@ -113,7 +124,7 @@ export function createRecipientUpdateMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
   updates: Update[],
-): RecipientUpdateMessage<Update> {
+): IDIDCommMessage {
   return {
     type: CoordinateMediation.RECIPIENT_UPDATE,
     from: recipientDidUrl,
@@ -122,6 +133,25 @@ export function createRecipientUpdateMessage(
     created_time: new Date().toISOString(),
     body: { updates: updates },
     return_route: 'all',
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function createRecipientUpdateResponseMessage(
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+  updates: UpdateResult[],
+): RecipientUpdateResponseMessage {
+  // @ts-ignore
+  return {
+    type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE,
+    from: recipientDidUrl,
+    to: mediatorDidUrl,
+    id: v4(),
+    body: { updates: updates },
+    created_time: new Date().toISOString(),
   }
 }
 
@@ -191,17 +221,14 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
   /**
    * Used to notify the mediator of DIDs in use by the recipient
    **/
-  private async handleRecipientUpdate(
-    message: RecipientUpdateMessage<Update>,
-    context: IContext,
-  ): Promise<Message> {
+  private async handleRecipientUpdate(message: RecipientUpdateMessage, context: IContext): Promise<Message> {
     const {
       to,
-      from: recipient_did,
+      from,
       body: { updates = [] },
     } = message
     debug('MediateRecipientUpdate Message Received')
-    if (!recipient_did) {
+    if (!from) {
       throw new Error('invalid_argument: MediateRecipientUpdate received without `from` set')
     }
     if (!to) {
@@ -211,30 +238,41 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
     }
 
-    // get the recipient did document
-    const didDoc: IIdentifier = await context.agent.didManagerGet({ did: recipient_did })
-    // add the updates to the did document
-    const updater = {
-      async add(didDoc: IIdentifier, update: Update): Promise<UpdateResult> {
-        await context.agent.dataStoreAddRecipientDid({
-          recipient: didDoc.did,
-          recipient_did: update.recipient_did,
-        })
-        return { ...update, result: 'success' }
-      },
-      async remove(didDoc: IIdentifier, update: Update): Promise<UpdateResult> {
-        const result = await context.agent.dataStoreRemoveRecipientDid({
-          recipient: didDoc.did,
-          recipient_did: update.recipient_did,
-        })
-        if (result) return { ...update, result: 'success' }
-        return { ...update, result: 'no_change' }
-      },
+    const applyUpdate = async (update: Update) => {
+      try {
+        if (update.action === UpdateAction.ADD) {
+          await context.agent.dataStoreAddRecipientDid({
+            recipient: from,
+            recipient_did: update.recipient_did,
+          })
+          return { ...update, result: Result.SUCCESS }
+        } else if (update.action === UpdateAction.REMOVE) {
+          const result = await context.agent.dataStoreRemoveRecipientDid({
+            recipient: from,
+            recipient_did: update.recipient_did,
+          })
+          if (result) return { ...update, result: Result.SUCCESS }
+        }
+        return { ...update, result: Result.NO_CHANGE }
+      } catch (ex) {
+        debug(ex)
+        return { ...update, result: Result.SERVER_ERROR }
+      }
     }
-    const appliedUpdates = updates.map(async (update) => await updater[update.action](didDoc, update))
 
-    // TODO: add meta data and address ts complaints on return type
-    // @ts-ignore
+    const updated = await Promise.all(updates.map(async (update) => await applyUpdate(update)))
+    const response = createRecipientUpdateResponseMessage(from, to, updated)
+    const packedResponse = await context.agent.packDIDCommMessage({
+      // @ts-ignore
+      message: response,
+      packing: 'authcrypt',
+    })
+    const returnResponse = {
+      id: response.id,
+      message: packedResponse.message,
+      contentType: DIDCommMessageMediaType.ENCRYPTED,
+    }
+    message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
     return message
   }
 
@@ -248,7 +286,6 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
         return await this.handleMediateRequest(message, context)
       }
       if (message.type === CoordinateMediation.RECIPIENT_UPDATE) {
-        // TODO: validate message format
         // @ts-ignore
         return await this.handleRecipientUpdate(message, context)
       }
