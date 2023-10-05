@@ -1,4 +1,5 @@
 import { IPluginMethodMap } from './IAgent.js'
+import { IIdentifier } from './IIdentifier.js'
 import { IMessage } from './IMessage.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
 
@@ -19,9 +20,9 @@ export interface IDataStoreSaveMessageArgs {
  */
 export interface IDataStoreAddRecipientDid {
   /**
-   * Required. recipient
+   * Required. did
    */
-  recipient: string
+  did: string
   /**
    * Required. recipient did
    */
@@ -34,13 +35,20 @@ export interface IDataStoreAddRecipientDid {
  */
 export interface IDataStoreRemoveRecipientDid {
   /**
-   * Required. recipient
+   * Required. did
    */
-  recipient: string
+  did: string
   /**
    * Required. recipient did
    */
   recipient_did: string
+}
+
+export interface IDataStoreListRecipientDids {
+  /**
+   * Required. did
+   */
+  did: string
 }
 
 /**

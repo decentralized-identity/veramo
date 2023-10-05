@@ -1,4 +1,4 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore } from '@veramo/core-types'
+import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IIdentifier } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -25,23 +25,25 @@ interface Update {
   recipient_did: string
   action: UpdateAction
 }
+
 interface UpdateResult extends Update {
   result: Result
 }
-type RecipientUpdateBody<T extends Update | UpdateResult> = {
-  updates: T[]
+
+interface Query {
+  limit: number
+  offset: number
 }
 
 interface RecipientUpdateMessage extends Message {
   type: CoordinateMediation.RECIPIENT_UPDATE
-  body: RecipientUpdateBody<Update>
+  body: { updates: Update[] }
   return_route: 'all'
 }
 
-interface RecipientUpdateResponseMessage extends Message {
-  type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE
-  body: RecipientUpdateBody<UpdateResult>
-  created_time?: string
+interface RecipientQueryMessage extends Message {
+  type: CoordinateMediation.RECIPIENT_QUERY
+  body: { paginate?: Query }
 }
 
 /**
@@ -53,7 +55,8 @@ export enum CoordinateMediation {
   MEDIATE_DENY = 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
   RECIPIENT_UPDATE = 'https://didcomm.org/coordinate-mediation/3.0/recipient-update',
   RECIPIENT_UPDATE_RESPONSE = 'https://didcomm.org/coordinate-mediation/3.0/recipient-update-response',
-  RECIPIENT = 'https://didcomm.org/coordinate-mediation/3.0/recipient',
+  RECIPIENT_QUERY = 'https://didcomm.org/coordinate-mediation/3.0/recipient-query',
+  RECIPIENT_QUERY_RESPONSE = 'https://didcomm.org/coordinate-mediation/3.0/recipient',
 }
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -157,6 +160,24 @@ export function createRecipientUpdateResponseMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
+export function createRecipientQueryResponseMessage(
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+  dids: Record<'recipient_did', string>[],
+): IDIDCommMessage {
+  return {
+    type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
+    from: recipientDidUrl,
+    to: mediatorDidUrl,
+    id: v4(),
+    body: { dids },
+    created_time: new Date().toISOString(),
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export function createDeliveryRequestMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
@@ -240,30 +261,55 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
     }
 
-    const applyUpdate = async (update: Update) => {
+    const applyUpdate = async (did: string, update: Update) => {
+      const filter = { did, recipient_did: update.recipient_did }
       try {
         if (update.action === UpdateAction.ADD) {
-          await context.agent.dataStoreAddRecipientDid({
-            recipient: from,
-            recipient_did: update.recipient_did,
-          })
+          await context.agent.dataStoreAddRecipientDid(filter)
           return { ...update, result: Result.SUCCESS }
         } else if (update.action === UpdateAction.REMOVE) {
-          const result = await context.agent.dataStoreRemoveRecipientDid({
-            recipient: from,
-            recipient_did: update.recipient_did,
-          })
+          const result = await context.agent.dataStoreRemoveRecipientDid(filter)
           if (result) return { ...update, result: Result.SUCCESS }
         }
-        return { ...update, result: Result.NO_CHANGE }
+        return { ...update, result: Result.CLIENT_ERROR }
       } catch (ex) {
         debug(ex)
         return { ...update, result: Result.SERVER_ERROR }
       }
     }
 
-    const updated = await Promise.all(updates.map(async (update) => await applyUpdate(update)))
+    const updated = await Promise.all(updates.map(async (update) => await applyUpdate(from, update)))
     const response = createRecipientUpdateResponseMessage(from, to, updated)
+    const packedResponse = await context.agent.packDIDCommMessage({
+      message: response,
+      packing: 'authcrypt',
+    })
+    const returnResponse = {
+      id: response.id,
+      message: packedResponse.message,
+      contentType: DIDCommMessageMediaType.ENCRYPTED,
+    }
+    message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+    await saveMessageForTracking(response, context)
+    return message
+  }
+
+  /**
+   * Query mediator for a list of DIDs registered for this connection
+   **/
+  private async handleRecipientQuery(message: RecipientQueryMessage, context: IContext): Promise<Message> {
+    const { to, from } = message
+    debug('MediateRecipientQuery Message Received')
+    if (!from) {
+      throw new Error('invalid_argument: MediateRecipientQuery received without `from` set')
+    }
+    if (!to) {
+      throw new Error('invalid_argument: MediateRecipientQuery received without `to` set')
+    }
+
+    // TODO: implement pagination
+    const dids = await context.agent.dataStoreListRecipientDids({ did: from })
+    const response = createRecipientUpdateResponseMessage(from, to, dids)
     const packedResponse = await context.agent.packDIDCommMessage({
       message: response,
       packing: 'authcrypt',
@@ -284,18 +330,22 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
    */
   public async handle(message: Message, context: IContext): Promise<Message> {
     try {
-      if (message.type === CoordinateMediation.MEDIATE_REQUEST) {
-        return await this.handleMediateRequest(message, context)
-      }
-      if (message.type === CoordinateMediation.RECIPIENT_UPDATE) {
-        // @ts-ignore
-        return await this.handleRecipientUpdate(message, context)
+      switch (message.type) {
+        case CoordinateMediation.MEDIATE_REQUEST:
+          return await this.handleMediateRequest(message, context)
+        case CoordinateMediation.RECIPIENT_UPDATE:
+          // @ts-ignore
+          return await this.handleRecipientUpdate(message, context)
+        case CoordinateMediation.RECIPIENT_QUERY:
+          // @ts-ignore
+          return await this.handleRecipientQuery(message, context)
+        default:
+          throw new Error('invalid_argument: Mediator Coordinator received invalid message type')
       }
     } catch (ex) {
       debug(ex)
+      return super.handle(message, context)
     }
-
-    return super.handle(message, context)
   }
 }
 
