@@ -12,12 +12,15 @@ import {
   IMessage,
   VerifiableCredential,
   VerifiablePresentation,
+  IDataStoreAddRecipientDid,
+  IDataStoreRemoveRecipientDid,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
 import { createCredentialEntity, Credential } from './entities/credential.js'
 import { Claim } from './entities/claim.js'
 import { createPresentationEntity, Presentation } from './entities/presentation.js'
+import { RecipientDid } from './entities/recipient_did.js'
 import { DataSource } from 'typeorm'
 import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
@@ -46,6 +49,7 @@ export class DataStore implements IAgentPlugin {
     this.methods = {
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
       dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
+      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
       dataStoreDeleteMessage: this.dataStoreDeleteMessage.bind(this),
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
@@ -63,15 +67,21 @@ export class DataStore implements IAgentPlugin {
     return message.id
   }
 
-  async dataStoreAddRecipientDid({
-    recipient_did,
-    dids,
-  }: {
-    recipient_did: string
-    dids: string[]
-  }): Promise<void> {
+  async dataStoreAddRecipientDid({ recipient, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
     const db = await getConnectedDb(this.dbConnection)
-    return await db.getRepository(RecipientDid).save({ recipient_did, dids })
+    const result = await db.getRepository(RecipientDid).save({ recipient, recipient_did })
+    return result.recipient_did
+  }
+
+  async dataStoreRemoveRecipientDid({
+    recipient,
+    recipient_did,
+  }: IDataStoreRemoveRecipientDid): Promise<string | null> {
+    const db = await getConnectedDb(this.dbConnection)
+    const result = await db.getRepository(RecipientDid).findOneBy({ recipient_did })
+    if (!result) return result
+    await db.getRepository(RecipientDid).remove(result)
+    return result.recipient_did
   }
 
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {

@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, Relation, ManyToOne } from 'typ
 import { Identifier } from './identifier.js'
 
 @Entity('recipient_did')
-export class RecipientDID {
+export class RecipientDid {
   @PrimaryGeneratedColumn()
   id!: number
 

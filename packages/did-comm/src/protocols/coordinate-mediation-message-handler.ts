@@ -216,8 +216,20 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     // add the updates to the did document
     const updater = {
       async add(didDoc: IIdentifier, update: Update): Promise<UpdateResult> {
-        const result = await context.agent.dataStoreAddRecipientDid({ recipient: didDoc.did, did: update.recipient_did })
-
+        const result = await context.agent.dataStoreAddRecipientDid({
+          recipient: didDoc.did,
+          recipient_did: update.recipient_did,
+        })
+        if (result) return { ...update, result: 'success' }
+        return { ...update, result: 'no_change' }
+      },
+      async remove(didDoc: IIdentifier, update: Update): Promise<UpdateResult> {
+        const result = await context.agent.dataStoreRemoveRecipientDid({
+          recipient: didDoc.did,
+          recipient_did: update.recipient_did,
+        })
+        if (result) return { ...update, result: 'success' }
+        return { ...update, result: 'no_change' }
       },
     }
     const appliedUpdates = updates.map(async (update) => await updater[update.action](didDoc, update))
