@@ -21,13 +21,13 @@ import {Addressable} from "ethers";
 export class KmsEthereumSigner extends AbstractSigner {
   private context: IRequiredContext
   private controllerKey: IKey
-  readonly provider: Provider
+  readonly provider: Provider | null
 
-  constructor(controllerKey: IKey, context: IRequiredContext, provider: Provider) {
+  constructor(controllerKey: IKey, context: IRequiredContext, provider?: Provider) {
     super(provider)
     this.controllerKey = controllerKey
     this.context = context
-    this.provider = provider
+    this.provider = provider || null
   }
 
   async getAddress(): Promise<string> {

@@ -124,7 +124,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     /**
      * @deprecated Please use the `networks` parameter instead.
      */
-    network?: string | bigint
+    network?: string | number | bigint
     /**
      * @deprecated Please use the `networks` parameter instead.
      */
