@@ -143,8 +143,7 @@ export function createRecipientUpdateResponseMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
   updates: UpdateResult[],
-): RecipientUpdateResponseMessage {
-  // @ts-ignore
+): IDIDCommMessage {
   return {
     type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE,
     from: recipientDidUrl,
@@ -170,6 +169,20 @@ export function createDeliveryRequestMessage(
     return_route: 'all',
     body: { limit: 2 },
   }
+}
+
+const saveMessageForTracking = async (message: IDIDCommMessage, context: IContext) => {
+  await context.agent.dataStoreSaveMessage({
+    message: {
+      type: message.type,
+      from: message.from,
+      to: message.to,
+      id: message.id,
+      threadId: message.thid,
+      data: message.body,
+      createdAt: message.created_time,
+    },
+  })
 }
 
 /**
@@ -203,18 +216,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       contentType: DIDCommMessageMediaType.ENCRYPTED,
     }
     message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
-    // Save message to track recipients
-    await context.agent.dataStoreSaveMessage({
-      message: {
-        type: response.type,
-        from: response.from,
-        to: response.to,
-        id: response.id,
-        threadId: response.thid,
-        data: response.body,
-        createdAt: response.created_time,
-      },
-    })
+    await saveMessageForTracking(response, context)
     return message
   }
 
@@ -263,7 +265,6 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     const updated = await Promise.all(updates.map(async (update) => await applyUpdate(update)))
     const response = createRecipientUpdateResponseMessage(from, to, updated)
     const packedResponse = await context.agent.packDIDCommMessage({
-      // @ts-ignore
       message: response,
       packing: 'authcrypt',
     })
@@ -273,6 +274,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       contentType: DIDCommMessageMediaType.ENCRYPTED,
     }
     message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+    await saveMessageForTracking(response, context)
     return message
   }
 
