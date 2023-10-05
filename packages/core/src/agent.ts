@@ -29,7 +29,7 @@ const filterUnauthorizedMethods = (
 /**
  * Provides a common context for all plugin methods.
  *
- * This is the main entry point into the API of the DID Agent Framework.
+ * This is the main entry point into the API of Veramo.
  * When plugins are installed, they extend the API of the agent and the methods
  * they provide can all use the common context so that plugins can build on top
  * of each other and create a richer experience.

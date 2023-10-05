@@ -2,6 +2,7 @@ import {
   CredentialPayload,
   IAgentPlugin,
   IIdentifier,
+  IKey,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
@@ -10,6 +11,7 @@ import {
   extractIssuer,
   getChainIdForDidEthr,
   getEthereumAddress,
+  intersect,
   isDefined,
   MANDATORY_CREDENTIAL_CONTEXT,
   mapIdentifierKeysToDoc,
@@ -17,7 +19,7 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import schema from "../plugin.schema.json" assert { type: 'json' }
+import schema from '../plugin.schema.json' assert { type: 'json' }
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {
@@ -46,6 +48,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       createVerifiablePresentationEIP712: this.createVerifiablePresentationEIP712.bind(this),
       verifyCredentialEIP712: this.verifyCredentialEIP712.bind(this),
       verifyPresentationEIP712: this.verifyPresentationEIP712.bind(this),
+      matchKeyForEIP712: this.matchKeyForEIP712.bind(this),
     }
   }
 
@@ -146,7 +149,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const compat = {
       ...eip712Domain,
-      ...eip712
+      ...eip712,
     }
 
     compat.types = compat.types || compat.messageSchema
@@ -214,9 +217,10 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     }
 
     if (args.presentation.verifiableCredential) {
-      const credentials = args.presentation.verifiableCredential.map((cred) => {
+      // EIP712 arrays must use a single data type, so we map all credentials to strings.
+      presentation.verifiableCredential = args.presentation.verifiableCredential.map((cred) => {
         // map JWT credentials to their canonical form
-        if(typeof cred === 'string') {
+        if (typeof cred === 'string') {
           return cred
         } else if (cred.proof.jwt) {
           return cred.proof.jwt
@@ -224,7 +228,6 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
           return JSON.stringify(cred)
         }
       })
-      presentation.verifiableCredential = credentials
     }
 
     const holder = removeDIDParameters(presentation.holder)
@@ -303,7 +306,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const compat = {
       ...eip712Domain,
-      ...eip712
+      ...eip712,
     }
 
     compat.types = compat.types || compat.messageSchema
@@ -342,5 +345,17 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     }
 
     return false
+  }
+
+  /**
+   * Checks if a key is suitable for signing EIP712 payloads.
+   * This relies on the metadata set by the key management system to determine if this key can sign EIP712 payloads.
+   *
+   * @param k - the key to check
+   *
+   * @internal
+   */
+  async matchKeyForEIP712(k: IKey): Promise<boolean> {
+    return intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', 'EthereumEip712Signature2021']).length > 0
   }
 }

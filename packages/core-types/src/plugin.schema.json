@@ -4208,7 +4208,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved.",
-              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save\nthe credential after creating it."
+              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to\nsave the credential after creating it."
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
@@ -4422,7 +4422,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved. <p/><p/>",
-              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to\nsave the credential after creating it."
+              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation |}   *   dataStoreSaveVerifiablePresentation()} to save the credential after creating it."
             },
             "challenge": {
               "type": "string",
@@ -4568,6 +4568,167 @@
             "proof"
           ],
           "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+        },
+        "IIdentifier": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Decentralized identifier"
+            },
+            "alias": {
+              "type": "string",
+              "description": "Optional. Identifier alias. Can be used to reference an object in an external system"
+            },
+            "provider": {
+              "type": "string",
+              "description": "Identifier provider name"
+            },
+            "controllerKeyId": {
+              "type": "string",
+              "description": "Controller key id"
+            },
+            "keys": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IKey"
+              },
+              "description": "Array of managed keys"
+            },
+            "services": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IService"
+              },
+              "description": "Array of services"
+            }
+          },
+          "required": [
+            "did",
+            "provider",
+            "keys",
+            "services"
+          ],
+          "description": "Identifier interface"
+        },
+        "IKey": {
+          "type": "object",
+          "properties": {
+            "kid": {
+              "type": "string",
+              "description": "Key ID"
+            },
+            "kms": {
+              "type": "string",
+              "description": "Key Management System"
+            },
+            "type": {
+              "$ref": "#/components/schemas/TKeyType",
+              "description": "Key type"
+            },
+            "publicKeyHex": {
+              "type": "string",
+              "description": "Public key"
+            },
+            "privateKeyHex": {
+              "type": "string",
+              "description": "Optional. Private key"
+            },
+            "meta": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/KeyMetadata"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
+            }
+          },
+          "required": [
+            "kid",
+            "kms",
+            "type",
+            "publicKeyHex"
+          ],
+          "description": "Cryptographic key, usually managed by the current Veramo instance."
+        },
+        "TKeyType": {
+          "type": "string",
+          "enum": [
+            "Ed25519",
+            "Secp256k1",
+            "Secp256r1",
+            "X25519",
+            "Bls12381G1",
+            "Bls12381G2"
+          ],
+          "description": "Cryptographic key type."
+        },
+        "KeyMetadata": {
+          "type": "object",
+          "properties": {
+            "algorithms": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TAlg"
+              }
+            }
+          },
+          "description": "This encapsulates data about a key.\n\nImplementations of  {@link  @veramo/key-manager#AbstractKeyManagementSystem | AbstractKeyManagementSystem }  should populate this object, for each key, with the algorithms that can be performed using it.\n\nThis can also be used to add various tags to the keys under management."
+        },
+        "TAlg": {
+          "type": "string",
+          "description": "Known algorithms supported by some of the above key types defined by  {@link  TKeyType } .\n\nActual implementations of  {@link  @veramo/key-manager#AbstractKeyManagementSystem | Key Management Systems }  can support more. One should check the  {@link IKey.meta | IKey.meta.algorithms }  property to see what is possible for a particular managed key."
+        },
+        "IService": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "ID"
+            },
+            "type": {
+              "type": "string",
+              "description": "Service type"
+            },
+            "serviceEndpoint": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/IServiceEndpoint"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IServiceEndpoint"
+                  }
+                }
+              ],
+              "description": "Endpoint URL"
+            },
+            "description": {
+              "type": "string",
+              "description": "Optional. Description"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "serviceEndpoint"
+          ],
+          "description": "Identifier service"
+        },
+        "IServiceEndpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
+          ],
+          "description": "Represents a service endpoint URL or a map of URLs"
         }
       },
       "methods": {
@@ -4587,6 +4748,18 @@
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiablePresentation"
+          }
+        },
+        "listUsableProofFormats": {
+          "description": "Returns a list of supported proof formats.",
+          "arguments": {
+            "$ref": "#/components/schemas/IIdentifier"
+          },
+          "returnType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProofFormat"
+            }
           }
         }
       }

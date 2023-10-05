@@ -7,9 +7,7 @@
  * This suite also runs a ganache local blockchain to run through some examples of DIDComm using did:ethr identifiers.
  */
 
-import {
-  createAgent,
-} from '../packages/core/src'
+import { createAgent } from '../packages/core/src'
 import {
   IAgentOptions,
   ICredentialPlugin,
@@ -91,8 +89,9 @@ import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
-import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
+import ethrDidFlowSigned from './shared/ethrDidFlowSigned'
 import didCommWithPeerDidFlow from './shared/didCommWithPeerDidFlow.js'
+import credentialPluginTests from './shared/credentialPluginTests.js'
 
 jest.setTimeout(120000)
 
@@ -117,8 +116,7 @@ let dbConnection: Promise<DataSource>
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
-  databaseFile =
-    options?.context?.databaseFile || ':memory:'
+  databaseFile = options?.context?.databaseFile || ':memory:'
   dbConnection = new DataSource({
     name: options?.context?.['dbName'] || 'test',
     type: 'sqlite',
@@ -202,7 +200,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             defaultKms: 'local',
           }),
           'did:peer': new PeerDIDProvider({
-            defaultKms: 'local'
+            defaultKms: 'local',
           }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
@@ -303,4 +301,5 @@ describe('Local integration tests', () => {
   didCommWithPeerDidFlow(testContext)
   credentialStatus(testContext)
   ethrDidFlowSigned(testContext)
+  credentialPluginTests(testContext)
 })

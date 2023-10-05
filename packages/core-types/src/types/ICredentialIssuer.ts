@@ -9,6 +9,7 @@ import { IResolver } from './IResolver.js'
 import { IDIDManager } from './IDIDManager.js'
 import { IDataStore } from './IDataStore.js'
 import { IKeyManager } from './IKeyManager.js'
+import { IIdentifier, IKey } from "./IIdentifier.js";
 
 /**
  * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
@@ -42,8 +43,8 @@ export interface ICreateVerifiablePresentationArgs {
    * {@link @veramo/core-types#IDataStore | storage plugin} to be saved.
    * <p/><p/>
    * @deprecated Please call
-   *   {@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation | dataStoreSaveVerifiablePresentation()} to
-   *   save the credential after creating it.
+   *   {@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation |
+   *   dataStoreSaveVerifiablePresentation()} to save the credential after creating it.
    */
   save?: boolean
 
@@ -113,8 +114,8 @@ export interface ICreateVerifiableCredentialArgs {
    * {@link @veramo/core-types#IDataStore | storage plugin} to be saved.
    *
    * @deprecated Please call
-   *   {@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to save
-   *   the credential after creating it.
+   *   {@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to
+   *   save the credential after creating it.
    */
   save?: boolean
 
@@ -191,8 +192,8 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or rejects
-   *   with an error if there was a problem with the input or while getting the key to sign
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or
+   *   rejects with an error if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    */
@@ -200,6 +201,24 @@ export interface ICredentialIssuer extends IPluginMethodMap {
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
   ): Promise<VerifiableCredential>
+
+  /**
+   * Returns a list of supported proof formats.
+   * @param identifier - The identifier that may be used to sign a credential or presentation
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @beta This API may change without a BREAKING CHANGE notice.
+   */
+  listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<ProofFormat>>
+
+  /**
+   * Checks if a key is suitable for signing JWT payloads.
+   * @param key - the key to check for compatibility
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @internal
+   */
+  matchKeyForJWT(key: IKey, context: IAgentContext<any>): Promise<boolean>
 }
 
 /**
@@ -212,7 +231,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IssuerAgentContext = IAgentContext<
   IResolver &
-    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
+  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
+  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >

@@ -2,6 +2,7 @@ import {
   CredentialPayload,
   IAgentContext,
   IDIDManager,
+  IKey,
   IKeyManager,
   IPluginMethodMap,
   IResolver,
@@ -27,10 +28,11 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or rejects with an error
-   * if there was a problem with the input or while getting the key to sign
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or
+   *   rejects with an error if there was a problem with the input or while getting the key to sign
    *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
+   *   }
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
@@ -46,8 +48,8 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or rejects with an error
-   * if there was a problem with the input or while getting the key to sign
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or
+   *   rejects with an error if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    *
@@ -85,6 +87,15 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    * @beta This API may change without a BREAKING CHANGE notice.
    */
   verifyPresentationLD(args: IVerifyPresentationLDArgs, context: IRequiredContext): Promise<boolean>
+
+  /**
+   * Returns true if the key is supported by any of the installed LD Signature suites
+   * @param key - the key to verify
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @internal
+   */
+  matchKeyForLDSuite(key: IKey, context: IAgentContext<{}>): Promise<boolean>
 }
 
 /**

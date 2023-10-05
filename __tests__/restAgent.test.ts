@@ -99,6 +99,7 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
 import credentialStatus from './shared/credentialStatus'
+import credentialPluginTests from "./shared/credentialPluginTests";
 
 jest.setTimeout(120000)
 
@@ -303,4 +304,5 @@ describe('REST integration tests', () => {
   didDiscovery(testContext)
   utils(testContext)
   credentialStatus(testContext)
+  credentialPluginTests(testContext)
 })

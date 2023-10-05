@@ -12,6 +12,7 @@ import {
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
   IVerifyResult,
+  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
@@ -39,6 +40,7 @@ import {
   isDefined,
   MANDATORY_CREDENTIAL_CONTEXT,
   processEntryToArray,
+  intersect,
 } from '@veramo/utils'
 import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
@@ -79,6 +81,8 @@ export class CredentialPlugin implements IAgentPlugin {
       createVerifiableCredential: this.createVerifiableCredential.bind(this),
       verifyCredential: this.verifyCredential.bind(this),
       verifyPresentation: this.verifyPresentation.bind(this),
+      matchKeyForJWT: this.matchKeyForJWT.bind(this),
+      listUsableProofFormats: this.listUsableProofFormats.bind(this),
     }
   }
 
@@ -477,13 +481,58 @@ export class CredentialPlugin implements IAgentPlugin {
       }
     }
   }
+
+  /**
+   * Checks if a key is suitable for signing JWT payloads.
+   * @param key
+   * @param context
+   *
+   * @internal
+   */
+  async matchKeyForJWT(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+    switch (key.type) {
+      case 'Ed25519':
+      case 'Secp256r1':
+        return true
+      case 'Secp256k1':
+        return intersect(key.meta?.algorithms ?? [], ['ES256K', 'ES256K-R']).length > 0
+      default:
+        return false
+    }
+    return false
+  }
+
+  async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<ProofFormat[]> {
+    const signingOptions: ProofFormat[] = []
+    const keys = did.keys
+    for (const key of keys) {
+      if (context.agent.availableMethods().includes('matchKeyForJWT')) {
+        if (await context.agent.matchKeyForJWT(key)) {
+          signingOptions.push('jwt')
+        }
+      }
+      if (context.agent.availableMethods().includes('matchKeyForLDSuite')) {
+        if (await context.agent.matchKeyForLDSuite(key)) {
+          signingOptions.push('lds')
+        }
+      }
+      if (context.agent.availableMethods().includes('matchKeyForEIP712')) {
+        if (await context.agent.matchKeyForEIP712(key)) {
+          signingOptions.push('EthereumEip712Signature2021')
+        }
+      }
+    }
+    return signingOptions
+  }
 }
 
 function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
   let key: IKey | undefined
 
   if (!keyRef) {
-    key = identifier.keys.find((k) => k.type === 'Secp256k1' || k.type === 'Ed25519' || k.type === 'Secp256r1')
+    key = identifier.keys.find(
+      (k) => k.type === 'Secp256k1' || k.type === 'Ed25519' || k.type === 'Secp256r1',
+    )
     if (!key) throw Error('key_not_found: No signing key for ' + identifier.did)
   } else {
     key = identifier.keys.find((k) => k.kid === keyRef)
