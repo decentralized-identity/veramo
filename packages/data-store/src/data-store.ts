@@ -45,6 +45,7 @@ export class DataStore implements IAgentPlugin {
 
     this.methods = {
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
+      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
       dataStoreDeleteMessage: this.dataStoreDeleteMessage.bind(this),
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
@@ -60,6 +61,17 @@ export class DataStore implements IAgentPlugin {
       .getRepository(Message)
       .save(createMessageEntity(args.message))
     return message.id
+  }
+
+  async dataStoreAddRecipientDid({
+    recipient_did,
+    dids,
+  }: {
+    recipient_did: string
+    dids: string[]
+  }): Promise<void> {
+    const db = await getConnectedDb(this.dbConnection)
+    return await db.getRepository(RecipientDid).save({ recipient_did, dids })
   }
 
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {

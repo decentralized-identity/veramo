@@ -36,6 +36,7 @@ constants:
     - discoverDid
     - dataStoreGetMessage
     - dataStoreSaveMessage
+    - dataStoreAddRecipientDid
     - dataStoreGetVerifiableCredential
     - dataStoreSaveVerifiableCredential
     - dataStoreGetVerifiablePresentation

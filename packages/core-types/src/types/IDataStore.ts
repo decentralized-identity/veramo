@@ -14,6 +14,20 @@ export interface IDataStoreSaveMessageArgs {
 }
 
 /**
+ * Input arguments for {@link IDataStore.dataStoreSaveRecipientDid | dataStoreSaveRecipientDid}
+ * @public
+ */
+export interface IDataStoreAddRecipientDid {
+  /**
+   * Required. Allowed DID
+   */
+  did: {
+    recipient: string
+    did: string
+  }
+}
+
+/**
  * Input arguments for {@link IDataStore.dataStoreGetMessage | dataStoreGetMessage}
  * @public
  */
@@ -101,6 +115,13 @@ export interface IDataStore extends IPluginMethodMap {
    * @returns a promise that resolves to the id of the message
    */
   dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string>
+
+  /**
+   * Saves recipient dids to the data store
+   * @param args - recipient dids
+   * @returns a promise that resolves to the list of recipient dids
+   */
+  dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
 
   /**
    * Gets message from the data store

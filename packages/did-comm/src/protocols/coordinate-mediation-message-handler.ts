@@ -1,4 +1,11 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IIdentifier } from '@veramo/core-types'
+import {
+  IAgentContext,
+  IDIDManager,
+  IKeyManager,
+  IDataStore,
+  IIdentifier,
+  MinimalImportableIdentifier,
+} from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -16,13 +23,13 @@ interface Update {
 interface UpdateResult extends Update {
   result: 'success' | 'no_change' | 'client_error' | 'server_error'
 }
-type RecipientUpdateBody = {
-  updates: Update[]
+type RecipientUpdateBody<T extends Update | UpdateResult> = {
+  updates: T[]
 }
 
-interface RecipientUpdateMessage extends IDIDCommMessage {
+interface RecipientUpdateMessage<T extends Update | UpdateResult> extends IDIDCommMessage {
   type: CoordinateMediation.RECIPIENT_UPDATE
-  body: RecipientUpdateBody
+  body: RecipientUpdateBody<T>
   return_route: 'all'
 }
 
@@ -105,8 +112,8 @@ export function createStatusRequestMessage(recipientDidUrl: string, mediatorDidU
 export function createRecipientUpdateMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
-  updates: RecipientUpdateMessage['body']['updates'],
-): RecipientUpdateMessage {
+  updates: Update[],
+): RecipientUpdateMessage<Update> {
   return {
     type: CoordinateMediation.RECIPIENT_UPDATE,
     from: recipientDidUrl,
@@ -184,14 +191,17 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
   /**
    * Used to notify the mediator of DIDs in use by the recipient
    **/
-  private async handleRecipientUpdate(message: RecipientUpdateMessage, context: IContext): Promise<Message> {
+  private async handleRecipientUpdate(
+    message: RecipientUpdateMessage<Update>,
+    context: IContext,
+  ): Promise<Message> {
     const {
       to,
-      from,
+      from: recipient_did,
       body: { updates = [] },
     } = message
     debug('MediateRecipientUpdate Message Received')
-    if (!from) {
+    if (!recipient_did) {
       throw new Error('invalid_argument: MediateRecipientUpdate received without `from` set')
     }
     if (!to) {
@@ -200,24 +210,17 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     if (!updates.length) {
       throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
     }
-    /** TODO: use whitelist to determine if we can update the "recipient_did" */
-    const applyUpdate = async (update: Update): Promise<UpdateResult> => {
-      // confirm the recipient_did is a valid did
-      const existing = await context.agent.didManagerGet({ did: update.recipient_did })
-      if (existing && existing.did === update.recipient_did && update.action === 'add') {
-        return { ...update, result: 'no_change' }
-      }
-      if (!existing && update.action === 'add') {
-        // TODO: check how the agent can accept an existing_did
-        const did = await context.agent.didManagerCreate({ alias: update.recipient_did })
-        return { ...update, result: did ? 'success' : 'server_error' }
-      } else if (existing && update.action === 'remove') {
-        const success = await context.agent.didManagerDelete({ did: update.recipient_did })
-        return { ...update, result: success ? 'success' : 'server_error' }
-      }
-      return { ...update, result: 'no_change' }
+
+    // get the recipient did document
+    const didDoc: IIdentifier = await context.agent.didManagerGet({ did: recipient_did })
+    // add the updates to the did document
+    const updater = {
+      async add(didDoc: IIdentifier, update: Update): Promise<UpdateResult> {
+        const result = await context.agent.dataStoreAddRecipientDid({ recipient: didDoc.did, did: update.recipient_did })
+
+      },
     }
-    const updateResults = updates.map(async (update) => await applyUpdate(update))
+    const appliedUpdates = updates.map(async (update) => await updater[update.action](didDoc, update))
 
     // TODO: add meta data and address ts complaints on return type
     // @ts-ignore
