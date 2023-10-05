@@ -39,11 +39,11 @@ export class DIDStore extends AbstractDIDStore {
     alias: string
     provider: string
   }): Promise<IIdentifier> {
-    let where = {}
+    let where: { did?: string; alias?: string; provider?: string } = {}
     if (did !== undefined && alias === undefined) {
       where = { did }
-    } else if (did === undefined && alias !== undefined && provider !== undefined) {
-      where = { alias, provider }
+    } else if (did === undefined && alias !== undefined) {
+      where = { alias }
     } else {
       throw Error('[veramo:data-store:identifier-store] Get requires did or (alias and provider)')
     }
