@@ -1,5 +1,6 @@
 import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey, RequireOnly } from '@veramo/core'
 import { AbstractKeyManagementSystem, AbstractPrivateKeyStore, Eip712Payload } from '@veramo/key-manager'
+import { hexToBytes, bytesToHex } from '@veramo/utils'
 import { ManagedPrivateKey } from '@veramo/key-manager'
 
 import { EdDSASigner, ES256KSigner, ES256Signer } from 'did-jwt'
@@ -14,13 +15,17 @@ import {
   generateKeyPairFromSeed as generateEncryptionKeyPairFromSeed,
   sharedKey,
 } from '@stablelib/x25519'
-import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { toUtf8String } from '@ethersproject/strings'
-import { parse } from '@ethersproject/transactions'
-import { Wallet } from '@ethersproject/wallet'
-import { SigningKey } from '@ethersproject/signing-key'
-import { randomBytes } from '@ethersproject/random'
-import { arrayify, hexlify } from '@ethersproject/bytes'
+import {
+  TransactionRequest,
+  toUtf8String,
+  Wallet,
+  SigningKey,
+  randomBytes,
+  getBytes,
+  hexlify,
+  Transaction,
+  decodeRlp,
+} from 'ethers'
 import * as u8a from 'uint8arrays'
 import Debug from 'debug'
 import elliptic from 'elliptic'
@@ -103,10 +108,10 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   }
 
   async sign({
-               keyRef,
-               algorithm,
-               data,
-             }: {
+    keyRef,
+    algorithm,
+    data,
+  }: {
     keyRef: Pick<IKey, 'kid'>
     algorithm?: string
     data: Uint8Array
@@ -133,10 +138,11 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
       } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)) {
         return await this.eth_signTypedData(managedKey.privateKeyHex, data)
       } else if (['eth_rawSign'].includes(algorithm)) {
-        return this.eth_rawSign(managedKey.privateKeyHex, data);
+        return this.eth_rawSign(managedKey.privateKeyHex, data)
       }
-    } else if (managedKey.type === 'Secp256r1' &&
-       (typeof algorithm === 'undefined' || algorithm === 'ES256')
+    } else if (
+      managedKey.type === 'Secp256r1' &&
+      (typeof algorithm === 'undefined' || algorithm === 'ES256')
     ) {
       return await this.signES256(managedKey.privateKeyHex, data)
     }
@@ -166,13 +172,13 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     ) {
       throw new Error(`invalid_argument: args.theirKey must contain 'type' and 'publicKeyHex'`)
     }
-    let myKeyBytes = arrayify('0x' + myKey.privateKeyHex)
+    let myKeyBytes = getBytes('0x' + myKey.privateKeyHex)
     if (myKey.type === 'Ed25519') {
       myKeyBytes = convertSecretKeyToX25519(myKeyBytes)
     } else if (myKey.type !== 'X25519') {
       throw new Error(`not_supported: can't compute shared secret for type=${myKey.type}`)
     }
-    let theirKeyBytes = arrayify('0x' + theirKey.publicKeyHex)
+    let theirKeyBytes = getBytes('0x' + theirKey.publicKeyHex)
     if (theirKey.type === 'Ed25519') {
       theirKeyBytes = convertPublicKeyToX25519(theirKeyBytes)
     } else if (theirKey.type !== 'X25519') {
@@ -206,10 +212,10 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         `invalid_arguments: Cannot sign typed data. 'domain', 'types', and 'message' must be provided`,
       )
     }
-    delete(msgTypes.EIP712Domain)
+    delete msgTypes.EIP712Domain
     const wallet = new Wallet(privateKeyHex)
 
-    const signature = await wallet._signTypedData(msgDomain, msgTypes, msg)
+    const signature = await wallet.signTypedData(msgDomain, msgTypes, msg)
     // HEX encoded string
     return signature
   }
@@ -228,18 +234,18 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed raw transaction
    */
   private async eth_signTransaction(privateKeyHex: string, rlpTransaction: Uint8Array) {
-    const { v, r, s, from, ...tx } = parse(rlpTransaction)
+    const transaction = Transaction.from(bytesToHex(rlpTransaction, true))
     const wallet = new Wallet(privateKeyHex)
-    if (from) {
+    if (transaction.from) {
       debug('WARNING: executing a transaction signing request with a `from` field.')
-      if (wallet.address.toLowerCase() !== from.toLowerCase()) {
+      if (wallet.address.toLowerCase() !== transaction.from.toLowerCase()) {
         const msg =
           'invalid_arguments: eth_signTransaction `from` field does not match the chosen key. `from` field should be omitted.'
         debug(msg)
         throw new Error(msg)
       }
     }
-    const signedRawTransaction = await wallet.signTransaction(<TransactionRequest>tx)
+    const signedRawTransaction = await wallet.signTransaction(transaction)
     // HEX encoded string, 0x prefixed
     return signedRawTransaction
   }
@@ -248,14 +254,14 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed digest in compact format
    */
   private eth_rawSign(managedKey: string, data: Uint8Array) {
-    return new SigningKey("0x" + managedKey).signDigest(data).compact
+    return new SigningKey('0x' + managedKey).sign(data).compactSerialized
   }
 
   /**
    * @returns a base64url encoded signature for the `EdDSA` alg
    */
   private async signEdDSA(key: string, data: Uint8Array): Promise<string> {
-    const signer = EdDSASigner(arrayify(key, { allowMissingPrefix: true }))
+    const signer = EdDSASigner(hexToBytes(key))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -269,7 +275,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     alg: string | undefined,
     data: Uint8Array,
   ): Promise<string> {
-    const signer = ES256KSigner(arrayify(privateKeyHex, { allowMissingPrefix: true }), alg === 'ES256K-R')
+    const signer = ES256KSigner(hexToBytes(privateKeyHex), alg === 'ES256K-R')
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -278,11 +284,8 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
   /**
    * @returns a base64url encoded signature for the `ES256` alg
    */
-  private async signES256(
-    privateKeyHex: string,
-    data: Uint8Array,
-  ): Promise<string> {
-    const signer = ES256Signer(arrayify(privateKeyHex, { allowMissingPrefix: true }))
+  private async signES256(privateKeyHex: string, data: Uint8Array): Promise<string> {
+    const signer = ES256Signer(hexToBytes(privateKeyHex))
     const signature = await signer(data)
     // base64url encoded string
     return signature as string
@@ -316,7 +319,14 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
           kid: args.alias || publicKeyHex,
           publicKeyHex,
           meta: {
-            algorithms: ['ES256K', 'ES256K-R', 'eth_signTransaction', 'eth_signTypedData', 'eth_signMessage', 'eth_rawSign'],
+            algorithms: [
+              'ES256K',
+              'ES256K-R',
+              'eth_signTransaction',
+              'eth_signTypedData',
+              'eth_signMessage',
+              'eth_rawSign',
+            ],
           },
         }
         break

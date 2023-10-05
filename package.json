@@ -31,10 +31,6 @@
     "__browser_tests__/*"
   ],
   "devDependencies": {
-    "@ethersproject/contracts": "^5.7.0",
-    "@ethersproject/providers": "^5.7.2",
-    "@ethersproject/transactions": "^5.7.0",
-    "@ethersproject/wallet": "^5.7.0",
     "@metamask/eth-sig-util": "^5.0.0",
     "@microsoft/api-documenter": "7.19.27",
     "@microsoft/api-extractor": "7.33.7",

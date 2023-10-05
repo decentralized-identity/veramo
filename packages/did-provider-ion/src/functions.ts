@@ -6,10 +6,9 @@ import {
   KeyType,
 } from './types/ion-provider-types'
 import { IonDid, IonDocumentModel, IonPublicKeyModel, IonPublicKeyPurpose, JwkEs256k } from '@decentralized-identity/ion-sdk'
-import { computePublicKey } from '@ethersproject/signing-key'
 import { IKey, ManagedKeyInfo } from '@veramo/core'
 import keyto from '@trust/keyto';
-import { randomBytes } from '@ethersproject/random'
+import { randomBytes, SigningKey } from 'ethers'
 import * as u8a from 'uint8arrays'
 import { generateKeyPair as generateSigningKeyPair } from '@stablelib/ed25519'
 import Debug from 'debug'
@@ -100,7 +99,7 @@ const publicKeyJwkFromPublicKeyHex = (publicKeyHex: string) => {
   const compressedHexEncodedPublicKeyLength = 66;
   if (publicKeyHex.length === compressedHexEncodedPublicKeyLength) {
     const publicBytes = u8a.fromString(publicKeyHex, 'base16')
-    key = computePublicKey(publicBytes, true).substring(2)
+    key = SigningKey.computePublicKey(publicBytes, true).substring(2)
   }
   const jwk = {
     ...keyto.from(key, 'blk').toJwk('public'),

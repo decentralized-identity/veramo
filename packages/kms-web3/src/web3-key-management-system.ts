@@ -1,7 +1,6 @@
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
+import { JsonRpcSigner, BrowserProvider, toUtf8String } from 'ethers'
 import { TKeyType, IKey, ManagedKeyInfo, MinimalImportableKey } from '@veramo/core'
 import { AbstractKeyManagementSystem, Eip712Payload } from '@veramo/key-manager'
-import { toUtf8String } from '@ethersproject/strings'
 
 /**
  * This is a {@link @veramo/key-manager#AbstractKeyManagementSystem | KMS} implementation that uses the addresses of a
@@ -14,7 +13,7 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
    * @param providers - the key can be any unique name.
    * Example `{ metamask: metamaskProvider, walletConnect: walletConnectProvider }`
    */
-  constructor(private providers: Record<string, Web3Provider>) {
+  constructor(private providers: Record<string, BrowserProvider>) {
     super()
   }
 
@@ -63,12 +62,12 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
 
   // keyRef should be in this format '{providerName-account}
   // example: 'metamask-0xf3beac30c498d9e26865f34fcaa57dbb935b0d74'
-  private getAccountAndSignerByKeyRef(keyRef: Pick<IKey, 'kid'>): { account: string; signer: JsonRpcSigner } {
+  private async getAccountAndSignerByKeyRef(keyRef: Pick<IKey, 'kid'>): Promise<{ account: string; signer: JsonRpcSigner }> {
     const [providerName, account] = keyRef.kid.split('-')
     if (!this.providers[providerName]) {
       throw Error(`not_available: provider ${providerName}`)
     }
-    const signer = this.providers[providerName].getSigner(account)
+    const signer = await this.providers[providerName].getSigner(account)
     return { account, signer }
   }
 
@@ -119,8 +118,8 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
     }
     delete msgTypes.EIP712Domain
 
-    const { signer } = this.getAccountAndSignerByKeyRef(keyRef)
-    const signature = await signer._signTypedData(msgDomain, msgTypes, msg)
+    const { signer } = await this.getAccountAndSignerByKeyRef(keyRef)
+    const signature = await signer.signTypedData(msgDomain, msgTypes, msg)
 
     return signature
   }
@@ -129,7 +128,7 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
    * @returns a `0x` prefixed hex string representing the signed message
    */
   private async eth_signMessage(keyRef: Pick<IKey, 'kid'>, rawMessageBytes: Uint8Array) {
-    const { signer } = this.getAccountAndSignerByKeyRef(keyRef)
+    const { signer } = await this.getAccountAndSignerByKeyRef(keyRef)
     const signature = await signer.signMessage(rawMessageBytes)
     // HEX encoded string, 0x prefixed
     return signature

@@ -20,11 +20,9 @@ import {
 } from '@veramo/core'
 import * as u8a from 'uint8arrays'
 import { JWE, createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, ECDH } from 'did-jwt'
-import { arrayify, hexlify } from '@ethersproject/bytes'
-import { serialize, computeAddress } from '@ethersproject/transactions'
-import { toUtf8String, toUtf8Bytes } from '@ethersproject/strings'
 import { convertPublicKeyToX25519 } from '@stablelib/ed25519'
 import Debug from 'debug'
+import {getBytes, hexlify, toUtf8Bytes, toUtf8String, computeAddress, Transaction} from "ethers";
 
 const debug = Debug('veramo:key-manager')
 
@@ -130,10 +128,10 @@ export class KeyManager implements IAgentPlugin {
 
     let recipientPublicKey: Uint8Array
     if (to.type === 'Ed25519') {
-      recipientPublicKey = arrayify('0x' + to.publicKeyHex)
+      recipientPublicKey = getBytes('0x' + to.publicKeyHex)
       recipientPublicKey = convertPublicKeyToX25519(recipientPublicKey)
     } else if (to.type === 'X25519') {
-      recipientPublicKey = arrayify('0x' + to.publicKeyHex)
+      recipientPublicKey = getBytes('0x' + to.publicKeyHex)
     } else {
       throw new Error('not_supported: The recipient public key type is not supported')
     }
@@ -203,7 +201,7 @@ export class KeyManager implements IAgentPlugin {
         }
       }
     }
-    const data = serialize(tx)
+    const data = Transaction.from(tx).unsignedSerialized
     const algorithm = 'eth_signTransaction'
     return this.keyManagerSign({ keyRef: kid, data, algorithm, encoding: 'base16' })
   }
@@ -231,7 +229,7 @@ export class KeyManager implements IAgentPlugin {
       }
       const publicKey = { type: <TKeyType>'X25519', publicKeyHex: hexlify(theirPublicKey).substring(2) }
       const shared = await this.keyManagerSharedSecret({ secretKeyRef, publicKey })
-      return arrayify('0x' + shared)
+      return getBytes('0x' + shared)
     }
   }
 }

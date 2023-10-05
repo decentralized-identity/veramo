@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "@decentralized-identity/ion-sdk": "^0.6.0",
-    "@ethersproject/random": "^5.7.0",
-    "@ethersproject/signing-key": "^5.7.0",
     "@sphereon/ion-pow": "^0.2.0",
     "@sphereon/isomorphic-argon2": "^1.0.0",
     "@stablelib/ed25519": "^1.0.3",

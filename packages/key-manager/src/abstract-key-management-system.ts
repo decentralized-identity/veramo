@@ -1,6 +1,5 @@
 import { IKey, ManagedKeyInfo, MinimalImportableKey, TKeyType } from '@veramo/core'
-import { arrayify } from '@ethersproject/bytes'
-import { serialize } from '@ethersproject/transactions'
+import { getBytes, Transaction } from 'ethers'
 import * as u8a from 'uint8arrays'
 
 /**
@@ -20,7 +19,8 @@ export abstract class AbstractKeyManagementSystem {
   /**@deprecated please use `sign({key, alg: 'eth_signTransaction', data: arrayify(serialize(transaction))})` instead */
   async signEthTX({ key, transaction }: { key: Pick<IKey, 'kid'>; transaction: object }): Promise<string> {
     const { v, r, s, from, ...tx } = <any>transaction
-    const data = arrayify(serialize(tx))
+    const serializedTx = Transaction.from(tx).unsignedSerialized
+    const data = getBytes(serializedTx)
     const algorithm = 'eth_signTransaction'
     const signedTxHexString = this.sign({ keyRef: key, data, algorithm })
     return signedTxHexString
@@ -31,7 +31,11 @@ export abstract class AbstractKeyManagementSystem {
     let dataBytes: Uint8Array
     if (typeof data === 'string') {
       try {
-        dataBytes = arrayify(data, { allowMissingPrefix: true })
+        // TODO: Make sure this works as we removed the options from arrayify
+        if (data && data.substring(0, 2) !== "0x") {
+          data = "0x" + data;
+        }
+        dataBytes = getBytes(data)
       } catch (e) {
         dataBytes = u8a.fromString(data, 'utf-8')
       }

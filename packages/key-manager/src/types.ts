@@ -1,4 +1,4 @@
-import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
+import { TypedDataDomain, TypedDataField } from 'ethers'
 
 /**
  * The payload that is sent to be signed according to EIP712

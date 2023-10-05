@@ -1,9 +1,9 @@
 // noinspection ES6PreferShortImport
 
 import { IAgentOptions, IDIDManager, IKeyManager, IResolver, TAgent, TKeyType } from '../../packages/core/src'
-import { computeAddress, serialize } from '@ethersproject/transactions'
 import { mapIdentifierKeysToDoc } from '../../packages/utils/src'
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
+import {computeAddress, Transaction} from "ethers";
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver>
 
@@ -222,7 +222,7 @@ export default (testContext: {
       const rawTx = await agent.keyManagerSignEthTX({
         kid: key.kid,
         transaction: {
-          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+          to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
           value: 300000,
           gasLimit: 43092000,
           gasPrice: 20000000000,
@@ -243,7 +243,7 @@ export default (testContext: {
       const rawTx = await agent.keyManagerSignEthTX({
         kid: key.kid,
         transaction: {
-          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+          to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
           from: keyAddress,
           value: 300000,
           gasLimit: 43092000,
@@ -266,8 +266,8 @@ export default (testContext: {
         agent.keyManagerSignEthTX({
           kid: key.kid,
           transaction: {
-            to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
-            from: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+            to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
+            from: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
             value: 300000,
             gasLimit: 43092000,
             gasPrice: 20000000000,
@@ -351,7 +351,7 @@ export default (testContext: {
         const rawTx = await agent.keyManagerSignEthTX({
           kid: importedKey.kid,
           transaction: {
-            to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
+            to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
             value: 300000,
             gasLimit: 43092000,
             gasPrice: 20000000000,
@@ -359,7 +359,7 @@ export default (testContext: {
           },
         })
         expect(rawTx).toEqual(
-          '0xf869018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e0801ba0f16e2206290181c3feaa04051dad19089105c24339dbdf0d80147b48a59fa152a0770e8751ec77ccc78e8b207023f168444f7cfb67055c55c70ef75234458a3d51',
+          '0x01f86b80018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e080c001a05a46cdfe2102e81e90f89d8896ddaf32aee5473bad994bc1767f0d2af9afa160a01c028daaf737d69f6933d2dfef5e739f459cfb9e8ce1d9ba9ea7bb0c6006518c',
         )
       })
 
@@ -376,13 +376,14 @@ export default (testContext: {
       })
 
       it('should sign EthTX using generic signer', async () => {
-        const txData = serialize({
-          to: '0xce31a19193d4b23f4e9d6163d7247243bAF801c3',
-          value: 300000,
-          gasLimit: 43092000,
-          gasPrice: 20000000000,
-          nonce: 1,
-        })
+        const transaction = new Transaction()
+        transaction.to = '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3'
+        transaction.value = 300000
+        transaction.gasLimit = 43092000
+        transaction.gasPrice = 20000000000
+        transaction.nonce = 1
+
+        const txData = transaction.unsignedSerialized
 
         const rawTx = await agent.keyManagerSign({
           algorithm: 'eth_signTransaction',
@@ -392,7 +393,31 @@ export default (testContext: {
         })
 
         expect(rawTx).toEqual(
-          '0xf869018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e0801ba0f16e2206290181c3feaa04051dad19089105c24339dbdf0d80147b48a59fa152a0770e8751ec77ccc78e8b207023f168444f7cfb67055c55c70ef75234458a3d51',
+          '0x01f86b80018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e080c001a05a46cdfe2102e81e90f89d8896ddaf32aee5473bad994bc1767f0d2af9afa160a01c028daaf737d69f6933d2dfef5e739f459cfb9e8ce1d9ba9ea7bb0c6006518c',
+        )
+      })
+
+      it('should sign EthTX using generic signer and specific type', async () => {
+        const transaction = Transaction.from({
+          to: '0xcE31a19193D4b23F4E9D6163d7247243BAF801C3',
+          value: 300000,
+          gasLimit: 43092000,
+          gasPrice: 20000000000,
+          nonce: 1,
+          type: 0, // enforce legacy serialization
+        })
+
+        const txData = transaction.unsignedSerialized
+
+        const rawTx = await agent.keyManagerSign({
+          algorithm: 'eth_signTransaction',
+          data: txData,
+          encoding: 'hex',
+          keyRef: importedKey.kid,
+        })
+
+        expect(rawTx).toEqual(
+            '0xf869018504a817c800840291882094ce31a19193d4b23f4e9d6163d7247243baf801c3830493e0801ba0f16e2206290181c3feaa04051dad19089105c24339dbdf0d80147b48a59fa152a0770e8751ec77ccc78e8b207023f168444f7cfb67055c55c70ef75234458a3d51',
         )
       })
     })

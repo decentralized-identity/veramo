@@ -1,10 +1,7 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
-import { Provider } from '@ethersproject/abstract-provider'
-import { computeAddress } from '@ethersproject/transactions'
+import { computeAddress } from 'ethers'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, ManagedKeyInfo } from '@veramo/core'
 
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { computePublicKey } from '@ethersproject/signing-key'
-import { BigNumber } from '@ethersproject/bignumber'
 
 import Debug from 'debug'
 const debug = Debug('veramo:did-pkh:identifier-provider')
@@ -15,7 +12,7 @@ type IContext = IAgentContext<IKeyManager>
  * Options for creating a did:ethr
  * @beta
  */
- export interface CreateDidPkhEthrOptions {
+export interface CreateDidPkhEthrOptions {
   /**
    * This can be hex encoded chain ID (string) or a chainId number
    *
@@ -24,15 +21,14 @@ type IContext = IAgentContext<IKeyManager>
   chainId?: string | number
 }
 
- /**
+/**
  * Helper method that can computes the ethereumAddress corresponding to a Secp256k1 public key.
  * @param hexPublicKey A hex encoded public key, optionally prefixed with `0x`
  */
-  export function toEthereumAddress(hexPublicKey: string): string {
-    const publicKey = hexPublicKey.startsWith('0x') ? hexPublicKey : '0x' + hexPublicKey
-    return computeAddress(publicKey)
-  }
-
+export function toEthereumAddress(hexPublicKey: string): string {
+  const publicKey = hexPublicKey.startsWith('0x') ? hexPublicKey : '0x' + hexPublicKey
+  return computeAddress(publicKey)
+}
 
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:pkh` identifiers
@@ -40,27 +36,21 @@ type IContext = IAgentContext<IKeyManager>
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class PkhDIDProvider extends AbstractIdentifierProvider {
-    private defaultKms: string
+  private defaultKms: string
 
-    constructor(options: {
-      defaultKms: string
-    })
-    {
-      super()
-      this.defaultKms = options.defaultKms
-    }
-
-
+  constructor(options: { defaultKms: string }) {
+    super()
+    this.defaultKms = options.defaultKms
+  }
 
   async createIdentifier(
     { kms, options }: { kms?: string; options?: CreateDidPkhEthrOptions },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-
     const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
-    const publicAddress = toEthereumAddress(key.publicKeyHex);
+    const publicAddress = toEthereumAddress(key.publicKeyHex)
 
-    const network = options?.chainId; 
+    const network = options?.chainId
     if (!network) {
       throw new Error(
         `invalid_setup: Cannot create did:pkh. There is no known configuration for network=${network}'`,
@@ -76,7 +66,10 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
     debug('Created', identifier.did)
     return identifier
   }
-  async updateIdentifier(args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any }, context: IAgentContext<IKeyManager>): Promise<IIdentifier> {
+  async updateIdentifier(
+    args: { did: string; kms?: string | undefined; alias?: string | undefined; options?: any },
+    context: IAgentContext<IKeyManager>,
+  ): Promise<IIdentifier> {
     throw new Error('PkhDIDProvider updateIdentifier not supported yet.')
   }
 
@@ -131,6 +124,4 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
   //   }
   //   return network
   // }
-
-
 }

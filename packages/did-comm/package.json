@@ -14,11 +14,10 @@
     }
   },
   "dependencies": {
-    "@ethersproject/signing-key": "^5.7.0",
     "@stablelib/ed25519": "^1.0.3",
-    "@veramo/core": "^4.3.0",
-    "@veramo/message-handler": "^4.3.0",
-    "@veramo/utils": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/message-handler": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "cross-fetch": "^3.1.4",
     "debug": "^4.3.3",
     "did-jwt": "^6.9.0",

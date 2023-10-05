@@ -1,12 +1,19 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import Multibase from 'multibase'
-import Multicodec from 'multicodec'
+import Multicodec, { CodecName } from 'multicodec'
+import { SigningKey } from 'ethers'
 
 import Debug from 'debug'
 const debug = Debug('veramo:did-key:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
+
+const keyCodecs: Record<string, CodecName> = {
+  Ed25519: 'ed25519-pub',
+  X25519: 'x25519-pub',
+  Secp256k1: 'secp256k1-pub',
+} as const
 
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:key` identifiers
@@ -25,12 +32,14 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: any },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Ed25519' })
+    const keyType = (options?.keyType && keyCodecs[options?.keyType] && options.keyType) || 'Ed25519'
+    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: keyType })
 
+    const publicKeyHex = key.type === 'Secp256k1' ? SigningKey.computePublicKey('0x' + key.publicKeyHex, true) : key.publicKeyHex
     const methodSpecificId = Buffer.from(
       Multibase.encode(
         'base58btc',
-        Multicodec.addPrefix('ed25519-pub', Buffer.from(key.publicKeyHex, 'hex')),
+        Multicodec.addPrefix(keyCodecs[key.type], Buffer.from(publicKeyHex, 'hex')),
       ),
     ).toString()
 

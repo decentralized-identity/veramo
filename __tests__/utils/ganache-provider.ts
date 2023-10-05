@@ -1,7 +1,5 @@
-import { Web3Provider } from '@ethersproject/providers'
-import { Contract, ContractFactory } from '@ethersproject/contracts'
-// @ts-ignore
-import DidRegistryContract from 'ethr-did-registry'
+import { BrowserProvider, Contract, ContractFactory } from 'ethers'
+import { EthereumDIDRegistry } from 'ethr-did-resolver'
 import ganache from 'ganache'
 
 /**
@@ -9,8 +7,8 @@ import ganache from 'ganache'
  *
  * This provider can only be used in a single test suite, because of some concurrency issues with ganache.
  */
-export async function createGanacheProvider(): Promise<{ provider: Web3Provider; registry: string }> {
-  const provider = new Web3Provider(
+export async function createGanacheProvider(): Promise<{ provider: BrowserProvider; registry: string }> {
+  const provider = new BrowserProvider(
     ganache.provider({
       logging: { quiet: true },
       accounts: [
@@ -58,13 +56,11 @@ export async function createGanacheProvider(): Promise<{ provider: Web3Provider;
     }) as any
   )
   await provider.ready
-  const factory = ContractFactory.fromSolidity(DidRegistryContract).connect(provider.getSigner(0))
+  const factory = ContractFactory.fromSolidity(EthereumDIDRegistry).connect(await provider.getSigner(0))
 
   let registryContract: Contract = await factory.deploy()
-  registryContract = await registryContract.deployed()
+  registryContract = await registryContract.waitForDeployment()
 
-  await registryContract.deployTransaction.wait()
-
-  const registry = registryContract.address
+  const registry = await registryContract.getAddress()
   return { provider, registry }
 }
