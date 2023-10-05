@@ -39,8 +39,6 @@ export class KmsEthereumSigner extends AbstractSigner {
   }
 
   async signTransaction(transaction: Transaction): Promise<string> {
-    console.log(`Signing TX with nonce ${transaction.nonce}!`)
-    //console.trace()
     if (transaction.from != null) {
       const thisAddress = await this.getAddress()
       if (getAddress(transaction.from) !== thisAddress) {
