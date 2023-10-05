@@ -306,9 +306,8 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     if (!to) {
       throw new Error('invalid_argument: MediateRecipientQuery received without `to` set')
     }
-
-    // TODO: implement pagination
-    const dids = await context.agent.dataStoreListRecipientDids({ did: from })
+    const { paginate = {} } = message.body
+    const dids = await context.agent.dataStoreListRecipientDids({ did: from, ...paginate })
     const response = createRecipientUpdateResponseMessage(from, to, dids)
     const packedResponse = await context.agent.packDIDCommMessage({
       message: response,
@@ -334,9 +333,11 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
         case CoordinateMediation.MEDIATE_REQUEST:
           return await this.handleMediateRequest(message, context)
         case CoordinateMediation.RECIPIENT_UPDATE:
+          // TODO: validation and type guard here
           // @ts-ignore
           return await this.handleRecipientUpdate(message, context)
         case CoordinateMediation.RECIPIENT_QUERY:
+          // TODO: validation and type guard here
           // @ts-ignore
           return await this.handleRecipientQuery(message, context)
         default:

@@ -90,13 +90,18 @@ export class DataStore implements IAgentPlugin {
     return result.recipient_did
   }
 
-  async dataStoreListRecipientDids({ did }: IDataStoreListRecipientDids): Promise<string[]> {
+  async dataStoreListRecipientDids({ did, offset, limit }: IDataStoreListRecipientDids): Promise<string[]> {
     const db = await getConnectedDb(this.dbConnection)
     const identifier = await db.getRepository(Identifier).findOneBy({ did })
     if (!identifier) throw new Error('not_found: Identifier not found')
     // TODO: implement pagination
-    /// find all based on identifier
-    const result = await db.getRepository(RecipientDid).find({ identifier })
+    const result = await db
+      .getRepository(RecipientDid)
+      .createQueryBuilder('recipient_did')
+      .where('recipient_did.identifier = :identifier', { identifier: identifier })
+      .skip(offset)
+      .take(limit)
+      .getMany()
     return result.map(({ recipient_did }) => recipient_did)
   }
 

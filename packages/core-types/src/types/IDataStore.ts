@@ -49,6 +49,14 @@ export interface IDataStoreListRecipientDids {
    * Required. did
    */
   did: string
+  /**
+   * Optional. limit
+   */
+  limit?: number
+  /**
+   * Optional. offset
+   */
+  offset?: number
 }
 
 /**
