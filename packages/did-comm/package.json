@@ -18,7 +18,6 @@
     }
   },
   "dependencies": {
-    "@ethersproject/signing-key": "^5.7.0",
     "@noble/curves": "^1.1.0",
     "@stablelib/aes": "^1.0.1",
     "@stablelib/aes-kw": "^1.0.1",

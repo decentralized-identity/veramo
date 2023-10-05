@@ -10,10 +10,6 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@ethersproject/abstract-provider": "^5.7.0",
-    "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/signing-key": "^5.7.0",
-    "@ethersproject/transactions": "^5.7.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "caip": "^1.1.0",

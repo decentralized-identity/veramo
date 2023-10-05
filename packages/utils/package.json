@@ -10,8 +10,6 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@ethersproject/signing-key": "^5.7.0",
-    "@ethersproject/transactions": "^5.7.0",
     "@ipld/dag-pb": "^4.0.5",
     "@noble/curves": "^1.1.0",
     "@veramo/core-types": "workspace:^",

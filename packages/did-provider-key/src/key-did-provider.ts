@@ -1,7 +1,7 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, RequireOnly } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { bytesToMultibase, hexToBytes } from '@veramo/utils'
-import { computePublicKey } from '@ethersproject/signing-key'
+import { hexToBytes, bytesToMultibase } from '@veramo/utils'
+import { SigningKey } from 'ethers'
 
 import Debug from 'debug'
 
@@ -48,7 +48,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       context,
     )
 
-    const publicKeyHex = key.type === 'Secp256k1' ? computePublicKey('0x' + key.publicKeyHex, true) : key.publicKeyHex
+    const publicKeyHex = key.type === 'Secp256k1' ? SigningKey.computePublicKey('0x' + key.publicKeyHex, true) : key.publicKeyHex
     const methodSpecificId: string = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', keyCodecs[keyType])
 
     const identifier: Omit<IIdentifier, 'provider'> = {

@@ -1,5 +1,4 @@
-import { computePublicKey } from '@ethersproject/signing-key'
-import { computeAddress } from '@ethersproject/transactions'
+import { SigningKey, computeAddress } from 'ethers'
 import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core-types'
 import { DIDDocument, VerificationMethod } from 'did-resolver'
 import { extractPublicKeyBytes } from 'did-jwt'
@@ -87,7 +86,7 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
       if (key.type === 'Secp256k1') {
         if (key.publicKeyHex) {
           const publicBytes = hexToBytes(key.publicKeyHex)
-          key.publicKeyHex = computePublicKey(publicBytes, true).substring(2)
+          key.publicKeyHex = SigningKey.computePublicKey(publicBytes, true).substring(2)
           key.meta = { ...key.meta }
           key.meta.ethereumAddress = computeAddress('0x' + key.publicKeyHex)
         }
@@ -154,7 +153,7 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
       verificationMethod.publicKeyJwk
     ) {
       const pbBytes = extractPublicKeyBytes(verificationMethod)
-      const pbHex = computePublicKey(pbBytes, false)
+      const pbHex = SigningKey.computePublicKey(pbBytes, false)
 
       vmEthAddr = computeAddress(pbHex).toLowerCase()
     }
