@@ -72,6 +72,7 @@ import messageHandler from './shared/messageHandler.js'
 import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
 import credentialInterop from './shared/credentialInterop.js'
+import credentialPluginTests from "./shared/credentialPluginTests.js";
 
 jest.setTimeout(120000)
 
@@ -239,4 +240,5 @@ describe('Local in-memory integration tests', () => {
   utils(testContext)
   credentialStatus(testContext)
   credentialInterop(testContext)
+  credentialPluginTests(testContext)
 })

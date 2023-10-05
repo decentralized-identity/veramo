@@ -16,6 +16,7 @@ import { LdContextLoader } from './ld-context-loader.js'
 import {
   _ExtendedIKey,
   extractIssuer,
+  intersect,
   isDefined,
   MANDATORY_CREDENTIAL_CONTEXT,
   mapIdentifierKeysToDoc,
@@ -61,6 +62,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
       createVerifiableCredentialLD: this.createVerifiableCredentialLD.bind(this),
       verifyCredentialLD: this.verifyCredentialLD.bind(this),
       verifyPresentationLD: this.verifyPresentationLD.bind(this),
+      matchKeyForLDSuite: this.matchKeyForLDSuite.bind(this),
     }
   }
 
@@ -255,9 +257,32 @@ export class CredentialIssuerLD implements IAgentPlugin {
       signingKey = extendedKeys.find((k) => supportedTypes.includes(k.meta.verificationMethod.type))
     }
 
-
     if (!signingKey) throw Error(`key_not_found: No suitable signing key found for ${identifier.did}`)
     verificationMethodId = signingKey.meta.verificationMethod.id
     return { signingKey, verificationMethodId }
+  }
+
+  /**
+   * Returns true if the key is supported by any of the installed LD Signature suites
+   * @param k - the key to verify
+   *
+   * @internal
+   */
+  async matchKeyForLDSuite(k: IKey): Promise<boolean> {
+    // prefilter based on key algorithms
+    switch (k.type) {
+      case 'Ed25519':
+        if (!k.meta?.algorithms?.includes('EdDSA')) return false
+        break
+      case 'Secp256k1':
+        if (intersect(k.meta?.algorithms ?? [], ['ES256K-R', 'ES256K']).length == 0) return false
+        break
+    }
+
+    // TODO: this should return a list of supported suites, not just a boolean
+    const suites = this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuites()
+    return suites
+      .map((suite: VeramoLdSignature) => suite.getSupportedVeramoKeyType().includes(k.type))
+      .some((supportsThisKey: boolean) => supportsThisKey)
   }
 }

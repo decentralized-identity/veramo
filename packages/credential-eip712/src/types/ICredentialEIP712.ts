@@ -2,6 +2,7 @@ import {
   CredentialPayload,
   IAgentContext,
   IDIDManager,
+  IKey,
   IKeyManager,
   IPluginMethodMap,
   IResolver,
@@ -15,7 +16,8 @@ import {
  * that use EIP712 proof format.
  *
  * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
- * @remarks Please see {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
+ * @remarks Please see
+ *   {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -27,8 +29,8 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Credential.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or rejects with an error
-   * if there was a problem with the input or while getting the key to sign
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or
+   *   rejects with an error if there was a problem with the input or while getting the key to sign
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    *
@@ -60,10 +62,11 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or rejects with an error
-   * if there was a problem with the input or while getting the key to sign
+   * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or
+   *   rejects with an error if there was a problem with the input or while getting the key to sign
    *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model }
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
+   *   }
    */
   createVerifiablePresentationEIP712(
     args: ICreateVerifiablePresentationEIP712Args,
@@ -81,6 +84,17 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
   verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, context: IRequiredContext): Promise<boolean>
+
+  /**
+   * Checks if a key is suitable for signing EIP712 payloads.
+   * This relies on the metadata set by the key management system to determine if this key can sign EIP712 payloads.
+   *
+   * @param key - the key to check
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @internal
+   */
+  matchKeyForEIP712(key: IKey, context: IRequiredContext): Promise<boolean>
 }
 
 /**

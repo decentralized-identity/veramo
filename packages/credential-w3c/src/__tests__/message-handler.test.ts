@@ -1,4 +1,4 @@
-import { DIDResolutionResult, IAgentContext, ICredentialPlugin, IResolver } from '../../../core-types/src'
+import { DIDResolutionResult, IAgentContext, ICredentialVerifier, IResolver } from '../../../core-types/src'
 import { Message } from '../../../message-handler/src'
 import { IContext, MessageTypes, W3cMessageHandler } from '../message-handler.js'
 import { jest } from '@jest/globals'
@@ -64,13 +64,11 @@ describe('@veramo/credential-w3c', () => {
           }
         }
       },
-      createVerifiableCredential: jest.fn(),
-      createVerifiablePresentation: jest.fn(),
       verifyCredential: jest.fn(),
       verifyPresentation: jest.fn(),
       getDIDComponentById: jest.fn(),
     },
-  } as IAgentContext<IResolver & ICredentialPlugin>
+  } as IAgentContext<IResolver & ICredentialVerifier>
 
   it('should reject unknown message type', async () => {
     expect.assertions(1)
