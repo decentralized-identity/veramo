@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.2](https://github.com/uport-project/veramo/compare/v5.5.1...v5.5.2) (2023-10-06)
+
+
+### Bug Fixes
+
+* **data-store:** match claims by credential hash when deleting credential ([#1270](https://github.com/uport-project/veramo/issues/1270)) ([4ee626d](https://github.com/uport-project/veramo/commit/4ee626d4b16e50cbc9a16055120051b068f177bd)), closes [#1269](https://github.com/uport-project/veramo/issues/1269)
+
+
+
+
+
 ## [5.5.1](https://github.com/uport-project/veramo/compare/v5.5.0...v5.5.1) (2023-09-21)
 
 

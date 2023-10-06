@@ -1,7 +1,7 @@
 {
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
-  "version": "5.5.1",
+  "version": "5.5.2",
   "exports": {
     ".": {
       "types": "./build/cli.d.ts",
