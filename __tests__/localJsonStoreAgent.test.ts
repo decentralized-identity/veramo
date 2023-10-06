@@ -77,6 +77,7 @@ import utils from './shared/utils'
 import { JsonFileStore } from './utils/json-file-store'
 import credentialStatus from './shared/credentialStatus'
 import credentialPluginTests from './shared/credentialPluginTests'
+import dbInitOptions from "./shared/dbInitOptions";
 
 jest.setTimeout(120000)
 
@@ -243,4 +244,5 @@ describe('Local json-data-store integration tests', () => {
   utils(testContext)
   credentialStatus(testContext)
   credentialPluginTests(testContext)
+  dbInitOptions(testContext)
 })

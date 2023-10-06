@@ -201,6 +201,53 @@ export default (testContext: {
           })
           expect(retrievedCredential.length).toBeGreaterThan(0)
         })
+
+        it('should delete credentials without clearing the claims table', async () => {
+          const credA = await agent.createVerifiableCredential({
+            proofFormat: 'jwt',
+            credential: {
+              type: ['Important'],
+              credentialSubject: {
+                important: 'yes',
+                serious: true,
+              },
+              issuer: identifier.did,
+            },
+          })
+          const credB = await agent.createVerifiableCredential({
+            proofFormat: 'jwt',
+            credential: {
+              type: ['Unimportant'],
+              credentialSubject: {
+                bla: 'bla',
+              },
+              issuer: identifier.did,
+            },
+          })
+
+          const credAhash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential: credA })
+          const credBhash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential: credB })
+
+          const queryBeforeDelete = await agent.dataStoreORMGetVerifiableCredentialsByClaims({
+            where: [
+              { column: 'type', value: ['important'] },
+              { column: 'value', value: ['yes'] },
+            ],
+          })
+          expect(queryBeforeDelete.length).toBeGreaterThan(0)
+          expect(queryBeforeDelete[0].hash).toEqual(credAhash)
+
+          await agent.dataStoreDeleteVerifiableCredential({ hash: credBhash })
+
+          const queryAfterDelete = await agent.dataStoreORMGetVerifiableCredentialsByClaims({
+            where: [
+              { column: 'type', value: ['important'] },
+              { column: 'value', value: ['yes'] },
+            ],
+          })
+          expect(queryAfterDelete.length).toBeGreaterThan(0)
+          expect(queryAfterDelete[0].hash).toEqual(credAhash)
+        })
       })
     }
   })
