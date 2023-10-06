@@ -50,8 +50,6 @@ export class DataStore implements IAgentPlugin {
 
     this.methods = {
       dataStoreSaveMessage: this.dataStoreSaveMessage.bind(this),
-      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
-      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
       dataStoreGetMessage: this.dataStoreGetMessage.bind(this),
       dataStoreDeleteMessage: this.dataStoreDeleteMessage.bind(this),
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
@@ -59,6 +57,10 @@ export class DataStore implements IAgentPlugin {
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
+
+      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
+      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
+      dataStoreListRecipientDids: this.dataStoreListRecipientDids.bind(this),
     }
   }
 
