@@ -21,7 +21,7 @@ enum Result {
   SERVER_ERROR = 'server_error',
 }
 
-interface Update {
+export interface Update {
   recipient_did: string
   action: UpdateAction
 }
@@ -71,28 +71,11 @@ export const DELIVERY_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createMediateRequestMessage(
-  recipientDidUrl: string,
-  mediatorDidUrl: string,
-): IDIDCommMessage {
-  return {
-    type: CoordinateMediation.MEDIATE_REQUEST,
-    from: recipientDidUrl,
-    to: mediatorDidUrl,
-    id: v4(),
-    created_time: new Date().toISOString(),
-    body: {},
-  }
-}
-
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export function createMediateGrantMessage(
+export const createMediateGrantMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
-): IDIDCommMessage {
+): IDIDCommMessage => {
   return {
     type: CoordinateMediation.MEDIATE_GRANT,
     from: mediatorDidUrl,
@@ -109,7 +92,27 @@ export function createMediateGrantMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createStatusRequestMessage(recipientDidUrl: string, mediatorDidUrl: string): IDIDCommMessage {
+export const createMediateRequestMessage = (
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+): IDIDCommMessage => {
+  return {
+    type: CoordinateMediation.MEDIATE_REQUEST,
+    from: recipientDidUrl,
+    to: mediatorDidUrl,
+    id: v4(),
+    created_time: new Date().toISOString(),
+    body: {},
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export const createStatusRequestMessage = (
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+): IDIDCommMessage => {
   return {
     id: v4(),
     type: STATUS_REQUEST_MESSAGE_TYPE,
@@ -123,11 +126,11 @@ export function createStatusRequestMessage(recipientDidUrl: string, mediatorDidU
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createRecipientUpdateMessage(
+export const createRecipientUpdateMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
   updates: Update[],
-): IDIDCommMessage {
+): IDIDCommMessage => {
   return {
     type: CoordinateMediation.RECIPIENT_UPDATE,
     from: recipientDidUrl,
@@ -192,6 +195,9 @@ export function createDeliveryRequestMessage(
   }
 }
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 const saveMessageForTracking = async (message: IDIDCommMessage, context: IContext) => {
   await context.agent.dataStoreSaveMessage({
     message: {

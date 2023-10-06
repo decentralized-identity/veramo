@@ -22,7 +22,9 @@ import {
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
   createMediateGrantMessage,
+  createRecipientUpdateMessage,
 } from '../protocols/coordinate-mediation-message-handler.js'
+import type { Update } from '../protocols/coordinate-mediation-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
@@ -32,7 +34,6 @@ import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
-import { v4 } from 'uuid'
 
 import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
@@ -83,11 +84,9 @@ describe('coordinate-mediation-message-handler', () => {
             ...new FakeDidResolver(() => agent).getDidFakeResolver(),
           }),
         }),
-        // @ts-ignore
         new DIDComm([new DIDCommHttpTransport()]),
         new MessageHandler({
           messageHandlers: [
-            // @ts-ignore
             new DIDCommMessageHandler(),
             new CoordinateMediationMediatorMessageHandler(),
             new CoordinateMediationRecipientMessageHandler(),
@@ -211,6 +210,22 @@ describe('coordinate-mediation-message-handler', () => {
     )
   }
 
+  const expectUpdateRequest = (msgid: string) => {
+    const updates: Update[] = []
+    const message: ReturnType<typeof createRecipientUpdateMessage> = {
+      id: '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l',
+      type: 'https://didcomm.org/coordinate-mediation/3.0/recipient-update',
+      from: recipient.did,
+      to: mediator.did,
+      thid: msgid,
+      body: { updates },
+      return_route: 'all',
+    }
+    const calledWithData = { data: { message }, type: 'DIDCommV2Message-received' }
+
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(calledWithData)
+  }
+
   const expectGrantRequest = (msgid: string) => {
     // mediator receives request
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
@@ -259,6 +274,41 @@ describe('coordinate-mediation-message-handler', () => {
         expect.anything(),
       )
       expectGrantRequest(mediateRequestMessage.id)
+    })
+
+    describe('mediator: "handleRecipientUpdate"', () => {
+      const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+
+      it('should send an update to the mediator', async () => {
+        const packedMessage = await agent.packDIDCommMessage({
+          packing: 'authcrypt',
+          message: {
+            type: 'https://didcomm.org/coordinate-mediation/3.0/recipient-update',
+            from: recipient.did,
+            to: mediator.did,
+            id: messageId,
+            thid: '',
+            body: {
+              updates: [],
+            },
+          },
+        })
+        await agent.sendDIDCommMessage({
+          messageId,
+          packedMessage,
+          recipientDidUrl: mediator.did,
+        })
+        expectMsg(messageId)
+        expectReceiveRequest(messageId)
+        expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+          {
+            data: expect.anything(),
+            type: 'DIDCommV2Message-sent',
+          },
+          expect.anything(),
+        )
+        expectUpdateRequest(messageId)
+      })
     })
   })
 
