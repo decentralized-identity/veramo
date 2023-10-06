@@ -17,6 +17,7 @@ import { Resolver } from 'did-resolver'
 import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
+import { v4 } from 'uuid'
 import {
   CoordinateMediationMediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,

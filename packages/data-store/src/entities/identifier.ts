@@ -12,7 +12,7 @@ import {
 } from 'typeorm'
 import { Key } from './key.js'
 import { Service } from './service.js'
-import { RecipientDID } from './recipient_did.js'
+import { RecipientDid } from './recipient_did.js'
 import { Message } from './message.js'
 import { Presentation } from './presentation.js'
 import { Credential } from './credential.js'
@@ -76,7 +76,6 @@ export class Identifier extends BaseEntity {
   // @ts-ignore
   services: Service[]
 
-
   @OneToMany((type) => Message, (message) => message.from)
   // @ts-ignore
   sentMessages: Message[]
@@ -109,10 +108,10 @@ export class Identifier extends BaseEntity {
   // @ts-ignore
   receivedClaims: Claim[]
 
-  @OneToMany(() => RecipientDID, (recipient_did) => recipient_did.identifier, {
+  @OneToMany(() => RecipientDid, (recipient_did) => recipient_did.identifier, {
     cascade: true,
   })
-  recipient_dids!: RecipientDID[]
+  recipient_dids!: RecipientDid[]
 
   /**
    * Convenience method to get the most recent information about a subject DID as described by Verifiable Credential

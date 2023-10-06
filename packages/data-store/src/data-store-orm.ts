@@ -84,6 +84,7 @@ export class DataStoreORM implements IAgentPlugin {
 
   private async identifiersQuery(
     args: FindArgs<TIdentifiersColumns>,
+    context?: AuthorizedDIDContext,
   ): Promise<SelectQueryBuilder<Identifier>> {
     const where = createWhereObject(args)
     let qb = (await getConnectedDb(this.dbConnection))
