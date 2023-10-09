@@ -38,10 +38,16 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Oliver Terbu <oliver.terbu@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-key"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
   "contributors": [
-    "Mircea Nistor <mircea.nistor@mesh.xyz"
+    "Oliver Terbu",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
   "keywords": [],
   "license": "Apache-2.0",

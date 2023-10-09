@@ -45,8 +45,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-ion"
+  },
   "author": "Sphereon <dev@sphereon.com>",
+  "contributors": [
+    "Consensys Mesh R&D <hello@veramo.io>",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
   "keywords": [
     "Veramo",
     "ION",

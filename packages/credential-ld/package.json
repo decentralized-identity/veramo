@@ -53,8 +53,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Mircea Nistor <mircea.nistor@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/credential-ld"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
+  "contributors": [
+    "Mircea Nistor <mircea.nistor@mesh.xyz>",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Nick Reynolds <nick.reynolds@mesh.xyz>"
+  ],
   "keywords": [],
   "license": "Apache-2.0",
   "type": "module",

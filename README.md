@@ -1,7 +1,7 @@
 [![Discord](https://img.shields.io/discord/878293684620234752?logo=discord&logoColor=white&style=flat-square)](https://discord.gg/huwyNfVkhe)
 ![Twitter Follow](https://img.shields.io/twitter/follow/veramolabs?logo=twitter&style=flat-square)
-[![Build, Test and Publish](https://github.com/uport-project/veramo/workflows/Build,%20Test%20and%20Publish/badge.svg?branch=next)](https://github.com/uport-project/veramo/actions?query=workflow%3A%22Build%2C+Test+and+Publish%22)
-[![codecov](https://codecov.io/gh/uport-project/veramo/branch/next/graph/badge.svg)](https://codecov.io/gh/uport-project/veramo)
+[![Build, Test and Publish](https://github.com/decentralized-identity/veramo/workflows/Build,%20Test%20and%20Publish/badge.svg?branch=next)](https://github.com/uport-project/veramo/actions?query=workflow%3A%22Build%2C+Test+and+Publish%22)
+[![codecov](https://codecov.io/gh/decentralized-identity/veramo/branch/next/graph/badge.svg)](https://codecov.io/gh/uport-project/veramo)
 
 # Veramo
 
@@ -46,7 +46,7 @@ the [integration test suite](https://github.com/uport-project/veramo/tree/next/_
 
 ## Contributing
 
-This repository contains the [Veramo core package](https://github.com/uport-project/veramo/tree/next/packages/core),
+This repository contains the [Veramo core package](https://github.com/decentralized-identity/veramo/tree/next/packages/core),
 which only becomes relevant when you add plugins to it. These plugins can be developed by anyone and Veramo provides is
 the glue that can make them interoperate.
 

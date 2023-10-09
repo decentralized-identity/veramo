@@ -24,7 +24,16 @@
     "@veramo/kms-local": "workspace:*",
     "typescript": "5.2.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-jwk"
+  },
   "author": "Tadej Podrekar",
+  "contributors": [
+    "Consensys Mesh R&D <hello@veramo.io>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
   "keywords": [],
   "license": "Apache-2.0",
   "files": [
