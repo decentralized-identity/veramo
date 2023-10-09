@@ -10,17 +10,34 @@ import {
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
   IMessage,
+  IMediation,
   VerifiableCredential,
   VerifiablePresentation,
+  IDataStoreSaveMediationArgs,
+  IDataStoreGetMediationArgs,
+  IDataStoreRemoveRecipientDid,
+  IDataStoreAddRecipientDid,
+  IDataStoreGetRecipientDids,
+  IDataStoreSaveMediationPolicyArgs,
+  IDataStoreGetMediationPoliciesArgs,
+  IMediationPolicy,
+  RemoveRecipientDidResult,
+  RecipientDids,
+  IDataStoreRemoveMediationPolicyArgs,
+  RemoveMediationPolicyResult,
+  DataStoreGetMediationResult,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
 import { createCredentialEntity, Credential } from './entities/credential.js'
 import { Claim } from './entities/claim.js'
 import { createPresentationEntity, Presentation } from './entities/presentation.js'
+import { RecipientDid } from './entities/recipient_did.js'
 import { DataSource } from 'typeorm'
 import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
+import { Mediation } from './entities/mediation.js'
+import { MediationPolicy } from './entities/mediation_policy.js'
 
 /**
  * This class implements the {@link @veramo/core-types#IDataStore} interface using a TypeORM compatible database.
@@ -52,6 +69,14 @@ export class DataStore implements IAgentPlugin {
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
+      dataStoreSaveMediationPolicy: this.dataStoreSaveMediationPolicy.bind(this),
+      dataStoreRemoveMediationPolicy: this.dataStoreRemoveMediationPolicy.bind(this),
+      dataStoreGetMediationPolicies: this.dataStoreGetMediationPolicies.bind(this),
+      dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
+      dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
+      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
+      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
+      dataStoreGetRecipientDids: this.dataStoreGetRecipientDids.bind(this),
     }
   }
 
@@ -141,5 +166,76 @@ export class DataStore implements IAgentPlugin {
     if (!presentationEntity) throw new Error('not_found: Verifiable presentation not found')
 
     return presentationEntity.raw
+  }
+
+  async dataStoreSaveMediationPolicy({ did, policy }: IDataStoreSaveMediationPolicyArgs): Promise<string> {
+    const db = await getConnectedDb(this.dbConnection)
+    const existingDid = await db.getRepository(MediationPolicy).findOne({ where: { did } })
+    if (existingDid) throw new Error('already_exists: Mediation policy already exists for provided did')
+    const saveResult = await db.getRepository(MediationPolicy).save({ did, policy })
+    return saveResult.did
+  }
+
+  async dataStoreRemoveMediationPolicy({
+    did,
+  }: IDataStoreRemoveMediationPolicyArgs): Promise<RemoveMediationPolicyResult> {
+    const db = await getConnectedDb(this.dbConnection)
+    const findFilter = { where: { did } }
+    const existingEntry = await db.getRepository(MediationPolicy).findOne(findFilter)
+    if (!existingEntry) return null
+    await db.getRepository(MediationPolicy).remove(existingEntry)
+    return existingEntry.did
+  }
+
+  async dataStoreGetMediationPolicies({
+    policy,
+  }: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicy[]> {
+    const db = await getConnectedDb(this.dbConnection)
+    return await db.getRepository(MediationPolicy).findBy({ policy })
+  }
+
+  async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {
+    const db = await getConnectedDb(this.dbConnection)
+    const saveResult = await db.getRepository(Mediation).save({ did, status })
+    return saveResult.did
+  }
+
+  async dataStoreGetMediation({
+    did,
+    status,
+  }: IDataStoreGetMediationArgs): Promise<DataStoreGetMediationResult> {
+    const db = await getConnectedDb(this.dbConnection)
+    const findFilter = { where: { did, status } } as const
+    return await db.getRepository(Mediation).findOne(findFilter)
+  }
+
+  async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
+    const db = await getConnectedDb(this.dbConnection)
+    const findFilter = { where: { did, recipient_did } }
+    const existing = await db.getRepository(RecipientDid).findOne(findFilter)
+    if (existing) return recipient_did
+    const result = await db.getRepository(RecipientDid).save({ did, recipient_did })
+    return result.recipient_did
+  }
+
+  async dataStoreRemoveRecipientDid({
+    did,
+    recipient_did,
+  }: IDataStoreRemoveRecipientDid): Promise<RemoveRecipientDidResult> {
+    const db = await getConnectedDb(this.dbConnection)
+    const findFilter = { where: { did, recipient_did } }
+    const existingEntry = await db.getRepository(RecipientDid).findOne(findFilter)
+    if (!existingEntry) return null
+    await db.getRepository(RecipientDid).remove(existingEntry)
+    return existingEntry.recipient_did
+  }
+
+  async dataStoreGetRecipientDids({
+    did,
+    offset: _offset,
+    limit: _limit,
+  }: IDataStoreGetRecipientDids): Promise<RecipientDids> {
+    const db = await getConnectedDb(this.dbConnection)
+    return await db.getRepository(RecipientDid).findBy({ did })
   }
 }

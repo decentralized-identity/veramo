@@ -101,6 +101,7 @@ import {
   _FlattenedJWS,
   _GenericJWS,
 } from './types/utility-types.js'
+import { constants } from 'crypto'
 
 const debug = Debug('veramo:did-comm:action-handler')
 
@@ -145,7 +146,10 @@ export class DIDComm implements IAgentPlugin {
    * @param transports - A list of {@link IDIDCommTransport} objects. Defaults to
    *   {@link @veramo/did-comm#DIDCommHttpTransport | DIDCommHttpTransport}
    */
-  constructor(transports: IDIDCommTransport[] = [new DIDCommHttpTransport()]) {
+  constructor(
+    transports: IDIDCommTransport[] = [new DIDCommHttpTransport()],
+    isMediateDefaultGrantAll = true,
+  ) {
     this.transports = transports
     this.methods = {
       sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1.bind(this),
@@ -153,6 +157,7 @@ export class DIDComm implements IAgentPlugin {
       unpackDIDCommMessage: this.unpackDIDCommMessage.bind(this),
       packDIDCommMessage: this.packDIDCommMessage.bind(this),
       sendDIDCommMessage: this.sendDIDCommMessage.bind(this),
+      isMediateDefaultGrantAll: () => Promise.resolve(isMediateDefaultGrantAll),
     }
   }
 

@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm'
+import { MigrationInterface, QueryRunner, Table, TableCheck } from 'typeorm'
 import Debug from 'debug'
 import { migrationGetTableName } from './migration-functions.js'
 
@@ -10,7 +10,6 @@ const debug = Debug('veramo:data-store:initial-migration')
  * @public
  */
 export class CreateDatabase1447159020001 implements MigrationInterface {
-
   name = 'CreateDatabase1447159020001' // Used in case this class gets minified, which would change the classname
 
   async up(queryRunner: QueryRunner): Promise<void> {
@@ -21,7 +20,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE UNIQUE INDEX \"IDX_6098cca69c838d91e55ef32fe1\" ON \"identifier\" (\"alias\", \"provider\")",
     await queryRunner.createTable(
       new Table({
-        name: migrationGetTableName(queryRunner,'identifier'),
+        name: migrationGetTableName(queryRunner, 'identifier'),
         columns: [
           { name: 'did', type: 'varchar', isPrimary: true },
           { name: 'provider', type: 'varchar', isNullable: true },
@@ -44,7 +43,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE TABLE \"key\" (\"kid\" varchar PRIMARY KEY NOT NULL, \"kms\" varchar NOT NULL, \"type\" varchar NOT NULL, \"publicKeyHex\" varchar NOT NULL, \"privateKeyHex\" varchar NOT NULL, \"meta\" text, \"identifierDid\" varchar, CONSTRAINT \"FK_3f40a9459b53adf1729dbd3b787\" FOREIGN KEY (\"identifierDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION)",
     await queryRunner.createTable(
       new Table({
-        name: migrationGetTableName(queryRunner,'key'),
+        name: migrationGetTableName(queryRunner, 'key'),
         columns: [
           { name: 'kid', type: 'varchar', isPrimary: true },
           { name: 'kms', type: 'varchar' },
@@ -222,6 +221,66 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
             referencedColumnNames: ['did'],
             referencedTableName: migrationGetTableName(queryRunner, 'identifier'),
           },
+        ],
+      }),
+      true,
+    )
+
+    debug('creating mediation_policies table')
+    await queryRunner.createTable(
+      new Table({
+        name: migrationGetTableName(queryRunner, 'mediation_policy'),
+        columns: [
+          { name: 'id', type: 'varchar', isPrimary: true },
+          { name: 'did', type: 'varchar', isNullable: false, isUnique: true },
+          { name: 'policy', type: 'varchar', isNullable: false },
+        ],
+      }),
+      true,
+    )
+
+    /**
+     * NOTE: sqlite does not support enums so we use this check contstraint instead
+     **/
+    // await queryRunner.createCheckConstraint(
+    //   'mediation_policy',
+    //   new TableCheck({
+    //     columnNames: ['policy'],
+    //     expression: `policy IN ('ALLOW', 'DENY')`,
+    //   }),
+    // )
+
+    debug(`creating mediation table`)
+    await queryRunner.createTable(
+      new Table({
+        name: migrationGetTableName(queryRunner, 'mediation'),
+        columns: [
+          { name: 'id', type: 'varchar', isPrimary: true },
+          { name: 'did', type: 'varchar', isNullable: false },
+          { name: 'status', type: 'varchar', isNullable: false },
+        ],
+      }),
+      true,
+    )
+    /**
+     * NOTE: sqlite does not support enums so we use this check contstraint instead
+     **/
+    // await queryRunner.createCheckConstraint(
+    //   'mediation',
+    //   new TableCheck({
+    //     columnNames: ['status'],
+    //     expression: `status IN ('GRANTED', 'DENIED')`,
+    //   }),
+    // )
+
+    debug('creating recipient_dids table')
+    await queryRunner.createTable(
+      new Table({
+        name: migrationGetTableName(queryRunner, 'recipient_did'),
+        columns: [
+          { name: 'id', type: 'varchar', isPrimary: true },
+          { name: 'did', type: 'varchar', isNullable: false },
+          { name: 'recipient_did', type: 'varchar', isNullable: false },
         ],
       }),
       true,

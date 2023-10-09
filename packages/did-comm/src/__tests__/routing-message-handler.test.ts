@@ -7,6 +7,7 @@ import {
   IKeyManager,
   IMessageHandler,
   IResolver,
+  MediationStatus,
   TAgent,
 } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
@@ -21,7 +22,7 @@ import {
   CoordinateMediationMediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
-  MEDIATE_DENY_MESSAGE_TYPE,
+  CoordinateMediation,
 } from '../protocols/coordinate-mediation-message-handler.js'
 import { DIDCommMessageMediaType } from '../types/message-types.js'
 import {
@@ -107,7 +108,7 @@ describe('routing-message-handler', () => {
     })
 
     recipient = await agent.didManagerImport({
-      did: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+      did: 'did:fake:routerqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
       keys: [
         {
           type: 'Ed25519',
@@ -151,8 +152,6 @@ describe('routing-message-handler', () => {
       provider: 'did:fake',
       alias: 'receiver',
     })
-    // console.log('sender: ', sender)
-    // console.log('recipient: ', recipient)
 
     const requestWithAgent = RequestWithAgentRouter({ agent })
 
@@ -175,7 +174,7 @@ describe('routing-message-handler', () => {
 
   afterAll(async () => {
     try {
-      await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+      await new Promise((resolve, _reject) => didCommEndpointServer?.close(resolve))
     } catch (e: any) {
       //nop
     }
@@ -191,15 +190,11 @@ describe('routing-message-handler', () => {
 
     // 1. Coordinate mediation
     const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
-    await agent.sendDIDCommMessage({
-      messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
-    })
+    const message = { packing: 'authcrypt', message: mediateRequestMessage } as const
+    const packedMessage = await agent.packDIDCommMessage(message)
+    const recipientDidUrl = mediator.did
+    const messageId = mediateRequestMessage.id
+    await agent.sendDIDCommMessage({ messageId, packedMessage, recipientDidUrl })
 
     // 2. Forward message
     const innerMessage = await agent.packDIDCommMessage({
@@ -289,7 +284,7 @@ describe('routing-message-handler', () => {
     // 2. Save deny message
     await agent.dataStoreSaveMessage({
       message: {
-        type: MEDIATE_DENY_MESSAGE_TYPE,
+        type: CoordinateMediation.MEDIATE_DENY,
         from: mediator.did,
         to: recipient.did,
         id: v4(),
@@ -371,7 +366,7 @@ describe('routing-message-handler', () => {
     // 2. Save deny message
     await agent.dataStoreSaveMessage({
       message: {
-        type: MEDIATE_DENY_MESSAGE_TYPE,
+        type: CoordinateMediation.MEDIATE_DENY,
         from: mediator.did,
         to: recipient.did,
         id: v4(),

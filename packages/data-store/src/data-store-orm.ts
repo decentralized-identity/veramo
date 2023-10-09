@@ -84,7 +84,7 @@ export class DataStoreORM implements IAgentPlugin {
 
   private async identifiersQuery(
     args: FindArgs<TIdentifiersColumns>,
-    context: AuthorizedDIDContext,
+    context?: AuthorizedDIDContext,
   ): Promise<SelectQueryBuilder<Identifier>> {
     const where = createWhereObject(args)
     let qb = (await getConnectedDb(this.dbConnection))
@@ -101,7 +101,7 @@ export class DataStoreORM implements IAgentPlugin {
     args: FindArgs<TIdentifiersColumns>,
     context: AuthorizedDIDContext,
   ): Promise<PartialIdentifier[]> {
-    const identifiers = await (await this.identifiersQuery(args, context)).getMany()
+    const identifiers = await (await this.identifiersQuery(args)).getMany()
     return identifiers.map((i) => {
       const identifier: PartialIdentifier = i as PartialIdentifier
       if (identifier.controllerKeyId === null) {
@@ -416,11 +416,11 @@ function decorateQB(
 
   if (input?.order) {
     for (const item of input.order) {
-      qb = qb.addSelect(qb.connection.driver.escape(tableName) + '.' + qb.connection.driver.escape(item.column), item.column)
-      qb = qb.orderBy(
-        qb.connection.driver.escape(item.column),
-        item.direction,
+      qb = qb.addSelect(
+        qb.connection.driver.escape(tableName) + '.' + qb.connection.driver.escape(item.column),
+        item.column,
       )
+      qb = qb.orderBy(qb.connection.driver.escape(item.column), item.direction)
     }
   }
   return qb

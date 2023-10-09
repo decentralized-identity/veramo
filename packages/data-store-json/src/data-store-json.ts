@@ -1,19 +1,30 @@
 import {
   AuthorizedDIDContext,
+  DataStoreGetMediationResult,
   FindArgs,
   IAgentPlugin,
   IDataStore,
+  IDataStoreAddRecipientDid,
   IDataStoreDeleteMessageArgs,
   IDataStoreDeleteVerifiableCredentialArgs,
+  IDataStoreGetMediationPoliciesArgs,
   IDataStoreGetMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreORM,
+  IDataStoreRemoveMediationPolicyArgs,
+  IDataStoreRemoveRecipientDid,
+  IDataStoreSaveMediationArgs,
+  IDataStoreSaveMediationPolicyArgs,
   IDataStoreSaveMessageArgs,
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
   IIdentifier,
+  IMediation,
+  IMediationPolicies,
   IMessage,
+  RecipientDids,
+  RemoveMediationPolicyResult,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -37,9 +48,20 @@ import {
   VeramoJsonStore,
 } from './types.js'
 import { normalizeCredential } from 'did-jwt-vc'
+import { v4 } from 'uuid'
 
 type LocalRecords = Required<
-  Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
+  Pick<
+    VeramoJsonCache,
+    | 'dids'
+    | 'credentials'
+    | 'presentations'
+    | 'claims'
+    | 'messages'
+    | 'mediations'
+    | 'mediationPolicies'
+    | 'recipientDids'
+  >
 >
 
 /**
@@ -69,7 +91,16 @@ export class DataStoreJson implements IAgentPlugin {
   constructor(jsonStore: VeramoJsonStore) {
     this.notifyUpdate = jsonStore.notifyUpdate
     this.cacheTree = jsonStore as LocalRecords
-    const tables = ['dids', 'credentials', 'presentations', 'claims', 'messages'] as (keyof LocalRecords)[]
+    const tables = [
+      'dids',
+      'credentials',
+      'presentations',
+      'claims',
+      'messages',
+      'mediations',
+      'mediationPolicies',
+      'recipientDids',
+    ] as (keyof LocalRecords)[]
     for (const table of tables) {
       if (!this.cacheTree[table]) {
         this.cacheTree[table] = {}
@@ -86,7 +117,14 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-      //dataStoreDeleteVerifiablePresentation: this.dataStoreDeleteVerifiablePresentation.bind(this),
+      dataStoreSaveMediationPolicy: this.dataStoreSaveMediationPolicy.bind(this),
+      dataStoreRemoveMediationPolicy: this.dataStoreRemoveMediationPolicy.bind(this),
+      dataStoreGetMediationPolicies: this.dataStoreGetMediationPolicies.bind(this),
+      dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
+      dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
+      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
+      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
+      dataStoreGetRecipientDids: this.dataStoreGetRecipientDids.bind(this),
 
       // IDataStoreORM methods
       dataStoreORMGetIdentifiers: this.dataStoreORMGetIdentifiers.bind(this),
@@ -103,6 +141,61 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreORMGetVerifiablePresentationsCount:
         this.dataStoreORMGetVerifiablePresentationsCount.bind(this),
     }
+  }
+
+  async dataStoreSaveMediationPolicy({ did, policy }: IDataStoreSaveMediationPolicyArgs): Promise<string> {
+    this.cacheTree.mediationPolicies[v4()] = { did, policy }
+    return did
+  }
+
+  async dataStoreRemoveMediationPolicy({
+    did,
+  }: IDataStoreRemoveMediationPolicyArgs): Promise<RemoveMediationPolicyResult> {
+    const exists = Object.entries(this.cacheTree.mediationPolicies).find(([, entry]) => entry.did === did)
+    if (!exists) return null
+    const [id, { did: removedPolicyDid }] = exists
+    delete this.cacheTree.mediationPolicies[id]
+    return removedPolicyDid
+  }
+
+  async dataStoreGetMediationPolicies({
+    policy: policySought,
+  }: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicies> {
+    const isPolicyMatch = ({ policy }: IMediationPolicies[number]) => policy === policySought
+    return Object.values(this.cacheTree.mediationPolicies).filter(isPolicyMatch)
+  }
+
+  async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {
+    this.cacheTree.mediations[v4()] = { did, status }
+    return did
+  }
+
+  async dataStoreGetMediation({
+    did,
+    status,
+  }: IDataStoreSaveMediationArgs): Promise<DataStoreGetMediationResult> {
+    const isMediationMatch = (medation: IMediation) => medation.did === did && medation.status === status
+    const mediation = Object.values(this.cacheTree.mediations).find(isMediationMatch)
+    return mediation || null
+  }
+
+  async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
+    this.cacheTree.recipientDids[v4()] = { did, recipient_did }
+    return recipient_did
+  }
+
+  async dataStoreRemoveRecipientDid({ did, recipient_did }: IDataStoreRemoveRecipientDid): Promise<string> {
+    const exists = Object.entries(this.cacheTree.recipientDids).find(([, entry]) => {
+      return entry.recipient_did === recipient_did && entry.did === did
+    })
+    if (!exists) throw new Error('Recipient DID does not exist')
+    const [id, removedEntry] = exists
+    delete this.cacheTree.recipientDids[id]
+    return removedEntry.recipient_did
+  }
+
+  async dataStoreGetRecipientDids({ did }: IDataStoreRemoveRecipientDid): Promise<RecipientDids> {
+    return Object.values(this.cacheTree.recipientDids).filter((entry) => entry.did === did)
   }
 
   async dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string> {
@@ -295,13 +388,15 @@ export class DataStoreJson implements IAgentPlugin {
       expirationDate = new Date(vp.expirationDate)
     }
 
-    const credentials: VerifiableCredential[] = asArray(vp.verifiableCredential).map((cred: W3CVerifiableCredential) => {
-      if (typeof cred === 'string') {
-        return normalizeCredential(cred)
-      } else {
-        return <VerifiableCredential>cred
-      }
-    })
+    const credentials: VerifiableCredential[] = asArray(vp.verifiableCredential).map(
+      (cred: W3CVerifiableCredential) => {
+        if (typeof cred === 'string') {
+          return normalizeCredential(cred)
+        } else {
+          return <VerifiableCredential>cred
+        }
+      },
+    )
 
     const presentation: PresentationTableEntry = {
       hash,
@@ -617,7 +712,7 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
     filteredCollection = filteredCollection.slice(input.skip)
   }
   if (input.take) {
-    const start = input.skip && input.skip - 1 || 0
+    const start = (input.skip && input.skip - 1) || 0
     const end = start + input.take
     filteredCollection = filteredCollection.slice(start, end)
   }

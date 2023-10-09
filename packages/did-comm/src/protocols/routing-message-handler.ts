@@ -1,12 +1,15 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IDataStoreORM } from '@veramo/core-types'
+import {
+  IAgentContext,
+  IDIDManager,
+  IKeyManager,
+  IDataStore,
+  IDataStoreORM,
+  MediationStatus,
+} from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
-import {
-  MEDIATE_GRANT_MESSAGE_TYPE,
-  MEDIATE_DENY_MESSAGE_TYPE,
-} from './coordinate-mediation-message-handler.js'
 
 const debug = Debug('veramo:did-comm:routing-message-handler')
 
@@ -25,6 +28,8 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
     super()
   }
 
+  readonly #requiredMediationStatus = MediationStatus.GRANTED
+
   /**
    * Handles forward messages for Routing protocol
    * https://didcomm.org/routing/2.0/
@@ -33,34 +38,15 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
     if (message.type === FORWARD_MESSAGE_TYPE) {
       debug('Forward Message Received')
       try {
-        const { attachments, data } = message
-        if (!attachments) {
-          throw new Error('invalid_argument: Forward received without `attachments` set')
-        }
-        if (!data.next) {
-          throw new Error('invalid_argument: Forward received without `body.next` set')
-        }
+        const { attachments, data: { next: did = '' } = {} } = message
+        if (!attachments) throw new Error('invalid_argument: Forward received without `attachments` set')
+        if (!did) throw new Error('invalid_argument: Forward received without `body.next` set')
 
-        if (attachments.length > 0) {
-          // Check if receiver has been granted mediation
-          const mediationResponses = await context.agent.dataStoreORMGetMessages({
-            where: [
-              {
-                column: 'type',
-                value: [MEDIATE_GRANT_MESSAGE_TYPE, MEDIATE_DENY_MESSAGE_TYPE],
-                op: 'In',
-              },
-              {
-                column: 'to',
-                value: [data.next],
-                op: 'In',
-              },
-            ],
-            order: [{ column: 'createdAt', direction: 'DESC' }],
-          })
+        if (attachments.length) {
+          const status = this.#requiredMediationStatus
+          const mediation = await context.agent.dataStoreGetMediation({ did, status })
 
-          // If last mediation response was a grant (not deny)
-          if (mediationResponses.length > 0 && mediationResponses[0].type === MEDIATE_GRANT_MESSAGE_TYPE) {
+          if (mediation) {
             const recipients = attachments[0].data.json.recipients
             for (let i = 0; i < recipients.length; i++) {
               const recipient = recipients[i].header.kid

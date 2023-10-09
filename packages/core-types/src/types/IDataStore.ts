@@ -1,5 +1,8 @@
 import { IPluginMethodMap } from './IAgent.js'
+import { DataStoreGetMediationResult, IMediation, MediationStatus } from './IMediation.js'
+import { IMediationPolicies, MediationPolicies, RemoveMediationPolicyResult } from './IMediationPolicy.js'
 import { IMessage } from './IMessage.js'
+import { RecipientDids, RemoveRecipientDidResult } from './IRecipientDid.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
 
 /**
@@ -91,6 +94,121 @@ export interface IDataStoreGetVerifiablePresentationArgs {
 }
 
 /**
+ * Input arguments for {@link IDataStore.dataStoreSaveMediationPolicy | dataStoreSaveMediationPolicy}
+ * @public
+ */
+export interface IDataStoreSaveMediationPolicyArgs {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. policy
+   */
+  policy: MediationPolicies
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreRemoveMediationPolicy | dataStoreRemoveMediationPolicy}
+ * @public
+ */
+export interface IDataStoreRemoveMediationPolicyArgs {
+  /**
+   * Required. did
+   */
+  did: string
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreGetMediationPolicies | dataStoreGetMediationPolicies}
+ * @public
+ */
+export interface IDataStoreGetMediationPoliciesArgs {
+  /**
+   * Required. policy
+   */
+  policy: MediationPolicies
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation}
+ * @public
+ */
+export interface IDataStoreSaveMediationArgs {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. mediation status
+   */
+  status: MediationStatus
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation}
+ * @public
+ */
+export interface IDataStoreGetMediationArgs {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. mediation status
+   */
+  status: MediationStatus
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreAddRecipientDid | dataStoreAddRecipientDid}
+ * @public
+ */
+export interface IDataStoreAddRecipientDid {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. recipient did
+   */
+  recipient_did: string
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreRemoveRecipientDid | dataStoreRemoveRecipientDid}
+ * @public
+ */
+export interface IDataStoreRemoveRecipientDid {
+  /**
+   * Required. did
+   */
+  did: string
+  /** Required. recipient did
+   */
+  recipient_did: string
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreGetRecipientDids | dataStoreGetRecipientDids}
+ * @public
+ */
+export interface IDataStoreGetRecipientDids {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Optional. limit
+   */
+  limit?: number
+  /**
+   * Optional. offset
+   */
+  offset?: number
+}
+
+/**
  * Basic data store interface
  * @public
  */
@@ -152,4 +270,62 @@ export interface IDataStore extends IPluginMethodMap {
   dataStoreGetVerifiablePresentation(
     args: IDataStoreGetVerifiablePresentationArgs,
   ): Promise<VerifiablePresentation>
+
+  /**
+   * Saves mediation policy to the data store
+   * @param args - mediation policy
+   * @returns a promise that resolves to the recipient did
+   */
+  dataStoreSaveMediationPolicy(args: IDataStoreSaveMediationPolicyArgs): Promise<string>
+
+  /**
+   * Removes a mediation policy from the data store
+   * @param args - mediation policy
+   * @returns a promise that resolves to the recipient did
+   */
+  dataStoreRemoveMediationPolicy(
+    args: IDataStoreRemoveMediationPolicyArgs,
+  ): Promise<RemoveMediationPolicyResult>
+
+  /**
+   * Gets mediation policies from the data store
+   * @param args - policy
+   * @returns a promise that resolves to the list of matched Mediation Policies
+   */
+  dataStoreGetMediationPolicies(args: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicies>
+
+  /**
+   * Saves mediation status to the data store
+   * @param args - mediation status
+   * @returns a promise that resolves to the recipient did
+   */
+  dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<string>
+
+  /**
+   * Gets mediation status from the data store
+   * @param args - did
+   * @returns a promise that resolves to the recipient did and mediation status
+   */
+  dataStoreGetMediation(args: IDataStoreGetMediationArgs): Promise<DataStoreGetMediationResult>
+
+  /**
+   * Saves recipient dids to the data store
+   * @param args - recipient dids
+   * @returns a promise that resolves to the added recipient did
+   */
+  dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
+
+  /**
+   * Removes recipient dids from the data store
+   * @param args - recipient dids
+   * @returns a promise that resolves to the removed recipient did or null if not found
+   */
+  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<RemoveRecipientDidResult>
+
+  /**
+   * Saves recipient dids to the data store
+   * @param args - recipient dids
+   * @returns a promise that resolves to the list of recipient dids
+   */
+  dataStoreGetRecipientDids(args: IDataStoreGetRecipientDids): Promise<RecipientDids>
 }

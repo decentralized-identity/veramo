@@ -42,6 +42,14 @@ agent:
                 - dataStoreSaveVerifiableCredential
                 - dataStoreGetVerifiablePresentation
                 - dataStoreSaveVerifiablePresentation
+                - dataStoreSaveMediationPolicy
+                - dataStoreRemoveMediationPolicy
+                - dataStoreGetMediationPolicies
+                - dataStoreSaveMedidation
+                - dataStoreGetMediation
+                - dataStoreAddRecipientDid
+                - dataStoreRemoveRecipientDid
+                - dataStoreGetRecipientDids
                 - dataStoreORMGetIdentifiers
                 - dataStoreORMGetIdentifiersCount
                 - dataStoreORMGetMessages
@@ -64,3 +72,12 @@ agent:
                 - createSelectiveDisclosureRequest
                 - getVerifiableCredentialsForSdr
                 - validatePresentationAgainstSdr
+                - dataStoreSaveMediationPolicy
+                - dataStoreRemoveMediationPolicy
+                - dataStoreGetMediationPolicies
+                - dataStoreSaveMedidation
+                - dataStoreGetMediation
+                - dataStoreAddRecipientDid
+                - dataStoreRemoveRecipientDid
+                - dataStoreGetRecipientDids
+
