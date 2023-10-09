@@ -62,7 +62,16 @@
     "Oliver Terbu",
     "Cody Hatfield"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "DIDComm",
+    "veramo-plugin",
+    "DIDComm v2",
+    "DIDComm Messaging",
+    "JWE"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

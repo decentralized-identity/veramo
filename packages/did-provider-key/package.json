@@ -49,7 +49,18 @@
     "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
     "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "veramo-plugin",
+    "did:key",
+    "multibase",
+    "multiformats",
+    "Ed25519",
+    "X25519",
+    "Secp256k1"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

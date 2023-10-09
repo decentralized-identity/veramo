@@ -45,7 +45,17 @@
     "Mircea Nistor <mircea.nistor@mesh.xyz>",
     "Simonas Karuzas <simonas.karuzas@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "data store",
+    "database",
+    "JSON",
+    "veramo-plugin",
+    "local-storage",
+    "session-storage"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

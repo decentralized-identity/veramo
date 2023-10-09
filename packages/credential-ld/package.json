@@ -64,7 +64,19 @@
     "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
     "Nick Reynolds <nick.reynolds@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "JSON-LD",
+    "Data Integrity",
+    "EcdsaSecp256k1RecoverySignature2020",
+    "Ed25519Signature2018",
+    "Ed25519Signature2020",
+    "JsonWebSignature2020",
+    "vc-ld-json",
+    "veramo-plugin"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

@@ -34,7 +34,14 @@
     "Consensys Mesh R&D <hello@veramo.io>",
     "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "veramo-plugin",
+    "did:jwk",
+    "JWK"
+  ],
   "license": "Apache-2.0",
   "files": [
     "build/**/*",

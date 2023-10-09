@@ -59,7 +59,10 @@
   "keywords": [
     "Veramo",
     "ION",
-    "DID"
+    "DID",
+    "veramo-plugin",
+    "did:ion",
+    "Sidetree"
   ],
   "license": "Apache-2.0",
   "type": "module",

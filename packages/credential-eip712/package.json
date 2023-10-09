@@ -50,7 +50,14 @@
     "Mircea Nistor <mircea.nistor@mesh.xyz>",
     "Simonas Karuzas <simonas.karuzas@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "EIP712",
+    "EthereumEIP712Signature2021",
+    "veramo-plugin"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

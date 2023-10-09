@@ -38,7 +38,12 @@
     "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
   "license": "Apache-2.0",
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "test",
+    "jest",
+    "util"
+  ],
   "type": "module",
   "moduleDirectories": [
     "node_modules",
