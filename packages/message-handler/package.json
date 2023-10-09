@@ -26,15 +26,25 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/message-handler"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
   "contributors": [
-    {
-      "name": "Mircea Nistor",
-      "email": "mircea.nistor@mesh.xyz"
-    }
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "veramo-plugin",
+    "aggregator",
+    "messaging",
+    "DIDComm"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

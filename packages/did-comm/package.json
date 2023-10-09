@@ -49,13 +49,29 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-comm"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
   "contributors": [
-    "Mircea Nistor <mircea.nistor@mesh.xyz",
-    "Oliver Terbu <oliver.terbu@mesh.xyz"
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>",
+    "Nick Reynolds <nick.reynolds@mesh.xyz>",
+    "Oliver Terbu",
+    "Cody Hatfield"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "DIDComm",
+    "veramo-plugin",
+    "DIDComm v2",
+    "DIDComm Messaging",
+    "JWE"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

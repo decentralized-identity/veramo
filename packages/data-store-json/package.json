@@ -35,9 +35,27 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Mircea Nistor <mircea.nistor@mesh.xyz>",
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/data-store-json"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
+  "contributors": [
+    "Mircea Nistor <mircea.nistor@mesh.xyz>",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>"
+  ],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "data store",
+    "database",
+    "JSON",
+    "veramo-plugin",
+    "local-storage",
+    "session-storage"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

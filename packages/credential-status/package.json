@@ -30,10 +30,25 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/credential-status"
+  },
   "author": "Konstantin Tsabolov <konstantin.tsabolov@spherity.com>",
-  "contributors": [],
-  "keywords": [],
+  "contributors": [
+    "Consensys Mesh R&D <hello@veramo.io>",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "credentialStatus",
+    "aggregator",
+    "veramo-plugin"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [
