@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-ion",
   "description": "Veramo ion-did based identity controller plugin.",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",

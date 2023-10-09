@@ -1,7 +1,7 @@
 {
   "name": "@veramo/remote-client",
   "description": "A remote client plugin for Veramo. Call the methods of a remote agent locally",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",

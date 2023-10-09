@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-web",
   "description": "Veramo plugin that can enable creation and control of did:web identifiers.",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
