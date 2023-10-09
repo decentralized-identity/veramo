@@ -1,10 +1,14 @@
 # Contributors Highlight 
 
-### Team
+### Veramolabs Team, including former members
 - [Mircea Nistor](https://github.com/mirceanis)
 - [Simonas Karuzas](https://github.com/simonas-notcat)
-- [Italo Borsatto](https://github.com/italobb)
 - [Nick Reynolds](https://github.com/nickreynolds)
+- [Italo Borsatto](https://github.com/italobb)
+- [Oliver Terbu](https://github.com/awoie)
+- [Jason Healy](https://github.com/jasheal)
+- [Greg Bugyis](https://github.com/gbugyis)
+- [Martin Riedel](https://github.com/rado0x54)
 
 Special thanks to the following extraordinary individuals, for their contributions to the Veramo project:
 
@@ -16,15 +20,11 @@ Special thanks to the following extraordinary individuals, for their contributio
 - [Ilya Nevolin](https://github.com/inevolin)
 - [Andraz](https://github.com/andyv09)
 - [Konstantin Tsabolov](https://github.com/tsabolov)
-- [Martin Riedel](https://github.com/rado0x54)
 - [Emile Baizel](https://github.com/ebaizel)
 - [Moe Jangda](https://github.com/mistermoe)
 - [Martijn de Bruijn](https://github.com/martijndebruijn)
 - [Leo Ribeiro](https://github.com/leordev)
-- [Oliver Terbu](https://github.com/awoie)
-- [Greg Bugyis](https://github.com/gbugyis)
 - [Oriel Steele](https://github.com/OR13)
-- [Jason Healy](https://github.com/jasheal)
 - [Trent Larson](https://github.com/trentlarson)
 - [Andres Junge](https://github.com/ajunge)
 - [Roderik van der Veer](https://github.com/roderik)

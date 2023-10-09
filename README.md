@@ -1,7 +1,7 @@
 [![Discord](https://img.shields.io/discord/878293684620234752?logo=discord&logoColor=white&style=flat-square)](https://discord.gg/huwyNfVkhe)
 ![Twitter Follow](https://img.shields.io/twitter/follow/veramolabs?logo=twitter&style=flat-square)
-[![Build, Test and Publish](https://github.com/uport-project/veramo/workflows/Build,%20Test%20and%20Publish/badge.svg?branch=next)](https://github.com/uport-project/veramo/actions?query=workflow%3A%22Build%2C+Test+and+Publish%22)
-[![codecov](https://codecov.io/gh/uport-project/veramo/branch/next/graph/badge.svg)](https://codecov.io/gh/uport-project/veramo)
+[![Build, Test and Publish](https://github.com/decentralized-identity/veramo/workflows/Build,%20Test%20and%20Publish/badge.svg?branch=next)](https://github.com/decentralized-identity/veramo/actions?query=workflow%3A%22Build%2C+Test+and+Publish%22)
+[![codecov](https://codecov.io/gh/decentralized-identity/veramo/branch/next/graph/badge.svg)](https://codecov.io/gh/decentralized-identity/veramo)
 
 # Veramo
 
@@ -19,7 +19,7 @@ roles:
 * Create and manage Decentralized Identifiers (DID)
 * Issue Verifiable Credentials (VCs) and Presentations (VPs)
 * Verify such VCs and VPs
-* Present credentials using Selective Diclosure
+* Present credentials using Selective Disclosure
 * Communicate with other agents using DIDComm (or other protocols)
 * Receive, filter, store and serve data
 * Control other agents remotely, or act as a proxy for them
@@ -42,18 +42,19 @@ See the full docs on [veramo.io](https://veramo.io)
     - [Event System](https://veramo.io/docs/veramo_agent/event_system)
 
 Also, there are a few examples and code samples that you can get from
-the [integration test suite](https://github.com/uport-project/veramo/tree/next/__tests__/shared).
+the [integration test suite](https://github.com/decentralized-identity/veramo/tree/next/__tests__/shared).
 
 ## Contributing
 
-This repository contains the [Veramo core package](https://github.com/uport-project/veramo/tree/next/packages/core),
+This repository contains
+the [Veramo core package](https://github.com/decentralized-identity/veramo/tree/next/packages/core),
 which only becomes relevant when you add plugins to it. These plugins can be developed by anyone and Veramo provides is
 the glue that can make them interoperate.
 
 We maintain some "core" plugins in this monorepo to provide some functionality "out of the box", but a lot more can be
 done than is present in this codebase. We encourage you to contribute feedback and fixes for everything that you see
 here, as well as posting about your own plugins or projects on
-our [Discussions page](https://github.com/uport-project/veramo/discussions/categories/show-and-tell) or on
+our [Discussions page](https://github.com/decentralized-identity/veramo/discussions/categories/show-and-tell) or on
 our [Discord server](https://discord.gg/AEtRtyntEC).
 
 Our [documentation site](https://veramo.io/) is also open-source, and we invite you to contribute feedback and

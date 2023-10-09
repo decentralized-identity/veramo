@@ -1,7 +1,7 @@
 {
   "name": "@veramo/credential-eip712",
   "description": "Veramo plugin for working with EIP712 Verifiable Credentials & Presentations.",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
@@ -38,19 +38,26 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Nick Reynolds <nick.reynolds@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/credential-eip712"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
   "contributors": [
-    {
-      "name": "Simonas Karuzas",
-      "email": "simonas.karuzas@mesh.xyz"
-    },
-    {
-      "name": "Italo Borssatto",
-      "email": "italo.borssatto@mesh.xyz"
-    }
+    "Nick Reynolds <nick.reynolds@mesh.xyz>",
+    "Italo Borssatto",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "EIP712",
+    "EthereumEIP712Signature2021",
+    "veramo-plugin"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

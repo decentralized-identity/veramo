@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-ion",
   "description": "Veramo ion-did based identity controller plugin.",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -43,12 +43,24 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-ion"
+  },
   "author": "Sphereon <dev@sphereon.com>",
+  "contributors": [
+    "Consensys Mesh R&D <hello@veramo.io>",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
   "keywords": [
     "Veramo",
     "ION",
-    "DID"
+    "DID",
+    "veramo-plugin",
+    "did:ion",
+    "Sidetree"
   ],
   "license": "Apache-2.0",
   "type": "module",

@@ -2,7 +2,7 @@
   "name": "@veramo/test-utils",
   "private": true,
   "description": "Helper methods for Veramo integration tests. This package is not meant to be used in production.",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -28,10 +28,22 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Mircea Nistor <mircea.nistor@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/test-utils"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
+  "contributors": [
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
   "license": "Apache-2.0",
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "test",
+    "jest",
+    "util"
+  ],
   "type": "module",
   "moduleDirectories": [
     "node_modules",

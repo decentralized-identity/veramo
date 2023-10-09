@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-pkh",
   "description": "Veramo plugin that can enable creation and control of did:pkh identifiers.",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -29,10 +29,29 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-pkh"
+  },
   "author": "Diego Chagastelles <dchagastelles@gmail.com>",
-  "contributors": [],
-  "keywords": [],
+  "contributors": [
+    "Consensys Mesh R&D <hello@veramo.io>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>"
+  ],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "veramo-plugin",
+    "did:pkh",
+    "public key",
+    "hash",
+    "blockchainAccountId",
+    "ethereum",
+    "cosmos"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

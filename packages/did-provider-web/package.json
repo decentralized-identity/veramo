@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-web",
   "description": "Veramo plugin that can enable creation and control of did:web identifiers.",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -27,12 +27,23 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-web"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
   "contributors": [
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
     "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "veramo-plugin",
+    "did:web"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

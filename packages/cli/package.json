@@ -1,7 +1,7 @@
 {
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
-  "version": "5.5.2",
+  "version": "5.5.3",
   "exports": {
     ".": {
       "types": "./build/cli.d.ts",
@@ -120,12 +120,22 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/cli"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
   "contributors": [
-    "Mircea Nistor <mircea.nistor@mesh.xyz"
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "CLI",
+    "DID",
+    "Verifiable Credential"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-provider-key",
   "description": "Veramo plugin that can enable creation and control of did:key identifiers.",
-  "version": "5.5.0",
+  "version": "5.5.3",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -35,12 +35,29 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:uport-project/veramo.git",
-  "author": "Oliver Terbu <oliver.terbu@mesh.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-key"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
   "contributors": [
-    "Mircea Nistor <mircea.nistor@mesh.xyz"
+    "Oliver Terbu",
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "veramo-plugin",
+    "did:key",
+    "multibase",
+    "multiformats",
+    "Ed25519",
+    "X25519",
+    "Secp256k1"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "moduleDirectories": [

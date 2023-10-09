@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.3](https://github.com/decentralized-identity/veramo/compare/v5.5.2...v5.5.3) (2023-10-09)
+
+**Note:** Version bump only for package @veramo/test-react-app
+
+
+
+
+
 ## [5.5.2](https://github.com/uport-project/veramo/compare/v5.5.1...v5.5.2) (2023-10-06)
 
 **Note:** Version bump only for package @veramo/test-react-app

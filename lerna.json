@@ -1,8 +1,8 @@
 {
-  "version": "5.5.2",
+  "version": "5.5.3",
   "npmClient": "pnpm",
   "changelog": {
-    "repo": "uport-project/veramo",
+    "repo": "decentralized-identity/veramo",
     "cacheDir": ".changelog"
   },
   "command": {

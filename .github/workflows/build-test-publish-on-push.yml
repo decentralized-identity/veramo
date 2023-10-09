@@ -185,7 +185,7 @@ jobs:
 
       - name: 'Setup git coordinates'
         run: |
-          git remote set-url origin https://${{secrets.GH_USER}}:${{secrets.GH_TOKEN}}@github.com/uport-project/veramo.git
+          git remote set-url origin https://${{secrets.GH_USER}}:${{secrets.GH_TOKEN}}@github.com/decentralized-identity/veramo.git
           git config user.name $GH_USER
           git config user.email $GH_EMAIL
 
