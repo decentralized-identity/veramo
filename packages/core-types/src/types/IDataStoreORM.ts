@@ -417,4 +417,51 @@ export interface IDataStoreORM extends IPluginMethodMap {
     args: FindPresentationsArgs,
     context: AuthorizedDIDContext,
   ): Promise<number>
+
+  /**
+ * Input arguments for {@link IDataStore.dataStoreAddRecipientDid | dataStoreAddRecipientDid}
+ * @public
+ */
+export interface IDataStoreAddRecipientDid {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. recipient did
+   */
+  recipient_did: string
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreRemoveRecipientDid | dataStoreRemoveRecipientDid}
+ * @public
+ */
+export interface IDataStoreRemoveRecipientDid {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. recipient did
+   */
+  recipient_did: string
+}
+
+export interface IDataStoreListRecipientDids {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Optional. limit
+   */
+  limit?: number
+  /**
+   * Optional. offset
+   */
+  offset?: number
+}
+
+
 }

@@ -15,51 +15,6 @@ export interface IDataStoreSaveMessageArgs {
 }
 
 /**
- * Input arguments for {@link IDataStore.dataStoreAddRecipientDid | dataStoreAddRecipientDid}
- * @public
- */
-export interface IDataStoreAddRecipientDid {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Required. recipient did
-   */
-  recipient_did: string
-}
-
-/**
- * Input arguments for {@link IDataStore.dataStoreRemoveRecipientDid | dataStoreRemoveRecipientDid}
- * @public
- */
-export interface IDataStoreRemoveRecipientDid {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Required. recipient did
-   */
-  recipient_did: string
-}
-
-export interface IDataStoreListRecipientDids {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Optional. limit
-   */
-  limit?: number
-  /**
-   * Optional. offset
-   */
-  offset?: number
-}
-
-/**
  * Input arguments for {@link IDataStore.dataStoreGetMessage | dataStoreGetMessage}
  * @public
  */
@@ -137,6 +92,66 @@ export interface IDataStoreGetVerifiablePresentationArgs {
 }
 
 /**
+ * Input arguments for {@link IDataStore.dataStoreSaveMediatio | dataStoreSaveMediation}
+ * @public
+ */
+export interface IDataStoreSaveMediation {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. mediation status
+   */
+  recipient_did: 'GRANTED' | 'DENIED'
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreAddRecipientDid | dataStoreAddRecipientDid}
+ * @public
+ */
+export interface IDataStoreAddRecipientDid {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. recipient did
+   */
+  recipient_did: string
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreRemoveRecipientDid | dataStoreRemoveRecipientDid}
+ * @public
+ */
+export interface IDataStoreRemoveRecipientDid {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. recipient did
+   */
+  recipient_did: string
+}
+
+export interface IDataStoreListRecipientDids {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Optional. limit
+   */
+  limit?: number
+  /**
+   * Optional. offset
+   */
+  offset?: number
+}
+
+/**
  * Basic data store interface
  * @public
  */
@@ -147,20 +162,6 @@ export interface IDataStore extends IPluginMethodMap {
    * @returns a promise that resolves to the id of the message
    */
   dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string>
-
-  /**
-   * Saves recipient dids to the data store
-   * @param args - recipient dids
-   * @returns a promise that resolves to the list of recipient dids
-   */
-  dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
-
-  /**
-   * Saves recipient dids to the data store
-   * @param args - recipient dids
-   * @returns a promise that resolves to the list of recipient dids
-   */
-  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<string | null>
 
   /**
    * Gets message from the data store
@@ -212,4 +213,18 @@ export interface IDataStore extends IPluginMethodMap {
   dataStoreGetVerifiablePresentation(
     args: IDataStoreGetVerifiablePresentationArgs,
   ): Promise<VerifiablePresentation>
+
+  /**
+   * Saves recipient dids to the data store
+   * @param args - recipient dids
+   * @returns a promise that resolves to the list of recipient dids
+   */
+  dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
+
+  /**
+   * Saves recipient dids to the data store
+   * @param args - recipient dids
+   * @returns a promise that resolves to the list of recipient dids
+   */
+  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<string | null>
 }
