@@ -83,9 +83,7 @@ export const createMediateGrantMessage = (
     id: v4(),
     thid: thid,
     created_time: new Date().toISOString(),
-    body: {
-      routing_did: [mediatorDidUrl],
-    },
+    body: { routing_did: [mediatorDidUrl] },
   }
 }
 
@@ -163,11 +161,11 @@ export function createRecipientUpdateResponseMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createRecipientQueryResponseMessage(
+export const createRecipientQueryResponseMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
   dids: Record<'recipient_did', string>[],
-): IDIDCommMessage {
+): IDIDCommMessage => {
   return {
     type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
     from: recipientDidUrl,
@@ -181,10 +179,10 @@ export function createRecipientQueryResponseMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createDeliveryRequestMessage(
+export const createDeliveryRequestMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
-): IDIDCommMessage {
+): IDIDCommMessage => {
   return {
     id: v4(),
     type: DELIVERY_REQUEST_MESSAGE_TYPE,
