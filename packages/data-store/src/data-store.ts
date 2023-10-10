@@ -73,9 +73,10 @@ export class DataStore implements IAgentPlugin {
     return message.id
   }
 
-  async dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<void> {
+  async dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<string> {
     const db = await getConnectedDb(this.dbConnection)
-    await db.getRepository(Mediation).save(args)
+    const saveResult = await db.getRepository(Mediation).save(args)
+    return saveResult.did
   }
 
   // async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {

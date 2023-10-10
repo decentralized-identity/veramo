@@ -2490,6 +2490,28 @@
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreGetVerifiablePresentation | dataStoreGetVerifiablePresentation }"
         },
+        "IDataStoreSaveMediationArgs": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Required. did"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "GRANTED",
+                "DENIED"
+              ],
+              "description": "Required. mediation status"
+            }
+          },
+          "required": [
+            "did",
+            "status"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation }"
+        },
         "IDataStoreSaveMessageArgs": {
           "type": "object",
           "properties": {
@@ -2574,6 +2596,15 @@
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiablePresentation"
+          }
+        },
+        "dataStoreSaveMediation": {
+          "description": "Saves mediation status to the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreSaveMediationArgs"
+          },
+          "returnType": {
+            "type": "string"
           }
         },
         "dataStoreSaveMessage": {

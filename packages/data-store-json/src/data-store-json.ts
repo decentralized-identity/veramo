@@ -147,9 +147,10 @@ export class DataStoreJson implements IAgentPlugin {
     }
   }
 
-  async dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<void> {
+  async dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<string> {
     const mediation = this.cacheTree.mediation[args.did]
     if (!mediation) throw Error('Message not found')
+    return mediation.did
   }
 
   async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
