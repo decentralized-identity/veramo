@@ -251,8 +251,8 @@ describe('coordinate-mediation-message-handler', () => {
     )
   }
 
-  describe.only('mediator', () => {
-    it('should grant mediation to valid request via return_route', async () => {
+  describe('mediator', () => {
+    it.only('should grant mediation to valid request via return_route', async () => {
       expect.assertions(4)
 
       const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)

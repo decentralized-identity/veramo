@@ -8,7 +8,4 @@ export class RecipientDid {
 
   @Column()
   recipient_did!: string
-
-  @ManyToOne(() => Identifier, (identifier) => identifier?.recipient_dids, { onDelete: 'CASCADE' })
-  identifier?: Relation<Identifier>
 }
