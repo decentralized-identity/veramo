@@ -218,7 +218,7 @@ export interface IDataStore extends IPluginMethodMap {
    * @param args - mediation status
    * @returns a promise that resolves to the recipient did
    */
-  dataStoreSaveMediation(args: IDataStoreSaveMediation): Promise<string>
+  dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<void>
 
   /**
    * Saves recipient dids to the data store
