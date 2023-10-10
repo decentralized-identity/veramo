@@ -15,6 +15,7 @@ import {
   IDataStoreAddRecipientDid,
   IDataStoreRemoveRecipientDid,
   IDataStoreListRecipientDids,
+  IDataStoreSaveMediationArgs,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
@@ -26,6 +27,7 @@ import { DataSource } from 'typeorm'
 import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
 import { Identifier } from './entities/identifier.js'
+import { Mediation } from './entities/mediation.js'
 
 /**
  * This class implements the {@link @veramo/core-types#IDataStore} interface using a TypeORM compatible database.
@@ -57,10 +59,10 @@ export class DataStore implements IAgentPlugin {
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-
-      // dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
-      // dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
-      // dataStoreListRecipientDids: this.dataStoreListRecipientDids.bind(this),
+      dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
+      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
+      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
+      dataStoreListRecipientDids: this.dataStoreListRecipientDids.bind(this),
     }
   }
 
@@ -71,41 +73,47 @@ export class DataStore implements IAgentPlugin {
     return message.id
   }
 
-  // async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
-  //   const db = await getConnectedDb(this.dbConnection)
-  //   const identifier = await db.getRepository(Identifier).findOneBy({ did })
-  //   if (!identifier) throw new Error('not_found: Identifier not found')
-  //   const result = await db.getRepository(RecipientDid).save({ identifier, recipient_did })
-  //   return result.recipient_did
-  // }
-  //
-  // async dataStoreRemoveRecipientDid({
-  //   did,
-  //   recipient_did,
-  // }: IDataStoreRemoveRecipientDid): Promise<string | null> {
-  //   const db = await getConnectedDb(this.dbConnection)
-  //   const identifier = await db.getRepository(Identifier).findOneBy({ did })
-  //   if (!identifier) throw new Error('not_found: Identifier not found')
-  //   const result = await db.getRepository(RecipientDid).findOneBy({ recipient_did })
-  //   if (!result) return result
-  //   await db.getRepository(RecipientDid).remove(result)
-  //   return result.recipient_did
-  // }
-  //
-  // async dataStoreListRecipientDids({ did, offset, limit }: IDataStoreListRecipientDids): Promise<string[]> {
-  //   const db = await getConnectedDb(this.dbConnection)
-  //   const identifier = await db.getRepository(Identifier).findOneBy({ did })
-  //   if (!identifier) throw new Error('not_found: Identifier not found')
-  //   // TODO: implement pagination
-  //   const result = await db
-  //     .getRepository(RecipientDid)
-  //     .createQueryBuilder('recipient_did')
-  //     .where('recipient_did.identifier = :identifier', { identifier: identifier })
-  //     .skip(offset)
-  //     .take(limit)
-  //     .getMany()
-  //   return result.map(({ recipient_did }) => recipient_did)
-  // }
+  async dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<string> {
+    const db = await getConnectedDb(this.dbConnection)
+    const { did } = await db.getRepository(Mediation).save(args)
+    return did
+  }
+
+  async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
+    const db = await getConnectedDb(this.dbConnection)
+    const identifier = await db.getRepository(Identifier).findOneBy({ did })
+    if (!identifier) throw new Error('not_found: Identifier not found')
+    const result = await db.getRepository(RecipientDid).save({ identifier, recipient_did })
+    return result.recipient_did
+  }
+
+  async dataStoreRemoveRecipientDid({
+    did,
+    recipient_did,
+  }: IDataStoreRemoveRecipientDid): Promise<string | null> {
+    const db = await getConnectedDb(this.dbConnection)
+    const identifier = await db.getRepository(Identifier).findOneBy({ did })
+    if (!identifier) throw new Error('not_found: Identifier not found')
+    const result = await db.getRepository(RecipientDid).findOneBy({ recipient_did })
+    if (!result) return result
+    await db.getRepository(RecipientDid).remove(result)
+    return result.recipient_did
+  }
+
+  async dataStoreListRecipientDids({ did, offset, limit }: IDataStoreListRecipientDids): Promise<string[]> {
+    const db = await getConnectedDb(this.dbConnection)
+    const identifier = await db.getRepository(Identifier).findOneBy({ did })
+    if (!identifier) throw new Error('not_found: Identifier not found')
+    // TODO: implement pagination
+    const result = await db
+      .getRepository(RecipientDid)
+      .createQueryBuilder('recipient_did')
+      .where('recipient_did.identifier = :identifier', { identifier: identifier })
+      .skip(offset)
+      .take(limit)
+      .getMany()
+    return result.map(({ recipient_did }) => recipient_did)
+  }
 
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
     const messageEntity = await (await getConnectedDb(this.dbConnection)).getRepository(Message).findOne({
