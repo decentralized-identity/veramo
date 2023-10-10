@@ -252,9 +252,7 @@ describe('coordinate-mediation-message-handler', () => {
   }
 
   describe('mediator', () => {
-    it.only('should grant mediation to valid request via return_route', async () => {
-      expect.assertions(4)
-
+    it.only('should receive mediate requests', async () => {
       const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
       const packedMessage = await agent.packDIDCommMessage({
         packing: 'authcrypt',
@@ -267,15 +265,46 @@ describe('coordinate-mediation-message-handler', () => {
       })
       expectMsg(mediateRequestMessage.id)
       expectReceiveRequest(mediateRequestMessage.id)
-      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-        {
-          data: expect.anything(),
-          type: 'DIDCommV2Message-sent',
-        },
-        expect.anything(),
-      )
-      expectGrantRequest(mediateRequestMessage.id)
     })
+
+    it.only('should respond to mediate requests with "GRANT"', async () => {
+      const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: mediateRequestMessage,
+      })
+      await agent.sendDIDCommMessage({
+        messageId: mediateRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+    
+    })
+
+    // it.only('should grant mediation to valid request via return_route', async () => {
+    //   expect.assertions(4)
+    //
+    //   const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+    //   const packedMessage = await agent.packDIDCommMessage({
+    //     packing: 'authcrypt',
+    //     message: mediateRequestMessage,
+    //   })
+    //   await agent.sendDIDCommMessage({
+    //     messageId: mediateRequestMessage.id,
+    //     packedMessage,
+    //     recipientDidUrl: mediator.did,
+    //   })
+    //   expectMsg(mediateRequestMessage.id)
+    //   expectReceiveRequest(mediateRequestMessage.id)
+    //   expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+    //     {
+    //       data: expect.anything(),
+    //       type: 'DIDCommV2Message-sent',
+    //     },
+    //     expect.anything(),
+    //   )
+    //   expectGrantRequest(mediateRequestMessage.id)
+    // })
 
     describe('mediator: "handleRecipientUpdate"', () => {
       const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'

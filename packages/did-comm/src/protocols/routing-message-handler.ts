@@ -57,7 +57,10 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
           })
 
           // If last mediation response was a grant (not deny)
-          if (mediationResponses.length > 0 && mediationResponses[0].type === CoordinateMediation.MEDIATE_GRANT) {
+          if (
+            mediationResponses.length > 0 &&
+            mediationResponses[0].type === CoordinateMediation.MEDIATE_GRANT
+          ) {
             const recipients = attachments[0].data.json.recipients
             for (let i = 0; i < recipients.length; i++) {
               const recipient = recipients[i].header.kid
