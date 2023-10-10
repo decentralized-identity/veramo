@@ -1,4 +1,5 @@
 import { IPluginMethodMap } from './IAgent.js'
+import { IMediation } from './IMediation.js'
 import { IMessage } from './IMessage.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
 
@@ -103,6 +104,17 @@ export interface IDataStoreSaveMediationArgs {
    * Required. mediation status
    */
   status: 'GRANTED' | 'DENIED'
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation}
+ * @public
+ */
+export interface IDataStoreGetMediationArgs {
+  /**
+   * Required. did
+   */
+  did: string
 }
 
 /**
@@ -219,6 +231,13 @@ export interface IDataStore extends IPluginMethodMap {
    * @returns a promise that resolves to the recipient did
    */
   dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<string>
+
+  /**
+   * Gets mediation status from the data store
+   * @param args - did
+   * @returns a promise that resolves to the recipient did and mediation status
+   */
+  dataStoreGetMediation(args: IDataStoreSaveMediationArgs): Promise<IMediation>
 
   /**
    * Saves recipient dids to the data store

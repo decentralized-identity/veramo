@@ -10,12 +10,14 @@ import {
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
   IMessage,
+  IMediation,
   VerifiableCredential,
   VerifiablePresentation,
   // IDataStoreAddRecipientDid,
   // IDataStoreRemoveRecipientDid,
   // IDataStoreListRecipientDids,
   IDataStoreSaveMediationArgs,
+  IDataStoreGetMediationArgs,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
@@ -60,6 +62,7 @@ export class DataStore implements IAgentPlugin {
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
       dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
+      dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
       // dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
       // dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
       // dataStoreListRecipientDids: this.dataStoreListRecipientDids.bind(this),
@@ -73,10 +76,18 @@ export class DataStore implements IAgentPlugin {
     return message.id
   }
 
-  async dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<string> {
+  async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {
     const db = await getConnectedDb(this.dbConnection)
-    const saveResult = await db.getRepository(Mediation).save(args)
+    const saveResult = await db.getRepository(Mediation).save({ did, status })
     return saveResult.did
+  }
+
+  async dataStoreGetMediation({ did }: IDataStoreGetMediationArgs): Promise<IMediation> {
+    const db = await getConnectedDb(this.dbConnection)
+    const findFilter = { where: { did, status: 'GRANTED' } } as const
+    const mediation = await db.getRepository(Mediation).findOne(findFilter)
+    if (!mediation) throw new Error('not_found: Mediation not found')
+    return mediation
   }
 
   // async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
