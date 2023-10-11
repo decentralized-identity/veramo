@@ -2082,7 +2082,7 @@
           ],
           "description": "Input arguments for  {@link IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs }"
         },
-        "IDataStoreSaveMediationArgs": {
+        "IDataStoreGetMediationArgs": {
           "type": "object",
           "properties": {
             "did": {
@@ -2534,6 +2534,28 @@
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreGetVerifiablePresentation | dataStoreGetVerifiablePresentation }"
         },
+        "IDataStoreSaveMediationArgs": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Required. did"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "GRANTED",
+                "DENIED"
+              ],
+              "description": "Required. mediation status"
+            }
+          },
+          "required": [
+            "did",
+            "status"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation }"
+        },
         "IDataStoreSaveMessageArgs": {
           "type": "object",
           "properties": {
@@ -2596,7 +2618,7 @@
         "dataStoreGetMediation": {
           "description": "Gets mediation status from the data store",
           "arguments": {
-            "$ref": "#/components/schemas/IDataStoreSaveMediationArgs"
+            "$ref": "#/components/schemas/IDataStoreGetMediationArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/IMediation"

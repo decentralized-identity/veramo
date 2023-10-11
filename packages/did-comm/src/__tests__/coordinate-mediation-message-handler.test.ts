@@ -255,6 +255,12 @@ describe('coordinate-mediation-message-handler', () => {
     it.only('should correctly handle MEDIATE GRANT requests', async () => {
       expect.assertions(4)
       const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+      console.log('####################### HERE ######################')
+      await agent.dataStoreSaveMediation({ did: recipient.did, status: 'GRANTED' })
+      console.log('####################### SAVED #####################')
+      const result = await agent.dataStoreGetMediation({ did: recipient.did, status: 'GRANTED' })
+      console.log('####################### RESULT ####################')
+      console.log(result)
       const packedMessage = await agent.packDIDCommMessage({
         packing: 'authcrypt',
         message: mediateRequestMessage,
