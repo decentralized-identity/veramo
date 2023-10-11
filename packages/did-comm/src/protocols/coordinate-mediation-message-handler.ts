@@ -9,7 +9,7 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 
-enum UpdateAction {
+export enum UpdateAction {
   ADD = 'add',
   REMOVE = 'remove',
 }
