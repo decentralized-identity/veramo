@@ -232,7 +232,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     // TODO: Come up with a method for approving and rejecting recipients
     const mediation = { did: from, status: 'GRANTED' } as const
     await context.agent.dataStoreSaveMediation(mediation)
-    const savedmediation = context.agent.dataStoreGetMediation(mediation)
+    const savedmediation = await context.agent.dataStoreGetMediation(mediation)
     console.log('##################################')
     console.log(savedmediation)
     console.log('##################################')
