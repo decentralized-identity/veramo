@@ -90,6 +90,25 @@ export const createMediateGrantMessage = (
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
+export const createMediateDenyMessage = (
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+  thid: string,
+): IDIDCommMessage => {
+  return {
+    type: CoordinateMediation.MEDIATE_DENY,
+    from: mediatorDidUrl,
+    to: recipientDidUrl,
+    id: v4(),
+    thid: thid,
+    created_time: new Date().toISOString(),
+    body: null,
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export const createMediateRequestMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
@@ -230,10 +249,11 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     }
     // NOTE: Grant requests to all recipients until new system implemented
     // TODO: Come up with a method for approving and rejecting recipients
+    // const response = createMediateDenyMessage(from, to, message.id)
+    const response = createMediateGrantMessage(from, to, message.id)
     const mediation = { did: from, status: 'GRANTED' } as const
     await context.agent.dataStoreSaveMediation(mediation)
 
-    const response = createMediateGrantMessage(from, to, message.id)
     const packedResponse = await context.agent.packDIDCommMessage({
       message: response,
       packing: 'authcrypt',
