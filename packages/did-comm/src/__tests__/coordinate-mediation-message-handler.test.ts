@@ -251,64 +251,69 @@ describe('coordinate-mediation-message-handler', () => {
   }
 
   describe('mediator', () => {
-    it('should receive a mediate request', async () => {
-      const messageId = '158b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-      const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-      mediateRequestMessage.id = messageId
-      const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
-      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
-      const recipientDidUrl = mediator.did
-      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
-      await agent.sendDIDCommMessage(didCommMessageContents)
 
-      expectReceiveRequest(mediateRequestMessage.id)
+    describe('MEDIATE REQUEST', () => {
+
+      it('should receive a mediate request', async () => {
+        const messageId = '158b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+        const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+        mediateRequestMessage.id = messageId
+        const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+        const recipientDidUrl = mediator.did
+        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+        await agent.sendDIDCommMessage(didCommMessageContents)
+
+        expectReceiveRequest(mediateRequestMessage.id)
+      })
+
+      it('should record the mediation status where granted', async () => {
+        const messageId = '258b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+        const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+        mediateRequestMessage.id = messageId
+        const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+        const recipientDidUrl = mediator.did
+        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+        await agent.sendDIDCommMessage(didCommMessageContents)
+        const mediation = await agent.dataStoreGetMediation({ did: recipient.did, status: 'GRANTED' })
+
+        expect(mediation.status).toBe('GRANTED')
+        expect(mediation.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
+      })
+
+      it('should record the mediation status where denied', async () => {
+        const messageId = '358b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+        const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+        mediateRequestMessage.id = messageId
+        const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+        const recipientDidUrl = mediator.did
+        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+        await agent.sendDIDCommMessage(didCommMessageContents)
+        const mediation = await agent.dataStoreGetMediation({ did: recipient.did, status: 'DENIED' })
+
+        // TODO: this test is expected to fail until the whitelist logic is implemented
+        expect(mediation.status).toBe('DENIED')
+        expect(mediation.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
+      })
+
+      it('should respond correctly to a mediate request on grant', async () => {
+        const messageId = '458b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+        const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+        mediateRequestMessage.id = messageId
+        const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+        const recipientDidUrl = mediator.did
+        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+        await agent.sendDIDCommMessage(didCommMessageContents)
+
+        expectMessageSent(messageId)
+        expectReceiveRequest(messageId)
+        expectMessageSent(messageId)
+        expectGrantRequest(messageId)
+      })
     })
-
-    it('should record the mediation status where granted', async () => {
-      const messageId = '258b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-      const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-      mediateRequestMessage.id = messageId
-      const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
-      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
-      const recipientDidUrl = mediator.did
-      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
-      await agent.sendDIDCommMessage(didCommMessageContents)
-      const mediation = await agent.dataStoreGetMediation({ did: recipient.did, status: 'GRANTED' })
-
-      expect(mediation.status).toBe('GRANTED')
-      expect(mediation.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
-    })
-
-    it('should record the mediation status where denied', async () => {
-      const messageId = '358b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-      const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-      mediateRequestMessage.id = messageId
-      const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
-      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
-      const recipientDidUrl = mediator.did
-      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
-      await agent.sendDIDCommMessage(didCommMessageContents)
-      const mediation = await agent.dataStoreGetMediation({ did: recipient.did, status: 'DENIED' })
-
-      // TODO: this test is expected to fail until the whitelist logic is implemented
-      expect(mediation.status).toBe('DENIED')
-      expect(mediation.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
-    })
-
-    it('should respond correctly to a mediate request on grant', async () => {
-      const messageId = '458b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-      const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-      mediateRequestMessage.id = messageId
-      const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
-      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
-      const recipientDidUrl = mediator.did
-      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
-      await agent.sendDIDCommMessage(didCommMessageContents)
-
-      expectMessageSent(messageId)
-      expectReceiveRequest(messageId)
-      expectMessageSent(messageId)
-      expectGrantRequest(messageId)
     })
 
     // it.only('should grant mediation to valid request via return_route', async () => {
