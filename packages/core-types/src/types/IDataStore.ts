@@ -115,6 +115,10 @@ export interface IDataStoreGetMediationArgs {
    * Required. did
    */
   did: string
+  /**
+   * Required. mediation status
+   */
+  status: 'GRANTED' | 'DENIED'
 }
 
 /**
@@ -237,7 +241,7 @@ export interface IDataStore extends IPluginMethodMap {
    * @param args - did
    * @returns a promise that resolves to the recipient did and mediation status
    */
-  dataStoreGetMediation(args: IDataStoreSaveMediationArgs): Promise<IMediation>
+  dataStoreGetMediation(args: IDataStoreGetMediationArgs): Promise<IMediation>
 
   /**
    * Saves recipient dids to the data store

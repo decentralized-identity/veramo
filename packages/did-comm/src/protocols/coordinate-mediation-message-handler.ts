@@ -228,8 +228,15 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     if (!to) {
       throw new Error('invalid_argument: MediateRequest received without `to` set')
     }
-    // Grant requests to all recipients
+    // NOTE: Grant requests to all recipients until new system implemented
     // TODO: Come up with a method for approving and rejecting recipients
+    const mediation = { did: from, status: 'GRANTED' } as const
+    await context.agent.dataStoreSaveMediation(mediation)
+    const savedmediation = context.agent.dataStoreGetMediation(mediation)
+    console.log('##################################')
+    console.log(savedmediation)
+    console.log('##################################')
+
     const response = createMediateGrantMessage(from, to, message.id)
     const packedResponse = await context.agent.packDIDCommMessage({
       message: response,
@@ -243,8 +250,8 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
     await saveMessageForTracking(response, context)
 
-    const mediation = { did: from, status: 'GRANTED' } as const
-    await context.agent.dataStoreSaveMediation(mediation)
+    throw new Error('here')
+
     return message
   }
 
