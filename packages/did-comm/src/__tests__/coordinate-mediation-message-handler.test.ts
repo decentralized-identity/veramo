@@ -252,7 +252,8 @@ describe('coordinate-mediation-message-handler', () => {
   }
 
   describe('mediator', () => {
-    it.only('should receive mediate requests', async () => {
+    it.only('should correctly handle MEDIATE GRANT requests', async () => {
+      expect.assertions(4)
       const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
       const packedMessage = await agent.packDIDCommMessage({
         packing: 'authcrypt',
@@ -265,20 +266,14 @@ describe('coordinate-mediation-message-handler', () => {
       })
       expectMsg(mediateRequestMessage.id)
       expectReceiveRequest(mediateRequestMessage.id)
-    })
-
-    it.only('should respond to mediate requests with "GRANT"', async () => {
-      const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-      const packedMessage = await agent.packDIDCommMessage({
-        packing: 'authcrypt',
-        message: mediateRequestMessage,
-      })
-      await agent.sendDIDCommMessage({
-        messageId: mediateRequestMessage.id,
-        packedMessage,
-        recipientDidUrl: mediator.did,
-      })
-    
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: expect.anything(),
+          type: 'DIDCommV2Message-sent',
+        },
+        expect.anything(),
+      )
+      expectGrantRequest(mediateRequestMessage.id)
     })
 
     // it.only('should grant mediation to valid request via return_route', async () => {

@@ -230,7 +230,6 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     }
     // Grant requests to all recipients
     // TODO: Come up with a method for approving and rejecting recipients
-    const mediation = { did: from, status: 'GRANTED' } as const
     const response = createMediateGrantMessage(from, to, message.id)
     const packedResponse = await context.agent.packDIDCommMessage({
       message: response,
@@ -243,6 +242,8 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     }
     message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
     await saveMessageForTracking(response, context)
+
+    const mediation = { did: from, status: 'GRANTED' } as const
     await context.agent.dataStoreSaveMediation(mediation)
     return message
   }
