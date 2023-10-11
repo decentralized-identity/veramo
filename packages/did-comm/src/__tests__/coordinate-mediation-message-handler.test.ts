@@ -368,6 +368,19 @@ describe('coordinate-mediation-message-handler', () => {
 
       expectUpdateRequest(messageId, [update])
     })
+
+    it('should fail on an update request with no updates', async () => {
+      const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [])
+      message.id = messageId
+      const packedMessageContents = { packing: 'authcrypt', message } as const
+      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+      const recipientDidUrl = mediator.did
+      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+      expect(async () => {
+        await agent.sendDIDCommMessage(didCommMessageContents)
+      }).rejects.toThrow('invalid_argument: Update request must contain at least one update')
+    })
   })
 
   //   describe('mediator: "handleRecipientUpdate"', () => {
