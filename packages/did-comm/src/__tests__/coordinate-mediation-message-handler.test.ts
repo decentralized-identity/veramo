@@ -252,15 +252,23 @@ describe('coordinate-mediation-message-handler', () => {
   }
 
   describe('mediator', () => {
-    it.only('should correctly handle MEDIATE GRANT requests', async () => {
-      expect.assertions(4)
+    const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+
+    it('should grant mediation to valid request', async () => {
       const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-      console.log('####################### HERE ######################')
-      await agent.dataStoreSaveMediation({ did: recipient.did, status: 'GRANTED' })
-      console.log('####################### SAVED #####################')
-      const result = await agent.dataStoreGetMediation({ did: recipient.did, status: 'GRANTED' })
-      console.log('####################### RESULT ####################')
-      console.log(result)
+      const packedMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+      const recipientDidUrl = mediator.did
+      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+      await agent.sendDIDCommMessage(didCommMessageContents)
+      const mediation = await agent.dataStoreGetMediation({ did: recipient.did, status: 'GRANTED' })
+      expect(mediation.status).toBe('GRANTED')
+      expect(mediation.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
+    })
+
+    it.only('should correctly handle MEDIATE GRANT requests', async () => {
+      expect.assertions(5)
+      const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
       const packedMessage = await agent.packDIDCommMessage({
         packing: 'authcrypt',
         message: mediateRequestMessage,
@@ -280,6 +288,12 @@ describe('coordinate-mediation-message-handler', () => {
         expect.anything(),
       )
       expectGrantRequest(mediateRequestMessage.id)
+      const mediation = await agent.dataStoreGetMediation({ did: recipient.did, status: 'GRANTED' })
+      console.log('mediation: ', mediation)
+      expect(mediation).toEqual({
+        did: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+        status: 'GRANTED',
+      })
     })
 
     // it.only('should grant mediation to valid request via return_route', async () => {

@@ -232,10 +232,6 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     // TODO: Come up with a method for approving and rejecting recipients
     const mediation = { did: from, status: 'GRANTED' } as const
     await context.agent.dataStoreSaveMediation(mediation)
-    const savedmediation = await context.agent.dataStoreGetMediation(mediation)
-    console.log('##################################')
-    console.log(savedmediation)
-    console.log('##################################')
 
     const response = createMediateGrantMessage(from, to, message.id)
     const packedResponse = await context.agent.packDIDCommMessage({
@@ -249,8 +245,6 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     }
     message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
     await saveMessageForTracking(response, context)
-
-    throw new Error('here')
 
     return message
   }
