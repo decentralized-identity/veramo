@@ -93,7 +93,6 @@ export const createMediateGrantMessage = (
 export const createMediateRequestMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
-  messageId: string
 ): IDIDCommMessage => {
   return {
     type: CoordinateMediation.MEDIATE_REQUEST,
