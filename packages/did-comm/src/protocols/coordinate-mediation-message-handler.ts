@@ -35,13 +35,23 @@ interface Query {
   offset: number
 }
 
+interface MediateRequestMessage extends Message {
+  to: string
+  from: string
+  type: CoordinateMediation.MEDIATE_REQUEST
+}
+
 interface RecipientUpdateMessage extends Message {
+  to: string
+  from: string
   type: CoordinateMediation.RECIPIENT_UPDATE
   body: { updates: Update[] }
   return_route: 'all'
 }
 
 interface RecipientQueryMessage extends Message {
+  to: string
+  from: string
   type: CoordinateMediation.RECIPIENT_QUERY
   body: { paginate?: Query }
 }
@@ -229,6 +239,30 @@ const saveMessageForTracking = async (message: IDIDCommMessage, context: IContex
   })
 }
 
+const isMediateRequest = (message: Message): message is MediateRequestMessage => {
+  if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
+  if (!message.from) throw new Error('invalid_argument: MediateRequest received without `from` set')
+  if (!message.from) throw new Error('invalid_argument: MediateRequest received without `to` set')
+  return true
+}
+
+const isRecipientUpdate = (message: Message): message is RecipientUpdateMessage => {
+  if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
+  if (!message.from) throw new Error('invalid_argument: MediateRecipientUpdate received without `from` set')
+  if (!message.to) throw new Error('invalid_argument: MediateRecipientUpdate received without `to` set')
+  if (!message.body || !message.body.updates) {
+    throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
+  }
+  return true
+}
+
+const isRecipientQuery = (message: Message): message is RecipientQueryMessage=> {
+  if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
+  if (!message.from) throw new Error('invalid_argument: MediateRecipientQuery received without `from` set')
+  if (!message.to) throw new Error('invalid_argument: MediateRecipientQuery received without `to` set')
+  return true
+}
+
 /**
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the mediator role.
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -238,15 +272,9 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     super()
   }
 
-  private async handleMediateRequest(message: Message, context: IContext): Promise<Message> {
+  private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
     const { to, from } = message
     debug('MediateRequest Message Received')
-    if (!from) {
-      throw new Error('invalid_argument: MediateRequest received without `from` set')
-    }
-    if (!to) {
-      throw new Error('invalid_argument: MediateRequest received without `to` set')
-    }
     // NOTE: Grant requests to all recipients until new system implemented
     // TODO: Come up with a method for approving and rejecting recipients
     // const response = createMediateDenyMessage(from, to, message.id)
@@ -279,15 +307,6 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       body: { updates = [] },
     } = message
     debug('MediateRecipientUpdate Message Received')
-    if (!from) {
-      throw new Error('invalid_argument: MediateRecipientUpdate received without `from` set')
-    }
-    if (!to) {
-      throw new Error('invalid_argument: MediateRecipientUpdate received without `to` set')
-    }
-    if (!updates.length) {
-      throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
-    }
 
     const applyUpdate = async (did: string, update: Update) => {
       const filter = { did, recipient_did: update.recipient_did }
@@ -357,20 +376,10 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
    */
   public async handle(message: Message, context: IContext): Promise<Message> {
     try {
-      switch (message.type) {
-        case CoordinateMediation.MEDIATE_REQUEST:
-          return await this.handleMediateRequest(message, context)
-        case CoordinateMediation.RECIPIENT_UPDATE:
-          // TODO: validation and type guard here
-          // @ts-ignore
-          return await this.handleRecipientUpdate(message, context)
-        case CoordinateMediation.RECIPIENT_QUERY:
-          // TODO: validation and type guard here
-          // @ts-ignore
-          return await this.handleRecipientQuery(message, context)
-        default:
-          throw new Error('invalid_argument: Mediator Coordinator received invalid message type')
-      }
+      if (isMediateRequest(message)) return this.handleMediateRequest(message, context)
+      if (isRecipientUpdate(message)) return this.handleRecipientUpdate(message, context)
+      if (isRecipientQuery(message)) return this.handleRecipientQuery(message, context)
+      throw new Error('invalid_argument: Mediator Coordinator received invalid message type')
     } catch (ex) {
       debug(ex)
       return super.handle(message, context)
