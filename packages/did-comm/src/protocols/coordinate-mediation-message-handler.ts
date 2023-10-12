@@ -3,7 +3,7 @@ import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types.js'
+import { IDIDCommMessage, DIDCommMessageMediaType, IPackedDIDCommMessage } from '../types/message-types.js'
 
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
@@ -12,6 +12,11 @@ type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 export enum UpdateAction {
   ADD = 'add',
   REMOVE = 'remove',
+}
+
+export enum MediationStatus {
+  GRANTED = 'GRANTED',
+  DENIED = 'DENIED',
 }
 
 enum Result {
@@ -267,6 +272,25 @@ const isRecipientQuery = (message: Message): message is RecipientQueryMessage =>
   return true
 }
 
+const grantOrDenyMediation = (_message: Message, _context: IContext): MediationStatus => {
+  // NOTE: Grant requests to all recipients until new system implemented
+  // TODO: Come up with a method for approving and rejecting recipients
+  // const response = createMediateDenyMessage(from, to, message.id)
+  return MediationStatus.GRANTED
+}
+
+const packResponse = async (
+  responseMessage: IDIDCommMessage,
+  context: IContext,
+): Promise<IPackedDIDCommMessage> => {
+  const packing = 'authcrypt'
+
+  return await context.agent.packDIDCommMessage({
+    message: responseMessage,
+    packing,
+  })
+}
+
 /**
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the mediator role.
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -277,27 +301,15 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
   }
 
   private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
-    const { to, from } = message
+    const { to, from: did } = message
     debug('MediateRequest Message Received')
-    // NOTE: Grant requests to all recipients until new system implemented
-    // TODO: Come up with a method for approving and rejecting recipients
-    // const response = createMediateDenyMessage(from, to, message.id)
-    const response = createMediateGrantMessage(from, to, message.id)
-    const mediation = { did: from, status: 'GRANTED' } as const
-    await context.agent.dataStoreSaveMediation(mediation)
-
-    const packedResponse = await context.agent.packDIDCommMessage({
-      message: response,
-      packing: 'authcrypt',
-    })
-    const returnResponse = {
-      id: response.id,
-      message: packedResponse.message,
-      contentType: DIDCommMessageMediaType.ENCRYPTED,
-    }
-    message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
-    await saveMessageForTracking(response, context)
-
+    const status = grantOrDenyMediation(message, context)
+    // TODO: createMediateDenyMessage based on status result
+    const responseMessage = createMediateGrantMessage(did, to, message.id)
+    await saveMessageForTracking(responseMessage, context)
+    await context.agent.dataStoreSaveMediation({ did, status })
+    const packedResponse = await packResponse(responseMessage, context)
+    message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(packedResponse) })
     return message
   }
 
@@ -308,7 +320,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     const {
       to,
       from,
-      body: { updates = [] },
+      body: { updates },
     } = message
     debug('MediateRecipientUpdate Message Received')
 
@@ -351,12 +363,6 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
   private async handleRecipientQuery(message: RecipientQueryMessage, context: IContext): Promise<Message> {
     const { to, from } = message
     debug('MediateRecipientQuery Message Received')
-    if (!from) {
-      throw new Error('invalid_argument: MediateRecipientQuery received without `from` set')
-    }
-    if (!to) {
-      throw new Error('invalid_argument: MediateRecipientQuery received without `to` set')
-    }
     const { paginate = {} } = message.body
     const dids = await context.agent.dataStoreListRecipientDids({ did: from, ...paginate })
     const response = createRecipientUpdateResponseMessage(from, to, dids)

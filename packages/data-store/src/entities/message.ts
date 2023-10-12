@@ -177,6 +177,7 @@ export const createMessageEntity = (args: IMessage): Message => {
     message.credentials = args.credentials.map(createCredentialEntity)
   }
 
+
   return message
 }
 
