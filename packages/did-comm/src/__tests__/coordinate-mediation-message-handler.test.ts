@@ -281,6 +281,35 @@ describe('coordinate-mediation-message-handler', () => {
     )
   }
 
+  const expectRecipientNoChangeResponse = (msgid: string, recipient_did: string) => {
+    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+      {
+        data: {
+          message: {
+            from: mediator.did,
+            id: expect.anything(),
+            thid: msgid,
+            to: recipient.did,
+            created_time: expect.anything(),
+            type: 'https://didcomm.org/coordinate-mediation/3.0/recipient',
+            body: {
+              updates: [
+                {
+                  action: 'add',
+                  recipient_did,
+                  result: RecipientUpdateResult.NO_CHANGE,
+                },
+              ],
+            },
+          },
+          metaData: { packing: 'authcrypt' },
+        },
+        type: 'DIDCommV2Message-received',
+      },
+      expect.anything(),
+    )
+  }
+
   describe('mediator', () => {
     describe('MEDIATE REQUEST', () => {
       it('should receive a mediate request', async () => {
@@ -419,7 +448,38 @@ describe('coordinate-mediation-message-handler', () => {
     it.skip('should remove an existing recipient_did', async () => {
       const messageId = '228b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
       const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const update = { recipient_did, action: UpdateAction.ADD }
+      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      message.id = messageId
+      const packedMessageContents = { packing: 'authcrypt', message } as const
+      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+      const recipientDidUrl = mediator.did
+      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+      await agent.sendDIDCommMessage(didCommMessageContents)
+      const [result] = await agent.dataStoreGetRecipientDids({ did: recipient.did })
+
+      expect(result).toBe(recipient_did)
+    })
+
+    it.skip('should respond correctly to a recipient update request on SUCCESS', async () => {
+      const messageId = '228b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+      const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
       const update = { recipient_did, action: UpdateAction.REMOVE }
+      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      message.id = messageId
+      const packedMessageContents = { packing: 'authcrypt', message } as const
+      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+      const recipientDidUrl = mediator.did
+      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+      await agent.sendDIDCommMessage(didCommMessageContents)
+
+      expectRecipientRemovedResponse(messageId, recipient_did)
+    })
+
+    it.skip('should respond correctly to a recipient update request on NO_CHANGE', async () => {
+      const messageId = '228b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+      const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const update = { recipient_did, action: UpdateAction.ADD }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       message.id = messageId
       const packedMessageContents = { packing: 'authcrypt', message } as const
