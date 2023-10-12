@@ -250,13 +250,16 @@ const isRecipientUpdate = (message: Message): message is RecipientUpdateMessage 
   if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
   if (!message.from) throw new Error('invalid_argument: MediateRecipientUpdate received without `from` set')
   if (!message.to) throw new Error('invalid_argument: MediateRecipientUpdate received without `to` set')
+  if (!('body' in message)) {
+    throw new Error('invalid_argument: MediateRecipientUpdate received without `body` set')
+  }
   if (!message.body || !message.body.updates) {
     throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
   }
   return true
 }
 
-const isRecipientQuery = (message: Message): message is RecipientQueryMessage=> {
+const isRecipientQuery = (message: Message): message is RecipientQueryMessage => {
   if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
   if (!message.from) throw new Error('invalid_argument: MediateRecipientQuery received without `from` set')
   if (!message.to) throw new Error('invalid_argument: MediateRecipientQuery received without `to` set')
