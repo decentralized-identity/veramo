@@ -239,6 +239,10 @@ const saveMessageForTracking = async (message: IDIDCommMessage, context: IContex
   })
 }
 
+/**
+ * Handler Type Guards
+ */
+
 const isMediateRequest = (message: Message): message is MediateRequestMessage => {
   if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
   if (!message.from) throw new Error('invalid_argument: MediateRequest received without `from` set')
@@ -247,22 +251,19 @@ const isMediateRequest = (message: Message): message is MediateRequestMessage =>
 }
 
 const isRecipientUpdate = (message: Message): message is RecipientUpdateMessage => {
-  if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
-  if (!message.from) throw new Error('invalid_argument: MediateRecipientUpdate received without `from` set')
-  if (!message.to) throw new Error('invalid_argument: MediateRecipientUpdate received without `to` set')
-  if (!('body' in message)) {
-    throw new Error('invalid_argument: MediateRecipientUpdate received without `body` set')
-  }
-  if (!message.body || !message.body.updates) {
-    throw new Error('invalid_argument: MediateRecipientUpdate received without `updates` set')
-  }
+  if (message.type !== CoordinateMediation.RECIPIENT_UPDATE) return false
+  if (!message.from) throw new Error('invalid_argument: RecipientUpdate received without `from` set')
+  if (!message.to) throw new Error('invalid_argument: RecipientUpdate received without `to` set')
+  if (!('body' in message)) throw new Error('invalid_argument: RecipientUpdate received without `body` set')
+  if (!message.body || !message.body.updates)
+    throw new Error('invalid_argument: RecipientUpdate received without `updates` set')
   return true
 }
 
 const isRecipientQuery = (message: Message): message is RecipientQueryMessage => {
-  if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
-  if (!message.from) throw new Error('invalid_argument: MediateRecipientQuery received without `from` set')
-  if (!message.to) throw new Error('invalid_argument: MediateRecipientQuery received without `to` set')
+  if (message.type !== CoordinateMediation.RECIPIENT_QUERY) return false
+  if (!message.from) throw new Error('invalid_argument: RecipientQuery received without `from` set')
+  if (!message.to) throw new Error('invalid_argument: RecipientQuery received without `to` set')
   return true
 }
 
