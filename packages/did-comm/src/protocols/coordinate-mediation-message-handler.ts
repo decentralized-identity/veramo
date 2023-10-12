@@ -19,7 +19,7 @@ export enum MediationStatus {
   DENIED = 'DENIED',
 }
 
-enum Result {
+export enum RecipientUpdateResult {
   SUCCESS = 'success',
   NO_CHANGE = 'no_change',
   CLIENT_ERROR = 'client_error',
@@ -32,7 +32,7 @@ export interface Update {
 }
 
 interface UpdateResult extends Update {
-  result: Result
+  result: RecipientUpdateResult
 }
 
 interface Query {
@@ -329,24 +329,22 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       try {
         if (update.action === UpdateAction.ADD) {
           await context.agent.dataStoreAddRecipientDid(filter)
-          return { ...update, result: Result.SUCCESS }
-        } else if (update.action === UpdateAction.REMOVE) {
-          const result = await context.agent.dataStoreRemoveRecipientDid(filter)
-          if (result) return { ...update, result: Result.SUCCESS }
+          return { ...update, result: RecipientUpdateResult.SUCCESS }
         }
-        return { ...update, result: Result.CLIENT_ERROR }
+        if (update.action === UpdateAction.REMOVE) {
+          const result = await context.agent.dataStoreRemoveRecipientDid(filter)
+          if (result) return { ...update, result: RecipientUpdateResult.SUCCESS }
+        }
+        return { ...update, result: RecipientUpdateResult.CLIENT_ERROR }
       } catch (ex) {
         debug(ex)
-        return { ...update, result: Result.SERVER_ERROR }
+        return { ...update, result: RecipientUpdateResult.SERVER_ERROR }
       }
     }
 
     const updated = await Promise.all(updates.map(async (update) => await applyUpdate(from, update)))
     const response = createRecipientUpdateResponseMessage(from, to, updated)
-    const packedResponse = await context.agent.packDIDCommMessage({
-      message: response,
-      packing: 'authcrypt',
-    })
+    const packedResponse = await packResponse(response, context)
     const returnResponse = {
       id: response.id,
       message: packedResponse.message,

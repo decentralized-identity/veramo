@@ -13,14 +13,12 @@ import {
   IMediation,
   VerifiableCredential,
   VerifiablePresentation,
-  // IDataStoreAddRecipientDid,
-  // IDataStoreRemoveRecipientDid,
-  // IDataStoreListRecipientDids,
   IDataStoreSaveMediationArgs,
   IDataStoreGetMediationArgs,
   IDataStoreRemoveRecipientDid,
   IDataStoreAddRecipientDid,
   IDataStoreGetRecipientDids,
+  IRecipientDid,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
@@ -188,17 +186,16 @@ export class DataStore implements IAgentPlugin {
     return existingEntry.recipient_did
   }
 
-  async dataStoreGetRecipientDids({ did, offset, limit }: IDataStoreGetRecipientDids): Promise<string[]> {
+  async dataStoreGetRecipientDids({
+    did,
+    offset: _offset,
+    limit: _limit,
+  }: IDataStoreGetRecipientDids): Promise<IRecipientDid[]> {
     const db = await getConnectedDb(this.dbConnection)
-    const identifier = await db.getRepository(Identifier).findOneBy({ did })
-    if (!identifier) throw new Error('not_found: Identifier not found')
-    const result = await db
-      .getRepository(RecipientDid)
-      .createQueryBuilder('recipient_did')
-      .where('recipient_did.identifier = :identifier', { identifier: identifier })
-      .skip(offset)
-      .take(limit)
-      .getMany()
-    return result.map(({ recipient_did }) => recipient_did)
+    const findFilter = { where: { did } }
+    const result = await db.getRepository(RecipientDid).findOne(findFilter)
+    if (!result) throw new Error('not_found: Identifier not found')
+    return [result]
+    // return result.map(({ recipient_did }: { recipient_did: string }) => recipient_did)
   }
 }
