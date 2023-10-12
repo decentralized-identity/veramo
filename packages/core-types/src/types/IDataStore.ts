@@ -265,5 +265,6 @@ export interface IDataStore extends IPluginMethodMap {
    * @param args - recipient dids
    * @returns a promise that resolves to the list of recipient dids
    */
-  dataStoreGetRecipientDids(args: IDataStoreGetRecipientDids): Promise<string[]>
+  // TODO: fix return type, string[] causing build error on json conversion
+  dataStoreGetRecipientDids(args: IDataStoreGetRecipientDids): Promise<any>
 }

@@ -2056,6 +2056,24 @@
   "IDataStore": {
     "components": {
       "schemas": {
+        "IDataStoreAddRecipientDid": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Required. did"
+            },
+            "recipient_did": {
+              "type": "string",
+              "description": "Required. recipient did"
+            }
+          },
+          "required": [
+            "did",
+            "recipient_did"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreAddRecipientDid | dataStoreAddRecipientDid }"
+        },
         "IDataStoreDeleteMessageArgs": {
           "type": "object",
           "properties": {
@@ -2508,6 +2526,27 @@
           },
           "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments"
         },
+        "IDataStoreGetRecipientDids": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Required. did"
+            },
+            "limit": {
+              "type": "number",
+              "description": "Optional. limit"
+            },
+            "offset": {
+              "type": "number",
+              "description": "Optional. offset"
+            }
+          },
+          "required": [
+            "did"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreGetRecipientDids | dataStoreGetRecipientDids }"
+        },
         "IDataStoreGetVerifiableCredentialArgs": {
           "type": "object",
           "properties": {
@@ -2533,6 +2572,24 @@
             "hash"
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreGetVerifiablePresentation | dataStoreGetVerifiablePresentation }"
+        },
+        "IDataStoreRemoveRecipientDid": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Required. did"
+            },
+            "recipient_did": {
+              "type": "string",
+              "description": "Required. recipient did"
+            }
+          },
+          "required": [
+            "did",
+            "recipient_did"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreRemoveRecipientDid | dataStoreRemoveRecipientDid }"
         },
         "IDataStoreSaveMediationArgs": {
           "type": "object",
@@ -2597,6 +2654,15 @@
         }
       },
       "methods": {
+        "dataStoreAddRecipientDid": {
+          "description": "Saves recipient dids to the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreAddRecipientDid"
+          },
+          "returnType": {
+            "type": "string"
+          }
+        },
         "dataStoreDeleteMessage": {
           "description": "Deletes message from the data store",
           "arguments": {
@@ -2633,6 +2699,15 @@
             "$ref": "#/components/schemas/IMessage"
           }
         },
+        "dataStoreGetRecipientDids": {
+          "description": "Saves recipient dids to the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreGetRecipientDids"
+          },
+          "returnType": {
+            "type": "object"
+          }
+        },
         "dataStoreGetVerifiableCredential": {
           "description": "Gets verifiable credential from the data store",
           "arguments": {
@@ -2649,6 +2724,15 @@
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiablePresentation"
+          }
+        },
+        "dataStoreRemoveRecipientDid": {
+          "description": "Removes recipient dids from the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreRemoveRecipientDid"
+          },
+          "returnType": {
+            "type": "string"
           }
         },
         "dataStoreSaveMediation": {
