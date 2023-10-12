@@ -238,6 +238,18 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
       true,
     )
 
+    debug('creating recipient_dids table')
+    await queryRunner.createTable(
+      new Table({
+        name: migrationGetTableName(queryRunner, 'recipient_did'),
+        columns: [
+          { name: 'did', type: 'varchar', isPrimary: true },
+          { name: 'recipient_id', type: 'varchar', isNullable: false },
+        ],
+      }),
+      true,
+    )
+
     debug(`creating presentation_verifier_identifier many to many table`)
     // "CREATE TABLE \"presentation_verifier_identifier\" (\"presentationHash\" varchar NOT NULL, \"identifierDid\" varchar NOT NULL, CONSTRAINT \"FK_05b1eda0f6f5400cb173ebbc086\" FOREIGN KEY (\"presentationHash\") REFERENCES \"presentation\" (\"hash\") ON DELETE CASCADE ON UPDATE NO ACTION, CONSTRAINT \"FK_3a460e48557bad5564504ddad90\" FOREIGN KEY (\"identifierDid\") REFERENCES \"identifier\" (\"did\") ON DELETE CASCADE ON UPDATE NO ACTION, PRIMARY KEY (\"presentationHash\", \"identifierDid\"))",
     // "CREATE INDEX \"IDX_05b1eda0f6f5400cb173ebbc08\" ON \"presentation_verifier_identifier\" (\"presentationHash\")",

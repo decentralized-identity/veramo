@@ -25,6 +25,7 @@ import { Message, MetaData } from './entities/message.js'
 import { Mediation } from './entities/mediation.js'
 import { PrivateKey } from './entities/private-key.js'
 import { PreMigrationKey } from './entities/PreMigrationEntities.js'
+import { RecipientDid } from './entities/recipient_did.js'
 
 /**
  * The TypeORM entities used by this package.
@@ -44,6 +45,7 @@ export const Entities = [
   PrivateKey,
   PreMigrationKey,
   Mediation,
+  RecipientDid,
 ]
 export {
   KeyType,
@@ -58,6 +60,7 @@ export {
   PrivateKey,
   PreMigrationKey,
   Mediation,
+  RecipientDid,
 }
 export { migrations } from './migrations/index.js'
 

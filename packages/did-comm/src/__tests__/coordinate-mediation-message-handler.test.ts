@@ -369,138 +369,116 @@ describe('coordinate-mediation-message-handler', () => {
       expectUpdateRequest(messageId, [update])
     })
 
+    it('should add a new recipient_did', async () => {
+      const messageId = '118b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+      const recipientDidToAdd = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.ADD }
+      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      message.id = messageId
+      const packedMessageContents = { packing: 'authcrypt', message } as const
+      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+      const recipientDidUrl = mediator.did
+      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+      await agent.sendDIDCommMessage(didCommMessageContents)
 
-    //   describe('mediator: "handleRecipientUpdate"', () => {
-    //     const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-    //
-    //     it('should send an update to the mediator', async () => {
-    //       const packedMessage = await agent.packDIDCommMessage({
-    //         packing: 'authcrypt',
-    //         message: {
-    //           type: 'https://didcomm.org/coordinate-mediation/3.0/recipient-update',
-    //           from: recipient.did,
-    //           to: mediator.did,
-    //           id: messageId,
-    //           thid: '',
-    //           body: {
-    //             updates: [],
-    //           },
-    //         },
-    //       })
-    //       await agent.sendDIDCommMessage({
-    //         messageId,
-    //         packedMessage,
-    //         recipientDidUrl: mediator.did,
-    //       })
-    //       expectMsg(messageId)
-    //       expectReceiveRequest(messageId)
-    //       expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-    //         {
-    //           data: expect.anything(),
-    //           type: 'DIDCommV2Message-sent',
-    //         },
-    //         expect.anything(),
-    //       )
-    //       expectUpdateRequest(messageId)
-    //     })
-    //   })
-    // })
-
-    describe('recipient', () => {
-      const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-
-      // it('should save new service on mediate grant', async () => {
-      //   const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did, messageId)
-      //   const packedMessage = await agent.packDIDCommMessage({
-      //     packing: 'authcrypt',
-      //     message: mediateRequestMessage,
-      //   })
-      //   await agent.sendDIDCommMessage({
-      //     messageId: mediateRequestMessage.id,
-      //     packedMessage,
-      //     recipientDidUrl: mediator.did,
-      //   })
-      //
-      //   const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
-      //   const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
-      //   expect(service?.serviceEndpoint).toEqual([{ uri: mediator.did }])
-      // })
-      //
-      // it('should remove service on mediate deny', async () => {
-      //   const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did, messageId)
-      //   const packedMessage = await agent.packDIDCommMessage({
-      //     packing: 'authcrypt',
-      //     message: mediateRequestMessage,
-      //   })
-      //   await agent.sendDIDCommMessage({
-      //     messageId: mediateRequestMessage.id,
-      //     packedMessage,
-      //     recipientDidUrl: mediator.did,
-      //   })
-      //
-      //   const msgid = v4()
-      //   const packedDenyMessage = await agent.packDIDCommMessage({
-      //     packing: 'authcrypt',
-      //     message: {
-      //       type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
-      //       from: mediator.did,
-      //       to: recipient.did,
-      //       id: msgid,
-      //       thid: '',
-      //       body: {},
-      //     },
-      //   })
-      //   await agent.sendDIDCommMessage({
-      //     messageId: msgid,
-      //     packedMessage: packedDenyMessage,
-      //     recipientDidUrl: recipient.did,
-      //   })
-      //
-      //   const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
-      //   const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
-      //   expect(service).toBeUndefined()
-      // })
-      //
-      // it('should not save service if mediate request cannot be found', async () => {
-      //   const mediateGrantMessage = createMediateGrantMessage(recipient.did, mediator.did, '')
-      //   const packedMessage = await agent.packDIDCommMessage({
-      //     packing: 'authcrypt',
-      //     message: mediateGrantMessage,
-      //   })
-      //   await agent.sendDIDCommMessage({
-      //     messageId: mediateGrantMessage.id,
-      //     packedMessage,
-      //     recipientDidUrl: recipient.did,
-      //   })
-      //
-      //   const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
-      //   const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
-      //   expect(service).toBeUndefined()
-      // })
-      //
-      // it('should not save service if mediate grant message has bad routing_did', async () => {
-      //   const msgid = v4()
-      //   const packedMessage = await agent.packDIDCommMessage({
-      //     packing: 'authcrypt',
-      //     message: {
-      //       type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
-      //       from: mediator.did,
-      //       to: recipient.did,
-      //       id: msgid,
-      //       thid: '',
-      //       body: {},
-      //     },
-      //   })
-      //   await agent.sendDIDCommMessage({
-      //     messageId: msgid,
-      //     packedMessage,
-      //     recipientDidUrl: recipient.did,
-      //   })
-      //
-      //   const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
-      //   const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
-      //   expect(service).toBeUndefined()
-      // })
+      // const mediation = await agent.dataStoreGetRecipientDids({ did: recipient.did })
     })
+  })
+
+  describe('recipient', () => {
+    const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+
+    // it('should save new service on mediate grant', async () => {
+    //   const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did, messageId)
+    //   const packedMessage = await agent.packDIDCommMessage({
+    //     packing: 'authcrypt',
+    //     message: mediateRequestMessage,
+    //   })
+    //   await agent.sendDIDCommMessage({
+    //     messageId: mediateRequestMessage.id,
+    //     packedMessage,
+    //     recipientDidUrl: mediator.did,
+    //   })
+    //
+    //   const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
+    //   const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
+    //   expect(service?.serviceEndpoint).toEqual([{ uri: mediator.did }])
+    // })
+    //
+    // it('should remove service on mediate deny', async () => {
+    //   const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did, messageId)
+    //   const packedMessage = await agent.packDIDCommMessage({
+    //     packing: 'authcrypt',
+    //     message: mediateRequestMessage,
+    //   })
+    //   await agent.sendDIDCommMessage({
+    //     messageId: mediateRequestMessage.id,
+    //     packedMessage,
+    //     recipientDidUrl: mediator.did,
+    //   })
+    //
+    //   const msgid = v4()
+    //   const packedDenyMessage = await agent.packDIDCommMessage({
+    //     packing: 'authcrypt',
+    //     message: {
+    //       type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
+    //       from: mediator.did,
+    //       to: recipient.did,
+    //       id: msgid,
+    //       thid: '',
+    //       body: {},
+    //     },
+    //   })
+    //   await agent.sendDIDCommMessage({
+    //     messageId: msgid,
+    //     packedMessage: packedDenyMessage,
+    //     recipientDidUrl: recipient.did,
+    //   })
+    //
+    //   const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
+    //   const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
+    //   expect(service).toBeUndefined()
+    // })
+    //
+    // it('should not save service if mediate request cannot be found', async () => {
+    //   const mediateGrantMessage = createMediateGrantMessage(recipient.did, mediator.did, '')
+    //   const packedMessage = await agent.packDIDCommMessage({
+    //     packing: 'authcrypt',
+    //     message: mediateGrantMessage,
+    //   })
+    //   await agent.sendDIDCommMessage({
+    //     messageId: mediateGrantMessage.id,
+    //     packedMessage,
+    //     recipientDidUrl: recipient.did,
+    //   })
+    //
+    //   const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
+    //   const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
+    //   expect(service).toBeUndefined()
+    // })
+    //
+    // it('should not save service if mediate grant message has bad routing_did', async () => {
+    //   const msgid = v4()
+    //   const packedMessage = await agent.packDIDCommMessage({
+    //     packing: 'authcrypt',
+    //     message: {
+    //       type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
+    //       from: mediator.did,
+    //       to: recipient.did,
+    //       id: msgid,
+    //       thid: '',
+    //       body: {},
+    //     },
+    //   })
+    //   await agent.sendDIDCommMessage({
+    //     messageId: msgid,
+    //     packedMessage,
+    //     recipientDidUrl: recipient.did,
+    //   })
+    //
+    //   const didDoc = (await agent.resolveDid({ didUrl: recipient.did })).didDocument
+    //   const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
+    //   expect(service).toBeUndefined()
+    // })
   })
 })

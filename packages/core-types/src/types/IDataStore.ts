@@ -125,46 +125,49 @@ export interface IDataStoreGetMediationArgs {
  * Input arguments for {@link IDataStore.dataStoreAddRecipientDid | dataStoreAddRecipientDid}
  * @public
  */
-// export interface IDataStoreAddRecipientDid {
-//   /**
-//    * Required. did
-//    */
-//   did: string
-//   /**
-//    * Required. recipient did
-//    */
-//   recipient_did: string
-// }
+export interface IDataStoreAddRecipientDid {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. recipient did
+   */
+  recipient_did: string
+}
 
 /**
  * Input arguments for {@link IDataStore.dataStoreRemoveRecipientDid | dataStoreRemoveRecipientDid}
  * @public
  */
-// export interface IDataStoreRemoveRecipientDid {
-//   /**
-//    * Required. did
-//    */
-//   did: string
-//   /**
-//    * Required. recipient did
-//    */
-//   recipient_did: string
-// }
+export interface IDataStoreRemoveRecipientDid {
+  /**
+   * Required. did
+   */
+  did: string
+  /** Required. recipient did
+   */
+  recipient_did: string
+}
 
-// export interface IDataStoreListRecipientDids {
-//   /**
-//    * Required. did
-//    */
-//   did: string
-//   /**
-//    * Optional. limit
-//    */
-//   limit?: number
-//   /**
-//    * Optional. offset
-//    */
-//   offset?: number
-// }
+/**
+ * Input arguments for {@link IDataStore.dataStoreGetRecipientDids | dataStoreGetRecipientDids}
+ * @public
+ */
+export interface IDataStoreGetRecipientDids {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Optional. limit
+   */
+  limit?: number
+  /**
+   * Optional. offset
+   */
+  offset?: number
+}
 
 /**
  * Basic data store interface
@@ -246,14 +249,21 @@ export interface IDataStore extends IPluginMethodMap {
   /**
    * Saves recipient dids to the data store
    * @param args - recipient dids
-   * @returns a promise that resolves to the list of recipient dids
+   * @returns a promise that resolves to the added recipient did
    */
-  // dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
+  dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
+
+  /**
+   * Removes recipient dids from the data store
+   * @param args - recipient dids
+   * @returns a promise that resolves to the removed recipient did or null if not found
+   */
+  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<string>
 
   /**
    * Saves recipient dids to the data store
    * @param args - recipient dids
    * @returns a promise that resolves to the list of recipient dids
    */
-  // dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<string | null>
+  dataStoreGetRecipientDids(args: IDataStoreGetRecipientDids): Promise<string[]>
 }

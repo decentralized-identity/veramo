@@ -80,6 +80,17 @@ export interface MediationTableEntry {
 }
 
 /**
+ * This is used internally by {@link @veramo/data-store-json#DataStoreJson | DataStoreJson} to represent a Verifiable
+ * Presentation in a way that facilitates querying using the {@link @veramo/core-types#IDataStoreORM} interface.
+ *
+ * @beta This API may change in future versions without a BREAKING CHANGE notice.
+ */
+export interface RecipientDidTableEntry {
+  did: string
+  recipient_did: string
+}
+
+/**
  * A JSON data layout for data-store-json implementations.
  *
  * @beta This API may change in future versions without a BREAKING CHANGE notice.
@@ -97,7 +108,8 @@ export interface VeramoJsonCache {
   claims?: Record<string, ClaimTableEntry>
   presentations?: Record<string, PresentationTableEntry>
   messages?: Record<string, IMessage>
-  mediation?: Record<string, MediationTableEntry>
+  mediations?: Record<string, MediationTableEntry>
+  recipient_dids?: Record<string, RecipientDidTableEntry>
 }
 
 /**
