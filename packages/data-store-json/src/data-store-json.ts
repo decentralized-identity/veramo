@@ -599,7 +599,9 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
         const colA = a[col]
         const colB = b[col]
         if (typeof colA?.getTime === 'function') {
-          result = direction * (colA.getTime() - colB.getTime() || 0)
+          const aTime = colA.getTime()
+          const bTime = typeof colB?.getTime === 'function' ? colB.getTime() : 0
+          result = direction * (aTime - bTime || 0)
         } else if (typeof colA?.localeCompare === 'function') {
           result = direction * colA.localeCompare(colB)
         } else {
