@@ -11,6 +11,7 @@ import {
   TAgent,
 } from '../../packages/core-types/src'
 import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
+import { beforeAll } from '@jest/globals'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure
@@ -28,13 +29,9 @@ export default (testContext: {
     beforeAll(async () => {
       await testContext.setup()
       agent = testContext.getAgent()
+      identifier = await agent.didManagerCreate({ kms: 'local' })
     })
     afterAll(testContext.tearDown)
-
-    it('should create identifier', async () => {
-      identifier = await agent.didManagerCreate({ kms: 'local' })
-      expect(identifier).toHaveProperty('did')
-    })
 
     it('should create verifiable credentials', async () => {
       // Looping these in a map/forEach throws SQL UNIQUE CONSTRAINT errors
@@ -123,59 +120,56 @@ export default (testContext: {
           { column: 'value', value: ['math', 'art'] },
         ],
         order: [{ column: 'issuanceDate', direction: 'DESC' }],
-        take: 1
+        take: 1,
       })
       expect(credentials).toHaveLength(1)
     })
     it('should be able to limit credentials when searching and sorting', async () => {
       const credentials = await agent.dataStoreORMGetVerifiableCredentials({
-        where: [
-          { column: 'type', value: ['VerifiableCredential'] },
-        ],
+        where: [{ column: 'type', value: ['VerifiableCredential'] }],
         order: [{ column: 'issuanceDate', direction: 'DESC' }],
         take: 1,
-        skip: 1
+        skip: 1,
       })
       expect(credentials).toHaveLength(1)
     })
 
     it('should be able to limit credentials when sorting', async () => {
       const credentialsAllDesc = await agent.dataStoreORMGetVerifiableCredentials({
-        order: [{ column: 'issuanceDate', direction: 'DESC' }]
+        order: [{ column: 'issuanceDate', direction: 'DESC' }],
       })
 
       const credentialsAllAsc = await agent.dataStoreORMGetVerifiableCredentials({
-        order: [{ column: 'issuanceDate', direction: 'ASC' }]
+        order: [{ column: 'issuanceDate', direction: 'ASC' }],
       })
 
       const credentialsIdAllDesc = await agent.dataStoreORMGetVerifiableCredentials({
-        order: [{ column: 'id', direction: 'DESC' }]
+        order: [{ column: 'id', direction: 'DESC' }],
       })
 
       const credentialsIdAllAsc = await agent.dataStoreORMGetVerifiableCredentials({
-        order: [{ column: 'id', direction: 'ASC' }]
+        order: [{ column: 'id', direction: 'ASC' }],
       })
-
 
       const credentials1 = await agent.dataStoreORMGetVerifiableCredentials({
         order: [{ column: 'issuanceDate', direction: 'DESC' }],
         take: 1,
-        skip: 0
+        skip: 0,
       })
       const credentials2 = await agent.dataStoreORMGetVerifiableCredentials({
         order: [{ column: 'issuanceDate', direction: 'DESC' }],
         take: 1,
-        skip: 1
+        skip: 1,
       })
       const credentials3 = await agent.dataStoreORMGetVerifiableCredentials({
         order: [{ column: 'issuanceDate', direction: 'ASC' }],
         take: 2,
-        skip: 0
+        skip: 0,
       })
       const credentials4 = await agent.dataStoreORMGetVerifiableCredentials({
         order: [{ column: 'issuanceDate', direction: 'ASC' }],
         take: 2,
-        skip: 1
+        skip: 1,
       })
 
       expect(credentialsAllDesc).toHaveLength(3)
@@ -190,18 +184,30 @@ export default (testContext: {
       expect(credentialsIdAllDesc[1].verifiableCredential.id).toEqual('b')
       expect(credentialsIdAllDesc[2].verifiableCredential.id).toEqual('a')
 
-      expect(credentialsAllDesc[0].verifiableCredential.issuanceDate).toEqual(credentials1[0].verifiableCredential.issuanceDate)
-      expect(credentialsAllDesc[1].verifiableCredential.issuanceDate).toEqual(credentials2[0].verifiableCredential.issuanceDate)
-      
-      expect(credentialsAllDesc[0].verifiableCredential.issuanceDate).toEqual(credentialsAllAsc[2].verifiableCredential.issuanceDate)
-      expect(credentialsAllDesc[1].verifiableCredential.issuanceDate).toEqual(credentialsAllAsc[1].verifiableCredential.issuanceDate)
-      expect(credentialsAllDesc[2].verifiableCredential.issuanceDate).toEqual(credentialsAllAsc[0].verifiableCredential.issuanceDate)
+      expect(credentialsAllDesc[0].verifiableCredential.issuanceDate).toEqual(
+        credentials1[0].verifiableCredential.issuanceDate,
+      )
+      expect(credentialsAllDesc[1].verifiableCredential.issuanceDate).toEqual(
+        credentials2[0].verifiableCredential.issuanceDate,
+      )
 
-      expect(new Date(credentials1[0].verifiableCredential.issuanceDate).getTime())
-      .toBeGreaterThan(new Date(credentials2[0].verifiableCredential.issuanceDate).getTime())
+      expect(credentialsAllDesc[0].verifiableCredential.issuanceDate).toEqual(
+        credentialsAllAsc[2].verifiableCredential.issuanceDate,
+      )
+      expect(credentialsAllDesc[1].verifiableCredential.issuanceDate).toEqual(
+        credentialsAllAsc[1].verifiableCredential.issuanceDate,
+      )
+      expect(credentialsAllDesc[2].verifiableCredential.issuanceDate).toEqual(
+        credentialsAllAsc[0].verifiableCredential.issuanceDate,
+      )
 
-      expect(new Date(credentials4[0].verifiableCredential.issuanceDate).getTime())
-      .toBeGreaterThan(new Date(credentials3[0].verifiableCredential.issuanceDate).getTime())
+      expect(new Date(credentials1[0].verifiableCredential.issuanceDate).getTime()).toBeGreaterThan(
+        new Date(credentials2[0].verifiableCredential.issuanceDate).getTime(),
+      )
+
+      expect(new Date(credentials4[0].verifiableCredential.issuanceDate).getTime()).toBeGreaterThan(
+        new Date(credentials3[0].verifiableCredential.issuanceDate).getTime(),
+      )
     })
 
     it('should be able to delete credential', async () => {
@@ -214,6 +220,80 @@ export default (testContext: {
 
       const credentials2 = await agent.dataStoreORMGetVerifiableCredentials(findOptions)
       expect(credentials2).toHaveLength(2)
+    })
+  })
+
+  describe('credential queries', () => {
+    let agent: ConfiguredAgent
+
+    beforeAll(async () => {
+      await testContext.setup()
+      agent = testContext.getAgent()
+    })
+
+    it('should query by type and issuer', async () => {
+      const issuer = await agent.didManagerCreate({ kms: 'local' })
+      const cred1 = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: issuer.did },
+          type: ['Test123'],
+          credentialSubject:{
+            hello: 'world',
+          }
+        },
+        proofFormat: 'jwt',
+      })
+      const credentialHash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential: cred1 })
+
+      const found = await agent.dataStoreORMGetVerifiableCredentials({
+        where: [
+          { column: 'type', value: ['VerifiableCredential,Test123'] },
+          { column: 'issuer', value: [issuer.did] },
+        ],
+      })
+      expect(found).toHaveLength(1)
+      expect(found[0].hash).toEqual(credentialHash)
+    })
+
+    it('should query by type and issuer with orderby', async () => {
+      const issuer = await agent.didManagerCreate({ kms: 'local' })
+
+      const cred1 = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: issuer.did },
+          type: ['Test321'],
+          credentialSubject:{
+            first: true,
+          },
+          issuanceDate: undefined // intentionally use a nullish looking value here
+        },
+        proofFormat: 'jwt',
+      })
+      const cred1Hash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential: cred1 })
+
+      const cred2 = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: issuer.did },
+          type: ['Test321'],
+          credentialSubject:{
+            first: false,
+          },
+          issuanceDate: '2000-01-01T00:00:00Z',
+        },
+        proofFormat: 'jwt',
+      })
+      const cred2Hash = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential: cred2 })
+
+      const found = await agent.dataStoreORMGetVerifiableCredentials({
+        where: [
+          { column: 'type', value: ['VerifiableCredential,Test321'] },
+          { column: 'issuer', value: [issuer.did] },
+        ],
+        order: [{ column: 'issuanceDate', direction: 'DESC' }],
+        take: 1
+      })
+      expect(found).toHaveLength(1)
+      expect(found[0].hash).toEqual(cred2Hash)
     })
   })
 }

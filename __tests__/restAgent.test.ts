@@ -273,7 +273,7 @@ const tearDown = async (): Promise<boolean> => {
   await new Promise((resolve, reject) => restServer.close(resolve))
   try {
     await (await dbConnection).dropDatabase()
-    await (await dbConnection).close()
+    await (await dbConnection).destroy()
   } catch (e) {
     // nop
   }

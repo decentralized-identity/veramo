@@ -32,6 +32,7 @@ import {
 } from '../packages/data-store/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
+import { CredentialPlugin } from "../packages/credential-w3c/src";
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSource, DataSourceOptions } from 'typeorm'
@@ -135,12 +136,13 @@ describe('database initial migration tests', () => {
             new DataStore(dbConnection),
             new DataStoreORM(dbConnection),
             new DIDComm(),
+            new CredentialPlugin()
           ],
         })
         return true
       })
       afterAll(async () => {
-        await (await dbConnection).close()
+        await (await dbConnection).destroy()
         fs.unlinkSync(databaseFile)
       })
 
@@ -259,6 +261,22 @@ describe('database initial migration tests', () => {
         }
         const msg = await agent.unpackDIDCommMessage(packed)
         expect(msg.message.body).toEqual({ hello: 'world' })
+      })
+
+      it('saves credential with undefined issuanceDate', async () => {
+        const issuer = await agent.didManagerCreate({ provider: 'did:key' })
+        const cred = await agent.createVerifiableCredential({
+          credential: {
+            issuer: issuer.did,
+            credentialSubject: {
+              name: 'Alice',
+            },
+            issuanceDate: undefined,
+          },
+          proofFormat: 'jwt',
+        })
+        const stored = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential: cred })
+        expect(stored).toBeDefined()
       })
     })
   }

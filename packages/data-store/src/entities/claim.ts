@@ -36,9 +36,10 @@ export class Claim extends BaseEntity {
   // @ts-ignore
   credential: Relation<Credential>
 
-  @Column()
+  // The VC data model does not allow credentials without an issuance date, but some credentials from the wild may
+  @Column({ nullable: true })
   // @ts-ignore
-  issuanceDate: Date
+  issuanceDate?: Date
 
   @Column({ nullable: true })
   expirationDate?: Date

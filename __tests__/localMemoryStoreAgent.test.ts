@@ -213,6 +213,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
 const tearDown = async (): Promise<boolean> => {
   try {
+    await dbConnection?.dropDatabase()
     await dbConnection?.destroy()
   } catch (e) {
     // nop

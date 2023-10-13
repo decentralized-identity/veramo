@@ -18,8 +18,7 @@ import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 /**
  * Represents some common properties of a Verifiable Credential that are stored in a TypeORM database for querying.
  *
- * @see {@link @veramo/core-types#IDataStoreORM.dataStoreORMGetVerifiableCredentials | dataStoreORMGetVerifiableCredentials}
- *   for the interface defining how this can be queried.
+ * @see {@link @veramo/core-types#IDataStoreORM.dataStoreORMGetVerifiableCredentials | dataStoreORMGetVerifiableCredentials} for the interface defining how this can be queried.
  *
  * @see {@link @veramo/data-store#DataStoreORM | DataStoreORM} for the implementation of the query interface.
  *
@@ -65,9 +64,10 @@ export class Credential extends BaseEntity {
   @Column({ nullable: true })
   id?: string
 
-  @Column()
+  // The VC data model does not allow credentials without an issuance date, but some credentials from the wild may
+  @Column({ nullable: true })
   // @ts-ignore
-  issuanceDate: Date
+  issuanceDate?: Date
 
   @Column({ nullable: true })
   expirationDate?: Date
