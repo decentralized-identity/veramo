@@ -103,7 +103,7 @@
         "name": "Verifiable Event Attendance",
         "chainId": 1,
         "version": "1",
-        "verifyingContract": "0x00000000000000000000000000000000000000000000"
+        "verifyingContract": "0x0000000000000000000000000000000000000000"
       },
       "primaryType": "VerifiableCredential"
     },

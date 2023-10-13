@@ -347,6 +347,7 @@ export class CredentialPlugin implements IAgentPlugin {
         }
         verifiedCredential = <VerifiableCredential>credential
       } catch (e: any) {
+        debug('encountered error while verifying EIP712 credential: %o', e)
         const { message, errorCode } = e
         return {
           verified: false,
