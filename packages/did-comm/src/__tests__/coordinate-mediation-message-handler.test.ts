@@ -348,7 +348,7 @@ describe('coordinate-mediation-message-handler', () => {
         expectReceiveRequest(message.id)
       })
 
-      it.skip('should save the mediation status to the db where request is GRANTED', async () => {
+      it('should save the mediation status to the db where request is GRANTED', async () => {
         const messageId = '258b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
         const message = createMediateRequestMessage(recipient.did, mediator.did)
         message.id = messageId
@@ -394,9 +394,9 @@ describe('coordinate-mediation-message-handler', () => {
         const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
         await agent.sendDIDCommMessage(didCommMessageContents)
 
-        expectMessageSent(messageId) // this is ok
-        expectReceiveRequest(messageId) // this is ok
-        expectMessageSent(messageId) // this is ok
+        expectMessageSent(messageId)
+        expectReceiveRequest(messageId)
+        expectMessageSent(messageId)
         expectGrantResponse(messageId)
       })
 

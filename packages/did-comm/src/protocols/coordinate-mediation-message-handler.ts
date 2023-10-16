@@ -303,8 +303,9 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
 
   private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
     try {
-      // Grant requests to all recipients
-      // TODO: Come up with another method for approving and rejecting recipients
+      const decision = grantOrDenyMediation(message, context)
+      await context.agent.dataStoreSaveMediation({ status: decision, did: message.from })
+
       const response = createMediateGrantMessage(message.from, message.to, message.id)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
