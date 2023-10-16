@@ -86,11 +86,11 @@ export const DELIVERY_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const createMediateGrantMessage = (
+export function createMediateGrantMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
-): IDIDCommMessage => {
+): IDIDCommMessage {
   return {
     type: CoordinateMediation.MEDIATE_GRANT,
     from: mediatorDidUrl,
@@ -98,10 +98,11 @@ export const createMediateGrantMessage = (
     id: v4(),
     thid: thid,
     created_time: new Date().toISOString(),
-    body: { routing_did: [mediatorDidUrl] },
+    body: {
+      routing_did: [mediatorDidUrl],
+    },
   }
 }
-
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -124,10 +125,10 @@ export const createMediateDenyMessage = (
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const createMediateRequestMessage = (
+export function createMediateRequestMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
-): IDIDCommMessage => {
+): IDIDCommMessage {
   return {
     type: CoordinateMediation.MEDIATE_REQUEST,
     from: recipientDidUrl,
@@ -230,7 +231,7 @@ export const createDeliveryRequestMessage = (
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-const saveMessageForTracking = async (message: IDIDCommMessage, context: IContext) => {
+async function saveMessageForTracking(message: IDIDCommMessage, context: IContext) {
   await context.agent.dataStoreSaveMessage({
     message: {
       type: message.type,
@@ -279,10 +280,10 @@ const grantOrDenyMediation = (_message: Message, _context: IContext): MediationS
   return MediationStatus.GRANTED
 }
 
-const packResponse = async (
+async function packResponse(
   responseMessage: IDIDCommMessage,
   context: IContext,
-): Promise<IPackedDIDCommMessage> => {
+): Promise<IPackedDIDCommMessage> {
   const packing = 'authcrypt'
 
   return await context.agent.packDIDCommMessage({
@@ -301,15 +302,36 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
   }
 
   private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
-    const { to, from: did } = message
-    debug('MediateRequest Message Received')
-    const status = grantOrDenyMediation(message, context)
-    // TODO: createMediateDenyMessage based on status result
-    const responseMessage = createMediateGrantMessage(did, to, message.id)
-    await saveMessageForTracking(responseMessage, context)
-    await context.agent.dataStoreSaveMediation({ did, status })
-    const packedResponse = await packResponse(responseMessage, context)
-    message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(packedResponse) })
+    try {
+      // Grant requests to all recipients
+      // TODO: Come up with another method for approving and rejecting recipients
+      const response = createMediateGrantMessage(message.from, message.to, message.id)
+      const packedResponse = await context.agent.packDIDCommMessage({
+        message: response,
+        packing: 'authcrypt',
+      })
+      const returnResponse = {
+        id: response.id,
+        message: packedResponse.message,
+        contentType: DIDCommMessageMediaType.ENCRYPTED,
+      }
+      message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+
+      // Save message to track recipients
+      await context.agent.dataStoreSaveMessage({
+        message: {
+          type: response.type,
+          from: response.from,
+          to: response.to,
+          id: response.id,
+          threadId: response.thid,
+          data: response.body,
+          createdAt: response.created_time,
+        },
+      })
+    } catch (error) {
+      debug(error)
+    }
     return message
   }
 
@@ -383,15 +405,10 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
    * https://didcomm.org/mediator-coordination/3.0/
    */
   public async handle(message: Message, context: IContext): Promise<Message> {
-    try {
-      if (isMediateRequest(message)) return this.handleMediateRequest(message, context)
-      if (isRecipientUpdate(message)) return this.handleRecipientUpdate(message, context)
-      if (isRecipientQuery(message)) return this.handleRecipientQuery(message, context)
-      throw new Error('invalid_argument: Mediator Coordinator received invalid message type')
-    } catch (ex) {
-      debug(ex)
-      return super.handle(message, context)
-    }
+    if (isMediateRequest(message)) return this.handleMediateRequest(message, context)
+    if (isRecipientUpdate(message)) return this.handleRecipientUpdate(message, context)
+    if (isRecipientQuery(message)) return this.handleRecipientQuery(message, context)
+    return super.handle(message, context)
   }
 }
 
