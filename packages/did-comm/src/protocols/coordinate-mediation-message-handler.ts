@@ -31,7 +31,7 @@ export interface Update {
   action: UpdateAction
 }
 
-interface UpdateResult extends Update {
+export interface UpdateResult extends Update {
   result: RecipientUpdateResult
 }
 
@@ -188,7 +188,7 @@ export function createRecipientUpdateResponseMessage(
     from: recipientDidUrl,
     to: mediatorDidUrl,
     id: v4(),
-    body: { updates: updates },
+    body: { updates },
     created_time: new Date().toISOString(),
   }
 }
@@ -371,12 +371,16 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
         updates.map(async (update: any) => await applyUpdate(message.from, update)),
       )
       const response = createRecipientUpdateResponseMessage(message.from, message.to, updated)
-      const packedResponse = await packResponse(response, context)
+      const packedResponse = await context.agent.packDIDCommMessage({
+        message: response,
+        packing: 'authcrypt',
+      })
       const returnResponse = {
         id: response.id,
         message: packedResponse.message,
         contentType: DIDCommMessageMediaType.ENCRYPTED,
       }
+      message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
       message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
       await saveMessageForTracking(response, context)
     } catch (error) {
