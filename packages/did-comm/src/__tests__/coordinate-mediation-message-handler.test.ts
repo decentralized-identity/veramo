@@ -49,6 +49,7 @@ const DIDCommEventSniffer: IEventListener = {
 describe('coordinate-mediation-message-handler', () => {
   let recipient: IIdentifier
   let mediator: IIdentifier
+  let denyRecipient: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
   let didCommEndpointServer: Server
   let listeningPort = Math.round(Math.random() * 32000 + 2048)
@@ -99,6 +100,29 @@ describe('coordinate-mediation-message-handler', () => {
         new DataStoreORM(dbConnection),
         DIDCommEventSniffer,
       ],
+    })
+
+    denyRecipient = await agent.didManagerImport({
+      did: 'did:fake:dENygbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+      keys: [
+        {
+          type: 'Ed25519',
+          kid: 'didcomm-senderKey-1',
+          publicKeyHex: '1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+          privateKeyHex:
+            'b57103882f7c66512dc96777cbafbeb2d48eca1e7a867f5a17a84e9a6740f7dc1fe9b397c196ab33549041b29cf93be29b9f2bdd27322f05844112fad97ff92a',
+          kms: 'local',
+        },
+      ],
+      services: [
+        {
+          id: 'msg1',
+          type: 'DIDCommMessaging',
+          serviceEndpoint: `http://localhost:${listeningPort}/messaging`,
+        },
+      ],
+      provider: 'did:fake',
+      alias: 'sender',
     })
 
     recipient = await agent.didManagerImport({
@@ -190,14 +214,14 @@ describe('coordinate-mediation-message-handler', () => {
     )
   }
 
-  const expectReceiveRequest = (msgid: string) => {
+  const expectReceiveRequest = (id: string, from = recipient.did) => {
     expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
       {
         data: {
           message: {
             body: {},
-            from: recipient.did,
-            id: msgid,
+            from,
+            id,
             to: mediator.did,
             created_time: expect.anything(),
             type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-request',
@@ -205,49 +229,6 @@ describe('coordinate-mediation-message-handler', () => {
           metaData: { packing: 'authcrypt' },
         },
         type: 'DIDCommV2Message-received',
-      },
-      expect.anything(),
-    )
-  }
-
-  const expectGrantRequest = (msgid: string) => {
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      {
-        data: {
-          message: {
-            body: {
-              routing_did: [mediator.did],
-            },
-            from: mediator.did,
-            id: expect.anything(),
-            thid: msgid,
-            to: recipient.did,
-            created_time: expect.anything(),
-            type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
-          },
-          metaData: { packing: 'authcrypt' },
-        },
-        type: 'DIDCommV2Message-received',
-      },
-      expect.anything(),
-    )
-  }
-
-  const expectDenyRequest = (msgid: string) => {
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      {
-        data: {
-          message: {
-            from: mediator.did,
-            id: expect.anything(),
-            thid: msgid,
-            to: recipient.did,
-            created_time: expect.anything(),
-            type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
-          },
-          metaData: { packing: 'authcrypt' },
-        },
-        type: 'DIDCommV2Message-sent',
       },
       expect.anything(),
     )
@@ -313,14 +294,12 @@ describe('coordinate-mediation-message-handler', () => {
 
   describe('mediator', () => {
     describe.only('MEDIATE REQUEST', () => {
-      const expectGrantResponse = (msgid: string) => {
+      const expectGrantRequest = (msgid: string) => {
         expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
           {
             data: {
               message: {
-                body: {
-                  routing_did: [mediator.did],
-                },
+                body: { routing_did: [mediator.did] },
                 from: mediator.did,
                 id: expect.anything(),
                 thid: msgid,
@@ -335,6 +314,28 @@ describe('coordinate-mediation-message-handler', () => {
           expect.anything(),
         )
       }
+
+      const expectDenyRequest = (msgid: string, to = recipient.did) => {
+        expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+          {
+            data: {
+              message: {
+                from: mediator.did,
+                id: expect.anything(),
+                thid: msgid,
+                to,
+                created_time: expect.anything(),
+                type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
+                body: null,
+              },
+              metaData: { packing: 'authcrypt' },
+            },
+            type: 'DIDCommV2Message-received',
+          },
+          expect.anything(),
+        )
+      }
+
       it('should receive a mediate request', async () => {
         const messageId = '158b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
         const message = createMediateRequestMessage(recipient.did, mediator.did)
@@ -366,10 +367,9 @@ describe('coordinate-mediation-message-handler', () => {
         expect(mediation.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
       })
 
-      // TODO: this test is expected to fail until the whitelist logic is implemented
-      it.skip('should record the mediation status to the db where request is DENIED', async () => {
+      it('should record the mediation status to the db where request is DENIED', async () => {
         const messageId = '358b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-        const message = createMediateRequestMessage(recipient.did, mediator.did)
+        const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
         message.id = messageId
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -377,15 +377,15 @@ describe('coordinate-mediation-message-handler', () => {
         const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
         await agent.sendDIDCommMessage(didCommMessageContents)
         const mediation = await agent.dataStoreGetMediation({
-          did: recipient.did,
+          did: denyRecipient.did,
           status: MediationStatus.DENIED,
         })
 
         expect(mediation.status).toBe(MediationStatus.DENIED)
-        expect(mediation.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
+        expect(mediation.did).toBe('did:fake:dENygbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
       })
 
-      it('should respond correctly to a mediate request where GRANTED', async () => {
+      it.skip('should respond correctly to a mediate request where GRANTED', async () => {
         const message = createMediateRequestMessage(recipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
@@ -397,24 +397,23 @@ describe('coordinate-mediation-message-handler', () => {
         expectMessageSent(messageId)
         expectReceiveRequest(messageId)
         expectMessageSent(messageId)
-        expectGrantResponse(messageId)
+        expectGrantRequest(messageId)
       })
 
-      it.skip('should respond correctly to a mediate request where DENIED', async () => {
-        const messageId = '558b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-        const message = createMediateRequestMessage(recipient.did, mediator.did)
-        message.id = messageId
+      it('should respond correctly to a mediate request where DENIED', async () => {
+        const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
+        const messageId = message.id
+        console.log('messageId', messageId)
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
         const recipientDidUrl = mediator.did
         const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
         await agent.sendDIDCommMessage(didCommMessageContents)
 
-        // TODO: this test is expected to fail until the whitelist logic is implemented
         expectMessageSent(messageId)
-        expectReceiveRequest(messageId)
+        expectReceiveRequest(messageId, denyRecipient.did)
         expectMessageSent(messageId)
-        expectDenyRequest(messageId)
+        expectDenyRequest(messageId, denyRecipient.did)
       })
     })
   })

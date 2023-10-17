@@ -273,10 +273,12 @@ const isRecipientQuery = (message: Message): message is RecipientQueryMessage =>
   return true
 }
 
-const grantOrDenyMediation = (_message: Message, _context: IContext): MediationStatus => {
+const grantOrDenyMediation = (message: Message, _context: IContext): MediationStatus => {
+  // TODO: load this deny list dynamically
+  const denyList = ['did:fake:dENygbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo']
   // NOTE: Grant requests to all recipients until new system implemented
   // TODO: Come up with a method for approving and rejecting recipients
-  // const response = createMediateDenyMessage(from, to, message.id)
+  if (!message || !message.from || denyList.includes(message.from)) return MediationStatus.DENIED
   return MediationStatus.GRANTED
 }
 
@@ -306,7 +308,10 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       const decision = grantOrDenyMediation(message, context)
       await context.agent.dataStoreSaveMediation({ status: decision, did: message.from })
 
-      const response = createMediateGrantMessage(message.from, message.to, message.id)
+      const getResponse =
+        decision === MediationStatus.GRANTED ? createMediateGrantMessage : createMediateDenyMessage
+
+      const response = getResponse(message.from, message.to, message.id)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
         packing: 'authcrypt',

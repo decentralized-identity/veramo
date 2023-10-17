@@ -164,9 +164,9 @@ export class DataStore implements IAgentPlugin {
     return saveResult.did
   }
 
-  async dataStoreGetMediation({ did }: IDataStoreGetMediationArgs): Promise<IMediation> {
+  async dataStoreGetMediation({ did, status }: IDataStoreGetMediationArgs): Promise<IMediation> {
     const db = await getConnectedDb(this.dbConnection)
-    const findFilter = { where: { did, status: 'GRANTED' } } as const
+    const findFilter = { where: { did, status } } as const
     const mediation = await db.getRepository(Mediation).findOne(findFilter)
     if (!mediation) throw new Error('not_found: Mediation not found')
     return mediation
