@@ -26,6 +26,7 @@ import {
   UpdateAction,
   RecipientUpdateResult,
   MediationStatus,
+  CoordinateMediation,
 } from '../protocols/coordinate-mediation-message-handler.js'
 import type { Update, UpdateResult } from '../protocols/coordinate-mediation-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
@@ -272,11 +273,11 @@ describe('coordinate-mediation-message-handler', () => {
               message: {
                 body: { routing_did: [mediator.did] },
                 from: mediator.did,
+                to: recipient.did,
                 id: expect.anything(),
                 thid: msgid,
-                to: recipient.did,
                 created_time: expect.anything(),
-                type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
+                type: CoordinateMediation.MEDIATE_GRANT,
               },
               metaData: { packing: 'authcrypt' },
             },
@@ -412,17 +413,17 @@ describe('coordinate-mediation-message-handler', () => {
         {
           data: {
             message: {
+              body: { updates },
               from: mediator.did,
               to: recipient.did,
               id: expect.anything(),
               thid: msgid,
               created_time: expect.anything(),
-              type: 'https://didcomm.org/coordinate-mediation/3.0/recipient-update-response',
-              body: { updates },
+              type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE,
             },
             metaData: { packing: 'authcrypt' },
           },
-          type: 'DIDCommV2Message-sent',
+          type: 'DIDCommV2Message-received',
         },
         expect.anything(),
       )

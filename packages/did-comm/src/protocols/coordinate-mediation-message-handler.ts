@@ -124,8 +124,8 @@ export const createMediateDenyMessage = (
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function createRecipientUpdateResponseMessage(
-  mediatorDidUrl: string,
   recipientDidUrl: string,
+  mediatorDidUrl: string,
   thid: string,
   updates: UpdateResult[],
 ): IDIDCommMessage {
