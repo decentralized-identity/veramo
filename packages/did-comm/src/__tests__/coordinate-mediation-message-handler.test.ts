@@ -413,16 +413,16 @@ describe('coordinate-mediation-message-handler', () => {
           data: {
             message: {
               from: mediator.did,
+              to: recipient.did,
               id: expect.anything(),
               thid: msgid,
-              to: recipient.did,
               created_time: expect.anything(),
               type: 'https://didcomm.org/coordinate-mediation/3.0/recipient-update-response',
               body: { updates },
             },
             metaData: { packing: 'authcrypt' },
           },
-          type: 'DIDCommV2Message-received',
+          type: 'DIDCommV2Message-sent',
         },
         expect.anything(),
       )
@@ -475,8 +475,8 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should respond correctly to a recipient update request on add SUCCESS', async () => {
-      const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did, action: UpdateAction.ADD }
+      const recipientDidToAdd = 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.ADD }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -488,7 +488,7 @@ describe('coordinate-mediation-message-handler', () => {
       expectMessageSent(messageId)
       expectRecieveUpdateRequest(messageId, [update])
       expectMessageSent(messageId)
-      // expectRecipientAddSuccessResponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
+      expectRecipientAddSuccessResponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
     })
 
     it.skip('should respond correctly to a recipient update request on SUCCESS', async () => {

@@ -44,7 +44,7 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
             where: [
               {
                 column: 'type',
-                value: [CoordinateMediation.MEDIATE_GRANT, CoordinateMediation.MEDIATE_DENY],
+                value: [CoordinateMediation.RECIPIENT_QUERY_RESPONSE, CoordinateMediation.MEDIATE_GRANT, CoordinateMediation.MEDIATE_DENY],
                 op: 'In',
               },
               {

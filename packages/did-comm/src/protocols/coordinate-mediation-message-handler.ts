@@ -97,10 +97,8 @@ export function createMediateGrantMessage(
     to: recipientDidUrl,
     id: v4(),
     thid: thid,
+    body: { routing_did: [mediatorDidUrl] },
     created_time: new Date().toISOString(),
-    body: {
-      routing_did: [mediatorDidUrl],
-    },
   }
 }
 /**
@@ -119,6 +117,26 @@ export const createMediateDenyMessage = (
     thid: thid,
     created_time: new Date().toISOString(),
     body: null,
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export function createRecipientUpdateResponseMessage(
+  mediatorDidUrl: string,
+  recipientDidUrl: string,
+  thid: string,
+  updates: UpdateResult[],
+): IDIDCommMessage {
+  return {
+    type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE,
+    from: mediatorDidUrl,
+    to: recipientDidUrl,
+    id: v4(),
+    thid: thid,
+    body: { updates },
+    created_time: new Date().toISOString(),
   }
 }
 
@@ -170,26 +188,8 @@ export const createRecipientUpdateMessage = (
     to: mediatorDidUrl,
     id: v4(),
     created_time: new Date().toISOString(),
-    body: { updates: updates },
-    return_route: 'all',
-  }
-}
-
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export function createRecipientUpdateResponseMessage(
-  recipientDidUrl: string,
-  mediatorDidUrl: string,
-  updates: UpdateResult[],
-): IDIDCommMessage {
-  return {
-    type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE,
-    from: recipientDidUrl,
-    to: mediatorDidUrl,
-    id: v4(),
     body: { updates },
-    created_time: new Date().toISOString(),
+    return_route: 'all',
   }
 }
 
@@ -305,12 +305,11 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
 
   private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
     try {
+      debug('MediateRequest Message Received')
       const decision = grantOrDenyMediation(message, context)
       await context.agent.dataStoreSaveMediation({ status: decision, did: message.from })
-
       const getResponse =
         decision === MediationStatus.GRANTED ? createMediateGrantMessage : createMediateDenyMessage
-
       const response = getResponse(message.from, message.to, message.id)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
@@ -367,10 +366,9 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
         }
       }
 
-      const updated = await Promise.all(
-        updates.map(async (update: any) => await applyUpdate(message.from, update)),
-      )
-      const response = createRecipientUpdateResponseMessage(message.from, message.to, updated)
+      const updated = await Promise.all(updates.map(async (u) => await applyUpdate(message.from, u)))
+
+      const response = createRecipientUpdateResponseMessage(message.from, message.to, message.id, updated)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
         packing: 'authcrypt',
@@ -381,8 +379,18 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
         contentType: DIDCommMessageMediaType.ENCRYPTED,
       }
       message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
-      message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
-      await saveMessageForTracking(response, context)
+
+      await context.agent.dataStoreSaveMessage({
+        message: {
+          type: response.type,
+          from: response.from,
+          to: response.to,
+          id: response.id,
+          threadId: response.thid,
+          data: response.body,
+          createdAt: response.created_time,
+        },
+      })
     } catch (error) {
       debug(error)
     }
@@ -397,7 +405,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     debug('MediateRecipientQuery Message Received')
     const { paginate = {} } = message.body
     const dids = await context.agent.dataStoreListRecipientDids({ did: from, ...paginate })
-    const response = createRecipientUpdateResponseMessage(from, to, dids)
+    const response = createRecipientUpdateResponseMessage(from, to, message.id, dids)
     const packedResponse = await context.agent.packDIDCommMessage({
       message: response,
       packing: 'authcrypt',
