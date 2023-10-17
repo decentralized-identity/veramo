@@ -293,7 +293,7 @@ describe('coordinate-mediation-message-handler', () => {
   }
 
   describe('mediator', () => {
-    describe.only('MEDIATE REQUEST', () => {
+    describe('MEDIATE REQUEST', () => {
       const expectGrantRequest = (msgid: string) => {
         expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
           {
@@ -451,21 +451,23 @@ describe('coordinate-mediation-message-handler', () => {
       expectUpdateRequest(messageId, [update])
     })
 
-    it.skip('should add a new recipient_did', async () => {
-      const messageId = '118b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+    it('should add a new recipient_did', async () => {
       const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
       const update = { recipient_did, action: UpdateAction.ADD }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
-      message.id = messageId
+      const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
       const recipientDidUrl = mediator.did
       const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
       await agent.sendDIDCommMessage(didCommMessageContents)
       const [result] = await agent.dataStoreGetRecipientDids({ did: recipient.did })
+      console.log('result', result)
 
       expect(result.recipient_did).toBe(recipient_did)
       expect(result.did).toBe(recipient.did)
+
+      expect(true).toBe(false)
     })
 
     it.skip('should remove an existing recipient_did', async () => {

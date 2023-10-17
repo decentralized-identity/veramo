@@ -29,7 +29,6 @@ import { RecipientDid } from './entities/recipient_did.js'
 import { DataSource } from 'typeorm'
 import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
-import { Identifier } from './entities/identifier.js'
 import { Mediation } from './entities/mediation.js'
 
 /**

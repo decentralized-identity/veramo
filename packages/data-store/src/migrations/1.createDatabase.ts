@@ -244,7 +244,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
         name: migrationGetTableName(queryRunner, 'recipient_did'),
         columns: [
           { name: 'did', type: 'varchar', isPrimary: true },
-          { name: 'recipient_id', type: 'varchar', isNullable: false },
+          { name: 'recipient_did', type: 'varchar', isNullable: false },
         ],
       }),
       true,
