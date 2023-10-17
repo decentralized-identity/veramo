@@ -337,9 +337,8 @@ describe('coordinate-mediation-message-handler', () => {
       }
 
       it('should receive a mediate request', async () => {
-        const messageId = '158b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
         const message = createMediateRequestMessage(recipient.did, mediator.did)
-        message.id = messageId
+        const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
         const recipientDidUrl = mediator.did
@@ -350,9 +349,8 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should save the mediation status to the db where request is GRANTED', async () => {
-        const messageId = '258b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
         const message = createMediateRequestMessage(recipient.did, mediator.did)
-        message.id = messageId
+        const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
         const recipientDidUrl = mediator.did
@@ -368,9 +366,8 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should record the mediation status to the db where request is DENIED', async () => {
-        const messageId = '358b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
         const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
-        message.id = messageId
+        const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
         const recipientDidUrl = mediator.did
@@ -385,7 +382,7 @@ describe('coordinate-mediation-message-handler', () => {
         expect(mediation.did).toBe('did:fake:dENygbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
       })
 
-      it.skip('should respond correctly to a mediate request where GRANTED', async () => {
+      it('should respond correctly to a mediate request where GRANTED', async () => {
         const message = createMediateRequestMessage(recipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
