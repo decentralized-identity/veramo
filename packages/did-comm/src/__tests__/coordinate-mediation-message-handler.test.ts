@@ -466,12 +466,11 @@ describe('coordinate-mediation-message-handler', () => {
       expect(result.did).toBe(recipient.did)
     })
 
-    it.skip('should remove an existing recipient_did', async () => {
-      const messageId = '228b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-      const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did, action: UpdateAction.ADD }
+    it('should remove an existing recipient_did', async () => {
+      const recipientDidToRemove = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const update = { recipient_did: recipientDidToRemove, action: UpdateAction.ADD }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
-      message.id = messageId
+      const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
       const recipientDidUrl = mediator.did
@@ -479,7 +478,8 @@ describe('coordinate-mediation-message-handler', () => {
       await agent.sendDIDCommMessage(didCommMessageContents)
       const [result] = await agent.dataStoreGetRecipientDids({ did: recipient.did })
 
-      expect(result).toBe(recipient_did)
+      expect(result.did).toBe(recipient.did)
+      expect(result.recipient_did).toBe(recipientDidToRemove)
     })
 
     it.skip('should respond correctly to a recipient update request on SUCCESS', async () => {

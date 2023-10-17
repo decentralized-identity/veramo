@@ -188,10 +188,7 @@ export class DataStore implements IAgentPlugin {
 
   async dataStoreGetRecipientDids({ did, offset: _offset, limit: _limit }: IDataStoreGetRecipientDids) {
     const db = await getConnectedDb(this.dbConnection)
-    const findFilter = { where: { did } }
-    const dids = await db.getRepository(RecipientDid).find(findFilter)
-    console.log('dids', dids)
-    console.log('######################################')
-    return dids
+    // TODO: pagination with offset and limit
+    return await db.getRepository(RecipientDid).find({ where: { did } })
   }
 }
