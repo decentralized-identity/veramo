@@ -408,7 +408,7 @@ describe('coordinate-mediation-message-handler', () => {
       )
     }
 
-    const expectRecipientAddSuccessResponse = (msgid: string, updates: UpdateResult[]) => {
+    const expectRecipientUpdateReponse = (msgid: string, updates: UpdateResult[]) => {
       expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
         {
           data: {
@@ -489,12 +489,13 @@ describe('coordinate-mediation-message-handler', () => {
       expectMessageSent(messageId)
       expectRecieveUpdateRequest(messageId, [update])
       expectMessageSent(messageId)
-      expectRecipientAddSuccessResponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
+      expectRecipientUpdateReponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
     })
 
-    it.skip('should respond correctly to a recipient update request on SUCCESS', async () => {
-      const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did, action: UpdateAction.REMOVE }
+    // TODO: respond NO_CHANGE if recipient_did already exists
+    it.skip('should respond correctly to a recipient update request on add NO_CHANGE', async () => {
+      const recipientDidToAdd = 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.ADD }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -504,24 +505,26 @@ describe('coordinate-mediation-message-handler', () => {
       await agent.sendDIDCommMessage(didCommMessageContents)
 
       expectMessageSent(messageId)
-      // expectRecieveMediationRequest(messageId, denyRecipient.did)
+      expectRecieveUpdateRequest(messageId, [update])
       expectMessageSent(messageId)
-      // expectRecipientRemovedResponse(messageId, recipient_did)
+      expectRecipientUpdateReponse(messageId, [{ ...update, result: RecipientUpdateResult.NO_CHANGE }])
     })
 
-    it.skip('should respond correctly to a recipient update request on NO_CHANGE', async () => {
-      const messageId = '228b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
+    it.skip('should respond correctly to a recipient update request on remove SUCCESS', async () => {
       const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did, action: UpdateAction.ADD }
+      const update = { recipient_did, action: UpdateAction.REMOVE } as const
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
-      message.id = messageId
+      const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
       const recipientDidUrl = mediator.did
       const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
       await agent.sendDIDCommMessage(didCommMessageContents)
 
-      expectRecipientNoChangeResponse(messageId, recipient_did)
+      expectMessageSent(messageId)
+      expectRecieveUpdateRequest(messageId, [update])
+      expectMessageSent(messageId)
+      expectRecipientUpdateReponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
     })
   })
 

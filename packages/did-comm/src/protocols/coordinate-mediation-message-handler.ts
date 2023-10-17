@@ -282,18 +282,6 @@ const grantOrDenyMediation = (message: Message, _context: IContext): MediationSt
   return MediationStatus.GRANTED
 }
 
-async function packResponse(
-  responseMessage: IDIDCommMessage,
-  context: IContext,
-): Promise<IPackedDIDCommMessage> {
-  const packing = 'authcrypt'
-
-  return await context.agent.packDIDCommMessage({
-    message: responseMessage,
-    packing,
-  })
-}
-
 /**
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the mediator role.
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -358,6 +346,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
           if (update.action === UpdateAction.REMOVE) {
             const result = await context.agent.dataStoreRemoveRecipientDid(filter)
             if (result) return { ...update, result: RecipientUpdateResult.SUCCESS }
+            return { ...update, result: RecipientUpdateResult.NO_CHANGE }
           }
           return { ...update, result: RecipientUpdateResult.CLIENT_ERROR }
         } catch (ex) {
