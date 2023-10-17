@@ -2732,7 +2732,7 @@
             "$ref": "#/components/schemas/IDataStoreRemoveRecipientDid"
           },
           "returnType": {
-            "type": "string"
+            "type": "object"
           }
         },
         "dataStoreSaveMediation": {

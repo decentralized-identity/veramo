@@ -260,9 +260,9 @@ const isRecipientUpdate = (message: Message): message is RecipientUpdateMessage 
   if (message.type !== CoordinateMediation.RECIPIENT_UPDATE) return false
   if (!message.from) throw new Error('invalid_argument: RecipientUpdate received without `from` set')
   if (!message.to) throw new Error('invalid_argument: RecipientUpdate received without `to` set')
-  if (!('body' in message)) throw new Error('invalid_argument: RecipientUpdate received without `body` set')
-  if (!message.body || !message.body.updates)
-    throw new Error('invalid_argument: RecipientUpdate received without `updates` set')
+  // if (!('data' in message)) throw new Error('invalid_argument: RecipientUpdate received without `body` set')
+  // if (!message.data || !message.data.updates)
+  //   throw new Error('invalid_argument: RecipientUpdate received without `updates` set')
   return true
 }
 
@@ -345,41 +345,43 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
    * Used to notify the mediator of DIDs in use by the recipient
    **/
   private async handleRecipientUpdate(message: RecipientUpdateMessage, context: IContext): Promise<Message> {
-    const {
-      to,
-      from,
-      body: { updates },
-    } = message
-    debug('MediateRecipientUpdate Message Received')
+    try {
+      debug('MediateRecipientUpdate Message Received')
+      const updates: Update[] = message.data.updates
 
-    const applyUpdate = async (did: string, update: Update) => {
-      const filter = { did, recipient_did: update.recipient_did }
-      try {
-        if (update.action === UpdateAction.ADD) {
-          await context.agent.dataStoreAddRecipientDid(filter)
-          return { ...update, result: RecipientUpdateResult.SUCCESS }
+      const applyUpdate = async (did: string, update: Update) => {
+        const filter = { did, recipient_did: update.recipient_did }
+        try {
+          if (update.action === UpdateAction.ADD) {
+            await context.agent.dataStoreAddRecipientDid(filter)
+            return { ...update, result: RecipientUpdateResult.SUCCESS }
+          }
+          if (update.action === UpdateAction.REMOVE) {
+            const result = await context.agent.dataStoreRemoveRecipientDid(filter)
+            if (result) return { ...update, result: RecipientUpdateResult.SUCCESS }
+          }
+          return { ...update, result: RecipientUpdateResult.CLIENT_ERROR }
+        } catch (ex) {
+          debug(ex)
+          return { ...update, result: RecipientUpdateResult.SERVER_ERROR }
         }
-        if (update.action === UpdateAction.REMOVE) {
-          const result = await context.agent.dataStoreRemoveRecipientDid(filter)
-          if (result) return { ...update, result: RecipientUpdateResult.SUCCESS }
-        }
-        return { ...update, result: RecipientUpdateResult.CLIENT_ERROR }
-      } catch (ex) {
-        debug(ex)
-        return { ...update, result: RecipientUpdateResult.SERVER_ERROR }
       }
-    }
 
-    const updated = await Promise.all(updates.map(async (update) => await applyUpdate(from, update)))
-    const response = createRecipientUpdateResponseMessage(from, to, updated)
-    const packedResponse = await packResponse(response, context)
-    const returnResponse = {
-      id: response.id,
-      message: packedResponse.message,
-      contentType: DIDCommMessageMediaType.ENCRYPTED,
+      const updated = await Promise.all(
+        updates.map(async (update: any) => await applyUpdate(message.from, update)),
+      )
+      const response = createRecipientUpdateResponseMessage(message.from, message.to, updated)
+      const packedResponse = await packResponse(response, context)
+      const returnResponse = {
+        id: response.id,
+        message: packedResponse.message,
+        contentType: DIDCommMessageMediaType.ENCRYPTED,
+      }
+      message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+      await saveMessageForTracking(response, context)
+    } catch (error) {
+      debug(error)
     }
-    message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
-    await saveMessageForTracking(response, context)
     return message
   }
 

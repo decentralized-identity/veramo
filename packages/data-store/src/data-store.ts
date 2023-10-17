@@ -177,24 +177,21 @@ export class DataStore implements IAgentPlugin {
     return result.recipient_did
   }
 
-  async dataStoreRemoveRecipientDid({ did, recipient_did }: IDataStoreRemoveRecipientDid): Promise<string> {
+  async dataStoreRemoveRecipientDid({ did, recipient_did }: IDataStoreRemoveRecipientDid) {
     const db = await getConnectedDb(this.dbConnection)
-    const existingEntry = await db.getRepository(RecipientDid).findOneBy({ did, recipient_did })
-    if (!existingEntry) throw new Error('not_found: Identifier not found')
+    const findFilter = { where: { did, recipient_did } }
+    const existingEntry = await db.getRepository(RecipientDid).findOne(findFilter)
+    if (!existingEntry) return null
     await db.getRepository(RecipientDid).remove(existingEntry)
     return existingEntry.recipient_did
   }
 
-  async dataStoreGetRecipientDids({
-    did,
-    offset: _offset,
-    limit: _limit,
-  }: IDataStoreGetRecipientDids): Promise<IRecipientDid[]> {
+  async dataStoreGetRecipientDids({ did, offset: _offset, limit: _limit }: IDataStoreGetRecipientDids) {
     const db = await getConnectedDb(this.dbConnection)
     const findFilter = { where: { did } }
-    const result = await db.getRepository(RecipientDid).findOne(findFilter)
-    if (!result) throw new Error('not_found: Identifier not found')
-    return [result]
-    // return result.map(({ recipient_did }: { recipient_did: string }) => recipient_did)
+    const dids = await db.getRepository(RecipientDid).find(findFilter)
+    console.log('dids', dids)
+    console.log('######################################')
+    return dids
   }
 }

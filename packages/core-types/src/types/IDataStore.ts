@@ -258,7 +258,7 @@ export interface IDataStore extends IPluginMethodMap {
    * @param args - recipient dids
    * @returns a promise that resolves to the removed recipient did or null if not found
    */
-  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<string>
+  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<any>
 
   /**
    * Saves recipient dids to the data store
