@@ -400,7 +400,6 @@ describe('coordinate-mediation-message-handler', () => {
       it('should respond correctly to a mediate request where DENIED', async () => {
         const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
         const messageId = message.id
-        console.log('messageId', messageId)
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
         const recipientDidUrl = mediator.did
