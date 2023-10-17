@@ -492,10 +492,12 @@ describe('coordinate-mediation-message-handler', () => {
       expectRecipientUpdateReponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
     })
 
-    // TODO: respond NO_CHANGE if recipient_did already exists
-    it.skip('should respond correctly to a recipient update request on add NO_CHANGE', async () => {
-      const recipientDidToAdd = 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.ADD }
+    it('should respond correctly to a recipient update request on add NO_CHANGE', async () => {
+      const recipientDidToAdd = 'did:fake:test889NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      /**
+       * NOTE: we are removing a non-existent recipient_did so should recieve "NO_CHANGE"
+       */
+      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.REMOVE }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -510,9 +512,9 @@ describe('coordinate-mediation-message-handler', () => {
       expectRecipientUpdateReponse(messageId, [{ ...update, result: RecipientUpdateResult.NO_CHANGE }])
     })
 
-    it.skip('should respond correctly to a recipient update request on remove SUCCESS', async () => {
-      const recipient_did = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did, action: UpdateAction.REMOVE } as const
+    it('should respond correctly to a recipient update request on remove SUCCESS', async () => {
+      const recipientDidToRemove = 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const update = { recipient_did: recipientDidToRemove, action: UpdateAction.REMOVE }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -626,10 +628,6 @@ describe('coordinate-mediation-message-handler', () => {
         const service = didDoc?.service?.find((s) => s.id === `${recipient.did}#didcomm-mediator`)
         expect(service).toBeUndefined()
       })
-    })
-
-    describe('UPDATE RECIPIENT RESPONSE', () => {
-      // TODO: update recipient response tests
     })
   })
 })
