@@ -248,23 +248,6 @@ export const createDeliveryRequestMessage = (
 }
 
 /**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-async function saveMessageForTracking(message: IDIDCommMessage, context: IContext) {
-  await context.agent.dataStoreSaveMessage({
-    message: {
-      type: message.type,
-      from: message.from,
-      to: message.to,
-      id: message.id,
-      threadId: message.thid,
-      data: message.body,
-      createdAt: message.created_time,
-    },
-  })
-}
-
-/**
  * Handler Type Guards
  */
 

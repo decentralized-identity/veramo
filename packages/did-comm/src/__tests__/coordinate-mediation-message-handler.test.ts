@@ -217,7 +217,7 @@ describe('coordinate-mediation-message-handler', () => {
   }
 
   describe('mediator', () => {
-    describe.skip('MEDIATE REQUEST', () => {
+    describe('MEDIATE REQUEST', () => {
       const expectRecieveMediationRequest = (id: string, from = recipient.did) => {
         expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
           {
@@ -448,23 +448,30 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should respond correctly to a recipient update request on add SUCCESS', async () => {
-      const recipientDidToAdd = 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.ADD }
-      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      const recipientDidToAddOne = 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const recipientDidToAddTwo = 'did:fake:testt88NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const updates = [
+        { recipient_did: recipientDidToAddOne, action: UpdateAction.ADD },
+        { recipient_did: recipientDidToAddTwo, action: UpdateAction.ADD },
+      ]
+      const message = createRecipientUpdateMessage(recipient.did, mediator.did, updates)
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
       const recipientDidUrl = mediator.did
       const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
       await agent.sendDIDCommMessage(didCommMessageContents)
-
+      const results = [
+        { ...updates[0], result: RecipientUpdateResult.SUCCESS },
+        { ...updates[1], result: RecipientUpdateResult.SUCCESS },
+      ]
       expectMessageSent(messageId)
-      expectRecieveUpdateRequest(messageId, [update])
+      expectRecieveUpdateRequest(messageId, updates)
       expectMessageSent(messageId)
-      expectRecipientUpdateReponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
+      expectRecipientUpdateReponse(messageId, results)
     })
 
-    it('should respond correctly to a recipient update request on add NO_CHANGE', async () => {
+    it('should respond correctly to a recipient update request on remove NO_CHANGE', async () => {
       const recipientDidToAdd = 'did:fake:test889NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
       /**
        * NOTE: we are removing a non-existent recipient_did so should recieve "NO_CHANGE"
@@ -500,75 +507,101 @@ describe('coordinate-mediation-message-handler', () => {
       expectMessageSent(messageId)
       expectRecipientUpdateReponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
     })
+  })
 
-    describe('RECIPIENT QUERY', () => {
-      const expectRecieveRecipientQuery = (msgid: string) => {
-        expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-          {
-            data: {
-              message: {
-                body: {},
-                from: recipient.did,
-                id: msgid,
-                to: mediator.did,
-                created_time: expect.anything(),
-                type: CoordinateMediation.RECIPIENT_QUERY,
-              },
-              metaData: { packing: 'authcrypt' },
+  describe('RECIPIENT QUERY', () => {
+    const expectRecieveRecipientQuery = (msgid: string) => {
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: {},
+              from: recipient.did,
+              id: msgid,
+              to: mediator.did,
+              created_time: expect.anything(),
+              type: CoordinateMediation.RECIPIENT_QUERY,
             },
-            type: 'DIDCommV2Message-received',
+            metaData: { packing: 'authcrypt' },
           },
-          expect.anything(),
-        )
-      }
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    }
 
-      const expectRecipientQueryReponse = (msgid: string, dids: Update[] = []) => {
-        expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-          {
-            data: {
-              message: {
-                body: { dids },
-                from: mediator.did,
-                to: recipient.did,
-                id: expect.anything(),
-                thid: msgid,
-                created_time: expect.anything(),
-                type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
-              },
-              metaData: { packing: 'authcrypt' },
+    const expectRecipientQueryReponse = (msgid: string, dids: Update[] = []) => {
+      expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+        {
+          data: {
+            message: {
+              body: { dids },
+              from: mediator.did,
+              to: recipient.did,
+              id: expect.anything(),
+              thid: msgid,
+              created_time: expect.anything(),
+              type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
             },
-            type: 'DIDCommV2Message-received',
+            metaData: { packing: 'authcrypt' },
           },
-          expect.anything(),
-        )
-      }
+          type: 'DIDCommV2Message-received',
+        },
+        expect.anything(),
+      )
+    }
 
-      it('should receive a query request', async () => {
-        const message = createRecipientQueryMessage(recipient.did, mediator.did)
-        const messageId = message.id
-        const packedMessageContents = { packing: 'authcrypt', message } as const
-        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
-        const recipientDidUrl = mediator.did
-        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
-        await agent.sendDIDCommMessage(didCommMessageContents)
+    it('should receive a query request', async () => {
+      const message = createRecipientQueryMessage(recipient.did, mediator.did)
+      const messageId = message.id
+      const packedMessageContents = { packing: 'authcrypt', message } as const
+      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+      const recipientDidUrl = mediator.did
+      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+      await agent.sendDIDCommMessage(didCommMessageContents)
 
-        expectRecieveRecipientQuery(messageId)
-      })
+      expectRecieveRecipientQuery(messageId)
+    })
 
-      it('should respond correctly to a recipient query request', async () => {
-        const message = createRecipientQueryMessage(recipient.did, mediator.did)
-        const messageId = message.id
-        const packedMessageContents = { packing: 'authcrypt', message } as const
-        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
-        const recipientDidUrl = mediator.did
-        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
-        await agent.sendDIDCommMessage(didCommMessageContents)
+    it('should respond correctly to a recipient query request on no recipient_dids', async () => {
+      const message = createRecipientQueryMessage(recipient.did, mediator.did)
+      const messageId = message.id
+      const packedMessageContents = { packing: 'authcrypt', message } as const
+      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+      const recipientDidUrl = mediator.did
+      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+      await agent.sendDIDCommMessage(didCommMessageContents)
 
-        expectMessageSent(messageId)
-        expectRecieveRecipientQuery(messageId)
-        expectMessageSent(messageId)
-        expectRecipientQueryReponse(messageId)
-      })
+      expectMessageSent(messageId)
+      expectRecieveRecipientQuery(messageId)
+      expectMessageSent(messageId)
+      expectRecipientQueryReponse(messageId)
+    })
+
+    it('should respond correctly to a recipient query request on available recipient_dids', async () => {
+      /**
+       * NOTE: we need to insert a recipient_did into the data store to ensure a populated query
+       */
+      const recipientDidToAdd = 'did:fake:exampleNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      const insertOperationOne = { recipient_did: recipientDidToAdd, did: recipient.did }
+      await agent.dataStoreAddRecipientDid(insertOperationOne)
+      const dids = await agent.dataStoreGetRecipientDids({ did: recipient.did })
+
+      /**
+       * NOTE: now we query the recipient dids and expect the response to contain the inserted recipient_did
+       */
+      const message = createRecipientQueryMessage(recipient.did, mediator.did)
+      const messageId = message.id
+      const packedMessageContents = { packing: 'authcrypt', message } as const
+      const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+      const recipientDidUrl = mediator.did
+      const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+      await agent.sendDIDCommMessage(didCommMessageContents)
+
+      expectMessageSent(messageId)
+      expectRecieveRecipientQuery(messageId)
+      expectMessageSent(messageId)
+      expectRecipientQueryReponse(messageId, dids)
     })
   })
 
