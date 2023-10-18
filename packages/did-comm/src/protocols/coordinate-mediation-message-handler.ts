@@ -412,6 +412,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     debug('MediateRecipientQuery Message Received')
     const { paginate = {} } = message.body
     const dids = await context.agent.dataStoreListRecipientDids({ did: message.from, ...paginate })
+    console.log('dids', dids)
     const response = createRecipientQueryResponseMessage(message.from, message.to, message.id, dids)
     const packedResponse = await context.agent.packDIDCommMessage({
       message: response,

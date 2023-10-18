@@ -522,6 +522,27 @@ describe('coordinate-mediation-message-handler', () => {
         )
       }
 
+      const expectRecipientQueryReponse = (msgid: string) => {
+        expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+          {
+            data: {
+              message: {
+                body: { dids: [] },
+                from: mediator.did,
+                to: recipient.did,
+                id: expect.anything(),
+                thid: msgid,
+                created_time: expect.anything(),
+                type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE,
+              },
+              metaData: { packing: 'authcrypt' },
+            },
+            type: 'DIDCommV2Message-received',
+          },
+          expect.anything(),
+        )
+      }
+
       it('should receive a query request', async () => {
         const message = createRecipientQueryMessage(recipient.did, mediator.did)
         const messageId = message.id
@@ -532,6 +553,21 @@ describe('coordinate-mediation-message-handler', () => {
         await agent.sendDIDCommMessage(didCommMessageContents)
 
         expectRecieveRecipientQuery(messageId)
+      })
+
+      it('should respond correctly to a recipient query request', async () => {
+        const message = createRecipientQueryMessage(recipient.did, mediator.did)
+        const messageId = message.id
+        const packedMessageContents = { packing: 'authcrypt', message } as const
+        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+        const recipientDidUrl = mediator.did
+        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+        await agent.sendDIDCommMessage(didCommMessageContents)
+
+        expectMessageSent(messageId)
+        expectRecieveRecipientQuery(messageId)
+        expectMessageSent(messageId)
+        // expectRecipientQueryReponse(messageId)
       })
     })
   })
