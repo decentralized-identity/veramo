@@ -27,6 +27,7 @@ import {
   RecipientUpdateResult,
   MediationStatus,
   CoordinateMediation,
+  createRecipientQueryMessage,
 } from '../protocols/coordinate-mediation-message-handler.js'
 import type { Update, UpdateResult } from '../protocols/coordinate-mediation-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
@@ -210,35 +211,6 @@ describe('coordinate-mediation-message-handler', () => {
       {
         data: msgid,
         type: 'DIDCommV2Message-sent',
-      },
-      expect.anything(),
-    )
-  }
-
-  const expectRecipientNoChangeResponse = (msgid: string, recipient_did: string) => {
-    expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
-      {
-        data: {
-          message: {
-            from: mediator.did,
-            id: expect.anything(),
-            thid: msgid,
-            to: recipient.did,
-            created_time: expect.anything(),
-            type: 'https://didcomm.org/coordinate-mediation/3.0/recipient',
-            body: {
-              updates: [
-                {
-                  action: 'add',
-                  recipient_did,
-                  result: RecipientUpdateResult.NO_CHANGE,
-                },
-              ],
-            },
-          },
-          metaData: { packing: 'authcrypt' },
-        },
-        type: 'DIDCommV2Message-received',
       },
       expect.anything(),
     )
@@ -527,6 +499,40 @@ describe('coordinate-mediation-message-handler', () => {
       expectRecieveUpdateRequest(messageId, [update])
       expectMessageSent(messageId)
       expectRecipientUpdateReponse(messageId, [{ ...update, result: RecipientUpdateResult.SUCCESS }])
+    })
+
+    describe('RECIPIENT QUERY', () => {
+      const expectRecieveRecipientQuery = (msgid: string) => {
+        expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
+          {
+            data: {
+              message: {
+                body: {},
+                from: recipient.did,
+                id: msgid,
+                to: mediator.did,
+                created_time: expect.anything(),
+                type: CoordinateMediation.RECIPIENT_QUERY,
+              },
+              metaData: { packing: 'authcrypt' },
+            },
+            type: 'DIDCommV2Message-received',
+          },
+          expect.anything(),
+        )
+      }
+
+      it('should receive a query request', async () => {
+        const message = createRecipientQueryMessage(recipient.did, mediator.did)
+        const messageId = message.id
+        const packedMessageContents = { packing: 'authcrypt', message } as const
+        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+        const recipientDidUrl = mediator.did
+        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+        await agent.sendDIDCommMessage(didCommMessageContents)
+
+        expectRecieveRecipientQuery(messageId)
+      })
     })
   })
 

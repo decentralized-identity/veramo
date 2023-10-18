@@ -143,6 +143,26 @@ export function createRecipientUpdateResponseMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
+export const createRecipientQueryResponseMessage = (
+  recipientDidUrl: string,
+  mediatorDidUrl: string,
+  thid: string,
+  dids: Record<'recipient_did', string>[],
+): IDIDCommMessage => {
+  return {
+    type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
+    from: recipientDidUrl,
+    to: mediatorDidUrl,
+    id: v4(),
+    thid: thid,
+    body: { dids },
+    created_time: new Date().toISOString(),
+  }
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export function createMediateRequestMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
@@ -196,18 +216,17 @@ export const createRecipientUpdateMessage = (
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const createRecipientQueryResponseMessage = (
+export const createRecipientQueryMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
-  dids: Record<'recipient_did', string>[],
 ): IDIDCommMessage => {
   return {
-    type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
+    type: CoordinateMediation.RECIPIENT_QUERY,
     from: recipientDidUrl,
     to: mediatorDidUrl,
     id: v4(),
-    body: { dids },
     created_time: new Date().toISOString(),
+    body: {},
   }
 }
 
@@ -390,11 +409,10 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
    * Query mediator for a list of DIDs registered for this connection
    **/
   private async handleRecipientQuery(message: RecipientQueryMessage, context: IContext): Promise<Message> {
-    const { to, from } = message
     debug('MediateRecipientQuery Message Received')
     const { paginate = {} } = message.body
-    const dids = await context.agent.dataStoreListRecipientDids({ did: from, ...paginate })
-    const response = createRecipientUpdateResponseMessage(from, to, message.id, dids)
+    const dids = await context.agent.dataStoreListRecipientDids({ did: message.from, ...paginate })
+    const response = createRecipientQueryResponseMessage(message.from, message.to, message.id, dids)
     const packedResponse = await context.agent.packDIDCommMessage({
       message: response,
       packing: 'authcrypt',
