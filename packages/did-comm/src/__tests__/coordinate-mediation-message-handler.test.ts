@@ -522,18 +522,18 @@ describe('coordinate-mediation-message-handler', () => {
         )
       }
 
-      const expectRecipientQueryReponse = (msgid: string) => {
+      const expectRecipientQueryReponse = (msgid: string, dids: Update[] = []) => {
         expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
           {
             data: {
               message: {
-                body: { dids: [] },
+                body: { dids },
                 from: mediator.did,
                 to: recipient.did,
                 id: expect.anything(),
                 thid: msgid,
                 created_time: expect.anything(),
-                type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE,
+                type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
               },
               metaData: { packing: 'authcrypt' },
             },
@@ -567,7 +567,7 @@ describe('coordinate-mediation-message-handler', () => {
         expectMessageSent(messageId)
         expectRecieveRecipientQuery(messageId)
         expectMessageSent(messageId)
-        // expectRecipientQueryReponse(messageId)
+        expectRecipientQueryReponse(messageId)
       })
     })
   })

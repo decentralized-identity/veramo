@@ -18,7 +18,6 @@ import {
   IDataStoreRemoveRecipientDid,
   IDataStoreAddRecipientDid,
   IDataStoreGetRecipientDids,
-  IRecipientDid,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'

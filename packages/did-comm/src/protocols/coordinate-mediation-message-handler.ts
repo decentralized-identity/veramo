@@ -409,22 +409,35 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
    * Query mediator for a list of DIDs registered for this connection
    **/
   private async handleRecipientQuery(message: RecipientQueryMessage, context: IContext): Promise<Message> {
-    debug('MediateRecipientQuery Message Received')
-    const { paginate = {} } = message.body
-    const dids = await context.agent.dataStoreListRecipientDids({ did: message.from, ...paginate })
-    console.log('dids', dids)
-    const response = createRecipientQueryResponseMessage(message.from, message.to, message.id, dids)
-    const packedResponse = await context.agent.packDIDCommMessage({
-      message: response,
-      packing: 'authcrypt',
-    })
-    const returnResponse = {
-      id: response.id,
-      message: packedResponse.message,
-      contentType: DIDCommMessageMediaType.ENCRYPTED,
+    try {
+      debug('MediateRecipientQuery Message Received')
+      const { paginate = {} } = message.data
+      const dids = await context.agent.dataStoreGetRecipientDids({ did: message.from, ...paginate })
+      const response = createRecipientQueryResponseMessage(message.to, message.from, message.id, dids)
+      const packedResponse = await context.agent.packDIDCommMessage({
+        message: response,
+        packing: 'authcrypt',
+      })
+      const returnResponse = {
+        id: response.id,
+        message: packedResponse.message,
+        contentType: DIDCommMessageMediaType.ENCRYPTED,
+      }
+      message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+      await context.agent.dataStoreSaveMessage({
+        message: {
+          type: response.type,
+          from: response.from,
+          to: response.to,
+          id: response.id,
+          threadId: response.thid,
+          data: response.body,
+          createdAt: response.created_time,
+        },
+      })
+    } catch (error) {
+      debug(error)
     }
-    message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
-    await saveMessageForTracking(response, context)
     return message
   }
 
