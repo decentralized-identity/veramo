@@ -480,7 +480,7 @@ describe('coordinate-mediation-message-handler', () => {
       /**
        * NOTE: we are removing a non-existent recipient_did so should recieve "NO_CHANGE"
        */
-      const { mockRecipientDid_00: recipient_did } = mockRecipientDids
+      const { mockRecipientDid_03: recipient_did } = mockRecipientDids
       const update = { recipient_did, action: UpdateAction.REMOVE }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
@@ -591,17 +591,21 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should respond correctly to a recipient query request on available recipient_dids', async () => {
-      // /**
-      //  * NOTE: we need to insert a recipient_did into the data store to ensure a populated query
-      //  */
-      // const recipientDidToAdd = 'did:fake:exampleNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      // const insertOperationOne = { recipient_did: recipientDidToAdd, did: recipient.did }
-      // await agent.dataStoreAddRecipientDid(insertOperationOne)
-      // const dids = await agent.dataStoreGetRecipientDids({ did: recipient.did })
-      //
-      // /**
-      //  * NOTE: now we query the recipient dids and expect the response to contain the inserted recipient_did
-      //  */
+      /**
+       * NOTE: we need to insert a recipient_did into the data store to ensure a populated query
+       */
+      const insertOperationOne = { recipient_did: mockRecipientDids.mockRecipientDid_00, did: recipient.did }
+      const insertOperationTwo = { recipient_did: mockRecipientDids.mockRecipientDid_01, did: recipient.did }
+      await agent.dataStoreAddRecipientDid(insertOperationOne)
+      await agent.dataStoreAddRecipientDid(insertOperationTwo)
+      const dids = await agent.dataStoreGetRecipientDids({ did: recipient.did })
+      const numberOfInstertedRecipientDids = 2
+
+      expect(dids).toHaveLength(numberOfInstertedRecipientDids)
+
+      /**
+       * NOTE: now we query the recipient dids and expect the response to contain the inserted recipient_dids
+       */
       const message = createRecipientQueryMessage(recipient.did, mediator.did)
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -613,7 +617,7 @@ describe('coordinate-mediation-message-handler', () => {
       expectMessageSent(messageId)
       expectRecieveRecipientQuery(messageId)
       expectMessageSent(messageId)
-      expectRecipientQueryReponse(messageId, [])
+      expectRecipientQueryReponse(messageId, dids)
     })
   })
 
