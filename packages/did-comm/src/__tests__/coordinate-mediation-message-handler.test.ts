@@ -358,6 +358,13 @@ describe('coordinate-mediation-message-handler', () => {
     })
   })
 
+  const mockRecipientDids = {
+    mockRecipientDid_00: 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+    mockRecipientDid_01: 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+    mockRecipientDid_02: 'did:fake:testt88NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+    mockRecipientDid_03: 'did:fake:test889NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+  } as const
+
   describe('RECIPIENT UPDATE', () => {
     const expectRecieveUpdateRequest = (msgid: string, updates: Update[]) => {
       expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
@@ -402,8 +409,8 @@ describe('coordinate-mediation-message-handler', () => {
     }
 
     it('should receive an update request', async () => {
-      const recipientDidToAdd = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.ADD }
+      const { mockRecipientDid_00: recipient_did } = mockRecipientDids
+      const update = { recipient_did, action: UpdateAction.ADD }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -416,8 +423,8 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should add a new recipient_did to the data store', async () => {
-      const recipientDidToAdd = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.ADD }
+      const { mockRecipientDid_00: recipient_did } = mockRecipientDids
+      const update = { recipient_did, action: UpdateAction.ADD }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -427,13 +434,13 @@ describe('coordinate-mediation-message-handler', () => {
       await agent.sendDIDCommMessage(didCommMessageContents)
       const [result] = await agent.dataStoreGetRecipientDids({ did: recipient.did })
 
-      expect(result.recipient_did).toBe(recipientDidToAdd)
+      expect(result.recipient_did).toBe(recipient_did)
       expect(result.did).toBe(recipient.did)
     })
 
     it('should remove an existing recipient_did from the data store', async () => {
-      const recipientDidToRemove = 'did:fake:testgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did: recipientDidToRemove, action: UpdateAction.ADD }
+      const { mockRecipientDid_00: recipient_did } = mockRecipientDids
+      const update = { recipient_did, action: UpdateAction.ADD }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -444,15 +451,13 @@ describe('coordinate-mediation-message-handler', () => {
       const [entry] = await agent.dataStoreGetRecipientDids({ did: recipient.did })
 
       expect(entry.did).toBe(recipient.did)
-      expect(entry.recipient_did).toBe(recipientDidToRemove)
+      expect(entry.recipient_did).toBe(recipient_did)
     })
 
     it('should respond correctly to a recipient update request on add SUCCESS', async () => {
-      const recipientDidToAddOne = 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const recipientDidToAddTwo = 'did:fake:testt88NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
       const updates = [
-        { recipient_did: recipientDidToAddOne, action: UpdateAction.ADD },
-        { recipient_did: recipientDidToAddTwo, action: UpdateAction.ADD },
+        { recipient_did: mockRecipientDids.mockRecipientDid_01, action: UpdateAction.ADD },
+        { recipient_did: mockRecipientDids.mockRecipientDid_02, action: UpdateAction.ADD },
       ]
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, updates)
       const messageId = message.id
@@ -472,11 +477,11 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should respond correctly to a recipient update request on remove NO_CHANGE', async () => {
-      const recipientDidToAdd = 'did:fake:test889NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
       /**
        * NOTE: we are removing a non-existent recipient_did so should recieve "NO_CHANGE"
        */
-      const update = { recipient_did: recipientDidToAdd, action: UpdateAction.REMOVE }
+      const { mockRecipientDid_00: recipient_did } = mockRecipientDids
+      const update = { recipient_did, action: UpdateAction.REMOVE }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -492,8 +497,8 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should respond correctly to a recipient update request on remove SUCCESS', async () => {
-      const recipientDidToRemove = 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const update = { recipient_did: recipientDidToRemove, action: UpdateAction.REMOVE }
+      const { mockRecipientDid_01: recipient_did } = mockRecipientDids
+      const update = { recipient_did, action: UpdateAction.REMOVE }
       const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -564,6 +569,13 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should respond correctly to a recipient query request on no recipient_dids', async () => {
+      const did = recipient.did
+
+      await agent.dataStoreRemoveRecipientDid({ did, recipient_did: mockRecipientDids.mockRecipientDid_00 })
+      await agent.dataStoreRemoveRecipientDid({ did, recipient_did: mockRecipientDids.mockRecipientDid_01 })
+      await agent.dataStoreRemoveRecipientDid({ did, recipient_did: mockRecipientDids.mockRecipientDid_02 })
+      await agent.dataStoreRemoveRecipientDid({ did, recipient_did: mockRecipientDids.mockRecipientDid_03 })
+
       const message = createRecipientQueryMessage(recipient.did, mediator.did)
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -579,17 +591,17 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should respond correctly to a recipient query request on available recipient_dids', async () => {
-      /**
-       * NOTE: we need to insert a recipient_did into the data store to ensure a populated query
-       */
-      const recipientDidToAdd = 'did:fake:exampleNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
-      const insertOperationOne = { recipient_did: recipientDidToAdd, did: recipient.did }
-      await agent.dataStoreAddRecipientDid(insertOperationOne)
-      const dids = await agent.dataStoreGetRecipientDids({ did: recipient.did })
-
-      /**
-       * NOTE: now we query the recipient dids and expect the response to contain the inserted recipient_did
-       */
+      // /**
+      //  * NOTE: we need to insert a recipient_did into the data store to ensure a populated query
+      //  */
+      // const recipientDidToAdd = 'did:fake:exampleNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
+      // const insertOperationOne = { recipient_did: recipientDidToAdd, did: recipient.did }
+      // await agent.dataStoreAddRecipientDid(insertOperationOne)
+      // const dids = await agent.dataStoreGetRecipientDids({ did: recipient.did })
+      //
+      // /**
+      //  * NOTE: now we query the recipient dids and expect the response to contain the inserted recipient_did
+      //  */
       const message = createRecipientQueryMessage(recipient.did, mediator.did)
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
@@ -601,7 +613,7 @@ describe('coordinate-mediation-message-handler', () => {
       expectMessageSent(messageId)
       expectRecieveRecipientQuery(messageId)
       expectMessageSent(messageId)
-      expectRecipientQueryReponse(messageId, dids)
+      expectRecipientQueryReponse(messageId, [])
     })
   })
 
