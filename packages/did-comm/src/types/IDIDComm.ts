@@ -99,6 +99,8 @@ export interface IDIDComm extends IPluginMethodMap {
    */
   sendDIDCommMessage(args: ISendDIDCommMessageArgs, context: IAgentContext<IResolver>): Promise<string>
 
+  isMediateDefaultGrantAll(): Promise<boolean>
+
   /**
    *
    * @deprecated Please use {@link IDIDComm.sendDIDCommMessage} instead. This will be removed in Veramo 4.0

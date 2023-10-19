@@ -355,6 +355,11 @@ describe('coordinate-mediation-message-handler', () => {
         expectMessageSent(messageId)
         expectDenyRequest(messageId, denyRecipient.did)
       })
+
+      it('should deny dids which have a MediationPolicy of DENY', async () => {
+        const recipientDidToDeny = 
+
+      })
     })
   })
 
@@ -363,6 +368,7 @@ describe('coordinate-mediation-message-handler', () => {
     mockRecipientDid_01: 'did:fake:test888NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
     mockRecipientDid_02: 'did:fake:testt88NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
     mockRecipientDid_03: 'did:fake:test889NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+    mockRecipientDid_04: 'did:fake:deny889NU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
   } as const
 
   describe('RECIPIENT UPDATE', () => {
@@ -619,6 +625,8 @@ describe('coordinate-mediation-message-handler', () => {
       expectMessageSent(messageId)
       expectRecipientQueryReponse(messageId, dids)
     })
+
+
   })
 
   describe('recipient', () => {

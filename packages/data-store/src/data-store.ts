@@ -18,6 +18,8 @@ import {
   IDataStoreRemoveRecipientDid,
   IDataStoreAddRecipientDid,
   IDataStoreGetRecipientDids,
+  IDataStoreSaveMediationPolicyArgs,
+  IDataStoreGetMediationPoliciesArgs,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
@@ -29,6 +31,7 @@ import { DataSource } from 'typeorm'
 import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
 import { Mediation } from './entities/mediation.js'
+import { MediationPolicy } from './entities/mediation_policy.js'
 
 /**
  * This class implements the {@link @veramo/core-types#IDataStore} interface using a TypeORM compatible database.
@@ -154,6 +157,17 @@ export class DataStore implements IAgentPlugin {
     if (!presentationEntity) throw new Error('not_found: Verifiable presentation not found')
 
     return presentationEntity.raw
+  }
+
+  async dataStoreSaveMediationPolicy({ did, policy }: IDataStoreSaveMediationPolicyArgs): Promise<string> {
+    const db = await getConnectedDb(this.dbConnection)
+    const saveResult = await db.getRepository(MediationPolicy).save({ did, policy })
+    return saveResult.did
+  }
+
+  async dataStoreGetMediationPolicies({ policy }: IDataStoreGetMediationPoliciesArgs): Promise<any> {
+    const db = await getConnectedDb(this.dbConnection)
+    return await db.getRepository(MediationPolicy).findBy({ policy })
   }
 
   async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {

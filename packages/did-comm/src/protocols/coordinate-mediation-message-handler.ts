@@ -271,13 +271,19 @@ const isRecipientQuery = (message: Message): message is RecipientQueryMessage =>
   return true
 }
 
-const grantOrDenyMediation = (message: Message, _context: IContext): MediationStatus => {
-  // TODO: load this deny list dynamically
-  const denyList = ['did:fake:dENygbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo']
-  // NOTE: Grant requests to all recipients until new system implemented
-  // TODO: Come up with a method for approving and rejecting recipients
-  if (!message || !message.from || denyList.includes(message.from)) return MediationStatus.DENIED
-  return MediationStatus.GRANTED
+const grantOrDenyMediation = async (message: Message, context: IContext): Promise<MediationStatus> => {
+  if (!message.from) return MediationStatus.DENIED
+
+  if (await context.agent.isMediateDefaultGrantAll()) {
+    const denyList: { did: string }[] = await context.agent.dataStoreGetMediationPolicies({ policy: 'deny' })
+    if (denyList.some(({ did }) => did === message.from)) return MediationStatus.DENIED
+    return MediationStatus.GRANTED
+  } else {
+
+  const allowList: { did: string }[] = await context.agent.dataStoreGetMediationPolicies({ policy: 'allow' })
+  if (allowList.some(({ did }) => did === message.from)) return MediationStatus.GRANTED
+  return MediationStatus.DENIED
+  }
 }
 
 /**
