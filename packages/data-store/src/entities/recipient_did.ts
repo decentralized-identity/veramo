@@ -1,8 +1,11 @@
-import { Entity, BaseEntity, Column, PrimaryColumn } from 'typeorm'
+import { Entity, BaseEntity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('recipient_did')
 export class RecipientDid extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
+
+  @Column()
   did!: string
 
   @Column()

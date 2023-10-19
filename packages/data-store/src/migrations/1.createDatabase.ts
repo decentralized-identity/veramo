@@ -244,9 +244,22 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
       new Table({
         name: migrationGetTableName(queryRunner, 'recipient_did'),
         columns: [
-          { name: 'did', type: 'varchar', isPrimary: true },
-          // { name: 'did', type: 'varchar', isNullable: false },
+          { name: 'id', type: 'varchar', isPrimary: true },
+          { name: 'did', type: 'varchar', isNullable: false },
           { name: 'recipient_did', type: 'varchar', isNullable: false },
+        ],
+      }),
+      true,
+    )
+
+    debug('creating mediation_policies table')
+    await queryRunner.createTable(
+      new Table({
+        name: migrationGetTableName(queryRunner, 'mediation_policy'),
+        columns: [
+          { name: 'id', type: 'varchar', isPrimary: true },
+          { name: 'did', type: 'varchar', isNullable: false },
+          { name: 'policy', type: 'varchar', isNullable: false },
         ],
       }),
       true,

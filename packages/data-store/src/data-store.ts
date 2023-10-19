@@ -172,6 +172,10 @@ export class DataStore implements IAgentPlugin {
 
   async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
     const db = await getConnectedDb(this.dbConnection)
+    // TODO: make recipient_did unique for any given mediation and negate need for this existing check
+    const findFilter = { where: { did, recipient_did } }
+    const existing = await db.getRepository(RecipientDid).findOne(findFilter)
+    if (existing) return recipient_did
     const result = await db.getRepository(RecipientDid).save({ did, recipient_did })
     return result.recipient_did
   }

@@ -146,8 +146,8 @@ export const createRecipientQueryResponseMessage = (
 ): IDIDCommMessage => {
   return {
     type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
-    from: recipientDidUrl,
-    to: mediatorDidUrl,
+    from: mediatorDidUrl,
+    to: recipientDidUrl,
     id: v4(),
     thid: thid,
     body: { dids },
@@ -257,10 +257,10 @@ const isRecipientUpdate = (message: Message): message is RecipientUpdateMessage 
   if (message.type !== CoordinateMediation.RECIPIENT_UPDATE) return false
   if (!message.from) throw new Error('invalid_argument: RecipientUpdate received without `from` set')
   if (!message.to) throw new Error('invalid_argument: RecipientUpdate received without `to` set')
-  // if (!('data' in message)) throw new Error('invalid_argument: RecipientUpdate received without `body` set')
-  // if (!message.data || !message.data.updates) {
-  //   throw new Error('invalid_argument: RecipientUpdate received without `updates` set')
-  // }
+  if (!('data' in message)) throw new Error('invalid_argument: RecipientUpdate received without `body` set')
+  if (!message.data || !message.data.updates) {
+    throw new Error('invalid_argument: RecipientUpdate received without `updates` set')
+  }
   return true
 }
 
@@ -277,7 +277,6 @@ const grantOrDenyMediation = (message: Message, _context: IContext): MediationSt
   // NOTE: Grant requests to all recipients until new system implemented
   // TODO: Come up with a method for approving and rejecting recipients
   if (!message || !message.from || denyList.includes(message.from)) return MediationStatus.DENIED
-  console.log('here')
   return MediationStatus.GRANTED
 }
 
@@ -393,7 +392,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
       debug('MediateRecipientQuery Message Received')
       const { paginate = {} } = message.data
       const dids = await context.agent.dataStoreGetRecipientDids({ did: message.from, ...paginate })
-      const response = createRecipientQueryResponseMessage(message.to, message.from, message.id, dids)
+      const response = createRecipientQueryResponseMessage(message.from, message.to, message.id, dids)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
         packing: 'authcrypt',
