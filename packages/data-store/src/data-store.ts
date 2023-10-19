@@ -63,6 +63,8 @@ export class DataStore implements IAgentPlugin {
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
+      dataStoreSaveMediationPolicy: this.dataStoreSaveMediationPolicy.bind(this),
+      dataStoreGetMediationPolicies: this.dataStoreGetMediationPolicies.bind(this),
       dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
       dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
       dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),

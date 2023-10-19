@@ -7,6 +7,7 @@ import {
   IKeyManager,
   IMessageHandler,
   IResolver,
+  MediationPolicies,
   MediationStatus,
   TAgent,
 } from '../../../core/src'
@@ -279,6 +280,37 @@ describe('coordinate-mediation-message-handler', () => {
           expect.anything(),
         )
       }
+
+      it('should default to mediate grant all', async () => {
+        const isMediateDefaultGrantAll = await agent.isMediateDefaultGrantAll()
+        expect(isMediateDefaultGrantAll).toBeTruthy()
+      })
+
+      it.only('should correctly update the data store MediationPolicy for dids to deny', async () => {
+        const policy = MediationPolicies.DENY
+        const did = denyRecipient.did
+        const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
+
+        expect(insertedMediationPolicyDid).toBe(denyRecipient.did)
+
+        const [denyDid] = await agent.dataStoreGetMediationPolicies({ policy })
+
+        expect(denyDid.did).toBe(denyRecipient.did)
+        expect(denyDid.policy).toBe(MediationPolicies.DENY)
+      })
+
+      it.only('should correctly update the data store MediationPolicy for dids to allow', async () => {
+        const policy = MediationPolicies.ALLOW
+        const did = recipient.did
+        const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
+
+        expect(insertedMediationPolicyDid).toBe(recipient.did)
+
+        const [allowDid] = await agent.dataStoreGetMediationPolicies({ policy })
+
+        expect(allowDid.did).toBe(recipient.did)
+        expect(allowDid.policy).toBe(MediationPolicies.ALLOW)
+      })
 
       it('should receive a mediate request', async () => {
         const message = createMediateRequestMessage(recipient.did, mediator.did)

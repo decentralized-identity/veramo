@@ -1,4 +1,11 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore, MediationStatus } from '@veramo/core-types'
+import {
+  IAgentContext,
+  IDIDManager,
+  IKeyManager,
+  IDataStore,
+  MediationStatus,
+  MediationPolicies,
+} from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -272,16 +279,17 @@ const isRecipientQuery = (message: Message): message is RecipientQueryMessage =>
 }
 
 const grantOrDenyMediation = async (message: Message, context: IContext): Promise<MediationStatus> => {
-  return MediationStatus.GRANTED
   if (!message.from) return MediationStatus.DENIED
 
   if (await context.agent.isMediateDefaultGrantAll()) {
-    const denyList: { did: string }[] = await context.agent.dataStoreGetMediationPolicies({ policy: 'deny' })
+    const denyList: { did: string }[] = await context.agent.dataStoreGetMediationPolicies({
+      policy: MediationPolicies.DENY,
+    })
     if (denyList.some(({ did }) => did === message.from)) return MediationStatus.DENIED
     return MediationStatus.GRANTED
   } else {
     const allowList: { did: string }[] = await context.agent.dataStoreGetMediationPolicies({
-      policy: 'allow',
+      policy: MediationPolicies.ALLOW,
     })
     if (allowList.some(({ did }) => did === message.from)) return MediationStatus.GRANTED
     return MediationStatus.DENIED

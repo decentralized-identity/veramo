@@ -2144,6 +2144,27 @@
           ],
           "description": "Represents mediation"
         },
+        "IDataStoreGetMediationPoliciesArgs": {
+          "type": "object",
+          "properties": {
+            "policy": {
+              "$ref": "#/components/schemas/MediationPolicies",
+              "description": "Required. policy"
+            }
+          },
+          "required": [
+            "policy"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreGetMediationPolicy | dataStoreGetMediationPolicy }"
+        },
+        "MediationPolicies": {
+          "type": "string",
+          "enum": [
+            "ALLOW",
+            "DENY"
+          ],
+          "description": "Represents mediation policy"
+        },
         "IDataStoreGetMessageArgs": {
           "type": "object",
           "properties": {
@@ -2609,6 +2630,24 @@
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation }"
         },
+        "IDataStoreSaveMediationPolicyArgs": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Required. did"
+            },
+            "policy": {
+              "$ref": "#/components/schemas/MediationPolicies",
+              "description": "Required. policy"
+            }
+          },
+          "required": [
+            "did",
+            "policy"
+          ],
+          "description": "Input arguments for  {@link IDataStore.dataStoreSaveMediationPolicy | dataStoreSaveMediationPolicy }"
+        },
         "IDataStoreSaveMessageArgs": {
           "type": "object",
           "properties": {
@@ -2686,6 +2725,15 @@
             "$ref": "#/components/schemas/IMediation"
           }
         },
+        "dataStoreGetMediationPolicies": {
+          "description": "Gets mediation policies from the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreGetMediationPoliciesArgs"
+          },
+          "returnType": {
+            "type": "object"
+          }
+        },
         "dataStoreGetMessage": {
           "description": "Gets message from the data store",
           "arguments": {
@@ -2738,6 +2786,15 @@
           },
           "returnType": {
             "type": "string"
+          }
+        },
+        "dataStoreSaveMediationPolicy": {
+          "description": "Saves mediation policy to the data store",
+          "arguments": {
+            "$ref": "#/components/schemas/IDataStoreSaveMediationPolicyArgs"
+          },
+          "returnType": {
+            "type": "object"
           }
         },
         "dataStoreSaveMessage": {
