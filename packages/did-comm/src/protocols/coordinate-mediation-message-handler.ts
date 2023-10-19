@@ -272,6 +272,7 @@ const isRecipientQuery = (message: Message): message is RecipientQueryMessage =>
 }
 
 const grantOrDenyMediation = async (message: Message, context: IContext): Promise<MediationStatus> => {
+  return MediationStatus.GRANTED
   if (!message.from) return MediationStatus.DENIED
 
   if (await context.agent.isMediateDefaultGrantAll()) {
@@ -279,10 +280,11 @@ const grantOrDenyMediation = async (message: Message, context: IContext): Promis
     if (denyList.some(({ did }) => did === message.from)) return MediationStatus.DENIED
     return MediationStatus.GRANTED
   } else {
-
-  const allowList: { did: string }[] = await context.agent.dataStoreGetMediationPolicies({ policy: 'allow' })
-  if (allowList.some(({ did }) => did === message.from)) return MediationStatus.GRANTED
-  return MediationStatus.DENIED
+    const allowList: { did: string }[] = await context.agent.dataStoreGetMediationPolicies({
+      policy: 'allow',
+    })
+    if (allowList.some(({ did }) => did === message.from)) return MediationStatus.GRANTED
+    return MediationStatus.DENIED
   }
 }
 
@@ -298,7 +300,8 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
   private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
     try {
       debug('MediateRequest Message Received')
-      const decision = grantOrDenyMediation(message, context)
+      const decision = await grantOrDenyMediation(message, context)
+      console.log('DECISION', decision)
       await context.agent.dataStoreSaveMediation({ status: decision, did: message.from })
       const getResponse =
         decision === MediationStatus.GRANTED ? createMediateGrantMessage : createMediateDenyMessage

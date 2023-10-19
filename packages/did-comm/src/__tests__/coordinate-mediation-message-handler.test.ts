@@ -356,10 +356,9 @@ describe('coordinate-mediation-message-handler', () => {
         expectDenyRequest(messageId, denyRecipient.did)
       })
 
-      it('should deny dids which have a MediationPolicy of DENY', async () => {
-        const recipientDidToDeny = 
-
-      })
+      // it('should deny dids which have a MediationPolicy of DENY', async () => {
+      //   // const recipientDidToDeny =
+      // })
     })
   })
 
@@ -625,8 +624,6 @@ describe('coordinate-mediation-message-handler', () => {
       expectMessageSent(messageId)
       expectRecipientQueryReponse(messageId, dids)
     })
-
-
   })
 
   describe('recipient', () => {
