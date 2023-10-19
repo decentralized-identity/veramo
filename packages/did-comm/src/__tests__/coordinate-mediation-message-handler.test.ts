@@ -7,6 +7,7 @@ import {
   IKeyManager,
   IMessageHandler,
   IResolver,
+  MediationStatus,
   TAgent,
 } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
@@ -25,7 +26,6 @@ import {
   createRecipientUpdateMessage,
   UpdateAction,
   RecipientUpdateResult,
-  MediationStatus,
   CoordinateMediation,
   createRecipientQueryMessage,
 } from '../protocols/coordinate-mediation-message-handler.js'
@@ -194,7 +194,7 @@ describe('coordinate-mediation-message-handler', () => {
 
   afterAll(async () => {
     try {
-      await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+      await new Promise((resolve, _reject) => didCommEndpointServer?.close(resolve))
     } catch (e: any) {
       // nop
     }

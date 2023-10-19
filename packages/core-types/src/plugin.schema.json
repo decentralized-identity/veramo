@@ -2108,11 +2108,7 @@
               "description": "Required. did"
             },
             "status": {
-              "type": "string",
-              "enum": [
-                "GRANTED",
-                "DENIED"
-              ],
+              "$ref": "#/components/schemas/MediationStatus",
               "description": "Required. mediation status"
             }
           },
@@ -2122,6 +2118,14 @@
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation }"
         },
+        "MediationStatus": {
+          "type": "string",
+          "enum": [
+            "GRANTED",
+            "DENIED"
+          ],
+          "description": "Represents mediation status"
+        },
         "IMediation": {
           "type": "object",
           "properties": {
@@ -2130,11 +2134,7 @@
               "description": "required: did"
             },
             "status": {
-              "type": "string",
-              "enum": [
-                "GRANTED",
-                "DENIED"
-              ],
+              "$ref": "#/components/schemas/MediationStatus",
               "description": "required: mediation status"
             }
           },
@@ -2599,11 +2599,7 @@
               "description": "Required. did"
             },
             "status": {
-              "type": "string",
-              "enum": [
-                "GRANTED",
-                "DENIED"
-              ],
+              "$ref": "#/components/schemas/MediationStatus",
               "description": "Required. mediation status"
             }
           },

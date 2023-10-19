@@ -172,7 +172,7 @@ export class DIDComm implements IAgentPlugin {
   /** Plugin methods */
   readonly methods: IDIDComm
   readonly schema = schema.IDIDComm
-  readonly mediationDefaultAllowDeny: string = 'denyAll'
+  private readonly isMediateDefaultGrantAll: boolean
 
   /**
    * Constructor that takes a list of {@link IDIDCommTransport} objects.
@@ -181,10 +181,10 @@ export class DIDComm implements IAgentPlugin {
    */
   constructor(
     transports: IDIDCommTransport[] = [new DIDCommHttpTransport()],
-    mediationDefaultAllowDeny: string,
+    isMediateDefaultGrantAll = true,
   ) {
     this.transports = transports
-    this.mediationDefaultAllowDeny = mediationDefaultAllowDeny
+    this.isMediateDefaultGrantAll = isMediateDefaultGrantAll
     this.methods = {
       sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1.bind(this),
       getDIDCommMessageMediaType: this.getDidCommMessageMediaType.bind(this),
@@ -192,6 +192,10 @@ export class DIDComm implements IAgentPlugin {
       packDIDCommMessage: this.packDIDCommMessage.bind(this),
       sendDIDCommMessage: this.sendDIDCommMessage.bind(this),
     }
+  }
+
+  public get mediationIsGrantAll() {
+    return this.isMediateDefaultGrantAll
   }
 
   /** {@inheritdoc IDIDComm.packDIDCommMessage} */

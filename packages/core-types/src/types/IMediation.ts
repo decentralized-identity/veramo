@@ -1,4 +1,14 @@
 /**
+ * Represents mediation status
+ * @public
+ */
+
+export enum MediationStatus {
+  GRANTED = 'GRANTED',
+  DENIED = 'DENIED',
+}
+
+/**
  * Represents mediation
  * @public
  */
@@ -11,5 +21,5 @@ export interface IMediation {
   /**
    * required: mediation status
    */
-  status: 'GRANTED' | 'DENIED'
+  status: MediationStatus
 }

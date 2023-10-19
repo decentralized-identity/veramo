@@ -231,7 +231,8 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
       new Table({
         name: migrationGetTableName(queryRunner, 'mediation'),
         columns: [
-          { name: 'did', type: 'varchar', isPrimary: true },
+          { name: 'id', type: 'varchar', isPrimary: true },
+          { name: 'did', type: 'varchar', isNullable: false },
           { name: 'status', type: 'varchar', isNullable: false },
         ],
       }),
@@ -244,6 +245,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
         name: migrationGetTableName(queryRunner, 'recipient_did'),
         columns: [
           { name: 'did', type: 'varchar', isPrimary: true },
+          // { name: 'did', type: 'varchar', isNullable: false },
           { name: 'recipient_did', type: 'varchar', isNullable: false },
         ],
       }),

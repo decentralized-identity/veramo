@@ -1,4 +1,4 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore } from '@veramo/core-types'
+import { IAgentContext, IDIDManager, IKeyManager, IDataStore, MediationStatus } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -12,11 +12,6 @@ type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 export enum UpdateAction {
   ADD = 'add',
   REMOVE = 'remove',
-}
-
-export enum MediationStatus {
-  GRANTED = 'GRANTED',
-  DENIED = 'DENIED',
 }
 
 export enum RecipientUpdateResult {
@@ -263,8 +258,9 @@ const isRecipientUpdate = (message: Message): message is RecipientUpdateMessage 
   if (!message.from) throw new Error('invalid_argument: RecipientUpdate received without `from` set')
   if (!message.to) throw new Error('invalid_argument: RecipientUpdate received without `to` set')
   // if (!('data' in message)) throw new Error('invalid_argument: RecipientUpdate received without `body` set')
-  // if (!message.data || !message.data.updates)
+  // if (!message.data || !message.data.updates) {
   //   throw new Error('invalid_argument: RecipientUpdate received without `updates` set')
+  // }
   return true
 }
 
@@ -281,6 +277,7 @@ const grantOrDenyMediation = (message: Message, _context: IContext): MediationSt
   // NOTE: Grant requests to all recipients until new system implemented
   // TODO: Come up with a method for approving and rejecting recipients
   if (!message || !message.from || denyList.includes(message.from)) return MediationStatus.DENIED
+  console.log('here')
   return MediationStatus.GRANTED
 }
 

@@ -2,6 +2,7 @@ import {
   IIdentifier,
   IMessage,
   ManagedKeyInfo,
+  MediationStatus,
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
@@ -76,7 +77,7 @@ export interface PresentationTableEntry {
  */
 export interface MediationTableEntry {
   did: string
-  status: 'GRANTED' | 'DENIED'
+  status: MediationStatus
 }
 
 /**

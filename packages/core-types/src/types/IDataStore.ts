@@ -1,5 +1,5 @@
 import { IPluginMethodMap } from './IAgent.js'
-import { IMediation } from './IMediation.js'
+import { IMediation, MediationStatus } from './IMediation.js'
 import { IMessage } from './IMessage.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
 
@@ -103,7 +103,7 @@ export interface IDataStoreSaveMediationArgs {
   /**
    * Required. mediation status
    */
-  status: 'GRANTED' | 'DENIED'
+  status: MediationStatus
 }
 
 /**
@@ -118,7 +118,7 @@ export interface IDataStoreGetMediationArgs {
   /**
    * Required. mediation status
    */
-  status: 'GRANTED' | 'DENIED'
+  status: MediationStatus
 }
 
 /**

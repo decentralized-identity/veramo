@@ -1,10 +1,14 @@
-import { Column, Entity, BaseEntity, PrimaryColumn } from 'typeorm'
+import { MediationStatus } from '@veramo/core-types'
+import { Column, Entity, BaseEntity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('mediation')
 export class Mediation extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
+
+  @Column()
   did!: string
 
-  @Column({ nullable: false })
-  status!: 'GRANTED' | 'DENIED'
+  @Column()
+  status!: MediationStatus
 }
