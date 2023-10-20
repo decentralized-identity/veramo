@@ -7,8 +7,8 @@ const ALLOW = MediationPolicies.ALLOW
 const DENY = MediationPolicies.DENY
 
 type Options = {
-  allow?: string
-  deny?: string
+  allowFrom?: string
+  denyFrom?: string
 }
 
 const parseStringToList = (list?: string): string[] => {
@@ -16,11 +16,11 @@ const parseStringToList = (list?: string): string[] => {
   return list.split(' ').map((item) => item.trim())
 }
 
-const handleAction = async ({ allow, deny }: Options, cmd: Command): Promise<void> => {
+const handleAction = async ({ allowFrom, denyFrom }: Options, cmd: Command): Promise<void> => {
   try {
     const agent = await getAgent(cmd.optsWithGlobals().config)
-    const didsToAllow = parseStringToList(allow)
-    const didsToDeny = parseStringToList(deny)
+    const didsToAllow = parseStringToList(allowFrom)
+    const didsToDeny = parseStringToList(denyFrom)
     didsToAllow.forEach(async (did) => await agent.dataStoreSaveMediationPolicy({ did, policy: ALLOW }))
     didsToDeny.forEach(async (did) => await agent.dataStoreSaveMediationPolicy({ did, policy: DENY }))
     console.log('Mediation policies updated')
