@@ -309,7 +309,6 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     try {
       debug('MediateRequest Message Received')
       const decision = await grantOrDenyMediation(message, context)
-      console.log('DECISION', decision)
       await context.agent.dataStoreSaveMediation({ status: decision, did: message.from })
       const getResponse =
         decision === MediationStatus.GRANTED ? createMediateGrantMessage : createMediateDenyMessage

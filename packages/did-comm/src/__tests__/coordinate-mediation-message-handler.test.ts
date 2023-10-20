@@ -286,7 +286,7 @@ describe('coordinate-mediation-message-handler', () => {
         expect(isMediateDefaultGrantAll).toBeTruthy()
       })
 
-      it.only('should correctly update the data store MediationPolicy for dids to deny', async () => {
+      it('should correctly update the data store MediationPolicy for dids to deny', async () => {
         const policy = MediationPolicies.DENY
         const did = denyRecipient.did
         const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
@@ -297,19 +297,6 @@ describe('coordinate-mediation-message-handler', () => {
 
         expect(denyDid.did).toBe(denyRecipient.did)
         expect(denyDid.policy).toBe(MediationPolicies.DENY)
-      })
-
-      it.only('should correctly update the data store MediationPolicy for dids to allow', async () => {
-        const policy = MediationPolicies.ALLOW
-        const did = recipient.did
-        const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
-
-        expect(insertedMediationPolicyDid).toBe(recipient.did)
-
-        const [allowDid] = await agent.dataStoreGetMediationPolicies({ policy })
-
-        expect(allowDid.did).toBe(recipient.did)
-        expect(allowDid.policy).toBe(MediationPolicies.ALLOW)
       })
 
       it('should receive a mediate request', async () => {
@@ -388,9 +375,66 @@ describe('coordinate-mediation-message-handler', () => {
         expectDenyRequest(messageId, denyRecipient.did)
       })
 
-      // it('should deny dids which have a MediationPolicy of DENY', async () => {
-      //   // const recipientDidToDeny =
-      // })
+      it('should correctly update the data store MediationPolicy for dids to allow', async () => {
+        const policy = MediationPolicies.ALLOW
+        const did = recipient.did
+        const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
+
+        expect(insertedMediationPolicyDid).toBe(recipient.did)
+
+        const [allowDid] = await agent.dataStoreGetMediationPolicies({ policy })
+
+        expect(allowDid.did).toBe(recipient.did)
+        expect(allowDid.policy).toBe(MediationPolicies.ALLOW)
+      })
+
+      it('should only allow mediation for dids with a MediationPolicy of ALLOW where isMediateDefaultGrantAll === false', async () => {
+        agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+
+        expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
+
+        const message = createMediateRequestMessage(recipient.did, mediator.did)
+        const messageId = message.id
+        const packedMessageContents = { packing: 'authcrypt', message: message } as const
+        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+        const recipientDidUrl = mediator.did
+        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+        await agent.sendDIDCommMessage(didCommMessageContents)
+
+        expectMessageSent(messageId)
+        expectRecieveMediationRequest(messageId)
+        expectMessageSent(messageId)
+        expectGrantRequest(messageId)
+      })
+
+      it('should deny mediation for dids with no MediationPolicy of ALLOW where isMediateDefaultGrantAll === false', async () => {
+        agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+
+        expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
+
+        const mediationPolicies = await agent.dataStoreGetMediationPolicies({
+          policy: MediationPolicies.ALLOW,
+        })
+
+        expect(
+          mediationPolicies.some(
+            (policy: { did: string; policy: MediationPolicies }) => policy.did === denyRecipient.did,
+          ),
+        ).toBeFalsy()
+
+        const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
+        const messageId = message.id
+        const packedMessageContents = { packing: 'authcrypt', message: message } as const
+        const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
+        const recipientDidUrl = mediator.did
+        const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
+        await agent.sendDIDCommMessage(didCommMessageContents)
+
+        expectMessageSent(messageId)
+        expectRecieveMediationRequest(messageId, denyRecipient.did)
+        expectMessageSent(messageId)
+        expectDenyRequest(messageId, denyRecipient.did)
+      })
     })
   })
 

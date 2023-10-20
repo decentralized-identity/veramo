@@ -189,10 +189,9 @@ export class DIDComm implements IAgentPlugin {
       unpackDIDCommMessage: this.unpackDIDCommMessage.bind(this),
       packDIDCommMessage: this.packDIDCommMessage.bind(this),
       sendDIDCommMessage: this.sendDIDCommMessage.bind(this),
-      isMediateDefaultGrantAll: () => Promise.resolve(isMediateDefaultGrantAll)
+      isMediateDefaultGrantAll: () => Promise.resolve(isMediateDefaultGrantAll),
     }
   }
-
 
   /** {@inheritdoc IDIDComm.packDIDCommMessage} */
   async packDIDCommMessage(
