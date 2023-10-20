@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm'
+import { MigrationInterface, QueryRunner, Table, TableCheck } from 'typeorm'
 import Debug from 'debug'
 import { migrationGetTableName } from './migration-functions.js'
 
@@ -226,6 +226,29 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
       true,
     )
 
+    debug('creating mediation_policies table')
+    await queryRunner.createTable(
+      new Table({
+        name: migrationGetTableName(queryRunner, 'mediation_policy'),
+        columns: [
+          { name: 'id', type: 'varchar', isPrimary: true },
+          { name: 'did', type: 'varchar', isNullable: false },
+          { name: 'policy', type: 'varchar', isNullable: false },
+        ],
+      }),
+      true,
+    )
+    /**
+     * NOTE: sqlite does not support enums so we use this check contstraint instead
+     **/
+    await queryRunner.createCheckConstraint(
+      'mediation_policy',
+      new TableCheck({
+        columnNames: ['policy'],
+        expression: `policy IN ('ALLOW', 'DENY')`,
+      }),
+    )
+
     debug(`creating mediation table`)
     await queryRunner.createTable(
       new Table({
@@ -238,6 +261,16 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
       }),
       true,
     )
+    /**
+     * NOTE: sqlite does not support enums so we use this check contstraint instead
+     **/
+    await queryRunner.createCheckConstraint(
+      'mediation',
+      new TableCheck({
+        columnNames: ['status'],
+        expression: `status IN ('GRANTED', 'DENIED')`,
+      }),
+    )
 
     debug('creating recipient_dids table')
     await queryRunner.createTable(
@@ -247,19 +280,6 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
           { name: 'id', type: 'varchar', isPrimary: true },
           { name: 'did', type: 'varchar', isNullable: false },
           { name: 'recipient_did', type: 'varchar', isNullable: false },
-        ],
-      }),
-      true,
-    )
-
-    debug('creating mediation_policies table')
-    await queryRunner.createTable(
-      new Table({
-        name: migrationGetTableName(queryRunner, 'mediation_policy'),
-        columns: [
-          { name: 'id', type: 'varchar', isPrimary: true },
-          { name: 'did', type: 'varchar', isNullable: false },
-          { name: 'policy', type: 'varchar', isNullable: false },
         ],
       }),
       true,
