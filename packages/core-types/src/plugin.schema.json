@@ -2155,13 +2155,38 @@
           "required": [
             "policy"
           ],
-          "description": "Input arguments for  {@link IDataStore.dataStoreGetMediationPolicy | dataStoreGetMediationPolicy }"
+          "description": "Input arguments for  {@link IDataStore.dataStoreGetMediationPolicies | dataStoreGetMediationPolicies }"
         },
         "MediationPolicies": {
           "type": "string",
           "enum": [
             "ALLOW",
             "DENY"
+          ],
+          "description": "Represents mediation policy"
+        },
+        "IMediationPolicies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/IMediationPolicy"
+          },
+          "description": "Represents a list mediation policies"
+        },
+        "IMediationPolicy": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "required: did"
+            },
+            "policy": {
+              "$ref": "#/components/schemas/MediationPolicies",
+              "description": "required: policy"
+            }
+          },
+          "required": [
+            "did",
+            "policy"
           ],
           "description": "Represents mediation policy"
         },
@@ -2731,7 +2756,7 @@
             "$ref": "#/components/schemas/IDataStoreGetMediationPoliciesArgs"
           },
           "returnType": {
-            "type": "object"
+            "$ref": "#/components/schemas/IMediationPolicies"
           }
         },
         "dataStoreGetMessage": {
@@ -2794,7 +2819,7 @@
             "$ref": "#/components/schemas/IDataStoreSaveMediationPolicyArgs"
           },
           "returnType": {
-            "type": "object"
+            "type": "string"
           }
         },
         "dataStoreSaveMessage": {

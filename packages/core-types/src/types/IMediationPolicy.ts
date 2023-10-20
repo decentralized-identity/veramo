@@ -22,3 +22,9 @@ export interface IMediationPolicy {
    */
   policy: MediationPolicies
 }
+
+/**
+ * Represents a list mediation policies
+ * @public
+ */
+export type IMediationPolicies = IMediationPolicy[]

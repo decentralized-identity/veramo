@@ -178,10 +178,10 @@ export class DataStoreJson implements IAgentPlugin {
     return did
   }
 
-  async dataStoreGetMediationPolicies({ policy }: IDataStoreGetMediationPoliciesArgs): Promise<string> {
+  async dataStoreGetMediationPolicies({ policy }: IDataStoreGetMediationPoliciesArgs) {
     // TODO: implement cache logic
     // this.cacheTree.mediationPolicies[policy] = { policy }
-    return policy
+    return policy as any
   }
 
   async dataStoreSaveMediation({ did }: IDataStoreSaveMediationArgs): Promise<string> {

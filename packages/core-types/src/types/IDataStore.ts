@@ -1,6 +1,6 @@
 import { IPluginMethodMap } from './IAgent.js'
 import { IMediation, MediationStatus } from './IMediation.js'
-import { MediationPolicies } from './IMediationPolicy.js'
+import { IMediationPolicies, IMediationPolicy, MediationPolicies } from './IMediationPolicy.js'
 import { IMessage } from './IMessage.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
 
@@ -108,7 +108,7 @@ export interface IDataStoreSaveMediationPolicyArgs {
 }
 
 /**
- * Input arguments for {@link IDataStore.dataStoreGetMediationPolicy | dataStoreGetMediationPolicy}
+ * Input arguments for {@link IDataStore.dataStoreGetMediationPolicies | dataStoreGetMediationPolicies}
  * @public
  */
 export interface IDataStoreGetMediationPoliciesArgs {
@@ -264,16 +264,14 @@ export interface IDataStore extends IPluginMethodMap {
    * @param args - mediation policy
    * @returns a promise that resolves to the recipient did
    */
-  // TODO: update return type from any
-  dataStoreSaveMediationPolicy(args: IDataStoreSaveMediationPolicyArgs): Promise<any>
+  dataStoreSaveMediationPolicy(args: IDataStoreSaveMediationPolicyArgs): Promise<string>
 
   /**
    * Gets mediation policies from the data store
    * @param args - policy
    * @returns a promise that resolves to the list of matched Mediation Policies
    */
-  // TODO: fix return type, { policy, did }[] causing build error on json conversion
-  dataStoreGetMediationPolicies(args: IDataStoreGetMediationPoliciesArgs): Promise<any>
+  dataStoreGetMediationPolicies(args: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicies>
 
   /**
    * Saves mediation status to the data store

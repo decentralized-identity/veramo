@@ -20,6 +20,7 @@ import {
   IDataStoreGetRecipientDids,
   IDataStoreSaveMediationPolicyArgs,
   IDataStoreGetMediationPoliciesArgs,
+  IMediationPolicy,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
@@ -167,7 +168,9 @@ export class DataStore implements IAgentPlugin {
     return saveResult.did
   }
 
-  async dataStoreGetMediationPolicies({ policy }: IDataStoreGetMediationPoliciesArgs): Promise<any> {
+  async dataStoreGetMediationPolicies({
+    policy,
+  }: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicy[]> {
     const db = await getConnectedDb(this.dbConnection)
     return await db.getRepository(MediationPolicy).findBy({ policy })
   }
