@@ -16,14 +16,14 @@ const parseStringToList = (list?: string): string[] => {
   return list.split(' ').map((item) => item.trim())
 }
 
-const handleAction = async ({ allow, deny }: Options, cmd: Command) => {
+const handleAction = async ({ allow, deny }: Options, cmd: Command): Promise<void> => {
   try {
     const agent = await getAgent(cmd.optsWithGlobals().config)
     const didsToAllow = parseStringToList(allow)
     const didsToDeny = parseStringToList(deny)
     didsToAllow.forEach(async (did) => await agent.dataStoreSaveMediationPolicy({ did, policy: ALLOW }))
     didsToDeny.forEach(async (did) => await agent.dataStoreSaveMediationPolicy({ did, policy: DENY }))
-    console.dir({ didsToAllow, didsToDeny })
+    console.log('Mediation policies updated')
   } catch (e) {
     console.error(e.message)
   }
