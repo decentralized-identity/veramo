@@ -136,43 +136,6 @@ export class DataStoreJson implements IAgentPlugin {
         this.dataStoreORMGetVerifiablePresentationsCount.bind(this),
     }
   }
-
-  async dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string> {
-    const id = args.message?.id || computeEntryHash(args.message)
-    const message = { ...args.message, id }
-    const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
-    this.cacheTree.messages[id] = message
-    // TODO: deprecate automatic credential and presentation saving
-    const credentials = asArray(message.credentials)
-    const presentations = asArray(message.presentations)
-    for (const verifiableCredential of credentials) {
-      await this._dataStoreSaveVerifiableCredential({ verifiableCredential }, false)
-    }
-    for (const verifiablePresentation of presentations) {
-      await this._dataStoreSaveVerifiablePresentation({ verifiablePresentation }, false)
-    }
-    // adding dummy DIDs is required to make `dataStoreORMGetIdentifiers` work
-    if (message?.from && !this.cacheTree.dids[message.from]) {
-      this.cacheTree.dids[message.from] = { did: message.from, provider: '', keys: [], services: [] }
-    }
-    asArray(message.to).forEach((did: string) => {
-      if (!this.cacheTree.dids[did]) {
-        this.cacheTree.dids[did] = { did, provider: '', keys: [], services: [] }
-      }
-    })
-    await this.notifyUpdate(oldTree, this.cacheTree)
-    return message.id
-  }
-
-  async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
-    const message = this.cacheTree.messages[args.id]
-    if (message) {
-      return message
-    } else {
-      throw Error('Message not found')
-    }
-  }
-
   async dataStoreSaveMediationPolicy({ did }: IDataStoreSaveMediationPolicyArgs): Promise<string> {
     // TODO: implement cache logic
     // this.cacheTree.mediationPolicies[did] = { did, policy }
@@ -214,6 +177,42 @@ export class DataStoreJson implements IAgentPlugin {
   async dataStoreGetRecipientDids({ did }: IDataStoreRemoveRecipientDid): Promise<RecipientDids> {
     // TODO: implement cache logic
     return Object.values(this.cacheTree.recipientDids).filter((entry) => entry.did === did)
+  }
+
+  async dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string> {
+    const id = args.message?.id || computeEntryHash(args.message)
+    const message = { ...args.message, id }
+    const oldTree = deserialize(serialize(this.cacheTree, { lossy: true }))
+    this.cacheTree.messages[id] = message
+    // TODO: deprecate automatic credential and presentation saving
+    const credentials = asArray(message.credentials)
+    const presentations = asArray(message.presentations)
+    for (const verifiableCredential of credentials) {
+      await this._dataStoreSaveVerifiableCredential({ verifiableCredential }, false)
+    }
+    for (const verifiablePresentation of presentations) {
+      await this._dataStoreSaveVerifiablePresentation({ verifiablePresentation }, false)
+    }
+    // adding dummy DIDs is required to make `dataStoreORMGetIdentifiers` work
+    if (message?.from && !this.cacheTree.dids[message.from]) {
+      this.cacheTree.dids[message.from] = { did: message.from, provider: '', keys: [], services: [] }
+    }
+    asArray(message.to).forEach((did: string) => {
+      if (!this.cacheTree.dids[did]) {
+        this.cacheTree.dids[did] = { did, provider: '', keys: [], services: [] }
+      }
+    })
+    await this.notifyUpdate(oldTree, this.cacheTree)
+    return message.id
+  }
+
+  async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
+    const message = this.cacheTree.messages[args.id]
+    if (message) {
+      return message
+    } else {
+      throw Error('Message not found')
+    }
   }
 
   async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
@@ -420,10 +419,6 @@ export class DataStoreJson implements IAgentPlugin {
 
   async dataStoreSaveVerifiablePresentation(args: IDataStoreSaveVerifiablePresentationArgs): Promise<string> {
     return this._dataStoreSaveVerifiablePresentation(args)
-  }
-
-  async dataStoreAddRecipientDid(args: any) {
-    return this._dataStoreAddRecipientDid(args)
   }
 
   async dataStoreGetVerifiablePresentation(
