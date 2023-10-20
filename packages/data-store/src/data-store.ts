@@ -21,6 +21,8 @@ import {
   IDataStoreSaveMediationPolicyArgs,
   IDataStoreGetMediationPoliciesArgs,
   IMediationPolicy,
+  RemoveRecipientDidResult,
+  RecipientDids,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
@@ -199,7 +201,10 @@ export class DataStore implements IAgentPlugin {
     return result.recipient_did
   }
 
-  async dataStoreRemoveRecipientDid({ did, recipient_did }: IDataStoreRemoveRecipientDid) {
+  async dataStoreRemoveRecipientDid({
+    did,
+    recipient_did,
+  }: IDataStoreRemoveRecipientDid): Promise<RemoveRecipientDidResult> {
     const db = await getConnectedDb(this.dbConnection)
     const findFilter = { where: { did, recipient_did } }
     const existingEntry = await db.getRepository(RecipientDid).findOne(findFilter)
@@ -208,7 +213,11 @@ export class DataStore implements IAgentPlugin {
     return existingEntry.recipient_did
   }
 
-  async dataStoreGetRecipientDids({ did, offset: _offset, limit: _limit }: IDataStoreGetRecipientDids) {
+  async dataStoreGetRecipientDids({
+    did,
+    offset: _offset,
+    limit: _limit,
+  }: IDataStoreGetRecipientDids): Promise<RecipientDids> {
     const db = await getConnectedDb(this.dbConnection)
     return await db.getRepository(RecipientDid).findBy({ did })
   }
