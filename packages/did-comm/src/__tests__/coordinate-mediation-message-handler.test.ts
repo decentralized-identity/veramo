@@ -616,7 +616,7 @@ describe('coordinate-mediation-message-handler', () => {
       )
     }
 
-    const expectRecipientQueryReponse = (msgid: string, dids: Update[] = []) => {
+    const expectRecipientQueryReponse = (msgid: string, dids: Omit<Update, 'action'>[] = []) => {
       expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
         {
           data: {

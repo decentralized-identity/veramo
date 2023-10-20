@@ -13,3 +13,15 @@ export interface IRecipientDid {
    */
   recipient_did: string
 }
+
+/**
+ * Represents a did or null if not found
+ * @public
+ */
+export type RemoveRecipientDidResult = string | null
+
+/**
+ * Represents a list recipient dids
+ * @public
+ */
+export type RecipientDids = IRecipientDid[]

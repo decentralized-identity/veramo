@@ -20,6 +20,7 @@ import {
   IIdentifier,
   IMediation,
   IMessage,
+  RecipientDids,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -210,11 +211,9 @@ export class DataStoreJson implements IAgentPlugin {
     return recipientDid
   }
 
-  async dataStoreGetRecipientDids({ did }: IDataStoreRemoveRecipientDid): Promise<string[]> {
+  async dataStoreGetRecipientDids({ did }: IDataStoreRemoveRecipientDid): Promise<RecipientDids> {
     // TODO: implement cache logic
-    return Object.values(this.cacheTree.recipientDids)
-      .filter((entry) => entry.did === did)
-      .map((entry) => entry.recipient_did)
+    return Object.values(this.cacheTree.recipientDids).filter((entry) => entry.did === did)
   }
 
   async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {

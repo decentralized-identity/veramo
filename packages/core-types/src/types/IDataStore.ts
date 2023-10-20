@@ -2,6 +2,7 @@ import { IPluginMethodMap } from './IAgent.js'
 import { IMediation, MediationStatus } from './IMediation.js'
 import { IMediationPolicies, IMediationPolicy, MediationPolicies } from './IMediationPolicy.js'
 import { IMessage } from './IMessage.js'
+import { RecipientDids, RemoveRecipientDidResult } from './IRecipientDid.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
 
 /**
@@ -299,13 +300,12 @@ export interface IDataStore extends IPluginMethodMap {
    * @param args - recipient dids
    * @returns a promise that resolves to the removed recipient did or null if not found
    */
-  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<any>
+  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<RemoveRecipientDidResult>
 
   /**
    * Saves recipient dids to the data store
    * @param args - recipient dids
    * @returns a promise that resolves to the list of recipient dids
    */
-  // TODO: fix return type, string[] causing build error on json conversion
-  dataStoreGetRecipientDids(args: IDataStoreGetRecipientDids): Promise<any>
+  dataStoreGetRecipientDids(args: IDataStoreGetRecipientDids): Promise<RecipientDids>
 }

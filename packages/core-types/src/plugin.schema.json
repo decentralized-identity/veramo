@@ -2593,6 +2593,31 @@
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreGetRecipientDids | dataStoreGetRecipientDids }"
         },
+        "RecipientDids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/IRecipientDid"
+          },
+          "description": "Represents a list recipient dids"
+        },
+        "IRecipientDid": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "required: did"
+            },
+            "recipient_did": {
+              "type": "string",
+              "description": "required: mediation status"
+            }
+          },
+          "required": [
+            "did",
+            "recipient_did"
+          ],
+          "description": "Represents recipient did"
+        },
         "IDataStoreGetVerifiableCredentialArgs": {
           "type": "object",
           "properties": {
@@ -2636,6 +2661,13 @@
             "recipient_did"
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreRemoveRecipientDid | dataStoreRemoveRecipientDid }"
+        },
+        "RemoveRecipientDidResult": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Represents a did or null if not found"
         },
         "IDataStoreSaveMediationArgs": {
           "type": "object",
@@ -2774,7 +2806,7 @@
             "$ref": "#/components/schemas/IDataStoreGetRecipientDids"
           },
           "returnType": {
-            "type": "object"
+            "$ref": "#/components/schemas/RecipientDids"
           }
         },
         "dataStoreGetVerifiableCredential": {
@@ -2801,7 +2833,7 @@
             "$ref": "#/components/schemas/IDataStoreRemoveRecipientDid"
           },
           "returnType": {
-            "type": "object"
+            "$ref": "#/components/schemas/RemoveRecipientDidResult"
           }
         },
         "dataStoreSaveMediation": {
