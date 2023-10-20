@@ -2,6 +2,7 @@ import {
   IIdentifier,
   IMessage,
   ManagedKeyInfo,
+  MediationPolicies,
   MediationStatus,
   VerifiableCredential,
   VerifiablePresentation,
@@ -70,14 +71,25 @@ export interface PresentationTableEntry {
 }
 
 /**
- * This is used internally by {@link @veramo/data-store-json#DataStoreJson | DataStoreJson} to represent a Verifiable
- * Presentation in a way that facilitates querying using the {@link @veramo/core-types#IDataStoreORM} interface.
+ * This is used internally by {@link @veramo/data-store-json#DataStoreJson | DataStoreJson} to represent a Mediation
+ * in a way that facilitates querying using the {@link @veramo/core-types#IDataStoreORM} interface.
  *
  * @beta This API may change in future versions without a BREAKING CHANGE notice.
  */
 export interface MediationTableEntry {
   did: string
   status: MediationStatus
+}
+
+/**
+ * This is used internally by {@link @veramo/data-store-json#DataStoreJson | DataStoreJson} to represent a Mediation
+ * Policy in a way that facilitates querying using the {@link @veramo/core-types#IDataStoreORM} interface.
+ *
+ * @beta This API may change in future versions without a BREAKING CHANGE notice.
+ */
+export interface MediationPolicyTableEntry {
+  did: string
+  policy: MediationPolicies
 }
 
 /**
@@ -110,7 +122,8 @@ export interface VeramoJsonCache {
   presentations?: Record<string, PresentationTableEntry>
   messages?: Record<string, IMessage>
   mediations?: Record<string, MediationTableEntry>
-  recipient_dids?: Record<string, RecipientDidTableEntry>
+  mediationPolicies?: Record<string, MediationPolicyTableEntry>
+  recipientDids?: Record<string, RecipientDidTableEntry>
 }
 
 /**

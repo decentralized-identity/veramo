@@ -187,7 +187,6 @@ export class DataStore implements IAgentPlugin {
 
   async dataStoreGetRecipientDids({ did, offset: _offset, limit: _limit }: IDataStoreGetRecipientDids) {
     const db = await getConnectedDb(this.dbConnection)
-    const dids = await db.getRepository(RecipientDid).findBy({ did })
-    return dids
+    return await db.getRepository(RecipientDid).findBy({ did })
   }
 }

@@ -1,5 +1,6 @@
 import { IPluginMethodMap } from './IAgent.js'
 import { IMediation, MediationStatus } from './IMediation.js'
+import { MediationPolicies } from './IMediationPolicy.js'
 import { IMessage } from './IMessage.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
 
@@ -89,6 +90,32 @@ export interface IDataStoreGetVerifiablePresentationArgs {
    * Required. VerifiablePresentation hash
    */
   hash: string
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreSaveMediationPolicy | dataStoreSaveMediationPolicy}
+ * @public
+ */
+export interface IDataStoreSaveMediationPolicyArgs {
+  /**
+   * Required. did
+   */
+  did: string
+  /**
+   * Required. policy
+   */
+  policy: MediationPolicies
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreGetMediationPolicy | dataStoreGetMediationPolicy}
+ * @public
+ */
+export interface IDataStoreGetMediationPoliciesArgs {
+  /**
+   * Required. policy
+   */
+  policy: MediationPolicies
 }
 
 /**

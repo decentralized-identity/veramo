@@ -8,6 +8,11 @@ export enum MediationStatus {
   DENIED = 'DENIED',
 }
 
+export enum AllowOrDeny {
+  ALLOW = 'ALLOW',
+  DENY = 'DENY',
+}
+
 /**
  * Represents mediation
  * @public

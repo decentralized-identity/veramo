@@ -6,12 +6,14 @@ import {
   IDataStoreAddRecipientDid,
   IDataStoreDeleteMessageArgs,
   IDataStoreDeleteVerifiableCredentialArgs,
+  IDataStoreGetMediationPoliciesArgs,
   IDataStoreGetMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreORM,
   IDataStoreRemoveRecipientDid,
   IDataStoreSaveMediationArgs,
+  IDataStoreSaveMediationPolicyArgs,
   IDataStoreSaveMessageArgs,
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
@@ -45,7 +47,14 @@ import { normalizeCredential } from 'did-jwt-vc'
 type LocalRecords = Required<
   Pick<
     VeramoJsonCache,
-    'dids' | 'credentials' | 'presentations' | 'claims' | 'messages' | 'mediations' | 'recipient_dids'
+    | 'dids'
+    | 'credentials'
+    | 'presentations'
+    | 'claims'
+    | 'messages'
+    | 'mediations'
+    | 'mediationPolicies'
+    | 'recipientDids'
   >
 >
 
@@ -83,7 +92,8 @@ export class DataStoreJson implements IAgentPlugin {
       'claims',
       'messages',
       'mediations',
-      'recipient_dids',
+      'mediationPolicies',
+      'recipientDids',
     ] as (keyof LocalRecords)[]
     for (const table of tables) {
       if (!this.cacheTree[table]) {
@@ -101,13 +111,13 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
+      dataStoreSaveMediationPolicy: this.dataStoreSaveMediationPolicy.bind(this),
+      dataStoreGetMediationPolicies: this.dataStoreGetMediationPolicies.bind(this),
       dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
       dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
       dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
       dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
       dataStoreGetRecipientDids: this.dataStoreGetRecipientDids.bind(this),
-      //dataStoreDeleteVerifiablePresentation: this.dataStoreDeleteVerifiablePresentation.bind(this),
 
       // IDataStoreORM methods
       dataStoreORMGetIdentifiers: this.dataStoreORMGetIdentifiers.bind(this),
@@ -162,30 +172,47 @@ export class DataStoreJson implements IAgentPlugin {
     }
   }
 
-  async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {
-    this.cacheTree.mediations[did] = { did, status }
+  async dataStoreSaveMediationPolicy({ did }: IDataStoreSaveMediationPolicyArgs): Promise<string> {
+    // TODO: implement cache logic
+    // this.cacheTree.mediationPolicies[did] = { did, policy }
+    return did
+  }
+
+  async dataStoreGetMediationPolicies({ policy }: IDataStoreGetMediationPoliciesArgs): Promise<string> {
+    // TODO: implement cache logic
+    // this.cacheTree.mediationPolicies[policy] = { policy }
+    return policy
+  }
+
+  async dataStoreSaveMediation({ did }: IDataStoreSaveMediationArgs): Promise<string> {
+    // TODO: implement cache logic
+    // this.cacheTree.mediations[did] = { did, status }
     return did
   }
 
   async dataStoreGetMediation(args: IDataStoreSaveMediationArgs): Promise<IMediation> {
+    // TODO: implement cache logic
     const mediation = this.cacheTree.mediations[args.did]
     if (!mediation) throw Error('Mediation not found')
     return mediation
   }
 
   async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
-    this.cacheTree.recipient_dids[did] = { did, recipient_did }
+    // TODO: implement cache logic
+    this.cacheTree.recipientDids[did] = { did, recipient_did }
     return recipient_did
   }
 
   async dataStoreRemoveRecipientDid({ did }: IDataStoreRemoveRecipientDid): Promise<string> {
-    const recipientDid = this.cacheTree.recipient_dids[did]?.recipient_did
+    // TODO: implement cache logic
+    const recipientDid = this.cacheTree.recipientDids[did]?.recipient_did
     if (!recipientDid) throw new Error('Recipient DID not found')
     return recipientDid
   }
 
   async dataStoreGetRecipientDids({ did }: IDataStoreRemoveRecipientDid): Promise<string[]> {
-    return Object.values(this.cacheTree.recipient_dids)
+    // TODO: implement cache logic
+    return Object.values(this.cacheTree.recipientDids)
       .filter((entry) => entry.did === did)
       .map((entry) => entry.recipient_did)
   }
