@@ -31,8 +31,8 @@ const handleAction = async ({ allow, deny }: Options, cmd: Command): Promise<voi
 
 const mediate = new Command('mediate')
   .description('Mediate allow or deny policy on dids')
-  .option('-a, --allow <string>', 'string containing a list of dids to allow')
-  .option('-d, --deny <string>', 'string containing a list of dids to deny')
+  .option('-a, --allowFrom <string>', 'string containing a list of dids to allow')
+  .option('-d, --denyFrom <string>', 'string containing a list of dids to deny')
   .action(handleAction)
 
 export { mediate }
