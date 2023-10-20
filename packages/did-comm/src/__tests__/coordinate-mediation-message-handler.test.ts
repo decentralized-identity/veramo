@@ -5,6 +5,7 @@ import {
   IEventListener,
   IIdentifier,
   IKeyManager,
+  IMediationPolicy,
   IMessageHandler,
   IResolver,
   MediationPolicies,
@@ -74,14 +75,12 @@ describe('coordinate-mediation-message-handler', () => {
         new KeyManager({
           store: new MemoryKeyStore(),
           kms: {
-            // @ts-ignore
             local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
           },
         }),
         new DIDManager({
           providers: {
             'did:fake': new FakeDidProvider(),
-            // 'did:web': new WebDIDProvider({ defaultKms: 'local' })
           },
           store: new MemoryDIDStore(),
           defaultProvider: 'did:fake',
@@ -179,7 +178,6 @@ describe('coordinate-mediation-message-handler', () => {
     await new Promise((resolve) => {
       //setup a server to receive HTTP messages and forward them to this agent to be processed as DIDComm messages
       const app = express()
-      // app.use(requestWithAgent)
       app.use(
         '/messaging',
         requestWithAgent,
@@ -412,15 +410,10 @@ describe('coordinate-mediation-message-handler', () => {
 
         expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
 
-        const mediationPolicies = await agent.dataStoreGetMediationPolicies({
-          policy: MediationPolicies.ALLOW,
-        })
+        const policies = await agent.dataStoreGetMediationPolicies({ policy: MediationPolicies.ALLOW })
+        const didIsAllowed = policies.some(({ did }: IMediationPolicy) => did === denyRecipient.did)
 
-        expect(
-          mediationPolicies.some(
-            (policy: { did: string; policy: MediationPolicies }) => policy.did === denyRecipient.did,
-          ),
-        ).toBeFalsy()
+        expect(didIsAllowed).toBeFalsy()
 
         const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
         const messageId = message.id
