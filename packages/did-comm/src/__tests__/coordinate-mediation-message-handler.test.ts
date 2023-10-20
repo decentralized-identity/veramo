@@ -251,7 +251,7 @@ describe('coordinate-mediation-message-handler', () => {
     )
   }
 
-  describe('mediator', () => {
+  describe.only('mediator', () => {
     it('should grant mediation to valid request via return_route', async () => {
       expect.assertions(4)
 

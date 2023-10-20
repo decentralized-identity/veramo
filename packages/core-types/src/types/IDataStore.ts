@@ -109,46 +109,46 @@ export interface IDataStoreSaveMediationArgs {
  * Input arguments for {@link IDataStore.dataStoreAddRecipientDid | dataStoreAddRecipientDid}
  * @public
  */
-export interface IDataStoreAddRecipientDid {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Required. recipient did
-   */
-  recipient_did: string
-}
+// export interface IDataStoreAddRecipientDid {
+//   /**
+//    * Required. did
+//    */
+//   did: string
+//   /**
+//    * Required. recipient did
+//    */
+//   recipient_did: string
+// }
 
 /**
  * Input arguments for {@link IDataStore.dataStoreRemoveRecipientDid | dataStoreRemoveRecipientDid}
  * @public
  */
-export interface IDataStoreRemoveRecipientDid {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Required. recipient did
-   */
-  recipient_did: string
-}
+// export interface IDataStoreRemoveRecipientDid {
+//   /**
+//    * Required. did
+//    */
+//   did: string
+//   /**
+//    * Required. recipient did
+//    */
+//   recipient_did: string
+// }
 
-export interface IDataStoreListRecipientDids {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Optional. limit
-   */
-  limit?: number
-  /**
-   * Optional. offset
-   */
-  offset?: number
-}
+// export interface IDataStoreListRecipientDids {
+//   /**
+//    * Required. did
+//    */
+//   did: string
+//   /**
+//    * Optional. limit
+//    */
+//   limit?: number
+//   /**
+//    * Optional. offset
+//    */
+//   offset?: number
+// }
 
 /**
  * Basic data store interface
@@ -225,12 +225,12 @@ export interface IDataStore extends IPluginMethodMap {
    * @param args - recipient dids
    * @returns a promise that resolves to the list of recipient dids
    */
-  dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
+  // dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
 
   /**
    * Saves recipient dids to the data store
    * @param args - recipient dids
    * @returns a promise that resolves to the list of recipient dids
    */
-  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<string | null>
+  // dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<string | null>
 }

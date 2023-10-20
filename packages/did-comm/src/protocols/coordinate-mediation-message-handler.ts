@@ -1,4 +1,4 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IIdentifier } from '@veramo/core-types'
+import { IAgentContext, IDIDManager, IKeyManager, IDataStore } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -230,7 +230,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
     }
     // Grant requests to all recipients
     // TODO: Come up with a method for approving and rejecting recipients
-    const mediation = { did: from, status: 'GRANTED' }
+    const mediation = { did: from, status: 'GRANTED' } as const
     await context.agent.dataStoreSaveMediation(mediation)
     const response = createMediateGrantMessage(from, to, message.id)
     const packedResponse = await context.agent.packDIDCommMessage({

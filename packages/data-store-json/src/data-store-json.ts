@@ -9,6 +9,7 @@ import {
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreORM,
+  IDataStoreSaveMediationArgs,
   IDataStoreSaveMessageArgs,
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
@@ -39,7 +40,7 @@ import {
 import { normalizeCredential } from 'did-jwt-vc'
 
 type LocalRecords = Required<
-  Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
+  Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages' | 'mediation'>
 >
 
 /**
@@ -87,8 +88,10 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
       dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
-      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
-      dataStoreListRecipientDids: this.dataStoreListRecipientDids.bind(this),
+      dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
+      // dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
+      // dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
+      // dataStoreListRecipientDids: this.dataStoreListRecipientDids.bind(this),
       //dataStoreDeleteVerifiablePresentation: this.dataStoreDeleteVerifiablePresentation.bind(this),
 
       // IDataStoreORM methods
@@ -142,6 +145,11 @@ export class DataStoreJson implements IAgentPlugin {
     } else {
       throw Error('Message not found')
     }
+  }
+
+  async dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<void> {
+    const mediation = this.cacheTree.mediation[args.did]
+    if (!mediation) throw Error('Message not found')
   }
 
   async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
