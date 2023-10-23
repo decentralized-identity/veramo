@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@ungap/structured-clone": "^1.0.0",
-    "@veramo/core": "^4.3.0",
-    "@veramo/data-store": "^4.3.0",
-    "@veramo/did-discovery": "^4.3.0",
-    "@veramo/did-manager": "^4.3.0",
-    "@veramo/key-manager": "^4.3.0",
-    "@veramo/utils": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/data-store": "workspace:^",
+    "@veramo/did-discovery": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
     "did-jwt-vc": "^3.1.0",
     "uuid": "^9.0.0"

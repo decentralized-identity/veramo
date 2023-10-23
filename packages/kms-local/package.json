@@ -13,12 +13,14 @@
     "@stablelib/nacl": "^1.0.4",
     "@stablelib/random": "^1.0.2",
     "@stablelib/x25519": "^1.0.3",
-    "@veramo/core": "^4.3.0",
-    "@veramo/key-manager": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "base-58": "^0.0.1",
     "debug": "^4.3.3",
-    "did-jwt": "^6.9.0",
+    "did-jwt": "^6.11.6",
     "elliptic": "^6.5.4",
+    "ethers": "^6.8.0",
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {

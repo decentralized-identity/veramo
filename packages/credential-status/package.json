@@ -9,10 +9,10 @@
     "extract-api": "pnpm exec veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
-    "@veramo/utils": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "credential-status": "^2.0.5",
-    "did-jwt": "^6.9.0",
+    "did-jwt": "^6.11.6",
     "did-resolver": "^4.0.1"
   },
   "devDependencies": {

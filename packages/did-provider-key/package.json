@@ -12,10 +12,11 @@
     "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
     "@transmute/did-key-secp256k1": "^0.3.0-unstable.10",
     "@transmute/did-key-x25519": "^0.3.0-unstable.10",
-    "@veramo/core": "^4.3.0",
-    "@veramo/did-manager": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
+    "ethers": "^6.8.0",
     "multibase": "^4.0.6",
     "multicodec": "^3.2.1"
   },

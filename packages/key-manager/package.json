@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@stablelib/ed25519": "^1.0.3",
-    "@veramo/core": "^4.3.0",
+    "@veramo/core": "workspace:^",
     "debug": "^4.3.4",
-    "did-jwt": "^6.9.0",
+    "did-jwt": "^6.11.6",
+    "ethers": "^6.8.0",
     "uint8arrays": "^3.0.0",
     "uuid": "^9.0.0"
   },

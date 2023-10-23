@@ -85,7 +85,7 @@ import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
 import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
-import ethrDidFlowSigned from "./shared/ethrDidFlowSigned";
+import ethrDidFlowSigned from './shared/ethrDidFlowSigned'
 
 jest.setTimeout(60000)
 
@@ -207,7 +207,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             {
               name: 'ganache',
               chainId: 1337,
-              provider,
+              provider: provider as any,
               registry,
             },
           ],

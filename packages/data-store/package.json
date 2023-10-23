@@ -9,11 +9,11 @@
     "extract-api": "pnpm exec veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
-    "@veramo/did-discovery": "^4.3.0",
-    "@veramo/did-manager": "^4.3.0",
-    "@veramo/key-manager": "^4.3.0",
-    "@veramo/utils": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/did-discovery": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
     "did-jwt-vc": "^3.1.0",
     "typeorm": "^0.3.10",

@@ -22,7 +22,7 @@ import {
   PresentationPayload,
   TAgent,
   VerifiableCredential,
-} from '@veramo/core'
+} from '../../../core/src'
 import { CredentialPlugin } from '../action-handler'
 
 const mockIdentifiers: IIdentifier[] = [

@@ -9,21 +9,21 @@
     "extract-api": "pnpm exec veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
-    "@veramo/did-jwt": "^4.3.0",
-    "@veramo/did-resolver": "^4.3.0",
-    "@veramo/message-handler": "^4.3.0",
-    "@veramo/utils": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/did-jwt": "workspace:^",
+    "@veramo/did-resolver": "workspace:^",
+    "@veramo/message-handler": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "canonicalize": "^1.0.8",
     "debug": "^4.3.3",
-    "did-jwt": "^6.11.0",
+    "did-jwt": "^6.11.6",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.1",
     "uint8arrays": "^3.0.0",
     "uuid": "^9.0.0"
   },
   "optionalDependencies": {
-    "@veramo/credential-ld": "^4.3.0"
+    "@veramo/credential-ld": "workspace:^"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

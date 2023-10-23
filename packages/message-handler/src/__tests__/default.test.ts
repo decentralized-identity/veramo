@@ -1,4 +1,4 @@
-import { createAgent, IAgentContext, IMessageHandler } from '@veramo/core'
+import { createAgent, IAgentContext, IMessageHandler } from '../../../core/src'
 import { MessageHandler } from '..'
 import { AbstractMessageHandler, Message } from '../../build'
 

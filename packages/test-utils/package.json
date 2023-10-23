@@ -9,12 +9,12 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
-    "@veramo/data-store-json": "^4.3.0",
-    "@veramo/did-discovery": "^4.3.0",
-    "@veramo/did-manager": "^4.3.0",
-    "@veramo/key-manager": "^4.3.0",
-    "@veramo/utils": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/data-store-json": "workspace:^",
+    "@veramo/did-discovery": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "did-resolver": "^4.0.1"
   },
   "devDependencies": {

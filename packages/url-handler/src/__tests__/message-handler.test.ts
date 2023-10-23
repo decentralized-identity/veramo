@@ -1,4 +1,4 @@
-import { Message } from '@veramo/message-handler'
+import { Message } from '../../../message-handler/src'
 import { UrlMessageHandler } from '../index'
 import fetchMock, { MockParams } from 'jest-fetch-mock'
 fetchMock.enableMocks()

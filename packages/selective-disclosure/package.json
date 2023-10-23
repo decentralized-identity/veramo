@@ -14,13 +14,13 @@
     }
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
-    "@veramo/credential-w3c": "^4.3.0",
-    "@veramo/did-jwt": "^4.3.0",
-    "@veramo/message-handler": "^4.3.0",
-    "@veramo/utils": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/credential-w3c": "workspace:^",
+    "@veramo/did-jwt": "workspace:^",
+    "@veramo/message-handler": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt": "^6.9.0",
+    "did-jwt": "^6.11.6",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

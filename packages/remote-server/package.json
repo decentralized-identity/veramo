@@ -9,8 +9,8 @@
     "extract-api": "pnpm exec veramo dev extract-api"
   },
   "dependencies": {
-    "@veramo/core": "^4.3.0",
-    "@veramo/remote-client": "^4.3.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/remote-client": "workspace:^",
     "debug": "^4.3.3",
     "did-resolver": "^4.0.1",
     "passport": "^0.6.0",

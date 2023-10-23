@@ -12,7 +12,8 @@
     "@veramo/core": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "debug": "^4.3.3",
-    "ethr-did": "^3.0.1"
+    "ethers": "^6.8.0",
+    "ethr-did": "^3.0.2"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

@@ -1,4 +1,4 @@
-import { VerifiableCredential, VerifiablePresentation } from '@veramo/core'
+import { VerifiableCredential, VerifiablePresentation } from '../../../core/src'
 import { ISelectiveDisclosureRequest } from '../types'
 import { SelectiveDisclosure } from '../action-handler'
 

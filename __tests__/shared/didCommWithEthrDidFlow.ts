@@ -76,7 +76,7 @@ export default (testContext: {
       const requestWithAgent = RequestWithAgentRouter({ agent })
 
       await new Promise((resolve) => {
-        //setup a server to receive HTTP messages and forward them to this agent to be processed as DIDComm messages
+        // set up a server to receive HTTP messages and forward them to this agent to be processed as DIDComm messages
         const app = express()
         // app.use(requestWithAgent)
         app.use(

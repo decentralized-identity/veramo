@@ -1,5 +1,5 @@
-import { DIDDocument, DIDResolutionResult } from '@veramo/core'
-import { Message } from '@veramo/message-handler'
+import { DIDDocument, DIDResolutionResult } from '../../../core/src'
+import { Message } from '../../../message-handler/src'
 import { JwtMessageHandler, IContext } from '../message-handler'
 
 describe('@veramo/did-jwt', () => {
