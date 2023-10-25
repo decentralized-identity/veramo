@@ -10,6 +10,7 @@ import {
 import {
   IPackDIDCommMessageArgs,
   ISendDIDCommMessageArgs,
+  ISendDIDCommMessageResponse,
   ISendMessageDIDCommAlpha1Args,
   IUnpackDIDCommMessageArgs,
 } from '../didcomm.js'
@@ -97,7 +98,7 @@ export interface IDIDComm extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  sendDIDCommMessage(args: ISendDIDCommMessageArgs, context: IAgentContext<IResolver>): Promise<string>
+  sendDIDCommMessage(args: ISendDIDCommMessageArgs, context: IAgentContext<IResolver>): Promise<ISendDIDCommMessageResponse>
 
   /**
    *

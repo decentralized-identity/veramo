@@ -155,6 +155,19 @@ export interface ISendDIDCommMessageArgs {
   recipientDidUrl: string
 }
 
+
+/**
+ * The response from the {@link DIDComm.sendDIDCommMessage} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ * `return_message` is only present if the `return_route: 'all'` was used
+ * in the packedMessage.
+ */
+export interface ISendDIDCommMessageResponse {
+  transportId: string
+  returnMessage?: IMessage
+}
+
 /**
  * DID Comm plugin for {@link @veramo/core#Agent}
  *
@@ -715,8 +728,8 @@ export class DIDComm implements IAgentPlugin {
   /** {@inheritdoc IDIDComm.sendDIDCommMessage} */
   async sendDIDCommMessage(
     args: ISendDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
-  ): Promise<string> {
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<ISendDIDCommMessageResponse> {
     const { packedMessage, returnTransportId, recipientDidUrl, messageId } = args
 
     if (returnTransportId) {
@@ -839,11 +852,12 @@ export class DIDComm implements IAgentPlugin {
 
     if (response.returnMessage) {
       // Handle return message
-      await context.agent.handleMessage({
+      const returnMessage = await context.agent.handleMessage({
         raw: response.returnMessage,
       })
+      return { transportId: transport.id, returnMessage }
     }
-    return transport.id
+    return { transportId: transport.id }
   }
 
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */
