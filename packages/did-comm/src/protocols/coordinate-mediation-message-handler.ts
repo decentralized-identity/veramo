@@ -21,6 +21,10 @@ const DENY = MediationPolicies.DENY
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * Represents the actions (add or remove) that can be taken on a recipient did
+ *
+ * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
  */
 export enum UpdateAction {
   ADD = 'add',
@@ -29,6 +33,10 @@ export enum UpdateAction {
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * Represents the result of an update action
+ *
+ * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
  */
 export enum RecipientUpdateResult {
   SUCCESS = 'success',
@@ -39,6 +47,8 @@ export enum RecipientUpdateResult {
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * Represents the structure of a specific update on RECIPIENT_UPDATE
  */
 export interface Update {
   recipient_did: string
@@ -47,6 +57,8 @@ export interface Update {
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * Represents an update response on RECIPIENT_UPDATE_RESPONSE
  */
 export interface UpdateResult extends Update {
   result: RecipientUpdateResult
@@ -80,6 +92,11 @@ interface RecipientQueryMessage extends Message {
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * Represents the types of messages that can be sent and received by the Mediator Coordinator protocol
+ *
+ * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationRecipientMessageHandler}
  */
 export enum CoordinateMediation {
   MEDIATE_REQUEST = 'https://didcomm.org/coordinate-mediation/3.0/mediate-request',
@@ -139,6 +156,7 @@ export const createMediateDenyMessage = (
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
  */
 export function createRecipientUpdateResponseMessage(
   recipientDidUrl: string,
@@ -159,6 +177,7 @@ export function createRecipientUpdateResponseMessage(
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
  */
 export const createRecipientQueryResponseMessage = (
   recipientDidUrl: string,
@@ -179,6 +198,9 @@ export const createRecipientQueryResponseMessage = (
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * @returns a structured message for the Mediator Coordinator protocol
+ * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
  */
 export function createMediateRequestMessage(
   recipientDidUrl: string,
@@ -213,6 +235,9 @@ export const createStatusRequestMessage = (
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * @returns a structured upate message for the Mediator Coordinator protocol
+ * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
  */
 export const createRecipientUpdateMessage = (
   recipientDidUrl: string,
@@ -232,6 +257,9 @@ export const createRecipientUpdateMessage = (
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * @returns a structured query message for the Mediator Coordinator protocol
+ * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
  */
 export const createRecipientQueryMessage = (
   recipientDidUrl: string,
