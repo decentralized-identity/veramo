@@ -225,7 +225,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm({ transports: [new DIDCommHttpTransport()]}),
       // intentionally use the deprecated name to test compatibility
       new CredentialIssuer(),
       new CredentialIssuerEIP712(),
