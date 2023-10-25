@@ -189,6 +189,13 @@ export class DataStore implements IAgentPlugin {
     return existingEntry.did
   }
 
+/**
+ * This is used internally when global policy `isMediateDefaultGrantAll` is:
+ *  - true: with policy = MediatePolicy.DENY [All DIDs allowed except those explicitly denied]
+ *  - false: with policy = MediatePolicy.ALLOW [All DIDs denied except those explicitly allowed]
+ *
+ * @beta This API may change in future versions without a BREAKING CHANGE notice.
+ */
   async dataStoreGetMediationPolicies({
     policy,
   }: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicy[]> {
