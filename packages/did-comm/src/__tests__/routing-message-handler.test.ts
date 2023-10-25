@@ -108,7 +108,7 @@ describe('routing-message-handler', () => {
     })
 
     recipient = await agent.didManagerImport({
-      did: 'did:fake:routerqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
+      did: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
       keys: [
         {
           type: 'Ed25519',

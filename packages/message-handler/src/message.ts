@@ -35,8 +35,6 @@ export class Message implements IMessage {
   // @ts-ignore
   type: string
 
-  body?: Record<string, unknown>
-
   raw?: string
 
   data?: any

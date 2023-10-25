@@ -19,11 +19,17 @@ type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
 const ALLOW = MediationPolicies.ALLOW
 const DENY = MediationPolicies.DENY
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export enum UpdateAction {
   ADD = 'add',
   REMOVE = 'remove',
 }
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export enum RecipientUpdateResult {
   SUCCESS = 'success',
   NO_CHANGE = 'no_change',
@@ -31,11 +37,17 @@ export enum RecipientUpdateResult {
   SERVER_ERROR = 'server_error',
 }
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface Update {
   recipient_did: string
   action: UpdateAction
 }
 
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface UpdateResult extends Update {
   result: RecipientUpdateResult
 }
