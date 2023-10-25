@@ -1,5 +1,5 @@
 import { IPluginMethodMap } from './IAgent.js'
-import { DataStoreGetMediationResult, IMediation, MediationStatus } from './IMediation.js'
+import { DataStoreGetMediationResult, MediationStatus } from './IMediation.js'
 import { IMediationPolicies, MediationPolicies, RemoveMediationPolicyResult } from './IMediationPolicy.js'
 import { IMessage } from './IMessage.js'
 import { RecipientDids, RemoveRecipientDidResult } from './IRecipientDid.js'
@@ -146,7 +146,7 @@ export interface IDataStoreSaveMediationArgs {
 }
 
 /**
- * Input arguments for {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation}
+ * Input arguments for {@link IDataStore.dataStoreIsMediationGranted | dataStoreIsMediationGranted}
  * @public
  */
 export interface IDataStoreGetMediationArgs {
@@ -158,6 +158,17 @@ export interface IDataStoreGetMediationArgs {
    * Required. mediation status
    */
   status: MediationStatus
+}
+
+/**
+ * Input arguments for {@link IDataStore.dataStoreIsMediationGranted | dataStoreIsMediationGranted}
+ * @public
+ */
+export interface IDataStoreIsMediationGrantedArgs {
+  /**
+   * Required. did
+   */
+  did: string
 }
 
 /**
@@ -300,6 +311,13 @@ export interface IDataStore extends IPluginMethodMap {
    * @returns a promise that resolves to the recipient did
    */
   dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<string>
+
+  /**
+   * Gets a boolean that indicates whether mediation is granted
+   * @param args - did
+   * @returns a promise that resolves
+   */
+  dataStoreIsMediationGranted(args: IDataStoreIsMediationGrantedArgs): Promise<boolean>
 
   /**
    * Gets mediation status from the data store

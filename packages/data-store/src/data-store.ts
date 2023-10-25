@@ -26,6 +26,8 @@ import {
   IDataStoreRemoveMediationPolicyArgs,
   RemoveMediationPolicyResult,
   DataStoreGetMediationResult,
+  MediationStatus,
+  IDataStoreIsMediationGrantedArgs,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
@@ -71,6 +73,7 @@ export class DataStore implements IAgentPlugin {
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
       dataStoreSaveMediationPolicy: this.dataStoreSaveMediationPolicy.bind(this),
       dataStoreRemoveMediationPolicy: this.dataStoreRemoveMediationPolicy.bind(this),
+      dataStoreIsMediationGranted: this.dataStoreIsMediationGranted.bind(this),
       dataStoreGetMediationPolicies: this.dataStoreGetMediationPolicies.bind(this),
       dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
       dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
@@ -180,8 +183,7 @@ export class DataStore implements IAgentPlugin {
     did,
   }: IDataStoreRemoveMediationPolicyArgs): Promise<RemoveMediationPolicyResult> {
     const db = await getConnectedDb(this.dbConnection)
-    const findFilter = { where: { did } }
-    const existingEntry = await db.getRepository(MediationPolicy).findOne(findFilter)
+    const existingEntry = await db.getRepository(MediationPolicy).findOne({ where: { did } })
     if (!existingEntry) return null
     await db.getRepository(MediationPolicy).remove(existingEntry)
     return existingEntry.did
@@ -200,19 +202,27 @@ export class DataStore implements IAgentPlugin {
     return saveResult.did
   }
 
+  async dataStoreIsMediationGranted({ did }: IDataStoreIsMediationGrantedArgs): Promise<boolean> {
+    const mediationEntity = await (await getConnectedDb(this.dbConnection))
+      .getRepository(Mediation)
+      .findOne({ where: { did, status: MediationStatus.GRANTED } })
+    if (!mediationEntity) {
+      return false
+    }
+    return true
+  }
+
   async dataStoreGetMediation({
     did,
     status,
   }: IDataStoreGetMediationArgs): Promise<DataStoreGetMediationResult> {
     const db = await getConnectedDb(this.dbConnection)
-    const findFilter = { where: { did, status } } as const
-    return await db.getRepository(Mediation).findOne(findFilter)
+    return await db.getRepository(Mediation).findOne({ where: { did, status } })
   }
 
   async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
     const db = await getConnectedDb(this.dbConnection)
-    const findFilter = { where: { did, recipient_did } }
-    const existing = await db.getRepository(RecipientDid).findOne(findFilter)
+    const existing = await db.getRepository(RecipientDid).findOne({ where: { did, recipient_did } })
     if (existing) return recipient_did
     const result = await db.getRepository(RecipientDid).save({ did, recipient_did })
     return result.recipient_did
@@ -223,8 +233,7 @@ export class DataStore implements IAgentPlugin {
     recipient_did,
   }: IDataStoreRemoveRecipientDid): Promise<RemoveRecipientDidResult> {
     const db = await getConnectedDb(this.dbConnection)
-    const findFilter = { where: { did, recipient_did } }
-    const existingEntry = await db.getRepository(RecipientDid).findOne(findFilter)
+    const existingEntry = await db.getRepository(RecipientDid).findOne({ where: { did, recipient_did } })
     if (!existingEntry) return null
     await db.getRepository(RecipientDid).remove(existingEntry)
     return existingEntry.recipient_did

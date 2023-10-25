@@ -28,8 +28,6 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
     super()
   }
 
-  readonly #requiredMediationStatus = MediationStatus.GRANTED
-
   /**
    * Handles forward messages for Routing protocol
    * https://didcomm.org/routing/2.0/
@@ -43,10 +41,9 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
         if (!did) throw new Error('invalid_argument: Forward received without `body.next` set')
 
         if (attachments.length) {
-          const status = this.#requiredMediationStatus
-          const mediation = await context.agent.dataStoreGetMediation({ did, status })
+          const isMediationGranted = await context.agent.dataStoreIsMediationGranted({ did })
 
-          if (mediation) {
+          if (isMediationGranted) {
             const recipients = attachments[0].data.json.recipients
             for (let i = 0; i < recipients.length; i++) {
               const recipient = recipients[i].header.kid

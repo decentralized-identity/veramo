@@ -11,6 +11,7 @@ import {
   IDataStoreGetMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
+  IDataStoreIsMediationGrantedArgs,
   IDataStoreORM,
   IDataStoreRemoveMediationPolicyArgs,
   IDataStoreRemoveRecipientDid,
@@ -23,6 +24,7 @@ import {
   IMediation,
   IMediationPolicies,
   IMessage,
+  MediationStatus,
   RecipientDids,
   RemoveMediationPolicyResult,
   TClaimsColumns,
@@ -120,6 +122,7 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreSaveMediationPolicy: this.dataStoreSaveMediationPolicy.bind(this),
       dataStoreRemoveMediationPolicy: this.dataStoreRemoveMediationPolicy.bind(this),
       dataStoreGetMediationPolicies: this.dataStoreGetMediationPolicies.bind(this),
+      dataStoreIsMediationGranted: this.dataStoreIsMediationGranted.bind(this),
       dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
       dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
       dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
@@ -168,6 +171,14 @@ export class DataStoreJson implements IAgentPlugin {
   async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {
     this.cacheTree.mediations[v4()] = { did, status }
     return did
+  }
+
+  async dataStoreIsMediationGranted({ did }: IDataStoreIsMediationGrantedArgs): Promise<boolean> {
+    const mediation = Object.values(this.cacheTree.mediations).find(
+      (mediation) => mediation.did === did && mediation.status === MediationStatus.GRANTED,
+    )
+    if (mediation) return true
+    return false
   }
 
   async dataStoreGetMediation({
