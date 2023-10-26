@@ -2134,8 +2134,7 @@
             {
               "type": "null"
             }
-          ],
-          "description": "Represents data store get mediation result"
+          ]
         },
         "IMediation": {
           "type": "object",
