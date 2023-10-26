@@ -25,6 +25,7 @@ export interface IMediation {
 }
 
 /**
+ * @beta This API may change without a BREAKING CHANGE notice.
  * Represents data store get mediation result
  **/
 export type DataStoreGetMediationResult = IMediation | null
