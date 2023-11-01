@@ -6,12 +6,7 @@
  * @packageDocumentation
  */
 
-export {
-  DIDComm,
-  ISendMessageDIDCommAlpha1Args,
-  IPackDIDCommMessageArgs,
-  IUnpackDIDCommMessageArgs,
-} from './didcomm.js'
+export * from './didcomm.js'
 export * from './types/message-types.js'
 export * from './types/utility-types.js'
 export * from './types/IDIDComm.js'

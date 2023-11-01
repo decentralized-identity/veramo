@@ -334,6 +334,33 @@ describe('messagepickup-message-handler', () => {
       )
     })
 
+    it('should contain returnMessage', async () => {
+
+      // Send StatusRequest
+      const statusRequestMessage: IDIDCommMessage = {
+        id: v4(),
+        type: STATUS_REQUEST_MESSAGE_TYPE,
+        to: mediator.did,
+        from: recipient.did,
+        return_route: 'all',
+        body: {
+          recipient_key: `${recipient.did}#${recipient.keys[0].kid}`,
+        },
+      }
+      const packedMessage = await agent.packDIDCommMessage({
+        packing: 'authcrypt',
+        message: statusRequestMessage,
+      })
+      const result = await agent.sendDIDCommMessage({
+        messageId: statusRequestMessage.id,
+        packedMessage,
+        recipientDidUrl: mediator.did,
+      })
+
+      expect(result.transportId).toBeDefined()
+      expect(result.returnMessage).toBeDefined()
+    })
+
     it('should not respond to StatusRequest with no return_route', async () => {
       expect.assertions(1)
       const statusRequestMessage: IDIDCommMessage = {
