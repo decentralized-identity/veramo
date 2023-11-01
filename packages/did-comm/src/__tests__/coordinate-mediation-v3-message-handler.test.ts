@@ -30,8 +30,8 @@ import {
   RecipientUpdateResult,
   CoordinateMediation,
   createRecipientQueryMessage,
-} from '../protocols/coordinate-mediation-message-handler.js'
-import type { Update, UpdateResult } from '../protocols/coordinate-mediation-message-handler.js'
+} from '../protocols/coordinate-mediation-v3-message-handler.js'
+import type { Update, UpdateResult } from '../protocols/coordinate-mediation-v3-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
@@ -90,7 +90,7 @@ describe('coordinate-mediation-message-handler', () => {
             ...new FakeDidResolver(() => agent).getDidFakeResolver(),
           }),
         }),
-        new DIDComm({ transports: [new DIDCommHttpTransport()]}),
+        new DIDComm({ transports: [new DIDCommHttpTransport()] }),
         new MessageHandler({
           messageHandlers: [
             new DIDCommMessageHandler(),

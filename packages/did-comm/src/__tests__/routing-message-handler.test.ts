@@ -23,7 +23,7 @@ import {
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
   CoordinateMediation,
-} from '../protocols/coordinate-mediation-message-handler.js'
+} from '../protocols/coordinate-mediation-v3-message-handler.js'
 import { DIDCommMessageMediaType } from '../types/message-types.js'
 import {
   RoutingMessageHandler,
