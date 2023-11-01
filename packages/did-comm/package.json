@@ -26,6 +26,7 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
+    "kv-store": "^0.0.1",
     "cross-fetch": "^4.0.0",
     "debug": "^4.3.3",
     "did-jwt": "^7.4.1",

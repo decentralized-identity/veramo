@@ -685,6 +685,9 @@ importers:
       isomorphic-webcrypto:
         specifier: ^2.3.8
         version: 2.3.8(expo@49.0.6)(react-native@0.72.3)
+      kv-store:
+        specifier: ^0.0.1
+        version: 0.0.1
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
@@ -17995,6 +17998,10 @@ packages:
     resolution: {integrity: sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==}
     engines: {node: '>= 8'}
     dev: true
+
+  /kv-store@0.0.1:
+    resolution: {integrity: sha512-onaSnV841kZfwxwImAjybQMg1SMcSrjlTftW3mr85Wug9cTu0mhg8S1rA7uiK+24uUYZ5PepaZs5KoF9cdJGIg==}
+    dev: false
 
   /ky-universal@0.8.2(ky@0.25.1):
     resolution: {integrity: sha512-xe0JaOH9QeYxdyGLnzUOVGK4Z6FGvDVzcXFTdrYA1f33MZdEa45sUDaMBy98xQMcsd2XIBrTXRrRYnegcSdgVQ==}
