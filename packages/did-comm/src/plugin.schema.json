@@ -43,7 +43,7 @@
             "message",
             "packing"
           ],
-          "description": "The input to the  {@link  DIDComm.packDIDCommMessage }  method. When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided."
+          "description": "The input to the  {@link  IDIDComm.packDIDCommMessage }  method. When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided."
         },
         "IDIDCommMessage": {
           "type": "object",
@@ -222,7 +222,7 @@
             "messageId",
             "recipientDidUrl"
           ],
-          "description": "The input to the  {@link  DIDComm.sendDIDCommMessage }  method. The provided `messageId` will be used in the emitted event to allow event/message correlation."
+          "description": "The input to the  {@link  IDIDComm.sendDIDCommMessage }  method. The provided `messageId` will be used in the emitted event to allow event/message correlation."
         },
         "ISendDIDCommMessageResponse": {
           "type": "object",
@@ -237,7 +237,7 @@
           "required": [
             "transportId"
           ],
-          "description": "The response from the  {@link  DIDComm.sendDIDCommMessage }  method."
+          "description": "The response from the  {@link  IDIDComm.sendDIDCommMessage }  method."
         },
         "IMessage": {
           "type": "object",
@@ -664,7 +664,7 @@
         },
         "IUnpackDIDCommMessageArgs": {
           "$ref": "#/components/schemas/IPackedDIDCommMessage",
-          "description": "The input to the  {@link  DIDComm.unpackDIDCommMessage }  method."
+          "description": "The input to the  {@link  IDIDComm.unpackDIDCommMessage }  method."
         },
         "IUnpackedDIDCommMessage": {
           "type": "object",
@@ -715,7 +715,7 @@
           }
         },
         "sendDIDCommMessage": {
-          "description": "Sends the given message to the recipient. If a return transport is provided it will be checked whether the parent thread allows reusing the route. You cannot reuse the transport if the message was forwarded from a DIDComm mediator.",
+          "description": "Sends the given message to the recipient. If a return-transport is provided it will be checked whether the parent thread allows reusing the route. You cannot reuse the transport if the message was forwarded from a DIDComm mediator.",
           "arguments": {
             "$ref": "#/components/schemas/ISendDIDCommMessageArgs"
           },

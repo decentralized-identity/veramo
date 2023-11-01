@@ -80,13 +80,17 @@ import {
 } from '@veramo/utils'
 
 import Debug from 'debug'
-import { IDIDComm } from './types/IDIDComm.js'
+import {
+  IDIDComm,
+  IPackDIDCommMessageArgs,
+  ISendDIDCommMessageArgs,
+  ISendDIDCommMessageResponse,
+  IUnpackDIDCommMessageArgs,
+} from './types/IDIDComm.js'
 import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports.js'
 import {
   DIDCommMessageMediaType,
-  DIDCommMessagePacking,
   IDIDCommMessage,
-  IDIDCommOptions,
   IPackedDIDCommMessage,
   IUnpackedDIDCommMessage,
 } from './types/message-types.js'
@@ -117,55 +121,6 @@ export interface ISendMessageDIDCommAlpha1Args {
     body: object | string
   }
   headers?: Record<string, string>
-}
-
-// interface arguments
-
-/**
- * The input to the {@link DIDComm.unpackDIDCommMessage} method.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export type IUnpackDIDCommMessageArgs = IPackedDIDCommMessage
-
-/**
- * The input to the {@link DIDComm.packDIDCommMessage} method.
- * When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface IPackDIDCommMessageArgs {
-  message: IDIDCommMessage
-  packing: DIDCommMessagePacking
-  keyRef?: string
-  options?: IDIDCommOptions
-}
-
-/**
- * The input to the {@link DIDComm.sendDIDCommMessage} method.
- * The provided `messageId` will be used in the emitted
- * event to allow event/message correlation.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface ISendDIDCommMessageArgs {
-  packedMessage: IPackedDIDCommMessage
-  messageId: string
-  returnTransportId?: string
-  recipientDidUrl: string
-}
-
-
-/**
- * The response from the {@link DIDComm.sendDIDCommMessage} method.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- * `return_message` is only present if the `return_route: 'all'` was used
- * in the packedMessage.
- */
-export interface ISendDIDCommMessageResponse {
-  transportId: string
-  returnMessage?: IMessage
 }
 
 /**
@@ -435,7 +390,8 @@ export class DIDComm implements IAgentPlugin {
                 recipient.publicKeyBytes,
                 <ECDH>senderECDH,
                 { kid: recipient.kid },
-            )} else if (options?.alg?.endsWith('+A256KW')) {
+              )
+            } else if (options?.alg?.endsWith('+A256KW')) {
               // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
               return xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
                 kid: recipient.kid,
