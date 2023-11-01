@@ -7,7 +7,6 @@ import {
   IKeyManager,
   IMessageHandler,
   IResolver,
-  MediationStatus,
   TAgent,
 } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
@@ -33,7 +32,6 @@ import {
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
-// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
@@ -90,7 +88,7 @@ describe('routing-message-handler', () => {
             ...new FakeDidResolver(() => agent).getDidFakeResolver(),
           }),
         }),
-        new DIDComm({ transports: [new DIDCommHttpTransport()]}),
+        new DIDComm({ transports: [new DIDCommHttpTransport()] }),
         new MessageHandler({
           messageHandlers: [
             // @ts-ignore

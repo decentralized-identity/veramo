@@ -10,7 +10,6 @@ import {
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
   IMessage,
-  IMediation,
   VerifiableCredential,
   VerifiablePresentation,
   IDataStoreSaveMediationArgs,
