@@ -94,7 +94,7 @@ describe('coordinate-mediation-message-handler', () => {
         new MessageHandler({
           messageHandlers: [
             new DIDCommMessageHandler(),
-            new CoordinateMediationMediatorMessageHandler(),
+            new CoordinateMediationMediatorMessageHandler({ isMediateDefaultGrantAll: true }),
             new CoordinateMediationRecipientMessageHandler(),
           ],
         }),

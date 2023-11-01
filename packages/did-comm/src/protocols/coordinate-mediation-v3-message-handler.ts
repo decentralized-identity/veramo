@@ -24,7 +24,7 @@ const DENY = MediationPolicies.DENY
  *
  * Represents the actions (add or remove) that can be taken on a recipient did
  *
- * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
 export enum UpdateAction {
   ADD = 'add',
@@ -36,13 +36,22 @@ export enum UpdateAction {
  *
  * Represents the result of an update action
  *
- * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
 export enum RecipientUpdateResult {
   SUCCESS = 'success',
   NO_CHANGE = 'no_change',
   CLIENT_ERROR = 'client_error',
   SERVER_ERROR = 'server_error',
+}
+
+/**
+ * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * Parameter options for the CoordinateMediationV3MediatorMessageHandler {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
+ */
+export interface CoordinateMediationV3MediatorMessageHandlerOptions {
+  isMediateDefaultGrantAll: boolean
 }
 
 /**
@@ -95,7 +104,7 @@ interface RecipientQueryMessage extends Message {
  *
  * Represents the types of messages that can be sent and received by the Mediator Coordinator protocol
  *
- * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  * @see {@link @veramo/did-comm#CoordinateMediationRecipientMessageHandler}
  */
 export enum CoordinateMediation {
@@ -156,7 +165,7 @@ export const createMediateDenyMessage = (
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
- * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
 export function createRecipientUpdateResponseMessage(
   recipientDidUrl: string,
@@ -177,7 +186,7 @@ export function createRecipientUpdateResponseMessage(
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
- * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
 export const createRecipientQueryResponseMessage = (
   recipientDidUrl: string,
@@ -200,7 +209,7 @@ export const createRecipientQueryResponseMessage = (
  * @beta This API may change without a BREAKING CHANGE notice.
  *
  * @returns a structured message for the Mediator Coordinator protocol
- * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
 export function createMediateRequestMessage(
   recipientDidUrl: string,
@@ -237,7 +246,7 @@ export const createStatusRequestMessage = (
  * @beta This API may change without a BREAKING CHANGE notice.
  *
  * @returns a structured upate message for the Mediator Coordinator protocol
- * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
 export const createRecipientUpdateMessage = (
   recipientDidUrl: string,
@@ -259,7 +268,7 @@ export const createRecipientUpdateMessage = (
  * @beta This API may change without a BREAKING CHANGE notice.
  *
  * @returns a structured query message for the Mediator Coordinator protocol
- * @see {@link @veramo/did-comm#CoordinateMediationMediatorMessageHandler}
+ * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
 export const createRecipientQueryMessage = (
   recipientDidUrl: string,
@@ -325,10 +334,10 @@ const isRecipientQuery = (message: Message): message is RecipientQueryMessage =>
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the mediator role.
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHandler {
+export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessageHandler {
   readonly #isMediateDefaultGrantAll: boolean
 
-  constructor({ isMediateDefaultGrantAll = true } = {}) {
+  constructor({ isMediateDefaultGrantAll }: CoordinateMediationV3MediatorMessageHandlerOptions) {
     super()
     this.#isMediateDefaultGrantAll = isMediateDefaultGrantAll
   }

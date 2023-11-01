@@ -705,15 +705,6 @@
             "$ref": "#/components/schemas/DIDCommMessageMediaType"
           }
         },
-        "isMediateDefaultGrantAll": {
-          "description": "",
-          "arguments": {
-            "type": "object"
-          },
-          "returnType": {
-            "type": "boolean"
-          }
-        },
         "packDIDCommMessage": {
           "description": "Packs a ",
           "arguments": {
