@@ -12,7 +12,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core-types": "workspace:*",
+    "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:*",
     "debug": "^4.3.4"
   },

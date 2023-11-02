@@ -1167,6 +1167,31 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
 
+  packages/mediation-manager:
+    dependencies:
+      '@veramo/core-types':
+        specifier: workspace:^
+        version: link:../core-types
+      '@veramo/utils':
+        specifier: workspace:*
+        version: link:../utils
+      debug:
+        specifier: ^4.3.4
+        version: 4.3.4
+    devDependencies:
+      eslint:
+        specifier: 8.50.0
+        version: 8.50.0
+      eslint-plugin-promise:
+        specifier: 6.1.1
+        version: 6.1.1(eslint@8.50.0)
+      timekeeper:
+        specifier: 2.3.1
+        version: 2.3.1
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+
   packages/message-handler:
     dependencies:
       '@veramo/core-types':
