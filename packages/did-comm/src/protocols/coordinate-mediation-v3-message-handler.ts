@@ -4,7 +4,6 @@ import {
   IKeyManager,
   IDataStore,
   MediationStatus,
-  MediationPolicies,
   IMediationManager,
 } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
@@ -16,9 +15,6 @@ import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore & IMediationManager>
-
-const ALLOW = MediationPolicies.ALLOW
-const DENY = MediationPolicies.DENY
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -343,17 +339,13 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
     this.#isMediateDefaultGrantAll = isMediateDefaultGrantAll
   }
 
-  private async grantOrDenyMediation(message: Message, context: IContext): Promise<MediationStatus> {
-    if (!message.from) return MediationStatus.DENIED
-
+  private async grantOrDenyMediation({ from: did }: Message, context: IContext): Promise<MediationStatus> {
+    if (!did) return MediationStatus.DENIED
+    const policy = await context.agent.mediationManagerGetMediationPolicies({ did })
     if (this.#isMediateDefaultGrantAll) {
-      const denyList = await context.agent.dataStoreGetMediationPolicies({ policy: DENY })
-      if (denyList.some(({ did }) => did === message.from)) return MediationStatus.DENIED
-      return MediationStatus.GRANTED
+      return policy === 'DENY' ? MediationStatus.DENIED : MediationStatus.GRANTED
     } else {
-      const allowList = await context.agent.dataStoreGetMediationPolicies({ policy: ALLOW })
-      if (allowList.some(({ did }) => did === message.from)) return MediationStatus.GRANTED
-      return MediationStatus.DENIED
+      return policy === 'ALLOW' ? MediationStatus.GRANTED : MediationStatus.DENIED
     }
   }
 

@@ -1,6 +1,5 @@
 import { IPluginMethodMap } from './IAgent.js'
 import { DataStoreGetMediationResult, MediationStatus } from './IMediation.js'
-import { IMediationPolicies, MediationPolicies, RemoveMediationPolicyResult } from './IMediationPolicy.js'
 import { IMessage } from './IMessage.js'
 import { RecipientDids, RemoveRecipientDidResult } from './IRecipientDid.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
@@ -105,7 +104,7 @@ export interface IDataStoreSaveMediationPolicyArgs {
   /**
    * Required. policy
    */
-  policy: MediationPolicies
+  policy: any
 }
 
 /**
@@ -127,7 +126,7 @@ export interface IDataStoreGetMediationPoliciesArgs {
   /**
    * Required. policy
    */
-  policy: MediationPolicies
+  policy: any
 }
 
 /**
@@ -294,16 +293,14 @@ export interface IDataStore extends IPluginMethodMap {
    * @param args - mediation policy
    * @returns a promise that resolves to the recipient did
    */
-  dataStoreRemoveMediationPolicy(
-    args: IDataStoreRemoveMediationPolicyArgs,
-  ): Promise<RemoveMediationPolicyResult>
+  dataStoreRemoveMediationPolicy(args: IDataStoreRemoveMediationPolicyArgs): Promise<any>
 
   /**
    * Gets mediation policies from the data store
    * @param args - policy
    * @returns a promise that resolves to the list of matched Mediation Policies
    */
-  dataStoreGetMediationPolicies(args: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicies>
+  dataStoreGetMediationPolicies(args: IDataStoreGetMediationPoliciesArgs): Promise<any>
 
   /**
    * Saves mediation status to the data store

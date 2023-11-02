@@ -2158,7 +2158,6 @@
           "type": "object",
           "properties": {
             "policy": {
-              "$ref": "#/components/schemas/MediationPolicies",
               "description": "Required. policy"
             }
           },
@@ -2166,39 +2165,6 @@
             "policy"
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreGetMediationPolicies | dataStoreGetMediationPolicies }"
-        },
-        "MediationPolicies": {
-          "type": "string",
-          "enum": [
-            "ALLOW",
-            "DENY"
-          ],
-          "description": "Represents mediation policy"
-        },
-        "IMediationPolicies": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/IMediationPolicy"
-          },
-          "description": "Represents a list mediation policies"
-        },
-        "IMediationPolicy": {
-          "type": "object",
-          "properties": {
-            "did": {
-              "type": "string",
-              "description": "required: did"
-            },
-            "policy": {
-              "$ref": "#/components/schemas/MediationPolicies",
-              "description": "required: policy"
-            }
-          },
-          "required": [
-            "did",
-            "policy"
-          ],
-          "description": "Represents mediation policy"
         },
         "IDataStoreGetMessageArgs": {
           "type": "object",
@@ -2680,13 +2646,6 @@
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreRemoveMediationPolicy | dataStoreRemoveMediationPolicy }"
         },
-        "RemoveMediationPolicyResult": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "Represents a did or null if not found"
-        },
         "IDataStoreRemoveRecipientDid": {
           "type": "object",
           "properties": {
@@ -2738,7 +2697,6 @@
               "description": "Required. did"
             },
             "policy": {
-              "$ref": "#/components/schemas/MediationPolicies",
               "description": "Required. policy"
             }
           },
@@ -2831,7 +2789,7 @@
             "$ref": "#/components/schemas/IDataStoreGetMediationPoliciesArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IMediationPolicies"
+            "type": "object"
           }
         },
         "dataStoreGetMessage": {
@@ -2885,7 +2843,7 @@
             "$ref": "#/components/schemas/IDataStoreRemoveMediationPolicyArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/RemoveMediationPolicyResult"
+            "type": "object"
           }
         },
         "dataStoreRemoveRecipientDid": {

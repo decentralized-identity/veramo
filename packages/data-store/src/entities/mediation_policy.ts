@@ -1,4 +1,3 @@
-import { MediationPolicies } from '@veramo/core-types'
 import { Column, Entity, BaseEntity, PrimaryGeneratedColumn } from 'typeorm'
 
 /**
@@ -19,5 +18,5 @@ export class MediationPolicy extends BaseEntity {
   did!: string
 
   @Column()
-  policy!: MediationPolicies
+  policy!: any
 }

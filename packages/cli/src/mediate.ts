@@ -2,13 +2,12 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 
 import { getAgent } from './setup.js'
-
-import { MediationPolicies } from '@veramo/core-types'
+import { MediationPolicy } from '@veramo/core-types'
 
 type ConfiguredAgent = Awaited<ReturnType<typeof getAgent>>
 
-const ALLOW = MediationPolicies.ALLOW
-const DENY = MediationPolicies.DENY
+const ALLOW = 'ALLOW'
+const DENY = 'DENY'
 
 type Options = Partial<{
   allowFrom: boolean
@@ -20,7 +19,7 @@ type Options = Partial<{
 type UpdatePolicyParams = {
   dids: string[]
   agent: ConfiguredAgent
-  policy?: MediationPolicies
+  policy?: MediationPolicy
   remove?: boolean
 }
 
@@ -48,7 +47,7 @@ const promptForDids = async (action: string): Promise<string[]> => {
  * cli action functions
  **/
 
-const policy = (policy: MediationPolicies) => {
+const policy = (policy: MediationPolicy) => {
   return async function (
     { fileJson, interactive }: Pick<Options, 'fileJson' | 'interactive'>,
     cmd: Command,
@@ -79,13 +78,15 @@ const policy = (policy: MediationPolicies) => {
 
 async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cmd: Command): Promise<void> {
   try {
-    const agent = await getAgent(cmd.optsWithGlobals().config)
+    // NOTE: disabled as kv-store has no getAll method
 
-    const policies = await agent.dataStoreGetMediationPolicies()
+    // const agent = await getAgent(cmd.optsWithGlobals().config)
 
-    if (options.allowFrom) return console.log(policies.filter((policy) => policy.policy === ALLOW))
-    else if (options.denyFrom) return console.log(policies.filter((policy) => policy.policy === DENY))
-    else console.log(policies)
+    // const policies = await agent.dataStoreGetMediationPolicies()
+
+    // if (options.allowFrom) return console.log(policies.filter((policy) => policy.policy === ALLOW))
+    // else if (options.denyFrom) return console.log(policies.filter((policy) => policy.policy === DENY))
+    // else console.log(policies)
   } catch (e) {
     console.error(e.message)
   }

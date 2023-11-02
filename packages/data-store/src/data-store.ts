@@ -19,7 +19,6 @@ import {
   IDataStoreGetRecipientDids,
   IDataStoreSaveMediationPolicyArgs,
   IDataStoreGetMediationPoliciesArgs,
-  IMediationPolicy,
   RemoveRecipientDidResult,
   RecipientDids,
   IDataStoreRemoveMediationPolicyArgs,
@@ -197,7 +196,7 @@ export class DataStore implements IAgentPlugin {
    */
   async dataStoreGetMediationPolicies({
     policy,
-  }: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicy[]> {
+  }: IDataStoreGetMediationPoliciesArgs): Promise<any[]> {
     const db = await getConnectedDb(this.dbConnection)
     return await db.getRepository(MediationPolicy).findBy({ policy })
   }

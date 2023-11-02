@@ -2,7 +2,6 @@ import {
   IIdentifier,
   IMessage,
   ManagedKeyInfo,
-  MediationPolicies,
   MediationStatus,
   VerifiableCredential,
   VerifiablePresentation,
@@ -89,7 +88,7 @@ export interface MediationTableEntry {
  */
 export interface MediationPolicyTableEntry {
   did: string
-  policy: MediationPolicies
+  policy: any
 }
 
 /**

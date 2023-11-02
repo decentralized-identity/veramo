@@ -22,7 +22,6 @@ import {
   IDataStoreSaveVerifiablePresentationArgs,
   IIdentifier,
   IMediation,
-  IMediationPolicies,
   IMessage,
   MediationStatus,
   RecipientDids,
@@ -163,8 +162,8 @@ export class DataStoreJson implements IAgentPlugin {
 
   async dataStoreGetMediationPolicies({
     policy: policySought,
-  }: IDataStoreGetMediationPoliciesArgs): Promise<IMediationPolicies> {
-    const isPolicyMatch = ({ policy }: IMediationPolicies[number]) => policy === policySought
+  }: IDataStoreGetMediationPoliciesArgs): Promise<any> {
+    const isPolicyMatch = ({ policy }: any) => policy === policySought
     return Object.values(this.cacheTree.mediationPolicies).filter(isPolicyMatch)
   }
 
