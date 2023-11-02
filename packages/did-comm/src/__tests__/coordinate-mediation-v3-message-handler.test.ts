@@ -40,6 +40,7 @@ import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
+import { MediationManager } from '../../../mediation-manager/src'
 import { DataSource } from 'typeorm'
 
 import { jest } from '@jest/globals'

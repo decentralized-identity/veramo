@@ -5,6 +5,7 @@ import {
   IDataStoreORM,
   IDIDManager,
   IKeyManager,
+  IMediationManager,
   IMessageHandler,
   IResolver,
   TAgent,
@@ -57,7 +58,8 @@ export type EnabledInterfaces = IDIDManager &
   IDIDComm &
   ICredentialPlugin &
   ISelectiveDisclosure &
-  IDIDDiscovery
+  IDIDDiscovery &
+  IMediationManager
 
 export type ConfiguredAgent = TAgent<EnabledInterfaces>
 

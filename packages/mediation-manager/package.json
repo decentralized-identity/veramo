@@ -13,8 +13,9 @@
   },
   "dependencies": {
     "@veramo/core-types": "workspace:^",
-    "@veramo/utils": "workspace:*",
-    "debug": "^4.3.4"
+    "@veramo/kv-store": "workspace:^",
+    "debug": "^4.3.4",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "eslint": "8.50.0",

@@ -5,6 +5,7 @@ import {
   IDataStore,
   MediationStatus,
   MediationPolicies,
+  IMediationManager,
 } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
@@ -14,7 +15,7 @@ import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types
 
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
-type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore>
+type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore & IMediationManager>
 
 const ALLOW = MediationPolicies.ALLOW
 const DENY = MediationPolicies.DENY

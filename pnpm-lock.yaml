@@ -1126,6 +1126,9 @@ importers:
       uint8arrays:
         specifier: ^4.0.6
         version: 4.0.6
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
     devDependencies:
       '@keyv/compress-brotli':
         specifier: 1.1.4
@@ -1172,9 +1175,9 @@ importers:
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
-      '@veramo/utils':
-        specifier: workspace:*
-        version: link:../utils
+      '@veramo/kv-store':
+        specifier: workspace:^
+        version: link:../kv-store
       debug:
         specifier: ^4.3.4
         version: 4.3.4
