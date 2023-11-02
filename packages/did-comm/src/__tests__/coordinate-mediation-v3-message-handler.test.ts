@@ -21,7 +21,7 @@ import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import {
-  CoordinateMediationMediatorMessageHandler,
+  CoordinateMediationV3MediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
   createMediateGrantMessage,
@@ -90,17 +90,18 @@ describe('coordinate-mediation-message-handler', () => {
             ...new FakeDidResolver(() => agent).getDidFakeResolver(),
           }),
         }),
-        new DIDComm({ transports: [new DIDCommHttpTransport()] }),
         new MessageHandler({
           messageHandlers: [
             new DIDCommMessageHandler(),
-            new CoordinateMediationMediatorMessageHandler({ isMediateDefaultGrantAll: true }),
+            new CoordinateMediationV3MediatorMessageHandler({ isMediateDefaultGrantAll: true }),
             new CoordinateMediationRecipientMessageHandler(),
           ],
         }),
         new DataStore(dbConnection),
         new DataStoreORM(dbConnection),
         DIDCommEventSniffer,
+        new DIDComm({ transports: [new DIDCommHttpTransport()] }),
+        new MediationManager(),
       ],
     })
 
