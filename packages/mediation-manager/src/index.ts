@@ -1,1 +1,1 @@
-export { MediationManager } from './mediation-manager.js'
+export { MediationManagerPlugin } from './mediation-manager.js'

@@ -216,6 +216,9 @@ importers:
       '@veramo/kms-local':
         specifier: workspace:^
         version: link:../kms-local
+      '@veramo/mediation-manager':
+        specifier: workspace:^
+        version: link:../mediation-manager
       '@veramo/message-handler':
         specifier: workspace:^
         version: link:../message-handler
@@ -1126,9 +1129,6 @@ importers:
       uint8arrays:
         specifier: ^4.0.6
         version: 4.0.6
-      uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
     devDependencies:
       '@keyv/compress-brotli':
         specifier: 1.1.4
@@ -1181,6 +1181,9 @@ importers:
       debug:
         specifier: ^4.3.4
         version: 4.3.4
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
     devDependencies:
       eslint:
         specifier: 8.50.0

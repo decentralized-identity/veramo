@@ -10,7 +10,7 @@ import type {
 } from '@veramo/core-types'
 import { KeyValueStore } from '@veramo/kv-store'
 
-export class MediationManager implements IAgentPlugin {
+export class MediationManagerPlugin implements IAgentPlugin {
   readonly #policyStore: KeyValueStore<MediationPolicy>
   readonly methods: IMediationManager
 

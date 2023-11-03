@@ -61,6 +61,9 @@ const policy = (policy: MediationPolicy) => {
         const jsonData = await import(fileJson, { assert: { type: 'json' } })
         const dids = jsonData.default
         await updatePolicies({ dids, agent, policy })
+        const lookupDid = dids[0]
+        const thing = await agent.mediationManagerGetMediationPolicy({ did: lookupDid })
+        console.log(thing)
       } else if (interactive) {
         const dids = await promptForDids(policy)
         await updatePolicies({ dids, agent, policy })
@@ -76,14 +79,19 @@ const policy = (policy: MediationPolicy) => {
   }
 }
 
+async function readPolicies(options: Pick<Options, 'interactive'>, cmd: Command): Promise<void> {
+  const agent = await getAgent(cmd.optsWithGlobals().config)
+  const dids = options.interactive ? await promptForDids('read') : cmd.args
+  if (!dids || !dids.length) throw new Error('No dids provided')
+  const policies = dids.map(async (did) => await agent.mediationManagerGetMediationPolicy({ did }))
+  console.log('policies', policies)
+}
+
 async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cmd: Command): Promise<void> {
   try {
     // NOTE: disabled as kv-store has no getAll method
-
     // const agent = await getAgent(cmd.optsWithGlobals().config)
-
     // const policies = await agent.dataStoreGetMediationPolicies()
-
     // if (options.allowFrom) return console.log(policies.filter((policy) => policy.policy === ALLOW))
     // else if (options.denyFrom) return console.log(policies.filter((policy) => policy.policy === DENY))
     // else console.log(policies)
@@ -132,6 +140,12 @@ mediate
   .option('-f, --file-json <string>', 'read dids from json file')
   .option('-i, --interactive', 'interactively input dids')
   .action(policy(DENY))
+
+mediate
+  .command('read')
+  .description('read mediation policy for a specific did')
+  .option('-i, --interactive', 'interactively input dids')
+  .action(readPolicies)
 
 mediate
   .command('list')

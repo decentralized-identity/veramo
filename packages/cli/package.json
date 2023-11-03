@@ -62,6 +62,7 @@
     "@veramo/selective-disclosure": "workspace:^",
     "@veramo/url-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
+    "@veramo/mediation-manager": "workspace:^",
     "blessed": "^0.1.81",
     "commander": "^11.0.0",
     "console-table-printer": "^2.11.2",
