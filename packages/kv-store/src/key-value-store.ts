@@ -26,6 +26,8 @@ export class KeyValueStore<ValueType extends ValueStoreType> implements IKeyValu
   private readonly keyv: Keyv<ValueType>
 
   constructor(options: IKeyValueStoreOptions<ValueType>) {
+    console.log('KeyValueStore constructor', options
+    )
     this.keyv = new Keyv(options.uri, options as KeyvOptions<ValueType>)
   }
 

@@ -1,6 +1,6 @@
 import type {
   IAgentPlugin,
-  MediationPolicy,
+  MediationPolicies,
   IMediationManagerSaveMediationPolicyArgs,
   IMediationManagerRemoveMediationPolicyArgs,
   IMediationManagerGetMediationPolicyArgs,
@@ -8,38 +8,13 @@ import type {
   IMediationManagerGetMediationPolicyResult,
   IMediationManager,
 } from '@veramo/core-types'
-import { IKeyValueStoreOptions, KeyValueStore } from '@veramo/kv-store'
-import {
-  Column,
-  PrimaryColumn,
-  BaseEntity,
-  DataSource,
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  Entity,
-} from 'typeorm'
-
-@Entity('mediation_policy')
-export class KeyValueStoreEntity extends BaseEntity {
-  @PrimaryColumn()
-  key!: string
-
-  @Column()
-  value!: string
-}
-
-const MediationPolicyStore: IKeyValueStoreOptions<MediationPolicy> = {
-  namespace: 'mediation_policy',
-  store: new Map<string, MediationPolicy>(),
-}
+import { KeyValueStore } from '@veramo/kv-store'
 
 export class MediationManagerPlugin implements IAgentPlugin {
-  readonly #policyStore: KeyValueStore<MediationPolicy>
-
+  readonly #policyStore: KeyValueStore<MediationPolicies>
   readonly methods: IMediationManager
 
-  constructor(kvStore: KeyValueStore<MediationPolicy>) {
+  constructor(kvStore: KeyValueStore<MediationPolicies>) {
     this.#policyStore = kvStore
     this.methods = {
       mediationManagerSaveMediationPolicy: this.mediationManagerSaveMediationPolicy.bind(this),
@@ -52,7 +27,11 @@ export class MediationManagerPlugin implements IAgentPlugin {
     did,
     policy,
   }: IMediationManagerSaveMediationPolicyArgs): Promise<string> {
-    const res = await this.#policyStore.set(did, policy)
+    console.log('did', did)
+    console.log('policy', policy)
+    // @ts-ignore
+    const res = await this.#policyStore.set(did, JSON.stringify(policy))
+    console.log('SUCCESS')
     if (!res || !res.value) throw new Error('Failed to save mediation policy')
     return did
   }
@@ -67,9 +46,10 @@ export class MediationManagerPlugin implements IAgentPlugin {
 
   public async mediationManagerGetMediationPolicy({
     did,
-  }: IMediationManagerGetMediationPolicyArgs): Promise<IMediationManagerGetMediationPolicyResult> {
+  }: IMediationManagerGetMediationPolicyArgs): Promise<string> {
     const policy = await this.#policyStore.get(did)
-    return policy || null
+    if (!policy) throw new Error('Failed to get mediation policy')
+    return policy
   }
 
   public async isMediationGranted(args: any, context: any) {

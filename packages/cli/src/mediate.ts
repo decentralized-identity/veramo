@@ -2,7 +2,7 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 
 import { getAgent } from './setup.js'
-import { MediationPolicy } from '@veramo/core-types'
+import { MediationPolicies } from '@veramo/core-types'
 
 type ConfiguredAgent = Awaited<ReturnType<typeof getAgent>>
 
@@ -19,7 +19,7 @@ type Options = Partial<{
 type UpdatePolicyParams = {
   dids: string[]
   agent: ConfiguredAgent
-  policy?: MediationPolicy
+  policy?: MediationPolicies
   remove?: boolean
 }
 
@@ -31,7 +31,10 @@ const updatePolicies = async (options: UpdatePolicyParams): Promise<void> => {
   const { dids, agent, policy, remove = false } = options
   if (remove) return dids.forEach(async (did) => await agent.mediationManagerRemoveMediationPolicy({ did }))
   if (!policy) throw new Error('No policy provided')
-  return options.dids.forEach(async (did) => await agent.mediationManagerSaveMediationPolicy({ did, policy }))
+  const savedDids = await Promise.all(
+    dids.map(async (did) => await agent.mediationManagerSaveMediationPolicy({ did, policy })),
+  )
+  console.log('savedDids', savedDids)
 }
 
 const promptForDids = async (action: string): Promise<string[]> => {
@@ -47,7 +50,7 @@ const promptForDids = async (action: string): Promise<string[]> => {
  * cli action functions
  **/
 
-const policy = (policy: MediationPolicy) => {
+const policy = (policy: MediationPolicies) => {
   return async function (
     { fileJson, interactive }: Pick<Options, 'fileJson' | 'interactive'>,
     cmd: Command,
@@ -56,14 +59,12 @@ const policy = (policy: MediationPolicy) => {
       if (fileJson && interactive) throw new Error('Please specify only one input method')
 
       const agent = await getAgent(cmd.optsWithGlobals().config)
+      console.log('AGENT CREATED')
 
       if (fileJson) {
         const jsonData = await import(fileJson, { assert: { type: 'json' } })
         const dids = jsonData.default
         await updatePolicies({ dids, agent, policy })
-        const lookupDid = dids[0]
-        const thing = await agent.mediationManagerGetMediationPolicy({ did: lookupDid })
-        console.log(thing)
       } else if (interactive) {
         const dids = await promptForDids(policy)
         await updatePolicies({ dids, agent, policy })
@@ -79,12 +80,15 @@ const policy = (policy: MediationPolicy) => {
   }
 }
 
-async function readPolicies(options: Pick<Options, 'interactive'>, cmd: Command): Promise<void> {
+async function readPolicies(options: Pick<Options, 'interactive' | 'fileJson'>, cmd: Command): Promise<void> {
   const agent = await getAgent(cmd.optsWithGlobals().config)
-  const dids = options.interactive ? await promptForDids('read') : cmd.args
+  let dids: string[]
+  if (options.interactive) dids = await promptForDids('read')
+  else if (options.fileJson) dids = (await import(options.fileJson, { assert: { type: 'json' } })).default
+  else dids = cmd.args
   if (!dids || !dids.length) throw new Error('No dids provided')
   const policies = dids.map(async (did) => await agent.mediationManagerGetMediationPolicy({ did }))
-  console.log('policies', policies)
+  console.log('policies', await Promise.all(policies))
 }
 
 async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cmd: Command): Promise<void> {
@@ -145,6 +149,7 @@ mediate
   .command('read')
   .description('read mediation policy for a specific did')
   .option('-i, --interactive', 'interactively input dids')
+  .option('-f, --file-json <string>', 'read dids from json file')
   .action(readPolicies)
 
 mediate

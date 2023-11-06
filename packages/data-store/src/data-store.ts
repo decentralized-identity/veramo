@@ -37,7 +37,6 @@ import { DataSource } from 'typeorm'
 import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
 import { Mediation } from './entities/mediation.js'
-import { MediationPolicy } from './entities/mediation_policy.js'
 
 /**
  * This class implements the {@link @veramo/core-types#IDataStore} interface using a TypeORM compatible database.
